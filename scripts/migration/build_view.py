@@ -43,7 +43,7 @@ COMPONENTS = ('ProjectileWeaponComponentData', 'WeaponDataComponentData', 'Healt
     'HellpodRackComponentData', 'WeaponLinkedAmmoComponentData', 'BackpackComponentData', 'WeaponLinkerComponentData',
     'BombardmentComponentData', 'EagleComponentData', 'MountComponentData', 'WeaponReloadComponentData',
     'WeaponWindUpComponentData', 'DepositComponentData', 'TagComponentData', 'InteractableComponentData',
-    'ThrowableComponentData', 'StickyComponentData')
+    'ThrowableComponentData', 'StickyComponentData', 'MinefieldComponentData')
 NAME_LENGTH = re.compile(r'inferred_length=(\d+|None)')
 
 

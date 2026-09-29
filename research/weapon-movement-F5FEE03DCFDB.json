@@ -1,0 +1,1988 @@
+{
+ "schemaVersion": 1,
+ "build": "F5FEE03DCFDB",
+ "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+ "model": {
+  "representation": "One data-driven restriction: WeaponDataComponent +387 \"stationary while firing\" (bool). When set, firing sends the weapon's firing-start/stop wielder animation events and raises wielder action bit 55. No per-weapon movement multiplier, sprint/dive/crouch ban or stance-specific restriction exists in weapon data.",
+  "fingerprint": [
+   {
+    "offset": 384,
+    "size": 1,
+    "storage": "UINT8",
+    "nameLength": 9
+   },
+   {
+    "offset": 385,
+    "size": 1,
+    "storage": "UINT8",
+    "nameLength": 11
+   },
+   {
+    "offset": 386,
+    "size": 1,
+    "storage": "UINT8",
+    "nameLength": 12
+   },
+   {
+    "offset": 387,
+    "size": 1,
+    "storage": "UINT8",
+    "nameLength": 23
+   },
+   {
+    "offset": 388,
+    "size": 4,
+    "storage": "UINT32",
+    "nameLength": 42
+   },
+   {
+    "offset": 392,
+    "size": 4,
+    "storage": "UINT32",
+    "nameLength": 41
+   },
+   {
+    "offset": 396,
+    "size": 1,
+    "storage": "UINT8",
+    "nameLength": 14
+   },
+   {
+    "offset": 928,
+    "size": 4,
+    "storage": "UINT32",
+    "nameLength": 32
+   },
+   {
+    "offset": 1220,
+    "size": 1,
+    "storage": "UINT8",
+    "nameLength": 31
+   },
+   {
+    "offset": 1224,
+    "size": 4,
+    "storage": "FP32",
+    "nameLength": 26
+   }
+  ],
+  "recordSize": 1232,
+  "maxigunVersusGl28": "Identical movement-related weapon data (brace/brace_exit events, fire_minigun per-shot animation) except +387.",
+  "codeDriven": [
+   "slowdown magnitude (no data field)",
+   "which actions bit 55 blocks (diving, sprinting, walking are not separately represented in weapon data)",
+   "Cremator slowdown (no data owner found)",
+   "GL-28 slowdown (its brace events are not sent by the only reader found; per-shot animation is a candidate, not proven)"
+  ],
+  "notMovement": {
+   "+1220": "Cremator-only flag read by the weapon audio update.",
+   "+1224": "float, 1.0 on every weapon except the Meltagun (0.5); no reader proven."
+  }
+ },
+ "codeEvidence": {
+  "stationaryReader": {
+   "rva": 10852278,
+   "count": 1,
+   "weaponDataGetterRva": 5282368,
+   "actionBit": 55,
+   "actionBitRva": 10852371,
+   "behaviour": "When +387 is set: send the start event (+388) to the wielder, arm the stop event (+392) and raise bit 55 of the wielder action mask while firing."
+  },
+  "audioFlagReader": {
+   "rva": 7680542,
+   "count": 1,
+   "function": 7679264,
+   "readsWeaponDataFromSameGetter": true,
+   "rtpcStrings": [
+    "charge_amount",
+    "rounds_remaining",
+    "rounds_remaining_percent",
+    "weapon_rpm"
+   ],
+   "behaviour": "Gates an extra component lookup inside the weapon audio RTPC update."
+  }
+ },
+ "avatarLocomotionStates": [
+  {
+   "state": "stand",
+   "group": "stand",
+   "movement": [
+    "idle",
+    "walk",
+    "jog",
+    "sprint"
+   ]
+  },
+  {
+   "state": "crouch",
+   "group": "crouch",
+   "movement": [
+    "idle",
+    "jog",
+    "walk"
+   ]
+  },
+  {
+   "state": "prone",
+   "group": "prone",
+   "movement": [
+    "crawl",
+    "idle"
+   ]
+  },
+  {
+   "state": "stand_limp",
+   "group": "stand",
+   "movement": [
+    "idle",
+    "walk",
+    "jog",
+    "sprint"
+   ]
+  },
+  {
+   "state": "crouch_limp",
+   "group": "crouch",
+   "movement": [
+    "idle",
+    "walk",
+    "jog"
+   ]
+  },
+  {
+   "state": "swim",
+   "group": null,
+   "movement": [
+    "swimming_loco"
+   ]
+  },
+  {
+   "state": "march",
+   "group": "stand",
+   "movement": [
+    "idle",
+    "walk"
+   ]
+  },
+  {
+   "state": "land_heavy",
+   "group": "stand",
+   "movement": [
+    "land_heavy"
+   ]
+  }
+ ],
+ "weapons": [
+  {
+   "kind": "player",
+   "name": "AR-11 Arbitrator",
+   "resource": "0xA8A91EB54892B6B2",
+   "weaponData": {
+    "recordIndex": 280,
+    "indexRow": 106,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "AR-2 Coyote",
+   "resource": "0x84354339522C932D",
+   "weaponData": {
+    "recordIndex": 276,
+    "indexRow": 137,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "AR-23 Liberator",
+   "resource": "0x968211C0033DCE64",
+   "weaponData": {
+    "recordIndex": 270,
+    "indexRow": 564,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "AR-23A Liberator Carbine",
+   "resource": "0xA7EE1EBF58FCDF1F",
+   "weaponData": {
+    "recordIndex": 278,
+    "indexRow": 365,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "AR-23C Liberator Concussive",
+   "resource": "0xCF5F176E0E322BE1",
+   "weaponData": {
+    "recordIndex": 272,
+    "indexRow": 207,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "AR-23P Liberator Penetrator",
+   "resource": "0x43CB1033961A2276",
+   "weaponData": {
+    "recordIndex": 271,
+    "indexRow": 710,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "AR-32 Pacifier",
+   "resource": "0xBC29613666DF696B",
+   "weaponData": {
+    "recordIndex": 275,
+    "indexRow": 427,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "AR-59 Suppressor",
+   "resource": "0x708EA298C82093D0",
+   "weaponData": {
+    "recordIndex": 281,
+    "indexRow": 120,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "AR-61 Tenderizer",
+   "resource": "0xCE063AA33D95A812",
+   "weaponData": {
+    "recordIndex": 279,
+    "indexRow": 164,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "AR/GL-21 One-Two",
+   "resource": "0xA955C4EA6F6D4203",
+   "weaponData": {
+    "recordIndex": 273,
+    "indexRow": 5,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "ARC-12 Blitzer",
+   "resource": "0x076DD5D4F4360204",
+   "weaponData": {
+    "recordIndex": 269,
+    "indexRow": 411,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_arcshotgun",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "BR-14 Adjudicator",
+   "resource": "0x5FECAB819F96A3E8",
+   "weaponData": {
+    "recordIndex": 285,
+    "indexRow": 461,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "CB-9 Exploding Crossbow",
+   "resource": "0xF49227A0630A3F7F",
+   "weaponData": {
+    "recordIndex": 288,
+    "indexRow": 223,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "CQC-19 Stun Lance",
+   "resource": "0xE3B6AEDD07FCB464",
+   "weaponData": {
+    "recordIndex": 164,
+    "indexRow": 438,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": null,
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "CQC-2 Saber",
+   "resource": "0xFCD8A6E67EAC635A",
+   "weaponData": {
+    "recordIndex": 262,
+    "indexRow": 376,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": null,
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "CQC-30 Stun Baton",
+   "resource": "0x52CDBFBACA3CB397",
+   "weaponData": {
+    "recordIndex": 264,
+    "indexRow": 471,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": null,
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "CQC-5 Combat Hatchet",
+   "resource": "0x75816077C139C850",
+   "weaponData": {
+    "recordIndex": 266,
+    "indexRow": 246,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": null,
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "DBS-2 Double Freedom",
+   "resource": "0x72170A55A1F37FF1",
+   "weaponData": {
+    "recordIndex": 177,
+    "indexRow": 10,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "FLAM-66 Torcher",
+   "resource": "0x4FB0F8C02F55C82B",
+   "weaponData": {
+    "recordIndex": 289,
+    "indexRow": 26,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_flamethrower",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "GL-15 Evictor",
+   "resource": "0x006E44327BB953FE",
+   "weaponData": {
+    "recordIndex": 169,
+    "indexRow": 558,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_pumpshotgun",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "GP-20 Ultimatum",
+   "resource": "0x9EB160830321BFD6",
+   "weaponData": {
+    "recordIndex": 320,
+    "indexRow": 128,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_sniperrifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "JAR-5 Dominator",
+   "resource": "0x80F1A156D9FA1E36",
+   "weaponData": {
+    "recordIndex": 290,
+    "indexRow": 362,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_jar",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "LAS-12 Sai",
+   "resource": "0xC85F576D5E086147",
+   "weaponData": {
+    "recordIndex": 297,
+    "indexRow": 131,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "LAS-13 Trident",
+   "resource": "0x3C86E871923F3970",
+   "weaponData": {
+    "recordIndex": 296,
+    "indexRow": 604,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "LAS-16 Sickle",
+   "resource": "0x8645F167B3C813A2",
+   "weaponData": {
+    "recordIndex": 294,
+    "indexRow": 682,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "LAS-17 Double-Edge Sickle",
+   "resource": "0x295BEB26DC4F8FF1",
+   "weaponData": {
+    "recordIndex": 295,
+    "indexRow": 333,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "LAS-58 Talon",
+   "resource": "0x416D053372C4E433",
+   "weaponData": {
+    "recordIndex": 313,
+    "indexRow": 500,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_pistol",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "M6C/SOCOM Pistol",
+   "resource": "0x4D58C77087B774C5",
+   "weaponData": {
+    "recordIndex": 321,
+    "indexRow": 389,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_pistol",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "M7S SMG",
+   "resource": "0xBE70EE0D8D44028E",
+   "weaponData": {
+    "recordIndex": 182,
+    "indexRow": 27,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_pdw",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "M90A Shotgun",
+   "resource": "0x90DDC374F4E3D756",
+   "weaponData": {
+    "recordIndex": 178,
+    "indexRow": 59,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_pumpshotgun",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "MA5C Assault Rifle",
+   "resource": "0x4DBD74F49C8FFC13",
+   "weaponData": {
+    "recordIndex": 277,
+    "indexRow": 351,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "MP-98 Knight",
+   "resource": "0x9571CA51F0DAF35B",
+   "weaponData": {
+    "recordIndex": 179,
+    "indexRow": 467,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_pdw",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "P-11 Stim Pistol",
+   "resource": "0xD6B1FB05B9109353",
+   "weaponData": {
+    "recordIndex": 191,
+    "indexRow": 674,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_pistol",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "P-113 Verdict",
+   "resource": "0x1A437158E1B8D2A1",
+   "weaponData": {
+    "recordIndex": 318,
+    "indexRow": 340,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_pistol",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "P-19 Redeemer",
+   "resource": "0x3575AABC5F1F9326",
+   "weaponData": {
+    "recordIndex": 311,
+    "indexRow": 224,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_autopistol",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "P-2 Peacemaker",
+   "resource": "0x05E4E5C2DB6E44A2",
+   "weaponData": {
+    "recordIndex": 190,
+    "indexRow": 150,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_pistol",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "P-33 Missile Pistol",
+   "resource": "0x14D5D4506056C7A4",
+   "weaponData": {
+    "recordIndex": 189,
+    "indexRow": 662,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": null,
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "P-34 Breacher",
+   "resource": "0xE91F569C2AD8AF01",
+   "weaponData": {
+    "recordIndex": 316,
+    "indexRow": 196,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": null,
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "P-35 Re-Educator",
+   "resource": "0x0B882808C6F498E8",
+   "weaponData": {
+    "recordIndex": 312,
+    "indexRow": 396,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_pdw",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "P-4 Senator",
+   "resource": "0x8D3D52A3B2F19402",
+   "weaponData": {
+    "recordIndex": 324,
+    "indexRow": 256,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_revolver",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "P-69 Veto",
+   "resource": "0xC780BCD79547DA0F",
+   "weaponData": {
+    "recordIndex": 319,
+    "indexRow": 453,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_pistol",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "P-92 Warrant",
+   "resource": "0xCF8934FF6567A42D",
+   "weaponData": {
+    "recordIndex": 188,
+    "indexRow": 469,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_pistol",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "P/40-K Bolt Pistol",
+   "resource": "0xDBB6C961C59FADC1",
+   "weaponData": {
+    "recordIndex": 322,
+    "indexRow": 391,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_pistol",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "PLAS-1 Scorcher",
+   "resource": "0xEEA5E3CEF1E12C14",
+   "weaponData": {
+    "recordIndex": 308,
+    "indexRow": 407,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "PLAS-101 Purifier",
+   "resource": "0xFB3A19078694708A",
+   "weaponData": {
+    "recordIndex": 309,
+    "indexRow": 169,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "PLAS-15 Loyalist",
+   "resource": "0xAA69A60D74A3EC54",
+   "weaponData": {
+    "recordIndex": 323,
+    "indexRow": 378,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_pistol",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "PLAS-39 Accelerator Rifle",
+   "resource": "0x30061F91AF477F5E",
+   "weaponData": {
+    "recordIndex": 185,
+    "indexRow": 162,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "R-2 Amendment",
+   "resource": "0x0F83639AB8C86165",
+   "weaponData": {
+    "recordIndex": 286,
+    "indexRow": 141,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "R-2124 Constitution",
+   "resource": "0x7B75E5132FFD4CA6",
+   "weaponData": {
+    "recordIndex": 287,
+    "indexRow": 270,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "R-36 Eruptor",
+   "resource": "0xB6AFF2195568767F",
+   "weaponData": {
+    "recordIndex": 291,
+    "indexRow": 553,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_jar_phoenix",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "R-4 Hyena",
+   "resource": "0xE5796355A8FD67E0",
+   "weaponData": {
+    "recordIndex": 300,
+    "indexRow": 142,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "R-6 Deadeye",
+   "resource": "0xE6D932BE83729076",
+   "weaponData": {
+    "recordIndex": 298,
+    "indexRow": 145,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "R-63 Diligence",
+   "resource": "0x03E67A19B07C6523",
+   "weaponData": {
+    "recordIndex": 303,
+    "indexRow": 691,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "R-63CS Diligence Counter Sniper",
+   "resource": "0x4C786785C79D44E7",
+   "weaponData": {
+    "recordIndex": 304,
+    "indexRow": 408,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "R-72 Censor",
+   "resource": "0xF0338468DCDB6A6C",
+   "weaponData": {
+    "recordIndex": 301,
+    "indexRow": 390,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "R/40-K Hot-Shot Marksman Rifle",
+   "resource": "0x1ABBFF60D26BA391",
+   "weaponData": {
+    "recordIndex": 302,
+    "indexRow": 90,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "SG-20 Halt",
+   "resource": "0x4E310B1FE4C52B52",
+   "weaponData": {
+    "recordIndex": 173,
+    "indexRow": 64,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_pumpshotgun",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "SG-22 Bushwhacker",
+   "resource": "0x2B28E17FFED05F7C",
+   "weaponData": {
+    "recordIndex": 310,
+    "indexRow": 436,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_revolver",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "SG-225 Breaker",
+   "resource": "0x46183B50961D1328",
+   "weaponData": {
+    "recordIndex": 282,
+    "indexRow": 147,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "SG-225IE Breaker Incendiary",
+   "resource": "0xC12A34F375BD5A87",
+   "weaponData": {
+    "recordIndex": 284,
+    "indexRow": 331,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "SG-225SP Breaker Spray&Pray",
+   "resource": "0x5EBAEA70C0D060B9",
+   "weaponData": {
+    "recordIndex": 283,
+    "indexRow": 157,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "SG-451 Cookout",
+   "resource": "0xD323DE60855898AC",
+   "weaponData": {
+    "recordIndex": 174,
+    "indexRow": 324,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_pumpshotgun",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "SG-8 Punisher",
+   "resource": "0x41EAC4A03987FAA0",
+   "weaponData": {
+    "recordIndex": 170,
+    "indexRow": 723,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_pumpshotgun",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "SG-8P Punisher Plasma",
+   "resource": "0x05D8D8C073B9D502",
+   "weaponData": {
+    "recordIndex": 175,
+    "indexRow": 704,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_pumpshotgun",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "SG-8S Slugger",
+   "resource": "0x4F749E2EE26F532D",
+   "weaponData": {
+    "recordIndex": 172,
+    "indexRow": 459,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_pumpshotgun",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "SG-97 Sweeper",
+   "resource": "0xDCD1C835407EF7BA",
+   "weaponData": {
+    "recordIndex": 176,
+    "indexRow": 570,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": null,
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "SMG-203 Gallant",
+   "resource": "0x186EA95DE7306B1A",
+   "weaponData": {
+    "recordIndex": 184,
+    "indexRow": 398,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_pdw",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "SMG-32 Reprimand",
+   "resource": "0x94BD931B5FB4EE95",
+   "weaponData": {
+    "recordIndex": 183,
+    "indexRow": 34,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "SMG-72 Pummeler",
+   "resource": "0x0807AEA5217E4767",
+   "weaponData": {
+    "recordIndex": 306,
+    "indexRow": 287,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_pdw",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "SMG/FLAM-34 Stoker",
+   "resource": "0x8A307BD1811A5FE9",
+   "weaponData": {
+    "recordIndex": 180,
+    "indexRow": 31,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_pdw",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "StA-11 SMG",
+   "resource": "0x4BA41B6F9F405CC2",
+   "weaponData": {
+    "recordIndex": 181,
+    "indexRow": 406,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "StA-52 Assault Rifle",
+   "resource": "0xCDF28BE026BB7D84",
+   "weaponData": {
+    "recordIndex": 274,
+    "indexRow": 422,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "player",
+   "name": "VG-70 Variable",
+   "resource": "0xF992CE97577C8A7F",
+   "weaponData": {
+    "recordIndex": 186,
+    "indexRow": 173,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "support",
+   "name": "40-K Meltagun",
+   "resource": "0x6CFCC7F8801A0266",
+   "weaponData": {
+    "recordIndex": 331,
+    "indexRow": 590,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_autocannon",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "support",
+   "name": "AC-8 Autocannon",
+   "resource": "0xA8CFFB316F0B5C5F",
+   "weaponData": {
+    "recordIndex": 328,
+    "indexRow": 359,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_autocannon",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "support",
+   "name": "APW-1 Anti-Materiel Rifle",
+   "resource": "0x89C5493E08CA4207",
+   "weaponData": {
+    "recordIndex": 354,
+    "indexRow": 369,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_sniperrifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "support",
+   "name": "ARC-3 Arc Thrower",
+   "resource": "0x96DE9CD50F7306E6",
+   "weaponData": {
+    "recordIndex": 327,
+    "indexRow": 372,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": null,
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "support",
+   "name": "B/FLAM-80 Cremator",
+   "resource": "0x78A8185F63A70795",
+   "weaponData": {
+    "recordIndex": 341,
+    "indexRow": 299,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_flamethrower",
+   "audioFlag1220": true,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "support",
+   "name": "B/MD C4 Pack",
+   "resource": "0x9B75217D8312DD67",
+   "weaponData": null
+  },
+  {
+   "kind": "support",
+   "name": "CQC-1 One True Flag",
+   "resource": "0xB0F1B354BA1D38D8",
+   "weaponData": {
+    "recordIndex": 265,
+    "indexRow": 392,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": null,
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "support",
+   "name": "CQC-20 Breaching Hammer",
+   "resource": "0x5F3EC9BDA2BD8553",
+   "weaponData": {
+    "recordIndex": 163,
+    "indexRow": 429,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": null,
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "support",
+   "name": "CQC-9 Defoliation Tool",
+   "resource": "0xBF4CFD2AEABFB5A4",
+   "weaponData": {
+    "recordIndex": 263,
+    "indexRow": 562,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": null,
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "support",
+   "name": "EAT-17 Expendable Anti-Tank",
+   "resource": "0x80932FA0ED6901D3",
+   "weaponData": {
+    "recordIndex": 346,
+    "indexRow": 281,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_lat",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "support",
+   "name": "EAT-411 Leveller",
+   "resource": "0x7617642765AC38C7",
+   "weaponData": {
+    "recordIndex": 333,
+    "indexRow": 383,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_lat",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "support",
+   "name": "EAT-700 Expendable Napalm",
+   "resource": "0xB2B5E0D185605F9E",
+   "weaponData": {
+    "recordIndex": 334,
+    "indexRow": 624,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_lat",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "support",
+   "name": "FAF-14 Spear",
+   "resource": "0x25AA2FD4643CF4EE",
+   "weaponData": {
+    "recordIndex": 335,
+    "indexRow": 708,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": null,
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "support",
+   "name": "FLAM-40 Flamethrower",
+   "resource": "0x39AB99895147A3BF",
+   "weaponData": {
+    "recordIndex": 337,
+    "indexRow": 379,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_flamethrower",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "support",
+   "name": "GL-21 Grenade Launcher",
+   "resource": "0x02EECD0B1FA49630",
+   "weaponData": {
+    "recordIndex": 338,
+    "indexRow": 684,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_grenadelauncher",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "support",
+   "name": "GL-28 Belt-Fed Grenade Launcher",
+   "resource": "0x88C2D09AD85A7C9F",
+   "weaponData": {
+    "recordIndex": 329,
+    "indexRow": 1,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": "brace",
+   "firingStopEvent": "brace_exit",
+   "firingStance": "brace",
+   "perShotWielderAnimation": null,
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "support",
+   "name": "GL-52 De-Escalator",
+   "resource": "0xFE3B29B2CFA63F9B",
+   "weaponData": {
+    "recordIndex": 339,
+    "indexRow": 73,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_grenadelauncher",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "support",
+   "name": "GR-8 Recoilless Rifle",
+   "resource": "0x9F80D67A12A7E40F",
+   "weaponData": {
+    "recordIndex": 352,
+    "indexRow": 401,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_recoilless",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "support",
+   "name": "LAS-98 Laser Cannon",
+   "resource": "0xD54B9505C0F72873",
+   "weaponData": {
+    "recordIndex": 343,
+    "indexRow": 3,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "support",
+   "name": "LAS-99 Quasar Cannon",
+   "resource": "0x35A61296619CC47E",
+   "weaponData": {
+    "recordIndex": 345,
+    "indexRow": 33,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_autocannon",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "support",
+   "name": "M-1000 Maxigun",
+   "resource": "0x43A58CB89CFA197C",
+   "weaponData": {
+    "recordIndex": 348,
+    "indexRow": 116,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": true,
+   "firingStartEvent": "brace",
+   "firingStopEvent": "brace_exit",
+   "firingStance": "brace",
+   "perShotWielderAnimation": null,
+   "audioFlag1220": false,
+   "movementRestriction": "stationary_while_firing"
+  },
+  {
+   "kind": "support",
+   "name": "M-105 Stalwart",
+   "resource": "0xA6A735ACCB4A327F",
+   "weaponData": {
+    "recordIndex": 299,
+    "indexRow": 527,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "support",
+   "name": "MG-206 Heavy Machine Gun",
+   "resource": "0x2152D5147B0AC418",
+   "weaponData": {
+    "recordIndex": 342,
+    "indexRow": 386,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_mg",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "support",
+   "name": "MG-43 Machine Gun",
+   "resource": "0x11C27D3BABB38956",
+   "weaponData": {
+    "recordIndex": 347,
+    "indexRow": 209,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_mg",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "support",
+   "name": "MGX-42 Bullet Storm",
+   "resource": "0xB16C9D490AA59B77",
+   "weaponData": {
+    "recordIndex": 332,
+    "indexRow": 89,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_rifle",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "support",
+   "name": "MLS-4X Commando",
+   "resource": "0x5990123D142B16CB",
+   "weaponData": {
+    "recordIndex": 344,
+    "indexRow": 15,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": null,
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "support",
+   "name": "MS-11 Solo Silo",
+   "resource": "0xDDDB2910FF2B24E9",
+   "weaponData": null
+  },
+  {
+   "kind": "support",
+   "name": "PLAS-45 Epoch",
+   "resource": "0xE8D5F49AD7780E54",
+   "weaponData": {
+    "recordIndex": 350,
+    "indexRow": 306,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_autocannon",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "support",
+   "name": "RL-77 Airburst Rocket Launcher",
+   "resource": "0x26E40437EA275296",
+   "weaponData": {
+    "recordIndex": 326,
+    "indexRow": 381,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_recoilless",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "support",
+   "name": "RS-422 Railgun",
+   "resource": "0x2E9D0BDC48B09E60",
+   "weaponData": {
+    "recordIndex": 351,
+    "indexRow": 416,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_railgun",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "support",
+   "name": "S-11 Speargun",
+   "resource": "0x3828E2051AA9E897",
+   "weaponData": {
+    "recordIndex": 340,
+    "indexRow": 435,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_railgun",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "support",
+   "name": "SG-88 Break-Action Shotgun",
+   "resource": "0x52071F49263415E4",
+   "weaponData": {
+    "recordIndex": 243,
+    "indexRow": 242,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": null,
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "support",
+   "name": "StA-X3 W.A.S.P. Launcher",
+   "resource": "0xCC786F6491FE7E65",
+   "weaponData": {
+    "recordIndex": 336,
+    "indexRow": 601,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": null,
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  },
+  {
+   "kind": "support",
+   "name": "TX-41 Sterilizer",
+   "resource": "0x88F61AFFF48AC8A4",
+   "weaponData": {
+    "recordIndex": 330,
+    "indexRow": 394,
+    "ownerCount": 1
+   },
+   "stationaryWhileFiring": false,
+   "firingStartEvent": null,
+   "firingStopEvent": null,
+   "firingStance": null,
+   "perShotWielderAnimation": "fire_flamethrower",
+   "audioFlag1220": false,
+   "movementRestriction": "none"
+  }
+ ],
+ "summary": {
+  "weapons": 107,
+  "withWeaponData": 105,
+  "stationaryWhileFiring": [
+   "M-1000 Maxigun"
+  ],
+  "braceEvents": [
+   "GL-28 Belt-Fed Grenade Launcher",
+   "M-1000 Maxigun"
+  ],
+  "uniqueWeaponDataOwners": 105
+ },
+ "writes": 0,
+ "protectionChanges": 0
+}

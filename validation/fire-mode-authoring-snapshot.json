@@ -1,10 +1,10 @@
 {
-  "acknowledgementRejections": 122,
+  "acknowledgementRejections": 124,
   "addedAutomatic": 11,
   "blockedRejections": 5,
-  "burstChecks": 61,
-  "changedWrites": 122,
-  "conflictRejections": 122,
+  "burstChecks": 62,
+  "changedWrites": 124,
+  "conflictRejections": 124,
   "fixtureFallback": "disabled",
   "jar5": {
     "after": "01000000",
@@ -17,11 +17,11 @@
     "uniqueOwner": true
   },
   "mode": "snapshot-overlay",
-  "modeSetChecks": 61,
+  "modeSetChecks": 62,
   "overlapRejected": true,
   "removedModes": 12,
-  "replacedSingleMode": 28,
-  "rollbacks": 122,
+  "replacedSingleMode": 29,
+  "rollbacks": 124,
   "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
   "status": "VALIDATED",
   "weapons": [
@@ -600,6 +600,16 @@
         "automatic"
       ],
       "weapon": "APW-1 Anti-Materiel Rifle"
+    },
+    {
+      "from": [
+        "single"
+      ],
+      "kind": "support_weapon",
+      "to": [
+        "automatic"
+      ],
+      "weapon": "EAT-17 Expendable Anti-Tank"
     },
     {
       "from": [

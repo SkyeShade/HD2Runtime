@@ -7,8 +7,8 @@
     "projectileSettings": "50AF7CCCF03697A0EF96B7F9DDEB19279ADC3B887BD95E0F972996844B7221EA"
   },
   "wikiDataset": {
-    "wiki_support_weapons.json": "4C14FD256666FFE6CAD9646A284A8C2B664322A470FFA4D787A06B46B4B1B351",
-    "wiki_player_weapons.json": "419496333B7951B89DA48642A3BE79025E3DBD16D536A7615BDC76B2F43C42FC"
+    "wiki_support_weapons.json": "8CA7D22A146334B15B8305515864621A9DA46A4939C67D053B92FEF8B8F88346",
+    "wiki_player_weapons.json": "03E62178186C7616072AE684CFFD901CD3B99D97DB04D3C91E292861B9FF3292"
   },
   "liveEquality": {
     "projectileSettings": {
@@ -313,7 +313,19 @@
       }
     },
     "ARC-3 Arc Thrower": {},
-    "B/FLAM-80 Cremator": {},
+    "B/FLAM-80 Cremator": {
+      "reload": {
+        "recordIndex": 232,
+        "indexRow": 463,
+        "ownerCount": 1,
+        "uniqueOwner": true,
+        "resource": "0x78A8185F63A70795",
+        "duration": 0.0,
+        "wikiFullReload": [],
+        "writable": false,
+        "reason": "Native duration 0 means the reload ability default duration applies; no scalar owner."
+      }
+    },
     "B/MD C4 Pack": {},
     "CQC-1 One True Flag": {},
     "CQC-20 Breaching Hammer": {
@@ -422,7 +434,21 @@
         "reason": null
       }
     },
-    "LAS-98 Laser Cannon": {},
+    "LAS-98 Laser Cannon": {
+      "reload": {
+        "recordIndex": 234,
+        "indexRow": 19,
+        "ownerCount": 1,
+        "uniqueOwner": true,
+        "resource": "0xD54B9505C0F72873",
+        "duration": 5.0,
+        "wikiFullReload": [
+          3.65
+        ],
+        "writable": true,
+        "reason": null
+      }
+    },
     "LAS-99 Quasar Cannon": {},
     "M-1000 Maxigun": {
       "reload": {
@@ -609,7 +635,7 @@
         "0x0736BEE2D6328726",
         "0x78A8185F63A70795"
       ],
-      "decision": "BLOCKED",
+      "decision": "RESOLVED",
       "callIn": {
         "id": 2271469939,
         "package": "0xDF16F5C644EDC2B1",
@@ -654,7 +680,25 @@
           }
         ]
       },
-      "reason": "Structural delivery is unique, but scraped magazine values do not independently identify the delivered root (identical alternative or conflicting values)."
+      "structuralConfirmation": {
+        "callInPackageNonZero": true,
+        "loadoutPackageRoots": [
+          "0x78A8185F63A70795"
+        ],
+        "supportWeaponPathRoots": [
+          "0x78A8185F63A70795"
+        ],
+        "paths": {
+          "0x0736BEE2D6328726": "content/fac_helldivers/vehicles/combat_walker_flamethrower/combat_walker_flamethrower",
+          "0x78A8185F63A70795": "content/fac_helldivers/equipment/support_weapons/heavy_flamethrower/heavy_flamethrower"
+        }
+      },
+      "confirmations": [
+        "LOADOUT_PACKAGE",
+        "SUPPORT_WEAPON_PATH"
+      ],
+      "deliveredRoot": "0x78A8185F63A70795",
+      "reason": "Call-in rack attaches exactly this root, independently confirmed by LOADOUT_PACKAGE, SUPPORT_WEAPON_PATH."
     },
     "CQC-20 Breaching Hammer": {
       "candidates": [
@@ -705,8 +749,23 @@
           }
         ]
       },
+      "structuralConfirmation": {
+        "callInPackageNonZero": true,
+        "loadoutPackageRoots": [
+          "0x5F3EC9BDA2BD8553"
+        ],
+        "supportWeaponPathRoots": [],
+        "paths": {
+          "0x5F3EC9BDA2BD8553": "content/fac_helldivers/equipment/melee_weapons/sledge_hammer/sledge_hammer",
+          "0x792D5D2A340FD6E6": "content/fac_helldivers/equipment/melee_weapons/machete/machete"
+        }
+      },
+      "confirmations": [
+        "WIKI_MAGAZINE",
+        "LOADOUT_PACKAGE"
+      ],
       "deliveredRoot": "0x5F3EC9BDA2BD8553",
-      "reason": "Call-in rack attaches exactly this root, and its native magazine tuple alone matches the scraped values."
+      "reason": "Call-in rack attaches exactly this root, independently confirmed by WIKI_MAGAZINE, LOADOUT_PACKAGE."
     },
     "CQC-72 Entrenchment Tool": {
       "candidates": [
@@ -721,7 +780,7 @@
         "0x5C54E81A4AAA31FC",
         "0x80932FA0ED6901D3"
       ],
-      "decision": "BLOCKED",
+      "decision": "RESOLVED",
       "callIn": {
         "id": 3413606544,
         "package": "0x0000000000000000",
@@ -771,7 +830,22 @@
           }
         ]
       },
-      "reason": "Structural delivery is unique, but scraped magazine values do not independently identify the delivered root (identical alternative or conflicting values)."
+      "structuralConfirmation": {
+        "callInPackageNonZero": false,
+        "loadoutPackageRoots": [],
+        "supportWeaponPathRoots": [
+          "0x80932FA0ED6901D3"
+        ],
+        "paths": {
+          "0x5C54E81A4AAA31FC": null,
+          "0x80932FA0ED6901D3": "content/fac_helldivers/equipment/support_weapons/lat_oneshot/lat_oneshot"
+        }
+      },
+      "confirmations": [
+        "SUPPORT_WEAPON_PATH"
+      ],
+      "deliveredRoot": "0x80932FA0ED6901D3",
+      "reason": "Call-in rack attaches exactly this root, independently confirmed by SUPPORT_WEAPON_PATH."
     },
     "LAS-98 Laser Cannon": {
       "candidates": [
@@ -779,7 +853,7 @@
         "0x56070F36CFFFA8A8",
         "0xD54B9505C0F72873"
       ],
-      "decision": "BLOCKED",
+      "decision": "RESOLVED",
       "callIn": {
         "id": 2822568285,
         "package": "0x0000000000000000",
@@ -825,7 +899,23 @@
           }
         ]
       },
-      "reason": "Structural delivery is unique, but scraped magazine values do not independently identify the delivered root (identical alternative or conflicting values)."
+      "structuralConfirmation": {
+        "callInPackageNonZero": false,
+        "loadoutPackageRoots": [],
+        "supportWeaponPathRoots": [
+          "0xD54B9505C0F72873"
+        ],
+        "paths": {
+          "0x1980D92B619FF5FE": null,
+          "0x56070F36CFFFA8A8": "content/fac_helldivers/hellpod/laser_cannon_turret/laser_cannon_turret",
+          "0xD54B9505C0F72873": "content/fac_helldivers/equipment/support_weapons/laser_cannon/laser_cannon"
+        }
+      },
+      "confirmations": [
+        "SUPPORT_WEAPON_PATH"
+      ],
+      "deliveredRoot": "0xD54B9505C0F72873",
+      "reason": "Call-in rack attaches exactly this root, independently confirmed by SUPPORT_WEAPON_PATH."
     },
     "M-105 Stalwart": {
       "candidates": [
@@ -906,8 +996,22 @@
           }
         ]
       },
+      "structuralConfirmation": {
+        "callInPackageNonZero": false,
+        "loadoutPackageRoots": [],
+        "supportWeaponPathRoots": [],
+        "paths": {
+          "0xA6A735ACCB4A327F": "content/fac_helldivers/equipment/primary_weapons/lmg_stalwart/lmg_stalwart",
+          "0xB43235DBD493750C": null,
+          "0xB9606C5AAB32C3C2": null,
+          "0xD53EE03481AE73FD": null
+        }
+      },
+      "confirmations": [
+        "WIKI_MAGAZINE"
+      ],
       "deliveredRoot": "0xA6A735ACCB4A327F",
-      "reason": "Call-in rack attaches exactly this root, and its native magazine tuple alone matches the scraped values."
+      "reason": "Call-in rack attaches exactly this root, independently confirmed by WIKI_MAGAZINE."
     },
     "MG-206 Heavy Machine Gun": {
       "candidates": [
@@ -976,8 +1080,24 @@
           }
         ]
       },
+      "structuralConfirmation": {
+        "callInPackageNonZero": false,
+        "loadoutPackageRoots": [],
+        "supportWeaponPathRoots": [
+          "0x2152D5147B0AC418"
+        ],
+        "paths": {
+          "0x085C1EDB038EC24E": "content/fac_helldivers/vehicles/frv/armaments/frv_mg/frv_mg",
+          "0x2152D5147B0AC418": "content/fac_helldivers/equipment/support_weapons/heavy_mg/heavy_mg",
+          "0xCD00BDC1149C2928": null
+        }
+      },
+      "confirmations": [
+        "WIKI_MAGAZINE",
+        "SUPPORT_WEAPON_PATH"
+      ],
       "deliveredRoot": "0x2152D5147B0AC418",
-      "reason": "Call-in rack attaches exactly this root, and its native magazine tuple alone matches the scraped values."
+      "reason": "Call-in rack attaches exactly this root, independently confirmed by WIKI_MAGAZINE, SUPPORT_WEAPON_PATH."
     },
     "MG-43 Machine Gun": {
       "candidates": [
@@ -1034,8 +1154,23 @@
           }
         ]
       },
+      "structuralConfirmation": {
+        "callInPackageNonZero": false,
+        "loadoutPackageRoots": [],
+        "supportWeaponPathRoots": [
+          "0x11C27D3BABB38956"
+        ],
+        "paths": {
+          "0x11C27D3BABB38956": "content/fac_helldivers/equipment/support_weapons/machinegun/machinegun",
+          "0x587878FB76F4B9B1": null
+        }
+      },
+      "confirmations": [
+        "WIKI_MAGAZINE",
+        "SUPPORT_WEAPON_PATH"
+      ],
       "deliveredRoot": "0x11C27D3BABB38956",
-      "reason": "Call-in rack attaches exactly this root, and its native magazine tuple alone matches the scraped values."
+      "reason": "Call-in rack attaches exactly this root, independently confirmed by WIKI_MAGAZINE, SUPPORT_WEAPON_PATH."
     }
   },
   "writes": 0,

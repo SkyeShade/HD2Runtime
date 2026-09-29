@@ -215,7 +215,81 @@ def native_graph(settings, components, source):
     spray = next((c for c in components if c['name'] == 'SprayWeaponComponentData'), None)
     if spray:
         add_damage(component_value(spray, 200), 'weapon:primary/attack:primary/damage', 'spray_damage')
+    # Mine deployer: MinefieldComponentData +24 (14-character member, ExplosionType enum) is the explosion every
+    # deployed mine detonates with; see mine_chain() for the proof that it is the mines' own explosion.
+    minefield = next((c for c in components if c['name'] == 'MinefieldComponentData'), None)
+    if minefield:
+        add_explosion(component_value(minefield, MINEFIELD_EXPLOSION_OFFSET), 'mine:primary/attack:mine',
+            'minefield_explosion')
     return result
+
+
+MINEFIELD_EXPLOSION_OFFSET = 24
+# MinefieldComponent layout fingerprint (offset, size, storage, hidden-name length) the proof relies on.
+MINEFIELD_FINGERPRINT = [(0, 4, 'UINT32', 25), (4, 4, 'UINT32', 29), (8, 4, 'FP32', 12), (12, 4, 'FP32', 19),
+    (16, 4, 'FP32', 8), (20, 4, 'UINT32', 13), (24, 4, 'ENUM_UINT32', 14), (28, 4, 'FP32', 19), (32, 1, 'UINT8', 16),
+    (36, 4, 'ENUM_INT32', 28), (40, 1, 'UINT8', 31)]
+
+
+def mine_chain(native, launcher):
+    """Stratagem mine deployer -> thrown mine -> explosion. Read-only evidence.
+
+    The deployer's ThrowerComponent throw slot 0 names the mine unit it launches (+0, u64 resource). Where that unit
+    has entity settings (the contact, gas and incendiary mines) its own ExplosiveComponent (+0 mode, +8 arming
+    delay, +12 explosion delay, +36 ExplosionType; layout reviewed by the throwable research) must name the same
+    explosion row as the deployer's MinefieldComponent +24. The anti-tank mine unit has no entity settings of its
+    own, so the deployer's MinefieldComponent is the only native definition of its explosion.
+    """
+    hexid = lambda value: f'0x{value:016X}'
+    minefield = native.component(launcher, 'MinefieldComponentData')
+    thrower = native.component(launcher, 'ThrowerComponentData')
+    if not minefield or not thrower:
+        raise ValueError('mine deployer without MinefieldComponent/ThrowerComponent: ' + launcher)
+    field_raw = native.record('MinefieldComponentData', minefield['record_index'])
+    explosion_type = struct.unpack_from('<I', field_raw, MINEFIELD_EXPLOSION_OFFSET)[0]
+    throw_raw = native.record('ThrowerComponentData', thrower['record_index'])
+    unit = struct.unpack_from('<Q', throw_raw, 0)[0]
+    nodes = sum(1 for i in range(48) if struct.unpack_from('<I', throw_raw, 48 + 4 * i)[0])
+    mine = {'resource': hexid(unit), 'path': native.path(unit), 'entityDefined': False}
+    try:
+        explosive = native.component(hexid(unit), 'ExplosiveComponentData') if unit else None
+    except ValueError as error:
+        if 'absent from EntitySettingsHashmap' not in str(error):
+            raise
+        explosive = None                                  # the unit has no entity settings of its own
+    if explosive:
+        raw = native.record('ExplosiveComponentData', explosive['record_index'])
+        mine.update({'entityDefined': True, 'explosive': {
+            'mode': struct.unpack_from('<i', raw, 0)[0],
+            'armingDelay': round(struct.unpack_from('<f', raw, 8)[0], 6),
+            'explosionDelay': round(struct.unpack_from('<f', raw, 12)[0], 6),
+            'explosionType': struct.unpack_from('<I', raw, 36)[0],
+            'impactExplosionType': struct.unpack_from('<I', raw, 40)[0]}})
+        if mine['explosive']['explosionType'] != explosion_type:
+            raise ValueError('mine explosion disagrees with its deployer: ' + launcher)
+    ownership = native.ownership(minefield)
+    return {'deployer': launcher, 'deployerPath': native.path(int(launcher, 16)),
+        'minefield': {'recordIndex': minefield['record_index'], 'indexRow': minefield['index_row'],
+            'ownerCount': ownership['ownerCount'], 'uniqueOwner': ownership['uniqueOwner'],
+            'explosionOffset': MINEFIELD_EXPLOSION_OFFSET, 'explosionType': explosion_type},
+        'thrownMine': mine,
+        'explosionAgreement': 'mine entity ExplosiveComponent +36 == deployer MinefieldComponent +24'
+            if mine['entityDefined'] else 'deployer MinefieldComponent +24 only (mine unit has no entity settings)',
+        'readOnlyObservations': {
+            'thrower.launchNodes': nodes,
+            'thrower.slot0Counts': [struct.unpack_from('<I', throw_raw, 40)[0], struct.unpack_from('<I', throw_raw, 44)[0]],
+            'thrower.slot0Floats': [round(struct.unpack_from('<f', throw_raw, 240 + 4 * i)[0], 4) for i in range(11)],
+            'minefield.floats': {str(o): round(struct.unpack_from('<f', field_raw, o)[0], 4) for o in (8, 12, 16, 28)},
+            'reason': ('Mine count, spacing, trigger radius, arming and lifetime candidates have no independent '
+                'fingerprint (no scraped values, no reviewed code reader), so they are published read-only.')}}
+
+
+def minefield_layout():
+    """MinefieldComponent record members from the pinned type library (hidden names: lengths only)."""
+    from migration import build_view
+    library = build_view.TypeLibrary((FILEDIVER / 'datalibrary/dl_library.dl_typelib').read_bytes())
+    record_type = library.layout('MinefieldComponentData')['members'][1]['type_hash']
+    return build_view._record_layout(library, record_type).members
 
 
 def build() -> dict:
@@ -241,6 +315,11 @@ def build() -> dict:
         ('ProjectileType', 'ExplosionInfoType', 'DamageInfoType',
          'StatusEffectInfoType', 'BeamInfoType', 'ArcInfoType')}
 
+    import research_entity_authoring
+    native = research_entity_authoring.Native()
+    layout = {(m['offset'], m['size'], m['storage'], m['nameLength']) for m in minefield_layout()}
+    if set(MINEFIELD_FINGERPRINT) - layout:
+        raise ValueError('MinefieldComponent layout fingerprint changed')
     entries = []
     for imported in wiki['stratagems']:
         if imported['name'] not in DEBUG_NAMES:
@@ -319,6 +398,8 @@ def build() -> dict:
                     'layoutAnchor': 'HealthComponentData reviewed main health/default armor layout',
                 },
             },
+            'mineChain': mine_chain(native, current['payloads'][0])
+                if imported['normalizedFamily'].lower() == 'mine' else None,
             'importedBranches': [{key: node.get(key) for key in
                 ('id', 'name', 'kind', 'parentId', 'childIds', 'sourcePath',
                  'relationshipEvidence', 'relationshipVerified')}

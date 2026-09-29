@@ -13,6 +13,7 @@ sys.path.insert(0,str(Path(__file__).resolve().parent))
 import build_profile  # noqa: E402  central build identity (schemas/build_profile.json)
 from migration import overlay as migration_overlay  # noqa: E402  build-migration hook
 import reticle_fields
+import weapon_movement_fields
 import fire_mode_fields
 import support_callin_linkage
 
@@ -234,12 +235,22 @@ def build(catalog_path=CATALOG):
                     offset,storage,role,linkage,**extra),target))
 
     reticle_rows,reticle_research=reticle_fields.load()
+    movement_rows=weapon_movement_fields.load()
     fire_mode_rows,_=fire_mode_fields.load()
     runtime_weapons={};public_weapons=[]
     # A duplicate group is resolved only by research-proven call-in delivery plus an
     # exact scraped fingerprint. The call-in rack becomes the identity root and the
     # delivered root the owner, reusing the reviewed live chain re-proof.
     resolved_source=[]
+
+    def delivered_branch(branch):
+        # Delivery settles which root owns the attacks; a branch is resolved only if its runtime match is exact.
+        match=branch.get('runtimeMatch')
+        if match and not match.get('mismatchedFields'):
+            return dict(branch,state='RESOLVED',resolvedBy='call_in_delivery',unresolvedReason=None)
+        return dict(branch,state='PARTIAL',resolvedBy='call_in_delivery',unresolvedReason=
+            branch.get('unresolvedReason')or'no runtime attack matched this catalog branch')
+
     for weapon in source['weapons']:
         item=delivery.get(weapon['name'])
         if item:
@@ -251,8 +262,8 @@ def build(catalog_path=CATALOG):
                     {'kind':'delivery_rack','resourceHash':rack['resourceHash'],
                         'component':'HellpodRackComponentData'},
                     {'kind':'delivered_weapon','resourceHash':root}],
-                attackGraph=[dict(branch,state='RESOLVED',resolvedBy='call_in_delivery')
-                    if branch.get('state')=='IDENTITY_AMBIGUOUS'else branch for branch in weapon['attackGraph']])
+                attackGraph=[delivered_branch(branch)if branch.get('state')=='IDENTITY_AMBIGUOUS'else branch
+                    for branch in weapon['attackGraph']])
         resolved_source.append(weapon)
     source=dict(source,weapons=resolved_source)
     for weapon in source['weapons']:
@@ -285,6 +296,14 @@ def build(catalog_path=CATALOG):
                 if key in resolved and'WeaponDataComponentData'in ownership:
                     fields.append(make_field(field_id,resolved[key],
                         component(candidate,'WeaponDataComponentData',offset,storage),target))
+            movement=movement_rows.get(('support',weapon['name']))
+            if movement and movement['weaponData'] and'WeaponDataComponentData'in ownership:
+                owner=weapon['attackResource']if weapon['resolution']=='DELIVERY_RESOLVED'else(
+                    weapon.get('attackResource')or weapon['canonicalResource'])
+                item=make_field(weapon_movement_fields.FIELD,None,component(candidate,'WeaponDataComponentData',
+                    weapon_movement_fields.OFFSET,weapon_movement_fields.STORAGE),target,
+                    acknowledgement='allow_unverified_effect')
+                fields.append(weapon_movement_fields.apply(item,movement,owner))
             fire=fire_mode_rows.get(('support',weapon['name']))
             if fire and fire['state']!='absent'and'WeaponDataComponentData'in ownership:
                 if fire_mode_fields.writable(fire):
@@ -498,9 +517,16 @@ def build(catalog_path=CATALOG):
                 'blockedReason':block if not unique else branch.get('unresolvedReason')})
         resolution_basis=None
         if weapon['resolution']=='DELIVERY_RESOLVED':
-            resolution_basis={'basis':'call_in_delivery_and_scraped_fingerprint',
-                'evidence':['The linked call-in hellpod rack attaches exactly one candidate root.',
-                    'That root alone has the scraped magazine values; the other roots differ.'],
+            confirmations=delivery[weapon['name']].get('confirmations')or['WIKI_MAGAZINE']
+            evidence={'WIKI_MAGAZINE':'That root alone has the scraped magazine values; the other roots differ.',
+                'LOADOUT_PACKAGE':"The call-in's own package is exactly that root's loadout package.",
+                'SUPPORT_WEAPON_PATH':('That root is the only candidate whose hash-verified resource path lies under '
+                    'the carried support-weapon equipment tree.')}
+            resolution_basis={'basis':('call_in_delivery_and_scraped_fingerprint'if'WIKI_MAGAZINE'in confirmations
+                    else'call_in_delivery_and_structural_identity'),
+                'confirmations':confirmations,
+                'evidence':['The linked call-in hellpod rack attaches exactly one candidate root.']
+                    +[evidence[item]for item in confirmations],
                 'nonDeliveredNativeRoots':len(weapon['nonDeliveredRoots']),
                 'nonDeliveredRootsAffected':False,
                 'note':('Fields edit only the call-in-delivered weapon. Other native roots with this catalog name '

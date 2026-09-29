@@ -1,0 +1,1775 @@
+{
+  "contract": "hd2runtime.weapon_movement.v1",
+  "schemaVersion": 1,
+  "hd2RuntimeVersion": "0.27.0",
+  "model": {
+    "summary": "One data-driven restriction: WeaponDataComponent +387 \"stationary while firing\" (bool). When set, firing sends the weapon's firing-start/stop wielder animation events and raises wielder action bit 55. No per-weapon movement multiplier, sprint/dive/crouch ban or stance-specific restriction exists in weapon data.",
+    "modes": {
+      "none": "No data-driven firing restriction.",
+      "stationary_while_firing": "weapon.stationary_while_firing is set: firing sends the weapon's firing-start/stop wielder animation events and raises wielder action bit 55 (the Maxigun)."
+    },
+    "transitions": {
+      "remove_maxigun_stationary": "Set weapon.stationary_while_firing to false on the Maxigun. Its movement-related weapon data then equals the GL-28's.",
+      "apply_stationary_elsewhere": "Set it to true on another weapon. Weapons without firing-stance events raise only the action bit (no brace animation)."
+    },
+    "readOnly": {
+      "firingStance": "Firing-start/stop wielder animation events (brace/brace_exit on the Maxigun and the GL-28). The only code reader found sends them only while stationary_while_firing is set, so they are not authored separately.",
+      "perShotWielderAnimation": "Per-shot wielder animation (fire_rifle, fire_minigun, ...); its effect on movement is animation-graph behaviour."
+    },
+    "unavailable": [
+      {
+        "behaviour": "movement speed multiplier while firing",
+        "reason": "No weapon record carries one; the slowdown magnitude is code- or animation-driven."
+      },
+      {
+        "behaviour": "separate dive / sprint / crouch bans",
+        "reason": "Not separately represented in weapon data; stationary_while_firing raises one action bit."
+      },
+      {
+        "behaviour": "GL-28 slowdown",
+        "reason": "Not produced by a proven data field (its brace events are not sent by the only reader found)."
+      },
+      {
+        "behaviour": "Cremator slowdown",
+        "reason": "No data owner found. Its exclusive WeaponData flag (+1220) is read only by the weapon audio update."
+      }
+    ],
+    "evidence": "Structural fingerprint of the WeaponData layout, a game.dll code reader re-found by byte pattern on every research run, and anchor exclusivity (the Maxigun is the only weapon that sets the flag)."
+  },
+  "liveTested": false,
+  "weapons": [
+    {
+      "weapon": "AR-11 Arbitrator",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "AR-2 Coyote",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "AR-23 Liberator",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "AR-23A Liberator Carbine",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "AR-23C Liberator Concussive",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "AR-23P Liberator Penetrator",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "AR-32 Pacifier",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "AR-59 Suppressor",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "AR-61 Tenderizer",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "AR/GL-21 One-Two",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "ARC-12 Blitzer",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_arcshotgun",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "BR-14 Adjudicator",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "CB-9 Exploding Crossbow",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "CQC-19 Stun Lance",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": null,
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "CQC-2 Saber",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": null,
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "CQC-30 Stun Baton",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": null,
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "CQC-5 Combat Hatchet",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": null,
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "DBS-2 Double Freedom",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "FLAM-66 Torcher",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_flamethrower",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "GL-15 Evictor",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_pumpshotgun",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "GP-20 Ultimatum",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_sniperrifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "JAR-5 Dominator",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_jar",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "LAS-12 Sai",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "LAS-13 Trident",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "LAS-16 Sickle",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "LAS-17 Double-Edge Sickle",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "LAS-58 Talon",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_pistol",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "M6C/SOCOM Pistol",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_pistol",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "M7S SMG",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_pdw",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "M90A Shotgun",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_pumpshotgun",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "MA5C Assault Rifle",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "MP-98 Knight",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_pdw",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "P-11 Stim Pistol",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_pistol",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "P-113 Verdict",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_pistol",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "P-19 Redeemer",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_autopistol",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "P-2 Peacemaker",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_pistol",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "P-33 Missile Pistol",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": null,
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "P-34 Breacher",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": null,
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "P-35 Re-Educator",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_pdw",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "P-4 Senator",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_revolver",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "P-69 Veto",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_pistol",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "P-92 Warrant",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_pistol",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "P/40-K Bolt Pistol",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_pistol",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "PLAS-1 Scorcher",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "PLAS-101 Purifier",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "PLAS-15 Loyalist",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_pistol",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "PLAS-39 Accelerator Rifle",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "R-2 Amendment",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "R-2124 Constitution",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "R-36 Eruptor",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_jar_phoenix",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "R-4 Hyena",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "R-6 Deadeye",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "R-63 Diligence",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "R-63CS Diligence Counter Sniper",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "R-72 Censor",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "R/40-K Hot-Shot Marksman Rifle",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "SG-20 Halt",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_pumpshotgun",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "SG-22 Bushwhacker",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_revolver",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "SG-225 Breaker",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "SG-225IE Breaker Incendiary",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "SG-225SP Breaker Spray&Pray",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "SG-451 Cookout",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_pumpshotgun",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "SG-8 Punisher",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_pumpshotgun",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "SG-8P Punisher Plasma",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_pumpshotgun",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "SG-8S Slugger",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_pumpshotgun",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "SG-97 Sweeper",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": null,
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "SMG-203 Gallant",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_pdw",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "SMG-32 Reprimand",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "SMG-72 Pummeler",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_pdw",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "SMG/FLAM-34 Stoker",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_pdw",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "StA-11 SMG",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "StA-52 Assault Rifle",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "VG-70 Variable",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "40-K Meltagun",
+      "kind": "support",
+      "accessor": "hd2.support_weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_autocannon",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "AC-8 Autocannon",
+      "kind": "support",
+      "accessor": "hd2.support_weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_autocannon",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "APW-1 Anti-Materiel Rifle",
+      "kind": "support",
+      "accessor": "hd2.support_weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_sniperrifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "ARC-3 Arc Thrower",
+      "kind": "support",
+      "accessor": "hd2.support_weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": null,
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "B/FLAM-80 Cremator",
+      "kind": "support",
+      "accessor": "hd2.support_weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_flamethrower",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "B/MD C4 Pack",
+      "kind": "support",
+      "accessor": "hd2.support_weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": null,
+        "writable": false,
+        "acknowledgement": null,
+        "reason": "No uniquely owned WeaponData record."
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": null,
+      "movementRestriction": "unknown"
+    },
+    {
+      "weapon": "CQC-1 One True Flag",
+      "kind": "support",
+      "accessor": "hd2.support_weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": null,
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "CQC-20 Breaching Hammer",
+      "kind": "support",
+      "accessor": "hd2.support_weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": null,
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "CQC-9 Defoliation Tool",
+      "kind": "support",
+      "accessor": "hd2.support_weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": null,
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "EAT-17 Expendable Anti-Tank",
+      "kind": "support",
+      "accessor": "hd2.support_weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_lat",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "EAT-411 Leveller",
+      "kind": "support",
+      "accessor": "hd2.support_weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_lat",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "EAT-700 Expendable Napalm",
+      "kind": "support",
+      "accessor": "hd2.support_weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_lat",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "FAF-14 Spear",
+      "kind": "support",
+      "accessor": "hd2.support_weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": null,
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "FLAM-40 Flamethrower",
+      "kind": "support",
+      "accessor": "hd2.support_weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_flamethrower",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "GL-21 Grenade Launcher",
+      "kind": "support",
+      "accessor": "hd2.support_weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_grenadelauncher",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "GL-28 Belt-Fed Grenade Launcher",
+      "kind": "support",
+      "accessor": "hd2.support_weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": "brace",
+      "firingStanceEvents": [
+        "brace",
+        "brace_exit"
+      ],
+      "perShotWielderAnimation": null,
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "GL-52 De-Escalator",
+      "kind": "support",
+      "accessor": "hd2.support_weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_grenadelauncher",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "GR-8 Recoilless Rifle",
+      "kind": "support",
+      "accessor": "hd2.support_weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_recoilless",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "LAS-98 Laser Cannon",
+      "kind": "support",
+      "accessor": "hd2.support_weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "LAS-99 Quasar Cannon",
+      "kind": "support",
+      "accessor": "hd2.support_weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_autocannon",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "M-1000 Maxigun",
+      "kind": "support",
+      "accessor": "hd2.support_weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": true,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": "brace",
+      "firingStanceEvents": [
+        "brace",
+        "brace_exit"
+      ],
+      "perShotWielderAnimation": null,
+      "movementRestriction": "stationary_while_firing"
+    },
+    {
+      "weapon": "M-105 Stalwart",
+      "kind": "support",
+      "accessor": "hd2.support_weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "MG-206 Heavy Machine Gun",
+      "kind": "support",
+      "accessor": "hd2.support_weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_mg",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "MG-43 Machine Gun",
+      "kind": "support",
+      "accessor": "hd2.support_weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_mg",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "MGX-42 Bullet Storm",
+      "kind": "support",
+      "accessor": "hd2.support_weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "MLS-4X Commando",
+      "kind": "support",
+      "accessor": "hd2.support_weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": null,
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "MS-11 Solo Silo",
+      "kind": "support",
+      "accessor": "hd2.support_weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": null,
+        "writable": false,
+        "acknowledgement": null,
+        "reason": "No uniquely owned WeaponData record."
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": null,
+      "movementRestriction": "unknown"
+    },
+    {
+      "weapon": "PLAS-45 Epoch",
+      "kind": "support",
+      "accessor": "hd2.support_weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_autocannon",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "RL-77 Airburst Rocket Launcher",
+      "kind": "support",
+      "accessor": "hd2.support_weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_recoilless",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "RS-422 Railgun",
+      "kind": "support",
+      "accessor": "hd2.support_weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_railgun",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "S-11 Speargun",
+      "kind": "support",
+      "accessor": "hd2.support_weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_railgun",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "SG-88 Break-Action Shotgun",
+      "kind": "support",
+      "accessor": "hd2.support_weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": null,
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "StA-X3 W.A.S.P. Launcher",
+      "kind": "support",
+      "accessor": "hd2.support_weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": null,
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "TX-41 Sterilizer",
+      "kind": "support",
+      "accessor": "hd2.support_weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_flamethrower",
+      "movementRestriction": "none"
+    }
+  ],
+  "summary": {
+    "weapons": 107,
+    "writable": 105,
+    "stationaryWhileFiring": [
+      "M-1000 Maxigun"
+    ],
+    "braceStance": [
+      "GL-28 Belt-Fed Grenade Launcher",
+      "M-1000 Maxigun"
+    ]
+  },
+  "safety": {
+    "rawIdentifiers": false,
+    "writes": 0
+  }
+}

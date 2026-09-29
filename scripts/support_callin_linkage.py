@@ -383,8 +383,9 @@ def build(support_roots=None,support_research_path=SUPPORT_RESEARCH,
             'writeTargetsRemainSeparate':True,
             'writeGuardsUnchanged':('A known relationship alone never lifts support-weapon write blocking. '
                 'A duplicate group is resolved only when its call-in rack attaches exactly one candidate root '
-                'and scraped magazine values independently identify that root (DELIVERY_RESOLVED); '
-                'ambiguous runtime weapon roots stay blocked.')},
+                'and an independent proof identifies that same root: scraped magazine values, the call-in '
+                'package equal to the root\'s own loadout package, or its hash-verified support-weapon resource '
+                'path (DELIVERY_RESOLVED); ambiguous runtime weapon roots stay blocked.')},
         'relationships':links,'supportWeapons':dict(sorted(weapon_links.items())),
         'stratagems':dict(sorted(stratagem_links.items())),'audit':audit}
 

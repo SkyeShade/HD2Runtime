@@ -6437,8 +6437,9 @@
           }
         ]
       },
-      "mineScopeDeferred": false,
+      "mineScopeDeferred": null,
       "mineInstanceResolved": null,
+      "mine": null,
       "semanticId": "stratagem/v1/a-mg-43-machine-gun-sentry/0e0393fa17d9d89e",
       "uiIcon": {
         "state": "resolved",
@@ -6536,8 +6537,9 @@
           }
         ]
       },
-      "mineScopeDeferred": false,
+      "mineScopeDeferred": null,
       "mineInstanceResolved": null,
+      "mine": null,
       "semanticId": "stratagem/v1/a-g-16-gatling-sentry/c6673d55619c8903",
       "uiIcon": {
         "state": "resolved",
@@ -6637,8 +6639,9 @@
           }
         ]
       },
-      "mineScopeDeferred": false,
+      "mineScopeDeferred": null,
       "mineInstanceResolved": null,
+      "mine": null,
       "semanticId": "stratagem/v1/a-ac-8-autocannon-sentry/85f266ab305ff9bc",
       "uiIcon": {
         "state": "resolved",
@@ -6738,8 +6741,9 @@
           }
         ]
       },
-      "mineScopeDeferred": false,
+      "mineScopeDeferred": null,
       "mineInstanceResolved": null,
+      "mine": null,
       "semanticId": "stratagem/v1/a-m-12-mortar-sentry/07444934336437e8",
       "uiIcon": {
         "state": "resolved",
@@ -6839,8 +6843,9 @@
           }
         ]
       },
-      "mineScopeDeferred": false,
+      "mineScopeDeferred": null,
       "mineInstanceResolved": null,
+      "mine": null,
       "semanticId": "stratagem/v1/a-mls-4x-rocket-sentry/b8d43a0a89deeda9",
       "uiIcon": {
         "state": "resolved",
@@ -6931,8 +6936,9 @@
           }
         ]
       },
-      "mineScopeDeferred": false,
+      "mineScopeDeferred": null,
       "mineInstanceResolved": null,
+      "mine": null,
       "semanticId": "stratagem/v1/a-arc-3-tesla-tower/1d4a5a809255124c",
       "uiIcon": {
         "state": "resolved",
@@ -7035,8 +7041,9 @@
           }
         ]
       },
-      "mineScopeDeferred": false,
+      "mineScopeDeferred": null,
       "mineInstanceResolved": null,
+      "mine": null,
       "semanticId": "stratagem/v1/a-m-23-ems-mortar-sentry/4d250293facca577",
       "uiIcon": {
         "state": "resolved",
@@ -7127,8 +7134,9 @@
           }
         ]
       },
-      "mineScopeDeferred": false,
+      "mineScopeDeferred": null,
       "mineInstanceResolved": null,
+      "mine": null,
       "semanticId": "stratagem/v1/a-las-98-laser-sentry/3453078a058b5c9b",
       "uiIcon": {
         "state": "resolved",
@@ -7220,8 +7228,9 @@
           }
         ]
       },
-      "mineScopeDeferred": false,
+      "mineScopeDeferred": null,
       "mineInstanceResolved": null,
+      "mine": null,
       "semanticId": "stratagem/v1/a-flam-40-flame-sentry/852ccc837682ccb3",
       "uiIcon": {
         "state": "resolved",
@@ -7323,8 +7332,9 @@
           }
         ]
       },
-      "mineScopeDeferred": false,
+      "mineScopeDeferred": null,
       "mineInstanceResolved": null,
+      "mine": null,
       "semanticId": "stratagem/v1/a-gm-17-gas-mortar-sentry/b23f1530ef24d72c",
       "uiIcon": {
         "state": "resolved",
@@ -7349,7 +7359,10 @@
       "name": "MD-6 Anti-Personnel Minefield",
       "family": "mine",
       "rootResolution": "UNIQUE",
-      "attackRoles": [],
+      "attackRoles": [
+        "mine",
+        "mine_damage"
+      ],
       "cooldown": 120,
       "cooldownCapability": {
         "value": 120,
@@ -7394,26 +7407,34 @@
             "reason": "The deployed lifetime owner is not unambiguous across sentry, emplacement, and mine families."
           },
           {
-            "field": "mine entity",
-            "reason": "Only the deployment entity is resolved; individual spawned-mine ownership is not proven."
+            "field": "mine count / spacing",
+            "reason": "The deployer ThrowerComponent carries launch nodes, counts and throw floats, but no independent fingerprint proves which is the mine count or the spread; published read-only in the research only."
           },
           {
-            "field": "mine trigger",
-            "reason": "Trigger semantics and ownership are not proven."
+            "field": "mine trigger radius / arming time",
+            "reason": "The MinefieldComponent floats have no independent fingerprint and the per-mine arming delay is 0; trigger detection is not data-proven."
           },
           {
-            "field": "mine distribution",
-            "reason": "Deployment-pattern semantics and ownership are not proven."
+            "field": "mine trigger-to-detonation delay",
+            "reason": "The mine ExplosiveComponent explosion delay (0.002 s) is proven by layout, but the anti-tank mine has no entity of its own, so it is not authored uniformly; read-only."
           },
           {
-            "field": "mine explosion/status",
-            "reason": "The individual mine attack backing chain is not resolved from the deployment entity."
+            "field": "mine lifetime / chain reaction",
+            "reason": "No native owner found."
           }
         ],
         "damageZones": []
       },
-      "mineScopeDeferred": true,
-      "mineInstanceResolved": false,
+      "mineScopeDeferred": false,
+      "mineInstanceResolved": null,
+      "mine": {
+        "explosionAttack": "mine",
+        "explosionResolved": true,
+        "mineEntityDefined": true,
+        "explosionAgreement": "mine entity ExplosiveComponent +36 == deployer MinefieldComponent +24",
+        "triggerToDetonationSeconds": 0.002,
+        "api": "hd2.stratagem(name):mine()"
+      },
       "semanticId": "stratagem/v1/md-6-anti-personnel-minefield/3b8d190c8866f82c",
       "uiIcon": {
         "state": "resolved",
@@ -7438,7 +7459,11 @@
       "name": "MD-I4 Incendiary Mines",
       "family": "mine",
       "rootResolution": "UNIQUE",
-      "attackRoles": [],
+      "attackRoles": [
+        "mine",
+        "mine_damage",
+        "mine_damage_status_1"
+      ],
       "cooldown": 120,
       "cooldownCapability": {
         "value": 120,
@@ -7483,26 +7508,34 @@
             "reason": "The deployed lifetime owner is not unambiguous across sentry, emplacement, and mine families."
           },
           {
-            "field": "mine entity",
-            "reason": "Only the deployment entity is resolved; individual spawned-mine ownership is not proven."
+            "field": "mine count / spacing",
+            "reason": "The deployer ThrowerComponent carries launch nodes, counts and throw floats, but no independent fingerprint proves which is the mine count or the spread; published read-only in the research only."
           },
           {
-            "field": "mine trigger",
-            "reason": "Trigger semantics and ownership are not proven."
+            "field": "mine trigger radius / arming time",
+            "reason": "The MinefieldComponent floats have no independent fingerprint and the per-mine arming delay is 0; trigger detection is not data-proven."
           },
           {
-            "field": "mine distribution",
-            "reason": "Deployment-pattern semantics and ownership are not proven."
+            "field": "mine trigger-to-detonation delay",
+            "reason": "The mine ExplosiveComponent explosion delay (0.002 s) is proven by layout, but the anti-tank mine has no entity of its own, so it is not authored uniformly; read-only."
           },
           {
-            "field": "mine explosion/status",
-            "reason": "The individual mine attack backing chain is not resolved from the deployment entity."
+            "field": "mine lifetime / chain reaction",
+            "reason": "No native owner found."
           }
         ],
         "damageZones": []
       },
-      "mineScopeDeferred": true,
-      "mineInstanceResolved": false,
+      "mineScopeDeferred": false,
+      "mineInstanceResolved": null,
+      "mine": {
+        "explosionAttack": "mine",
+        "explosionResolved": true,
+        "mineEntityDefined": true,
+        "explosionAgreement": "mine entity ExplosiveComponent +36 == deployer MinefieldComponent +24",
+        "triggerToDetonationSeconds": 0.002,
+        "api": "hd2.stratagem(name):mine()"
+      },
       "semanticId": "stratagem/v1/md-i4-incendiary-mines/b1272186f32bb35d",
       "uiIcon": {
         "state": "resolved",
@@ -7527,7 +7560,10 @@
       "name": "MD-17 Anti-Tank Mines",
       "family": "mine",
       "rootResolution": "UNIQUE",
-      "attackRoles": [],
+      "attackRoles": [
+        "mine",
+        "mine_damage"
+      ],
       "cooldown": 120,
       "cooldownCapability": {
         "value": 120,
@@ -7572,26 +7608,34 @@
             "reason": "The deployed lifetime owner is not unambiguous across sentry, emplacement, and mine families."
           },
           {
-            "field": "mine entity",
-            "reason": "Only the deployment entity is resolved; individual spawned-mine ownership is not proven."
+            "field": "mine count / spacing",
+            "reason": "The deployer ThrowerComponent carries launch nodes, counts and throw floats, but no independent fingerprint proves which is the mine count or the spread; published read-only in the research only."
           },
           {
-            "field": "mine trigger",
-            "reason": "Trigger semantics and ownership are not proven."
+            "field": "mine trigger radius / arming time",
+            "reason": "The MinefieldComponent floats have no independent fingerprint and the per-mine arming delay is 0; trigger detection is not data-proven."
           },
           {
-            "field": "mine distribution",
-            "reason": "Deployment-pattern semantics and ownership are not proven."
+            "field": "mine trigger-to-detonation delay",
+            "reason": "The mine ExplosiveComponent explosion delay (0.002 s) is proven by layout, but the anti-tank mine has no entity of its own, so it is not authored uniformly; read-only."
           },
           {
-            "field": "mine explosion/status",
-            "reason": "The individual mine attack backing chain is not resolved from the deployment entity."
+            "field": "mine lifetime / chain reaction",
+            "reason": "No native owner found."
           }
         ],
         "damageZones": []
       },
-      "mineScopeDeferred": true,
-      "mineInstanceResolved": false,
+      "mineScopeDeferred": false,
+      "mineInstanceResolved": null,
+      "mine": {
+        "explosionAttack": "mine",
+        "explosionResolved": true,
+        "mineEntityDefined": false,
+        "explosionAgreement": "deployer MinefieldComponent +24 only (mine unit has no entity settings)",
+        "triggerToDetonationSeconds": null,
+        "api": "hd2.stratagem(name):mine()"
+      },
       "semanticId": "stratagem/v1/md-17-anti-tank-mines/55f139ba71a97934",
       "uiIcon": {
         "state": "resolved",
@@ -7696,8 +7740,9 @@
           ]
         }
       },
-      "mineScopeDeferred": false,
+      "mineScopeDeferred": null,
       "mineInstanceResolved": null,
+      "mine": null,
       "semanticId": "stratagem/v1/fx-12-shield-generator-relay/96c8c9b617574926",
       "uiIcon": {
         "state": "resolved",
@@ -7795,8 +7840,9 @@
           }
         ]
       },
-      "mineScopeDeferred": false,
+      "mineScopeDeferred": null,
       "mineInstanceResolved": null,
+      "mine": null,
       "semanticId": "stratagem/v1/e-mg-101-hmg-emplacement/258b9c8985ef6332",
       "uiIcon": {
         "state": "resolved",
@@ -7872,8 +7918,9 @@
         ],
         "damageZones": []
       },
-      "mineScopeDeferred": false,
+      "mineScopeDeferred": null,
       "mineInstanceResolved": null,
+      "mine": null,
       "semanticId": "stratagem/v1/e-gl-21-grenadier-battlement/3d626eb236583fc4",
       "uiIcon": {
         "state": "resolved",
@@ -7898,7 +7945,12 @@
       "name": "MD-8 Gas Mines",
       "family": "mine",
       "rootResolution": "UNIQUE",
-      "attackRoles": [],
+      "attackRoles": [
+        "mine",
+        "mine_damage",
+        "mine_damage_status_1",
+        "mine_damage_status_2"
+      ],
       "cooldown": 120,
       "cooldownCapability": {
         "value": 120,
@@ -7943,26 +7995,34 @@
             "reason": "The deployed lifetime owner is not unambiguous across sentry, emplacement, and mine families."
           },
           {
-            "field": "mine entity",
-            "reason": "Only the deployment entity is resolved; individual spawned-mine ownership is not proven."
+            "field": "mine count / spacing",
+            "reason": "The deployer ThrowerComponent carries launch nodes, counts and throw floats, but no independent fingerprint proves which is the mine count or the spread; published read-only in the research only."
           },
           {
-            "field": "mine trigger",
-            "reason": "Trigger semantics and ownership are not proven."
+            "field": "mine trigger radius / arming time",
+            "reason": "The MinefieldComponent floats have no independent fingerprint and the per-mine arming delay is 0; trigger detection is not data-proven."
           },
           {
-            "field": "mine distribution",
-            "reason": "Deployment-pattern semantics and ownership are not proven."
+            "field": "mine trigger-to-detonation delay",
+            "reason": "The mine ExplosiveComponent explosion delay (0.002 s) is proven by layout, but the anti-tank mine has no entity of its own, so it is not authored uniformly; read-only."
           },
           {
-            "field": "mine explosion/status",
-            "reason": "The individual mine attack backing chain is not resolved from the deployment entity."
+            "field": "mine lifetime / chain reaction",
+            "reason": "No native owner found."
           }
         ],
         "damageZones": []
       },
-      "mineScopeDeferred": true,
-      "mineInstanceResolved": false,
+      "mineScopeDeferred": false,
+      "mineInstanceResolved": null,
+      "mine": {
+        "explosionAttack": "mine",
+        "explosionResolved": true,
+        "mineEntityDefined": true,
+        "explosionAgreement": "mine entity ExplosiveComponent +36 == deployer MinefieldComponent +24",
+        "triggerToDetonationSeconds": 0.002,
+        "api": "hd2.stratagem(name):mine()"
+      },
       "semanticId": "stratagem/v1/md-8-gas-mines/fd07b597d67e228b",
       "uiIcon": {
         "state": "resolved",
@@ -8062,8 +8122,9 @@
           }
         ]
       },
-      "mineScopeDeferred": false,
+      "mineScopeDeferred": null,
       "mineInstanceResolved": null,
+      "mine": null,
       "semanticId": "stratagem/v1/e-at-12-anti-tank-emplacement/19453f9043f7a9bf",
       "uiIcon": {
         "state": "resolved",
@@ -11765,6 +11826,76 @@
       "weapon": "primary"
     },
     {
+      "stratagem": "MD-6 Anti-Personnel Minefield",
+      "family": "mine",
+      "role": "mine",
+      "path": "mine:primary/attack:mine",
+      "kind": "ExplosionSettings",
+      "parentRole": null,
+      "entity": "main",
+      "weapon": "mine"
+    },
+    {
+      "stratagem": "MD-6 Anti-Personnel Minefield",
+      "family": "mine",
+      "role": "mine_damage",
+      "path": "mine:primary/attack:mine/damage",
+      "kind": "DamageInfo",
+      "parentRole": "mine",
+      "entity": "main",
+      "weapon": "mine"
+    },
+    {
+      "stratagem": "MD-I4 Incendiary Mines",
+      "family": "mine",
+      "role": "mine",
+      "path": "mine:primary/attack:mine",
+      "kind": "ExplosionSettings",
+      "parentRole": null,
+      "entity": "main",
+      "weapon": "mine"
+    },
+    {
+      "stratagem": "MD-I4 Incendiary Mines",
+      "family": "mine",
+      "role": "mine_damage",
+      "path": "mine:primary/attack:mine/damage",
+      "kind": "DamageInfo",
+      "parentRole": "mine",
+      "entity": "main",
+      "weapon": "mine"
+    },
+    {
+      "stratagem": "MD-I4 Incendiary Mines",
+      "family": "mine",
+      "role": "mine_damage_status_1",
+      "path": "mine:primary/attack:mine/damage/status:1",
+      "kind": "StatusEffectSettings",
+      "parentRole": "mine_damage_status",
+      "entity": "main",
+      "weapon": "mine"
+    },
+    {
+      "stratagem": "MD-17 Anti-Tank Mines",
+      "family": "mine",
+      "role": "mine",
+      "path": "mine:primary/attack:mine",
+      "kind": "ExplosionSettings",
+      "parentRole": null,
+      "entity": "main",
+      "weapon": "mine"
+    },
+    {
+      "stratagem": "MD-17 Anti-Tank Mines",
+      "family": "mine",
+      "role": "mine_damage",
+      "path": "mine:primary/attack:mine/damage",
+      "kind": "DamageInfo",
+      "parentRole": "mine",
+      "entity": "main",
+      "weapon": "mine"
+    },
+    {
       "stratagem": "E/MG-101 HMG Emplacement",
       "family": "emplacement",
       "role": "primary",
@@ -11783,6 +11914,46 @@
       "parentRole": "primary",
       "entity": "main",
       "weapon": "primary"
+    },
+    {
+      "stratagem": "MD-8 Gas Mines",
+      "family": "mine",
+      "role": "mine",
+      "path": "mine:primary/attack:mine",
+      "kind": "ExplosionSettings",
+      "parentRole": null,
+      "entity": "main",
+      "weapon": "mine"
+    },
+    {
+      "stratagem": "MD-8 Gas Mines",
+      "family": "mine",
+      "role": "mine_damage",
+      "path": "mine:primary/attack:mine/damage",
+      "kind": "DamageInfo",
+      "parentRole": "mine",
+      "entity": "main",
+      "weapon": "mine"
+    },
+    {
+      "stratagem": "MD-8 Gas Mines",
+      "family": "mine",
+      "role": "mine_damage_status_1",
+      "path": "mine:primary/attack:mine/damage/status:1",
+      "kind": "StatusEffectSettings",
+      "parentRole": "mine_damage_status",
+      "entity": "main",
+      "weapon": "mine"
+    },
+    {
+      "stratagem": "MD-8 Gas Mines",
+      "family": "mine",
+      "role": "mine_damage_status_2",
+      "path": "mine:primary/attack:mine/damage/status:2",
+      "kind": "StatusEffectSettings",
+      "parentRole": "mine_damage_status",
+      "entity": "main",
+      "weapon": "mine"
     },
     {
       "stratagem": "E/AT-12 Anti-Tank Emplacement",
@@ -17426,13 +17597,17 @@
           "path": "delivery:1/projectile/impact/damage/status:1"
         },
         {
+          "stratagem": "MD-8 Gas Mines",
+          "path": "mine:primary/attack:mine/damage/status:1"
+        },
+        {
           "stratagem": "A/GM-17 Gas Mortar Sentry",
           "path": "weapon:primary/attack:primary/projectile/impact/damage/status:1"
         }
       ],
       "reviewedScopeComplete": true,
       "dynamicConsumersPossible": true,
-      "sharedScopeKey": "shared-scope:d97ca1638894775e",
+      "sharedScopeKey": "shared-scope:d67d676845b2ac9f",
       "provenance": "current-build retained snapshot plus schema-labelled native ownership",
       "backingObjectKind": "StatusEffectSettings",
       "apiFieldConstant": "hd2.fields.status.duration",
@@ -17508,13 +17683,17 @@
           "path": "delivery:1/projectile/impact/damage/status:2"
         },
         {
+          "stratagem": "MD-8 Gas Mines",
+          "path": "mine:primary/attack:mine/damage/status:2"
+        },
+        {
           "stratagem": "A/GM-17 Gas Mortar Sentry",
           "path": "weapon:primary/attack:primary/projectile/impact/damage/status:2"
         }
       ],
       "reviewedScopeComplete": true,
       "dynamicConsumersPossible": true,
-      "sharedScopeKey": "shared-scope:f7cc1eaf958fa1e9",
+      "sharedScopeKey": "shared-scope:2d569512960aab91",
       "provenance": "current-build retained snapshot plus schema-labelled native ownership",
       "backingObjectKind": "StatusEffectSettings",
       "apiFieldConstant": "hd2.fields.status.duration",
@@ -37883,6 +38062,10 @@
           "path": "delivery:3/projectile/impact/damage/status:1"
         },
         {
+          "stratagem": "MD-I4 Incendiary Mines",
+          "path": "mine:primary/attack:mine/damage/status:1"
+        },
+        {
           "stratagem": "A/FLAM-40 Flame Sentry",
           "path": "weapon:primary/attack:primary/damage/status:1"
         },
@@ -37893,7 +38076,7 @@
       ],
       "reviewedScopeComplete": true,
       "dynamicConsumersPossible": true,
-      "sharedScopeKey": "shared-scope:bce7301f553d23e7",
+      "sharedScopeKey": "shared-scope:afcfeeb4f1fe880b",
       "provenance": "current-build retained snapshot plus schema-labelled native ownership",
       "backingObjectKind": "StatusEffectSettings",
       "apiFieldConstant": "hd2.fields.status.duration",
@@ -39217,6 +39400,10 @@
           "path": "delivery:3/projectile/impact/damage/status:1"
         },
         {
+          "stratagem": "MD-I4 Incendiary Mines",
+          "path": "mine:primary/attack:mine/damage/status:1"
+        },
+        {
           "stratagem": "A/FLAM-40 Flame Sentry",
           "path": "weapon:primary/attack:primary/damage/status:1"
         },
@@ -39227,7 +39414,7 @@
       ],
       "reviewedScopeComplete": true,
       "dynamicConsumersPossible": true,
-      "sharedScopeKey": "shared-scope:bce7301f553d23e7",
+      "sharedScopeKey": "shared-scope:afcfeeb4f1fe880b",
       "provenance": "current-build retained snapshot plus schema-labelled native ownership",
       "backingObjectKind": "StatusEffectSettings",
       "apiFieldConstant": "hd2.fields.status.duration",
@@ -40551,6 +40738,10 @@
           "path": "delivery:3/projectile/impact/damage/status:1"
         },
         {
+          "stratagem": "MD-I4 Incendiary Mines",
+          "path": "mine:primary/attack:mine/damage/status:1"
+        },
+        {
           "stratagem": "A/FLAM-40 Flame Sentry",
           "path": "weapon:primary/attack:primary/damage/status:1"
         },
@@ -40561,7 +40752,7 @@
       ],
       "reviewedScopeComplete": true,
       "dynamicConsumersPossible": true,
-      "sharedScopeKey": "shared-scope:bce7301f553d23e7",
+      "sharedScopeKey": "shared-scope:afcfeeb4f1fe880b",
       "provenance": "current-build retained snapshot plus schema-labelled native ownership",
       "backingObjectKind": "StatusEffectSettings",
       "apiFieldConstant": "hd2.fields.status.duration",
@@ -43057,13 +43248,17 @@
           "path": "delivery:1/projectile/impact/damage/status:1"
         },
         {
+          "stratagem": "MD-8 Gas Mines",
+          "path": "mine:primary/attack:mine/damage/status:1"
+        },
+        {
           "stratagem": "A/GM-17 Gas Mortar Sentry",
           "path": "weapon:primary/attack:primary/projectile/impact/damage/status:1"
         }
       ],
       "reviewedScopeComplete": true,
       "dynamicConsumersPossible": true,
-      "sharedScopeKey": "shared-scope:d97ca1638894775e",
+      "sharedScopeKey": "shared-scope:d67d676845b2ac9f",
       "provenance": "current-build retained snapshot plus schema-labelled native ownership",
       "backingObjectKind": "StatusEffectSettings",
       "apiFieldConstant": "hd2.fields.status.duration",
@@ -43139,13 +43334,17 @@
           "path": "delivery:1/projectile/impact/damage/status:2"
         },
         {
+          "stratagem": "MD-8 Gas Mines",
+          "path": "mine:primary/attack:mine/damage/status:2"
+        },
+        {
           "stratagem": "A/GM-17 Gas Mortar Sentry",
           "path": "weapon:primary/attack:primary/projectile/impact/damage/status:2"
         }
       ],
       "reviewedScopeComplete": true,
       "dynamicConsumersPossible": true,
-      "sharedScopeKey": "shared-scope:f7cc1eaf958fa1e9",
+      "sharedScopeKey": "shared-scope:2d569512960aab91",
       "provenance": "current-build retained snapshot plus schema-labelled native ownership",
       "backingObjectKind": "StatusEffectSettings",
       "apiFieldConstant": "hd2.fields.status.duration",
@@ -50774,6 +50973,10 @@
           "path": "delivery:3/projectile/impact/damage/status:1"
         },
         {
+          "stratagem": "MD-I4 Incendiary Mines",
+          "path": "mine:primary/attack:mine/damage/status:1"
+        },
+        {
           "stratagem": "A/FLAM-40 Flame Sentry",
           "path": "weapon:primary/attack:primary/damage/status:1"
         },
@@ -50784,7 +50987,7 @@
       ],
       "reviewedScopeComplete": true,
       "dynamicConsumersPossible": true,
-      "sharedScopeKey": "shared-scope:bce7301f553d23e7",
+      "sharedScopeKey": "shared-scope:afcfeeb4f1fe880b",
       "provenance": "current-build retained snapshot plus schema-labelled native ownership",
       "backingObjectKind": "StatusEffectSettings",
       "apiFieldConstant": "hd2.fields.status.duration",
@@ -69198,6 +69401,10 @@
           "path": "delivery:3/projectile/impact/damage/status:1"
         },
         {
+          "stratagem": "MD-I4 Incendiary Mines",
+          "path": "mine:primary/attack:mine/damage/status:1"
+        },
+        {
           "stratagem": "A/FLAM-40 Flame Sentry",
           "path": "weapon:primary/attack:primary/damage/status:1"
         },
@@ -69208,7 +69415,7 @@
       ],
       "reviewedScopeComplete": true,
       "dynamicConsumersPossible": true,
-      "sharedScopeKey": "shared-scope:bce7301f553d23e7",
+      "sharedScopeKey": "shared-scope:afcfeeb4f1fe880b",
       "provenance": "current-build retained snapshot plus schema-labelled native ownership",
       "backingObjectKind": "StatusEffectSettings",
       "apiFieldConstant": "hd2.fields.status.duration",
@@ -70071,6 +70278,10 @@
           "path": "delivery:3/projectile/impact/damage/status:1"
         },
         {
+          "stratagem": "MD-I4 Incendiary Mines",
+          "path": "mine:primary/attack:mine/damage/status:1"
+        },
+        {
           "stratagem": "A/FLAM-40 Flame Sentry",
           "path": "weapon:primary/attack:primary/damage/status:1"
         },
@@ -70081,7 +70292,7 @@
       ],
       "reviewedScopeComplete": true,
       "dynamicConsumersPossible": true,
-      "sharedScopeKey": "shared-scope:bce7301f553d23e7",
+      "sharedScopeKey": "shared-scope:afcfeeb4f1fe880b",
       "provenance": "current-build retained snapshot plus schema-labelled native ownership",
       "backingObjectKind": "StatusEffectSettings",
       "apiFieldConstant": "hd2.fields.status.duration",
@@ -71901,13 +72112,17 @@
           "path": "delivery:1/projectile/impact/damage/status:1"
         },
         {
+          "stratagem": "MD-8 Gas Mines",
+          "path": "mine:primary/attack:mine/damage/status:1"
+        },
+        {
           "stratagem": "A/GM-17 Gas Mortar Sentry",
           "path": "weapon:primary/attack:primary/projectile/impact/damage/status:1"
         }
       ],
       "reviewedScopeComplete": true,
       "dynamicConsumersPossible": true,
-      "sharedScopeKey": "shared-scope:d97ca1638894775e",
+      "sharedScopeKey": "shared-scope:d67d676845b2ac9f",
       "provenance": "current-build retained snapshot plus schema-labelled native ownership",
       "backingObjectKind": "StatusEffectSettings",
       "apiFieldConstant": "hd2.fields.status.duration",
@@ -71987,13 +72202,17 @@
           "path": "delivery:1/projectile/impact/damage/status:2"
         },
         {
+          "stratagem": "MD-8 Gas Mines",
+          "path": "mine:primary/attack:mine/damage/status:2"
+        },
+        {
           "stratagem": "A/GM-17 Gas Mortar Sentry",
           "path": "weapon:primary/attack:primary/projectile/impact/damage/status:2"
         }
       ],
       "reviewedScopeComplete": true,
       "dynamicConsumersPossible": true,
-      "sharedScopeKey": "shared-scope:f7cc1eaf958fa1e9",
+      "sharedScopeKey": "shared-scope:2d569512960aab91",
       "provenance": "current-build retained snapshot plus schema-labelled native ownership",
       "backingObjectKind": "StatusEffectSettings",
       "apiFieldConstant": "hd2.fields.status.duration",
@@ -72160,6 +72379,489 @@
       "dependsOn": []
     },
     {
+      "instanceKey": "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine:explosion.inner_radius",
+      "semanticFieldId": "explosion.inner_radius",
+      "displayName": "Explosion inner radius",
+      "type": "number",
+      "unit": "meters",
+      "currentDefault": 1.2000000476837158,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-6 Anti-Personnel Minefield",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine"
+      },
+      "backingObjectId": "backing:f8355e560d743b21",
+      "operationGroup": "operation:f2102bfa31a63bdd",
+      "planGroup": "plan:stratagem:md_6_anti_personnel_minefield",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "externalConsumer": "entity-consumer:fbaf984102942a47",
+          "path": "ExplosiveComponentData+36",
+          "semanticStatus": "the deployed mine entity this stratagem throws"
+        },
+        {
+          "stratagem": "MD-6 Anti-Personnel Minefield",
+          "path": "mine:primary/attack:mine"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:57164632fa54a3ab",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "ExplosionSettings",
+      "apiFieldConstant": "hd2.fields.explosion.inner_radius",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine:explosion.outer_radius",
+      "semanticFieldId": "explosion.outer_radius",
+      "displayName": "Explosion outer radius",
+      "type": "number",
+      "unit": "meters",
+      "currentDefault": 5.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-6 Anti-Personnel Minefield",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine"
+      },
+      "backingObjectId": "backing:f8355e560d743b21",
+      "operationGroup": "operation:f2102bfa31a63bdd",
+      "planGroup": "plan:stratagem:md_6_anti_personnel_minefield",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "externalConsumer": "entity-consumer:fbaf984102942a47",
+          "path": "ExplosiveComponentData+36",
+          "semanticStatus": "the deployed mine entity this stratagem throws"
+        },
+        {
+          "stratagem": "MD-6 Anti-Personnel Minefield",
+          "path": "mine:primary/attack:mine"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:57164632fa54a3ab",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "ExplosionSettings",
+      "apiFieldConstant": "hd2.fields.explosion.outer_radius",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine:explosion.shockwave_radius",
+      "semanticFieldId": "explosion.shockwave_radius",
+      "displayName": "Explosion shockwave radius",
+      "type": "number",
+      "unit": "meters",
+      "currentDefault": 7.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-6 Anti-Personnel Minefield",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine"
+      },
+      "backingObjectId": "backing:f8355e560d743b21",
+      "operationGroup": "operation:f2102bfa31a63bdd",
+      "planGroup": "plan:stratagem:md_6_anti_personnel_minefield",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "externalConsumer": "entity-consumer:fbaf984102942a47",
+          "path": "ExplosiveComponentData+36",
+          "semanticStatus": "the deployed mine entity this stratagem throws"
+        },
+        {
+          "stratagem": "MD-6 Anti-Personnel Minefield",
+          "path": "mine:primary/attack:mine"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:57164632fa54a3ab",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "ExplosionSettings",
+      "apiFieldConstant": "hd2.fields.explosion.shockwave_radius",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.standard_damage",
+      "semanticFieldId": "explosion.damage.standard_damage",
+      "displayName": "Explosion standard damage",
+      "type": "integer",
+      "unit": "damage",
+      "currentDefault": 700,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-6 Anti-Personnel Minefield",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:c60b3e6a0a8118e7",
+      "operationGroup": "operation:ebb117dd95924cde",
+      "planGroup": "plan:stratagem:md_6_anti_personnel_minefield",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-6 Anti-Personnel Minefield",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:bac950479a36a6fd",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_standard_damage",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.durable_damage",
+      "semanticFieldId": "explosion.damage.durable_damage",
+      "displayName": "Explosion durable damage",
+      "type": "integer",
+      "unit": "damage",
+      "currentDefault": 700,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-6 Anti-Personnel Minefield",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:c60b3e6a0a8118e7",
+      "operationGroup": "operation:ebb117dd95924cde",
+      "planGroup": "plan:stratagem:md_6_anti_personnel_minefield",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-6 Anti-Personnel Minefield",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:bac950479a36a6fd",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_durable_damage",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.ap_direct",
+      "semanticFieldId": "explosion.damage.ap_direct",
+      "displayName": "Explosion AP: direct",
+      "type": "integer",
+      "unit": "armor_class",
+      "currentDefault": 3,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-6 Anti-Personnel Minefield",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:c60b3e6a0a8118e7",
+      "operationGroup": "operation:ebb117dd95924cde",
+      "planGroup": "plan:stratagem:md_6_anti_personnel_minefield",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-6 Anti-Personnel Minefield",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:bac950479a36a6fd",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_ap_direct",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.ap_slight",
+      "semanticFieldId": "explosion.damage.ap_slight",
+      "displayName": "Explosion AP: slight angle",
+      "type": "integer",
+      "unit": "armor_class",
+      "currentDefault": 0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-6 Anti-Personnel Minefield",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:c60b3e6a0a8118e7",
+      "operationGroup": "operation:ebb117dd95924cde",
+      "planGroup": "plan:stratagem:md_6_anti_personnel_minefield",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-6 Anti-Personnel Minefield",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:bac950479a36a6fd",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_ap_slight",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.ap_large",
+      "semanticFieldId": "explosion.damage.ap_large",
+      "displayName": "Explosion AP: large angle",
+      "type": "integer",
+      "unit": "armor_class",
+      "currentDefault": 0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-6 Anti-Personnel Minefield",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:c60b3e6a0a8118e7",
+      "operationGroup": "operation:ebb117dd95924cde",
+      "planGroup": "plan:stratagem:md_6_anti_personnel_minefield",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-6 Anti-Personnel Minefield",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:bac950479a36a6fd",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_ap_large",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.ap_extreme",
+      "semanticFieldId": "explosion.damage.ap_extreme",
+      "displayName": "Explosion AP: extreme angle",
+      "type": "integer",
+      "unit": "armor_class",
+      "currentDefault": 0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-6 Anti-Personnel Minefield",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:c60b3e6a0a8118e7",
+      "operationGroup": "operation:ebb117dd95924cde",
+      "planGroup": "plan:stratagem:md_6_anti_personnel_minefield",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-6 Anti-Personnel Minefield",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:bac950479a36a6fd",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_ap_extreme",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.demolition",
+      "semanticFieldId": "explosion.damage.demolition",
+      "displayName": "Explosion demolition",
+      "type": "integer",
+      "unit": "force",
+      "currentDefault": 30,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-6 Anti-Personnel Minefield",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:c60b3e6a0a8118e7",
+      "operationGroup": "operation:ebb117dd95924cde",
+      "planGroup": "plan:stratagem:md_6_anti_personnel_minefield",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-6 Anti-Personnel Minefield",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:bac950479a36a6fd",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_demolition",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.stagger",
+      "semanticFieldId": "explosion.damage.stagger",
+      "displayName": "Explosion stagger",
+      "type": "integer",
+      "unit": "force",
+      "currentDefault": 30,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-6 Anti-Personnel Minefield",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:c60b3e6a0a8118e7",
+      "operationGroup": "operation:ebb117dd95924cde",
+      "planGroup": "plan:stratagem:md_6_anti_personnel_minefield",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-6 Anti-Personnel Minefield",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:bac950479a36a6fd",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_stagger",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.push_force",
+      "semanticFieldId": "explosion.damage.push_force",
+      "displayName": "Explosion push force",
+      "type": "integer",
+      "unit": "force",
+      "currentDefault": 30,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-6 Anti-Personnel Minefield",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:c60b3e6a0a8118e7",
+      "operationGroup": "operation:ebb117dd95924cde",
+      "planGroup": "plan:stratagem:md_6_anti_personnel_minefield",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-6 Anti-Personnel Minefield",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:bac950479a36a6fd",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_push_force",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
       "instanceKey": "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_stratagem:stratagem.cooldown",
       "semanticFieldId": "stratagem.cooldown",
       "displayName": "Cooldown",
@@ -72318,6 +73020,591 @@
       "dependsOn": []
     },
     {
+      "instanceKey": "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine:explosion.inner_radius",
+      "semanticFieldId": "explosion.inner_radius",
+      "displayName": "Explosion inner radius",
+      "type": "number",
+      "unit": "meters",
+      "currentDefault": 1.2000000476837158,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-I4 Incendiary Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine"
+      },
+      "backingObjectId": "backing:a98268905555fd0c",
+      "operationGroup": "operation:2ab47d08fd1f398e",
+      "planGroup": "plan:stratagem:md_i4_incendiary_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "externalConsumer": "entity-consumer:39ae6eb3dec19606",
+          "path": "ExplosiveComponentData+36",
+          "semanticStatus": "the deployed mine entity this stratagem throws"
+        },
+        {
+          "stratagem": "MD-I4 Incendiary Mines",
+          "path": "mine:primary/attack:mine"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:6bda6ff908468ac8",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "ExplosionSettings",
+      "apiFieldConstant": "hd2.fields.explosion.inner_radius",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine:explosion.outer_radius",
+      "semanticFieldId": "explosion.outer_radius",
+      "displayName": "Explosion outer radius",
+      "type": "number",
+      "unit": "meters",
+      "currentDefault": 4.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-I4 Incendiary Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine"
+      },
+      "backingObjectId": "backing:a98268905555fd0c",
+      "operationGroup": "operation:2ab47d08fd1f398e",
+      "planGroup": "plan:stratagem:md_i4_incendiary_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "externalConsumer": "entity-consumer:39ae6eb3dec19606",
+          "path": "ExplosiveComponentData+36",
+          "semanticStatus": "the deployed mine entity this stratagem throws"
+        },
+        {
+          "stratagem": "MD-I4 Incendiary Mines",
+          "path": "mine:primary/attack:mine"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:6bda6ff908468ac8",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "ExplosionSettings",
+      "apiFieldConstant": "hd2.fields.explosion.outer_radius",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine:explosion.shockwave_radius",
+      "semanticFieldId": "explosion.shockwave_radius",
+      "displayName": "Explosion shockwave radius",
+      "type": "number",
+      "unit": "meters",
+      "currentDefault": 7.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-I4 Incendiary Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine"
+      },
+      "backingObjectId": "backing:a98268905555fd0c",
+      "operationGroup": "operation:2ab47d08fd1f398e",
+      "planGroup": "plan:stratagem:md_i4_incendiary_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "externalConsumer": "entity-consumer:39ae6eb3dec19606",
+          "path": "ExplosiveComponentData+36",
+          "semanticStatus": "the deployed mine entity this stratagem throws"
+        },
+        {
+          "stratagem": "MD-I4 Incendiary Mines",
+          "path": "mine:primary/attack:mine"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:6bda6ff908468ac8",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "ExplosionSettings",
+      "apiFieldConstant": "hd2.fields.explosion.shockwave_radius",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.standard_damage",
+      "semanticFieldId": "explosion.damage.standard_damage",
+      "displayName": "Explosion standard damage",
+      "type": "integer",
+      "unit": "damage",
+      "currentDefault": 300,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-I4 Incendiary Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:ff1d92072fc271ca",
+      "operationGroup": "operation:8cdad019502cd26b",
+      "planGroup": "plan:stratagem:md_i4_incendiary_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-I4 Incendiary Mines",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:4897a669ca2273d1",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_standard_damage",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.durable_damage",
+      "semanticFieldId": "explosion.damage.durable_damage",
+      "displayName": "Explosion durable damage",
+      "type": "integer",
+      "unit": "damage",
+      "currentDefault": 300,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-I4 Incendiary Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:ff1d92072fc271ca",
+      "operationGroup": "operation:8cdad019502cd26b",
+      "planGroup": "plan:stratagem:md_i4_incendiary_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-I4 Incendiary Mines",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:4897a669ca2273d1",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_durable_damage",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.ap_direct",
+      "semanticFieldId": "explosion.damage.ap_direct",
+      "displayName": "Explosion AP: direct",
+      "type": "integer",
+      "unit": "armor_class",
+      "currentDefault": 3,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-I4 Incendiary Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:ff1d92072fc271ca",
+      "operationGroup": "operation:8cdad019502cd26b",
+      "planGroup": "plan:stratagem:md_i4_incendiary_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-I4 Incendiary Mines",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:4897a669ca2273d1",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_ap_direct",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.ap_slight",
+      "semanticFieldId": "explosion.damage.ap_slight",
+      "displayName": "Explosion AP: slight angle",
+      "type": "integer",
+      "unit": "armor_class",
+      "currentDefault": 0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-I4 Incendiary Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:ff1d92072fc271ca",
+      "operationGroup": "operation:8cdad019502cd26b",
+      "planGroup": "plan:stratagem:md_i4_incendiary_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-I4 Incendiary Mines",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:4897a669ca2273d1",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_ap_slight",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.ap_large",
+      "semanticFieldId": "explosion.damage.ap_large",
+      "displayName": "Explosion AP: large angle",
+      "type": "integer",
+      "unit": "armor_class",
+      "currentDefault": 0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-I4 Incendiary Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:ff1d92072fc271ca",
+      "operationGroup": "operation:8cdad019502cd26b",
+      "planGroup": "plan:stratagem:md_i4_incendiary_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-I4 Incendiary Mines",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:4897a669ca2273d1",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_ap_large",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.ap_extreme",
+      "semanticFieldId": "explosion.damage.ap_extreme",
+      "displayName": "Explosion AP: extreme angle",
+      "type": "integer",
+      "unit": "armor_class",
+      "currentDefault": 0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-I4 Incendiary Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:ff1d92072fc271ca",
+      "operationGroup": "operation:8cdad019502cd26b",
+      "planGroup": "plan:stratagem:md_i4_incendiary_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-I4 Incendiary Mines",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:4897a669ca2273d1",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_ap_extreme",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.demolition",
+      "semanticFieldId": "explosion.damage.demolition",
+      "displayName": "Explosion demolition",
+      "type": "integer",
+      "unit": "force",
+      "currentDefault": 30,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-I4 Incendiary Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:ff1d92072fc271ca",
+      "operationGroup": "operation:8cdad019502cd26b",
+      "planGroup": "plan:stratagem:md_i4_incendiary_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-I4 Incendiary Mines",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:4897a669ca2273d1",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_demolition",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.stagger",
+      "semanticFieldId": "explosion.damage.stagger",
+      "displayName": "Explosion stagger",
+      "type": "integer",
+      "unit": "force",
+      "currentDefault": 30,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-I4 Incendiary Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:ff1d92072fc271ca",
+      "operationGroup": "operation:8cdad019502cd26b",
+      "planGroup": "plan:stratagem:md_i4_incendiary_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-I4 Incendiary Mines",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:4897a669ca2273d1",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_stagger",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.push_force",
+      "semanticFieldId": "explosion.damage.push_force",
+      "displayName": "Explosion push force",
+      "type": "integer",
+      "unit": "force",
+      "currentDefault": 30,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-I4 Incendiary Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:ff1d92072fc271ca",
+      "operationGroup": "operation:8cdad019502cd26b",
+      "planGroup": "plan:stratagem:md_i4_incendiary_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-I4 Incendiary Mines",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:4897a669ca2273d1",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_push_force",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage_status_1:status.strength",
+      "semanticFieldId": "status.strength",
+      "displayName": "Status strength",
+      "type": "number",
+      "unit": "factor",
+      "currentDefault": 0.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-I4 Incendiary Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage_status_1"
+      },
+      "backingObjectId": "backing:ff1d92072fc271ca",
+      "operationGroup": "operation:21cbd7895dd98b76",
+      "planGroup": "plan:stratagem:md_i4_incendiary_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-I4 Incendiary Mines",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:4897a669ca2273d1",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.status.strength",
+      "domain": "status",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage_status_1:status.duration",
+      "semanticFieldId": "status.duration",
+      "displayName": "Status duration",
+      "type": "number",
+      "unit": "seconds",
+      "currentDefault": 3.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-I4 Incendiary Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage_status_1"
+      },
+      "backingObjectId": "backing:0260d367fda7e331",
+      "operationGroup": "operation:e4c4a21bce25b8dc",
+      "planGroup": "plan:stratagem:md_i4_incendiary_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "Eagle Napalm Airstrike",
+          "path": "delivery:1/projectile/impact/damage/status:1"
+        },
+        {
+          "stratagem": "Orbital Napalm Barrage",
+          "path": "delivery:1/projectile/impact/damage/status:1"
+        },
+        {
+          "stratagem": "Orbital Napalm Barrage",
+          "path": "delivery:2/projectile/impact/damage/status:1"
+        },
+        {
+          "stratagem": "Orbital Napalm Barrage",
+          "path": "delivery:3/projectile/impact/damage/status:1"
+        },
+        {
+          "stratagem": "MD-I4 Incendiary Mines",
+          "path": "mine:primary/attack:mine/damage/status:1"
+        },
+        {
+          "stratagem": "A/FLAM-40 Flame Sentry",
+          "path": "weapon:primary/attack:primary/damage/status:1"
+        },
+        {
+          "stratagem": "A/LAS-98 Laser Sentry",
+          "path": "weapon:primary/attack:primary/damage/status:1"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:afcfeeb4f1fe880b",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "StatusEffectSettings",
+      "apiFieldConstant": "hd2.fields.status.duration",
+      "domain": "status",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
       "instanceKey": "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_stratagem:stratagem.cooldown",
       "semanticFieldId": "stratagem.cooldown",
       "displayName": "Cooldown",
@@ -72472,6 +73759,474 @@
       "backingObjectKind": "HealthComponentData",
       "apiFieldConstant": "hd2.fields.entity.armor",
       "domain": "entity",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine:explosion.inner_radius",
+      "semanticFieldId": "explosion.inner_radius",
+      "displayName": "Explosion inner radius",
+      "type": "number",
+      "unit": "meters",
+      "currentDefault": 3.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-17 Anti-Tank Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine"
+      },
+      "backingObjectId": "backing:518359696abed069",
+      "operationGroup": "operation:e026dce70a0a2f42",
+      "planGroup": "plan:stratagem:md_17_anti_tank_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-17 Anti-Tank Mines",
+          "path": "mine:primary/attack:mine"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:cc533edbae610a6d",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "ExplosionSettings",
+      "apiFieldConstant": "hd2.fields.explosion.inner_radius",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine:explosion.outer_radius",
+      "semanticFieldId": "explosion.outer_radius",
+      "displayName": "Explosion outer radius",
+      "type": "number",
+      "unit": "meters",
+      "currentDefault": 7.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-17 Anti-Tank Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine"
+      },
+      "backingObjectId": "backing:518359696abed069",
+      "operationGroup": "operation:e026dce70a0a2f42",
+      "planGroup": "plan:stratagem:md_17_anti_tank_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-17 Anti-Tank Mines",
+          "path": "mine:primary/attack:mine"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:cc533edbae610a6d",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "ExplosionSettings",
+      "apiFieldConstant": "hd2.fields.explosion.outer_radius",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine:explosion.shockwave_radius",
+      "semanticFieldId": "explosion.shockwave_radius",
+      "displayName": "Explosion shockwave radius",
+      "type": "number",
+      "unit": "meters",
+      "currentDefault": 14.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-17 Anti-Tank Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine"
+      },
+      "backingObjectId": "backing:518359696abed069",
+      "operationGroup": "operation:e026dce70a0a2f42",
+      "planGroup": "plan:stratagem:md_17_anti_tank_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-17 Anti-Tank Mines",
+          "path": "mine:primary/attack:mine"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:cc533edbae610a6d",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "ExplosionSettings",
+      "apiFieldConstant": "hd2.fields.explosion.shockwave_radius",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.standard_damage",
+      "semanticFieldId": "explosion.damage.standard_damage",
+      "displayName": "Explosion standard damage",
+      "type": "integer",
+      "unit": "damage",
+      "currentDefault": 2000,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-17 Anti-Tank Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:59fc78d7fe2b7bc1",
+      "operationGroup": "operation:0eae09abdb79b935",
+      "planGroup": "plan:stratagem:md_17_anti_tank_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-17 Anti-Tank Mines",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:4e38dfb054c6d1c5",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_standard_damage",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.durable_damage",
+      "semanticFieldId": "explosion.damage.durable_damage",
+      "displayName": "Explosion durable damage",
+      "type": "integer",
+      "unit": "damage",
+      "currentDefault": 2000,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-17 Anti-Tank Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:59fc78d7fe2b7bc1",
+      "operationGroup": "operation:0eae09abdb79b935",
+      "planGroup": "plan:stratagem:md_17_anti_tank_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-17 Anti-Tank Mines",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:4e38dfb054c6d1c5",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_durable_damage",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.ap_direct",
+      "semanticFieldId": "explosion.damage.ap_direct",
+      "displayName": "Explosion AP: direct",
+      "type": "integer",
+      "unit": "armor_class",
+      "currentDefault": 5,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-17 Anti-Tank Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:59fc78d7fe2b7bc1",
+      "operationGroup": "operation:0eae09abdb79b935",
+      "planGroup": "plan:stratagem:md_17_anti_tank_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-17 Anti-Tank Mines",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:4e38dfb054c6d1c5",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_ap_direct",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.ap_slight",
+      "semanticFieldId": "explosion.damage.ap_slight",
+      "displayName": "Explosion AP: slight angle",
+      "type": "integer",
+      "unit": "armor_class",
+      "currentDefault": 0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-17 Anti-Tank Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:59fc78d7fe2b7bc1",
+      "operationGroup": "operation:0eae09abdb79b935",
+      "planGroup": "plan:stratagem:md_17_anti_tank_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-17 Anti-Tank Mines",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:4e38dfb054c6d1c5",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_ap_slight",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.ap_large",
+      "semanticFieldId": "explosion.damage.ap_large",
+      "displayName": "Explosion AP: large angle",
+      "type": "integer",
+      "unit": "armor_class",
+      "currentDefault": 0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-17 Anti-Tank Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:59fc78d7fe2b7bc1",
+      "operationGroup": "operation:0eae09abdb79b935",
+      "planGroup": "plan:stratagem:md_17_anti_tank_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-17 Anti-Tank Mines",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:4e38dfb054c6d1c5",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_ap_large",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.ap_extreme",
+      "semanticFieldId": "explosion.damage.ap_extreme",
+      "displayName": "Explosion AP: extreme angle",
+      "type": "integer",
+      "unit": "armor_class",
+      "currentDefault": 0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-17 Anti-Tank Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:59fc78d7fe2b7bc1",
+      "operationGroup": "operation:0eae09abdb79b935",
+      "planGroup": "plan:stratagem:md_17_anti_tank_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-17 Anti-Tank Mines",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:4e38dfb054c6d1c5",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_ap_extreme",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.demolition",
+      "semanticFieldId": "explosion.damage.demolition",
+      "displayName": "Explosion demolition",
+      "type": "integer",
+      "unit": "force",
+      "currentDefault": 40,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-17 Anti-Tank Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:59fc78d7fe2b7bc1",
+      "operationGroup": "operation:0eae09abdb79b935",
+      "planGroup": "plan:stratagem:md_17_anti_tank_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-17 Anti-Tank Mines",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:4e38dfb054c6d1c5",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_demolition",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.stagger",
+      "semanticFieldId": "explosion.damage.stagger",
+      "displayName": "Explosion stagger",
+      "type": "integer",
+      "unit": "force",
+      "currentDefault": 30,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-17 Anti-Tank Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:59fc78d7fe2b7bc1",
+      "operationGroup": "operation:0eae09abdb79b935",
+      "planGroup": "plan:stratagem:md_17_anti_tank_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-17 Anti-Tank Mines",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:4e38dfb054c6d1c5",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_stagger",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.push_force",
+      "semanticFieldId": "explosion.damage.push_force",
+      "displayName": "Explosion push force",
+      "type": "integer",
+      "unit": "force",
+      "currentDefault": 40,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-17 Anti-Tank Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:59fc78d7fe2b7bc1",
+      "operationGroup": "operation:0eae09abdb79b935",
+      "planGroup": "plan:stratagem:md_17_anti_tank_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-17 Anti-Tank Mines",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:4e38dfb054c6d1c5",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_push_force",
+      "domain": "explosion",
       "planPhase": 1,
       "dependsOn": []
     },
@@ -74179,6 +75934,669 @@
       "backingObjectKind": "HealthComponentData",
       "apiFieldConstant": "hd2.fields.entity.armor",
       "domain": "entity",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine:explosion.inner_radius",
+      "semanticFieldId": "explosion.inner_radius",
+      "displayName": "Explosion inner radius",
+      "type": "number",
+      "unit": "meters",
+      "currentDefault": 2.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-8 Gas Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine"
+      },
+      "backingObjectId": "backing:60d0cd1c7eec167a",
+      "operationGroup": "operation:f80ee2b6616c80ca",
+      "planGroup": "plan:stratagem:md_8_gas_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "externalConsumer": "entity-consumer:3e7a3fe964d2b95d",
+          "path": "ExplosiveComponentData+36",
+          "semanticStatus": "the deployed mine entity this stratagem throws"
+        },
+        {
+          "stratagem": "MD-8 Gas Mines",
+          "path": "mine:primary/attack:mine"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:d36f306eafedb52e",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "ExplosionSettings",
+      "apiFieldConstant": "hd2.fields.explosion.inner_radius",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine:explosion.outer_radius",
+      "semanticFieldId": "explosion.outer_radius",
+      "displayName": "Explosion outer radius",
+      "type": "number",
+      "unit": "meters",
+      "currentDefault": 6.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-8 Gas Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine"
+      },
+      "backingObjectId": "backing:60d0cd1c7eec167a",
+      "operationGroup": "operation:f80ee2b6616c80ca",
+      "planGroup": "plan:stratagem:md_8_gas_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "externalConsumer": "entity-consumer:3e7a3fe964d2b95d",
+          "path": "ExplosiveComponentData+36",
+          "semanticStatus": "the deployed mine entity this stratagem throws"
+        },
+        {
+          "stratagem": "MD-8 Gas Mines",
+          "path": "mine:primary/attack:mine"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:d36f306eafedb52e",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "ExplosionSettings",
+      "apiFieldConstant": "hd2.fields.explosion.outer_radius",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine:explosion.shockwave_radius",
+      "semanticFieldId": "explosion.shockwave_radius",
+      "displayName": "Explosion shockwave radius",
+      "type": "number",
+      "unit": "meters",
+      "currentDefault": 6.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-8 Gas Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine"
+      },
+      "backingObjectId": "backing:60d0cd1c7eec167a",
+      "operationGroup": "operation:f80ee2b6616c80ca",
+      "planGroup": "plan:stratagem:md_8_gas_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "externalConsumer": "entity-consumer:3e7a3fe964d2b95d",
+          "path": "ExplosiveComponentData+36",
+          "semanticStatus": "the deployed mine entity this stratagem throws"
+        },
+        {
+          "stratagem": "MD-8 Gas Mines",
+          "path": "mine:primary/attack:mine"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:d36f306eafedb52e",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "ExplosionSettings",
+      "apiFieldConstant": "hd2.fields.explosion.shockwave_radius",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.standard_damage",
+      "semanticFieldId": "explosion.damage.standard_damage",
+      "displayName": "Explosion standard damage",
+      "type": "integer",
+      "unit": "damage",
+      "currentDefault": 3,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-8 Gas Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:35b23f9ed87b2a25",
+      "operationGroup": "operation:e9b8cf20dae40ac5",
+      "planGroup": "plan:stratagem:md_8_gas_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-8 Gas Mines",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:6baa366f052b50d4",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_standard_damage",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.durable_damage",
+      "semanticFieldId": "explosion.damage.durable_damage",
+      "displayName": "Explosion durable damage",
+      "type": "integer",
+      "unit": "damage",
+      "currentDefault": 3,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-8 Gas Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:35b23f9ed87b2a25",
+      "operationGroup": "operation:e9b8cf20dae40ac5",
+      "planGroup": "plan:stratagem:md_8_gas_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-8 Gas Mines",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:6baa366f052b50d4",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_durable_damage",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.ap_direct",
+      "semanticFieldId": "explosion.damage.ap_direct",
+      "displayName": "Explosion AP: direct",
+      "type": "integer",
+      "unit": "armor_class",
+      "currentDefault": 6,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-8 Gas Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:35b23f9ed87b2a25",
+      "operationGroup": "operation:e9b8cf20dae40ac5",
+      "planGroup": "plan:stratagem:md_8_gas_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-8 Gas Mines",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:6baa366f052b50d4",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_ap_direct",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.ap_slight",
+      "semanticFieldId": "explosion.damage.ap_slight",
+      "displayName": "Explosion AP: slight angle",
+      "type": "integer",
+      "unit": "armor_class",
+      "currentDefault": 0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-8 Gas Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:35b23f9ed87b2a25",
+      "operationGroup": "operation:e9b8cf20dae40ac5",
+      "planGroup": "plan:stratagem:md_8_gas_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-8 Gas Mines",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:6baa366f052b50d4",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_ap_slight",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.ap_large",
+      "semanticFieldId": "explosion.damage.ap_large",
+      "displayName": "Explosion AP: large angle",
+      "type": "integer",
+      "unit": "armor_class",
+      "currentDefault": 0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-8 Gas Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:35b23f9ed87b2a25",
+      "operationGroup": "operation:e9b8cf20dae40ac5",
+      "planGroup": "plan:stratagem:md_8_gas_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-8 Gas Mines",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:6baa366f052b50d4",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_ap_large",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.ap_extreme",
+      "semanticFieldId": "explosion.damage.ap_extreme",
+      "displayName": "Explosion AP: extreme angle",
+      "type": "integer",
+      "unit": "armor_class",
+      "currentDefault": 0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-8 Gas Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:35b23f9ed87b2a25",
+      "operationGroup": "operation:e9b8cf20dae40ac5",
+      "planGroup": "plan:stratagem:md_8_gas_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-8 Gas Mines",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:6baa366f052b50d4",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_ap_extreme",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.demolition",
+      "semanticFieldId": "explosion.damage.demolition",
+      "displayName": "Explosion demolition",
+      "type": "integer",
+      "unit": "force",
+      "currentDefault": 30,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-8 Gas Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:35b23f9ed87b2a25",
+      "operationGroup": "operation:e9b8cf20dae40ac5",
+      "planGroup": "plan:stratagem:md_8_gas_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-8 Gas Mines",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:6baa366f052b50d4",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_demolition",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.stagger",
+      "semanticFieldId": "explosion.damage.stagger",
+      "displayName": "Explosion stagger",
+      "type": "integer",
+      "unit": "force",
+      "currentDefault": 10,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-8 Gas Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:35b23f9ed87b2a25",
+      "operationGroup": "operation:e9b8cf20dae40ac5",
+      "planGroup": "plan:stratagem:md_8_gas_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-8 Gas Mines",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:6baa366f052b50d4",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_stagger",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.push_force",
+      "semanticFieldId": "explosion.damage.push_force",
+      "displayName": "Explosion push force",
+      "type": "integer",
+      "unit": "force",
+      "currentDefault": 10,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-8 Gas Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "backingObjectId": "backing:35b23f9ed87b2a25",
+      "operationGroup": "operation:e9b8cf20dae40ac5",
+      "planGroup": "plan:stratagem:md_8_gas_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-8 Gas Mines",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:6baa366f052b50d4",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.explosion.damage_push_force",
+      "domain": "explosion",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage_status_1:status.strength",
+      "semanticFieldId": "status.strength",
+      "displayName": "Status strength",
+      "type": "number",
+      "unit": "factor",
+      "currentDefault": 100.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-8 Gas Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage_status_1"
+      },
+      "backingObjectId": "backing:35b23f9ed87b2a25",
+      "operationGroup": "operation:a45ddbba26c9265d",
+      "planGroup": "plan:stratagem:md_8_gas_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-8 Gas Mines",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:6baa366f052b50d4",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.status.strength",
+      "domain": "status",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage_status_1:status.duration",
+      "semanticFieldId": "status.duration",
+      "displayName": "Status duration",
+      "type": "number",
+      "unit": "seconds",
+      "currentDefault": 6.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-8 Gas Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage_status_1"
+      },
+      "backingObjectId": "backing:505afaa41c6762d8",
+      "operationGroup": "operation:b945518af1a778a0",
+      "planGroup": "plan:stratagem:md_8_gas_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "Eagle Gas Airstrike",
+          "path": "delivery:1/projectile/impact/damage/status:1"
+        },
+        {
+          "stratagem": "Orbital Gas Strike",
+          "path": "delivery:1/projectile/impact/damage/status:1"
+        },
+        {
+          "stratagem": "MD-8 Gas Mines",
+          "path": "mine:primary/attack:mine/damage/status:1"
+        },
+        {
+          "stratagem": "A/GM-17 Gas Mortar Sentry",
+          "path": "weapon:primary/attack:primary/projectile/impact/damage/status:1"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:d67d676845b2ac9f",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "StatusEffectSettings",
+      "apiFieldConstant": "hd2.fields.status.duration",
+      "domain": "status",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage_status_2:status.strength",
+      "semanticFieldId": "status.strength",
+      "displayName": "Status strength",
+      "type": "number",
+      "unit": "factor",
+      "currentDefault": 100.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-8 Gas Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage_status_2"
+      },
+      "backingObjectId": "backing:35b23f9ed87b2a25",
+      "operationGroup": "operation:9ac864ccc8022b22",
+      "planGroup": "plan:stratagem:md_8_gas_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-8 Gas Mines",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:6baa366f052b50d4",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "DamageInfo",
+      "apiFieldConstant": "hd2.fields.status.strength",
+      "domain": "status",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage_status_2:status.duration",
+      "semanticFieldId": "status.duration",
+      "displayName": "Status duration",
+      "type": "number",
+      "unit": "seconds",
+      "currentDefault": 5.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-8 Gas Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage_status_2"
+      },
+      "backingObjectId": "backing:f0b4447ffb961d65",
+      "operationGroup": "operation:c7c7866eb20f80e9",
+      "planGroup": "plan:stratagem:md_8_gas_mines",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": true,
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "Eagle Gas Airstrike",
+          "path": "delivery:1/projectile/impact/damage/status:2"
+        },
+        {
+          "stratagem": "Orbital Gas Strike",
+          "path": "delivery:1/projectile/impact/damage/status:2"
+        },
+        {
+          "stratagem": "MD-8 Gas Mines",
+          "path": "mine:primary/attack:mine/damage/status:2"
+        },
+        {
+          "stratagem": "A/GM-17 Gas Mortar Sentry",
+          "path": "weapon:primary/attack:primary/projectile/impact/damage/status:2"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "sharedScopeKey": "shared-scope:2d569512960aab91",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "StatusEffectSettings",
+      "apiFieldConstant": "hd2.fields.status.duration",
+      "domain": "status",
       "planPhase": 1,
       "dependsOn": []
     },
@@ -76631,29 +79049,44 @@
             "reason": "The deployed lifetime owner is not unambiguous across sentry, emplacement, and mine families."
           },
           {
-            "field": "mine entity",
-            "reason": "Only the deployment entity is resolved; individual spawned-mine ownership is not proven."
+            "field": "mine count / spacing",
+            "reason": "The deployer ThrowerComponent carries launch nodes, counts and throw floats, but no independent fingerprint proves which is the mine count or the spread; published read-only in the research only."
           },
           {
-            "field": "mine trigger",
-            "reason": "Trigger semantics and ownership are not proven."
+            "field": "mine trigger radius / arming time",
+            "reason": "The MinefieldComponent floats have no independent fingerprint and the per-mine arming delay is 0; trigger detection is not data-proven."
           },
           {
-            "field": "mine distribution",
-            "reason": "Deployment-pattern semantics and ownership are not proven."
+            "field": "mine trigger-to-detonation delay",
+            "reason": "The mine ExplosiveComponent explosion delay (0.002 s) is proven by layout, but the anti-tank mine has no entity of its own, so it is not authored uniformly; read-only."
           },
           {
-            "field": "mine explosion/status",
-            "reason": "The individual mine attack backing chain is not resolved from the deployment entity."
+            "field": "mine lifetime / chain reaction",
+            "reason": "No native owner found."
           }
         ],
         "damageZones": []
       },
       "fieldInstances": [
         "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_deployed_entity_main:entity.health",
-        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_deployed_entity_main:entity.armor"
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_deployed_entity_main:entity.armor",
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine:explosion.inner_radius",
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine:explosion.outer_radius",
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine:explosion.shockwave_radius",
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.standard_damage",
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.durable_damage",
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.ap_direct",
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.ap_slight",
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.ap_large",
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.ap_extreme",
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.demolition",
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.stagger",
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.push_force"
       ],
-      "attackRoles": [],
+      "attackRoles": [
+        "mine",
+        "mine_damage"
+      ],
       "blockedFields": [
         {
           "field": "targeting.*",
@@ -76664,20 +79097,20 @@
           "reason": "The deployed lifetime owner is not unambiguous across sentry, emplacement, and mine families."
         },
         {
-          "field": "mine entity",
-          "reason": "Only the deployment entity is resolved; individual spawned-mine ownership is not proven."
+          "field": "mine count / spacing",
+          "reason": "The deployer ThrowerComponent carries launch nodes, counts and throw floats, but no independent fingerprint proves which is the mine count or the spread; published read-only in the research only."
         },
         {
-          "field": "mine trigger",
-          "reason": "Trigger semantics and ownership are not proven."
+          "field": "mine trigger radius / arming time",
+          "reason": "The MinefieldComponent floats have no independent fingerprint and the per-mine arming delay is 0; trigger detection is not data-proven."
         },
         {
-          "field": "mine distribution",
-          "reason": "Deployment-pattern semantics and ownership are not proven."
+          "field": "mine trigger-to-detonation delay",
+          "reason": "The mine ExplosiveComponent explosion delay (0.002 s) is proven by layout, but the anti-tank mine has no entity of its own, so it is not authored uniformly; read-only."
         },
         {
-          "field": "mine explosion/status",
-          "reason": "The individual mine attack backing chain is not resolved from the deployment entity."
+          "field": "mine lifetime / chain reaction",
+          "reason": "No native owner found."
         }
       ]
     },
@@ -76700,29 +79133,47 @@
             "reason": "The deployed lifetime owner is not unambiguous across sentry, emplacement, and mine families."
           },
           {
-            "field": "mine entity",
-            "reason": "Only the deployment entity is resolved; individual spawned-mine ownership is not proven."
+            "field": "mine count / spacing",
+            "reason": "The deployer ThrowerComponent carries launch nodes, counts and throw floats, but no independent fingerprint proves which is the mine count or the spread; published read-only in the research only."
           },
           {
-            "field": "mine trigger",
-            "reason": "Trigger semantics and ownership are not proven."
+            "field": "mine trigger radius / arming time",
+            "reason": "The MinefieldComponent floats have no independent fingerprint and the per-mine arming delay is 0; trigger detection is not data-proven."
           },
           {
-            "field": "mine distribution",
-            "reason": "Deployment-pattern semantics and ownership are not proven."
+            "field": "mine trigger-to-detonation delay",
+            "reason": "The mine ExplosiveComponent explosion delay (0.002 s) is proven by layout, but the anti-tank mine has no entity of its own, so it is not authored uniformly; read-only."
           },
           {
-            "field": "mine explosion/status",
-            "reason": "The individual mine attack backing chain is not resolved from the deployment entity."
+            "field": "mine lifetime / chain reaction",
+            "reason": "No native owner found."
           }
         ],
         "damageZones": []
       },
       "fieldInstances": [
         "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_deployed_entity_main:entity.health",
-        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_deployed_entity_main:entity.armor"
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_deployed_entity_main:entity.armor",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine:explosion.inner_radius",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine:explosion.outer_radius",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine:explosion.shockwave_radius",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.standard_damage",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.durable_damage",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.ap_direct",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.ap_slight",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.ap_large",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.ap_extreme",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.demolition",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.stagger",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.push_force",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage_status_1:status.strength",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage_status_1:status.duration"
       ],
-      "attackRoles": [],
+      "attackRoles": [
+        "mine",
+        "mine_damage",
+        "mine_damage_status_1"
+      ],
       "blockedFields": [
         {
           "field": "targeting.*",
@@ -76733,20 +79184,20 @@
           "reason": "The deployed lifetime owner is not unambiguous across sentry, emplacement, and mine families."
         },
         {
-          "field": "mine entity",
-          "reason": "Only the deployment entity is resolved; individual spawned-mine ownership is not proven."
+          "field": "mine count / spacing",
+          "reason": "The deployer ThrowerComponent carries launch nodes, counts and throw floats, but no independent fingerprint proves which is the mine count or the spread; published read-only in the research only."
         },
         {
-          "field": "mine trigger",
-          "reason": "Trigger semantics and ownership are not proven."
+          "field": "mine trigger radius / arming time",
+          "reason": "The MinefieldComponent floats have no independent fingerprint and the per-mine arming delay is 0; trigger detection is not data-proven."
         },
         {
-          "field": "mine distribution",
-          "reason": "Deployment-pattern semantics and ownership are not proven."
+          "field": "mine trigger-to-detonation delay",
+          "reason": "The mine ExplosiveComponent explosion delay (0.002 s) is proven by layout, but the anti-tank mine has no entity of its own, so it is not authored uniformly; read-only."
         },
         {
-          "field": "mine explosion/status",
-          "reason": "The individual mine attack backing chain is not resolved from the deployment entity."
+          "field": "mine lifetime / chain reaction",
+          "reason": "No native owner found."
         }
       ]
     },
@@ -76769,29 +79220,44 @@
             "reason": "The deployed lifetime owner is not unambiguous across sentry, emplacement, and mine families."
           },
           {
-            "field": "mine entity",
-            "reason": "Only the deployment entity is resolved; individual spawned-mine ownership is not proven."
+            "field": "mine count / spacing",
+            "reason": "The deployer ThrowerComponent carries launch nodes, counts and throw floats, but no independent fingerprint proves which is the mine count or the spread; published read-only in the research only."
           },
           {
-            "field": "mine trigger",
-            "reason": "Trigger semantics and ownership are not proven."
+            "field": "mine trigger radius / arming time",
+            "reason": "The MinefieldComponent floats have no independent fingerprint and the per-mine arming delay is 0; trigger detection is not data-proven."
           },
           {
-            "field": "mine distribution",
-            "reason": "Deployment-pattern semantics and ownership are not proven."
+            "field": "mine trigger-to-detonation delay",
+            "reason": "The mine ExplosiveComponent explosion delay (0.002 s) is proven by layout, but the anti-tank mine has no entity of its own, so it is not authored uniformly; read-only."
           },
           {
-            "field": "mine explosion/status",
-            "reason": "The individual mine attack backing chain is not resolved from the deployment entity."
+            "field": "mine lifetime / chain reaction",
+            "reason": "No native owner found."
           }
         ],
         "damageZones": []
       },
       "fieldInstances": [
         "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_deployed_entity_main:entity.health",
-        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_deployed_entity_main:entity.armor"
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_deployed_entity_main:entity.armor",
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine:explosion.inner_radius",
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine:explosion.outer_radius",
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine:explosion.shockwave_radius",
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.standard_damage",
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.durable_damage",
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.ap_direct",
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.ap_slight",
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.ap_large",
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.ap_extreme",
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.demolition",
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.stagger",
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.push_force"
       ],
-      "attackRoles": [],
+      "attackRoles": [
+        "mine",
+        "mine_damage"
+      ],
       "blockedFields": [
         {
           "field": "targeting.*",
@@ -76802,20 +79268,20 @@
           "reason": "The deployed lifetime owner is not unambiguous across sentry, emplacement, and mine families."
         },
         {
-          "field": "mine entity",
-          "reason": "Only the deployment entity is resolved; individual spawned-mine ownership is not proven."
+          "field": "mine count / spacing",
+          "reason": "The deployer ThrowerComponent carries launch nodes, counts and throw floats, but no independent fingerprint proves which is the mine count or the spread; published read-only in the research only."
         },
         {
-          "field": "mine trigger",
-          "reason": "Trigger semantics and ownership are not proven."
+          "field": "mine trigger radius / arming time",
+          "reason": "The MinefieldComponent floats have no independent fingerprint and the per-mine arming delay is 0; trigger detection is not data-proven."
         },
         {
-          "field": "mine distribution",
-          "reason": "Deployment-pattern semantics and ownership are not proven."
+          "field": "mine trigger-to-detonation delay",
+          "reason": "The mine ExplosiveComponent explosion delay (0.002 s) is proven by layout, but the anti-tank mine has no entity of its own, so it is not authored uniformly; read-only."
         },
         {
-          "field": "mine explosion/status",
-          "reason": "The individual mine attack backing chain is not resolved from the deployment entity."
+          "field": "mine lifetime / chain reaction",
+          "reason": "No native owner found."
         }
       ]
     },
@@ -77044,29 +79510,50 @@
             "reason": "The deployed lifetime owner is not unambiguous across sentry, emplacement, and mine families."
           },
           {
-            "field": "mine entity",
-            "reason": "Only the deployment entity is resolved; individual spawned-mine ownership is not proven."
+            "field": "mine count / spacing",
+            "reason": "The deployer ThrowerComponent carries launch nodes, counts and throw floats, but no independent fingerprint proves which is the mine count or the spread; published read-only in the research only."
           },
           {
-            "field": "mine trigger",
-            "reason": "Trigger semantics and ownership are not proven."
+            "field": "mine trigger radius / arming time",
+            "reason": "The MinefieldComponent floats have no independent fingerprint and the per-mine arming delay is 0; trigger detection is not data-proven."
           },
           {
-            "field": "mine distribution",
-            "reason": "Deployment-pattern semantics and ownership are not proven."
+            "field": "mine trigger-to-detonation delay",
+            "reason": "The mine ExplosiveComponent explosion delay (0.002 s) is proven by layout, but the anti-tank mine has no entity of its own, so it is not authored uniformly; read-only."
           },
           {
-            "field": "mine explosion/status",
-            "reason": "The individual mine attack backing chain is not resolved from the deployment entity."
+            "field": "mine lifetime / chain reaction",
+            "reason": "No native owner found."
           }
         ],
         "damageZones": []
       },
       "fieldInstances": [
         "stratagem:md_8_gas_mines:md_8_gas_mines_deployed_entity_main:entity.health",
-        "stratagem:md_8_gas_mines:md_8_gas_mines_deployed_entity_main:entity.armor"
+        "stratagem:md_8_gas_mines:md_8_gas_mines_deployed_entity_main:entity.armor",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine:explosion.inner_radius",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine:explosion.outer_radius",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine:explosion.shockwave_radius",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.standard_damage",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.durable_damage",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.ap_direct",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.ap_slight",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.ap_large",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.ap_extreme",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.demolition",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.stagger",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.push_force",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage_status_1:status.strength",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage_status_1:status.duration",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage_status_2:status.strength",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage_status_2:status.duration"
       ],
-      "attackRoles": [],
+      "attackRoles": [
+        "mine",
+        "mine_damage",
+        "mine_damage_status_1",
+        "mine_damage_status_2"
+      ],
       "blockedFields": [
         {
           "field": "targeting.*",
@@ -77077,20 +79564,20 @@
           "reason": "The deployed lifetime owner is not unambiguous across sentry, emplacement, and mine families."
         },
         {
-          "field": "mine entity",
-          "reason": "Only the deployment entity is resolved; individual spawned-mine ownership is not proven."
+          "field": "mine count / spacing",
+          "reason": "The deployer ThrowerComponent carries launch nodes, counts and throw floats, but no independent fingerprint proves which is the mine count or the spread; published read-only in the research only."
         },
         {
-          "field": "mine trigger",
-          "reason": "Trigger semantics and ownership are not proven."
+          "field": "mine trigger radius / arming time",
+          "reason": "The MinefieldComponent floats have no independent fingerprint and the per-mine arming delay is 0; trigger detection is not data-proven."
         },
         {
-          "field": "mine distribution",
-          "reason": "Deployment-pattern semantics and ownership are not proven."
+          "field": "mine trigger-to-detonation delay",
+          "reason": "The mine ExplosiveComponent explosion delay (0.002 s) is proven by layout, but the anti-tank mine has no entity of its own, so it is not authored uniformly; read-only."
         },
         {
-          "field": "mine explosion/status",
-          "reason": "The individual mine attack backing chain is not resolved from the deployment entity."
+          "field": "mine lifetime / chain reaction",
+          "reason": "No native owner found."
         }
       ]
     },
@@ -77715,19 +80202,24 @@
           "path": "delivery:1/projectile/impact/damage/status:1"
         },
         {
+          "stratagem": "MD-8 Gas Mines",
+          "path": "mine:primary/attack:mine/damage/status:1"
+        },
+        {
           "stratagem": "A/GM-17 Gas Mortar Sentry",
           "path": "weapon:primary/attack:primary/projectile/impact/damage/status:1"
         }
       ],
-      "sharedScopeKey": "shared-scope:d97ca1638894775e",
+      "sharedScopeKey": "shared-scope:d67d676845b2ac9f",
       "requiresSharedAcknowledgement": true,
-      "reviewedConsumerCount": 3,
+      "reviewedConsumerCount": 4,
       "reviewedScopeComplete": true,
       "dynamicConsumersPossible": true,
       "fieldInstances": [
         "stratagem:orbital_gas_strike:orbital_gas_strike_attack_delivery_1_projectile_impact_damage_status_1:status.duration",
         "stratagem:eagle_gas_airstrike:eagle_gas_airstrike_attack_delivery_1_projectile_impact_damage_status_1:status.duration",
-        "stratagem:a_gm_17_gas_mortar_sentry:a_gm_17_gas_mortar_sentry_attack_main_primary_primary_impact_damage_status_1:status.duration"
+        "stratagem:a_gm_17_gas_mortar_sentry:a_gm_17_gas_mortar_sentry_attack_main_primary_primary_impact_damage_status_1:status.duration",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage_status_1:status.duration"
       ]
     },
     {
@@ -77744,19 +80236,24 @@
           "path": "delivery:1/projectile/impact/damage/status:2"
         },
         {
+          "stratagem": "MD-8 Gas Mines",
+          "path": "mine:primary/attack:mine/damage/status:2"
+        },
+        {
           "stratagem": "A/GM-17 Gas Mortar Sentry",
           "path": "weapon:primary/attack:primary/projectile/impact/damage/status:2"
         }
       ],
-      "sharedScopeKey": "shared-scope:f7cc1eaf958fa1e9",
+      "sharedScopeKey": "shared-scope:2d569512960aab91",
       "requiresSharedAcknowledgement": true,
-      "reviewedConsumerCount": 3,
+      "reviewedConsumerCount": 4,
       "reviewedScopeComplete": true,
       "dynamicConsumersPossible": true,
       "fieldInstances": [
         "stratagem:orbital_gas_strike:orbital_gas_strike_attack_delivery_1_projectile_impact_damage_status_2:status.duration",
         "stratagem:eagle_gas_airstrike:eagle_gas_airstrike_attack_delivery_1_projectile_impact_damage_status_2:status.duration",
-        "stratagem:a_gm_17_gas_mortar_sentry:a_gm_17_gas_mortar_sentry_attack_main_primary_primary_impact_damage_status_2:status.duration"
+        "stratagem:a_gm_17_gas_mortar_sentry:a_gm_17_gas_mortar_sentry_attack_main_primary_primary_impact_damage_status_2:status.duration",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage_status_2:status.duration"
       ]
     },
     {
@@ -79096,6 +81593,10 @@
           "path": "delivery:3/projectile/impact/damage/status:1"
         },
         {
+          "stratagem": "MD-I4 Incendiary Mines",
+          "path": "mine:primary/attack:mine/damage/status:1"
+        },
+        {
           "stratagem": "A/FLAM-40 Flame Sentry",
           "path": "weapon:primary/attack:primary/damage/status:1"
         },
@@ -79104,9 +81605,9 @@
           "path": "weapon:primary/attack:primary/damage/status:1"
         }
       ],
-      "sharedScopeKey": "shared-scope:bce7301f553d23e7",
+      "sharedScopeKey": "shared-scope:afcfeeb4f1fe880b",
       "requiresSharedAcknowledgement": true,
-      "reviewedConsumerCount": 6,
+      "reviewedConsumerCount": 7,
       "reviewedScopeComplete": true,
       "dynamicConsumersPossible": true,
       "fieldInstances": [
@@ -79115,7 +81616,8 @@
         "stratagem:orbital_napalm_barrage:orbital_napalm_barrage_attack_delivery_3_projectile_impact_damage_status_1:status.duration",
         "stratagem:eagle_napalm_airstrike:eagle_napalm_airstrike_attack_delivery_1_projectile_impact_damage_status_1:status.duration",
         "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_attack_main_primary_primary_damage_status_1:status.duration",
-        "stratagem:a_flam_40_flame_sentry:a_flam_40_flame_sentry_attack_main_primary_primary_damage_status_1:status.duration"
+        "stratagem:a_flam_40_flame_sentry:a_flam_40_flame_sentry_attack_main_primary_primary_damage_status_1:status.duration",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage_status_1:status.duration"
       ]
     },
     {
@@ -82931,6 +85433,59 @@
       ]
     },
     {
+      "backingObjectId": "backing:f8355e560d743b21",
+      "kind": "ExplosionSettings",
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "externalConsumer": "entity-consumer:fbaf984102942a47",
+          "path": "ExplosiveComponentData+36",
+          "semanticStatus": "the deployed mine entity this stratagem throws"
+        },
+        {
+          "stratagem": "MD-6 Anti-Personnel Minefield",
+          "path": "mine:primary/attack:mine"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:57164632fa54a3ab",
+      "requiresSharedAcknowledgement": true,
+      "reviewedConsumerCount": 2,
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "fieldInstances": [
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine:explosion.inner_radius",
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine:explosion.outer_radius",
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine:explosion.shockwave_radius"
+      ]
+    },
+    {
+      "backingObjectId": "backing:c60b3e6a0a8118e7",
+      "kind": "DamageInfo",
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-6 Anti-Personnel Minefield",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:bac950479a36a6fd",
+      "requiresSharedAcknowledgement": true,
+      "reviewedConsumerCount": 1,
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "fieldInstances": [
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.standard_damage",
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.durable_damage",
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.ap_direct",
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.ap_slight",
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.ap_large",
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.ap_extreme",
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.demolition",
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.stagger",
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.push_force"
+      ]
+    },
+    {
       "backingObjectId": "backing:9214b01833808970",
       "kind": "StratagemDefinition",
       "shared": false,
@@ -82971,6 +85526,60 @@
       ]
     },
     {
+      "backingObjectId": "backing:a98268905555fd0c",
+      "kind": "ExplosionSettings",
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "externalConsumer": "entity-consumer:39ae6eb3dec19606",
+          "path": "ExplosiveComponentData+36",
+          "semanticStatus": "the deployed mine entity this stratagem throws"
+        },
+        {
+          "stratagem": "MD-I4 Incendiary Mines",
+          "path": "mine:primary/attack:mine"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:6bda6ff908468ac8",
+      "requiresSharedAcknowledgement": true,
+      "reviewedConsumerCount": 2,
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "fieldInstances": [
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine:explosion.inner_radius",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine:explosion.outer_radius",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine:explosion.shockwave_radius"
+      ]
+    },
+    {
+      "backingObjectId": "backing:ff1d92072fc271ca",
+      "kind": "DamageInfo",
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-I4 Incendiary Mines",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:4897a669ca2273d1",
+      "requiresSharedAcknowledgement": true,
+      "reviewedConsumerCount": 1,
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "fieldInstances": [
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.standard_damage",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.durable_damage",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.ap_direct",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.ap_slight",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.ap_large",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.ap_extreme",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.demolition",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.stagger",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.push_force",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage_status_1:status.strength"
+      ]
+    },
+    {
       "backingObjectId": "backing:5be9da2ea1e50dd4",
       "kind": "StratagemDefinition",
       "shared": false,
@@ -83008,6 +85617,54 @@
       "fieldInstances": [
         "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_deployed_entity_main:entity.health",
         "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_deployed_entity_main:entity.armor"
+      ]
+    },
+    {
+      "backingObjectId": "backing:518359696abed069",
+      "kind": "ExplosionSettings",
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-17 Anti-Tank Mines",
+          "path": "mine:primary/attack:mine"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:cc533edbae610a6d",
+      "requiresSharedAcknowledgement": true,
+      "reviewedConsumerCount": 1,
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "fieldInstances": [
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine:explosion.inner_radius",
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine:explosion.outer_radius",
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine:explosion.shockwave_radius"
+      ]
+    },
+    {
+      "backingObjectId": "backing:59fc78d7fe2b7bc1",
+      "kind": "DamageInfo",
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-17 Anti-Tank Mines",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:4e38dfb054c6d1c5",
+      "requiresSharedAcknowledgement": true,
+      "reviewedConsumerCount": 1,
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "fieldInstances": [
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.standard_damage",
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.durable_damage",
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.ap_direct",
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.ap_slight",
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.ap_large",
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.ap_extreme",
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.demolition",
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.stagger",
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.push_force"
       ]
     },
     {
@@ -83304,6 +85961,61 @@
       "fieldInstances": [
         "stratagem:md_8_gas_mines:md_8_gas_mines_deployed_entity_main:entity.health",
         "stratagem:md_8_gas_mines:md_8_gas_mines_deployed_entity_main:entity.armor"
+      ]
+    },
+    {
+      "backingObjectId": "backing:60d0cd1c7eec167a",
+      "kind": "ExplosionSettings",
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "externalConsumer": "entity-consumer:3e7a3fe964d2b95d",
+          "path": "ExplosiveComponentData+36",
+          "semanticStatus": "the deployed mine entity this stratagem throws"
+        },
+        {
+          "stratagem": "MD-8 Gas Mines",
+          "path": "mine:primary/attack:mine"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:d36f306eafedb52e",
+      "requiresSharedAcknowledgement": true,
+      "reviewedConsumerCount": 2,
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "fieldInstances": [
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine:explosion.inner_radius",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine:explosion.outer_radius",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine:explosion.shockwave_radius"
+      ]
+    },
+    {
+      "backingObjectId": "backing:35b23f9ed87b2a25",
+      "kind": "DamageInfo",
+      "shared": true,
+      "sharedConsumers": [
+        {
+          "stratagem": "MD-8 Gas Mines",
+          "path": "mine:primary/attack:mine/damage"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:6baa366f052b50d4",
+      "requiresSharedAcknowledgement": true,
+      "reviewedConsumerCount": 1,
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "fieldInstances": [
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.standard_damage",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.durable_damage",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.ap_direct",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.ap_slight",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.ap_large",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.ap_extreme",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.demolition",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.stagger",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.push_force",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage_status_1:status.strength",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage_status_2:status.strength"
       ]
     },
     {
@@ -91596,6 +94308,62 @@
       "dependencies": []
     },
     {
+      "operationGroup": "operation:f2102bfa31a63bdd",
+      "backingObjectId": "backing:f8355e560d743b21",
+      "runtimeBackingScope": "ExplosionSettings",
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-6 Anti-Personnel Minefield",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine"
+      },
+      "fieldInstances": [
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine:explosion.inner_radius",
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine:explosion.outer_radius",
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine:explosion.shockwave_radius"
+      ],
+      "planGroups": [
+        "plan:stratagem:md_6_anti_personnel_minefield"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": true,
+      "phase": 1,
+      "dependencies": []
+    },
+    {
+      "operationGroup": "operation:ebb117dd95924cde",
+      "backingObjectId": "backing:c60b3e6a0a8118e7",
+      "runtimeBackingScope": "DamageInfo",
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-6 Anti-Personnel Minefield",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "fieldInstances": [
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.standard_damage",
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.durable_damage",
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.ap_direct",
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.ap_slight",
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.ap_large",
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.ap_extreme",
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.demolition",
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.stagger",
+        "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine_damage:explosion.damage.push_force"
+      ],
+      "planGroups": [
+        "plan:stratagem:md_6_anti_personnel_minefield"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": true,
+      "phase": 1,
+      "dependencies": []
+    },
+    {
       "operationGroup": "operation:cb250d369ca402a6",
       "backingObjectId": "backing:9214b01833808970",
       "runtimeBackingScope": "StratagemDefinition",
@@ -91639,6 +94407,108 @@
       "dependencies": []
     },
     {
+      "operationGroup": "operation:2ab47d08fd1f398e",
+      "backingObjectId": "backing:a98268905555fd0c",
+      "runtimeBackingScope": "ExplosionSettings",
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-I4 Incendiary Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine"
+      },
+      "fieldInstances": [
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine:explosion.inner_radius",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine:explosion.outer_radius",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine:explosion.shockwave_radius"
+      ],
+      "planGroups": [
+        "plan:stratagem:md_i4_incendiary_mines"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": true,
+      "phase": 1,
+      "dependencies": []
+    },
+    {
+      "operationGroup": "operation:8cdad019502cd26b",
+      "backingObjectId": "backing:ff1d92072fc271ca",
+      "runtimeBackingScope": "DamageInfo",
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-I4 Incendiary Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "fieldInstances": [
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.standard_damage",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.durable_damage",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.ap_direct",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.ap_slight",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.ap_large",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.ap_extreme",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.demolition",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.stagger",
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage:explosion.damage.push_force"
+      ],
+      "planGroups": [
+        "plan:stratagem:md_i4_incendiary_mines"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": true,
+      "phase": 1,
+      "dependencies": []
+    },
+    {
+      "operationGroup": "operation:21cbd7895dd98b76",
+      "backingObjectId": "backing:ff1d92072fc271ca",
+      "runtimeBackingScope": "DamageInfo",
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-I4 Incendiary Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage_status_1"
+      },
+      "fieldInstances": [
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage_status_1:status.strength"
+      ],
+      "planGroups": [
+        "plan:stratagem:md_i4_incendiary_mines"
+      ],
+      "recommendedApi": "hd2.patch",
+      "allowSharedRequired": true,
+      "phase": 1,
+      "dependencies": []
+    },
+    {
+      "operationGroup": "operation:e4c4a21bce25b8dc",
+      "backingObjectId": "backing:0260d367fda7e331",
+      "runtimeBackingScope": "StatusEffectSettings",
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-I4 Incendiary Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage_status_1"
+      },
+      "fieldInstances": [
+        "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine_damage_status_1:status.duration"
+      ],
+      "planGroups": [
+        "plan:stratagem:md_i4_incendiary_mines"
+      ],
+      "recommendedApi": "hd2.patch",
+      "allowSharedRequired": true,
+      "phase": 1,
+      "dependencies": []
+    },
+    {
       "operationGroup": "operation:e304e2b4a8bf4213",
       "backingObjectId": "backing:5be9da2ea1e50dd4",
       "runtimeBackingScope": "StratagemDefinition",
@@ -91678,6 +94548,62 @@
       ],
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
+      "phase": 1,
+      "dependencies": []
+    },
+    {
+      "operationGroup": "operation:e026dce70a0a2f42",
+      "backingObjectId": "backing:518359696abed069",
+      "runtimeBackingScope": "ExplosionSettings",
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-17 Anti-Tank Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine"
+      },
+      "fieldInstances": [
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine:explosion.inner_radius",
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine:explosion.outer_radius",
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine:explosion.shockwave_radius"
+      ],
+      "planGroups": [
+        "plan:stratagem:md_17_anti_tank_mines"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": true,
+      "phase": 1,
+      "dependencies": []
+    },
+    {
+      "operationGroup": "operation:0eae09abdb79b935",
+      "backingObjectId": "backing:59fc78d7fe2b7bc1",
+      "runtimeBackingScope": "DamageInfo",
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-17 Anti-Tank Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "fieldInstances": [
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.standard_damage",
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.durable_damage",
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.ap_direct",
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.ap_slight",
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.ap_large",
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.ap_extreme",
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.demolition",
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.stagger",
+        "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine_damage:explosion.damage.push_force"
+      ],
+      "planGroups": [
+        "plan:stratagem:md_17_anti_tank_mines"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": true,
       "phase": 1,
       "dependencies": []
     },
@@ -92050,6 +94976,154 @@
       "dependencies": []
     },
     {
+      "operationGroup": "operation:f80ee2b6616c80ca",
+      "backingObjectId": "backing:60d0cd1c7eec167a",
+      "runtimeBackingScope": "ExplosionSettings",
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-8 Gas Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine"
+      },
+      "fieldInstances": [
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine:explosion.inner_radius",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine:explosion.outer_radius",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine:explosion.shockwave_radius"
+      ],
+      "planGroups": [
+        "plan:stratagem:md_8_gas_mines"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": true,
+      "phase": 1,
+      "dependencies": []
+    },
+    {
+      "operationGroup": "operation:e9b8cf20dae40ac5",
+      "backingObjectId": "backing:35b23f9ed87b2a25",
+      "runtimeBackingScope": "DamageInfo",
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-8 Gas Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage"
+      },
+      "fieldInstances": [
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.standard_damage",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.durable_damage",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.ap_direct",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.ap_slight",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.ap_large",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.ap_extreme",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.demolition",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.stagger",
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage:explosion.damage.push_force"
+      ],
+      "planGroups": [
+        "plan:stratagem:md_8_gas_mines"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": true,
+      "phase": 1,
+      "dependencies": []
+    },
+    {
+      "operationGroup": "operation:a45ddbba26c9265d",
+      "backingObjectId": "backing:35b23f9ed87b2a25",
+      "runtimeBackingScope": "DamageInfo",
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-8 Gas Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage_status_1"
+      },
+      "fieldInstances": [
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage_status_1:status.strength"
+      ],
+      "planGroups": [
+        "plan:stratagem:md_8_gas_mines"
+      ],
+      "recommendedApi": "hd2.patch",
+      "allowSharedRequired": true,
+      "phase": 1,
+      "dependencies": []
+    },
+    {
+      "operationGroup": "operation:b945518af1a778a0",
+      "backingObjectId": "backing:505afaa41c6762d8",
+      "runtimeBackingScope": "StatusEffectSettings",
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-8 Gas Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage_status_1"
+      },
+      "fieldInstances": [
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage_status_1:status.duration"
+      ],
+      "planGroups": [
+        "plan:stratagem:md_8_gas_mines"
+      ],
+      "recommendedApi": "hd2.patch",
+      "allowSharedRequired": true,
+      "phase": 1,
+      "dependencies": []
+    },
+    {
+      "operationGroup": "operation:9ac864ccc8022b22",
+      "backingObjectId": "backing:35b23f9ed87b2a25",
+      "runtimeBackingScope": "DamageInfo",
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-8 Gas Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage_status_2"
+      },
+      "fieldInstances": [
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage_status_2:status.strength"
+      ],
+      "planGroups": [
+        "plan:stratagem:md_8_gas_mines"
+      ],
+      "recommendedApi": "hd2.patch",
+      "allowSharedRequired": true,
+      "phase": 1,
+      "dependencies": []
+    },
+    {
+      "operationGroup": "operation:c7c7866eb20f80e9",
+      "backingObjectId": "backing:f0b4447ffb961d65",
+      "runtimeBackingScope": "StatusEffectSettings",
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "MD-8 Gas Mines",
+        "path": "attack",
+        "entity": "main",
+        "weapon": "mine",
+        "attack": "mine_damage_status_2"
+      },
+      "fieldInstances": [
+        "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine_damage_status_2:status.duration"
+      ],
+      "planGroups": [
+        "plan:stratagem:md_8_gas_mines"
+      ],
+      "recommendedApi": "hd2.patch",
+      "allowSharedRequired": true,
+      "phase": 1,
+      "dependencies": []
+    },
+    {
       "operationGroup": "operation:d33441c18fb4a6cf",
       "backingObjectId": "backing:441cdbd952bb9cf2",
       "runtimeBackingScope": "StratagemDefinition",
@@ -92291,7 +95365,7 @@
       "displayNameMatchingRequired": false,
       "rawNativeIdentifiersPublished": false,
       "writeTargetsRemainSeparate": true,
-      "writeGuardsUnchanged": "A known relationship alone never lifts support-weapon write blocking. A duplicate group is resolved only when its call-in rack attaches exactly one candidate root and scraped magazine values independently identify that root (DELIVERY_RESOLVED); ambiguous runtime weapon roots stay blocked."
+      "writeGuardsUnchanged": "A known relationship alone never lifts support-weapon write blocking. A duplicate group is resolved only when its call-in rack attaches exactly one candidate root and an independent proof identifies that same root: scraped magazine values, the call-in package equal to the root's own loadout package, or its hash-verified support-weapon resource path (DELIVERY_RESOLVED); ambiguous runtime weapon roots stay blocked."
     },
     "relationships": [
       {
@@ -92689,7 +95763,7 @@
           }
         ],
         "special": null,
-        "weaponIdentityStatus": "DUPLICATE",
+        "weaponIdentityStatus": "DELIVERY_RESOLVED",
         "deliveryGraph": {
           "composition": "reference",
           "duplicatesFields": false,
@@ -93128,7 +96202,7 @@
         "deliveryObject": "hellpod_support_weapon",
         "companionDeliveries": [],
         "special": null,
-        "weaponIdentityStatus": "DUPLICATE",
+        "weaponIdentityStatus": "DELIVERY_RESOLVED",
         "deliveryGraph": {
           "composition": "reference",
           "duplicatesFields": false,
@@ -94073,7 +97147,7 @@
         "deliveryObject": "hellpod_support_weapon",
         "companionDeliveries": [],
         "special": null,
-        "weaponIdentityStatus": "DUPLICATE",
+        "weaponIdentityStatus": "DELIVERY_RESOLVED",
         "deliveryGraph": {
           "composition": "reference",
           "duplicatesFields": false,
@@ -95509,12 +98583,8 @@
       "relationships": 33,
       "bidirectionalMismatches": 0,
       "linksRelyingOnDisplayNameOnly": 0,
-      "ambiguousWeaponIdentityLinks": 3,
-      "ambiguousWeaponIdentityNames": [
-        "B/FLAM-80 Cremator",
-        "EAT-17 Expendable Anti-Tank",
-        "LAS-98 Laser Cannon"
-      ],
+      "ambiguousWeaponIdentityLinks": 0,
+      "ambiguousWeaponIdentityNames": [],
       "specialLinks": [
         "B/MD C4 Pack",
         "MS-11 Solo Silo"
@@ -95569,8 +98639,8 @@
     "note": "Tooling extracts the artwork locally from the installed game. Display names are never used to select an icon."
   },
   "instanceAudit": {
-    "internalPromotedInstances": 1468,
-    "publishedCanonicalInstances": 1468,
+    "internalPromotedInstances": 1522,
+    "publishedCanonicalInstances": 1522,
     "missingInstances": [],
     "unexpectedInstances": [],
     "duplicateInstanceKeys": 0,
@@ -95592,13 +98662,13 @@
     "maxUsesGameplayProven": 4,
     "eagleUsesPerRearmWritable": 8,
     "eagleRearmTimeWritable": 8,
-    "fieldInstances": 1468,
-    "writableFieldInstances": 1460,
-    "backingObjectCount": 250,
-    "sharedBackingObjectCount": 115,
-    "sharedConsumerScopeCount": 115,
+    "fieldInstances": 1522,
+    "writableFieldInstances": 1514,
+    "backingObjectCount": 258,
+    "sharedBackingObjectCount": 123,
+    "sharedConsumerScopeCount": 123,
     "importedAttackBranches": 143,
-    "nativeBackingBranches": 188,
+    "nativeBackingBranches": 199,
     "importedProjectileBranches": 22,
     "importedExplosionBranches": 22,
     "importedStatusBranches": 10,
@@ -95607,10 +98677,10 @@
       "ArcSettings": 1,
       "Beam": 1,
       "BeamSettings": 1,
-      "DamageInfo": 83,
-      "ExplosionSettings": 39,
+      "DamageInfo": 87,
+      "ExplosionSettings": 43,
       "ProjectileSettings": 42,
-      "StatusEffectSettings": 21
+      "StatusEffectSettings": 24
     },
     "writableByDomain": {
       "arc": 6,
@@ -95618,7 +98688,7 @@
       "damage": 414,
       "eagle": 16,
       "entity": 36,
-      "explosion": 450,
+      "explosion": 498,
       "heat": 4,
       "heatsink": 3,
       "magazine": 33,
@@ -95626,7 +98696,7 @@
       "payload": 1,
       "projectile": 210,
       "shield": 2,
-      "status": 42,
+      "status": 48,
       "stratagem": 178,
       "weapon": 20,
       "zone": 39
@@ -95637,39 +98707,40 @@
     "deployedEntitiesResolved": 18,
     "mineDeploymentEntitiesResolved": 4,
     "mineInstancesResolved": 0,
-    "mineAttackBranchesWritable": 0,
+    "mineExplosionsResolved": 4,
+    "mineAttackBranchesWritable": 11,
     "healthWritable": 18,
     "armorWritable": 18,
-    "mountedWeaponsResolved": 12,
+    "mountedWeaponsResolved": 16,
     "multiWeaponEntities": 0,
     "ammoWritable": 44,
     "mountedWeaponsWithAmmo": 11,
     "fireRateWritable": 9,
     "projectileBranches": 42,
-    "damageBranches": 83,
-    "explosionBranches": 39,
+    "damageBranches": 87,
+    "explosionBranches": 43,
     "beamBranches": 2,
     "arcBranches": 1,
     "sprayBranches": 0,
-    "statusBranches": 21,
+    "statusBranches": 24,
     "defensiveNativeBranchInstancesByKind": {
       "ArcSettings": 1,
       "BeamSettings": 1,
-      "DamageInfo": 19,
-      "ExplosionSettings": 7,
+      "DamageInfo": 23,
+      "ExplosionSettings": 11,
       "ProjectileSettings": 9,
-      "StatusEffectSettings": 8
+      "StatusEffectSettings": 11
     },
     "defensiveProjectileBranches": 9,
-    "defensiveDamageBranches": 19,
-    "defensiveExplosionBranches": 7,
+    "defensiveDamageBranches": 23,
+    "defensiveExplosionBranches": 11,
     "defensiveBeamBranches": 1,
     "defensiveArcBranches": 1,
     "defensiveSprayBranches": 0,
-    "defensiveStatusBranches": 8,
+    "defensiveStatusBranches": 11,
     "heatWritable": 4,
-    "canonicalBackingObjects": 250,
-    "canonicalOperationGroups": 364,
+    "canonicalBackingObjects": 258,
+    "canonicalOperationGroups": 378,
     "supportDeliveryLinksKnown": 33,
     "supportCallInLinkage": {
       "supportWeapons": 35,
@@ -95690,12 +98761,8 @@
       "relationships": 33,
       "bidirectionalMismatches": 0,
       "linksRelyingOnDisplayNameOnly": 0,
-      "ambiguousWeaponIdentityLinks": 3,
-      "ambiguousWeaponIdentityNames": [
-        "B/FLAM-80 Cremator",
-        "EAT-17 Expendable Anti-Tank",
-        "LAS-98 Laser Cannon"
-      ],
+      "ambiguousWeaponIdentityLinks": 0,
+      "ambiguousWeaponIdentityNames": [],
       "specialLinks": [
         "B/MD C4 Pack",
         "MS-11 Solo Silo"

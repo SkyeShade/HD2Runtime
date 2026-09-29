@@ -12,7 +12,7 @@ local component_names={'BombardmentComponentData','EagleComponentData',
     'HealthComponentData','WeaponDataComponentData','WeaponMagazineComponentData',
     'WeaponRoundsComponentData','WeaponHeatComponentData','WeaponChargeComponentData',
     'ArcWeaponComponentData','BeamWeaponComponentData','SprayWeaponComponentData',
-    'ShieldComponentData','HellpodPayloadComponentData'}
+    'ShieldComponentData','HellpodPayloadComponentData','MinefieldComponentData'}
 local ENTITY_PATHS={deployed_entity=true,weapon=true,attack=true,shield=true,damage_zone=true}
 local GRAPH_PATHS={deployed_entity=true,weapon=true,attack=true}
 
@@ -253,6 +253,18 @@ function M.capture_many(runtime,reader,specs)
                 assert(component.identity.recordIndex==entry.rootLink.recordIndex
                     and component.identity.indexRow==entry.rootLink.indexRow,
                     'payload component ownership changed')
+            end
+            if entry.rootComponentLink then
+                -- A deployer component names the graph's first settings row (a mine deployer's explosion).
+                local link=entry.rootComponentLink
+                local record=catalog.record(candidate,link.component)
+                assert(record.identity.recordIndex==link.recordIndex and record.identity.indexRow==link.indexRow,
+                    'deployer '..link.component..' ownership changed')
+                assert(b.u32(record.bytes,link.offset)==link.expect,
+                    'deployer '..link.component..'+'..link.offset..' link changed')
+                local node
+                for _,item in ipairs(entry.graph or{})do if item.path==link.node then node=item end end
+                assert(node and node.recordType==link.expect,'deployer root node changed')
             end
             if GRAPH_PATHS[spec.target_path] and entry.graph and #entry.graph>0 then
                 validate_graph(entry,roots,component)end

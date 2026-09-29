@@ -62,7 +62,9 @@ class WeaponReticleTests(unittest.TestCase):
         self.assertIsNone(amr['operation']['acknowledgement'])
         self.assertTrue(amr['reticle']['evidence']['gameplayProven'])
         blocked = [item for weapon in self.support['weapons'] for item in weapon['blockedFields'] if item['field'] == FIELD]
-        self.assertEqual(len(blocked), 15)
+        # 15 before the EAT-17, LAS-98 and Cremator were delivery-resolved; they add three reticle blocks (their
+        # native roots disagree on crosshair_type, or the EAT's Default crosshair selects no mapped style).
+        self.assertEqual(len(blocked), 18)
 
     def test_lua_guards(self):
         self.assertEqual(run(r'''

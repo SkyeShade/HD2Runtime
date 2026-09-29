@@ -722,6 +722,22 @@ class Engine:
         return ('INTACT', f"{hexid(link['resource'])} owns {link['component']}", None) if view.record(
             link['component'], link['resource']) else ('BROKEN', f"{link['component']} owner missing", None)
 
+    def _rel_component_value(self, view, link):
+        """A component member that names a settings row (a mine deployer's explosion type) must be unchanged."""
+        record = view.record(link['component'], link['resource'])
+        if record is None:
+            return 'BROKEN', f"{link['component']} owner missing", None
+        source_table, target_table = self.S.component(link['component']), view.component(link['component'])
+        if source_table is not None and target_table is not None:
+            before = source_table.layout.member_at(link['offset'])
+            after = target_table.layout.member_at(link['offset'])
+            signature = lambda m: m and (m['offset'], m['size'], m['storage'], m['nameLength'])
+            if signature(before) != signature(after):
+                return 'BROKEN', f"{link['component']}+{link['offset']} layout changed", None
+        value = struct.unpack_from('<I', record['bytes'], link['offset'])[0]
+        return ('INTACT', f"{link['component']}+{link['offset']} still names {link['expect']}", None)             if value == link['expect'] else ('BROKEN', f"{link['component']}+{link['offset']} now names {value}",
+                {'value': value})
+
     def _rel_entity_present(self, view, link):
         return ('INTACT', 'entity present', None) if link['resource'] in view.entity_rows else (
             'BROKEN', f"{hexid(link['resource'])} no longer exists", None)

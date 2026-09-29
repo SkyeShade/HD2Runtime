@@ -4584,6 +4584,7 @@
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
         }
       },
+      "mineChain": null,
       "importedBranches": [
         {
           "id": "stratagem",
@@ -9227,6 +9228,7 @@
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
         }
       },
+      "mineChain": null,
       "importedBranches": [
         {
           "id": "stratagem",
@@ -13868,6 +13870,7 @@
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
         }
       },
+      "mineChain": null,
       "importedBranches": [
         {
           "id": "stratagem",
@@ -18541,6 +18544,7 @@
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
         }
       },
+      "mineChain": null,
       "importedBranches": [
         {
           "id": "stratagem",
@@ -23214,6 +23218,7 @@
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
         }
       },
+      "mineChain": null,
       "importedBranches": [
         {
           "id": "stratagem",
@@ -27334,6 +27339,7 @@
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
         }
       },
+      "mineChain": null,
       "importedBranches": [
         {
           "id": "stratagem",
@@ -32048,6 +32054,7 @@
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
         }
       },
+      "mineChain": null,
       "importedBranches": [
         {
           "id": "stratagem",
@@ -36646,6 +36653,7 @@
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
         }
       },
+      "mineChain": null,
       "importedBranches": [
         {
           "id": "stratagem",
@@ -41011,6 +41019,7 @@
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
         }
       },
+      "mineChain": null,
       "importedBranches": [
         {
           "id": "stratagem",
@@ -45751,6 +45760,7 @@
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
         }
       },
+      "mineChain": null,
       "importedBranches": [
         {
           "id": "stratagem",
@@ -48502,7 +48512,42 @@
           "AbilityComponentData",
           "StatusEffectReceiverComponentData"
         ],
-        "nativeGraph": [],
+        "nativeGraph": [
+          {
+            "kind": "ExplosionSettings",
+            "path": "mine:primary/attack:mine",
+            "linkage": "minefield_explosion",
+            "recordType": 366,
+            "group": 0,
+            "row": 256,
+            "fields": {
+              "explosion.inner_radius": 1.2000000476837158,
+              "explosion.outer_radius": 5.0,
+              "explosion.shockwave_radius": 7.0
+            },
+            "damage": "mine:primary/attack:mine/damage"
+          },
+          {
+            "kind": "DamageInfo",
+            "path": "mine:primary/attack:mine/damage",
+            "linkage": "explosion_damage",
+            "recordType": 406,
+            "group": 1,
+            "row": 395,
+            "fields": {
+              "damage.standard_damage": 700,
+              "damage.durable_damage": 700,
+              "damage.ap_direct": 3,
+              "damage.ap_slight": 0,
+              "damage.ap_large": 0,
+              "damage.ap_extreme": 0,
+              "damage.demolition": 30,
+              "damage.stagger": 30,
+              "damage.push_force": 30
+            },
+            "statuses": []
+          }
+        ],
         "healthArmorProof": {
           "nativeHealth": 250,
           "nativeArmor": 1,
@@ -48510,6 +48555,58 @@
           "importedArmor": 1,
           "exactCorrelation": true,
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
+        }
+      },
+      "mineChain": {
+        "deployer": "0xF00C349422E8E320",
+        "deployerPath": "content/fac_helldivers/hellpod/mine_launcher/mine_launcher",
+        "minefield": {
+          "recordIndex": 9,
+          "indexRow": 4,
+          "ownerCount": 1,
+          "uniqueOwner": true,
+          "explosionOffset": 24,
+          "explosionType": 366
+        },
+        "thrownMine": {
+          "resource": "0xEE89CC10D80B6AFB",
+          "path": "content/fac_helldivers/equipment/throwables/contact_mine/contact_mine",
+          "entityDefined": true,
+          "explosive": {
+            "mode": 2,
+            "armingDelay": 0.0,
+            "explosionDelay": 0.002,
+            "explosionType": 366,
+            "impactExplosionType": 0
+          }
+        },
+        "explosionAgreement": "mine entity ExplosiveComponent +36 == deployer MinefieldComponent +24",
+        "readOnlyObservations": {
+          "thrower.launchNodes": 48,
+          "thrower.slot0Counts": [
+            6,
+            8
+          ],
+          "thrower.slot0Floats": [
+            2.0,
+            1.5,
+            2.0,
+            400.0,
+            1.5,
+            5.0,
+            15.0,
+            0.0,
+            0.0,
+            0.0,
+            45.0
+          ],
+          "minefield.floats": {
+            "8": 0.001,
+            "12": 0.2,
+            "16": 0.25,
+            "28": 0.0
+          },
+          "reason": "Mine count, spacing, trigger radius, arming and lifetime candidates have no independent fingerprint (no scraped values, no reviewed code reader), so they are published read-only."
         }
       },
       "importedBranches": [
@@ -51228,7 +51325,60 @@
           "AbilityComponentData",
           "StatusEffectReceiverComponentData"
         ],
-        "nativeGraph": [],
+        "nativeGraph": [
+          {
+            "kind": "ExplosionSettings",
+            "path": "mine:primary/attack:mine",
+            "linkage": "minefield_explosion",
+            "recordType": 72,
+            "group": 0,
+            "row": 259,
+            "fields": {
+              "explosion.inner_radius": 1.2000000476837158,
+              "explosion.outer_radius": 4.0,
+              "explosion.shockwave_radius": 7.0
+            },
+            "damage": "mine:primary/attack:mine/damage"
+          },
+          {
+            "kind": "DamageInfo",
+            "path": "mine:primary/attack:mine/damage",
+            "linkage": "explosion_damage",
+            "recordType": 407,
+            "group": 1,
+            "row": 397,
+            "fields": {
+              "damage.standard_damage": 300,
+              "damage.durable_damage": 300,
+              "damage.ap_direct": 3,
+              "damage.ap_slight": 0,
+              "damage.ap_large": 0,
+              "damage.ap_extreme": 0,
+              "damage.demolition": 30,
+              "damage.stagger": 30,
+              "damage.push_force": 30
+            },
+            "statuses": [
+              "mine:primary/attack:mine/damage/status:1"
+            ]
+          },
+          {
+            "kind": "StatusEffectSettings",
+            "path": "mine:primary/attack:mine/damage/status:1",
+            "linkage": "damage_status",
+            "slot": 1,
+            "recordType": 5,
+            "group": 0,
+            "row": 4,
+            "parentDamageType": 407,
+            "parentDamageGroup": 1,
+            "parentDamageRow": 397,
+            "fields": {
+              "status.strength": 0.0,
+              "status.duration": 3.0
+            }
+          }
+        ],
         "healthArmorProof": {
           "nativeHealth": 250,
           "nativeArmor": 1,
@@ -51236,6 +51386,58 @@
           "importedArmor": 1,
           "exactCorrelation": true,
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
+        }
+      },
+      "mineChain": {
+        "deployer": "0xBF32E12923A9A252",
+        "deployerPath": "content/fac_helldivers/hellpod/mine_launcher/mine_launcher_incendiary",
+        "minefield": {
+          "recordIndex": 11,
+          "indexRow": 20,
+          "ownerCount": 1,
+          "uniqueOwner": true,
+          "explosionOffset": 24,
+          "explosionType": 72
+        },
+        "thrownMine": {
+          "resource": "0xE49A5AE078AAD407",
+          "path": "content/fac_helldivers/equipment/throwables/incendiary_mine/incendiary_mine",
+          "entityDefined": true,
+          "explosive": {
+            "mode": 2,
+            "armingDelay": 0.0,
+            "explosionDelay": 0.002,
+            "explosionType": 72,
+            "impactExplosionType": 0
+          }
+        },
+        "explosionAgreement": "mine entity ExplosiveComponent +36 == deployer MinefieldComponent +24",
+        "readOnlyObservations": {
+          "thrower.launchNodes": 48,
+          "thrower.slot0Counts": [
+            6,
+            8
+          ],
+          "thrower.slot0Floats": [
+            2.0,
+            1.5,
+            2.0,
+            400.0,
+            1.5,
+            5.0,
+            15.0,
+            90.0,
+            0.0,
+            0.0,
+            45.0
+          ],
+          "minefield.floats": {
+            "8": 0.001,
+            "12": 0.2,
+            "16": 0.25,
+            "28": 0.0
+          },
+          "reason": "Mine count, spacing, trigger radius, arming and lifetime candidates have no independent fingerprint (no scraped values, no reviewed code reader), so they are published read-only."
         }
       },
       "importedBranches": [
@@ -53965,7 +54167,42 @@
           "AbilityComponentData",
           "StatusEffectReceiverComponentData"
         ],
-        "nativeGraph": [],
+        "nativeGraph": [
+          {
+            "kind": "ExplosionSettings",
+            "path": "mine:primary/attack:mine",
+            "linkage": "minefield_explosion",
+            "recordType": 178,
+            "group": 0,
+            "row": 260,
+            "fields": {
+              "explosion.inner_radius": 3.0,
+              "explosion.outer_radius": 7.0,
+              "explosion.shockwave_radius": 14.0
+            },
+            "damage": "mine:primary/attack:mine/damage"
+          },
+          {
+            "kind": "DamageInfo",
+            "path": "mine:primary/attack:mine/damage",
+            "linkage": "explosion_damage",
+            "recordType": 409,
+            "group": 1,
+            "row": 398,
+            "fields": {
+              "damage.standard_damage": 2000,
+              "damage.durable_damage": 2000,
+              "damage.ap_direct": 5,
+              "damage.ap_slight": 0,
+              "damage.ap_large": 0,
+              "damage.ap_extreme": 0,
+              "damage.demolition": 40,
+              "damage.stagger": 30,
+              "damage.push_force": 40
+            },
+            "statuses": []
+          }
+        ],
         "healthArmorProof": {
           "nativeHealth": 250,
           "nativeArmor": 1,
@@ -53973,6 +54210,51 @@
           "importedArmor": 1,
           "exactCorrelation": true,
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
+        }
+      },
+      "mineChain": {
+        "deployer": "0x25A2FD037B6ED25C",
+        "deployerPath": null,
+        "minefield": {
+          "recordIndex": 12,
+          "indexRow": 24,
+          "ownerCount": 1,
+          "uniqueOwner": true,
+          "explosionOffset": 24,
+          "explosionType": 178
+        },
+        "thrownMine": {
+          "resource": "0x032489CF1D439BBA",
+          "path": "content/fac_helldivers/equipment/throwables/tank_mine/tank_mine",
+          "entityDefined": false
+        },
+        "explosionAgreement": "deployer MinefieldComponent +24 only (mine unit has no entity settings)",
+        "readOnlyObservations": {
+          "thrower.launchNodes": 18,
+          "thrower.slot0Counts": [
+            6,
+            3
+          ],
+          "thrower.slot0Floats": [
+            2.0,
+            1.5,
+            2.0,
+            400.0,
+            1.5,
+            7.0,
+            17.0,
+            0.0,
+            0.0,
+            0.0,
+            45.0
+          ],
+          "minefield.floats": {
+            "8": 1.0,
+            "12": 0.2,
+            "16": 0.2,
+            "28": 0.0
+          },
+          "reason": "Mine count, spacing, trigger radius, arming and lifetime candidates have no independent fingerprint (no scraped values, no reviewed code reader), so they are published read-only."
         }
       },
       "importedBranches": [
@@ -56639,6 +56921,7 @@
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
         }
       },
+      "mineChain": null,
       "importedBranches": [
         {
           "id": "stratagem",
@@ -61163,6 +61446,7 @@
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
         }
       },
+      "mineChain": null,
       "importedBranches": [
         {
           "id": "stratagem",
@@ -63905,6 +64189,7 @@
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
         }
       },
+      "mineChain": null,
       "importedBranches": [
         {
           "id": "stratagem",
@@ -66633,7 +66918,77 @@
           "AbilityComponentData",
           "StatusEffectReceiverComponentData"
         ],
-        "nativeGraph": [],
+        "nativeGraph": [
+          {
+            "kind": "ExplosionSettings",
+            "path": "mine:primary/attack:mine",
+            "linkage": "minefield_explosion",
+            "recordType": 270,
+            "group": 0,
+            "row": 262,
+            "fields": {
+              "explosion.inner_radius": 2.0,
+              "explosion.outer_radius": 6.0,
+              "explosion.shockwave_radius": 6.0
+            },
+            "damage": "mine:primary/attack:mine/damage"
+          },
+          {
+            "kind": "DamageInfo",
+            "path": "mine:primary/attack:mine/damage",
+            "linkage": "explosion_damage",
+            "recordType": 449,
+            "group": 1,
+            "row": 441,
+            "fields": {
+              "damage.standard_damage": 3,
+              "damage.durable_damage": 3,
+              "damage.ap_direct": 6,
+              "damage.ap_slight": 0,
+              "damage.ap_large": 0,
+              "damage.ap_extreme": 0,
+              "damage.demolition": 30,
+              "damage.stagger": 10,
+              "damage.push_force": 10
+            },
+            "statuses": [
+              "mine:primary/attack:mine/damage/status:1",
+              "mine:primary/attack:mine/damage/status:2"
+            ]
+          },
+          {
+            "kind": "StatusEffectSettings",
+            "path": "mine:primary/attack:mine/damage/status:1",
+            "linkage": "damage_status",
+            "slot": 1,
+            "recordType": 42,
+            "group": 0,
+            "row": 41,
+            "parentDamageType": 449,
+            "parentDamageGroup": 1,
+            "parentDamageRow": 441,
+            "fields": {
+              "status.strength": 100.0,
+              "status.duration": 6.0
+            }
+          },
+          {
+            "kind": "StatusEffectSettings",
+            "path": "mine:primary/attack:mine/damage/status:2",
+            "linkage": "damage_status",
+            "slot": 2,
+            "recordType": 44,
+            "group": 0,
+            "row": 43,
+            "parentDamageType": 449,
+            "parentDamageGroup": 1,
+            "parentDamageRow": 441,
+            "fields": {
+              "status.strength": 100.0,
+              "status.duration": 5.0
+            }
+          }
+        ],
         "healthArmorProof": {
           "nativeHealth": 250,
           "nativeArmor": 1,
@@ -66641,6 +66996,58 @@
           "importedArmor": 1,
           "exactCorrelation": true,
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
+        }
+      },
+      "mineChain": {
+        "deployer": "0xA9982969137F3D77",
+        "deployerPath": "content/fac_helldivers/hellpod/mine_launcher/mine_launcher_gas",
+        "minefield": {
+          "recordIndex": 10,
+          "indexRow": 13,
+          "ownerCount": 1,
+          "uniqueOwner": true,
+          "explosionOffset": 24,
+          "explosionType": 270
+        },
+        "thrownMine": {
+          "resource": "0x693028644D27FFEF",
+          "path": "content/fac_helldivers/equipment/throwables/gas_mine/gas_mine",
+          "entityDefined": true,
+          "explosive": {
+            "mode": 2,
+            "armingDelay": 0.0,
+            "explosionDelay": 0.002,
+            "explosionType": 270,
+            "impactExplosionType": 0
+          }
+        },
+        "explosionAgreement": "mine entity ExplosiveComponent +36 == deployer MinefieldComponent +24",
+        "readOnlyObservations": {
+          "thrower.launchNodes": 48,
+          "thrower.slot0Counts": [
+            6,
+            8
+          ],
+          "thrower.slot0Floats": [
+            2.0,
+            1.5,
+            2.0,
+            400.0,
+            1.5,
+            7.0,
+            15.5,
+            90.0,
+            0.0,
+            0.0,
+            45.0
+          ],
+          "minefield.floats": {
+            "8": 0.001,
+            "12": 0.2,
+            "16": 0.25,
+            "28": 0.0
+          },
+          "reason": "Mine count, spacing, trigger radius, arming and lifetime candidates have no independent fingerprint (no scraped values, no reviewed code reader), so they are published read-only."
         }
       },
       "importedBranches": [
@@ -71237,6 +71644,7 @@
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
         }
       },
+      "mineChain": null,
       "importedBranches": [
         {
           "id": "stratagem",

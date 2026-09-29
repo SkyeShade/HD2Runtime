@@ -33,6 +33,10 @@ HD2Runtime is designed to fail safely when a game structure or ownership relatio
 - Automatic asset loading for reference swaps: the packages of pod pickups, mounted weapons and borrowed
   projectiles load through the game's own package system before the write, with no package IDs in mods
   (see `docs/asset-loading.md`)
+- Weapon movement restriction while firing (`weapon.stationary_while_firing`, the Maxigun's stationary
+  firing) on every resolved player and support weapon (see `docs/weapon-movement.md`)
+- Minefield explosions for all four mine stratagems (`hd2.stratagem(name):mine()`), and Cremator, EAT-17 and
+  LAS-98 damage authoring
 - Guarded patches, transactions and multi-object plans
 - In-game options: sliders, choices and toggles on the MODS tab (CowboyBingus Mod Options Menu)
   that drive one ensured operation live, with the same guards
