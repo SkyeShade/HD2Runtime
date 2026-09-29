@@ -124,7 +124,7 @@ function M.start_spec(runtime,emit,spec,startup_delay)
                 if not ok then
                     report.rollback=rollback_prior(runtime,history,report)
                     report.status='REJECTED';report.reason=tostring(plan)
-                    report.non_target_bytes_unchanged=false
+                    report.non_target_bytes_unchanged=false;report.non_target_check='not_reached'
                     return report
                 end
                 report.writes=report.writes+result.writes
@@ -153,6 +153,7 @@ function M.start_spec(runtime,emit,spec,startup_delay)
                     elseif result.rollback=='verified'or earlier=='verified'then report.rollback='verified'
                     else report.rollback='not_needed'end
                     report.status='REJECTED';report.reason=result.reason
+                    report.non_target_check=result.non_target_check;report.guard_failure=result.guard_failure
                     return report
                 end
                 if result.status=='APPLIED'then any_applied=true end
@@ -171,12 +172,14 @@ function M.start_spec(runtime,emit,spec,startup_delay)
         if coroutine.status(worker)~='dead'then return end
         watch.result=result;result.id=spec.id;result.mode=runtime.mode
         result.fixture_fallback='disabled'
-        if result.status=='REJECTED'then return fail(result.reason,result)end
+        if result.status=='REJECTED'then
+            for _,line in ipairs(writer.report_lines(result))do log(line)end
+            return fail(result.reason,result)
+        end
         watch.status='complete';exclusive.release(watch)
         log('plan '..spec.id..' '..result.status..' phases='..#result.phases
             ..' writes='..result.writes..' protection_changes='..result.protection_changes)
-        log('non_target_bytes_unchanged='..tostring(result.non_target_bytes_unchanged))
-        log('protection_restored='..tostring(result.protection_restored))
+        for _,line in ipairs(writer.report_lines(result))do log(line)end
     end
     return watch
 end

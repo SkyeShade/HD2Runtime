@@ -124,8 +124,7 @@ function M.start_spec(runtime,emit,spec,startup_delay)
         if result.status=='APPLIED' then
             log(spec.field..' '..value_text(spec.expect)..' -> '..value_text(spec.value))
         end
-        log('non_target_bytes_unchanged='..tostring(result.non_target_bytes_unchanged))
-        log('protection_restored='..tostring(result.protection_restored))
+        for _,line in ipairs(require('hd2runtime/core/guarded_transaction').report_lines(result))do log(line)end
         if result.status=='REJECTED' then
             log('patch '..spec.id..' rollback='..result.rollback..' writes='..result.writes
                 ..' protection_changes='..result.protection_changes
