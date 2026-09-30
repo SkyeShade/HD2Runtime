@@ -1,5 +1,5 @@
 {
-  "examples": 102,
+  "examples": 103,
   "failed": [],
   "mode": "snapshot",
   "results": {
@@ -2632,6 +2632,45 @@
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "OneTwoUnderbarrelTest": {
+      "baselineChanges": 5,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "one-two-spread",
+          "mode": "transaction",
+          "path": "weapon",
+          "resource": "player_weapon",
+          "weapon": "AR/GL-21 One-Two / underbarrel"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "one-two-grenades",
+          "mode": "transaction",
+          "path": "weapon",
+          "resource": "player_weapon",
+          "weapon": "AR/GL-21 One-Two / underbarrel"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.25.1",
+      "status": "VALIDATED",
+      "usesOptions": true,
+      "versionReasons": [
+        "in-game options -> 0.25.1",
         "typed writes -> 0.23.2"
       ]
     },
