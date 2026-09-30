@@ -19,6 +19,13 @@ snapshots:
 4. The strings tables loaded in the ship snapshot (header 0x3E85F3AE, version 1, count, language, sorted IDs,
    offsets relative to the header) name every tag used by a weapon except two (EAT-411 and EAT-700), in 15
    languages; 0x03F97B57 is en-US.
+5. Weapon-function mode presentation lives on the fired projectile. ProjectileInfo +4 and +8 are its long names
+   (upper and mixed case) and +12 its short mode label (localization string IDs, hidden name length 10 each); +16 is a
+   64-bit resource (length 8): its HUD icon. Every native selectable mode reads as these members: AC-8 APHET / FLAK,
+   GR-8 HEAT / HE, the Halt FLECHETTES / STUN magazines, guidance on / off, with icons under
+   content/ui/mission/hud/weapon_function/. A projectile no menu shows keeps a placeholder label (no string) and
+   the shared skull icon, which is therefore the menu's default. The menu reader itself is not traced; the data
+   pattern is exact across every native mode.
 
 Requires the research-only package capstone.
 Output: research/weapon-presentation-F5FEE03DCFDB.json.
@@ -50,6 +57,13 @@ EN_US, EN_GB = 0x03F97B57, 0x6F4515CB
 # Armor-penetration class labels: the tag a weapon shows for its penetration (exact en-US text).
 PENETRATION = {'light': 'LIGHT ARMOR PENETRATING', 'medium': 'MEDIUM ARMOR PENETRATING',
     'heavy': 'HEAVY ARMOR PENETRATING', 'light_anti_tank': 'LIGHT ANTI-TANK', 'anti_tank': 'ANTI-TANK'}
+# ProjectileInfo presentation members: offset -> (member, hidden name length, storage).
+MODE_LAYOUT = {4: ('long name (upper case)', 10, 'UINT32'), 8: ('long name', 10, 'UINT32'),
+    12: ('short mode label', 10, 'UINT32'), 16: ('HUD icon resource', 8, 'UINT64')}
+ICON_PREFIX = 'content/ui/mission/hud/weapon_function/'
+DEFAULT_ICON = 'content/ui/shared/misc/skull_icon'
+# Native strings offered as mode labels besides those a projectile already uses (exact en-US text, every language).
+EXTRA_LABELS = ('GAS', 'ARC', 'INCENDIARY', 'SMOKE', 'STANDARD')
 XAML_KEYS = [b'Content="{Binding Path=SelectedItem.WeaponData.Traits', b'ObservableCollection<testament.WeaponTrait>',
     b'TabControl_ContentTemplate_SubLevel_Armory_PrimaryWeapons']
 
@@ -133,6 +147,126 @@ def strings_tables(path):
                 xaml.append(re.sub(rb'[^\x20-\x7e]+', b' ', block).decode('ascii').strip())
         mapped.close()
     return table, languages, xaml
+
+
+def projectile_rows():
+    """ProjectileInfo presentation members of every projectile row (production resolver, retained snapshot)."""
+    sys.path.insert(0, str(ROOT / 'sdk'))
+    from research_attachment_presets import _module_sources, _lua
+    from tools.lua_runner import execute
+    preload = '\n'.join('package.preload[' + _lua(n) + ']=function(...) return assert(loadstring(' + _lua(b)
+        + ',' + _lua(n) + '))(...) end' for n, b in _module_sources().items())
+    program = preload + r'''
+local profile=require('hd2runtime/schemas/current')
+local Reader=require('hd2runtime/runtime/reader')
+local discover=require('hd2runtime/runtime/discover')
+local b=require('hd2runtime/core/bytes')
+local json=require('hd2runtime/primary_mapper/json')
+local worker=coroutine.create(function()
+ local source=require('hd2runtime/runtime/snapshot_memory_reader').open(''' + _lua(str(build_profile.SNAPSHOT)) + r''',{
+  expected_exe_sha=profile.exe_sha,expected_dll_sha=profile.dll_sha})
+ local reader=Reader.new(source)
+ local roots=discover.locate(source,reader,profile,{projectile=true})
+ local out={}
+ for t,r in pairs(roots.projectile.records)do
+  out[tostring(t)]={upper=b.u32(r.bytes,4),name=b.u32(r.bytes,8),short=b.u32(r.bytes,12),
+   icon=b.hex(r.bytes:sub(17,24)),settings={group=r.group,row=r.row,recordType=r.kind,settingsType=r.settings_type}}
+ end
+ reader.verify();source.close()
+ return out
+end)
+local ok,value
+repeat ok,value=coroutine.resume(worker)until not ok or coroutine.status(worker)=='dead'
+assert(ok,value);return json.encode(value)
+'''
+    return json.loads(execute(program.encode()))
+
+
+def mode_presentation(native, table):
+    """Short mode labels and HUD icons of every projectile, and the native label and icon catalogs."""
+    lib = native.typelib_module
+    members = {m['offset64']: m for m in lib.layout(native.typelib, 'ProjectileInfo', structured=True)['members']}
+    layout = []
+    for offset, (label, length, storage) in MODE_LAYOUT.items():
+        member = members[offset]
+        if not member['name'].endswith('inferred_length=' + str(length)) or member['storage'] != storage:
+            raise ValueError('ProjectileInfo +%d (%s) changed' % (offset, label))
+        layout.append({'struct': 'ProjectileInfo', 'offset': offset, 'member': label, 'nameLength': length,
+            'storage': storage})
+    import research_entity_authoring as rea
+    paths = rea.Native()
+    rows = {int(k): v for k, v in projectile_rows().items()}
+    text = lambda value: table.get(value, {}).get('%08X' % EN_US)
+    shorts = collections.Counter(row['short'] for row in rows.values())
+    # The placeholder is the unnamed ID nearly every projectile holds; a few others name strings that no loaded
+    # strings table carries (kept by ID, never offered).
+    unnamed = [value for value, _ in shorts.most_common() if not table.get(value)]
+    placeholder = unnamed[0]
+    if shorts[placeholder] < len(rows) // 2:
+        raise ValueError('the short-label placeholder is no longer the common value')
+    labels, by_text = [], {}
+    # Among IDs with the same text, the one a native menu mode shows (a projectile with its own HUD icon) is the
+    # canonical choice, then the most used.
+    default_icon = collections.Counter(row['icon'] for row in rows.values()).most_common(1)[0][0]
+    shown = collections.Counter(row['short'] for row in rows.values() if row['icon'] != default_icon)
+    for value, count in sorted(shorts.items(), key=lambda kv: (-shown[kv[0]], -kv[1], kv[0])):
+        if value == placeholder or not text(value):
+            continue
+        by_text.setdefault(text(value), []).append(value)
+    canonical = {}
+    for label, values in by_text.items():
+        base = re.sub(r'[^a-z0-9]+', '_', label.lower()).strip('_')
+        for index, value in enumerate(values):
+            semantic = base if index == 0 else base + '_' + '%08x' % value
+            canonical[value] = semantic
+            labels.append({'semanticId': semantic, 'nativeId': '%08X' % value, 'label': label,
+                'languages': len(table.get(value, {})), 'projectiles': sorted(t for t, r in rows.items()
+                    if r['short'] == value), 'nativeUse': True, 'offered': index == 0})
+    for label in EXTRA_LABELS:
+        if label in by_text:
+            continue
+        found = sorted(v for v, names in table.items() if names.get('%08X' % EN_US) == label and len(names) == 15)
+        if not found:
+            raise ValueError('extra mode label %s has no fully localized string' % label)
+        semantic = re.sub(r'[^a-z0-9]+', '_', label.lower()).strip('_')
+        canonical[found[0]] = semantic
+        labels.append({'semanticId': semantic, 'nativeId': '%08X' % found[0], 'label': label, 'languages': 15,
+            'projectiles': [], 'nativeUse': False, 'offered': True})
+    icons_used = collections.Counter(row['icon'] for row in rows.values())
+    icons = []
+    icon_ids = {}
+    for icon, count in sorted(icons_used.items(), key=lambda kv: (-kv[1], kv[0])):
+        value = int.from_bytes(bytes.fromhex(icon), 'little')
+        path = paths.path(value)
+        if path == DEFAULT_ICON:
+            semantic = 'default'
+        elif path and path.startswith(ICON_PREFIX):
+            semantic = path[len(ICON_PREFIX):]
+        else:
+            semantic = None
+        if semantic:
+            icon_ids[icon] = semantic
+        icons.append({'semanticId': semantic, 'resource': '0x%016X' % value, 'path': path,
+            'projectiles': count, 'offered': semantic is not None})
+    projectiles = {}
+    for t, row in sorted(rows.items()):
+        projectiles[str(t)] = {'label': None if row['short'] == placeholder else canonical.get(row['short'],
+                'unnamed_%08x' % row['short']),
+            'labelNativeId': '%08X' % row['short'], 'icon': icon_ids.get(row['icon']), 'iconResource': '0x%016X'
+            % int.from_bytes(bytes.fromhex(row['icon']), 'little'), 'name': text(row['name']),
+            'settings': row['settings']}
+    return {'typeLibrary': layout, 'placeholderLabel': '%08X' % placeholder, 'defaultIcon': DEFAULT_ICON,
+        'unnamedLabels': ['%08X' % v for v in unnamed[1:]],
+        'labels': labels, 'icons': icons, 'projectiles': projectiles,
+        'model': {'label': 'ProjectileInfo +12: the short mode label (localization string ID); a projectile no menu '
+                'shows holds the unnamed placeholder.', 'icon': 'ProjectileInfo +16: the HUD icon resource; '
+                'unlisted projectiles share the skull icon.', 'names': 'ProjectileInfo +4 / +8: long names.',
+            'reader': 'Every native selectable mode reads as these members; the weapon-function menu reader is not '
+                'traced.', 'shared': 'A ProjectileSettings row is a definition: every weapon firing that projectile '
+                'shows the same label and icon.'},
+        'summary': {'projectiles': len(rows), 'labelled': sum(1 for p in projectiles.values() if p['label']),
+            'labels': len(labels), 'offeredLabels': sum(1 for l in labels if l['offered']),
+            'icons': sum(1 for i in icons if i['offered'])}}
 
 
 def main():
@@ -260,7 +394,8 @@ def main():
                 'there is no stored display value.',
             'gameplaySeparation': 'The labels are presentation only: no gameplay reader of LoadoutEntry +12 was found; '
                 'changing them never changes damage or penetration.'},
-        'penetrationLabels': penetration, 'traits': catalog, 'summary': summary, 'weapons': weapons}
+        'penetrationLabels': penetration, 'traits': catalog, 'summary': summary, 'weapons': weapons,
+        'modes': mode_presentation(native, table)}
     OUTPUT.write_text(json.dumps(report, indent=1, ensure_ascii=False) + '\n', newline='\n', encoding='utf-8')
     print(json.dumps(summary, indent=1))
 
