@@ -568,8 +568,11 @@ def outputs():
         '---@return table','function HD2AttackOutput:describe() end',
         '---The native mode labels hd2.fields.presentation.mode_label accepts.',
         '---@return string[]','function HD2AttackOutput:mode_labels() end',
-        '---The native weapon-function icons hd2.fields.presentation.mode_icon accepts ("default" is the skull).',
-        '---@return string[]','function HD2AttackOutput:mode_icons() end']
+        '---The native weapon-function icons hd2.fields.presentation.mode_icon accepts ("default" is the skull;',
+        '---"auto" writes the label exact native icon, else the generic ammunition icon ammo_slug).',
+        '---@return string[]','function HD2AttackOutput:mode_icons() end',
+        '---The icon "auto" writes for a mode label: {icon, source="exact_native"|"generic_fallback"}.',
+        '---@param label string','---@return table','function HD2AttackOutput:mode_icon_for(label) end']
     # Event actions: the named explosions (Hellbombs) and the statuses hd2.status offers (domains/event_natives.lua).
     event_actions = json.loads((ROOT/'research/event-actions-F5FEE03DCFDB.json').read_text(encoding='utf-8'))
     alias('HD2ExplosionName',[item['name'] for item in event_actions['namedExplosions']]
@@ -644,6 +647,17 @@ def outputs():
         '---@return string[]','function hd2.enemies(filter) end',
         '---A catalogued attack output by semantic ID or owner weapon name (see docs/attack-outputs.md).',
         '---@param identity HD2AttackOutputId','---@return HD2AttackOutput','function hd2.attack_output(identity) end',
+        '---Mods that need a newer HD2Runtime (HD2Runtime 0.28.0+). The SDK wrapper of every mod reports here before its',
+        '---own version check fails closed; HD2Runtime logs each mod and shows one update warning per session on the ship.',
+        'hd2.compatibility = {}',
+        '---Record that `mod` needs `minimum` (SemVer); true when the installed HD2Runtime satisfies it.',
+        '---@param mod string','---@param minimum string','---@param display string?','---@return boolean ok',
+        '---@return string? reason','function hd2.compatibility.require_runtime(mod, minimum, display) end',
+        '---SemVer precedence (-1, 0, 1; nil when malformed). A prerelease is older than its release.',
+        '---@param a string','---@param b string','---@return integer?','function hd2.compatibility.compare(a, b) end',
+        '---@return table[] {mod, display, required}','function hd2.compatibility.incompatible() end',
+        '---@return string? highest','function hd2.compatibility.highest() end',
+        '---@return table {incompatible, highest, shown, dialog}','function hd2.compatibility.status() end',
         '---Catalogued attack output IDs, optionally filtered.',
         '---@param filter? {family?: "projectile"|"beam"|"arc"|"spray"|"melee", selectable?: boolean}',
         '---@return string[]','function hd2.attack_outputs(filter) end']

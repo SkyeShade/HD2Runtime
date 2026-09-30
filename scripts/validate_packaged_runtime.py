@@ -648,8 +648,9 @@ end
 '''
 
 # SpeargunGasStunTest: the EMS Mortar shell (a stratagem-owned donor) binds ProgrammableAmmo and sets the function
-# projectile (two writes) after the turret's package loads; the GAS label (one slot) and the STUN label and stun icon
-# (three slots) are separate operations on the two outputs; each toggle restores or re-applies exactly its own writes.
+# projectile (two writes) after the turret's package loads; the GAS label with its auto (generic) icon and the STUN
+# label with the stun icon (three slots each) are separate operations on the two outputs; each toggle restores or
+# re-applies exactly its own writes.
 SPEARGUN_LIVE = r'''
 return function(frame,watches,counts,lines)
  local menu=rawget(_G,'ModOptionsMenu');local mode,gas,stun=watches[1],watches[2],watches[3];local results={}
@@ -662,19 +663,20 @@ return function(frame,watches,counts,lines)
  end
  local function applied(w)return w.status=='waiting'and w.result and w.result.status=='APPLIED'end
  step('EMS default: turret package loaded, selector and projectile written, both labels applied',applied(mode)
-  and applied(gas)and applied(stun)and counts.writes==6 and(counts.package_requests or 0)==1,
+  and applied(gas)and applied(stun)and counts.writes==8 and(counts.package_requests or 0)==1,
   ('status=%s/%s/%s writes=%d packages=%d error=%s'):format(tostring(mode.status),tostring(gas.status),
    tostring(stun.status),counts.writes,counts.package_requests or 0,tostring(mode.error or gas.error or stun.error)))
  local writes,runs=counts.writes,gas.runs
  menu.apply('speargun_gas_stun.labels',false);settle(gas,runs,'disabled');settle(stun,stun.runs,'disabled')
- step('labels off restores the two outputs (four slots), the mode untouched',gas.status=='disabled'
-  and stun.status=='disabled'and counts.writes==writes+4 and applied(mode),('writes=%d'):format(counts.writes-writes))
+ step('labels off restores the two outputs (six slots: vanilla labels and icons), the mode untouched',
+  gas.status=='disabled'and stun.status=='disabled'and counts.writes==writes+6 and applied(mode),
+  ('writes=%d'):format(counts.writes-writes))
  writes=counts.writes
  menu.apply('speargun_gas_stun.labels',true)
  local spent=0
  while(gas.status~='waiting'or stun.status~='waiting')and spent<20000 do frame();spent=spent+1 end
  for _=1,20 do frame()end
- step('labels on applies them again',applied(gas)and applied(stun)and counts.writes==writes+4,
+ step('labels on applies them again',applied(gas)and applied(stun)and counts.writes==writes+6,
   ('writes=%d'):format(counts.writes-writes))
  writes=counts.writes
  menu.apply('speargun_gas_stun.enabled',false);settle(mode,mode.runs,'disabled')
@@ -781,6 +783,67 @@ def example(name, folder='projects'):
     return wrap_example(name, folder, example_source(name, folder))
 
 
+# RuntimeVersionWarningTest (requires 0.29.0) and three more wrapped mods, loaded as the loader would: a prerelease
+# requirement above it (0.29.1-rc.1), one equal to the installed runtime and one older. The two too-new mods fail
+# closed and are reported; the dialog (presenter stubbed) appears once, only after the game state is Ship for five
+# polls, naming the highest requirement; equal and older mods start and never warn.
+VERSION_WARNING_LIVE = r'''
+return function(frame,watches,counts,lines)
+ local results={}
+ local function step(name,ok,detail)results[#results+1]={name=name,passed=ok==true,detail=detail}end
+ local shown=rawget(_G,'HD2RuntimeVersionWarningShown');local started=rawget(_G,'HD2RuntimeVersionWarningResults')
+ local compatibility=require('hd2runtime/api/compatibility')
+ local function count(text)local n=0;for _,line in ipairs(lines)do if line:find(text,1,true)then n=n+1 end end;return n end
+ step('too-new mods fail closed, equal and older mods start',started[1][1]==false and started[2][1]==false
+  and tostring(started[1][2]):find('dependency version mismatch',1,true)and started[3][1]==true and started[4][1]==true,
+  tostring(started[1][2]))
+ step('each too-new mod is logged once with its exact requirement',count('requires HD2Runtime 0.29.0 or newer')==1
+  and count('requires HD2Runtime 0.29.1-rc.1 or newer')==1 and count('needs_equal')==0 and count('needs_older')==0,
+  table.concat(lines,' | '):sub(1,400))
+ step('no warning before the ship is stable',#shown==0,tostring(#shown))
+ for _=1,120 do frame()end
+ local installed=compatibility.installed()
+ step('one aggregated warning with the highest requirement',#shown==1 and shown[1].title=='HD2Runtime update required'
+  and shown[1].message=='One or more installed mods require a newer HD2Runtime version.\n\nRequired version: '
+   ..'0.29.1-rc.1\nInstalled version: '..installed..'\n\nPlease update HD2Runtime.',
+  shown[1]and shown[1].message or'none')
+ compatibility.require_runtime('mods/test/needs_029','0.29.0','Repeat')
+ for _=1,120 do frame()end
+ step('once per session',#shown==1 and count('HD2Runtime update warning shown')==1 and compatibility.status().shown,
+  tostring(#shown))
+ step('SemVer precedence',compatibility.compare('0.29.0-rc.1','0.29.0')==-1 and compatibility.compare('0.29.0','0.28.9')==1
+  and compatibility.compare('1.0.0-alpha.1','1.0.0-alpha.beta')==-1 and compatibility.compare('1.0.0+build.7','1.0.0')==0
+  and compatibility.compare('1.0.0-2','1.0.0-10')==-1 and compatibility.compare('bad','1.0.0')==nil,'compare')
+ return results
+end
+'''
+
+EXTRAS['runtime-version-warning'] = {'after': VERSION_WARNING_LIVE}
+
+
+def version_warning_addon():
+    import importlib.util
+    loader = importlib.util.spec_from_file_location('hd2_sdk_cli', ROOT / 'sdk/hd2.py')
+    sdk = importlib.util.module_from_spec(loader)
+    loader.loader.exec_module(sdk)
+    installed = (ROOT / 'VERSION').read_text().strip()
+    mods = [example('RuntimeVersionWarningTest'),
+        sdk.wrap_addon('mods/test/needs_0291', '0.29.1-rc.1', 'return true', 'Needs0291'),
+        sdk.wrap_addon('mods/test/needs_equal', installed, 'return true', 'NeedsEqual'),
+        sdk.wrap_addon('mods/test/needs_older', '0.1.0', 'return true', 'NeedsOlder')]
+    return ('''local compatibility=require('hd2runtime/api/compatibility')
+local shown,polls={},0
+compatibility.game_state=function()polls=polls+1;return {name=polls<=3 and'Mission'or'Ship'}end
+compatibility.presenter=function(title,message)shown[#shown+1]={title=title,message=message};return true end
+rawset(_G,'HD2RuntimeVersionWarningShown',shown)
+local MODS={''' + ','.join(lua(m) for m in mods) + '''}
+local results={}
+for index,source in ipairs(MODS)do results[index]={pcall(assert(loadstring(source,'mod'..index)))}end
+rawset(_G,'HD2RuntimeVersionWarningResults',results)
+return true
+''')
+
+
 SCENARIOS = {
     'player-weapon-patch': lambda: SIMPLE_PATCH,
     'projectile-active-sources': lambda: PROJECTILE_SOURCES,
@@ -830,6 +893,7 @@ SCENARIOS = {
     'options-missing-strict': lambda: OPTIONS_MISSING_ADDON().replace(*STRICT_PAGE),
     'options-test-mod-live': lambda: example('HD2RuntimeOptionsTest', 'live'),
     'options-test-mod-missing': lambda: OPTIONS_MISSING_ADDON('HD2RuntimeOptionsTest', 'live'),
+    'runtime-version-warning': version_warning_addon,
 }
 
 # Every other shipped example project runs from the built ZIP too, so no example can rot unnoticed.

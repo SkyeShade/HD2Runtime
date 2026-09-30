@@ -208,6 +208,10 @@ def public_presentation(row):
             if label['shared'] else [])}
 
 
+GENERIC_FALLBACK = (json.loads(PRESENTATION.read_text(encoding='utf-8'))['modes']['genericFallbackIcon'],
+    json.loads(PRESENTATION.read_text(encoding='utf-8'))['modes']['iconVisuals'])
+
+
 def mode_catalog():
     """(labels, icons, projectiles) from research/weapon-presentation-F5FEE03DCFDB.json `modes`."""
     modes = json.loads(PRESENTATION.read_text(encoding='utf-8'))['modes']
@@ -219,6 +223,11 @@ def mode_catalog():
         labels['unnamed_' + native.lower()] = {'nativeId': int(native, 16), 'offered': False, 'label': None}
     icons = {item['semanticId']: {'resource': item['resource'], 'offered': item['offered']}
         for item in modes['icons'] if item['semanticId']}
+    # Icon for a label: the exact native icon a projectile with that label shows, else the generic fallback.
+    for key, item in labels.items():
+        choice = modes['labelIcons'].get(key) or {'icon': modes['genericFallbackIcon'], 'source': 'generic_fallback'}
+        item['icon'], item['iconSource'] = choice['icon'], choice['source']
+    icons['auto'] = {'auto': True, 'offered': True, 'generic': modes['genericFallbackIcon']}
     return labels, icons, modes['projectiles']
 
 
@@ -363,8 +372,10 @@ def outputs():
         for output, mechanism in pairs.items():
             if output not in runtime_outputs or (hosts.get(host) or {}).get('mechanism') != mechanism:
                 raise ValueError(f'proven composition {host} / {output} is not a catalogued host and output')
-    runtime_labels = {key: {'nativeId': item['nativeId'], 'offered': item['offered']} for key, item in mode_labels.items()}
-    runtime_icons = {key: {'resource': item['resource'], 'offered': item['offered']} for key, item in mode_icons.items()}
+    runtime_labels = {key: {'nativeId': item['nativeId'], 'offered': item['offered'], 'icon': item['icon'],
+        'iconSource': item['iconSource']} for key, item in mode_labels.items()}
+    runtime_icons = {key: (dict(item) if item.get('auto') else {'resource': item['resource'], 'offered': item['offered']})
+        for key, item in mode_icons.items()}
     runtime = migration_overlay.apply('attack_outputs', {'outputs': runtime_outputs, 'aliases': aliases,
         'modeLabels': runtime_labels, 'modeIcons': runtime_icons,
         'hosts': hosts, 'sources': sources, 'ammunition': ammunition, 'provenCompositions': compositions,
@@ -454,12 +465,20 @@ def outputs():
                 'projectile\'s own short label and HUD icon. They are members of its ProjectileSettings row, a shared '
                 'definition: every weapon firing that projectile shows the same label and icon.'),
             'fallback': 'A projectile no native menu shows has no label (none) and the default (skull) icon.',
-            'labels': [{'value': key, 'label': item['label'], 'native': key != 'none'} for key, item in
-                mode_labels.items() if item['offered']],
-            'icons': [key for key, item in mode_icons.items() if item['offered']],
+            'labels': [{'value': key, 'label': item['label'], 'native': key != 'none', 'icon': item['icon'],
+                'iconSource': item['iconSource']} for key, item in mode_labels.items() if item['offered']],
+            'icons': [{'value': key, 'source': 'auto' if item.get('auto') else 'native',
+                'genericFallback': key == GENERIC_FALLBACK[0], 'description': GENERIC_FALLBACK[1].get(key)}
+                for key, item in mode_icons.items() if item['offered']],
+            'autoIcon': ('mode_icon = "auto" writes the label exact native icon (iconSource exact_native) or, when '
+                'no native icon exists for it, the generic fallback; it uses the mode_label written in the same '
+                'operation, else the current one. An explicit native icon always overrides it.'),
+            'genericFallbackIcon': GENERIC_FALLBACK[0],
+            'defaultIcon': ('default: the skull every unlabelled projectile holds; it is another texture set and '
+                'shows as no usable weapon-function icon (the GAS live test, 2026-09-30).'),
             'acknowledgement': 'allow_unverified_effect (plus allow_shared when other weapons fire the projectile)',
             'customText': 'not supported: labels are native localization strings only',
-            'customIcons': 'not supported: icons are the native weapon-function icons only'},
+            'customIcons': 'not supported in this release: icons are the native weapon-function icons only'},
         'safety': {'runtimeAddresses': False, 'nativeIdentifiers': False, 'writesDuringGeneration': 0}}
     text = json.dumps(document, indent=1)
     if re.search(r'0x[0-9A-Fa-f]{8}', text):

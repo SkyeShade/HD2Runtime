@@ -144,7 +144,13 @@ class CatalogTests(unittest.TestCase):
             summary['ammunitionHosts'], summary['directWritableAttackFields']), (67, 35, 29, 6, 37))
         # Every selectable projectile output carries its weapon-function mode label and icon (native values only).
         presentation = self.catalog['modePresentation']
-        self.assertIn('ammo_stun', presentation['icons'])
+        icons = {i['value']: i for i in presentation['icons']}
+        self.assertIn('ammo_stun', icons)
+        self.assertEqual(presentation['genericFallbackIcon'], 'ammo_slug')
+        self.assertTrue(icons['ammo_slug']['genericFallback'] and icons['auto']['source'] == 'auto')
+        by_label = {l['value']: l for l in presentation['labels']}
+        self.assertEqual((by_label['gas']['icon'], by_label['gas']['iconSource']), ('ammo_slug', 'generic_fallback'))
+        self.assertEqual((by_label['stun']['icon'], by_label['stun']['iconSource']), ('ammo_stun', 'exact_native'))
         self.assertTrue({'none', 'gas', 'stun', 'flak', 'he'} <= {l['value'] for l in presentation['labels']})
         self.assertEqual(sum(1 for o in self.catalog['outputs'] if o.get('presentation')), 67)
         self.assertEqual(self.outputs['AC-8 Autocannon']['presentation']['label'], 'aphet')

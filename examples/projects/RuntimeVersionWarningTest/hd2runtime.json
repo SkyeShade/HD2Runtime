@@ -1,0 +1,1 @@
+{"format":1,"name":"RuntimeVersionWarningTest","resource":"mods/hd2runtime_examples/runtime_version_warning_test","guid":"701dc0d5-537c-570d-9cbb-9abdab640312","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.29.0","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../../sdk","ide_library":"../../../sdk/stubs"}

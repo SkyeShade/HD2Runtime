@@ -42,13 +42,23 @@ local function encode(field,value,label,offered_only)
     end
     assert(field.type=='mode_icon','unsupported presentation field type')
     local item=type(value)=='string'and catalog().modeIcons[value]
+    assert(not(item and item.auto),label..' auto resolves to a native icon before validation')
     assert(item,label..' must be a native weapon-function icon (see sdk/AttackOutputCapabilities.json modePresentation)')
     assert(item.offered or not offered_only,label..' '..value..' is not an offered icon')
     return resource_bytes(item.resource)
 end
+-- "auto": the exact native icon of the mode label (written in the same operation, else the current one), or the
+-- generic fallback when that label has no native icon. Deterministic; an explicit icon always overrides it.
+local function auto_icon(output,items)
+    local label=output.presentationFields['presentation.mode_label'].currentDefault
+    for _,item in ipairs(items)do if item.field=='presentation.mode_label'then label=item.value end end
+    local entry=type(label)=='string'and catalog().modeLabels[label]
+    return entry and entry.icon or catalog().modeIcons.auto.generic,entry and entry.iconSource or'generic_fallback'
+end
+M.auto_icon=auto_icon
 local function validate_change(output,item,request)
     assert(type(item)=='table','change must be a descriptor')
-    for key in pairs(item)do assert(key=='field'or key=='expect'or key=='value',
+    for key in pairs(item)do assert(key=='field'or key=='expect'or key=='value'or key=='icon_source',
         'unsupported change option: '..tostring(key))end
     local field=output.presentationFields[item.field]
     assert(field,'field is not exposed for attack outputs: '..tostring(item.field))
@@ -74,6 +84,16 @@ local function validate(request,multiple)
     local output=output_for(request.target)
     local items=multiple and request.changes or{{field=request.field,expect=request.expect,value=request.value}}
     assert(type(items)=='table'and#items>=1 and#items<=32,'transaction requires one to 32 changes')
+    -- "auto" icons resolve on a copy of the changes; the caller's descriptors are never modified.
+    local source_items=items;items={}
+    for index,item in ipairs(source_items)do
+        items[index]=item
+        if type(item)=='table'and item.field=='presentation.mode_icon'and item.value=='auto'then
+            local resolved={};for key,value in pairs(item)do resolved[key]=value end
+            resolved.value,resolved.icon_source=auto_icon(output,source_items)
+            items[index]=resolved
+        end
+    end
     local result={kind='attack_output',id=request.id,output=output.id,diagnostic=request.diagnostic==true,
         allow_shared=request.allow_shared==true,allow_unverified_effect=request.allow_unverified_effect==true,
         changes={}}

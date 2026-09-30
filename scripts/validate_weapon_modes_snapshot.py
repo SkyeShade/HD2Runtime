@@ -425,13 +425,14 @@ local worker=coroutine.create(function()
  reset()
  -- Pins: the Speargun modes the live test labels (spear GAS, EMS shell STUN with the stun icon).
  local labels={}
- for _,item in ipairs({{spear_output.id,'gas','default'},{'output/v1/projectile/a-m-23-ems-mortar-sentry','stun',
+ -- GAS has no native icon: "auto" resolves to the generic fallback; STUN names its native stun icon explicitly.
+ for _,item in ipairs({{spear_output.id,'gas','auto'},{'output/v1/projectile/a-m-23-ems-mortar-sentry','stun',
    'ammo_stun'}})do
   local pinned=resolve_output(presenter.validate_transaction({id='pin',target=setmetatable({resource='attack_output',
    output=item[1]},{}),allow_unverified_effect=true,changes={{field=LABEL,expect='none',value=item[2]},
    {field=ICON,expect='default',value=item[3]}}}))
   labels[item[1]]={label=b.hex(pinned.changes[1].desired),
-   icon=b.hex(pinned.changes[2].desired)..b.hex(pinned.changes[3].desired),
+   icon=b.hex(pinned.changes[2].desired)..b.hex(pinned.changes[3].desired),iconValue=pinned.changes[2].value,
    row=pinned.changes[1].identity.record_index}
  end
  result.modePresentation=labels

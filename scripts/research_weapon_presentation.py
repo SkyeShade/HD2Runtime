@@ -64,6 +64,18 @@ ICON_PREFIX = 'content/ui/mission/hud/weapon_function/'
 DEFAULT_ICON = 'content/ui/shared/misc/skull_icon'
 # Native strings offered as mode labels besides those a projectile already uses (exact en-US text, every language).
 EXTRA_LABELS = ('GAS', 'ARC', 'INCENDIARY', 'SMOKE', 'STANDARD')
+# The generic fallback for a mode whose label has no native icon: the one weapon-function icon that shows a plain
+# round (a single cartridge) and implies no effect. Reviewed by decoding the installed textures (never shipped):
+# every other icon shows a specific effect or function (stun lightning, explosions, a tank, a jet, darts, pellets,
+# guidance reticles, burst rounds, C4, an airstrike); the default skull belongs to another texture set.
+GENERIC_ICON = 'ammo_slug'
+ICON_VISUALS = {'ammo_slug': 'a single plain cartridge', 'ammo_stun': 'lightning around a round (stun)',
+    'ammo_he': 'an explosion burst', 'ammo_heat': 'an explosion against a tank', 'ammo_frag': 'a fragmenting burst',
+    'ammo_aphet': 'an armour-piercing round with a burst', 'ammo_flak': 'a jet (anti-air)',
+    'ammo_flechettes': 'a dart', 'ammo_buckshot': 'a cluster of pellets', 'burst_fire': 'three stacked rounds',
+    'guidance_on': 'a guidance reticle (guided)', 'guidance_off': 'a guidance reticle (unguided)',
+    'firemode_deploy_c4': 'a deployable charge', 'airstrike': 'an aircraft with a blast',
+    'default': 'a skull (another texture set, not a weapon-function icon)'}
 XAML_KEYS = [b'Content="{Binding Path=SelectedItem.WeaponData.Traits', b'ObservableCollection<testament.WeaponTrait>',
     b'TabControl_ContentTemplate_SubLevel_Armory_PrimaryWeapons']
 
@@ -182,6 +194,35 @@ assert(ok,value);return json.encode(value)
     return json.loads(execute(program.encode()))
 
 
+def icon_textures(paths, icons):
+    """Which texture archive each offered icon lives in, and its format, from the installed game data (read-only).
+    The weapon-function icons share one archive; the default skull does not."""
+    try:
+        import hd2_game_data as game_data
+        data = game_data.Data()
+    except (OSError, AssertionError, KeyError) as error:
+        return {'available': False, 'reason': str(error)}
+    texture = game_data.murmur64(game_data.TEXTURE.encode())
+    wanted = {}
+    for item in icons:
+        if item['offered'] and item['path']:
+            wanted[(game_data.murmur64(item['path'].encode()), texture)] = item['semanticId']
+    found = data.find(set(wanted))
+    out = {}
+    for key, (archive, main, _, gpu) in sorted(found.items(), key=lambda kv: wanted[kv[0]]):
+        header = data.read(archive, main)
+        at = header.find(b'DDS ')
+        height, width = struct.unpack_from('<II', header, at + 12)
+        fourcc = header[at + 84:at + 88]
+        dxgi = struct.unpack_from('<I', header, at + 128)[0] if fourcc == b'DX10' else None
+        out[wanted[key]] = {'archive': archive.upper(), 'width': width, 'height': height, 'dxgiFormat': dxgi,
+            'gpuBytes': gpu[1]}
+    archives = {v['archive'] for k, v in out.items() if k != 'default'}
+    return {'available': True, 'icons': out, 'weaponFunctionArchives': sorted(archives),
+        'defaultIconArchive': (out.get('default') or {}).get('archive'),
+        'note': 'The weapon-function icons are one texture set (one archive); the default skull is another.'}
+
+
 def mode_presentation(native, table):
     """Short mode labels and HUD icons of every projectile, and the native label and icon catalogs."""
     lib = native.typelib_module
@@ -255,7 +296,28 @@ def mode_presentation(native, table):
             'labelNativeId': '%08X' % row['short'], 'icon': icon_ids.get(row['icon']), 'iconResource': '0x%016X'
             % int.from_bytes(bytes.fromhex(row['icon']), 'little'), 'name': text(row['name']),
             'settings': row['settings']}
+    # Exact icons: every native label that a projectile shows with a weapon-function icon has exactly one; a label
+    # without one (and a mod's custom label) resolves to the generic fallback.
+    pairs = {}
+    for row in projectiles.values():
+        if row['label'] and row['icon'] and row['icon'] != 'default':
+            pairs.setdefault(row['label'], set()).add(row['icon'])
+    if any(len(icons_) != 1 for icons_ in pairs.values()):
+        raise ValueError('a native mode label shows more than one icon: %r' % pairs)
+    texts = {item['semanticId']: item['label'] for item in labels}
+    canonical_of = {text: next(l['semanticId'] for l in labels if l['label'] == text and l['offered'])
+        for text in {l['label'] for l in labels}}
+    label_icons = {}
+    for item in labels:
+        exact = pairs.get(item['semanticId']) or pairs.get(canonical_of[item['label']])
+        label_icons[item['semanticId']] = ({'icon': next(iter(exact)), 'source': 'exact_native'} if exact else
+            {'icon': GENERIC_ICON, 'source': 'generic_fallback'})
+    if GENERIC_ICON not in {i['semanticId'] for i in icons if i['offered']}:
+        raise ValueError('the generic fallback icon is not a native weapon-function icon')
+    texture_sets = icon_textures(paths, icons)
     return {'typeLibrary': layout, 'placeholderLabel': '%08X' % placeholder, 'defaultIcon': DEFAULT_ICON,
+        'labelIcons': label_icons, 'genericFallbackIcon': GENERIC_ICON, 'iconVisuals': ICON_VISUALS,
+        'iconTextures': texture_sets,
         'unnamedLabels': ['%08X' % v for v in unnamed[1:]],
         'labels': labels, 'icons': icons, 'projectiles': projectiles,
         'model': {'label': 'ProjectileInfo +12: the short mode label (localization string ID); a projectile no menu '
