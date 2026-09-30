@@ -829,6 +829,12 @@ PROJECTILE_BUILDER_TOGGLES = {
         ('unified_projectile_swap.reprimand_napalm', [2], 1, True),
         ('unified_projectile_swap.liberator_talon', [3], 1, True),
         ('unified_projectile_swap.stalwart_amr', [4], 1, False)], (), 4),
+    # ProjectileSlotTest: the Coyote's own row; each impact choice re-points one slot and loads that donor's package;
+    # Vanilla restores the slot, and the grenade again needs no new package request.
+    'example-projectile-slot-test': ([('projectile_slot_test.stun_rounds', [2], 1, False)],
+        [('projectile_slot_test.impact', 2, [1], 1, 2), ('projectile_slot_test.impact', 3, [1], 1, 3),
+         ('projectile_slot_test.impact', 4, [1], 1, 4), ('projectile_slot_test.impact', 5, [1], 1, 5),
+         ('projectile_slot_test.impact', 1, [1], 1, 5), ('projectile_slot_test.impact', 2, [1], 1, 5)], 5),
 }
 
 EXTRAS = {'options-live': {'menu': MENU_STUB, 'after': OPTIONS_LIVE},

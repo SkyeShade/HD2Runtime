@@ -1,5 +1,5 @@
 {
-  "examples": 100,
+  "examples": 101,
   "failed": [],
   "mode": "snapshot",
   "results": {
@@ -2919,6 +2919,41 @@
       "usesOptions": false,
       "versionReasons": [
         "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.27.0"
+      ]
+    },
+    "ProjectileSlotTest": {
+      "baselineChanges": 2,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "coyote-impact",
+          "mode": "transaction",
+          "resource": "attack_output"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "coyote-stun",
+          "mode": "transaction",
+          "resource": "attack_output"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.25.1",
+      "status": "VALIDATED",
+      "usesOptions": true,
+      "versionReasons": [
+        "in-game options -> 0.25.1",
+        "typed writes -> 0.23.2"
       ]
     },
     "RecoillessProof": {
