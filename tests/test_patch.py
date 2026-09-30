@@ -397,5 +397,75 @@ assert(runtime.read(target_address,12)==string.rep(u32(5),3))
 ''')
 
 
+    def test_repeated_external_writes_warn_once_as_a_write_conflict(self):
+        check(r"""
+local e=hd2.ensure{patch=request(),interval=1,startup_delay=0}
+for _=1,3000 do e.tick(0);if e.runs==1 then break end end
+assert(e.runs==1)
+local function count(needle)local n=0;for _,l in ipairs(logs)do if l:find(needle,1,true)then n=n+1 end end;return n end
+-- Two external changes in the window: re-applied, no warning yet.
+for round=2,3 do
+ replace(target_address,old);e.tick(1)
+ for _=1,3000 do e.tick(0);if e.runs==round then break end end
+ assert(e.runs==round and runtime.read(target_address,12)==desired)
+end
+assert(count('possible write conflict')==0)
+-- The third within the window warns once, naming the operation, its target, field, count and span.
+replace(target_address,old);e.tick(1)
+for _=1,3000 do e.tick(0);if e.runs==4 then break end end
+assert(count('possible write conflict')==1,table.concat(logs,'\n'))
+local line
+for _,l in ipairs(logs)do if l:find('possible write conflict',1,true)then line=l end end
+assert(line:find('operation jar5-ap4',1,true)and line:find('re-applied 3 times in',1,true),line)
+assert(line:find('(jar5 damage: armor_penetration)',1,true),line)
+-- More fighting inside the same window does not spam the log.
+for round=5,7 do
+ replace(target_address,old);e.tick(1)
+ for _=1,3000 do e.tick(0);if e.runs==round then break end end
+end
+assert(count('possible write conflict')==1,'warned twice in one window')
+local conflicts=hd2.diagnostics and hd2.diagnostics.write_conflicts()or require('hd2runtime/runtime/diagnostics').write_conflicts()
+local mine
+for _,item in ipairs(conflicts)do if item.operation=='jar5-ap4'then mine=item end end
+assert(mine and mine.externalChanges==6 and mine.warnings==1,tostring(mine and mine.externalChanges))
+-- A game reallocation is not a write conflict: only target-value drift counts.
+assert(require('hd2runtime/runtime/metrics').snapshot().counters['ensure.external_changes']>=6)
+""")
+
+    def test_telemetry_is_opt_in_and_reports_percentiles(self):
+        check(r"""
+local diagnostics=require('hd2runtime/runtime/diagnostics')
+local metrics=require('hd2runtime/runtime/metrics')
+local clock=0
+metrics.set_clock(function()return clock end)
+-- Disabled: timed sections are not sampled.
+local started=metrics.now();clock=clock+0.002;metrics.elapsed('scheduler.tick',started)
+assert(#diagnostics.telemetry().sections==0 and not diagnostics.telemetry().enabled)
+local lines={}
+local state=diagnostics.telemetry({enabled=true,report_seconds=5})
+assert(state.enabled and state.report_seconds==5)
+for index=1,100 do
+ local t=metrics.now();clock=clock+index*0.00001;metrics.elapsed('scheduler.tick',t)
+ t=metrics.now();clock=clock+0.00002;metrics.elapsed('steady.verify',t)
+end
+local sections=diagnostics.telemetry().sections
+assert(#sections==2 and sections[1].section=='update'and sections[1].samples==100,tostring(#sections))
+assert(math.abs(sections[1].maxMs-1.0)<1e-6 and math.abs(sections[1].p95Ms-0.95)<1e-6,sections[1].p95Ms)
+assert(math.abs(sections[1].p99Ms-0.99)<1e-6)
+-- The report line after the interval, then a fresh interval.
+local log=require('hd2runtime/runtime/log')
+local previous=log.emit
+log.emit=function(line)lines[#lines+1]=line end
+diagnostics.tick(6,3)
+log.emit=previous
+assert(#lines==1 and lines[1]:find('telemetry 6 s: update avg',1,true)and lines[1]:find('active ensures 3',1,true),
+ tostring(lines[1]))
+assert(#diagnostics.telemetry().sections==0)
+diagnostics.telemetry({enabled=false})
+local t=metrics.now();clock=clock+0.001;metrics.elapsed('scheduler.tick',t)
+assert(#diagnostics.telemetry().sections==0,'sampled while disabled')
+local ok=pcall(diagnostics.telemetry,{enabled='yes'});assert(not ok)
+""")
+
 if __name__=='__main__':
     unittest.main()

@@ -59,6 +59,34 @@ weapon-local records.
 | `hd2.fields.damage.player_standard_damage`, `player_durable_damage`, `ap_*`, `demolition`, `stagger`, `push_force` | `weapon:projectile()`, or the spray attack | Shared `DamageInfo` |
 | `hd2.fields.explosion.*_radius`, `hd2.fields.explosion.damage_*` | `weapon:explosion()` | Shared `ExplosionSettings` and its `DamageInfo` |
 
+## Projectile swaps
+
+Mounted projectile weapons are projectile hosts by the same rule as player and support weapons
+([attack outputs](attack-outputs.md), mounted hosts). Nine qualify:
+- EXO-45 Patriot minigun;
+- both EXO-49 Emancipator autocannons;
+- EXO-51 Lumberer cannon;
+- M-102 Gunner FRV gun and the Super Earth FRV gun (one weapon entity: `allow_shared`);
+- M-103 Supply FRV gun;
+- GATER Oil Rig turret;
+- AX/AR-23 Guard Dog gun.
+
+```lua
+local patriot=hd2.vehicle('EXO-45 Patriot Exosuit'):weapon('right_gun')
+local source=patriot:projectile_source()
+hd2.ensure({transaction={id='patriot-eat',target=source.target,allow_unverified_effect=true,
+    allow_unverified_reference=true,changes={{field=source.field,expect=source.expect,
+    value=hd2.attack_output('EAT-17 Expendable Anti-Tank')}}}})
+```
+
+- **Donors.** Any catalogued projectile output, or another weapon's attack projectile (player, support or mounted).
+  Beam, arc and spray outputs are refused.
+- **Mounted donors.** A mounted weapon's own output is a donor for any host.
+- **Assets.** Packages load first; the Guard Dog gun's package is unknown, so it is refused as a donor.
+- **Read-only mounts** give their reason in `projectile_source()`.
+- **Slots.** The mount's bullet row slots (`hd2.fields.projectile.impact_explosion`, ...) change every entity that fires
+  that row.
+
 ## Scopes and acknowledgements
 
 - **`weapon_local`:** a record owned by exactly one mount. No `allow_shared` is needed.

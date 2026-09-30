@@ -2,7 +2,9 @@
 -- formatting happens on the counting path. hd2.metrics() returns a copy.
 local M={}
 local counters,worst,total_time={},{},{}
-local clock
+local clock,sampler
+-- Opt-in telemetry (runtime/diagnostics.lua) receives every measured duration; nil when disabled.
+function M.set_sampler(fn)sampler=fn end
 function M.set_clock(fn)if type(fn)=='function'then clock=fn end end
 function M.count(name,n)counters[name]=(counters[name]or 0)+(n or 1)end
 function M.now()return clock and clock()or nil end
@@ -12,6 +14,7 @@ function M.elapsed(name,started)
     local duration=clock()-started
     total_time[name]=(total_time[name]or 0)+duration
     if duration>(worst[name]or 0)then worst[name]=duration end
+    if sampler then sampler(name,duration)end
 end
 function M.snapshot()
     local result={counters={},worst_seconds={},total_seconds={},timed=clock~=nil}

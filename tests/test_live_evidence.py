@@ -4,7 +4,7 @@ import json
 import re
 import unittest
 
-from support import ROOT
+from support import ROOT, run
 
 import generate_live_evidence
 import live_evidence
@@ -19,6 +19,19 @@ TASK3_TARGETS = [('NUX-223 Hellbomb', 'hd2.explosions.spawn'), ('R-36 Eruptor', 
     ('Resupply', 'stratagem.definition_cooldown'), ('fire', 'hd2.status.apply')] + [
     ('Resupply pod slot %d <- Grenade Box' % slot, 'payload.entity') for slot in (1, 2, 3, 4)]
 # Weapon composition live results (session weapon-composition-2026-09-30): the exact promoted pairs.
+# The projectile builder session (2026-09-30): exact host, slot, presentation and event targets.
+PROJECTILE_BUILDER_TARGETS = [('AR-2 Coyote', 'projectile.direct_damage'), ('AR-2 Coyote', 'projectile.impact_explosion'),
+    ('AR-32 Pacifier', 'presentation.mode_icon'), ('AR-32 Pacifier', 'presentation.mode_label'),
+    ('EAT-17 Expendable Anti-Tank', 'attack.primary.projectile'), ('K-2 Throwing Knife', 'player_damage_dealt'),
+    ('M-105 Stalwart', 'attack.primary.projectile'), ('MG-206 Heavy Machine Gun', 'function_ammo.projectile'),
+    ('MG-206 Heavy Machine Gun', 'presentation.mode_icon'), ('MG-206 Heavy Machine Gun', 'presentation.mode_label'),
+    ('MG-206 Heavy Machine Gun', 'weapon_function.left'), ('P-35 Re-Educator', 'presentation.mode_icon'),
+    ('P-35 Re-Educator', 'presentation.mode_label'), ('R-4 Hyena', 'presentation.mode_icon'),
+    ('R-4 Hyena', 'presentation.mode_label'), ('S-11 Speargun', 'function_ammo.projectile'),
+    ('S-11 Speargun', 'presentation.mode_icon'), ('S-11 Speargun', 'presentation.mode_label'),
+    ('S-11 Speargun', 'weapon_function.left'), ('S-11 Speargun (spare twin)', 'presentation.mode_icon'),
+    ('S-11 Speargun (spare twin)', 'presentation.mode_label'), ('S-11 Speargun (spare twin)', 'projectile.expiry_explosion'),
+    ('local_player', 'hd2.actions.heal')]
 COMPOSITION_TARGETS = [('MG-206 Heavy Machine Gun', 'fire_rate.modes'), ('AR-23 Liberator', 'fire_rate.modes'),
     ('AR-23 Liberator', 'weapon_function.left'), ('SG-20 Halt', 'rounds.feed_capacity_1'),
     ('SG-20 Halt', 'rounds.feed_capacity_2'), ('AR-23C Liberator Concussive', 'presentation.armor_penetration')]
@@ -38,19 +51,20 @@ class LiveEvidenceTests(unittest.TestCase):
         catalog = load('LiveEvidenceCatalog.json')
         self.assertEqual(catalog['summary']['families'], {
             'live_proven': ['attack_output_cross_class', 'enemy_main_health', 'enemy_zone_armor',
-                'event_action_explosion_named', 'event_action_projectile', 'event_action_status',
-                'event_player_died_position', 'event_weapon_in_hand', 'minefield_salvos', 'pod_payload_pair',
-                'sentry_targeting_range', 'sentry_turret_turn_speed', 'stratagem_definition_cooldown',
+                'event_action_explosion_named', 'event_action_heal', 'event_action_projectile', 'event_action_status',
+                'event_damage_source_attribution', 'event_player_died_position', 'event_weapon_in_hand',
+                'minefield_salvos', 'pod_payload_pair', 'projectile_slot_composition', 'sentry_targeting_range',
+                'sentry_turret_turn_speed', 'stratagem_definition_cooldown', 'support_projectile_reference',
                 'weapon_ammunition_projectile_reference', 'weapon_fire_rate_modes_native',
                 'weapon_fire_rate_selector_added', 'weapon_heat_per_shot', 'weapon_magazine_capacity',
-                'weapon_presentation_penetration_label', 'weapon_projectile_damage',
-                'weapon_projectile_reference_direct', 'weapon_projectile_status_reference',
+                'weapon_mode_presentation', 'weapon_presentation_penetration_label', 'weapon_programmable_ammo_added',
+                'weapon_projectile_damage', 'weapon_projectile_reference_direct', 'weapon_projectile_status_reference',
                 'weapon_rounds_feed_capacity'],
-            'live_partial': ['backpack_deposit_ammo', 'weapon_programmable_ammo_added'],
+            'live_partial': ['backpack_deposit_ammo'],
             'not_tested': ['enemy_attack_damage'], 'inconclusive': ['structure_health'],
             'live_failed': ['backpack_shield_default_armor', 'weapon_projectile_reference_dormant_member'],
             'pending': ['backpack_shield_zone_armor', 'weapon_presentation_traits']})
-        self.assertEqual((catalog['summary']['tests'], catalog['summary']['passed']), (34, 26))
+        self.assertEqual((catalog['summary']['tests'], catalog['summary']['passed']), (48, 40))
         for name, entry in self.registry['families'].items():
             if entry['status'] == 'live_proven':
                 self.assertTrue(any(t['result'] == 'PASS' for t in live_evidence.tests(name)), name)
@@ -100,23 +114,28 @@ class LiveEvidenceTests(unittest.TestCase):
     def test_corrected_source_promotions_are_exactly_the_tested_scope(self):
         """The ammunition path is proven for the Liberator's own delta row only; the cross-class outputs for the two
         compositions the user played only; the Reprimand direct path again."""
-        runs = [t for t in live_evidence.tests('weapon_ammunition_projectile_reference', current=True)]
+        runs = [t for t in live_evidence.tests('weapon_ammunition_projectile_reference', current=True)
+            if t['mod'] == 'LiberatorAttackOutputTest']
         self.assertEqual(sorted(t['choice'] for t in runs), ['EAT-700 Napalm', 'GL-52 Arc (impact)'])
+        # UnifiedProjectileSwapTest (2026-09-30) passed the Liberator -> Talon ammunition swap again.
+        self.assertEqual([t['donor'] for t in live_evidence.tests('weapon_ammunition_projectile_reference', current=True)
+            if t['mod'] == 'UnifiedProjectileSwapTest'], ['LAS-58 Talon'])
         self.assertTrue(all(t['result'] == 'PASS' and all(t['evidence'].values()) and t['host'] == 'AR-23 Liberator'
             and t['mechanism'] == 'ammunition' for t in runs))
         self.assertEqual({t['mod'] for t in live_evidence.tests('attack_output_cross_class', current=True)},
-            {'LiberatorAttackOutputTest'})
+            {'LiberatorAttackOutputTest', 'UnifiedProjectileSwapTest'})
         family = self.registry['families']['weapon_ammunition_projectile_reference']
         self.assertEqual(family['provenWeapons'], ['AR-23 Liberator'])
         self.assertTrue(any('JAR-5 Dominator' in item for item in family['notPromoted']))
         cross = self.registry['families']['attack_output_cross_class']
-        self.assertEqual([c['output'] for c in cross['provenCompositions']],
-            ['EAT-700 Expendable Napalm', 'GL-52 De-Escalator'])
+        self.assertEqual([(c['host'], c['output']) for c in cross['provenCompositions']],
+            [('AR-23 Liberator', 'EAT-700 Expendable Napalm'), ('AR-23 Liberator', 'GL-52 De-Escalator'),
+             ('SMG-32 Reprimand', 'EAT-700 Expendable Napalm')])
         direct = [t for t in live_evidence.tests('weapon_projectile_reference_direct') if t['result'] == 'PASS']
         self.assertEqual([t['session'] for t in direct],
             ['projectile-host-path-2026-09-29', 'projectile-source-correction-2026-09-29'])
         self.assertEqual(live_evidence.proven('weapon_ammunition_projectile_reference')['tests'],
-            ['LiberatorAttackOutputTest'])
+            ['LiberatorAttackOutputTest', 'UnifiedProjectileSwapTest'])
 
     def test_stratagem_promotions_are_exactly_the_tested_members(self):
         by_field = {}
@@ -181,7 +200,8 @@ class LiveEvidenceTests(unittest.TestCase):
         self.assertEqual(sorted(live_evidence.proven_targets()), sorted([
             ('LAS-16 Sickle', 'heat.heat_per_shot'), ('M-1000 Maxigun', 'damage.primary.standard_damage'),
             ('MA5C Assault Rifle', 'magazine.capacity'), ('Orbital Precision Strike', 'stratagem.definition_cooldown'),
-            ('SG-20 Halt', 'damage.primary.standard_damage')] + TASK3_TARGETS + COMPOSITION_TARGETS))
+            ('SG-20 Halt', 'damage.primary.standard_damage')] + TASK3_TARGETS + COMPOSITION_TARGETS
+            + PROJECTILE_BUILDER_TARGETS))
         weapons = load('PlayerWeaponAuthoringCapabilities.json')
         promoted = sorted((w['name'], f['semanticFieldId']) for w in weapons['weapons'] for f in w['fields']
             if (f.get('liveEvidence') or {}).get('family') in ('weapon_magazine_capacity', 'weapon_heat_per_shot',
@@ -203,17 +223,104 @@ class LiveEvidenceTests(unittest.TestCase):
                 self.assertEqual(field['acknowledgement'], 'allow_unverified_effect')
                 self.assertNotIn('liveEvidence', field)
 
+    def test_projectile_builder_session_promotes_exactly_the_tested_tuples(self):
+        registry = json.loads((ROOT / 'schemas/live_evidence.json').read_text(encoding='utf-8'))
+        session = next(s for s in registry['sessions'] if s['id'] == 'projectile-builder-2026-09-30')
+        self.assertEqual(sorted({t['mod'] for t in session['tests']}), ['HMGSpecialAmmoTest', 'ProjectileSlotTest',
+            'SpeargunProjectileBuilderTest', 'UnifiedProjectileSwapTest', 'VampiricThrowingKnivesTest'])
+        self.assertTrue(all(t['result'] == 'PASS' for t in session['tests']))
+        families = registry['families']
+        for name in ('weapon_programmable_ammo_added', 'support_projectile_reference', 'projectile_slot_composition',
+                'weapon_mode_presentation', 'event_damage_source_attribution', 'event_action_heal'):
+            self.assertEqual(families[name]['status'], 'live_proven', name)
+        # The partial GL-52 Speargun run is superseded, not deleted.
+        speargun = [t for s in registry['sessions'] for t in s['tests'] if t['mod'] == 'SpeargunGasStunTest']
+        self.assertEqual([t.get('supersededBy') for t in speargun], ['projectile-builder-2026-09-30'])
+        self.assertIn('damage-proportional heal', ' '.join(families['event_action_heal']['notPromoted']))
+        self.assertEqual(run(r'''
+local hd2=require('hd2runtime/api/hd2')
+local patches=require('hd2runtime/domains/patches')
+local transactions=require('hd2runtime/domains/transactions')
+local outputs=require('hd2runtime/domains/output_writes')
+local function rejects(fn,needle)local ok,why=pcall(fn);assert(not ok and tostring(why):find(needle,1,true),tostring(why))end
+local function swap(weapon,value)
+ local source=weapon:projectile_source()
+ return patches.validate{id='s',target=source.target,field=source.field,expect=source.expect,value=value}
+end
+-- Support hosts: exactly the two tested pairs drop allow_unverified_effect.
+local eat,stalwart=hd2.support_weapon('EAT-17 Expendable Anti-Tank'),hd2.support_weapon('M-105 Stalwart')
+swap(eat,hd2.weapon('PLAS-1 Scorcher'):attack('primary'):projectile())
+swap(eat,hd2.attack_output('PLAS-1 Scorcher'))
+swap(stalwart,hd2.attack_output('APW-1 Anti-Materiel Rifle'))
+rejects(function()swap(eat,hd2.attack_output('EAT-411 Leveller'))end,'allow_unverified_effect')
+rejects(function()swap(stalwart,hd2.attack_output('M-105 Stalwart')=='x'or hd2.attack_output('MG-206 Heavy Machine Gun'))end,
+ 'allow_unverified_effect')
+rejects(function()swap(hd2.support_weapon('EAT-411 Leveller'),hd2.attack_output('PLAS-1 Scorcher'))end,
+ 'allow_unverified_effect')
+-- The tested cross-class component composition; another donor on the same host keeps both acknowledgements.
+swap(hd2.weapon('SMG-32 Reprimand'),hd2.support_weapon('EAT-700 Expendable Napalm'):attack('primary'):projectile())
+rejects(function()swap(hd2.weapon('SMG-32 Reprimand'),hd2.attack_output('GL-52 De-Escalator'))end,
+ 'allow_unverified_reference')
+-- Programmable modes: the tested (host, binding, function projectile) pairs.
+local function mode(weapon,value)
+ local source=weapon:feed('programmable'):source()
+ return transactions.validate{id='m',target=source.target,changes={
+  {field=source.binding.field,expect=source.binding.expect,value=source.binding.value},
+  {field='function_ammo.projectile',expect=source.expect,value=value}}}
+end
+local spear,hmg=hd2.support_weapon('S-11 Speargun'),hd2.support_weapon('MG-206 Heavy Machine Gun')
+mode(spear,hd2.attack_output('S-11 Speargun (spare twin)'))
+for _,name in ipairs({'R-4 Hyena','AR-32 Pacifier','P-35 Re-Educator'})do mode(hmg,hd2.attack_output(name))end
+rejects(function()mode(spear,hd2.attack_output('A/M-23 EMS Mortar Sentry'))end,'allow_unverified_effect')
+rejects(function()mode(hmg,hd2.attack_output('AR-2 Coyote'))end,'allow_unverified_effect')
+-- Slots: the exact (row, slot, donor) tuples.
+local coyote=hd2.attack_output('AR-2 Coyote')
+local function slot(target,field,expect,value,extra)
+ local request={id='x',target=target,changes={{field=field,expect=expect,value=value}}}
+ for k,v in pairs(extra or{})do request[k]=v end
+ return outputs.validate_transaction(request)
+end
+for _,value in ipairs({hd2.attack_output('GL-21 Grenade Launcher'):impact_explosion(),
+  hd2.attack_output('A/M-23 EMS Mortar Sentry'):expiry_explosion(),hd2.attack_output('S-11 Speargun'):expiry_explosion(),
+  hd2.attack_output('EAT-700 Expendable Napalm'):impact_explosion(),'none'})do
+ slot(coyote,'projectile.impact_explosion','none',value)
+end
+slot(coyote,'projectile.direct_damage',coyote:direct_damage(),hd2.attack_output('AR-32 Pacifier'):direct_damage())
+rejects(function()slot(coyote,'projectile.impact_explosion','none',hd2.attack_output('R-36 Eruptor'):impact_explosion())end,
+ 'allow_unverified_effect')
+rejects(function()slot(coyote,'projectile.expiry_explosion','none',
+ hd2.attack_output('GL-21 Grenade Launcher'):impact_explosion())end,'allow_unverified_effect')
+local twin=hd2.attack_output('S-11 Speargun (spare twin)')
+slot(twin,'projectile.expiry_explosion',twin:expiry_explosion(),hd2.attack_output('A/M-23 EMS Mortar Sentry'):expiry_explosion())
+-- Presentation: the tested labels with their auto icons; any other label keeps the acknowledgement.
+local function label(target,value,icon,extra)
+ local view=target:describe().presentation
+ local request={id='l',target=target,changes={{field='presentation.mode_label',expect=view.label,value=value},
+  {field='presentation.mode_icon',expect=view.icon,value=icon or'auto'}}}
+ for k,v in pairs(extra or{})do request[k]=v end
+ return outputs.validate_transaction(request)
+end
+label(twin,'stun');label(hd2.attack_output('S-11 Speargun'),'gas');label(hd2.attack_output('R-4 Hyena'),'incendiary')
+rejects(function()label(twin,'flak')end,'allow_unverified_effect')
+rejects(function()label(twin,'stun','ammo_flak')end,'allow_unverified_effect')
+-- A shared row keeps allow_shared even for a live-proven value.
+local hmg_output=hd2.attack_output('MG-206 Heavy Machine Gun')
+rejects(function()label(hmg_output,'standard')end,'allow_shared')
+label(hmg_output,'standard',nil,{allow_shared=true})
+return 'ok'
+'''), b'ok')
+
     def test_weapon_composition_promotes_exactly_the_tested_scopes(self):
         """Weapon composition (2026-09-30): the MG-206 rates, the Liberator's added selector (the rate_of_fire binding
         only), the Halt feed capacities and the Concussive's light/medium/heavy label drop allow_unverified_effect;
-        every other weapon, value and the Speargun (partial) keep it."""
+        every other weapon and value keeps it. The Speargun's partial GL-52 run is superseded by the projectile
+        builder session (2026-09-30), which promoted exactly its tested pairs."""
         families = self.registry['families']
-        self.assertEqual(families['weapon_programmable_ammo_added']['status'], 'live_partial')
-        self.assertNotIn('provenTargets', families['weapon_programmable_ammo_added'])
+        self.assertEqual(families['weapon_programmable_ammo_added']['status'], 'live_proven')
         self.assertEqual(families['weapon_presentation_traits']['status'], 'pending')
-        [speargun] = live_evidence.tests('weapon_programmable_ammo_added')
-        self.assertEqual((speargun['result'], speargun['host'], speargun['donor']),
-            ('PARTIAL', 'S-11 Speargun', 'GL-52 De-Escalator'))
+        [speargun] = [t for t in live_evidence.tests('weapon_programmable_ammo_added') if t['mod'] == 'SpeargunGasStunTest']
+        self.assertEqual((speargun['result'], speargun['host'], speargun['donor'], speargun['supersededBy']),
+            ('PARTIAL', 'S-11 Speargun', 'GL-52 De-Escalator', 'projectile-builder-2026-09-30'))
         self.assertTrue(all(speargun['evidence'].values()))
         self.assertEqual(live_evidence.proven_target('weapon_fire_rate_selector_added', 'AR-23 Liberator',
             'weapon_function.left')['values'], ['rate_of_fire'])
@@ -233,10 +340,16 @@ class LiveEvidenceTests(unittest.TestCase):
         support = {(f['supportWeapon'], f['semanticFieldId']): f for f in
             load('SupportWeaponAuthoringCapabilities.json')['fieldInstances']}
         self.assertIsNone(support[('MG-206 Heavy Machine Gun', 'fire_rate.modes')]['operation']['acknowledgement'])
-        for key in (('MG-43 Machine Gun', 'fire_rate.modes'), ('S-11 Speargun', 'function_ammo.projectile'),
-                ('S-11 Speargun', 'weapon_function.left')):
+        for key in (('MG-43 Machine Gun', 'fire_rate.modes'), ('EAT-411 Leveller', 'function_ammo.projectile')):
             self.assertEqual(support[key]['operation']['acknowledgement'], 'allow_unverified_effect', key)
             self.assertNotIn('liveEvidence', support[key], key)
+        # The Speargun's selector and function projectile are promoted for the tested values only (the builder
+        # session); every other value keeps the acknowledgement.
+        for key, values in ((('S-11 Speargun', 'function_ammo.projectile'),
+                ['output/v1/projectile/s-11-speargun-spare-twin']),
+                (('S-11 Speargun', 'weapon_function.left'), ['programmable_ammo'])):
+            self.assertEqual(support[key]['operation']['acknowledgement'], 'allow_unverified_effect', key)
+            self.assertEqual(support[key]['liveEvidence']['values'], values, key)
         for name, needs in (('HMGFireRateModesTest', False), ('AddedFireRateModeTest', False),
                 ('WeaponPresentationTest', False), ('SpeargunGasStunTest', True)):
             addon = (ROOT / 'examples/projects' / name / 'src/addon.lua').read_text()

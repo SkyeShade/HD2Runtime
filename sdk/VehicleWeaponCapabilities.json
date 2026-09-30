@@ -36,7 +36,8 @@
                 "vehicle-field/v1/m-103-supply-frv-gun/weapon-capacity/49b8a6256258b945",
                 "vehicle-field/v1/m-103-supply-frv-gun/magazine-starting-magazines/754a1bbcbbfe8285",
                 "vehicle-field/v1/m-103-supply-frv-gun/magazine-magazines-from-supply/d952d443f10d1bcb",
-                "vehicle-field/v1/m-103-supply-frv-gun/magazine-spare-magazines/eb7365f8f46f9c8b"
+                "vehicle-field/v1/m-103-supply-frv-gun/magazine-spare-magazines/eb7365f8f46f9c8b",
+                "vehicle-field/v1/m-103-supply-frv-gun/attack-primary-projectile/175465abfbc497d0"
               ],
               "projectile": [
                 "vehicle-field/v1/m-103-supply-frv-gun/projectile-primary-velocity/580326f28353ea35",
@@ -197,6 +198,11 @@
                 "attack": "primary",
                 "field": "projectile.lifetime",
                 "reason": "Native lifetime is 0 (no explicit limit); only non-zero lifetimes are tunable."
+              },
+              {
+                "attack": "primary",
+                "field": "attack.projectile",
+                "reason": "Another native selector owns the fired projectile: magazine pattern (WeaponMagazine Projectiles[32] / FirstProjectile)."
               }
             ]
           }
@@ -281,6 +287,11 @@
                 "attack": "primary",
                 "field": "damage.*",
                 "reason": "The projectile references no DamageInfo; its damage is delivered by another object."
+              },
+              {
+                "attack": "primary",
+                "field": "attack.projectile",
+                "reason": "A weapon function (programmable ammo) switches to WeaponFunctionProjectileType; the base member is only the default function's projectile."
               }
             ]
           }
@@ -377,6 +388,11 @@
               {
                 "field": "weapon damage/armor-penetration addends",
                 "reason": "ProjectileWeaponComponent +128 and +136 are per-weapon damage/armor-penetration addends. The pinned type library names +128 damage_addends and +136 ap_addends, but the M-103 turret reference mod reports the opposite in game; the assignment stays read-only until one in-game test separates them."
+              },
+              {
+                "attack": "primary",
+                "field": "attack.projectile",
+                "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile)."
               }
             ]
           }
@@ -473,6 +489,11 @@
               {
                 "field": "weapon damage/armor-penetration addends",
                 "reason": "ProjectileWeaponComponent +128 and +136 are per-weapon damage/armor-penetration addends. The pinned type library names +128 damage_addends and +136 ap_addends, but the M-103 turret reference mod reports the opposite in game; the assignment stays read-only until one in-game test separates them."
+              },
+              {
+                "attack": "primary",
+                "field": "attack.projectile",
+                "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile)."
               }
             ]
           }
@@ -577,7 +598,8 @@
                 "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/entity-health/16d56cc91cd0b8ff",
                 "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/entity-armor/1df2d322c7440be4",
                 "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/zone-health/40ba571c062218b1",
-                "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/zone-armor/28a0c922fe464600"
+                "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/zone-armor/28a0c922fe464600",
+                "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/attack-primary-projectile/a2389c9ead17418a"
               ],
               "projectile": [
                 "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/projectile-primary-velocity/e55a475255430329",
@@ -677,7 +699,8 @@
                 "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/entity-health/41ca2b3d2f2cde6f",
                 "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/entity-armor/49acf39ef9eac726",
                 "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/zone-health/a5016731d3656e97",
-                "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/zone-armor/6ca2efd4ec4b5bdb"
+                "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/zone-armor/6ca2efd4ec4b5bdb",
+                "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/attack-primary-projectile/3742feba9c13f5a3"
               ],
               "projectile": [
                 "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/projectile-primary-velocity/892e71eb142b5ae5",
@@ -853,6 +876,11 @@
               {
                 "field": "weapon damage/armor-penetration addends",
                 "reason": "ProjectileWeaponComponent +128 and +136 are per-weapon damage/armor-penetration addends. The pinned type library names +128 damage_addends and +136 ap_addends, but the M-103 turret reference mod reports the opposite in game; the assignment stays read-only until one in-game test separates them."
+              },
+              {
+                "attack": "primary",
+                "field": "attack.projectile",
+                "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile)."
               }
             ]
           }
@@ -877,7 +905,8 @@
                 "vehicle-field/v1/exo-45-patriot-exosuit-right-gun/entity-health/a0dc424dc4ecfcf6",
                 "vehicle-field/v1/exo-45-patriot-exosuit-right-gun/entity-armor/c5b5f5584438b653",
                 "vehicle-field/v1/exo-45-patriot-exosuit-right-gun/zone-health/2efd4a8b85f9d061",
-                "vehicle-field/v1/exo-45-patriot-exosuit-right-gun/zone-armor/99879f7dd2ffcdd5"
+                "vehicle-field/v1/exo-45-patriot-exosuit-right-gun/zone-armor/99879f7dd2ffcdd5",
+                "vehicle-field/v1/exo-45-patriot-exosuit-right-gun/attack-primary-projectile/0b492b57de657e96"
               ],
               "projectile": [
                 "vehicle-field/v1/exo-45-patriot-exosuit-right-gun/projectile-primary-velocity/658b4463773e8c36",
@@ -963,7 +992,8 @@
                 "vehicle-field/v1/m-102-gunner-frv-gun/magazine-starting-magazines/5c362780dcc0c6d7",
                 "vehicle-field/v1/m-102-gunner-frv-gun/magazine-magazines-from-supply/71ae78cfe85db82e",
                 "vehicle-field/v1/m-102-gunner-frv-gun/magazine-spare-magazines/d611d66cb302a6e4",
-                "vehicle-field/v1/m-102-gunner-frv-gun/reload-duration/dd22a4c6f8327196"
+                "vehicle-field/v1/m-102-gunner-frv-gun/reload-duration/dd22a4c6f8327196",
+                "vehicle-field/v1/m-102-gunner-frv-gun/attack-primary-projectile/347afcb7813bd9ec"
               ],
               "projectile": [
                 "vehicle-field/v1/m-102-gunner-frv-gun/projectile-primary-velocity/0a3c5ef8d18208e1",
@@ -1131,6 +1161,11 @@
                 "attack": "primary",
                 "field": "projectile.lifetime",
                 "reason": "Native lifetime is 0 (no explicit limit); only non-zero lifetimes are tunable."
+              },
+              {
+                "attack": "primary",
+                "field": "attack.projectile",
+                "reason": "A weapon function (programmable ammo) switches to WeaponFunctionProjectileType; the base member is only the default function's projectile."
               }
             ]
           }
@@ -1209,6 +1244,11 @@
                 "attack": "primary",
                 "field": "projectile.lifetime",
                 "reason": "Native lifetime is 0 (no explicit limit); only non-zero lifetimes are tunable."
+              },
+              {
+                "attack": "primary",
+                "field": "attack.projectile",
+                "reason": "Another native selector owns the fired projectile: magazine pattern (WeaponMagazine Projectiles[32] / FirstProjectile)."
               }
             ]
           }
@@ -1296,6 +1336,11 @@
                 "attack": "primary",
                 "field": "projectile.lifetime",
                 "reason": "Native lifetime is 0 (no explicit limit); only non-zero lifetimes are tunable."
+              },
+              {
+                "attack": "primary",
+                "field": "attack.projectile",
+                "reason": "Another native selector owns the fired projectile: WeaponRounds ammo types (primary / alternate magazine projectile)."
               }
             ]
           }
@@ -1393,7 +1438,8 @@
                 "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/entity-health/faead0c8d384bcb4",
                 "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/entity-armor/be07e12f33c085f4",
                 "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/zone-health/0721de1913b7139d",
-                "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/zone-armor/18e66c052943601c"
+                "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/zone-armor/18e66c052943601c",
+                "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/attack-primary-projectile/5b918ee95e4680f8"
               ],
               "projectile": [
                 "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/projectile-primary-velocity/790287063324bd74",
@@ -1494,7 +1540,8 @@
                 "vehicle-field/v1/frv-super-earth-variant-gun/magazine-starting-magazines/634fda9bb0156bff",
                 "vehicle-field/v1/frv-super-earth-variant-gun/magazine-magazines-from-supply/5dcb2abe45bb656f",
                 "vehicle-field/v1/frv-super-earth-variant-gun/magazine-spare-magazines/81c0346fea31348b",
-                "vehicle-field/v1/frv-super-earth-variant-gun/reload-duration/820b143198861bb4"
+                "vehicle-field/v1/frv-super-earth-variant-gun/reload-duration/820b143198861bb4",
+                "vehicle-field/v1/frv-super-earth-variant-gun/attack-primary-projectile/017326299caaaed5"
               ],
               "projectile": [
                 "vehicle-field/v1/frv-super-earth-variant-gun/projectile-primary-velocity/e3295e06b7be99f8",
@@ -1584,7 +1631,8 @@
                 "vehicle-field/v1/gater-oil-rig-turret/magazine-spare-magazines/672afcb3412550ee",
                 "vehicle-field/v1/gater-oil-rig-turret/reload-duration/bbf7c67edec14040",
                 "vehicle-field/v1/gater-oil-rig-turret/entity-health/2d5a8d5881a18de4",
-                "vehicle-field/v1/gater-oil-rig-turret/entity-armor/a70684bdbe33efc7"
+                "vehicle-field/v1/gater-oil-rig-turret/entity-armor/a70684bdbe33efc7",
+                "vehicle-field/v1/gater-oil-rig-turret/attack-primary-projectile/cb6079a6c9706ee9"
               ],
               "projectile": [
                 "vehicle-field/v1/gater-oil-rig-turret/projectile-primary-velocity/9c38de638ec8db1b",
@@ -1689,7 +1737,8 @@
               "local": [
                 "vehicle-field/v1/ax-ar-23-guard-dog-gun/weapon-fire-rate/9e215a75274a93c0",
                 "vehicle-field/v1/ax-ar-23-guard-dog-gun/weapon-capacity/09c9f0077bf4a807",
-                "vehicle-field/v1/ax-ar-23-guard-dog-gun/reload-duration/2ce5f62ae4be3c6f"
+                "vehicle-field/v1/ax-ar-23-guard-dog-gun/reload-duration/2ce5f62ae4be3c6f",
+                "vehicle-field/v1/ax-ar-23-guard-dog-gun/attack-primary-projectile/991b6f3d53000364"
               ],
               "projectile": [
                 "vehicle-field/v1/ax-ar-23-guard-dog-gun/projectile-primary-velocity/a760b64bd81ec784",
@@ -2702,6 +2751,44 @@
       "acknowledgement": "allow_unverified_effect",
       "gameplayEvidence": null,
       "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/m-103-supply-frv-gun/attack-primary-projectile/175465abfbc497d0",
+      "weapon": "M-103 Supply FRV / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/m-103-supply-frv/gun/18a6239872b90606",
+      "semanticFieldId": "attack.primary.projectile",
+      "apiFieldConstant": "hd2.fields.attack.projectile",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "M-103 Supply FRV / gun",
+        "attack": "primary"
+      },
+      "displayName": "Attack projectile reference",
+      "unit": null,
+      "type": "projectile_reference",
+      "baseline": {
+        "weapon": "M-103 Supply FRV / gun",
+        "attack": "primary"
+      },
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "ProjectileWeaponComponentData",
+      "projectileReference": {
+        "referenceKind": "projectile",
+        "compatibilityClass": "conventional_plain",
+        "referenceRole": "primary",
+        "projectileSource": {
+          "status": "ACTIVE_DIRECT",
+          "mechanism": "component",
+          "member": "ProjectileWeapon +0",
+          "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+        }
+      }
     },
     {
       "instanceKey": "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/weapon-fire-rate/87d4420394cdb4f8",
@@ -7345,6 +7432,44 @@
       "backingComponent": "explosion_damage"
     },
     {
+      "instanceKey": "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/attack-primary-projectile/a2389c9ead17418a",
+      "weapon": "EXO-49 Emancipator Exosuit / left_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-49-emancipator-exosuit/left-gun/ddc315055228c4b9",
+      "semanticFieldId": "attack.primary.projectile",
+      "apiFieldConstant": "hd2.fields.attack.projectile",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "EXO-49 Emancipator Exosuit / left_gun",
+        "attack": "primary"
+      },
+      "displayName": "Attack projectile reference",
+      "unit": null,
+      "type": "projectile_reference",
+      "baseline": {
+        "weapon": "EXO-49 Emancipator Exosuit / left_gun",
+        "attack": "primary"
+      },
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "ProjectileWeaponComponentData",
+      "projectileReference": {
+        "referenceKind": "projectile",
+        "compatibilityClass": "explosive_impact",
+        "referenceRole": "primary",
+        "projectileSource": {
+          "status": "ACTIVE_DIRECT",
+          "mechanism": "component",
+          "member": "ProjectileWeapon +0",
+          "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+        }
+      }
+    },
+    {
       "instanceKey": "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/weapon-fire-rate/3c39ec4d3e7322d8",
       "weapon": "EXO-49 Emancipator Exosuit / right_gun",
       "weaponSemanticId": "vehicle-weapon/v1/exo-49-emancipator-exosuit/right-gun/cf39babb19b65919",
@@ -8511,6 +8636,44 @@
       "acknowledgement": "allow_unverified_effect",
       "gameplayEvidence": null,
       "backingComponent": "explosion_damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/attack-primary-projectile/3742feba9c13f5a3",
+      "weapon": "EXO-49 Emancipator Exosuit / right_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-49-emancipator-exosuit/right-gun/cf39babb19b65919",
+      "semanticFieldId": "attack.primary.projectile",
+      "apiFieldConstant": "hd2.fields.attack.projectile",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "EXO-49 Emancipator Exosuit / right_gun",
+        "attack": "primary"
+      },
+      "displayName": "Attack projectile reference",
+      "unit": null,
+      "type": "projectile_reference",
+      "baseline": {
+        "weapon": "EXO-49 Emancipator Exosuit / right_gun",
+        "attack": "primary"
+      },
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "ProjectileWeaponComponentData",
+      "projectileReference": {
+        "referenceKind": "projectile",
+        "compatibilityClass": "explosive_impact",
+        "referenceRole": "primary",
+        "projectileSource": {
+          "status": "ACTIVE_DIRECT",
+          "mechanism": "component",
+          "member": "ProjectileWeapon +0",
+          "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+        }
+      }
     },
     {
       "instanceKey": "vehicle-field/v1/exo-45-patriot-exosuit-left-gun/weapon-fire-rate/6f21e6f9921b72ab",
@@ -10273,6 +10436,44 @@
       "backingComponent": "damage"
     },
     {
+      "instanceKey": "vehicle-field/v1/exo-45-patriot-exosuit-right-gun/attack-primary-projectile/0b492b57de657e96",
+      "weapon": "EXO-45 Patriot Exosuit / right_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-45-patriot-exosuit/right-gun/bfa845a09a9539b3",
+      "semanticFieldId": "attack.primary.projectile",
+      "apiFieldConstant": "hd2.fields.attack.projectile",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "EXO-45 Patriot Exosuit / right_gun",
+        "attack": "primary"
+      },
+      "displayName": "Attack projectile reference",
+      "unit": null,
+      "type": "projectile_reference",
+      "baseline": {
+        "weapon": "EXO-45 Patriot Exosuit / right_gun",
+        "attack": "primary"
+      },
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "ProjectileWeaponComponentData",
+      "projectileReference": {
+        "referenceKind": "projectile",
+        "compatibilityClass": "conventional_plain",
+        "referenceRole": "primary",
+        "projectileSource": {
+          "status": "ACTIVE_DIRECT",
+          "mechanism": "component",
+          "member": "ProjectileWeapon +0",
+          "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+        }
+      }
+    },
+    {
       "instanceKey": "vehicle-field/v1/m-102-gunner-frv-gun/weapon-fire-rate/9a0b4e3b603116a5",
       "weapon": "M-102 Gunner FRV / gun",
       "weaponSemanticId": "vehicle-weapon/v1/m-102-gunner-frv/gun/e74771601e2480a5",
@@ -10931,6 +11132,46 @@
       "acknowledgement": "allow_unverified_effect",
       "gameplayEvidence": null,
       "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/m-102-gunner-frv-gun/attack-primary-projectile/347afcb7813bd9ec",
+      "weapon": "M-102 Gunner FRV / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/m-102-gunner-frv/gun/e74771601e2480a5",
+      "semanticFieldId": "attack.primary.projectile",
+      "apiFieldConstant": "hd2.fields.attack.projectile",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "M-102 Gunner FRV / gun",
+        "attack": "primary"
+      },
+      "displayName": "Attack projectile reference",
+      "unit": null,
+      "type": "projectile_reference",
+      "baseline": {
+        "weapon": "M-102 Gunner FRV / gun",
+        "attack": "primary"
+      },
+      "writable": true,
+      "scope": "shared_mounted_weapon",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "FRV (Super Earth variant) / gun"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "ProjectileWeaponComponentData",
+      "projectileReference": {
+        "referenceKind": "projectile",
+        "compatibilityClass": "conventional_plain",
+        "referenceRole": "primary",
+        "projectileSource": {
+          "status": "ACTIVE_DIRECT",
+          "mechanism": "component",
+          "member": "ProjectileWeapon +0",
+          "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+        }
+      }
     },
     {
       "instanceKey": "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/weapon-fire-rate/87c5ef71e4b10e2f",
@@ -14604,6 +14845,44 @@
       "backingComponent": "explosion_damage"
     },
     {
+      "instanceKey": "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/attack-primary-projectile/5b918ee95e4680f8",
+      "weapon": "EXO-51 Lumberer Exosuit / right_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-51-lumberer-exosuit/right-gun/0530612be128916d",
+      "semanticFieldId": "attack.primary.projectile",
+      "apiFieldConstant": "hd2.fields.attack.projectile",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "EXO-51 Lumberer Exosuit / right_gun",
+        "attack": "primary"
+      },
+      "displayName": "Attack projectile reference",
+      "unit": null,
+      "type": "projectile_reference",
+      "baseline": {
+        "weapon": "EXO-51 Lumberer Exosuit / right_gun",
+        "attack": "primary"
+      },
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "ProjectileWeaponComponentData",
+      "projectileReference": {
+        "referenceKind": "projectile",
+        "compatibilityClass": "explosive_impact",
+        "referenceRole": "primary",
+        "projectileSource": {
+          "status": "ACTIVE_DIRECT",
+          "mechanism": "component",
+          "member": "ProjectileWeapon +0",
+          "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+        }
+      }
+    },
+    {
       "instanceKey": "vehicle-field/v1/frv-super-earth-variant-gun/weapon-fire-rate/36dd74c029b9e3ad",
       "weapon": "FRV (Super Earth variant) / gun",
       "weaponSemanticId": "vehicle-weapon/v1/frv-super-earth-variant/gun/e74771601e2480a5",
@@ -15245,6 +15524,46 @@
       "acknowledgement": "allow_unverified_effect",
       "gameplayEvidence": null,
       "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/frv-super-earth-variant-gun/attack-primary-projectile/017326299caaaed5",
+      "weapon": "FRV (Super Earth variant) / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/frv-super-earth-variant/gun/e74771601e2480a5",
+      "semanticFieldId": "attack.primary.projectile",
+      "apiFieldConstant": "hd2.fields.attack.projectile",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "FRV (Super Earth variant) / gun",
+        "attack": "primary"
+      },
+      "displayName": "Attack projectile reference",
+      "unit": null,
+      "type": "projectile_reference",
+      "baseline": {
+        "weapon": "FRV (Super Earth variant) / gun",
+        "attack": "primary"
+      },
+      "writable": true,
+      "scope": "shared_mounted_weapon",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "M-102 Gunner FRV / gun"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "ProjectileWeaponComponentData",
+      "projectileReference": {
+        "referenceKind": "projectile",
+        "compatibilityClass": "conventional_plain",
+        "referenceRole": "primary",
+        "projectileSource": {
+          "status": "ACTIVE_DIRECT",
+          "mechanism": "component",
+          "member": "ProjectileWeapon +0",
+          "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+        }
+      }
     },
     {
       "instanceKey": "vehicle-field/v1/gater-oil-rig-turret/weapon-fire-rate/d7f45ba71fbeb4b7",
@@ -16330,6 +16649,44 @@
       "backingComponent": "explosion_damage"
     },
     {
+      "instanceKey": "vehicle-field/v1/gater-oil-rig-turret/attack-primary-projectile/cb6079a6c9706ee9",
+      "weapon": "GATER Oil Rig / turret",
+      "weaponSemanticId": "vehicle-weapon/v1/gater-oil-rig/turret/b8db0fabca90376d",
+      "semanticFieldId": "attack.primary.projectile",
+      "apiFieldConstant": "hd2.fields.attack.projectile",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "GATER Oil Rig / turret",
+        "attack": "primary"
+      },
+      "displayName": "Attack projectile reference",
+      "unit": null,
+      "type": "projectile_reference",
+      "baseline": {
+        "weapon": "GATER Oil Rig / turret",
+        "attack": "primary"
+      },
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "ProjectileWeaponComponentData",
+      "projectileReference": {
+        "referenceKind": "projectile",
+        "compatibilityClass": "explosive_impact",
+        "referenceRole": "primary",
+        "projectileSource": {
+          "status": "ACTIVE_DIRECT",
+          "mechanism": "component",
+          "member": "ProjectileWeapon +0",
+          "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+        }
+      }
+    },
+    {
       "instanceKey": "vehicle-field/v1/ax-ar-23-guard-dog-gun/weapon-fire-rate/9e215a75274a93c0",
       "weapon": "AX/AR-23 Guard Dog / gun",
       "weaponSemanticId": "vehicle-weapon/v1/ax-ar-23-guard-dog/gun/9d81adefdfb8a0d2",
@@ -16890,6 +17247,44 @@
       "acknowledgement": "allow_unverified_effect",
       "gameplayEvidence": null,
       "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-ar-23-guard-dog-gun/attack-primary-projectile/991b6f3d53000364",
+      "weapon": "AX/AR-23 Guard Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-ar-23-guard-dog/gun/9d81adefdfb8a0d2",
+      "semanticFieldId": "attack.primary.projectile",
+      "apiFieldConstant": "hd2.fields.attack.projectile",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/AR-23 Guard Dog / gun",
+        "attack": "primary"
+      },
+      "displayName": "Attack projectile reference",
+      "unit": null,
+      "type": "projectile_reference",
+      "baseline": {
+        "weapon": "AX/AR-23 Guard Dog / gun",
+        "attack": "primary"
+      },
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "ProjectileWeaponComponentData",
+      "projectileReference": {
+        "referenceKind": "projectile",
+        "compatibilityClass": "conventional_plain",
+        "referenceRole": "primary",
+        "projectileSource": {
+          "status": "ACTIVE_DIRECT",
+          "mechanism": "component",
+          "member": "ProjectileWeapon +0",
+          "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+        }
+      }
     },
     {
       "instanceKey": "vehicle-field/v1/ax-las-5-rover-gun/reload-duration/d0807c60773d401f",
@@ -18523,13 +18918,13 @@
   "summary": {
     "vehicles": 16,
     "weaponMounts": 23,
-    "fieldInstances": 623,
-    "writableFieldInstances": 623,
-    "weaponLocalFields": 117,
-    "sharedMountedWeaponFields": 26,
-    "sharedFields": 506,
+    "fieldInstances": 632,
+    "writableFieldInstances": 632,
+    "weaponLocalFields": 124,
+    "sharedMountedWeaponFields": 28,
+    "sharedFields": 508,
     "gameplayProvenFields": 27,
-    "unverifiedEffectFields": 596,
+    "unverifiedEffectFields": 605,
     "byField": {
       "arc.primary.chain_count": 1,
       "arc.primary.distance_at_max_spread": 1,
@@ -18537,6 +18932,7 @@
       "arc.primary.max_split": 1,
       "arc.primary.range": 1,
       "arc.primary.velocity": 1,
+      "attack.primary.projectile": 9,
       "beam.fire_rate": 1,
       "beam.primary.length": 1,
       "beam.primary.radius": 1,

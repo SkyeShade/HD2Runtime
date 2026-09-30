@@ -226,8 +226,10 @@ local mode=presenter.validate_transaction({id='m',target=gas_output,allow_unveri
  {field=F.presentation.mode_label,expect='none',value='gas'},{field=F.presentation.mode_icon,expect='default',
  value='ammo_stun'}}})
 assert(b.hex(mode.changes[1].desired)=='1aae94ed'and b.hex(mode.changes[2].desired)=='0e42b97f9068922d')
+-- GAS on the Speargun is live-proven (weapon_mode_presentation); any other label keeps the acknowledgement.
+presenter.validate_patch({id='m',target=gas_output,field=F.presentation.mode_label,expect='none',value='gas'})
 rejected(function()presenter.validate_patch({id='m',target=gas_output,field=F.presentation.mode_label,expect='none',
- value='gas'})end,'allow_unverified_effect')
+ value='smoke'})end,'allow_unverified_effect')
 rejected(function()presenter.validate_patch({id='m',target=gas_output,field=F.presentation.mode_label,expect='none',
  value='GAS!',allow_unverified_effect=true})end,'native mode label')
 rejected(function()presenter.validate_patch({id='m',target=gas_output,field=F.presentation.mode_icon,expect='default',
@@ -296,8 +298,8 @@ return 'ok'
         self.assertEqual((gas['label'], gas['iconValue'], gas['icon']), ('1aae94ed', 'ammo_slug', '4ff6a560a22f81b7'))
         ems = result['modePresentation']['output/v1/projectile/a-m-23-ems-mortar-sentry']
         self.assertEqual((ems['label'], ems['icon']), ('d937037c', '0e42b97f9068922d'))
-        # 66 weapon outputs, the EMS shell and the Speargun spare twin.
-        self.assertEqual(result['presentation']['outputs'], 68)
+        # 66 weapon outputs, the EMS shell, the Speargun spare twin and 12 mounted-weapon outputs.
+        self.assertEqual(result['presentation']['outputs'], 80)
 
 
 if __name__ == '__main__':

@@ -182,8 +182,8 @@ a projectile pointer exists.
   direct swap.
 - **Cross-class projectile outputs** need `allow_unverified_reference` and `allow_unverified_effect`, on either
   mechanism.
-- **Host eligibility.** 43 hosts: 37 `component` hosts (29 player weapons and 8 support weapons) and 6 `ammunition`
-  hosts. Each keeps the live controls' structure: magazine-fed, empty magazine pattern, no WeaponRounds,
+- **Host eligibility.** 52 hosts: 46 `component` hosts (29 player, 8 support and 9 mounted weapons) and 6
+  `ammunition` hosts. Loadout category never decides it: the native output family and the active source do. Each keeps the live controls' structure: magazine-fed, empty magazine pattern, no WeaponRounds,
   WeaponCharge or WeaponHeat. Others fail with `CROSS_CLASS_HOST_REJECTED`, and the magazine structure is re-proven
   live before every write.
 - **Support hosts.** A support weapon is a host by the same rule, not a separate system. The eight are the APW-1,
@@ -192,17 +192,45 @@ a projectile pointer exists.
   - **API.** `hd2.support_weapon(name):projectile_source()` and `:attack(role):projectile_source()` return the same
     shape as for a player weapon. The field is `hd2.fields.attack.projectile` on `support:attack(role)`, with
     `support:attack(role):projectile()` as the expect and the restore value.
-  - **Acknowledgement.** The support host path is not yet live-proven, so every support host swap needs
-    `allow_unverified_effect`, and cross-class donors also `allow_unverified_reference`.
+  - **Acknowledgement.** Support host swaps need `allow_unverified_effect`, and cross-class donors also
+    `allow_unverified_reference`, except exactly the two live-proven pairs: EAT-17 ← PLAS-1 Scorcher and
+    M-105 Stalwart ← APW-1 (UnifiedProjectileSwapTest, `support_projectile_reference`).
   - **Read-only support weapons** carry their reason in `projectileSources` and `projectile_source()`:
     - another selector owns the projectile (WeaponRounds ammo types, a magazine pattern, a spawned entity, charge
       levels);
     - a weapon function switches it (GR-8, RL-77);
     - the weapon is not magazine-fed (GL-28, Quasar, Maxigun, Railgun: ACTIVE_DIRECT, but outside the rule the live
       controls established).
-- **One donor pool.** Any catalogued projectile output (`hd2.attack_output(name)`), whatever loadout slot or
-  stratagem owns it. On a support host, and for a support donor on a player host, another weapon's attack projectile
-  handle resolves to that weapon's catalogued output and is checked like it (`UNKNOWN_DONOR` if it has none).
+- **Mounted hosts.** Mounted weapons (vehicles, Exosuits, emplacements, Guard Dog drones) follow the same rule
+  (research/active-projectile-sources, research/projectile-builder `mountedHosts`). The nine hosts:
+  - EXO-45 Patriot minigun;
+  - both EXO-49 Emancipator autocannons;
+  - EXO-51 Lumberer cannon;
+  - M-102 Gunner FRV gun and the Super Earth FRV gun;
+  - M-103 Supply FRV gun;
+  - GATER Oil Rig turret;
+  - AX/AR-23 Guard Dog gun.
+
+  Details:
+  - **API.** `hd2.vehicle(name):weapon(mount):projectile_source()` (or `:attack(role):projectile_source()`) gives the
+    target, `hd2.fields.attack.projectile` and the mount's own attack handle as the expect. Every write re-proves the
+    mount chain (the vehicle's MountComponent slot still holds the weapon).
+  - **Shared entities.** The Gunner FRV and the Super Earth FRV carry the *same* weapon entity (`sharedEntity`): a
+    write there changes both and needs `allow_shared`.
+  - **Read-only mounts** carry the reason:
+    - the Patriot rocket pod and Maelstrom slots 3 / 4: a spawned entity;
+    - the Maelstrom main gun and the Bastion MG: a magazine pattern;
+    - the Maelstrom slot 2 and Bastion cannon: a weapon function;
+    - the EXO-55 Breakthrough: WeaponRounds.
+  - **Row sharing.** Mounted bullet rows are widely shared. The Patriot minigun row is fired by 10 entities, the
+    Gatling and machine-gun sentries among them. A *reference* swap changes only the mount; a *slot* write on its row
+    needs `allow_shared`.
+  - **Acknowledgements.** Every mounted swap needs `allow_unverified_effect` (not yet live-tested).
+  - **Live test.** examples/projects/VehicleProjectileBuilderTest (the Patriot).
+- **One donor pool.** Any catalogued projectile output (`hd2.attack_output(name)`), whatever loadout slot, stratagem or
+  mount owns it. On a support host, and for a support donor on a player host, another weapon's attack projectile
+  handle (player, support or mounted) resolves to that weapon's catalogued output and is checked like it
+  (`UNKNOWN_DONOR` if it has none).
   Liberator → EAT-700 / Talon (ammunition), support ← primary, primary ← support and support ← support all go through
   the one path; examples/projects/UnifiedProjectileSwapTest exercises each.
 - **Beam, arc, spray and melee outputs** fail closed with `INCOMPATIBLE_OUTPUT_FAMILY` and the structural reason.
@@ -218,8 +246,11 @@ a projectile pointer exists.
   weapon-function mode shows when it fires that projectile (`hd2.fields.presentation.mode_label`,
   `hd2.fields.presentation.mode_icon`; native strings and icons only). See
   [mode labels and icons](weapon-feeds.md#mode-labels-and-icons).
-- **Source proof.** The output's owner entity, its ProjectileWeapon record identity and the ProjectileSettings row are
-  re-proven live. A stale source is a CONFLICT.
+- **Source proof.** As a *donor*, an output's owner entity, its ProjectileWeapon record and the reviewed reference
+  are re-proven live (a stale source is a CONFLICT). As a *target* of a slot or presentation write, the owner entity,
+  its record identity and the ProjectileSettings row identity are re-proven. What the owner fires right now is not a
+  condition: another operation may have given it a donor, and the Patriot minigun fired as EAT-17 keeps its own
+  bullet row, which the sentries still fire.
 - **Assets.** The owner's loadout package is loaded through the 0.27 asset loader before the reference is written.
   The donor weapon never needs to be equipped.
 - **Mod Options.** A choice option's `values` may be reference handles, so one dropdown can select between complete
@@ -342,14 +373,15 @@ rows), UnifiedProjectileSwapTest.
 
 ## Catalog and proof model
 
-`sdk/AttackOutputCapabilities.json` lists 107 outputs:
-- 91 projectile, among them the stratagem-owned EMS Mortar shell and the Speargun spare twin;
-- 3 beam, 2 arc, 4 spray and 7 melee.
+`sdk/AttackOutputCapabilities.json` lists 130 outputs:
+- 108 projectile, among them the stratagem-owned EMS Mortar shell, the Speargun spare twin and 17 mounted weapons;
+- 4 beam, 3 arc, 8 spray and 7 melee.
 
-68 projectile outputs are selectable. Each selectable projectile output publishes its `presentation` (mode label,
+80 projectile outputs are selectable. Each selectable projectile output publishes its `presentation` (mode label,
 icon, whether the row is shared) and its `slots`. The catalog also publishes:
 - `modePresentation`: the offered labels and icons;
-- `projectileSources`: every player attack's and support weapon's status, mechanism and reason;
+- `projectileSources`: every player attack's, support weapon's and mounted weapon's status, mechanism and reason
+  (`kind`, `sharedEntity`);
 - `ammunitionSources`;
 - `activeSourceModel`: statuses, proof basis, counts and live controls;
 - `hostModel`: component and ammunition hosts, with per-host live evidence.

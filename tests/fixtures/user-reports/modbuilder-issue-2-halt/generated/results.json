@@ -1,0 +1,80 @@
+{
+ "published_0_27_0": {
+  "H0-control-no-halt": {
+   "startupError": null,
+   "registered": 3,
+   "results": [
+    "APPLIED",
+    "APPLIED",
+    "APPLIED"
+   ]
+  },
+  "H1-halt-all": {
+   "startupError": "field is not exposed for SG-20 Halt: projectile.drag",
+   "registered": 0,
+   "results": []
+  },
+  "H2-halt-damage-only": {
+   "startupError": "field is not exposed for SG-20 Halt: damage.ap_direct",
+   "registered": 0,
+   "results": []
+  },
+  "H3-halt-sway-only": {
+   "startupError": null,
+   "registered": 4,
+   "results": [
+    "APPLIED",
+    "APPLIED",
+    "APPLIED",
+    "APPLIED"
+   ]
+  }
+ },
+ "current_tree": {
+  "H0-control-no-halt": {
+   "startupError": null,
+   "registered": 3,
+   "results": [
+    "APPLIED",
+    "APPLIED",
+    "APPLIED"
+   ]
+  },
+  "H1-halt-all": {
+   "startupError": null,
+   "registered": 8,
+   "results": [
+    "APPLIED",
+    "APPLIED",
+    "APPLIED",
+    "APPLIED",
+    "APPLIED",
+    "APPLIED",
+    "APPLIED",
+    "APPLIED"
+   ]
+  },
+  "H2-halt-damage-only": {
+   "startupError": null,
+   "registered": 5,
+   "results": [
+    "APPLIED",
+    "APPLIED",
+    "APPLIED",
+    "APPLIED",
+    "APPLIED"
+   ]
+  },
+  "H3-halt-sway-only": {
+   "startupError": null,
+   "registered": 4,
+   "results": [
+    "APPLIED",
+    "APPLIED",
+    "APPLIED",
+    "APPLIED"
+   ]
+  }
+ },
+ "note": "Run on the retained snapshot through scripts/validate_packaged_runtime.py (run_scenario), from each runtime ZIP."
+}

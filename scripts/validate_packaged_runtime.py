@@ -89,8 +89,13 @@ return operations
 USER_REPORT = ROOT / 'tests/fixtures/user-reports/ayakamods-weaponry-rebalance/generated'
 
 
-def user_report(name):
-    return (USER_REPORT / (name + '.wrapped.lua')).read_text(encoding='utf-8')
+def user_report(name, folder=USER_REPORT):
+    return (folder / (name + '.wrapped.lua')).read_text(encoding='utf-8')
+
+
+# ModBuilder issue 2 (tests/fixtures/user-reports/modbuilder-issue-2-halt): ModBuilder 1.3.1 exports editing every
+# SG-20 Halt field next to unrelated weapons. With the published 0.27.0 the first Halt operation aborted the addon.
+HALT_ISSUE = ROOT / 'tests/fixtures/user-reports/modbuilder-issue-2-halt/generated'
 
 
 # Active projectile sources from the shipped archive: the Reprimand's own member is its fired projectile (the live
@@ -835,6 +840,13 @@ PROJECTILE_BUILDER_TOGGLES = {
         [('projectile_slot_test.impact', 2, [1], 1, 2), ('projectile_slot_test.impact', 3, [1], 1, 3),
          ('projectile_slot_test.impact', 4, [1], 1, 4), ('projectile_slot_test.impact', 5, [1], 1, 5),
          ('projectile_slot_test.impact', 1, [1], 1, 5), ('projectile_slot_test.impact', 2, [1], 1, 5)], 5),
+    # VehicleProjectileBuilderTest: the Patriot minigun's own ProjectileWeapon +0 (mount chain re-proven) through every
+    # donor, then the shared minigun bullet row's impact slot through every effect; each switch is one write.
+    'example-vehicle-projectile-builder-test': ([],
+        [('vehicle_projectile_builder.projectile', index, [1], 1, packages) for index, packages in
+            ((2, 1), (3, 2), (4, 3), (5, 4), (6, 5), (7, 6), (1, 6), (2, 6))]
+        + [('vehicle_projectile_builder.impact', index, [2], 1, packages) for index, packages in
+            ((2, 7), (3, 8), (4, 9), (5, 10), (1, 10), (2, 10))], 10),
 }
 
 EXTRAS = {'options-live': {'menu': MENU_STUB, 'after': OPTIONS_LIVE},
@@ -872,6 +884,11 @@ EXTRAS = {'options-live': {'menu': MENU_STUB, 'after': OPTIONS_LIVE},
         'rejected': {'gui-object-64f6c65514d7e06d97274943': 'allow_unverified_effect'}},
     # A Maxigun backpack of 1500 rounds exceeds the game's 1023 deposit limit: refused (logged), the Maxigun
     # weapon operations still apply.
+    # Every operation of each ModBuilder 1.3.1 export registers and applies: the Halt edits never drop the others.
+    'user-report-halt-issue-control': {'watches': 3},
+    'user-report-halt-issue-all-fields': {'watches': 8, 'frames': 60000},
+    'user-report-halt-issue-damage': {'watches': 5, 'frames': 60000},
+    'user-report-halt-issue-sway': {'watches': 4},
     'user-report-maxigun-plus-backpack': {'rejected': {'entity-2f5a386db841be55d3be8e66':
         'outside the reviewed range for deposit.capacity (1 to 1023)'}},
     'example-explosive-projectile-swap': {'packageRequests': 1},
@@ -980,6 +997,10 @@ SCENARIOS = {
     'user-report-sai-heat': lambda: user_report('F-LAS-12-Sai'),
     'user-report-sickle-heat': lambda: user_report('F-LAS-16-Sickle'),
     'user-report-orbital-cooldown': lambda: user_report('G-orbital-precision-strike-only'),
+    'user-report-halt-issue-control': lambda: user_report('H0-control-no-halt', HALT_ISSUE),
+    'user-report-halt-issue-all-fields': lambda: user_report('H1-halt-all', HALT_ISSUE),
+    'user-report-halt-issue-damage': lambda: user_report('H2-halt-damage-only', HALT_ISSUE),
+    'user-report-halt-issue-sway': lambda: user_report('H3-halt-sway-only', HALT_ISSUE),
     'player-weapon-transaction-gui': lambda: GUI_TRANSACTION,
     'support-weapon': lambda: example('SupportAMRProof'),
     'support-weapon-coverage': lambda: SUPPORT_COVERAGE,

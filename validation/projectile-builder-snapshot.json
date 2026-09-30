@@ -80,7 +80,7 @@
   },
   "mode": "snapshot-overlay",
   "proofScope": "guarded write mechanics; every composition here is pending a live test",
-  "protectionChanges": 36,
+  "protectionChanges": 56,
   "rejections": {
     "beamHasNoSlots": "has no projectile slots",
     "builderWithoutAcknowledgement": "allow_unverified",
@@ -89,6 +89,9 @@
     "dormantSource": "DORMANT_PROJECTILE_REFERENCE",
     "incompatibleFamilies": 4,
     "missingPackage": "ASSET_UNAVAILABLE",
+    "mountedBeamDonor": "INCOMPATIBLE_OUTPUT_FAMILY",
+    "mountedNonHost": "field is not exposed",
+    "mountedSharedRow": "allow_shared",
     "nonHostSupport": "field is not exposed",
     "recursionDirect": "RECURSIVE_COMPOSITION",
     "recursionTwoStep": "RECURSIVE_COMPOSITION",
@@ -97,6 +100,7 @@
     "spareTwinChanged": "SPARE_TWIN_CHANGED",
     "spareTwinOtherBuild": "SPARE_TWIN_UNVERIFIED_BUILD",
     "staleDonor": "source projectile reference changed",
+    "staleMountChain": "vehicle mount chain changed",
     "staleSlotDonor": "CONFLICT",
     "stale_identity": "unsupported identity",
     "unknownOutput": "unknown attack output",
@@ -158,6 +162,38 @@
       "packages": 1,
       "to": 144
     },
+    "mounted <- mounted handle": {
+      "crossClass": true,
+      "from": 148,
+      "host": "EXO-45 Patriot Exosuit / right_gun",
+      "member": "ProjectileWeapon +0",
+      "packages": 1,
+      "to": 261
+    },
+    "mounted <- primary handle": {
+      "crossClass": false,
+      "from": 148,
+      "host": "EXO-45 Patriot Exosuit / right_gun",
+      "member": "ProjectileWeapon +0",
+      "packages": 1,
+      "to": 144
+    },
+    "mounted <- support output (cross class)": {
+      "crossClass": true,
+      "from": 148,
+      "host": "EXO-45 Patriot Exosuit / right_gun",
+      "member": "ProjectileWeapon +0",
+      "packages": 1,
+      "to": 132
+    },
+    "primary <- mounted handle": {
+      "crossClass": false,
+      "from": 123,
+      "host": "SMG-32 Reprimand",
+      "member": "ProjectileWeapon +0",
+      "packages": 1,
+      "to": 148
+    },
     "primary <- support handle": {
       "crossClass": true,
       "from": 123,
@@ -167,6 +203,14 @@
       "to": 259
     },
     "restoreIsBaseline": true,
+    "shared mounted entity (both FRVs)": {
+      "crossClass": false,
+      "from": 275,
+      "host": "M-102 Gunner FRV / gun",
+      "member": "ProjectileWeapon +0",
+      "packages": 1,
+      "to": 207
+    },
     "support <- primary handle": {
       "crossClass": false,
       "from": 132,
@@ -192,5 +236,5 @@
       "to": 276
     }
   },
-  "writes": 38
+  "writes": 48
 }

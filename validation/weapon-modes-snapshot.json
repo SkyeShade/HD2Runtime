@@ -1,6 +1,6 @@
 {
-  "acknowledgementRejections": 194,
-  "adversarialRejections": 1502,
+  "acknowledgementRejections": 215,
+  "adversarialRejections": 1550,
   "blockedRejections": 6,
   "concussive": {
     "record": 104,
@@ -12,7 +12,7 @@
       }
     ]
   },
-  "conflictRejections": 228,
+  "conflictRejections": 240,
   "fixtureFallback": "disabled",
   "functions": {
     "checked": 52,
@@ -56,7 +56,7 @@
   "presentation": {
     "added": 19,
     "checked": 100,
-    "outputs": 68,
+    "outputs": 80,
     "removed": 81,
     "replaced": 81,
     "traits": 103
@@ -71,7 +71,7 @@
     ],
     "noops": 60
   },
-  "rollbacks": 520,
+  "rollbacks": 532,
   "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
   "speargun": {
     "assetDependency": {

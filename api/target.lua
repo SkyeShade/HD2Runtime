@@ -549,11 +549,38 @@ function M.new(describe)
             liveProven={traits=live_of(traits),armorPenetration=live_of(penetration)},
             refresh='Menus build their trait labels when they open: reopen the armory or loadout screen.'}
     end
+    -- A nested sub-weapon (research/underbarrel-weapons): the separate weapon entity a host's underbarrel item names.
+    -- Its own component members are written on this target with the ordinary field constants
+    -- (hd2.fields.weapon.horizontal_spread, hd2.fields.rounds.spare_rounds, ...).
+    local function subweapon_target(name)
+        local weapon=assert(player_weapons.weapons[name],'unknown reviewed sub-weapon: '..tostring(name))
+        local methods={}
+        function methods.describe()
+            local fields={}
+            for _,field in ipairs(weapon.fields)do
+                fields[#fields+1]={semanticFieldId=field.semanticFieldId,displayName=field.displayName,
+                    currentDefault=field.currentDefault,unit=field.unit,editable=field.editable,
+                    acknowledgement=field.acknowledgement,apiFieldConstant=field.apiFieldConstant}
+            end
+            return {name=name,kind=weapon.kind,subweaponOf=weapon.subweaponOf,link=weapon.link,
+                sharedDefinitions=copy(weapon.sharedDefinitions),notExposed=copy(weapon.notExposed),fields=fields}
+        end
+        return setmetatable({resource='player_weapon',path='weapon',weapon=name},{__index=methods})
+    end
     local function player_target(name,legacy)
         local weapon=player_weapons.weapons[name]
+        if weapon.subweaponOf then return subweapon_target(name)end
         local graph=composition.weapons[name]
         local methods={}
         function methods.describe()return weapon end
+        -- The underbarrel weapon (AR/GL-21 One-Two grenade launcher, AR-11 Arbitrator shotgun, SMG/FLAM-34 Stoker
+        -- flamer): a separate weapon entity with its own spread, rounds and fire rate.
+        function methods.underbarrel()
+            for _,sub in ipairs(weapon.subweapons or{})do
+                if sub.kind=='underbarrel'then return subweapon_target(sub.name)end
+            end
+            error(name..' has no reviewed underbarrel weapon',0)
+        end
         function methods.read_target()
             error('generic player-weapon live reads use the mapper/capability API')
         end
@@ -1019,13 +1046,37 @@ function M.new(describe)
             table.sort(result,function(a,b)return a.attack<b.attack end)
             return result
         end
+        -- Where a mounted attack's fired projectile lives (the same host rule and donor pool as player and support
+        -- weapons): writable on a mounted component host through hd2.fields.attack.projectile.
+        local function source(role)
+            local catalog=require('hd2runtime/domains/attack_outputs')
+            local row=(catalog.supportSources or{})[key]
+            local result={weapon=key,attack=role,writable=false,
+                reason='no classified projectile source for '..key..' attack '..tostring(role)}
+            if not row then return result end
+            result.status=row.status;result.mechanism=row.mechanism;result.member=row.member;result.reason=row.reason
+            result.compatibilityClass=row.compatibilityClass;result.sharedEntity=copy(row.sharedEntity)
+            for _,field in ipairs(weapon.fields)do
+                if field.semanticFieldId=='attack.'..tostring(role)..'.projectile'and field.editable then
+                    result.writable=true
+                    result.target=setmetatable({resource='vehicle_weapon',path='attack',weapon=key,attack=role},
+                        {__index={describe=function()return copy(weapon.attacks[role])end}})
+                    result.field='attack.projectile';result.expect=methods.attack(nil,role)
+                    result.acknowledgements=field.affectsMultipleWeapons and{'allow_shared','allow_unverified_effect'}
+                        or{'allow_unverified_effect'}
+                end
+            end
+            return result
+        end
         function methods.attack(_,role)
             local attack=assert(weapon.attacks[role],'unknown mounted weapon attack for '..key..': '..tostring(role))
             local attack_methods={}
             function attack_methods.describe()return copy(attack)end
+            function attack_methods.projectile_source()return source(role)end
             return setmetatable({resource='vehicle_weapon',path=attack.targetPath,weapon=key,attack=role},
                 {__index=attack_methods})
         end
+        function methods.projectile_source(_,role)return source(role or'primary')end
         function methods.projectile()return methods.attack(nil,'primary')end
         function methods.explosion(_,phase)return methods.attack(nil,phase or'impact')end
         return setmetatable({resource='vehicle_weapon',path='weapon',weapon=key},{__index=methods})

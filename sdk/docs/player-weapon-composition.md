@@ -182,3 +182,40 @@ The generated capability artifacts are:
 
 They contain no process addresses and are suitable for SDK inspection and future
 GUI consumption without adding GUI-specific tables.
+
+## Underbarrel weapons
+
+An underbarrel is a separate weapon entity, not part of its host: `scripts/research_underbarrel_weapons.py` →
+`research/underbarrel-weapons-F5FEE03DCFDB.json`.
+- **The link.** The host's default underbarrel item names the underbarrel entity (its entity delta sets
+  WeaponCustomization +192 `underbarrel_path`).
+- **At setup.** The game creates the underbarrel as its own game object when the host weapon is set up.
+- **The host** keeps its own records and carries none of the underbarrel's.
+
+Three weapons have one:
+
+| Host | Underbarrel | Fields (its own records) |
+| --- | --- | --- |
+| AR/GL-21 One-Two | grenade launcher | grenade spread 30 / 30 (`weapon.horizontal_spread` / `vertical_spread`), fire rate 900, loaded 1 (`rounds.feed_capacity_1`), spare grenades 5 (`rounds.spare_rounds`), resupply 5 (`rounds.rounds_from_supply`), starting 3 (`rounds.starting_rounds`) |
+| AR-11 Arbitrator | shotgun | spread 150 / 130, fire rate 80, rounds 4 / 20 / 20 / 20 |
+| SMG/FLAM-34 Stoker | flamer | spread 1 / 1 |
+
+```lua
+local launcher=hd2.weapon('AR/GL-21 One-Two'):underbarrel()
+hd2.ensure({patch={id='one-two-grenades',target=launcher,field=hd2.fields.rounds.spare_rounds,expect=5,value=10,
+    allow_unverified_effect=true}})
+```
+
+- **Proven members.** The fields are the same component members as those fields on every weapon. The records belong
+  to the underbarrel alone.
+- **Not live-tested.** Every write needs `allow_unverified_effect`, because whether a built underbarrel keeps copies is
+  not proven.
+- **Not exposed:**
+  - the reload time (the reload ability's duration; WeaponReload +56 is 0);
+  - WeaponRounds +92 / +104;
+  - the projectile reference (ProjectileWeapon +0 and WeaponRounds +64 both hold the grenade; which one fires is
+    unproven).
+- **Shared rows.** The grenade's projectile and explosion rows are shared with the GP-31 Grenade Pistol.
+- **Catalog correction pending.** The GP-31 Grenade Pistol and the P-72 Crisper list the One-Two launcher and the
+  Stoker flamer as second runtime roots. Their duplicate identity stays fail-closed, with that reason, until they are
+  re-mapped on their own roots (`catalogCorrections` in the research).

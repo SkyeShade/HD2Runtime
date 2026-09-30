@@ -33,4 +33,6 @@ For each choice, report:
 - whether any other weapon changed;
 - how the game performed with an explosion on every bullet.
 
-`allow_unverified_effect` is set: these slot writes are mapped offline, not yet shown in game.
+**Live result (2026-09-30): PASS.** Every impact variant and the stun direct hit worked, and no unrelated weapon
+changed. Exactly these (Coyote row, slot, donor) tuples are live-proven (`projectile_slot_composition`); every other
+explosion, status or row keeps `allow_unverified_effect`.

@@ -20,6 +20,7 @@ import presentation_fields
 import status_fields
 import equipment_fields
 import support_callin_linkage
+import live_evidence
 
 ROOT=Path(__file__).resolve().parents[1]
 CATALOG=ROOT/'schemas/support_weapon_authoring_catalog.json'
@@ -302,7 +303,8 @@ def build(catalog_path=CATALOG):
             'activeSourceProven':True,'gameplayEffectProven':False,'unverifiedEffect':True,
             'reason':('A component member the game copies into the weapon when it builds it: a weapon called in after '
                 'the write fires the new projectile; one already built keeps its copy until it is rebuilt.')}
-        return field
+        # Exact (host, donor output) pairs a live test proved (support_projectile_reference): liveProvenValues.
+        return live_evidence.promote_field(field,weapon['name'])
 
     reticle_rows,reticle_research=reticle_fields.load()
     movement_rows=weapon_movement_fields.load()
@@ -819,7 +821,6 @@ def build(catalog_path=CATALOG):
 
     instances=[];operation_groups=defaultdict(list)
     # Exact (weapon, field) pairs a live test promoted (schemas/live_evidence.json provenTargets).
-    import live_evidence
     live_targets=live_evidence.proven_targets()
     for weapon_name,weapon in runtime_weapons.items():
         public_weapon=public_weapon_by_name[weapon_name];public_weapon['fieldInstanceKeys']=[]

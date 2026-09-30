@@ -45700,6 +45700,19 @@
         "acknowledgement": "allow_unverified_effect",
         "acknowledgementReason": "Replaces the projectile this support weapon fires (its ProjectileWeapon +0, copied into the weapon when it is built). The same structural rule as player component hosts: no customization delta patches a projectile member and no other selector exists. Not yet shown in game for a support weapon."
       },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "support_projectile_reference",
+        "tests": [
+          "UnifiedProjectileSwapTest"
+        ],
+        "date": "2026-09-30",
+        "target": "EAT-17 Expendable Anti-Tank",
+        "field": "attack.primary.projectile",
+        "values": [
+          "output/v1/projectile/plas-1-scorcher"
+        ]
+      },
       "resolution": {
         "rootChain": [
           "stratagem_payload",
@@ -45746,7 +45759,7 @@
           "appliesWhen": "weapon_build",
           "instantiationOnly": true,
           "activeSourceProven": true,
-          "gameplayEffectProven": false,
+          "gameplayEffectProven": true,
           "unverifiedEffect": true,
           "reason": "A component member the game copies into the weapon when it builds it: a weapon called in after the write fires the new projectile; one already built keeps its copy until it is rebuilt."
         }
@@ -45756,7 +45769,7 @@
         "appliesWhen": "weapon_build",
         "instantiationOnly": true,
         "activeSourceProven": true,
-        "gameplayEffectProven": false,
+        "gameplayEffectProven": true,
         "unverifiedEffect": true,
         "reason": "A component member the game copies into the weapon when it builds it: a weapon called in after the write fires the new projectile; one already built keeps its copy until it is rebuilt."
       }
@@ -117916,6 +117929,19 @@
         "acknowledgement": "allow_unverified_effect",
         "acknowledgementReason": "Replaces the projectile this support weapon fires (its ProjectileWeapon +0, copied into the weapon when it is built). The same structural rule as player component hosts: no customization delta patches a projectile member and no other selector exists. Not yet shown in game for a support weapon."
       },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "support_projectile_reference",
+        "tests": [
+          "UnifiedProjectileSwapTest"
+        ],
+        "date": "2026-09-30",
+        "target": "M-105 Stalwart",
+        "field": "attack.primary.projectile",
+        "values": [
+          "output/v1/projectile/apw-1-anti-materiel-rifle"
+        ]
+      },
       "resolution": {
         "rootChain": [
           "stratagem_payload",
@@ -117962,7 +117988,7 @@
           "appliesWhen": "weapon_build",
           "instantiationOnly": true,
           "activeSourceProven": true,
-          "gameplayEffectProven": false,
+          "gameplayEffectProven": true,
           "unverifiedEffect": true,
           "reason": "A component member the game copies into the weapon when it builds it: a weapon called in after the write fires the new projectile; one already built keeps its copy until it is rebuilt."
         }
@@ -117972,7 +117998,7 @@
         "appliesWhen": "weapon_build",
         "instantiationOnly": true,
         "activeSourceProven": true,
-        "gameplayEffectProven": false,
+        "gameplayEffectProven": true,
         "unverifiedEffect": true,
         "reason": "A component member the game copies into the weapon when it builds it: a weapon called in after the write fires the new projectile; one already built keeps its copy until it is rebuilt."
       }
@@ -121707,6 +121733,20 @@
         "acknowledgement": "allow_unverified_effect",
         "acknowledgementReason": "The weapon-function input binding (WeaponDataComponent function_info +184/+188) and the function readers are proven, but binding a selector this weapon does not have natively has not been gameplay-tested."
       },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_programmable_ammo_added",
+        "tests": [
+          "HMGSpecialAmmoTest",
+          "SpeargunProjectileBuilderTest"
+        ],
+        "date": "2026-09-30",
+        "target": "MG-206 Heavy Machine Gun",
+        "field": "weapon_function.left",
+        "values": [
+          "programmable_ammo"
+        ]
+      },
       "resolution": {
         "rootChain": [
           "stratagem_payload",
@@ -121743,7 +121783,7 @@
         "activeSourceProven": true,
         "reason": "A component member the game copies into the weapon when it builds it (the projectile_weapon ROF record and the weapon_data bindings): weapons built after the write use it; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip).",
         "writeVerifiedOnApply": true,
-        "gameplayEffectProven": false,
+        "gameplayEffectProven": true,
         "unverifiedEffect": true
       }
     },
@@ -121856,6 +121896,22 @@
         "acknowledgement": "allow_unverified_effect",
         "acknowledgementReason": "The ProgrammableAmmo fire path (while the function is on, this projectile replaces the fired one) is proven, but giving this weapon a function projectile has not been gameplay-tested."
       },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_programmable_ammo_added",
+        "tests": [
+          "HMGSpecialAmmoTest",
+          "SpeargunProjectileBuilderTest"
+        ],
+        "date": "2026-09-30",
+        "target": "MG-206 Heavy Machine Gun",
+        "field": "function_ammo.projectile",
+        "values": [
+          "output/v1/projectile/ar-32-pacifier",
+          "output/v1/projectile/p-35-re-educator",
+          "output/v1/projectile/r-4-hyena"
+        ]
+      },
       "resolution": {
         "rootChain": [
           "stratagem_payload",
@@ -121894,7 +121950,7 @@
         "activeSourceProven": true,
         "reason": "Read at every shot from the weapon resolved ProjectileWeapon data (a per-weapon copy when the weapon has one, otherwise the entity-table record): a new weapon uses it; an already built one may pick it up at once.",
         "writeVerifiedOnApply": true,
-        "gameplayEffectProven": false,
+        "gameplayEffectProven": true,
         "unverifiedEffect": true
       }
     },
@@ -161700,6 +161756,20 @@
         "acknowledgement": "allow_unverified_effect",
         "acknowledgementReason": "The weapon-function input binding (WeaponDataComponent function_info +184/+188) and the function readers are proven, but binding a selector this weapon does not have natively has not been gameplay-tested."
       },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_programmable_ammo_added",
+        "tests": [
+          "HMGSpecialAmmoTest",
+          "SpeargunProjectileBuilderTest"
+        ],
+        "date": "2026-09-30",
+        "target": "S-11 Speargun",
+        "field": "weapon_function.left",
+        "values": [
+          "programmable_ammo"
+        ]
+      },
       "resolution": {
         "rootChain": [
           "weapon_entity"
@@ -161735,7 +161805,7 @@
         "activeSourceProven": true,
         "reason": "A component member the game copies into the weapon when it builds it (the projectile_weapon ROF record and the weapon_data bindings): weapons built after the write use it; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip).",
         "writeVerifiedOnApply": true,
-        "gameplayEffectProven": false,
+        "gameplayEffectProven": true,
         "unverifiedEffect": true
       }
     },
@@ -161848,6 +161918,20 @@
         "acknowledgement": "allow_unverified_effect",
         "acknowledgementReason": "The ProgrammableAmmo fire path (while the function is on, this projectile replaces the fired one) is proven, but giving this weapon a function projectile has not been gameplay-tested."
       },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_programmable_ammo_added",
+        "tests": [
+          "HMGSpecialAmmoTest",
+          "SpeargunProjectileBuilderTest"
+        ],
+        "date": "2026-09-30",
+        "target": "S-11 Speargun",
+        "field": "function_ammo.projectile",
+        "values": [
+          "output/v1/projectile/s-11-speargun-spare-twin"
+        ]
+      },
       "resolution": {
         "rootChain": [
           "weapon_entity"
@@ -161884,7 +161968,7 @@
         "activeSourceProven": true,
         "reason": "Read at every shot from the weapon resolved ProjectileWeapon data (a per-weapon copy when the weapon has one, otherwise the entity-table record): a new weapon uses it; an already built one may pick it up at once.",
         "writeVerifiedOnApply": true,
-        "gameplayEffectProven": false,
+        "gameplayEffectProven": true,
         "unverifiedEffect": true
       }
     },

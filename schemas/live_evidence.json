@@ -195,7 +195,7 @@
          "writes": [{"target": "SG-20 Halt", "field": "rounds.feed_capacity_1", "from": 8, "to": 4},
                     {"target": "SG-20 Halt", "field": "rounds.feed_capacity_2", "from": 8, "to": 12}],
          "observation": "The flechette magazine held 4 rounds and the stun magazine 12; each feed kept its own behaviour (reported: independent behaviour kept)."},
-        {"mod": "SpeargunGasStunTest", "operation": "speargun-gas-stun", "choice": "GL-52 De-Escalator", "result": "PARTIAL", "family": "weapon_programmable_ammo_added",
+        {"supersededBy": "projectile-builder-2026-09-30", "mod": "SpeargunGasStunTest", "operation": "speargun-gas-stun", "choice": "GL-52 De-Escalator", "result": "PARTIAL", "family": "weapon_programmable_ammo_added",
          "host": "S-11 Speargun", "donor": "GL-52 De-Escalator", "mechanism": "programmable_ammo",
          "writes": [{"target": "S-11 Speargun", "field": "weapon_function.left", "from": "none", "to": "programmable_ammo"},
                     {"target": "S-11 Speargun", "field": "function_ammo.projectile", "from": "none", "to": "GL-52 De-Escalator output"}],
@@ -204,6 +204,347 @@
         {"mod": "WeaponPresentationTest", "operation": "concussive-displayed-ap", "result": "PASS", "family": "weapon_presentation_penetration_label",
          "writes": [{"target": "AR-23C Liberator Concussive", "field": "presentation.armor_penetration", "from": "light", "to": "heavy, then medium"}],
          "observation": "The armory said HEAVY ARMOR PENETRATING while the bullets stayed AP 3 (medium); label and gameplay changed independently. Reopening or changing the menu state showed the new label; no restart was needed. The user noted AP 3 = medium and AP 4 = heavy. The gameplay AP write (damage.ap_* 2 -> 3) is recorded here only as the control, not promoted."}
+      ]
+    },
+    {
+      "id": "projectile-builder-2026-09-30",
+      "date": "2026-09-30",
+      "runtime": "HD2Runtime 0.27.0 projectile builder test build (commit 8a52c9e, build/test-artifacts/projectile-live-tests/HD2Runtime-0.27.0-runtime-projectile-builder-test.zip)",
+      "logSignals": ["APPLIED", "assets ... resident"],
+      "tests": [
+        {
+          "mod": "SpeargunProjectileBuilderTest",
+          "operation": "spear-stun",
+          "result": "PASS",
+          "families": ["weapon_programmable_ammo_added", "projectile_slot_composition", "weapon_mode_presentation"],
+          "family": "weapon_programmable_ammo_added",
+          "host": "S-11 Speargun",
+          "donor": "S-11 Speargun (spare twin)",
+          "mechanism": "programmable_ammo",
+          "writes": [
+            {
+              "target": "S-11 Speargun",
+              "field": "weapon_function.left",
+              "from": "none",
+              "to": "programmable_ammo"
+            },
+            {
+              "target": "S-11 Speargun",
+              "field": "function_ammo.projectile",
+              "from": "none",
+              "to": "S-11 Speargun (spare twin) output"
+            },
+            {
+              "target": "S-11 Speargun (spare twin)",
+              "field": "projectile.expiry_explosion",
+              "from": "its own explosive expiry",
+              "to": "A/M-23 EMS Mortar Sentry expiry explosion (StaticField)"
+            },
+            {
+              "target": "S-11 Speargun (spare twin)",
+              "field": "presentation.mode_label / mode_icon",
+              "from": "none / default",
+              "to": "stun / auto (ammo_stun)"
+            },
+            {
+              "target": "S-11 Speargun",
+              "field": "presentation.mode_label / mode_icon",
+              "from": "none / default",
+              "to": "gas / auto (ammo_slug)"
+            }
+          ],
+          "evidence": {
+            "donorOutputWorks": true,
+            "referenceWriteSucceeded": true,
+            "hostReadsReference": true,
+            "gameplayOutputChanged": true
+          },
+          "observation": "STUN mode kept the normal spear flight and model; an EMS stun field formed where the spear landed instead of the gas field. GAS showed the plain-round fallback icon, STUN the native stun icon."
+        },
+        {
+          "mod": "HMGSpecialAmmoTest",
+          "operation": "hmg-special",
+          "choice": "Incendiary",
+          "result": "PASS",
+          "families": ["weapon_programmable_ammo_added", "weapon_mode_presentation"],
+          "family": "weapon_programmable_ammo_added",
+          "host": "MG-206 Heavy Machine Gun",
+          "donor": "R-4 Hyena",
+          "mechanism": "programmable_ammo",
+          "writes": [
+            {
+              "target": "MG-206 Heavy Machine Gun",
+              "field": "weapon_function.left",
+              "from": "none",
+              "to": "programmable_ammo"
+            },
+            {
+              "target": "MG-206 Heavy Machine Gun",
+              "field": "function_ammo.projectile",
+              "from": "none",
+              "to": "R-4 Hyena output"
+            }
+          ],
+          "evidence": {
+            "donorOutputWorks": true,
+            "referenceWriteSucceeded": true,
+            "hostReadsReference": true,
+            "gameplayOutputChanged": true
+          },
+          "observation": "The Incendiary mode fired the R-4 Hyena bullet: enemies hit burn. The weapon-function menu and the rate-of-fire selector stayed usable. The donor bullet keeps its own damage and penetration."
+        },
+        {
+          "mod": "HMGSpecialAmmoTest",
+          "operation": "hmg-special",
+          "choice": "Stun",
+          "result": "PASS",
+          "families": ["weapon_programmable_ammo_added", "weapon_mode_presentation"],
+          "family": "weapon_programmable_ammo_added",
+          "host": "MG-206 Heavy Machine Gun",
+          "donor": "AR-32 Pacifier",
+          "mechanism": "programmable_ammo",
+          "writes": [
+            {
+              "target": "MG-206 Heavy Machine Gun",
+              "field": "weapon_function.left",
+              "from": "none",
+              "to": "programmable_ammo"
+            },
+            {
+              "target": "MG-206 Heavy Machine Gun",
+              "field": "function_ammo.projectile",
+              "from": "none",
+              "to": "AR-32 Pacifier output"
+            }
+          ],
+          "evidence": {
+            "donorOutputWorks": true,
+            "referenceWriteSucceeded": true,
+            "hostReadsReference": true,
+            "gameplayOutputChanged": true
+          },
+          "observation": "The Stun mode fired the AR-32 Pacifier bullet: enemies hit stun. The weapon-function menu and the rate-of-fire selector stayed usable. The donor bullet keeps its own damage and penetration."
+        },
+        {
+          "mod": "HMGSpecialAmmoTest",
+          "operation": "hmg-special",
+          "choice": "Gas",
+          "result": "PASS",
+          "families": ["weapon_programmable_ammo_added", "weapon_mode_presentation"],
+          "family": "weapon_programmable_ammo_added",
+          "host": "MG-206 Heavy Machine Gun",
+          "donor": "P-35 Re-Educator",
+          "mechanism": "programmable_ammo",
+          "writes": [
+            {
+              "target": "MG-206 Heavy Machine Gun",
+              "field": "weapon_function.left",
+              "from": "none",
+              "to": "programmable_ammo"
+            },
+            {
+              "target": "MG-206 Heavy Machine Gun",
+              "field": "function_ammo.projectile",
+              "from": "none",
+              "to": "P-35 Re-Educator output"
+            }
+          ],
+          "evidence": {
+            "donorOutputWorks": true,
+            "referenceWriteSucceeded": true,
+            "hostReadsReference": true,
+            "gameplayOutputChanged": true
+          },
+          "observation": "The Gas mode fired the P-35 Re-Educator bullet: enemies hit gas. The weapon-function menu and the rate-of-fire selector stayed usable. The donor bullet keeps its own damage and penetration."
+        },
+        {
+          "mod": "UnifiedProjectileSwapTest",
+          "operation": "eat-scorcher",
+          "result": "PASS",
+          "families": ["support_projectile_reference"],
+          "family": "support_projectile_reference",
+          "host": "EAT-17 Expendable Anti-Tank",
+          "donor": "PLAS-1 Scorcher",
+          "mechanism": "component",
+          "writes": [
+            {
+              "target": "EAT-17 Expendable Anti-Tank",
+              "field": "attack.projectile",
+              "from": "EAT-17 Expendable Anti-Tank projectile",
+              "to": "PLAS-1 Scorcher output"
+            }
+          ],
+          "evidence": {
+            "donorOutputWorks": true,
+            "referenceWriteSucceeded": true,
+            "hostReadsReference": true,
+            "gameplayOutputChanged": true
+          },
+          "observation": "EAT-17 Expendable Anti-Tank fired the PLAS-1 Scorcher projectile."
+        },
+        {
+          "mod": "UnifiedProjectileSwapTest",
+          "operation": "stalwart-amr",
+          "result": "PASS",
+          "families": ["support_projectile_reference"],
+          "family": "support_projectile_reference",
+          "host": "M-105 Stalwart",
+          "donor": "APW-1 Anti-Materiel Rifle",
+          "mechanism": "component",
+          "writes": [
+            {
+              "target": "M-105 Stalwart",
+              "field": "attack.projectile",
+              "from": "M-105 Stalwart projectile",
+              "to": "APW-1 Anti-Materiel Rifle output"
+            }
+          ],
+          "evidence": {
+            "donorOutputWorks": true,
+            "referenceWriteSucceeded": true,
+            "hostReadsReference": true,
+            "gameplayOutputChanged": true
+          },
+          "observation": "M-105 Stalwart fired the APW-1 Anti-Materiel Rifle projectile."
+        },
+        {
+          "mod": "UnifiedProjectileSwapTest",
+          "operation": "reprimand-napalm",
+          "result": "PASS",
+          "families": ["attack_output_cross_class"],
+          "family": "attack_output_cross_class",
+          "host": "SMG-32 Reprimand",
+          "donor": "EAT-700 Expendable Napalm",
+          "mechanism": "component",
+          "writes": [
+            {
+              "target": "SMG-32 Reprimand",
+              "field": "attack.projectile",
+              "from": "SMG-32 Reprimand projectile",
+              "to": "EAT-700 Expendable Napalm output"
+            }
+          ],
+          "evidence": {
+            "donorOutputWorks": true,
+            "referenceWriteSucceeded": true,
+            "hostReadsReference": true,
+            "gameplayOutputChanged": true
+          },
+          "observation": "SMG-32 Reprimand fired the EAT-700 Expendable Napalm projectile."
+        },
+        {
+          "mod": "UnifiedProjectileSwapTest",
+          "operation": "liberator-talon",
+          "result": "PASS",
+          "families": ["weapon_ammunition_projectile_reference"],
+          "family": "weapon_ammunition_projectile_reference",
+          "host": "AR-23 Liberator",
+          "donor": "LAS-58 Talon",
+          "mechanism": "ammunition",
+          "writes": [
+            {
+              "target": "AR-23 Liberator",
+              "field": "ammunition.projectile",
+              "from": "AR-23 Liberator projectile",
+              "to": "LAS-58 Talon output"
+            }
+          ],
+          "evidence": {
+            "donorOutputWorks": true,
+            "referenceWriteSucceeded": true,
+            "hostReadsReference": true,
+            "gameplayOutputChanged": true
+          },
+          "observation": "AR-23 Liberator fired the LAS-58 Talon projectile."
+        },
+        {
+          "mod": "ProjectileSlotTest",
+          "operation": "coyote-impact",
+          "choice": "Grenade blast",
+          "result": "PASS",
+          "family": "projectile_slot_composition",
+          "writes": [
+            {
+              "target": "AR-2 Coyote",
+              "field": "projectile.impact_explosion",
+              "from": "none",
+              "to": "GL-21 Grenade Launcher impact explosion"
+            }
+          ],
+          "observation": "Every Coyote bullet released the GL-21 Grenade Launcher impact explosion (Grenade blast) where it hit; no unrelated weapon changed."
+        },
+        {
+          "mod": "ProjectileSlotTest",
+          "operation": "coyote-impact",
+          "choice": "EMS stun field",
+          "result": "PASS",
+          "family": "projectile_slot_composition",
+          "writes": [
+            {
+              "target": "AR-2 Coyote",
+              "field": "projectile.impact_explosion",
+              "from": "none",
+              "to": "A/M-23 EMS Mortar Sentry expiry explosion"
+            }
+          ],
+          "observation": "Every Coyote bullet released the A/M-23 EMS Mortar Sentry expiry explosion (EMS stun field) where it hit; no unrelated weapon changed."
+        },
+        {
+          "mod": "ProjectileSlotTest",
+          "operation": "coyote-impact",
+          "choice": "Gas cloud",
+          "result": "PASS",
+          "family": "projectile_slot_composition",
+          "writes": [
+            {
+              "target": "AR-2 Coyote",
+              "field": "projectile.impact_explosion",
+              "from": "none",
+              "to": "S-11 Speargun expiry explosion"
+            }
+          ],
+          "observation": "Every Coyote bullet released the S-11 Speargun expiry explosion (Gas cloud) where it hit; no unrelated weapon changed."
+        },
+        {
+          "mod": "ProjectileSlotTest",
+          "operation": "coyote-impact",
+          "choice": "Napalm burst",
+          "result": "PASS",
+          "family": "projectile_slot_composition",
+          "writes": [
+            {
+              "target": "AR-2 Coyote",
+              "field": "projectile.impact_explosion",
+              "from": "none",
+              "to": "EAT-700 Expendable Napalm impact explosion"
+            }
+          ],
+          "observation": "Every Coyote bullet released the EAT-700 Expendable Napalm impact explosion (Napalm burst) where it hit; no unrelated weapon changed."
+        },
+        {
+          "mod": "ProjectileSlotTest",
+          "operation": "coyote-stun",
+          "result": "PASS",
+          "family": "projectile_slot_composition",
+          "writes": [
+            {
+              "target": "AR-2 Coyote",
+              "field": "projectile.direct_damage",
+              "from": "AR-2 Coyote direct hit (fire)",
+              "to": "AR-32 Pacifier direct hit (stun)"
+            }
+          ],
+          "observation": "The Coyote direct hit applied the Pacifier stun; no unrelated weapon changed."
+        },
+        {
+          "mod": "VampiricThrowingKnivesTest",
+          "operation": "vampiric_knives",
+          "result": "PASS",
+          "families": ["event_damage_source_attribution", "event_action_heal"],
+          "family": "event_damage_source_attribution",
+          "writes": [],
+          "observation": "K-2 Throwing Knife damage healed the local player by the fixed 25; misses and other weapons did not heal: player_damage_dealt named the knife as its own source, exactly."
+        }
       ]
     }
   ],
@@ -269,18 +610,40 @@
       "analysis": "A structural reference existing, and a guarded write landing, did not prove that firing reads it. The Liberator fires its FULL METAL JACKET ammunition delta; see docs/attack-outputs.md."
     },
     "weapon_ammunition_projectile_reference": {
-      "status": "live_proven", "domain": "player_weapon", "fields": ["ammunition.projectile"],
+      "status": "live_proven",
+      "domain": "player_weapon",
+      "fields": ["ammunition.projectile"],
       "scope": "The AR-23 Liberator's default ammunition, RIFLE 5,5x50mm. FULL METAL JACKET: its entity delta row that patches ProjectileWeapon +0 when the weapon is built. An edited row is consumed in play. Only this delta row is proven; allow_shared stays required (an ammunition definition applies to every weapon that equips it).",
       "provenWeapons": ["AR-23 Liberator"],
-      "tests": ["LiberatorAttackOutputTest"], "acknowledgementRemoved": "allow_unverified_effect (AR-23 Liberator ammunition only)",
+      "tests": ["LiberatorAttackOutputTest", "UnifiedProjectileSwapTest"],
+      "acknowledgementRemoved": "allow_unverified_effect (AR-23 Liberator ammunition only)",
       "notPromoted": ["the other INDIRECT weapons (JAR-5 Dominator, R-63 Diligence, SG-225 Breaker, P-2 Peacemaker, P-19 Redeemer): the same kind of mechanism, but different ammunition delta rows that no test exercised; they keep allow_unverified_effect", "timing: whether an edit reaches a Liberator that was already built, or only the next one built, was not reported"],
       "nextTests": ["one INDIRECT weapon other than the Liberator (for example the SG-225 Breaker) to test whether the path generalises"]
     },
     "attack_output_cross_class": {
-      "status": "live_proven", "domain": "player_weapon", "fields": ["attack.<role>.projectile", "ammunition.projectile"],
-      "scope": "Exactly two compositions on the AR-23 Liberator's ammunition source: the EAT-700 Expendable Napalm output (explosive_shrapnel) and the GL-52 De-Escalator output (explosive_arc). Both donor outputs render and function with their chains (napalm, arc on impact) when the Liberator fires them.",
-      "provenCompositions": [{"host": "AR-23 Liberator", "mechanism": "ammunition", "output": "EAT-700 Expendable Napalm"}, {"host": "AR-23 Liberator", "mechanism": "ammunition", "output": "GL-52 De-Escalator"}],
-      "tests": ["LiberatorAttackOutputTest"], "acknowledgementRemoved": "allow_unverified_reference, allow_unverified_effect (these two compositions only)",
+      "status": "live_proven",
+      "domain": "player_weapon",
+      "fields": ["attack.<role>.projectile", "ammunition.projectile"],
+      "scope": "Exactly two compositions on the AR-23 Liberator's ammunition source: the EAT-700 Expendable Napalm output (explosive_shrapnel) and the GL-52 De-Escalator output (explosive_arc). Both donor outputs render and function with their chains (napalm, arc on impact) when the Liberator fires them. And one component composition: the SMG-32 Reprimand fires the EAT-700 Expendable Napalm output (UnifiedProjectileSwapTest, 2026-09-30).",
+      "provenCompositions": [
+        {
+          "host": "AR-23 Liberator",
+          "mechanism": "ammunition",
+          "output": "EAT-700 Expendable Napalm"
+        },
+        {
+          "host": "AR-23 Liberator",
+          "mechanism": "ammunition",
+          "output": "GL-52 De-Escalator"
+        },
+        {
+          "host": "SMG-32 Reprimand",
+          "mechanism": "component",
+          "output": "EAT-700 Expendable Napalm"
+        }
+      ],
+      "tests": ["LiberatorAttackOutputTest", "UnifiedProjectileSwapTest"],
+      "acknowledgementRemoved": "allow_unverified_reference, allow_unverified_effect (these three compositions only)",
       "observations": ["The pre-correction EAT-700 and GL-52 runs wrote the Liberator's dormant member; they stay recorded, superseded, as host-path history."],
       "notPromoted": ["every other host and output pair, including the same outputs on other hosts"]
     },
@@ -408,12 +771,36 @@
       "notPromoted": ["the feed capacities of any other weapon"]
     },
     "weapon_programmable_ammo_added": {
-      "status": "live_partial", "domain": "support_weapon", "fields": ["function_ammo.projectile", "weapon_function.left"],
-      "scope": "Giving a weapon without it a ProgrammableAmmo selector and a donor function projectile (S-11 Speargun, left input).",
-      "tests": ["SpeargunGasStunTest"], "acknowledgementRemoved": null,
-      "observations": ["The selector and the function projectile work in play: mode A fires the normal gas spear, mode B the donor projectile.", "The GL-52 De-Escalator donor produces heavy arc damage, not a stun field: the donor, not the mechanism, missed the intended effect."],
-      "notPromoted": ["function_ammo.projectile and the programmable_ammo binding on every weapon, the Speargun included: the acknowledgements stay until a donor with the intended effect is tested"],
-      "nextTests": ["SpeargunGasStunTest with a true stun-field donor (see docs/weapon-feeds.md, stun-field donors)"]
+      "status": "live_proven",
+      "domain": "support_weapon",
+      "fields": ["function_ammo.projectile", "weapon_function.left"],
+      "scope": "A ProgrammableAmmo selector added on the free left input with a donor function projectile, for exactly these pairs: S-11 Speargun with its spare twin (EMS expiry), and MG-206 Heavy Machine Gun with the R-4 Hyena, AR-32 Pacifier and P-35 Re-Educator bullets. Both modes stay selectable in the weapon-function menu; the HMG rate-of-fire selector keeps working.",
+      "provenTargets": [
+        {
+          "target": "S-11 Speargun",
+          "field": "weapon_function.left",
+          "values": ["programmable_ammo"]
+        },
+        {
+          "target": "S-11 Speargun",
+          "field": "function_ammo.projectile",
+          "values": ["output/v1/projectile/s-11-speargun-spare-twin"]
+        },
+        {
+          "target": "MG-206 Heavy Machine Gun",
+          "field": "weapon_function.left",
+          "values": ["programmable_ammo"]
+        },
+        {
+          "target": "MG-206 Heavy Machine Gun",
+          "field": "function_ammo.projectile",
+          "values": ["output/v1/projectile/ar-32-pacifier", "output/v1/projectile/p-35-re-educator", "output/v1/projectile/r-4-hyena"]
+        }
+      ],
+      "tests": ["SpeargunGasStunTest", "SpeargunProjectileBuilderTest", "HMGSpecialAmmoTest"],
+      "acknowledgementRemoved": "allow_unverified_effect and allow_unverified_reference for exactly these host / function projectile pairs and the programmable_ammo binding on these two weapons",
+      "observations": ["The earlier SpeargunGasStunTest GL-52 run (partial: the donor was not a stun field) is superseded; its mechanism result stands."],
+      "notPromoted": ["every other host, input and donor, including these donors on other hosts", "the EMS Mortar shell as the Speargun function projectile (SpeargunGasStunTest was not re-reported)"]
     },
     "weapon_presentation_penetration_label": {
       "status": "live_proven", "domain": "player_weapon", "fields": ["presentation.armor_penetration"],
@@ -428,6 +815,158 @@
       "scope": "The full armory trait list of a weapon loadout entry (localization string IDs), independent of gameplay.",
       "tests": [], "acknowledgementRemoved": null,
       "nextTests": ["a trait-list test: add, replace and remove traits on one weapon and check the armory after reopening the menu"]
+    },
+    "support_projectile_reference": {
+      "status": "live_proven",
+      "domain": "support_weapon",
+      "fields": ["attack.<role>.projectile"],
+      "scope": "Support component hosts replacing their fired projectile, for exactly two pairs: EAT-17 Expendable Anti-Tank fires the PLAS-1 Scorcher output, M-105 Stalwart fires the APW-1 Anti-Materiel Rifle output.",
+      "provenTargets": [
+        {
+          "target": "EAT-17 Expendable Anti-Tank",
+          "field": "attack.primary.projectile",
+          "values": ["output/v1/projectile/plas-1-scorcher"]
+        },
+        {
+          "target": "M-105 Stalwart",
+          "field": "attack.primary.projectile",
+          "values": ["output/v1/projectile/apw-1-anti-materiel-rifle"]
+        }
+      ],
+      "tests": ["UnifiedProjectileSwapTest"],
+      "acknowledgementRemoved": "allow_unverified_effect (these two host / donor pairs only)",
+      "notPromoted": ["the other six support component hosts", "other donors on the EAT-17 and Stalwart", "cross-class donors on support hosts"]
+    },
+    "projectile_slot_composition": {
+      "status": "live_proven",
+      "domain": "attack_output",
+      "fields": ["projectile.impact_explosion", "projectile.expiry_explosion", "projectile.direct_damage"],
+      "scope": "Projectile slot writes for exactly these (row, slot, donor) tuples: the AR-2 Coyote bullet with the GL-21 grenade blast, the EMS Mortar shell field, the Speargun gas cloud or the EAT-700 napalm burst as its impact explosion (and back to none), the Coyote direct hit swapped for the AR-32 Pacifier stun, and the Speargun spare twin with the EMS Mortar shell expiry explosion. Each effect formed per hit; no unrelated weapon changed.",
+      "provenTargets": [
+        {
+          "target": "AR-2 Coyote",
+          "field": "projectile.impact_explosion",
+          "values": ["none", "output/v1/projectile/a-m-23-ems-mortar-sentry#expiryExplosion", "output/v1/projectile/eat-700-expendable-napalm#impactExplosion", "output/v1/projectile/gl-21-grenade-launcher#impactExplosion", "output/v1/projectile/s-11-speargun#expiryExplosion"]
+        },
+        {
+          "target": "AR-2 Coyote",
+          "field": "projectile.direct_damage",
+          "values": ["output/v1/projectile/ar-32-pacifier#directDamage"]
+        },
+        {
+          "target": "S-11 Speargun (spare twin)",
+          "field": "projectile.expiry_explosion",
+          "values": ["output/v1/projectile/a-m-23-ems-mortar-sentry#expiryExplosion"]
+        }
+      ],
+      "tests": ["SpeargunProjectileBuilderTest", "ProjectileSlotTest"],
+      "acknowledgementRemoved": "allow_unverified_effect (these tuples only)",
+      "observations": ["A slot write reached the next shots; the ProjectileSlotTest report did not note a re-equip."],
+      "notPromoted": ["every other ExplosionType, DamageInfo or status donor", "these donors on other rows", "expiry-explosion writes on the Coyote", "shared rows"]
+    },
+    "weapon_mode_presentation": {
+      "status": "live_proven",
+      "domain": "attack_output",
+      "fields": ["presentation.mode_label", "presentation.mode_icon"],
+      "scope": "Weapon-function mode labels and icons shown in the menu for exactly these outputs and values: the Speargun spare twin STUN (stun icon), the S-11 Speargun GAS (plain round), and on the HMG test the R-4 Hyena INCENDIARY, AR-32 Pacifier STUN and P-35 Re-Educator GAS mode labels with their auto icons and the MG-206 STANDARD label (plain round).",
+      "provenTargets": [
+        {
+          "target": "S-11 Speargun (spare twin)",
+          "field": "presentation.mode_label",
+          "values": ["stun"]
+        },
+        {
+          "target": "S-11 Speargun (spare twin)",
+          "field": "presentation.mode_icon",
+          "values": ["ammo_stun"]
+        },
+        {
+          "target": "S-11 Speargun",
+          "field": "presentation.mode_label",
+          "values": ["gas"]
+        },
+        {
+          "target": "S-11 Speargun",
+          "field": "presentation.mode_icon",
+          "values": ["ammo_slug"]
+        },
+        {
+          "target": "R-4 Hyena",
+          "field": "presentation.mode_label",
+          "values": ["incendiary"]
+        },
+        {
+          "target": "R-4 Hyena",
+          "field": "presentation.mode_icon",
+          "values": ["ammo_slug"]
+        },
+        {
+          "target": "AR-32 Pacifier",
+          "field": "presentation.mode_label",
+          "values": ["stun"]
+        },
+        {
+          "target": "AR-32 Pacifier",
+          "field": "presentation.mode_icon",
+          "values": ["ammo_stun"]
+        },
+        {
+          "target": "P-35 Re-Educator",
+          "field": "presentation.mode_label",
+          "values": ["gas"]
+        },
+        {
+          "target": "P-35 Re-Educator",
+          "field": "presentation.mode_icon",
+          "values": ["ammo_slug"]
+        },
+        {
+          "target": "MG-206 Heavy Machine Gun",
+          "field": "presentation.mode_label",
+          "values": ["standard"]
+        },
+        {
+          "target": "MG-206 Heavy Machine Gun",
+          "field": "presentation.mode_icon",
+          "values": ["ammo_slug"]
+        }
+      ],
+      "tests": ["SpeargunProjectileBuilderTest", "HMGSpecialAmmoTest"],
+      "acknowledgementRemoved": "allow_unverified_effect (these output / value pairs only; allow_shared stays)",
+      "notPromoted": ["every other label or icon on these outputs", "labels on other outputs"]
+    },
+    "event_damage_source_attribution": {
+      "status": "live_proven",
+      "domain": "events",
+      "fields": ["player_damage_dealt.sources"],
+      "scope": "player_damage_dealt names the K-2 Throwing Knife as the source of the damage it deals, exactly: knife hits report under the knife, misses report nothing, other weapons report under their own source.",
+      "provenTargets": [
+        {
+          "target": "K-2 Throwing Knife",
+          "field": "player_damage_dealt"
+        }
+      ],
+      "tests": ["VampiricThrowingKnivesTest"],
+      "acknowledgementRemoved": null,
+      "notPromotedNote": "offline-proven only",
+      "notPromoted": ["other throwables and sources (their names are offline-proven)", "the damage amount as a basis for proportional healing", "player_hit", "remote players (not read)"]
+    },
+    "event_action_heal": {
+      "status": "live_proven",
+      "domain": "event_actions",
+      "fields": ["hd2.actions.heal"],
+      "scope": "hd2.actions.heal(25) on the local player, requested from a player_damage_dealt handler: the player healed by 25.",
+      "provenTargets": [
+        {
+          "target": "local_player",
+          "field": "hd2.actions.heal",
+          "values": [25]
+        }
+      ],
+      "tests": ["VampiricThrowingKnivesTest"],
+      "acknowledgementRemoved": null,
+      "notPromotedNote": "offline-proven only",
+      "notPromoted": ["other amounts, including a damage-proportional heal", "healing other players"]
     }
   }
 }

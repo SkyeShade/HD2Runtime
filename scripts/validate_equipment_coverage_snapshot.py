@@ -215,7 +215,8 @@ local worker=coroutine.create(function()
   local shared_done=false
   for _,field in ipairs(weapon.fields)do
    local t=field.target
-   if field.editable and field.writeScope=='weapon_local'then
+   -- (The drone gun's projectile reference is exercised by the vehicle weapon and projectile builder validators.)
+   if field.editable and field.writeScope=='weapon_local'and field.type~='projectile_reference'then
     exercise('drone_weapon',weapons,{resource='vehicle_weapon',path='weapon',weapon=key},field)
    elseif field.editable and not shared_done and(field.semanticFieldId:find('^arc%.')or field.semanticFieldId:find('^beam%.')
      or field.semanticFieldId=='damage.primary.stagger')then

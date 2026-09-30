@@ -1,5 +1,7 @@
 -- Preserve the preceding update callback and all its return values.
 local metrics=require('hd2runtime/runtime/metrics')
+local diagnostics=require('hd2runtime/runtime/diagnostics')
+local telemetry=diagnostics.telemetry_state
 local M={}
 local watches={}
 local callback,original
@@ -18,6 +20,7 @@ local function tick(dt)
     end
     if #watches==0 and update==callback then update=original;callback=nil end
     metrics.elapsed('scheduler.tick',started)
+    if telemetry.enabled then diagnostics.tick(dt,#watches)end
 end
 function M.active()return #watches end
 -- Runs after the preceding callback and passes its results through unchanged

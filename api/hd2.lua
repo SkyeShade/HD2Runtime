@@ -52,6 +52,9 @@ M.fields=metadata.fields;M.enums=metadata.enums;M.resources=metadata.resources
 M.version=metadata.version;M.api_version=metadata.api_version
 -- Process-wide work counters and worst durations for performance audits.
 function M.metrics()return require('hd2runtime/runtime/metrics').snapshot()end
+-- Write-conflict counts per ensure (always on) and opt-in sampled timing (docs/diagnostics.md).
+local diagnostics=require('hd2runtime/runtime/diagnostics')
+M.diagnostics={telemetry=diagnostics.telemetry,write_conflicts=diagnostics.write_conflicts}
 -- In-game options (Mod Options Menu). Required at startup with the rest of the API.
 local options=require('hd2runtime/api/options')
 function M.options(spec)return options.page(spec)end
@@ -118,7 +121,25 @@ local function track(handle)
     burst.handles[#burst.handles+1]=handle
     return handle
 end
+-- Operation ids name operations in the log and in diagnostics (drift, write conflicts). The same id registered twice
+-- by one mod still registers both, with one warning, so an exported project's later operations are never dropped.
+local registered_ids={}
+local function warn_duplicate(kind,request)
+    local id=operation_id(kind,request)
+    if not id then return end
+    local owner=require('hd2runtime/runtime/events').owner()
+    local key=owner..'#'..id
+    local seen=registered_ids[key]
+    if seen==nil then registered_ids[key]=false;return end
+    if seen==false then
+        registered_ids[key]=true
+        log.emit('[HD2Runtime] '..kind..' '..id..': another operation of '..owner..' already uses this id; give '
+            ..'each operation a unique id (logs and diagnostics name operations by id)')
+        require('hd2runtime/runtime/metrics').count('api.duplicate_operation_ids')
+    end
+end
 local function register(kind,module,request,check)
+    warn_duplicate(kind,request)
     if check then
         local valid,why=pcall(check,request)
         if not valid then return track(rejected(kind,request,why))end

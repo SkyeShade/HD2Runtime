@@ -35,6 +35,12 @@ JSON_OUTPUT=ROOT/'sdk/PlayerWeaponAuthoringCapabilities.json'
 AMMO_JSON_OUTPUT=ROOT/'sdk/PlayerWeaponAmmoCapabilities.json'
 LUA_OUTPUT=ROOT/'domains/player_weapon_authoring.lua'
 OWNERSHIP=ROOT/'research/field-ownership-F5FEE03DCFDB.json'
+# Underbarrel weapons (research/underbarrel-weapons-F5FEE03DCFDB.json): separate weapon entities a host's default
+# underbarrel item names. Published as nested sub-targets with only the members the field schema proves.
+UNDERBARREL=ROOT/'research/underbarrel-weapons-F5FEE03DCFDB.json'
+UNDERBARREL_UNVERIFIED=('The underbarrel is its own weapon entity, created when the host weapon is set up; the member '
+    'is proven (the same component member as this field on every weapon), but whether a built underbarrel keeps a '
+    'copy of it and the gameplay effect of an edit are not yet shown in game.')
 EFFECT_REASON={
     'ACTIVE_DIRECT':'A settings row the game reads when the projectile, explosion or damage is used.',
     'ACTIVE_AT_INSTANTIATION':('A component member the game copies into the weapon when it builds it (base plus '
@@ -228,11 +234,18 @@ def build(catalog_path=CATALOG):
     fire_mode_rows,_=fire_mode_fields.load()
     weapon_mode_rows,_=weapon_mode_fields.load()
     presentation_rows,presentation_research,trait_values,penetration_values=presentation_fields.load()
+    # Duplicate identities whose second root is proven to be another weapon's underbarrel: a precise reason (the
+    # weapon stays fail-closed until it is re-mapped on its own root).
+    misattributed={item['weapon']:('One of the two catalogued runtime roots ('+item['dropRoot']+') is the '
+        +', '.join(item['underbarrelOf'])+' underbarrel weapon (research/underbarrel-weapons-F5FEE03DCFDB.json), not '
+        'this weapon; ordinary writes stay closed until it is re-mapped on its own root ('+', '.join(item['keptRoots'])
+        +').') for item in json.loads(UNDERBARREL.read_text(encoding='utf-8'))['catalogCorrections']}
     weapons=[]
     for name in sorted(identities):
         identity=identities[name];candidate=candidates[identity['bestCandidate']['resourceHash']]
         unique=identity['resolution']=='UNIQUE'
-        blocked=None if unique else 'Ambiguous runtime identity; ordinary hd2.weapon(name) writes fail closed.'
+        blocked=None if unique else(misattributed.get(name)
+            or 'Ambiguous runtime identity; ordinary hd2.weapon(name) writes fail closed.')
         fields=[];resolved=candidate['resolvedFields']
         ownership=candidate['ownership']
         composition=composition_source['weapons'][name]
@@ -590,6 +603,11 @@ def build(catalog_path=CATALOG):
             'blockReason':blocked,'resources':weapon_candidates[name],
             'implementationFamilies':candidate['implementationFamilies'],'fields':fields})
 
+    subweapons=underbarrel_subweapons(definition,provenance,{w['name'] for w in weapons})
+    by_host={}
+    for sub in subweapons:by_host.setdefault(sub['subweaponOf'],[]).append({'name':sub['name'],'kind':sub['kind']})
+    for weapon in weapons:
+        if weapon['name'] in by_host:weapon['subweapons']=by_host[weapon['name']]
     collision_groups=0;alias_pair_instances=0;distinct_pair_instances=0;unclassified=[]
     for weapon in weapons:
         by_backing={}
@@ -654,7 +672,7 @@ def build(catalog_path=CATALOG):
         'buildFingerprints':report['gameFingerprints'],'sourceSnapshot':
             build_profile.SNAPSHOT_NAME,'summary':summary,
         'fieldDefinitions':schema['fields'],'semanticAliases':semantic_aliases,
-        'backingCollisionAudit':collision_audit,'weapons':weapons,
+        'backingCollisionAudit':collision_audit,'weapons':weapons,'subweapons':subweapons,
         'safety':{'addressesInPublicMetadata':False,'writes':0,'protectionChanges':0,
             'fixtureFallback':'disabled'}}
 
@@ -770,6 +788,56 @@ def annotate_effects(value,rows):
         'editableFieldInstances':dict(sorted(editable.items()))}
 
 
+def underbarrel_subweapons(definition,provenance,hosts):
+    """Nested underbarrel targets ('<host> / underbarrel'): the entity's own component members only."""
+    research=json.loads(UNDERBARREL.read_text(encoding='utf-8'))
+    members={item['field']:item for item in research['members']}
+    result=[]
+    for item in research['underbarrels']:
+        entity=item['underbarrel']
+        owners=[host for host in item['hosts'] if host in hosts]
+        if len(owners)!=1:continue
+        host=owners[0];fields=[]
+        for field_id,value in entity['values'].items():
+            member=members[field_id];identity=entity['components'].get(member['component'])
+            if not identity:continue
+            spec=definition(field_id)
+            local=identity['ownerCount']==1 and identity['uniqueOwner']
+            fields.append({'displayName':spec['display_name'],'semanticFieldId':field_id,'type':spec['type'],
+                'unit':spec.get('unit'),'currentDefault':value,'editable':local,'derivedReadOnly':False,
+                'semanticTarget':spec.get('semantic_target',spec['id']),'canonical':True,'preferred':True,
+                'deprecated':False,'aliasOf':None,'provenance':dict(provenance,
+                    source='research/underbarrel-weapons-F5FEE03DCFDB.json'),'min':None,'max':None,'enumValues':None,
+                'backing':{'kind':'component','component':member['component'],'offset':member['offset'],
+                    'storage':member['storage'],'width':4,'recordIndex':identity['recordIndex'],
+                    'indexRow':identity['indexRow'],'ownerCount':identity['ownerCount'],
+                    'uniqueOwner':identity['uniqueOwner']},
+                'writeScope':'weapon_local' if local else 'shared_component','sharedWithWeapons':[],
+                'affectsMultipleWeapons':not local,'reason':None if local else 'The component record is shared.',
+                'acceptedForWrites':local,'acknowledgement':'allow_unverified_effect',
+                'acknowledgementReason':UNDERBARREL_UNVERIFIED,
+                'apiFieldConstant':'hd2.fields.'+field_id,
+                'effect':{'activeSource':'AMBIGUOUS','appliesWhen':'weapon_build','instantiationOnly':True,
+                    'activeSourceProven':False,'reason':UNDERBARREL_UNVERIFIED,'writeVerifiedOnApply':local,
+                    'gameplayEffectProven':False,'unverifiedEffect':True}})
+        projectile=entity.get('projectile')or{}
+        result.append({'name':host+' / underbarrel','subweaponOf':host,'kind':'underbarrel',
+            'slot':'underbarrel','resolution':'UNIQUE','ordinaryWritesBlocked':False,'blockReason':None,
+            'resources':[entity['resource']],'implementationFamilies':[entity['family']],
+            'linkItem':item['item'],
+            'link':('The host\'s default underbarrel item '+item['item']+' names this entity (WeaponCustomization '
+                '+192 underbarrel_path); the game creates it as a separate weapon when the host is set up.'),
+            'sharedDefinitions':({'projectile':('The underbarrel fires the projectile row its ProjectileWeapon names '
+                '(also held by its WeaponRounds); that row and its explosion are shared definitions, edited with '
+                'allow_shared on the weapon that owns them in the catalog.'),
+                'firedMember':'unproven (ProjectileWeapon +0 and WeaponRounds +64 hold the same projectile)'}
+                if projectile else None),
+            'notExposed':['reload time (the reload ability duration; WeaponReload +56 is 0)',
+                'WeaponRounds +92 / +104 (meaning not proven)','the projectile reference (fired member unproven)'],
+            'fields':fields})
+    return result
+
+
 def api_constant(field_id,legacy):
     domain,name=field_id.split('.',1)
     constant=name.replace('.','_')
@@ -802,7 +870,8 @@ def outputs(catalog_path=CATALOG):
         if definition['id'].startswith('explosion.'):
             constants.setdefault('explosion',{})[
                 definition['id'][len('explosion.'):].replace('.','_')]=definition['id']
-    runtime={'version':value['hd2RuntimeVersion'],'weapons':{w['name']:w for w in value['weapons']},
+    runtime={'version':value['hd2RuntimeVersion'],
+        'weapons':{w['name']:w for w in value['weapons']+value['subweapons']},
         'summary':value['summary'],'fields':constants,'semanticAliases':value['semanticAliases'],
         'backingCollisionAudit':value['backingCollisionAudit']}
     ammo={'schemaVersion':1,'hd2RuntimeVersion':value['hd2RuntimeVersion'],

@@ -143,6 +143,7 @@
   ],
   "fixtureFallback": "disabled",
   "metrics": {
+    "ensure.external_changes": 1,
     "ensure.full_resolutions": 1,
     "ensure.full_resolutions_after_drift": 1,
     "options.bound_resolutions": 15,

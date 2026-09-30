@@ -38,5 +38,9 @@ Mode B is built from native pieces only:
 6. Everything off, APPLY, fresh Speargun: vanilla (one mode, gas).
 
 Report whether mode B's spear looked and flew like the normal spear, whether its field stunned (and for how long),
-and whether any other weapon changed. `allow_unverified_effect` / `allow_unverified_reference` are set: the spare
-twin and the slot write are mapped offline, not yet shown in game.
+and whether any other weapon changed.
+
+**Live result (2026-09-30): PASS.** The STUN mode kept the spear flight and model, and the EMS field formed where the
+spear landed. GAS showed the plain round and STUN the stun icon. Exactly this composition is live-proven
+(sdk/LiveEvidenceCatalog.json): the spare twin as the Speargun's function projectile, its EMS expiry, and these two
+labels. The acknowledgements stay in this mod; they are no longer required for those exact values.
