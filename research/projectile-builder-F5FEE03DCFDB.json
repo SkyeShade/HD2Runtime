@@ -1,0 +1,5520 @@
+{
+ "schemaVersion": 1,
+ "source": {
+  "mode": "offline",
+  "writes": 0,
+  "protectionChanges": 0,
+  "entitiesSha256": "21377252B81FDBC670EBA1E59A8AB64B170323DF208F175E708992E4C1FB515E",
+  "typelibSha256": "4D04870D0A0D4DC1284998C72CDFA6F8FF6D21ABA0E36B6F758C6F73DD0417A4"
+ },
+ "model": {
+  "row": "ProjectileSettings, 272 bytes, one per ProjectileType (the type is +0 and the row key)",
+  "references": {
+   "directDamage": {
+    "offset": 60,
+    "type": "DamageInfoType"
+   },
+   "impactExplosion": {
+    "offset": 144,
+    "type": "ExplosionType"
+   },
+   "expiryExplosion": {
+    "offset": 156,
+    "type": "ExplosionType"
+   }
+  },
+  "explosion": {
+   "damage": 4,
+   "submunition": 84,
+   "arc": 120,
+   "volumeTemplate": 100,
+   "volumeSeconds": 104
+  },
+  "typedProjectileMembers": {
+   "BombardmentComponentData": [
+    64,
+    68,
+    72,
+    76,
+    80,
+    84,
+    88,
+    92
+   ],
+   "EagleComponentData": [
+    24
+   ],
+   "ObjectiveShellComponentData": [
+    0
+   ],
+   "OrbitalAbilityComponentData": [
+    532
+   ],
+   "ProjectileWeaponComponentData": [
+    0,
+    576
+   ],
+   "SeekingMissileComponentData": [
+    176
+   ],
+   "SprayWeaponComponentData": [
+    196
+   ],
+   "WeaponChargeComponentData": [
+    4,
+    28,
+    52
+   ],
+   "WeaponHeatComponentData": [
+    4,
+    28,
+    52
+   ],
+   "WeaponMagazineComponentData": [
+    4,
+    8,
+    12,
+    16,
+    20,
+    24,
+    28,
+    32,
+    36,
+    40,
+    44,
+    48,
+    52,
+    56,
+    60,
+    64,
+    68,
+    72,
+    76,
+    80,
+    84,
+    88,
+    92,
+    96,
+    100,
+    104,
+    108,
+    112,
+    116,
+    120,
+    124,
+    128,
+    132
+   ],
+   "WeaponRoundsComponentData": [
+    64,
+    68
+   ]
+  },
+  "rows": 350,
+  "referencedRows": 288,
+  "spareRows": [
+   5,
+   6,
+   8,
+   9,
+   17,
+   22,
+   26,
+   29,
+   30,
+   31,
+   56,
+   58,
+   67,
+   69,
+   81,
+   85,
+   90,
+   111,
+   112,
+   116,
+   124,
+   126,
+   147,
+   151,
+   161,
+   162,
+   166,
+   175,
+   178,
+   182,
+   192,
+   196,
+   208,
+   213,
+   214,
+   216,
+   218,
+   220,
+   221,
+   223,
+   229,
+   231,
+   243,
+   248,
+   250,
+   267,
+   271,
+   272,
+   273,
+   285,
+   290,
+   293,
+   294,
+   295,
+   300,
+   302,
+   313,
+   323,
+   335,
+   336,
+   338,
+   350
+  ]
+ },
+ "classes": {
+  "REFERENCE_COMPOSITION": {
+   "supported": true,
+   "reason": "Re-point a row's direct damage, impact or expiry explosion. The written row changes for every consumer (allow_shared when more than one entity fires it); the donor rows are only referenced, never changed."
+  },
+  "DERIVED_MUTATION": {
+   "supported": "spare_twins_only",
+   "spareTwins": [
+    300
+   ],
+   "reason": "A spare twin is an independent native row with its twin's exact flight, visuals and audio, so it can be composed without touching any consumer. Copying a different base into a spare row is not offered: whether the game resolves a row's visual resources when it fires (rather than once at load), and whether code references spare types directly, are not proven; other players without the mod would see the spare row's vanilla contents."
+  },
+  "CUSTOM_ROW": {
+   "supported": false,
+   "reason": "The settings table has exactly one row per ProjectileType and the game reads it by type with no bound (projectile settings by type, pinned in domains/event_natives.lua); the type is also what the network replicates. There is no allocation."
+  }
+ },
+ "spareTwins": [
+  {
+   "spare": 300,
+   "twin": 125,
+   "twinOutputs": [
+    {
+     "weapon": "S-11 Speargun",
+     "kind": "support_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 322,
+    "recordType": 300,
+    "settingsType": "0xBD4042C2"
+   },
+   "twinIdentity": {
+    "group": 0,
+    "row": 321,
+    "recordType": 125,
+    "settingsType": "0xBD4042C2"
+   },
+   "differingReferences": {
+    "expiryExplosion": {
+     "spare": 342,
+     "twin": 97
+    }
+   },
+   "maskedSha256": "B31D8ACB274A2FED5F88419F4A69490D452DC3744158DD074A1E7EF68FF3BC33",
+   "slots": {
+    "directDamage": {
+     "type": 65,
+     "standard": 650,
+     "durable": 275,
+     "ap": [
+      5,
+      5,
+      5,
+      5
+     ],
+     "statuses": [
+      {
+       "status": "gas",
+       "strength": 50.0
+      },
+      {
+       "status": "gas_confusion",
+       "strength": 50.0
+      }
+     ]
+    },
+    "impactExplosion": null,
+    "expiryExplosion": {
+     "type": 342,
+     "row": 89,
+     "damage": {
+      "type": 358,
+      "standard": 400,
+      "durable": 400,
+      "ap": [
+       4,
+       0,
+       0,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      2.5,
+      7.0,
+      8.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": null,
+     "arc": null
+    },
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.5,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "excludedFromTwinCheck": [
+    {
+     "from": 0,
+     "to": 4
+    },
+    {
+     "from": 12,
+     "to": 24
+    },
+    {
+     "from": 60,
+     "to": 64
+    },
+    {
+     "from": 144,
+     "to": 148
+    },
+    {
+     "from": 156,
+     "to": 160
+    }
+   ]
+  }
+ ],
+ "projectileOutputs": [
+  {
+   "type": 7,
+   "outputs": [
+    {
+     "weapon": "AR-23P Liberator Penetrator",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 200,
+    "recordType": 7,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 105,
+     "standard": 65,
+     "durable": 15,
+     "ap": [
+      3,
+      3,
+      3,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 6,
+   "consumerOwners": [
+    "0x3357EEBB0184FDEE",
+    "0x4DF41F84668D07FB",
+    "0x73681FFD58FA1A90",
+    "assault_rifle_ap",
+    "drone_mg_weapon"
+   ]
+  },
+  {
+   "type": 15,
+   "outputs": [
+    {
+     "weapon": "P-113 Verdict",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 182,
+    "recordType": 15,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 91,
+     "standard": 140,
+     "durable": 32,
+     "ap": [
+      3,
+      3,
+      3,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "magnum_pistol"
+   ]
+  },
+  {
+   "type": 34,
+   "outputs": [
+    {
+     "weapon": "EAT-411 Leveller",
+     "kind": "support_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 147,
+    "recordType": 34,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 454,
+     "standard": 1000,
+     "durable": 1000,
+     "ap": [
+      6,
+      6,
+      6,
+      6
+     ],
+     "statuses": []
+    },
+    "impactExplosion": {
+     "type": 184,
+     "row": 230,
+     "damage": {
+      "type": 455,
+      "standard": 2500,
+      "durable": 2500,
+      "ap": [
+       6,
+       6,
+       6,
+       6
+      ],
+      "statuses": []
+     },
+     "radii": [
+      10.0,
+      25.0,
+      35.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": null,
+     "arc": null
+    },
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "expendable_massive_rocket_launcher"
+   ]
+  },
+  {
+   "type": 38,
+   "outputs": [
+    {
+     "weapon": "SMG/FLAM-34 Stoker",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 190,
+    "recordType": 38,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 97,
+     "standard": 130,
+     "durable": 30,
+     "ap": [
+      2,
+      2,
+      2,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "smg_flamer"
+   ]
+  },
+  {
+   "type": 40,
+   "outputs": [
+    {
+     "weapon": "R-36 Eruptor",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 265,
+    "recordType": 40,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 149,
+     "standard": 230,
+     "durable": 115,
+     "ap": [
+      4,
+      4,
+      4,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": {
+     "type": 158,
+     "row": 125,
+     "damage": {
+      "type": 347,
+      "standard": 225,
+      "durable": 225,
+      "ap": [
+       3,
+       0,
+       0,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      4.0,
+      7.0,
+      8.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": 201,
+     "arc": null
+    },
+    "expiryExplosion": {
+     "type": 158,
+     "row": 125,
+     "damage": {
+      "type": 347,
+      "standard": 225,
+      "durable": 225,
+      "ap": [
+       3,
+       0,
+       0,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      4.0,
+      7.0,
+      8.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": 201,
+     "arc": null
+    },
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "jet_rifle_phoenix"
+   ]
+  },
+  {
+   "type": 43,
+   "outputs": [
+    {
+     "weapon": "StA-X3 W.A.S.P. Launcher",
+     "kind": "support_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 127,
+    "recordType": 43,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 244,
+     "standard": 200,
+     "durable": 200,
+     "ap": [
+      6,
+      6,
+      6,
+      6
+     ],
+     "statuses": []
+    },
+    "impactExplosion": {
+     "type": 373,
+     "row": 227,
+     "damage": {
+      "type": 397,
+      "standard": 600,
+      "durable": 600,
+      "ap": [
+       3,
+       0,
+       0,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      2.5,
+      5.0,
+      7.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": null,
+     "arc": null
+    },
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 2,
+   "consumerOwners": [
+    "faf_missile_launcher_helghast"
+   ]
+  },
+  {
+   "type": 44,
+   "outputs": [
+    {
+     "weapon": "AR-61 Tenderizer",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 236,
+    "recordType": 44,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 135,
+     "standard": 105,
+     "durable": 30,
+     "ap": [
+      2,
+      2,
+      2,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "assault_rifle_rico"
+   ]
+  },
+  {
+   "type": 57,
+   "outputs": [
+    {
+     "weapon": "SG-8P Punisher Plasma",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 316,
+    "recordType": 57,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 57,
+     "standard": 0,
+     "durable": 0,
+     "ap": [
+      2,
+      2,
+      2,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": {
+     "type": 290,
+     "row": 102,
+     "damage": {
+      "type": 311,
+      "standard": 225,
+      "durable": 225,
+      "ap": [
+       3,
+       3,
+       3,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      2.3,
+      3.0,
+      4.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": null,
+     "arc": null
+    },
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.5,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "pump_shotgun_plasma"
+   ]
+  },
+  {
+   "type": 61,
+   "outputs": [
+    {
+     "weapon": "MGX-42 Bullet Storm",
+     "kind": "support_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 213,
+    "recordType": 61,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 117,
+     "standard": 100,
+     "durable": 25,
+     "ap": [
+      2,
+      2,
+      2,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 8,
+   "consumerOwners": [
+    "expendable_machinegun"
+   ]
+  },
+  {
+   "type": 62,
+   "outputs": [
+    {
+     "weapon": "M90A Shotgun",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 298,
+    "recordType": 62,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 157,
+     "standard": 55,
+     "durable": 20,
+     "ap": [
+      2,
+      2,
+      2,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 2,
+   "consumerOwners": [
+    "shotgun_nacho"
+   ]
+  },
+  {
+   "type": 76,
+   "outputs": [
+    {
+     "weapon": "SMG-203 Gallant",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 167,
+    "recordType": 76,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 77,
+     "standard": 65,
+     "durable": 13,
+     "ap": [
+      3,
+      3,
+      3,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 2,
+   "consumerOwners": [
+    "smg_solvent"
+   ]
+  },
+  {
+   "type": 86,
+   "outputs": [
+    {
+     "weapon": "R/40-K Hot-Shot Marksman Rifle",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 261,
+    "recordType": 86,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 510,
+     "standard": 275,
+     "durable": 40,
+     "ap": [
+      3,
+      3,
+      3,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "marksman_rifle_shark"
+   ]
+  },
+  {
+   "type": 89,
+   "outputs": [
+    {
+     "weapon": "GL-28 Belt-Fed Grenade Launcher",
+     "kind": "support_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 80,
+    "recordType": 89,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 30,
+     "standard": 0,
+     "durable": 0,
+     "ap": [
+      4,
+      4,
+      4,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": {
+     "type": 393,
+     "row": 126,
+     "damage": {
+      "type": 31,
+      "standard": 150,
+      "durable": 150,
+      "ap": [
+       4,
+       0,
+       0,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      2.0,
+      4.0,
+      5.5
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": 201,
+     "arc": null
+    },
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "belt_fed_grenade_launcher"
+   ]
+  },
+  {
+   "type": 94,
+   "outputs": [
+    {
+     "weapon": "VG-70 Variable",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 197,
+    "recordType": 94,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 76,
+     "standard": 85,
+     "durable": 23,
+     "ap": [
+      2,
+      2,
+      2,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "volley_gun"
+   ]
+  },
+  {
+   "type": 98,
+   "outputs": [
+    {
+     "weapon": "AR-32 Pacifier",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 212,
+    "recordType": 98,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 116,
+     "standard": 55,
+     "durable": 10,
+     "ap": [
+      3,
+      3,
+      3,
+      0
+     ],
+     "statuses": [
+      {
+       "status": "stun_medium",
+       "strength": 2.0
+      }
+     ]
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "assault_rifle_karbin"
+   ]
+  },
+  {
+   "type": 103,
+   "outputs": [
+    {
+     "weapon": "GP-20 Ultimatum",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 146,
+    "recordType": 103,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 27,
+     "standard": 1000,
+     "durable": 1000,
+     "ap": [
+      6,
+      6,
+      6,
+      6
+     ],
+     "statuses": []
+    },
+    "impactExplosion": {
+     "type": 341,
+     "row": 150,
+     "damage": {
+      "type": 281,
+      "standard": 2000,
+      "durable": 2000,
+      "ap": [
+       6,
+       0,
+       0,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      2.0,
+      12.0,
+      25.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": null,
+     "arc": null
+    },
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "pistol_cricket"
+   ]
+  },
+  {
+   "type": 115,
+   "outputs": [
+    {
+     "weapon": "AC-8 Autocannon",
+     "kind": "support_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 30,
+    "recordType": 115,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 213,
+     "standard": 325,
+     "durable": 260,
+     "ap": [
+      4,
+      4,
+      4,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": {
+     "type": 404,
+     "row": 127,
+     "damage": {
+      "type": 370,
+      "standard": 150,
+      "durable": 150,
+      "ap": [
+       3,
+       0,
+       0,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      2.0,
+      4.0,
+      5.5
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": 201,
+     "arc": null
+    },
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 5,
+   "consumerOwners": [
+    "0xB4CF4E52E9956087",
+    "0xB6CAF17BA65A7147",
+    "automatic_cannon",
+    "eagle_gunpods"
+   ]
+  },
+  {
+   "type": 119,
+   "outputs": [
+    {
+     "weapon": "MA5C Assault Rifle",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 237,
+    "recordType": 119,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 136,
+     "standard": 90,
+     "durable": 16,
+     "ap": [
+      3,
+      3,
+      3,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "assault_rifle_nacho"
+   ]
+  },
+  {
+   "type": 123,
+   "outputs": [
+    {
+     "weapon": "SMG-32 Reprimand",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 189,
+    "recordType": 123,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 96,
+     "standard": 140,
+     "durable": 32,
+     "ap": [
+      3,
+      3,
+      3,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "smg_rhino"
+   ]
+  },
+  {
+   "type": 125,
+   "outputs": [
+    {
+     "weapon": "S-11 Speargun",
+     "kind": "support_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 321,
+    "recordType": 125,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 65,
+     "standard": 650,
+     "durable": 275,
+     "ap": [
+      5,
+      5,
+      5,
+      5
+     ],
+     "statuses": [
+      {
+       "status": "gas",
+       "strength": 50.0
+      },
+      {
+       "status": "gas_confusion",
+       "strength": 50.0
+      }
+     ]
+    },
+    "impactExplosion": null,
+    "expiryExplosion": {
+     "type": 97,
+     "row": 160,
+     "damage": {
+      "type": 66,
+      "standard": 3,
+      "durable": 3,
+      "ap": [
+       6,
+       0,
+       0,
+       0
+      ],
+      "statuses": [
+       {
+        "status": "gas",
+        "strength": 100.0
+       },
+       {
+        "status": "gas_confusion",
+        "strength": 100.0
+       }
+      ]
+     },
+     "radii": [
+      2.0,
+      5.0,
+      7.0
+     ],
+     "volume": "Gas",
+     "volumeSeconds": 10.0,
+     "submunition": null,
+     "arc": null
+    },
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.5,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "harpoon_gun"
+   ]
+  },
+  {
+   "type": 132,
+   "outputs": [
+    {
+     "weapon": "EAT-17 Expendable Anti-Tank",
+     "kind": "support_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 93,
+    "recordType": 132,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 227,
+     "standard": 2000,
+     "durable": 2000,
+     "ap": [
+      6,
+      6,
+      6,
+      3
+     ],
+     "statuses": []
+    },
+    "impactExplosion": {
+     "type": 376,
+     "row": 122,
+     "damage": {
+      "type": 382,
+      "standard": 150,
+      "durable": 150,
+      "ap": [
+       3,
+       0,
+       0,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      1.5,
+      3.0,
+      6.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": null,
+     "arc": null
+    },
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 2,
+   "consumerOwners": [
+    "0x5C54E81A4AAA31FC",
+    "lat_oneshot"
+   ]
+  },
+  {
+   "type": 133,
+   "outputs": [
+    {
+     "weapon": "LAS-99 Quasar Cannon",
+     "kind": "support_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 333,
+    "recordType": 133,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 383,
+     "standard": 2000,
+     "durable": 2000,
+     "ap": [
+      6,
+      6,
+      6,
+      3
+     ],
+     "statuses": []
+    },
+    "impactExplosion": {
+     "type": 67,
+     "row": 128,
+     "damage": {
+      "type": 384,
+      "standard": 150,
+      "durable": 150,
+      "ap": [
+       3,
+       0,
+       0,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      1.5,
+      3.0,
+      6.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": null,
+     "arc": null
+    },
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "laser_pulse_cannon"
+   ]
+  },
+  {
+   "type": 135,
+   "outputs": [
+    {
+     "weapon": "BR-14 Adjudicator",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 235,
+    "recordType": 135,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 134,
+     "standard": 95,
+     "durable": 23,
+     "ap": [
+      3,
+      3,
+      3,
+      1
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "battle_rifle"
+   ]
+  },
+  {
+   "type": 138,
+   "outputs": [
+    {
+     "weapon": "AR-2 Coyote",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 216,
+    "recordType": 138,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 118,
+     "standard": 75,
+     "durable": 10,
+     "ap": [
+      3,
+      3,
+      3,
+      0
+     ],
+     "statuses": [
+      {
+       "status": "fire",
+       "strength": 2.0
+      }
+     ]
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "assault_rifle_large_calibre_01"
+   ]
+  },
+  {
+   "type": 139,
+   "outputs": [
+    {
+     "weapon": "AR-59 Suppressor",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 209,
+    "recordType": 139,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 114,
+     "standard": 80,
+     "durable": 20,
+     "ap": [
+      2,
+      2,
+      2,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 2,
+   "consumerOwners": [
+    "assault_rifle_whisper"
+   ]
+  },
+  {
+   "type": 142,
+   "outputs": [
+    {
+     "weapon": "PLAS-1 Scorcher",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 310,
+    "recordType": 142,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 56,
+     "standard": 100,
+     "durable": 50,
+     "ap": [
+      2,
+      2,
+      2,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": {
+     "type": 155,
+     "row": 94,
+     "damage": {
+      "type": 306,
+      "standard": 100,
+      "durable": 100,
+      "ap": [
+       3,
+       0,
+       0,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      1.0,
+      2.0,
+      2.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": null,
+     "arc": null
+    },
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 3,
+   "consumerOwners": [
+    "0x8633FF89EF4F6788",
+    "0xA1379C8C41A10E22",
+    "plasma_rifle"
+   ]
+  },
+  {
+   "type": 144,
+   "outputs": [
+    {
+     "weapon": "LAS-58 Talon",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 332,
+    "recordType": 144,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 54,
+     "standard": 200,
+     "durable": 20,
+     "ap": [
+      3,
+      3,
+      3,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "energy_revolver"
+   ]
+  },
+  {
+   "type": 148,
+   "outputs": [
+    {
+     "weapon": "MG-43 Machine Gun",
+     "kind": "support_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 221,
+    "recordType": 148,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 125,
+     "standard": 90,
+     "durable": 23,
+     "ap": [
+      3,
+      3,
+      3,
+      1
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 39,
+   "consumerOwners": [
+    "0x60778A2CFFB6E47F",
+    "0xAA4564F90CDBF5F1",
+    "combat_walker_turret",
+    "gatling_turret",
+    "machinegun",
+    "power_generated_gatling_turret",
+    "safety_turret",
+    "target_turret",
+    "turret_machinegun_gpmg",
+    "tutorial_turret"
+   ]
+  },
+  {
+   "type": 149,
+   "outputs": [
+    {
+     "weapon": "LAS-16 Sickle",
+     "kind": "player_weapon"
+    },
+    {
+     "weapon": "LAS-17 Double-Edge Sickle",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 326,
+    "recordType": 149,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 48,
+     "standard": 60,
+     "durable": 6,
+     "ap": [
+      2,
+      2,
+      2,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 2,
+   "consumerOwners": [
+    "laser_rifle_long",
+    "laser_rifle_long_hotshot"
+   ]
+  },
+  {
+   "type": 152,
+   "outputs": [
+    {
+     "weapon": "P-33 Missile Pistol",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 187,
+    "recordType": 152,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 95,
+     "standard": 1000,
+     "durable": 1000,
+     "ap": [
+      5,
+      5,
+      5,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": {
+     "type": 154,
+     "row": 223,
+     "damage": {
+      "type": 563,
+      "standard": 300,
+      "durable": 300,
+      "ap": [
+       3,
+       0,
+       0,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      2.0,
+      4.0,
+      12.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": null,
+     "arc": null
+    },
+    "expiryExplosion": {
+     "type": 154,
+     "row": 223,
+     "damage": {
+      "type": 563,
+      "standard": 300,
+      "durable": 300,
+      "ap": [
+       3,
+       0,
+       0,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      2.0,
+      4.0,
+      12.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": null,
+     "arc": null
+    },
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "smart_pistol_missile"
+   ]
+  },
+  {
+   "type": 153,
+   "outputs": [
+    {
+     "weapon": "GR-8 Recoilless Rifle",
+     "kind": "support_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 99,
+    "recordType": 153,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 228,
+     "standard": 3200,
+     "durable": 3200,
+     "ap": [
+      6,
+      6,
+      6,
+      3
+     ],
+     "statuses": []
+    },
+    "impactExplosion": {
+     "type": 248,
+     "row": 120,
+     "damage": {
+      "type": 381,
+      "standard": 150,
+      "durable": 150,
+      "ap": [
+       3,
+       0,
+       0,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      1.5,
+      3.0,
+      6.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": null,
+     "arc": null
+    },
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "recoilless_rifle"
+   ]
+  },
+  {
+   "type": 154,
+   "outputs": [
+    {
+     "weapon": "A/M-23 EMS Mortar Sentry",
+     "kind": "stratagem"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 91,
+    "recordType": 154,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 32,
+     "standard": 20,
+     "durable": 2,
+     "ap": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": {
+     "type": 150,
+     "row": 382,
+     "damage": {
+      "type": 356,
+      "standard": 150,
+      "durable": 150,
+      "ap": [
+       3,
+       0,
+       0,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      1.0,
+      2.0,
+      3.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": null,
+     "arc": null
+    },
+    "expiryExplosion": {
+     "type": 180,
+     "row": 117,
+     "damage": {
+      "type": 451,
+      "standard": 0,
+      "durable": 0,
+      "ap": [
+       6,
+       0,
+       0,
+       0
+      ],
+      "statuses": [
+       {
+        "status": "stun_medium",
+        "strength": 100.0
+       }
+      ]
+     },
+     "radii": [
+      1.0,
+      10.0,
+      12.0
+     ],
+     "volume": "StaticField",
+     "volumeSeconds": 7.0,
+     "submunition": null,
+     "arc": null
+    },
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.5,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "mortar_turret_staticfield"
+   ]
+  },
+  {
+   "type": 155,
+   "outputs": [
+    {
+     "weapon": "PLAS-39 Accelerator Rifle",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 311,
+    "recordType": 155,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 308,
+     "standard": 250,
+     "durable": 125,
+     "ap": [
+      3,
+      3,
+      3,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": {
+     "type": 413,
+     "row": 96,
+     "damage": {
+      "type": 309,
+      "standard": 100,
+      "durable": 100,
+      "ap": [
+       3,
+       0,
+       0,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      1.0,
+      2.0,
+      2.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": null,
+     "arc": null
+    },
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "sniper_rifle_helghast"
+   ]
+  },
+  {
+   "type": 157,
+   "outputs": [
+    {
+     "weapon": "SMG-72 Pummeler",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 181,
+    "recordType": 157,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 90,
+     "standard": 85,
+     "durable": 17,
+     "ap": [
+      2,
+      2,
+      2,
+      0
+     ],
+     "statuses": [
+      {
+       "status": "stun_medium",
+       "strength": 2.0
+      }
+     ]
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "personal_defense_weapon_pepper"
+   ]
+  },
+  {
+   "type": 165,
+   "outputs": [
+    {
+     "weapon": "PLAS-45 Epoch",
+     "kind": "support_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 317,
+    "recordType": 165,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 58,
+     "standard": 400,
+     "durable": 200,
+     "ap": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "statuses": []
+    },
+    "impactExplosion": {
+     "type": 227,
+     "row": 103,
+     "damage": {
+      "type": 60,
+      "standard": 500,
+      "durable": 500,
+      "ap": [
+       4,
+       4,
+       4,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      2.3,
+      3.0,
+      4.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": null,
+     "arc": null
+    },
+    "expiryExplosion": {
+     "type": 227,
+     "row": 103,
+     "damage": {
+      "type": 60,
+      "standard": 500,
+      "durable": 500,
+      "ap": [
+       4,
+       4,
+       4,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      2.3,
+      3.0,
+      4.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": null,
+     "arc": null
+    },
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 2,
+   "consumerOwners": [
+    "plasma_blaster"
+   ]
+  },
+  {
+   "type": 171,
+   "outputs": [
+    {
+     "weapon": "PLAS-15 Loyalist",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 309,
+    "recordType": 171,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 56,
+     "standard": 100,
+     "durable": 50,
+     "ap": [
+      2,
+      2,
+      2,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": {
+     "type": 355,
+     "row": 93,
+     "damage": {
+      "type": 305,
+      "standard": 25,
+      "durable": 25,
+      "ap": [
+       3,
+       0,
+       0,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      0.75,
+      1.5,
+      2.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": null,
+     "arc": null
+    },
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "plasma_pistol"
+   ]
+  },
+  {
+   "type": 174,
+   "outputs": [
+    {
+     "weapon": "SG-225SP Breaker Spray&Pray",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 271,
+    "recordType": 174,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 178,
+     "standard": 15,
+     "durable": 4,
+     "ap": [
+      2,
+      2,
+      2,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 2,
+   "consumerOwners": [
+    "assault_shotgun_bir"
+   ]
+  },
+  {
+   "type": 177,
+   "outputs": [
+    {
+     "weapon": "JAR-5 Dominator",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 262,
+    "recordType": 177,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 153,
+     "standard": 275,
+     "durable": 90,
+     "ap": [
+      3,
+      3,
+      3,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 2,
+   "consumerOwners": [
+    "jet_rifle"
+   ]
+  },
+  {
+   "type": 179,
+   "outputs": [
+    {
+     "weapon": "SG-225 Breaker",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 272,
+    "recordType": 179,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 179,
+     "standard": 30,
+     "durable": 6,
+     "ap": [
+      2,
+      2,
+      2,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 2,
+   "consumerOwners": [
+    "assault_shotgun"
+   ]
+  },
+  {
+   "type": 186,
+   "outputs": [
+    {
+     "weapon": "RS-422 Railgun",
+     "kind": "support_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 320,
+    "recordType": 186,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 64,
+     "standard": 600,
+     "durable": 225,
+     "ap": [
+      5,
+      5,
+      5,
+      5
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 2,
+   "consumerOwners": [
+    "0x24510E7B16B5F7A5",
+    "railgun"
+   ]
+  },
+  {
+   "type": 202,
+   "outputs": [
+    {
+     "weapon": "P/40-K Bolt Pistol",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 260,
+    "recordType": 202,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 156,
+     "standard": 325,
+     "durable": 115,
+     "ap": [
+      4,
+      4,
+      4,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": {
+     "type": 388,
+     "row": 92,
+     "damage": {
+      "type": 303,
+      "standard": 175,
+      "durable": 175,
+      "ap": [
+       3,
+       0,
+       0,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      1.0,
+      3.5,
+      5.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": null,
+     "arc": null
+    },
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "pistol_shark"
+   ]
+  },
+  {
+   "type": 207,
+   "outputs": [
+    {
+     "weapon": "R-4 Hyena",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 248,
+    "recordType": 207,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 142,
+     "standard": 220,
+     "durable": 45,
+     "ap": [
+      3,
+      3,
+      3,
+      0
+     ],
+     "statuses": [
+      {
+       "status": "fire",
+       "strength": 3.0
+      }
+     ]
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "marksman_rifle_drake"
+   ]
+  },
+  {
+   "type": 215,
+   "outputs": [
+    {
+     "weapon": "MP-98 Knight",
+     "kind": "player_weapon"
+    },
+    {
+     "weapon": "StA-11 SMG",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 165,
+    "recordType": 215,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 74,
+     "standard": 90,
+     "durable": 18,
+     "ap": [
+      2,
+      2,
+      2,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 2,
+   "consumerOwners": [
+    "smg_defender",
+    "smg_helghast"
+   ]
+  },
+  {
+   "type": 222,
+   "outputs": [
+    {
+     "weapon": "GL-52 De-Escalator",
+     "kind": "support_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 88,
+    "recordType": 222,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 32,
+     "standard": 20,
+     "durable": 2,
+     "ap": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": {
+     "type": 41,
+     "row": 405,
+     "damage": {
+      "type": 366,
+      "standard": 0,
+      "durable": 0,
+      "ap": [
+       6,
+       0,
+       0,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      1.0,
+      3.0,
+      4.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": null,
+     "arc": 15
+    },
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 2,
+   "consumerOwners": [
+    "grenade_launcher_tactical"
+   ]
+  },
+  {
+   "type": 225,
+   "outputs": [
+    {
+     "weapon": "FAF-14 Spear",
+     "kind": "support_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 125,
+    "recordType": 225,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 245,
+     "standard": 4000,
+     "durable": 4000,
+     "ap": [
+      7,
+      7,
+      7,
+      7
+     ],
+     "statuses": []
+    },
+    "impactExplosion": {
+     "type": 304,
+     "row": 225,
+     "damage": {
+      "type": 398,
+      "standard": 200,
+      "durable": 200,
+      "ap": [
+       3,
+       0,
+       0,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      1.5,
+      3.0,
+      6.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": null,
+     "arc": null
+    },
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "faf_missile_launcher"
+   ]
+  },
+  {
+   "type": 226,
+   "outputs": [
+    {
+     "weapon": "APW-1 Anti-Materiel Rifle",
+     "kind": "support_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 250,
+    "recordType": 226,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 206,
+     "standard": 450,
+     "durable": 225,
+     "ap": [
+      4,
+      4,
+      4,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "sniper_rifle"
+   ]
+  },
+  {
+   "type": 236,
+   "outputs": [
+    {
+     "weapon": "LAS-12 Sai",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 327,
+    "recordType": 236,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 49,
+     "standard": 80,
+     "durable": 4,
+     "ap": [
+      3,
+      3,
+      3,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "laser_smg_blaster"
+   ]
+  },
+  {
+   "type": 237,
+   "outputs": [
+    {
+     "weapon": "P-69 Veto",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 183,
+    "recordType": 237,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 92,
+     "standard": 105,
+     "durable": 35,
+     "ap": [
+      3,
+      3,
+      3,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 2,
+   "consumerOwners": [
+    "pistol_broomhandle"
+   ]
+  },
+  {
+   "type": 241,
+   "outputs": [
+    {
+     "weapon": "R-63CS Diligence Counter Sniper",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 243,
+    "recordType": 241,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 143,
+     "standard": 200,
+     "durable": 50,
+     "ap": [
+      3,
+      3,
+      3,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 2,
+   "consumerOwners": [
+    "marksman_rifle_vigilance_burst"
+   ]
+  },
+  {
+   "type": 245,
+   "outputs": [
+    {
+     "weapon": "MLS-4X Commando",
+     "kind": "support_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 122,
+    "recordType": 245,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 237,
+     "standard": 1100,
+     "durable": 1100,
+     "ap": [
+      6,
+      6,
+      6,
+      3
+     ],
+     "statuses": []
+    },
+    "impactExplosion": {
+     "type": 148,
+     "row": 236,
+     "damage": {
+      "type": 392,
+      "standard": 150,
+      "durable": 150,
+      "ap": [
+       3,
+       0,
+       0,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      1.0,
+      2.0,
+      4.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": null,
+     "arc": null
+    },
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 2,
+   "consumerOwners": [
+    "0x8AFF7F0793A5BCED",
+    "laser_guided_missile_launcher"
+   ]
+  },
+  {
+   "type": 249,
+   "outputs": [
+    {
+     "weapon": "CB-9 Exploding Crossbow",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 254,
+    "recordType": 249,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 208,
+     "standard": 270,
+     "durable": 50,
+     "ap": [
+      3,
+      3,
+      3,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": {
+     "type": 59,
+     "row": 107,
+     "damage": {
+      "type": 209,
+      "standard": 350,
+      "durable": 350,
+      "ap": [
+       3,
+       3,
+       3,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      3.0,
+      6.0,
+      7.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": null,
+     "arc": null
+    },
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "crossbow_greyfax"
+   ]
+  },
+  {
+   "type": 259,
+   "outputs": [
+    {
+     "weapon": "EAT-700 Expendable Napalm",
+     "kind": "support_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 94,
+    "recordType": 259,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 274,
+     "standard": 500,
+     "durable": 500,
+     "ap": [
+      3,
+      3,
+      3,
+      0
+     ],
+     "statuses": [
+      {
+       "status": "burning_heavy",
+       "strength": 50.0
+      }
+     ]
+    },
+    "impactExplosion": {
+     "type": 316,
+     "row": 220,
+     "damage": {
+      "type": 316,
+      "standard": 250,
+      "durable": 250,
+      "ap": [
+       6,
+       6,
+       6,
+       3
+      ],
+      "statuses": [
+       {
+        "status": "fire",
+        "strength": 100.0
+       },
+       {
+        "status": "burning_heavy",
+        "strength": 50.0
+       }
+      ]
+     },
+     "radii": [
+      1.6,
+      8.0,
+      10.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": 224,
+     "arc": null
+    },
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "expendable_napalm_launcher"
+   ]
+  },
+  {
+   "type": 262,
+   "outputs": [
+    {
+     "weapon": "SG-97 Sweeper",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 349,
+    "recordType": 262,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 158,
+     "standard": 42,
+     "durable": 11,
+     "ap": [
+      3,
+      3,
+      3,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 2,
+   "consumerOwners": [
+    "pump_shotgun_trench"
+   ]
+  },
+  {
+   "type": 270,
+   "outputs": [
+    {
+     "weapon": "P-34 Breacher",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 324,
+    "recordType": 270,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 68,
+     "standard": 60,
+     "durable": 0,
+     "ap": [
+      4,
+      4,
+      3,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": {
+     "type": 167,
+     "row": 224,
+     "damage": {
+      "type": 69,
+      "standard": 1940,
+      "durable": 0,
+      "ap": [
+       0,
+       0,
+       0,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      1.0,
+      1.0,
+      0.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": null,
+     "arc": null
+    },
+    "expiryExplosion": {
+     "type": 167,
+     "row": 224,
+     "damage": {
+      "type": 69,
+      "standard": 1940,
+      "durable": 0,
+      "ap": [
+       0,
+       0,
+       0,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      1.0,
+      1.0,
+      0.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": null,
+     "arc": null
+    },
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 1.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "hornet_pistol"
+   ]
+  },
+  {
+   "type": 275,
+   "outputs": [
+    {
+     "weapon": "MG-206 Heavy Machine Gun",
+     "kind": "support_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 252,
+    "recordType": 275,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 205,
+     "standard": 150,
+     "durable": 35,
+     "ap": [
+      4,
+      4,
+      4,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 15,
+   "consumerOwners": [
+    "0x439F9E65C18567DA",
+    "0xC25DC40EDE0E2D16",
+    "0xCD00BDC1149C2928",
+    "0xD58AE6A04EDB10DE",
+    "frv_mg",
+    "heavy_mg"
+   ]
+  },
+  {
+   "type": 276,
+   "outputs": [
+    {
+     "weapon": "AR-23 Liberator",
+     "kind": "player_weapon"
+    },
+    {
+     "weapon": "AR-23A Liberator Carbine",
+     "kind": "player_weapon"
+    },
+    {
+     "weapon": "StA-52 Assault Rifle",
+     "kind": "player_weapon"
+    },
+    {
+     "weapon": "M-105 Stalwart",
+     "kind": "support_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 199,
+    "recordType": 276,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 108,
+     "standard": 90,
+     "durable": 22,
+     "ap": [
+      2,
+      2,
+      2,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 8,
+   "consumerOwners": [
+    "0xB43235DBD493750C",
+    "0xB9606C5AAB32C3C2",
+    "0xD53EE03481AE73FD",
+    "assault_rifle",
+    "assault_rifle_helghast",
+    "assault_rifle_patriot",
+    "lmg_stalwart"
+   ]
+  },
+  {
+   "type": 280,
+   "outputs": [
+    {
+     "weapon": "GL-21 Grenade Launcher",
+     "kind": "support_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 81,
+    "recordType": 280,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 32,
+     "standard": 20,
+     "durable": 2,
+     "ap": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": {
+     "type": 361,
+     "row": 109,
+     "damage": {
+      "type": 375,
+      "standard": 400,
+      "durable": 400,
+      "ap": [
+       3,
+       0,
+       0,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      3.5,
+      7.5,
+      8.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": null,
+     "arc": null
+    },
+    "expiryExplosion": {
+     "type": 361,
+     "row": 109,
+     "damage": {
+      "type": 375,
+      "standard": 400,
+      "durable": 400,
+      "ap": [
+       3,
+       0,
+       0,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      3.5,
+      7.5,
+      8.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": null,
+     "arc": null
+    },
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 3,
+   "consumerOwners": [
+    "0x1D5943301A29C940",
+    "0x3B49715551E4CCF1",
+    "grenade_launcher"
+   ]
+  },
+  {
+   "type": 288,
+   "outputs": [
+    {
+     "weapon": "AR-11 Arbitrator",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 234,
+    "recordType": 288,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 133,
+     "standard": 70,
+     "durable": 20,
+     "ap": [
+      2,
+      2,
+      2,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "assault_rifle_risk"
+   ]
+  },
+  {
+   "type": 296,
+   "outputs": [
+    {
+     "weapon": "PLAS-101 Purifier",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 315,
+    "recordType": 296,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 63,
+     "standard": 200,
+     "durable": 100,
+     "ap": [
+      3,
+      3,
+      3,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": {
+     "type": 191,
+     "row": 101,
+     "damage": {
+      "type": 313,
+      "standard": 300,
+      "durable": 300,
+      "ap": [
+       3,
+       3,
+       3,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      2.9,
+      3.0,
+      4.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": null,
+     "arc": null
+    },
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 3,
+   "consumerOwners": [
+    "plasma_rifle_charge"
+   ]
+  },
+  {
+   "type": 297,
+   "outputs": [
+    {
+     "weapon": "GL-15 Evictor",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 82,
+    "recordType": 297,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 33,
+     "standard": 50,
+     "durable": 2,
+     "ap": [
+      3,
+      3,
+      3,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": {
+     "type": 268,
+     "row": 111,
+     "damage": {
+      "type": 376,
+      "standard": 440,
+      "durable": 440,
+      "ap": [
+       3,
+       0,
+       0,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      2.25,
+      5.5,
+      8.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": null,
+     "arc": null
+    },
+    "expiryExplosion": {
+     "type": 268,
+     "row": 111,
+     "damage": {
+      "type": 376,
+      "standard": 440,
+      "durable": 440,
+      "ap": [
+       3,
+       0,
+       0,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      2.25,
+      5.5,
+      8.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": null,
+     "arc": null
+    },
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 2,
+   "consumerOwners": [
+    "pump_grenade_launcher"
+   ]
+  },
+  {
+   "type": 299,
+   "outputs": [
+    {
+     "weapon": "R-6 Deadeye",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 240,
+    "recordType": 299,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 139,
+     "standard": 300,
+     "durable": 100,
+     "ap": [
+      3,
+      3,
+      3,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 2,
+   "consumerOwners": [
+    "lever_action_rifle_01"
+   ]
+  },
+  {
+   "type": 305,
+   "outputs": [
+    {
+     "weapon": "R-63 Diligence",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 242,
+    "recordType": 305,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 141,
+     "standard": 165,
+     "durable": 45,
+     "ap": [
+      2,
+      2,
+      2,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 2,
+   "consumerOwners": [
+    "marksman_rifle_vigilance"
+   ]
+  },
+  {
+   "type": 306,
+   "outputs": [
+    {
+     "weapon": "M-1000 Maxigun",
+     "kind": "support_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 225,
+    "recordType": 306,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 127,
+     "standard": 80,
+     "durable": 18,
+     "ap": [
+      3,
+      3,
+      3,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "minigun"
+   ]
+  },
+  {
+   "type": 308,
+   "outputs": [
+    {
+     "weapon": "M6C/SOCOM Pistol",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 184,
+    "recordType": 308,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 93,
+     "standard": 125,
+     "durable": 28,
+     "ap": [
+      2,
+      2,
+      2,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "pistol_nacho"
+   ]
+  },
+  {
+   "type": 310,
+   "outputs": [
+    {
+     "weapon": "AR-23C Liberator Concussive",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 203,
+    "recordType": 310,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 107,
+     "standard": 75,
+     "durable": 35,
+     "ap": [
+      2,
+      2,
+      2,
+      2
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 4,
+   "consumerOwners": [
+    "0x263817187B7CE092",
+    "0x3D4970D1C4E640EE",
+    "assault_rifle_exp"
+   ]
+  },
+  {
+   "type": 312,
+   "outputs": [
+    {
+     "weapon": "RL-77 Airburst Rocket Launcher",
+     "kind": "support_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 101,
+    "recordType": 312,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 380,
+     "standard": 350,
+     "durable": 350,
+     "ap": [
+      3,
+      3,
+      3,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": {
+     "type": 325,
+     "row": 280,
+     "damage": {
+      "type": 277,
+      "standard": 150,
+      "durable": 150,
+      "ap": [
+       3,
+       3,
+       3,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      3.0,
+      5.0,
+      7.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": 78,
+     "arc": null
+    },
+    "expiryExplosion": {
+     "type": 325,
+     "row": 280,
+     "damage": {
+      "type": 277,
+      "standard": 150,
+      "durable": 150,
+      "ap": [
+       3,
+       3,
+       3,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      3.0,
+      5.0,
+      7.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": 78,
+     "arc": null
+    },
+    "unknownMembers": {
+     "148": {
+      "value": 2.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.2,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "air_burst_rocket_launcher"
+   ]
+  },
+  {
+   "type": 314,
+   "outputs": [
+    {
+     "weapon": "SG-225IE Breaker Incendiary",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 275,
+    "recordType": 314,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 182,
+     "standard": 20,
+     "durable": 10,
+     "ap": [
+      2,
+      2,
+      2,
+      0
+     ],
+     "statuses": [
+      {
+       "status": "fire",
+       "strength": 0.6
+      }
+     ]
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 2,
+   "consumerOwners": [
+    "assault_shotgun_incendiary"
+   ]
+  },
+  {
+   "type": 318,
+   "outputs": [
+    {
+     "weapon": "P-11 Stim Pistol",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 198,
+    "recordType": 318,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 0,
+     "resolved": false
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 4,
+   "consumerOwners": [
+    "0x03271411D3D0BAB9",
+    "stim_pistol"
+   ]
+  },
+  {
+   "type": 325,
+   "outputs": [
+    {
+     "weapon": "R-72 Censor",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 228,
+    "recordType": 325,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 130,
+     "standard": 165,
+     "durable": 45,
+     "ap": [
+      2,
+      2,
+      2,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 2,
+   "consumerOwners": [
+    "marksman_rifle_justice"
+   ]
+  },
+  {
+   "type": 326,
+   "outputs": [
+    {
+     "weapon": "P-92 Warrant",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 185,
+    "recordType": 326,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 94,
+     "standard": 80,
+     "durable": 20,
+     "ap": [
+      3,
+      3,
+      3,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "smart_pistol"
+   ]
+  },
+  {
+   "type": 327,
+   "outputs": [
+    {
+     "weapon": "R-2 Amendment",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 239,
+    "recordType": 327,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 138,
+     "standard": 200,
+     "durable": 50,
+     "ap": [
+      2,
+      2,
+      2,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "battle_rifle_ceremonial"
+   ]
+  },
+  {
+   "type": 334,
+   "outputs": [
+    {
+     "weapon": "AR/GL-21 One-Two",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 233,
+    "recordType": 334,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 132,
+     "standard": 95,
+     "durable": 24,
+     "ap": [
+      2,
+      2,
+      2,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "assault_rifle_grenadier"
+   ]
+  },
+  {
+   "type": 340,
+   "outputs": [
+    {
+     "weapon": "M7S SMG",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 162,
+    "recordType": 340,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 71,
+     "standard": 90,
+     "durable": 18,
+     "ap": [
+      2,
+      2,
+      2,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "smg_nacho"
+   ]
+  },
+  {
+   "type": 343,
+   "outputs": [
+    {
+     "weapon": "P-35 Re-Educator",
+     "kind": "player_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 323,
+    "recordType": 343,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 67,
+     "standard": 60,
+     "durable": 10,
+     "ap": [
+      4,
+      4,
+      3,
+      0
+     ],
+     "statuses": [
+      {
+       "status": "gas",
+       "strength": 100.0
+      },
+      {
+       "status": "gas_confusion",
+       "strength": 100.0
+      }
+     ]
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "caustic_dart_gun"
+   ]
+  }
+ ],
+ "speargun": {
+  "weapon": "S-11 Speargun",
+  "projectile": {
+   "type": 125,
+   "identity": {
+    "group": 0,
+    "row": 321,
+    "recordType": 125,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 65,
+     "standard": 650,
+     "durable": 275,
+     "ap": [
+      5,
+      5,
+      5,
+      5
+     ],
+     "statuses": [
+      {
+       "status": "gas",
+       "strength": 50.0
+      },
+      {
+       "status": "gas_confusion",
+       "strength": 50.0
+      }
+     ]
+    },
+    "impactExplosion": null,
+    "expiryExplosion": {
+     "type": 97,
+     "row": 160,
+     "damage": {
+      "type": 66,
+      "standard": 3,
+      "durable": 3,
+      "ap": [
+       6,
+       0,
+       0,
+       0
+      ],
+      "statuses": [
+       {
+        "status": "gas",
+        "strength": 100.0
+       },
+       {
+        "status": "gas_confusion",
+        "strength": 100.0
+       }
+      ]
+     },
+     "radii": [
+      2.0,
+      5.0,
+      7.0
+     ],
+     "volume": "Gas",
+     "volumeSeconds": 10.0,
+     "submunition": null,
+     "arc": null
+    },
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.5,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumers": [
+    {
+     "kind": "component",
+     "component": "ProjectileWeaponComponentData",
+     "offset": 0,
+     "owner": "harpoon_gun"
+    }
+   ]
+  },
+  "spareTwin": {
+   "type": 300,
+   "identity": {
+    "group": 0,
+    "row": 322,
+    "recordType": 300,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 65,
+     "standard": 650,
+     "durable": 275,
+     "ap": [
+      5,
+      5,
+      5,
+      5
+     ],
+     "statuses": [
+      {
+       "status": "gas",
+       "strength": 50.0
+      },
+      {
+       "status": "gas_confusion",
+       "strength": 50.0
+      }
+     ]
+    },
+    "impactExplosion": null,
+    "expiryExplosion": {
+     "type": 342,
+     "row": 89,
+     "damage": {
+      "type": 358,
+      "standard": 400,
+      "durable": 400,
+      "ap": [
+       4,
+       0,
+       0,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      2.5,
+      7.0,
+      8.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": null,
+     "arc": null
+    },
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.5,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "differingReferences": {
+    "expiryExplosion": {
+     "spare": 342,
+     "twin": 97
+    }
+   },
+   "consumers": []
+  },
+  "emsField": {
+   "donor": "A/M-23 EMS Mortar Sentry",
+   "role": "expiry",
+   "explosion": {
+    "type": 180,
+    "row": 117,
+    "damage": {
+     "type": 451,
+     "standard": 0,
+     "durable": 0,
+     "ap": [
+      6,
+      0,
+      0,
+      0
+     ],
+     "statuses": [
+      {
+       "status": "stun_medium",
+       "strength": 100.0
+      }
+     ]
+    },
+    "radii": [
+     1.0,
+     10.0,
+     12.0
+    ],
+    "volume": "StaticField",
+    "volumeSeconds": 7.0,
+    "submunition": null,
+    "arc": null
+   }
+  },
+  "findings": [
+   "The gas cloud is the spear's EXPIRY explosion (+156 -> 97: Gas volume 10 s, radius 5, 3 damage with Gas and Gas Confusion); its impact explosion (+144) is empty. The spear's own direct-hit damage (65) also applies Gas and Gas Confusion.",
+   "Row 300 is byte-identical to the spear (flight, visuals, audio, damage row 65) except its expiry explosion (342: 400 damage, radius 2.5 / 7 / 8, no field). No typed data member references it.",
+   "Mode B can keep the spear exactly: the function projectile is row 300, and its own expiry explosion is pointed at the EMS Mortar shell's StaticField explosion. Row 300 has no other consumer, so both writes are exclusive; mode A keeps row 125 unchanged."
+  ]
+ },
+ "hmg": {
+  "weapon": "MG-206 Heavy Machine Gun",
+  "projectile": {
+   "type": 275,
+   "identity": {
+    "group": 0,
+    "row": 252,
+    "recordType": 275,
+    "settingsType": "0xBD4042C2"
+   },
+   "consumers": [
+    {
+     "kind": "component",
+     "component": "ProjectileWeaponComponentData",
+     "offset": 0,
+     "owner": "0xC25DC40EDE0E2D16"
+    },
+    {
+     "kind": "component",
+     "component": "ProjectileWeaponComponentData",
+     "offset": 0,
+     "owner": "0x439F9E65C18567DA"
+    },
+    {
+     "kind": "component",
+     "component": "ProjectileWeaponComponentData",
+     "offset": 0,
+     "owner": "heavy_mg"
+    },
+    {
+     "kind": "component",
+     "component": "ProjectileWeaponComponentData",
+     "offset": 0,
+     "owner": "frv_mg"
+    },
+    {
+     "kind": "component",
+     "component": "ProjectileWeaponComponentData",
+     "offset": 0,
+     "owner": "0xCD00BDC1149C2928"
+    },
+    {
+     "kind": "component",
+     "component": "WeaponMagazineComponentData",
+     "offset": 4,
+     "owner": "0x439F9E65C18567DA"
+    },
+    {
+     "kind": "component",
+     "component": "WeaponMagazineComponentData",
+     "offset": 8,
+     "owner": "0x439F9E65C18567DA"
+    },
+    {
+     "kind": "component",
+     "component": "WeaponMagazineComponentData",
+     "offset": 12,
+     "owner": "0x439F9E65C18567DA"
+    },
+    {
+     "kind": "component",
+     "component": "WeaponMagazineComponentData",
+     "offset": 16,
+     "owner": "0x439F9E65C18567DA"
+    },
+    {
+     "kind": "component",
+     "component": "WeaponMagazineComponentData",
+     "offset": 20,
+     "owner": "0x439F9E65C18567DA"
+    },
+    {
+     "kind": "component",
+     "component": "WeaponMagazineComponentData",
+     "offset": 4,
+     "owner": "0xD58AE6A04EDB10DE"
+    },
+    {
+     "kind": "component",
+     "component": "WeaponMagazineComponentData",
+     "offset": 8,
+     "owner": "0xD58AE6A04EDB10DE"
+    },
+    {
+     "kind": "component",
+     "component": "WeaponMagazineComponentData",
+     "offset": 12,
+     "owner": "0xD58AE6A04EDB10DE"
+    },
+    {
+     "kind": "component",
+     "component": "WeaponMagazineComponentData",
+     "offset": 16,
+     "owner": "0xD58AE6A04EDB10DE"
+    },
+    {
+     "kind": "component",
+     "component": "WeaponMagazineComponentData",
+     "offset": 20,
+     "owner": "0xD58AE6A04EDB10DE"
+    }
+   ],
+   "slots": {
+    "directDamage": {
+     "type": 205,
+     "standard": 150,
+     "durable": 35,
+     "ap": [
+      4,
+      4,
+      4,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   }
+  },
+  "directDamageRowUsers": [
+   251,
+   275
+  ],
+  "spareTwin": null,
+  "fireOnHitDonors": [
+   {
+    "type": 138,
+    "outputs": [
+     {
+      "weapon": "AR-2 Coyote",
+      "kind": "player_weapon"
+     }
+    ],
+    "statuses": [
+     {
+      "status": "fire",
+      "strength": 2.0
+     }
+    ],
+    "velocity": 650.0
+   },
+   {
+    "type": 207,
+    "outputs": [
+     {
+      "weapon": "R-4 Hyena",
+      "kind": "player_weapon"
+     }
+    ],
+    "statuses": [
+     {
+      "status": "fire",
+      "strength": 3.0
+     }
+    ],
+    "velocity": 950.0
+   },
+   {
+    "type": 314,
+    "outputs": [
+     {
+      "weapon": "SG-225IE Breaker Incendiary",
+      "kind": "player_weapon"
+     }
+    ],
+    "statuses": [
+     {
+      "status": "fire",
+      "strength": 0.6
+     }
+    ],
+    "velocity": 120.0
+   }
+  ],
+  "findings": [
+   "The HMG bullet row and its direct-hit damage row are shared: the row by 15 consumers, the damage row by 2 projectile rows. A status on the HMG's own damage row reaches every one of them (allow_shared).",
+   "No spare row is a twin of the HMG bullet, so an alternate HMG mode with exactly the HMG ballistics and a different status would need a derived row, which this build does not offer.",
+   "An alternate mode with a native fire-on-hit bullet works through ProgrammableAmmo (the HMG's left input is free): the mode fires that bullet (its own flight and damage) and the HMG keeps its magazine, rate selector and handling."
+  ]
+ },
+ "liberatorTalon": {
+  "finding": "Unchanged: the AR-23 Liberator fires its default ammunition delta, so a donor goes through ammunition.projectile (live-proven for EAT-700 and GL-52); the Talon is a catalogued output."
+ },
+ "supportHosts": [
+  {
+   "weapon": "AC-8 Autocannon",
+   "status": "BLOCKED",
+   "magazineFed": false,
+   "mechanism": null,
+   "componentHost": false,
+   "reason": "Another native selector owns the fired projectile: WeaponRounds ammo types (primary / alternate magazine projectile)."
+  },
+  {
+   "weapon": "APW-1 Anti-Materiel Rifle",
+   "status": "ACTIVE_DIRECT",
+   "magazineFed": true,
+   "mechanism": "component",
+   "componentHost": true,
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+  },
+  {
+   "weapon": "EAT-17 Expendable Anti-Tank",
+   "status": "ACTIVE_DIRECT",
+   "magazineFed": true,
+   "mechanism": "component",
+   "componentHost": true,
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+  },
+  {
+   "weapon": "EAT-411 Leveller",
+   "status": "ACTIVE_DIRECT",
+   "magazineFed": true,
+   "mechanism": "component",
+   "componentHost": true,
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+  },
+  {
+   "weapon": "EAT-700 Expendable Napalm",
+   "status": "ACTIVE_DIRECT",
+   "magazineFed": true,
+   "mechanism": "component",
+   "componentHost": true,
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+  },
+  {
+   "weapon": "FAF-14 Spear",
+   "status": "BLOCKED",
+   "magazineFed": true,
+   "mechanism": null,
+   "componentHost": false,
+   "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile)."
+  },
+  {
+   "weapon": "GL-21 Grenade Launcher",
+   "status": "ACTIVE_DIRECT",
+   "magazineFed": true,
+   "mechanism": "component",
+   "componentHost": true,
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+  },
+  {
+   "weapon": "GL-28 Belt-Fed Grenade Launcher",
+   "status": "ACTIVE_DIRECT",
+   "magazineFed": false,
+   "mechanism": "component",
+   "componentHost": false,
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+  },
+  {
+   "weapon": "GL-52 De-Escalator",
+   "status": "BLOCKED",
+   "magazineFed": false,
+   "mechanism": null,
+   "componentHost": false,
+   "reason": "Another native selector owns the fired projectile: WeaponRounds ammo types (primary / alternate magazine projectile)."
+  },
+  {
+   "weapon": "GR-8 Recoilless Rifle",
+   "status": "AMBIGUOUS",
+   "magazineFed": true,
+   "mechanism": null,
+   "componentHost": false,
+   "reason": "A weapon function (programmable ammo) switches to WeaponFunctionProjectileType; the base member is only the default function's projectile."
+  },
+  {
+   "weapon": "LAS-99 Quasar Cannon",
+   "status": "ACTIVE_DIRECT",
+   "magazineFed": false,
+   "mechanism": "component",
+   "componentHost": false,
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+  },
+  {
+   "weapon": "M-1000 Maxigun",
+   "status": "ACTIVE_DIRECT",
+   "magazineFed": false,
+   "mechanism": "component",
+   "componentHost": false,
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+  },
+  {
+   "weapon": "M-105 Stalwart",
+   "status": "ACTIVE_DIRECT",
+   "magazineFed": true,
+   "mechanism": "component",
+   "componentHost": true,
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+  },
+  {
+   "weapon": "MG-206 Heavy Machine Gun",
+   "status": "ACTIVE_DIRECT",
+   "magazineFed": true,
+   "mechanism": "component",
+   "componentHost": true,
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+  },
+  {
+   "weapon": "MG-43 Machine Gun",
+   "status": "BLOCKED",
+   "magazineFed": true,
+   "mechanism": null,
+   "componentHost": false,
+   "reason": "Another native selector owns the fired projectile: magazine pattern (WeaponMagazine Projectiles[32] / FirstProjectile)."
+  },
+  {
+   "weapon": "MGX-42 Bullet Storm",
+   "status": "BLOCKED",
+   "magazineFed": true,
+   "mechanism": null,
+   "componentHost": false,
+   "reason": "Another native selector owns the fired projectile: magazine pattern (WeaponMagazine Projectiles[32] / FirstProjectile)."
+  },
+  {
+   "weapon": "MLS-4X Commando",
+   "status": "BLOCKED",
+   "magazineFed": true,
+   "mechanism": null,
+   "componentHost": false,
+   "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile)."
+  },
+  {
+   "weapon": "PLAS-45 Epoch",
+   "status": "BLOCKED",
+   "magazineFed": false,
+   "mechanism": null,
+   "componentHost": false,
+   "reason": "Another native selector owns the fired projectile: WeaponCharge (level-selected projectile)."
+  },
+  {
+   "weapon": "RL-77 Airburst Rocket Launcher",
+   "status": "AMBIGUOUS",
+   "magazineFed": true,
+   "mechanism": null,
+   "componentHost": false,
+   "reason": "A weapon function (programmable ammo) switches to WeaponFunctionProjectileType; the base member is only the default function's projectile."
+  },
+  {
+   "weapon": "RS-422 Railgun",
+   "status": "ACTIVE_DIRECT",
+   "magazineFed": false,
+   "mechanism": "component",
+   "componentHost": false,
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+  },
+  {
+   "weapon": "S-11 Speargun",
+   "status": "ACTIVE_DIRECT",
+   "magazineFed": true,
+   "mechanism": "component",
+   "componentHost": true,
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+  },
+  {
+   "weapon": "SG-88 Break-Action Shotgun",
+   "status": "BLOCKED",
+   "magazineFed": false,
+   "mechanism": null,
+   "componentHost": false,
+   "reason": "Another native selector owns the fired projectile: WeaponRounds ammo types (primary / alternate magazine projectile)."
+  },
+  {
+   "weapon": "StA-X3 W.A.S.P. Launcher",
+   "status": "BLOCKED",
+   "magazineFed": true,
+   "mechanism": null,
+   "componentHost": false,
+   "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile)."
+  }
+ ]
+}
