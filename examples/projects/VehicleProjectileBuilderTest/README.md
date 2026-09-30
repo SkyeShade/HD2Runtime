@@ -84,8 +84,12 @@ Report:
 - the three swaps (Patriot minigun ← EAT-17, Talon, Scorcher);
 - the four own-bullet impact explosions on row 148, and back to none.
 
+**Follow-up (2026-09-30): PASS.** With the projectile on **Talon** and **Talon bolt impact** on, the minigun's Talon
+bolts exploded like GL-21 grenades. The explicit donor-row composition (`donor_row_slot_composition`) is live-proven
+for exactly this tuple: the Talon row with the GL-21 impact explosion.
+
 **Still unproven, and acknowledged in the mod:**
 - the status bullets;
 - the sentries;
-- the Talon bolt impact;
-- every other mount or donor.
+- the Talon sidearm firing the edited row (not reported);
+- every other donor row, effect, mount or donor.

@@ -10,7 +10,7 @@ The reporter used ModBuilder 1.3.1 (the latest release) with the published HD2Ru
 read-only with `git archive v1.3.1`. The exports edit every writable Halt field together with unrelated AR-23
 Liberator and SMG-32 Reprimand edits, placed before and after the Halt in project order.
 
-| Export | Published 0.27.0 | Current tree (0.28.0) |
+| Export | Published 0.27.0 | 0.28.0 |
 | --- | --- | --- |
 | no Halt edit | 3 registered, applied | 3 applied |
 | every Halt field | **startup error** `field is not exposed for SG-20 Halt: projectile.drag`, **0 registered** | 8 applied |
@@ -29,7 +29,7 @@ Liberator and SMG-32 Reprimand edits, placed before and after the Halt in projec
    often the damage transactions. Weapon component fields (sway, fire rate, rounds) disappeared, which is what the
    user saw.
 
-**Fixed in the unreleased tree since commit aaabb0a (ships with 0.28.0):**
+**Fixed in 0.28.0 (commit aaabb0a):**
 - **Branch resolution.** A generic projectile-object field on a rounds-feed attack resolves to that feed's branch.
 - **Registration isolation.** `hd2.patch`, `transaction`, `plan` and `ensure` log `<kind> <id> rejected: <reason>`
   and return a rejected handle instead of raising. This holds for a whole plan too.

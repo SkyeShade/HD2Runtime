@@ -8,7 +8,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": {},
@@ -21,11 +21,13 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.25.1",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": true,
       "versionReasons": [
         "in-game options -> 0.25.1",
+        "player_weapon fire_rate.modes -> 0.28.0",
+        "player_weapon weapon_function.left -> 0.28.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -271,7 +273,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": [
@@ -285,10 +287,11 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.23.2",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
+        "backpack damage_zone -> 0.28.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -1008,7 +1011,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": [
@@ -1023,25 +1026,25 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.27.0",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
-        "B/FLAM-80 Cremator (structurally delivery-resolved) -> 0.27.0",
+        "B/FLAM-80 Cremator (structurally delivery-resolved) -> 0.28.0",
         "typed writes -> 0.23.2"
       ]
     },
     "DeathHellbombTest": {
       "baselineChanges": null,
       "calls": [],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": {},
       "problems": [],
-      "requiredMinVersion": "0.27.0",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
-        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.27.0"
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0"
       ]
     },
     "DirectionalShieldTest": {
@@ -1049,7 +1052,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": [
@@ -1083,12 +1086,12 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.27.0",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": true,
       "versionReasons": [
+        "entity shield.broken_recharge_delay -> 0.28.0",
         "in-game options -> 0.25.1",
-        "shield.broken_recharge_delay -> 0.27.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -1097,7 +1100,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": [
@@ -1134,16 +1137,16 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.27.0",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": true,
       "versionReasons": [
-        "heat.level_1_threshold -> 0.27.0",
-        "heat.level_2_threshold -> 0.27.0",
-        "heat.level_3_self_status -> 0.27.0",
-        "heat.level_3_threshold -> 0.27.0",
-        "heat.overheat_lock -> 0.27.0",
         "in-game options -> 0.25.1",
+        "player_weapon heat.level_1_threshold -> 0.28.0",
+        "player_weapon heat.level_2_threshold -> 0.28.0",
+        "player_weapon heat.level_3_self_status -> 0.28.0",
+        "player_weapon heat.level_3_threshold -> 0.28.0",
+        "player_weapon heat.overheat_lock -> 0.28.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -1196,7 +1199,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": [
@@ -1222,11 +1225,11 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.27.0",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
-        "EAT-17 Expendable Anti-Tank (structurally delivery-resolved) -> 0.27.0",
+        "EAT-17 Expendable Anti-Tank (structurally delivery-resolved) -> 0.28.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -1270,7 +1273,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": {},
@@ -1282,10 +1285,11 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.23.2",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
+        "enemy target -> 0.28.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -1294,7 +1298,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": [
@@ -1320,10 +1324,11 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.23.2",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
+        "enemy target -> 0.28.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -1332,7 +1337,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": {},
@@ -1344,24 +1349,25 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.23.2",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
+        "enemy target -> 0.28.0",
         "typed writes -> 0.23.2"
       ]
     },
     "EquippedWeaponEventTest": {
       "baselineChanges": null,
       "calls": [],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": {},
       "problems": [],
-      "requiredMinVersion": "0.27.0",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
-        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.27.0"
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0"
       ]
     },
     "EruptorExplosionRadius": {
@@ -1392,14 +1398,14 @@
     "EventIsolationTest": {
       "baselineChanges": null,
       "calls": [],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": {},
       "problems": [],
-      "requiredMinVersion": "0.27.0",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
-        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.27.0"
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0"
       ]
     },
     "ExosuitUnlimitedUses": {
@@ -1563,7 +1569,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": [
@@ -1617,10 +1623,11 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.23.2",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
+        "enemy target -> 0.28.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -1695,7 +1702,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": [
@@ -1709,10 +1716,11 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.23.2",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
+        "enemy target -> 0.28.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -1721,7 +1729,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": [
@@ -1800,15 +1808,18 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.27.0",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": true,
       "versionReasons": [
-        "beam.fire_rate -> 0.27.0",
+        "backpack damage_zone -> 0.28.0",
         "deposit.capacity -> 0.26.0",
         "deposit.start_amount -> 0.26.0",
         "in-game options -> 0.25.1",
         "typed writes -> 0.23.2",
+        "vehicle_weapon arc.primary.chain_count -> 0.28.0",
+        "vehicle_weapon arc.primary.range -> 0.28.0",
+        "vehicle_weapon beam.fire_rate -> 0.28.0",
         "vehicle_weapon target -> 0.26.0"
       ]
     },
@@ -1845,7 +1856,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": {},
@@ -1858,12 +1869,13 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.25.1",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": true,
       "versionReasons": [
         "MG-206 Heavy Machine Gun -> 0.24.0",
         "in-game options -> 0.25.1",
+        "support_weapon fire_rate.modes -> 0.28.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -1872,7 +1884,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": [
@@ -1908,12 +1920,17 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.25.1",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": true,
       "versionReasons": [
         "MG-206 Heavy Machine Gun -> 0.24.0",
+        "attack_output presentation.mode_icon -> 0.28.0",
+        "attack_output presentation.mode_label -> 0.28.0",
+        "attack_output target -> 0.28.0",
         "in-game options -> 0.25.1",
+        "support_weapon function_ammo.projectile -> 0.28.0",
+        "support_weapon weapon_function.left -> 0.28.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -1922,7 +1939,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": {},
@@ -1946,24 +1963,28 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.23.2",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
+        "damage.primary.status_1_strength through the generic damage.status_1_strength -> 0.28.0",
+        "damage.primary.status_1_type through the generic damage.status_1_type -> 0.28.0",
+        "player_weapon damage.primary.status_1_strength -> 0.28.0",
+        "player_weapon damage.primary.status_1_type -> 0.28.0",
         "typed writes -> 0.23.2"
       ]
     },
     "HeavyDevastatorDelayedExplosionTest": {
       "baselineChanges": null,
       "calls": [],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": {},
       "problems": [],
-      "requiredMinVersion": "0.27.0",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
-        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.27.0"
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0"
       ]
     },
     "HoverPackTest": {
@@ -1971,7 +1992,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": [
@@ -2003,11 +2024,11 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.27.0",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": true,
       "versionReasons": [
-        "hover.duration -> 0.27.0",
+        "entity hover.duration -> 0.28.0",
         "in-game options -> 0.25.1",
         "typed writes -> 0.23.2"
       ]
@@ -2181,14 +2202,14 @@
     "KillHealTest": {
       "baselineChanges": null,
       "calls": [],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": {},
       "problems": [],
-      "requiredMinVersion": "0.27.0",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
-        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.27.0"
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0"
       ]
     },
     "KillStackDamageTest": {
@@ -2196,7 +2217,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": [
@@ -2211,11 +2232,11 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.27.0",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
-        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.27.0",
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -2224,7 +2245,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": [
@@ -2239,13 +2260,13 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.27.0",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": true,
       "versionReasons": [
-        "LAS-98 Laser Cannon (structurally delivery-resolved) -> 0.27.0",
-        "beam.fire_rate -> 0.27.0",
+        "LAS-98 Laser Cannon (structurally delivery-resolved) -> 0.28.0",
         "in-game options -> 0.25.1",
+        "support_weapon beam.fire_rate -> 0.28.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -2254,7 +2275,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": [
@@ -2271,11 +2292,13 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.25.1",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": true,
       "versionReasons": [
         "in-game options -> 0.25.1",
+        "player_weapon ammunition -> 0.28.0",
+        "player_weapon ammunition.projectile -> 0.28.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -2339,7 +2362,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": [
@@ -2354,10 +2377,12 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.23.2",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
+        "player_weapon damage.status_1_strength -> 0.28.0",
+        "player_weapon damage.status_1_type -> 0.28.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -2456,7 +2481,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": [
@@ -2482,14 +2507,14 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.27.0",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": true,
       "versionReasons": [
         "in-game options -> 0.25.1",
-        "typed writes -> 0.23.2",
-        "weapon.recoil_multiplier_horizontal -> 0.27.0",
-        "weapon.recoil_multiplier_vertical -> 0.27.0"
+        "support_weapon weapon.recoil_multiplier_horizontal -> 0.28.0",
+        "support_weapon weapon.recoil_multiplier_vertical -> 0.28.0",
+        "typed writes -> 0.23.2"
       ]
     },
     "MaxigunMobileFiring": {
@@ -2497,7 +2522,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": [
@@ -2512,12 +2537,12 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.27.0",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
-        "typed writes -> 0.23.2",
-        "weapon.stationary_while_firing -> 0.27.0"
+        "support_weapon weapon.stationary_while_firing -> 0.28.0",
+        "typed writes -> 0.23.2"
       ]
     },
     "MaxigunStun": {
@@ -2525,7 +2550,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": [
@@ -2540,10 +2565,12 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.23.2",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
+        "support_weapon damage.primary.status_1_strength -> 0.28.0",
+        "support_weapon damage.primary.status_1_type -> 0.28.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -2552,7 +2579,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": {},
@@ -2564,10 +2591,11 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.23.2",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
+        "stratagem minefield.salvos -> 0.28.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -2576,7 +2604,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": [
@@ -2602,11 +2630,11 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.27.0",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
-        "stratagem mine explosion -> 0.27.0",
+        "stratagem mine explosion -> 0.28.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -2640,7 +2668,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": [
@@ -2666,12 +2694,13 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.25.1",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": true,
       "versionReasons": [
         "in-game options -> 0.25.1",
-        "typed writes -> 0.23.2"
+        "typed writes -> 0.23.2",
+        "underbarrel sub-target -> 0.28.0"
       ]
     },
     "OrbitalBarrageProof": {
@@ -2937,27 +2966,27 @@
     "PlayerKillCreditedExample": {
       "baselineChanges": null,
       "calls": [],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": {},
       "problems": [],
-      "requiredMinVersion": "0.27.0",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
-        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.27.0"
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0"
       ]
     },
     "ProjectileActionTest": {
       "baselineChanges": null,
       "calls": [],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": {},
       "problems": [],
-      "requiredMinVersion": "0.27.0",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
-        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.27.0"
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0"
       ]
     },
     "ProjectileSlotTest": {
@@ -2965,7 +2994,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": [
@@ -2987,10 +3016,13 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.25.1",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": true,
       "versionReasons": [
+        "attack_output projectile.direct_damage -> 0.28.0",
+        "attack_output projectile.impact_explosion -> 0.28.0",
+        "attack_output target -> 0.28.0",
         "in-game options -> 0.25.1",
         "typed writes -> 0.23.2"
       ]
@@ -3049,7 +3081,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": {},
@@ -3105,11 +3137,11 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.27.0",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": true,
       "versionReasons": [
-        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.27.0",
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0",
         "in-game options -> 0.25.1",
         "payload.entity -> 0.26.0",
         "pod_rack target -> 0.26.0",
@@ -3147,7 +3179,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": {},
@@ -3219,10 +3251,11 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.26.0",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": true,
       "versionReasons": [
+        "damage.primary.standard_damage through the generic damage.standard_damage -> 0.28.0",
         "deposit.capacity -> 0.26.0",
         "deposit.refill_amount -> 0.26.0",
         "deposit.start_amount -> 0.26.0",
@@ -3246,7 +3279,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": {},
@@ -3258,10 +3291,11 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.23.2",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
+        "stratagem targeting.range -> 0.28.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -3270,7 +3304,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": {},
@@ -3282,10 +3316,12 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.23.2",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
+        "stratagem turret.pitch_speed -> 0.28.0",
+        "stratagem turret.yaw_speed -> 0.28.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -3294,7 +3330,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": [
@@ -3328,14 +3364,14 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.27.0",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": true,
       "versionReasons": [
+        "entity shield.broken_recharge_delay -> 0.28.0",
+        "entity shield.recharge_delay -> 0.28.0",
+        "entity shield.recharge_rate -> 0.28.0",
         "in-game options -> 0.25.1",
-        "shield.broken_recharge_delay -> 0.27.0",
-        "shield.recharge_delay -> 0.27.0",
-        "shield.recharge_rate -> 0.27.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -3452,7 +3488,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": [
@@ -3486,11 +3522,16 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.25.1",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": true,
       "versionReasons": [
+        "attack_output presentation.mode_icon -> 0.28.0",
+        "attack_output presentation.mode_label -> 0.28.0",
+        "attack_output target -> 0.28.0",
         "in-game options -> 0.25.1",
+        "support_weapon function_ammo.projectile -> 0.28.0",
+        "support_weapon weapon_function.left -> 0.28.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -3499,7 +3540,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": [
@@ -3542,25 +3583,31 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.25.1",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": true,
       "versionReasons": [
+        "attack_output presentation.mode_icon -> 0.28.0",
+        "attack_output presentation.mode_label -> 0.28.0",
+        "attack_output projectile.expiry_explosion -> 0.28.0",
+        "attack_output target -> 0.28.0",
         "in-game options -> 0.25.1",
+        "support_weapon function_ammo.projectile -> 0.28.0",
+        "support_weapon weapon_function.left -> 0.28.0",
         "typed writes -> 0.23.2"
       ]
     },
     "StatusActionTest": {
       "baselineChanges": null,
       "calls": [],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": {},
       "problems": [],
-      "requiredMinVersion": "0.27.0",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
-        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.27.0"
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0"
       ]
     },
     "StructureHealthTest": {
@@ -3568,7 +3615,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": [
@@ -3582,10 +3629,11 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.23.2",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
+        "enemy target -> 0.28.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -3793,7 +3841,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": [
@@ -3842,13 +3890,15 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.27.0",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": true,
       "versionReasons": [
-        "EAT-17 Expendable Anti-Tank (structurally delivery-resolved) -> 0.27.0",
+        "EAT-17 Expendable Anti-Tank (structurally delivery-resolved) -> 0.28.0",
         "M-105 Stalwart -> 0.24.0",
         "in-game options -> 0.25.1",
+        "player_weapon ammunition -> 0.28.0",
+        "player_weapon ammunition.projectile -> 0.28.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -3899,14 +3949,14 @@
     "VampiricThrowingKnivesTest": {
       "baselineChanges": null,
       "calls": [],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": {},
       "problems": [],
-      "requiredMinVersion": "0.27.0",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
-        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.27.0"
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0"
       ]
     },
     "VehicleProjectileBuilderTest": {
@@ -3914,7 +3964,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": [
@@ -3949,12 +3999,15 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.26.0",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": true,
       "versionReasons": [
+        "attack_output projectile.impact_explosion -> 0.28.0",
+        "attack_output target -> 0.28.0",
         "in-game options -> 0.25.1",
         "typed writes -> 0.23.2",
+        "vehicle_weapon attack.primary.projectile -> 0.28.0",
         "vehicle_weapon target -> 0.26.0"
       ]
     },
@@ -3963,7 +4016,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": [
@@ -3997,19 +4050,19 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.27.0",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": true,
       "versionReasons": [
+        "entity warp.distance -> 0.28.0",
+        "entity warp.head_injury_damage -> 0.28.0",
+        "entity warp.heat_per_use -> 0.28.0",
+        "entity warp.left_arm_injury_damage -> 0.28.0",
+        "entity warp.left_leg_injury_damage -> 0.28.0",
+        "entity warp.right_arm_injury_damage -> 0.28.0",
+        "entity warp.right_leg_injury_damage -> 0.28.0",
         "in-game options -> 0.25.1",
-        "typed writes -> 0.23.2",
-        "warp.distance -> 0.27.0",
-        "warp.head_injury_damage -> 0.27.0",
-        "warp.heat_per_use -> 0.27.0",
-        "warp.left_arm_injury_damage -> 0.27.0",
-        "warp.left_leg_injury_damage -> 0.27.0",
-        "warp.right_arm_injury_damage -> 0.27.0",
-        "warp.right_leg_injury_damage -> 0.27.0"
+        "typed writes -> 0.23.2"
       ]
     },
     "WeaponPresentationTest": {
@@ -4017,7 +4070,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": [
@@ -4041,11 +4094,12 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.25.1",
+      "requiredMinVersion": "0.28.0",
       "status": "VALIDATED",
       "usesOptions": true,
       "versionReasons": [
         "in-game options -> 0.25.1",
+        "player_weapon presentation.armor_penetration -> 0.28.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -4054,7 +4108,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": {},
@@ -4079,7 +4133,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.27.0",
+      "minVersion": "0.28.0",
       "operations": [
         {
           "acknowledgements": [

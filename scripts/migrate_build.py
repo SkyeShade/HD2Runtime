@@ -1,6 +1,6 @@
 """Re-identify a previous HD2Runtime release's mappings in a new Helldivers 2 build and report what broke.
 
-  py scripts/migrate_build.py --from-runtime 0.27.0 --snapshot <new>.hd2snap [--datalibrary <dir>]
+  py scripts/migrate_build.py --from-runtime 0.28.0 --snapshot <new>.hd2snap [--datalibrary <dir>]
   py scripts/migrate_build.py --from-runtime current --datalibrary <dir> --exe-sha <sha> --dll-sha <sha>
 
 The source of truth is the previous release's generated domain tables (semantic ids, native identities, baselines,
@@ -71,7 +71,7 @@ def portable(sources):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('--from-runtime', default='current',
-        help='previous release version (e.g. 0.27.0), a git revision, or "current" (working tree)')
+        help='previous release version (e.g. 0.28.0), a git revision, or "current" (working tree)')
     parser.add_argument('--snapshot', help='.hd2snap of the new build')
     parser.add_argument('--datalibrary', help="the new build's Filediver datalibrary directory")
     parser.add_argument('--build', help='known build id from schemas/build_profile.json (datalibrary-only targets)')

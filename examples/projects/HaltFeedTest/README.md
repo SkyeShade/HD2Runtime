@@ -1,7 +1,6 @@
 # HaltFeedTest
 
-Live test: the SG-20 Halt's two feeds, modified independently. No options; needs this HD2Runtime test build (not the
-published 0.27.0).
+Live test: the SG-20 Halt's two feeds, modified independently. No options; needs HD2Runtime 0.28.0.
 
 The Halt has two magazines, both built into every Halt, switched with its magazine weapon function:
 

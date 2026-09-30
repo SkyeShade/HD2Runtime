@@ -169,8 +169,10 @@ a projectile pointer exists.
   writes the projectile its delta patches into ProjectileWeapon +0. `ammunition:projectile()` is the expect handle,
   and the value that restores the reviewed ammunition projectile. It needs `allow_shared` (an ammunition definition
   applies to every weapon that equips it; observed equippers are published) and `allow_unverified_effect`.
-  The ammunition delta is applied when the game builds the weapon, and whether an edited delta reaches the next
-  build is not live-tested yet (the rebuilt `LiberatorAttackOutputTest` tests it). Each write re-proves the delta
+  The ammunition delta is applied when the game builds the weapon. The AR-23 Liberator's own ammunition row is
+  live-proven (`weapon_ammunition_projectile_reference`: LiberatorAttackOutputTest, UnifiedProjectileSwapTest), so it
+  needs only `allow_shared`. Whether an edit reaches an already-built Liberator, or only the next one built, was not
+  reported. The other five weapons keep `allow_unverified_effect`. Each write re-proves the delta
   chain in the live, uniquely owned delta allocation and that the weapon's own default customization still names
   the ammunition item (`AMMUNITION_SOURCE_CHANGED` otherwise). Six weapons: AR-23 Liberator, JAR-5 Dominator,
   P-19 Redeemer, P-2 Peacemaker, R-63 Diligence, SG-225 Breaker.
@@ -268,11 +270,11 @@ projectile builder (`weapon:programmable_ammo()`) makes one from existing native
 | --- | --- | --- |
 | REFERENCE_COMPOSITION | re-point references between existing rows (the host's projectile, a row's direct hit or explosions) | supported |
 | DERIVED_MUTATION | a distinct native row whose references are edited, so no other entity changes | spare twins only, as an **interim**: they borrow unreferenced vanilla rows |
-| CUSTOM_ROW | a new ProjectileType row | not available in this pass: one row per vanilla ProjectileType, read by type with no bound, and the type is what the network replicates; Runtime has no ids of its own yet |
+| CUSTOM_ROW | a new ProjectileType row | not available in 0.28.0: one row per vanilla ProjectileType, read by type with no bound, and the type is what the network replicates; Runtime has no ids of its own yet |
 
 The target for custom projectiles is a Runtime-owned registry, not borrowed rows. Custom projectiles would get their
 own ids above the vanilla range, backed by Runtime-owned rows. That needs the native table extended or relocated and
-is not researched in this pass. Until then, a spare twin is the only distinct identity, and it is labelled
+is not researched for 0.28.0. Until then, a spare twin is the only distinct identity, and it is labelled
 `interim` and `borrowedVanillaRow` in the catalog.
 
 **Rows and references.** ProjectileSettings has 350 rows (272 bytes each, indexed by ProjectileType). A typed
@@ -318,10 +320,11 @@ donor output:
   and the catalog `slots` publish the entities and typed references. A row with more than one needs `allow_shared`;
   the HMG bullet is 15 references across 6 entities.
 - **Acknowledgement.** A slot write needs `allow_unverified_effect`, except the exact (row, slot, donor) tuples a live
-  test proved (`slots.<slot>.liveProvenValues`, `projectile_slot_composition`):
+  test proved (`slots.<slot>.liveProvenValues`; `projectile_slot_composition`, `donor_row_slot_composition`):
   - the AR-2 Coyote and EXO-45 Patriot minigun impact explosions;
   - the Coyote Pacifier direct hit;
-  - the Speargun spare twin's EMS expiry.
+  - the Speargun spare twin's EMS expiry;
+  - the LAS-58 Talon row with the GL-21 grenade blast.
 
   `allow_shared` is never dropped by live proof.
 - **Recursion.** A composition must never make a projectile spawn itself. Before an explosion slot is written, the
@@ -345,7 +348,9 @@ In practice:
 - **The log.** Runtime logs a `note:` line when a slot or label write applies while the row's owner fires another row
   through its ProjectileWeapon +0.
 - **Effects on a swapped projectile.** Edit the donor's row explicitly: target `hd2.attack_output(donor)`. That
-  changes every entity firing the donor row: the donor weapon itself, and every host swapped onto it.
+  changes every entity firing the donor row: the donor weapon itself, and every host swapped onto it. Live-proven
+  for exactly one tuple (`donor_row_slot_composition`): the Patriot minigun swapped to the LAS-58 Talon, and the
+  GL-21 grenade blast written to the Talon row. The minigun's Talon bolts exploded.
 - **What `allow_shared` counts.** It counts the row's native consumers (`slots.<slot>.sharedConsumers`). Hosts that
   other operations swapped onto the row are not counted.
 - **One host alone.** An effect on one host's swapped projectile alone needs a row of its own: a spare twin, or the

@@ -203,8 +203,9 @@ if action.status == 'refused' then mod:log(action.code .. ': ' .. action.reason)
   reference swaps load them). A weapon explosion needs the weapon's package; a Hellbomb needs its stratagem's
   package. The handle then reads `waiting_for_assets`, then `requested`. A package Runtime cannot identify is refused
   (`ASSET_UNKNOWN`). `hd2.explosions.prepare(name)` at mission start avoids the wait.
-- Host only (`HOST_ONLY`): the host owns enemy health, so a client request would be local and overwritten. Other
-  players see the results (health, deaths); whether they see the explosion effect itself is not proven.
+- Host only (`HOST_ONLY`): the host owns enemy health, so a client request would be local and overwritten. The
+  damage and deaths it causes are host state the game synchronizes itself; what other players see, the results or
+  the explosion effect, is not live-tested.
 - It is credited to the local player (source and owner = your avatar, creditor = you): its kills count as yours and
   appear in `player_kill_credited` under your avatar type. It needs your avatar to exist (`NO_LOCAL_AVATAR`).
 - Chain reactions are bounded: at most 6 explosion requests at once per mod, refilled at 1 per second

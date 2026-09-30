@@ -35,8 +35,8 @@ local impact=options:choice({id='impact',label='Own-bullet impact effect',
 local talon=hd2.attack_output('LAS-58 Talon')
 local talon_impact=options:toggle({id='talon_impact',label='Talon bolt impact (donor row)',default=false,
     description='A grenade blast on the LAS-58 Talon bolt row: the minigun firing Talon, and the Talon sidearm.'})
--- Live-proven (schemas/live_evidence.json): the EAT-17, Talon and Scorcher swaps and the four own-bullet effects. The
--- status bullets and the Talon row effect are not, so the acknowledgements stay.
+-- Live-proven (schemas/live_evidence.json): the EAT-17, Talon and Scorcher swaps, the four own-bullet effects and the
+-- Talon row with the grenade blast. The status bullets are not, so the acknowledgements stay.
 return {
     hd2.ensure({transaction={id='patriot-minigun-projectile',target=source.target,allow_unverified_effect=true,
         allow_unverified_reference=true,changes={{field=source.field,expect=source.expect,value=projectile}}}}),

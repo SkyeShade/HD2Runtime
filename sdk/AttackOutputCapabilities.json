@@ -1,7 +1,7 @@
 {
  "contract": "hd2runtime.attack_outputs.v1",
  "schemaVersion": 2,
- "hd2RuntimeVersion": "0.27.0",
+ "hd2RuntimeVersion": "0.28.0",
  "build": "F5FEE03DCFDB",
  "model": {
   "weaponComposition": "A weapon entity owns exactly one output-family component (ProjectileWeapon, BeamWeapon, ArcWeapon, SprayWeapon or MeleeWeapon) next to fire-control and resource components (WeaponData, WeaponMagazine / WeaponRounds / WeaponHeat / WeaponCharge, WeaponReload).",
@@ -1760,6 +1760,13 @@
     },
     {
      "test": "VehicleProjectileBuilderTest (Scorcher)",
+     "result": "PASS",
+     "family": "vehicle_projectile_reference",
+     "hostReadsReference": true,
+     "superseded": false
+    },
+    {
+     "test": "VehicleProjectileBuilderTest (Talon)",
      "result": "PASS",
      "family": "vehicle_projectile_reference",
      "hostReadsReference": true,
@@ -4233,7 +4240,9 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
-     "liveProvenValues": [],
+     "liveProvenValues": [
+      "output/v1/projectile/gl-21-grenade-launcher#impactExplosion"
+     ],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {

@@ -21,7 +21,7 @@ local stun=options:toggle({id='stun_mode',label='Stun spear mode',default=true,
 local labels=options:toggle({id='gas_label',label='GAS label',default=true,
     description='Name the normal mode GAS (plain round icon) in the weapon-function menu. Off: the game default.'})
 local operations={}
--- The spare twin, the slot write and the mode labels are mapped offline, not yet shown in game.
+-- Live-proven exactly as written here (schemas/live_evidence.json); the acknowledgements stay.
 for _,request in ipairs(builder:operations({id='spear-stun',enabled=stun,base=twin,
         expiry_explosion=ems:expiry_explosion(),label='stun',
         allow_unverified_effect=true,allow_unverified_reference=true}))do

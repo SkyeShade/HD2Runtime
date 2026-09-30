@@ -31,7 +31,7 @@ Without Mod Options Menu the defaults apply (5 s, grenade boxes).
 
 ## How to test
 
-1. Install the test runtime (`build/test-artifacts/.../HD2Runtime-0.27.0-runtime.zip`), Mod Options Menu and this
+1. Install HD2Runtime 0.28.0, Mod Options Menu and this
    mod. Start a mission.
 2. The log shows `assets for resupply-payload requested`, then `resident`, then `patch resupply-cooldown APPLIED` and
    `plan resupply-payload APPLIED`.

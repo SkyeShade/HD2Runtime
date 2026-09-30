@@ -87,9 +87,13 @@ hd2.ensure({transaction={id='patriot-eat',target=source.target,allow_unverified_
 - **Slots.** The mount's bullet row slots (`hd2.fields.projectile.impact_explosion`, ...) change every entity that fires
   that row. A slot write edits the row, not the mount: it reaches the mount only while the mount fires that row, and
   it does not follow a swapped projectile ([host swaps and slot writes](attack-outputs.md)).
-- **Live evidence.** The Patriot minigun ← EAT-17, LAS-58 Talon and PLAS-1 Scorcher swaps and its own-bullet impact
-  explosions (GL-21, Speargun gas, EMS Mortar field, EAT-700 napalm) are live-proven; every other mount, donor and
-  effect keeps its acknowledgements.
+- **Live evidence.** Three kinds of operation are live-proven, each separately and only for these values:
+  - **Host swap:** the Patriot minigun ← EAT-17, LAS-58 Talon and PLAS-1 Scorcher.
+  - **Host-native row slot:** the Patriot bullet row's impact explosions (GL-21, Speargun gas, EMS Mortar field,
+    EAT-700 napalm), while the minigun fires its own bullet.
+  - **Donor-row slot:** the LAS-58 Talon row with the GL-21 grenade blast, while the minigun fires Talon.
+
+  Every other mount, donor, row and effect keeps its acknowledgements.
 
 ## Scopes and acknowledgements
 

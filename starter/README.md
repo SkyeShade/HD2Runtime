@@ -28,14 +28,25 @@ Before distributing your mod, edit these exact values:
 resource ID, so it changes when you rename the resource and remains stable after
 that. You may replace `auto` with your own non-zero UUID, then keep it forever.
 
-`requires.hd2runtime.min_version` is `0.25.0`. This starter ships with 0.27.0. Raise it to `0.25.1` for
-in-game options (see below), to `0.26.0` for anything new in 0.26.0: magazine reload and ergonomics,
-reticles, fire modes, vehicle weapons, stratagem mission uses, backpack ammo and pod payloads, and to `0.27.0`
-for throwables (`hd2.throwable`), `hd2.require_assets`, or a reference swap that relies on automatic asset
-loading (an item nobody carries). In-game options (`hd2.options`) and the Booster `tuning()`, `explosion()`,
+`requires.hd2runtime.min_version` is `0.25.0`. This starter ships with 0.28.0. Raise it:
+- to `0.25.1` for in-game options (see below);
+- to `0.26.0` for anything new in 0.26.0: magazine reload and ergonomics, reticles, fire modes, vehicle weapons,
+  stratagem mission uses, backpack ammo and pod payloads;
+- to `0.27.0` for throwables (`hd2.throwable`), `hd2.require_assets`, or a reference swap that relies on automatic
+  asset loading (an item nobody carries);
+- to `0.28.0` for anything new in 0.28.0 (`docs/releases/0.28.0.md`):
+  - events and actions (`hd2.events`, `hd2.mod`, timers, keys, `hd2.actions`);
+  - `hd2.attack_output`, projectile sources and slots, programmable ammo;
+  - rate-of-fire modes, feeds, presentation;
+  - underbarrels, enemies and structures, sentries and minefields, equipment packs and Guard Dogs, status slots;
+  - `hd2.diagnostics`;
+  - projectile lifetime and penetration slowdown on player weapons;
+  - the SG-20 Halt's generic feed fields.
+
+In-game options (`hd2.options`) and the Booster `tuning()`, `explosion()`,
 `status_damage()` and `granted_stratagem()` targets need 0.25.0. Boosters
 (`hd2.booster`), the `reload.*`, `windup.*`, `projectile.lifetime`,
-and `projectile.penetration_slowdown` fields, and writes to MG-43, M-105, MG-206,
+and `projectile.penetration_slowdown` fields on support weapons, and writes to MG-43, M-105, MG-206,
 and CQC-20 need 0.24.0. A mod that uses none of these may lower it to `0.23.2`,
 but never below: in 0.23.0 and 0.23.1, typed writes can fail in game with "module
 not found". Do not change the `bingus` block or the `api`/`module` values.
@@ -110,7 +121,7 @@ HD2Runtime implementation.
 Players install and enable three packages:
 
 1. Bingus Shared Loader v15 or newer / API 1.
-2. HD2Runtime 0.25.0 or newer / API 1 (0.27.0 recommended), installed once.
+2. HD2Runtime 0.25.0 or newer / API 1 (0.28.0 recommended), installed once.
 3. Your built gameplay mod ZIP.
 
 The generated manifest description and `hd2runtime.json` state both dependencies.

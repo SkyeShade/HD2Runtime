@@ -21,7 +21,7 @@ local impact=options:choice({id='impact',label='Coyote impact explosion',
     description='What every Coyote bullet releases where it hits.'})
 local stun=options:toggle({id='stun_rounds',label='Stun rounds',default=false,
     description='The Coyote direct hit becomes the AR-32 Pacifier direct hit (stun instead of fire).'})
--- Slot writes are mapped offline, not yet shown in game.
+-- Live-proven for exactly these tuples (projectile_slot_composition); the acknowledgement stays for the rest.
 return {
     hd2.ensure({transaction={id='coyote-impact',target=coyote,allow_unverified_effect=true,changes={
         {field=hd2.fields.projectile.impact_explosion,expect='none',value=impact}}}}),

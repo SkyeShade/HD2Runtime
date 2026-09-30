@@ -131,6 +131,10 @@ spare twins and the composition classes.
   - No catalogued ballistic bullet applies acid on hit.
 - **Labels.** Mode labels default to `mode_icon = "auto"`: the exact native icon, else the plain round
   (`ammo_slug`), never the empty placeholder.
+- **Live results (2026-09-30): both pass.** The Speargun STUN mode (spare twin, EMS expiry), and the HMG with the
+  Hyena, Pacifier and Re-Educator bullets, are live-proven for exactly these pairs (`weapon_programmable_ammo_added`),
+  with their labels and icons (`weapon_mode_presentation`). Every other host, donor and label keeps
+  `allow_unverified_effect`.
 
 ## Stun-field donors
 
@@ -207,10 +211,12 @@ hd2.ensure({transaction={id='stun-label',target=hd2.attack_output('A/M-23 EMS Mo
   wins over `auto`; restoring (disabling the operation) writes the native label and icon back.
 - **Custom text and icons** are not supported in this release: labels are native localization strings, icons native
   weapon-function icons. Arbitrary icon assets are a later step.
-- **Guards.** `domains/output_writes.lua` re-proves that the output's owner still fires that projectile and the
-  settings row identity; the icon is written as two aligned 4-byte halves in one transaction.
-- **Acknowledgement.** `allow_unverified_effect`: the members and the native data pattern are proven, but the menu
-  reader is not traced and an edited label has not been seen in game yet.
+- **Guards.** `domains/output_writes.lua` re-proves the output's owner entity, its ProjectileWeapon record identity
+  and the settings row identity. What the owner fires right now is not a condition: a label is on the row, so it
+  shows wherever that row is fired. When the owner fires another row, the log says so (`note:`). The icon is written
+  as two aligned 4-byte halves in one transaction.
+- **Acknowledgement.** `allow_unverified_effect`, except the exact labels and resolved icons a live test showed
+  (`presentation.liveProven`, `weapon_mode_presentation`). The menu reader is not traced.
 - **Feeds.** `feed:describe().presentation` gives each feed's current `label`, `icon`, `displayName` (the native
   label text, else Primary / Alternate / Programmable) and, for the primary feed, the output that edits it.
 

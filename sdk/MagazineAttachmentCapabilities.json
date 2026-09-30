@@ -1,7 +1,7 @@
 {
   "contract": "hd2runtime.weapon_attachment.magazine.v1",
   "schemaVersion": 2,
-  "hd2RuntimeVersion": "0.27.0",
+  "hd2RuntimeVersion": "0.28.0",
   "canonicalCollection": "fieldInstances",
   "ownershipModel": {
     "chain": [

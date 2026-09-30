@@ -5,9 +5,9 @@ behind its own Mod Options toggle on the MODS tab page "Runtime Effect Diagnosti
 default and controls one operation, so one failing test cannot stop or contaminate another. Switching a test off
 restores the game's own value.
 
-Needs the HD2Runtime test build that ships with this pass (not the published 0.27.0: that one aborts a mod at its
-first invalid operation) and Mod Options Menu. The first line of `HD2Runtime.log` must read
-`[HD2Runtime] HD2Runtime 0.27.0 initialized (API 1)`; if it is missing, the old Runtime is running.
+Needs HD2Runtime 0.28.0 (the published 0.27.0 aborts a mod at its first invalid operation) and Mod Options Menu. The
+first line of `HD2Runtime.log` must read `[HD2Runtime] HD2Runtime 0.28.0 initialized (API 1)`; if it names another
+version, another Runtime is installed.
 
 ## Before you test
 

@@ -1,8 +1,7 @@
 # WeaponPresentationTest
 
 Live test: the AR-23C Liberator Concussive's **gameplay** armor penetration and its **displayed** label, set
-independently. Uses the MODS tab (Mod Options Menu, page **Concussive Penetration**). Needs this HD2Runtime test build
-(not the published 0.27.0).
+independently. Uses the MODS tab (Mod Options Menu, page **Concussive Penetration**). Needs HD2Runtime 0.28.0.
 
 Gameplay penetration is the AP of the Concussive bullets (AP 2 = light armor). The armory label is presentation: one
 of the trait tags of its loadout entry, the string LIGHT ARMOR PENETRATING. The game never derives one from the other.

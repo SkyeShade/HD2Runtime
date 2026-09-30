@@ -1,12 +1,12 @@
 # RuntimeVersionWarningTest
 
 Live test: the warning HD2Runtime shows when an installed mod needs a newer HD2Runtime. This mod declares
-`requires.hd2runtime.min_version` = **0.29.0**, newer than this test build, so it must never start. It has no
+`requires.hd2runtime.min_version` = **0.29.0**, newer than any published HD2Runtime, so it must never start. It has no
 gameplay effect and no options.
 
 ## How to test
 
-1. Install this test runtime and the mod, start the game and wait on the ship.
+1. Install HD2Runtime 0.28.0 and the mod, start the game and wait on the ship.
 2. Check `HD2Runtime.log`: one line `mod mods/hd2runtime_examples/runtime_version_warning_test
    (RuntimeVersionWarningTest) requires HD2Runtime 0.29.0 or newer; installed ...`. The Bingus loader log still
    shows the mod failing its dependency check (it is fail-closed, as before).
