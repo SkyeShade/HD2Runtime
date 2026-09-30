@@ -95,11 +95,13 @@ class ActiveSourceTests(unittest.TestCase):
 
     def test_audit_counts(self):
         summary = self.research['summary']
-        self.assertEqual(summary['projectileWeapons'], 89)
-        self.assertEqual(summary['byStatus'], {'ACTIVE_DIRECT': 51, 'AMBIGUOUS': 3, 'BLOCKED': 29, 'INDIRECT': 6})
-        self.assertEqual(summary['previousHosts'], 58)
+        # 89 player and support projectile weapons plus 17 mounted ones (vehicles, Exosuits, emplacements, drones).
+        self.assertEqual(summary['projectileWeapons'], 106)
+        self.assertEqual(sum(1 for e in self.weapons.values() if e['kind'] == 'vehicle_weapon'), 17)
+        self.assertEqual(summary['byStatus'], {'ACTIVE_DIRECT': 60, 'AMBIGUOUS': 5, 'BLOCKED': 35, 'INDIRECT': 6})
+        self.assertEqual(summary['previousHosts'], 72)
         self.assertEqual(summary['previousHostsByStatus'],
-            {'ACTIVE_DIRECT': 43, 'AMBIGUOUS': 3, 'BLOCKED': 6, 'INDIRECT': 6})
+            {'ACTIVE_DIRECT': 52, 'AMBIGUOUS': 5, 'BLOCKED': 9, 'INDIRECT': 6})
         self.assertEqual(summary['previouslyWritableAttackFieldsByStatus'],
             {'ACTIVE_DIRECT': 37, 'AMBIGUOUS': 9, 'BLOCKED': 6, 'INDIRECT': 5})
         self.assertEqual(summary['baseDisagreesWithActive'], ['P-19 Redeemer', 'P-2 Peacemaker'])
@@ -137,11 +139,12 @@ class CatalogTests(unittest.TestCase):
 
     def test_catalog(self):
         summary = self.catalog['summary']
-        self.assertEqual(summary['outputs'], 107)
-        self.assertEqual(summary['byFamily'], {'projectile': 91, 'beam': 3, 'arc': 2, 'spray': 4, 'melee': 7})
+        # 107 player, support and stratagem outputs plus the 23 mounted-weapon outputs.
+        self.assertEqual(summary['outputs'], 130)
+        self.assertEqual(summary['byFamily'], {'projectile': 108, 'beam': 4, 'arc': 3, 'spray': 8, 'melee': 7})
         self.assertEqual(summary['stratagemDonors'], ['A/M-23 EMS Mortar Sentry'])
         self.assertEqual((summary['selectable'], summary['projectileHosts'], summary['componentHosts'],
-            summary['ammunitionHosts'], summary['directWritableAttackFields']), (68, 43, 37, 6, 45))
+            summary['ammunitionHosts'], summary['directWritableAttackFields']), (80, 52, 46, 6, 54))
         # Every selectable projectile output carries its weapon-function mode label and icon (native values only).
         presentation = self.catalog['modePresentation']
         icons = {i['value']: i for i in presentation['icons']}
@@ -152,13 +155,15 @@ class CatalogTests(unittest.TestCase):
         self.assertEqual((by_label['gas']['icon'], by_label['gas']['iconSource']), ('ammo_slug', 'generic_fallback'))
         self.assertEqual((by_label['stun']['icon'], by_label['stun']['iconSource']), ('ammo_stun', 'exact_native'))
         self.assertTrue({'none', 'gas', 'stun', 'flak', 'he'} <= {l['value'] for l in presentation['labels']})
-        self.assertEqual(sum(1 for o in self.catalog['outputs'] if o.get('presentation')), 68)
+        self.assertEqual(sum(1 for o in self.catalog['outputs'] if o.get('presentation')), 80)
         self.assertEqual(self.outputs['AC-8 Autocannon']['presentation']['label'], 'aphet')
         self.assertTrue(self.outputs['AC-8 Autocannon']['presentation']['shared'])
         self.assertEqual((self.outputs['S-11 Speargun']['presentation']['label'],
             self.outputs['S-11 Speargun']['presentation']['icon']), ('none', 'default'))
         self.assertNotRegex(json.dumps(self.catalog), r'0x[0-9A-Fa-f]{8}')
-        live_hosts = {'EAT-700 Expendable Napalm': (['LiberatorAttackOutputTest'], ['AR-23 Liberator']),
+        # The EAT-700 also worked as the Reprimand's donor (UnifiedProjectileSwapTest, 2026-09-30).
+        live_hosts = {'EAT-700 Expendable Napalm': (['LiberatorAttackOutputTest', 'UnifiedProjectileSwapTest'],
+                ['AR-23 Liberator', 'SMG-32 Reprimand']),
             # The GL-52 also worked as the Speargun's function projectile (its donor output; that run is partial
             # because the GL-52 is not a stun field, not because the donor failed).
             'GL-52 De-Escalator': (['LiberatorAttackOutputTest', 'SpeargunGasStunTest'],
@@ -176,8 +181,10 @@ class CatalogTests(unittest.TestCase):
                 'provenOnHosts': live_hosts[name][1]})
         # The Talon output is live-proven as a donor (fired by the Reprimand); the Liberator failure is host-path
         # evidence and does not count against it.
+        # UnifiedProjectileSwapTest (2026-09-30) fired it from the Liberator's ammunition too.
         self.assertEqual(self.outputs['LAS-58 Talon']['liveProof'], {'donorOutput': 'live_proven',
-            'tests': ['AssetTestReprimandTalonProjectile'], 'provenOnHosts': ['SMG-32 Reprimand']})
+            'tests': ['AssetTestReprimandTalonProjectile', 'UnifiedProjectileSwapTest'],
+            'provenOnHosts': ['AR-23 Liberator', 'SMG-32 Reprimand']})
         for name, kind in (('LAS-98 Laser Cannon', 'continuous_beam'), ('LAS-13 Trident', 'pulsed_multi_beam'),
                 ('ARC-3 Arc Thrower', 'arc')):
             output = self.outputs[name]
@@ -240,6 +247,11 @@ class CatalogTests(unittest.TestCase):
             'EAT-700 Expendable Napalm', 'GL-21 Grenade Launcher', 'M-105 Stalwart', 'MG-206 Heavy Machine Gun',
             'S-11 Speargun'])
         self.assertTrue(all(kinds[n] == 'player_weapon' for n in hosts['ammunitionHosts']))
+        mounted = sorted(n for n in hosts['componentHosts'] if kinds[n] == 'vehicle_weapon')
+        self.assertEqual(mounted, ['AX/AR-23 Guard Dog / gun', 'EXO-45 Patriot Exosuit / right_gun',
+            'EXO-49 Emancipator Exosuit / left_gun', 'EXO-49 Emancipator Exosuit / right_gun',
+            'EXO-51 Lumberer Exosuit / right_gun', 'FRV (Super Earth variant) / gun', 'GATER Oil Rig / turret',
+            'M-102 Gunner FRV / gun', 'M-103 Supply FRV / gun'])
         support_sources = {s['weapon']: s for s in self.catalog['projectileSources'] if s.get('kind') == 'support_weapon'}
         self.assertEqual(sorted(n for n, s in support_sources.items() if s['directWritable']), support)
         # ACTIVE_DIRECT but not magazine-fed: read-only with the reason; other selectors: their own reason.
@@ -248,7 +260,8 @@ class CatalogTests(unittest.TestCase):
         self.assertIn('WeaponRounds', support_sources['AC-8 Autocannon']['reason'])
         self.assertEqual(support_sources['FAF-14 Spear']['status'], 'BLOCKED')
         live = hosts['hostLiveProof']
-        self.assertEqual([r['result'] for r in live['SMG-32 Reprimand']], ['PASS', 'PASS'])
+        # The two direct-path controls and UnifiedProjectileSwapTest (Reprimand <- EAT-700).
+        self.assertEqual([r['result'] for r in live['SMG-32 Reprimand']], ['PASS', 'PASS', 'PASS'])
         liberator = {(r['result'], r['family'], r['superseded']) for r in live['AR-23 Liberator']}
         self.assertIn(('FAIL', 'weapon_projectile_reference_dormant_member', False), liberator)
         self.assertIn(('PASS', 'weapon_ammunition_projectile_reference', False), liberator)
@@ -260,9 +273,18 @@ class CatalogTests(unittest.TestCase):
         for name in ('JAR-5 Dominator', 'P-19 Redeemer', 'P-2 Peacemaker', 'R-63 Diligence', 'SG-225 Breaker'):
             self.assertEqual((ammunition[name]['acknowledgements'], ammunition[name]['liveProof']),
                 (['allow_shared', 'allow_unverified_effect'], 'pending'), name)
+        # Every (host, output, mechanism) a live test proved: cross-class compositions, the two support host pairs and
+        # the programmable-ammo function projectiles (projectile builder session, 2026-09-30).
         self.assertEqual([(c['host'], c['output'], c['mechanism']) for c in self.catalog['provenCompositions']],
             [('AR-23 Liberator', 'output/v1/projectile/eat-700-expendable-napalm', 'ammunition'),
-             ('AR-23 Liberator', 'output/v1/projectile/gl-52-de-escalator', 'ammunition')])
+             ('AR-23 Liberator', 'output/v1/projectile/gl-52-de-escalator', 'ammunition'),
+             ('EAT-17 Expendable Anti-Tank', 'output/v1/projectile/plas-1-scorcher', 'component'),
+             ('M-105 Stalwart', 'output/v1/projectile/apw-1-anti-materiel-rifle', 'component'),
+             ('MG-206 Heavy Machine Gun', 'output/v1/projectile/ar-32-pacifier', 'programmable_ammo'),
+             ('MG-206 Heavy Machine Gun', 'output/v1/projectile/p-35-re-educator', 'programmable_ammo'),
+             ('MG-206 Heavy Machine Gun', 'output/v1/projectile/r-4-hyena', 'programmable_ammo'),
+             ('S-11 Speargun', 'output/v1/projectile/s-11-speargun-spare-twin', 'programmable_ammo'),
+             ('SMG-32 Reprimand', 'output/v1/projectile/eat-700-expendable-napalm', 'component')])
         self.assertEqual(ammunition['P-2 Peacemaker']['sharedWithWeapons'], ['MP-98 Knight', 'P-19 Redeemer'])
 
     def test_writable_projectile_fields_are_active_sources(self):
@@ -366,7 +388,7 @@ rejects(function()patches.validate{id='x',target=evictor,field=hd2.fields.attack
  expect=evictor:projectile(),value=evictor:projectile()}end,'UNPROVEN_PROJECTILE_SOURCE')
 -- A weapon whose only projectile is its ammunition (no catalogued attack member).
 assert(hd2.weapon('P-2 Peacemaker'):projectile_source().mechanism=='ammunition')
-assert(#hd2.attack_outputs({selectable=true})==68)
+assert(#hd2.attack_outputs({selectable=true})==80)
 -- The stratagem-owned stun-field donor is scoped to function_ammo.projectile and names its field and presentation.
 local ems=hd2.attack_output('A/M-23 EMS Mortar Sentry'):describe()
 assert(ems.owner.kind=='stratagem'and ems.referenceScope[1]=='function_ammo.projectile'and#ems.referenceScope==1)
@@ -471,7 +493,8 @@ class ValidationTests(unittest.TestCase):
             {'ProjectileWeapon +0', 'ammunition delta'})
         self.assertTrue(unified['restoreIsBaseline'])
         self.assertEqual(set(record['rejections']), {'beamHasNoSlots', 'builderWithoutAcknowledgement',
-            'crossSlotType', 'donorLacksSlot',
+            'crossSlotType', 'donorLacksSlot', 'mountedBeamDonor', 'mountedNonHost', 'mountedSharedRow',
+            'staleMountChain',
             'dormantSource', 'incompatibleFamilies', 'missingPackage', 'nonHostSupport', 'recursionDirect',
             'recursionTwoStep', 'removeDirectHit', 'sharedRow', 'spareTwinChanged', 'spareTwinOtherBuild',
             'staleDonor', 'staleSlotDonor',

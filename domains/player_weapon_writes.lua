@@ -280,16 +280,21 @@ local function output_selector(value,label)
         label..' names an unknown attack output: '..tostring(value.output))
     return {output=output.id,entry=output}
 end
+-- The handle resource of a host weapon entry (mounted entries share the support-weapon shape).
+local function host_resource(weapon)
+    return weapon.vehicleWeapon and'vehicle_weapon'or weapon.supportWeapon and'support_weapon'or'player_weapon'
+end
 local function reference_selector(value,label)
     assert(type(value)=='table',label..' must be a projectile reference handle')
     if value.resource=='attack_output'then return output_selector(value,label)end
-    if value.resource=='support_weapon'then
-        -- A support weapon's attack projectile (hd2.support_weapon(name):attack(role):projectile()).
+    if value.resource=='support_weapon'or value.resource=='vehicle_weapon'then
+        -- A support or mounted weapon's attack projectile (hd2.support_weapon(name):attack(role):projectile(),
+        -- hd2.vehicle(name):weapon(mount):attack(role)).
         for key in pairs(value)do assert(key=='resource'or key=='path'or key=='weapon'or key=='attack',
             label..' contains unsupported projectile reference identity')end
         assert(value.path=='projectile_reference'and type(value.weapon)=='string'and type(value.attack)=='string',
             label..' must come from weapon:attack(role):projectile()')
-        return {weapon=value.weapon,attack=value.attack,support=true}
+        return {weapon=value.weapon,attack=value.attack,support=true,resource=value.resource}
     end
     if value.path=='ammunition_projectile'then
         for key in pairs(value)do assert(key=='resource'or key=='path'or key=='weapon',
@@ -371,11 +376,19 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
     -- schemas/live_evidence.json) needs no acknowledgement, nor does restoring that field's reviewed baseline;
     -- every other value of the field keeps it.
     local live_value=field.liveProvenValues~=nil and item.value==field.currentDefault
-    for _,value in ipairs(field.liveProvenValues or{})do if value==item.value then live_value=true end end
+    -- A reference value is compared by the catalogued output it names (sdk/LiveEvidenceCatalog.json values are output
+    -- ids): an attack output handle, or another weapon's attack projectile handle through its output alias.
+    local compared=item.value
+    if type(item.value)=='table'and item.value.resource=='attack_output'then compared=item.value.output
+    elseif type(item.value)=='table'and item.value.path=='projectile_reference'and item.value.weapon~=weapon.name then
+        local catalog=attack_outputs()
+        compared=catalog.aliases[tostring(item.value.weapon)..'/'..tostring(item.value.attack)]or compared
+    end
+    for _,value in ipairs(field.liveProvenValues or{})do if value==compared then live_value=true end end
     -- Restoring a host's own projectile is its reviewed baseline.
     if field.type=='projectile_reference'and type(item.value)=='table'and item.value.path=='projectile_reference'
         and item.value.weapon==weapon.name and item.value.attack==role
-        and(item.value.resource=='support_weapon')==(weapon.supportWeapon==true)then live_value=true end
+        and item.value.resource==host_resource(weapon)then live_value=true end
     assert(field.acknowledgement~='allow_unverified_effect'or allow_unverified_effect or live_value,
         'field requires allow_unverified_effect=true: '..item.field..' ('..tostring(field.acknowledgementReason)..')'
         ..(field.liveProvenValues and' (live-proven without it: '..table.concat(field.liveProvenValues,', ')..')'or''))
@@ -389,12 +402,14 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
         local desired=reference_selector(item.value,'value')
         local ammunition=path=='ammunition'
         local support=weapon.supportWeapon==true
+        local resource=host_resource(weapon)
         assert(not expected.output and expected.weapon==weapon.name and expected.attack==role
-            and(expected.support==true)==support and(expected.ammunition==true)==ammunition,ammunition
+            and(expected.resource or'player_weapon')==resource and(expected.ammunition==true)==ammunition,ammunition
             and'expect must be the weapon ammunition current projectile handle (weapon:ammunition():projectile())'
             or'expect must be the target attack current projectile handle')
-        if desired.weapon and not desired.ammunition and((desired.support==true)~=support or support)
-            and not(desired.weapon==weapon.name and desired.attack==role and(desired.support==true)==support)then
+        if desired.weapon and not desired.ammunition and((desired.resource or'player_weapon')~=resource or support)
+            and not(desired.weapon==weapon.name and desired.attack==role
+                and(desired.resource or'player_weapon')==resource)then
             -- One donor pool: another weapon's attack projectile across loadout slots (a support donor on a player
             -- host, any weapon donor on a support host) resolves to that weapon's catalogued attack output, and is
             -- checked like hd2.attack_output(name).
@@ -406,7 +421,7 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
             desired={output=output_id,entry=catalog.outputs[output_id]}
         end
         if desired.weapon and support then
-            -- The support host's own projectile: restoring the reviewed baseline.
+            -- The support or mounted host's own projectile: restoring the reviewed baseline.
             return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
                 semantic_aliases={item.field},expect=item.expect,value=item.value,
                 expected_selector=expected,desired_selector=desired,source_descriptor=field,self_reference=true}
@@ -604,8 +619,9 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
             assert(output.editable~=false and(output.backing or output.spare),'attack output is not selectable: '
                 ..output.id)
             require_output_scope(output,field.semanticFieldId)
-            assert(allow_unverified_reference,'a function projectile requires allow_unverified_reference=true: '
-                ..output.id..' ('..tostring(field.acknowledgementReason)..')')
+            -- A (weapon, function projectile) pair a live test proved needs no acknowledgement (liveProvenValues).
+            assert(allow_unverified_reference or live_value,'a function projectile requires '
+                ..'allow_unverified_reference=true: '..output.id..' ('..tostring(field.acknowledgementReason)..')')
             change.source_descriptor={referenceKind='projectile',compatibilityClass=output.compatibilityClass,
                 backing=output.backing,currentDefault={projectileType=output.currentDefault},
                 referenceSettings=output.referenceSettings}

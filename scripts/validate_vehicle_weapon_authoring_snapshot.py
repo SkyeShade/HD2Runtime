@@ -54,7 +54,24 @@ local function public_id(field)
  return (field.semanticFieldId:gsub('^(%a+)%.'..role..'%.','%1.'))
 end
 local status_catalog=require('hd2runtime/domains/status_catalog')
+-- A mounted host's projectile reference: its own attack projectile handle (the baseline) and a same-class donor
+-- output (no cross-class acknowledgement), chosen deterministically from the catalog.
+local outputs=require('hd2runtime/domains/attack_outputs')
+local function own_projectile(field)
+ return {resource='vehicle_weapon',path='projectile_reference',weapon=field.target.weapon,attack=field.target.attack}
+end
+local function donor_for(field)
+ local ids={}
+ for id,output in pairs(outputs.outputs)do
+  if output.family=='projectile'and output.editable and output.backing and not output.referenceScope
+   and output.compatibilityClass==field.compatibilityClass and output.owner.name~=field.target.weapon
+   and output.currentDefault~=field.currentDefault.projectileType then ids[#ids+1]=id end
+ end
+ table.sort(ids)
+ return {resource='attack_output',output=assert(ids[1],'no same-class donor for '..field.target.weapon)}
+end
 local function changed_value(field)
+ if field.type=='projectile_reference'then return donor_for(field)end
  local value=field.currentDefault
  if field.type=='status_reference'then
   -- Another attachable status (a used slot) or the first one (the empty attachment slot).
@@ -65,7 +82,7 @@ local function changed_value(field)
 end
 -- A third-party value that is neither the reviewed nor the desired bytes.
 local function third_party(field)
- if field.type=='status_reference'then return b.encode(9999,'u32')end
+ if field.type=='status_reference'or field.type=='projectile_reference'then return b.encode(9999,'u32')end
  return b.encode(field.currentDefault+7,field.backing.storage)
 end
 local function round_trip(domain,spec,label)
@@ -105,12 +122,13 @@ local worker=coroutine.create(function()
      allow_shared=with_shared or nil,allow_unverified_effect=with_ack or nil}
    end
    reset()
-   local plan=resolve(weapons,weapons.validate_patch(request(field.currentDefault,field.currentDefault,shared,ack)))
+   local baseline=field.type=='projectile_reference'and own_projectile(field)or field.currentDefault
+   local plan=resolve(weapons,weapons.validate_patch(request(baseline,baseline,shared,ack)))
    local checked=guarded.apply(runtime,plan)
    assert(checked.status=='ALREADY_DESIRED'and checked.writes==0,label..' no-op changed state')
    result.noOps=result.noOps+1
    local value=changed_value(field)
-   local spec=weapons.validate_patch(request(field.currentDefault,value,shared,ack))
+   local spec=weapons.validate_patch(request(baseline,value,shared,ack))
    plan=round_trip(weapons,spec,label)
    result.changedWrites=result.changedWrites+1;result.rollbacks=result.rollbacks+1
    local part=plan.changes[1]
@@ -119,12 +137,12 @@ local worker=coroutine.create(function()
    result.conflictRejections=result.conflictRejections+1
    reset()
    if shared then
-    rejects(function()weapons.validate_patch(request(field.currentDefault,value,nil,ack))end,'allow_shared',
+    rejects(function()weapons.validate_patch(request(baseline,value,nil,ack))end,'allow_shared',
      label..' without allow_shared')
     result.sharedRejections=result.sharedRejections+1
    end
    if ack then
-    rejects(function()weapons.validate_patch(request(field.currentDefault,value,shared,nil))end,
+    rejects(function()weapons.validate_patch(request(baseline,value,shared,nil))end,
      'allow_unverified_effect',label..' without allow_unverified_effect')
     result.acknowledgementRejections=result.acknowledgementRejections+1
    end

@@ -60,12 +60,12 @@ return require('hd2runtime/primary_mapper/json').encode(out)
 '''
 
 
-def probe_variants(names):
+def probe_variants(names, folder=GENERATED):
     def lua_string(text):
         return '"' + ''.join(c if 32 <= ord(c) < 127 and c not in '"\\' else '\\%03d' % ord(c) for c in text) + '"'
     variants = []
     for name in names:
-        source = (GENERATED / (name + '.lua')).read_text(encoding='utf-8')
+        source = (folder / (name + '.lua')).read_text(encoding='utf-8')
         source = source.replace("local hd2=require('mods/skyeshade/hd2runtime')", '')
         source = re.sub(r'\bhd2\.ensure\(', 'probe(', source)
         variants.append('{name=' + lua_string(name) + ',source=' + lua_string(source) + '}')
@@ -136,6 +136,78 @@ class UserReportFixtureTests(unittest.TestCase):
         wrapped = (GENERATED / 'A-original.wrapped.lua').read_text(encoding='utf-8')
         self.assertIn("local x,y,z=version('0.27.0')", wrapped)
         self.assertIn("'HD2Runtime dependency version mismatch'", wrapped)
+
+
+HALT_ISSUE = ROOT / 'tests/fixtures/user-reports/modbuilder-issue-2-halt/generated'
+
+
+class HaltIssueTests(unittest.TestCase):
+    """ModBuilder issue 2: ModBuilder 1.3.1 exports editing SG-20 Halt fields next to unrelated weapons."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.names = sorted(path.name[:-4] for path in HALT_ISSUE.glob('*.lua') if not path.name.endswith('.wrapped.lua'))
+        cls.results = probe_variants(cls.names, HALT_ISSUE)
+        cls.recorded = json.loads((HALT_ISSUE / 'results.json').read_text(encoding='utf-8'))
+
+    def test_the_published_runtime_aborted_the_addon_at_the_first_halt_operation(self):
+        published = self.recorded['published_0_27_0']
+        for name in ('H1-halt-all', 'H2-halt-damage-only'):
+            self.assertIn('field is not exposed for SG-20 Halt', published[name]['startupError'], name)
+            self.assertEqual(published[name]['registered'], 0, name)
+        self.assertEqual(published['H0-control-no-halt']['results'], ['APPLIED'] * 3)
+        current = self.recorded['current_tree']
+        self.assertTrue(all(v['startupError'] is None and set(v['results']) == {'APPLIED'} for v in current.values()))
+
+    def test_every_operation_validates_with_halt_damage_and_non_damage_edits_together(self):
+        self.assertEqual(self.names, ['H0-control-no-halt', 'H1-halt-all', 'H2-halt-damage-only', 'H3-halt-sway-only'])
+        for name, results in self.results.items():
+            self.assertEqual([r['error'] for r in results if not r['ok']], [], name)
+        weapons = {change['weapon'] for row in self.results['H1-halt-all'] for change in row['changes']}
+        self.assertEqual(weapons, {'SG-20 Halt', 'AR-23 Liberator', 'SMG-32 Reprimand'})
+        fields = json.loads((HALT_ISSUE / 'summary.json').read_text(encoding='utf-8'))['variants'][1]['fields']
+        halt = [f for f in fields if f.startswith('SG-20 Halt ')]
+        # Damage, projectile, rounds and weapon fields of both feeds, all in one export.
+        for prefix in ('damage.primary.', 'damage.alternate.', 'projectile.primary.', 'projectile.alternate.',
+                'rounds.', 'weapon.'):
+            self.assertTrue(any(f.split(' ', 2)[2].startswith(prefix) for f in halt), prefix)
+
+    def test_operation_ids_are_unique_in_every_export(self):
+        for name in self.names:
+            source = (HALT_ISSUE / (name + '.lua')).read_text(encoding='utf-8')
+            ids = re.findall(r"\bid='([^']+)'", source)
+            self.assertEqual(len(ids), len(set(ids)), name)
+
+    def test_a_rejected_operation_never_stops_later_ones_and_duplicate_ids_warn_once(self):
+        self.assertEqual(run(r'''
+local hd2=require('hd2runtime/api/hd2')
+local lines={}
+require('hd2runtime/runtime/log').emit=function(line)lines[#lines+1]=line end
+local function count(needle)local n=0;for _,l in ipairs(lines)do if l:find(needle,1,true)then n=n+1 end end;return n end
+local handles
+require('hd2runtime/runtime/events').run_as('mods/test/halt_issue',function()
+ handles={
+  hd2.ensure({patch={id='same',target=hd2.weapon('AR-23 Liberator'),field=hd2.fields.weapon.sway,expect=1,value=1.1}}),
+  hd2.ensure({plan={id='halt-plan',operations={
+   {id='ok',target=hd2.weapon('SG-20 Halt'):attack('feed_primary'):projectile(),allow_shared=true,
+    changes={{field=hd2.fields.projectile.drag,expect=0.3,value=0.33}}},
+   {id='bad',target=hd2.weapon('SG-20 Halt'):attack('feed_primary'):projectile(),allow_shared=true,
+    changes={{field='damage.no_such_field',expect=1,value=2}}}}}}),
+  hd2.ensure({patch={id='same',target=hd2.weapon('SMG-32 Reprimand'),field=hd2.fields.weapon.sway,expect=1,value=1.1}}),
+  hd2.ensure({patch={id='same',target=hd2.weapon('SMG-32 Reprimand'),field=hd2.fields.weapon.ergonomics,expect=1,
+   value=1.1}}),
+  hd2.ensure({patch={id='after',target=hd2.stratagem('Orbital Precision Strike'),
+   field=hd2.fields.stratagem.definition_cooldown,expect=80,value=5}})}
+end)
+assert(#handles==5,'an operation was dropped')
+assert(handles[2].status=='rejected'and handles[2].error:find('field is not exposed for SG-20 Halt',1,true))
+assert(count('ensure halt-plan rejected: field is not exposed for SG-20 Halt')==1)
+-- Registration continued after the refused plan: the later operations are real handles, not rejections.
+assert(handles[3].status~='rejected'and handles[5].status~='rejected')
+-- The repeated id warns exactly once, and the operations still register.
+assert(count('another operation of mods/test/halt_issue already uses this id')==1,tostring(#lines))
+return 'ok'
+'''), b'ok')
 
 
 class RuntimeContractTests(unittest.TestCase):

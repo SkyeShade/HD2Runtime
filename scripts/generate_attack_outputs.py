@@ -87,6 +87,19 @@ def proven_compositions():
     return result
 
 
+def proven_host_pairs():
+    """Every (host, output, mechanism) a live test proved, across families: cross-class compositions, same-class
+    support host swaps and programmable-ammo function projectiles, for the catalog's provenCompositions view."""
+    pairs = [(host, output, mechanism) for host, items in proven_compositions().items()
+        for output, mechanism in items.items()]
+    for family, mechanism, field in (('support_projectile_reference', 'component', 'attack.primary.projectile'),
+            ('weapon_programmable_ammo_added', 'programmable_ammo', 'function_ammo.projectile')):
+        for item in live_evidence.family(family).get('provenTargets') or []:
+            if item['field'] == field and live_evidence.proven(family):
+                pairs += [(item['target'], value, mechanism) for value in item['values']]
+    return sorted(set(pairs))
+
+
 def active_sources():
     """(research, sources, ammunition, by_weapon) from the active projectile source research."""
     active = json.loads(ACTIVE.read_text(encoding='utf-8'))
@@ -210,6 +223,7 @@ def public_slots(row):
             'sharedConsumerCount': len(field['sharedConsumers']), 'consumerReferences': field['consumerReferences'],
             'namedSharedConsumers': [c for c in field['sharedConsumers'] if not c.startswith('0x')],
             'acknowledgements': ['allow_unverified_effect'] + (['allow_shared'] if field['shared'] else []),
+            'liveProvenValues': field.get('liveProvenValues') or [],
             'valueHandle': 'hd2.attack_output(donor):' + {'directDamage': 'direct_damage',
                 'impactExplosion': 'impact_explosion', 'expiryExplosion': 'expiry_explosion'}[key] + '()'}
     return result
@@ -220,7 +234,9 @@ def public_presentation(row):
     label, icon = fields['presentation.mode_label'], fields['presentation.mode_icon']
     return {'label': label['currentDefault'], 'icon': icon['currentDefault'], 'writable': True,
         'shared': label['shared'], 'acknowledgements': ['allow_unverified_effect'] + (['allow_shared']
-            if label['shared'] else [])}
+            if label['shared'] else []),
+        # Values a live test showed in the menu: they need no allow_unverified_effect (allow_shared still applies).
+        'liveProven': {'labels': label.get('liveProvenValues') or [], 'icons': icon.get('liveProvenValues') or []}}
 
 
 GENERIC_FALLBACK = (json.loads(PRESENTATION.read_text(encoding='utf-8'))['modes']['genericFallbackIcon'],
@@ -288,7 +304,7 @@ def slot_fields(row, consumers, slots, references=None):
             'operationGroup': 'projectile_slots',
             'appliesWhen': 'use', 'currentDefault': slot['type'] if slot else 0, 'allowNone': kind == 'explosion_slot',
             'backing': dict(backing, offset=offset, width=4, storage='u32')}
-    return fields
+    return promote(row, fields)
 
 
 def presentation_fields(row, consumers, labels, icons, projectiles):
@@ -306,10 +322,22 @@ def presentation_fields(row, consumers, labels, icons, projectiles):
     label = projectile['label'] or 'none'
     if label not in labels:
         raise ValueError(row['id'] + ': unknown mode label ' + label)
-    return {'presentation.mode_label': dict(common, semanticFieldId='presentation.mode_label', type='mode_label',
-            currentDefault=label, backing=dict(backing, offset=12, width=4, storage='u32')),
+    return promote(row, {'presentation.mode_label': dict(common, semanticFieldId='presentation.mode_label',
+            type='mode_label', currentDefault=label, backing=dict(backing, offset=12, width=4, storage='u32')),
         'presentation.mode_icon': dict(common, semanticFieldId='presentation.mode_icon', type='mode_icon',
-            currentDefault=projectile['icon'], backing=dict(backing, offset=16, width=8, storage='u64'))}
+            currentDefault=projectile['icon'], backing=dict(backing, offset=16, width=8, storage='u64'))})
+
+
+def promote(row, fields):
+    """Exact live promotions (schemas/live_evidence.json provenTargets keyed by the output's owner name): the proven
+    values (slot donors "<output id>#<slot>" or none; labels; resolved icons) need no allow_unverified_effect."""
+    targets = live_evidence.proven_targets()
+    for field_id, field in fields.items():
+        evidence = targets.get((row['owner']['name'], field_id))
+        if evidence and evidence.get('values'):
+            field['liveEvidence'] = evidence
+            field['liveProvenValues'] = list(evidence['values'])
+    return fields
 
 
 def outputs():
@@ -339,7 +367,7 @@ def outputs():
                 referenceSettings={'group': settings['group'], 'row': settings['row'],
                     'recordType': settings['recordType'], 'settingsType': settings['settingsType']},
                 compatibilityClass=entry['compatibilityClass'],
-                dependencyKey=entry['kind'] + '/' + entry['weapon'])
+                dependencyKey=entry.get('assetKey') or entry['kind'] + '/' + entry['weapon'])
         else:
             row['reason'] = (CROSS_FAMILY.format(family=entry['family'].capitalize(),
                 emitter=FAMILY_EMITTER.get(entry['family'], entry['component']), extra=EXTRA.get(entry['family'], ''))
@@ -480,10 +508,16 @@ def outputs():
     # Support weapons: the same rule. ACTIVE_DIRECT (their own ProjectileWeapon +0 is fired) and magazine-fed.
     classes = {entry['weapon']: entry.get('compatibilityClass') for entry in research['weapons']}
     support_sources = {}
-    for item in builder['supportHosts']:
+    # Mounted weapons join the same rule and pool (kind vehicle_weapon; sharedEntity: another mount carries the same
+    # weapon entity, so a write there changes both mounts).
+    host_items = ([(item, 'support_weapon') for item in builder['supportHosts']]
+        + [(item, 'vehicle_weapon') for item in builder.get('mountedHosts', [])])
+    for item, kind in host_items:
         host = bool(item['componentHost'] and classes.get(item['weapon']))
         if host:
-            hosts[item['weapon']] = {'kind': 'support_weapon', 'class': classes[item['weapon']], 'mechanism': 'component'}
+            hosts[item['weapon']] = {'kind': kind, 'class': classes[item['weapon']], 'mechanism': 'component'}
+            if item.get('sharedEntity'):
+                hosts[item['weapon']]['sharedEntity'] = item['sharedEntity']
         reason = item['reason']
         if not host and item['status'] == 'ACTIVE_DIRECT':
             reason = ('Every shot is ProjectileWeapon +0, but the weapon is not magazine-fed: the host rule the live '
@@ -491,7 +525,8 @@ def outputs():
                 'projectile reference stays read-only.')
         support_sources[item['weapon']] = {'status': item['status'], 'mechanism': item['mechanism'],
             'member': 'ProjectileWeapon +0' if item['mechanism'] == 'component' else None, 'reason': reason,
-            'writable': host, 'compatibilityClass': classes.get(item['weapon'])}
+            'writable': host, 'compatibilityClass': classes.get(item['weapon']), 'kind': kind,
+            'sharedEntity': item.get('sharedEntity') or []}
     for name, roles in sorted(sources.items()):
         primary = roles.get('primary')
         entry = by_weapon.get(name)
@@ -532,11 +567,12 @@ def outputs():
                 item['write'] = None
             public_sources.append(item)
     for name, row in sorted(support_sources.items()):
-        public_sources.append({'weapon': name, 'kind': 'support_weapon', 'attack': 'primary', 'status': row['status'],
+        public_sources.append({'weapon': name, 'kind': row['kind'], 'attack': 'primary', 'status': row['status'],
             'mechanism': row['mechanism'], 'member': row['member'], 'reason': row['reason'],
-            'directWritable': row['writable'], 'previouslyWritable': False,
-            'write': ('hd2.support_weapon(name):attack(role):projectile() (hd2.fields.attack.projectile)'
-                if row['writable'] else None)})
+            'directWritable': row['writable'], 'previouslyWritable': False, 'sharedEntity': row['sharedEntity'],
+            'write': (('hd2.support_weapon(name):attack(role):projectile_source()' if row['kind'] == 'support_weapon'
+                else 'hd2.vehicle(vehicle):weapon(mount):attack(role):projectile_source()')
+                + ' (hd2.fields.attack.projectile)' if row['writable'] else None)})
     public_ammunition = [{'weapon': name, 'semanticId': a['id'], 'item': a['item'],
         'compatibilityClass': a['compatibilityClass'], 'sharedWithWeapons': a['sharedWithWeapons'],
         'sharedReason': a['sharedReason'], 'appliesWhen': 'weapon build (the ammunition delta is applied when the '
@@ -578,8 +614,7 @@ def outputs():
         'projectileSources': public_sources,
         'ammunitionSources': public_ammunition,
         'provenCompositions': [{'host': host, 'output': output, 'mechanism': mechanism,
-            'acknowledgementsRequired': []} for host, pairs in sorted(compositions.items())
-            for output, mechanism in sorted(pairs.items())],
+            'acknowledgementsRequired': []} for host, output, mechanism in proven_host_pairs()],
         'hostModel': {'componentHosts': sorted(n for n, h in hosts.items() if h['mechanism'] == 'component'),
             'ammunitionHosts': sorted(n for n, h in hosts.items() if h['mechanism'] == 'ammunition'),
             'rule': ('A projectile output needs a player attack whose fired projectile Runtime can write. component: '

@@ -297,7 +297,15 @@ def outputs():
         '---@return HD2ProjectileBuilder','function HD2Weapon:programmable_ammo() end',
         '---The armory trait labels: {traits, armorPenetration, choices, writable, reason}; presentation only.',
         '---Write hd2.fields.presentation.armor_penetration or hd2.fields.presentation.traits.',
-        '---@return table','function HD2Weapon:presentation() end']
+        '---@return table','function HD2Weapon:presentation() end',
+        '---The underbarrel weapon: a separate weapon entity the host\'s underbarrel item names (AR/GL-21 One-Two',
+        '---grenade launcher, AR-11 Arbitrator shotgun, SMG/FLAM-34 Stoker flamer). Its own spread, rounds and fire',
+        '---rate are written on it with the ordinary field constants (allow_unverified_effect=true).',
+        '---@return HD2Subweapon','function HD2Weapon:underbarrel() end',
+        '','---@class HD2Subweapon','---@field resource "player_weapon"','---@field path "weapon"',
+        '---@field weapon string "<host> / underbarrel"','local HD2Subweapon = {}',
+        '---{name, kind, subweaponOf, link, sharedDefinitions, notExposed, fields}.','---@return table',
+        'function HD2Subweapon:describe() end']
     alias('HD2SupportWeaponName',list(support['weapons']))
     support_attack_names=[attack['name'] for weapon in support['weapons'].values()
         for attack in weapon['attackGraph']]
@@ -476,10 +484,16 @@ def outputs():
         '---@return HD2VehicleWeaponAttack[]','function HD2VehicleWeapon:attacks() end',
         '---@param role string','---@return HD2VehicleWeaponAttack','function HD2VehicleWeapon:attack(role) end',
         '---@return HD2VehicleWeaponAttack','function HD2VehicleWeapon:projectile() end',
+        '---Where the mount\'s fired projectile lives and, for a mounted component host (magazine-fed, every shot its',
+        '---own ProjectileWeapon +0), the target and field that change it (hd2.fields.attack.projectile; the same donor',
+        '---pool as player and support weapons; allow_shared when another mount carries the same weapon entity).',
+        '---@param role? string Defaults to "primary".','---@return HD2ProjectileSource',
+        'function HD2VehicleWeapon:projectile_source(role) end',
         '---@param phase? "impact"','---@return HD2VehicleWeaponAttack','function HD2VehicleWeapon:explosion(phase) end',
         '','---@class HD2VehicleWeaponAttack','---@field resource "vehicle_weapon"',
         '---@field path "projectile_reference"|"explosion"|"attack"','---@field weapon string','---@field attack string',
         'local HD2VehicleWeaponAttack = {}','---@return table','function HD2VehicleWeaponAttack:describe() end',
+        '---@return HD2ProjectileSource','function HD2VehicleWeaponAttack:projectile_source() end',
         '---@return HD2VehicleWeapon[]','function HD2Vehicle:weapons() end',
         '---@param identity integer|string mount slot, mount label, weapon key or semanticId',
         '---@return HD2VehicleWeapon','function HD2Vehicle:weapon(identity) end',
@@ -728,7 +742,17 @@ def outputs():
         '---@return table {incompatible, highest, shown, dialog}','function hd2.compatibility.status() end',
         '---Catalogued attack output IDs, optionally filtered.',
         '---@param filter? {family?: "projectile"|"beam"|"arc"|"spray"|"melee", selectable?: boolean}',
-        '---@return string[]','function hd2.attack_outputs(filter) end']
+        '---@return string[]','function hd2.attack_outputs(filter) end',
+        '','---@class HD2Diagnostics','local HD2Diagnostics = {}',
+        '---Opt-in sampled timing (off by default): {enabled=true, report_seconds=60} logs, every interval, the average,',
+        '---p95, p99 and maximum of the Runtime update, one ensure byte-check and event polling, with the active',
+        '---ensures and re-applications. Returns {enabled, report_seconds, timed, sections}.',
+        '---@param options? {enabled?: boolean, report_seconds?: number}','---@return table',
+        'function HD2Diagnostics.telemetry(options) end',
+        '---Ensure-owned targets something else keeps overwriting (always on; a warning is logged after 3 re-applications',
+        '---in the operation\'s window): {operation, target, externalChanges, warnings, windowSeconds}[], most first.',
+        '---@return table[]','function HD2Diagnostics.write_conflicts() end',
+        '---@type HD2Diagnostics','hd2.diagnostics = {}']
     stub+=event_functions
     for method,spec in schema['api']['functions'].items():
         stub+=['---'+spec['doc']]
@@ -795,6 +819,7 @@ def outputs():
             'sdk/docs/weapon-presentation.md':(ROOT/'docs/weapon-presentation.md').read_text(encoding='utf-8'),
             'sdk/docs/vehicle-weapons.md':(ROOT/'docs/vehicle-weapons.md').read_text(encoding='utf-8'),
             'sdk/docs/stratagem-uses.md':(ROOT/'docs/stratagem-uses.md').read_text(encoding='utf-8'),
+            'sdk/docs/diagnostics.md':(ROOT/'docs/diagnostics.md').read_text(encoding='utf-8'),
             'sdk/tools/hd2_archive.py':(ROOT/'scripts/hd2_archive.py').read_text(encoding='utf-8')}
 
 

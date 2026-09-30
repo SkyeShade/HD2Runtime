@@ -398,7 +398,9 @@ local worker=coroutine.create(function()
     id..' shared presentation')
    result.acknowledgementRejections=result.acknowledgementRejections+1
   end
-  rejects(function()spec_of({{field=LABEL,expect=label,value=new_label}},{allow_unverified_effect=false})end,
+  -- A label no live test showed on this output (some outputs have live-proven labels: schemas/live_evidence.json).
+  local unproven=label=='smoke'and'arc'or'smoke'
+  rejects(function()spec_of({{field=LABEL,expect=label,value=unproven}},{allow_unverified_effect=false})end,
    'allow_unverified_effect',id..' presentation acknowledgement')
   rejects(function()spec_of({{field=LABEL,expect=label,value='bogus'}})end,'native mode label',id..' unknown label')
   local unoffered=label=='unnamed_e24deafa'and'he_2359c1bc'or'unnamed_e24deafa'
@@ -412,7 +414,8 @@ local worker=coroutine.create(function()
   result.adversarialRejections=result.adversarialRejections+4
   result.presentation.outputs=result.presentation.outputs+1
  end
- -- The owner no longer firing the reviewed projectile is refused (the S-11 Speargun spear).
+ -- The owner firing another projectile (a donor another operation gave it) does not block a presentation write: the
+ -- projectile row itself is re-proven. A row whose identity changed is refused (the S-11 Speargun spear).
  local spear_output=outputs.outputs['output/v1/projectile/s-11-speargun']
  local spear_spec=presenter.validate_patch({id='spear-label',target=setmetatable({resource='attack_output',
   output=spear_output.id},{}),field=LABEL,expect='none',value='gas',allow_unverified_effect=true})
@@ -420,7 +423,11 @@ local worker=coroutine.create(function()
  local owner=presenter.capture(runtime,owner_reader,spear_spec)
  local owner_record=owner.catalog.record(owner.candidate,spear_output.backing.component)
  poke(owner_record.owner.base+owner_record.offset,b.encode(7,'u32'))
- rejects(function()resolve_output(spear_spec)end,'no longer fires','stale Speargun owner')
+ assert(#resolve_output(spear_spec).changes>0,'a re-pointed Speargun owner blocked its row presentation')
+ reset()
+ local spear_row=owner.roots.projectile.records[spear_output.currentDefault]
+ poke(owner.roots.projectile.owner.base+spear_row.offset,b.encode(40000,'u32'))
+ rejects(function()resolve_output(spear_spec)end,'ProjectileSettings','stale Speargun row')
  result.adversarialRejections=result.adversarialRejections+1
  reset()
  -- Pins: the Speargun modes the live test labels (spear GAS, EMS shell STUN with the stun icon).

@@ -5,6 +5,7 @@ local plans=require('hd2runtime/domains/composition_plans')
 local steady=require('hd2runtime/core/steady_state')
 local metrics=require('hd2runtime/runtime/metrics')
 local options=require('hd2runtime/api/options')
+local diagnostics=require('hd2runtime/runtime/diagnostics')
 local M={}
 local DEBOUNCE=0.5 -- update seconds that coalesce a burst of option changes into one resolution
 
@@ -67,6 +68,7 @@ local function start_bound(runtime,emit,request,kind,validate,module,interval,st
     end
     local spec=validate(current)
     local id=spec.id
+    local conflict=diagnostics.watch(id,diagnostics.describe(kind,body),interval,function(line)pcall(emit,line)end)
     -- Bind-time proof: the whole option domain passes the normal guarded validation
     -- (acknowledgements, reviewed ranges, integer storage, known values), and so does restore.
     for _,handle in ipairs(bound)do
@@ -164,6 +166,7 @@ local function start_bound(runtime,emit,request,kind,validate,module,interval,st
                 watch.drifts=watch.drifts+1;watch.current_interval=interval
                 metrics.count('ensure.full_resolutions_after_drift')
                 log('ensure '..id..' drift detected ('..tostring(reason)..'); full guarded resolution')
+                if reason=='target value drifted'then diagnostics.external_change(conflict,elapsed)end
             end
             metrics.count('ensure.full_resolutions')
             launch('apply',target and target.spec or spec,target and target.signature
@@ -277,6 +280,8 @@ function M.start(runtime,emit,request)
     local function log(message)pcall(emit,'[HD2Runtime] '..message)end
     local watch={status='waiting',runs=0,kind=kind,id=spec.id,interval=interval,
         max_interval=max_interval,current_interval=interval,verifications=0,drifts=0}
+    local conflict=diagnostics.watch(spec.id,diagnostics.describe(kind,request[kind]),interval,
+        function(line)pcall(emit,line)end)
     local elapsed,next_at,child=0,0,module.start_spec(runtime,emit,spec,startup)
     local verification
     metrics.count('ensure.full_resolutions')
@@ -308,6 +313,7 @@ function M.start(runtime,emit,request)
                 watch.drifts=watch.drifts+1;verification=nil;watch.current_interval=interval
                 metrics.count('ensure.full_resolutions_after_drift')
                 log('ensure '..spec.id..' drift detected ('..tostring(reason)..'); full guarded resolution')
+                if reason=='target value drifted'then diagnostics.external_change(conflict,elapsed)end
             end
             metrics.count('ensure.full_resolutions')
             child=module.start_spec(runtime,emit,spec,0)

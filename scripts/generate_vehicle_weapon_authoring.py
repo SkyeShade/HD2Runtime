@@ -16,6 +16,14 @@ import status_fields  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 RESEARCH = ROOT / 'research/vehicle-weapons-F5FEE03DCFDB.json'
+# Mounted projectile hosts (research/projectile-builder mountedHosts, research/attack-outputs): the same rule as player
+# and support component hosts.
+BUILDER = ROOT / 'research/projectile-builder-F5FEE03DCFDB.json'
+ATTACK_OUTPUTS = ROOT / 'research/attack-outputs-F5FEE03DCFDB.json'
+HOST_UNVERIFIED = ('Replaces the projectile this mounted weapon fires (its ProjectileWeapon +0, copied into the weapon '
+    'when the vehicle is built). The same structural rule as player and support component hosts: magazine-fed, no '
+    'customization delta patches a projectile member and no other selector exists. Not yet shown in game for a '
+    'mounted weapon.')
 JSON_OUTPUT = ROOT / 'sdk/VehicleWeaponCapabilities.json'
 LUA_OUTPUT = ROOT / 'domains/vehicle_weapon_authoring.lua'
 DAMAGE = (('standard_damage', 4, 'i32', 'Standard damage', 'damage'), ('durable_damage', 8, 'i32', 'Durable damage', 'damage'),
@@ -110,6 +118,9 @@ def build(research_path=RESEARCH):
         public = re.sub(r'^(projectile|damage|explosion|beam|arc)\.(primary|impact|expiry)\.', r'\1.', field_id)
         return constants.get(public)
     runtime_weapons, by_vehicle, public_vehicles, instances = {}, {}, [], []
+    mounted_hosts = {item['weapon']: item for item in json.loads(BUILDER.read_text())['mountedHosts']}
+    output_research = {item['weapon']: item for item in json.loads(ATTACK_OUTPUTS.read_text())['weapons']
+        if item['kind'] == 'vehicle_weapon'}
     # One mounted weapon entity can sit in several mounts (two FRVs, or two slots of one vehicle); its own
     # records then change every one of them.
     mounted_at = {}
@@ -274,6 +285,24 @@ def build(research_path=RESEARCH):
                                     'projectile_explosion_damage', **extra), target_x, 'shared_damage', others)
                         status_slots('explosion.' + role + '.damage.', 'explosion_damage', explosion['damage']['settings'],
                             role, 'projectile_explosion_damage', target_x, others, **extra)
+            host = mounted_hosts.get(key)
+            research_entry = output_research.get(key)
+            if host and host['componentHost'] and research_entry and projectile and projectile.get('settings'):
+                identity = research_entry['componentIdentity']
+                assert research_entry['resource'] == slot['path'] and identity == {k: own[
+                    'ProjectileWeaponComponentData'][k] for k in identity}, key + ': projectile host identity diverged'
+                item = field('attack.primary.projectile', 'Attack projectile reference', None, 'projectile_reference',
+                    {'weapon': key, 'attack': 'primary', 'projectileType': research_entry['reference']['value']},
+                    component('ProjectileWeaponComponentData', 0, 'u32'),
+                    {'resource': 'vehicle_weapon', 'path': 'attack', 'weapon': key, 'attack': 'primary'},
+                    'weapon_local', ack='allow_unverified_effect')
+                item.update({'acknowledgementReason': HOST_UNVERIFIED, 'referenceKind': 'projectile',
+                    'compatibilityClass': research_entry['compatibilityClass'], 'referenceRole': 'primary',
+                    'referenceSettings': research_entry['output']['settings'],
+                    'projectileSource': {'status': host['status'], 'mechanism': host['mechanism'],
+                        'member': 'ProjectileWeapon +0', 'reason': host['reason']}})
+            elif host and host['status'] != 'ACTIVE_DIRECT' and projectile:
+                blocked.append({'attack': 'primary', 'field': 'attack.projectile', 'reason': host['reason']})
             spray = slot.get('spray')
             if spray and spray.get('settings'):
                 others = [consumer_label(c) for c in spray['usedBy']
@@ -336,6 +365,13 @@ def build(research_path=RESEARCH):
                     'otherConsumers': item['sharedWithWeapons'], 'acknowledgement': item['acknowledgement'],
                     'gameplayEvidence': item['gameplayEvidence'],
                     'backingComponent': item['backing'].get('component') or item['backing']['settings']}
+                if item['type'] == 'projectile_reference':
+                    # The mount's projectile reference: the one host model (class, active source); semantic handles
+                    # only (expect: vehicle:weapon(mount):attack(role); a donor from hd2.attack_output(name)).
+                    instance.update({'apiFieldConstant': 'hd2.fields.attack.projectile',
+                        'baseline': {'weapon': key, 'attack': item['target']['attack']},
+                        'projectileReference': {k: item.get(k) for k in ('referenceKind', 'compatibilityClass',
+                            'referenceRole', 'projectileSource')}})
                 instances.append(instance)
                 groups[group].append(instance['instanceKey'])
             public_mounts.append({'slot': slot['slot'], 'label': label, 'weapon': {'key': key, 'semanticId': semantic,

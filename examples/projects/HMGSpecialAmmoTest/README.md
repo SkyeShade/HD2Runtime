@@ -35,5 +35,8 @@ Why donor bullets (research/projectile-builder-F5FEE03DCFDB.json):
 6. Everything off, APPLY, fresh HMG: vanilla (no mode menu besides the rate of fire).
 
 Report whether each status applied on hit, whether the menu showed the labels and icons, and whether the rate of fire
-selector still worked. `allow_unverified_effect` / `allow_unverified_reference` are set: this mode is mapped
-offline, not yet shown in game.
+selector still worked.
+
+**Live result (2026-09-30): PASS.** Incendiary burned, Stun stunned and Gas gassed, and the selector stayed usable.
+Exactly these three (HMG, donor) function projectiles, the left-input binding and the four labels are live-proven
+(sdk/LiveEvidenceCatalog.json). Any other donor or label still needs the acknowledgements.

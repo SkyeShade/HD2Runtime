@@ -244,6 +244,13 @@ in the same check stay separate entries, and unattributed damage is never assign
 `examples/projects/VampiricThrowingKnivesTest` heals the local player on K-2 damage (a fixed 25, or a proportion of the
 recorded damage).
 
+**Live-proven (2026-09-30, VampiricThrowingKnivesTest):**
+- K-2 knife damage is attributed to the knife exactly: misses record nothing, other weapons report under their own
+  source (`event_damage_source_attribution`);
+- `hd2.actions.heal(25)` from that handler heals the local player (`event_action_heal`).
+
+Still offline-proven only: the damage-proportional heal, other throwables and other sources.
+
 **Cost.** A check is one bulk read of the player's 64 source blocks, whatever the number of hits, victims or
 entities: no world scan. On the offline benchmark (`py scripts/bench_events.py --stats`, 400 entities, every native
 event subscribed, all 64 blocks filled) a check costs 0.05 ms on average and 0.36 ms at most (10 sources changing).

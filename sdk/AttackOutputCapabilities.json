@@ -119,18 +119,18 @@
    "negative": "AR-23 Liberator -> LAS-58 Talon (fail: field written, no gameplay effect)"
   },
   "counts": {
-   "projectileWeapons": 89,
+   "projectileWeapons": 106,
    "byStatus": {
-    "ACTIVE_DIRECT": 51,
-    "AMBIGUOUS": 3,
-    "BLOCKED": 29,
+    "ACTIVE_DIRECT": 60,
+    "AMBIGUOUS": 5,
+    "BLOCKED": 35,
     "INDIRECT": 6
    },
-   "previousHosts": 58,
+   "previousHosts": 72,
    "previousHostsByStatus": {
-    "ACTIVE_DIRECT": 43,
-    "AMBIGUOUS": 3,
-    "BLOCKED": 6,
+    "ACTIVE_DIRECT": 52,
+    "AMBIGUOUS": 5,
+    "BLOCKED": 9,
     "INDIRECT": 6
    },
    "attackFields": 67,
@@ -918,6 +918,7 @@
    "reason": "Another native selector owns the fired projectile: WeaponRounds ammo types (primary / alternate magazine projectile).",
    "directWritable": false,
    "previouslyWritable": false,
+   "sharedEntity": [],
    "write": null
   },
   {
@@ -930,7 +931,21 @@
    "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
    "directWritable": true,
    "previouslyWritable": false,
-   "write": "hd2.support_weapon(name):attack(role):projectile() (hd2.fields.attack.projectile)"
+   "sharedEntity": [],
+   "write": "hd2.support_weapon(name):attack(role):projectile_source() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "AX/AR-23 Guard Dog / gun",
+   "kind": "vehicle_weapon",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": false,
+   "sharedEntity": [],
+   "write": "hd2.vehicle(vehicle):weapon(mount):attack(role):projectile_source() (hd2.fields.attack.projectile)"
   },
   {
    "weapon": "EAT-17 Expendable Anti-Tank",
@@ -942,7 +957,8 @@
    "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
    "directWritable": true,
    "previouslyWritable": false,
-   "write": "hd2.support_weapon(name):attack(role):projectile() (hd2.fields.attack.projectile)"
+   "sharedEntity": [],
+   "write": "hd2.support_weapon(name):attack(role):projectile_source() (hd2.fields.attack.projectile)"
   },
   {
    "weapon": "EAT-411 Leveller",
@@ -954,7 +970,8 @@
    "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
    "directWritable": true,
    "previouslyWritable": false,
-   "write": "hd2.support_weapon(name):attack(role):projectile() (hd2.fields.attack.projectile)"
+   "sharedEntity": [],
+   "write": "hd2.support_weapon(name):attack(role):projectile_source() (hd2.fields.attack.projectile)"
   },
   {
    "weapon": "EAT-700 Expendable Napalm",
@@ -966,7 +983,86 @@
    "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
    "directWritable": true,
    "previouslyWritable": false,
-   "write": "hd2.support_weapon(name):attack(role):projectile() (hd2.fields.attack.projectile)"
+   "sharedEntity": [],
+   "write": "hd2.support_weapon(name):attack(role):projectile_source() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "EXO-45 Patriot Exosuit / left_gun",
+   "kind": "vehicle_weapon",
+   "attack": "primary",
+   "status": "BLOCKED",
+   "mechanism": null,
+   "member": null,
+   "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile).",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "sharedEntity": [],
+   "write": null
+  },
+  {
+   "weapon": "EXO-45 Patriot Exosuit / right_gun",
+   "kind": "vehicle_weapon",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": false,
+   "sharedEntity": [],
+   "write": "hd2.vehicle(vehicle):weapon(mount):attack(role):projectile_source() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "EXO-49 Emancipator Exosuit / left_gun",
+   "kind": "vehicle_weapon",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": false,
+   "sharedEntity": [],
+   "write": "hd2.vehicle(vehicle):weapon(mount):attack(role):projectile_source() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "EXO-49 Emancipator Exosuit / right_gun",
+   "kind": "vehicle_weapon",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": false,
+   "sharedEntity": [],
+   "write": "hd2.vehicle(vehicle):weapon(mount):attack(role):projectile_source() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "EXO-51 Lumberer Exosuit / right_gun",
+   "kind": "vehicle_weapon",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": false,
+   "sharedEntity": [],
+   "write": "hd2.vehicle(vehicle):weapon(mount):attack(role):projectile_source() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "EXO-55 Breakthrough Exosuit / right_gun",
+   "kind": "vehicle_weapon",
+   "attack": "primary",
+   "status": "BLOCKED",
+   "mechanism": null,
+   "member": null,
+   "reason": "Another native selector owns the fired projectile: WeaponRounds ammo types (primary / alternate magazine projectile).",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "sharedEntity": [],
+   "write": null
   },
   {
    "weapon": "FAF-14 Spear",
@@ -978,7 +1074,36 @@
    "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile).",
    "directWritable": false,
    "previouslyWritable": false,
+   "sharedEntity": [],
    "write": null
+  },
+  {
+   "weapon": "FRV (Super Earth variant) / gun",
+   "kind": "vehicle_weapon",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": false,
+   "sharedEntity": [
+    "M-102 Gunner FRV / gun"
+   ],
+   "write": "hd2.vehicle(vehicle):weapon(mount):attack(role):projectile_source() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "GATER Oil Rig / turret",
+   "kind": "vehicle_weapon",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": false,
+   "sharedEntity": [],
+   "write": "hd2.vehicle(vehicle):weapon(mount):attack(role):projectile_source() (hd2.fields.attack.projectile)"
   },
   {
    "weapon": "GL-21 Grenade Launcher",
@@ -990,7 +1115,8 @@
    "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
    "directWritable": true,
    "previouslyWritable": false,
-   "write": "hd2.support_weapon(name):attack(role):projectile() (hd2.fields.attack.projectile)"
+   "sharedEntity": [],
+   "write": "hd2.support_weapon(name):attack(role):projectile_source() (hd2.fields.attack.projectile)"
   },
   {
    "weapon": "GL-28 Belt-Fed Grenade Launcher",
@@ -1002,6 +1128,7 @@
    "reason": "Every shot is ProjectileWeapon +0, but the weapon is not magazine-fed: the host rule the live controls established covers magazine-fed weapons only (no rounds feed, charge or heat), so its projectile reference stays read-only.",
    "directWritable": false,
    "previouslyWritable": false,
+   "sharedEntity": [],
    "write": null
   },
   {
@@ -1014,6 +1141,7 @@
    "reason": "Another native selector owns the fired projectile: WeaponRounds ammo types (primary / alternate magazine projectile).",
    "directWritable": false,
    "previouslyWritable": false,
+   "sharedEntity": [],
    "write": null
   },
   {
@@ -1026,6 +1154,7 @@
    "reason": "A weapon function (programmable ammo) switches to WeaponFunctionProjectileType; the base member is only the default function's projectile.",
    "directWritable": false,
    "previouslyWritable": false,
+   "sharedEntity": [],
    "write": null
   },
   {
@@ -1038,6 +1167,7 @@
    "reason": "Every shot is ProjectileWeapon +0, but the weapon is not magazine-fed: the host rule the live controls established covers magazine-fed weapons only (no rounds feed, charge or heat), so its projectile reference stays read-only.",
    "directWritable": false,
    "previouslyWritable": false,
+   "sharedEntity": [],
    "write": null
   },
   {
@@ -1050,7 +1180,36 @@
    "reason": "Every shot is ProjectileWeapon +0, but the weapon is not magazine-fed: the host rule the live controls established covers magazine-fed weapons only (no rounds feed, charge or heat), so its projectile reference stays read-only.",
    "directWritable": false,
    "previouslyWritable": false,
+   "sharedEntity": [],
    "write": null
+  },
+  {
+   "weapon": "M-102 Gunner FRV / gun",
+   "kind": "vehicle_weapon",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": false,
+   "sharedEntity": [
+    "FRV (Super Earth variant) / gun"
+   ],
+   "write": "hd2.vehicle(vehicle):weapon(mount):attack(role):projectile_source() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "M-103 Supply FRV / gun",
+   "kind": "vehicle_weapon",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": false,
+   "sharedEntity": [],
+   "write": "hd2.vehicle(vehicle):weapon(mount):attack(role):projectile_source() (hd2.fields.attack.projectile)"
   },
   {
    "weapon": "M-105 Stalwart",
@@ -1062,7 +1221,8 @@
    "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
    "directWritable": true,
    "previouslyWritable": false,
-   "write": "hd2.support_weapon(name):attack(role):projectile() (hd2.fields.attack.projectile)"
+   "sharedEntity": [],
+   "write": "hd2.support_weapon(name):attack(role):projectile_source() (hd2.fields.attack.projectile)"
   },
   {
    "weapon": "MG-206 Heavy Machine Gun",
@@ -1074,7 +1234,8 @@
    "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
    "directWritable": true,
    "previouslyWritable": false,
-   "write": "hd2.support_weapon(name):attack(role):projectile() (hd2.fields.attack.projectile)"
+   "sharedEntity": [],
+   "write": "hd2.support_weapon(name):attack(role):projectile_source() (hd2.fields.attack.projectile)"
   },
   {
    "weapon": "MG-43 Machine Gun",
@@ -1086,6 +1247,7 @@
    "reason": "Another native selector owns the fired projectile: magazine pattern (WeaponMagazine Projectiles[32] / FirstProjectile).",
    "directWritable": false,
    "previouslyWritable": false,
+   "sharedEntity": [],
    "write": null
   },
   {
@@ -1098,6 +1260,7 @@
    "reason": "Another native selector owns the fired projectile: magazine pattern (WeaponMagazine Projectiles[32] / FirstProjectile).",
    "directWritable": false,
    "previouslyWritable": false,
+   "sharedEntity": [],
    "write": null
   },
   {
@@ -1110,6 +1273,7 @@
    "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile).",
    "directWritable": false,
    "previouslyWritable": false,
+   "sharedEntity": [],
    "write": null
   },
   {
@@ -1122,6 +1286,7 @@
    "reason": "Another native selector owns the fired projectile: WeaponCharge (level-selected projectile).",
    "directWritable": false,
    "previouslyWritable": false,
+   "sharedEntity": [],
    "write": null
   },
   {
@@ -1134,6 +1299,7 @@
    "reason": "A weapon function (programmable ammo) switches to WeaponFunctionProjectileType; the base member is only the default function's projectile.",
    "directWritable": false,
    "previouslyWritable": false,
+   "sharedEntity": [],
    "write": null
   },
   {
@@ -1146,6 +1312,7 @@
    "reason": "Every shot is ProjectileWeapon +0, but the weapon is not magazine-fed: the host rule the live controls established covers magazine-fed weapons only (no rounds feed, charge or heat), so its projectile reference stays read-only.",
    "directWritable": false,
    "previouslyWritable": false,
+   "sharedEntity": [],
    "write": null
   },
   {
@@ -1158,7 +1325,8 @@
    "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
    "directWritable": true,
    "previouslyWritable": false,
-   "write": "hd2.support_weapon(name):attack(role):projectile() (hd2.fields.attack.projectile)"
+   "sharedEntity": [],
+   "write": "hd2.support_weapon(name):attack(role):projectile_source() (hd2.fields.attack.projectile)"
   },
   {
    "weapon": "SG-88 Break-Action Shotgun",
@@ -1170,6 +1338,7 @@
    "reason": "Another native selector owns the fired projectile: WeaponRounds ammo types (primary / alternate magazine projectile).",
    "directWritable": false,
    "previouslyWritable": false,
+   "sharedEntity": [],
    "write": null
   },
   {
@@ -1182,6 +1351,89 @@
    "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile).",
    "directWritable": false,
    "previouslyWritable": false,
+   "sharedEntity": [],
+   "write": null
+  },
+  {
+   "weapon": "TD-110 Maelstrom / attach_tank_gun",
+   "kind": "vehicle_weapon",
+   "attack": "primary",
+   "status": "BLOCKED",
+   "mechanism": null,
+   "member": null,
+   "reason": "Another native selector owns the fired projectile: magazine pattern (WeaponMagazine Projectiles[32] / FirstProjectile).",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "sharedEntity": [],
+   "write": null
+  },
+  {
+   "weapon": "TD-110 Maelstrom / slot_2",
+   "kind": "vehicle_weapon",
+   "attack": "primary",
+   "status": "AMBIGUOUS",
+   "mechanism": null,
+   "member": null,
+   "reason": "A weapon function (programmable ammo) switches to WeaponFunctionProjectileType; the base member is only the default function's projectile.",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "sharedEntity": [],
+   "write": null
+  },
+  {
+   "weapon": "TD-110 Maelstrom / slot_3",
+   "kind": "vehicle_weapon",
+   "attack": "primary",
+   "status": "BLOCKED",
+   "mechanism": null,
+   "member": null,
+   "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile).",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "sharedEntity": [
+    "TD-110 Maelstrom / slot_4"
+   ],
+   "write": null
+  },
+  {
+   "weapon": "TD-110 Maelstrom / slot_4",
+   "kind": "vehicle_weapon",
+   "attack": "primary",
+   "status": "BLOCKED",
+   "mechanism": null,
+   "member": null,
+   "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile).",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "sharedEntity": [
+    "TD-110 Maelstrom / slot_3"
+   ],
+   "write": null
+  },
+  {
+   "weapon": "TD-220 Bastion MK XVI / attach_tank_gun",
+   "kind": "vehicle_weapon",
+   "attack": "primary",
+   "status": "AMBIGUOUS",
+   "mechanism": null,
+   "member": null,
+   "reason": "A weapon function (programmable ammo) switches to WeaponFunctionProjectileType; the base member is only the default function's projectile.",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "sharedEntity": [],
+   "write": null
+  },
+  {
+   "weapon": "TD-220 Bastion MK XVI / attach_tank_gun_mg",
+   "kind": "vehicle_weapon",
+   "attack": "primary",
+   "status": "BLOCKED",
+   "mechanism": null,
+   "member": null,
+   "reason": "Another native selector owns the fired projectile: magazine pattern (WeaponMagazine Projectiles[32] / FirstProjectile).",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "sharedEntity": [],
    "write": null
   }
  ],
@@ -1317,6 +1569,48 @@
    "output": "output/v1/projectile/gl-52-de-escalator",
    "mechanism": "ammunition",
    "acknowledgementsRequired": []
+  },
+  {
+   "host": "EAT-17 Expendable Anti-Tank",
+   "output": "output/v1/projectile/plas-1-scorcher",
+   "mechanism": "component",
+   "acknowledgementsRequired": []
+  },
+  {
+   "host": "M-105 Stalwart",
+   "output": "output/v1/projectile/apw-1-anti-materiel-rifle",
+   "mechanism": "component",
+   "acknowledgementsRequired": []
+  },
+  {
+   "host": "MG-206 Heavy Machine Gun",
+   "output": "output/v1/projectile/ar-32-pacifier",
+   "mechanism": "programmable_ammo",
+   "acknowledgementsRequired": []
+  },
+  {
+   "host": "MG-206 Heavy Machine Gun",
+   "output": "output/v1/projectile/p-35-re-educator",
+   "mechanism": "programmable_ammo",
+   "acknowledgementsRequired": []
+  },
+  {
+   "host": "MG-206 Heavy Machine Gun",
+   "output": "output/v1/projectile/r-4-hyena",
+   "mechanism": "programmable_ammo",
+   "acknowledgementsRequired": []
+  },
+  {
+   "host": "S-11 Speargun",
+   "output": "output/v1/projectile/s-11-speargun-spare-twin",
+   "mechanism": "programmable_ammo",
+   "acknowledgementsRequired": []
+  },
+  {
+   "host": "SMG-32 Reprimand",
+   "output": "output/v1/projectile/eat-700-expendable-napalm",
+   "mechanism": "component",
+   "acknowledgementsRequired": []
   }
  ],
  "hostModel": {
@@ -1329,13 +1623,22 @@
    "AR-59 Suppressor",
    "AR-61 Tenderizer",
    "AR/GL-21 One-Two",
+   "AX/AR-23 Guard Dog / gun",
    "BR-14 Adjudicator",
    "CB-9 Exploding Crossbow",
    "EAT-17 Expendable Anti-Tank",
    "EAT-411 Leveller",
    "EAT-700 Expendable Napalm",
+   "EXO-45 Patriot Exosuit / right_gun",
+   "EXO-49 Emancipator Exosuit / left_gun",
+   "EXO-49 Emancipator Exosuit / right_gun",
+   "EXO-51 Lumberer Exosuit / right_gun",
+   "FRV (Super Earth variant) / gun",
+   "GATER Oil Rig / turret",
    "GL-21 Grenade Launcher",
    "GP-20 Ultimatum",
+   "M-102 Gunner FRV / gun",
+   "M-103 Supply FRV / gun",
    "M-105 Stalwart",
    "M6C/SOCOM Pistol",
    "M7S SMG",
@@ -1404,12 +1707,67 @@
      "family": "weapon_ammunition_projectile_reference",
      "hostReadsReference": true,
      "superseded": false
+    },
+    {
+     "test": "UnifiedProjectileSwapTest",
+     "result": "PASS",
+     "family": "weapon_ammunition_projectile_reference",
+     "hostReadsReference": true,
+     "superseded": false
+    }
+   ],
+   "EAT-17 Expendable Anti-Tank": [
+    {
+     "test": "UnifiedProjectileSwapTest",
+     "result": "PASS",
+     "family": "support_projectile_reference",
+     "hostReadsReference": true,
+     "superseded": false
+    }
+   ],
+   "M-105 Stalwart": [
+    {
+     "test": "UnifiedProjectileSwapTest",
+     "result": "PASS",
+     "family": "support_projectile_reference",
+     "hostReadsReference": true,
+     "superseded": false
+    }
+   ],
+   "MG-206 Heavy Machine Gun": [
+    {
+     "test": "HMGSpecialAmmoTest (Incendiary)",
+     "result": "PASS",
+     "family": "weapon_programmable_ammo_added",
+     "hostReadsReference": true,
+     "superseded": false
+    },
+    {
+     "test": "HMGSpecialAmmoTest (Stun)",
+     "result": "PASS",
+     "family": "weapon_programmable_ammo_added",
+     "hostReadsReference": true,
+     "superseded": false
+    },
+    {
+     "test": "HMGSpecialAmmoTest (Gas)",
+     "result": "PASS",
+     "family": "weapon_programmable_ammo_added",
+     "hostReadsReference": true,
+     "superseded": false
     }
    ],
    "S-11 Speargun": [
     {
      "test": "SpeargunGasStunTest (GL-52 De-Escalator)",
      "result": "PARTIAL",
+     "family": "weapon_programmable_ammo_added",
+     "hostReadsReference": true,
+     "superseded": true
+    },
+    {
+     "test": "SpeargunProjectileBuilderTest",
+     "result": "PASS",
      "family": "weapon_programmable_ammo_added",
      "hostReadsReference": true,
      "superseded": false
@@ -1427,6 +1785,13 @@
      "test": "AssetTestReprimandTalonProjectile",
      "result": "PASS",
      "family": "weapon_projectile_reference_direct",
+     "hostReadsReference": true,
+     "superseded": false
+    },
+    {
+     "test": "UnifiedProjectileSwapTest",
+     "result": "PASS",
+     "family": "attack_output_cross_class",
      "hostReadsReference": true,
      "superseded": false
     }
@@ -1570,22 +1935,22 @@
   ]
  },
  "summary": {
-  "outputs": 107,
+  "outputs": 130,
   "byFamily": {
-   "projectile": 91,
-   "beam": 3,
-   "arc": 2,
-   "spray": 4,
+   "projectile": 108,
+   "beam": 4,
+   "arc": 3,
+   "spray": 8,
    "melee": 7
   },
   "stratagemDonors": [
    "A/M-23 EMS Mortar Sentry"
   ],
-  "selectable": 68,
-  "projectileHosts": 43,
-  "componentHosts": 37,
+  "selectable": 80,
+  "projectileHosts": 52,
+  "componentHosts": 46,
   "ammunitionHosts": 6,
-  "directWritableAttackFields": 45
+  "directWritableAttackFields": 54
  },
  "outputs": [
   {
@@ -1636,7 +2001,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -1652,6 +2021,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -1667,6 +2037,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -1682,6 +2053,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -1735,7 +2107,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -1750,6 +2126,9 @@
      ],
      "acknowledgements": [
       "allow_unverified_effect"
+     ],
+     "liveProvenValues": [
+      "output/v1/projectile/ar-32-pacifier#directDamage"
      ],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
@@ -1766,6 +2145,13 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [
+      "none",
+      "output/v1/projectile/a-m-23-ems-mortar-sentry#expiryExplosion",
+      "output/v1/projectile/eat-700-expendable-napalm#impactExplosion",
+      "output/v1/projectile/gl-21-grenade-launcher#impactExplosion",
+      "output/v1/projectile/s-11-speargun#expiryExplosion"
+     ],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -1781,6 +2167,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -1835,7 +2222,11 @@
     "acknowledgements": [
      "allow_unverified_effect",
      "allow_shared"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -1855,6 +2246,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -1874,6 +2266,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -1893,6 +2286,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -1947,7 +2341,11 @@
     "acknowledgements": [
      "allow_unverified_effect",
      "allow_shared"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -1967,6 +2365,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -1986,6 +2385,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -2005,6 +2405,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -2059,7 +2460,11 @@
     "acknowledgements": [
      "allow_unverified_effect",
      "allow_shared"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -2076,6 +2481,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -2092,6 +2498,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -2108,6 +2515,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -2162,7 +2570,11 @@
     "acknowledgements": [
      "allow_unverified_effect",
      "allow_shared"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -2180,6 +2592,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -2197,6 +2610,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -2214,6 +2628,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -2267,7 +2682,15 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [
+      "stun"
+     ],
+     "icons": [
+      "ammo_stun"
+     ]
+    }
    },
    "slots": {
     "directDamage": {
@@ -2283,6 +2706,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -2298,6 +2722,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -2313,10 +2738,19 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
-   "liveProof": null
+   "liveProof": {
+    "donorOutput": "live_proven",
+    "tests": [
+     "HMGSpecialAmmoTest"
+    ],
+    "provenOnHosts": [
+     "MG-206 Heavy Machine Gun"
+    ]
+   }
   },
   {
    "semanticId": "output/v1/projectile/ar-59-suppressor",
@@ -2366,7 +2800,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -2382,6 +2820,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -2397,6 +2836,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -2412,6 +2852,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -2465,7 +2906,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -2481,6 +2926,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -2496,6 +2942,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -2511,6 +2958,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -2564,7 +3012,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -2580,6 +3032,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -2595,6 +3048,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -2610,6 +3064,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -2694,7 +3149,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -2710,6 +3169,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -2725,6 +3185,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -2740,6 +3201,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -2793,7 +3255,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -2809,6 +3275,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -2824,6 +3291,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -2839,6 +3307,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -3081,7 +3550,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -3097,6 +3570,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -3112,6 +3586,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -3127,6 +3602,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -3180,7 +3656,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -3196,6 +3676,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -3211,6 +3692,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -3226,6 +3708,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -3279,7 +3762,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -3295,6 +3782,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -3310,6 +3798,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -3325,6 +3814,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -3378,7 +3868,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -3394,6 +3888,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -3409,6 +3904,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -3424,6 +3920,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -3510,7 +4007,11 @@
     "acknowledgements": [
      "allow_unverified_effect",
      "allow_shared"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -3528,6 +4029,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -3545,6 +4047,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -3562,6 +4065,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -3652,7 +4156,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -3668,6 +4176,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -3683,6 +4192,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -3698,15 +4208,18 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
    "liveProof": {
     "donorOutput": "live_proven",
     "tests": [
-     "AssetTestReprimandTalonProjectile"
+     "AssetTestReprimandTalonProjectile",
+     "UnifiedProjectileSwapTest"
     ],
     "provenOnHosts": [
+     "AR-23 Liberator",
      "SMG-32 Reprimand"
     ]
    }
@@ -3759,7 +4272,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -3775,6 +4292,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -3790,6 +4308,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -3805,6 +4324,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -3858,7 +4378,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -3874,6 +4398,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -3889,6 +4414,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -3904,6 +4430,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -3957,7 +4484,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -3973,6 +4504,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -3988,6 +4520,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -4003,6 +4536,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -4056,7 +4590,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -4072,6 +4610,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -4087,6 +4626,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -4102,6 +4642,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -4156,7 +4697,11 @@
     "acknowledgements": [
      "allow_unverified_effect",
      "allow_shared"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -4174,6 +4719,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -4191,6 +4737,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -4208,6 +4755,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -4262,7 +4810,11 @@
     "acknowledgements": [
      "allow_unverified_effect",
      "allow_shared"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -4279,6 +4831,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -4295,6 +4848,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -4311,6 +4865,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -4364,7 +4919,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -4380,6 +4939,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -4395,6 +4955,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -4410,6 +4971,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -4611,7 +5173,15 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [
+      "gas"
+     ],
+     "icons": [
+      "ammo_slug"
+     ]
+    }
    },
    "slots": {
     "directDamage": {
@@ -4627,6 +5197,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -4642,6 +5213,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -4657,10 +5229,19 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
-   "liveProof": null
+   "liveProof": {
+    "donorOutput": "live_proven",
+    "tests": [
+     "HMGSpecialAmmoTest"
+    ],
+    "provenOnHosts": [
+     "MG-206 Heavy Machine Gun"
+    ]
+   }
   },
   {
    "semanticId": "output/v1/projectile/p-4-senator",
@@ -4747,7 +5328,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -4763,6 +5348,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -4778,6 +5364,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -4793,6 +5380,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -4883,7 +5471,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -4899,6 +5491,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -4914,6 +5507,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -4929,6 +5523,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -4983,7 +5578,11 @@
     "acknowledgements": [
      "allow_unverified_effect",
      "allow_shared"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -5000,6 +5599,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -5016,6 +5616,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -5032,10 +5633,19 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
-   "liveProof": null
+   "liveProof": {
+    "donorOutput": "live_proven",
+    "tests": [
+     "UnifiedProjectileSwapTest"
+    ],
+    "provenOnHosts": [
+     "EAT-17 Expendable Anti-Tank"
+    ]
+   }
   },
   {
    "semanticId": "output/v1/projectile/plas-101-purifier",
@@ -5162,7 +5772,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -5178,6 +5792,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -5193,6 +5808,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -5208,6 +5824,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -5261,7 +5878,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -5277,6 +5898,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -5292,6 +5914,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -5307,6 +5930,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -5397,7 +6021,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -5413,6 +6041,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -5428,6 +6057,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -5443,6 +6073,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -5496,7 +6127,15 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [
+      "incendiary"
+     ],
+     "icons": [
+      "ammo_slug"
+     ]
+    }
    },
    "slots": {
     "directDamage": {
@@ -5512,6 +6151,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -5527,6 +6167,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -5542,10 +6183,19 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
-   "liveProof": null
+   "liveProof": {
+    "donorOutput": "live_proven",
+    "tests": [
+     "HMGSpecialAmmoTest"
+    ],
+    "provenOnHosts": [
+     "MG-206 Heavy Machine Gun"
+    ]
+   }
   },
   {
    "semanticId": "output/v1/projectile/r-6-deadeye",
@@ -5595,7 +6245,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -5611,6 +6265,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -5626,6 +6281,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -5641,6 +6297,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -5694,7 +6351,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -5710,6 +6371,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -5725,6 +6387,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -5740,6 +6403,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -5793,7 +6457,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -5809,6 +6477,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -5824,6 +6493,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -5839,6 +6509,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -5892,7 +6563,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -5908,6 +6583,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -5923,6 +6599,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -5938,6 +6615,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -5991,7 +6669,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -6007,6 +6689,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -6022,6 +6705,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -6037,6 +6721,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -6164,7 +6849,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -6180,6 +6869,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -6195,6 +6885,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -6210,6 +6901,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -6263,7 +6955,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -6279,6 +6975,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -6294,6 +6991,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -6309,6 +7007,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -6362,7 +7061,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -6378,6 +7081,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -6393,6 +7097,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -6408,6 +7113,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -6535,7 +7241,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -6551,6 +7261,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -6566,6 +7277,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -6581,6 +7293,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -6671,7 +7384,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -6687,6 +7404,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -6702,6 +7420,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -6717,6 +7436,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -6770,7 +7490,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -6786,6 +7510,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -6801,6 +7526,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -6816,6 +7542,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -6869,7 +7596,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -6885,6 +7616,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -6900,6 +7632,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -6915,6 +7648,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -6968,7 +7702,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -6984,6 +7722,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -6999,6 +7738,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -7014,6 +7754,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -7067,7 +7808,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -7083,6 +7828,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -7098,6 +7844,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -7113,6 +7860,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -7167,7 +7915,11 @@
     "acknowledgements": [
      "allow_unverified_effect",
      "allow_shared"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -7185,6 +7937,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -7202,6 +7955,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -7219,6 +7973,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -7273,7 +8028,11 @@
     "acknowledgements": [
      "allow_unverified_effect",
      "allow_shared"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -7293,6 +8052,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -7312,6 +8072,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -7331,6 +8092,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -7384,7 +8146,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -7400,6 +8166,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -7415,6 +8182,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -7430,6 +8198,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -7517,7 +8286,11 @@
     "acknowledgements": [
      "allow_unverified_effect",
      "allow_shared"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -7535,6 +8308,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -7552,6 +8326,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -7569,6 +8344,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -7622,7 +8398,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -7638,6 +8418,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -7653,6 +8434,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -7668,10 +8450,19 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
-   "liveProof": null
+   "liveProof": {
+    "donorOutput": "live_proven",
+    "tests": [
+     "UnifiedProjectileSwapTest"
+    ],
+    "provenOnHosts": [
+     "M-105 Stalwart"
+    ]
+   }
   },
   {
    "semanticId": "output/v1/arc/arc-3-arc-thrower",
@@ -7875,7 +8666,11 @@
     "acknowledgements": [
      "allow_unverified_effect",
      "allow_shared"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -7892,6 +8687,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -7908,6 +8704,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -7924,6 +8721,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -7976,7 +8774,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -7992,6 +8794,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -8007,6 +8810,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -8022,6 +8826,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -8074,7 +8879,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -8090,6 +8899,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -8105,6 +8915,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -8120,16 +8931,19 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
    "liveProof": {
     "donorOutput": "live_proven",
     "tests": [
-     "LiberatorAttackOutputTest"
+     "LiberatorAttackOutputTest",
+     "UnifiedProjectileSwapTest"
     ],
     "provenOnHosts": [
-     "AR-23 Liberator"
+     "AR-23 Liberator",
+     "SMG-32 Reprimand"
     ]
    }
   },
@@ -8251,7 +9065,11 @@
     "acknowledgements": [
      "allow_unverified_effect",
      "allow_shared"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -8268,6 +9086,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -8284,6 +9103,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -8300,6 +9120,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -8352,7 +9173,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -8368,6 +9193,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -8383,6 +9209,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -8398,6 +9225,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -8451,7 +9279,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -8467,6 +9299,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -8482,6 +9315,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -8497,6 +9331,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -8560,7 +9395,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -8576,6 +9415,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -8591,6 +9431,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -8606,6 +9447,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -8690,7 +9532,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -8706,6 +9552,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -8721,6 +9568,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -8736,6 +9584,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -8789,7 +9638,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -8805,6 +9658,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -8820,6 +9674,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -8835,6 +9690,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -8889,7 +9745,11 @@
     "acknowledgements": [
      "allow_unverified_effect",
      "allow_shared"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -8909,6 +9769,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -8928,6 +9789,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -8947,6 +9809,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -9001,7 +9864,15 @@
     "acknowledgements": [
      "allow_unverified_effect",
      "allow_shared"
-    ]
+    ],
+    "liveProven": {
+     "labels": [
+      "standard"
+     ],
+     "icons": [
+      "ammo_slug"
+     ]
+    }
    },
    "slots": {
     "directDamage": {
@@ -9019,6 +9890,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -9036,6 +9908,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -9053,6 +9926,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -9253,7 +10127,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -9269,6 +10147,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -9284,6 +10163,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -9299,6 +10179,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -9354,7 +10235,11 @@
     "acknowledgements": [
      "allow_unverified_effect",
      "allow_shared"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -9371,6 +10256,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -9387,6 +10273,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -9403,6 +10290,7 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -9456,7 +10344,15 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [
+      "gas"
+     ],
+     "icons": [
+      "ammo_slug"
+     ]
+    }
    },
    "slots": {
     "directDamage": {
@@ -9472,6 +10368,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -9487,6 +10384,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -9502,6 +10400,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -9614,6 +10513,1706 @@
    "liveProof": null
   },
   {
+   "semanticId": "output/v1/projectile/ax-ar-23-guard-dog-gun",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "vehicle_weapon",
+    "name": "AX/AR-23 Guard Dog / gun"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": null,
+    "known": false,
+    "autoLoad": false
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": true,
+    "acknowledgements": [
+     "allow_unverified_effect",
+     "allow_shared"
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": true,
+     "sharedConsumerCount": 5,
+     "consumerReferences": 6,
+     "namedSharedConsumers": [
+      "assault_rifle_ap",
+      "drone_mg_weapon"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 5,
+     "consumerReferences": 6,
+     "namedSharedConsumers": [
+      "assault_rifle_ap",
+      "drone_mg_weapon"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 5,
+     "consumerReferences": 6,
+     "namedSharedConsumers": [
+      "assault_rifle_ap",
+      "drone_mg_weapon"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/arc/ax-arc-3-k-9-gun",
+   "family": "arc",
+   "kind": "arc",
+   "owner": {
+    "kind": "vehicle_weapon",
+    "name": "AX/ARC-3 K-9 / gun"
+   },
+   "emitter": "ArcWeapon",
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "A projectile host references only ProjectileType. Arc outputs are fired by their own ArcWeaponComponent (which also owns their cadence, RPM and infinite ammo); no projectile or explosion member can reference them, and adding the component to another weapon entity changes its composition, which Runtime does not do.",
+   "chain": null,
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "stun_gun_mount",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": null,
+   "ownerFiresThisProjectile": null,
+   "presentation": null,
+   "slots": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/spray/ax-flam-75-hot-dog-gun",
+   "family": "spray",
+   "kind": "spray",
+   "owner": {
+    "kind": "vehicle_weapon",
+    "name": "AX/FLAM-75 Hot Dog / gun"
+   },
+   "emitter": "SprayWeapon",
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "A projectile host references only ProjectileType. Spray outputs are fired by their own SprayWeaponComponent (which also owns their cadence); no projectile or explosion member can reference them, and adding the component to another weapon entity changes its composition, which Runtime does not do.",
+   "chain": null,
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": null,
+    "known": false,
+    "autoLoad": false
+   },
+   "acknowledgements": null,
+   "ownerFiresThisProjectile": null,
+   "presentation": null,
+   "slots": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/beam/ax-las-5-rover-gun",
+   "family": "beam",
+   "kind": "continuous_beam",
+   "owner": {
+    "kind": "vehicle_weapon",
+    "name": "AX/LAS-5 Rover / gun"
+   },
+   "emitter": "BeamWeapon",
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "A projectile host references only ProjectileType. Beam outputs are fired by their own BeamWeaponComponent (which also owns their cadence, beam fire mode and heat buildup); no projectile or explosion member can reference them, and adding the component to another weapon entity changes its composition, which Runtime does not do.",
+   "chain": null,
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponHeat",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "laser_rifle_mount",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": null,
+   "ownerFiresThisProjectile": null,
+   "presentation": null,
+   "slots": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/spray/ax-tx-13-dog-breath-gun",
+   "family": "spray",
+   "kind": "spray",
+   "owner": {
+    "kind": "vehicle_weapon",
+    "name": "AX/TX-13 Dog Breath / gun"
+   },
+   "emitter": "SprayWeapon",
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "A projectile host references only ProjectileType. Spray outputs are fired by their own SprayWeaponComponent (which also owns their cadence); no projectile or explosion member can reference them, and adding the component to another weapon entity changes its composition, which Runtime does not do.",
+   "chain": null,
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": null,
+    "known": false,
+    "autoLoad": false
+   },
+   "acknowledgements": null,
+   "ownerFiresThisProjectile": null,
+   "presentation": null,
+   "slots": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/exo-45-patriot-exosuit-left-gun",
+   "family": "projectile",
+   "kind": "explosive",
+   "owner": {
+    "kind": "vehicle_weapon",
+    "name": "EXO-45 Patriot Exosuit / left_gun"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "The owner fires through another selector, so this row is not established as its attack output: ProjectileEntity (spawns an entity instead of a projectile).",
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponData",
+    "WeaponMagazine"
+   ],
+   "package": {
+    "name": "combat_walker",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": null,
+   "ownerFiresThisProjectile": "not_established",
+   "presentation": null,
+   "slots": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/exo-45-patriot-exosuit-right-gun",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "vehicle_weapon",
+    "name": "EXO-45 Patriot Exosuit / right_gun"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponWindUp"
+   ],
+   "package": {
+    "name": "combat_walker",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": true,
+    "acknowledgements": [
+     "allow_unverified_effect",
+     "allow_shared"
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": true,
+     "sharedConsumerCount": 10,
+     "consumerReferences": 39,
+     "namedSharedConsumers": [
+      "combat_walker_turret",
+      "gatling_turret",
+      "machinegun",
+      "power_generated_gatling_turret",
+      "safety_turret",
+      "target_turret",
+      "turret_machinegun_gpmg",
+      "tutorial_turret"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 10,
+     "consumerReferences": 39,
+     "namedSharedConsumers": [
+      "combat_walker_turret",
+      "gatling_turret",
+      "machinegun",
+      "power_generated_gatling_turret",
+      "safety_turret",
+      "target_turret",
+      "turret_machinegun_gpmg",
+      "tutorial_turret"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 10,
+     "consumerReferences": 39,
+     "namedSharedConsumers": [
+      "combat_walker_turret",
+      "gatling_turret",
+      "machinegun",
+      "power_generated_gatling_turret",
+      "safety_turret",
+      "target_turret",
+      "turret_machinegun_gpmg",
+      "tutorial_turret"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/exo-49-emancipator-exosuit-left-gun",
+   "family": "projectile",
+   "kind": "explosive",
+   "owner": {
+    "kind": "vehicle_weapon",
+    "name": "EXO-49 Emancipator Exosuit / left_gun"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponData",
+    "WeaponMagazine"
+   ],
+   "package": {
+    "name": "combat_walker_obsidian",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": true,
+    "acknowledgements": [
+     "allow_unverified_effect",
+     "allow_shared"
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": true,
+     "sharedConsumerCount": 7,
+     "consumerReferences": 7,
+     "namedSharedConsumers": [
+      "combat_walker_autocannon_left",
+      "combat_walker_autocannon_right"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": true,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 7,
+     "consumerReferences": 7,
+     "namedSharedConsumers": [
+      "combat_walker_autocannon_left",
+      "combat_walker_autocannon_right"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 7,
+     "consumerReferences": 7,
+     "namedSharedConsumers": [
+      "combat_walker_autocannon_left",
+      "combat_walker_autocannon_right"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/exo-49-emancipator-exosuit-right-gun",
+   "family": "projectile",
+   "kind": "explosive",
+   "owner": {
+    "kind": "vehicle_weapon",
+    "name": "EXO-49 Emancipator Exosuit / right_gun"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponData",
+    "WeaponMagazine"
+   ],
+   "package": {
+    "name": "combat_walker_obsidian",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": true,
+    "acknowledgements": [
+     "allow_unverified_effect",
+     "allow_shared"
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": true,
+     "sharedConsumerCount": 7,
+     "consumerReferences": 7,
+     "namedSharedConsumers": [
+      "combat_walker_autocannon_left",
+      "combat_walker_autocannon_right"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": true,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 7,
+     "consumerReferences": 7,
+     "namedSharedConsumers": [
+      "combat_walker_autocannon_left",
+      "combat_walker_autocannon_right"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 7,
+     "consumerReferences": 7,
+     "namedSharedConsumers": [
+      "combat_walker_autocannon_left",
+      "combat_walker_autocannon_right"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/spray/exo-51-lumberer-exosuit-left-gun",
+   "family": "spray",
+   "kind": "spray",
+   "owner": {
+    "kind": "vehicle_weapon",
+    "name": "EXO-51 Lumberer Exosuit / left_gun"
+   },
+   "emitter": "SprayWeapon",
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "A projectile host references only ProjectileType. Spray outputs are fired by their own SprayWeaponComponent (which also owns their cadence); no projectile or explosion member can reference them, and adding the component to another weapon entity changes its composition, which Runtime does not do.",
+   "chain": null,
+   "ownerFireResource": [
+    "WeaponData",
+    "WeaponMagazine"
+   ],
+   "package": {
+    "name": "combat_walker_lumberer",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": null,
+   "ownerFiresThisProjectile": null,
+   "presentation": null,
+   "slots": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/exo-51-lumberer-exosuit-right-gun",
+   "family": "projectile",
+   "kind": "explosive",
+   "owner": {
+    "kind": "vehicle_weapon",
+    "name": "EXO-51 Lumberer Exosuit / right_gun"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine"
+   ],
+   "package": {
+    "name": "combat_walker_lumberer",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": true,
+    "acknowledgements": [
+     "allow_unverified_effect",
+     "allow_shared"
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": true,
+     "sharedConsumerCount": 2,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "antitank_emplacement",
+      "combat_walker_anti_tank_cannon"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": true,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 2,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "antitank_emplacement",
+      "combat_walker_anti_tank_cannon"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 2,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "antitank_emplacement",
+      "combat_walker_anti_tank_cannon"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/exo-55-breakthrough-exosuit-right-gun",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "vehicle_weapon",
+    "name": "EXO-55 Breakthrough Exosuit / right_gun"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponReload",
+    "WeaponRounds"
+   ],
+   "package": {
+    "name": null,
+    "known": false,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "unnamed_d4aa335d",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "combat_walker_flak_cannon"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "combat_walker_flak_cannon"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "combat_walker_flak_cannon"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/frv-super-earth-variant-gun",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "vehicle_weapon",
+    "name": "FRV (Super Earth variant) / gun"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "heavy_mg",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": true,
+    "acknowledgements": [
+     "allow_unverified_effect",
+     "allow_shared"
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": true,
+     "sharedConsumerCount": 6,
+     "consumerReferences": 15,
+     "namedSharedConsumers": [
+      "frv_mg",
+      "heavy_mg"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 6,
+     "consumerReferences": 15,
+     "namedSharedConsumers": [
+      "frv_mg",
+      "heavy_mg"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 6,
+     "consumerReferences": 15,
+     "namedSharedConsumers": [
+      "frv_mg",
+      "heavy_mg"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/gater-oil-rig-turret",
+   "family": "projectile",
+   "kind": "explosive",
+   "owner": {
+    "kind": "vehicle_weapon",
+    "name": "GATER Oil Rig / turret"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "oil_rig",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": true,
+    "acknowledgements": [
+     "allow_unverified_effect",
+     "allow_shared"
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": true,
+     "sharedConsumerCount": 5,
+     "consumerReferences": 5,
+     "namedSharedConsumers": [
+      "lav_autocannon",
+      "shuttle_gunship_turret_hmg"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": true,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 5,
+     "consumerReferences": 5,
+     "namedSharedConsumers": [
+      "lav_autocannon",
+      "shuttle_gunship_turret_hmg"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 5,
+     "consumerReferences": 5,
+     "namedSharedConsumers": [
+      "lav_autocannon",
+      "shuttle_gunship_turret_hmg"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/m-102-gunner-frv-gun",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "vehicle_weapon",
+    "name": "M-102 Gunner FRV / gun"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "heavy_mg",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": true,
+    "acknowledgements": [
+     "allow_unverified_effect",
+     "allow_shared"
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": true,
+     "sharedConsumerCount": 6,
+     "consumerReferences": 15,
+     "namedSharedConsumers": [
+      "frv_mg",
+      "heavy_mg"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 6,
+     "consumerReferences": 15,
+     "namedSharedConsumers": [
+      "frv_mg",
+      "heavy_mg"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 6,
+     "consumerReferences": 15,
+     "namedSharedConsumers": [
+      "frv_mg",
+      "heavy_mg"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/m-103-supply-frv-gun",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "vehicle_weapon",
+    "name": "M-103 Supply FRV / gun"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "ammo_rack_mounted_turret",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": true,
+    "acknowledgements": [
+     "allow_unverified_effect",
+     "allow_shared"
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": true,
+     "sharedConsumerCount": 5,
+     "consumerReferences": 6,
+     "namedSharedConsumers": [
+      "assault_rifle_ap",
+      "drone_mg_weapon"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 5,
+     "consumerReferences": 6,
+     "namedSharedConsumers": [
+      "assault_rifle_ap",
+      "drone_mg_weapon"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 5,
+     "consumerReferences": 6,
+     "namedSharedConsumers": [
+      "assault_rifle_ap",
+      "drone_mg_weapon"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/spray/m-104-incinerator-frv-gun",
+   "family": "spray",
+   "kind": "spray",
+   "owner": {
+    "kind": "vehicle_weapon",
+    "name": "M-104 Incinerator FRV / gun"
+   },
+   "emitter": "SprayWeapon",
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "A projectile host references only ProjectileType. Spray outputs are fired by their own SprayWeaponComponent (which also owns their cadence); no projectile or explosion member can reference them, and adding the component to another weapon entity changes its composition, which Runtime does not do.",
+   "chain": null,
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "flamethrower",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": null,
+   "ownerFiresThisProjectile": null,
+   "presentation": null,
+   "slots": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/td-110-maelstrom-attach-tank-gun",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "vehicle_weapon",
+    "name": "TD-110 Maelstrom / attach_tank_gun"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "The owner fires through another selector, so this row is not established as its attack output: magazine pattern (WeaponMagazine Projectiles[32] / FirstProjectile).",
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload",
+    "WeaponWindUp"
+   ],
+   "package": {
+    "name": null,
+    "known": false,
+    "autoLoad": true
+   },
+   "acknowledgements": null,
+   "ownerFiresThisProjectile": "not_established",
+   "presentation": null,
+   "slots": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/td-110-maelstrom-slot-2",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "vehicle_weapon",
+    "name": "TD-110 Maelstrom / slot_2"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": null,
+    "known": false,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "default_projectile",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": false,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/td-110-maelstrom-slot-3",
+   "family": "projectile",
+   "kind": "explosive",
+   "owner": {
+    "kind": "vehicle_weapon",
+    "name": "TD-110 Maelstrom / slot_3"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "The owner fires through another selector, so this row is not established as its attack output: ProjectileEntity (spawns an entity instead of a projectile).",
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponData",
+    "WeaponMagazine"
+   ],
+   "package": {
+    "name": null,
+    "known": false,
+    "autoLoad": true
+   },
+   "acknowledgements": null,
+   "ownerFiresThisProjectile": "not_established",
+   "presentation": null,
+   "slots": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/td-110-maelstrom-slot-4",
+   "family": "projectile",
+   "kind": "explosive",
+   "owner": {
+    "kind": "vehicle_weapon",
+    "name": "TD-110 Maelstrom / slot_4"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "The owner fires through another selector, so this row is not established as its attack output: ProjectileEntity (spawns an entity instead of a projectile).",
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponData",
+    "WeaponMagazine"
+   ],
+   "package": {
+    "name": null,
+    "known": false,
+    "autoLoad": true
+   },
+   "acknowledgements": null,
+   "ownerFiresThisProjectile": "not_established",
+   "presentation": null,
+   "slots": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/td-220-bastion-mk-xvi-attach-tank-gun",
+   "family": "projectile",
+   "kind": "explosive",
+   "owner": {
+    "kind": "vehicle_weapon",
+    "name": "TD-220 Bastion MK XVI / attach_tank_gun"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": null,
+    "known": false,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "default_projectile",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": true,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "liveProvenValues": [],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/td-220-bastion-mk-xvi-attach-tank-gun-mg",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "vehicle_weapon",
+    "name": "TD-220 Bastion MK XVI / attach_tank_gun_mg"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "The owner fires through another selector, so this row is not established as its attack output: magazine pattern (WeaponMagazine Projectiles[32] / FirstProjectile).",
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponData",
+    "WeaponMagazine"
+   ],
+   "package": {
+    "name": null,
+    "known": false,
+    "autoLoad": true
+   },
+   "acknowledgements": null,
+   "ownerFiresThisProjectile": "not_established",
+   "presentation": null,
+   "slots": null,
+   "liveProof": null
+  },
+  {
    "semanticId": "output/v1/projectile/a-m-23-ems-mortar-sentry",
    "family": "projectile",
    "kind": "status_field",
@@ -9671,7 +12270,11 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [],
+     "icons": []
+    }
    },
    "slots": {
     "directDamage": {
@@ -9687,6 +12290,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -9702,6 +12306,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -9717,6 +12322,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
@@ -9781,7 +12387,15 @@
     "shared": false,
     "acknowledgements": [
      "allow_unverified_effect"
-    ]
+    ],
+    "liveProven": {
+     "labels": [
+      "stun"
+     ],
+     "icons": [
+      "ammo_stun"
+     ]
+    }
    },
    "slots": {
     "directDamage": {
@@ -9795,6 +12409,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):direct_damage()"
     },
     "impactExplosion": {
@@ -9808,6 +12423,7 @@
      "acknowledgements": [
       "allow_unverified_effect"
      ],
+     "liveProvenValues": [],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {
@@ -9820,6 +12436,9 @@
      "namedSharedConsumers": [],
      "acknowledgements": [
       "allow_unverified_effect"
+     ],
+     "liveProvenValues": [
+      "output/v1/projectile/a-m-23-ems-mortar-sentry#expiryExplosion"
      ],
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }

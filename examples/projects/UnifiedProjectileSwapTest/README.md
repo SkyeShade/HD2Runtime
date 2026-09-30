@@ -36,3 +36,10 @@ support weapons are read-only, and `projectile_source()` gives the reason:
 
 Report, per host, whether the fired projectile changed (or not) and whether the weapon still fired and reloaded
 normally.
+
+**Live result (2026-09-30): PASS** for all four:
+- EAT-17 ← Scorcher and Stalwart ← APW-1 (`support_projectile_reference`);
+- Reprimand ← EAT-700 (`attack_output_cross_class`);
+- Liberator ← Talon.
+
+Only these exact pairs are promoted; other support hosts and donors keep their acknowledgements.

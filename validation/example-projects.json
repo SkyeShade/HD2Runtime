@@ -1,5 +1,5 @@
 {
-  "examples": 101,
+  "examples": 102,
   "failed": [],
   "mode": "snapshot",
   "results": {
@@ -3868,6 +3868,46 @@
       "usesOptions": false,
       "versionReasons": [
         "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.27.0"
+      ]
+    },
+    "VehicleProjectileBuilderTest": {
+      "baselineChanges": 2,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "callKind": "ensure",
+          "id": "patriot-minigun-projectile",
+          "mode": "transaction",
+          "path": "attack",
+          "resource": "vehicle_weapon",
+          "weapon": "EXO-45 Patriot Exosuit / right_gun"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared",
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "patriot-minigun-impact",
+          "mode": "transaction",
+          "resource": "attack_output"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.26.0",
+      "status": "VALIDATED",
+      "usesOptions": true,
+      "versionReasons": [
+        "in-game options -> 0.25.1",
+        "typed writes -> 0.23.2",
+        "vehicle_weapon target -> 0.26.0"
       ]
     },
     "WarpPackTest": {

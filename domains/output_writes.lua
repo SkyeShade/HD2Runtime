@@ -107,6 +107,10 @@ local function require_spare_build(output)
     end
 end
 M.require_spare_build=require_spare_build
+local function live_proven(field,value)
+    for _,proven in ipairs(field.liveProvenValues or{})do if proven==value then return true end end
+    return false
+end
 local function validate_change(output,item,request)
     assert(type(item)=='table','change must be a descriptor')
     require_spare_build(output)
@@ -118,9 +122,12 @@ local function validate_change(output,item,request)
         assert(field.editable,'field is read-only: '..item.field)
         assert(not field.shared or request.allow_shared==true,'shared field requires allow_shared=true: '..item.field
             ..' (every weapon firing this projectile changes: '..#field.sharedConsumers..' consumers)')
-        assert(request.allow_unverified_effect==true,'field requires allow_unverified_effect=true: '..item.field..' ('
-            ..tostring(field.acknowledgementReason)..')')
         local expected,desired=slot_selector(field,item.expect,'expect'),slot_selector(field,item.value,'value')
+        -- Exact (row, slot, donor) tuples a live test proved need no acknowledgement (liveProvenValues: "none" or
+        -- "<donor output id>#<slot>").
+        local key=desired.none and'none'or desired.donor.id..'#'..desired.slot
+        assert(request.allow_unverified_effect==true or live_proven(field,key),'field requires '
+            ..'allow_unverified_effect=true: '..item.field..' ('..tostring(field.acknowledgementReason)..')')
         assert(expected.type==field.currentDefault and(expected.none or expected.donor.id==output.id
             and expected.slot==SLOT_KEYS[item.field]),'expect must be this output\'s own '..item.field
             ..' handle (hd2.attack_output(name):'..({directDamage='direct_damage',impactExplosion='impact_explosion',
@@ -133,7 +140,9 @@ local function validate_change(output,item,request)
     assert(field.editable,'field is read-only: '..item.field)
     assert(not field.shared or request.allow_shared==true,'shared field requires allow_shared=true: '..item.field
         ..' (every weapon firing this projectile shows it: '..table.concat(field.sharedConsumers,', ')..')')
-    assert(field.acknowledgement~='allow_unverified_effect'or request.allow_unverified_effect==true,
+    -- A live-proven label or icon (the resolved icon when "auto" was asked) needs no acknowledgement.
+    assert(field.acknowledgement~='allow_unverified_effect'or request.allow_unverified_effect==true
+        or live_proven(field,item.value),
         'field requires allow_unverified_effect=true: '..item.field..' ('..tostring(field.acknowledgementReason)..')')
     assert(item.expect==field.currentDefault,'expect differs from the reviewed '..item.field..' of '..output.id
         ..': declared='..tostring(item.expect)..' reviewed='..tostring(field.currentDefault))
@@ -201,20 +210,22 @@ function M.capture_many(runtime,reader,specs)
     local results={}
     for index,spec in ipairs(specs)do
         local output=assert(catalog().outputs[spec.output],'reviewed attack output absent')
-        local candidate
+        local candidate,owner_fires
         if output.spare then
             -- A spare twin has no owner entity; prepare re-proves its row against its twin's.
         else
             candidate=find_candidate(captured,output)
-            -- The owner must still fire this projectile: its own ProjectileWeapon record, re-proven.
+            -- The owner entity and its ProjectileWeapon record are re-proven. What the owner fires right now is not a
+            -- condition: these writes target the projectile row itself, whose identity prepare re-proves, and the
+            -- owner may legitimately fire a donor another operation gave it (a Patriot minigun swapped to EAT-17
+            -- keeps its own bullet row, which the Gatling Sentry still fires).
             local backing=output.backing
             local record=captured.record(candidate,backing.component)
             assert(record.identity.recordIndex==backing.recordIndex and record.identity.indexRow==backing.indexRow,
                 'attack output owner '..backing.component..' ownership changed')
-            assert(b.u32(record.bytes,backing.offset)==output.currentDefault,
-                'CONFLICT: '..output.id..' owner no longer fires the reviewed projectile')
+            owner_fires=b.u32(record.bytes,backing.offset)==output.currentDefault
         end
-        results[index]={output=output,catalog=captured,candidate=candidate,roots=roots}
+        results[index]={output=output,catalog=captured,candidate=candidate,roots=roots,owner_fires=owner_fires}
     end
     return results
 end

@@ -87,7 +87,8 @@ local worker=coroutine.create(function()
   requests[#requests+1]=request
  end
  -- The builder never acknowledges on the author's behalf: without them the mode is refused.
- local bare=builder:operations({id='bare',base=twin,label='stun'})
+ -- (An unproven base: the spare twin itself is live-proven on the Speargun and needs none.)
+ local bare=builder:operations({id='bare',base=hd2.attack_output('AR-2 Coyote'),label='stun'})
  assert(bare[1].transaction.allow_unverified_effect==nil and bare[1].transaction.allow_unverified_reference==nil,
   'the builder added an acknowledgement')
  result.rejections.builderWithoutAcknowledgement=rejects(function()stage(bare[1].transaction)end,
@@ -183,6 +184,17 @@ local worker=coroutine.create(function()
   {allow_unverified_effect=true,allow_unverified_reference=true})
  host_swap('Liberator ammunition <- Talon',hd2.weapon('AR-23 Liberator'),hd2.attack_output('LAS-58 Talon'),
   {allow_shared=true})
+ -- Mounted hosts: the Patriot minigun's own ProjectileWeapon +0 (mount chain re-proven), same pool.
+ local patriot=hd2.vehicle('EXO-45 Patriot Exosuit'):weapon('right_gun')
+ host_swap('mounted <- support output (cross class)',patriot,hd2.attack_output('EAT-17 Expendable Anti-Tank'),
+  {allow_unverified_effect=true,allow_unverified_reference=true})
+ host_swap('mounted <- primary handle',patriot,hd2.weapon('LAS-58 Talon'):attack('primary'):projectile(),
+  {allow_unverified_effect=true})
+ host_swap('mounted <- mounted handle',patriot,hd2.vehicle('EXO-49 Emancipator Exosuit'):weapon('left_gun'):attack('primary'),
+  {allow_unverified_effect=true,allow_unverified_reference=true})
+ host_swap('primary <- mounted handle',hd2.weapon('SMG-32 Reprimand'),patriot:attack('primary'),{})
+ host_swap('shared mounted entity (both FRVs)',hd2.vehicle('M-102 Gunner FRV'):weapon('gun'),
+  hd2.attack_output('R-4 Hyena'),{allow_shared=true,allow_unverified_effect=true})
  local restore=eat:projectile_source()
  local plan=stage({id='r',target=restore.target,changes={{field=restore.field,expect=restore.expect,value=restore.expect}}})
  assert(plan.changes[1].already_desired,'restoring the EAT-17 projectile is not the baseline')
@@ -303,6 +315,39 @@ local worker=coroutine.create(function()
  result.rejections.stale_identity=rejects(function()stage(spare_slot('projectile.expiry_explosion',twin:expiry_explosion(),
   {resource='attack_output_slot',output=spare.id,slot='expiryExplosion',row=300}))end,'unsupported identity',
   'extra handle identity')
+ -- Mounted: a stale mount chain (the Patriot no longer mounts the reviewed minigun) and the rocket pod (not a host).
+ local psource=patriot:projectile_source()
+ local mounted={id='m',target=psource.target,allow_unverified_effect=true,allow_unverified_reference=true,
+  changes={{field='attack.projectile',expect=psource.expect,value=hd2.attack_output('EAT-17 Expendable Anti-Tank')}}}
+ local _,mspec,mresolved=stage(mounted)
+ local vehicle_candidate
+ for _,candidate in ipairs(mresolved.catalog.candidates)do
+  if candidate.resourceHash==hd2.vehicle('EXO-45 Patriot Exosuit'):weapon('right_gun'):describe().name and false then end
+ end
+ local chain=require('hd2runtime/domains/vehicle_weapon_authoring').weapons['EXO-45 Patriot Exosuit / right_gun'].mountChain
+ for _,candidate in ipairs(mresolved.catalog.candidates)do if candidate.resourceHash==chain.vehicleResource then
+  vehicle_candidate=candidate end end
+ local mount=mresolved.catalog.record(vehicle_candidate,'MountComponentData')
+ poke(mount.owner.base+mount.offset+chain.slot*24,string.rep(string.char(0),8))
+ result.rejections.staleMountChain=rejects(function()stage(mounted)end,'vehicle mount chain changed','stale mount chain')
+ reset()
+ assert(not hd2.vehicle('EXO-45 Patriot Exosuit'):weapon('left_gun'):projectile_source().writable)
+ result.rejections.mountedNonHost=rejects(function()stage({id='l',
+  target={resource='vehicle_weapon',path='attack',weapon='EXO-45 Patriot Exosuit / left_gun',attack='primary'},
+  allow_unverified_effect=true,allow_unverified_reference=true,changes={{field='attack.projectile',
+  expect=hd2.vehicle('EXO-45 Patriot Exosuit'):weapon('left_gun'):attack('primary'),
+  value=hd2.attack_output('AR-2 Coyote')}}})end,'field is not exposed','mounted non-host')
+ result.rejections.mountedBeamDonor=rejects(function()stage({id='b',target=psource.target,allow_unverified_effect=true,
+  allow_unverified_reference=true,changes={{field='attack.projectile',expect=psource.expect,
+  value=hd2.attack_output('AX/LAS-5 Rover / gun')}}})end,'INCOMPATIBLE_OUTPUT_FAMILY','mounted beam donor')
+ -- The Patriot minigun bullet row is shared with sentries and the MG-43: a slot write needs allow_shared.
+ local prow=hd2.attack_output('EXO-45 Patriot Exosuit / right_gun')
+ result.rejections.mountedSharedRow=rejects(function()stage({id='p',target=prow,allow_unverified_effect=true,
+  changes={{field='projectile.impact_explosion',expect='none',value=hd2.attack_output('GL-21 Grenade Launcher'):impact_explosion()}}})end,
+  'allow_shared','mounted shared row')
+ local plan=stage({id='p',target=prow,allow_unverified_effect=true,allow_shared=true,changes={{field='projectile.impact_explosion',
+  expect='none',value=hd2.attack_output('GL-21 Grenade Launcher'):impact_explosion()}}})
+ assert(#plan.changes==1 and not plan.changes[1].already_desired,'the Patriot slot write did not resolve')
  -- A support weapon that is not a host.
  local gl28=hd2.support_weapon('GL-28 Belt-Fed Grenade Launcher')
  assert(not gl28:projectile_source().writable,'GL-28 became a host')
