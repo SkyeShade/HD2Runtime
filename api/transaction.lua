@@ -113,6 +113,7 @@ function M.start_spec(runtime,emit,spec,startup_delay)
                 watch.verification=require('hd2runtime/core/steady_state').capture(runtime,
                     plan.changes or{{owner=plan.owner,offset=plan.offset,desired=plan.new}})
             end
+            applied.notes=plan.notes
             return applied
         end)end
         watch.status='resolving'
@@ -136,6 +137,7 @@ function M.start_spec(runtime,emit,spec,startup_delay)
                     log(change.field..' '..value_text(change.expect)..' -> '..value_text(change.value))
                 else log(change.field..' already '..value_text(change.value))end
             end
+            for _,note in ipairs(result.notes or{})do log(note)end
         end
         for _,line in ipairs(writer.report_lines(result))do log(line)end
         if result.status=='REJECTED' then

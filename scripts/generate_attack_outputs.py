@@ -75,15 +75,20 @@ def ammunition_proven(weapon):
     return live_evidence.proven('weapon_ammunition_projectile_reference')
 
 
+# Families whose provenCompositions list cross-class (host, output) pairs a user test proved in play.
+COMPOSITION_FAMILIES = ('attack_output_cross_class', 'vehicle_projectile_reference')
+
+
 def proven_compositions():
     """host -> {output semantic id: mechanism} for cross-class compositions a user test proved in play."""
-    family = live_evidence.family('attack_output_cross_class')
     result = {}
-    if family['status'] != 'live_proven':
-        return result
-    for item in family.get('provenCompositions', []):
-        output = 'output/v1/projectile/' + slug(item['output'])
-        result.setdefault(item['host'], {})[output] = item['mechanism']
+    for name in COMPOSITION_FAMILIES:
+        family = live_evidence.family(name)
+        if family['status'] != 'live_proven':
+            continue
+        for item in family.get('provenCompositions', []):
+            output = 'output/v1/projectile/' + slug(item['output'])
+            result.setdefault(item['host'], {})[output] = item['mechanism']
     return result
 
 
@@ -93,6 +98,7 @@ def proven_host_pairs():
     pairs = [(host, output, mechanism) for host, items in proven_compositions().items()
         for output, mechanism in items.items()]
     for family, mechanism, field in (('support_projectile_reference', 'component', 'attack.primary.projectile'),
+            ('vehicle_projectile_reference', 'component', 'attack.primary.projectile'),
             ('weapon_programmable_ammo_added', 'programmable_ammo', 'function_ammo.projectile')):
         for item in live_evidence.family(family).get('provenTargets') or []:
             if item['field'] == field and live_evidence.proven(family):

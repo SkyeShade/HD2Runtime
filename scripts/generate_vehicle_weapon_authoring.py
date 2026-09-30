@@ -12,6 +12,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from migration import overlay as migration_overlay  # noqa: E402  build-migration hook
 import generate_entity_authoring
+import live_evidence  # noqa: E402
 import status_fields  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -22,8 +23,8 @@ BUILDER = ROOT / 'research/projectile-builder-F5FEE03DCFDB.json'
 ATTACK_OUTPUTS = ROOT / 'research/attack-outputs-F5FEE03DCFDB.json'
 HOST_UNVERIFIED = ('Replaces the projectile this mounted weapon fires (its ProjectileWeapon +0, copied into the weapon '
     'when the vehicle is built). The same structural rule as player and support component hosts: magazine-fed, no '
-    'customization delta patches a projectile member and no other selector exists. Not yet shown in game for a '
-    'mounted weapon.')
+    'customization delta patches a projectile member and no other selector exists. Shown in game only on the EXO-45 '
+    'Patriot minigun, for the donors in its liveProvenValues.')
 JSON_OUTPUT = ROOT / 'sdk/VehicleWeaponCapabilities.json'
 LUA_OUTPUT = ROOT / 'domains/vehicle_weapon_authoring.lua'
 DAMAGE = (('standard_damage', 4, 'i32', 'Standard damage', 'damage'), ('durable_damage', 8, 'i32', 'Durable damage', 'damage'),
@@ -301,6 +302,8 @@ def build(research_path=RESEARCH):
                     'referenceSettings': research_entry['output']['settings'],
                     'projectileSource': {'status': host['status'], 'mechanism': host['mechanism'],
                         'member': 'ProjectileWeapon +0', 'reason': host['reason']}})
+                # Exact (mount, donor output) pairs a live test proved (vehicle_projectile_reference): liveProvenValues.
+                live_evidence.promote_field(item, key)
             elif host and host['status'] != 'ACTIVE_DIRECT' and projectile:
                 blocked.append({'attack': 'primary', 'field': 'attack.projectile', 'reason': host['reason']})
             spray = slot.get('spray')
@@ -372,6 +375,9 @@ def build(research_path=RESEARCH):
                         'baseline': {'weapon': key, 'attack': item['target']['attack']},
                         'projectileReference': {k: item.get(k) for k in ('referenceKind', 'compatibilityClass',
                             'referenceRole', 'projectileSource')}})
+                    if item.get('liveEvidence'):
+                        instance.update({'liveEvidence': item['liveEvidence'],
+                            'liveProvenValues': item['liveProvenValues']})
                 instances.append(instance)
                 groups[group].append(instance['instanceKey'])
             public_mounts.append({'slot': slot['slot'], 'label': label, 'weapon': {'key': key, 'semanticId': semantic,

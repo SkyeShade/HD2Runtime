@@ -1577,6 +1577,24 @@
    "acknowledgementsRequired": []
   },
   {
+   "host": "EXO-45 Patriot Exosuit / right_gun",
+   "output": "output/v1/projectile/eat-17-expendable-anti-tank",
+   "mechanism": "component",
+   "acknowledgementsRequired": []
+  },
+  {
+   "host": "EXO-45 Patriot Exosuit / right_gun",
+   "output": "output/v1/projectile/las-58-talon",
+   "mechanism": "component",
+   "acknowledgementsRequired": []
+  },
+  {
+   "host": "EXO-45 Patriot Exosuit / right_gun",
+   "output": "output/v1/projectile/plas-1-scorcher",
+   "mechanism": "component",
+   "acknowledgementsRequired": []
+  },
+  {
    "host": "M-105 Stalwart",
    "output": "output/v1/projectile/apw-1-anti-materiel-rifle",
    "mechanism": "component",
@@ -1721,6 +1739,29 @@
      "test": "UnifiedProjectileSwapTest",
      "result": "PASS",
      "family": "support_projectile_reference",
+     "hostReadsReference": true,
+     "superseded": false
+    }
+   ],
+   "EXO-45 Patriot Exosuit / right_gun": [
+    {
+     "test": "VehicleProjectileBuilderTest (EAT-17)",
+     "result": "PASS",
+     "family": "vehicle_projectile_reference",
+     "hostReadsReference": true,
+     "superseded": false
+    },
+    {
+     "test": "VehicleProjectileBuilderTest (Talon)",
+     "result": "PASS",
+     "family": "vehicle_projectile_reference",
+     "hostReadsReference": true,
+     "superseded": false
+    },
+    {
+     "test": "VehicleProjectileBuilderTest (Scorcher)",
+     "result": "PASS",
+     "family": "vehicle_projectile_reference",
      "hostReadsReference": true,
      "superseded": false
     }
@@ -4216,10 +4257,12 @@
     "donorOutput": "live_proven",
     "tests": [
      "AssetTestReprimandTalonProjectile",
-     "UnifiedProjectileSwapTest"
+     "UnifiedProjectileSwapTest",
+     "VehicleProjectileBuilderTest"
     ],
     "provenOnHosts": [
      "AR-23 Liberator",
+     "EXO-45 Patriot Exosuit / right_gun",
      "SMG-32 Reprimand"
     ]
    }
@@ -5640,10 +5683,12 @@
    "liveProof": {
     "donorOutput": "live_proven",
     "tests": [
-     "UnifiedProjectileSwapTest"
+     "UnifiedProjectileSwapTest",
+     "VehicleProjectileBuilderTest"
     ],
     "provenOnHosts": [
-     "EAT-17 Expendable Anti-Tank"
+     "EAT-17 Expendable Anti-Tank",
+     "EXO-45 Patriot Exosuit / right_gun"
     ]
    }
   },
@@ -8725,7 +8770,15 @@
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
-   "liveProof": null
+   "liveProof": {
+    "donorOutput": "live_proven",
+    "tests": [
+     "VehicleProjectileBuilderTest"
+    ],
+    "provenOnHosts": [
+     "EXO-45 Patriot Exosuit / right_gun"
+    ]
+   }
   },
   {
    "semanticId": "output/v1/projectile/eat-411-leveller",
@@ -10888,7 +10941,13 @@
       "allow_unverified_effect",
       "allow_shared"
      ],
-     "liveProvenValues": [],
+     "liveProvenValues": [
+      "none",
+      "output/v1/projectile/a-m-23-ems-mortar-sentry#expiryExplosion",
+      "output/v1/projectile/eat-700-expendable-napalm#impactExplosion",
+      "output/v1/projectile/gl-21-grenade-launcher#impactExplosion",
+      "output/v1/projectile/s-11-speargun#expiryExplosion"
+     ],
      "valueHandle": "hd2.attack_output(donor):impact_explosion()"
     },
     "expiryExplosion": {

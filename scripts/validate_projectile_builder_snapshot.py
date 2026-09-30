@@ -345,9 +345,22 @@ local worker=coroutine.create(function()
  result.rejections.mountedSharedRow=rejects(function()stage({id='p',target=prow,allow_unverified_effect=true,
   changes={{field='projectile.impact_explosion',expect='none',value=hd2.attack_output('GL-21 Grenade Launcher'):impact_explosion()}}})end,
   'allow_shared','mounted shared row')
- local plan=stage({id='p',target=prow,allow_unverified_effect=true,allow_shared=true,changes={{field='projectile.impact_explosion',
-  expect='none',value=hd2.attack_output('GL-21 Grenade Launcher'):impact_explosion()}}})
+ local prow_slot={id='p',target=prow,allow_unverified_effect=true,allow_shared=true,changes={{field='projectile.impact_explosion',
+  expect='none',value=hd2.attack_output('GL-21 Grenade Launcher'):impact_explosion()}}}
+ local plan=stage(prow_slot)
  assert(#plan.changes==1 and not plan.changes[1].already_desired,'the Patriot slot write did not resolve')
+ assert(plan.notes==nil,'a swapped-owner note on a Patriot firing its own row')
+ -- A swap and a slot are separate: with the minigun swapped to EAT-17, the slot write still edits row 148 (the
+ -- sentries fire it), and the plan carries the note that the edit does not reach the swapped minigun.
+ local swap=stage(mounted)
+ poke(swap.changes[1].owner.base+swap.changes[1].offset,swap.changes[1].desired)
+ local swapped=stage(prow_slot)
+ assert(#swapped.changes==1 and swapped.changes[1].identity.record_kind==plan.changes[1].identity.record_kind
+  and swapped.changes[1].offset==plan.changes[1].offset,'a swapped Patriot moved its row slot write')
+ assert(swapped.notes and swapped.notes[1]:find('currently fires another projectile',1,true)
+  and swapped.notes[1]:find('do not follow a swapped projectile',1,true),'no swapped-owner note')
+ result.swappedOwnerSlot={row=swapped.changes[1].identity.record_kind,note=swapped.notes[1]}
+ reset()
  -- A support weapon that is not a host.
  local gl28=hd2.support_weapon('GL-28 Belt-Fed Grenade Launcher')
  assert(not gl28:projectile_source().writable,'GL-28 became a host')

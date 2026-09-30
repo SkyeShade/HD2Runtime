@@ -85,7 +85,11 @@ hd2.ensure({transaction={id='patriot-eat',target=source.target,allow_unverified_
 - **Assets.** Packages load first; the Guard Dog gun's package is unknown, so it is refused as a donor.
 - **Read-only mounts** give their reason in `projectile_source()`.
 - **Slots.** The mount's bullet row slots (`hd2.fields.projectile.impact_explosion`, ...) change every entity that fires
-  that row.
+  that row. A slot write edits the row, not the mount: it reaches the mount only while the mount fires that row, and
+  it does not follow a swapped projectile ([host swaps and slot writes](attack-outputs.md)).
+- **Live evidence.** The Patriot minigun ← EAT-17, LAS-58 Talon and PLAS-1 Scorcher swaps and its own-bullet impact
+  explosions (GL-21, Speargun gas, EMS Mortar field, EAT-700 napalm) are live-proven; every other mount, donor and
+  effect keeps its acknowledgements.
 
 ## Scopes and acknowledgements
 

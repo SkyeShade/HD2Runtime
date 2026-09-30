@@ -157,6 +157,7 @@ function M.start_spec(runtime,emit,spec,startup_delay)
                     return report
                 end
                 if result.status=='APPLIED'then any_applied=true end
+                for _,note in ipairs(plan.notes or{})do report.notes=report.notes or{};report.notes[#report.notes+1]=note end
                 history[#history+1]={phase=phase,plan=plan,result=result,inverse=writer.inverse(plan)}
             end
             report.status=any_applied and'APPLIED'or'ALREADY_DESIRED'
@@ -180,6 +181,7 @@ function M.start_spec(runtime,emit,spec,startup_delay)
         log('plan '..spec.id..' '..result.status..' phases='..#result.phases
             ..' writes='..result.writes..' protection_changes='..result.protection_changes)
         for _,line in ipairs(writer.report_lines(result))do log(line)end
+        for _,note in ipairs(result.notes or{})do log(note)end
     end
     return watch
 end

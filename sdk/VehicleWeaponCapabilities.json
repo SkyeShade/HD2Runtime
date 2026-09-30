@@ -10471,7 +10471,27 @@
           "member": "ProjectileWeapon +0",
           "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
         }
-      }
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "vehicle_projectile_reference",
+        "tests": [
+          "VehicleProjectileBuilderTest"
+        ],
+        "date": "2026-09-30",
+        "target": "EXO-45 Patriot Exosuit / right_gun",
+        "field": "attack.primary.projectile",
+        "values": [
+          "output/v1/projectile/eat-17-expendable-anti-tank",
+          "output/v1/projectile/las-58-talon",
+          "output/v1/projectile/plas-1-scorcher"
+        ]
+      },
+      "liveProvenValues": [
+        "output/v1/projectile/eat-17-expendable-anti-tank",
+        "output/v1/projectile/las-58-talon",
+        "output/v1/projectile/plas-1-scorcher"
+      ]
     },
     {
       "instanceKey": "vehicle-field/v1/m-102-gunner-frv-gun/weapon-fire-rate/9a0b4e3b603116a5",

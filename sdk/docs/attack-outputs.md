@@ -225,7 +225,9 @@ a projectile pointer exists.
   - **Row sharing.** Mounted bullet rows are widely shared. The Patriot minigun row is fired by 10 entities, the
     Gatling and machine-gun sentries among them. A *reference* swap changes only the mount; a *slot* write on its row
     needs `allow_shared`.
-  - **Acknowledgements.** Every mounted swap needs `allow_unverified_effect` (not yet live-tested).
+  - **Acknowledgements.** Mounted swaps need `allow_unverified_effect`, and cross-class donors also
+    `allow_unverified_reference`. The exception is exactly the three live-proven donors on the Patriot minigun:
+    EAT-17, LAS-58 Talon and PLAS-1 Scorcher (VehicleProjectileBuilderTest, `vehicle_projectile_reference`).
   - **Live test.** examples/projects/VehicleProjectileBuilderTest (the Patriot).
 - **One donor pool.** Any catalogued projectile output (`hd2.attack_output(name)`), whatever loadout slot, stratagem or
   mount owns it. On a support host, and for a support donor on a player host, another weapon's attack projectile
@@ -314,13 +316,41 @@ donor output:
   (`ASSET_UNAVAILABLE`).
 - **Sharing.** A slot write changes every entity that fires the row, its owner weapon included: `describe().slots`
   and the catalog `slots` publish the entities and typed references. A row with more than one needs `allow_shared`;
-  the HMG bullet is 15 references across 6 entities. Every slot write needs `allow_unverified_effect`.
+  the HMG bullet is 15 references across 6 entities.
+- **Acknowledgement.** A slot write needs `allow_unverified_effect`, except the exact (row, slot, donor) tuples a live
+  test proved (`slots.<slot>.liveProvenValues`, `projectile_slot_composition`):
+  - the AR-2 Coyote and EXO-45 Patriot minigun impact explosions;
+  - the Coyote Pacifier direct hit;
+  - the Speargun spare twin's EMS expiry.
+
+  `allow_shared` is never dropped by live proof.
 - **Recursion.** A composition must never make a projectile spawn itself. Before an explosion slot is written, the
   chain explosion → submunition projectile → its impact and expiry explosions is followed in the live tables, and a
   chain that reaches the written row is refused (`RECURSIVE_COMPOSITION`). Native submunition chains (the EAT-700
   shrapnel) pass.
 - **Unproven members.** +148 and +152 (f32 values after the impact explosion) and +228 (a ProjectileStatusEffect
   enum) stay unknown and read-only. Nothing proves a delay, a chance or what the status member does.
+
+**Host swaps and slot writes are separate operations.** They write different objects and do not compose
+automatically:
+- **Swap.** A host swap changes *which row* a host fires: its ProjectileWeapon +0, or its ammunition delta.
+- **Slot write.** A slot write changes *a row's* direct hit or explosions, for every entity that fires that row. Its
+  target is the row (`hd2.attack_output(name)`), never a host.
+
+In practice:
+- **The host's own row.** A slot write there reaches the host only while it fires that row. After a swap, the host
+  fires the donor's row, with the donor's effects. The host's own row keeps the edit, and every other entity that
+  fires it still shows it. VehicleProjectileBuilderTest showed exactly this: the Patriot minigun's impact effect
+  worked with its own bullet and did not follow EAT-17, Talon or Scorcher.
+- **The log.** Runtime logs a `note:` line when a slot or label write applies while the row's owner fires another row
+  through its ProjectileWeapon +0.
+- **Effects on a swapped projectile.** Edit the donor's row explicitly: target `hd2.attack_output(donor)`. That
+  changes every entity firing the donor row: the donor weapon itself, and every host swapped onto it.
+- **What `allow_shared` counts.** It counts the row's native consumers (`slots.<slot>.sharedConsumers`). Hosts that
+  other operations swapped onto the row are not counted.
+- **One host alone.** An effect on one host's swapped projectile alone needs a row of its own: a spare twin, or the
+  Runtime-owned projectile registry, which 0.28 does not have. Nothing re-targets a slot write when a host swap
+  changes.
 
 **Where each effect lives** (the live rows, `validation/projectile-builder-snapshot.json` `audit`). A lingering field
 is a status volume the explosion leaves; a submunition is a projectile the explosion releases:

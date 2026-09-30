@@ -32,6 +32,9 @@ PROJECTILE_BUILDER_TARGETS = [('AR-2 Coyote', 'projectile.direct_damage'), ('AR-
     ('S-11 Speargun', 'weapon_function.left'), ('S-11 Speargun (spare twin)', 'presentation.mode_icon'),
     ('S-11 Speargun (spare twin)', 'presentation.mode_label'), ('S-11 Speargun (spare twin)', 'projectile.expiry_explosion'),
     ('local_player', 'hd2.actions.heal')]
+# The vehicle projectile builder session (2026-09-30): the Patriot minigun swaps and its own row's impact slot.
+VEHICLE_TARGETS = [('EXO-45 Patriot Exosuit / right_gun', 'attack.primary.projectile'),
+    ('EXO-45 Patriot Exosuit / right_gun', 'projectile.impact_explosion')]
 COMPOSITION_TARGETS = [('MG-206 Heavy Machine Gun', 'fire_rate.modes'), ('AR-23 Liberator', 'fire_rate.modes'),
     ('AR-23 Liberator', 'weapon_function.left'), ('SG-20 Halt', 'rounds.feed_capacity_1'),
     ('SG-20 Halt', 'rounds.feed_capacity_2'), ('AR-23C Liberator Concussive', 'presentation.armor_penetration')]
@@ -55,7 +58,7 @@ class LiveEvidenceTests(unittest.TestCase):
                 'event_damage_source_attribution', 'event_player_died_position', 'event_weapon_in_hand',
                 'minefield_salvos', 'pod_payload_pair', 'projectile_slot_composition', 'sentry_targeting_range',
                 'sentry_turret_turn_speed', 'stratagem_definition_cooldown', 'support_projectile_reference',
-                'weapon_ammunition_projectile_reference', 'weapon_fire_rate_modes_native',
+                'vehicle_projectile_reference', 'weapon_ammunition_projectile_reference', 'weapon_fire_rate_modes_native',
                 'weapon_fire_rate_selector_added', 'weapon_heat_per_shot', 'weapon_magazine_capacity',
                 'weapon_mode_presentation', 'weapon_presentation_penetration_label', 'weapon_programmable_ammo_added',
                 'weapon_projectile_damage', 'weapon_projectile_reference_direct', 'weapon_projectile_status_reference',
@@ -64,7 +67,7 @@ class LiveEvidenceTests(unittest.TestCase):
             'not_tested': ['enemy_attack_damage'], 'inconclusive': ['structure_health'],
             'live_failed': ['backpack_shield_default_armor', 'weapon_projectile_reference_dormant_member'],
             'pending': ['backpack_shield_zone_armor', 'weapon_presentation_traits']})
-        self.assertEqual((catalog['summary']['tests'], catalog['summary']['passed']), (48, 40))
+        self.assertEqual((catalog['summary']['tests'], catalog['summary']['passed']), (52, 44))
         for name, entry in self.registry['families'].items():
             if entry['status'] == 'live_proven':
                 self.assertTrue(any(t['result'] == 'PASS' for t in live_evidence.tests(name)), name)
@@ -201,7 +204,7 @@ class LiveEvidenceTests(unittest.TestCase):
             ('LAS-16 Sickle', 'heat.heat_per_shot'), ('M-1000 Maxigun', 'damage.primary.standard_damage'),
             ('MA5C Assault Rifle', 'magazine.capacity'), ('Orbital Precision Strike', 'stratagem.definition_cooldown'),
             ('SG-20 Halt', 'damage.primary.standard_damage')] + TASK3_TARGETS + COMPOSITION_TARGETS
-            + PROJECTILE_BUILDER_TARGETS))
+            + PROJECTILE_BUILDER_TARGETS + VEHICLE_TARGETS))
         weapons = load('PlayerWeaponAuthoringCapabilities.json')
         promoted = sorted((w['name'], f['semanticFieldId']) for w in weapons['weapons'] for f in w['fields']
             if (f.get('liveEvidence') or {}).get('family') in ('weapon_magazine_capacity', 'weapon_heat_per_shot',
@@ -307,6 +310,84 @@ rejects(function()label(twin,'stun','ammo_flak')end,'allow_unverified_effect')
 local hmg_output=hd2.attack_output('MG-206 Heavy Machine Gun')
 rejects(function()label(hmg_output,'standard')end,'allow_shared')
 label(hmg_output,'standard',nil,{allow_shared=true})
+return 'ok'
+'''), b'ok')
+
+    def test_vehicle_projectile_session_promotes_exactly_the_tested_scopes(self):
+        """VehicleProjectileBuilderTest (2026-09-30): the Patriot minigun <- EAT-17, Talon and Scorcher swaps and its
+        own bullet row's four impact explosions. The status bullets, other mounts and donors, and an effect following a
+        swapped projectile stay unproven; allow_shared is never dropped."""
+        registry = json.loads((ROOT / 'schemas/live_evidence.json').read_text(encoding='utf-8'))
+        session = next(s for s in registry['sessions'] if s['id'] == 'vehicle-projectile-builder-2026-09-30')
+        self.assertEqual([(t['operation'], t.get('choice')) for t in session['tests']],
+            [('patriot-minigun-projectile', 'EAT-17'), ('patriot-minigun-projectile', 'Talon'),
+             ('patriot-minigun-projectile', 'Scorcher'),
+             ('patriot-minigun-impact', 'Grenade blast, Gas cloud, EMS field, Napalm')])
+        family = registry['families']['vehicle_projectile_reference']
+        self.assertEqual(family['provenTargets'], [{'target': 'EXO-45 Patriot Exosuit / right_gun',
+            'field': 'attack.primary.projectile', 'values': ['output/v1/projectile/eat-17-expendable-anti-tank',
+                'output/v1/projectile/las-58-talon', 'output/v1/projectile/plas-1-scorcher']}])
+        self.assertIn('status bullets', ' '.join(family['notPromoted']))
+        self.assertIn('a slot effect following a swapped host projectile',
+            registry['families']['projectile_slot_composition']['notPromoted'])
+        vehicles = {(i['weapon'], i['semanticFieldId']): i for i in load('VehicleWeaponCapabilities.json')['fieldInstances']}
+        patriot = vehicles[('EXO-45 Patriot Exosuit / right_gun', 'attack.primary.projectile')]
+        self.assertEqual((patriot['acknowledgement'], patriot['liveProvenValues']), ('allow_unverified_effect',
+            family['provenTargets'][0]['values']))
+        for key in (('EXO-49 Emancipator Exosuit / left_gun', 'attack.primary.projectile'),
+                ('M-102 Gunner FRV / gun', 'attack.primary.projectile')):
+            self.assertNotIn('liveProvenValues', vehicles[key], key)
+        outputs = {o['owner']['name']: o for o in load('AttackOutputCapabilities.json')['outputs']}
+        impact = outputs['EXO-45 Patriot Exosuit / right_gun']['slots']['impactExplosion']
+        self.assertEqual((impact['shared'], impact['liveProvenValues']), (True, ['none',
+            'output/v1/projectile/a-m-23-ems-mortar-sentry#expiryExplosion',
+            'output/v1/projectile/eat-700-expendable-napalm#impactExplosion',
+            'output/v1/projectile/gl-21-grenade-launcher#impactExplosion',
+            'output/v1/projectile/s-11-speargun#expiryExplosion']))
+        self.assertEqual(outputs['EXO-45 Patriot Exosuit / right_gun']['slots']['expiryExplosion']['liveProvenValues'],
+            [])
+        self.assertEqual(run(r'''
+local hd2=require('hd2runtime/api/hd2')
+local patches=require('hd2runtime/domains/patches')
+local outputs=require('hd2runtime/domains/output_writes')
+local function rejects(fn,needle)local ok,why=pcall(fn);assert(not ok and tostring(why):find(needle,1,true),tostring(why))end
+local source=hd2.vehicle('EXO-45 Patriot Exosuit'):weapon('right_gun'):projectile_source()
+local function swap(value,s)
+ s=s or source
+ return patches.validate{id='s',target=s.target,field=s.field,expect=s.expect,value=value}
+end
+-- The three tested donors (two of them cross-class) and the restore need no acknowledgement.
+for _,name in ipairs({'EAT-17 Expendable Anti-Tank','LAS-58 Talon','PLAS-1 Scorcher'})do swap(hd2.attack_output(name))end
+swap(hd2.weapon('LAS-58 Talon'):attack('primary'):projectile())
+swap(source.expect)
+-- Offered but not reported (the status bullets), another donor, another mount.
+for _,name in ipairs({'R-4 Hyena','AR-32 Pacifier','P-35 Re-Educator','EAT-700 Expendable Napalm'})do
+ rejects(function()swap(hd2.attack_output(name))end,'allow_unverified_effect')
+end
+rejects(function()swap(hd2.attack_output('EAT-17 Expendable Anti-Tank'),
+ hd2.vehicle('EXO-49 Emancipator Exosuit'):weapon('left_gun'):projectile_source())end,'allow_unverified_effect')
+-- The own row's impact slot: the four tested explosions and none, allow_shared still required.
+local row=hd2.attack_output('EXO-45 Patriot Exosuit / right_gun')
+local function slot(field,value,extra)
+ local request={id='x',target=row,changes={{field=field,expect='none',value=value}}}
+ for k,v in pairs(extra or{})do request[k]=v end
+ return outputs.validate_transaction(request)
+end
+for _,value in ipairs({hd2.attack_output('GL-21 Grenade Launcher'):impact_explosion(),
+  hd2.attack_output('S-11 Speargun'):expiry_explosion(),hd2.attack_output('A/M-23 EMS Mortar Sentry'):expiry_explosion(),
+  hd2.attack_output('EAT-700 Expendable Napalm'):impact_explosion(),'none'})do
+ slot('projectile.impact_explosion',value,{allow_shared=true})
+end
+rejects(function()slot('projectile.impact_explosion',hd2.attack_output('GL-21 Grenade Launcher'):impact_explosion())end,
+ 'allow_shared')
+rejects(function()slot('projectile.impact_explosion',hd2.attack_output('R-36 Eruptor'):impact_explosion(),
+ {allow_shared=true})end,'allow_unverified_effect')
+rejects(function()slot('projectile.expiry_explosion',hd2.attack_output('GL-21 Grenade Launcher'):impact_explosion(),
+ {allow_shared=true})end,'allow_unverified_effect')
+-- The same tuple on a donor's row is not proven (an effect following a swapped projectile).
+rejects(function()outputs.validate_transaction{id='t',target=hd2.attack_output('LAS-58 Talon'),changes={{
+ field='projectile.impact_explosion',expect='none',value=hd2.attack_output('GL-21 Grenade Launcher'):impact_explosion()}}}end,
+ 'allow_unverified_effect')
 return 'ok'
 '''), b'ok')
 

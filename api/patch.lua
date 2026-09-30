@@ -113,6 +113,7 @@ function M.start_spec(runtime,emit,spec,startup_delay)
                 watch.verification=require('hd2runtime/core/steady_state').capture(runtime,
                     plan.changes or{{owner=plan.owner,offset=plan.offset,desired=plan.new}})
             end
+            applied.notes=plan.notes
             return applied
         end)end
         watch.status='resolving'
@@ -130,6 +131,9 @@ function M.start_spec(runtime,emit,spec,startup_delay)
         end
         if result.status=='APPLIED' then
             log(spec.field..' '..value_text(spec.expect)..' -> '..value_text(spec.value))
+        end
+        if result.status=='APPLIED' or result.status=='ALREADY_DESIRED' then
+            for _,note in ipairs(result.notes or{})do log(note)end
         end
         for _,line in ipairs(require('hd2runtime/core/guarded_transaction').report_lines(result))do log(line)end
         if result.status=='REJECTED' then

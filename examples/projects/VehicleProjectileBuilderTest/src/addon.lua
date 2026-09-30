@@ -5,10 +5,13 @@ local hd2=require('mods/skyeshade/hd2runtime')
 -- - Minigun projectile: the minigun fires another catalogued projectile (any loadout slot): EAT-17, Talon, Scorcher,
 --   or a bullet that applies a status on hit (R-4 Hyena fire, AR-32 Pacifier stun, P-35 Re-Educator gas). One field:
 --   only one choice at a time. Runtime loads the donor's package first.
--- - Impact effect: an explosion released where the minigun's own bullet hits (GL-21 grenade blast, Speargun gas cloud,
---   EMS Mortar field, EAT-700 napalm). The minigun bullet row is SHARED: 10 entities fire it (the Gatling and
---   machine-gun sentries among them), so this needs allow_shared and changes them too. It applies while the minigun
---   fires its own bullet (projectile Vanilla). Default None.
+-- - Own-bullet impact effect: an explosion released where the minigun's OWN bullet row hits (GL-21 grenade blast,
+--   Speargun gas cloud, EMS Mortar field, EAT-700 napalm). A slot write edits a row, not the minigun: it shows while
+--   the minigun fires its own bullet (projectile Vanilla). With a donor selected the minigun fires the donor's row and
+--   the effect does not follow (docs/attack-outputs.md, host swaps and slot writes). The row is SHARED: 10 entities
+--   fire it (the Gatling and machine-gun sentries among them), so this needs allow_shared and changes them too.
+-- - Talon bolt impact: the explicit way to give a swapped projectile an effect is to edit the donor's own row. This
+--   edits the LAS-58 Talon bolt row, so the Talon sidearm changes too, and so does the minigun while it fires Talon.
 -- The projectile reference is copied into the Patriot when it is built: call in a fresh Exosuit after APPLY.
 local patriot=hd2.vehicle('EXO-45 Patriot Exosuit'):weapon('right_gun')
 local source=patriot:projectile_source()
@@ -21,17 +24,25 @@ local projectile=options:choice({id='projectile',label='Patriot minigun projecti
         hd2.attack_output('P-35 Re-Educator')},
     description='What every minigun shot fires. Incendiary / Stun / Gas are bullets that apply that status on hit.'})
 local bullet=hd2.attack_output('EXO-45 Patriot Exosuit / right_gun')
-local impact=options:choice({id='impact',label='Minigun impact effect',
+local impact=options:choice({id='impact',label='Own-bullet impact effect',
     choices={'None','Grenade blast','Gas cloud','EMS field','Napalm'},
     values={'none',hd2.attack_output('GL-21 Grenade Launcher'):impact_explosion(),
         hd2.attack_output('S-11 Speargun'):expiry_explosion(),
         hd2.attack_output('A/M-23 EMS Mortar Sentry'):expiry_explosion(),
         hd2.attack_output('EAT-700 Expendable Napalm'):impact_explosion()},
-    description='Released where the minigun bullet hits. Shared: also the Gatling and machine-gun sentries.'})
--- Mounted projectile swaps and slot writes are mapped offline, not yet shown in game.
+    description='On the minigun\'s own bullet: shows with projectile Vanilla, not with a donor. Shared: also the '
+        ..'Gatling and machine-gun sentries.'})
+local talon=hd2.attack_output('LAS-58 Talon')
+local talon_impact=options:toggle({id='talon_impact',label='Talon bolt impact (donor row)',default=false,
+    description='A grenade blast on the LAS-58 Talon bolt row: the minigun firing Talon, and the Talon sidearm.'})
+-- Live-proven (schemas/live_evidence.json): the EAT-17, Talon and Scorcher swaps and the four own-bullet effects. The
+-- status bullets and the Talon row effect are not, so the acknowledgements stay.
 return {
     hd2.ensure({transaction={id='patriot-minigun-projectile',target=source.target,allow_unverified_effect=true,
         allow_unverified_reference=true,changes={{field=source.field,expect=source.expect,value=projectile}}}}),
     hd2.ensure({transaction={id='patriot-minigun-impact',target=bullet,allow_shared=true,allow_unverified_effect=true,
         changes={{field=hd2.fields.projectile.impact_explosion,expect='none',value=impact}}}}),
+    hd2.ensure({enabled=talon_impact,transaction={id='talon-bolt-impact',target=talon,allow_unverified_effect=true,
+        changes={{field=hd2.fields.projectile.impact_explosion,expect='none',
+            value=hd2.attack_output('GL-21 Grenade Launcher'):impact_explosion()}}}}),
 }

@@ -272,6 +272,16 @@ end
 function M.prepare(resolved,reader,spec)
     local plan={changes={},snapshots=reader.snapshots}
     local output=resolved.output
+    -- Slot and label writes edit this row, never a host. While the owner fires another row (another operation swapped
+    -- its projectile) the edit does not reach the owner. Not a refusal (the row identity is re-proven below): the log
+    -- says so once per application.
+    if resolved.owner_fires==false then
+        local owner=output.owner.name
+        plan.notes={'note: '..spec.id..' edits the '..owner..' projectile row, but '..owner..' currently fires '
+            ..'another projectile (a swap), so the edit does not reach it until it fires its own row again; every '
+            ..'other entity that fires this row still shows it. Slot and label writes edit a row and do not follow a '
+            ..'swapped projectile.'}
+    end
     local root=assert(resolved.roots.projectile,'projectile settings allocation absent')
     if output.spare then
         local own=settings_row(root,output.referenceSettings,output.id)
