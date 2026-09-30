@@ -23,7 +23,7 @@ operations[1]=hd2.ensure({transaction={id='concussive-gameplay-ap',target=bullet
     {field=hd2.fields.damage.ap_slight,expect=2,value=gameplay},
     {field=hd2.fields.damage.ap_large,expect=2,value=gameplay},
     {field=hd2.fields.damage.ap_extreme,expect=2,value=gameplay}}}})
+-- The Concussive's Light, Medium and Heavy labels are live-proven: no allow_unverified_effect needed for them.
 operations[2]=hd2.ensure({patch={id='concussive-displayed-ap',target=concussive,
-    field=hd2.fields.presentation.armor_penetration,expect=shown.armorPenetration,value=label,
-    allow_unverified_effect=true}})
+    field=hd2.fields.presentation.armor_penetration,expect=shown.armorPenetration,value=label}})
 return operations

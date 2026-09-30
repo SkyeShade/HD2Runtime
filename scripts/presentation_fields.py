@@ -7,6 +7,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import live_evidence
+
 ROOT = Path(__file__).resolve().parents[1]
 RESEARCH = ROOT / 'research/weapon-presentation-F5FEE03DCFDB.json'
 TRAITS_FIELD, PENETRATION_FIELD = 'presentation.traits', 'presentation.armor_penetration'
@@ -57,7 +59,7 @@ def apply_traits(field, row, research, traits, identity_ok):
         'reader': 'the armory trait builder (research proofs)', 'source': 'research/weapon-presentation-F5FEE03DCFDB.json',
         'gameplayProven': False}
     field['effect'] = dict(EFFECT)
-    return field
+    return live_evidence.promote_field(field, row['weapon'])
 
 
 def apply_penetration(field, row, research, penetration, identity_ok):
@@ -76,4 +78,4 @@ def apply_penetration(field, row, research, penetration, identity_ok):
         'reader': 'the armory trait builder (research proofs)', 'source': 'research/weapon-presentation-F5FEE03DCFDB.json',
         'gameplayProven': False, 'derivedFromGameplay': False}
     field['effect'] = dict(EFFECT)
-    return field
+    return live_evidence.promote_field(field, row['weapon'])

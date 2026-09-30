@@ -5,6 +5,7 @@ allow_unverified_effect, and only within the scope recorded in the registry. Gen
 
   live_evidence.proven(family)   -> publication dict for a live_proven family, else None
   live_evidence.family(family)   -> the registry entry (any status)
+  live_evidence.promote_field(field, target) -> the field with its exact promotion applied
 """
 from __future__ import annotations
 
@@ -50,13 +51,39 @@ def proven(name: str) -> dict | None:
 
 def proven_target(name: str, target: str, field: str) -> dict | None:
     """Evidence for one exact (target, field) pair of a live-proven family scoped by `provenTargets`, else None. Only
-    the tested target is promoted; the same member on other targets stays unpromoted."""
+    the tested target is promoted; the same member on other targets stays unpromoted. A pair recorded with `values`
+    promotes only those values (for example one binding of a field that can take several); the result then carries
+    them as `values`."""
     evidence = proven(name)
     if not evidence:
         return None
-    if not any(item['target'] == target and item['field'] == field for item in family(name).get('provenTargets') or []):
+    matches = [item for item in family(name).get('provenTargets') or []
+        if item['target'] == target and item['field'] == field]
+    if not matches:
         return None
-    return dict(evidence, target=target, field=field)
+    result = dict(evidence, target=target, field=field)
+    if all('values' in item for item in matches):
+        result['values'] = sorted({value for item in matches for value in item['values']})
+    return result
+
+
+def promote_field(field: dict, target: str) -> dict:
+    """Apply an exact live promotion to a generated field descriptor: record its `liveEvidence` and drop
+    `allow_unverified_effect` for the promoted pair, or, for a value-scoped promotion, only for those values
+    (`liveProvenValues`; the write engine still asks for the acknowledgement for every other value)."""
+    evidence = proven_targets().get((target, field['semanticFieldId']))
+    if not evidence or not field.get('editable'):
+        return field
+    field['liveEvidence'] = evidence
+    if evidence.get('values'):
+        field['liveProvenValues'] = list(evidence['values'])
+    elif field.get('acknowledgement') == 'allow_unverified_effect':
+        field['acknowledgement'] = None
+        field['acknowledgementReason'] = None
+    if field.get('effect'):
+        field['effect'] = dict(field['effect'], gameplayEffectProven=True,
+            unverifiedEffect=field.get('acknowledgement') == 'allow_unverified_effect')
+    return field
 
 
 def proven_targets() -> dict:

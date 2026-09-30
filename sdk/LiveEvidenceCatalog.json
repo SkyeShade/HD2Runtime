@@ -19,9 +19,9 @@
   "note": "A failed host is host-path evidence, never evidence against the donor output. null means the test did not establish that part."
  },
  "summary": {
-  "sessions": 6,
-  "tests": 29,
-  "passed": 22,
+  "sessions": 7,
+  "tests": 34,
+  "passed": 26,
   "families": {
    "live_proven": [
     "attack_output_cross_class",
@@ -38,14 +38,19 @@
     "sentry_turret_turn_speed",
     "stratagem_definition_cooldown",
     "weapon_ammunition_projectile_reference",
+    "weapon_fire_rate_modes_native",
+    "weapon_fire_rate_selector_added",
     "weapon_heat_per_shot",
     "weapon_magazine_capacity",
+    "weapon_presentation_penetration_label",
     "weapon_projectile_damage",
     "weapon_projectile_reference_direct",
-    "weapon_projectile_status_reference"
+    "weapon_projectile_status_reference",
+    "weapon_rounds_feed_capacity"
    ],
    "live_partial": [
-    "backpack_deposit_ammo"
+    "backpack_deposit_ammo",
+    "weapon_programmable_ammo_added"
    ],
    "not_tested": [
     "enemy_attack_damage"
@@ -59,11 +64,7 @@
    ],
    "pending": [
     "backpack_shield_zone_armor",
-    "weapon_fire_rate_modes_native",
-    "weapon_fire_rate_selector_added",
-    "weapon_presentation_traits",
-    "weapon_programmable_ammo_added",
-    "weapon_rounds_feed_capacity"
+    "weapon_presentation_traits"
    ]
   }
  },
@@ -584,73 +585,158 @@
    ]
   },
   "weapon_fire_rate_modes_native": {
-   "status": "pending",
+   "status": "live_proven",
    "domain": "support_weapon",
    "fields": [
     "fire_rate.modes"
    ],
-   "scope": "Editing the three native rate-of-fire slots of the MG-206 Heavy Machine Gun (its own ProjectileWeapon record), each on its own.",
-   "tests": [],
-   "acknowledgementRemoved": null,
+   "scope": "Editing the three native rate-of-fire slots of the MG-206 Heavy Machine Gun (its own ProjectileWeapon record), each on its own: the edited rates are used in play.",
+   "provenTargets": [
+    {
+     "target": "MG-206 Heavy Machine Gun",
+     "field": "fire_rate.modes"
+    }
+   ],
+   "tests": [
+    "HMGFireRateModesTest"
+   ],
+   "acknowledgementRemoved": "allow_unverified_effect (MG-206 fire_rate.modes only)",
+   "observations": [
+    "The weapon menu lists the rates in storage order X, Y, Z (inferred: a list in selector order Y, Z, X did not match it). fire_rate.modes now uses that order; the slots written are unchanged."
+   ],
+   "notPromoted": [
+    "fire_rate.modes of every other weapon, including the other native selectors (MG-43, M-105 Stalwart, AR-61 Tenderizer)",
+    "whether an HMG already built picks up new rates (not reported)"
+   ],
    "nextTests": [
-    "HMGFireRateModesTest: a fresh HMG fires 200 rpm, one press 700, two presses 1400; one slider changes only its position; reload, magazine and handling unchanged"
+    "HMGFireRateModesTest (menu-order build): the weapon menu lists 300 / 550 / 1200 from top to bottom, the slider order, starting on 550"
    ]
   },
   "weapon_fire_rate_selector_added": {
-   "status": "pending",
+   "status": "live_proven",
    "domain": "player_weapon",
    "fields": [
     "fire_rate.modes",
     "weapon_function.left",
     "weapon_function.right"
    ],
-   "scope": "Filling empty rate-of-fire slots and binding the ROF weapon function to a free input (AR-23 Liberator, left input).",
-   "tests": [],
-   "acknowledgementRemoved": null,
+   "scope": "Filling the empty rate-of-fire slots of the AR-23 Liberator and binding the ROF weapon function to its free left input: the new selector works in play and switches between the three rates.",
+   "provenTargets": [
+    {
+     "target": "AR-23 Liberator",
+     "field": "fire_rate.modes"
+    },
+    {
+     "target": "AR-23 Liberator",
+     "field": "weapon_function.left",
+     "values": [
+      "rate_of_fire"
+     ]
+    }
+   ],
+   "tests": [
+    "AddedFireRateModeTest"
+   ],
+   "acknowledgementRemoved": "allow_unverified_effect (AR-23 Liberator: fire_rate.modes, and weapon_function.left = rate_of_fire)",
+   "notPromoted": [
+    "every other weapon that can take a selector",
+    "weapon_function.right",
+    "weapon_function.left = programmable_ammo on the Liberator"
+   ],
    "nextTests": [
-    "AddedFireRateModeTest: a fresh Liberator fires 450 rpm and shows a rate-of-fire entry cycling 450 -> 700 -> 950; fire modes still switch; disable restores one 640 rpm rate"
+    "AddedFireRateModeTest (menu-order build): the weapon menu lists 450 / 700 / 950 from top to bottom, starting on 700"
    ]
   },
   "weapon_rounds_feed_capacity": {
-   "status": "pending",
+   "status": "live_proven",
    "domain": "player_weapon",
    "fields": [
     "rounds.feed_capacity_1",
     "rounds.feed_capacity_2"
    ],
-   "scope": "The SG-20 Halt magazine capacities per feed (WeaponRounds +72 / +76).",
-   "tests": [],
+   "scope": "The SG-20 Halt magazine capacities per feed (WeaponRounds +72 / +76): 4 flechette rounds and 12 stun rounds, each feed independent.",
+   "provenTargets": [
+    {
+     "target": "SG-20 Halt",
+     "field": "rounds.feed_capacity_1"
+    },
+    {
+     "target": "SG-20 Halt",
+     "field": "rounds.feed_capacity_2"
+    }
+   ],
+   "tests": [
+    "HaltFeedTest"
+   ],
    "acknowledgementRemoved": null,
-   "nextTests": [
-    "HaltFeedTest: flechette magazine 4 rounds and burning, stun magazine 12 rounds and stunning, each kept across switches and reloads"
+   "notPromotedNote": "offline-proven only",
+   "notPromoted": [
+    "the feed capacities of any other weapon"
    ]
   },
   "weapon_programmable_ammo_added": {
-   "status": "pending",
+   "status": "live_partial",
    "domain": "support_weapon",
    "fields": [
     "function_ammo.projectile",
     "weapon_function.left"
    ],
    "scope": "Giving a weapon without it a ProgrammableAmmo selector and a donor function projectile (S-11 Speargun, left input).",
-   "tests": [],
+   "tests": [
+    "SpeargunGasStunTest"
+   ],
    "acknowledgementRemoved": null,
+   "observations": [
+    "The selector and the function projectile work in play: mode A fires the normal gas spear, mode B the donor projectile.",
+    "The GL-52 De-Escalator donor produces heavy arc damage, not a stun field: the donor, not the mechanism, missed the intended effect."
+   ],
+   "notPromoted": [
+    "function_ammo.projectile and the programmable_ammo binding on every weapon, the Speargun included: the acknowledgements stay until a donor with the intended effect is tested"
+   ],
    "nextTests": [
-    "SpeargunGasStunTest: gas spears with the function off, the chosen stun ammunition with it on; the donor package loads automatically"
+    "SpeargunGasStunTest with a true stun-field donor (see docs/weapon-feeds.md, stun-field donors)"
+   ]
+  },
+  "weapon_presentation_penetration_label": {
+   "status": "live_proven",
+   "domain": "player_weapon",
+   "fields": [
+    "presentation.armor_penetration"
+   ],
+   "scope": "The AR-23C Liberator Concussive's armory penetration label (a loadout-entry trait tag), independent of gameplay: HEAVY and MEDIUM shown while the bullets stayed AP 3; menus pick the label up when they are reopened.",
+   "provenTargets": [
+    {
+     "target": "AR-23C Liberator Concussive",
+     "field": "presentation.armor_penetration",
+     "values": [
+      "heavy",
+      "light",
+      "medium"
+     ]
+    }
+   ],
+   "tests": [
+    "WeaponPresentationTest"
+   ],
+   "acknowledgementRemoved": "allow_unverified_effect (AR-23C Liberator Concussive: light, medium, heavy)",
+   "behaviour": "Presentation only: the label is read when a menu builds its item view; reopening or changing the menu state is enough, no restart.",
+   "notPromoted": [
+    "none, light_anti_tank and anti_tank on the Concussive",
+    "the label of every other weapon",
+    "presentation.traits (family weapon_presentation_traits)"
    ]
   },
   "weapon_presentation_traits": {
    "status": "pending",
    "domain": "player_weapon",
    "fields": [
-    "presentation.armor_penetration",
     "presentation.traits"
    ],
-   "scope": "The armory trait labels of a weapon loadout entry (localization string IDs), independent of gameplay.",
+   "scope": "The full armory trait list of a weapon loadout entry (localization string IDs), independent of gameplay.",
    "tests": [],
    "acknowledgementRemoved": null,
    "nextTests": [
-    "WeaponPresentationTest: the Concussive reads HEAVY ARMOR PENETRATING (after reopening the menu if needed) while its bullets penetrate medium armor; each option changes only its own side"
+    "a trait-list test: add, replace and remove traits on one weapon and check the armory after reopening the menu"
    ]
   }
  },
@@ -1256,6 +1342,120 @@
      "family": "event_weapon_in_hand",
      "writes": [],
      "observation": "Primary and secondary switches were detected correctly; weapon_equipped, weapon_unequipped and weapon_changed matched the actual switches; uncatalogued held items were reported as uncatalogued (no name), not misidentified."
+    }
+   ]
+  },
+  {
+   "id": "weapon-composition-2026-09-30",
+   "date": "2026-09-30",
+   "runtime": "HD2Runtime 0.27.0 weapon composition test build (commit 0010541, build/test-artifacts/weapon-composition/HD2Runtime-0.27.0-runtime-weapon-composition-test.zip)",
+   "logSignals": [
+    "target resolved",
+    "APPLIED"
+   ],
+   "tests": [
+    {
+     "mod": "HMGFireRateModesTest",
+     "operation": "hmg-fire-rate-modes",
+     "result": "PASS",
+     "family": "weapon_fire_rate_modes_native",
+     "writes": [
+      {
+       "target": "MG-206 Heavy Machine Gun",
+       "field": "fire_rate.modes",
+       "from": "X/Y/Z 450/600/750",
+       "to": "X/Y/Z 1400/200/700, then each slider on its own"
+      }
+     ],
+     "observation": "The edited rates were used in play and each slider changed its own mode. The weapon menu listed the rates in a different order from the sliders, which followed the selector (Y, Z, X); the user found the order confusing. fire_rate.modes now lists the slots in weapon-menu order {X, Y, Z}; the slots and bytes written are unchanged."
+    },
+    {
+     "mod": "AddedFireRateModeTest",
+     "operation": "liberator-fire-rates",
+     "result": "PASS",
+     "family": "weapon_fire_rate_selector_added",
+     "writes": [
+      {
+       "target": "AR-23 Liberator",
+       "field": "fire_rate.modes",
+       "from": "X/Y/Z 0/640/0",
+       "to": "X/Y/Z 950/450/700"
+      },
+      {
+       "target": "AR-23 Liberator",
+       "field": "weapon_function.left",
+       "from": "none",
+       "to": "rate_of_fire"
+      }
+     ],
+     "observation": "The Liberator gained a working rate-of-fire selector with the three rates. As with the HMG, the displayed order did not follow the sliders (selector order); it is now normalized to the weapon-menu order."
+    },
+    {
+     "mod": "HaltFeedTest",
+     "operation": "halt-feed-capacities",
+     "result": "PASS",
+     "family": "weapon_rounds_feed_capacity",
+     "writes": [
+      {
+       "target": "SG-20 Halt",
+       "field": "rounds.feed_capacity_1",
+       "from": 8,
+       "to": 4
+      },
+      {
+       "target": "SG-20 Halt",
+       "field": "rounds.feed_capacity_2",
+       "from": 8,
+       "to": 12
+      }
+     ],
+     "observation": "The flechette magazine held 4 rounds and the stun magazine 12; each feed kept its own behaviour (reported: independent behaviour kept)."
+    },
+    {
+     "mod": "SpeargunGasStunTest",
+     "operation": "speargun-gas-stun",
+     "choice": "GL-52 De-Escalator",
+     "result": "PARTIAL",
+     "family": "weapon_programmable_ammo_added",
+     "host": "S-11 Speargun",
+     "donor": "GL-52 De-Escalator",
+     "mechanism": "programmable_ammo",
+     "writes": [
+      {
+       "target": "S-11 Speargun",
+       "field": "weapon_function.left",
+       "from": "none",
+       "to": "programmable_ammo"
+      },
+      {
+       "target": "S-11 Speargun",
+       "field": "function_ammo.projectile",
+       "from": "none",
+       "to": "GL-52 De-Escalator output"
+      }
+     ],
+     "evidence": {
+      "donorOutputWorks": true,
+      "referenceWriteSucceeded": true,
+      "hostReadsReference": true,
+      "gameplayOutputChanged": true
+     },
+     "observation": "The Speargun gained a real two-mode selector: mode A fired the normal gas spear and cloud, mode B fired the donor. The GL-52 donor mainly produces heavy electric arc damage, not the crowd-control stun field the test wanted, so the intended gameplay (gas / stun field) did not hold with this donor."
+    },
+    {
+     "mod": "WeaponPresentationTest",
+     "operation": "concussive-displayed-ap",
+     "result": "PASS",
+     "family": "weapon_presentation_penetration_label",
+     "writes": [
+      {
+       "target": "AR-23C Liberator Concussive",
+       "field": "presentation.armor_penetration",
+       "from": "light",
+       "to": "heavy, then medium"
+      }
+     ],
+     "observation": "The armory said HEAVY ARMOR PENETRATING while the bullets stayed AP 3 (medium); label and gameplay changed independently. Reopening or changing the menu state showed the new label; no restart was needed. The user noted AP 3 = medium and AP 4 = heavy. The gameplay AP write (damage.ap_* 2 -> 3) is recorded here only as the control, not promoted."
     }
    ]
   }

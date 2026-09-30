@@ -4,16 +4,22 @@ A weapon's rate of fire is not one value. It is three slots in the weapon's own 
 record, and a weapon whose rate-of-fire selector is bound (the MG-206 Heavy Machine Gun, for example) cycles through
 them. Runtime edits those slots directly, and can give a weapon without a selector the same selector the game uses.
 
+`hd2.fields.fire_rate.modes` is the three slots **in the order the weapon menu lists them**, `{X, Y, Z}`, with 0 for
+an empty slot. The middle one (Y) is the rate a weapon is built on; each selector press moves to the next filled
+slot, Y -> Z -> X -> Y.
+
 ```lua
--- MG-206: native 450 / 600 / 750 rpm. Each rate edited on its own (see examples/projects/HMGFireRateModesTest).
+-- MG-206: native {450, 600, 750} rpm, as its menu lists them; it starts on 600. Each rate edited on its own
+-- (see examples/projects/HMGFireRateModesTest). Live-proven on the MG-206: no acknowledgement.
 local hmg=hd2.support_weapon('MG-206 Heavy Machine Gun')
 hd2.ensure({patch={id='hmg-rates',target=hmg,field=hd2.fields.fire_rate.modes,
-    expect=hmg:fire_rate_modes().expect,value={200,700,1400},allow_unverified_effect=true}})
+    expect=hmg:fire_rate_modes().expect,value={300,550,1200}}})
 
--- AR-23 Liberator: one rate (640) -> three selectable rates, one transaction (AddedFireRateModeTest).
+-- AR-23 Liberator: one rate {0, 640, 0} -> three selectable rates listed 450 / 700 / 950, starting on 700, one
+-- transaction (AddedFireRateModeTest). Live-proven on the Liberator's left input: no acknowledgement.
 local liberator=hd2.weapon('AR-23 Liberator')
 local rates=liberator:fire_rate_modes()
-hd2.ensure({transaction={id='liberator-rates',target=liberator,allow_unverified_effect=true,changes={
+hd2.ensure({transaction={id='liberator-rates',target=liberator,changes={
     {field=hd2.fields.fire_rate.modes,expect=rates.expect,value={450,700,950}},
     {field=rates.binding.field,expect='none',value='rate_of_fire'}}}})
 ```
@@ -33,6 +39,10 @@ from the type library, the entity table, game.dll code and the retained snapshot
   `index = (index + 1) mod 3` and skips a slot whose rate is 0.0, at most three times; the chosen rate becomes the
   weapon's current rate and is replicated. The record starts zeroed and is seeded when the weapon is built; in every
   mission snapshot it holds the settings' slots with index 1. So the default is Y and **the selector visits Y, Z, X**.
+- **The menu order** is the storage order X, Y, Z (filled slots only), with the default in the middle. This is
+  inferred, not traced: in the first live tests (MG-206 and Liberator, 2026-09-30) a list in selector order did not
+  match what the menu showed, and the only code that reads the slots by index walks them X, Y, Z. The menu reader
+  itself was not found.
 - **The binding** is read from the built weapon (the weapon-function value reader, 0x755BA0, switches on the bound
   function type: ROF reads the rate index).
 - **The storage is fixed.** Three rates is the most a weapon can have; a fourth cannot exist. A 0.0 slot is an absent
@@ -52,27 +62,33 @@ AR-61 Tenderizer (0/600/850: two modes, left input) and VG-70 Variable (read-onl
 | Key | Meaning |
 | --- | --- |
 | `state` | `selectable` (selector bound), `addable` (a free input; rates beyond the default need the binding), `single_rate` (both inputs bound: one rate), `blocked`, `absent` |
-| `modes` | `{index, rpm, slot, default, enabled}` in selector order; `modes[1]` is the default |
-| `expect` | the reviewed rate list, the `expect` of `fire_rate.modes` |
+| `modes` | the filled slots **in weapon-menu order** (X, Y, Z), each `{slot, index, rpm, enabled, default, menu, presses}`: `menu` is its menu position, `presses` the selector presses from the default (0 = the default) |
+| `slots` | all three slots in storage order (the same tables; an empty slot has `enabled=false` and no `menu`) |
+| `default` | the Y slot |
+| `selectorOrder` | the filled slots in the order the selector visits them, from `y` |
+| `expect` | `{X, Y, Z}`: the reviewed slots, the `expect` of `fire_rate.modes` |
 | `maxModes` | 3 where a selector is bound or bindable, otherwise 1 |
 | `selector` | `{bound, input, bindableInputs}` |
 | `binding` | for `addable` weapons, the `weapon_function` change to add in the same transaction |
-| `writable`, `reason`, `range`, `acknowledgements`, `overriddenWhenEquipped` | |
+| `acknowledgements` | what a write of these rates (and, for `addable` weapons, the binding) must acknowledge: empty for a live-proven weapon |
+| `liveProven` | the live evidence when this weapon's rates are live-proven |
+| `writable`, `reason`, `range`, `overriddenWhenEquipped` | |
 
-`weapon:fire_rate_mode(n)` returns one mode.
+`weapon:fire_rate_mode(n)` returns the `n`-th mode of the menu; `weapon:fire_rate_mode('x' | 'y' | 'z')` a slot.
 
 | Field | Value |
 | --- | --- |
-| `hd2.fields.fire_rate.modes` | Ordered list of 1 to 3 rates (rpm, 1 to 3000) in selector order; the first is the default |
+| `hd2.fields.fire_rate.modes` | The three slots in weapon-menu order `{X, Y, Z}` (rpm, 1 to 3000; 0 = no mode in that slot). Y, the middle one, is the default and is never 0 |
 | `hd2.fields.weapon_function.left` / `.right` | `'none'`, or on an unbound input a selector this weapon can host: `'rate_of_fire'` (or `'programmable_ammo'`, see [weapon feeds](weapon-feeds.md)) |
 
 - **Writing.** The list is written as its three aligned slots in one atomic transaction; every slot is
   conflict-checked and only changed slots are written, so editing one mode never touches the others.
-- **Selector pairing.** A weapon without a selector takes more than one rate only in the same transaction as its
-  rate-of-fire binding, and the binding only together with two or more rates (`SELECTOR_REQUIRED` otherwise). Nothing
+- **Selector pairing.** A weapon without a selector fills X or Z only in the same transaction as its rate-of-fire
+  binding, and the binding only together with two or more filled slots (`SELECTOR_REQUIRED` otherwise). Nothing
   written is ever dormant. The three fields share one operation group (`weapon_selector`) for plans and tools.
-- **Acknowledgement.** `allow_unverified_effect`: the slots, the traversal and the binding are proven, but editing
-  and adding rates is not gameplay-tested yet.
+- **Acknowledgement.** `allow_unverified_effect`, except where a live test proved the exact scope: the MG-206's
+  `fire_rate.modes`, and the AR-23 Liberator's `fire_rate.modes` with `weapon_function.left = "rate_of_fire"`
+  (`sdk/LiveEvidenceCatalog.json`). Every other weapon, and the Liberator's other bindings, keep it.
 - **Scope.** Weapon-local: every record has one owner.
 - **When it applies.** The rates and the binding are copied into a weapon when the game builds it; a weapon already
   built keeps its copy until it is rebuilt (call in a fresh one, redeploy or be reinforced).
@@ -98,15 +114,18 @@ as Magazine or ProgrammableAmmo on the other input, special fire-control structu
 - `scripts/validate_weapon_modes_snapshot.py` (`validation/weapon-modes-snapshot.json`) exercises every writable
   weapon on a copy-on-write overlay of the retained snapshot: guarded no-op, one mode edited alone (one slot written),
   two added rates with the binding (three writes), exact read-back and rollback, CONFLICT on a third-party slot value,
-  and the acknowledgement. Adversarial: a fourth rate, zero, negative, non-finite and out-of-range rates, rates
-  without their selector and a selector without rates are refused; blocked weapons refuse writes; `fire_rate.modes`
-  and `weapon.fire_rate` never share a plan. It pins the MG-206 edit (X 450 -> 1400, Y 600 -> 200, Z 750 -> 700,
-  12 bytes) and the Liberator's added modes (X 950, Y 450, Z 700, left input = ROF).
+  and the acknowledgement (or, on a live-proven weapon, the write without it). Adversarial: lists that are not three
+  slots, an empty default, negative, non-finite and out-of-range rates, rates without their selector and a selector
+  without rates are refused; blocked weapons refuse writes; `fire_rate.modes` and `weapon.fire_rate` never share a
+  plan. It pins the MG-206 edit (`{450, 600, 750} -> {1400, 200, 700}`, 12 bytes) and the Liberator's added modes
+  (`{0, 640, 0} -> {950, 450, 700}`, left input = ROF).
 - The packaged-runtime scenarios `example-hmgfire-rate-modes-test` and `example-added-fire-rate-mode-test` run the
   live-test mods from the built runtime ZIP: each slider writes exactly its own slot, disable restores the baseline,
   and a simulated reset re-applies.
 
 ## Live tests
 
-`HMGFireRateModesTest` (three sliders, one per native mode) and `AddedFireRateModeTest` (the Liberator gains a
-three-rate selector). See their READMEs for what to check.
+`HMGFireRateModesTest` (three sliders, one per native mode, top to bottom as the menu lists them) and
+`AddedFireRateModeTest` (the Liberator gains a three-rate selector). Both passed on 2026-09-30 with the slots in
+selector order; this build lists them in menu order (the same bytes), and the next run confirms the menu order. See
+their READMEs for what to check.

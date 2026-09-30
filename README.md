@@ -53,12 +53,14 @@ HD2Runtime is designed to fail safely when a game structure or ownership relatio
   emits. A magazine-fed projectile weapon can fire another weapon's projectile output (for example the EAT-700
   napalm rocket) and keep its own magazine and fire control. Beam and arc outputs are catalogued with the reason no
   projectile weapon can reference them (see `docs/attack-outputs.md` and `sdk/AttackOutputCapabilities.json`)
-- Rate-of-fire modes (`hd2.fields.fire_rate.modes`, `weapon:fire_rate_modes()`): every native rate of a weapon's
-  rate-of-fire selector (MG-206 450/600/750, ...), and up to three selectable rates on weapons without one, through
-  the game's own ROF weapon function (see `docs/fire-rate-modes.md`)
+- Rate-of-fire modes (`hd2.fields.fire_rate.modes`, `weapon:fire_rate_modes()`): the three native rate slots in the
+  order the weapon menu lists them (MG-206 `{450, 600, 750}`, starting on the middle one), and up to three
+  selectable rates on weapons without a selector, through the game's own ROF weapon function (see
+  `docs/fire-rate-modes.md`)
 - Weapon feeds (`weapon:feeds()`, `hd2.fields.function_ammo.projectile`): the SG-20 Halt's two magazines as separate
   targets, and a second, player-selectable projectile through the native ProgrammableAmmo function (for example a
-  Speargun with gas and stun ammunition; see `docs/weapon-feeds.md`)
+  Speargun with a gas mode and an EMS stun-field mode). Each mode's native label and icon can be set
+  (`hd2.fields.presentation.mode_label` / `mode_icon` on `hd2.attack_output(...)`; see `docs/weapon-feeds.md`)
 - Armory presentation (`hd2.fields.presentation.armor_penetration`, `hd2.fields.presentation.traits`): the trait
   labels the menus show, independent of gameplay (see `docs/weapon-presentation.md`)
 - Cross-family output research: why a projectile weapon cannot fire a beam, with the exact native blockers

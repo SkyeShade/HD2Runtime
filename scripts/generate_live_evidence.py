@@ -54,8 +54,10 @@ def build():
                 raise ValueError(f"test {test['mod']} evidence must name exactly {EVIDENCE}")
     for name, entry in families.items():
         for target in entry.get('provenTargets') or []:
-            if set(target) != {'target', 'field'} or entry['status'] != 'live_proven':
-                raise ValueError('provenTargets need target and field, on a live_proven family: ' + name)
+            if set(target) - {'values'} != {'target', 'field'} or entry['status'] != 'live_proven' or (
+                    'values' in target and not target['values']):
+                raise ValueError('provenTargets need target and field (and optionally values), on a live_proven '
+                    'family: ' + name)
         if entry['status'] == 'live_proven' and not any(t['result'] == 'PASS' for t in live_evidence.tests(name)):
             raise ValueError('live_proven family without a passing test: ' + name)
     summary = {'sessions': len(registry['sessions']),

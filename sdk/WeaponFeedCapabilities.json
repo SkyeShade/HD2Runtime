@@ -45,6 +45,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/ar-11-arbitrator"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -68,6 +75,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/ar-2-coyote"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -79,6 +93,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -116,6 +137,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/ar-23-liberator"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -127,6 +155,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -164,6 +199,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/ar-23a-liberator-carbine"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -175,6 +217,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -212,6 +261,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/ar-23c-liberator-concussive"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -223,6 +279,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -260,6 +323,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/ar-23p-liberator-penetrator"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -271,6 +341,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -308,6 +385,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/ar-32-pacifier"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -319,6 +403,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -356,6 +447,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/ar-59-suppressor"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -367,6 +465,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -404,6 +509,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/ar-61-tenderizer"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -427,6 +539,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/ar-gl-21-one-two"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -450,6 +569,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/br-14-adjudicator"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -461,6 +587,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -498,6 +631,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/cb-9-exploding-crossbow"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -509,6 +649,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -546,6 +693,7 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": null,
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -569,6 +717,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": "he_2359c1bc",
+            "icon": "default",
+            "displayName": "HE",
+            "nativeLabel": true,
+            "output": "output/v1/projectile/gl-15-evictor"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -592,6 +747,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/gp-20-ultimatum"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -603,6 +765,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -641,6 +810,7 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": null,
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -664,6 +834,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/jar-5-dominator"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -675,6 +852,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -712,6 +896,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/las-12-sai"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -723,6 +914,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -761,6 +959,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/las-16-sickle"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -772,6 +977,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -810,6 +1022,7 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": null,
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -833,6 +1046,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/las-58-talon"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -844,6 +1064,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -882,6 +1109,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/m6c-socom-pistol"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -893,6 +1127,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -931,6 +1172,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/m7s-smg"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -942,6 +1190,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -979,6 +1234,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": "buckshot",
+            "icon": "ammo_buckshot",
+            "displayName": "BUCKSHOT",
+            "nativeLabel": true,
+            "output": "output/v1/projectile/m90a-shotgun"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -1002,6 +1264,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/ma5c-assault-rifle"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -1013,6 +1282,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -1050,6 +1326,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/mp-98-knight"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -1073,6 +1356,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/p-11-stim-pistol"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -1096,6 +1386,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/p-113-verdict"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -1107,6 +1404,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -1145,6 +1449,7 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": null,
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -1156,6 +1461,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -1193,6 +1505,7 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": null,
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -1204,6 +1517,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -1242,6 +1562,7 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": null,
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -1253,6 +1574,12 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": true,
+          "presentation": {
+            "label": "non_guided",
+            "icon": "guidance_off",
+            "displayName": "Non-Guided",
+            "nativeLabel": true
+          },
           "state": "native_blocked",
           "selector": {
             "function": "programmable_ammo",
@@ -1288,6 +1615,7 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": null,
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -1311,6 +1639,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/p-35-re-educator"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -1322,6 +1657,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -1360,6 +1702,7 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": null,
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -1383,6 +1726,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/p-69-veto"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -1406,6 +1756,7 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": null,
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -1417,6 +1768,12 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": true,
+          "presentation": {
+            "label": "non_guided",
+            "icon": "guidance_off",
+            "displayName": "Non-Guided",
+            "nativeLabel": true
+          },
           "state": "native_blocked",
           "selector": {
             "function": "programmable_ammo",
@@ -1452,6 +1809,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/p-40-k-bolt-pistol"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -1463,6 +1827,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -1500,6 +1871,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/plas-1-scorcher"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -1511,6 +1889,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -1548,6 +1933,7 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": null,
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -1571,6 +1957,7 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": null,
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -1594,6 +1981,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/plas-39-accelerator-rifle"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -1617,6 +2011,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/r-2-amendment"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -1628,6 +2029,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -1665,6 +2073,7 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": null,
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -1688,6 +2097,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/r-36-eruptor"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -1699,6 +2115,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -1736,6 +2159,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/r-4-hyena"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -1747,6 +2177,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -1784,6 +2221,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/r-6-deadeye"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -1807,6 +2251,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/r-63-diligence"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -1818,6 +2269,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -1855,6 +2313,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/r-63cs-diligence-counter-sniper"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -1866,6 +2331,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -1903,6 +2375,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/r-72-censor"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -1914,6 +2393,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -1951,6 +2437,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/r-40-k-hot-shot-marksman-rifle"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -1962,6 +2455,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -1999,6 +2499,12 @@
           "index": 1,
           "mechanism": "rounds_magazine",
           "native": true,
+          "presentation": {
+            "label": "flechettes",
+            "icon": "ammo_flechettes",
+            "displayName": "FLECHETTES",
+            "nativeLabel": true
+          },
           "selector": {
             "function": "magazine",
             "input": "left",
@@ -2019,6 +2525,12 @@
           "index": 2,
           "mechanism": "rounds_magazine",
           "native": true,
+          "presentation": {
+            "label": "stun",
+            "icon": "ammo_stun",
+            "displayName": "STUN",
+            "nativeLabel": true
+          },
           "selector": {
             "function": "magazine",
             "input": "left",
@@ -2051,6 +2563,7 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": null,
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -2074,6 +2587,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/sg-225-breaker"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -2085,6 +2605,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -2122,6 +2649,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/sg-225ie-breaker-incendiary"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -2133,6 +2667,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -2170,6 +2711,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/sg-225sp-breaker-spray-pray"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -2181,6 +2729,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -2217,6 +2772,12 @@
           "index": 1,
           "mechanism": "rounds_magazine",
           "native": true,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false
+          },
           "selector": {
             "function": "magazine",
             "input": null,
@@ -2237,6 +2798,12 @@
           "index": 2,
           "mechanism": "rounds_magazine",
           "native": true,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Alternate",
+            "nativeLabel": false
+          },
           "selector": {
             "function": "magazine",
             "input": null,
@@ -2268,6 +2835,12 @@
           "index": 1,
           "mechanism": "rounds_magazine",
           "native": true,
+          "presentation": {
+            "label": "buckshot",
+            "icon": "ammo_buckshot",
+            "displayName": "BUCKSHOT",
+            "nativeLabel": true
+          },
           "selector": {
             "function": "magazine",
             "input": null,
@@ -2288,6 +2861,12 @@
           "index": 2,
           "mechanism": "rounds_magazine",
           "native": true,
+          "presentation": {
+            "label": "buckshot",
+            "icon": "ammo_buckshot",
+            "displayName": "BUCKSHOT",
+            "nativeLabel": true
+          },
           "selector": {
             "function": "magazine",
             "input": null,
@@ -2320,6 +2899,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/sg-8p-punisher-plasma"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -2331,6 +2917,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -2368,6 +2961,12 @@
           "index": 1,
           "mechanism": "rounds_magazine",
           "native": true,
+          "presentation": {
+            "label": "slugs",
+            "icon": "ammo_slug",
+            "displayName": "SLUGS",
+            "nativeLabel": true
+          },
           "selector": {
             "function": "magazine",
             "input": null,
@@ -2388,6 +2987,12 @@
           "index": 2,
           "mechanism": "rounds_magazine",
           "native": true,
+          "presentation": {
+            "label": "slugs",
+            "icon": "ammo_slug",
+            "displayName": "SLUGS",
+            "nativeLabel": true
+          },
           "selector": {
             "function": "magazine",
             "input": null,
@@ -2420,6 +3025,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": "unnamed_c8fc62d6",
+            "icon": "ammo_buckshot",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/sg-97-sweeper"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -2443,6 +3055,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/smg-203-gallant"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -2454,6 +3073,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -2491,6 +3117,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/smg-32-reprimand"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -2502,6 +3135,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -2539,6 +3179,7 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": null,
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -2562,6 +3203,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/smg-72-pummeler"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -2573,6 +3221,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -2610,6 +3265,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/smg-flam-34-stoker"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -2633,6 +3295,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/sta-11-smg"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -2644,6 +3313,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -2682,6 +3358,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/sta-52-assault-rifle"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -2693,6 +3376,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -2730,6 +3420,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/vg-70-variable"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -2753,6 +3450,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": "aphet",
+            "icon": "ammo_aphet",
+            "displayName": "APHET",
+            "nativeLabel": true,
+            "output": "output/v1/projectile/ac-8-autocannon"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -2764,6 +3468,12 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": true,
+          "presentation": {
+            "label": "flak",
+            "icon": "ammo_flak",
+            "displayName": "FLAK",
+            "nativeLabel": true
+          },
           "state": "native",
           "selector": {
             "function": "programmable_ammo",
@@ -2799,6 +3509,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/apw-1-anti-materiel-rifle"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -2810,6 +3527,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -2848,6 +3572,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/eat-17-expendable-anti-tank"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -2859,6 +3590,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -2897,6 +3635,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/eat-411-leveller"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -2908,6 +3653,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -2946,6 +3698,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/eat-700-expendable-napalm"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -2957,6 +3716,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -2995,6 +3761,7 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": null,
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -3018,6 +3785,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": "he_2359c1bc",
+            "icon": "default",
+            "displayName": "HE",
+            "nativeLabel": true,
+            "output": "output/v1/projectile/gl-21-grenade-launcher"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -3029,6 +3803,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -3066,6 +3847,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": "unnamed_c6a50167",
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/gl-28-belt-fed-grenade-launcher"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -3077,6 +3865,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -3114,6 +3909,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": "unnamed_e24deafa",
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/gl-52-de-escalator"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -3137,6 +3939,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": "heat",
+            "icon": "ammo_heat",
+            "displayName": "HEAT",
+            "nativeLabel": true,
+            "output": "output/v1/projectile/gr-8-recoilless-rifle"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -3148,6 +3957,12 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": true,
+          "presentation": {
+            "label": "he",
+            "icon": "ammo_he",
+            "displayName": "HE",
+            "nativeLabel": true
+          },
           "state": "native",
           "selector": {
             "function": "programmable_ammo",
@@ -3183,6 +3998,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/las-99-quasar-cannon"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -3194,6 +4016,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -3232,6 +4061,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/m-1000-maxigun"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -3255,6 +4091,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/m-105-stalwart"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -3266,6 +4109,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -3303,6 +4153,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/mg-206-heavy-machine-gun"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -3314,6 +4171,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -3351,6 +4215,7 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": null,
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -3374,6 +4239,7 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": null,
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -3397,6 +4263,7 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": null,
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -3420,6 +4287,7 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": null,
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -3443,6 +4311,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": "flak",
+            "icon": "ammo_flak",
+            "displayName": "FLAK",
+            "nativeLabel": true,
+            "output": "output/v1/projectile/rl-77-airburst-rocket-launcher"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -3454,6 +4329,12 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": true,
+          "presentation": {
+            "label": "cluster_bomb",
+            "icon": "ammo_frag",
+            "displayName": "CLUSTER BOMB",
+            "nativeLabel": true
+          },
           "state": "native",
           "selector": {
             "function": "programmable_ammo",
@@ -3489,6 +4370,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/rs-422-railgun"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -3512,6 +4400,13 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": {
+            "label": null,
+            "icon": "default",
+            "displayName": "Primary",
+            "nativeLabel": false,
+            "output": "output/v1/projectile/s-11-speargun"
+          },
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -3523,6 +4418,13 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": false,
+          "presentation": {
+            "label": null,
+            "icon": null,
+            "displayName": "Programmable",
+            "nativeLabel": false,
+            "note": "Shows the label and icon of the projectile function_ammo.projectile sets (its attack output presentation fields)."
+          },
           "state": "addable",
           "selector": {
             "function": "programmable_ammo",
@@ -3560,6 +4462,7 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": null,
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -3583,6 +4486,7 @@
           "mechanism": "projectile",
           "native": true,
           "selector": null,
+          "presentation": null,
           "attackRole": "primary",
           "projectileSource": {
             "status": "see attack:projectile_source()",
@@ -3594,6 +4498,12 @@
           "index": 2,
           "mechanism": "programmable_ammo",
           "native": true,
+          "presentation": {
+            "label": "artillery",
+            "icon": "airstrike",
+            "displayName": "Artillery",
+            "nativeLabel": true
+          },
           "state": "native_blocked",
           "selector": {
             "function": "programmable_ammo",

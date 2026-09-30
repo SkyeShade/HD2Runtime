@@ -8082,7 +8082,7 @@
         "known": true,
         "alwaysResident": false,
         "autoLoadSupported": true,
-        "package": null,
+        "package": "drone_flamethrower_backpack",
         "packageResidency": "LIVE_PROVEN",
         "liveTested": false,
         "blocker": null
@@ -8116,7 +8116,7 @@
         "known": true,
         "alwaysResident": false,
         "autoLoadSupported": true,
-        "package": null,
+        "package": "drone_laser_rifle_backpack",
         "packageResidency": "LIVE_PROVEN",
         "liveTested": false,
         "blocker": null
@@ -8419,7 +8419,7 @@
         "known": true,
         "alwaysResident": false,
         "autoLoadSupported": true,
-        "package": null,
+        "package": "drone_assault_rifle_backpack",
         "packageResidency": "LIVE_PROVEN",
         "liveTested": false,
         "blocker": null

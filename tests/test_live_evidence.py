@@ -18,6 +18,10 @@ def load(name):
 TASK3_TARGETS = [('NUX-223 Hellbomb', 'hd2.explosions.spawn'), ('R-36 Eruptor', 'hd2.projectiles.spawn'),
     ('Resupply', 'stratagem.definition_cooldown'), ('fire', 'hd2.status.apply')] + [
     ('Resupply pod slot %d <- Grenade Box' % slot, 'payload.entity') for slot in (1, 2, 3, 4)]
+# Weapon composition live results (session weapon-composition-2026-09-30): the exact promoted pairs.
+COMPOSITION_TARGETS = [('MG-206 Heavy Machine Gun', 'fire_rate.modes'), ('AR-23 Liberator', 'fire_rate.modes'),
+    ('AR-23 Liberator', 'weapon_function.left'), ('SG-20 Halt', 'rounds.feed_capacity_1'),
+    ('SG-20 Halt', 'rounds.feed_capacity_2'), ('AR-23C Liberator Concussive', 'presentation.armor_penetration')]
 
 
 class LiveEvidenceTests(unittest.TestCase):
@@ -37,14 +41,16 @@ class LiveEvidenceTests(unittest.TestCase):
                 'event_action_explosion_named', 'event_action_projectile', 'event_action_status',
                 'event_player_died_position', 'event_weapon_in_hand', 'minefield_salvos', 'pod_payload_pair',
                 'sentry_targeting_range', 'sentry_turret_turn_speed', 'stratagem_definition_cooldown',
-                'weapon_ammunition_projectile_reference', 'weapon_heat_per_shot', 'weapon_magazine_capacity',
-                'weapon_projectile_damage', 'weapon_projectile_reference_direct', 'weapon_projectile_status_reference'],
-            'live_partial': ['backpack_deposit_ammo'],
+                'weapon_ammunition_projectile_reference', 'weapon_fire_rate_modes_native',
+                'weapon_fire_rate_selector_added', 'weapon_heat_per_shot', 'weapon_magazine_capacity',
+                'weapon_presentation_penetration_label', 'weapon_projectile_damage',
+                'weapon_projectile_reference_direct', 'weapon_projectile_status_reference',
+                'weapon_rounds_feed_capacity'],
+            'live_partial': ['backpack_deposit_ammo', 'weapon_programmable_ammo_added'],
             'not_tested': ['enemy_attack_damage'], 'inconclusive': ['structure_health'],
             'live_failed': ['backpack_shield_default_armor', 'weapon_projectile_reference_dormant_member'],
-            'pending': ['backpack_shield_zone_armor', 'weapon_fire_rate_modes_native', 'weapon_fire_rate_selector_added',
-                'weapon_presentation_traits', 'weapon_programmable_ammo_added', 'weapon_rounds_feed_capacity']})
-        self.assertEqual((catalog['summary']['tests'], catalog['summary']['passed']), (29, 22))
+            'pending': ['backpack_shield_zone_armor', 'weapon_presentation_traits']})
+        self.assertEqual((catalog['summary']['tests'], catalog['summary']['passed']), (34, 26))
         for name, entry in self.registry['families'].items():
             if entry['status'] == 'live_proven':
                 self.assertTrue(any(t['result'] == 'PASS' for t in live_evidence.tests(name)), name)
@@ -175,7 +181,7 @@ class LiveEvidenceTests(unittest.TestCase):
         self.assertEqual(sorted(live_evidence.proven_targets()), sorted([
             ('LAS-16 Sickle', 'heat.heat_per_shot'), ('M-1000 Maxigun', 'damage.primary.standard_damage'),
             ('MA5C Assault Rifle', 'magazine.capacity'), ('Orbital Precision Strike', 'stratagem.definition_cooldown'),
-            ('SG-20 Halt', 'damage.primary.standard_damage')] + TASK3_TARGETS))
+            ('SG-20 Halt', 'damage.primary.standard_damage')] + TASK3_TARGETS + COMPOSITION_TARGETS))
         weapons = load('PlayerWeaponAuthoringCapabilities.json')
         promoted = sorted((w['name'], f['semanticFieldId']) for w in weapons['weapons'] for f in w['fields']
             if (f.get('liveEvidence') or {}).get('family') in ('weapon_magazine_capacity', 'weapon_heat_per_shot',
@@ -196,6 +202,46 @@ class LiveEvidenceTests(unittest.TestCase):
             if field['semanticFieldId'].startswith('deposit.') and field['editable']:
                 self.assertEqual(field['acknowledgement'], 'allow_unverified_effect')
                 self.assertNotIn('liveEvidence', field)
+
+    def test_weapon_composition_promotes_exactly_the_tested_scopes(self):
+        """Weapon composition (2026-09-30): the MG-206 rates, the Liberator's added selector (the rate_of_fire binding
+        only), the Halt feed capacities and the Concussive's light/medium/heavy label drop allow_unverified_effect;
+        every other weapon, value and the Speargun (partial) keep it."""
+        families = self.registry['families']
+        self.assertEqual(families['weapon_programmable_ammo_added']['status'], 'live_partial')
+        self.assertNotIn('provenTargets', families['weapon_programmable_ammo_added'])
+        self.assertEqual(families['weapon_presentation_traits']['status'], 'pending')
+        [speargun] = live_evidence.tests('weapon_programmable_ammo_added')
+        self.assertEqual((speargun['result'], speargun['host'], speargun['donor']),
+            ('PARTIAL', 'S-11 Speargun', 'GL-52 De-Escalator'))
+        self.assertTrue(all(speargun['evidence'].values()))
+        self.assertEqual(live_evidence.proven_target('weapon_fire_rate_selector_added', 'AR-23 Liberator',
+            'weapon_function.left')['values'], ['rate_of_fire'])
+        player = {(w['name'], f['semanticFieldId']): f for w in load('PlayerWeaponAuthoringCapabilities.json')['weapons']
+            for f in w['fields']}
+        self.assertIsNone(player[('AR-23 Liberator', 'fire_rate.modes')]['acknowledgement'])
+        left = player[('AR-23 Liberator', 'weapon_function.left')]
+        self.assertEqual((left['acknowledgement'], left['liveProvenValues']), ('allow_unverified_effect', ['rate_of_fire']))
+        label = player[('AR-23C Liberator Concussive', 'presentation.armor_penetration')]
+        self.assertEqual((label['acknowledgement'], label['liveProvenValues']),
+            ('allow_unverified_effect', ['heavy', 'light', 'medium']))
+        for key in (('AR-23C Liberator Concussive', 'fire_rate.modes'), ('AR-23 Liberator', 'presentation.traits'),
+                ('AR-23C Liberator Concussive', 'presentation.traits'), ('AR-61 Tenderizer', 'fire_rate.modes'),
+                ('AR-23 Liberator', 'presentation.armor_penetration')):
+            self.assertEqual(player[key]['acknowledgement'], 'allow_unverified_effect', key)
+            self.assertNotIn('liveEvidence', player[key], key)
+        support = {(f['supportWeapon'], f['semanticFieldId']): f for f in
+            load('SupportWeaponAuthoringCapabilities.json')['fieldInstances']}
+        self.assertIsNone(support[('MG-206 Heavy Machine Gun', 'fire_rate.modes')]['operation']['acknowledgement'])
+        for key in (('MG-43 Machine Gun', 'fire_rate.modes'), ('S-11 Speargun', 'function_ammo.projectile'),
+                ('S-11 Speargun', 'weapon_function.left')):
+            self.assertEqual(support[key]['operation']['acknowledgement'], 'allow_unverified_effect', key)
+            self.assertNotIn('liveEvidence', support[key], key)
+        for name, needs in (('HMGFireRateModesTest', False), ('AddedFireRateModeTest', False),
+                ('WeaponPresentationTest', False), ('SpeargunGasStunTest', True)):
+            addon = (ROOT / 'examples/projects' / name / 'src/addon.lua').read_text()
+            self.assertEqual('allow_unverified_effect=true' in addon, needs, name)
+
 
 if __name__ == '__main__':
     unittest.main()

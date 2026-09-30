@@ -1193,15 +1193,18 @@
   }
  },
  "summary": {
-  "outputs": 105,
+  "outputs": 106,
   "byFamily": {
-   "projectile": 89,
+   "projectile": 90,
    "beam": 3,
    "arc": 2,
    "spray": 4,
    "melee": 7
   },
-  "selectable": 66,
+  "stratagemDonors": [
+   "A/M-23 EMS Mortar Sentry"
+  ],
+  "selectable": 67,
   "projectileHosts": 35,
   "componentHosts": 29,
   "ammunitionHosts": 6,
@@ -1249,6 +1252,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -1292,6 +1304,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -1335,6 +1356,16 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": true,
+    "acknowledgements": [
+     "allow_unverified_effect",
+     "allow_shared"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -1378,6 +1409,16 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": true,
+    "acknowledgements": [
+     "allow_unverified_effect",
+     "allow_shared"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -1421,6 +1462,16 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": true,
+    "acknowledgements": [
+     "allow_unverified_effect",
+     "allow_shared"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -1464,6 +1515,16 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": true,
+    "acknowledgements": [
+     "allow_unverified_effect",
+     "allow_shared"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -1507,6 +1568,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -1550,6 +1620,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -1593,6 +1672,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -1636,6 +1724,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -1665,6 +1762,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": null,
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -1708,6 +1806,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -1751,6 +1858,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -1779,6 +1895,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": null,
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -1807,6 +1924,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": null,
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -1835,6 +1953,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": null,
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -1863,6 +1982,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": null,
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -1898,6 +2018,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -1928,6 +2049,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": null,
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -1971,6 +2093,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "he_2359c1bc",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -2014,6 +2145,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -2057,6 +2197,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -2100,6 +2249,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -2130,6 +2288,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": null,
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -2173,6 +2332,16 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": true,
+    "acknowledgements": [
+     "allow_unverified_effect",
+     "allow_shared"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -2208,6 +2377,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -2251,6 +2421,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": {
     "donorOutput": "live_proven",
     "tests": [
@@ -2302,6 +2481,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -2345,6 +2533,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -2388,6 +2585,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "buckshot",
+    "icon": "ammo_buckshot",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -2431,6 +2637,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -2474,6 +2689,16 @@
     ]
    },
    "ownerFiresThisProjectile": "default_projectile",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": true,
+    "acknowledgements": [
+     "allow_unverified_effect",
+     "allow_shared"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -2517,6 +2742,16 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": true,
+    "acknowledgements": [
+     "allow_unverified_effect",
+     "allow_shared"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -2560,6 +2795,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -2595,6 +2839,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -2630,6 +2875,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -2665,6 +2911,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -2700,6 +2947,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -2743,6 +2991,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -2778,6 +3035,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -2821,6 +3079,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -2856,6 +3123,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -2899,6 +3167,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -2942,6 +3219,16 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": true,
+    "acknowledgements": [
+     "allow_unverified_effect",
+     "allow_shared"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -2978,6 +3265,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -3014,6 +3302,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -3058,6 +3347,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -3101,6 +3399,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -3136,6 +3443,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -3179,6 +3487,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -3222,6 +3539,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -3265,6 +3591,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -3308,6 +3643,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -3351,6 +3695,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -3394,6 +3747,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -3437,6 +3799,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -3472,6 +3843,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -3507,6 +3879,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -3550,6 +3923,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -3593,6 +3975,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -3636,6 +4027,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -3671,6 +4071,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -3706,6 +4107,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -3749,6 +4151,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -3784,6 +4195,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -3827,6 +4239,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "unnamed_c8fc62d6",
+    "icon": "ammo_buckshot",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -3870,6 +4291,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -3913,6 +4343,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -3956,6 +4395,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -3999,6 +4447,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -4042,6 +4499,16 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": true,
+    "acknowledgements": [
+     "allow_unverified_effect",
+     "allow_shared"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -4085,6 +4552,16 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": true,
+    "acknowledgements": [
+     "allow_unverified_effect",
+     "allow_shared"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -4128,6 +4605,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -4159,6 +4645,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": null,
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -4202,6 +4689,16 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "aphet",
+    "icon": "ammo_aphet",
+    "writable": true,
+    "shared": true,
+    "acknowledgements": [
+     "allow_unverified_effect",
+     "allow_shared"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -4245,6 +4742,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -4274,6 +4780,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": null,
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -4303,6 +4810,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": null,
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -4331,6 +4839,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": null,
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -4361,6 +4870,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": null,
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -4389,6 +4899,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": null,
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -4431,6 +4942,16 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": true,
+    "acknowledgements": [
+     "allow_unverified_effect",
+     "allow_shared"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -4473,6 +4994,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -4515,6 +5045,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": {
     "donorOutput": "live_proven",
     "tests": [
@@ -4558,6 +5097,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -4588,6 +5128,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": null,
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -4631,6 +5172,16 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "he_2359c1bc",
+    "icon": "default",
+    "writable": true,
+    "shared": true,
+    "acknowledgements": [
+     "allow_unverified_effect",
+     "allow_shared"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -4673,6 +5224,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "unnamed_c6a50167",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -4716,13 +5276,24 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "unnamed_e24deafa",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": {
     "donorOutput": "live_proven",
     "tests": [
-     "LiberatorAttackOutputTest"
+     "LiberatorAttackOutputTest",
+     "SpeargunGasStunTest"
     ],
     "provenOnHosts": [
-     "AR-23 Liberator"
+     "AR-23 Liberator",
+     "S-11 Speargun"
     ]
    }
   },
@@ -4767,6 +5338,15 @@
     ]
    },
    "ownerFiresThisProjectile": "default_projectile",
+   "presentation": {
+    "label": "heat",
+    "icon": "ammo_heat",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -4797,6 +5377,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": null,
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -4839,6 +5420,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -4882,6 +5472,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -4925,6 +5524,16 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": true,
+    "acknowledgements": [
+     "allow_unverified_effect",
+     "allow_shared"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -4968,6 +5577,16 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": true,
+    "acknowledgements": [
+     "allow_unverified_effect",
+     "allow_shared"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -5003,6 +5622,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -5037,6 +5657,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -5071,6 +5692,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -5107,6 +5729,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -5150,6 +5773,15 @@
     ]
    },
    "ownerFiresThisProjectile": "default_projectile",
+   "presentation": {
+    "label": "flak",
+    "icon": "ammo_flak",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -5194,6 +5826,16 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": true,
+    "acknowledgements": [
+     "allow_unverified_effect",
+     "allow_shared"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -5237,6 +5879,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   },
   {
@@ -5272,6 +5923,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -5307,6 +5959,7 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
+   "presentation": null,
    "liveProof": null
   },
   {
@@ -5337,9 +5990,268 @@
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": null,
+   "presentation": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/a-m-23-ems-mortar-sentry",
+   "family": "projectile",
+   "kind": "status_field",
+   "owner": {
+    "kind": "stratagem",
+    "name": "A/M-23 EMS Mortar Sentry"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_impact_and_expiry",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "referenceScope": [
+    "function_ammo.projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": true,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "fieldEffect": {
+    "volume": "StaticField",
+    "seconds": 7,
+    "radius": 10,
+    "status": [
+     {
+      "status": "stun_medium",
+      "strength": 100
+     }
+    ],
+    "explosion": "expiry"
+   },
+   "ownerFireResource": [],
+   "package": {
+    "name": "mortar_turret_staticfield",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
    "liveProof": null
   }
  ],
+ "modePresentation": {
+  "fields": {
+   "label": "hd2.fields.presentation.mode_label",
+   "icon": "hd2.fields.presentation.mode_icon"
+  },
+  "target": "hd2.attack_output(name): the output whose projectile a weapon-function mode fires",
+  "model": "A weapon-function mode (ProgrammableAmmo, magazine or guidance selection) shows the fired projectile's own short label and HUD icon. They are members of its ProjectileSettings row, a shared definition: every weapon firing that projectile shows the same label and icon.",
+  "fallback": "A projectile no native menu shows has no label (none) and the default (skull) icon.",
+  "labels": [
+   {
+    "value": "none",
+    "label": null,
+    "native": false
+   },
+   {
+    "value": "flak",
+    "label": "FLAK",
+    "native": true
+   },
+   {
+    "value": "buckshot",
+    "label": "BUCKSHOT",
+    "native": true
+   },
+   {
+    "value": "non_guided",
+    "label": "Non-Guided",
+    "native": true
+   },
+   {
+    "value": "guided",
+    "label": "Guided",
+    "native": true
+   },
+   {
+    "value": "scatter_shot",
+    "label": "SCATTER SHOT",
+    "native": true
+   },
+   {
+    "value": "heat_mk2",
+    "label": "HEAT MK2",
+    "native": true
+   },
+   {
+    "value": "bugshot",
+    "label": "BUGSHOT",
+    "native": true
+   },
+   {
+    "value": "heat",
+    "label": "HEAT",
+    "native": true
+   },
+   {
+    "value": "hi_velo_sabot",
+    "label": "HI-VELO SABOT",
+    "native": true
+   },
+   {
+    "value": "slugs",
+    "label": "SLUGS",
+    "native": true
+   },
+   {
+    "value": "he",
+    "label": "HE",
+    "native": true
+   },
+   {
+    "value": "flechettes",
+    "label": "FLECHETTES",
+    "native": true
+   },
+   {
+    "value": "sabot",
+    "label": "SABOT",
+    "native": true
+   },
+   {
+    "value": "magnum",
+    "label": "MAGNUM",
+    "native": true
+   },
+   {
+    "value": "liberty_fire",
+    "label": "LIBERTY FIRE",
+    "native": true
+   },
+   {
+    "value": "stun",
+    "label": "STUN",
+    "native": true
+   },
+   {
+    "value": "artillery",
+    "label": "Artillery",
+    "native": true
+   },
+   {
+    "value": "cluster_bomb",
+    "label": "CLUSTER BOMB",
+    "native": true
+   },
+   {
+    "value": "deploy",
+    "label": "DEPLOY",
+    "native": true
+   },
+   {
+    "value": "dual_sabot",
+    "label": "DUAL SABOT",
+    "native": true
+   },
+   {
+    "value": "burst",
+    "label": "Burst",
+    "native": true
+   },
+   {
+    "value": "magnum_trib",
+    "label": "MAGNUM TRIB",
+    "native": true
+   },
+   {
+    "value": "he_mk2",
+    "label": "HE MK2",
+    "native": true
+   },
+   {
+    "value": "birdshot",
+    "label": "BIRDSHOT",
+    "native": true
+   },
+   {
+    "value": "tri_ball",
+    "label": "TRI-BALL",
+    "native": true
+   },
+   {
+    "value": "aphet",
+    "label": "APHET",
+    "native": true
+   },
+   {
+    "value": "frag",
+    "label": "FRAG",
+    "native": true
+   },
+   {
+    "value": "gas",
+    "label": "GAS",
+    "native": true
+   },
+   {
+    "value": "arc",
+    "label": "ARC",
+    "native": true
+   },
+   {
+    "value": "incendiary",
+    "label": "INCENDIARY",
+    "native": true
+   },
+   {
+    "value": "smoke",
+    "label": "SMOKE",
+    "native": true
+   },
+   {
+    "value": "standard",
+    "label": "STANDARD",
+    "native": true
+   }
+  ],
+  "icons": [
+   "default",
+   "ammo_buckshot",
+   "ammo_flechettes",
+   "ammo_flak",
+   "ammo_heat",
+   "guidance_off",
+   "ammo_frag",
+   "ammo_he",
+   "guidance_on",
+   "ammo_stun",
+   "firemode_deploy_c4",
+   "airstrike",
+   "ammo_slug",
+   "ammo_aphet",
+   "burst_fire"
+  ],
+  "acknowledgement": "allow_unverified_effect (plus allow_shared when other weapons fire the projectile)",
+  "customText": "not supported: labels are native localization strings only",
+  "customIcons": "not supported: icons are the native weapon-function icons only"
+ },
  "safety": {
   "runtimeAddresses": false,
   "nativeIdentifiers": false,

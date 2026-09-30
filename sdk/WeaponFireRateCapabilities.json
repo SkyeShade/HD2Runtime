@@ -6,12 +6,17 @@
   "states": {
     "selectable": "The rate-of-fire selector is bound: every rate can be edited, added (up to three) or removed.",
     "addable": "No selector is bound but an input is free: rates beyond the default are written together with a weapon_function binding of \"rate_of_fire\" (one transaction).",
-    "single_rate": "Both inputs are bound: only the default rate (one entry) can be edited.",
+    "single_rate": "Both inputs are bound: only the default rate (slot Y) can be edited; X and Z stay 0.",
     "blocked": "Read-only; see reason.",
     "absent": "The weapon has no rate-of-fire slots."
   },
   "maxSlots": 3,
   "slotNames": [
+    "x",
+    "y",
+    "z"
+  ],
+  "menuOrder": [
     "x",
     "y",
     "z"
@@ -22,6 +27,7 @@
     "z",
     "x"
   ],
+  "order": "The weapon menu lists the filled slots in storage order X, Y, Z (inferred from the MG-206 and Liberator live tests, where a list in selector order did not match the menu; the menu reader itself is not traced). A weapon is built on Y (the middle one) and each selector press moves to the next filled slot: Y -> Z -> X -> Y. modes[] is in menu order; each mode carries its slot and its presses from the default.",
   "range": [
     1,
     3000
@@ -30,9 +36,9 @@
   "fields": {
     "modes": {
       "constant": "hd2.fields.fire_rate.modes",
-      "type": "ordered list of rates (rpm)",
-      "default": "the first entry (native slot Y; also weapon.fire_rate)",
-      "maxEntries": 3,
+      "type": "the three rate slots in weapon-menu order {X, Y, Z} (rpm; 0 = no mode in that slot)",
+      "default": "the middle entry (native slot Y; also weapon.fire_rate); never 0",
+      "entries": 3,
       "acknowledgement": "allow_unverified_effect"
     },
     "binding": {
@@ -41,7 +47,7 @@
         "hd2.fields.weapon_function.right"
       ],
       "value": "rate_of_fire",
-      "rule": "bound in the same transaction as fire_rate.modes with 2+ rates"
+      "rule": "bound in the same transaction as fire_rate.modes with 2+ filled slots"
     }
   },
   "compatibility": {
@@ -55,7 +61,13 @@
       "weapon": "AR-11 Arbitrator",
       "state": "blocked",
       "modes": [
-        1200.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 1200.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 1200.0,
       "slots": {
@@ -63,10 +75,13 @@
         "y": 1200.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        1200.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": null,
       "selector": {
@@ -78,14 +93,21 @@
       "writable": false,
       "reason": "The weapon carries a special fire-control structure (+160) whose semantics are unknown.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "AR-2 Coyote",
       "state": "addable",
       "modes": [
-        600.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 600.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 600.0,
       "slots": {
@@ -93,10 +115,13 @@
         "y": 600.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        600.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -118,14 +143,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "AR-23 Liberator",
       "state": "addable",
       "modes": [
-        640.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 640.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 640.0,
       "slots": {
@@ -133,10 +165,13 @@
         "y": 640.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        640.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -158,16 +193,30 @@
           "weapon_function.left"
         ]
       },
-      "acknowledgements": [
-        "allow_unverified_effect"
-      ]
+      "acknowledgements": [],
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_fire_rate_selector_added",
+        "tests": [
+          "AddedFireRateModeTest"
+        ],
+        "date": "2026-09-30",
+        "target": "AR-23 Liberator",
+        "field": "fire_rate.modes"
+      }
     },
     {
       "kind": "player",
       "weapon": "AR-23A Liberator Carbine",
       "state": "addable",
       "modes": [
-        920.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 920.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 920.0,
       "slots": {
@@ -175,10 +224,13 @@
         "y": 920.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        920.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -202,14 +254,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "AR-23C Liberator Concussive",
       "state": "addable",
       "modes": [
-        400.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 400.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 400.0,
       "slots": {
@@ -217,10 +276,13 @@
         "y": 400.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        400.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -242,14 +304,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "AR-23P Liberator Penetrator",
       "state": "addable",
       "modes": [
-        640.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 640.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 640.0,
       "slots": {
@@ -257,10 +326,13 @@
         "y": 640.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        640.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -282,14 +354,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "AR-32 Pacifier",
       "state": "addable",
       "modes": [
-        700.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 700.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 700.0,
       "slots": {
@@ -297,10 +376,13 @@
         "y": 700.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        700.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -322,14 +404,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "AR-59 Suppressor",
       "state": "addable",
       "modes": [
-        850.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 850.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 850.0,
       "slots": {
@@ -337,10 +426,13 @@
         "y": 850.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        850.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -362,15 +454,28 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "AR-61 Tenderizer",
       "state": "selectable",
       "modes": [
-        600.0,
-        850.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 600.0,
+          "default": true,
+          "presses": 0
+        },
+        {
+          "slot": "z",
+          "menu": 2,
+          "rpm": 850.0,
+          "default": false,
+          "presses": 1
+        }
       ],
       "defaultRpm": 600.0,
       "slots": {
@@ -378,10 +483,14 @@
         "y": 600.0,
         "z": 850.0
       },
-      "slotOrder": [
+      "expect": [
+        0.0,
+        600.0,
+        850.0
+      ],
+      "selectorOrder": [
         "y",
-        "z",
-        "x"
+        "z"
       ],
       "maxModes": 3,
       "selector": {
@@ -399,14 +508,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "AR/GL-21 One-Two",
       "state": "blocked",
       "modes": [
-        650.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 650.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 650.0,
       "slots": {
@@ -414,10 +530,13 @@
         "y": 650.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        650.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": null,
       "selector": {
@@ -429,7 +548,8 @@
       "writable": false,
       "reason": "The weapon carries a special fire-control structure (+160) whose semantics are unknown.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "player",
@@ -438,25 +558,29 @@
       "modes": null,
       "defaultRpm": null,
       "slots": null,
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
-      ],
+      "expect": null,
+      "selectorOrder": null,
       "maxModes": null,
       "selector": null,
       "overriddenWhenEquipped": [],
       "writable": false,
       "reason": "The weapon owns no ProjectileWeaponComponentData rate slots.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "BR-14 Adjudicator",
       "state": "addable",
       "modes": [
-        550.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 550.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 550.0,
       "slots": {
@@ -464,10 +588,13 @@
         "y": 550.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        550.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -489,14 +616,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "CB-9 Exploding Crossbow",
       "state": "addable",
       "modes": [
-        50.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 50.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 50.0,
       "slots": {
@@ -504,10 +638,13 @@
         "y": 50.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        50.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -529,7 +666,8 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
@@ -538,18 +676,16 @@
       "modes": null,
       "defaultRpm": null,
       "slots": null,
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
-      ],
+      "expect": null,
+      "selectorOrder": null,
       "maxModes": null,
       "selector": null,
       "overriddenWhenEquipped": [],
       "writable": false,
       "reason": "The weapon owns no ProjectileWeaponComponentData rate slots.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "player",
@@ -558,18 +694,16 @@
       "modes": null,
       "defaultRpm": null,
       "slots": null,
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
-      ],
+      "expect": null,
+      "selectorOrder": null,
       "maxModes": null,
       "selector": null,
       "overriddenWhenEquipped": [],
       "writable": false,
       "reason": "The weapon owns no ProjectileWeaponComponentData rate slots.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "player",
@@ -578,18 +712,16 @@
       "modes": null,
       "defaultRpm": null,
       "slots": null,
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
-      ],
+      "expect": null,
+      "selectorOrder": null,
       "maxModes": null,
       "selector": null,
       "overriddenWhenEquipped": [],
       "writable": false,
       "reason": "The weapon owns no ProjectileWeaponComponentData rate slots.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "player",
@@ -598,18 +730,16 @@
       "modes": null,
       "defaultRpm": null,
       "slots": null,
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
-      ],
+      "expect": null,
+      "selectorOrder": null,
       "maxModes": null,
       "selector": null,
       "overriddenWhenEquipped": [],
       "writable": false,
       "reason": "The weapon owns no ProjectileWeaponComponentData rate slots.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "player",
@@ -618,18 +748,16 @@
       "modes": null,
       "defaultRpm": null,
       "slots": null,
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
-      ],
+      "expect": null,
+      "selectorOrder": null,
       "maxModes": null,
       "selector": null,
       "overriddenWhenEquipped": [],
       "writable": false,
       "reason": "The weapon owns no ProjectileWeaponComponentData rate slots.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "player",
@@ -638,25 +766,29 @@
       "modes": null,
       "defaultRpm": null,
       "slots": null,
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
-      ],
+      "expect": null,
+      "selectorOrder": null,
       "maxModes": null,
       "selector": null,
       "overriddenWhenEquipped": [],
       "writable": false,
       "reason": "The weapon owns no ProjectileWeaponComponentData rate slots.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "DBS-2 Double Freedom",
       "state": "blocked",
       "modes": [
-        650.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 650.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 650.0,
       "slots": {
@@ -664,10 +796,13 @@
         "y": 650.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        650.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": null,
       "selector": {
@@ -679,7 +814,8 @@
       "writable": false,
       "reason": "The weapon uses a charge or safety fire mode (Safety_Off); only Automatic, Single and Burst are proven.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "player",
@@ -688,25 +824,29 @@
       "modes": null,
       "defaultRpm": null,
       "slots": null,
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
-      ],
+      "expect": null,
+      "selectorOrder": null,
       "maxModes": null,
       "selector": null,
       "overriddenWhenEquipped": [],
       "writable": false,
       "reason": "The weapon owns no ProjectileWeaponComponentData rate slots.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "GL-15 Evictor",
       "state": "addable",
       "modes": [
-        60.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 60.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 60.0,
       "slots": {
@@ -714,10 +854,13 @@
         "y": 60.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        60.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -741,14 +884,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "GP-20 Ultimatum",
       "state": "addable",
       "modes": [
-        900.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 900.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 900.0,
       "slots": {
@@ -756,10 +906,13 @@
         "y": 900.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        900.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -783,14 +936,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "GP-31 Grenade Pistol",
       "state": "blocked",
       "modes": [
-        900.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 900.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 900.0,
       "slots": {
@@ -798,10 +958,13 @@
         "y": 900.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        900.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": null,
       "selector": {
@@ -814,16 +977,23 @@
       },
       "overriddenWhenEquipped": [],
       "writable": false,
-      "reason": "The weapon's three native rate-of-fire slots (X/Y/Z) as rates in the order the ROF selector visits them; the first rate is the default (the Y slot, weapon.fire_rate). Up to three where a selector is bound or bindable, otherwise exactly one.",
+      "reason": "The weapon's three native rate-of-fire slots in the order the weapon menu lists them {X, Y, Z} (rpm; 0 = no mode in that slot). The middle one (Y, weapon.fire_rate) is the default and never 0; the ROF selector visits the filled slots Y -> Z -> X. X and Z are filled only where a selector is bound or bindable.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "JAR-5 Dominator",
       "state": "addable",
       "modes": [
-        250.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 250.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 250.0,
       "slots": {
@@ -831,10 +1001,13 @@
         "y": 250.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        250.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -856,14 +1029,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "LAS-12 Sai",
       "state": "addable",
       "modes": [
-        800.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 800.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 800.0,
       "slots": {
@@ -871,10 +1051,13 @@
         "y": 800.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        800.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -900,7 +1083,8 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
@@ -909,25 +1093,29 @@
       "modes": null,
       "defaultRpm": null,
       "slots": null,
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
-      ],
+      "expect": null,
+      "selectorOrder": null,
       "maxModes": null,
       "selector": null,
       "overriddenWhenEquipped": [],
       "writable": false,
       "reason": "The weapon owns no ProjectileWeaponComponentData rate slots.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "LAS-16 Sickle",
       "state": "addable",
       "modes": [
-        750.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 750.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 750.0,
       "slots": {
@@ -935,10 +1123,13 @@
         "y": 750.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        750.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -962,14 +1153,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "LAS-17 Double-Edge Sickle",
       "state": "addable",
       "modes": [
-        700.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 700.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 700.0,
       "slots": {
@@ -977,10 +1175,13 @@
         "y": 700.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        700.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -1004,7 +1205,8 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
@@ -1013,25 +1215,29 @@
       "modes": null,
       "defaultRpm": null,
       "slots": null,
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
-      ],
+      "expect": null,
+      "selectorOrder": null,
       "maxModes": null,
       "selector": null,
       "overriddenWhenEquipped": [],
       "writable": false,
       "reason": "The weapon owns no ProjectileWeaponComponentData rate slots.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "LAS-58 Talon",
       "state": "addable",
       "modes": [
-        750.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 750.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 750.0,
       "slots": {
@@ -1039,10 +1245,13 @@
         "y": 750.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        750.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -1066,7 +1275,8 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
@@ -1075,25 +1285,29 @@
       "modes": null,
       "defaultRpm": null,
       "slots": null,
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
-      ],
+      "expect": null,
+      "selectorOrder": null,
       "maxModes": null,
       "selector": null,
       "overriddenWhenEquipped": [],
       "writable": false,
       "reason": "The weapon owns no ProjectileWeaponComponentData rate slots.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "M6C/SOCOM Pistol",
       "state": "addable",
       "modes": [
-        900.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 900.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 900.0,
       "slots": {
@@ -1101,10 +1315,13 @@
         "y": 900.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        900.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -1128,14 +1345,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "M7S SMG",
       "state": "addable",
       "modes": [
-        872.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 872.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 872.0,
       "slots": {
@@ -1143,10 +1367,13 @@
         "y": 872.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        872.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -1168,14 +1395,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "M90A Shotgun",
       "state": "blocked",
       "modes": [
-        80.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 80.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 80.0,
       "slots": {
@@ -1183,10 +1417,13 @@
         "y": 80.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        80.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": null,
       "selector": {
@@ -1198,14 +1435,21 @@
       "writable": false,
       "reason": "The weapon has weapon-function fire-mode entries whose semantics are unknown.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "MA5C Assault Rifle",
       "state": "addable",
       "modes": [
-        640.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 640.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 640.0,
       "slots": {
@@ -1213,10 +1457,13 @@
         "y": 640.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        640.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -1238,14 +1485,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "MP-98 Knight",
       "state": "addable",
       "modes": [
-        1380.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 1380.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 1380.0,
       "slots": {
@@ -1253,10 +1507,13 @@
         "y": 1380.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        1380.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -1278,14 +1535,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "P-11 Stim Pistol",
       "state": "addable",
       "modes": [
-        70.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 70.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 70.0,
       "slots": {
@@ -1293,10 +1557,13 @@
         "y": 70.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        70.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -1320,14 +1587,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "P-113 Verdict",
       "state": "addable",
       "modes": [
-        450.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 450.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 450.0,
       "slots": {
@@ -1335,10 +1609,13 @@
         "y": 450.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        450.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -1362,14 +1639,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "P-19 Redeemer",
       "state": "addable",
       "modes": [
-        1100.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 1100.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 1100.0,
       "slots": {
@@ -1377,10 +1661,13 @@
         "y": 1100.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        1100.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -1402,14 +1689,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "P-2 Peacemaker",
       "state": "addable",
       "modes": [
-        900.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 900.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 900.0,
       "slots": {
@@ -1417,10 +1711,13 @@
         "y": 900.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        900.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -1444,14 +1741,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "P-33 Missile Pistol",
       "state": "blocked",
       "modes": [
-        60.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 60.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 60.0,
       "slots": {
@@ -1459,10 +1763,13 @@
         "y": 60.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        60.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": null,
       "selector": {
@@ -1474,14 +1781,21 @@
       "writable": false,
       "reason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "P-34 Breacher",
       "state": "addable",
       "modes": [
-        20.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 20.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 20.0,
       "slots": {
@@ -1489,10 +1803,13 @@
         "y": 20.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        20.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -1516,14 +1833,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "P-35 Re-Educator",
       "state": "addable",
       "modes": [
-        110.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 110.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 110.0,
       "slots": {
@@ -1531,10 +1855,13 @@
         "y": 110.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        110.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -1558,14 +1885,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "P-4 Senator",
       "state": "addable",
       "modes": [
-        200.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 200.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 200.0,
       "slots": {
@@ -1573,10 +1907,13 @@
         "y": 200.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        200.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -1600,14 +1937,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "P-69 Veto",
       "state": "addable",
       "modes": [
-        750.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 750.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 750.0,
       "slots": {
@@ -1615,10 +1959,13 @@
         "y": 750.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        750.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -1642,7 +1989,8 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
@@ -1651,25 +1999,29 @@
       "modes": null,
       "defaultRpm": null,
       "slots": null,
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
-      ],
+      "expect": null,
+      "selectorOrder": null,
       "maxModes": null,
       "selector": null,
       "overriddenWhenEquipped": [],
       "writable": false,
       "reason": "The weapon owns no ProjectileWeaponComponentData rate slots.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "P-92 Warrant",
       "state": "blocked",
       "modes": [
-        450.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 450.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 450.0,
       "slots": {
@@ -1677,10 +2029,13 @@
         "y": 450.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        450.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": null,
       "selector": {
@@ -1692,14 +2047,21 @@
       "writable": false,
       "reason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "P/40-K Bolt Pistol",
       "state": "addable",
       "modes": [
-        150.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 150.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 150.0,
       "slots": {
@@ -1707,10 +2069,13 @@
         "y": 150.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        150.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -1732,14 +2097,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "PLAS-1 Scorcher",
       "state": "addable",
       "modes": [
-        350.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 350.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 350.0,
       "slots": {
@@ -1747,10 +2119,13 @@
         "y": 350.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        350.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -1772,14 +2147,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "PLAS-101 Purifier",
       "state": "blocked",
       "modes": [
-        1000.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 1000.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 1000.0,
       "slots": {
@@ -1787,10 +2169,13 @@
         "y": 1000.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        1000.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": null,
       "selector": {
@@ -1802,14 +2187,21 @@
       "writable": false,
       "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through charge, conventional_projectile.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "PLAS-15 Loyalist",
       "state": "blocked",
       "modes": [
-        1000.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 1000.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 1000.0,
       "slots": {
@@ -1817,10 +2209,13 @@
         "y": 1000.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        1000.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": null,
       "selector": {
@@ -1832,14 +2227,21 @@
       "writable": false,
       "reason": "The weapon uses a charge or safety fire mode (5); only Automatic, Single and Burst are proven.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "PLAS-39 Accelerator Rifle",
       "state": "blocked",
       "modes": [
-        550.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 550.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 550.0,
       "slots": {
@@ -1847,10 +2249,13 @@
         "y": 550.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        550.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": null,
       "selector": {
@@ -1862,14 +2267,21 @@
       "writable": false,
       "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through charge, conventional_projectile.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "R-2 Amendment",
       "state": "addable",
       "modes": [
-        480.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 480.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 480.0,
       "slots": {
@@ -1877,10 +2289,13 @@
         "y": 480.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        480.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -1902,14 +2317,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "R-2124 Constitution",
       "state": "addable",
       "modes": [
-        60.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 60.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 60.0,
       "slots": {
@@ -1917,10 +2339,13 @@
         "y": 60.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        60.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -1944,14 +2369,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "R-36 Eruptor",
       "state": "addable",
       "modes": [
-        32.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 32.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 32.0,
       "slots": {
@@ -1959,10 +2391,13 @@
         "y": 32.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        32.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -1984,14 +2419,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "R-4 Hyena",
       "state": "addable",
       "modes": [
-        190.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 190.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 190.0,
       "slots": {
@@ -1999,10 +2441,13 @@
         "y": 190.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        190.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -2024,14 +2469,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "R-6 Deadeye",
       "state": "blocked",
       "modes": [
-        100.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 100.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 100.0,
       "slots": {
@@ -2039,10 +2491,13 @@
         "y": 100.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        100.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": null,
       "selector": {
@@ -2054,14 +2509,21 @@
       "writable": false,
       "reason": "The weapon has weapon-function fire-mode entries whose semantics are unknown.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "R-63 Diligence",
       "state": "addable",
       "modes": [
-        350.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 350.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 350.0,
       "slots": {
@@ -2069,10 +2531,13 @@
         "y": 350.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        350.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -2094,14 +2559,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "R-63CS Diligence Counter Sniper",
       "state": "addable",
       "modes": [
-        350.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 350.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 350.0,
       "slots": {
@@ -2109,10 +2581,13 @@
         "y": 350.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        350.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -2134,14 +2609,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "R-72 Censor",
       "state": "addable",
       "modes": [
-        400.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 400.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 400.0,
       "slots": {
@@ -2149,10 +2631,13 @@
         "y": 400.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        400.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -2174,14 +2659,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "R/40-K Hot-Shot Marksman Rifle",
       "state": "addable",
       "modes": [
-        210.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 210.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 210.0,
       "slots": {
@@ -2189,10 +2681,13 @@
         "y": 210.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        210.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -2216,14 +2711,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "SG-20 Halt",
       "state": "blocked",
       "modes": [
-        80.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 80.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 80.0,
       "slots": {
@@ -2231,10 +2733,13 @@
         "y": 80.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        80.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": null,
       "selector": {
@@ -2246,14 +2751,21 @@
       "writable": false,
       "reason": "The weapon binds Magazine, which changes how its trigger fires; fire modes are not authored on such weapons.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "SG-22 Bushwhacker",
       "state": "blocked",
       "modes": [
-        650.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 650.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 650.0,
       "slots": {
@@ -2261,10 +2773,13 @@
         "y": 650.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        650.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": null,
       "selector": {
@@ -2276,14 +2791,21 @@
       "writable": false,
       "reason": "The weapon uses a charge or safety fire mode (Safety_Off); only Automatic, Single and Burst are proven.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "SG-225 Breaker",
       "state": "addable",
       "modes": [
-        300.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 300.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 300.0,
       "slots": {
@@ -2291,10 +2813,13 @@
         "y": 300.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        300.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -2316,14 +2841,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "SG-225IE Breaker Incendiary",
       "state": "addable",
       "modes": [
-        300.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 300.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 300.0,
       "slots": {
@@ -2331,10 +2863,13 @@
         "y": 300.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        300.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -2356,14 +2891,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "SG-225SP Breaker Spray&Pray",
       "state": "addable",
       "modes": [
-        330.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 330.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 330.0,
       "slots": {
@@ -2371,10 +2913,13 @@
         "y": 330.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        330.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -2396,14 +2941,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "SG-451 Cookout",
       "state": "addable",
       "modes": [
-        80.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 80.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 80.0,
       "slots": {
@@ -2411,10 +2963,13 @@
         "y": 80.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        80.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -2438,14 +2993,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "SG-8 Punisher",
       "state": "blocked",
       "modes": [
-        80.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 80.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 80.0,
       "slots": {
@@ -2453,10 +3015,13 @@
         "y": 80.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        80.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": null,
       "selector": {
@@ -2468,14 +3033,21 @@
       "writable": false,
       "reason": "The weapon has weapon-function fire-mode entries whose semantics are unknown.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "SG-8P Punisher Plasma",
       "state": "addable",
       "modes": [
-        80.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 80.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 80.0,
       "slots": {
@@ -2483,10 +3055,13 @@
         "y": 80.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        80.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -2510,14 +3085,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "SG-8S Slugger",
       "state": "blocked",
       "modes": [
-        80.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 80.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 80.0,
       "slots": {
@@ -2525,10 +3107,13 @@
         "y": 80.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        80.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": null,
       "selector": {
@@ -2540,14 +3125,21 @@
       "writable": false,
       "reason": "The weapon has weapon-function fire-mode entries whose semantics are unknown.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "SG-97 Sweeper",
       "state": "blocked",
       "modes": [
-        150.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 150.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 150.0,
       "slots": {
@@ -2555,10 +3147,13 @@
         "y": 150.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        150.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": null,
       "selector": {
@@ -2570,14 +3165,21 @@
       "writable": false,
       "reason": "The weapon has weapon-function fire-mode entries whose semantics are unknown.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "SMG-203 Gallant",
       "state": "addable",
       "modes": [
-        1380.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 1380.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 1380.0,
       "slots": {
@@ -2585,10 +3187,13 @@
         "y": 1380.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        1380.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -2610,14 +3215,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "SMG-32 Reprimand",
       "state": "addable",
       "modes": [
-        490.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 490.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 490.0,
       "slots": {
@@ -2625,10 +3237,13 @@
         "y": 490.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        490.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -2650,14 +3265,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "SMG-37 Defender",
       "state": "blocked",
       "modes": [
-        520.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 520.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 520.0,
       "slots": {
@@ -2665,10 +3287,13 @@
         "y": 520.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        520.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": null,
       "selector": {
@@ -2680,16 +3305,23 @@
       },
       "overriddenWhenEquipped": [],
       "writable": false,
-      "reason": "The weapon's three native rate-of-fire slots (X/Y/Z) as rates in the order the ROF selector visits them; the first rate is the default (the Y slot, weapon.fire_rate). Up to three where a selector is bound or bindable, otherwise exactly one.",
+      "reason": "The weapon's three native rate-of-fire slots in the order the weapon menu lists them {X, Y, Z} (rpm; 0 = no mode in that slot). The middle one (Y, weapon.fire_rate) is the default and never 0; the ROF selector visits the filled slots Y -> Z -> X. X and Z are filled only where a selector is bound or bindable.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "SMG-72 Pummeler",
       "state": "addable",
       "modes": [
-        475.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 475.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 475.0,
       "slots": {
@@ -2697,10 +3329,13 @@
         "y": 475.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        475.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -2722,14 +3357,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "SMG/FLAM-34 Stoker",
       "state": "blocked",
       "modes": [
-        420.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 420.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 420.0,
       "slots": {
@@ -2737,10 +3379,13 @@
         "y": 420.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        420.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": null,
       "selector": {
@@ -2752,14 +3397,21 @@
       "writable": false,
       "reason": "The weapon carries a special fire-control structure (+160) whose semantics are unknown.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "StA-11 SMG",
       "state": "addable",
       "modes": [
-        1050.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 1050.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 1050.0,
       "slots": {
@@ -2767,10 +3419,13 @@
         "y": 1050.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        1050.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -2794,14 +3449,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "StA-52 Assault Rifle",
       "state": "addable",
       "modes": [
-        790.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 790.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 790.0,
       "slots": {
@@ -2809,10 +3471,13 @@
         "y": 790.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        790.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -2834,16 +3499,35 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "player",
       "weapon": "VG-70 Variable",
       "state": "blocked",
       "modes": [
-        550.0,
-        750.0,
-        300.0
+        {
+          "slot": "x",
+          "menu": 1,
+          "rpm": 300.0,
+          "default": false,
+          "presses": 2
+        },
+        {
+          "slot": "y",
+          "menu": 2,
+          "rpm": 550.0,
+          "default": true,
+          "presses": 0
+        },
+        {
+          "slot": "z",
+          "menu": 3,
+          "rpm": 750.0,
+          "default": false,
+          "presses": 1
+        }
       ],
       "defaultRpm": 550.0,
       "slots": {
@@ -2851,7 +3535,12 @@
         "y": 550.0,
         "z": 750.0
       },
-      "slotOrder": [
+      "expect": [
+        300.0,
+        550.0,
+        750.0
+      ],
+      "selectorOrder": [
         "y",
         "z",
         "x"
@@ -2866,7 +3555,8 @@
       "writable": false,
       "reason": "The weapon uses a charge or safety fire mode (Safety_Off, 7); only Automatic, Single and Burst are proven.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "support",
@@ -2875,25 +3565,29 @@
       "modes": null,
       "defaultRpm": null,
       "slots": null,
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
-      ],
+      "expect": null,
+      "selectorOrder": null,
       "maxModes": null,
       "selector": null,
       "overriddenWhenEquipped": [],
       "writable": false,
       "reason": "The weapon owns no ProjectileWeaponComponentData rate slots.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "support",
       "weapon": "AC-8 Autocannon",
       "state": "blocked",
       "modes": [
-        190.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 190.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 190.0,
       "slots": {
@@ -2901,10 +3595,13 @@
         "y": 190.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        190.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": null,
       "selector": {
@@ -2916,14 +3613,21 @@
       "writable": false,
       "reason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "support",
       "weapon": "APW-1 Anti-Materiel Rifle",
       "state": "addable",
       "modes": [
-        400.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 400.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 400.0,
       "slots": {
@@ -2931,10 +3635,13 @@
         "y": 400.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        400.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -2958,7 +3665,8 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "support",
@@ -2967,18 +3675,16 @@
       "modes": null,
       "defaultRpm": null,
       "slots": null,
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
-      ],
+      "expect": null,
+      "selectorOrder": null,
       "maxModes": null,
       "selector": null,
       "overriddenWhenEquipped": [],
       "writable": false,
       "reason": "The weapon owns no ProjectileWeaponComponentData rate slots.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "support",
@@ -2987,18 +3693,16 @@
       "modes": null,
       "defaultRpm": null,
       "slots": null,
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
-      ],
+      "expect": null,
+      "selectorOrder": null,
       "maxModes": null,
       "selector": null,
       "overriddenWhenEquipped": [],
       "writable": false,
       "reason": "The weapon owns no ProjectileWeaponComponentData rate slots.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "support",
@@ -3007,18 +3711,16 @@
       "modes": null,
       "defaultRpm": null,
       "slots": null,
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
-      ],
+      "expect": null,
+      "selectorOrder": null,
       "maxModes": null,
       "selector": null,
       "overriddenWhenEquipped": [],
       "writable": false,
       "reason": "The weapon owns no ProjectileWeaponComponentData rate slots.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "support",
@@ -3027,18 +3729,16 @@
       "modes": null,
       "defaultRpm": null,
       "slots": null,
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
-      ],
+      "expect": null,
+      "selectorOrder": null,
       "maxModes": null,
       "selector": null,
       "overriddenWhenEquipped": [],
       "writable": false,
       "reason": "The weapon owns no ProjectileWeaponComponentData rate slots.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "support",
@@ -3047,18 +3747,16 @@
       "modes": null,
       "defaultRpm": null,
       "slots": null,
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
-      ],
+      "expect": null,
+      "selectorOrder": null,
       "maxModes": null,
       "selector": null,
       "overriddenWhenEquipped": [],
       "writable": false,
       "reason": "The weapon owns no ProjectileWeaponComponentData rate slots.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "support",
@@ -3067,18 +3765,16 @@
       "modes": null,
       "defaultRpm": null,
       "slots": null,
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
-      ],
+      "expect": null,
+      "selectorOrder": null,
       "maxModes": null,
       "selector": null,
       "overriddenWhenEquipped": [],
       "writable": false,
       "reason": "The weapon owns no ProjectileWeaponComponentData rate slots.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "support",
@@ -3087,25 +3783,29 @@
       "modes": null,
       "defaultRpm": null,
       "slots": null,
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
-      ],
+      "expect": null,
+      "selectorOrder": null,
       "maxModes": null,
       "selector": null,
       "overriddenWhenEquipped": [],
       "writable": false,
       "reason": "The weapon owns no ProjectileWeaponComponentData rate slots.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "support",
       "weapon": "EAT-17 Expendable Anti-Tank",
       "state": "addable",
       "modes": [
-        600.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 600.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 600.0,
       "slots": {
@@ -3113,10 +3813,13 @@
         "y": 600.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        600.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -3140,14 +3843,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "support",
       "weapon": "EAT-411 Leveller",
       "state": "addable",
       "modes": [
-        600.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 600.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 600.0,
       "slots": {
@@ -3155,10 +3865,13 @@
         "y": 600.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        600.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -3182,14 +3895,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "support",
       "weapon": "EAT-700 Expendable Napalm",
       "state": "addable",
       "modes": [
-        600.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 600.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 600.0,
       "slots": {
@@ -3197,10 +3917,13 @@
         "y": 600.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        600.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -3224,14 +3947,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "support",
       "weapon": "FAF-14 Spear",
       "state": "addable",
       "modes": [
-        240.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 240.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 240.0,
       "slots": {
@@ -3239,10 +3969,13 @@
         "y": 240.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        240.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -3266,7 +3999,8 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "support",
@@ -3275,25 +4009,29 @@
       "modes": null,
       "defaultRpm": null,
       "slots": null,
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
-      ],
+      "expect": null,
+      "selectorOrder": null,
       "maxModes": null,
       "selector": null,
       "overriddenWhenEquipped": [],
       "writable": false,
       "reason": "The weapon owns no ProjectileWeaponComponentData rate slots.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "support",
       "weapon": "GL-21 Grenade Launcher",
       "state": "addable",
       "modes": [
-        160.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 160.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 160.0,
       "slots": {
@@ -3301,10 +4039,13 @@
         "y": 160.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        160.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -3326,16 +4067,35 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "support",
       "weapon": "GL-28 Belt-Fed Grenade Launcher",
       "state": "blocked",
       "modes": [
-        240.0,
-        320.0,
-        160.0
+        {
+          "slot": "x",
+          "menu": 1,
+          "rpm": 160.0,
+          "default": false,
+          "presses": 2
+        },
+        {
+          "slot": "y",
+          "menu": 2,
+          "rpm": 240.0,
+          "default": true,
+          "presses": 0
+        },
+        {
+          "slot": "z",
+          "menu": 3,
+          "rpm": 320.0,
+          "default": false,
+          "presses": 1
+        }
       ],
       "defaultRpm": 240.0,
       "slots": {
@@ -3343,7 +4103,12 @@
         "y": 240.0,
         "z": 320.0
       },
-      "slotOrder": [
+      "expect": [
+        160.0,
+        240.0,
+        320.0
+      ],
+      "selectorOrder": [
         "y",
         "z",
         "x"
@@ -3358,14 +4123,21 @@
       "writable": false,
       "reason": "Charge-controlled or diagnostic selector; its native rates are not exposed as ordinary RPM (as weapon.fire_rate).",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "support",
       "weapon": "GL-52 De-Escalator",
       "state": "addable",
       "modes": [
-        200.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 200.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 200.0,
       "slots": {
@@ -3373,10 +4145,13 @@
         "y": 200.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        200.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -3398,14 +4173,21 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "support",
       "weapon": "GR-8 Recoilless Rifle",
       "state": "blocked",
       "modes": [
-        600.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 600.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 600.0,
       "slots": {
@@ -3413,10 +4195,13 @@
         "y": 600.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        600.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": null,
       "selector": {
@@ -3428,7 +4213,8 @@
       "writable": false,
       "reason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "support",
@@ -3437,25 +4223,36 @@
       "modes": null,
       "defaultRpm": null,
       "slots": null,
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
-      ],
+      "expect": null,
+      "selectorOrder": null,
       "maxModes": null,
       "selector": null,
       "overriddenWhenEquipped": [],
       "writable": false,
       "reason": "The weapon owns no ProjectileWeaponComponentData rate slots.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "support",
       "weapon": "LAS-99 Quasar Cannon",
       "state": "blocked",
       "modes": [
-        10.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 10.0,
+          "default": true,
+          "presses": 0
+        },
+        {
+          "slot": "z",
+          "menu": 2,
+          "rpm": 10.0,
+          "default": false,
+          "presses": 1
+        }
       ],
       "defaultRpm": 10.0,
       "slots": {
@@ -3463,10 +4260,14 @@
         "y": 10.0,
         "z": 10.0
       },
-      "slotOrder": [
+      "expect": [
+        0.0,
+        10.0,
+        10.0
+      ],
+      "selectorOrder": [
         "y",
-        "z",
-        "x"
+        "z"
       ],
       "maxModes": null,
       "selector": {
@@ -3481,14 +4282,35 @@
       "writable": false,
       "reason": "Dormant rate slots (z) hold values a bound selector would visit.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "support",
       "weapon": "M-1000 Maxigun",
       "state": "blocked",
       "modes": [
-        1500.0
+        {
+          "slot": "x",
+          "menu": 1,
+          "rpm": 1500.0,
+          "default": false,
+          "presses": 2
+        },
+        {
+          "slot": "y",
+          "menu": 2,
+          "rpm": 1500.0,
+          "default": true,
+          "presses": 0
+        },
+        {
+          "slot": "z",
+          "menu": 3,
+          "rpm": 1500.0,
+          "default": false,
+          "presses": 1
+        }
       ],
       "defaultRpm": 1500.0,
       "slots": {
@@ -3496,7 +4318,12 @@
         "y": 1500.0,
         "z": 1500.0
       },
-      "slotOrder": [
+      "expect": [
+        1500.0,
+        1500.0,
+        1500.0
+      ],
+      "selectorOrder": [
         "y",
         "z",
         "x"
@@ -3511,16 +4338,35 @@
       "writable": false,
       "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through conventional_projectile, wind_up.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "support",
       "weapon": "M-105 Stalwart",
       "state": "selectable",
       "modes": [
-        850.0,
-        1150.0,
-        700.0
+        {
+          "slot": "x",
+          "menu": 1,
+          "rpm": 700.0,
+          "default": false,
+          "presses": 2
+        },
+        {
+          "slot": "y",
+          "menu": 2,
+          "rpm": 850.0,
+          "default": true,
+          "presses": 0
+        },
+        {
+          "slot": "z",
+          "menu": 3,
+          "rpm": 1150.0,
+          "default": false,
+          "presses": 1
+        }
       ],
       "defaultRpm": 850.0,
       "slots": {
@@ -3528,7 +4374,12 @@
         "y": 850.0,
         "z": 1150.0
       },
-      "slotOrder": [
+      "expect": [
+        700.0,
+        850.0,
+        1150.0
+      ],
+      "selectorOrder": [
         "y",
         "z",
         "x"
@@ -3549,16 +4400,35 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "support",
       "weapon": "MG-206 Heavy Machine Gun",
       "state": "selectable",
       "modes": [
-        600.0,
-        750.0,
-        450.0
+        {
+          "slot": "x",
+          "menu": 1,
+          "rpm": 450.0,
+          "default": false,
+          "presses": 2
+        },
+        {
+          "slot": "y",
+          "menu": 2,
+          "rpm": 600.0,
+          "default": true,
+          "presses": 0
+        },
+        {
+          "slot": "z",
+          "menu": 3,
+          "rpm": 750.0,
+          "default": false,
+          "presses": 1
+        }
       ],
       "defaultRpm": 600.0,
       "slots": {
@@ -3566,7 +4436,12 @@
         "y": 600.0,
         "z": 750.0
       },
-      "slotOrder": [
+      "expect": [
+        450.0,
+        600.0,
+        750.0
+      ],
+      "selectorOrder": [
         "y",
         "z",
         "x"
@@ -3585,18 +4460,44 @@
         "default": "weapon.fire_rate",
         "binding": []
       },
-      "acknowledgements": [
-        "allow_unverified_effect"
-      ]
+      "acknowledgements": [],
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_fire_rate_modes_native",
+        "tests": [
+          "HMGFireRateModesTest"
+        ],
+        "date": "2026-09-30",
+        "target": "MG-206 Heavy Machine Gun",
+        "field": "fire_rate.modes"
+      }
     },
     {
       "kind": "support",
       "weapon": "MG-43 Machine Gun",
       "state": "selectable",
       "modes": [
-        760.0,
-        900.0,
-        630.0
+        {
+          "slot": "x",
+          "menu": 1,
+          "rpm": 630.0,
+          "default": false,
+          "presses": 2
+        },
+        {
+          "slot": "y",
+          "menu": 2,
+          "rpm": 760.0,
+          "default": true,
+          "presses": 0
+        },
+        {
+          "slot": "z",
+          "menu": 3,
+          "rpm": 900.0,
+          "default": false,
+          "presses": 1
+        }
       ],
       "defaultRpm": 760.0,
       "slots": {
@@ -3604,7 +4505,12 @@
         "y": 760.0,
         "z": 900.0
       },
-      "slotOrder": [
+      "expect": [
+        630.0,
+        760.0,
+        900.0
+      ],
+      "selectorOrder": [
         "y",
         "z",
         "x"
@@ -3625,14 +4531,35 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "support",
       "weapon": "MGX-42 Bullet Storm",
       "state": "blocked",
       "modes": [
-        1300.0
+        {
+          "slot": "x",
+          "menu": 1,
+          "rpm": 1300.0,
+          "default": false,
+          "presses": 2
+        },
+        {
+          "slot": "y",
+          "menu": 2,
+          "rpm": 1300.0,
+          "default": true,
+          "presses": 0
+        },
+        {
+          "slot": "z",
+          "menu": 3,
+          "rpm": 1300.0,
+          "default": false,
+          "presses": 1
+        }
       ],
       "defaultRpm": 1300.0,
       "slots": {
@@ -3640,7 +4567,12 @@
         "y": 1300.0,
         "z": 1300.0
       },
-      "slotOrder": [
+      "expect": [
+        1300.0,
+        1300.0,
+        1300.0
+      ],
+      "selectorOrder": [
         "y",
         "z",
         "x"
@@ -3655,14 +4587,21 @@
       "writable": false,
       "reason": "The weapon uses a charge or safety fire mode (Safety_Off, 7); only Automatic, Single and Burst are proven.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "support",
       "weapon": "MLS-4X Commando",
       "state": "blocked",
       "modes": [
-        240.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 240.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 240.0,
       "slots": {
@@ -3670,10 +4609,13 @@
         "y": 240.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        240.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": null,
       "selector": {
@@ -3685,7 +4627,8 @@
       "writable": false,
       "reason": "The weapon binds LaserGuide, which changes how its trigger fires; fire modes are not authored on such weapons.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "support",
@@ -3694,25 +4637,29 @@
       "modes": null,
       "defaultRpm": null,
       "slots": null,
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
-      ],
+      "expect": null,
+      "selectorOrder": null,
       "maxModes": null,
       "selector": null,
       "overriddenWhenEquipped": [],
       "writable": false,
       "reason": "The weapon owns no ProjectileWeaponComponentData rate slots.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "support",
       "weapon": "PLAS-45 Epoch",
       "state": "blocked",
       "modes": [
-        600.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 600.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 600.0,
       "slots": {
@@ -3720,10 +4667,13 @@
         "y": 600.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        600.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": null,
       "selector": {
@@ -3735,14 +4685,21 @@
       "writable": false,
       "reason": "The weapon uses a charge or safety fire mode (6, 6); only Automatic, Single and Burst are proven.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "support",
       "weapon": "RL-77 Airburst Rocket Launcher",
       "state": "blocked",
       "modes": [
-        600.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 600.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 600.0,
       "slots": {
@@ -3750,10 +4707,13 @@
         "y": 600.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        600.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": null,
       "selector": {
@@ -3765,14 +4725,21 @@
       "writable": false,
       "reason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "support",
       "weapon": "RS-422 Railgun",
       "state": "blocked",
       "modes": [
-        60.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 60.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 60.0,
       "slots": {
@@ -3780,10 +4747,13 @@
         "y": 60.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        60.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": null,
       "selector": {
@@ -3795,14 +4765,21 @@
       "writable": false,
       "reason": "The weapon uses a charge or safety fire mode (5, 6); only Automatic, Single and Burst are proven.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "support",
       "weapon": "S-11 Speargun",
       "state": "addable",
       "modes": [
-        60.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 60.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 60.0,
       "slots": {
@@ -3810,10 +4787,13 @@
         "y": 60.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        60.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": 3,
       "selector": {
@@ -3835,14 +4815,35 @@
       },
       "acknowledgements": [
         "allow_unverified_effect"
-      ]
+      ],
+      "liveEvidence": null
     },
     {
       "kind": "support",
       "weapon": "SG-88 Break-Action Shotgun",
       "state": "blocked",
       "modes": [
-        600.0
+        {
+          "slot": "x",
+          "menu": 1,
+          "rpm": 600.0,
+          "default": false,
+          "presses": 2
+        },
+        {
+          "slot": "y",
+          "menu": 2,
+          "rpm": 600.0,
+          "default": true,
+          "presses": 0
+        },
+        {
+          "slot": "z",
+          "menu": 3,
+          "rpm": 600.0,
+          "default": false,
+          "presses": 1
+        }
       ],
       "defaultRpm": 600.0,
       "slots": {
@@ -3850,7 +4851,12 @@
         "y": 600.0,
         "z": 600.0
       },
-      "slotOrder": [
+      "expect": [
+        600.0,
+        600.0,
+        600.0
+      ],
+      "selectorOrder": [
         "y",
         "z",
         "x"
@@ -3865,14 +4871,21 @@
       "writable": false,
       "reason": "The weapon uses a charge or safety fire mode (Safety_Off); only Automatic, Single and Burst are proven.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "support",
       "weapon": "StA-X3 W.A.S.P. Launcher",
       "state": "blocked",
       "modes": [
-        500.0
+        {
+          "slot": "y",
+          "menu": 1,
+          "rpm": 500.0,
+          "default": true,
+          "presses": 0
+        }
       ],
       "defaultRpm": 500.0,
       "slots": {
@@ -3880,10 +4893,13 @@
         "y": 500.0,
         "z": 0.0
       },
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
+      "expect": [
+        0.0,
+        500.0,
+        0.0
+      ],
+      "selectorOrder": [
+        "y"
       ],
       "maxModes": null,
       "selector": {
@@ -3895,7 +4911,8 @@
       "writable": false,
       "reason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     },
     {
       "kind": "support",
@@ -3904,18 +4921,16 @@
       "modes": null,
       "defaultRpm": null,
       "slots": null,
-      "slotOrder": [
-        "y",
-        "z",
-        "x"
-      ],
+      "expect": null,
+      "selectorOrder": null,
       "maxModes": null,
       "selector": null,
       "overriddenWhenEquipped": [],
       "writable": false,
       "reason": "The weapon owns no ProjectileWeaponComponentData rate slots.",
       "fields": null,
-      "acknowledgements": null
+      "acknowledgements": null,
+      "liveEvidence": null
     }
   ],
   "summary": {

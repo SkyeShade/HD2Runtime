@@ -844,8 +844,9 @@ def build(catalog_path=CATALOG):
                     'modeValues','maxModes','selector','evidence')}
             # Public views carry semantic values only (no native IDs or code addresses; see the research files).
             if field_id==weapon_mode_fields.RATES_FIELD:
-                instance['fireRate']={key:field.get(key) for key in ('fireRateState','nativeSlots','slotOrder','maxModes',
-                    'selectorBound','selectorInput','bindableInputs','min','max','overriddenWhenEquipped')}
+                instance['fireRate']={key:field.get(key) for key in ('fireRateState','nativeSlots','slotNames',
+                    'defaultSlot','selectorOrder','maxModes','selectorBound','selectorInput','bindableInputs','min','max',
+                    'overriddenWhenEquipped')}
             if field_id in weapon_mode_fields.INPUT_FIELDS.values():
                 instance['weaponFunction']={key:field.get(key) for key in ('input','allowedValues')}
             if field_id==weapon_mode_fields.FUNCTION_PROJECTILE_FIELD:

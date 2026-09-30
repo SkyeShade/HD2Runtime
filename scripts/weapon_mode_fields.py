@@ -7,6 +7,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import live_evidence
+
 ROOT = Path(__file__).resolve().parents[1]
 RESEARCH = ROOT / 'research/weapon-functions-F5FEE03DCFDB.json'
 RATES_FIELD = 'fire_rate.modes'
@@ -18,6 +20,9 @@ FUNCTION_PROJECTILE_OFFSET = 576
 # Native rates span 10 (LAS-99) to 1500 (M-1000); the reviewed range leaves headroom without letting a typo reach
 # thousands of shots per second.
 RATE_RANGE = (1, 3000)
+# Slot names in storage and weapon-menu order, and the order the ROF selector visits them from the default (Y).
+SLOT_NAMES = ('x', 'y', 'z')
+SELECTOR_ORDER = ('y', 'z', 'x')
 FUNCTION_VALUES = {'none': 0, 'zeroing': 1, 'rate_of_fire': 2, 'fire_mode': 3, 'magazine': 4, 'light_mode': 5,
     'laser_guide': 6, 'muzzle_velocity': 7, 'programmable_ammo': 8}
 FUNCTION_NAMES = {value: name for name, value in FUNCTION_VALUES.items()}
@@ -66,8 +71,11 @@ def apply_rates(field, row, identity_ok):
     rate = row['fireRate']
     ok = identity_ok and rates_writable(row) and 'slots' in rate
     slots = [rate['slots'][key] for key in ('x', 'y', 'z')] if 'slots' in rate else None
-    field.update(currentDefault=list(rate['modes']) if 'modes' in rate else None, nativeSlots=slots,
-        slotOrder=['y', 'z', 'x'], maxModes=rate.get('maxModes') or 1, selectorBound=bool(rate.get('selectorBound')),
+    # The value is the three slots in the order the weapon menu lists them (X, Y, Z; 0 = empty); the selector visits
+    # them from the default Y: Y -> Z -> X.
+    field.update(currentDefault=list(slots) if slots else None, nativeSlots=slots, slotNames=list(SLOT_NAMES),
+        defaultSlot='y', selectorOrder=list(SELECTOR_ORDER), maxModes=rate.get('maxModes') or 1,
+        selectorBound=bool(rate.get('selectorBound')),
         selectorInput=rate.get('selectorInput'),
         bindableInputs=rate.get('bindableInputs') or [], fireRateState=rate['state'], min=RATE_RANGE[0],
         max=RATE_RANGE[1], overriddenWhenEquipped=rate.get('overriddenWhenEquipped') or [])
@@ -88,7 +96,7 @@ def apply_rates(field, row, identity_ok):
         'Equipping ' + ', '.join(equipped) + ' overwrites all three rate slots at weapon build; the rates apply while an '
         'option that does not patch them is equipped.', activeSource='AMBIGUOUS', activeSourceProven=False,
         overriddenWhenEquipped=equipped)
-    return field
+    return live_evidence.promote_field(field, row['weapon'])
 
 
 def apply_input(field, row, side, identity_ok):
@@ -120,7 +128,7 @@ def apply_input(field, row, side, identity_ok):
     field['operationGroup'] = OPERATION_GROUP
     field['evidence'] = dict(EVIDENCE, nativeOwner='WeaponDataComponent function_info.' + side + ' (WeaponFunctionType)')
     field['effect'] = effect(BUILD_EFFECT)
-    return field
+    return live_evidence.promote_field(field, row['weapon'])
 
 
 def apply_function_projectile(field, row, identity_ok):
@@ -140,4 +148,4 @@ def apply_function_projectile(field, row, identity_ok):
     field['evidence'] = dict(EVIDENCE, nativeOwner='ProjectileWeaponComponent weapon_function_projectile_type',
         reader='the projectile fire path (research proofs)')
     field['effect'] = effect(FIRE_EFFECT, applies='weapon_build')
-    return field
+    return live_evidence.promote_field(field, row['weapon'])
