@@ -388,11 +388,11 @@ Logs are in `%LOCALAPPDATA%\CowboyBingus\Helldivers2\Logs\`:
 
 - `BingusSharedLoader.log`: was your mod found and started? Script errors appear here.
 - `HD2Runtime.log`: what the runtime did. Its first line names the Runtime that actually loaded:
-  `[HD2Runtime] HD2Runtime 0.27.0 initialized (API 1)`. If the version is not the one you expect, the wrong Runtime
+  `[HD2Runtime] HD2Runtime 0.28.0 initialized (API 1)`. If the version is not the one you expect, the wrong Runtime
   is installed.
 
 ```
-[HD2Runtime] HD2Runtime 0.27.0 initialized (API 1)
+[HD2Runtime] HD2Runtime 0.28.0 initialized (API 1)
 [HD2Runtime] ensure my-other-id rejected: field is not exposed for SG-20 Halt: damage.no_such_field
 [HD2Runtime] patch my-id target resolved
 [HD2Runtime] patch my-id target not ready (TARGET_UNAVAILABLE); retry 2/6 in 5 update seconds

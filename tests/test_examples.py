@@ -66,6 +66,38 @@ class ExampleTests(unittest.TestCase):
                 self.assertTrue(wrapped in texts or any(module.lua(wrapped) in text for text in texts), project.name)
                 self.assertIn((project / 'src/addon.lua').read_text(encoding='utf-8'), module.example(project.name))
 
+    def test_0_28_0_features_require_0_28_0(self):
+        """The 0.28.0 floors (each marked example was also checked to fail against the v0.27.0 runtime): new
+        resources, kind-specific fields, underbarrel sub-targets and the Halt's generic feed fields need 0.28.0;
+        released 0.27.0 features keep their floors."""
+        def need(operations=(), phases=(), events=False):
+            return examples.required_version({'operations': list(operations), 'phases': [list(phases)],
+                'usesEvents': events})[0]
+        spec = lambda kind, fields, requested=None: {'kind': kind, 'fields': fields,
+            'requested': requested or fields}
+        for operations, phases, events in (
+                ([{'resource': 'attack_output'}], [spec('attack_output', ['projectile.impact_explosion'])], False),
+                ([{'resource': 'enemy', 'path': 'entity'}], [spec('enemy', ['entity.health'])], False),
+                ([{'resource': 'player_weapon', 'path': 'weapon'}], [spec('player_weapon', ['fire_rate.modes'])], False),
+                ([{'resource': 'player_weapon', 'path': 'weapon', 'weapon': 'AR/GL-21 One-Two / underbarrel'}],
+                    [spec('player_weapon', ['weapon.horizontal_spread'])], False),
+                ([{'resource': 'player_weapon', 'path': 'projectile_reference', 'weapon': 'SG-20 Halt'}],
+                    [spec('player_weapon', ['damage.primary.standard_damage'], ['damage.standard_damage'])], False),
+                ([{'resource': 'vehicle_weapon', 'path': 'attack'}],
+                    [spec('vehicle_weapon', ['attack.primary.projectile'])], False),
+                ([{'resource': 'player_weapon', 'path': 'projectile_reference'}],
+                    [spec('player_weapon', ['projectile.penetration_slowdown'])], False),
+                ([], [], True)):
+            self.assertEqual(need(operations, phases, events), '0.28.0', (operations, phases))
+        # Released before 0.28.0: support-weapon penetration slowdown (0.24.0), throwables (0.27.0), and the Halt's
+        # branch-qualified fields.
+        self.assertEqual(need([{'resource': 'support_weapon', 'path': 'projectile_reference'}],
+            [spec('support_weapon', ['projectile.primary.penetration_slowdown'])]), '0.24.0')
+        self.assertEqual(need([{'resource': 'throwable', 'path': 'throwable'}], [spec('throwable', ['throwable.fuse'])]),
+            '0.27.0')
+        self.assertEqual(need([{'resource': 'player_weapon', 'path': 'projectile_reference', 'weapon': 'SG-20 Halt'}],
+            [spec('player_weapon', ['damage.primary.standard_damage'])]), '0.23.2')
+
     def test_template_teaches_a_typed_field(self):
         source = (ROOT / 'starter/src/addon.lua').read_text()
         self.assertIn('hd2.fields.weapon.fire_rate', source)

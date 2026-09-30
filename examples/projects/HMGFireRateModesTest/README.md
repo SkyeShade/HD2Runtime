@@ -1,7 +1,7 @@
 # HMGFireRateModesTest
 
 Live test: the MG-206 Heavy Machine Gun's three native rates of fire, each edited on its own from the MODS tab (Mod
-Options Menu, page **HMG Fire Rate Modes**). Needs this HD2Runtime test build (not the published 0.27.0).
+Options Menu, page **HMG Fire Rate Modes**). Needs HD2Runtime 0.28.0.
 
 The HMG stores three rates in its own weapon record: slots X / Y / Z = 450 / 600 / 750 rpm, and the weapon menu lists
 them in that order. A freshly built HMG starts on the middle one, **600** (slot Y), and each press of its rate-of-fire
@@ -16,7 +16,7 @@ replaces the rates with clearly different ones:
 
 ## How to test
 
-1. Install the test runtime and this mod, start the game, and check the log for
+1. Install HD2Runtime 0.28.0 and this mod, start the game, and check the log for
    `patch hmg-fire-rate-modes APPLIED` (`fire_rate.modes {450, 600, 750} -> {300, 550, 1200}`).
 2. Call in an HMG (a **freshly built** one: the rates are copied into the weapon when the game builds it). Open its
    weapon menu: it should list **300 / 550 / 1200** from top to bottom, the same order as the sliders, with 550

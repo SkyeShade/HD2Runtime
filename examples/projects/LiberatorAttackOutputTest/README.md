@@ -7,7 +7,7 @@ its own magazine, ammunition use, reload, rate of fire and handling.
 Liberator fired the EAT-700 napalm projectile and the GL-52 grenade, and the GL-52 impact released its arc. The
 LAS-58 Talon control choice was not reported.
 
-Needs the HD2Runtime coverage test build (not the published 0.27.0) and Mod Options Menu. The option ID is
+Needs HD2Runtime 0.28.0 and Mod Options Menu. The option ID is
 `liberator_attack_output.output`, on the MODS tab page "Liberator Attack Output". Change the choice, then press
 APPLY. The donor's package is loaded first, automatically: nobody has to bring the Talon, EAT-700 or GL-52.
 

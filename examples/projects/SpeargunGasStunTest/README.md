@@ -1,8 +1,8 @@
 # SpeargunGasStunTest
 
 Live test: an S-11 Speargun with two player-selectable modes, **Gas** (its own spear) and **Stun**, an EMS field
-where the shot lands. Uses the MODS tab (Mod Options Menu, page **Speargun Gas Stun**). Needs this HD2Runtime test
-build (not the published 0.27.0).
+where the shot lands. Uses the MODS tab (Mod Options Menu, page **Speargun Gas Stun**). Needs HD2Runtime
+0.28.0.
 
 The previous run (GL-52 donor) proved the selector works, but the GL-52 arc grenade does heavy electric damage
 rather than stunning an area. The research (`docs/weapon-feeds.md`, stun-field donors) found what a stun field is

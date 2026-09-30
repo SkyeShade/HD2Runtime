@@ -44,8 +44,8 @@ HD2Runtime is designed to fail safely when a game structure or ownership relatio
   `sdk/StatusEffectCatalog.json`)
 - Enemy and enemy-structure health, armor and damage zones (`hd2.enemy(name)`, `hd2.structure(name)`,
   `:zone(name)`) for 177 hash-verified native classes, named by wiki name only where the anatomy proves it, and
-  the damage of 85 mounted-weapon attacks (`:attack(name)`) reached through each class's own mount chain (see
-  `docs/enemy-authoring.md` and `sdk/EnemyAuthoringCapabilities.json`)
+  169 mounted-weapon attacks on 38 classes (`:attack(name)`: their damage, projectile and explosion rows) reached
+  through each class's own mount chain (see `docs/enemy-authoring.md` and `sdk/EnemyAuthoringCapabilities.json`)
 - Minefield salvo count and mines per salvo (`hd2.stratagem(name):deployed_entity():minefield()`, reductions only)
 - Central live-test evidence: every in-game test, its result and the capability families it promoted to
   live-proven (see `docs/live-evidence.md` and `sdk/LiveEvidenceCatalog.json`)
@@ -71,6 +71,21 @@ HD2Runtime is designed to fail safely when a game structure or ownership relatio
 - Generated SDK metadata for tools such as HD2RuntimeGUI
 
 Unsupported or ambiguous values remain read-only rather than being modified speculatively.
+
+Version 0.28.0 adds event-driven gameplay scripting and one projectile system:
+- **Scripting.** Mods react to missions, players, entities, combat and the weapon in hand (`hd2.events`,
+  `hd2.mod`). They can heal the local player and, hosting, spawn catalogued explosions and projectiles or apply
+  statuses.
+- **Projectiles.** Primary, secondary, support and mounted weapons share one projectile host rule and one donor pool.
+  A projectile builder re-points a row's direct hit and explosions. Host swaps and row writes stay separate,
+  explicit operations.
+- **Coverage.** Rate-of-fire modes, weapon feeds and programmable ammo, armory presentation, Resupply, underbarrel
+  weapons, Guard Dogs, shields, packs, sentries, minefields, enemies and structures.
+- **Fixes and diagnostics.** It fixes the SG-20 Halt bug that dropped a mod's other edits, isolates every
+  operation, and adds write-conflict diagnostics and opt-in telemetry.
+
+Live proof is recorded exactly, per target and value. Custom projectile rows owned by Runtime are later work. See
+`docs/releases/0.28.0.md`.
 
 Version 0.27.0 loads assets automatically for cross-package reference swaps. When a swap points at an item
 nobody carries (an EAT-700 in a Stalwart pod, Talon projectiles on the Reprimand, a Grenade Box in the MG-43

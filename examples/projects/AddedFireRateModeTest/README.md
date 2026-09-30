@@ -1,8 +1,8 @@
 # AddedFireRateModeTest
 
 Live test: an AR-23 Liberator with a rate-of-fire selector and three rates, listed **450 / 700 / 950** from the top of
-its weapon menu, starting on 700. Uses the MODS tab (Mod Options Menu, page **Liberator Fire Rates**). Needs this
-HD2Runtime test build (not the published 0.27.0).
+its weapon menu, starting on 700. Uses the MODS tab (Mod Options Menu, page **Liberator Fire Rates**). Needs
+HD2Runtime 0.28.0.
 
 Natively the Liberator has one rate (640 rpm) in the middle of its three rate slots (Y); the other two (X, Z) are
 empty, and its left weapon-function input is unbound. One transaction fills the two empty slots, sets the default and

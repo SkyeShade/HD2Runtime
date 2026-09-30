@@ -37,23 +37,48 @@ FIELD_FLOORS = {
 # Floors that apply only in one write domain: max_uses on a plain stratagem is new in 0.26.0, while the
 # booster's granted-stratagem max_uses has existed since 0.25.0.
 KIND_FIELD_FLOORS = {('stratagem', 'stratagem.max_uses'): '0.26.0'}
-RESOURCE_FLOORS = {'booster': '0.24.0', 'vehicle_weapon': '0.26.0', 'pod_rack': '0.26.0', 'throwable': '0.27.0'}
-BOOSTER_PATH_FLOORS = {'tuning': '0.25.0', 'explosion': '0.25.0', 'status_damage': '0.25.0',
-    'granted_stratagem': '0.25.0'}
-DELIVERY_RESOLVED = {'MG-43 Machine Gun', 'M-105 Stalwart', 'MG-206 Heavy Machine Gun', 'CQC-20 Breaching Hammer'}
-# Features not in any published release yet need the release that ships them, i.e. the version being built.
-UNRELEASED = (ROOT / 'VERSION').read_text().strip()
-UNRELEASED_FIELDS = {'weapon.stationary_while_firing',
+# New in 0.28.0 (docs/releases/0.28.0.md). The field sets are the catalog diff against v0.27.0 (normalized like the
+# fields below), plus members 0.27.0 published but not writable: status slots on player-weapon projectiles. Every
+# example these floors mark was also checked to fail validation against the v0.27.0 runtime.
+RELEASE_0_28_0 = '0.28.0'
+FIELDS_0_28_0 = {'weapon.stationary_while_firing', 'weapon.recoil_multiplier_horizontal',
+    'weapon.recoil_multiplier_vertical', 'beam.fire_rate',
     # Equipment coverage (research/equipment-coverage-F5FEE03DCFDB.json).
     'shield.recharge_delay', 'shield.broken_recharge_delay', 'shield.recharge_rate', 'hover.duration',
     'warp.distance', 'warp.upward_bias', 'warp.downward_bias', 'warp.safe_heat_threshold', 'warp.unsafe_heat_threshold',
     'warp.heat_per_use', 'warp.heat_cooldown_per_second', 'warp.head_injury_damage', 'warp.left_arm_injury_damage',
     'warp.right_arm_injury_damage', 'warp.left_leg_injury_damage', 'warp.right_leg_injury_damage',
     'heat.level_1_threshold', 'heat.level_2_threshold', 'heat.level_3_threshold', 'heat.level_1_self_status',
-    'heat.level_2_self_status', 'heat.level_3_self_status', 'heat.overheat_lock', 'beam.fire_rate',
-    'weapon.recoil_multiplier_horizontal', 'weapon.recoil_multiplier_vertical'}
-UNRELEASED_SUPPORT_WEAPONS = {'EAT-17 Expendable Anti-Tank', 'LAS-98 Laser Cannon', 'B/FLAM-80 Cremator'}
-UNRELEASED_STRATAGEM_WEAPONS = {'mine'}   # a mine deployer's launcher owns its mine attacks
+    'heat.level_2_self_status', 'heat.level_3_self_status', 'heat.overheat_lock',
+    # Rate-of-fire modes, weapon functions and feeds, programmable ammo, armory presentation.
+    'fire_rate.modes', 'weapon_function.left', 'weapon_function.right', 'function_ammo.projectile',
+    'presentation.armor_penetration', 'presentation.traits', 'presentation.mode_label', 'presentation.mode_icon',
+    # The unified projectile system: ammunition sources and projectile builder slots.
+    'ammunition.projectile', 'projectile.direct_damage', 'projectile.impact_explosion', 'projectile.expiry_explosion',
+    # Sentries and minefields.
+    'turret.yaw_speed', 'turret.pitch_speed', 'turret.yaw_min', 'turret.yaw_max', 'turret.pitch_min',
+    'turret.pitch_max', 'targeting.range', 'minefield.salvos', 'minefield.mines_per_salvo'}
+STATUS_SLOTS = {prefix + 'status_%d_%s' % (slot, part) for prefix in ('damage.', 'explosion.damage.')
+    for slot in (1, 2, 3, 4) for part in ('type', 'strength')}
+KIND_FIELDS_0_28_0 = {
+    'player_weapon': {'projectile.lifetime', 'projectile.penetration_slowdown'} | STATUS_SLOTS,
+    'support_weapon': {'attack.projectile'} | STATUS_SLOTS,
+    'vehicle_weapon': {'attack.primary.projectile', 'arc.primary.chain_count', 'arc.primary.distance_at_max_spread',
+        'arc.primary.max_angle_spread', 'arc.primary.max_split', 'arc.primary.range', 'arc.primary.velocity',
+        'beam.primary.length', 'beam.primary.radius', 'heat.capacity', 'heat.cool_per_second', 'heat.heat_per_shot'}
+        | STATUS_SLOTS}
+RESOURCE_FLOORS = {'booster': '0.24.0', 'vehicle_weapon': '0.26.0', 'pod_rack': '0.26.0', 'throwable': '0.27.0',
+    'enemy': RELEASE_0_28_0, 'attack_output': RELEASE_0_28_0}
+RESOURCE_PATH_FLOORS = {('backpack', 'damage_zone'): RELEASE_0_28_0, ('player_weapon', 'ammunition'): RELEASE_0_28_0}
+BOOSTER_PATH_FLOORS = {'tuning': '0.25.0', 'explosion': '0.25.0', 'status_damage': '0.25.0',
+    'granted_stratagem': '0.25.0'}
+DELIVERY_RESOLVED = {'MG-43 Machine Gun', 'M-105 Stalwart', 'MG-206 Heavy Machine Gun', 'CQC-20 Breaching Hammer'}
+SUPPORT_WEAPONS_0_28_0 = {'EAT-17 Expendable Anti-Tank', 'LAS-98 Laser Cannon', 'B/FLAM-80 Cremator'}
+STRATAGEM_WEAPONS_0_28_0 = {'mine'}   # a mine deployer's launcher owns its mine attacks
+# Features not in any published release yet need the release that ships them, i.e. the version being built. Empty
+# right after a release; the next release pins them like the 0.28.0 sets above.
+UNRELEASED = (ROOT / 'VERSION').read_text().strip()
+UNRELEASED_FIELDS = set()
 OPTIONS_FLOOR = '0.25.1'
 LEGACY_PATTERNS = {
     r'fields\.damage\.armor_penetration': 'legacy JAR-5 armor_penetration; use damage.ap_direct/ap_slight/ap_large/ap_extreme',
@@ -131,8 +156,11 @@ local function run_example(body,name)
    local specs={}
    for _,spec in ipairs(phase.capture_specs)do
     local fields={}
-    for _,change in ipairs(spec.changes)do fields[#fields+1]=change.canonical_field or change.field end
-    specs[#specs+1]={kind=spec.kind,fields=fields,assets=#(spec.asset_dependencies or{})}
+    local requested={}
+    for _,change in ipairs(spec.changes)do
+     fields[#fields+1]=change.canonical_field or change.field;requested[#requested+1]=tostring(change.field)
+    end
+    specs[#specs+1]={kind=spec.kind,fields=fields,requested=requested,assets=#(spec.asset_dependencies or{})}
    end
    phases[#phases+1]=specs
   end
@@ -225,25 +253,36 @@ def required_version(report):
     if report.get('usesOptions'):
         bump(OPTIONS_FLOOR, 'in-game options')
     if report.get('usesEvents'):
-        bump(UNRELEASED, 'gameplay scripting (hd2.events, hd2.mod, timers, keybinds)')
+        bump(RELEASE_0_28_0, 'gameplay scripting (hd2.events, hd2.mod, timers, keybinds)')
     for operation in report.get('operations', []):
         resource, path = operation.get('resource'), operation.get('path')
         if resource in RESOURCE_FLOORS:
             bump(RESOURCE_FLOORS[resource], resource + ' target')
+        if (resource, path) in RESOURCE_PATH_FLOORS:
+            bump(RESOURCE_PATH_FLOORS[(resource, path)], resource + ' ' + path)
+        if resource == 'player_weapon' and ' / underbarrel' in (operation.get('weapon') or ''):
+            bump(RELEASE_0_28_0, 'underbarrel sub-target')
         if resource == 'booster' and path in BOOSTER_PATH_FLOORS:
             bump(BOOSTER_PATH_FLOORS[path], 'booster ' + path + '()')
         if resource == 'support_weapon' and operation.get('weapon') in DELIVERY_RESOLVED:
             bump('0.24.0', operation['weapon'])
-        if resource == 'support_weapon' and operation.get('weapon') in UNRELEASED_SUPPORT_WEAPONS:
-            bump(UNRELEASED, operation['weapon'] + ' (structurally delivery-resolved)')
-        if resource == 'stratagem' and operation.get('weapon') in UNRELEASED_STRATAGEM_WEAPONS:
-            bump(UNRELEASED, 'stratagem mine explosion')
+        if resource == 'support_weapon' and operation.get('weapon') in SUPPORT_WEAPONS_0_28_0:
+            bump(RELEASE_0_28_0, operation['weapon'] + ' (structurally delivery-resolved)')
+        if resource == 'stratagem' and operation.get('weapon') in STRATAGEM_WEAPONS_0_28_0:
+            bump(RELEASE_0_28_0, 'stratagem mine explosion')
     for phase in report.get('phases', []):
         for spec in phase:
-            for field in spec['fields']:
+            for index, field in enumerate(spec['fields']):
                 generic = re.sub(r'^(projectile|damage|explosion)\.(primary|alternate|impact|expiry)\.', r'\1.', field)
                 if generic in FIELD_FLOORS:
                     bump(FIELD_FLOORS[generic], field)
+                if generic in FIELDS_0_28_0 or field in KIND_FIELDS_0_28_0.get(spec['kind'], ()) \
+                        or generic in KIND_FIELDS_0_28_0.get(spec['kind'], ()):
+                    bump(RELEASE_0_28_0, spec['kind'] + ' ' + field)
+                # A generic projectile field resolved to a rounds-feed branch (the SG-20 Halt): 0.27.0 refused it.
+                requested = (spec.get('requested') or [])[index:index + 1]
+                if spec['kind'] == 'player_weapon' and generic != field and requested == [generic]:
+                    bump(RELEASE_0_28_0, field + ' through the generic ' + generic)
                 if generic in UNRELEASED_FIELDS:
                     bump(UNRELEASED, field)
                 if (spec['kind'], field) in KIND_FIELD_FLOORS:

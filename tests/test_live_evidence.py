@@ -34,7 +34,7 @@ PROJECTILE_BUILDER_TARGETS = [('AR-2 Coyote', 'projectile.direct_damage'), ('AR-
     ('local_player', 'hd2.actions.heal')]
 # The vehicle projectile builder session (2026-09-30): the Patriot minigun swaps and its own row's impact slot.
 VEHICLE_TARGETS = [('EXO-45 Patriot Exosuit / right_gun', 'attack.primary.projectile'),
-    ('EXO-45 Patriot Exosuit / right_gun', 'projectile.impact_explosion')]
+    ('EXO-45 Patriot Exosuit / right_gun', 'projectile.impact_explosion'), ('LAS-58 Talon', 'projectile.impact_explosion')]
 COMPOSITION_TARGETS = [('MG-206 Heavy Machine Gun', 'fire_rate.modes'), ('AR-23 Liberator', 'fire_rate.modes'),
     ('AR-23 Liberator', 'weapon_function.left'), ('SG-20 Halt', 'rounds.feed_capacity_1'),
     ('SG-20 Halt', 'rounds.feed_capacity_2'), ('AR-23C Liberator Concussive', 'presentation.armor_penetration')]
@@ -53,7 +53,8 @@ class LiveEvidenceTests(unittest.TestCase):
         generate_live_evidence.generate(check=True)
         catalog = load('LiveEvidenceCatalog.json')
         self.assertEqual(catalog['summary']['families'], {
-            'live_proven': ['attack_output_cross_class', 'enemy_main_health', 'enemy_zone_armor',
+            'live_proven': ['attack_output_cross_class', 'donor_row_slot_composition', 'enemy_main_health',
+                'enemy_zone_armor',
                 'event_action_explosion_named', 'event_action_heal', 'event_action_projectile', 'event_action_status',
                 'event_damage_source_attribution', 'event_player_died_position', 'event_weapon_in_hand',
                 'minefield_salvos', 'pod_payload_pair', 'projectile_slot_composition', 'sentry_targeting_range',
@@ -67,7 +68,7 @@ class LiveEvidenceTests(unittest.TestCase):
             'not_tested': ['enemy_attack_damage'], 'inconclusive': ['structure_health'],
             'live_failed': ['backpack_shield_default_armor', 'weapon_projectile_reference_dormant_member'],
             'pending': ['backpack_shield_zone_armor', 'weapon_presentation_traits']})
-        self.assertEqual((catalog['summary']['tests'], catalog['summary']['passed']), (52, 44))
+        self.assertEqual((catalog['summary']['tests'], catalog['summary']['passed']), (54, 46))
         for name, entry in self.registry['families'].items():
             if entry['status'] == 'live_proven':
                 self.assertTrue(any(t['result'] == 'PASS' for t in live_evidence.tests(name)), name)
@@ -384,12 +385,35 @@ rejects(function()slot('projectile.impact_explosion',hd2.attack_output('R-36 Eru
  {allow_shared=true})end,'allow_unverified_effect')
 rejects(function()slot('projectile.expiry_explosion',hd2.attack_output('GL-21 Grenade Launcher'):impact_explosion(),
  {allow_shared=true})end,'allow_unverified_effect')
--- The same tuple on a donor's row is not proven (an effect following a swapped projectile).
-rejects(function()outputs.validate_transaction{id='t',target=hd2.attack_output('LAS-58 Talon'),changes={{
- field='projectile.impact_explosion',expect='none',value=hd2.attack_output('GL-21 Grenade Launcher'):impact_explosion()}}}end,
- 'allow_unverified_effect')
+-- The explicit donor-row composition (follow-up session): exactly the Talon row with the GL-21 grenade blast. Any
+-- other effect on the Talon row, or the grenade blast on another donor row, keeps the acknowledgement.
+local function talon(value,target)
+ return outputs.validate_transaction{id='t',target=target or hd2.attack_output('LAS-58 Talon'),allow_shared=target~=nil,
+  changes={{field='projectile.impact_explosion',expect='none',value=value}}}
+end
+talon(hd2.attack_output('GL-21 Grenade Launcher'):impact_explosion())
+rejects(function()talon(hd2.attack_output('EAT-700 Expendable Napalm'):impact_explosion())end,'allow_unverified_effect')
+rejects(function()talon('none')end,'allow_unverified_effect')
+rejects(function()talon(hd2.attack_output('GL-21 Grenade Launcher'):impact_explosion(),
+ hd2.attack_output('PLAS-1 Scorcher'))end,'allow_unverified_effect')
 return 'ok'
 '''), b'ok')
+        # The three operation kinds stay separate records: host swap, host-native row slot, donor-row slot.
+        donor = registry['families']['donor_row_slot_composition']
+        self.assertEqual(sorted(donor['operationModel']), ['donorRowSlot', 'hostNativeRowSlot', 'hostProjectileSwap'])
+        self.assertEqual(donor['provenTargets'], [{'target': 'LAS-58 Talon', 'field': 'projectile.impact_explosion',
+            'values': ['output/v1/projectile/gl-21-grenade-launcher#impactExplosion']}])
+        self.assertEqual(donor['provenOperationChains'], [{'hostSwap': {'host': 'EXO-45 Patriot Exosuit / right_gun',
+            'field': 'attack.primary.projectile', 'value': 'output/v1/projectile/las-58-talon'},
+            'rowSlot': {'row': 'LAS-58 Talon', 'field': 'projectile.impact_explosion',
+                'value': 'output/v1/projectile/gl-21-grenade-launcher#impactExplosion'}, 'separateOperations': True}])
+        followup = next(s for s in registry['sessions'] if s['id'] == 'vehicle-projectile-builder-followup-2026-09-30')
+        self.assertEqual([(t['operation'], t['family'], t['result']) for t in followup['tests']],
+            [('patriot-minigun-projectile', 'vehicle_projectile_reference', 'PASS'),
+             ('talon-bolt-impact', 'donor_row_slot_composition', 'PASS')])
+        for needle in ('every other donor row', 'the other mounted weapons', 'the status bullets',
+                'shared sentry behaviour'):
+            self.assertIn(needle, ' '.join(donor['notPromoted']))
 
     def test_weapon_composition_promotes_exactly_the_tested_scopes(self):
         """Weapon composition (2026-09-30): the MG-206 rates, the Liberator's added selector (the rate_of_fire binding
