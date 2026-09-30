@@ -85,7 +85,7 @@
    "ok": true,
    "tail": [
     "}",
-    "[HD2Runtime] HD2Runtime 0.27.0 initialized (API 1)",
+    "[HD2Runtime] HD2Runtime 0.28.0 initialized (API 1)",
     "[HD2Runtime] patch one-shot rejected: option-bound values require hd2.ensure"
    ]
   },
@@ -148,7 +148,7 @@
    "ok": true,
    "tail": [
     "}",
-    "[HD2Runtime] HD2Runtime 0.27.0 initialized (API 1)",
+    "[HD2Runtime] HD2Runtime 0.28.0 initialized (API 1)",
     "[HD2Runtime] log unavailable: [string \"hd2runtime/runtime/log\"]:9: Bingus logging unavailable"
    ]
   },
@@ -193,7 +193,7 @@
    "ok": true,
    "tail": [
     "}",
-    "[HD2Runtime] HD2Runtime 0.27.0 initialized (API 1)",
+    "[HD2Runtime] HD2Runtime 0.28.0 initialized (API 1)",
     "[HD2Runtime] log unavailable: [string \"hd2runtime/runtime/log\"]:9: Bingus logging unavailable"
    ]
   },
@@ -228,7 +228,7 @@
    "name": "full test suite",
    "ok": true,
    "tail": [
-    "Ran 645 tests in 50.693s",
+    "Ran 647 tests in 52.889s",
     "",
     "OK"
    ]
@@ -237,7 +237,7 @@
    "name": "packaged runtime",
    "ok": true,
    "tail": [
-    "example-vehicle-projectile-builder-test PASS writes=14 reset_reapplied=True",
+    "example-vehicle-projectile-builder-test PASS writes=15 reset_reapplied=True",
     "example-warp-pack-test PASS writes=11 reset_reapplied=True",
     "example-weapon-presentation-test PASS writes=14 reset_reapplied=True"
    ]
