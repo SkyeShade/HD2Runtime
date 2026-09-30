@@ -117,6 +117,16 @@
     {"id":"explosion.damage.stagger","display_name":"Explosion stagger","type":"integer","unit":"force","derived":false,"writable":true,"settings":"explosion_damage","offset":32,"storage":"u32"},
     {"id":"explosion.damage.push_force","display_name":"Explosion push force","type":"integer","unit":"force","derived":false,"writable":true,"settings":"explosion_damage","offset":36,"storage":"u32"},
     {"id":"explosion.shrapnel_count","display_name":"Explosion shrapnel count","type":"integer","unit":"projectiles","derived":false,"writable":false,"reason":"Structurally correlated for one current projectile; native consumer confirmation is incomplete."},
-    {"id":"explosion.shrapnel_projectile","display_name":"Explosion shrapnel projectile","type":"projectile_reference","unit":null,"derived":false,"writable":false,"reason":"Typed shrapnel linkage is readable; replacement compatibility is not yet proven."}
+    {"id":"explosion.shrapnel_projectile","display_name":"Explosion shrapnel projectile","type":"projectile_reference","unit":null,"derived":false,"writable":false,"reason":"Typed shrapnel linkage is readable; replacement compatibility is not yet proven."},
+    {"id":"heat.level_1_threshold","display_name":"Heat level 1 threshold","type":"number","unit":"heat_units","derived":false,"writable":true,"component":"WeaponHeatComponentData","offset":0,"storage":"f32"},
+    {"id":"heat.level_2_threshold","display_name":"Heat level 2 threshold","type":"number","unit":"heat_units","derived":false,"writable":true,"component":"WeaponHeatComponentData","offset":24,"storage":"f32"},
+    {"id":"heat.level_3_threshold","display_name":"Heat level 3 threshold","type":"number","unit":"heat_units","derived":false,"writable":true,"component":"WeaponHeatComponentData","offset":48,"storage":"f32"},
+    {"id":"heat.level_1_self_status","display_name":"Heat level 1 status on the wielder","type":"status_reference","unit":null,"derived":false,"writable":true,"component":"WeaponHeatComponentData","offset":20,"storage":"u32"},
+    {"id":"heat.level_2_self_status","display_name":"Heat level 2 status on the wielder","type":"status_reference","unit":null,"derived":false,"writable":true,"component":"WeaponHeatComponentData","offset":44,"storage":"u32"},
+    {"id":"heat.level_3_self_status","display_name":"Heat level 3 status on the wielder","type":"status_reference","unit":null,"derived":false,"writable":true,"component":"WeaponHeatComponentData","offset":68,"storage":"u32"},
+    {"id":"heat.overheat_lock","display_name":"Locks at maximum heat","type":"boolean","unit":null,"derived":false,"writable":true,"component":"WeaponHeatComponentData","offset":80,"storage":"u8"},
+    {"id":"beam.fire_rate","display_name":"Beam fire rate","type":"integer","unit":"rpm","derived":false,"writable":true,"component":"BeamWeaponComponentData","offset":104,"storage":"i32"},
+    {"id":"weapon.recoil_multiplier_horizontal","display_name":"Horizontal recoil multiplier","type":"number","unit":"multiplier","derived":false,"writable":true,"component":"WeaponDataComponentData","offset":60,"storage":"f32"},
+    {"id":"weapon.recoil_multiplier_vertical","display_name":"Vertical recoil multiplier","type":"number","unit":"multiplier","derived":false,"writable":true,"component":"WeaponDataComponentData","offset":64,"storage":"f32"}
   ]
 }

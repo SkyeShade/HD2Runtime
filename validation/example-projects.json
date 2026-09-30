@@ -1,5 +1,5 @@
 {
-  "examples": 88,
+  "examples": 96,
   "failed": [],
   "mode": "snapshot",
   "results": {
@@ -1044,6 +1044,109 @@
         "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.27.0"
       ]
     },
+    "DirectionalShieldTest": {
+      "baselineChanges": 3,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "sh51-capacity",
+          "mode": "patch",
+          "path": "linked",
+          "resource": "backpack"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "sh51-outage",
+          "mode": "patch",
+          "path": "linked",
+          "resource": "backpack"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "sh51-body",
+          "mode": "patch",
+          "path": "backpack",
+          "resource": "backpack"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.27.0",
+      "status": "VALIDATED",
+      "usesOptions": true,
+      "versionReasons": [
+        "in-game options -> 0.25.1",
+        "shield.broken_recharge_delay -> 0.27.0",
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "DoubleEdgeOverheatTest": {
+      "baselineChanges": 5,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "double-edge-levels",
+          "mode": "transaction",
+          "path": "weapon",
+          "resource": "player_weapon",
+          "weapon": "LAS-17 Double-Edge Sickle"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "double-edge-no-ignition",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "player_weapon",
+          "weapon": "LAS-17 Double-Edge Sickle"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "double-edge-lock",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "player_weapon",
+          "weapon": "LAS-17 Double-Edge Sickle"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.27.0",
+      "status": "VALIDATED",
+      "usesOptions": true,
+      "versionReasons": [
+        "heat.level_1_threshold -> 0.27.0",
+        "heat.level_2_threshold -> 0.27.0",
+        "heat.level_3_self_status -> 0.27.0",
+        "heat.level_3_threshold -> 0.27.0",
+        "heat.overheat_lock -> 0.27.0",
+        "in-game options -> 0.25.1",
+        "typed writes -> 0.23.2"
+      ]
+    },
     "EagleProof": {
       "baselineChanges": 4,
       "calls": [
@@ -1613,6 +1716,102 @@
         "typed writes -> 0.23.2"
       ]
     },
+    "GuardDogTest": {
+      "baselineChanges": 9,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "guard-dog-reloads",
+          "mode": "transaction",
+          "path": "backpack",
+          "resource": "backpack"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "guard-dog-health",
+          "mode": "patch",
+          "path": "linked",
+          "resource": "backpack"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "guard-dog-body",
+          "mode": "patch",
+          "path": "damage_zone",
+          "resource": "backpack"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "guard-dog-drum",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "vehicle_weapon",
+          "weapon": "AX/AR-23 Guard Dog / gun"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "guard-dog-rate",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "vehicle_weapon",
+          "weapon": "AX/AR-23 Guard Dog / gun"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "rover-beam-rate",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "vehicle_weapon",
+          "weapon": "AX/LAS-5 Rover / gun"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared",
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "k9-arc",
+          "mode": "transaction",
+          "path": "attack",
+          "resource": "vehicle_weapon",
+          "weapon": "AX/ARC-3 K-9 / gun"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.27.0",
+      "status": "VALIDATED",
+      "usesOptions": true,
+      "versionReasons": [
+        "beam.fire_rate -> 0.27.0",
+        "deposit.capacity -> 0.26.0",
+        "deposit.start_amount -> 0.26.0",
+        "in-game options -> 0.25.1",
+        "typed writes -> 0.23.2",
+        "vehicle_weapon target -> 0.26.0"
+      ]
+    },
     "HD2RuntimeOptionsTest": {
       "baselineChanges": 1,
       "calls": [
@@ -1715,6 +1914,52 @@
       "usesOptions": false,
       "versionReasons": [
         "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.27.0"
+      ]
+    },
+    "HoverPackTest": {
+      "baselineChanges": 3,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "hover-duration",
+          "mode": "patch",
+          "path": "backpack",
+          "resource": "backpack"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "hover-launch",
+          "mode": "patch",
+          "path": "backpack",
+          "resource": "backpack"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "hover-recharge",
+          "mode": "patch",
+          "path": "backpack",
+          "resource": "backpack"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.27.0",
+      "status": "VALIDATED",
+      "usesOptions": true,
+      "versionReasons": [
+        "hover.duration -> 0.27.0",
+        "in-game options -> 0.25.1",
+        "typed writes -> 0.23.2"
       ]
     },
     "IncendiaryFire": {
@@ -1924,6 +2169,36 @@
         "typed writes -> 0.23.2"
       ]
     },
+    "LaserCannonTest": {
+      "baselineChanges": 1,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "laser-cannon-beam-rate",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "support_weapon",
+          "weapon": "LAS-98 Laser Cannon"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.27.0",
+      "status": "VALIDATED",
+      "usesOptions": true,
+      "versionReasons": [
+        "LAS-98 Laser Cannon (structurally delivery-resolved) -> 0.27.0",
+        "beam.fire_rate -> 0.27.0",
+        "in-game options -> 0.25.1",
+        "typed writes -> 0.23.2"
+      ]
+    },
     "LiberatorAttackOutputTest": {
       "baselineChanges": 1,
       "calls": [
@@ -2124,6 +2399,47 @@
         "deposit.refill_amount -> 0.26.0",
         "deposit.start_amount -> 0.26.0",
         "typed writes -> 0.23.2"
+      ]
+    },
+    "MaxigunCoverageTest": {
+      "baselineChanges": 2,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "maxigun-vertical-recoil",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "support_weapon",
+          "weapon": "M-1000 Maxigun"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "maxigun-horizontal-recoil",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "support_weapon",
+          "weapon": "M-1000 Maxigun"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.27.0",
+      "status": "VALIDATED",
+      "usesOptions": true,
+      "versionReasons": [
+        "in-game options -> 0.25.1",
+        "typed writes -> 0.23.2",
+        "weapon.recoil_multiplier_horizontal -> 0.27.0",
+        "weapon.recoil_multiplier_vertical -> 0.27.0"
       ]
     },
     "MaxigunMobileFiring": {
@@ -2849,6 +3165,56 @@
         "typed writes -> 0.23.2"
       ]
     },
+    "ShieldGeneratorPackTest": {
+      "baselineChanges": 3,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "shield-pack-recharge-delay",
+          "mode": "patch",
+          "path": "backpack",
+          "resource": "backpack"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "shield-pack-restart",
+          "mode": "patch",
+          "path": "backpack",
+          "resource": "backpack"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "shield-pack-rate",
+          "mode": "patch",
+          "path": "backpack",
+          "resource": "backpack"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.27.0",
+      "status": "VALIDATED",
+      "usesOptions": true,
+      "versionReasons": [
+        "in-game options -> 0.25.1",
+        "shield.broken_recharge_delay -> 0.27.0",
+        "shield.recharge_delay -> 0.27.0",
+        "shield.recharge_rate -> 0.27.0",
+        "typed writes -> 0.23.2"
+      ]
+    },
     "ShieldGrenadeDurability": {
       "baselineChanges": 2,
       "calls": [
@@ -3284,6 +3650,60 @@
       "usesOptions": false,
       "versionReasons": [
         "typed writes -> 0.23.2"
+      ]
+    },
+    "WarpPackTest": {
+      "baselineChanges": 7,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "warp-distance",
+          "mode": "patch",
+          "path": "backpack",
+          "resource": "backpack"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "warp-heat",
+          "mode": "patch",
+          "path": "backpack",
+          "resource": "backpack"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "warp-injury",
+          "mode": "transaction",
+          "path": "backpack",
+          "resource": "backpack"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.27.0",
+      "status": "VALIDATED",
+      "usesOptions": true,
+      "versionReasons": [
+        "in-game options -> 0.25.1",
+        "typed writes -> 0.23.2",
+        "warp.distance -> 0.27.0",
+        "warp.head_injury_damage -> 0.27.0",
+        "warp.heat_per_use -> 0.27.0",
+        "warp.left_arm_injury_damage -> 0.27.0",
+        "warp.left_leg_injury_damage -> 0.27.0",
+        "warp.right_arm_injury_damage -> 0.27.0",
+        "warp.right_leg_injury_damage -> 0.27.0"
       ]
     },
     "WeaponPresentationTest": {

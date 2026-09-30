@@ -1,8 +1,7 @@
 # Vehicle weapons
 
-Mounted weapons on vehicles, Exosuits and the GATER oil rig are ordinary weapon entities. The
-runtime reaches each one through its vehicle's mount slot, and edits it the same way as a support
-weapon.
+Mounted weapons on vehicles, Exosuits, the GATER oil rig and the Guard Dog drones are ordinary weapon entities.
+The runtime reaches each one through its carrier's mount slot, and edits it the same way as a support weapon.
 
 ```lua
 -- Emancipator: each autocannon arm 100 -> 150 rounds (see examples/projects/EmancipatorAmmo)
@@ -19,7 +18,7 @@ hd2.ensure({plan={id='emancipator-ammo',operations={
 | Vehicle | `MountComponentData`: 5 slots × 24 bytes, with the mounted entity path at `slot*24` | Re-proven on every write |
 | Mounted weapon | The slot's entity, which owns its own component records | Weapon-local |
 | Local settings | `ProjectileWeaponComponentData` (fire rate), `WeaponMagazineComponentData`, `WeaponReloadComponentData`, `HealthComponentData` (the mount's health, armor and hit zone) | Weapon-local |
-| Attack | `ProjectileWeaponComponentData.projectile_type` → `ProjectileSettings`, or `SprayWeaponComponentData` → `DamageInfo` | Shared rows |
+| Attack | `ProjectileWeaponComponentData.projectile_type` → `ProjectileSettings`; `SprayWeaponComponentData` → `DamageInfo`; `BeamWeaponComponentData` → `BeamSettings` → `DamageInfo`; `ArcWeaponComponentData` → `ArcSettings` → `DamageInfo` | Shared rows |
 | Damage | `DamageInfo` from the projectile or the spray | Shared rows |
 | Explosion | The projectile's impact `ExplosionSettings` and its `DamageInfo` | Shared rows |
 
@@ -51,6 +50,10 @@ weapon-local records.
 | `hd2.fields.magazine.starting_magazines`, `magazines_from_supply`, `spare_magazines` | weapon | `WeaponMagazineComponentData` +140 / +144 / +148 |
 | `hd2.fields.reload.duration` | weapon | `WeaponReloadComponentData` +56 (only where the value is non-zero) |
 | `hd2.fields.entity.health`, `hd2.fields.entity.armor` | weapon | The mount's own `HealthComponentData` +0 / +280 |
+| `hd2.fields.beam.fire_rate` | weapon | `BeamWeaponComponentData` +104 (rpm: how often the beam applies damage) |
+| `hd2.fields.heat.capacity`, `heat_per_shot`, `heat_per_second`, `cool_per_second` | weapon | `WeaponHeatComponentData` +96 / +116 / +120 / +128 |
+| `hd2.fields.beam.radius`, `beam.length` | `weapon:attack('primary')` (beam) | Shared `BeamSettings` +4 / +8 |
+| `hd2.fields.arc.velocity`, `range`, `distance_at_max_spread`, `max_angle_spread`, `chain_count`, `max_split` | `weapon:attack('primary')` (arc) | Shared `ArcSettings` |
 | `hd2.fields.zone.health`, `hd2.fields.zone.armor` | weapon | The mount's single hit zone (Exosuit arms) |
 | `hd2.fields.projectile.*` | `weapon:projectile()` | Shared `ProjectileSettings` |
 | `hd2.fields.damage.player_standard_damage`, `player_durable_damage`, `ap_*`, `demolition`, `stagger`, `push_force` | `weapon:projectile()`, or the spray attack | Shared `DamageInfo` |
@@ -62,7 +65,7 @@ weapon-local records.
 - **`shared_mounted_weapon`:** one weapon entity sits in several mounts, so its own records change all
   of them. This applies to the M-102 Gunner FRV and Super Earth FRV gun, and to Maelstrom slots 3
   and 4. Requires `allow_shared=true`.
-- **`shared_projectile`, `shared_damage`, `shared_explosion`:** settings rows. Every consumer listed in
+- **`shared_projectile`, `shared_damage`, `shared_explosion`, `shared_beam`, `shared_arc`:** settings rows. Every consumer listed in
   `otherConsumers` changes, including player and support weapons. For example, the Patriot HMG
   round is also used by the MG-43 and several sentries. Requires `allow_shared=true`.
 - **`allow_unverified_effect`:** required for every field that no working reference mod has changed in
@@ -82,3 +85,30 @@ weapon-local records.
 `sdk/VehicleWeaponCapabilities.json` lists every vehicle, mount and field instance. For each field it
 gives the baseline, scope, other consumers, acknowledgement, gameplay evidence and API constant. It
 never includes a native address or raw resource identifier.
+
+## Guard Dog drones
+
+The five Guard Dog backpacks deploy a drone, and each drone carries one weapon in mount slot 0. The chain is backpack
+-> `DepositComponent` +24 (the drone entity) -> the drone `MountComponent` slot 0 -> the drone weapon. Before every
+write the runtime re-proves both links: the backpack still names the drone, and the drone mount still holds the
+weapon. The drones appear in `sdk/VehicleWeaponCapabilities.json` as carriers (`carrier.kind = backpack_drone`,
+keyed by the backpack name).
+
+```lua
+local gun=hd2.backpack('AX/AR-23 Guard Dog'):drone():weapon()      -- 'AX/AR-23 Guard Dog / gun'
+hd2.ensure({patch={id='dog-drum',target=gun,field=hd2.fields.weapon.capacity,expect=45,value=200,
+    allow_unverified_effect=true}})
+```
+
+| Drone | Weapon family | Weapon fields |
+| --- | --- | --- |
+| AX/AR-23 Guard Dog | projectile | fire rate 660, magazine 45, reload, projectile and damage (shared with the AR-23P and the M-103 gun) |
+| AX/LAS-5 Rover | beam + heat | `beam.fire_rate` 60, heat 200 / 2 per shot / cools 50, reload, beam and damage, Fire |
+| AX/FLAM-75 Hot Dog | spray | magazine 80, spray damage and statuses (the damage row is shared with the FLAM-66 Torcher) |
+| AX/ARC-3 K-9 | arc | magazine 100, arc range 55 / chain 2 / split 5, damage, Stun Small |
+| AX/TX-13 Dog Breath | spray | magazine 100, spray damage, Gas and Gas Confusion |
+
+The drone reloads from its backpack (`hd2.backpack(name)` `deposit.*`, the published drone magazines), so the
+drone weapon's own spare-magazine counts are not exposed. The drone's health and body zone are backpack fields
+(`hd2.backpack(name):drone()`, see [Backpack authoring](backpack-authoring.md)). Every drone field needs
+`allow_unverified_effect`.

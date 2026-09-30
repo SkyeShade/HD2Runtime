@@ -129,8 +129,9 @@
         "name": "AR-23P Liberator Penetrator"
        },
        {
-        "kind": "entity",
-        "path": "content/fac_helldivers/equipment/backpacks/drone_mg/drone_mg_weapon"
+        "kind": "vehicle_weapon",
+        "vehicle": "AX/AR-23 Guard Dog",
+        "slot": 0
        },
        {
         "kind": "entity",
@@ -2639,6 +2640,553 @@
      }
     }
    ]
+  },
+  {
+   "name": "AX/AR-23 Guard Dog",
+   "resource": "0xA0FF2F9A0CA6992A",
+   "slots": [
+    {
+     "slot": 0,
+     "path": "0xA32621E3BDE13379",
+     "nativePath": "content/fac_helldivers/equipment/backpacks/drone_mg/drone_mg_weapon",
+     "name": "gun",
+     "attachNodeName": "gun_mount",
+     "ownership": {
+      "WeaponDataComponentData": {
+       "recordIndex": 254,
+       "indexRow": 188,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "ProjectileWeaponComponentData": {
+       "recordIndex": 188,
+       "indexRow": 413,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponMagazineComponentData": {
+       "recordIndex": 194,
+       "indexRow": 237,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponReloadComponentData": {
+       "recordIndex": 156,
+       "indexRow": 441,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      }
+     },
+     "isWeapon": true,
+     "values": {
+      "projectileType": 7,
+      "fireRate": 660.0,
+      "fireRateVector": [
+       0.0,
+       660.0,
+       0.0
+      ],
+      "infiniteAmmo": 0,
+      "speedMultiplier": 1.0,
+      "addends128": [
+       0.0,
+       0.0
+      ],
+      "addends136": [
+       0.0,
+       0.0
+      ],
+      "magazine": {
+       "capacity": 45,
+       "magazines": 6,
+       "refill": 6,
+       "max": 12,
+       "reloadThreshold": 0
+      },
+      "reloadDuration": 2.5,
+      "ergonomics": 65.0
+     },
+     "projectile": {
+      "damage": {
+       "projectileUsers": 2,
+       "settings": {
+        "group": 1,
+        "recordType": 105,
+        "row": 110,
+        "settingsType": "0xE0A72CF0"
+       },
+       "type": 105,
+       "values": {
+        "ap_direct": 3,
+        "ap_extreme": 0,
+        "ap_large": 3,
+        "ap_slight": 3,
+        "demolition": 10,
+        "durable_damage": 15,
+        "push_force": 10,
+        "stagger": 10,
+        "standard_damage": 65
+       }
+      },
+      "explosions": {},
+      "settings": {
+       "group": 0,
+       "recordType": 7,
+       "row": 200,
+       "settingsType": "0xBD4042C2"
+      },
+      "type": 7,
+      "values": {
+       "drag": 0.30000001192092896,
+       "gravity": 1,
+       "lifetime": 0,
+       "mass": 4.5,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 1000
+      },
+      "firedBy": [
+       {
+        "kind": "vehicle_weapon",
+        "vehicle": "M-103 Supply FRV",
+        "slot": 0
+       },
+       {
+        "kind": "entity",
+        "path": null
+       },
+       {
+        "kind": "player_weapon",
+        "name": "AR-23P Liberator Penetrator"
+       },
+       {
+        "kind": "vehicle_weapon",
+        "vehicle": "AX/AR-23 Guard Dog",
+        "slot": 0
+       },
+       {
+        "kind": "entity",
+        "path": null
+       }
+      ]
+     }
+    }
+   ],
+   "carrier": {
+    "kind": "backpack_drone",
+    "backpack": "AX/AR-23 Guard Dog",
+    "backpackResource": "0x255EBC5767D7CEEC",
+    "link": {
+     "component": "DepositComponentData",
+     "offset": 24,
+     "recordIndex": 14,
+     "indexRow": 6,
+     "ownerCount": 1
+    },
+    "droneEntityRow": 2346
+   }
+  },
+  {
+   "name": "AX/LAS-5 Rover",
+   "resource": "0x5BEEC97F4C7F4AE9",
+   "slots": [
+    {
+     "slot": 0,
+     "path": "0x2C66C201B2543D2C",
+     "nativePath": "content/fac_helldivers/equipment/backpacks/drone_weapons/drone_laser_rifle/drone_laser_rifle_mount",
+     "name": "gun",
+     "attachNodeName": "gun_mount",
+     "ownership": {
+      "WeaponDataComponentData": {
+       "recordIndex": 260,
+       "indexRow": 468,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponReloadComponentData": {
+       "recordIndex": 162,
+       "indexRow": 276,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponHeatComponentData": {
+       "recordIndex": 17,
+       "indexRow": 28,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "BeamWeaponComponentData": {
+       "recordIndex": 15,
+       "indexRow": 38,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      }
+     },
+     "isWeapon": true,
+     "values": {
+      "beamType": 25,
+      "beamFireRate": 60,
+      "reloadDuration": 3.0,
+      "heat": {
+       "capacity": 200.0,
+       "heatPerShot": 2.0,
+       "heatPerSecond": 0.0,
+       "coolPerSecond": 50.0
+      },
+      "ergonomics": 65.0
+     },
+     "beam": {
+      "damage": {
+       "settings": {
+        "group": 1,
+        "recordType": 503,
+        "row": 497,
+        "settingsType": "0xE0A72CF0"
+       },
+       "type": 503,
+       "values": {
+        "ap_direct": 2,
+        "ap_extreme": 0,
+        "ap_large": 2,
+        "ap_slight": 2,
+        "demolition": 10,
+        "durable_damage": 40,
+        "push_force": 0,
+        "stagger": 0,
+        "standard_damage": 200
+       }
+      },
+      "settings": {
+       "group": 0,
+       "recordType": 25,
+       "row": 3,
+       "settingsType": "0xC5085606"
+      },
+      "type": 25,
+      "values": {
+       "length": 1000,
+       "radius": 0
+      },
+      "usedBy": [
+       {
+        "kind": "vehicle_weapon",
+        "vehicle": "AX/LAS-5 Rover",
+        "slot": 0
+       }
+      ]
+     }
+    }
+   ],
+   "carrier": {
+    "kind": "backpack_drone",
+    "backpack": "AX/LAS-5 Rover",
+    "backpackResource": "0xAF9B683CCB6DDC02",
+    "link": {
+     "component": "DepositComponentData",
+     "offset": 24,
+     "recordIndex": 16,
+     "indexRow": 9,
+     "ownerCount": 1
+    },
+    "droneEntityRow": 2793
+   }
+  },
+  {
+   "name": "AX/FLAM-75 Hot Dog",
+   "resource": "0x979E9BC6D48D1FC6",
+   "slots": [
+    {
+     "slot": 0,
+     "path": "0x65CD4325BA23F3C6",
+     "nativePath": "content/fac_helldivers/equipment/backpacks/drone_weapons/drone_flamethrower/drone_flamethrower_mount",
+     "name": "gun",
+     "attachNodeName": "gun_mount",
+     "ownership": {
+      "WeaponDataComponentData": {
+       "recordIndex": 258,
+       "indexRow": 163,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponMagazineComponentData": {
+       "recordIndex": 198,
+       "indexRow": 443,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponReloadComponentData": {
+       "recordIndex": 160,
+       "indexRow": 262,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "SprayWeaponComponentData": {
+       "recordIndex": 15,
+       "indexRow": 44,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      }
+     },
+     "isWeapon": true,
+     "values": {
+      "sprayDamageType": 15,
+      "magazine": {
+       "capacity": 80,
+       "magazines": 6,
+       "refill": 6,
+       "max": 12,
+       "reloadThreshold": 0
+      },
+      "reloadDuration": 0.0,
+      "ergonomics": 65.0
+     },
+     "spray": {
+      "settings": {
+       "group": 1,
+       "recordType": 15,
+       "row": 23,
+       "settingsType": "0xE0A72CF0"
+      },
+      "type": 15,
+      "values": {
+       "ap_direct": 4,
+       "ap_extreme": 0,
+       "ap_large": 4,
+       "ap_slight": 4,
+       "demolition": 10,
+       "durable_damage": 2,
+       "push_force": 5,
+       "stagger": 5,
+       "standard_damage": 2
+      },
+      "usedBy": [
+       {
+        "kind": "player_weapon",
+        "name": "FLAM-66 Torcher"
+       },
+       {
+        "kind": "vehicle_weapon",
+        "vehicle": "AX/FLAM-75 Hot Dog",
+        "slot": 0
+       }
+      ]
+     }
+    }
+   ],
+   "carrier": {
+    "kind": "backpack_drone",
+    "backpack": "AX/FLAM-75 Hot Dog",
+    "backpackResource": "0x3015626AA69F8D4D",
+    "link": {
+     "component": "DepositComponentData",
+     "offset": 24,
+     "recordIndex": 11,
+     "indexRow": 39,
+     "ownerCount": 1
+    },
+    "droneEntityRow": 4038
+   }
+  },
+  {
+   "name": "AX/ARC-3 K-9",
+   "resource": "0x4B071633584E4594",
+   "slots": [
+    {
+     "slot": 0,
+     "path": "0xA0532C3616528CBF",
+     "nativePath": "content/fac_helldivers/equipment/backpacks/drone_weapons/drone_stun_gun/drone_stun_gun_mount",
+     "name": "gun",
+     "attachNodeName": "gun_mount",
+     "ownership": {
+      "WeaponDataComponentData": {
+       "recordIndex": 261,
+       "indexRow": 571,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponMagazineComponentData": {
+       "recordIndex": 200,
+       "indexRow": 191,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponReloadComponentData": {
+       "recordIndex": 163,
+       "indexRow": 335,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "ArcWeaponComponentData": {
+       "recordIndex": 7,
+       "indexRow": 11,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      }
+     },
+     "isWeapon": true,
+     "values": {
+      "arcType": 8,
+      "magazine": {
+       "capacity": 100,
+       "magazines": 6,
+       "refill": 6,
+       "max": 12,
+       "reloadThreshold": 0
+      },
+      "reloadDuration": 0.0,
+      "ergonomics": 65.0
+     },
+     "arc": {
+      "damage": {
+       "settings": {
+        "group": 1,
+        "recordType": 200,
+        "row": 200,
+        "settingsType": "0xE0A72CF0"
+       },
+       "type": 200,
+       "values": {
+        "ap_direct": 7,
+        "ap_extreme": 0,
+        "ap_large": 7,
+        "ap_slight": 7,
+        "demolition": 10,
+        "durable_damage": 45,
+        "push_force": 25,
+        "stagger": 30,
+        "standard_damage": 250
+       }
+      },
+      "settings": {
+       "group": 0,
+       "recordType": 8,
+       "row": 5,
+       "settingsType": "0xAFDF0267"
+      },
+      "type": 8,
+      "values": {
+       "chain_count": 2,
+       "distance_at_max_spread": 40,
+       "max_angle_spread": 60,
+       "max_split": 5,
+       "range": 55,
+       "velocity": 300
+      },
+      "usedBy": [
+       {
+        "kind": "vehicle_weapon",
+        "vehicle": "AX/ARC-3 K-9",
+        "slot": 0
+       }
+      ]
+     }
+    }
+   ],
+   "carrier": {
+    "kind": "backpack_drone",
+    "backpack": "AX/ARC-3 K-9",
+    "backpackResource": "0xC28DA712B12E3DFA",
+    "link": {
+     "component": "DepositComponentData",
+     "offset": 24,
+     "recordIndex": 20,
+     "indexRow": 47,
+     "ownerCount": 1
+    },
+    "droneEntityRow": 1428
+   }
+  },
+  {
+   "name": "AX/TX-13 Dog Breath",
+   "resource": "0xB9BAF571FC8F9959",
+   "slots": [
+    {
+     "slot": 0,
+     "path": "0xB729A2BA153BCAED",
+     "nativePath": "content/fac_helldivers/equipment/backpacks/drone_weapons/drone_gas_projector/drone_gas_projector_mount",
+     "name": "gun",
+     "attachNodeName": "gun_mount",
+     "ownership": {
+      "WeaponDataComponentData": {
+       "recordIndex": 259,
+       "indexRow": 664,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponMagazineComponentData": {
+       "recordIndex": 199,
+       "indexRow": 341,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponReloadComponentData": {
+       "recordIndex": 161,
+       "indexRow": 443,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "SprayWeaponComponentData": {
+       "recordIndex": 16,
+       "indexRow": 33,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      }
+     },
+     "isWeapon": true,
+     "values": {
+      "sprayDamageType": 29,
+      "magazine": {
+       "capacity": 100,
+       "magazines": 6,
+       "refill": 6,
+       "max": 12,
+       "reloadThreshold": 0
+      },
+      "reloadDuration": 0.0,
+      "ergonomics": 65.0
+     },
+     "spray": {
+      "settings": {
+       "group": 1,
+       "recordType": 29,
+       "row": 30,
+       "settingsType": "0xE0A72CF0"
+      },
+      "type": 29,
+      "values": {
+       "ap_direct": 5,
+       "ap_extreme": 0,
+       "ap_large": 5,
+       "ap_slight": 5,
+       "demolition": 5,
+       "durable_damage": 1,
+       "push_force": 5,
+       "stagger": 10,
+       "standard_damage": 1
+      },
+      "usedBy": [
+       {
+        "kind": "vehicle_weapon",
+        "vehicle": "AX/TX-13 Dog Breath",
+        "slot": 0
+       }
+      ]
+     }
+    }
+   ],
+   "carrier": {
+    "kind": "backpack_drone",
+    "backpack": "AX/TX-13 Dog Breath",
+    "backpackResource": "0xBFFCB4CD971A8EDA",
+    "link": {
+     "component": "DepositComponentData",
+     "offset": 24,
+     "recordIndex": 12,
+     "indexRow": 46,
+     "ownerCount": 1
+    },
+    "droneEntityRow": 2393
+   }
   }
  ]
 }

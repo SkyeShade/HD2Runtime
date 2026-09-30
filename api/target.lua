@@ -935,8 +935,10 @@ function M.new(describe)
             local zones={}
             for zone,info in pairs(entry.zones or{})do zones[#zones+1]={zone=zone,index=info.index,name=info.name}end
             table.sort(zones,function(a,b)return a.index<b.index end)
+            local linked={};for item in pairs(entry.linked or{})do linked[#linked+1]=item end
+            table.sort(linked)
             return {name=name,semanticId=entry.semanticId,fields=fields_for(entry,'backpack'),
-                damageZones=#zones>0 and zones or nil,
+                damageZones=#zones>0 and zones or nil,linked=#linked>0 and linked or nil,
                 feeds=entry.feeds and{supportWeapon=entry.feeds.weapon,relationship='backpack_ammo'}or nil}
         end
         -- The support weapon this backpack stores ammunition for, if any.
@@ -944,16 +946,73 @@ function M.new(describe)
             assert(entry.feeds,name..' does not store ammunition for a support weapon')
             return builders.support_weapon(entry.feeds.weapon)
         end
+        -- Fields of the backpack itself (linked == nil) or of one linked entity.
+        local function linked_fields(path,linked,zone)
+            local result={}
+            for _,field in ipairs(entry.fields)do
+                local t=field.target
+                if t.path==path and t.linked==linked and(zone==nil or t.zone==zone)then
+                    result[#result+1]=entity_public(field)end
+            end
+            return result
+        end
         -- Reviewed damage zones (the SH-20's shield plate): zone id ('zone_0'), native zone name or index.
         local function zone_target(zone)
             local zone_methods={}
             function zone_methods.describe()
                 local info=entry.zones[zone]
                 return {backpack=name,zone=zone,index=info.index,name=info.name,
-                    fields=fields_for(entry,'damage_zone','zone',zone)}
+                    fields=linked_fields('damage_zone',nil,zone)}
             end
             return setmetatable({resource='backpack',backpack=name,path='damage_zone',zone=zone},
                 {__index=zone_methods})
+        end
+        -- Linked entities the backpack deploys: 'drone' (Guard Dog) and 'energy_shield' (SH-51 barrier). The link
+        -- (the backpack's own typed reference to the entity) is re-proven before every write.
+        local function linked_target(linked)
+            local link=assert(entry.linked and entry.linked[linked],name..' has no linked '..tostring(linked))
+            local linked_methods={}
+            local function linked_zone(zone)
+                local zone_methods={}
+                function zone_methods.describe()
+                    local info=link.zones[zone]
+                    return {backpack=name,linked=linked,zone=zone,index=info.index,name=info.name,
+                        fields=linked_fields('damage_zone',linked,zone)}
+                end
+                return setmetatable({resource='backpack',backpack=name,path='damage_zone',linked=linked,zone=zone},
+                    {__index=zone_methods})
+            end
+            function linked_methods.describe()
+                local zones={}
+                for zone,info in pairs(link.zones or{})do zones[#zones+1]={zone=zone,index=info.index,name=info.name}end
+                table.sort(zones,function(a,b)return a.index<b.index end)
+                return {backpack=name,linked=linked,fields=linked_fields('linked',linked),damageZones=zones}
+            end
+            function linked_methods.damage_zones()
+                local ids={};for zone,info in pairs(link.zones or{})do ids[#ids+1]={zone,info.index}end
+                table.sort(ids,function(a,b)return a[2]<b[2]end)
+                local result={};for index,item in ipairs(ids)do result[index]=linked_zone(item[1])end
+                return result
+            end
+            function linked_methods.damage_zone(_,identity)
+                for zone,info in pairs(link.zones or{})do
+                    if identity==zone or identity==info.name or identity==info.index then return linked_zone(zone)end
+                end
+                error('unknown reviewed damage zone of the '..linked..' of '..name..': '..tostring(identity),0)
+            end
+            if linked=='drone'then
+                -- The drone's mounted weapon (sdk/VehicleWeaponCapabilities.json, carrier = this backpack).
+                function linked_methods.weapon()return vehicle_weapon_target(weapon_key(name,0))end
+            end
+            return setmetatable({resource='backpack',backpack=name,path='linked',linked=linked},
+                {__index=linked_methods})
+        end
+        function methods.drone()return linked_target('drone')end
+        function methods.energy_shield()return linked_target('energy_shield')end
+        function methods.linked()
+            local names={};for linked in pairs(entry.linked or{})do names[#names+1]=linked end
+            table.sort(names)
+            return names
         end
         function methods.damage_zones()
             local ids={};for zone,info in pairs(entry.zones or{})do ids[#ids+1]={zone,info.index}end

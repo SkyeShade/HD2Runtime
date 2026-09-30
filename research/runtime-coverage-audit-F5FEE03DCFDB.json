@@ -20,7 +20,7 @@
    },
    "capacity": {
     "stated": 25,
-    "covered": 20,
+    "covered": 21,
     "note": null
    },
    "cooldownSeconds": {
@@ -796,21 +796,30 @@
     "family": "backpack",
     "resolved": true,
     "rootResolution": "UNIQUE",
-    "writableFields": 2,
+    "writableFields": 28,
     "writableDomains": [
-     "stratagem"
+     "damage",
+     "deposit",
+     "entity",
+     "projectile",
+     "reload",
+     "stratagem",
+     "weapon",
+     "zone"
     ],
     "stats": {
      "cooldownSeconds": true,
      "uses": true,
-     "capacity": false,
+     "capacity": true,
      "callInTimeSeconds": false
     },
     "uncoveredStats": [
-     "callInTimeSeconds",
-     "capacity"
+     "callInTimeSeconds"
     ],
-    "attackBranchesWritable": [],
+    "attackBranchesWritable": [
+     "damage",
+     "projectile"
+    ],
     "wikiAttacks": 0
    },
    {
@@ -818,9 +827,16 @@
     "family": "backpack",
     "resolved": true,
     "rootResolution": "UNIQUE",
-    "writableFields": 2,
+    "writableFields": 27,
     "writableDomains": [
-     "stratagem"
+     "beam",
+     "damage",
+     "deposit",
+     "entity",
+     "heat",
+     "reload",
+     "stratagem",
+     "zone"
     ],
     "stats": {
      "cooldownSeconds": true,
@@ -830,7 +846,10 @@
     "uncoveredStats": [
      "callInTimeSeconds"
     ],
-    "attackBranchesWritable": [],
+    "attackBranchesWritable": [
+     "beam",
+     "damage"
+    ],
     "wikiAttacks": 0
    },
    {
@@ -838,7 +857,7 @@
     "family": "backpack",
     "resolved": true,
     "rootResolution": "UNIQUE",
-    "writableFields": 4,
+    "writableFields": 7,
     "writableDomains": [
      "shield",
      "stratagem"
@@ -859,10 +878,12 @@
     "family": "backpack",
     "resolved": true,
     "rootResolution": "UNIQUE",
-    "writableFields": 4,
+    "writableFields": 10,
     "writableDomains": [
      "entity",
-     "stratagem"
+     "shield",
+     "stratagem",
+     "zone"
     ],
     "stats": {
      "cooldownSeconds": true,
@@ -880,9 +901,14 @@
     "family": "backpack",
     "resolved": true,
     "rootResolution": "UNIQUE",
-    "writableFields": 2,
+    "writableFields": 23,
     "writableDomains": [
-     "stratagem"
+     "damage",
+     "deposit",
+     "entity",
+     "stratagem",
+     "weapon",
+     "zone"
     ],
     "stats": {
      "cooldownSeconds": true,
@@ -892,7 +918,9 @@
     "uncoveredStats": [
      "callInTimeSeconds"
     ],
-    "attackBranchesWritable": [],
+    "attackBranchesWritable": [
+     "damage"
+    ],
     "wikiAttacks": 0
    },
    {
@@ -920,9 +948,15 @@
     "family": "backpack",
     "resolved": true,
     "rootResolution": "UNIQUE",
-    "writableFields": 2,
+    "writableFields": 27,
     "writableDomains": [
-     "stratagem"
+     "arc",
+     "damage",
+     "deposit",
+     "entity",
+     "stratagem",
+     "weapon",
+     "zone"
     ],
     "stats": {
      "cooldownSeconds": true,
@@ -932,7 +966,10 @@
     "uncoveredStats": [
      "callInTimeSeconds"
     ],
-    "attackBranchesWritable": [],
+    "attackBranchesWritable": [
+     "arc",
+     "damage"
+    ],
     "wikiAttacks": 0
    },
    {
@@ -940,8 +977,10 @@
     "family": "backpack",
     "resolved": true,
     "rootResolution": "UNIQUE",
-    "writableFields": 3,
+    "writableFields": 5,
     "writableDomains": [
+     "hover",
+     "jump",
      "recharge",
      "stratagem"
     ],
@@ -961,9 +1000,14 @@
     "family": "backpack",
     "resolved": true,
     "rootResolution": "UNIQUE",
-    "writableFields": 2,
+    "writableFields": 22,
     "writableDomains": [
-     "stratagem"
+     "damage",
+     "deposit",
+     "entity",
+     "stratagem",
+     "weapon",
+     "zone"
     ],
     "stats": {
      "cooldownSeconds": true,
@@ -973,7 +1017,9 @@
     "uncoveredStats": [
      "callInTimeSeconds"
     ],
-    "attackBranchesWritable": [],
+    "attackBranchesWritable": [
+     "damage"
+    ],
     "wikiAttacks": 0
    },
    {
@@ -981,9 +1027,10 @@
     "family": "backpack",
     "resolved": true,
     "rootResolution": "UNIQUE",
-    "writableFields": 2,
+    "writableFields": 14,
     "writableDomains": [
-     "stratagem"
+     "stratagem",
+     "warp"
     ],
     "stats": {
      "cooldownSeconds": true,
@@ -2585,7 +2632,7 @@
    {
     "name": "LAS-98 Laser Cannon",
     "resolved": true,
-    "writableFields": 35,
+    "writableFields": 36,
     "writableDomains": [
      "beam",
      "damage",
@@ -2810,7 +2857,7 @@
    {
     "name": "M-1000 Maxigun",
     "resolved": true,
-    "writableFields": 36,
+    "writableFields": 38,
     "writableDomains": [
      "damage",
      "deposit",
@@ -3967,7 +4014,7 @@
    {
     "name": "LAS-17 Double-Edge Sickle",
     "resolved": true,
-    "writableFields": 43,
+    "writableFields": 50,
     "writableDomains": [
      "damage",
      "fire_mode",
@@ -4610,7 +4657,7 @@
     "damage": 261,
     "statusSlot": 115,
     "status": 20,
-    "beam": 4,
+    "beam": 5,
     "arc": 6,
     "spray": 0,
     "terminal": 0
@@ -4627,13 +4674,13 @@
     "terminal": 0
    },
    "vehicle_weapons": {
-    "projectile": 99,
+    "projectile": 105,
     "explosion": 96,
-    "damage": 153,
-    "statusSlot": 56,
+    "damage": 198,
+    "statusSlot": 73,
     "status": 0,
-    "beam": 0,
-    "arc": 0,
+    "beam": 3,
+    "arc": 6,
     "spray": 0,
     "terminal": 0
    },

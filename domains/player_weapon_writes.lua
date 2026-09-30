@@ -50,7 +50,8 @@ local component_names={'ProjectileWeaponComponentData','WeaponDataComponentData'
     'MeleeWeaponComponentData','BeamWeaponComponentData','SprayWeaponComponentData',
     'WeaponHeatComponentData','WeaponChargeComponentData','ExplosiveComponentData',
     'HellpodRackComponentData','WeaponLinkedAmmoComponentData','WeaponReloadComponentData',
-    'WeaponWindUpComponentData','HealthComponentData','MountComponentData','LoadoutEntryComponentData'}
+    'WeaponWindUpComponentData','HealthComponentData','MountComponentData','LoadoutEntryComponentData',
+    'DepositComponentData'}
 -- Weapons whose default ammunition owns the fired projectile also re-prove their default customization.
 local ammunition_component_names={}
 for index,name in ipairs(component_names)do ammunition_component_names[index]=name end
@@ -824,6 +825,17 @@ function M.capture_many(runtime,reader,specs)
             -- Re-prove the mount chain: the vehicle's own MountComponentData slot still holds this weapon.
             local chain=assert(spec.mount_chain,'vehicle weapon mount chain missing')
             local vehicle=find_candidate(catalog,chain.vehicleResource)
+            if chain.carrier then
+                -- Guard Dog: the carrier backpack still deploys this drone (its DepositComponent +24 names it).
+                local carrier=chain.carrier
+                local backpack=find_candidate(catalog,carrier.backpackResource)
+                local link=catalog.record(backpack,carrier.link.component)
+                assert(link.identity.recordIndex==carrier.link.recordIndex and link.identity.indexRow==carrier.link.indexRow
+                    and link.identity.ownerCount==carrier.link.ownerCount,'drone carrier link ownership changed')
+                assert(b.resource(link.bytes,carrier.link.offset)==chain.vehicleResource,
+                    'drone chain changed: the backpack no longer deploys the reviewed drone')
+                assert(vehicle.entityRow==carrier.droneEntityRow,'drone chain changed: drone entity row differs')
+            end
             local mount=catalog.record(vehicle,'MountComponentData')
             assert(b.resource(mount.bytes,chain.slot*24)==chain.mountPath,
                 'vehicle mount chain changed: slot '..chain.slot..' no longer holds the reviewed weapon')

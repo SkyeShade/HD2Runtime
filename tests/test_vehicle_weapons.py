@@ -25,7 +25,8 @@ class VehicleWeaponTests(unittest.TestCase):
 
     def test_mount_coverage_and_scopes(self):
         summary = self.catalog['summary']
-        self.assertEqual((summary['vehicles'], summary['weaponMounts']), (11, 18))
+        # 11 vehicles plus the five Guard Dog drones (carrier: their backpack).
+        self.assertEqual((summary['vehicles'], summary['weaponMounts']), (16, 23))
         self.assertEqual(summary['fieldInstances'], len(self.catalog['fieldInstances']))
         self.assertEqual(summary['gameplayProvenFields'], 27)
         self.assertNotRegex(json.dumps(self.catalog).lower(), re.compile(r'0x[0-9a-f]{8,}'))

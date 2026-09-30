@@ -18,6 +18,7 @@ import fire_mode_fields
 import weapon_mode_fields
 import presentation_fields
 import status_fields
+import equipment_fields
 import support_callin_linkage
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -450,6 +451,16 @@ def build(catalog_path=CATALOG):
                     ('heatsink.spare','heatsink_spare',92,'u32')):
                     if key in resolved:fields.append(make_field(field_id,resolved[key],
                         component(candidate,'WeaponHeatComponentData',offset,storage),target))
+            # research/equipment-coverage: the beam fire rate and the Maxigun recoil multipliers.
+            def equipment_make(field_id,value,backing):
+                return make_field(field_id,value,backing,target,acknowledgement='allow_unverified_effect')
+            if weapon['name'] in equipment_fields.BEAM_RATE_WEAPONS and 'BeamWeaponComponentData'in ownership:
+                beam_rate=equipment_fields.beam_rate_field(equipment_make,weapon['name'],
+                    lambda offset,storage:component(candidate,'BeamWeaponComponentData',offset,storage))
+                if beam_rate:fields.append(beam_rate)
+            if weapon['name'] in equipment_fields.RECOIL_MULTIPLIER_WEAPONS and'WeaponDataComponentData'in ownership:
+                fields+=equipment_fields.recoil_multiplier_fields(equipment_make,
+                    lambda offset,storage:component(candidate,'WeaponDataComponentData',offset,storage))
 
             for attack in candidate['attacks']:
                 role=attack['role'];kind=attack['kind']

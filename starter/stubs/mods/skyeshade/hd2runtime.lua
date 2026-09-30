@@ -489,7 +489,7 @@ local HD2AttachmentOption = {}
 ---@return table
 function HD2AttachmentOption:describe() end
 
----@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2StratagemAttack|HD2EagleRearm|HD2PlayerAttack|HD2WeaponAmmunition|HD2ProjectileReference|HD2TerminalAction|HD2Explosion|HD2SupportWeapon|HD2SupportAttack|HD2SupportProjectile|HD2SupportExplosion|HD2DeployedEntity|HD2DeployedShield|HD2DeployedZone|HD2MountedWeapon|HD2VehicleEntity|HD2VehicleZone|HD2VehicleMount|HD2VehicleWeapon|HD2VehicleWeaponAttack|HD2Backpack|HD2BackpackZone|HD2BoosterTarget|HD2WeaponAttachment|HD2PodRack|HD2PodSlot
+---@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2StratagemAttack|HD2EagleRearm|HD2PlayerAttack|HD2WeaponAmmunition|HD2ProjectileReference|HD2TerminalAction|HD2Explosion|HD2SupportWeapon|HD2SupportAttack|HD2SupportProjectile|HD2SupportExplosion|HD2DeployedEntity|HD2DeployedShield|HD2DeployedZone|HD2MountedWeapon|HD2VehicleEntity|HD2VehicleZone|HD2VehicleMount|HD2VehicleWeapon|HD2VehicleWeaponAttack|HD2Backpack|HD2BackpackZone|HD2BackpackLinked|HD2BackpackLinkedZone|HD2BoosterTarget|HD2WeaponAttachment|HD2PodRack|HD2PodSlot
 
 ---@param role HD2AttackRole
 ---@return HD2PlayerAttack
@@ -913,6 +913,43 @@ local HD2BackpackZone = {}
 ---zone.armor: the armor every hit on the zone uses (copied into a backpack entity when it spawns).
 ---@return table
 function HD2BackpackZone:describe() end
+---The Guard Dog drone this backpack deploys (its own health and damage zone; the drone weapon).
+---The backpack -> drone link is re-proven before every write.
+---@return HD2BackpackLinked
+function HD2Backpack:drone() end
+---The SH-51 energy barrier this backpack spawns (shield energy, delays, the barrier damage zone).
+---@return HD2BackpackLinked
+function HD2Backpack:energy_shield() end
+---Names of the linked entities this backpack exposes ("drone", "energy_shield").
+---@return string[]
+function HD2Backpack:linked() end
+
+---@class HD2BackpackLinked
+---@field resource "backpack"
+---@field path "linked"
+---@field backpack HD2BackpackName
+---@field linked "drone"|"energy_shield"
+local HD2BackpackLinked = {}
+---@return table
+function HD2BackpackLinked:describe() end
+---@return HD2BackpackLinkedZone[]
+function HD2BackpackLinked:damage_zones() end
+---@param identity string|integer Zone id ("zone_0"), native zone name ("body_front") or index.
+---@return HD2BackpackLinkedZone
+function HD2BackpackLinked:damage_zone(identity) end
+---The drone's mounted weapon (drones only; see sdk/VehicleWeaponCapabilities.json).
+---@return HD2VehicleWeapon
+function HD2BackpackLinked:weapon() end
+
+---@class HD2BackpackLinkedZone
+---@field resource "backpack"
+---@field path "damage_zone"
+---@field backpack HD2BackpackName
+---@field linked "drone"|"energy_shield"
+---@field zone string
+local HD2BackpackLinkedZone = {}
+---@return table
+function HD2BackpackLinkedZone:describe() end
 
 ---@class HD2BoosterTarget
 ---@field resource "booster"
@@ -1159,6 +1196,8 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@field recoil_climb_vertical "weapon.recoil_climb_vertical"
 ---@field recoil_drift_horizontal "weapon.recoil_drift_horizontal"
 ---@field recoil_drift_vertical "weapon.recoil_drift_vertical"
+---@field recoil_multiplier_horizontal "weapon.recoil_multiplier_horizontal"
+---@field recoil_multiplier_vertical "weapon.recoil_multiplier_vertical"
 ---@field slot "weapon.slot"
 ---@field stationary_while_firing "weapon.stationary_while_firing"
 ---@field suppressed "weapon.suppressed"
@@ -1303,6 +1342,9 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@field radius "radius" Legacy fixed-resource field (original short-name catalog only). Shield Relay: reviewed writable, number
 ---@field entity_radius "shield.radius"
 ---@field entity_durability "shield.durability"
+---@field recharge_delay "shield.recharge_delay"
+---@field broken_recharge_delay "shield.broken_recharge_delay"
+---@field recharge_rate "shield.recharge_rate"
 
 ---@class HD2Fields_payload
 ---@field lifetime "lifetime" Legacy fixed-resource field (original short-name catalog only). Shield Relay: reviewed writable, number
@@ -1345,6 +1387,7 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@field projectile "attack.projectile"
 
 ---@class HD2Fields_beam
+---@field fire_rate "beam.fire_rate"
 ---@field length "beam.length"
 ---@field radius "beam.radius"
 
@@ -1407,7 +1450,14 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@field cool_per_second_hot "heat.cool_per_second_hot"
 ---@field heat_per_second "heat.heat_per_second"
 ---@field heat_per_shot "heat.heat_per_shot"
+---@field level_1_self_status "heat.level_1_self_status"
+---@field level_1_threshold "heat.level_1_threshold"
+---@field level_2_self_status "heat.level_2_self_status"
+---@field level_2_threshold "heat.level_2_threshold"
+---@field level_3_self_status "heat.level_3_self_status"
+---@field level_3_threshold "heat.level_3_threshold"
 ---@field overheat_cooldown "heat.overheat_cooldown"
+---@field overheat_lock "heat.overheat_lock"
 ---@field warmup "heat.warmup"
 
 ---@class HD2Fields_heatsink
@@ -1509,6 +1559,23 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@class HD2Fields_mount
 ---@field weapon "mount.weapon"
 
+---@class HD2Fields_warp
+---@field distance "warp.distance"
+---@field upward_bias "warp.upward_bias"
+---@field downward_bias "warp.downward_bias"
+---@field safe_heat_threshold "warp.safe_heat_threshold"
+---@field unsafe_heat_threshold "warp.unsafe_heat_threshold"
+---@field heat_per_use "warp.heat_per_use"
+---@field heat_cooldown_per_second "warp.heat_cooldown_per_second"
+---@field head_injury_damage "warp.head_injury_damage"
+---@field left_arm_injury_damage "warp.left_arm_injury_damage"
+---@field right_arm_injury_damage "warp.right_arm_injury_damage"
+---@field left_leg_injury_damage "warp.left_leg_injury_damage"
+---@field right_leg_injury_damage "warp.right_leg_injury_damage"
+
+---@class HD2Fields_hover
+---@field duration "hover.duration"
+
 ---@class HD2Fields_attachment
 ---@field magazine_capacity "attachment.magazine_capacity"
 ---@field starting_magazines "attachment.starting_magazines"
@@ -1581,6 +1648,8 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@field jump HD2Fields_jump
 ---@field deposit HD2Fields_deposit
 ---@field mount HD2Fields_mount
+---@field warp HD2Fields_warp
+---@field hover HD2Fields_hover
 ---@field attachment HD2Fields_attachment
 ---@field booster HD2Fields_booster
 ---@field throwable HD2Fields_throwable

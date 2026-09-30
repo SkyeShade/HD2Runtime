@@ -12,21 +12,34 @@ published in both catalogs.
 | Backpack | Writable | Tier |
 | --- | --- | --- |
 | LIFT-850 Jump Pack | `recharge.time`, `jump.vertical_launch_velocity` | gameplay_proven (JumpPackImprovements) |
-| LIFT-860 Hover Pack | `recharge.time` | schema_proven |
-| SH-32 Shield Generator Pack | `shield.radius`, `shield.durability` | schema_proven (relay ShieldComponent) |
+| LIFT-860 Hover Pack | `recharge.time`; `hover.duration`, `jump.vertical_launch_velocity` (`allow_unverified_effect`) | schema_proven; native_correlated |
+| LIFT-182 Warp Pack | `warp.*` distance, biases, heat and per-limb injury damage (`allow_unverified_effect`) | native_correlated |
+| SH-32 Shield Generator Pack | `shield.radius`, `shield.durability`; `shield.recharge_delay`, `shield.broken_recharge_delay`, `shield.recharge_rate` (`allow_unverified_effect`) | schema_proven; native_correlated |
 | SH-20 Ballistic Shield | `entity.health`; plate armor `zone.armor` on `:damage_zone('shield')` (`allow_unverified_effect`) | health schema_proven; plate armor offline-proven (see below) |
-| SH-51 Directional Shield | `entity.health`, `entity.armor` (`allow_unverified_effect`) | AMBIGUOUS: the backpack body, not the barrier |
+| SH-51 Directional Shield | body `entity.health`, `entity.armor`; the barrier through `:energy_shield()` (all `allow_unverified_effect`) | schema_proven / native_correlated |
+| Guard Dogs (AR-23, Rover, Hot Dog, K-9, Dog Breath) | drone magazines `deposit.*`; the drone through `:drone()`; its weapon through `:drone():weapon()` (all `allow_unverified_effect`) | native_correlated / schema_proven |
+
+**native_correlated** (new in this release): a typed native member whose meaning is proven offline. That means an
+exact published value on every independent entity that publishes one, a differential across the record type, and a
+consistent hidden-name length (`research/equipment-coverage-F5FEE03DCFDB.json`, from
+`scripts/research_equipment_coverage.py`). None of these fields has been shown in game yet, so every write needs
+`allow_unverified_effect`. Each descriptor publishes its `evidence.correlations` (native value next to the published
+one) and an `effect` block (active source, lifecycle).
 
 Read-only:
 
-- **Deposit charges:** `deposit.capacity`, `deposit.start_amount`, and `deposit.refill_amount` on the
-  Supply Pack, Guard Dogs, and Hellbomb. The drone values match the wiki exactly, but no reference mod
-  proved write semantics. The same fields are writable on the weapon-fed backpacks, where the deposit
-  is the proven weapon ammunition store (see [Backpack ammunition](backpack-ammo.md)).
-- **Hover Pack vertical launch velocity:** the member is proven on the Jump Pack only.
-- **Other launch members:** two further Jumppack launch scalars were only ever experiment profiles,
-  and no horizontal impulse member is identified.
-- **Warp Pack:** it owns no reviewed behavior component.
+- **Supply Pack and Hellbomb deposits:** no published value proves what their charges do.
+- **Other launch members:** two further Jumppack launch scalars were only ever experiment profiles, and no
+  horizontal impulse member is identified.
+- **Hover Pack ascent, speed and fuel:** the Hover Pack-only vectors and scalars from +145 to +276 have no
+  published values. Their layout and hover/jump differential are published as unknown members.
+- **Warp Pack:** the maximum survivable unit size (a `UnitSize` enum: only "Medium" = 1 is correlated), the chest
+  injury status (Fire), the arrival explosion (a shared ExplosionSettings row) and the remaining typed members.
+- **SH-32 +100** ("restart charge" in an external export only), the barrier radius (0: the directional barrier is
+  not a sphere), the drone and barrier default-zone armor (the fallback for unlisted actors), the barrier's
+  ShieldHitFilter member.
+- **Drone AI:** sensor, navigation, targeting, behavior, boids, rotation and motion are generic unit components
+  with identical values on every drone and no published values (detection, leash, speed, docking): unknown.
 
 Recharge and launch velocity live on different components, so combine them with `hd2.plan`:
 
@@ -62,10 +75,80 @@ The API follows the active source:
 - The SH-20's `entity.armor` is **read-only** (DORMANT_OR_METADATA for the plate), with the reason pointing at the
   zone. It was live-failed by the report above.
 - `entity.health` is the plate's pool (zone 0 health is −1: damage goes to main health) and stays writable.
-- SH-51 Directional Shield: `entity.health` / `entity.armor` bind the backpack body (record 296, no zones). The
-  energy barrier is a separate entity (its own record, zone `body_front`), and which record the barrier's hits reach
-  is not traced, so both fields need `allow_unverified_effect` (AMBIGUOUS).
+- SH-51 Directional Shield: `entity.health` / `entity.armor` bind the backpack **body** (record 296, no populated
+  zone, so every hit on the body uses the default zone; exact published 400 / Heavy). The energy barrier is a
+  separate entity: see below.
 
 Not proven: the shield model's full physics actor list (the game data is in the newer bundle format); a hittable
 part no zone lists would use the default-zone armor.
+
+## Shields: recharge delays and rate
+
+The ShieldComponent members +88, +92 and +96 hold exact published values on three independent shields:
+
+| Shield | +76 capacity | +88 recharge delay | +92 broken delay | +96 recharge rate |
+| --- | --- | --- | --- | --- |
+| SH-32 Shield Generator Pack | 150 | 60 s | 12 s | 150 /s |
+| SH-51 energy barrier | 1000 | 3 s | 6 s | 300 /s |
+| FX-12 relay | 4000 | 0.00999999978 s | 45 s | 400 /s |
+
+Their hidden-name lengths (14, 21, 13) fit the names. The SH32 ShieldBoost addon's stated originals (60 s, 12 s)
+are recorded as a lead only. `shield.recharge_delay` is the time after damage before an unbroken shield recharges,
+`shield.broken_recharge_delay` the time before a broken shield restarts, and `shield.recharge_rate` the health
+restored per second. They are authored on the SH-32 and the SH-51 barrier (the relay keeps its existing fields).
+
+## SH-51 Directional Shield: body and barrier
+
+The backpack spawns the barrier through its `ShieldControllerComponent` (+0, the barrier entity).
+`hd2.backpack('SH-51 Directional Shield'):energy_shield()` targets that entity, and every write re-proves the link.
+
+- Shield energy: `shield.durability` (1000), `shield.recharge_delay` (3), `shield.broken_recharge_delay` (6) and
+  `shield.recharge_rate` (300), all exact published values.
+- `:energy_shield():damage_zone('body_front')`: the barrier's only damage zone. Its only hit actor is the barrier
+  collision (`c_collision`), so projectiles striking the barrier resolve there: `zone.armor` (1), `zone.health`
+  (450). Whether the shield energy absorbs a hit before the zone is consulted is not traced, so the zone fields
+  are `effect.activeSource = UNPROVEN`.
+- The barrier's default-zone armor is read-only: it is only the fallback for an unlisted actor, never the
+  shield-facing armor.
+
+## LIFT-182 Warp Pack
+
+`DisplacementComponentData` (632 bytes, one owner) now ships in the runtime profile. Exact published values:
+distance (+120, 10 m), upward bias (+128, 1.4 m), downward bias (+132, 4 m), safe and unsafe heat thresholds (+140,
++144: 15 / 45 %), heat per warp (+148, 33 %) and heat cooldown (+152, 6 %/s). Unsafe warps damage one limb through
+the typed `HeatInjuryInfo[12]` table (stride 24). Each entry is named by its native limb, and every write re-proves
+that name: head 10, `l_hand` / `r_hand` 35, `l_knee` / `r_knee` 45 (`warp.head_injury_damage`,
+`warp.left_arm_injury_damage`, ...). The chest entry applies Fire instead of damage (the published "Inflicts Fire").
+
+## LIFT-860 Hover Pack
+
+The Hover Pack and both jump packs share `JumppackComponent` (280 bytes, three records).
+
+- `hover.duration` (+156) holds the published six seconds, and only the Hover Pack record sets it: both jump-pack
+  records hold the -1 sentinel.
+- The launch uses the vertical launch member (+0, 40) that is gameplay-proven on the LIFT-850. Whether the Hover
+  Pack reads it is what `examples/projects/HoverPackTest` checks.
+- The recharge (11.5 s) is the existing `recharge.time`. The wiki gives "at most 12 s", an upper bound.
+
+## Guard Dogs
+
+Chain: stratagem -> rack -> backpack -> the backpack's `DepositComponent` +24 (the drone entity) -> the drone's
+`MountComponent` slot 0 -> the drone weapon. Each link is re-proven before every write.
+
+- `hd2.backpack(name)`: the drone magazines the backpack holds (`deposit.capacity`, `deposit.start_amount`,
+  `deposit.refill_amount`). These are exact published Max Rounds / Starting Rounds / Mags from Supply on all five
+  backpacks, and fall under the same 1023 live limit as backpack ammunition.
+- `:drone()`: the drone's own health (`entity.health`, 100, exact) and its body damage zone
+  (`:drone():damage_zone(0)`: `zone.armor` 1, `zone.health` 100). The default-zone armor is read-only (fallback).
+- `:drone():weapon()`: the drone weapon in the mounted-weapon catalog (`sdk/VehicleWeaponCapabilities.json`,
+  carrier `backpack_drone`), with the normal weapon fields:
+  - AR-23 dog: projectile, 660 rpm, 45 rounds.
+  - Rover: beam and heat, `beam.fire_rate` 60.
+  - Hot Dog and Dog Breath: spray damage and statuses.
+  - K-9: arc range, chain and split, damage, Stun Small.
+
+  The drone reloads from the backpack, so the weapon's own spare-magazine counts are not exposed.
+
+The assault-rifle drone backpack (`drone_assault_rifle_backpack`) is attached by a rack that no stratagem
+delivers. It is not a catalog item and is not exposed.
 

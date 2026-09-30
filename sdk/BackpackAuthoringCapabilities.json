@@ -175,20 +175,66 @@
       ],
       "settingGroups": [
         {
-          "group": "charges",
+          "group": "drone_magazines",
           "fieldInstanceKeys": [
             "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-backpack:deposit.capacity",
             "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-backpack:deposit.start_amount",
             "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-backpack:deposit.refill_amount"
-          ],
-          "readOnly": true
+          ]
+        },
+        {
+          "group": "drone",
+          "linked": "drone",
+          "fieldInstanceKeys": [
+            "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-linked-drone:entity.health",
+            "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-linked-drone:entity.armor",
+            "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-damage-zone-zone-0-drone:zone.armor",
+            "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-damage-zone-zone-0-drone:zone.health"
+          ]
         }
       ],
-      "blockedFields": [],
+      "blockedFields": [
+        {
+          "field": "drone movement / targeting / behavior",
+          "reason": "Sensor, navigation, targeting, behavior, boids, rotation and motion are generic unit components; every drone record holds the same values and their members have no published correlation (no wiki value for detection, leash or speed). They stay unknown and read-only."
+        },
+        {
+          "field": "drone weapon",
+          "reason": "Authored through hd2.backpack(name):drone():weapon() (sdk/VehicleWeaponCapabilities.json, carrier = this backpack)."
+        }
+      ],
+      "linkedEntities": [
+        {
+          "linked": "drone",
+          "relationship": "deployed_drone",
+          "chain": [
+            "backpack DepositComponent +24 (the deployed entity)",
+            "drone entity (own Health, Mount, AI)"
+          ],
+          "weaponFamily": "projectile",
+          "damageZones": [
+            {
+              "zoneId": "zone_0",
+              "index": 0,
+              "name": null
+            }
+          ],
+          "fieldInstanceKeys": [
+            "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-linked-drone:entity.health",
+            "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-linked-drone:entity.armor",
+            "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-damage-zone-zone-0-drone:zone.armor",
+            "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-damage-zone-zone-0-drone:zone.health"
+          ]
+        }
+      ],
       "fieldInstanceKeys": [
         "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-backpack:deposit.capacity",
         "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-backpack:deposit.start_amount",
-        "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-backpack:deposit.refill_amount"
+        "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-backpack:deposit.refill_amount",
+        "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-linked-drone:entity.health",
+        "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-linked-drone:entity.armor",
+        "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-damage-zone-zone-0-drone:zone.armor",
+        "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-damage-zone-zone-0-drone:zone.health"
       ]
     },
     {
@@ -217,20 +263,66 @@
       ],
       "settingGroups": [
         {
-          "group": "charges",
+          "group": "drone_magazines",
           "fieldInstanceKeys": [
             "backpack:ax-las-5-rover:ax-las-5-rover-backpack:deposit.capacity",
             "backpack:ax-las-5-rover:ax-las-5-rover-backpack:deposit.start_amount",
             "backpack:ax-las-5-rover:ax-las-5-rover-backpack:deposit.refill_amount"
-          ],
-          "readOnly": true
+          ]
+        },
+        {
+          "group": "drone",
+          "linked": "drone",
+          "fieldInstanceKeys": [
+            "backpack:ax-las-5-rover:ax-las-5-rover-linked-drone:entity.health",
+            "backpack:ax-las-5-rover:ax-las-5-rover-linked-drone:entity.armor",
+            "backpack:ax-las-5-rover:ax-las-5-rover-damage-zone-zone-0-drone:zone.armor",
+            "backpack:ax-las-5-rover:ax-las-5-rover-damage-zone-zone-0-drone:zone.health"
+          ]
         }
       ],
-      "blockedFields": [],
+      "blockedFields": [
+        {
+          "field": "drone movement / targeting / behavior",
+          "reason": "Sensor, navigation, targeting, behavior, boids, rotation and motion are generic unit components; every drone record holds the same values and their members have no published correlation (no wiki value for detection, leash or speed). They stay unknown and read-only."
+        },
+        {
+          "field": "drone weapon",
+          "reason": "Authored through hd2.backpack(name):drone():weapon() (sdk/VehicleWeaponCapabilities.json, carrier = this backpack)."
+        }
+      ],
+      "linkedEntities": [
+        {
+          "linked": "drone",
+          "relationship": "deployed_drone",
+          "chain": [
+            "backpack DepositComponent +24 (the deployed entity)",
+            "drone entity (own Health, Mount, AI)"
+          ],
+          "weaponFamily": "beam",
+          "damageZones": [
+            {
+              "zoneId": "zone_0",
+              "index": 0,
+              "name": null
+            }
+          ],
+          "fieldInstanceKeys": [
+            "backpack:ax-las-5-rover:ax-las-5-rover-linked-drone:entity.health",
+            "backpack:ax-las-5-rover:ax-las-5-rover-linked-drone:entity.armor",
+            "backpack:ax-las-5-rover:ax-las-5-rover-damage-zone-zone-0-drone:zone.armor",
+            "backpack:ax-las-5-rover:ax-las-5-rover-damage-zone-zone-0-drone:zone.health"
+          ]
+        }
+      ],
       "fieldInstanceKeys": [
         "backpack:ax-las-5-rover:ax-las-5-rover-backpack:deposit.capacity",
         "backpack:ax-las-5-rover:ax-las-5-rover-backpack:deposit.start_amount",
-        "backpack:ax-las-5-rover:ax-las-5-rover-backpack:deposit.refill_amount"
+        "backpack:ax-las-5-rover:ax-las-5-rover-backpack:deposit.refill_amount",
+        "backpack:ax-las-5-rover:ax-las-5-rover-linked-drone:entity.health",
+        "backpack:ax-las-5-rover:ax-las-5-rover-linked-drone:entity.armor",
+        "backpack:ax-las-5-rover:ax-las-5-rover-damage-zone-zone-0-drone:zone.armor",
+        "backpack:ax-las-5-rover:ax-las-5-rover-damage-zone-zone-0-drone:zone.health"
       ]
     },
     {
@@ -260,19 +352,25 @@
           "group": "shield",
           "fieldInstanceKeys": [
             "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.radius",
-            "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.durability"
+            "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.durability",
+            "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.recharge_delay",
+            "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.broken_recharge_delay",
+            "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.recharge_rate"
           ]
         }
       ],
       "blockedFields": [
         {
-          "field": "shield recharge delay/rate",
-          "reason": "Labels come from an external export only; no reference mod wrote them."
+          "field": "shield restart charge (+100)",
+          "reason": "Labelled \"restart charge\" only by an external export; no published value. Unknown, read-only."
         }
       ],
       "fieldInstanceKeys": [
         "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.radius",
-        "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.durability"
+        "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.durability",
+        "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.recharge_delay",
+        "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.broken_recharge_delay",
+        "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.recharge_rate"
       ]
     },
     {
@@ -306,12 +404,76 @@
             "backpack:sh-51-directional-shield:sh-51-directional-shield-backpack:entity.health",
             "backpack:sh-51-directional-shield:sh-51-directional-shield-backpack:entity.armor"
           ]
+        },
+        {
+          "group": "energy_shield",
+          "linked": "energy_shield",
+          "fieldInstanceKeys": [
+            "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:shield.durability",
+            "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:shield.recharge_delay",
+            "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:shield.broken_recharge_delay",
+            "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:shield.recharge_rate",
+            "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:shield.radius",
+            "backpack:sh-51-directional-shield:sh-51-directional-shield-damage-zone-zone-0-energy-shield:zone.armor",
+            "backpack:sh-51-directional-shield:sh-51-directional-shield-damage-zone-zone-0-energy-shield:zone.health",
+            "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:entity.armor"
+          ]
         }
       ],
       "blockedFields": [],
+      "linkedEntities": [
+        {
+          "linked": "energy_shield",
+          "relationship": "spawned_shield",
+          "chain": [
+            "backpack ShieldControllerComponent +0 (the barrier entity)",
+            "barrier entity: ShieldComponent (energy), ShieldHitFilter, Health (zone body_front)"
+          ],
+          "damageZones": [
+            {
+              "zoneId": "zone_0",
+              "index": 0,
+              "name": "body_front"
+            }
+          ],
+          "unknownMembers": [
+            {
+              "component": "ShieldHitFilterComponentData",
+              "offset": 0,
+              "storage": "FP32",
+              "nameLength": 23,
+              "value": 0.0
+            }
+          ],
+          "findings": [
+            "The backpack body and the energy barrier are separate entities: the body (Health 400, armor 4, no populated damage zone, so every hit on it resolves to the default zone) is the published \"Main Health 400 / Heavy\"; the barrier is spawned through ShieldControllerComponent +0.",
+            "The barrier owns the shield energy (ShieldComponent: capacity 1000, delays 3/6 s, 300/s, exact published values) and its own Health 450 with one damage zone, \"body_front\", whose only hit actor is the barrier collision \"c_collision\": that zone is what projectiles striking the barrier resolve to.",
+            "The barrier default-zone armor (1) is the fallback for hits on actors no zone lists; the barrier lists its only collision actor in body_front, so the fallback is not the shield-facing armor (the same rule the SH-20 live test demonstrated).",
+            "Whether a barrier hit is absorbed by the shield energy before the Health zone is consulted is not traced; zone armor/health stay behind allow_unverified_effect."
+          ],
+          "fieldInstanceKeys": [
+            "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:shield.durability",
+            "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:shield.recharge_delay",
+            "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:shield.broken_recharge_delay",
+            "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:shield.recharge_rate",
+            "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:shield.radius",
+            "backpack:sh-51-directional-shield:sh-51-directional-shield-damage-zone-zone-0-energy-shield:zone.armor",
+            "backpack:sh-51-directional-shield:sh-51-directional-shield-damage-zone-zone-0-energy-shield:zone.health",
+            "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:entity.armor"
+          ]
+        }
+      ],
       "fieldInstanceKeys": [
         "backpack:sh-51-directional-shield:sh-51-directional-shield-backpack:entity.health",
-        "backpack:sh-51-directional-shield:sh-51-directional-shield-backpack:entity.armor"
+        "backpack:sh-51-directional-shield:sh-51-directional-shield-backpack:entity.armor",
+        "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:shield.durability",
+        "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:shield.recharge_delay",
+        "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:shield.broken_recharge_delay",
+        "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:shield.recharge_rate",
+        "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:shield.radius",
+        "backpack:sh-51-directional-shield:sh-51-directional-shield-damage-zone-zone-0-energy-shield:zone.armor",
+        "backpack:sh-51-directional-shield:sh-51-directional-shield-damage-zone-zone-0-energy-shield:zone.health",
+        "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:entity.armor"
       ]
     },
     {
@@ -340,20 +502,66 @@
       ],
       "settingGroups": [
         {
-          "group": "charges",
+          "group": "drone_magazines",
           "fieldInstanceKeys": [
             "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-backpack:deposit.capacity",
             "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-backpack:deposit.start_amount",
             "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-backpack:deposit.refill_amount"
-          ],
-          "readOnly": true
+          ]
+        },
+        {
+          "group": "drone",
+          "linked": "drone",
+          "fieldInstanceKeys": [
+            "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-linked-drone:entity.health",
+            "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-linked-drone:entity.armor",
+            "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-damage-zone-zone-0-drone:zone.armor",
+            "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-damage-zone-zone-0-drone:zone.health"
+          ]
         }
       ],
-      "blockedFields": [],
+      "blockedFields": [
+        {
+          "field": "drone movement / targeting / behavior",
+          "reason": "Sensor, navigation, targeting, behavior, boids, rotation and motion are generic unit components; every drone record holds the same values and their members have no published correlation (no wiki value for detection, leash or speed). They stay unknown and read-only."
+        },
+        {
+          "field": "drone weapon",
+          "reason": "Authored through hd2.backpack(name):drone():weapon() (sdk/VehicleWeaponCapabilities.json, carrier = this backpack)."
+        }
+      ],
+      "linkedEntities": [
+        {
+          "linked": "drone",
+          "relationship": "deployed_drone",
+          "chain": [
+            "backpack DepositComponent +24 (the deployed entity)",
+            "drone entity (own Health, Mount, AI)"
+          ],
+          "weaponFamily": "spray",
+          "damageZones": [
+            {
+              "zoneId": "zone_0",
+              "index": 0,
+              "name": null
+            }
+          ],
+          "fieldInstanceKeys": [
+            "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-linked-drone:entity.health",
+            "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-linked-drone:entity.armor",
+            "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-damage-zone-zone-0-drone:zone.armor",
+            "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-damage-zone-zone-0-drone:zone.health"
+          ]
+        }
+      ],
       "fieldInstanceKeys": [
         "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-backpack:deposit.capacity",
         "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-backpack:deposit.start_amount",
-        "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-backpack:deposit.refill_amount"
+        "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-backpack:deposit.refill_amount",
+        "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-linked-drone:entity.health",
+        "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-linked-drone:entity.armor",
+        "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-damage-zone-zone-0-drone:zone.armor",
+        "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-damage-zone-zone-0-drone:zone.health"
       ]
     },
     {
@@ -422,20 +630,66 @@
       ],
       "settingGroups": [
         {
-          "group": "charges",
+          "group": "drone_magazines",
           "fieldInstanceKeys": [
             "backpack:ax-arc-3-k-9:ax-arc-3-k-9-backpack:deposit.capacity",
             "backpack:ax-arc-3-k-9:ax-arc-3-k-9-backpack:deposit.start_amount",
             "backpack:ax-arc-3-k-9:ax-arc-3-k-9-backpack:deposit.refill_amount"
-          ],
-          "readOnly": true
+          ]
+        },
+        {
+          "group": "drone",
+          "linked": "drone",
+          "fieldInstanceKeys": [
+            "backpack:ax-arc-3-k-9:ax-arc-3-k-9-linked-drone:entity.health",
+            "backpack:ax-arc-3-k-9:ax-arc-3-k-9-linked-drone:entity.armor",
+            "backpack:ax-arc-3-k-9:ax-arc-3-k-9-damage-zone-zone-0-drone:zone.armor",
+            "backpack:ax-arc-3-k-9:ax-arc-3-k-9-damage-zone-zone-0-drone:zone.health"
+          ]
         }
       ],
-      "blockedFields": [],
+      "blockedFields": [
+        {
+          "field": "drone movement / targeting / behavior",
+          "reason": "Sensor, navigation, targeting, behavior, boids, rotation and motion are generic unit components; every drone record holds the same values and their members have no published correlation (no wiki value for detection, leash or speed). They stay unknown and read-only."
+        },
+        {
+          "field": "drone weapon",
+          "reason": "Authored through hd2.backpack(name):drone():weapon() (sdk/VehicleWeaponCapabilities.json, carrier = this backpack)."
+        }
+      ],
+      "linkedEntities": [
+        {
+          "linked": "drone",
+          "relationship": "deployed_drone",
+          "chain": [
+            "backpack DepositComponent +24 (the deployed entity)",
+            "drone entity (own Health, Mount, AI)"
+          ],
+          "weaponFamily": "arc",
+          "damageZones": [
+            {
+              "zoneId": "zone_0",
+              "index": 0,
+              "name": null
+            }
+          ],
+          "fieldInstanceKeys": [
+            "backpack:ax-arc-3-k-9:ax-arc-3-k-9-linked-drone:entity.health",
+            "backpack:ax-arc-3-k-9:ax-arc-3-k-9-linked-drone:entity.armor",
+            "backpack:ax-arc-3-k-9:ax-arc-3-k-9-damage-zone-zone-0-drone:zone.armor",
+            "backpack:ax-arc-3-k-9:ax-arc-3-k-9-damage-zone-zone-0-drone:zone.health"
+          ]
+        }
+      ],
       "fieldInstanceKeys": [
         "backpack:ax-arc-3-k-9:ax-arc-3-k-9-backpack:deposit.capacity",
         "backpack:ax-arc-3-k-9:ax-arc-3-k-9-backpack:deposit.start_amount",
-        "backpack:ax-arc-3-k-9:ax-arc-3-k-9-backpack:deposit.refill_amount"
+        "backpack:ax-arc-3-k-9:ax-arc-3-k-9-backpack:deposit.refill_amount",
+        "backpack:ax-arc-3-k-9:ax-arc-3-k-9-linked-drone:entity.health",
+        "backpack:ax-arc-3-k-9:ax-arc-3-k-9-linked-drone:entity.armor",
+        "backpack:ax-arc-3-k-9:ax-arc-3-k-9-damage-zone-zone-0-drone:zone.armor",
+        "backpack:ax-arc-3-k-9:ax-arc-3-k-9-damage-zone-zone-0-drone:zone.health"
       ]
     },
     {
@@ -473,6 +727,12 @@
           "fieldInstanceKeys": [
             "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.vertical_launch_velocity"
           ]
+        },
+        {
+          "group": "hover",
+          "fieldInstanceKeys": [
+            "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.duration"
+          ]
         }
       ],
       "blockedFields": [
@@ -483,11 +743,16 @@
         {
           "field": "horizontal impulse",
           "reason": "No horizontal or forward impulse member has been identified."
+        },
+        {
+          "field": "hover ascent / speed / fuel members",
+          "reason": "The hover-only vectors and scalars (+145..+276) have no published values; unknown, read-only."
         }
       ],
       "fieldInstanceKeys": [
         "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:recharge.time",
-        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.vertical_launch_velocity"
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.vertical_launch_velocity",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.duration"
       ]
     },
     {
@@ -516,20 +781,66 @@
       ],
       "settingGroups": [
         {
-          "group": "charges",
+          "group": "drone_magazines",
           "fieldInstanceKeys": [
             "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.capacity",
             "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.start_amount",
             "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.refill_amount"
-          ],
-          "readOnly": true
+          ]
+        },
+        {
+          "group": "drone",
+          "linked": "drone",
+          "fieldInstanceKeys": [
+            "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-linked-drone:entity.health",
+            "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-linked-drone:entity.armor",
+            "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-damage-zone-zone-0-drone:zone.armor",
+            "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-damage-zone-zone-0-drone:zone.health"
+          ]
         }
       ],
-      "blockedFields": [],
+      "blockedFields": [
+        {
+          "field": "drone movement / targeting / behavior",
+          "reason": "Sensor, navigation, targeting, behavior, boids, rotation and motion are generic unit components; every drone record holds the same values and their members have no published correlation (no wiki value for detection, leash or speed). They stay unknown and read-only."
+        },
+        {
+          "field": "drone weapon",
+          "reason": "Authored through hd2.backpack(name):drone():weapon() (sdk/VehicleWeaponCapabilities.json, carrier = this backpack)."
+        }
+      ],
+      "linkedEntities": [
+        {
+          "linked": "drone",
+          "relationship": "deployed_drone",
+          "chain": [
+            "backpack DepositComponent +24 (the deployed entity)",
+            "drone entity (own Health, Mount, AI)"
+          ],
+          "weaponFamily": "spray",
+          "damageZones": [
+            {
+              "zoneId": "zone_0",
+              "index": 0,
+              "name": null
+            }
+          ],
+          "fieldInstanceKeys": [
+            "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-linked-drone:entity.health",
+            "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-linked-drone:entity.armor",
+            "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-damage-zone-zone-0-drone:zone.armor",
+            "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-damage-zone-zone-0-drone:zone.health"
+          ]
+        }
+      ],
       "fieldInstanceKeys": [
         "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.capacity",
         "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.start_amount",
-        "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.refill_amount"
+        "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.refill_amount",
+        "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-linked-drone:entity.health",
+        "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-linked-drone:entity.armor",
+        "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-damage-zone-zone-0-drone:zone.armor",
+        "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-damage-zone-zone-0-drone:zone.health"
       ]
     },
     {
@@ -553,14 +864,57 @@
       "components": [
         "Backpack"
       ],
-      "settingGroups": [],
-      "blockedFields": [
+      "settingGroups": [
         {
-          "field": "backpack behavior",
-          "reason": "No typed backpack behavior component with reviewed semantics is owned by this entity."
+          "group": "warp",
+          "fieldInstanceKeys": [
+            "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.distance",
+            "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.upward_bias",
+            "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.downward_bias",
+            "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.safe_heat_threshold",
+            "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.unsafe_heat_threshold",
+            "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.heat_per_use",
+            "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.heat_cooldown_per_second",
+            "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.head_injury_damage",
+            "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.left_arm_injury_damage",
+            "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.right_arm_injury_damage",
+            "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.left_leg_injury_damage",
+            "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.right_leg_injury_damage"
+          ]
         }
       ],
-      "fieldInstanceKeys": []
+      "blockedFields": [
+        {
+          "field": "max survivable unit size",
+          "reason": "Enum value names for UnitSize are not in the pinned name tables; only value 1 is correlated (Medium)."
+        },
+        {
+          "field": "chest injury status",
+          "reason": "The chest entry applies Fire (StatusEffectType 5, exact published \"Inflicts Fire\"); status references on this record are not authored yet."
+        },
+        {
+          "field": "arrival explosion",
+          "reason": "The arrival explosion is an ExplosionSettings row (wiki \"LIFT-182 WARP PACK E\"); explosion rows are shared settings and are not authored through the backpack in this release."
+        },
+        {
+          "field": "other DisplacementComponent members",
+          "reason": "Typed but without a published value or differential; published as unknown members in research/equipment-coverage-F5FEE03DCFDB.json."
+        }
+      ],
+      "fieldInstanceKeys": [
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.distance",
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.upward_bias",
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.downward_bias",
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.safe_heat_threshold",
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.unsafe_heat_threshold",
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.heat_per_use",
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.heat_cooldown_per_second",
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.head_injury_damage",
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.left_arm_injury_damage",
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.right_arm_injury_damage",
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.left_leg_injury_damage",
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.right_leg_injury_damage"
+      ]
     },
     {
       "name": "B/FLAM-80 Cremator Backpack",
@@ -1180,12 +1534,12 @@
     {
       "instanceKey": "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-backpack:deposit.capacity",
       "semanticFieldId": "deposit.capacity",
-      "displayName": "Charge capacity",
+      "displayName": "Drone magazines the backpack holds",
       "type": "integer",
-      "unit": "charges",
+      "unit": "magazines",
       "currentDefault": 8,
-      "editable": false,
-      "reason": "Exact wiki correlation for drone backpacks and a typed schema member, but no reference mod has proven write semantics.",
+      "editable": true,
+      "reason": null,
       "target": {
         "resource": "backpack",
         "backpack": "AX/AR-23 Guard Dog",
@@ -1211,23 +1565,43 @@
       "planPhase": 1,
       "dependsOn": [],
       "evidence": {
-        "tier": "schema_proven",
+        "tier": "native_correlated",
         "referenceMod": null,
         "proof": null,
         "provenOn": [],
-        "sharedTypedSchema": true
+        "sharedTypedSchema": false,
+        "correlations": [
+          {
+            "entity": "AX/AR-23 Guard Dog",
+            "native": 8,
+            "published": 8
+          }
+        ]
       },
-      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Exact published Max Rounds / Starting Rounds / Mags from Supply on all five Guard Dog backpacks at the typed DepositComponent members; not yet shown in game.",
+      "effect": {
+        "activeSource": "DEFINITION_RECORD",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "Apply before the backpack is called in: the definition record is what a newly spawned backpack starts from; whether one already in the world re-reads it is not proven."
+      },
+      "uiGroup": "drone_magazines",
+      "min": 1,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply"
     },
     {
       "instanceKey": "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-backpack:deposit.start_amount",
       "semanticFieldId": "deposit.start_amount",
-      "displayName": "Starting charges",
+      "displayName": "Drone magazines at call-in",
       "type": "integer",
-      "unit": "charges",
+      "unit": "magazines",
       "currentDefault": 8,
-      "editable": false,
-      "reason": "Exact wiki correlation for drone backpacks and a typed schema member, but no reference mod has proven write semantics.",
+      "editable": true,
+      "reason": null,
       "target": {
         "resource": "backpack",
         "backpack": "AX/AR-23 Guard Dog",
@@ -1253,23 +1627,43 @@
       "planPhase": 1,
       "dependsOn": [],
       "evidence": {
-        "tier": "schema_proven",
+        "tier": "native_correlated",
         "referenceMod": null,
         "proof": null,
         "provenOn": [],
-        "sharedTypedSchema": true
+        "sharedTypedSchema": false,
+        "correlations": [
+          {
+            "entity": "AX/AR-23 Guard Dog",
+            "native": 8,
+            "published": 8
+          }
+        ]
       },
-      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Exact published Max Rounds / Starting Rounds / Mags from Supply on all five Guard Dog backpacks at the typed DepositComponent members; not yet shown in game.",
+      "effect": {
+        "activeSource": "DEFINITION_RECORD",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "Apply before the backpack is called in: the definition record is what a newly spawned backpack starts from; whether one already in the world re-reads it is not proven."
+      },
+      "uiGroup": "drone_magazines",
+      "min": 0,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply"
     },
     {
       "instanceKey": "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-backpack:deposit.refill_amount",
       "semanticFieldId": "deposit.refill_amount",
-      "displayName": "Charges per resupply",
+      "displayName": "Drone magazines from supply",
       "type": "integer",
-      "unit": "charges",
+      "unit": "magazines",
       "currentDefault": 8,
-      "editable": false,
-      "reason": "Typed schema member without wiki correlation or proven write semantics.",
+      "editable": true,
+      "reason": null,
       "target": {
         "resource": "backpack",
         "backpack": "AX/AR-23 Guard Dog",
@@ -1295,23 +1689,263 @@
       "planPhase": 1,
       "dependsOn": [],
       "evidence": {
-        "tier": "schema_proven",
+        "tier": "native_correlated",
         "referenceMod": null,
         "proof": null,
         "provenOn": [],
+        "sharedTypedSchema": false,
+        "correlations": [
+          {
+            "entity": "AX/AR-23 Guard Dog",
+            "native": 8,
+            "published": 8
+          }
+        ]
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Exact published Max Rounds / Starting Rounds / Mags from Supply on all five Guard Dog backpacks at the typed DepositComponent members; not yet shown in game.",
+      "effect": {
+        "activeSource": "DEFINITION_RECORD",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "Apply before the backpack is called in: the definition record is what a newly spawned backpack starts from; whether one already in the world re-reads it is not proven."
+      },
+      "uiGroup": "drone_magazines",
+      "min": 0,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply"
+    },
+    {
+      "instanceKey": "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-linked-drone:entity.health",
+      "semanticFieldId": "entity.health",
+      "displayName": "Main health",
+      "type": "integer",
+      "unit": "health",
+      "currentDefault": 100,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/AR-23 Guard Dog",
+        "path": "linked",
+        "linked": "drone"
+      },
+      "backingObjectId": "backing:2bb02c0212acae41",
+      "operationGroup": "operation:2b1a3a1f16e8ff8a",
+      "planGroup": "plan:backpack:ax-ar-23-guard-dog",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/AR-23 Guard Dog drone"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:c258df7c4f0b873b",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "HealthComponentData",
+      "domain": "entity",
+      "apiFieldConstant": "hd2.fields.entity.health",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": "BastionReArmored",
+        "proof": "research/main-hp-proof.md: 100,000 main HP is live (Bastion)",
+        "provenOn": [
+          "FX-12 Shield Generator Relay",
+          "TD-220 Bastion MK XVI"
+        ],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "The Guard Dog drone entity the backpack deploys (backpack DepositComponent +24, re-proven before every write). Exact published Main Health 100 / Very Light. Applies to drones deployed after the write; not yet shown in game.",
+      "min": 1,
+      "max": 1000000,
+      "correlations": [
+        {
+          "entity": "AX/AR-23 Guard Dog drone",
+          "native": 100,
+          "published": 100
+        }
+      ],
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": true
+      }
+    },
+    {
+      "instanceKey": "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-linked-drone:entity.armor",
+      "semanticFieldId": "entity.armor",
+      "displayName": "Main armor",
+      "type": "integer",
+      "unit": "armor_class",
+      "currentDefault": 1,
+      "editable": false,
+      "reason": "Default-zone armor: the drone lists its body actors in damage zone 0, so this is only the fallback for an unlisted actor. Use the drone damage zone armor.",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/AR-23 Guard Dog",
+        "path": "linked",
+        "linked": "drone"
+      },
+      "backingObjectId": "backing:2bb02c0212acae41",
+      "operationGroup": "operation:2b1a3a1f16e8ff8a",
+      "planGroup": "plan:backpack:ax-ar-23-guard-dog",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/AR-23 Guard Dog drone"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:c258df7c4f0b873b",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "HealthComponentData",
+      "domain": "entity",
+      "apiFieldConstant": "hd2.fields.entity.armor",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": "BastionReArmored",
+        "proof": "research/armor-proof.md: default-zone AP was part of the AP9 gameplay proof (Bastion)",
+        "provenOn": [
+          "TD-220 Bastion MK XVI"
+        ],
         "sharedTypedSchema": true
       },
       "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
     },
     {
+      "instanceKey": "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-damage-zone-zone-0-drone:zone.armor",
+      "semanticFieldId": "zone.armor",
+      "displayName": "Zone armor",
+      "type": "integer",
+      "unit": "armor_class",
+      "currentDefault": 1,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/AR-23 Guard Dog",
+        "path": "damage_zone",
+        "linked": "drone",
+        "zone": "zone_0"
+      },
+      "backingObjectId": "backing:2bb02c0212acae41",
+      "operationGroup": "operation:cc7e87d2a2d27bec",
+      "planGroup": "plan:backpack:ax-ar-23-guard-dog",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/AR-23 Guard Dog drone"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:c258df7c4f0b873b",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "HealthComponentData",
+      "domain": "zone",
+      "apiFieldConstant": "hd2.fields.zone.armor",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": "BastionReArmored",
+        "proof": "research/armor-proof.md: the AP9 experiment succeeded in gameplay (Bastion)",
+        "provenOn": [
+          "TD-220 Bastion MK XVI"
+        ],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Drone body damage zone (9 hit actors); The Guard Dog drone entity the backpack deploys (backpack DepositComponent +24, re-proven before every write). Exact published Main Health 100 / Very Light. Applies to drones deployed after the write; not yet shown in game.",
+      "min": 0,
+      "max": 10,
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": true
+      }
+    },
+    {
+      "instanceKey": "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-damage-zone-zone-0-drone:zone.health",
+      "semanticFieldId": "zone.health",
+      "displayName": "Zone health",
+      "type": "integer",
+      "unit": "health",
+      "currentDefault": 100,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/AR-23 Guard Dog",
+        "path": "damage_zone",
+        "linked": "drone",
+        "zone": "zone_0"
+      },
+      "backingObjectId": "backing:2bb02c0212acae41",
+      "operationGroup": "operation:cc7e87d2a2d27bec",
+      "planGroup": "plan:backpack:ax-ar-23-guard-dog",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/AR-23 Guard Dog drone"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:c258df7c4f0b873b",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "HealthComponentData",
+      "domain": "zone",
+      "apiFieldConstant": "hd2.fields.zone.health",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": "ShieldRelayImprovements",
+        "proof": "docs/physical-hp-proof.md: slot-0 zone HP was written together with main HP in the gameplay-confirmed preset; its individual effect is not isolated",
+        "provenOn": [
+          "FX-12 Shield Generator Relay"
+        ],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Drone body damage zone (9 hit actors); The Guard Dog drone entity the backpack deploys (backpack DepositComponent +24, re-proven before every write). Exact published Main Health 100 / Very Light. Applies to drones deployed after the write; not yet shown in game.",
+      "min": 1,
+      "max": 1000000,
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": true
+      }
+    },
+    {
       "instanceKey": "backpack:ax-las-5-rover:ax-las-5-rover-backpack:deposit.capacity",
       "semanticFieldId": "deposit.capacity",
-      "displayName": "Charge capacity",
+      "displayName": "Drone magazines the backpack holds",
       "type": "integer",
-      "unit": "charges",
+      "unit": "magazines",
       "currentDefault": 4,
-      "editable": false,
-      "reason": "Exact wiki correlation for drone backpacks and a typed schema member, but no reference mod has proven write semantics.",
+      "editable": true,
+      "reason": null,
       "target": {
         "resource": "backpack",
         "backpack": "AX/LAS-5 Rover",
@@ -1337,23 +1971,43 @@
       "planPhase": 1,
       "dependsOn": [],
       "evidence": {
-        "tier": "schema_proven",
+        "tier": "native_correlated",
         "referenceMod": null,
         "proof": null,
         "provenOn": [],
-        "sharedTypedSchema": true
+        "sharedTypedSchema": false,
+        "correlations": [
+          {
+            "entity": "AX/LAS-5 Rover",
+            "native": 4,
+            "published": 4
+          }
+        ]
       },
-      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Exact published Max Rounds / Starting Rounds / Mags from Supply on all five Guard Dog backpacks at the typed DepositComponent members; not yet shown in game.",
+      "effect": {
+        "activeSource": "DEFINITION_RECORD",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "Apply before the backpack is called in: the definition record is what a newly spawned backpack starts from; whether one already in the world re-reads it is not proven."
+      },
+      "uiGroup": "drone_magazines",
+      "min": 1,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply"
     },
     {
       "instanceKey": "backpack:ax-las-5-rover:ax-las-5-rover-backpack:deposit.start_amount",
       "semanticFieldId": "deposit.start_amount",
-      "displayName": "Starting charges",
+      "displayName": "Drone magazines at call-in",
       "type": "integer",
-      "unit": "charges",
+      "unit": "magazines",
       "currentDefault": 4,
-      "editable": false,
-      "reason": "Exact wiki correlation for drone backpacks and a typed schema member, but no reference mod has proven write semantics.",
+      "editable": true,
+      "reason": null,
       "target": {
         "resource": "backpack",
         "backpack": "AX/LAS-5 Rover",
@@ -1379,23 +2033,43 @@
       "planPhase": 1,
       "dependsOn": [],
       "evidence": {
-        "tier": "schema_proven",
+        "tier": "native_correlated",
         "referenceMod": null,
         "proof": null,
         "provenOn": [],
-        "sharedTypedSchema": true
+        "sharedTypedSchema": false,
+        "correlations": [
+          {
+            "entity": "AX/LAS-5 Rover",
+            "native": 4,
+            "published": 4
+          }
+        ]
       },
-      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Exact published Max Rounds / Starting Rounds / Mags from Supply on all five Guard Dog backpacks at the typed DepositComponent members; not yet shown in game.",
+      "effect": {
+        "activeSource": "DEFINITION_RECORD",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "Apply before the backpack is called in: the definition record is what a newly spawned backpack starts from; whether one already in the world re-reads it is not proven."
+      },
+      "uiGroup": "drone_magazines",
+      "min": 0,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply"
     },
     {
       "instanceKey": "backpack:ax-las-5-rover:ax-las-5-rover-backpack:deposit.refill_amount",
       "semanticFieldId": "deposit.refill_amount",
-      "displayName": "Charges per resupply",
+      "displayName": "Drone magazines from supply",
       "type": "integer",
-      "unit": "charges",
+      "unit": "magazines",
       "currentDefault": 2,
-      "editable": false,
-      "reason": "Typed schema member without wiki correlation or proven write semantics.",
+      "editable": true,
+      "reason": null,
       "target": {
         "resource": "backpack",
         "backpack": "AX/LAS-5 Rover",
@@ -1421,13 +2095,253 @@
       "planPhase": 1,
       "dependsOn": [],
       "evidence": {
-        "tier": "schema_proven",
+        "tier": "native_correlated",
         "referenceMod": null,
         "proof": null,
         "provenOn": [],
+        "sharedTypedSchema": false,
+        "correlations": [
+          {
+            "entity": "AX/LAS-5 Rover",
+            "native": 2,
+            "published": 2
+          }
+        ]
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Exact published Max Rounds / Starting Rounds / Mags from Supply on all five Guard Dog backpacks at the typed DepositComponent members; not yet shown in game.",
+      "effect": {
+        "activeSource": "DEFINITION_RECORD",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "Apply before the backpack is called in: the definition record is what a newly spawned backpack starts from; whether one already in the world re-reads it is not proven."
+      },
+      "uiGroup": "drone_magazines",
+      "min": 0,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply"
+    },
+    {
+      "instanceKey": "backpack:ax-las-5-rover:ax-las-5-rover-linked-drone:entity.health",
+      "semanticFieldId": "entity.health",
+      "displayName": "Main health",
+      "type": "integer",
+      "unit": "health",
+      "currentDefault": 100,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/LAS-5 Rover",
+        "path": "linked",
+        "linked": "drone"
+      },
+      "backingObjectId": "backing:41ccee9074f5f0b2",
+      "operationGroup": "operation:95639a27e2bf6760",
+      "planGroup": "plan:backpack:ax-las-5-rover",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/LAS-5 Rover drone"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:dbd7e31a9ec6adde",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "HealthComponentData",
+      "domain": "entity",
+      "apiFieldConstant": "hd2.fields.entity.health",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": "BastionReArmored",
+        "proof": "research/main-hp-proof.md: 100,000 main HP is live (Bastion)",
+        "provenOn": [
+          "FX-12 Shield Generator Relay",
+          "TD-220 Bastion MK XVI"
+        ],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "The Guard Dog drone entity the backpack deploys (backpack DepositComponent +24, re-proven before every write). Exact published Main Health 100 / Very Light. Applies to drones deployed after the write; not yet shown in game.",
+      "min": 1,
+      "max": 1000000,
+      "correlations": [
+        {
+          "entity": "AX/LAS-5 Rover drone",
+          "native": 100,
+          "published": 100
+        }
+      ],
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": true
+      }
+    },
+    {
+      "instanceKey": "backpack:ax-las-5-rover:ax-las-5-rover-linked-drone:entity.armor",
+      "semanticFieldId": "entity.armor",
+      "displayName": "Main armor",
+      "type": "integer",
+      "unit": "armor_class",
+      "currentDefault": 1,
+      "editable": false,
+      "reason": "Default-zone armor: the drone lists its body actors in damage zone 0, so this is only the fallback for an unlisted actor. Use the drone damage zone armor.",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/LAS-5 Rover",
+        "path": "linked",
+        "linked": "drone"
+      },
+      "backingObjectId": "backing:41ccee9074f5f0b2",
+      "operationGroup": "operation:95639a27e2bf6760",
+      "planGroup": "plan:backpack:ax-las-5-rover",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/LAS-5 Rover drone"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:dbd7e31a9ec6adde",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "HealthComponentData",
+      "domain": "entity",
+      "apiFieldConstant": "hd2.fields.entity.armor",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": "BastionReArmored",
+        "proof": "research/armor-proof.md: default-zone AP was part of the AP9 gameplay proof (Bastion)",
+        "provenOn": [
+          "TD-220 Bastion MK XVI"
+        ],
         "sharedTypedSchema": true
       },
       "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:ax-las-5-rover:ax-las-5-rover-damage-zone-zone-0-drone:zone.armor",
+      "semanticFieldId": "zone.armor",
+      "displayName": "Zone armor",
+      "type": "integer",
+      "unit": "armor_class",
+      "currentDefault": 1,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/LAS-5 Rover",
+        "path": "damage_zone",
+        "linked": "drone",
+        "zone": "zone_0"
+      },
+      "backingObjectId": "backing:41ccee9074f5f0b2",
+      "operationGroup": "operation:3eff40142dd79ae6",
+      "planGroup": "plan:backpack:ax-las-5-rover",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/LAS-5 Rover drone"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:dbd7e31a9ec6adde",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "HealthComponentData",
+      "domain": "zone",
+      "apiFieldConstant": "hd2.fields.zone.armor",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": "BastionReArmored",
+        "proof": "research/armor-proof.md: the AP9 experiment succeeded in gameplay (Bastion)",
+        "provenOn": [
+          "TD-220 Bastion MK XVI"
+        ],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Drone body damage zone (9 hit actors); The Guard Dog drone entity the backpack deploys (backpack DepositComponent +24, re-proven before every write). Exact published Main Health 100 / Very Light. Applies to drones deployed after the write; not yet shown in game.",
+      "min": 0,
+      "max": 10,
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": true
+      }
+    },
+    {
+      "instanceKey": "backpack:ax-las-5-rover:ax-las-5-rover-damage-zone-zone-0-drone:zone.health",
+      "semanticFieldId": "zone.health",
+      "displayName": "Zone health",
+      "type": "integer",
+      "unit": "health",
+      "currentDefault": 100,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/LAS-5 Rover",
+        "path": "damage_zone",
+        "linked": "drone",
+        "zone": "zone_0"
+      },
+      "backingObjectId": "backing:41ccee9074f5f0b2",
+      "operationGroup": "operation:3eff40142dd79ae6",
+      "planGroup": "plan:backpack:ax-las-5-rover",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/LAS-5 Rover drone"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:dbd7e31a9ec6adde",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "HealthComponentData",
+      "domain": "zone",
+      "apiFieldConstant": "hd2.fields.zone.health",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": "ShieldRelayImprovements",
+        "proof": "docs/physical-hp-proof.md: slot-0 zone HP was written together with main HP in the gameplay-confirmed preset; its individual effect is not isolated",
+        "provenOn": [
+          "FX-12 Shield Generator Relay"
+        ],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Drone body damage zone (9 hit actors); The Guard Dog drone entity the backpack deploys (backpack DepositComponent +24, re-proven before every write). Exact published Main Health 100 / Very Light. Applies to drones deployed after the write; not yet shown in game.",
+      "min": 1,
+      "max": 1000000,
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": true
+      }
     },
     {
       "instanceKey": "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.radius",
@@ -1518,6 +2432,216 @@
       "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
     },
     {
+      "instanceKey": "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.recharge_delay",
+      "semanticFieldId": "shield.recharge_delay",
+      "displayName": "Shield recharge delay (after damage)",
+      "type": "number",
+      "unit": "seconds",
+      "currentDefault": 60.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "SH-32 Shield Generator Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:2cdf37b6c8ba5159",
+      "operationGroup": "operation:b0ccd56873ca789c",
+      "planGroup": "plan:backpack:sh-32-shield-generator-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "SH-32 Shield Generator Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:a5423330f8e5d464",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "ShieldComponentData",
+      "domain": "shield",
+      "apiFieldConstant": "hd2.fields.shield.recharge_delay",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_correlated",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "correlations": [
+          {
+            "entity": "SH-32 Shield Generator Pack",
+            "native": 60.0,
+            "published": 60.0
+          },
+          {
+            "entity": "SH-51 Directional Shield",
+            "native": 3.0,
+            "published": 3.0
+          },
+          {
+            "entity": "FX-12 Shield Generator Relay",
+            "native": 0.01,
+            "published": 0.00999999978
+          }
+        ]
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Exact published values on three independent shields (SH-32, SH-51 barrier, FX-12 relay) at the same typed ShieldComponent member; not yet shown in game. Seconds after damage before a damaged (unbroken) shield starts recharging.",
+      "effect": {
+        "activeSource": "DEFINITION_RECORD",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "Apply before the backpack is called in: the definition record is what a newly spawned backpack starts from; whether one already in the world re-reads it is not proven."
+      },
+      "min": 0,
+      "max": 100000
+    },
+    {
+      "instanceKey": "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.broken_recharge_delay",
+      "semanticFieldId": "shield.broken_recharge_delay",
+      "displayName": "Shield restart delay (after breaking)",
+      "type": "number",
+      "unit": "seconds",
+      "currentDefault": 12.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "SH-32 Shield Generator Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:2cdf37b6c8ba5159",
+      "operationGroup": "operation:b0ccd56873ca789c",
+      "planGroup": "plan:backpack:sh-32-shield-generator-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "SH-32 Shield Generator Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:a5423330f8e5d464",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "ShieldComponentData",
+      "domain": "shield",
+      "apiFieldConstant": "hd2.fields.shield.broken_recharge_delay",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_correlated",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "correlations": [
+          {
+            "entity": "SH-32 Shield Generator Pack",
+            "native": 12.0,
+            "published": 12.0
+          },
+          {
+            "entity": "SH-51 Directional Shield",
+            "native": 6.0,
+            "published": 6.0
+          },
+          {
+            "entity": "FX-12 Shield Generator Relay",
+            "native": 45.0,
+            "published": 45.0
+          }
+        ]
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Exact published values on three independent shields (SH-32, SH-51 barrier, FX-12 relay) at the same typed ShieldComponent member; not yet shown in game. Seconds after the shield breaks before it restarts.",
+      "effect": {
+        "activeSource": "DEFINITION_RECORD",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "Apply before the backpack is called in: the definition record is what a newly spawned backpack starts from; whether one already in the world re-reads it is not proven."
+      },
+      "min": 0,
+      "max": 100000
+    },
+    {
+      "instanceKey": "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.recharge_rate",
+      "semanticFieldId": "shield.recharge_rate",
+      "displayName": "Shield recharge rate",
+      "type": "number",
+      "unit": "health_per_second",
+      "currentDefault": 150.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "SH-32 Shield Generator Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:2cdf37b6c8ba5159",
+      "operationGroup": "operation:b0ccd56873ca789c",
+      "planGroup": "plan:backpack:sh-32-shield-generator-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "SH-32 Shield Generator Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:a5423330f8e5d464",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "ShieldComponentData",
+      "domain": "shield",
+      "apiFieldConstant": "hd2.fields.shield.recharge_rate",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_correlated",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "correlations": [
+          {
+            "entity": "SH-32 Shield Generator Pack",
+            "native": 150.0,
+            "published": 150.0
+          },
+          {
+            "entity": "SH-51 Directional Shield",
+            "native": 300.0,
+            "published": 300.0
+          },
+          {
+            "entity": "FX-12 Shield Generator Relay",
+            "native": 400.0,
+            "published": 400.0
+          }
+        ]
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Exact published values on three independent shields (SH-32, SH-51 barrier, FX-12 relay) at the same typed ShieldComponent member; not yet shown in game. Shield health restored per second while recharging.",
+      "effect": {
+        "activeSource": "DEFINITION_RECORD",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "Apply before the backpack is called in: the definition record is what a newly spawned backpack starts from; whether one already in the world re-reads it is not proven."
+      },
+      "min": 0,
+      "max": 100000
+    },
+    {
       "instanceKey": "backpack:sh-51-directional-shield:sh-51-directional-shield-backpack:entity.health",
       "semanticFieldId": "entity.health",
       "displayName": "Main health",
@@ -1562,12 +2686,13 @@
       },
       "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
       "acknowledgement": "allow_unverified_effect",
-      "acknowledgementReason": "Health of the SH-51 backpack body. The energy barrier is a separate entity with its own health record; which of the two the barrier's hits reach is not traced.",
+      "acknowledgementReason": "Health of the SH-51 backpack body (the emitter on the back, published Main Health 400). The energy barrier is a separate entity with its own shield and health: author it through hd2.backpack('SH-51 Directional Shield'):energy_shield(). Not yet shown in game.",
       "effect": {
-        "activeSource": "AMBIGUOUS",
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
         "activeSourceProven": false,
         "appliesWhen": "entity_spawn",
-        "instantiationOnly": true
+        "instantiationOnly": true,
+        "appliesTo": "backpack body"
       }
     },
     {
@@ -1614,23 +2739,501 @@
       },
       "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
       "acknowledgement": "allow_unverified_effect",
-      "acknowledgementReason": "Default-zone armor of the SH-51 backpack body. The energy barrier is a separate entity with its own damage zone; which of the two the barrier's hits reach is not traced.",
+      "acknowledgementReason": "Armor of the SH-51 backpack body (published Main Armor Heavy). The body has no populated damage zone, so every hit on the body resolves to this default zone. It is not the barrier's armor: the barrier is a separate entity. Not yet shown in game.",
       "effect": {
-        "activeSource": "AMBIGUOUS",
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
         "activeSourceProven": false,
         "appliesWhen": "entity_spawn",
-        "instantiationOnly": true
+        "instantiationOnly": true,
+        "appliesTo": "backpack body"
       }
+    },
+    {
+      "instanceKey": "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:shield.durability",
+      "semanticFieldId": "shield.durability",
+      "displayName": "Shield health",
+      "type": "number",
+      "unit": "health",
+      "currentDefault": 1000.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "SH-51 Directional Shield",
+        "path": "linked",
+        "linked": "energy_shield"
+      },
+      "backingObjectId": "backing:7ca36914033899d2",
+      "operationGroup": "operation:b8a962e6730d94bd",
+      "planGroup": "plan:backpack:sh-51-directional-shield",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "SH-51 Directional Shield energy barrier"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:e1179c67e15f982c",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "ShieldComponentData",
+      "domain": "shield",
+      "apiFieldConstant": "hd2.fields.shield.entity_durability",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": "ShieldRelayImprovements",
+        "proof": "research/durability-confirmation.json: 4000 -> 40000 confirmed in gameplay",
+        "provenOn": [
+          "FX-12 Shield Generator Relay"
+        ],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Barrier shield capacity: exact published 1000; the same typed member is gameplay-proven on the FX-12 relay. The SH-51 energy barrier (backpack ShieldControllerComponent +0, re-proven before every write): exact published capacity and delays. Applies to barriers spawned after the write; not yet shown in game.",
+      "min": 0,
+      "max": 1000000,
+      "correlations": [
+        {
+          "entity": "SH-51 Directional Shield",
+          "native": 1000.0,
+          "published": 1000.0
+        }
+      ]
+    },
+    {
+      "instanceKey": "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:shield.recharge_delay",
+      "semanticFieldId": "shield.recharge_delay",
+      "displayName": "Shield recharge delay (after damage)",
+      "type": "number",
+      "unit": "seconds",
+      "currentDefault": 3.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "SH-51 Directional Shield",
+        "path": "linked",
+        "linked": "energy_shield"
+      },
+      "backingObjectId": "backing:7ca36914033899d2",
+      "operationGroup": "operation:b8a962e6730d94bd",
+      "planGroup": "plan:backpack:sh-51-directional-shield",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "SH-51 Directional Shield energy barrier"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:e1179c67e15f982c",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "ShieldComponentData",
+      "domain": "shield",
+      "apiFieldConstant": "hd2.fields.shield.recharge_delay",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_correlated",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "correlations": [
+          {
+            "entity": "SH-32 Shield Generator Pack",
+            "native": 60.0,
+            "published": 60.0
+          },
+          {
+            "entity": "SH-51 Directional Shield",
+            "native": 3.0,
+            "published": 3.0
+          },
+          {
+            "entity": "FX-12 Shield Generator Relay",
+            "native": 0.01,
+            "published": 0.00999999978
+          }
+        ]
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Exact published values on three independent shields (SH-32, SH-51 barrier, FX-12 relay) at the same typed ShieldComponent member; not yet shown in game. Seconds after damage before a damaged (unbroken) shield starts recharging.",
+      "effect": {
+        "activeSource": "DEFINITION_RECORD",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "Apply before the backpack is called in: the definition record is what a newly spawned backpack starts from; whether one already in the world re-reads it is not proven."
+      },
+      "min": 0,
+      "max": 100000
+    },
+    {
+      "instanceKey": "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:shield.broken_recharge_delay",
+      "semanticFieldId": "shield.broken_recharge_delay",
+      "displayName": "Shield restart delay (after breaking)",
+      "type": "number",
+      "unit": "seconds",
+      "currentDefault": 6.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "SH-51 Directional Shield",
+        "path": "linked",
+        "linked": "energy_shield"
+      },
+      "backingObjectId": "backing:7ca36914033899d2",
+      "operationGroup": "operation:b8a962e6730d94bd",
+      "planGroup": "plan:backpack:sh-51-directional-shield",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "SH-51 Directional Shield energy barrier"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:e1179c67e15f982c",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "ShieldComponentData",
+      "domain": "shield",
+      "apiFieldConstant": "hd2.fields.shield.broken_recharge_delay",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_correlated",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "correlations": [
+          {
+            "entity": "SH-32 Shield Generator Pack",
+            "native": 12.0,
+            "published": 12.0
+          },
+          {
+            "entity": "SH-51 Directional Shield",
+            "native": 6.0,
+            "published": 6.0
+          },
+          {
+            "entity": "FX-12 Shield Generator Relay",
+            "native": 45.0,
+            "published": 45.0
+          }
+        ]
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Exact published values on three independent shields (SH-32, SH-51 barrier, FX-12 relay) at the same typed ShieldComponent member; not yet shown in game. Seconds after the shield breaks before it restarts.",
+      "effect": {
+        "activeSource": "DEFINITION_RECORD",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "Apply before the backpack is called in: the definition record is what a newly spawned backpack starts from; whether one already in the world re-reads it is not proven."
+      },
+      "min": 0,
+      "max": 100000
+    },
+    {
+      "instanceKey": "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:shield.recharge_rate",
+      "semanticFieldId": "shield.recharge_rate",
+      "displayName": "Shield recharge rate",
+      "type": "number",
+      "unit": "health_per_second",
+      "currentDefault": 300.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "SH-51 Directional Shield",
+        "path": "linked",
+        "linked": "energy_shield"
+      },
+      "backingObjectId": "backing:7ca36914033899d2",
+      "operationGroup": "operation:b8a962e6730d94bd",
+      "planGroup": "plan:backpack:sh-51-directional-shield",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "SH-51 Directional Shield energy barrier"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:e1179c67e15f982c",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "ShieldComponentData",
+      "domain": "shield",
+      "apiFieldConstant": "hd2.fields.shield.recharge_rate",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_correlated",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "correlations": [
+          {
+            "entity": "SH-32 Shield Generator Pack",
+            "native": 150.0,
+            "published": 150.0
+          },
+          {
+            "entity": "SH-51 Directional Shield",
+            "native": 300.0,
+            "published": 300.0
+          },
+          {
+            "entity": "FX-12 Shield Generator Relay",
+            "native": 400.0,
+            "published": 400.0
+          }
+        ]
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Exact published values on three independent shields (SH-32, SH-51 barrier, FX-12 relay) at the same typed ShieldComponent member; not yet shown in game. Shield health restored per second while recharging.",
+      "effect": {
+        "activeSource": "DEFINITION_RECORD",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "Apply before the backpack is called in: the definition record is what a newly spawned backpack starts from; whether one already in the world re-reads it is not proven."
+      },
+      "min": 0,
+      "max": 100000
+    },
+    {
+      "instanceKey": "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:shield.radius",
+      "semanticFieldId": "shield.radius",
+      "displayName": "Shield radius",
+      "type": "number",
+      "unit": "meters",
+      "currentDefault": 0.0,
+      "editable": false,
+      "reason": "0 on the directional barrier (exact published \"Shield Radius 0 m\"): its shape is the barrier model, not a sphere; a non-zero radius is untested.",
+      "target": {
+        "resource": "backpack",
+        "backpack": "SH-51 Directional Shield",
+        "path": "linked",
+        "linked": "energy_shield"
+      },
+      "backingObjectId": "backing:7ca36914033899d2",
+      "operationGroup": "operation:b8a962e6730d94bd",
+      "planGroup": "plan:backpack:sh-51-directional-shield",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "SH-51 Directional Shield energy barrier"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:e1179c67e15f982c",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "ShieldComponentData",
+      "domain": "shield",
+      "apiFieldConstant": "hd2.fields.shield.entity_radius",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": "ShieldRelayImprovements",
+        "proof": "research/gameplay-confirmation-0.1.4.json: shield_radius_15_to_8_functional",
+        "provenOn": [
+          "FX-12 Shield Generator Relay"
+        ],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:sh-51-directional-shield:sh-51-directional-shield-damage-zone-zone-0-energy-shield:zone.armor",
+      "semanticFieldId": "zone.armor",
+      "displayName": "Zone armor",
+      "type": "integer",
+      "unit": "armor_class",
+      "currentDefault": 1,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "SH-51 Directional Shield",
+        "path": "damage_zone",
+        "linked": "energy_shield",
+        "zone": "zone_0"
+      },
+      "backingObjectId": "backing:8f2ed59109d3499f",
+      "operationGroup": "operation:470ee7ac3182dcd7",
+      "planGroup": "plan:backpack:sh-51-directional-shield",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "SH-51 Directional Shield energy barrier"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:560f9c208c153979",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "HealthComponentData",
+      "domain": "zone",
+      "apiFieldConstant": "hd2.fields.zone.armor",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": "BastionReArmored",
+        "proof": "research/armor-proof.md: the AP9 experiment succeeded in gameplay (Bastion)",
+        "provenOn": [
+          "TD-220 Bastion MK XVI"
+        ],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "The barrier damage zone \"body_front\": its only hit actor is the barrier collision, so projectiles striking the barrier resolve here (the default-zone armor is the fallback, not the shield-facing armor). Whether the shield energy absorbs a hit before this zone is consulted is not traced. The SH-51 energy barrier (backpack ShieldControllerComponent +0, re-proven before every write): exact published capacity and delays. Applies to barriers spawned after the write; not yet shown in game.",
+      "min": 0,
+      "max": 10,
+      "effect": {
+        "activeSource": "UNPROVEN",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": true,
+        "zoneActors": [
+          "c_collision"
+        ]
+      }
+    },
+    {
+      "instanceKey": "backpack:sh-51-directional-shield:sh-51-directional-shield-damage-zone-zone-0-energy-shield:zone.health",
+      "semanticFieldId": "zone.health",
+      "displayName": "Zone health",
+      "type": "integer",
+      "unit": "health",
+      "currentDefault": 450,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "SH-51 Directional Shield",
+        "path": "damage_zone",
+        "linked": "energy_shield",
+        "zone": "zone_0"
+      },
+      "backingObjectId": "backing:8f2ed59109d3499f",
+      "operationGroup": "operation:470ee7ac3182dcd7",
+      "planGroup": "plan:backpack:sh-51-directional-shield",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "SH-51 Directional Shield energy barrier"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:560f9c208c153979",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "HealthComponentData",
+      "domain": "zone",
+      "apiFieldConstant": "hd2.fields.zone.health",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": "ShieldRelayImprovements",
+        "proof": "docs/physical-hp-proof.md: slot-0 zone HP was written together with main HP in the gameplay-confirmed preset; its individual effect is not isolated",
+        "provenOn": [
+          "FX-12 Shield Generator Relay"
+        ],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "The barrier damage zone \"body_front\": its only hit actor is the barrier collision, so projectiles striking the barrier resolve here (the default-zone armor is the fallback, not the shield-facing armor). Whether the shield energy absorbs a hit before this zone is consulted is not traced. The SH-51 energy barrier (backpack ShieldControllerComponent +0, re-proven before every write): exact published capacity and delays. Applies to barriers spawned after the write; not yet shown in game.",
+      "min": 1,
+      "max": 1000000,
+      "effect": {
+        "activeSource": "UNPROVEN",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": true,
+        "zoneActors": [
+          "c_collision"
+        ]
+      }
+    },
+    {
+      "instanceKey": "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:entity.armor",
+      "semanticFieldId": "entity.armor",
+      "displayName": "Main armor",
+      "type": "integer",
+      "unit": "armor_class",
+      "currentDefault": 1,
+      "editable": false,
+      "reason": "Barrier default-zone armor: the fallback for a hit on an actor no zone lists. The barrier lists its collision in zone \"body_front\"; use that zone armor.",
+      "target": {
+        "resource": "backpack",
+        "backpack": "SH-51 Directional Shield",
+        "path": "linked",
+        "linked": "energy_shield"
+      },
+      "backingObjectId": "backing:8f2ed59109d3499f",
+      "operationGroup": "operation:4767bb28a933bc38",
+      "planGroup": "plan:backpack:sh-51-directional-shield",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "SH-51 Directional Shield energy barrier"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:560f9c208c153979",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "HealthComponentData",
+      "domain": "entity",
+      "apiFieldConstant": "hd2.fields.entity.armor",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": "BastionReArmored",
+        "proof": "research/armor-proof.md: default-zone AP was part of the AP9 gameplay proof (Bastion)",
+        "provenOn": [
+          "TD-220 Bastion MK XVI"
+        ],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
     },
     {
       "instanceKey": "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-backpack:deposit.capacity",
       "semanticFieldId": "deposit.capacity",
-      "displayName": "Charge capacity",
+      "displayName": "Drone magazines the backpack holds",
       "type": "integer",
-      "unit": "charges",
+      "unit": "magazines",
       "currentDefault": 6,
-      "editable": false,
-      "reason": "Exact wiki correlation for drone backpacks and a typed schema member, but no reference mod has proven write semantics.",
+      "editable": true,
+      "reason": null,
       "target": {
         "resource": "backpack",
         "backpack": "AX/FLAM-75 Hot Dog",
@@ -1656,23 +3259,43 @@
       "planPhase": 1,
       "dependsOn": [],
       "evidence": {
-        "tier": "schema_proven",
+        "tier": "native_correlated",
         "referenceMod": null,
         "proof": null,
         "provenOn": [],
-        "sharedTypedSchema": true
+        "sharedTypedSchema": false,
+        "correlations": [
+          {
+            "entity": "AX/FLAM-75 Hot Dog",
+            "native": 6,
+            "published": 6
+          }
+        ]
       },
-      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Exact published Max Rounds / Starting Rounds / Mags from Supply on all five Guard Dog backpacks at the typed DepositComponent members; not yet shown in game.",
+      "effect": {
+        "activeSource": "DEFINITION_RECORD",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "Apply before the backpack is called in: the definition record is what a newly spawned backpack starts from; whether one already in the world re-reads it is not proven."
+      },
+      "uiGroup": "drone_magazines",
+      "min": 1,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply"
     },
     {
       "instanceKey": "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-backpack:deposit.start_amount",
       "semanticFieldId": "deposit.start_amount",
-      "displayName": "Starting charges",
+      "displayName": "Drone magazines at call-in",
       "type": "integer",
-      "unit": "charges",
+      "unit": "magazines",
       "currentDefault": 6,
-      "editable": false,
-      "reason": "Exact wiki correlation for drone backpacks and a typed schema member, but no reference mod has proven write semantics.",
+      "editable": true,
+      "reason": null,
       "target": {
         "resource": "backpack",
         "backpack": "AX/FLAM-75 Hot Dog",
@@ -1698,23 +3321,43 @@
       "planPhase": 1,
       "dependsOn": [],
       "evidence": {
-        "tier": "schema_proven",
+        "tier": "native_correlated",
         "referenceMod": null,
         "proof": null,
         "provenOn": [],
-        "sharedTypedSchema": true
+        "sharedTypedSchema": false,
+        "correlations": [
+          {
+            "entity": "AX/FLAM-75 Hot Dog",
+            "native": 6,
+            "published": 6
+          }
+        ]
       },
-      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Exact published Max Rounds / Starting Rounds / Mags from Supply on all five Guard Dog backpacks at the typed DepositComponent members; not yet shown in game.",
+      "effect": {
+        "activeSource": "DEFINITION_RECORD",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "Apply before the backpack is called in: the definition record is what a newly spawned backpack starts from; whether one already in the world re-reads it is not proven."
+      },
+      "uiGroup": "drone_magazines",
+      "min": 0,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply"
     },
     {
       "instanceKey": "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-backpack:deposit.refill_amount",
       "semanticFieldId": "deposit.refill_amount",
-      "displayName": "Charges per resupply",
+      "displayName": "Drone magazines from supply",
       "type": "integer",
-      "unit": "charges",
+      "unit": "magazines",
       "currentDefault": 6,
-      "editable": false,
-      "reason": "Typed schema member without wiki correlation or proven write semantics.",
+      "editable": true,
+      "reason": null,
       "target": {
         "resource": "backpack",
         "backpack": "AX/FLAM-75 Hot Dog",
@@ -1740,13 +3383,253 @@
       "planPhase": 1,
       "dependsOn": [],
       "evidence": {
-        "tier": "schema_proven",
+        "tier": "native_correlated",
         "referenceMod": null,
         "proof": null,
         "provenOn": [],
+        "sharedTypedSchema": false,
+        "correlations": [
+          {
+            "entity": "AX/FLAM-75 Hot Dog",
+            "native": 6,
+            "published": 6
+          }
+        ]
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Exact published Max Rounds / Starting Rounds / Mags from Supply on all five Guard Dog backpacks at the typed DepositComponent members; not yet shown in game.",
+      "effect": {
+        "activeSource": "DEFINITION_RECORD",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "Apply before the backpack is called in: the definition record is what a newly spawned backpack starts from; whether one already in the world re-reads it is not proven."
+      },
+      "uiGroup": "drone_magazines",
+      "min": 0,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply"
+    },
+    {
+      "instanceKey": "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-linked-drone:entity.health",
+      "semanticFieldId": "entity.health",
+      "displayName": "Main health",
+      "type": "integer",
+      "unit": "health",
+      "currentDefault": 100,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/FLAM-75 Hot Dog",
+        "path": "linked",
+        "linked": "drone"
+      },
+      "backingObjectId": "backing:12cb210386be0167",
+      "operationGroup": "operation:96c6178aece6cb96",
+      "planGroup": "plan:backpack:ax-flam-75-hot-dog",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/FLAM-75 Hot Dog drone"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:0ff73438661c97bf",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "HealthComponentData",
+      "domain": "entity",
+      "apiFieldConstant": "hd2.fields.entity.health",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": "BastionReArmored",
+        "proof": "research/main-hp-proof.md: 100,000 main HP is live (Bastion)",
+        "provenOn": [
+          "FX-12 Shield Generator Relay",
+          "TD-220 Bastion MK XVI"
+        ],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "The Guard Dog drone entity the backpack deploys (backpack DepositComponent +24, re-proven before every write). Exact published Main Health 100 / Very Light. Applies to drones deployed after the write; not yet shown in game.",
+      "min": 1,
+      "max": 1000000,
+      "correlations": [
+        {
+          "entity": "AX/FLAM-75 Hot Dog drone",
+          "native": 100,
+          "published": 100
+        }
+      ],
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": true
+      }
+    },
+    {
+      "instanceKey": "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-linked-drone:entity.armor",
+      "semanticFieldId": "entity.armor",
+      "displayName": "Main armor",
+      "type": "integer",
+      "unit": "armor_class",
+      "currentDefault": 1,
+      "editable": false,
+      "reason": "Default-zone armor: the drone lists its body actors in damage zone 0, so this is only the fallback for an unlisted actor. Use the drone damage zone armor.",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/FLAM-75 Hot Dog",
+        "path": "linked",
+        "linked": "drone"
+      },
+      "backingObjectId": "backing:12cb210386be0167",
+      "operationGroup": "operation:96c6178aece6cb96",
+      "planGroup": "plan:backpack:ax-flam-75-hot-dog",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/FLAM-75 Hot Dog drone"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:0ff73438661c97bf",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "HealthComponentData",
+      "domain": "entity",
+      "apiFieldConstant": "hd2.fields.entity.armor",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": "BastionReArmored",
+        "proof": "research/armor-proof.md: default-zone AP was part of the AP9 gameplay proof (Bastion)",
+        "provenOn": [
+          "TD-220 Bastion MK XVI"
+        ],
         "sharedTypedSchema": true
       },
       "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-damage-zone-zone-0-drone:zone.armor",
+      "semanticFieldId": "zone.armor",
+      "displayName": "Zone armor",
+      "type": "integer",
+      "unit": "armor_class",
+      "currentDefault": 1,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/FLAM-75 Hot Dog",
+        "path": "damage_zone",
+        "linked": "drone",
+        "zone": "zone_0"
+      },
+      "backingObjectId": "backing:12cb210386be0167",
+      "operationGroup": "operation:9f3095288501f9f0",
+      "planGroup": "plan:backpack:ax-flam-75-hot-dog",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/FLAM-75 Hot Dog drone"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:0ff73438661c97bf",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "HealthComponentData",
+      "domain": "zone",
+      "apiFieldConstant": "hd2.fields.zone.armor",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": "BastionReArmored",
+        "proof": "research/armor-proof.md: the AP9 experiment succeeded in gameplay (Bastion)",
+        "provenOn": [
+          "TD-220 Bastion MK XVI"
+        ],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Drone body damage zone (9 hit actors); The Guard Dog drone entity the backpack deploys (backpack DepositComponent +24, re-proven before every write). Exact published Main Health 100 / Very Light. Applies to drones deployed after the write; not yet shown in game.",
+      "min": 0,
+      "max": 10,
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": true
+      }
+    },
+    {
+      "instanceKey": "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-damage-zone-zone-0-drone:zone.health",
+      "semanticFieldId": "zone.health",
+      "displayName": "Zone health",
+      "type": "integer",
+      "unit": "health",
+      "currentDefault": 100,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/FLAM-75 Hot Dog",
+        "path": "damage_zone",
+        "linked": "drone",
+        "zone": "zone_0"
+      },
+      "backingObjectId": "backing:12cb210386be0167",
+      "operationGroup": "operation:9f3095288501f9f0",
+      "planGroup": "plan:backpack:ax-flam-75-hot-dog",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/FLAM-75 Hot Dog drone"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:0ff73438661c97bf",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "HealthComponentData",
+      "domain": "zone",
+      "apiFieldConstant": "hd2.fields.zone.health",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": "ShieldRelayImprovements",
+        "proof": "docs/physical-hp-proof.md: slot-0 zone HP was written together with main HP in the gameplay-confirmed preset; its individual effect is not isolated",
+        "provenOn": [
+          "FX-12 Shield Generator Relay"
+        ],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Drone body damage zone (9 hit actors); The Guard Dog drone entity the backpack deploys (backpack DepositComponent +24, re-proven before every write). Exact published Main Health 100 / Very Light. Applies to drones deployed after the write; not yet shown in game.",
+      "min": 1,
+      "max": 1000000,
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": true
+      }
     },
     {
       "instanceKey": "backpack:b-100-portable-hellbomb:b-100-portable-hellbomb-backpack:deposit.capacity",
@@ -1877,12 +3760,12 @@
     {
       "instanceKey": "backpack:ax-arc-3-k-9:ax-arc-3-k-9-backpack:deposit.capacity",
       "semanticFieldId": "deposit.capacity",
-      "displayName": "Charge capacity",
+      "displayName": "Drone magazines the backpack holds",
       "type": "integer",
-      "unit": "charges",
+      "unit": "magazines",
       "currentDefault": 6,
-      "editable": false,
-      "reason": "Exact wiki correlation for drone backpacks and a typed schema member, but no reference mod has proven write semantics.",
+      "editable": true,
+      "reason": null,
       "target": {
         "resource": "backpack",
         "backpack": "AX/ARC-3 K-9",
@@ -1908,23 +3791,43 @@
       "planPhase": 1,
       "dependsOn": [],
       "evidence": {
-        "tier": "schema_proven",
+        "tier": "native_correlated",
         "referenceMod": null,
         "proof": null,
         "provenOn": [],
-        "sharedTypedSchema": true
+        "sharedTypedSchema": false,
+        "correlations": [
+          {
+            "entity": "AX/ARC-3 K-9",
+            "native": 6,
+            "published": 6
+          }
+        ]
       },
-      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Exact published Max Rounds / Starting Rounds / Mags from Supply on all five Guard Dog backpacks at the typed DepositComponent members; not yet shown in game.",
+      "effect": {
+        "activeSource": "DEFINITION_RECORD",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "Apply before the backpack is called in: the definition record is what a newly spawned backpack starts from; whether one already in the world re-reads it is not proven."
+      },
+      "uiGroup": "drone_magazines",
+      "min": 1,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply"
     },
     {
       "instanceKey": "backpack:ax-arc-3-k-9:ax-arc-3-k-9-backpack:deposit.start_amount",
       "semanticFieldId": "deposit.start_amount",
-      "displayName": "Starting charges",
+      "displayName": "Drone magazines at call-in",
       "type": "integer",
-      "unit": "charges",
+      "unit": "magazines",
       "currentDefault": 6,
-      "editable": false,
-      "reason": "Exact wiki correlation for drone backpacks and a typed schema member, but no reference mod has proven write semantics.",
+      "editable": true,
+      "reason": null,
       "target": {
         "resource": "backpack",
         "backpack": "AX/ARC-3 K-9",
@@ -1950,23 +3853,43 @@
       "planPhase": 1,
       "dependsOn": [],
       "evidence": {
-        "tier": "schema_proven",
+        "tier": "native_correlated",
         "referenceMod": null,
         "proof": null,
         "provenOn": [],
-        "sharedTypedSchema": true
+        "sharedTypedSchema": false,
+        "correlations": [
+          {
+            "entity": "AX/ARC-3 K-9",
+            "native": 6,
+            "published": 6
+          }
+        ]
       },
-      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Exact published Max Rounds / Starting Rounds / Mags from Supply on all five Guard Dog backpacks at the typed DepositComponent members; not yet shown in game.",
+      "effect": {
+        "activeSource": "DEFINITION_RECORD",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "Apply before the backpack is called in: the definition record is what a newly spawned backpack starts from; whether one already in the world re-reads it is not proven."
+      },
+      "uiGroup": "drone_magazines",
+      "min": 0,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply"
     },
     {
       "instanceKey": "backpack:ax-arc-3-k-9:ax-arc-3-k-9-backpack:deposit.refill_amount",
       "semanticFieldId": "deposit.refill_amount",
-      "displayName": "Charges per resupply",
+      "displayName": "Drone magazines from supply",
       "type": "integer",
-      "unit": "charges",
+      "unit": "magazines",
       "currentDefault": 6,
-      "editable": false,
-      "reason": "Typed schema member without wiki correlation or proven write semantics.",
+      "editable": true,
+      "reason": null,
       "target": {
         "resource": "backpack",
         "backpack": "AX/ARC-3 K-9",
@@ -1992,13 +3915,253 @@
       "planPhase": 1,
       "dependsOn": [],
       "evidence": {
-        "tier": "schema_proven",
+        "tier": "native_correlated",
         "referenceMod": null,
         "proof": null,
         "provenOn": [],
+        "sharedTypedSchema": false,
+        "correlations": [
+          {
+            "entity": "AX/ARC-3 K-9",
+            "native": 6,
+            "published": 6
+          }
+        ]
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Exact published Max Rounds / Starting Rounds / Mags from Supply on all five Guard Dog backpacks at the typed DepositComponent members; not yet shown in game.",
+      "effect": {
+        "activeSource": "DEFINITION_RECORD",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "Apply before the backpack is called in: the definition record is what a newly spawned backpack starts from; whether one already in the world re-reads it is not proven."
+      },
+      "uiGroup": "drone_magazines",
+      "min": 0,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply"
+    },
+    {
+      "instanceKey": "backpack:ax-arc-3-k-9:ax-arc-3-k-9-linked-drone:entity.health",
+      "semanticFieldId": "entity.health",
+      "displayName": "Main health",
+      "type": "integer",
+      "unit": "health",
+      "currentDefault": 100,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/ARC-3 K-9",
+        "path": "linked",
+        "linked": "drone"
+      },
+      "backingObjectId": "backing:597e58e129e48ef0",
+      "operationGroup": "operation:2cc3c4068ebe673f",
+      "planGroup": "plan:backpack:ax-arc-3-k-9",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/ARC-3 K-9 drone"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:b1678cee5057063b",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "HealthComponentData",
+      "domain": "entity",
+      "apiFieldConstant": "hd2.fields.entity.health",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": "BastionReArmored",
+        "proof": "research/main-hp-proof.md: 100,000 main HP is live (Bastion)",
+        "provenOn": [
+          "FX-12 Shield Generator Relay",
+          "TD-220 Bastion MK XVI"
+        ],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "The Guard Dog drone entity the backpack deploys (backpack DepositComponent +24, re-proven before every write). Exact published Main Health 100 / Very Light. Applies to drones deployed after the write; not yet shown in game.",
+      "min": 1,
+      "max": 1000000,
+      "correlations": [
+        {
+          "entity": "AX/ARC-3 K-9 drone",
+          "native": 100,
+          "published": 100
+        }
+      ],
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": true
+      }
+    },
+    {
+      "instanceKey": "backpack:ax-arc-3-k-9:ax-arc-3-k-9-linked-drone:entity.armor",
+      "semanticFieldId": "entity.armor",
+      "displayName": "Main armor",
+      "type": "integer",
+      "unit": "armor_class",
+      "currentDefault": 1,
+      "editable": false,
+      "reason": "Default-zone armor: the drone lists its body actors in damage zone 0, so this is only the fallback for an unlisted actor. Use the drone damage zone armor.",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/ARC-3 K-9",
+        "path": "linked",
+        "linked": "drone"
+      },
+      "backingObjectId": "backing:597e58e129e48ef0",
+      "operationGroup": "operation:2cc3c4068ebe673f",
+      "planGroup": "plan:backpack:ax-arc-3-k-9",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/ARC-3 K-9 drone"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:b1678cee5057063b",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "HealthComponentData",
+      "domain": "entity",
+      "apiFieldConstant": "hd2.fields.entity.armor",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": "BastionReArmored",
+        "proof": "research/armor-proof.md: default-zone AP was part of the AP9 gameplay proof (Bastion)",
+        "provenOn": [
+          "TD-220 Bastion MK XVI"
+        ],
         "sharedTypedSchema": true
       },
       "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:ax-arc-3-k-9:ax-arc-3-k-9-damage-zone-zone-0-drone:zone.armor",
+      "semanticFieldId": "zone.armor",
+      "displayName": "Zone armor",
+      "type": "integer",
+      "unit": "armor_class",
+      "currentDefault": 1,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/ARC-3 K-9",
+        "path": "damage_zone",
+        "linked": "drone",
+        "zone": "zone_0"
+      },
+      "backingObjectId": "backing:597e58e129e48ef0",
+      "operationGroup": "operation:0420be8d7f0edf2c",
+      "planGroup": "plan:backpack:ax-arc-3-k-9",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/ARC-3 K-9 drone"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:b1678cee5057063b",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "HealthComponentData",
+      "domain": "zone",
+      "apiFieldConstant": "hd2.fields.zone.armor",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": "BastionReArmored",
+        "proof": "research/armor-proof.md: the AP9 experiment succeeded in gameplay (Bastion)",
+        "provenOn": [
+          "TD-220 Bastion MK XVI"
+        ],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Drone body damage zone (9 hit actors); The Guard Dog drone entity the backpack deploys (backpack DepositComponent +24, re-proven before every write). Exact published Main Health 100 / Very Light. Applies to drones deployed after the write; not yet shown in game.",
+      "min": 0,
+      "max": 10,
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": true
+      }
+    },
+    {
+      "instanceKey": "backpack:ax-arc-3-k-9:ax-arc-3-k-9-damage-zone-zone-0-drone:zone.health",
+      "semanticFieldId": "zone.health",
+      "displayName": "Zone health",
+      "type": "integer",
+      "unit": "health",
+      "currentDefault": 100,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/ARC-3 K-9",
+        "path": "damage_zone",
+        "linked": "drone",
+        "zone": "zone_0"
+      },
+      "backingObjectId": "backing:597e58e129e48ef0",
+      "operationGroup": "operation:0420be8d7f0edf2c",
+      "planGroup": "plan:backpack:ax-arc-3-k-9",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/ARC-3 K-9 drone"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:b1678cee5057063b",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "HealthComponentData",
+      "domain": "zone",
+      "apiFieldConstant": "hd2.fields.zone.health",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": "ShieldRelayImprovements",
+        "proof": "docs/physical-hp-proof.md: slot-0 zone HP was written together with main HP in the gameplay-confirmed preset; its individual effect is not isolated",
+        "provenOn": [
+          "FX-12 Shield Generator Relay"
+        ],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Drone body damage zone (9 hit actors); The Guard Dog drone entity the backpack deploys (backpack DepositComponent +24, re-proven before every write). Exact published Main Health 100 / Very Light. Applies to drones deployed after the write; not yet shown in game.",
+      "min": 1,
+      "max": 1000000,
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": true
+      }
     },
     {
       "instanceKey": "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:recharge.time",
@@ -2051,8 +4214,8 @@
       "type": "number",
       "unit": "meters_per_second",
       "currentDefault": 40.0,
-      "editable": false,
-      "reason": "The member is proven on the Jump Pack only; the Hover Pack consumer uses distinct hover members and its launch semantics are unproven.",
+      "editable": true,
+      "reason": null,
       "target": {
         "resource": "backpack",
         "backpack": "LIFT-860 Hover Pack",
@@ -2086,17 +4249,81 @@
         ],
         "sharedTypedSchema": true
       },
-      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "The same typed member is gameplay-proven on the LIFT-850 Jump Pack; whether the Hover Pack launch reads it is not yet shown in game.",
+      "min": 0,
+      "max": 200
+    },
+    {
+      "instanceKey": "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.duration",
+      "semanticFieldId": "hover.duration",
+      "displayName": "Hover duration",
+      "type": "number",
+      "unit": "seconds",
+      "currentDefault": 6.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-860 Hover Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:f893e32732cc4072",
+      "operationGroup": "operation:e3301bd3584a2090",
+      "planGroup": "plan:backpack:lift-860-hover-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-860 Hover Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:dfd9389efe19b666",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "JumppackComponentData",
+      "domain": "hover",
+      "apiFieldConstant": "hd2.fields.hover.duration",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_correlated",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "correlations": [
+          {
+            "entity": "LIFT-860 Hover Pack",
+            "native": 6.0,
+            "published": 6.0
+          }
+        ]
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Seconds the Hover Pack holds its height: exact published six seconds, a member only the Hover Pack record sets (both jump-pack records hold -1); not yet shown in game.",
+      "effect": {
+        "activeSource": "DEFINITION_RECORD",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "Apply before the backpack is called in: the definition record is what a newly spawned backpack starts from; whether one already in the world re-reads it is not proven."
+      },
+      "min": 0,
+      "max": 120
     },
     {
       "instanceKey": "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.capacity",
       "semanticFieldId": "deposit.capacity",
-      "displayName": "Charge capacity",
+      "displayName": "Drone magazines the backpack holds",
       "type": "integer",
-      "unit": "charges",
+      "unit": "magazines",
       "currentDefault": 6,
-      "editable": false,
-      "reason": "Exact wiki correlation for drone backpacks and a typed schema member, but no reference mod has proven write semantics.",
+      "editable": true,
+      "reason": null,
       "target": {
         "resource": "backpack",
         "backpack": "AX/TX-13 Dog Breath",
@@ -2122,23 +4349,43 @@
       "planPhase": 1,
       "dependsOn": [],
       "evidence": {
-        "tier": "schema_proven",
+        "tier": "native_correlated",
         "referenceMod": null,
         "proof": null,
         "provenOn": [],
-        "sharedTypedSchema": true
+        "sharedTypedSchema": false,
+        "correlations": [
+          {
+            "entity": "AX/TX-13 Dog Breath",
+            "native": 6,
+            "published": 6
+          }
+        ]
       },
-      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Exact published Max Rounds / Starting Rounds / Mags from Supply on all five Guard Dog backpacks at the typed DepositComponent members; not yet shown in game.",
+      "effect": {
+        "activeSource": "DEFINITION_RECORD",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "Apply before the backpack is called in: the definition record is what a newly spawned backpack starts from; whether one already in the world re-reads it is not proven."
+      },
+      "uiGroup": "drone_magazines",
+      "min": 1,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply"
     },
     {
       "instanceKey": "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.start_amount",
       "semanticFieldId": "deposit.start_amount",
-      "displayName": "Starting charges",
+      "displayName": "Drone magazines at call-in",
       "type": "integer",
-      "unit": "charges",
+      "unit": "magazines",
       "currentDefault": 6,
-      "editable": false,
-      "reason": "Exact wiki correlation for drone backpacks and a typed schema member, but no reference mod has proven write semantics.",
+      "editable": true,
+      "reason": null,
       "target": {
         "resource": "backpack",
         "backpack": "AX/TX-13 Dog Breath",
@@ -2164,23 +4411,43 @@
       "planPhase": 1,
       "dependsOn": [],
       "evidence": {
-        "tier": "schema_proven",
+        "tier": "native_correlated",
         "referenceMod": null,
         "proof": null,
         "provenOn": [],
-        "sharedTypedSchema": true
+        "sharedTypedSchema": false,
+        "correlations": [
+          {
+            "entity": "AX/TX-13 Dog Breath",
+            "native": 6,
+            "published": 6
+          }
+        ]
       },
-      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Exact published Max Rounds / Starting Rounds / Mags from Supply on all five Guard Dog backpacks at the typed DepositComponent members; not yet shown in game.",
+      "effect": {
+        "activeSource": "DEFINITION_RECORD",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "Apply before the backpack is called in: the definition record is what a newly spawned backpack starts from; whether one already in the world re-reads it is not proven."
+      },
+      "uiGroup": "drone_magazines",
+      "min": 0,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply"
     },
     {
       "instanceKey": "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.refill_amount",
       "semanticFieldId": "deposit.refill_amount",
-      "displayName": "Charges per resupply",
+      "displayName": "Drone magazines from supply",
       "type": "integer",
-      "unit": "charges",
+      "unit": "magazines",
       "currentDefault": 6,
-      "editable": false,
-      "reason": "Typed schema member without wiki correlation or proven write semantics.",
+      "editable": true,
+      "reason": null,
       "target": {
         "resource": "backpack",
         "backpack": "AX/TX-13 Dog Breath",
@@ -2206,13 +4473,978 @@
       "planPhase": 1,
       "dependsOn": [],
       "evidence": {
-        "tier": "schema_proven",
+        "tier": "native_correlated",
         "referenceMod": null,
         "proof": null,
         "provenOn": [],
+        "sharedTypedSchema": false,
+        "correlations": [
+          {
+            "entity": "AX/TX-13 Dog Breath",
+            "native": 6,
+            "published": 6
+          }
+        ]
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Exact published Max Rounds / Starting Rounds / Mags from Supply on all five Guard Dog backpacks at the typed DepositComponent members; not yet shown in game.",
+      "effect": {
+        "activeSource": "DEFINITION_RECORD",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "Apply before the backpack is called in: the definition record is what a newly spawned backpack starts from; whether one already in the world re-reads it is not proven."
+      },
+      "uiGroup": "drone_magazines",
+      "min": 0,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply"
+    },
+    {
+      "instanceKey": "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-linked-drone:entity.health",
+      "semanticFieldId": "entity.health",
+      "displayName": "Main health",
+      "type": "integer",
+      "unit": "health",
+      "currentDefault": 100,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/TX-13 Dog Breath",
+        "path": "linked",
+        "linked": "drone"
+      },
+      "backingObjectId": "backing:3d06f4ad40c9ead5",
+      "operationGroup": "operation:5343e36e71632a7f",
+      "planGroup": "plan:backpack:ax-tx-13-dog-breath",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/TX-13 Dog Breath drone"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:9957626c32c9ed67",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "HealthComponentData",
+      "domain": "entity",
+      "apiFieldConstant": "hd2.fields.entity.health",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": "BastionReArmored",
+        "proof": "research/main-hp-proof.md: 100,000 main HP is live (Bastion)",
+        "provenOn": [
+          "FX-12 Shield Generator Relay",
+          "TD-220 Bastion MK XVI"
+        ],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "The Guard Dog drone entity the backpack deploys (backpack DepositComponent +24, re-proven before every write). Exact published Main Health 100 / Very Light. Applies to drones deployed after the write; not yet shown in game.",
+      "min": 1,
+      "max": 1000000,
+      "correlations": [
+        {
+          "entity": "AX/TX-13 Dog Breath drone",
+          "native": 100,
+          "published": 100
+        }
+      ],
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": true
+      }
+    },
+    {
+      "instanceKey": "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-linked-drone:entity.armor",
+      "semanticFieldId": "entity.armor",
+      "displayName": "Main armor",
+      "type": "integer",
+      "unit": "armor_class",
+      "currentDefault": 1,
+      "editable": false,
+      "reason": "Default-zone armor: the drone lists its body actors in damage zone 0, so this is only the fallback for an unlisted actor. Use the drone damage zone armor.",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/TX-13 Dog Breath",
+        "path": "linked",
+        "linked": "drone"
+      },
+      "backingObjectId": "backing:3d06f4ad40c9ead5",
+      "operationGroup": "operation:5343e36e71632a7f",
+      "planGroup": "plan:backpack:ax-tx-13-dog-breath",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/TX-13 Dog Breath drone"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:9957626c32c9ed67",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "HealthComponentData",
+      "domain": "entity",
+      "apiFieldConstant": "hd2.fields.entity.armor",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": "BastionReArmored",
+        "proof": "research/armor-proof.md: default-zone AP was part of the AP9 gameplay proof (Bastion)",
+        "provenOn": [
+          "TD-220 Bastion MK XVI"
+        ],
         "sharedTypedSchema": true
       },
       "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-damage-zone-zone-0-drone:zone.armor",
+      "semanticFieldId": "zone.armor",
+      "displayName": "Zone armor",
+      "type": "integer",
+      "unit": "armor_class",
+      "currentDefault": 1,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/TX-13 Dog Breath",
+        "path": "damage_zone",
+        "linked": "drone",
+        "zone": "zone_0"
+      },
+      "backingObjectId": "backing:3d06f4ad40c9ead5",
+      "operationGroup": "operation:34da3d6c6159359e",
+      "planGroup": "plan:backpack:ax-tx-13-dog-breath",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/TX-13 Dog Breath drone"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:9957626c32c9ed67",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "HealthComponentData",
+      "domain": "zone",
+      "apiFieldConstant": "hd2.fields.zone.armor",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": "BastionReArmored",
+        "proof": "research/armor-proof.md: the AP9 experiment succeeded in gameplay (Bastion)",
+        "provenOn": [
+          "TD-220 Bastion MK XVI"
+        ],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Drone body damage zone (9 hit actors); The Guard Dog drone entity the backpack deploys (backpack DepositComponent +24, re-proven before every write). Exact published Main Health 100 / Very Light. Applies to drones deployed after the write; not yet shown in game.",
+      "min": 0,
+      "max": 10,
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": true
+      }
+    },
+    {
+      "instanceKey": "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-damage-zone-zone-0-drone:zone.health",
+      "semanticFieldId": "zone.health",
+      "displayName": "Zone health",
+      "type": "integer",
+      "unit": "health",
+      "currentDefault": 100,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/TX-13 Dog Breath",
+        "path": "damage_zone",
+        "linked": "drone",
+        "zone": "zone_0"
+      },
+      "backingObjectId": "backing:3d06f4ad40c9ead5",
+      "operationGroup": "operation:34da3d6c6159359e",
+      "planGroup": "plan:backpack:ax-tx-13-dog-breath",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/TX-13 Dog Breath drone"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:9957626c32c9ed67",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "HealthComponentData",
+      "domain": "zone",
+      "apiFieldConstant": "hd2.fields.zone.health",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": "ShieldRelayImprovements",
+        "proof": "docs/physical-hp-proof.md: slot-0 zone HP was written together with main HP in the gameplay-confirmed preset; its individual effect is not isolated",
+        "provenOn": [
+          "FX-12 Shield Generator Relay"
+        ],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Drone body damage zone (9 hit actors); The Guard Dog drone entity the backpack deploys (backpack DepositComponent +24, re-proven before every write). Exact published Main Health 100 / Very Light. Applies to drones deployed after the write; not yet shown in game.",
+      "min": 1,
+      "max": 1000000,
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": true
+      }
+    },
+    {
+      "instanceKey": "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.distance",
+      "semanticFieldId": "warp.distance",
+      "displayName": "Warp distance",
+      "type": "number",
+      "unit": "meters",
+      "currentDefault": 10.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-182 Warp Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:90618b3c11cdeb96",
+      "operationGroup": "operation:94a0bb615a26443b",
+      "planGroup": "plan:backpack:lift-182-warp-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-182 Warp Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:8e05accccc5e666b",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DisplacementComponentData",
+      "domain": "warp",
+      "apiFieldConstant": "hd2.fields.warp.distance",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_correlated",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "correlations": [
+          {
+            "entity": "LIFT-182 Warp Pack",
+            "native": 10.0,
+            "published": 10.0
+          }
+        ]
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Exact published LIFT-182 value at a typed DisplacementComponent member (one owner, the Warp Pack); not yet shown in game.",
+      "effect": {
+        "activeSource": "DEFINITION_RECORD",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "Apply before the backpack is called in: the definition record is what a newly spawned backpack starts from; whether one already in the world re-reads it is not proven."
+      },
+      "min": 0,
+      "max": 100
+    },
+    {
+      "instanceKey": "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.upward_bias",
+      "semanticFieldId": "warp.upward_bias",
+      "displayName": "Warp upward bias",
+      "type": "number",
+      "unit": "meters",
+      "currentDefault": 1.4,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-182 Warp Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:90618b3c11cdeb96",
+      "operationGroup": "operation:94a0bb615a26443b",
+      "planGroup": "plan:backpack:lift-182-warp-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-182 Warp Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:8e05accccc5e666b",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DisplacementComponentData",
+      "domain": "warp",
+      "apiFieldConstant": "hd2.fields.warp.upward_bias",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_correlated",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "correlations": [
+          {
+            "entity": "LIFT-182 Warp Pack",
+            "native": 1.4,
+            "published": 1.4
+          }
+        ]
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Exact published LIFT-182 value at a typed DisplacementComponent member (one owner, the Warp Pack); not yet shown in game.",
+      "effect": {
+        "activeSource": "DEFINITION_RECORD",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "Apply before the backpack is called in: the definition record is what a newly spawned backpack starts from; whether one already in the world re-reads it is not proven."
+      },
+      "min": 0,
+      "max": 50
+    },
+    {
+      "instanceKey": "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.downward_bias",
+      "semanticFieldId": "warp.downward_bias",
+      "displayName": "Warp downward bias",
+      "type": "number",
+      "unit": "meters",
+      "currentDefault": 4.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-182 Warp Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:90618b3c11cdeb96",
+      "operationGroup": "operation:94a0bb615a26443b",
+      "planGroup": "plan:backpack:lift-182-warp-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-182 Warp Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:8e05accccc5e666b",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DisplacementComponentData",
+      "domain": "warp",
+      "apiFieldConstant": "hd2.fields.warp.downward_bias",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_correlated",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "correlations": [
+          {
+            "entity": "LIFT-182 Warp Pack",
+            "native": 4.0,
+            "published": 4.0
+          }
+        ]
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Exact published LIFT-182 value at a typed DisplacementComponent member (one owner, the Warp Pack); not yet shown in game.",
+      "effect": {
+        "activeSource": "DEFINITION_RECORD",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "Apply before the backpack is called in: the definition record is what a newly spawned backpack starts from; whether one already in the world re-reads it is not proven."
+      },
+      "min": 0,
+      "max": 50
+    },
+    {
+      "instanceKey": "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.safe_heat_threshold",
+      "semanticFieldId": "warp.safe_heat_threshold",
+      "displayName": "Safe heat threshold",
+      "type": "number",
+      "unit": "percent",
+      "currentDefault": 15.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-182 Warp Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:90618b3c11cdeb96",
+      "operationGroup": "operation:94a0bb615a26443b",
+      "planGroup": "plan:backpack:lift-182-warp-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-182 Warp Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:8e05accccc5e666b",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DisplacementComponentData",
+      "domain": "warp",
+      "apiFieldConstant": "hd2.fields.warp.safe_heat_threshold",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_correlated",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "correlations": [
+          {
+            "entity": "LIFT-182 Warp Pack",
+            "native": 15.0,
+            "published": 15.0
+          }
+        ]
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Exact published LIFT-182 value at a typed DisplacementComponent member (one owner, the Warp Pack); not yet shown in game.",
+      "effect": {
+        "activeSource": "DEFINITION_RECORD",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "Apply before the backpack is called in: the definition record is what a newly spawned backpack starts from; whether one already in the world re-reads it is not proven."
+      },
+      "min": 0,
+      "max": 100
+    },
+    {
+      "instanceKey": "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.unsafe_heat_threshold",
+      "semanticFieldId": "warp.unsafe_heat_threshold",
+      "displayName": "Unsafe heat threshold",
+      "type": "number",
+      "unit": "percent",
+      "currentDefault": 45.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-182 Warp Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:90618b3c11cdeb96",
+      "operationGroup": "operation:94a0bb615a26443b",
+      "planGroup": "plan:backpack:lift-182-warp-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-182 Warp Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:8e05accccc5e666b",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DisplacementComponentData",
+      "domain": "warp",
+      "apiFieldConstant": "hd2.fields.warp.unsafe_heat_threshold",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_correlated",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "correlations": [
+          {
+            "entity": "LIFT-182 Warp Pack",
+            "native": 45.0,
+            "published": 45.0
+          }
+        ]
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Exact published LIFT-182 value at a typed DisplacementComponent member (one owner, the Warp Pack); not yet shown in game.",
+      "effect": {
+        "activeSource": "DEFINITION_RECORD",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "Apply before the backpack is called in: the definition record is what a newly spawned backpack starts from; whether one already in the world re-reads it is not proven."
+      },
+      "min": 0,
+      "max": 100
+    },
+    {
+      "instanceKey": "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.heat_per_use",
+      "semanticFieldId": "warp.heat_per_use",
+      "displayName": "Heat per warp",
+      "type": "number",
+      "unit": "percent",
+      "currentDefault": 33.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-182 Warp Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:90618b3c11cdeb96",
+      "operationGroup": "operation:94a0bb615a26443b",
+      "planGroup": "plan:backpack:lift-182-warp-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-182 Warp Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:8e05accccc5e666b",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DisplacementComponentData",
+      "domain": "warp",
+      "apiFieldConstant": "hd2.fields.warp.heat_per_use",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_correlated",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "correlations": [
+          {
+            "entity": "LIFT-182 Warp Pack",
+            "native": 33.0,
+            "published": 33.0
+          }
+        ]
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Exact published LIFT-182 value at a typed DisplacementComponent member (one owner, the Warp Pack); not yet shown in game.",
+      "effect": {
+        "activeSource": "DEFINITION_RECORD",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "Apply before the backpack is called in: the definition record is what a newly spawned backpack starts from; whether one already in the world re-reads it is not proven."
+      },
+      "min": 0,
+      "max": 100
+    },
+    {
+      "instanceKey": "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.heat_cooldown_per_second",
+      "semanticFieldId": "warp.heat_cooldown_per_second",
+      "displayName": "Heat cooldown",
+      "type": "number",
+      "unit": "percent_per_second",
+      "currentDefault": 6.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-182 Warp Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:90618b3c11cdeb96",
+      "operationGroup": "operation:94a0bb615a26443b",
+      "planGroup": "plan:backpack:lift-182-warp-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-182 Warp Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:8e05accccc5e666b",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DisplacementComponentData",
+      "domain": "warp",
+      "apiFieldConstant": "hd2.fields.warp.heat_cooldown_per_second",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_correlated",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "correlations": [
+          {
+            "entity": "LIFT-182 Warp Pack",
+            "native": 6.0,
+            "published": 6.0
+          }
+        ]
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Exact published LIFT-182 value at a typed DisplacementComponent member (one owner, the Warp Pack); not yet shown in game.",
+      "effect": {
+        "activeSource": "DEFINITION_RECORD",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "Apply before the backpack is called in: the definition record is what a newly spawned backpack starts from; whether one already in the world re-reads it is not proven."
+      },
+      "min": 0,
+      "max": 100
+    },
+    {
+      "instanceKey": "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.head_injury_damage",
+      "semanticFieldId": "warp.head_injury_damage",
+      "displayName": "Unsafe-warp damage: head",
+      "type": "number",
+      "unit": "damage",
+      "currentDefault": 10.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-182 Warp Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:90618b3c11cdeb96",
+      "operationGroup": "operation:94a0bb615a26443b",
+      "planGroup": "plan:backpack:lift-182-warp-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-182 Warp Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:8e05accccc5e666b",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DisplacementComponentData",
+      "domain": "warp",
+      "apiFieldConstant": "hd2.fields.warp.head_injury_damage",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_correlated",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "correlations": [
+          {
+            "entity": "LIFT-182 Warp Pack",
+            "native": 10.0,
+            "published": 10.0,
+            "limb": "head"
+          }
+        ]
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Damage dealt to this limb by an unsafe warp: HeatInjuryInfo entry named by the native limb (exact published values: head 10, arms 35, legs 45); not yet shown in game.",
+      "effect": {
+        "activeSource": "DEFINITION_RECORD",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "Apply before the backpack is called in: the definition record is what a newly spawned backpack starts from; whether one already in the world re-reads it is not proven."
+      },
+      "min": 0,
+      "max": 1000
+    },
+    {
+      "instanceKey": "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.left_arm_injury_damage",
+      "semanticFieldId": "warp.left_arm_injury_damage",
+      "displayName": "Unsafe-warp damage: left arm",
+      "type": "number",
+      "unit": "damage",
+      "currentDefault": 35.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-182 Warp Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:90618b3c11cdeb96",
+      "operationGroup": "operation:94a0bb615a26443b",
+      "planGroup": "plan:backpack:lift-182-warp-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-182 Warp Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:8e05accccc5e666b",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DisplacementComponentData",
+      "domain": "warp",
+      "apiFieldConstant": "hd2.fields.warp.left_arm_injury_damage",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_correlated",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "correlations": [
+          {
+            "entity": "LIFT-182 Warp Pack",
+            "native": 35.0,
+            "published": 35.0,
+            "limb": "l_hand"
+          }
+        ]
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Damage dealt to this limb by an unsafe warp: HeatInjuryInfo entry named by the native limb (exact published values: head 10, arms 35, legs 45); not yet shown in game.",
+      "effect": {
+        "activeSource": "DEFINITION_RECORD",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "Apply before the backpack is called in: the definition record is what a newly spawned backpack starts from; whether one already in the world re-reads it is not proven."
+      },
+      "min": 0,
+      "max": 1000
+    },
+    {
+      "instanceKey": "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.right_arm_injury_damage",
+      "semanticFieldId": "warp.right_arm_injury_damage",
+      "displayName": "Unsafe-warp damage: right arm",
+      "type": "number",
+      "unit": "damage",
+      "currentDefault": 35.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-182 Warp Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:90618b3c11cdeb96",
+      "operationGroup": "operation:94a0bb615a26443b",
+      "planGroup": "plan:backpack:lift-182-warp-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-182 Warp Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:8e05accccc5e666b",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DisplacementComponentData",
+      "domain": "warp",
+      "apiFieldConstant": "hd2.fields.warp.right_arm_injury_damage",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_correlated",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "correlations": [
+          {
+            "entity": "LIFT-182 Warp Pack",
+            "native": 35.0,
+            "published": 35.0,
+            "limb": "r_hand"
+          }
+        ]
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Damage dealt to this limb by an unsafe warp: HeatInjuryInfo entry named by the native limb (exact published values: head 10, arms 35, legs 45); not yet shown in game.",
+      "effect": {
+        "activeSource": "DEFINITION_RECORD",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "Apply before the backpack is called in: the definition record is what a newly spawned backpack starts from; whether one already in the world re-reads it is not proven."
+      },
+      "min": 0,
+      "max": 1000
+    },
+    {
+      "instanceKey": "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.left_leg_injury_damage",
+      "semanticFieldId": "warp.left_leg_injury_damage",
+      "displayName": "Unsafe-warp damage: left leg",
+      "type": "number",
+      "unit": "damage",
+      "currentDefault": 45.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-182 Warp Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:90618b3c11cdeb96",
+      "operationGroup": "operation:94a0bb615a26443b",
+      "planGroup": "plan:backpack:lift-182-warp-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-182 Warp Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:8e05accccc5e666b",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DisplacementComponentData",
+      "domain": "warp",
+      "apiFieldConstant": "hd2.fields.warp.left_leg_injury_damage",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_correlated",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "correlations": [
+          {
+            "entity": "LIFT-182 Warp Pack",
+            "native": 45.0,
+            "published": 45.0,
+            "limb": "l_knee"
+          }
+        ]
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Damage dealt to this limb by an unsafe warp: HeatInjuryInfo entry named by the native limb (exact published values: head 10, arms 35, legs 45); not yet shown in game.",
+      "effect": {
+        "activeSource": "DEFINITION_RECORD",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "Apply before the backpack is called in: the definition record is what a newly spawned backpack starts from; whether one already in the world re-reads it is not proven."
+      },
+      "min": 0,
+      "max": 1000
+    },
+    {
+      "instanceKey": "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.right_leg_injury_damage",
+      "semanticFieldId": "warp.right_leg_injury_damage",
+      "displayName": "Unsafe-warp damage: right leg",
+      "type": "number",
+      "unit": "damage",
+      "currentDefault": 45.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-182 Warp Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:90618b3c11cdeb96",
+      "operationGroup": "operation:94a0bb615a26443b",
+      "planGroup": "plan:backpack:lift-182-warp-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-182 Warp Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:8e05accccc5e666b",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DisplacementComponentData",
+      "domain": "warp",
+      "apiFieldConstant": "hd2.fields.warp.right_leg_injury_damage",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_correlated",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "correlations": [
+          {
+            "entity": "LIFT-182 Warp Pack",
+            "native": 45.0,
+            "published": 45.0,
+            "limb": "r_knee"
+          }
+        ]
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Damage dealt to this limb by an unsafe warp: HeatInjuryInfo entry named by the native limb (exact published values: head 10, arms 35, legs 45); not yet shown in game.",
+      "effect": {
+        "activeSource": "DEFINITION_RECORD",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "Apply before the backpack is called in: the definition record is what a newly spawned backpack starts from; whether one already in the world re-reads it is not proven."
+      },
+      "min": 0,
+      "max": 1000
     },
     {
       "instanceKey": "backpack:b-flam-80-cremator-backpack:b-flam-80-cremator-backpack-backpack:deposit.capacity",
@@ -2725,6 +5957,23 @@
       ]
     },
     {
+      "backingObjectId": "backing:2bb02c0212acae41",
+      "kind": "HealthComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/AR-23 Guard Dog drone"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:c258df7c4f0b873b",
+      "fieldInstances": [
+        "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-linked-drone:entity.health",
+        "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-linked-drone:entity.armor",
+        "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-damage-zone-zone-0-drone:zone.armor",
+        "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-damage-zone-zone-0-drone:zone.health"
+      ]
+    },
+    {
       "backingObjectId": "backing:de444380e0f5afe4",
       "kind": "DepositComponentData",
       "shared": false,
@@ -2741,6 +5990,23 @@
       ]
     },
     {
+      "backingObjectId": "backing:41ccee9074f5f0b2",
+      "kind": "HealthComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/LAS-5 Rover drone"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:dbd7e31a9ec6adde",
+      "fieldInstances": [
+        "backpack:ax-las-5-rover:ax-las-5-rover-linked-drone:entity.health",
+        "backpack:ax-las-5-rover:ax-las-5-rover-linked-drone:entity.armor",
+        "backpack:ax-las-5-rover:ax-las-5-rover-damage-zone-zone-0-drone:zone.armor",
+        "backpack:ax-las-5-rover:ax-las-5-rover-damage-zone-zone-0-drone:zone.health"
+      ]
+    },
+    {
       "backingObjectId": "backing:2cdf37b6c8ba5159",
       "kind": "ShieldComponentData",
       "shared": false,
@@ -2752,7 +6018,10 @@
       "sharedScopeKey": "shared-scope:a5423330f8e5d464",
       "fieldInstances": [
         "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.radius",
-        "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.durability"
+        "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.durability",
+        "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.recharge_delay",
+        "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.broken_recharge_delay",
+        "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.recharge_rate"
       ]
     },
     {
@@ -2771,6 +6040,40 @@
       ]
     },
     {
+      "backingObjectId": "backing:7ca36914033899d2",
+      "kind": "ShieldComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "SH-51 Directional Shield energy barrier"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:e1179c67e15f982c",
+      "fieldInstances": [
+        "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:shield.durability",
+        "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:shield.recharge_delay",
+        "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:shield.broken_recharge_delay",
+        "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:shield.recharge_rate",
+        "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:shield.radius"
+      ]
+    },
+    {
+      "backingObjectId": "backing:8f2ed59109d3499f",
+      "kind": "HealthComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "SH-51 Directional Shield energy barrier"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:560f9c208c153979",
+      "fieldInstances": [
+        "backpack:sh-51-directional-shield:sh-51-directional-shield-damage-zone-zone-0-energy-shield:zone.armor",
+        "backpack:sh-51-directional-shield:sh-51-directional-shield-damage-zone-zone-0-energy-shield:zone.health",
+        "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:entity.armor"
+      ]
+    },
+    {
       "backingObjectId": "backing:7aad90087847d0c0",
       "kind": "DepositComponentData",
       "shared": false,
@@ -2784,6 +6087,23 @@
         "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-backpack:deposit.capacity",
         "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-backpack:deposit.start_amount",
         "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-backpack:deposit.refill_amount"
+      ]
+    },
+    {
+      "backingObjectId": "backing:12cb210386be0167",
+      "kind": "HealthComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/FLAM-75 Hot Dog drone"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:0ff73438661c97bf",
+      "fieldInstances": [
+        "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-linked-drone:entity.health",
+        "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-linked-drone:entity.armor",
+        "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-damage-zone-zone-0-drone:zone.armor",
+        "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-damage-zone-zone-0-drone:zone.health"
       ]
     },
     {
@@ -2819,6 +6139,23 @@
       ]
     },
     {
+      "backingObjectId": "backing:597e58e129e48ef0",
+      "kind": "HealthComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/ARC-3 K-9 drone"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:b1678cee5057063b",
+      "fieldInstances": [
+        "backpack:ax-arc-3-k-9:ax-arc-3-k-9-linked-drone:entity.health",
+        "backpack:ax-arc-3-k-9:ax-arc-3-k-9-linked-drone:entity.armor",
+        "backpack:ax-arc-3-k-9:ax-arc-3-k-9-damage-zone-zone-0-drone:zone.armor",
+        "backpack:ax-arc-3-k-9:ax-arc-3-k-9-damage-zone-zone-0-drone:zone.health"
+      ]
+    },
+    {
       "backingObjectId": "backing:8bd6413bf6cc877e",
       "kind": "RechargeComponentData",
       "shared": false,
@@ -2843,7 +6180,8 @@
       ],
       "sharedScopeKey": "shared-scope:dfd9389efe19b666",
       "fieldInstances": [
-        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.vertical_launch_velocity"
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.vertical_launch_velocity",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.duration"
       ]
     },
     {
@@ -2860,6 +6198,48 @@
         "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.capacity",
         "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.start_amount",
         "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.refill_amount"
+      ]
+    },
+    {
+      "backingObjectId": "backing:3d06f4ad40c9ead5",
+      "kind": "HealthComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/TX-13 Dog Breath drone"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:9957626c32c9ed67",
+      "fieldInstances": [
+        "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-linked-drone:entity.health",
+        "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-linked-drone:entity.armor",
+        "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-damage-zone-zone-0-drone:zone.armor",
+        "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-damage-zone-zone-0-drone:zone.health"
+      ]
+    },
+    {
+      "backingObjectId": "backing:90618b3c11cdeb96",
+      "kind": "DisplacementComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-182 Warp Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:8e05accccc5e666b",
+      "fieldInstances": [
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.distance",
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.upward_bias",
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.downward_bias",
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.safe_heat_threshold",
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.unsafe_heat_threshold",
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.heat_per_use",
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.heat_cooldown_per_second",
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.head_injury_damage",
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.left_arm_injury_damage",
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.right_arm_injury_damage",
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.left_leg_injury_damage",
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.right_leg_injury_damage"
       ]
     },
     {
@@ -3003,6 +6383,39 @@
       "allowSharedRequired": false
     },
     {
+      "operationGroup": "operation:2b1a3a1f16e8ff8a",
+      "backingObjectId": "backing:2bb02c0212acae41",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/AR-23 Guard Dog",
+        "path": "linked",
+        "linked": "drone"
+      },
+      "fieldInstances": [
+        "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-linked-drone:entity.health",
+        "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-linked-drone:entity.armor"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:cc7e87d2a2d27bec",
+      "backingObjectId": "backing:2bb02c0212acae41",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/AR-23 Guard Dog",
+        "path": "damage_zone",
+        "linked": "drone",
+        "zone": "zone_0"
+      },
+      "fieldInstances": [
+        "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-damage-zone-zone-0-drone:zone.armor",
+        "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-damage-zone-zone-0-drone:zone.health"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false
+    },
+    {
       "operationGroup": "operation:42e7225d601d44bb",
       "backingObjectId": "backing:de444380e0f5afe4",
       "target": {
@@ -3019,6 +6432,39 @@
       "allowSharedRequired": false
     },
     {
+      "operationGroup": "operation:95639a27e2bf6760",
+      "backingObjectId": "backing:41ccee9074f5f0b2",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/LAS-5 Rover",
+        "path": "linked",
+        "linked": "drone"
+      },
+      "fieldInstances": [
+        "backpack:ax-las-5-rover:ax-las-5-rover-linked-drone:entity.health",
+        "backpack:ax-las-5-rover:ax-las-5-rover-linked-drone:entity.armor"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:3eff40142dd79ae6",
+      "backingObjectId": "backing:41ccee9074f5f0b2",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/LAS-5 Rover",
+        "path": "damage_zone",
+        "linked": "drone",
+        "zone": "zone_0"
+      },
+      "fieldInstances": [
+        "backpack:ax-las-5-rover:ax-las-5-rover-damage-zone-zone-0-drone:zone.armor",
+        "backpack:ax-las-5-rover:ax-las-5-rover-damage-zone-zone-0-drone:zone.health"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false
+    },
+    {
       "operationGroup": "operation:b0ccd56873ca789c",
       "backingObjectId": "backing:2cdf37b6c8ba5159",
       "target": {
@@ -3028,7 +6474,10 @@
       },
       "fieldInstances": [
         "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.radius",
-        "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.durability"
+        "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.durability",
+        "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.recharge_delay",
+        "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.broken_recharge_delay",
+        "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.recharge_rate"
       ],
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false
@@ -3049,6 +6498,57 @@
       "allowSharedRequired": false
     },
     {
+      "operationGroup": "operation:b8a962e6730d94bd",
+      "backingObjectId": "backing:7ca36914033899d2",
+      "target": {
+        "resource": "backpack",
+        "backpack": "SH-51 Directional Shield",
+        "path": "linked",
+        "linked": "energy_shield"
+      },
+      "fieldInstances": [
+        "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:shield.durability",
+        "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:shield.recharge_delay",
+        "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:shield.broken_recharge_delay",
+        "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:shield.recharge_rate",
+        "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:shield.radius"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:470ee7ac3182dcd7",
+      "backingObjectId": "backing:8f2ed59109d3499f",
+      "target": {
+        "resource": "backpack",
+        "backpack": "SH-51 Directional Shield",
+        "path": "damage_zone",
+        "linked": "energy_shield",
+        "zone": "zone_0"
+      },
+      "fieldInstances": [
+        "backpack:sh-51-directional-shield:sh-51-directional-shield-damage-zone-zone-0-energy-shield:zone.armor",
+        "backpack:sh-51-directional-shield:sh-51-directional-shield-damage-zone-zone-0-energy-shield:zone.health"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:4767bb28a933bc38",
+      "backingObjectId": "backing:8f2ed59109d3499f",
+      "target": {
+        "resource": "backpack",
+        "backpack": "SH-51 Directional Shield",
+        "path": "linked",
+        "linked": "energy_shield"
+      },
+      "fieldInstances": [
+        "backpack:sh-51-directional-shield:sh-51-directional-shield-linked-energy-shield:entity.armor"
+      ],
+      "recommendedApi": "hd2.patch",
+      "allowSharedRequired": false
+    },
+    {
       "operationGroup": "operation:77e6bc95ac968e04",
       "backingObjectId": "backing:7aad90087847d0c0",
       "target": {
@@ -3060,6 +6560,39 @@
         "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-backpack:deposit.capacity",
         "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-backpack:deposit.start_amount",
         "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-backpack:deposit.refill_amount"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:96c6178aece6cb96",
+      "backingObjectId": "backing:12cb210386be0167",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/FLAM-75 Hot Dog",
+        "path": "linked",
+        "linked": "drone"
+      },
+      "fieldInstances": [
+        "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-linked-drone:entity.health",
+        "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-linked-drone:entity.armor"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:9f3095288501f9f0",
+      "backingObjectId": "backing:12cb210386be0167",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/FLAM-75 Hot Dog",
+        "path": "damage_zone",
+        "linked": "drone",
+        "zone": "zone_0"
+      },
+      "fieldInstances": [
+        "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-damage-zone-zone-0-drone:zone.armor",
+        "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-damage-zone-zone-0-drone:zone.health"
       ],
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false
@@ -3097,6 +6630,39 @@
       "allowSharedRequired": false
     },
     {
+      "operationGroup": "operation:2cc3c4068ebe673f",
+      "backingObjectId": "backing:597e58e129e48ef0",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/ARC-3 K-9",
+        "path": "linked",
+        "linked": "drone"
+      },
+      "fieldInstances": [
+        "backpack:ax-arc-3-k-9:ax-arc-3-k-9-linked-drone:entity.health",
+        "backpack:ax-arc-3-k-9:ax-arc-3-k-9-linked-drone:entity.armor"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:0420be8d7f0edf2c",
+      "backingObjectId": "backing:597e58e129e48ef0",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/ARC-3 K-9",
+        "path": "damage_zone",
+        "linked": "drone",
+        "zone": "zone_0"
+      },
+      "fieldInstances": [
+        "backpack:ax-arc-3-k-9:ax-arc-3-k-9-damage-zone-zone-0-drone:zone.armor",
+        "backpack:ax-arc-3-k-9:ax-arc-3-k-9-damage-zone-zone-0-drone:zone.health"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false
+    },
+    {
       "operationGroup": "operation:93dfd3f6dbc347b2",
       "backingObjectId": "backing:8bd6413bf6cc877e",
       "target": {
@@ -3119,9 +6685,10 @@
         "path": "backpack"
       },
       "fieldInstances": [
-        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.vertical_launch_velocity"
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.vertical_launch_velocity",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.duration"
       ],
-      "recommendedApi": "hd2.patch",
+      "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false
     },
     {
@@ -3136,6 +6703,64 @@
         "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.capacity",
         "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.start_amount",
         "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.refill_amount"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:5343e36e71632a7f",
+      "backingObjectId": "backing:3d06f4ad40c9ead5",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/TX-13 Dog Breath",
+        "path": "linked",
+        "linked": "drone"
+      },
+      "fieldInstances": [
+        "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-linked-drone:entity.health",
+        "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-linked-drone:entity.armor"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:34da3d6c6159359e",
+      "backingObjectId": "backing:3d06f4ad40c9ead5",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/TX-13 Dog Breath",
+        "path": "damage_zone",
+        "linked": "drone",
+        "zone": "zone_0"
+      },
+      "fieldInstances": [
+        "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-damage-zone-zone-0-drone:zone.armor",
+        "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-damage-zone-zone-0-drone:zone.health"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:94a0bb615a26443b",
+      "backingObjectId": "backing:90618b3c11cdeb96",
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-182 Warp Pack",
+        "path": "backpack"
+      },
+      "fieldInstances": [
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.distance",
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.upward_bias",
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.downward_bias",
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.safe_heat_threshold",
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.unsafe_heat_threshold",
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.heat_per_use",
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.heat_cooldown_per_second",
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.head_injury_damage",
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.left_arm_injury_damage",
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.right_arm_injury_damage",
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.left_leg_injury_damage",
+        "backpack:lift-182-warp-pack:lift-182-warp-pack-backpack:warp.right_leg_injury_damage"
       ],
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false
@@ -3193,18 +6818,20 @@
     "gameplay_proven": "Reference mod confirmed this field on this entity in gameplay.",
     "gameplay_proven_combined": "Written as part of a gameplay-confirmed edit; its individual effect is not isolated.",
     "schema_proven": "Same typed native member was gameplay-proven on another entity of this record type.",
+    "native_correlated": "Typed native member whose meaning is proven offline: an exact published value (on every independent entity that publishes one), a differential across the record type and a consistent hidden-name length. Not yet shown in game; allow_unverified_effect is required.",
     "live_write_verified": "Reference mod committed this write live; gameplay effect is unconfirmed.",
     "structural_reference": "Same typed mount reference mechanism as the live-verified swap; this slot and replacement have no reference-mod write."
   },
   "summary": {
     "backpacks": 16,
-    "fieldInstances": 41,
-    "writableFieldInstances": 18,
-    "readOnlyFieldInstances": 23,
-    "backpacksWithWritableFields": 8,
+    "fieldInstances": 85,
+    "writableFieldInstances": 71,
+    "readOnlyFieldInstances": 14,
+    "backpacksWithWritableFields": 14,
     "writableByTier": {
       "gameplay_proven": 2,
-      "schema_proven": 16
+      "schema_proven": 35,
+      "native_correlated": 34
     },
     "rackChainsResolved": 16,
     "weaponFedBackpacks": 3,
@@ -3214,8 +6841,8 @@
     "fixtureFallback": "disabled"
   },
   "instanceAudit": {
-    "internalInstances": 41,
-    "publishedInstances": 41,
+    "internalInstances": 85,
+    "publishedInstances": 85,
     "missingInstances": 0,
     "unexpectedInstances": 0,
     "exactMatch": true

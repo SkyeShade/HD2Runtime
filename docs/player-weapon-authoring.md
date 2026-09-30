@@ -147,3 +147,36 @@ hd2.transaction({
 Displayed recoil and rounds-feed total capacity are derived read-only values. Edit the four drift/climb recoil inputs or the two feed capacities separately. Projectile and DamageInfo identifiers remain read-only because reference replacement is outside this release. P-2 Peacemaker and P-19 Redeemer expose their weapon-level fields; their customization-supplied projectile, damage, and effective magazine override paths remain unavailable and fail closed.
 
 The seven ambiguous identities are CQC-42 Machete, CQC-73 Entrenchment Tool, GP-31 Grenade Pistol, LAS-5 Scythe, LAS-7 Dagger, P-72 Crisper, and SMG-37 Defender. Their catalog entries remain visible to tools, but ordinary `hd2.weapon(name)` writes are blocked until runtime ownership can select one resource without guessing.
+
+## LAS-17 Double-Edge Sickle heat levels
+
+The LAS-17 `WeaponHeatComponent` carries three typed `HeatLevelSetting` entries (stride 24). Each entry names the
+heat at which it applies (+0), the projectile fired from that heat (+4: the published LAS-17 P, P1 and P2), and the
+status applied to the wielder while firing (+20). Self-damage is data-driven:
+
+| Level | Heat (of 200) | Wielder status | Tick damage |
+| --- | --- | --- | --- |
+| 1 | 50 | `hotshot_laser_rifle` | 20 |
+| 2 | 100 | `hotshot_laser_rifle_2` | 40 |
+| 3 | 190 | `hotshot_laser_rifle_3` | 100, and its damage row applies Fire (strength 10): the self-ignition |
+
+The ignition threshold is the level-3 threshold. It uses the status's damage row, not a hard-coded heat callback,
+and the three damage rows are referenced by nothing else.
+
+Fields (all `allow_unverified_effect`):
+
+- `heat.level_1_threshold` .. `heat.level_3_threshold` (0 to 10000).
+- `heat.level_1_self_status` .. `heat.level_3_self_status`: one of the three LAS-17 statuses, or `none` for no
+  self-damage at that level. Setting level 3 to `hotshot_laser_rifle_2` keeps the heavy pulses without the Fire.
+  Other statuses are not offered.
+- `heat.overheat_lock` (+80): false only on the LAS-17 among every heat weapon (the other record without it is a
+  camera that never overheats). True should make it lock at maximum heat like the LAS-16.
+
+Not offered: redirecting the ignition to another status. That would be the level-3 damage row's status slot,
+which only this weapon uses, and it is not authored in this release.
+`examples/projects/DoubleEdgeOverheatTest` is the live test.
+
+The LAS-5 Scythe still has no writable fields. Its catalog identity is DUPLICATE: `laser_rifle` and
+`laser_rifle_charge` fire the same BeamSettings row. The published Scythe heat data (12.5 heat/s, cooling
+12.8 - 8.5 - 6.4) matches `laser_rifle` only. Changing the identity would touch about 45 generated catalogs, so it
+is left for a reviewed disambiguation after this release.

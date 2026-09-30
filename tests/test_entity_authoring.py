@@ -60,8 +60,9 @@ class EntityAuthoringTests(unittest.TestCase):
         self.assertEqual(backpack['backpacks'], 16)
         self.assertEqual(backpack['rackChainsResolved'], 16)
         self.assertEqual(backpack['weaponFedBackpacks'], 3)
-        self.assertEqual(backpack['writableFieldInstances'], 18)
-        self.assertEqual(backpack['writableByTier'], {'gameplay_proven': 2, 'schema_proven': 16})
+        self.assertEqual(backpack['writableFieldInstances'], 71)
+        self.assertEqual(backpack['writableByTier'], {'gameplay_proven': 2, 'schema_proven': 35,
+            'native_correlated': 34})
 
     def test_semantic_identities_are_unique_and_stable(self):
         for collection in (self.vehicles['vehicles'], self.backpacks['backpacks'], self.vehicles['mountedWeapons']):
@@ -147,19 +148,27 @@ class EntityAuthoringTests(unittest.TestCase):
             (15.0, True, 'gameplay_proven'))
         launch = self.field('backpack', 'LIFT-850 Jump Pack', 'jump.vertical_launch_velocity')
         self.assertTrue(launch['editable'])
+        # Proven on the Jump Pack; whether the Hover Pack launch reads it is the HoverPackTest question.
         hover = self.field('backpack', 'LIFT-860 Hover Pack', 'jump.vertical_launch_velocity')
-        self.assertFalse(hover['editable'])
-        self.assertIn('Hover Pack', hover['reason'])
+        self.assertTrue(hover['editable'])
+        self.assertEqual(hover['acknowledgement'], 'allow_unverified_effect')
+        self.assertIn('Hover Pack', hover['acknowledgementReason'])
         self.assertEqual(self.field('backpack', 'LIFT-860 Hover Pack', 'recharge.time')['evidence']['tier'],
             'schema_proven')
-        for name, capacity in (('AX/AR-23 Guard Dog', 8), ('AX/LAS-5 Rover', 4), ('B-1 Supply Pack', 4)):
+        # Guard Dog drone magazines: exact published values on all five (research/equipment-coverage); the Supply
+        # Pack's charges stay read-only.
+        for name, capacity, editable in (('AX/AR-23 Guard Dog', 8, True), ('AX/LAS-5 Rover', 4, True),
+                ('B-1 Supply Pack', 4, False)):
             deposit = self.field('backpack', name, 'deposit.capacity')
-            self.assertEqual(deposit['currentDefault'], capacity)
-            self.assertFalse(deposit['editable'])
+            self.assertEqual((deposit['currentDefault'], deposit['editable']), (capacity, editable))
+            if editable:
+                self.assertEqual(deposit['evidence']['tier'], 'native_correlated')
+                self.assertEqual(deposit['max'], 1023)
         generator = self.field('backpack', 'SH-32 Shield Generator Pack', 'shield.durability')
         self.assertTrue(generator['editable'])
         self.assertEqual(generator['evidence']['tier'], 'schema_proven')
-        self.assertFalse(self.backpack['LIFT-182 Warp Pack']['fieldInstanceKeys'])
+        # The Warp Pack: exact published values at its DisplacementComponent; the rest stays blocked with reasons.
+        self.assertEqual(len(self.backpack['LIFT-182 Warp Pack']['fieldInstanceKeys']), 12)
         self.assertTrue(self.backpack['LIFT-182 Warp Pack']['blockedFields'])
 
     def test_shield_relay_separates_base_and_shield(self):

@@ -1662,6 +1662,1154 @@
      ]
     ]
    }
+  },
+  {
+   "snapshot": "F5FEE03DCFDB-20260929T172647Z-mission-host.hd2snap",
+   "networkApiSlots": {
+    "0xa0": 3457568,
+    "0xb8": 3458016,
+    "0x168": 3460944
+   },
+   "fieldTypeCount": 568,
+   "objectTypeCount": 1855,
+   "remainingCarriers": [
+    {
+     "objectType": 51,
+     "nameHash": "0x066C9036",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 90,
+     "nameHash": "0x0AB1DA38",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 114,
+     "nameHash": "0x0DFF968F",
+     "fieldCount": 55,
+     "remainingIndex": 5,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 166,
+     "nameHash": "0x139293F3",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 260,
+     "nameHash": "0x219DA219",
+     "fieldCount": 13,
+     "remainingIndex": 9,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 291,
+     "nameHash": "0x24BFE86E",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 403,
+     "nameHash": "0x32FD58BF",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 524,
+     "nameHash": "0x42EB8B5A",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 539,
+     "nameHash": "0x447380D4",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 730,
+     "nameHash": "0x61EA0C42",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 754,
+     "nameHash": "0x66D03A73",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 788,
+     "nameHash": "0x6C17C3B1",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 862,
+     "nameHash": "0x764F37A0",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 944,
+     "nameHash": "0x816A11E0",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1008,
+     "nameHash": "0x8B40A204",
+     "fieldCount": 59,
+     "remainingIndex": 6,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1086,
+     "nameHash": "0x94FF3B20",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1099,
+     "nameHash": "0x96CB35D7",
+     "fieldCount": 65,
+     "remainingIndex": 63,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1165,
+     "nameHash": "0x9F9EF431",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1201,
+     "nameHash": "0xA42ACE6A",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1304,
+     "nameHash": "0xB32572A6",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1330,
+     "nameHash": "0xB5B092F9",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1361,
+     "nameHash": "0xB9EA8C7E",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1369,
+     "nameHash": "0xBB2729E9",
+     "fieldCount": 59,
+     "remainingIndex": 6,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1433,
+     "nameHash": "0xC4BF68FD",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1667,
+     "nameHash": "0xE80C471F",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1670,
+     "nameHash": "0xE866A492",
+     "fieldCount": 29,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1696,
+     "nameHash": "0xEC1B10BE",
+     "fieldCount": 11,
+     "remainingIndex": 5,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1705,
+     "nameHash": "0xEE341A1B",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1760,
+     "nameHash": "0xF439BDCE",
+     "fieldCount": 55,
+     "remainingIndex": 5,
+     "remainingType": 472,
+     "droneType": 107
+    }
+   ],
+   "fieldTypes": {
+    "107": {
+     "index": 107,
+     "nameHash": 1933115833,
+     "kind": 1,
+     "bits": 15,
+     "min": 0,
+     "bytes": "b9013973ffff7f7f00000000010f00000000000000000000",
+     "name": "game_object_id"
+    },
+    "472": {
+     "index": 472,
+     "nameHash": 1219728336,
+     "kind": 1,
+     "bits": 10,
+     "min": 0,
+     "bytes": "d093b348ffff7f7f00000000010a00000000000000000000",
+     "name": "deposit_value"
+    }
+   },
+   "nameHashChecks": {
+    "uint16": [
+     [
+      1,
+      16,
+      0
+     ]
+    ],
+    "bool": [
+     [
+      0,
+      1,
+      0
+     ]
+    ],
+    "unsigned": [
+     [
+      1,
+      32,
+      0
+     ]
+    ]
+   }
+  },
+  {
+   "snapshot": "F5FEE03DCFDB-20260929T172918Z-mission-host-alive.hd2snap",
+   "networkApiSlots": {
+    "0xa0": 3457568,
+    "0xb8": 3458016,
+    "0x168": 3460944
+   },
+   "fieldTypeCount": 568,
+   "objectTypeCount": 1855,
+   "remainingCarriers": [
+    {
+     "objectType": 51,
+     "nameHash": "0x066C9036",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 90,
+     "nameHash": "0x0AB1DA38",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 114,
+     "nameHash": "0x0DFF968F",
+     "fieldCount": 55,
+     "remainingIndex": 5,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 166,
+     "nameHash": "0x139293F3",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 260,
+     "nameHash": "0x219DA219",
+     "fieldCount": 13,
+     "remainingIndex": 9,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 291,
+     "nameHash": "0x24BFE86E",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 403,
+     "nameHash": "0x32FD58BF",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 524,
+     "nameHash": "0x42EB8B5A",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 539,
+     "nameHash": "0x447380D4",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 730,
+     "nameHash": "0x61EA0C42",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 754,
+     "nameHash": "0x66D03A73",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 788,
+     "nameHash": "0x6C17C3B1",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 862,
+     "nameHash": "0x764F37A0",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 944,
+     "nameHash": "0x816A11E0",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1008,
+     "nameHash": "0x8B40A204",
+     "fieldCount": 59,
+     "remainingIndex": 6,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1086,
+     "nameHash": "0x94FF3B20",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1099,
+     "nameHash": "0x96CB35D7",
+     "fieldCount": 65,
+     "remainingIndex": 63,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1165,
+     "nameHash": "0x9F9EF431",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1201,
+     "nameHash": "0xA42ACE6A",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1304,
+     "nameHash": "0xB32572A6",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1330,
+     "nameHash": "0xB5B092F9",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1361,
+     "nameHash": "0xB9EA8C7E",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1369,
+     "nameHash": "0xBB2729E9",
+     "fieldCount": 59,
+     "remainingIndex": 6,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1433,
+     "nameHash": "0xC4BF68FD",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1667,
+     "nameHash": "0xE80C471F",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1670,
+     "nameHash": "0xE866A492",
+     "fieldCount": 29,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1696,
+     "nameHash": "0xEC1B10BE",
+     "fieldCount": 11,
+     "remainingIndex": 5,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1705,
+     "nameHash": "0xEE341A1B",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1760,
+     "nameHash": "0xF439BDCE",
+     "fieldCount": 55,
+     "remainingIndex": 5,
+     "remainingType": 472,
+     "droneType": 107
+    }
+   ],
+   "fieldTypes": {
+    "107": {
+     "index": 107,
+     "nameHash": 1933115833,
+     "kind": 1,
+     "bits": 15,
+     "min": 0,
+     "bytes": "b9013973ffff7f7f00000000010f00000000000000000000",
+     "name": "game_object_id"
+    },
+    "472": {
+     "index": 472,
+     "nameHash": 1219728336,
+     "kind": 1,
+     "bits": 10,
+     "min": 0,
+     "bytes": "d093b348ffff7f7f00000000010a00000000000000000000",
+     "name": "deposit_value"
+    }
+   },
+   "nameHashChecks": {
+    "uint16": [
+     [
+      1,
+      16,
+      0
+     ]
+    ],
+    "bool": [
+     [
+      0,
+      1,
+      0
+     ]
+    ],
+    "unsigned": [
+     [
+      1,
+      32,
+      0
+     ]
+    ]
+   }
+  },
+  {
+   "snapshot": "F5FEE03DCFDB-20260929T173206Z-mission-host-after-reinforce.hd2snap",
+   "networkApiSlots": {
+    "0xa0": 3457568,
+    "0xb8": 3458016,
+    "0x168": 3460944
+   },
+   "fieldTypeCount": 568,
+   "objectTypeCount": 1855,
+   "remainingCarriers": [
+    {
+     "objectType": 51,
+     "nameHash": "0x066C9036",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 90,
+     "nameHash": "0x0AB1DA38",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 114,
+     "nameHash": "0x0DFF968F",
+     "fieldCount": 55,
+     "remainingIndex": 5,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 166,
+     "nameHash": "0x139293F3",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 260,
+     "nameHash": "0x219DA219",
+     "fieldCount": 13,
+     "remainingIndex": 9,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 291,
+     "nameHash": "0x24BFE86E",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 403,
+     "nameHash": "0x32FD58BF",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 524,
+     "nameHash": "0x42EB8B5A",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 539,
+     "nameHash": "0x447380D4",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 730,
+     "nameHash": "0x61EA0C42",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 754,
+     "nameHash": "0x66D03A73",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 788,
+     "nameHash": "0x6C17C3B1",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 862,
+     "nameHash": "0x764F37A0",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 944,
+     "nameHash": "0x816A11E0",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1008,
+     "nameHash": "0x8B40A204",
+     "fieldCount": 59,
+     "remainingIndex": 6,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1086,
+     "nameHash": "0x94FF3B20",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1099,
+     "nameHash": "0x96CB35D7",
+     "fieldCount": 65,
+     "remainingIndex": 63,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1165,
+     "nameHash": "0x9F9EF431",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1201,
+     "nameHash": "0xA42ACE6A",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1304,
+     "nameHash": "0xB32572A6",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1330,
+     "nameHash": "0xB5B092F9",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1361,
+     "nameHash": "0xB9EA8C7E",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1369,
+     "nameHash": "0xBB2729E9",
+     "fieldCount": 59,
+     "remainingIndex": 6,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1433,
+     "nameHash": "0xC4BF68FD",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1667,
+     "nameHash": "0xE80C471F",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1670,
+     "nameHash": "0xE866A492",
+     "fieldCount": 29,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1696,
+     "nameHash": "0xEC1B10BE",
+     "fieldCount": 11,
+     "remainingIndex": 5,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1705,
+     "nameHash": "0xEE341A1B",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1760,
+     "nameHash": "0xF439BDCE",
+     "fieldCount": 55,
+     "remainingIndex": 5,
+     "remainingType": 472,
+     "droneType": 107
+    }
+   ],
+   "fieldTypes": {
+    "107": {
+     "index": 107,
+     "nameHash": 1933115833,
+     "kind": 1,
+     "bits": 15,
+     "min": 0,
+     "bytes": "b9013973ffff7f7f00000000010f00000000000000000000",
+     "name": "game_object_id"
+    },
+    "472": {
+     "index": 472,
+     "nameHash": 1219728336,
+     "kind": 1,
+     "bits": 10,
+     "min": 0,
+     "bytes": "d093b348ffff7f7f00000000010a00000000000000000000",
+     "name": "deposit_value"
+    }
+   },
+   "nameHashChecks": {
+    "uint16": [
+     [
+      1,
+      16,
+      0
+     ]
+    ],
+    "bool": [
+     [
+      0,
+      1,
+      0
+     ]
+    ],
+    "unsigned": [
+     [
+      1,
+      32,
+      0
+     ]
+    ]
+   }
+  },
+  {
+   "snapshot": "F5FEE03DCFDB-20260929T173443Z-mission-end-transition.hd2snap",
+   "networkApiSlots": {
+    "0xa0": 3457568,
+    "0xb8": 3458016,
+    "0x168": 3460944
+   },
+   "fieldTypeCount": 568,
+   "objectTypeCount": 1855,
+   "remainingCarriers": [
+    {
+     "objectType": 51,
+     "nameHash": "0x066C9036",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 90,
+     "nameHash": "0x0AB1DA38",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 114,
+     "nameHash": "0x0DFF968F",
+     "fieldCount": 55,
+     "remainingIndex": 5,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 166,
+     "nameHash": "0x139293F3",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 260,
+     "nameHash": "0x219DA219",
+     "fieldCount": 13,
+     "remainingIndex": 9,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 291,
+     "nameHash": "0x24BFE86E",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 403,
+     "nameHash": "0x32FD58BF",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 524,
+     "nameHash": "0x42EB8B5A",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 539,
+     "nameHash": "0x447380D4",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 730,
+     "nameHash": "0x61EA0C42",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 754,
+     "nameHash": "0x66D03A73",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 788,
+     "nameHash": "0x6C17C3B1",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 862,
+     "nameHash": "0x764F37A0",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 944,
+     "nameHash": "0x816A11E0",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1008,
+     "nameHash": "0x8B40A204",
+     "fieldCount": 59,
+     "remainingIndex": 6,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1086,
+     "nameHash": "0x94FF3B20",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1099,
+     "nameHash": "0x96CB35D7",
+     "fieldCount": 65,
+     "remainingIndex": 63,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1165,
+     "nameHash": "0x9F9EF431",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1201,
+     "nameHash": "0xA42ACE6A",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1304,
+     "nameHash": "0xB32572A6",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1330,
+     "nameHash": "0xB5B092F9",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1361,
+     "nameHash": "0xB9EA8C7E",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1369,
+     "nameHash": "0xBB2729E9",
+     "fieldCount": 59,
+     "remainingIndex": 6,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1433,
+     "nameHash": "0xC4BF68FD",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1667,
+     "nameHash": "0xE80C471F",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1670,
+     "nameHash": "0xE866A492",
+     "fieldCount": 29,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1696,
+     "nameHash": "0xEC1B10BE",
+     "fieldCount": 11,
+     "remainingIndex": 5,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1705,
+     "nameHash": "0xEE341A1B",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1760,
+     "nameHash": "0xF439BDCE",
+     "fieldCount": 55,
+     "remainingIndex": 5,
+     "remainingType": 472,
+     "droneType": 107
+    }
+   ],
+   "fieldTypes": {
+    "107": {
+     "index": 107,
+     "nameHash": 1933115833,
+     "kind": 1,
+     "bits": 15,
+     "min": 0,
+     "bytes": "b9013973ffff7f7f00000000010f00000000000000000000",
+     "name": "game_object_id"
+    },
+    "472": {
+     "index": 472,
+     "nameHash": 1219728336,
+     "kind": 1,
+     "bits": 10,
+     "min": 0,
+     "bytes": "d093b348ffff7f7f00000000010a00000000000000000000",
+     "name": "deposit_value"
+    }
+   },
+   "nameHashChecks": {
+    "uint16": [
+     [
+      1,
+      16,
+      0
+     ]
+    ],
+    "bool": [
+     [
+      0,
+      1,
+      0
+     ]
+    ],
+    "unsigned": [
+     [
+      1,
+      32,
+      0
+     ]
+    ]
+   }
   }
  ],
  "typeLibrary": {
@@ -2090,9 +3238,9 @@
    "field": "deposit.capacity",
    "backpack": "AX/AR-23 Guard Dog",
    "default": 8,
-   "editable": false,
-   "sdkMin": null,
-   "sdkMax": null,
+   "editable": true,
+   "sdkMin": 1,
+   "sdkMax": 1023,
    "effectiveLiveMax": 1023,
    "sdkMaxExceedsLiveLimit": false
   },
@@ -2101,9 +3249,9 @@
    "field": "deposit.start_amount",
    "backpack": "AX/AR-23 Guard Dog",
    "default": 8,
-   "editable": false,
-   "sdkMin": null,
-   "sdkMax": null,
+   "editable": true,
+   "sdkMin": 0,
+   "sdkMax": 1023,
    "effectiveLiveMax": 1023,
    "sdkMaxExceedsLiveLimit": false
   },
@@ -2112,9 +3260,9 @@
    "field": "deposit.refill_amount",
    "backpack": "AX/AR-23 Guard Dog",
    "default": 8,
-   "editable": false,
-   "sdkMin": null,
-   "sdkMax": null,
+   "editable": true,
+   "sdkMin": 0,
+   "sdkMax": 1023,
    "effectiveLiveMax": 1023,
    "sdkMaxExceedsLiveLimit": false
   },
@@ -2123,9 +3271,9 @@
    "field": "deposit.capacity",
    "backpack": "AX/LAS-5 Rover",
    "default": 4,
-   "editable": false,
-   "sdkMin": null,
-   "sdkMax": null,
+   "editable": true,
+   "sdkMin": 1,
+   "sdkMax": 1023,
    "effectiveLiveMax": 1023,
    "sdkMaxExceedsLiveLimit": false
   },
@@ -2134,9 +3282,9 @@
    "field": "deposit.start_amount",
    "backpack": "AX/LAS-5 Rover",
    "default": 4,
-   "editable": false,
-   "sdkMin": null,
-   "sdkMax": null,
+   "editable": true,
+   "sdkMin": 0,
+   "sdkMax": 1023,
    "effectiveLiveMax": 1023,
    "sdkMaxExceedsLiveLimit": false
   },
@@ -2145,9 +3293,9 @@
    "field": "deposit.refill_amount",
    "backpack": "AX/LAS-5 Rover",
    "default": 2,
-   "editable": false,
-   "sdkMin": null,
-   "sdkMax": null,
+   "editable": true,
+   "sdkMin": 0,
+   "sdkMax": 1023,
    "effectiveLiveMax": 1023,
    "sdkMaxExceedsLiveLimit": false
   },
@@ -2156,9 +3304,9 @@
    "field": "deposit.capacity",
    "backpack": "AX/FLAM-75 Hot Dog",
    "default": 6,
-   "editable": false,
-   "sdkMin": null,
-   "sdkMax": null,
+   "editable": true,
+   "sdkMin": 1,
+   "sdkMax": 1023,
    "effectiveLiveMax": 1023,
    "sdkMaxExceedsLiveLimit": false
   },
@@ -2167,9 +3315,9 @@
    "field": "deposit.start_amount",
    "backpack": "AX/FLAM-75 Hot Dog",
    "default": 6,
-   "editable": false,
-   "sdkMin": null,
-   "sdkMax": null,
+   "editable": true,
+   "sdkMin": 0,
+   "sdkMax": 1023,
    "effectiveLiveMax": 1023,
    "sdkMaxExceedsLiveLimit": false
   },
@@ -2178,9 +3326,9 @@
    "field": "deposit.refill_amount",
    "backpack": "AX/FLAM-75 Hot Dog",
    "default": 6,
-   "editable": false,
-   "sdkMin": null,
-   "sdkMax": null,
+   "editable": true,
+   "sdkMin": 0,
+   "sdkMax": 1023,
    "effectiveLiveMax": 1023,
    "sdkMaxExceedsLiveLimit": false
   },
@@ -2222,9 +3370,9 @@
    "field": "deposit.capacity",
    "backpack": "AX/ARC-3 K-9",
    "default": 6,
-   "editable": false,
-   "sdkMin": null,
-   "sdkMax": null,
+   "editable": true,
+   "sdkMin": 1,
+   "sdkMax": 1023,
    "effectiveLiveMax": 1023,
    "sdkMaxExceedsLiveLimit": false
   },
@@ -2233,9 +3381,9 @@
    "field": "deposit.start_amount",
    "backpack": "AX/ARC-3 K-9",
    "default": 6,
-   "editable": false,
-   "sdkMin": null,
-   "sdkMax": null,
+   "editable": true,
+   "sdkMin": 0,
+   "sdkMax": 1023,
    "effectiveLiveMax": 1023,
    "sdkMaxExceedsLiveLimit": false
   },
@@ -2244,9 +3392,9 @@
    "field": "deposit.refill_amount",
    "backpack": "AX/ARC-3 K-9",
    "default": 6,
-   "editable": false,
-   "sdkMin": null,
-   "sdkMax": null,
+   "editable": true,
+   "sdkMin": 0,
+   "sdkMax": 1023,
    "effectiveLiveMax": 1023,
    "sdkMaxExceedsLiveLimit": false
   },
@@ -2255,9 +3403,9 @@
    "field": "deposit.capacity",
    "backpack": "AX/TX-13 Dog Breath",
    "default": 6,
-   "editable": false,
-   "sdkMin": null,
-   "sdkMax": null,
+   "editable": true,
+   "sdkMin": 1,
+   "sdkMax": 1023,
    "effectiveLiveMax": 1023,
    "sdkMaxExceedsLiveLimit": false
   },
@@ -2266,9 +3414,9 @@
    "field": "deposit.start_amount",
    "backpack": "AX/TX-13 Dog Breath",
    "default": 6,
-   "editable": false,
-   "sdkMin": null,
-   "sdkMax": null,
+   "editable": true,
+   "sdkMin": 0,
+   "sdkMax": 1023,
    "effectiveLiveMax": 1023,
    "sdkMaxExceedsLiveLimit": false
   },
@@ -2277,9 +3425,9 @@
    "field": "deposit.refill_amount",
    "backpack": "AX/TX-13 Dog Breath",
    "default": 6,
-   "editable": false,
-   "sdkMin": null,
-   "sdkMax": null,
+   "editable": true,
+   "sdkMin": 0,
+   "sdkMax": 1023,
    "effectiveLiveMax": 1023,
    "sdkMaxExceedsLiveLimit": false
   },

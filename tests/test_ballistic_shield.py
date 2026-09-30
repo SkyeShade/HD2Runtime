@@ -37,9 +37,12 @@ class BallisticShieldTests(unittest.TestCase):
         self.assertIn("damage_zone('shield')", fallback['reason'])
         # Main health stays the plate's pool (zone health -1 forwards to it) and needs no acknowledgement.
         self.assertIsNone(sh20[('backpack', 'entity.health')].get('acknowledgement'))
+        # SH-51: the body and the energy barrier are separate entities (research/equipment-coverage): the body's own
+        # health and default armor are active for hits on the body; the barrier is authored through energy_shield().
         sh51 = fields('SH-51 Directional Shield')
         for field in ('entity.health', 'entity.armor'):
-            self.assertEqual(sh51[('backpack', field)]['effect']['activeSource'], 'AMBIGUOUS')
+            self.assertEqual(sh51[('backpack', field)]['effect']['activeSource'], 'ACTIVE_AT_INSTANTIATION')
+            self.assertEqual(sh51[('backpack', field)]['effect']['appliesTo'], 'backpack body')
             self.assertEqual(sh51[('backpack', field)]['acknowledgement'], 'allow_unverified_effect')
 
     def test_runtime_resolves_the_zone_and_refuses_the_fallback_without_acknowledgement(self):

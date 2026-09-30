@@ -19,16 +19,18 @@ class DepositLimitTests(unittest.TestCase):
         self.assertIsNone(limit['writableControl'])
         self.assertEqual(RESEARCH['writes'], 0)
         # The same type in every retained snapshot, on every object type that carries the live amount.
-        self.assertEqual(len(RESEARCH['networkConfig']), 3)
+        self.assertEqual(len(RESEARCH['networkConfig']), 7)
         for config in RESEARCH['networkConfig']:
             self.assertEqual({carrier['remainingType'] for carrier in config['remainingCarriers']}, {472})
 
     def test_every_published_deposit_field_is_bounded_by_it(self):
         fields = [field for field in RESEARCH['exposedDepositFields'] if field['editable']]
-        self.assertEqual(len(fields), 9)                  # Maxigun, Cremator and GL-28: capacity, start, refill
+        # Maxigun, Cremator and GL-28 (ammunition), and the five Guard Dog backpacks (drone magazines, the same
+        # deposit_value network field): capacity, start, refill.
+        self.assertEqual(len(fields), 24)
         self.assertFalse([f for f in RESEARCH['exposedDepositFields'] if f['sdkMaxExceedsLiveLimit']])
         published = self._deposit_fields()
-        self.assertEqual(len(published), 9)
+        self.assertEqual(len(published), 24)
         for field in published:
             self.assertEqual(field['max'], RESEARCH['liveAmountLimit']['max'], field['instanceKey'])
             self.assertIn('deposit_value (10 bits)', field['rangeReason'])
