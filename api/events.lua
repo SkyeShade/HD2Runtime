@@ -52,8 +52,12 @@ function api.mission_id()local in_mission,epoch=events.mission();return epoch,in
 -- The mod every registration made now belongs to (see runtime/events.lua M.owner).
 function api.owner()local owner=events.owner(nil,2);return owner end
 -- Run fn(...) as the given mod: every subscription, timer, keybind and action started inside belongs to it. The
--- SDK addon wrapper runs each mod's startup this way, so authors never pass their resource id.
-function api.run_as(owner,fn,...)return events.run_as(owner,fn,...)end
+-- SDK addon wrapper runs each mod's startup this way, so authors never pass their resource id. Its declared SDK is
+-- remembered here too (core/sdk_compatibility.lua), for a mod that registers operations only from callbacks.
+function api.run_as(owner,fn,...)
+    require('hd2runtime/core/sdk_compatibility').remember()
+    return events.run_as(owner,fn,...)
+end
 M.events=api
 
 function M.after(seconds,callback,opts)

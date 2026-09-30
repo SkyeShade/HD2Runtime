@@ -1,6 +1,6 @@
 ---@meta
 -- Generated authoring definitions. Never package or execute this file.
--- Schema SHA256 ef1d372ad073dace3fb922cffa527ef149bc4d63b2763bd71b44869594483ef0
+-- Schema SHA256 bce95feb2247e46580506d05593f6793d418019b3a587d32d02dbe1ef0af933b
 
 ---@alias HD2Resource "0x16474112801385B6"|"0x59C5CA839449B379"|"0x80F1A156D9FA1E36"|"0x89C5493E08CA4207"|"0xB0C9FAF4AF8903F9"|"0xEC3575E7A93793BB"|"0xED13DDC480EC6910"|"amr"|"bastion"|"jar5"|"jump_pack"|"maelstrom"|"orbital_laser"|"shield_relay"
 ---@alias HD2PatchField "armor_penetration"
@@ -2731,6 +2731,12 @@ function HD2Diagnostics.telemetry(options) end
 ---in the operation's window): {operation, target, externalChanges, warnings, windowSeconds}[], most first.
 ---@return table[]
 function HD2Diagnostics.write_conflicts() end
+---Every operation registered this session, refused ones included (HD2Runtime 0.28.1+): {kind, id, mod, sdk,
+---sdk_source, status, result, code, error, runs, legacy}[], in registration order. `legacy` lists the fields an
+---operation of a mod declaring an older SDK wrote without an acknowledgement a later SDK added
+---(docs/legacy-sdk-compatibility.md).
+---@return table[]
+function HD2Diagnostics.operations() end
 ---@type HD2Diagnostics
 hd2.diagnostics = {}
 ---Run once after a delay in game seconds (fractions work; 0 = the next update tick; math.random(1, 10) gives a random delay). The timer belongs to the calling mod; scope=mission cancels it when the mission ends.

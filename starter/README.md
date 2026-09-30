@@ -28,7 +28,7 @@ Before distributing your mod, edit these exact values:
 resource ID, so it changes when you rename the resource and remains stable after
 that. You may replace `auto` with your own non-zero UUID, then keep it forever.
 
-`requires.hd2runtime.min_version` is `0.25.0`. This starter ships with 0.28.0. Raise it:
+`requires.hd2runtime.min_version` is `0.25.0`. This starter ships with 0.28.1. Raise it:
 - to `0.25.1` for in-game options (see below);
 - to `0.26.0` for anything new in 0.26.0: magazine reload and ergonomics, reticles, fire modes, vehicle weapons,
   stratagem mission uses, backpack ammo and pod payloads;
@@ -40,6 +40,12 @@ that. You may replace `auto` with your own non-zero UUID, then keep it forever.
   - rate-of-fire modes, feeds, presentation;
   - underbarrels, enemies and structures, sentries and minefields, equipment packs and Guard Dogs, status slots;
   - `hd2.diagnostics`;
+- to `0.28.1` for `hd2.diagnostics.operations()`.
+
+`min_version` is also the SDK version your mod declares. HD2Runtime 0.28.1 and later accept a field that gained an
+acknowledgement in a later SDK without it, as a logged legacy operation, when your mod declares an older version
+(`docs/legacy-sdk-compatibility.md`). Raise `min_version` and add the acknowledgements the SDK catalogs ask for to
+get the current rule.
   - projectile lifetime and penetration slowdown on player weapons;
   - the SG-20 Halt's generic feed fields.
 
@@ -121,7 +127,7 @@ HD2Runtime implementation.
 Players install and enable three packages:
 
 1. Bingus Shared Loader v15 or newer / API 1.
-2. HD2Runtime 0.25.0 or newer / API 1 (0.28.0 recommended), installed once.
+2. HD2Runtime 0.25.0 or newer / API 1 (0.28.1 recommended), installed once.
 3. Your built gameplay mod ZIP.
 
 The generated manifest description and `hd2runtime.json` state both dependencies.

@@ -6,6 +6,7 @@ local steady=require('hd2runtime/core/steady_state')
 local metrics=require('hd2runtime/runtime/metrics')
 local options=require('hd2runtime/api/options')
 local diagnostics=require('hd2runtime/runtime/diagnostics')
+local sdk_compatibility=require('hd2runtime/core/sdk_compatibility')
 local M={}
 local DEBOUNCE=0.5 -- update seconds that coalesce a burst of option changes into one resolution
 
@@ -61,7 +62,11 @@ local function start_bound(runtime,emit,request,kind,validate,module,interval,st
     assert(enabled_handle==nil or(options.is_handle(enabled_handle)and enabled_handle.kind=='toggle'),
         'ensure enabled must be a toggle option')
     local bound={}
-    local function build(override,baseline)return validate(materialize(body,nil,nil,override,baseline))end
+    -- A later option change re-validates as the mod that registered this ensure (core/sdk_compatibility.lua).
+    local origin=sdk_compatibility.current()
+    local function build(override,baseline)
+        return sdk_compatibility.with_origin(origin,validate,materialize(body,nil,nil,override,baseline))
+    end
     local current=materialize(body,nil,bound)
     for _,handle in ipairs(bound)do
         assert(handle.kind~='toggle','a toggle option can only control ensure enabled')
@@ -102,6 +107,7 @@ local function start_bound(runtime,emit,request,kind,validate,module,interval,st
     local function settle()
         dirty=false
         local ok,next_spec=pcall(build)
+        if ok then sdk_compatibility.flush(origin,'ensure',id)else sdk_compatibility.discard(origin)end
         if not ok then
             if child then child.cancel();child=nil end
             watch.status='blocked';watch.error=tostring(next_spec)

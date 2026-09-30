@@ -94,9 +94,12 @@ class UserReportFixtureTests(unittest.TestCase):
         over_limit = set()
         for name, results in self.results.items():
             failed = {r['id']: r['error'] for r in results if not r['ok']}
-            # Refusals: the Purifier row its charge levels fire only when charged (AMBIGUOUS, so it now needs
-            # allow_unverified_effect, which ModBuilder emits once its SDK catalog carries the acknowledgement), and a
-            # Maxigun backpack capacity above the game's 1023 deposit limit (docs/backpack-ammo.md).
+            # Refusals under the current rule (these validate directly, with no declared SDK): the Purifier row its
+            # charge levels fire only when charged (AMBIGUOUS, so it needs allow_unverified_effect since SDK 0.28.0,
+            # which ModBuilder emits once the project is bound to that SDK), and a Maxigun backpack capacity above the
+            # game's 1023 deposit limit (docs/backpack-ammo.md). Registered through the export's SDK 0.27.0 wrapper,
+            # the Purifier edit applies as a legacy operation (docs/legacy-sdk-compatibility.md; the packaged
+            # user-report-full-project scenario and tests/test_legacy_sdk_compatibility.py).
             expected = {PURIFIER_DRAG} if any(r['id'] == PURIFIER_DRAG for r in results) else set()
             for op, error in failed.items():
                 if 'deposit.capacity' in error:
@@ -256,6 +259,9 @@ return table.concat(lines,'\n')
         self.assertEqual(packaged.EXTRAS['registration-isolation']['rejected'],
             {'isolation-invalid': 'field is not exposed for SG-20 Halt'})
         self.assertEqual(packaged.EXTRAS['user-report-full-project']['watches'], 133)
+        # The SDK 0.27.0 export's Purifier edit applies (as a legacy operation) instead of being refused.
+        self.assertNotIn('rejected', packaged.EXTRAS['user-report-full-project'])
+        self.assertEqual(packaged.EXTRAS['user-report-full-project']['legacy'], {PURIFIER_DRAG: ['projectile.drag']})
         for name in ('user-report-ma5c-capacity-only', 'user-report-ma5c-plus-stratagem', 'user-report-maxigun-weapon',
                 'user-report-maxigun-plus-backpack', 'user-report-halt-dual-feed', 'user-report-spray-and-pray-damage',
                 'user-report-sai-heat', 'user-report-sickle-heat', 'user-report-orbital-cooldown',

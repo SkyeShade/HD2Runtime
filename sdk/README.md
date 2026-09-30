@@ -1,6 +1,6 @@
 # HD2Runtime SDK and shared runtime
 
-For a first mod, use `HD2Runtime-ModTemplate-0.28.0.zip`. It is a standalone
+For a first mod, use `HD2Runtime-ModTemplate-0.28.1.zip`. It is a standalone
 open-folder Rider project with bundled stubs and a Windows builder; Python is not
 required. The CLI workflow below remains available for advanced authors and
 automated project generation. New authors should start with
@@ -32,6 +32,11 @@ ammo values are writable on the magazine attachment definitions themselves, with
 `allow_shared` and `allow_unverified_effect`; `MagazineAttachmentCapabilities.json`
 supersedes the older ammo-owner fields in `AttachmentOptionCapabilities.json`. See
 `docs/magazine-attachments.md` and `docs/attachment-preset-research.md`.
+
+0.28.1 keeps SDK 0.27-era mods working: a field that gained `allow_unverified_effect` in 0.28.0 is accepted without
+it, as a logged legacy operation, from a mod that declares an older SDK (`docs/legacy-sdk-compatibility.md`).
+Mods that declare 0.28.0 or later keep the rule. `hd2.diagnostics.operations()` lists every registered operation
+(`docs/diagnostics.md`). See `docs/releases/0.28.1.md`.
 
 0.28.0 adds event-driven gameplay scripting (`EventCatalog.json`; `docs/event-scripting.md`, `docs/events.md`) and one
 projectile system (`AttackOutputCapabilities.json`: hosts, donors, projectile builder slots and live-proven values;
@@ -86,7 +91,7 @@ New in 0.26.0 (see `docs/releases/0.26.0.md`):
   replacement pickup catalog, and package-risk metadata (`docs/pod-payloads.md`).
 
 Install Bingus Shared Loader v15+ / API 1, then import the separate
-`HD2Runtime-0.28.0-runtime.zip` into your mod manager and enable it once. Each
+`HD2Runtime-0.28.1-runtime.zip` into your mod manager and enable it once. Each
 gameplay mod is its own package. The runtime contains no enabled gameplay preset,
 report addon or timer on load. It loads its guarded adapters only when requested.
 

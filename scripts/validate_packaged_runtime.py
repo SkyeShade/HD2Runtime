@@ -11,6 +11,14 @@ This validator reads only the shipped archive:
    then apply through the packaged API against the retained snapshot, using a
    copy-on-write memory overlay (no game process, no real writes), and each ensure
    must re-apply after a simulated reset.
+3. Outcomes: every operation a scenario registers (from hd2.diagnostics.operations(), so an operation the addon
+   kept no handle for counts too) is classified as applied, intentionally not applicable (an option-bound
+   operation switched off or without its menu, declared by the scenario), rejected, or skipped (never applied).
+   Every operation is part of the scenario's expected mutation unless the scenario declares it a negative control
+   (`rejected`, with the reason) or not applicable (`unavailable`); a refused or skipped operation fails the
+   scenario even when the resulting state looks right. An operation applied only through the legacy SDK path
+   (docs/legacy-sdk-compatibility.md) must be declared (`legacy`, with its fields). A mutation scenario must write;
+   a read-only one must not.
 
 Only runtime/windows_write is substituted, so writes land in the overlay.
 """
@@ -87,6 +95,41 @@ return operations
 # The AyakaMods user report (tests/fixtures/user-reports/ayakamods-weaponry-rebalance): the exact ModBuilder 1.3.1
 # exports of the user's project and its variants, wrapped exactly as ModBuilder packages them.
 USER_REPORT = ROOT / 'tests/fixtures/user-reports/ayakamods-weaponry-rebalance/generated'
+MODBUILDER_EXPORT = USER_REPORT / 'F-SG-20-Halt.wrapped.lua'
+
+
+def modbuilder_wrap(resource, sdk_version, body):
+    """ModBuilder's addon wrapper (ModExporter.Wrap), cut from a real ModBuilder 1.3.1 export, around another body,
+    resource and bound SDK version. `body` is what ModBuilder's generator writes inside start()."""
+    text = MODBUILDER_EXPORT.read_text(encoding='utf-8')
+    marker = 'local function start()\n'
+    head = text[:text.index(marker) + len(marker)]
+    tail = text[text.index('\nend\nlocal state=start() or true'):]
+    head = head.replace("version('0.27.0')", "version('" + sdk_version + "')")
+    head = head.replace('mods/nephelym/nephelym_s_weaponry_rebalance', resource)
+    assert "version('" + sdk_version + "')" in head and resource in head, 'ModBuilder wrapper shape changed'
+    return head + "local hd2=require('mods/skyeshade/hd2runtime')\n" + body + tail
+
+
+# Legacy SDK compatibility (docs/legacy-sdk-compatibility.md): the user report's PLAS-101 Purifier drag edit, exactly
+# as ModBuilder 1.3.1 exported it for SDK 0.27.0 (no allow_unverified_effect). A project bound to SDK 0.27.0 applies
+# it as a legacy operation; one bound to 0.28.0 must carry the acknowledgement. Each mod also registers controls: a
+# field that already needed the acknowledgement in 0.27.0 (refused for every mod) and an unprotected field (applied).
+PURIFIER_DRAG = r"""operations[#operations+1]=hd2.ensure({patch={id='%s',
+    target=hd2.weapon('PLAS-101 Purifier'):attack('primary'):projectile(),allow_shared=true,%s
+    field=hd2.fields.projectile.drag,expect=1.5,value=0.8}})
+"""
+LEGACY_CONTROLS = r"""operations[#operations+1]=hd2.ensure({patch={id='control-purifier-ergonomics',
+    target=hd2.weapon('PLAS-101 Purifier'),field=hd2.fields.weapon.ergonomics,expect=65,value=70}})
+operations[#operations+1]=hd2.ensure({patch={id='control-coyote-burst',target=hd2.weapon('AR-2 Coyote'),
+    field=hd2.fields.fire_mode.burst_rounds,expect=3,value=4}})
+"""
+
+
+def legacy_scenario(sdk_version, operation_id, acknowledged=False):
+    body = ('local operations={}\n' + PURIFIER_DRAG % (operation_id, 'allow_unverified_effect=true,'
+        if acknowledged else '') + LEGACY_CONTROLS + 'return operations\n')
+    return modbuilder_wrap('mods/hd2runtime_validation/sdk_' + sdk_version.replace('.', '_'), sdk_version, body)
 
 
 def user_report(name, folder=USER_REPORT):
@@ -893,12 +936,25 @@ EXTRAS = {'options-live': {'menu': MENU_STUB, 'after': OPTIONS_LIVE},
     # reference is written, and none again after the simulated reset (Runtime retains its reference).
     'example-asset-test-stalwart-pod-eat700': {'packageRequests': 1},
     'example-asset-test-reprimand-talon-projectile': {'packageRequests': 1},
-    'projectile-active-sources': {'packageRequests': 1},
+    # The Liberator's dormant base member is the live FAIL control: refused at registration by design.
+    'projectile-active-sources': {'packageRequests': 1,
+        'rejected': {'liberator-talon-dormant': 'DORMANT_PROJECTILE_REFERENCE'}},
     'registration-isolation': {'rejected': {'isolation-invalid': 'field is not exposed for SG-20 Halt'}},
-    # The exact 133-operation user project: every operation registers; the one PLAS-101 Purifier row that its
-    # charge levels only partly fire now needs allow_unverified_effect, so it alone is refused (logged), not all.
+    # SDK 0.27.0 project: the Purifier drag applies as a legacy operation (logged); the control that already needed
+    # the acknowledgement in 0.27.0 is still refused. SDK 0.28.0 project: refused without the acknowledgement, applied
+    # with it. The unprotected control applies in all three.
+    'legacy-sdk-027-purifier': {'legacy': {'legacy-purifier-drag': ['projectile.drag']},
+        'rejected': {'control-coyote-burst': 'field requires allow_unverified_effect=true: fire_mode.burst_rounds'}},
+    'sdk-028-purifier-without-ack': {'rejected': {
+        'current-purifier-drag': 'required since SDK 0.28.0; mods/hd2runtime_validation/sdk_0_28_0 declares SDK 0.28.0',
+        'control-coyote-burst': 'field requires allow_unverified_effect=true: fire_mode.burst_rounds'}},
+    'sdk-028-purifier-with-ack': {'rejected': {
+        'control-coyote-burst': 'field requires allow_unverified_effect=true: fire_mode.burst_rounds'}},
+    # The exact 133-operation user project (ModBuilder 1.3.1, SDK 0.27.0): every operation registers and applies. The
+    # PLAS-101 Purifier row its charge levels only partly fire needs allow_unverified_effect since SDK 0.28.0; the
+    # project declares 0.27.0, so it applies as a legacy operation (0.28.0 refused it).
     'user-report-full-project': {'watches': 133, 'frames': 200000, 'resetSeconds': 20000,
-        'rejected': {'gui-object-64f6c65514d7e06d97274943': 'allow_unverified_effect'}},
+        'legacy': {'gui-object-64f6c65514d7e06d97274943': ['projectile.drag']}},
     # A Maxigun backpack of 1500 rounds exceeds the game's 1023 deposit limit: refused (logged), the Maxigun
     # weapon operations still apply.
     # Every operation of each ModBuilder 1.3.1 export registers and applies: the Halt edits never drop the others.
@@ -1006,6 +1062,9 @@ SCENARIOS = {
     'player-weapon-patch': lambda: SIMPLE_PATCH,
     'projectile-active-sources': lambda: PROJECTILE_SOURCES,
     'registration-isolation': lambda: REGISTRATION_ISOLATION,
+    'legacy-sdk-027-purifier': lambda: legacy_scenario('0.27.0', 'legacy-purifier-drag'),
+    'sdk-028-purifier-without-ack': lambda: legacy_scenario('0.28.0', 'current-purifier-drag'),
+    'sdk-028-purifier-with-ack': lambda: legacy_scenario('0.28.0', 'current-purifier-drag-ack', acknowledged=True),
     'user-report-full-project': lambda: user_report('A-original'),
     'user-report-ma5c-capacity-only': lambda: user_report('D2-ma5c-capacity-only'),
     'user-report-ma5c-plus-stratagem': lambda: user_report('D3-ma5c-plus-stratagem'),
@@ -1287,8 +1346,23 @@ local function describe()
  end
  return out
 end
+-- Every registered operation, including ones the addon kept no handle for (hd2.diagnostics.operations()).
+local function registered()
+ local ok,list=pcall(function()return require(ENTRY).diagnostics.operations()end)
+ if not ok or type(list)~='table'then return nil end
+ local out={}
+ for index,op in ipairs(list)do
+  local legacy={}
+  for _,use in ipairs(op.legacy or{})do legacy[#legacy+1]=use.field end
+  out[index]={kind=op.kind,id=op.id,mod=op.mod,sdk=op.sdk,status=op.status,result=op.result,code=op.code,
+   error=op.error,runs=op.runs,legacy=legacy}
+ end
+ return out
+end
+local operations_settled=registered()
 if AFTER then AFTER_RESULTS=assert(loadstring(AFTER))()(frame,watches,counts,lines)end
 local report={scenario=SCENARIO,settled=settled(),startup_seconds=simulated,watches=describe(),
+ operations=operations_settled,
  counts={writes=counts.writes,protection_changes=counts.protection_changes,module_hashes=counts.module_hashes,
   package_requests=counts.package_requests},packages=package_log}
 
@@ -1311,6 +1385,7 @@ if next(ensures)then
  report.reset={reapplied=reapplied(),seconds=seconds,watches=describe()}
 end
 report.lookups={startup=lookups.startup,late_missing=lookups.late_missing}
+report.operations_final=registered()
 report.after=AFTER_RESULTS
 report.log=lines
 source.close()
@@ -1347,6 +1422,95 @@ def run_scenario(resources, names, scenario, addon, snapshot, head=None):
     from tools.lua_runner import execute
     program = (head or prelude(resources, names, snapshot)) + scenario_program(scenario, addon)
     return json.loads(execute(program.encode()))
+
+
+APPLIED = ('APPLIED', 'ALREADY_DESIRED', 'RESIDENT')
+
+
+def outcome(op):
+    """How one registered operation ended: applied, not_applicable, rejected or skipped."""
+    status, result = op.get('status'), op.get('result')
+    if status == 'rejected' or result == 'REJECTED':
+        return 'rejected'
+    if status in ('unavailable', 'disabled'):
+        return 'not_applicable'
+    if result in APPLIED and (op.get('kind') != 'ensure' or (op.get('runs') or 0) >= 1):
+        return 'applied'
+    return 'skipped'
+
+
+def registered_operations(report):
+    """Every registered operation with its outcome: as it stood once the startup settled (the expected mutation). An
+    operation its own option kept inactive at startup (a default-off toggle) that applied once the scenario turned
+    the option on counts as applied; one registered later (an option or event step) counts as it stood at the end."""
+    settled, final = report.get('operations'), report.get('operations_final')
+    if settled is None or final is None:
+        return None
+    # The harness JSON encoder writes an empty Lua list as {}.
+    settled, final = (list(value) if isinstance(value, list) else [] for value in (settled, final))
+    result = []
+    for index, op in enumerate(settled):
+        later = final[index] if index < len(final) else op
+        state = outcome(op)
+        if state == 'not_applicable' and outcome(later) == 'applied':
+            op, state = later, 'applied'
+        result.append((op, state))
+    return result + [(op, outcome(op)) for op in final[len(settled):]]
+
+
+def check_operations(report, extras):
+    """Failures for the registered operations of one scenario, and how many ended each way."""
+    operations = registered_operations(report)
+    if operations is None:
+        return ['the packaged runtime does not list its registered operations (hd2.diagnostics.operations)'], {}
+    expected_rejections = extras.get('rejected', {})
+    unavailable = set(extras.get('unavailable', ()))
+    legacy = {key: sorted(value) for key, value in extras.get('legacy', {}).items()}
+    failures, counts = [], {'applied': 0, 'legacy': 0, 'not_applicable': 0, 'rejected_expected': 0,
+        'rejected': 0, 'skipped': 0}
+    seen = set()
+    log = report.get('log') or []
+    for op, result in operations:
+        name = op.get('id') or '(no id)'
+        seen.add(name)
+        fields = sorted(op.get('legacy') or [])
+        detail = 'status=%s result=%s error=%s' % (op.get('status'), op.get('result'), op.get('error'))
+        if name in expected_rejections:
+            reason = expected_rejections[name]
+            if result != 'rejected':
+                failures.append(f'{name}: expected a refusal ({reason}), got {result} ({detail})')
+            elif reason not in str(op.get('error')) and not any(name in line and reason in line for line in log):
+                failures.append(f'{name}: refused for another reason than {reason!r} ({detail})')
+            else:
+                counts['rejected_expected'] += 1
+            continue
+        if name in unavailable:
+            if result != 'not_applicable':
+                failures.append(f'{name}: expected an inactive (not applicable) operation, got {result} ({detail})')
+            else:
+                counts['not_applicable'] += 1
+            continue
+        if result == 'rejected':
+            failures.append(f'{name}: rejected unexpectedly ({detail})')
+        elif result == 'skipped':
+            failures.append(f'{name}: skipped, never applied ({detail})')
+        elif result == 'not_applicable':
+            failures.append(f'{name}: not applied ({op.get("status")}) and the scenario does not declare it '
+                'unavailable')
+        counts[result] += 1
+        if fields and name not in legacy:
+            failures.append(f'{name}: applied only through the legacy SDK path ({", ".join(fields)}); declare it')
+        if name in legacy:
+            if fields != legacy[name]:
+                failures.append(f'{name}: expected legacy fields {legacy[name]}, got {fields} ({detail})')
+            elif result == 'applied':
+                counts['legacy'] += 1
+                if not any(': legacy SDK ' in line and name in line for line in log):
+                    failures.append(f'{name}: applied as a legacy operation without its log line')
+    for name in list(expected_rejections) + sorted(unavailable) + sorted(legacy):
+        if name not in seen:
+            failures.append(f'{name}: expected operation was never registered')
+    return failures, counts
 
 
 def check(report):
@@ -1391,6 +1555,14 @@ def check(report):
         failures.append('ensure did not re-apply after reset')
     if any('not found' in line for line in report.get('log', [])):
         failures.append('log reports a missing module')
+    extras = EXTRAS.get(report.get('scenario'), {})
+    failures += check_operations(report, extras)[0]
+    # A mutation scenario must have written; an observing one must not have.
+    writes = (report.get('counts') or {}).get('writes')
+    if extras.get('readOnly') and writes:
+        failures.append(f'read-only scenario wrote {writes} times')
+    if not extras.get('readOnly') and not writes:
+        failures.append('no write reached the overlay')
     return failures
 
 
@@ -1423,6 +1595,7 @@ def validate(zip_path, snapshot=SNAPSHOT, scenarios=None, jobs=None):
             problems.append(f'startup version line {line!r} expected once as the first log line '
                 f'(found {log.count(line)}, first {log[0] if log else None!r})')
         result['scenarios'][name] = {'passed': not problems, 'problems': problems,
+            'outcomes': check_operations(report, EXTRAS.get(name, {}))[1],
             'watches': report.get('watches'), 'reset': report.get('reset', {}).get('reapplied'),
             'overlayWrites': report.get('counts', {}).get('writes'),
             'moduleHashes': report.get('counts', {}).get('module_hashes'),
@@ -1458,7 +1631,8 @@ def main():
         args.output.write_text(json.dumps(result, indent=2) + '\n')
     for name, item in result['scenarios'].items():
         print(name, 'PASS' if item['passed'] else 'FAIL', 'writes=%s' % item['overlayWrites'],
-            'reset_reapplied=%s' % item['reset'])
+            'reset_reapplied=%s' % item['reset'], ' '.join('%s=%s' % pair for pair in item['outcomes'].items()
+                if pair[1]))
 
 
 if __name__ == '__main__':
