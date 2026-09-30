@@ -1,0 +1,101 @@
+{
+ "source": "build/scratch/hmg/profile.py on the retained snapshot F5FEE03DCFDB-20260926T222226Z, the exact addon",
+ "oldBudgetBytes": 16777216,
+ "readCeilingBytes": 67108864,
+ "plans": {
+  "support-plan-a7d11bc364c94023b9ff184d": {
+   "changes": 13,
+   "contexts": 28,
+   "contextBytes": 424064,
+   "uniqueContexts": 28,
+   "uniqueContextBytes": 424064,
+   "before": {
+    "guardedBytes": 12722024,
+    "guardedQueries": 1019,
+    "fullChecks": 30
+   },
+   "after": {
+    "guardedBytes": 6785128,
+    "guardedQueries": 571,
+    "fullChecks": 16,
+    "allowance": 13570464,
+    "status": "APPLIED"
+   },
+   "resolution": {
+    "readerBytes": 2004808,
+    "readerQueries": 58794,
+    "bySite": [
+     {
+      "bytes": 1156652,
+      "site": "runtime/discover <- domains/player_weapon_writes"
+     },
+     {
+      "bytes": 424064,
+      "site": "runtime/reader <- @hd2-snapshot-scan"
+     },
+     {
+      "bytes": 261168,
+      "site": "core/entity_catalog <- domains/player_weapon_writes [captured]"
+     },
+     {
+      "bytes": 162896,
+      "site": "runtime/discover <- domains/player_weapon_writes [captured]"
+     },
+     {
+      "bytes": 28,
+      "site": "core/entity_catalog <- domains/player_weapon_writes"
+     }
+    ]
+   }
+  },
+  "support-plan-ff0bc43a596f53f27e5dfd80": {
+   "changes": 19,
+   "contexts": 53,
+   "contextBytes": 925492,
+   "uniqueContexts": 33,
+   "uniqueContextBytes": 497572,
+   "before": {
+    "guardedBytes": 38870816,
+    "guardedQueries": 2695,
+    "fullChecks": 42
+   },
+   "after": {
+    "guardedBytes": 10946736,
+    "guardedQueries": 905,
+    "fullChecks": 22,
+    "allowance": 21893776,
+    "status": "APPLIED"
+   },
+   "resolution": {
+    "readerBytes": 2728728,
+    "readerQueries": 48900,
+    "bySite": [
+     {
+      "bytes": 925492,
+      "site": "runtime/reader <- @hd2-snapshot-scan"
+     },
+     {
+      "bytes": 877716,
+      "site": "runtime/discover <- domains/player_weapon_writes"
+     },
+     {
+      "bytes": 513504,
+      "site": "core/stratagem <- domains/player_weapon_writes [captured]"
+     },
+     {
+      "bytes": 262208,
+      "site": "core/entity_catalog <- domains/player_weapon_writes [captured]"
+     },
+     {
+      "bytes": 149780,
+      "site": "runtime/discover <- domains/player_weapon_writes [captured]"
+     },
+     {
+      "bytes": 28,
+      "site": "core/entity_catalog <- domains/player_weapon_writes"
+     }
+    ]
+   }
+  }
+ }
+}

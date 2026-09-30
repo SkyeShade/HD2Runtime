@@ -96,6 +96,9 @@ def user_report(name, folder=USER_REPORT):
 # ModBuilder issue 2 (tests/fixtures/user-reports/modbuilder-issue-2-halt): ModBuilder 1.3.1 exports editing every
 # SG-20 Halt field next to unrelated weapons. With the published 0.27.0 the first Halt operation aborted the addon.
 HALT_ISSUE = ROOT / 'tests/fixtures/user-reports/modbuilder-issue-2-halt/generated'
+# The HMG read-budget report (tests/fixtures/user-reports/hmg-read-budget): the user's exact ModBuilder 1.3.1 / SDK
+# 0.27.0 package, as its ZIP ships it. Its MG-206 plan (six operations, 19 fields) exhausted the guarded read budget.
+HMG_READ_BUDGET = ROOT / 'tests/fixtures/user-reports/hmg-read-budget'
 
 
 # Active projectile sources from the shipped archive: the Reprimand's own member is its fired projectile (the live
@@ -903,6 +906,8 @@ EXTRAS = {'options-live': {'menu': MENU_STUB, 'after': OPTIONS_LIVE},
     'user-report-halt-issue-all-fields': {'watches': 8, 'frames': 60000},
     'user-report-halt-issue-damage': {'watches': 5, 'frames': 60000},
     'user-report-halt-issue-sway': {'watches': 4},
+    # Both plans of the user's HMG package apply; neither exhausts the guarded read budget.
+    'user-report-hmg-read-budget': {'watches': 2, 'frames': 60000},
     'user-report-maxigun-plus-backpack': {'rejected': {'entity-2f5a386db841be55d3be8e66':
         'outside the reviewed range for deposit.capacity (1 to 1023)'}},
     'example-explosive-projectile-swap': {'packageRequests': 1},
@@ -1015,6 +1020,7 @@ SCENARIOS = {
     'user-report-halt-issue-all-fields': lambda: user_report('H1-halt-all', HALT_ISSUE),
     'user-report-halt-issue-damage': lambda: user_report('H2-halt-damage-only', HALT_ISSUE),
     'user-report-halt-issue-sway': lambda: user_report('H3-halt-sway-only', HALT_ISSUE),
+    'user-report-hmg-read-budget': lambda: user_report('HMG', HMG_READ_BUDGET),
     'player-weapon-transaction-gui': lambda: GUI_TRANSACTION,
     'support-weapon': lambda: example('SupportAMRProof'),
     'support-weapon-coverage': lambda: SUPPORT_COVERAGE,

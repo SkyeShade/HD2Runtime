@@ -89,9 +89,11 @@ outside the reviewed projectile consumer table.
    full projectile bytes and every non-target damage-record byte.
 3. Finish paced snapshot verification and revalidate fingerprints. The commit
    section has no coroutine yields, log callbacks or user callbacks. Reread all
-   captured ownership and data contexts before and after opening the target page.
-   The shared transaction engine caps the synchronous section at 128 contexts /
-   2 MiB of snapshot data, 16 MiB total rereads and 16,384 read queries.
+   captured ownership and data contexts before opening the target page and again
+   directly before the write. The shared transaction engine caps the synchronous
+   section at 128 contexts / 2 MiB of snapshot data and 16,384 read queries. Its
+   reread allowance is derived from the plan and bounded by a 64 MiB ceiling
+   (`docs/transaction-ensure.md`, read budget).
 4. Allow only private committed data pages with original protection READONLY or
    READWRITE. Require an aligned 12-byte field wholly inside one 4 KiB page.
    Open that page only when necessary, verify writable protection, and reread
