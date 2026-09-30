@@ -840,6 +840,9 @@ PROJECTILE_BUILDER_TOGGLES = {
         [('projectile_slot_test.impact', 2, [1], 1, 2), ('projectile_slot_test.impact', 3, [1], 1, 3),
          ('projectile_slot_test.impact', 4, [1], 1, 4), ('projectile_slot_test.impact', 5, [1], 1, 5),
          ('projectile_slot_test.impact', 1, [1], 1, 5), ('projectile_slot_test.impact', 2, [1], 1, 5)], 5),
+    # OneTwoUnderbarrelTest: the One-Two launcher entity's own WeaponData (spread) and WeaponRounds (reserve) records.
+    'example-one-two-underbarrel-test': ([('one_two_underbarrel_test.tight_grenades', [1], 2, True),
+        ('one_two_underbarrel_test.grenade_pouch', [2], 3, True)], (), 0),
     # VehicleProjectileBuilderTest: the Patriot minigun's own ProjectileWeapon +0 (mount chain re-proven) through every
     # donor, then the shared minigun bullet row's impact slot through every effect; each switch is one write.
     'example-vehicle-projectile-builder-test': ([],
