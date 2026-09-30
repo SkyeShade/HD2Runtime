@@ -64,12 +64,14 @@ for name,key in pairs(natives.stats.keys)do
  out.stats[name]=world_module.stat_total(world,out.players[1].entity,key,world.view.slot())
 end
 local K=natives.stats.keys
-local breakdown=world_module.stat_breakdown(world,out.players[1].entity,{K.projectiles_fired,K.dealt_kills},world.view.slot())
+local breakdown=world_module.stat_breakdown(world,out.players[1].entity,{K.projectiles_fired,K.dealt_kills,
+ K.projectiles_hit,K.dealt_damage},world.view.slot())
 out.sources={}
 for type_hex,values in pairs(breakdown and breakdown.sources or{})do
  out.sources[#out.sources+1]={type=type_hex,name=world_module.source_name(type_hex),shots=values[K.projectiles_fired],
-  kills=values[K.dealt_kills]}
+  kills=values[K.dealt_kills],hits=values[K.projectiles_hit],damage=values[K.dealt_damage]}
 end
+out.unattributedDamage=breakdown and breakdown.main[K.dealt_damage]
 table.sort(out.sources,function(a,c)return a.type<c.type end)
 local corpses=world_module.corpses(world,world.view.slot())
 out.corpses={count=corpses and corpses.count}
@@ -169,6 +171,13 @@ def validate(snapshots=SNAPSHOTS):
             if (named.get('R-36 Eruptor') or {}).get('kills') != 13 or (named.get('P-113 Verdict') or {}).get(
                     'shots') != 20:
                 problems.append('per-source stats')
+            # Hits and damage per source, exactly as the game's own stat blocks hold them (player_hit,
+            # player_damage_dealt); the main table's 300 has no source.
+            eruptor, verdict = named.get('R-36 Eruptor') or {}, named.get('P-113 Verdict') or {}
+            if (eruptor.get('hits'), eruptor.get('damage'), verdict.get('hits'), verdict.get('damage'),
+                    (named.get('Eagle Strafing Run') or {}).get('damage'), report['unattributedDamage']) != (
+                    6, 9592, 13, 1721, 29097, 300):
+                problems.append('per-source hits and damage')
         if not all(item['settings'] for item in report['namedExplosions']):
             problems.append('Hellbomb explosion settings missing')
         if report['statusQueue'] is None:

@@ -509,6 +509,26 @@ assert(count('observed=dead_state corpse=nil killer=peer '..OTHER..' -> no heal 
 return 'ok'
 ''')
 
+    def test_vampiric_throwing_knives_heal_only_on_knife_damage(self):
+        self.example('VampiricThrowingKnivesTest', r'''
+assert(loadstring(ADDON,'@mods/hd2runtime_examples/vampiric_throwing_knives_test'))()
+local K=require('hd2runtime/domains/event_natives').stats.keys
+local KNIFE='F7B35A9C5AE340B6'
+mission({host=true})
+W.set(100,{health=80})
+W.stat(10,K.dealt_damage,0,1,KNIFE);W.stat(10,K.dealt_damage,0,2,ERUPTOR);tick(2)   -- baseline
+tick(3);assert(#W.runtime.heals==0,'a miss records nothing')
+W.stat(10,K.dealt_damage,300,1,KNIFE);tick()
+assert(count('knife damage 300 -> heal +25 requested')==1 and #W.runtime.heals==1 and W.runtime.heals[1].entity==100)
+tick()
+assert(count('player healed +25 -> 105 / 125, cause mod mods/hd2runtime_examples/vampiric_throwing_knives_test')==1)
+W.stat(10,K.dealt_damage,905,2,ERUPTOR);tick()
+assert(count('damage 905 by R-36 Eruptor -> no heal (not the knife)')==1 and #W.runtime.heals==1)
+W.stat(10,K.dealt_damage,40);tick()
+assert(count('damage 40 without a source -> no heal')==1 and #W.runtime.heals==1)
+return 'ok'
+''')
+
     def test_player_kill_credited_example_logs_each_source(self):
         self.example('PlayerKillCreditedExample', r'''
 assert(loadstring(ADDON,'@mods/hd2runtime_examples/player_kill_credited_example'))()

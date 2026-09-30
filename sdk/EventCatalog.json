@@ -3,7 +3,7 @@
  "schemaVersion": 1,
  "hd2RuntimeVersion": "0.27.0",
  "summary": {
-  "events": 18,
+  "events": 20,
   "available": [
    "entity_damaged",
    "entity_died",
@@ -13,10 +13,12 @@
    "key_up",
    "mission_ended",
    "mission_started",
+   "player_damage_dealt",
    "player_damaged",
    "player_died",
    "player_fired",
    "player_healed",
+   "player_hit",
    "player_kill_credited",
    "player_spawned",
    "weapon_changed",
@@ -855,6 +857,86 @@
      "name": "unattributed",
      "type": "integer",
      "doc": "Growth the game recorded without a source."
+    }
+   ]
+  },
+  {
+   "name": "player_hit",
+   "status": "available",
+   "source": "stats",
+   "phase": "post",
+   "hot": false,
+   "summary": "The local player's projectiles hit: the game's projectiles_hit mission stat grew. The game adds it in its projectile system, once per projectile that hits, under the weapon that fired it. Checked 10 times per second, so one event can count several hits. Local player only. Thrown entities such as the K-2 Throwing Knife are not projectile-system projectiles: use player_damage_dealt for them.",
+   "payload": [
+    {
+     "name": "player",
+     "type": "HD2PlayerHandle",
+     "doc": "The local player."
+    },
+    {
+     "name": "local_player",
+     "type": "boolean",
+     "doc": "Always true."
+    },
+    {
+     "name": "hits",
+     "type": "integer",
+     "doc": "Projectile hits since the previous check."
+    },
+    {
+     "name": "total",
+     "type": "integer",
+     "doc": "The stat total now."
+    },
+    {
+     "name": "sources",
+     "type": "HD2StatSource[]",
+     "doc": "The growth per source type since the previous check, largest first: the weapon entity for guns, the throwable, or the stratagem payload."
+    },
+    {
+     "name": "unattributed",
+     "type": "integer",
+     "doc": "Growth the game recorded without a source."
+    }
+   ]
+  },
+  {
+   "name": "player_damage_dealt",
+   "status": "available",
+   "source": "stats",
+   "phase": "post",
+   "hot": false,
+   "summary": "The local player dealt damage: the game's dealt_damage mission stat grew by the damage the game recorded, under the weapon, throwable or stratagem payload that dealt it (team damage is a separate stat and is not counted). Checked 10 times per second: `damage` is the sum since the previous check. A hit that the target's armor stops entirely records nothing. Follow-up damage the game credits to the same source (an explosion, a status) is counted under that source too; no per-hit victim is reported.",
+   "payload": [
+    {
+     "name": "player",
+     "type": "HD2PlayerHandle",
+     "doc": "The local player."
+    },
+    {
+     "name": "local_player",
+     "type": "boolean",
+     "doc": "Always true."
+    },
+    {
+     "name": "damage",
+     "type": "integer",
+     "doc": "Damage dealt since the previous check."
+    },
+    {
+     "name": "total",
+     "type": "integer",
+     "doc": "The stat total now."
+    },
+    {
+     "name": "sources",
+     "type": "HD2StatSource[]",
+     "doc": "The growth per source type since the previous check, largest first: the weapon entity for guns, the throwable, or the stratagem payload."
+    },
+    {
+     "name": "unattributed",
+     "type": "integer",
+     "doc": "Damage the game recorded without a source."
     }
    ]
   },
@@ -2000,7 +2082,7 @@
     ]
    },
    "HD2StatSource": {
-    "doc": "One source of a player stat: the entity type the game recorded it under.",
+    "doc": "One source of a player stat: the entity type the game recorded it under. Exact attribution from the game's own accounting: a stat is added under the source entity the game passes to it.",
     "fields": [
      [
       "type",
@@ -2021,6 +2103,16 @@
       "kills",
       "integer|nil",
       "Kills (player_kill_credited)."
+     ],
+     [
+      "hits",
+      "integer|nil",
+      "Projectile hits (player_hit)."
+     ],
+     [
+      "damage",
+      "integer|nil",
+      "Damage dealt (player_damage_dealt)."
      ]
     ]
    },

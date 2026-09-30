@@ -1684,7 +1684,7 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@field orbital_laser "orbital_laser"
 ---@field shield_relay "shield_relay"
 
----@alias HD2EventName "mission_started"|"mission_ended"|"player_spawned"|"player_died"|"entity_spawned"|"entity_died"|"entity_killed"|"entity_damaged"|"player_damaged"|"player_healed"|"player_fired"|"player_kill_credited"|"weapon_equipped"|"weapon_unequipped"|"weapon_changed"|"entity_damage_pre"|"key_down"|"key_up"
+---@alias HD2EventName "mission_started"|"mission_ended"|"player_spawned"|"player_died"|"entity_spawned"|"entity_died"|"entity_killed"|"entity_damaged"|"player_damaged"|"player_healed"|"player_fired"|"player_kill_credited"|"player_hit"|"player_damage_dealt"|"weapon_equipped"|"weapon_unequipped"|"weapon_changed"|"entity_damage_pre"|"key_down"|"key_up"
 
 ---A world position snapshot (metres).
 ---@class HD2Vector3
@@ -1842,12 +1842,14 @@ function HD2ScriptValue:get() end
 ---@field mode string|nil Game mode.
 local HD2GameState = {}
 
----One source of a player stat: the entity type the game recorded it under.
+---One source of a player stat: the entity type the game recorded it under. Exact attribution from the game's own accounting: a stat is added under the source entity the game passes to it.
 ---@class HD2StatSource
 ---@field type string Source entity type hash (16 hex digits).
 ---@field name string|nil The weapon, throwable or stratagem name when catalogued.
 ---@field shots integer|nil Shots (player_fired).
 ---@field kills integer|nil Kills (player_kill_credited).
+---@field hits integer|nil Projectile hits (player_hit).
+---@field damage integer|nil Damage dealt (player_damage_dealt).
 local HD2StatSource = {}
 
 ---A read-only position snapshot (metres). Every subscriber and every delayed callback that kept it reads the same values; writing a field raises. tostring(p) formats it.
@@ -2268,6 +2270,26 @@ local HD2Event_player_fired = {}
 ---@field unattributed integer Growth the game recorded without a source.
 local HD2Event_player_kill_credited = {}
 
+---The local player's projectiles hit: the game's projectiles_hit mission stat grew. The game adds it in its projectile system, once per projectile that hits, under the weapon that fired it. Checked 10 times per second, so one event can count several hits. Local player only. Thrown entities such as the K-2 Throwing Knife are not projectile-system projectiles: use player_damage_dealt for them.
+---@class HD2Event_player_hit : HD2Event
+---@field player HD2PlayerHandle The local player.
+---@field local_player boolean Always true.
+---@field hits integer Projectile hits since the previous check.
+---@field total integer The stat total now.
+---@field sources HD2StatSource[] The growth per source type since the previous check, largest first: the weapon entity for guns, the throwable, or the stratagem payload.
+---@field unattributed integer Growth the game recorded without a source.
+local HD2Event_player_hit = {}
+
+---The local player dealt damage: the game's dealt_damage mission stat grew by the damage the game recorded, under the weapon, throwable or stratagem payload that dealt it (team damage is a separate stat and is not counted). Checked 10 times per second: `damage` is the sum since the previous check. A hit that the target's armor stops entirely records nothing. Follow-up damage the game credits to the same source (an explosion, a status) is counted under that source too; no per-hit victim is reported.
+---@class HD2Event_player_damage_dealt : HD2Event
+---@field player HD2PlayerHandle The local player.
+---@field local_player boolean Always true.
+---@field damage integer Damage dealt since the previous check.
+---@field total integer The stat total now.
+---@field sources HD2StatSource[] The growth per source type since the previous check, largest first: the weapon entity for guns, the throwable, or the stratagem payload.
+---@field unattributed integer Damage the game recorded without a source.
+local HD2Event_player_damage_dealt = {}
+
 ---The local player now holds an item: after a weapon switch, after a respawn (the game wields the first loadout item), or when a carried item is taken in hand. What is held when Runtime starts watching is the baseline (no event).
 ---@class HD2Event_weapon_equipped : HD2Event
 ---@field player HD2PlayerHandle The local player.
@@ -2320,6 +2342,8 @@ local HD2Event_key_up = {}
 ---@alias HD2PlayerHealedEvent HD2Event_player_healed
 ---@alias HD2PlayerFiredEvent HD2Event_player_fired
 ---@alias HD2PlayerKillCreditedEvent HD2Event_player_kill_credited
+---@alias HD2PlayerHitEvent HD2Event_player_hit
+---@alias HD2PlayerDamageDealtEvent HD2Event_player_damage_dealt
 ---@alias HD2WeaponEquippedEvent HD2Event_weapon_equipped
 ---@alias HD2WeaponUnequippedEvent HD2Event_weapon_unequipped
 ---@alias HD2WeaponChangedEvent HD2Event_weapon_changed
@@ -2373,6 +2397,8 @@ function HD2Events.mission_id() end
 ---@overload fun(name: "player_healed", callback: fun(event: HD2Event_player_healed), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(name: "player_fired", callback: fun(event: HD2Event_player_fired), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(name: "player_kill_credited", callback: fun(event: HD2Event_player_kill_credited), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(name: "player_hit", callback: fun(event: HD2Event_player_hit), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(name: "player_damage_dealt", callback: fun(event: HD2Event_player_damage_dealt), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(name: "weapon_equipped", callback: fun(event: HD2Event_weapon_equipped), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(name: "weapon_unequipped", callback: fun(event: HD2Event_weapon_unequipped), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(name: "weapon_changed", callback: fun(event: HD2Event_weapon_changed), opts?: HD2SubscribeOptions): HD2Subscription
@@ -2396,6 +2422,8 @@ function HD2Events.on(name, callback, opts) end
 ---@overload fun(name: "player_healed", callback: fun(event: HD2Event_player_healed), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(name: "player_fired", callback: fun(event: HD2Event_player_fired), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(name: "player_kill_credited", callback: fun(event: HD2Event_player_kill_credited), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(name: "player_hit", callback: fun(event: HD2Event_player_hit), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(name: "player_damage_dealt", callback: fun(event: HD2Event_player_damage_dealt), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(name: "weapon_equipped", callback: fun(event: HD2Event_weapon_equipped), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(name: "weapon_unequipped", callback: fun(event: HD2Event_weapon_unequipped), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(name: "weapon_changed", callback: fun(event: HD2Event_weapon_changed), opts?: HD2SubscribeOptions): HD2Subscription
@@ -2458,6 +2486,8 @@ function HD2ModContext:run(fn, ...) end
 ---@overload fun(self: HD2ModContext, name: "player_healed", callback: fun(event: HD2Event_player_healed), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(self: HD2ModContext, name: "player_fired", callback: fun(event: HD2Event_player_fired), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(self: HD2ModContext, name: "player_kill_credited", callback: fun(event: HD2Event_player_kill_credited), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(self: HD2ModContext, name: "player_hit", callback: fun(event: HD2Event_player_hit), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(self: HD2ModContext, name: "player_damage_dealt", callback: fun(event: HD2Event_player_damage_dealt), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(self: HD2ModContext, name: "weapon_equipped", callback: fun(event: HD2Event_weapon_equipped), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(self: HD2ModContext, name: "weapon_unequipped", callback: fun(event: HD2Event_weapon_unequipped), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(self: HD2ModContext, name: "weapon_changed", callback: fun(event: HD2Event_weapon_changed), opts?: HD2SubscribeOptions): HD2Subscription
@@ -2481,6 +2511,8 @@ function HD2ModContext:on(name, callback, opts) end
 ---@overload fun(self: HD2ModContext, name: "player_healed", callback: fun(event: HD2Event_player_healed), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(self: HD2ModContext, name: "player_fired", callback: fun(event: HD2Event_player_fired), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(self: HD2ModContext, name: "player_kill_credited", callback: fun(event: HD2Event_player_kill_credited), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(self: HD2ModContext, name: "player_hit", callback: fun(event: HD2Event_player_hit), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(self: HD2ModContext, name: "player_damage_dealt", callback: fun(event: HD2Event_player_damage_dealt), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(self: HD2ModContext, name: "weapon_equipped", callback: fun(event: HD2Event_weapon_equipped), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(self: HD2ModContext, name: "weapon_unequipped", callback: fun(event: HD2Event_weapon_unequipped), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(self: HD2ModContext, name: "weapon_changed", callback: fun(event: HD2Event_weapon_changed), opts?: HD2SubscribeOptions): HD2Subscription
