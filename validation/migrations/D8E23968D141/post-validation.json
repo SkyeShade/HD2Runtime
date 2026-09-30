@@ -111,8 +111,8 @@
    "name": "validate_vehicle_weapon_authoring_snapshot",
    "ok": true,
    "tail": [
-    "  \"vehicleFields\": 536,",
-    "  \"vehicleWeapons\": 18",
+    "  \"vehicleFields\": 623,",
+    "  \"vehicleWeapons\": 23",
     "}"
    ]
   },
@@ -180,6 +180,15 @@
    ]
   },
   {
+   "name": "validate_equipment_coverage_snapshot",
+   "ok": true,
+   "tail": [
+    "  \"staleExpectRejections\": 81,",
+    "  \"status\": \"VALIDATED\"",
+    "}"
+   ]
+  },
+  {
    "name": "examples",
    "ok": true,
    "tail": [
@@ -210,7 +219,7 @@
    "name": "full test suite",
    "ok": true,
    "tail": [
-    "Ran 608 tests in 47.932s",
+    "Ran 627 tests in 47.747s",
     "",
     "OK"
    ]
@@ -219,8 +228,8 @@
    "name": "packaged runtime",
    "ok": true,
    "tail": [
-    "example-throwing-knife-damage PASS writes=3 reset_reapplied=True",
     "example-unusual-sentry-proof PASS writes=3 reset_reapplied=None",
+    "example-warp-pack-test PASS writes=11 reset_reapplied=True",
     "example-weapon-presentation-test PASS writes=14 reset_reapplied=True"
    ]
   }
