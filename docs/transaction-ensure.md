@@ -57,17 +57,30 @@ stable snapshot rereads and an application-time fingerprint reread. It then:
 1. Classifies every field from exact encoded bytes. Desired values are retained,
    expected values are planned, and any other value rejects the whole transaction.
 2. Captures every ownership/data context and verifies that each target belongs to
-   exactly one captured record. All changes validate before the first page opens.
+   exactly one captured record. A range captured by several operations of one plan
+   (for example every MG-206 operation's call-in delivery proof) is checked once;
+   copies whose bytes differ fail closed. All changes validate before the first
+   page opens.
 3. Deduplicates touched 4 KiB pages. Each page must be committed private memory,
    owned by the resolved allocation, and READONLY or READWRITE. Already-writable
    pages are not changed.
-4. Opens all required read-only pages, rereads every context, and rereads each
-   field directly before its exact four-byte write. Writes follow declaration
-   order. After every write, the target and all captured non-target bytes are
-   verified against the deterministic intermediate state.
-5. Restores every touched page in reverse order and verifies its original
-   protection. The complete desired state and non-target contexts are reread once
-   more before `APPLIED` is returned.
+4. Rereads every context, opens all required read-only pages, and then, directly
+   before each exact-width write, rereads the field and every context against the
+   deterministic intermediate state. Writes follow declaration order, and each
+   target is reread after its write. A write that disturbs any context, or a change
+   by anything else, is caught before the next write.
+5. Rereads every context against the complete desired state after the last write,
+   restores every touched page in reverse order, verifies its original protection,
+   and rereads every context once more before `APPLIED` is returned.
+
+**Read budget.** Every full check rereads every context once. A successful apply
+runs changed + 3 checks, and a rollback at most changed + 2 more. The allowance is
+derived from the plan: (2 × changed fields + 6) × context bytes + 8 × target bytes.
+That covers the whole apply and the worst rollback, so a rollback always has the
+reads it needs. A hard ceiling of 64 MiB bounds it: a plan above the ceiling is
+refused before any page is opened (`transaction read budget exceeded ... split the
+operation`). The engine also keeps its 128-context, 2 MiB snapshot and 16,384-query
+limits.
 
 If any write or verification fails, the engine accepts rollback only from the
 known pre-transaction value, the desired value, or the exact transferred prefix

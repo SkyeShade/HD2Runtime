@@ -1256,7 +1256,8 @@ function M.prepare(resolved,reader,spec)
             end
             change.expected=expected;change.desired=b.encode(source_type,'u32')
         end
-        local expected=ownership.expected(change,current)
+        local expected=ownership.expected(change,current,nil,{target=spec.kind..' '..tostring(spec.weapon)
+            ..(spec.attack and(' '..spec.attack)or'')})
         local identity
         if backing.kind=='entity_delta'then
             identity={component='EntityDelta:'..backing.component,component_type='semantic',

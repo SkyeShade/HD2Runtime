@@ -2,6 +2,17 @@
 local metrics=require('hd2runtime/runtime/metrics')
 local M={}
 local PAGE=4096
+-- Hard ceiling on the guarded bytes one transaction may read. The allowance itself is derived from the plan's shape
+-- (see M.read_allowance); a plan whose allowance exceeds this is refused before any page is opened.
+local READ_CEILING=64*1024*1024
+M.READ_CEILING=READ_CEILING
+-- Guarded reads scale with the plan: each full check re-reads every context once. A successful apply runs changed+3
+-- checks (one before opening the pages, one right before each write, one after the last write and one after
+-- restoring protection); a rollback at most changed+2 more. Each target is re-read at most five times (immediate and post-write reads, the rollback's reads).
+-- The allowance covers exactly that bound, rollback included, so a rollback is never starved of its reads.
+function M.read_allowance(changed,context_bytes,target_bytes)
+    return (2*changed+6)*context_bytes+8*target_bytes
+end
 local function safe(n)return type(n)=='number' and n>=0 and n%1==0 and n<=9007199254740991 end
 local function replace(value,offset,bytes)
     return value:sub(1,offset)..bytes..value:sub(offset+#bytes+1)
@@ -62,7 +73,7 @@ function M.apply(runtime,plan)
     local changes=assert(plan.changes,'transaction changes missing')
     assert(#changes>=1 and #changes<=128,'unsupported transaction change count')
     local contexts,pages,page_by_key,total={}, {}, {},0
-    local queries,bytes_read=0,0
+    local queries,bytes_read,allowance=0,0,0
     local refused
     local function region(at,owner)
         assert(safe(at) and safe(owner.base) and safe(owner.size) and owner.size>0,'invalid owner extent')
@@ -88,7 +99,7 @@ function M.apply(runtime,plan)
             local at=owner.base+offset
             local r=region(at,owner)
             local n=math.min(length,r.base+r.size-at,65536)
-            bytes_read=bytes_read+n;assert(bytes_read<=16*1024*1024,'transaction read budget exceeded')
+            bytes_read=bytes_read+n;assert(bytes_read<=allowance,'transaction read budget exceeded')
             local value=assert(runtime.read(at,n),'memory read failed')
             assert(#value==n,'short memory read')
             parts[#parts+1]=value;offset=offset+n;length=length-n
@@ -125,6 +136,7 @@ function M.apply(runtime,plan)
     end
     local before,desired={},{}
     local intervals={}
+    local changed_count,target_bytes=0,0
     for index,change in ipairs(changes)do
         assert(type(change.owner)=='table' and safe(change.offset)
             and type(change.expected)=='string' and type(change.desired)=='string'
@@ -143,6 +155,8 @@ function M.apply(runtime,plan)
             'transaction target alignment/page boundary')
         intervals[#intervals+1]={first=address,last=address+#change.desired,index=index}
         before[index]=change.before;desired[index]=change.desired
+        target_bytes=target_bytes+#change.before
+        if change.before~=change.desired then changed_count=changed_count+1 end
         report.fields[index]={field=change.label,
             state=change.before==change.desired and 'ALREADY_DESIRED' or 'EXPECTED'}
         if change.before~=change.desired then
@@ -161,12 +175,27 @@ function M.apply(runtime,plan)
     for i=2,#intervals do assert(intervals[i-1].last<=intervals[i].first,
         'overlapping transaction changes')end
     assert(type(plan.snapshots)=='table' and #plan.snapshots>0,'transaction snapshots missing')
+    -- One context per captured range. The operations of one plan often prove the same chain (every MG-206 operation
+    -- re-captures its call-in delivery proof), so the same range arrives several times: it is checked once. Copies
+    -- whose bytes differ were captured from memory that changed in between, which fails closed.
+    local context_by_range={}
     for _,snapshot in ipairs(plan.snapshots)do
-        total=total+#snapshot.bytes
-        assert(total<=2*1024*1024 and #contexts<128,'transaction context budget exceeded')
-        contexts[#contexts+1]={owner=snapshot.owner,offset=snapshot.offset,
-            bytes=snapshot.bytes,targets={}}
+        local range=tostring(snapshot.owner.base)..':'..tostring(snapshot.offset)..':'..#snapshot.bytes
+        local prior=context_by_range[range]
+        if prior then
+            assert(prior.owner.size==snapshot.owner.size and prior.bytes==snapshot.bytes,
+                'duplicate transaction context differs')
+        else
+            total=total+#snapshot.bytes
+            assert(total<=2*1024*1024 and #contexts<128,'transaction context budget exceeded')
+            prior={owner=snapshot.owner,offset=snapshot.offset,bytes=snapshot.bytes,targets={}}
+            contexts[#contexts+1]=prior;context_by_range[range]=prior
+        end
     end
+    allowance=M.read_allowance(changed_count,total,target_bytes)
+    assert(allowance<=READ_CEILING,('transaction read budget exceeded: %d changes over %d context bytes need up to '
+        ..'%d guarded bytes, above the %d ceiling; split the operation'):format(changed_count,total,allowance,
+        READ_CEILING))
     for index,change in ipairs(changes)do
         local address=change.owner.base+change.offset
         local contained=0
@@ -289,7 +318,10 @@ function M.apply(runtime,plan)
             report.status='ALREADY_DESIRED';report.non_target_bytes_unchanged=true;return
         end
         for _,page in ipairs(pages)do open_page(page,'target')end
-        check(before)
+        -- One full check right before every write, and one after the last write. A write that disturbs any context is
+        -- caught before the next write (or by the final check), and so is a change by anything else. The checks the
+        -- engine used to repeat back to back (after opening the pages, and again after each write, each immediately
+        -- followed by the next write's own check with nothing written in between) re-read every context twice.
         for index,change in ipairs(changes)do
             assert(read(change.owner,change.offset,#change.before)==before[index],
                 'immediate target reread mismatch')
@@ -305,7 +337,6 @@ function M.apply(runtime,plan)
                 current_states[index]=change.desired
                 assert(read(change.owner,change.offset,#change.desired)==change.desired,
                     'post-write target reread mismatch')
-                check(current_states)
                 report.fields[index].state='APPLIED'
             end
         end

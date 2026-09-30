@@ -1,0 +1,19 @@
+{
+  "format": 1,
+  "name": "HMG",
+  "author": "Strynox",
+  "version": "0.1.0",
+  "resource": "mods/strynox/las_98",
+  "guid": "e6d101ba-3884-533c-b02e-6d43eea98a02",
+  "requires": {
+    "bingus": {
+      "min_release": 15,
+      "api": 1
+    },
+    "hd2runtime": {
+      "module": "mods/skyeshade/hd2runtime",
+      "min_version": "0.27.0",
+      "api": 1
+    }
+  }
+}

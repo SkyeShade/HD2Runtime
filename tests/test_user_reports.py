@@ -4,6 +4,7 @@ The user's ModBuilder project registered only its first 42 of 133 operations wit
 (the SG-20 Halt primary-feed damage) raised `field is not exposed`, which aborted the addon. These tests keep the
 fixture honest (the log is the export's prefix), prove every exported operation now validates, check the project's
 structure, the Halt feed-field resolution, the one-time startup version line and the published effect model."""
+import importlib.util
 import json
 import re
 import unittest
@@ -305,6 +306,95 @@ class EffectModelTests(unittest.TestCase):
                     and field['backing'].get('kind') == 'settings':
                 self.assertEqual(field.get('acknowledgement'), 'allow_unverified_effect', key)
                 self.assertFalse(field.get('liveEvidence'), key)
+
+
+HMG_READ_BUDGET = ROOT / 'tests/fixtures/user-reports/hmg-read-budget'
+# The MG-206 plan exactly as reported: (operation, field, expect, value).
+HMG_PLAN = [
+    ('support-d0a433eb59e88faa485f1573', 'projectile.drag', 0.3, 0.1),
+    ('support-d0a433eb59e88faa485f1573', 'projectile.pellet_count', 1, 2),
+    ('support-d0a433eb59e88faa485f1573', 'projectile.penetration_slowdown', 0.25, 0.05),
+    ('support-d0a433eb59e88faa485f1573', 'projectile.velocity', 980, 1960),
+    ('support-9401c3d9683daa4817216b5d', 'weapon.fire_rate', 600, 1150),
+    ('support-82b8fff675e3ca5aec780860', 'reload.duration', 5.5, 5),
+    ('support-afdfc9922ea1555ac2bf3aed', 'weapon.ergonomics', 0, 30),
+    ('support-afdfc9922ea1555ac2bf3aed', 'weapon.horizontal_spread', 5, 1),
+    ('support-afdfc9922ea1555ac2bf3aed', 'weapon.recoil_climb_horizontal', 15, 3),
+    ('support-afdfc9922ea1555ac2bf3aed', 'weapon.recoil_climb_vertical', 30, 6),
+    ('support-afdfc9922ea1555ac2bf3aed', 'weapon.recoil_drift_horizontal', 50, 10),
+    ('support-afdfc9922ea1555ac2bf3aed', 'weapon.recoil_drift_vertical', 80, 10),
+    ('support-afdfc9922ea1555ac2bf3aed', 'weapon.vertical_spread', 5, 1),
+    ('support-7e472931eaa978f00de204f8', 'magazine.magazines_from_supply', 2, 8),
+    ('support-7e472931eaa978f00de204f8', 'magazine.spare_magazines', 2, 10),
+    ('support-7e472931eaa978f00de204f8', 'magazine.starting_magazines', 1, 8),
+    ('support-7e472931eaa978f00de204f8', 'weapon.capacity', 100, 300),
+    ('support-bd9b831b96f7775ccfa8375d', 'damage.player_durable_damage', 35, 75),
+    ('support-bd9b831b96f7775ccfa8375d', 'damage.player_standard_damage', 150, 250),
+]
+
+
+class HmgReadBudgetTests(unittest.TestCase):
+    """The user's HMG mod (ModBuilder 1.3.1, SDK 0.27.0): its MG-206 plan exceeded the guarded read budget."""
+
+    def test_the_fixture_is_the_users_exact_package(self):
+        source = (HMG_READ_BUDGET / 'addon.lua').read_text(encoding='utf-8')
+        wrapped = (HMG_READ_BUDGET / 'HMG.wrapped.lua').read_text(encoding='utf-8')
+        self.assertIn(source, wrapped)
+        self.assertTrue(wrapped.startswith('-- HD2-Addon: mods/strynox/las_98\n'))
+        self.assertIn("local x,y,z=version('0.27.0')", wrapped)
+        report = json.loads((HMG_READ_BUDGET / 'build-report.json').read_text(encoding='utf-8'))
+        self.assertEqual((report['builder'], report['sdk_version']), ('HD2Runtime ModBuilder 1.3.1 / .NET 10', '0.27.0'))
+
+    def test_the_mg206_plan_is_the_reported_shape_and_every_operation_validates(self):
+        source = (HMG_READ_BUDGET / 'addon.lua').read_text(encoding='utf-8')
+        plan = source[source.index("id='support-plan-ff0bc43a596f53f27e5dfd80'"):]
+        found, operation = [], None
+        for line in plan.splitlines():
+            op = re.search(r"id='(support-[0-9a-f]{24})'", line)
+            if op:
+                operation = op.group(1)
+            for field, expect, value in re.findall(
+                    r'field=hd2\.fields\.([\w.]+),expect=([\d.]+),value=([\d.]+)', line):
+                found.append((operation, field, float(expect), float(value)))
+            single = re.search(r'field=hd2\.fields\.([\w.]+),$', line.strip())
+            if single:
+                pending = single.group(1)
+            if line.strip().startswith('expect='):
+                expect_value = float(line.strip()[7:-1])
+            if line.strip().startswith('value='):
+                found.append((operation, pending, expect_value, float(line.strip()[6:-1])))
+        self.assertEqual(found, [(o, f, float(e), float(v)) for o, f, e, v in HMG_PLAN])
+        results = probe_variants(['addon'], HMG_READ_BUDGET)['addon']
+        self.assertEqual([r['error'] for r in results if not r['ok']], [])
+        # Two plans (FLAM-40 and MG-206): 13 and 19 changes.
+        self.assertEqual([len(r['changes']) for r in results], [13, 19])
+        self.assertEqual({c['weapon'] for c in results[1]['changes']}, {'MG-206 Heavy Machine Gun'})
+
+    def test_the_recorded_profile_explains_the_failure_and_the_fix(self):
+        recorded = json.loads((HMG_READ_BUDGET / 'results.json').read_text(encoding='utf-8'))
+        hmg = recorded['plans']['support-plan-ff0bc43a596f53f27e5dfd80']
+        flam = recorded['plans']['support-plan-a7d11bc364c94023b9ff184d']
+        # 19 fields, 53 contexts of which 33 are distinct (the delivery proof captured by each of 6 operations).
+        self.assertEqual((hmg['changes'], hmg['contexts'], hmg['uniqueContexts']), (19, 53, 33))
+        self.assertEqual(hmg['before']['guardedBytes'], hmg['before']['fullChecks'] * hmg['contextBytes'] + 2 * 19 * 4)
+        self.assertGreater(hmg['before']['guardedBytes'], recorded['oldBudgetBytes'])
+        self.assertLess(flam['before']['guardedBytes'], recorded['oldBudgetBytes'])
+        for plan in (hmg, flam):
+            after = plan['after']
+            self.assertEqual(after['status'], 'APPLIED')
+            self.assertEqual(after['guardedBytes'],
+                after['fullChecks'] * plan['uniqueContextBytes'] + 2 * plan['changes'] * 4)
+            self.assertLessEqual(after['guardedBytes'], after['allowance'])
+            self.assertLessEqual(after['allowance'], recorded['readCeilingBytes'])
+
+    def test_the_exact_package_is_a_packaged_runtime_scenario(self):
+        packaged = importlib.util.spec_from_file_location('validate_packaged_runtime',
+            ROOT / 'scripts/validate_packaged_runtime.py')
+        module = importlib.util.module_from_spec(packaged)
+        packaged.loader.exec_module(module)
+        self.assertEqual(module.SCENARIOS['user-report-hmg-read-budget'](),
+            (HMG_READ_BUDGET / 'HMG.wrapped.lua').read_text(encoding='utf-8'))
+        self.assertEqual(module.EXTRAS['user-report-hmg-read-budget']['watches'], 2)
 
 
 if __name__ == '__main__':
