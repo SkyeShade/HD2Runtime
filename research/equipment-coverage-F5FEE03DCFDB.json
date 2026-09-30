@@ -1,0 +1,4385 @@
+{
+ "schemaVersion": 1,
+ "source": {
+  "mode": "offline",
+  "writes": 0,
+  "protectionChanges": 0,
+  "fixtureFallback": "disabled",
+  "entitiesSha256": "21377252B81FDBC670EBA1E59A8AB64B170323DF208F175E708992E4C1FB515E",
+  "typelibSha256": "4D04870D0A0D4DC1284998C72CDFA6F8FF6D21ABA0E36B6F758C6F73DD0417A4",
+  "wiki": {
+   "SH-32 Shield Generator Pack": {
+    "revision": 136374,
+    "cache": "SH-32_Shield_Generator_Pack-2d03f01384.json"
+   },
+   "SH-51 Directional Shield": {
+    "revision": 136373,
+    "cache": "SH-51_Directional_Shield-f3a8850f9b.json"
+   },
+   "FX-12 Shield Generator Relay": {
+    "revision": 136348,
+    "cache": "FX-12_Shield_Generator_Relay-00062f12e4.json"
+   },
+   "LIFT-182 Warp Pack": {
+    "revision": 136830,
+    "cache": "LIFT-182_Warp_Pack-ac51794fb1.json"
+   },
+   "LIFT-860 Hover Pack": {
+    "revision": 136368,
+    "cache": "LIFT-860_Hover_Pack-48f649c725.json"
+   },
+   "LAS-17 Double-Edge Sickle": {
+    "revision": 134729,
+    "cache": "LAS-17_Double-Edge_Sickle-8dd9073822.json"
+   },
+   "LAS-98 Laser Cannon": {
+    "revision": 136639,
+    "cache": "LAS-98_Laser_Cannon-bac2147004.json"
+   },
+   "LAS-13 Trident": {
+    "revision": 136940,
+    "cache": "LAS-13_Trident-996e0b3ff5.json"
+   },
+   "40-K Meltagun": {
+    "revision": 136835,
+    "cache": "40-K_Meltagun-93a0fd3b5b.json"
+   },
+   "LAS-5 Scythe": {
+    "revision": 134898,
+    "cache": "LAS-5_Scythe-4af3e87c72.json"
+   },
+   "LAS-7 Dagger": {
+    "revision": 134897,
+    "cache": "LAS-7_Dagger-25b5d711a7.json"
+   },
+   "A/LAS-98 Laser Sentry": {
+    "revision": 136795,
+    "cache": "A_LAS-98_Laser_Sentry-07a716faa6.json"
+   },
+   "AX/LAS-5 Rover": {
+    "revision": 136376,
+    "cache": "AX_LAS-5_Rover-8c7a35a11e.json"
+   },
+   "M-1000 Maxigun": {
+    "revision": 136643,
+    "cache": "M-1000_Maxigun-b762f08fc1.json"
+   }
+  }
+ },
+ "shields": {
+  "component": "ShieldComponentData",
+  "recordSize": 344,
+  "consumers": [
+   {
+    "consumer": "SH-32 Shield Generator Pack",
+    "entity": "content/fac_helldivers/equipment/backpacks/energy_shield_backpack/energy_shield_backpack",
+    "ownership": {
+     "component": "ShieldComponentData",
+     "recordIndex": 10,
+     "indexRow": 1,
+     "recordSize": 344,
+     "ownerCount": 1,
+     "uniqueOwner": true,
+     "ownerResources": [
+      "0x12C8D71AC3897A5C"
+     ],
+     "recordSha256": "95B5F3D3C89E6A80FEEE38FAEC11995E0765E0936481DACED91CC3448D278539"
+    },
+    "values": {
+     "0": 1.3,
+     "76": 150.0,
+     "80": 0.0,
+     "84": 1,
+     "88": 60.0,
+     "92": 12.0,
+     "96": 150.0,
+     "100": 150.0,
+     "104": 0.0,
+     "108": 0,
+     "324": 0
+    },
+    "wiki": {
+     "capacity": 150.0,
+     "rechargeDelay": 60.0,
+     "brokenRechargeDelay": 12.0,
+     "rechargeRate": 150.0,
+     "mainHealth": 200,
+     "mainArmor": 0
+    }
+   },
+   {
+    "consumer": "SH-51 Directional Shield",
+    "entity": "content/fac_helldivers/equipment/backpacks/directional_energy_shield/directional_energy_shield",
+    "ownership": {
+     "component": "ShieldComponentData",
+     "recordIndex": 4,
+     "indexRow": 8,
+     "recordSize": 344,
+     "ownerCount": 1,
+     "uniqueOwner": true,
+     "ownerResources": [
+      "0xB56FA3F5510000AB"
+     ],
+     "recordSha256": "7720E92B3737F842844512E3B88EA483F6D92181A5AD3ED3313FFDC431BB9932"
+    },
+    "values": {
+     "0": 0.0,
+     "76": 1000.0,
+     "80": 0.0,
+     "84": 1,
+     "88": 3.0,
+     "92": 6.0,
+     "96": 300.0,
+     "100": 200.0,
+     "104": 0.0,
+     "108": 0,
+     "324": 0
+    },
+    "wiki": {
+     "capacity": 1000.0,
+     "rechargeRate": 300.0,
+     "rechargeDelay": 3.0,
+     "brokenRechargeDelay": 6.0,
+     "radius": 0.0,
+     "mainHealth": 400,
+     "mainArmor": 4
+    }
+   },
+   {
+    "consumer": "FX-12 Shield Generator Relay",
+    "entity": "content/fac_helldivers/hellpod/energy_shield/energy_shield",
+    "ownership": {
+     "component": "ShieldComponentData",
+     "recordIndex": 12,
+     "indexRow": 18,
+     "recordSize": 344,
+     "ownerCount": 1,
+     "uniqueOwner": true,
+     "ownerResources": [
+      "0xED13DDC480EC6910"
+     ],
+     "recordSha256": "2222EA6D617007215EA779D52C90522DD5FA4E5B8BC664443C71922AEF646AFA"
+    },
+    "values": {
+     "0": 15.0,
+     "76": 4000.0,
+     "80": 0.0,
+     "84": 1,
+     "88": 0.01,
+     "92": 45.0,
+     "96": 400.0,
+     "100": 900.0,
+     "104": 0.0,
+     "108": 0,
+     "324": 0
+    },
+    "wiki": {
+     "capacity": 4000.0,
+     "rechargeRate": 400.0,
+     "rechargeDelay": 0.00999999978,
+     "brokenRechargeDelay": 45.0,
+     "radius": 15.0
+    }
+   }
+  ],
+  "decisions": {
+   "76": {
+    "field": "shield.durability",
+    "meaning": "Shield capacity",
+    "nameLength": 6,
+    "correlations": [
+     {
+      "consumer": "SH-32 Shield Generator Pack",
+      "native": 150.0,
+      "published": 150.0,
+      "exact": true
+     },
+     {
+      "consumer": "SH-51 Directional Shield",
+      "native": 1000.0,
+      "published": 1000.0,
+      "exact": true
+     },
+     {
+      "consumer": "FX-12 Shield Generator Relay",
+      "native": 4000.0,
+      "published": 4000.0,
+      "exact": true
+     }
+    ],
+    "independentConsumers": 3
+   },
+   "88": {
+    "field": "shield.recharge_delay",
+    "meaning": "Delay before a damaged (unbroken) shield recharges",
+    "nameLength": 14,
+    "correlations": [
+     {
+      "consumer": "SH-32 Shield Generator Pack",
+      "native": 60.0,
+      "published": 60.0,
+      "exact": true
+     },
+     {
+      "consumer": "SH-51 Directional Shield",
+      "native": 3.0,
+      "published": 3.0,
+      "exact": true
+     },
+     {
+      "consumer": "FX-12 Shield Generator Relay",
+      "native": 0.01,
+      "published": 0.00999999978,
+      "exact": true
+     }
+    ],
+    "independentConsumers": 3
+   },
+   "92": {
+    "field": "shield.broken_recharge_delay",
+    "meaning": "Delay before a broken shield restarts",
+    "nameLength": 21,
+    "correlations": [
+     {
+      "consumer": "SH-32 Shield Generator Pack",
+      "native": 12.0,
+      "published": 12.0,
+      "exact": true
+     },
+     {
+      "consumer": "SH-51 Directional Shield",
+      "native": 6.0,
+      "published": 6.0,
+      "exact": true
+     },
+     {
+      "consumer": "FX-12 Shield Generator Relay",
+      "native": 45.0,
+      "published": 45.0,
+      "exact": true
+     }
+    ],
+    "independentConsumers": 3
+   },
+   "96": {
+    "field": "shield.recharge_rate",
+    "meaning": "Shield recharge rate",
+    "nameLength": 13,
+    "correlations": [
+     {
+      "consumer": "SH-32 Shield Generator Pack",
+      "native": 150.0,
+      "published": 150.0,
+      "exact": true
+     },
+     {
+      "consumer": "SH-51 Directional Shield",
+      "native": 300.0,
+      "published": 300.0,
+      "exact": true
+     },
+     {
+      "consumer": "FX-12 Shield Generator Relay",
+      "native": 400.0,
+      "published": 400.0,
+      "exact": true
+     }
+    ],
+    "independentConsumers": 3
+   },
+   "0": {
+    "field": "shield.radius",
+    "meaning": "Shield radius",
+    "nameLength": 6,
+    "correlations": [
+     {
+      "consumer": "SH-51 Directional Shield",
+      "native": 0.0,
+      "published": 0.0,
+      "exact": true
+     },
+     {
+      "consumer": "FX-12 Shield Generator Relay",
+      "native": 15.0,
+      "published": 15.0,
+      "exact": true
+     }
+    ],
+    "independentConsumers": 2
+   }
+  },
+  "unknownMembers": [
+   {
+    "offset": 80,
+    "storage": "FP32",
+    "nameLength": 5,
+    "type": null,
+    "values": {
+     "SH-32 Shield Generator Pack": 0.0,
+     "SH-51 Directional Shield": 0.0,
+     "FX-12 Shield Generator Relay": 0.0
+    },
+    "lead": null
+   },
+   {
+    "offset": 84,
+    "storage": "UINT8",
+    "nameLength": 12,
+    "type": null,
+    "values": {
+     "SH-32 Shield Generator Pack": 1,
+     "SH-51 Directional Shield": 1,
+     "FX-12 Shield Generator Relay": 1
+    },
+    "lead": null
+   },
+   {
+    "offset": 100,
+    "storage": "FP32",
+    "nameLength": 26,
+    "type": null,
+    "values": {
+     "SH-32 Shield Generator Pack": 150.0,
+     "SH-51 Directional Shield": 200.0,
+     "FX-12 Shield Generator Relay": 900.0
+    },
+    "lead": "external export label \"restart charge\" (ShieldRelayImprovements); no published value"
+   },
+   {
+    "offset": 104,
+    "storage": "FP32",
+    "nameLength": 30,
+    "type": null,
+    "values": {
+     "SH-32 Shield Generator Pack": 0.0,
+     "SH-51 Directional Shield": 0.0,
+     "FX-12 Shield Generator Relay": 0.0
+    },
+    "lead": null
+   },
+   {
+    "offset": 108,
+    "storage": "ENUM_INT32",
+    "nameLength": 26,
+    "type": "StatusEffectType",
+    "values": {
+     "SH-32 Shield Generator Pack": 0,
+     "SH-51 Directional Shield": 0,
+     "FX-12 Shield Generator Relay": 0
+    },
+    "lead": "StatusEffectType member; 0 on every backpack shield"
+   },
+   {
+    "offset": 324,
+    "storage": "ENUM_UINT32",
+    "nameLength": 17,
+    "type": "ShieldShapeType",
+    "values": {
+     "SH-32 Shield Generator Pack": 0,
+     "SH-51 Directional Shield": 0,
+     "FX-12 Shield Generator Relay": 0
+    },
+    "lead": "ShieldShapeType"
+   }
+  ],
+  "leads": [
+   {
+    "source": "SH32 ShieldBoost (third-party addon)",
+    "claims": {
+     "+88": "damaged recharge delay, original 60",
+     "+92": "broken recharge delay, original 12"
+    },
+    "status": "lead only; the exact published values above prove the members independently"
+   }
+  ]
+ },
+ "directionalShield": {
+  "backpack": "0xA4E796F84801B40A",
+  "controller": {
+   "component": "ShieldControllerComponentData",
+   "recordIndex": 0,
+   "indexRow": 0,
+   "recordSize": 8,
+   "ownerCount": 1,
+   "uniqueOwner": true,
+   "ownerResources": [
+    "0xA4E796F84801B40A"
+   ],
+   "recordSha256": "97DCFA4830C0BF84062E10297869D4B888649DE6A9F33B4E732DFC552C93CBEE"
+  },
+  "controllerLink": {
+   "component": "ShieldControllerComponentData",
+   "offset": 0,
+   "storage": "u64",
+   "nameLength": 18
+  },
+  "barrier": {
+   "resource": "0xB56FA3F5510000AB",
+   "path": "content/fac_helldivers/equipment/backpacks/directional_energy_shield/directional_energy_shield",
+   "entityRow": 171,
+   "components": [
+    "EffectReferenceComponentData",
+    "HealthComponentData",
+    "HitEffectComponentData",
+    "LoadoutPackageComponentData",
+    "ShieldComponentData",
+    "ShieldHitFilterComponentData",
+    "SpottableComponentData",
+    "UnitComponentData"
+   ],
+   "shield": {
+    "component": "ShieldComponentData",
+    "recordIndex": 4,
+    "indexRow": 8,
+    "recordSize": 344,
+    "ownerCount": 1,
+    "uniqueOwner": true,
+    "ownerResources": [
+     "0xB56FA3F5510000AB"
+    ],
+    "recordSha256": "7720E92B3737F842844512E3B88EA483F6D92181A5AD3ED3313FFDC431BB9932"
+   },
+   "health": {
+    "ownership": {
+     "component": "HealthComponentData",
+     "recordIndex": 80,
+     "indexRow": 807,
+     "recordSize": 22096,
+     "ownerCount": 1,
+     "uniqueOwner": true,
+     "ownerResources": [
+      "0xB56FA3F5510000AB"
+     ],
+     "recordSha256": "6ACB371BD43ED5F9882B8C640FC2E37B433EF5584C9C5598AA53D903233D1CCA"
+    },
+    "mainHealth": 450,
+    "defaultArmor": 1,
+    "zones": [
+     {
+      "index": 0,
+      "name": "body_front",
+      "armor": 1,
+      "health": 450,
+      "affectsMainHealth": 1.0,
+      "actorCount": 1,
+      "actors": [
+       "c_collision"
+      ],
+      "nameHash": 861860246
+     }
+    ]
+   },
+   "hitFilter": {
+    "ownership": {
+     "component": "ShieldHitFilterComponentData",
+     "recordIndex": 0,
+     "indexRow": 1,
+     "recordSize": 4,
+     "ownerCount": 1,
+     "uniqueOwner": true,
+     "ownerResources": [
+      "0xB56FA3F5510000AB"
+     ],
+     "recordSha256": "DF3F619804A92FDB4057192DC43DD748EA778ADC52BC498CE80524C014B81119"
+    },
+    "members": [
+     {
+      "offset": 0,
+      "storage": "FP32",
+      "nameLength": 23,
+      "value": 0.0
+     }
+    ]
+   }
+  },
+  "body": {
+   "ownership": {
+    "component": "HealthComponentData",
+    "recordIndex": 296,
+    "indexRow": 415,
+    "recordSize": 22096,
+    "ownerCount": 1,
+    "uniqueOwner": true,
+    "ownerResources": [
+     "0xA4E796F84801B40A"
+    ],
+    "recordSha256": "8856FA1D1F5BE1E171E864AF74AE716BAE82BB9B964743DA08134B2096959C1D"
+   },
+   "mainHealth": 400,
+   "defaultArmor": 4,
+   "populatedZones": 0,
+   "wiki": {
+    "mainHealth": 400,
+    "mainArmor": 4
+   },
+   "exact": true
+  },
+  "findings": [
+   "The backpack body and the energy barrier are separate entities: the body (Health 400, armor 4, no populated damage zone, so every hit on it resolves to the default zone) is the published \"Main Health 400 / Heavy\"; the barrier is spawned through ShieldControllerComponent +0.",
+   "The barrier owns the shield energy (ShieldComponent: capacity 1000, delays 3/6 s, 300/s, exact published values) and its own Health 450 with one damage zone, \"body_front\", whose only hit actor is the barrier collision \"c_collision\": that zone is what projectiles striking the barrier resolve to.",
+   "The barrier default-zone armor (1) is the fallback for hits on actors no zone lists; the barrier lists its only collision actor in body_front, so the fallback is not the shield-facing armor (the same rule the SH-20 live test demonstrated).",
+   "Whether a barrier hit is absorbed by the shield energy before the Health zone is consulted is not traced; zone armor/health stay behind allow_unverified_effect."
+  ]
+ },
+ "warpPack": {
+  "resource": "0xB49756795D9B0E68",
+  "ownership": {
+   "component": "DisplacementComponentData",
+   "recordIndex": 0,
+   "indexRow": 0,
+   "recordSize": 632,
+   "ownerCount": 1,
+   "uniqueOwner": true,
+   "ownerResources": [
+    "0xB49756795D9B0E68"
+   ],
+   "recordSha256": "C6E84877A9B4069290DFF6A18F2FCA11259088961DB98CDF3D0FFFF62E2BCC40"
+  },
+  "recordSize": 632,
+  "decisions": {
+   "120": {
+    "field": "warp.distance",
+    "native": 10.0,
+    "published": 10.0,
+    "nameLength": 29,
+    "exact": true
+   },
+   "128": {
+    "field": "warp.upward_bias",
+    "native": 1.4,
+    "published": 1.4,
+    "nameLength": 24,
+    "exact": true
+   },
+   "132": {
+    "field": "warp.downward_bias",
+    "native": 4.0,
+    "published": 4.0,
+    "nameLength": 26,
+    "exact": true
+   },
+   "140": {
+    "field": "warp.safe_heat_threshold",
+    "native": 15.0,
+    "published": 15.0,
+    "nameLength": 21,
+    "exact": true
+   },
+   "144": {
+    "field": "warp.unsafe_heat_threshold",
+    "native": 45.0,
+    "published": 45.0,
+    "nameLength": 20,
+    "exact": true
+   },
+   "148": {
+    "field": "warp.heat_per_use",
+    "native": 33.0,
+    "published": 33.0,
+    "nameLength": 18,
+    "exact": true
+   },
+   "152": {
+    "field": "warp.heat_cooldown_per_second",
+    "native": 6.0,
+    "published": 6.0,
+    "nameLength": 27,
+    "exact": true
+   }
+  },
+  "maxSurvivableUnitSize": {
+   "offset": 72,
+   "type": "UnitSize",
+   "nameLength": 35,
+   "value": 1,
+   "published": "Medium",
+   "reason": "Enum value names for UnitSize are not in the pinned name tables; only value 1 is correlated (Medium)."
+  },
+  "injuries": {
+   "struct": "HeatInjuryInfo",
+   "nameLength": 17,
+   "count": 12,
+   "stride": 24,
+   "offset": 160,
+   "members": {
+    "+0": "limb name hash (u32, name length 10)",
+    "+4": "damage (f32, name length 13)",
+    "+8": "u64 (name length 6), identical on every used entry",
+    "+16": "bone name hash (u32, 18)",
+    "+20": "StatusEffectType (name length 18)"
+   },
+   "entries": [
+    {
+     "index": 0,
+     "offset": 160,
+     "limb": "head",
+     "limbHash": 2354409673,
+     "damage": 10.0,
+     "damageOffset": 164,
+     "bone": "head",
+     "statusType": 0,
+     "statusOffset": 180,
+     "unused": false
+    },
+    {
+     "index": 1,
+     "offset": 184,
+     "limb": "l_hand",
+     "limbHash": 1544317139,
+     "damage": 35.0,
+     "damageOffset": 188,
+     "bone": "l_elbow",
+     "statusType": 0,
+     "statusOffset": 204,
+     "unused": false
+    },
+    {
+     "index": 2,
+     "offset": 208,
+     "limb": "r_hand",
+     "limbHash": 612369653,
+     "damage": 35.0,
+     "damageOffset": 212,
+     "bone": "r_elbow",
+     "statusType": 0,
+     "statusOffset": 228,
+     "unused": false
+    },
+    {
+     "index": 3,
+     "offset": 232,
+     "limb": "l_knee",
+     "limbHash": 2412961772,
+     "damage": 45.0,
+     "damageOffset": 236,
+     "bone": "l_knee",
+     "statusType": 0,
+     "statusOffset": 252,
+     "unused": false
+    },
+    {
+     "index": 4,
+     "offset": 256,
+     "limb": "r_knee",
+     "limbHash": 986191178,
+     "damage": 45.0,
+     "damageOffset": 260,
+     "bone": "r_knee",
+     "statusType": 0,
+     "statusOffset": 276,
+     "unused": false
+    },
+    {
+     "index": 5,
+     "offset": 280,
+     "limb": "chest",
+     "limbHash": 938412064,
+     "damage": 0.0,
+     "damageOffset": 284,
+     "bone": null,
+     "statusType": 5,
+     "statusOffset": 300,
+     "unused": false
+    },
+    {
+     "index": 6,
+     "offset": 304,
+     "limb": null,
+     "limbHash": 0,
+     "damage": 10.0,
+     "damageOffset": 308,
+     "bone": null,
+     "statusType": 0,
+     "statusOffset": 324,
+     "unused": true
+    },
+    {
+     "index": 7,
+     "offset": 328,
+     "limb": null,
+     "limbHash": 0,
+     "damage": 10.0,
+     "damageOffset": 332,
+     "bone": null,
+     "statusType": 0,
+     "statusOffset": 348,
+     "unused": true
+    },
+    {
+     "index": 8,
+     "offset": 352,
+     "limb": null,
+     "limbHash": 0,
+     "damage": 10.0,
+     "damageOffset": 356,
+     "bone": null,
+     "statusType": 0,
+     "statusOffset": 372,
+     "unused": true
+    },
+    {
+     "index": 9,
+     "offset": 376,
+     "limb": null,
+     "limbHash": 0,
+     "damage": 10.0,
+     "damageOffset": 380,
+     "bone": null,
+     "statusType": 0,
+     "statusOffset": 396,
+     "unused": true
+    },
+    {
+     "index": 10,
+     "offset": 400,
+     "limb": null,
+     "limbHash": 0,
+     "damage": 10.0,
+     "damageOffset": 404,
+     "bone": null,
+     "statusType": 0,
+     "statusOffset": 420,
+     "unused": true
+    },
+    {
+     "index": 11,
+     "offset": 424,
+     "limb": null,
+     "limbHash": 0,
+     "damage": 10.0,
+     "damageOffset": 428,
+     "bone": null,
+     "statusType": 0,
+     "statusOffset": 444,
+     "unused": true
+    }
+   ],
+   "publishedChestStatus": "fire"
+  },
+  "explosionType": {
+   "offset": 56,
+   "type": "ExplosionType",
+   "value": 254,
+   "reason": "The arrival explosion is an ExplosionSettings row (wiki \"LIFT-182 WARP PACK E\"); explosion rows are shared settings and are not authored through the backpack in this release."
+  },
+  "unknownMembers": [
+   {
+    "offset": 12,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector3<13>",
+    "value": 0.0
+   },
+   {
+    "offset": 16,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector3<13>",
+    "value": -0.75
+   },
+   {
+    "offset": 20,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector3<13>",
+    "value": 0.4
+   },
+   {
+    "offset": 32,
+    "storage": "FP32",
+    "nameLength": 26,
+    "type": null,
+    "struct": null,
+    "value": 0.0
+   },
+   {
+    "offset": 48,
+    "storage": "FP32",
+    "nameLength": 25,
+    "type": null,
+    "struct": null,
+    "value": -1.0
+   },
+   {
+    "offset": 56,
+    "storage": "ENUM_UINT32",
+    "nameLength": 14,
+    "type": "ExplosionType",
+    "struct": null,
+    "value": 254
+   },
+   {
+    "offset": 76,
+    "storage": "FP32",
+    "nameLength": 11,
+    "type": null,
+    "struct": null,
+    "value": 0.2
+   },
+   {
+    "offset": 80,
+    "storage": "FP32",
+    "nameLength": 9,
+    "type": null,
+    "struct": null,
+    "value": 0.2
+   },
+   {
+    "offset": 84,
+    "storage": "FP32",
+    "nameLength": 26,
+    "type": null,
+    "struct": null,
+    "value": 1.0
+   },
+   {
+    "offset": 92,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector3<40>",
+    "value": 1.0
+   },
+   {
+    "offset": 96,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector3<40>",
+    "value": 1.0
+   },
+   {
+    "offset": 100,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector3<40>",
+    "value": 0.2
+   },
+   {
+    "offset": 104,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector3<41>",
+    "value": 2.0
+   },
+   {
+    "offset": 108,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector3<41>",
+    "value": 2.0
+   },
+   {
+    "offset": 112,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector3<41>",
+    "value": 3.0
+   },
+   {
+    "offset": 116,
+    "storage": "FP32",
+    "nameLength": 40,
+    "type": null,
+    "struct": null,
+    "value": 1.0
+   },
+   {
+    "offset": 136,
+    "storage": "UINT8",
+    "nameLength": 21,
+    "type": null,
+    "struct": null,
+    "value": 1
+   },
+   {
+    "offset": 137,
+    "storage": "UINT8",
+    "nameLength": 23,
+    "type": null,
+    "struct": null,
+    "value": 0
+   },
+   {
+    "offset": 620,
+    "storage": "FP32",
+    "nameLength": 28,
+    "type": null,
+    "struct": null,
+    "value": 30.0
+   },
+   {
+    "offset": 624,
+    "storage": "FP32",
+    "nameLength": 34,
+    "type": null,
+    "struct": null,
+    "value": 20.0
+   },
+   {
+    "offset": 628,
+    "storage": "FP32",
+    "nameLength": 27,
+    "type": null,
+    "struct": null,
+    "value": 0.3
+   }
+  ]
+ },
+ "hoverPack": {
+  "records": {
+   "variant": {
+    "record": 2,
+    "owners": [
+     "0x073270650F859DD0"
+    ],
+    "ownerCount": 1
+   },
+   "jump": {
+    "record": 1,
+    "owners": [
+     "content/fac_helldivers/equipment/backpacks/jumppack_backpack/jumppack_backpack"
+    ],
+    "ownerCount": 1
+   },
+   "hover": {
+    "record": 0,
+    "owners": [
+     "content/fac_helldivers/equipment/backpacks/hover_backpack/hover_backpack"
+    ],
+    "ownerCount": 1
+   }
+  },
+  "members": [
+   {
+    "offset": 0,
+    "storage": "FP32",
+    "nameLength": 13,
+    "type": null,
+    "struct": null,
+    "values": {
+     "variant": 35.0,
+     "jump": 40.0,
+     "hover": 40.0
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 4,
+    "storage": "FP32",
+    "nameLength": 25,
+    "type": null,
+    "struct": null,
+    "values": {
+     "variant": 20.0,
+     "jump": 20.0,
+     "hover": 20.0
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 8,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector3<29>",
+    "values": {
+     "variant": 0.0,
+     "jump": 0.0,
+     "hover": 0.0
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 12,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector3<29>",
+    "values": {
+     "variant": 0.0,
+     "jump": 0.0,
+     "hover": 0.0
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 16,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector3<29>",
+    "values": {
+     "variant": 1.0,
+     "jump": 1.0,
+     "hover": 1.0
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 20,
+    "storage": "FP32",
+    "nameLength": 30,
+    "type": null,
+    "struct": null,
+    "values": {
+     "variant": 1.5,
+     "jump": 1.5,
+     "hover": 1.5
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 24,
+    "storage": "FP32",
+    "nameLength": 16,
+    "type": null,
+    "struct": null,
+    "values": {
+     "variant": 0.5,
+     "jump": 0.5,
+     "hover": 0.5
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 28,
+    "storage": "FP32",
+    "nameLength": 24,
+    "type": null,
+    "struct": null,
+    "values": {
+     "variant": 0.75,
+     "jump": 0.75,
+     "hover": 0.75
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 32,
+    "storage": "FP32",
+    "nameLength": 20,
+    "type": null,
+    "struct": null,
+    "values": {
+     "variant": 0.05,
+     "jump": 0.4,
+     "hover": 0.4
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 36,
+    "storage": "FP32",
+    "nameLength": 20,
+    "type": null,
+    "struct": null,
+    "values": {
+     "variant": 60.0,
+     "jump": 60.0,
+     "hover": 60.0
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 40,
+    "storage": "FP32",
+    "nameLength": 23,
+    "type": null,
+    "struct": null,
+    "values": {
+     "variant": 1.0,
+     "jump": 1.0,
+     "hover": 1.0
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 44,
+    "storage": "FP32",
+    "nameLength": 28,
+    "type": null,
+    "struct": null,
+    "values": {
+     "variant": 0.1,
+     "jump": 0.3,
+     "hover": 0.1
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 48,
+    "storage": "FP32",
+    "nameLength": 26,
+    "type": null,
+    "struct": null,
+    "values": {
+     "variant": 1.0,
+     "jump": 1.0,
+     "hover": 1.0
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 52,
+    "storage": "FP32",
+    "nameLength": 24,
+    "type": null,
+    "struct": null,
+    "values": {
+     "variant": 3.0,
+     "jump": 3.0,
+     "hover": 3.0
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 56,
+    "storage": "FP32",
+    "nameLength": 21,
+    "type": null,
+    "struct": null,
+    "values": {
+     "variant": 1.0,
+     "jump": 1.0,
+     "hover": 1.0
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 60,
+    "storage": "FP32",
+    "nameLength": 24,
+    "type": null,
+    "struct": null,
+    "values": {
+     "variant": 4.0,
+     "jump": 4.0,
+     "hover": 4.0
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 64,
+    "storage": "UINT8",
+    "nameLength": 21,
+    "type": null,
+    "struct": null,
+    "values": {
+     "variant": 0,
+     "jump": 0,
+     "hover": 0
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 68,
+    "storage": "ENUM_UINT32",
+    "nameLength": 19,
+    "type": "SurfaceImpactType",
+    "struct": null,
+    "values": {
+     "variant": 59,
+     "jump": 59,
+     "hover": 59
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 72,
+    "storage": "ENUM_UINT32",
+    "nameLength": 32,
+    "type": "AbilityId",
+    "struct": null,
+    "values": {
+     "variant": 2497,
+     "jump": 2057,
+     "hover": 2057
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 76,
+    "storage": "ENUM_UINT32",
+    "nameLength": 31,
+    "type": "AbilityId",
+    "struct": null,
+    "values": {
+     "variant": 2498,
+     "jump": 2058,
+     "hover": 2058
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 80,
+    "storage": "ENUM_UINT32",
+    "nameLength": 36,
+    "type": "AbilityId",
+    "struct": null,
+    "values": {
+     "variant": 2499,
+     "jump": 2059,
+     "hover": 2059
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 84,
+    "storage": "ENUM_UINT32",
+    "nameLength": 31,
+    "type": "AbilityId",
+    "struct": null,
+    "values": {
+     "variant": 2500,
+     "jump": 2060,
+     "hover": 0
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 88,
+    "storage": "UINT32",
+    "nameLength": 36,
+    "type": null,
+    "struct": null,
+    "values": {
+     "variant": 4262094111,
+     "jump": 1288385068,
+     "hover": 1288385068
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 92,
+    "storage": "ENUM_UINT32",
+    "nameLength": 31,
+    "type": "AbilityId",
+    "struct": null,
+    "values": {
+     "variant": 2502,
+     "jump": 2061,
+     "hover": 0
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 96,
+    "storage": "ENUM_UINT32",
+    "nameLength": 28,
+    "type": "AbilityId",
+    "struct": null,
+    "values": {
+     "variant": 2503,
+     "jump": 2062,
+     "hover": 0
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 100,
+    "storage": "ENUM_UINT32",
+    "nameLength": 27,
+    "type": "AbilityId",
+    "struct": null,
+    "values": {
+     "variant": "0x0000000000000000",
+     "jump": "0x0000000000000000",
+     "hover": "0x0000052200000520"
+    },
+    "hoverOnly": true
+   },
+   {
+    "offset": 108,
+    "storage": "ENUM_UINT32",
+    "nameLength": 28,
+    "type": "AbilityId",
+    "struct": null,
+    "values": {
+     "variant": "0x0000000000000000",
+     "jump": "0x0000000000000000",
+     "hover": "0x0000052300000521"
+    },
+    "hoverOnly": true
+   },
+   {
+    "offset": 116,
+    "storage": "UINT32",
+    "nameLength": 27,
+    "type": null,
+    "struct": null,
+    "values": {
+     "variant": 3778614046,
+     "jump": 3778614046,
+     "hover": 3778614046
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 120,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector3<18>",
+    "values": {
+     "variant": 1.0,
+     "jump": 1.0,
+     "hover": 1.0
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 124,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector3<18>",
+    "values": {
+     "variant": 1.0,
+     "jump": 1.0,
+     "hover": 1.0
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 128,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector3<18>",
+    "values": {
+     "variant": 0.0,
+     "jump": 0.0,
+     "hover": 0.0
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 132,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector3<27>",
+    "values": {
+     "variant": 1.0,
+     "jump": 1.0,
+     "hover": 1.0
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 136,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector3<27>",
+    "values": {
+     "variant": 0.0,
+     "jump": 0.0,
+     "hover": 0.0
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 140,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector3<27>",
+    "values": {
+     "variant": 0.0,
+     "jump": 0.0,
+     "hover": 0.0
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 144,
+    "storage": "UINT8",
+    "nameLength": 20,
+    "type": null,
+    "struct": null,
+    "values": {
+     "variant": 1,
+     "jump": 1,
+     "hover": 0
+    },
+    "hoverOnly": true
+   },
+   {
+    "offset": 145,
+    "storage": "UINT8",
+    "nameLength": 21,
+    "type": null,
+    "struct": null,
+    "values": {
+     "variant": 0,
+     "jump": 0,
+     "hover": 1
+    },
+    "hoverOnly": true
+   },
+   {
+    "offset": 148,
+    "storage": "FP32",
+    "nameLength": 18,
+    "type": null,
+    "struct": null,
+    "values": {
+     "variant": 0.0,
+     "jump": 0.0,
+     "hover": 0.0
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 152,
+    "storage": "UINT8",
+    "nameLength": 30,
+    "type": null,
+    "struct": null,
+    "values": {
+     "variant": 0,
+     "jump": 0,
+     "hover": 1
+    },
+    "hoverOnly": true
+   },
+   {
+    "offset": 153,
+    "storage": "UINT8",
+    "nameLength": 14,
+    "type": null,
+    "struct": null,
+    "values": {
+     "variant": 0,
+     "jump": 0,
+     "hover": 1
+    },
+    "hoverOnly": true
+   },
+   {
+    "offset": 154,
+    "storage": "UINT8",
+    "nameLength": 17,
+    "type": null,
+    "struct": null,
+    "values": {
+     "variant": 0,
+     "jump": 0,
+     "hover": 1
+    },
+    "hoverOnly": true
+   },
+   {
+    "offset": 155,
+    "storage": "UINT8",
+    "nameLength": 9,
+    "type": null,
+    "struct": null,
+    "values": {
+     "variant": 0,
+     "jump": 0,
+     "hover": 1
+    },
+    "hoverOnly": true
+   },
+   {
+    "offset": 156,
+    "storage": "FP32",
+    "nameLength": 34,
+    "type": null,
+    "struct": null,
+    "values": {
+     "variant": -1.0,
+     "jump": -1.0,
+     "hover": 6.0
+    },
+    "hoverOnly": true
+   },
+   {
+    "offset": 160,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector2<13>[0]",
+    "values": {
+     "variant": 0.0,
+     "jump": 0.0,
+     "hover": 5.0
+    },
+    "hoverOnly": true
+   },
+   {
+    "offset": 164,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector2<13>[0]",
+    "values": {
+     "variant": 0.0,
+     "jump": 0.0,
+     "hover": 5.0
+    },
+    "hoverOnly": true
+   },
+   {
+    "offset": 168,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector2<13>[1]",
+    "values": {
+     "variant": 0.0,
+     "jump": 0.0,
+     "hover": 9.8
+    },
+    "hoverOnly": true
+   },
+   {
+    "offset": 172,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector2<13>[1]",
+    "values": {
+     "variant": 0.0,
+     "jump": 0.0,
+     "hover": 0.0
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 176,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector2<10>",
+    "values": {
+     "variant": 25.0,
+     "jump": 25.0,
+     "hover": 3.5
+    },
+    "hoverOnly": true
+   },
+   {
+    "offset": 180,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector2<10>",
+    "values": {
+     "variant": 25.0,
+     "jump": 25.0,
+     "hover": 10.0
+    },
+    "hoverOnly": true
+   },
+   {
+    "offset": 184,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector2<37>[0]",
+    "values": {
+     "variant": 0.0,
+     "jump": 0.0,
+     "hover": 0.0
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 188,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector2<37>[0]",
+    "values": {
+     "variant": 0.0,
+     "jump": 0.0,
+     "hover": 0.0
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 192,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector2<37>[1]",
+    "values": {
+     "variant": 0.0,
+     "jump": 0.0,
+     "hover": 0.0
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 196,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector2<37>[1]",
+    "values": {
+     "variant": 0.0,
+     "jump": 0.0,
+     "hover": 8.0
+    },
+    "hoverOnly": true
+   },
+   {
+    "offset": 200,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector2<11>",
+    "values": {
+     "variant": 0.0,
+     "jump": 0.0,
+     "hover": 1.6
+    },
+    "hoverOnly": true
+   },
+   {
+    "offset": 204,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector2<11>",
+    "values": {
+     "variant": 0.0,
+     "jump": 0.0,
+     "hover": 0.0
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 208,
+    "storage": "FP32",
+    "nameLength": 18,
+    "type": null,
+    "struct": null,
+    "values": {
+     "variant": 0.5,
+     "jump": 0.5,
+     "hover": 0.0
+    },
+    "hoverOnly": true
+   },
+   {
+    "offset": 212,
+    "storage": "FP32",
+    "nameLength": 13,
+    "type": null,
+    "struct": null,
+    "values": {
+     "variant": 2.8,
+     "jump": 2.8,
+     "hover": 10.0
+    },
+    "hoverOnly": true
+   },
+   {
+    "offset": 216,
+    "storage": "FP32",
+    "nameLength": 19,
+    "type": null,
+    "struct": null,
+    "values": {
+     "variant": 1.5,
+     "jump": 1.5,
+     "hover": 10.0
+    },
+    "hoverOnly": true
+   },
+   {
+    "offset": 220,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector3<26>",
+    "values": {
+     "variant": 0.0,
+     "jump": 0.0,
+     "hover": 1.0
+    },
+    "hoverOnly": true
+   },
+   {
+    "offset": 224,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector3<26>",
+    "values": {
+     "variant": 0.0,
+     "jump": 0.0,
+     "hover": 1.0
+    },
+    "hoverOnly": true
+   },
+   {
+    "offset": 228,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector3<26>",
+    "values": {
+     "variant": 0.0,
+     "jump": 0.0,
+     "hover": 40.0
+    },
+    "hoverOnly": true
+   },
+   {
+    "offset": 232,
+    "storage": "UINT32",
+    "nameLength": 34,
+    "type": null,
+    "struct": null,
+    "values": {
+     "variant": 0,
+     "jump": 0,
+     "hover": 1430067306
+    },
+    "hoverOnly": true
+   },
+   {
+    "offset": 236,
+    "storage": "UINT32",
+    "nameLength": 32,
+    "type": null,
+    "struct": null,
+    "values": {
+     "variant": 0,
+     "jump": 0,
+     "hover": 2242773211
+    },
+    "hoverOnly": true
+   },
+   {
+    "offset": 240,
+    "storage": "UINT32",
+    "nameLength": 23,
+    "type": null,
+    "struct": null,
+    "values": {
+     "variant": 0,
+     "jump": 0,
+     "hover": 1454103075
+    },
+    "hoverOnly": true
+   },
+   {
+    "offset": 244,
+    "storage": "UINT32",
+    "nameLength": 40,
+    "type": null,
+    "struct": null,
+    "values": {
+     "variant": 0,
+     "jump": 0,
+     "hover": 40722924
+    },
+    "hoverOnly": true
+   },
+   {
+    "offset": 248,
+    "storage": "UINT32",
+    "nameLength": 38,
+    "type": null,
+    "struct": null,
+    "values": {
+     "variant": 0,
+     "jump": 0,
+     "hover": 4136739262
+    },
+    "hoverOnly": true
+   },
+   {
+    "offset": 252,
+    "storage": "FP32",
+    "nameLength": 25,
+    "type": null,
+    "struct": null,
+    "values": {
+     "variant": 0.0,
+     "jump": 0.0,
+     "hover": 1.0
+    },
+    "hoverOnly": true
+   },
+   {
+    "offset": 256,
+    "storage": "FP32",
+    "nameLength": 37,
+    "type": null,
+    "struct": null,
+    "values": {
+     "variant": 2.0,
+     "jump": 2.0,
+     "hover": 2.0
+    },
+    "hoverOnly": false
+   },
+   {
+    "offset": 260,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector3<38>",
+    "values": {
+     "variant": 1.0,
+     "jump": 1.0,
+     "hover": 15.0
+    },
+    "hoverOnly": true
+   },
+   {
+    "offset": 264,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector3<38>",
+    "values": {
+     "variant": 1.0,
+     "jump": 1.0,
+     "hover": 15.0
+    },
+    "hoverOnly": true
+   },
+   {
+    "offset": 268,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector3<38>",
+    "values": {
+     "variant": 1.0,
+     "jump": 1.0,
+     "hover": 5.0
+    },
+    "hoverOnly": true
+   },
+   {
+    "offset": 272,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector2<34>",
+    "values": {
+     "variant": 1.0,
+     "jump": 1.0,
+     "hover": 2.0
+    },
+    "hoverOnly": true
+   },
+   {
+    "offset": 276,
+    "storage": "FP32",
+    "nameLength": 1,
+    "type": null,
+    "struct": "CApiVector2<34>",
+    "values": {
+     "variant": 1.0,
+     "jump": 1.0,
+     "hover": 2.0
+    },
+    "hoverOnly": true
+   }
+  ],
+  "decisions": {
+   "156": {
+    "field": "hover.duration",
+    "nameLength": 34,
+    "native": {
+     "hover": 6.0,
+     "jump": -1.0
+    },
+    "published": 6.0,
+    "evidence": [
+     "exact published hover time (six seconds)",
+     "hover-only member: both jump-pack records hold the -1 sentinel",
+     "typed f32 in JumppackComponent, unique Hover Pack record"
+    ]
+   },
+   "0": {
+    "field": "jump.vertical_launch_velocity",
+    "native": {
+     "hover": 40.0,
+     "jump": 40.0
+    },
+    "evidence": [
+     "same typed member gameplay-proven on the LIFT-850 Jump Pack (JumpPackImprovements)",
+     "the wiki: the Hover Pack \"launches the user high into the air before slowly leveling out\""
+    ],
+    "unproven": "whether the hover launch reads the same member"
+   }
+  },
+  "recharge": {
+   "native": {
+    "hover": 11.5,
+    "jump": 15.0
+   },
+   "published": 12.0,
+   "note": "recharge.time is already authored (schema_proven); the wiki gives an upper bound (at most 12 s depending on fuel), not an exact value, so no hover-specific promotion."
+  },
+  "jumpComparison": "Jump Pack members +0..+144 are identical except +44 (0.1 vs 0.3) and the ability ids; the Hover Pack adds +145/+152..+155 flags, +156 hover duration and the vector/scalar block +160..+276 that both jump records leave zero or neutral."
+ },
+ "guardDogs": {
+  "chain": [
+   "stratagem",
+   "hellpod rack",
+   "backpack entity",
+   "backpack DepositComponent +24 (u64, name length 10): the drone entity",
+   "drone MountComponent slot 0: the drone weapon entity",
+   "drone weapon: WeaponData plus one attack component (projectile, beam, spray or arc)"
+  ],
+  "drones": [
+   {
+    "backpack": "AX/AR-23 Guard Dog",
+    "backpackResource": "0x255EBC5767D7CEEC",
+    "deposit": {
+     "component": "DepositComponentData",
+     "recordIndex": 14,
+     "indexRow": 6,
+     "recordSize": 152,
+     "ownerCount": 1,
+     "uniqueOwner": true,
+     "ownerResources": [
+      "0x255EBC5767D7CEEC"
+     ],
+     "recordSha256": "67CCF5822336FC45E02AFEC61705C6FD4FF2B7B6D053B71780E15E98FA46C269",
+     "values": {
+      "0": 8,
+      "4": 8,
+      "8": 8
+     },
+     "link": {
+      "offset": 24,
+      "storage": "u64",
+      "nameLength": 10
+     }
+    },
+    "drone": {
+     "resource": "0xA0FF2F9A0CA6992A",
+     "path": "content/fac_helldivers/equipment/backpacks/drone_mg/drone_mg",
+     "entityRow": 2346,
+     "components": [
+      "AbilityComponentData",
+      "AttachableComponentData",
+      "BehaviorComponentData",
+      "BoidsComponentData",
+      "DetectorComponentData",
+      "EffectReferenceComponentData",
+      "FactionComponentData",
+      "HealthComponentData",
+      "MotionComponentData",
+      "MountComponentData",
+      "MultiTargetComponentData",
+      "NavigationComponentData",
+      "RotationComponentData",
+      "SensorEyeComponentData",
+      "TagComponentData",
+      "TargetingComponentData",
+      "UnitComponentData",
+      "WeaponWielderComponentData"
+     ],
+     "health": {
+      "ownership": {
+       "component": "HealthComponentData",
+       "recordIndex": 299,
+       "indexRow": 501,
+       "recordSize": 22096,
+       "ownerCount": 1,
+       "uniqueOwner": true,
+       "ownerResources": [
+        "0xA0FF2F9A0CA6992A"
+       ],
+       "recordSha256": "735F42DEC01655F019A796036F301E0CC14B7E9E0A83E3887AD8DBCACB340857"
+      },
+      "mainHealth": 100,
+      "defaultArmor": 1,
+      "zones": [
+       {
+        "index": 0,
+        "name": null,
+        "nameHash": 1537588878,
+        "armor": 1,
+        "health": 100,
+        "affectsMainHealth": 1.0,
+        "actorCount": 9
+       }
+      ]
+     },
+     "mount": {
+      "component": "MountComponentData",
+      "recordIndex": 97,
+      "indexRow": 195,
+      "recordSize": 120,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "ownerResources": [
+       "0xA0FF2F9A0CA6992A"
+      ],
+      "recordSha256": "5CE674E94732DD1ABC6D66836A64757F8EB7BB81BE0DF7A2C59A8D70C3A353E1",
+      "slots": [
+       {
+        "slot": 0,
+        "resource": "0xA32621E3BDE13379",
+        "path": "content/fac_helldivers/equipment/backpacks/drone_mg/drone_mg_weapon",
+        "name": "gun",
+        "attachNode": "gun_mount"
+       }
+      ]
+     },
+     "genericComponents": {
+      "SensorEyeComponentData": {
+       "recordIndex": 194,
+       "ownerCount": 1
+      },
+      "NavigationComponentData": {
+       "recordIndex": 152,
+       "ownerCount": 1
+      },
+      "TargetingComponentData": {
+       "recordIndex": 176,
+       "ownerCount": 1
+      },
+      "WeaponWielderComponentData": {
+       "recordIndex": 141,
+       "ownerCount": 1
+      },
+      "MultiTargetComponentData": {
+       "recordIndex": 10,
+       "ownerCount": 1
+      },
+      "DetectorComponentData": {
+       "recordIndex": 196,
+       "ownerCount": 1
+      },
+      "BehaviorComponentData": {
+       "recordIndex": 597,
+       "ownerCount": 1
+      },
+      "AbilityComponentData": {
+       "recordIndex": 483,
+       "ownerCount": 1
+      },
+      "BoidsComponentData": {
+       "recordIndex": 12,
+       "ownerCount": 1
+      },
+      "RotationComponentData": {
+       "recordIndex": 134,
+       "ownerCount": 1
+      },
+      "MotionComponentData": {
+       "recordIndex": 143,
+       "ownerCount": 1
+      },
+      "FactionComponentData": {
+       "recordIndex": 283,
+       "ownerCount": 1
+      },
+      "UnitComponentData": {
+       "recordIndex": 967,
+       "ownerCount": 1
+      },
+      "AttachableComponentData": {
+       "recordIndex": 387,
+       "ownerCount": 1
+      },
+      "TagComponentData": {
+       "recordIndex": 316,
+       "ownerCount": 1
+      }
+     }
+    },
+    "weapon": {
+     "resource": "0xA32621E3BDE13379",
+     "path": "content/fac_helldivers/equipment/backpacks/drone_mg/drone_mg_weapon",
+     "entityRow": 890,
+     "family": "projectile",
+     "ownership": {
+      "WeaponDataComponentData": {
+       "component": "WeaponDataComponentData",
+       "recordIndex": 254,
+       "indexRow": 188,
+       "recordSize": 1232,
+       "ownerCount": 1,
+       "uniqueOwner": true,
+       "ownerResources": [
+        "0xA32621E3BDE13379"
+       ],
+       "recordSha256": "D8B7995CDB416B0D0747A3DA3941A4FF54CE19FB7269FE3B0D24AE1E77781BFE"
+      },
+      "ProjectileWeaponComponentData": {
+       "component": "ProjectileWeaponComponentData",
+       "recordIndex": 188,
+       "indexRow": 413,
+       "recordSize": 616,
+       "ownerCount": 1,
+       "uniqueOwner": true,
+       "ownerResources": [
+        "0xA32621E3BDE13379"
+       ],
+       "recordSha256": "1A5A5D74592D13EFA11BB89ED11E8A39488E4695FB64AC636F22141FFE32372B"
+      },
+      "WeaponMagazineComponentData": {
+       "component": "WeaponMagazineComponentData",
+       "recordIndex": 194,
+       "indexRow": 237,
+       "recordSize": 160,
+       "ownerCount": 1,
+       "uniqueOwner": true,
+       "ownerResources": [
+        "0xA32621E3BDE13379"
+       ],
+       "recordSha256": "11784099A2F5ACD5156A08062AC539536AEDBBAC5C94315C7FA635149EC33126"
+      },
+      "WeaponReloadComponentData": {
+       "component": "WeaponReloadComponentData",
+       "recordIndex": 156,
+       "indexRow": 441,
+       "recordSize": 80,
+       "ownerCount": 1,
+       "uniqueOwner": true,
+       "ownerResources": [
+        "0xA32621E3BDE13379"
+       ],
+       "recordSha256": "E3395E29A788367A84F1DFAB78CFC83D2FC1CEEEE34B5FE95E7F3ED26F2F234E"
+      }
+     }
+    },
+    "wiki": {
+     "mainHealth": 100,
+     "mainArmor": 1,
+     "magsFromSupply": 8,
+     "maxRounds": 8,
+     "startingRounds": 8
+    },
+    "correlation": {
+     "mainHealth": true,
+     "mainArmor": true,
+     "capacity": true,
+     "start": true,
+     "fromSupply": true
+    }
+   },
+   {
+    "backpack": "AX/LAS-5 Rover",
+    "backpackResource": "0xAF9B683CCB6DDC02",
+    "deposit": {
+     "component": "DepositComponentData",
+     "recordIndex": 16,
+     "indexRow": 9,
+     "recordSize": 152,
+     "ownerCount": 1,
+     "uniqueOwner": true,
+     "ownerResources": [
+      "0xAF9B683CCB6DDC02"
+     ],
+     "recordSha256": "400A93AD2AE90A8584B423EE3DC683863802F6A1AF3FE68A851D15620021DA50",
+     "values": {
+      "0": 4,
+      "4": 4,
+      "8": 2
+     },
+     "link": {
+      "offset": 24,
+      "storage": "u64",
+      "nameLength": 10
+     }
+    },
+    "drone": {
+     "resource": "0x5BEEC97F4C7F4AE9",
+     "path": "content/fac_helldivers/equipment/backpacks/drone_weapons/drone_laser_rifle/drone_laser_rifle",
+     "entityRow": 2793,
+     "components": [
+      "AbilityComponentData",
+      "AttachableComponentData",
+      "BehaviorComponentData",
+      "BoidsComponentData",
+      "DetectorComponentData",
+      "EffectReferenceComponentData",
+      "FactionComponentData",
+      "HealthComponentData",
+      "MotionComponentData",
+      "MountComponentData",
+      "MultiTargetComponentData",
+      "NavigationComponentData",
+      "RotationComponentData",
+      "SensorEyeComponentData",
+      "TagComponentData",
+      "TargetingComponentData",
+      "UnitComponentData",
+      "WeaponWielderComponentData"
+     ],
+     "health": {
+      "ownership": {
+       "component": "HealthComponentData",
+       "recordIndex": 303,
+       "indexRow": 957,
+       "recordSize": 22096,
+       "ownerCount": 1,
+       "uniqueOwner": true,
+       "ownerResources": [
+        "0x5BEEC97F4C7F4AE9"
+       ],
+       "recordSha256": "735F42DEC01655F019A796036F301E0CC14B7E9E0A83E3887AD8DBCACB340857"
+      },
+      "mainHealth": 100,
+      "defaultArmor": 1,
+      "zones": [
+       {
+        "index": 0,
+        "name": null,
+        "nameHash": 1537588878,
+        "armor": 1,
+        "health": 100,
+        "affectsMainHealth": 1.0,
+        "actorCount": 9
+       }
+      ]
+     },
+     "mount": {
+      "component": "MountComponentData",
+      "recordIndex": 101,
+      "indexRow": 321,
+      "recordSize": 120,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "ownerResources": [
+       "0x5BEEC97F4C7F4AE9"
+      ],
+      "recordSha256": "9B279286AE10A438BBAD1C4B030CB09FAFD2C5A92C02936DAAFFEB47EA2A8375",
+      "slots": [
+       {
+        "slot": 0,
+        "resource": "0x2C66C201B2543D2C",
+        "path": "content/fac_helldivers/equipment/backpacks/drone_weapons/drone_laser_rifle/drone_laser_rifle_mount",
+        "name": "gun",
+        "attachNode": "gun_mount"
+       }
+      ]
+     },
+     "genericComponents": {
+      "SensorEyeComponentData": {
+       "recordIndex": 198,
+       "ownerCount": 1
+      },
+      "NavigationComponentData": {
+       "recordIndex": 156,
+       "ownerCount": 1
+      },
+      "TargetingComponentData": {
+       "recordIndex": 180,
+       "ownerCount": 1
+      },
+      "WeaponWielderComponentData": {
+       "recordIndex": 145,
+       "ownerCount": 1
+      },
+      "MultiTargetComponentData": {
+       "recordIndex": 14,
+       "ownerCount": 1
+      },
+      "DetectorComponentData": {
+       "recordIndex": 200,
+       "ownerCount": 1
+      },
+      "BehaviorComponentData": {
+       "recordIndex": 601,
+       "ownerCount": 1
+      },
+      "AbilityComponentData": {
+       "recordIndex": 489,
+       "ownerCount": 1
+      },
+      "BoidsComponentData": {
+       "recordIndex": 16,
+       "ownerCount": 1
+      },
+      "RotationComponentData": {
+       "recordIndex": 138,
+       "ownerCount": 1
+      },
+      "MotionComponentData": {
+       "recordIndex": 147,
+       "ownerCount": 1
+      },
+      "FactionComponentData": {
+       "recordIndex": 287,
+       "ownerCount": 1
+      },
+      "UnitComponentData": {
+       "recordIndex": 973,
+       "ownerCount": 1
+      },
+      "AttachableComponentData": {
+       "recordIndex": 393,
+       "ownerCount": 1
+      },
+      "TagComponentData": {
+       "recordIndex": 320,
+       "ownerCount": 1
+      }
+     }
+    },
+    "weapon": {
+     "resource": "0x2C66C201B2543D2C",
+     "path": "content/fac_helldivers/equipment/backpacks/drone_weapons/drone_laser_rifle/drone_laser_rifle_mount",
+     "entityRow": 3372,
+     "family": "beam",
+     "ownership": {
+      "WeaponDataComponentData": {
+       "component": "WeaponDataComponentData",
+       "recordIndex": 260,
+       "indexRow": 468,
+       "recordSize": 1232,
+       "ownerCount": 1,
+       "uniqueOwner": true,
+       "ownerResources": [
+        "0x2C66C201B2543D2C"
+       ],
+       "recordSha256": "29C8FF4C962B9DFF0ED8BD11CA159087D134E231D1ABA9A73780EE7DD954F1EA"
+      },
+      "BeamWeaponComponentData": {
+       "component": "BeamWeaponComponentData",
+       "recordIndex": 15,
+       "indexRow": 38,
+       "recordSize": 120,
+       "ownerCount": 1,
+       "uniqueOwner": true,
+       "ownerResources": [
+        "0x2C66C201B2543D2C"
+       ],
+       "recordSha256": "E279FD0E2A01A230523F2B224DCABD8BDD3C797C25FA8A7395930D548E4826DE"
+      },
+      "WeaponHeatComponentData": {
+       "component": "WeaponHeatComponentData",
+       "recordIndex": 17,
+       "indexRow": 28,
+       "recordSize": 592,
+       "ownerCount": 1,
+       "uniqueOwner": true,
+       "ownerResources": [
+        "0x2C66C201B2543D2C"
+       ],
+       "recordSha256": "F33175F3FA04703B28E5229F0EF91C0743716F4EEAF55948AE7D74DD32913ECC"
+      },
+      "WeaponReloadComponentData": {
+       "component": "WeaponReloadComponentData",
+       "recordIndex": 162,
+       "indexRow": 276,
+       "recordSize": 80,
+       "ownerCount": 1,
+       "uniqueOwner": true,
+       "ownerResources": [
+        "0x2C66C201B2543D2C"
+       ],
+       "recordSha256": "77DE5E60129CE3907A407A141086EBEE69FC47AC5187A31D28FD6FAFB812B3E4"
+      }
+     }
+    },
+    "wiki": {
+     "mainHealth": 100,
+     "mainArmor": 1,
+     "magsFromSupply": 2,
+     "maxRounds": 4,
+     "startingRounds": 4
+    },
+    "correlation": {
+     "mainHealth": true,
+     "mainArmor": true,
+     "capacity": true,
+     "start": true,
+     "fromSupply": true
+    }
+   },
+   {
+    "backpack": "AX/FLAM-75 Hot Dog",
+    "backpackResource": "0x3015626AA69F8D4D",
+    "deposit": {
+     "component": "DepositComponentData",
+     "recordIndex": 11,
+     "indexRow": 39,
+     "recordSize": 152,
+     "ownerCount": 1,
+     "uniqueOwner": true,
+     "ownerResources": [
+      "0x3015626AA69F8D4D"
+     ],
+     "recordSha256": "B551695F7705085F2C2895DD4CC991FAAD11FFEF277567D9F496ED6578C14A5F",
+     "values": {
+      "0": 6,
+      "4": 6,
+      "8": 6
+     },
+     "link": {
+      "offset": 24,
+      "storage": "u64",
+      "nameLength": 10
+     }
+    },
+    "drone": {
+     "resource": "0x979E9BC6D48D1FC6",
+     "path": "content/fac_helldivers/equipment/backpacks/drone_flamethrower_backpack/drone_flamethrower",
+     "entityRow": 4038,
+     "components": [
+      "AbilityComponentData",
+      "AttachableComponentData",
+      "BehaviorComponentData",
+      "BoidsComponentData",
+      "DetectorComponentData",
+      "EffectReferenceComponentData",
+      "FactionComponentData",
+      "HealthComponentData",
+      "MotionComponentData",
+      "MountComponentData",
+      "MultiTargetComponentData",
+      "NavigationComponentData",
+      "RotationComponentData",
+      "SensorEyeComponentData",
+      "TagComponentData",
+      "TargetingComponentData",
+      "UnitComponentData",
+      "WeaponWielderComponentData"
+     ],
+     "health": {
+      "ownership": {
+       "component": "HealthComponentData",
+       "recordIndex": 297,
+       "indexRow": 500,
+       "recordSize": 22096,
+       "ownerCount": 1,
+       "uniqueOwner": true,
+       "ownerResources": [
+        "0x979E9BC6D48D1FC6"
+       ],
+       "recordSha256": "735F42DEC01655F019A796036F301E0CC14B7E9E0A83E3887AD8DBCACB340857"
+      },
+      "mainHealth": 100,
+      "defaultArmor": 1,
+      "zones": [
+       {
+        "index": 0,
+        "name": null,
+        "nameHash": 1537588878,
+        "armor": 1,
+        "health": 100,
+        "affectsMainHealth": 1.0,
+        "actorCount": 9
+       }
+      ]
+     },
+     "mount": {
+      "component": "MountComponentData",
+      "recordIndex": 95,
+      "indexRow": 2,
+      "recordSize": 120,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "ownerResources": [
+       "0x979E9BC6D48D1FC6"
+      ],
+      "recordSha256": "79CFCD254B7B798873EC22CE00F35001F6F537E1ECA30E94182E5576F52347AC",
+      "slots": [
+       {
+        "slot": 0,
+        "resource": "0x65CD4325BA23F3C6",
+        "path": "content/fac_helldivers/equipment/backpacks/drone_weapons/drone_flamethrower/drone_flamethrower_mount",
+        "name": "gun",
+        "attachNode": "gun_mount"
+       }
+      ]
+     },
+     "genericComponents": {
+      "SensorEyeComponentData": {
+       "recordIndex": 192,
+       "ownerCount": 1
+      },
+      "NavigationComponentData": {
+       "recordIndex": 150,
+       "ownerCount": 1
+      },
+      "TargetingComponentData": {
+       "recordIndex": 174,
+       "ownerCount": 1
+      },
+      "WeaponWielderComponentData": {
+       "recordIndex": 139,
+       "ownerCount": 1
+      },
+      "MultiTargetComponentData": {
+       "recordIndex": 8,
+       "ownerCount": 1
+      },
+      "DetectorComponentData": {
+       "recordIndex": 194,
+       "ownerCount": 1
+      },
+      "BehaviorComponentData": {
+       "recordIndex": 595,
+       "ownerCount": 1
+      },
+      "AbilityComponentData": {
+       "recordIndex": 478,
+       "ownerCount": 1
+      },
+      "BoidsComponentData": {
+       "recordIndex": 10,
+       "ownerCount": 1
+      },
+      "RotationComponentData": {
+       "recordIndex": 132,
+       "ownerCount": 1
+      },
+      "MotionComponentData": {
+       "recordIndex": 141,
+       "ownerCount": 1
+      },
+      "FactionComponentData": {
+       "recordIndex": 281,
+       "ownerCount": 1
+      },
+      "UnitComponentData": {
+       "recordIndex": 962,
+       "ownerCount": 1
+      },
+      "AttachableComponentData": {
+       "recordIndex": 382,
+       "ownerCount": 1
+      },
+      "TagComponentData": {
+       "recordIndex": 314,
+       "ownerCount": 1
+      }
+     }
+    },
+    "weapon": {
+     "resource": "0x65CD4325BA23F3C6",
+     "path": "content/fac_helldivers/equipment/backpacks/drone_weapons/drone_flamethrower/drone_flamethrower_mount",
+     "entityRow": 966,
+     "family": "spray",
+     "ownership": {
+      "WeaponDataComponentData": {
+       "component": "WeaponDataComponentData",
+       "recordIndex": 258,
+       "indexRow": 163,
+       "recordSize": 1232,
+       "ownerCount": 1,
+       "uniqueOwner": true,
+       "ownerResources": [
+        "0x65CD4325BA23F3C6"
+       ],
+       "recordSha256": "6BB92292E11DECE865FA163CE553400BAB0BA222E099A3BBF50827B14D419339"
+      },
+      "SprayWeaponComponentData": {
+       "component": "SprayWeaponComponentData",
+       "recordIndex": 15,
+       "indexRow": 44,
+       "recordSize": 224,
+       "ownerCount": 1,
+       "uniqueOwner": true,
+       "ownerResources": [
+        "0x65CD4325BA23F3C6"
+       ],
+       "recordSha256": "08644D17DC6EFD84F1F63F7739CC3CCF4D56A3F3AC1C09074CEBC0FB5A62F4EE"
+      },
+      "WeaponMagazineComponentData": {
+       "component": "WeaponMagazineComponentData",
+       "recordIndex": 198,
+       "indexRow": 443,
+       "recordSize": 160,
+       "ownerCount": 1,
+       "uniqueOwner": true,
+       "ownerResources": [
+        "0x65CD4325BA23F3C6"
+       ],
+       "recordSha256": "8F81A787E4E709C40108DE1FCB55ABDC1CD15786AA363FA9DCFA6738F9E2300C"
+      },
+      "WeaponReloadComponentData": {
+       "component": "WeaponReloadComponentData",
+       "recordIndex": 160,
+       "indexRow": 262,
+       "recordSize": 80,
+       "ownerCount": 1,
+       "uniqueOwner": true,
+       "ownerResources": [
+        "0x65CD4325BA23F3C6"
+       ],
+       "recordSha256": "C6E140988FC95C01D47F806B5809A868B5835877B916E1DE25B57D4422861A3A"
+      }
+     }
+    },
+    "wiki": {
+     "mainHealth": 100,
+     "mainArmor": 1,
+     "magsFromSupply": 6,
+     "maxRounds": 6,
+     "startingRounds": 6
+    },
+    "correlation": {
+     "mainHealth": true,
+     "mainArmor": true,
+     "capacity": true,
+     "start": true,
+     "fromSupply": true
+    }
+   },
+   {
+    "backpack": "AX/ARC-3 K-9",
+    "backpackResource": "0xC28DA712B12E3DFA",
+    "deposit": {
+     "component": "DepositComponentData",
+     "recordIndex": 20,
+     "indexRow": 47,
+     "recordSize": 152,
+     "ownerCount": 1,
+     "uniqueOwner": true,
+     "ownerResources": [
+      "0xC28DA712B12E3DFA"
+     ],
+     "recordSha256": "0D23D79960C4077F88C0AD433BA9B18D26442AAC24369B55FBD911A41F849D3D",
+     "values": {
+      "0": 6,
+      "4": 6,
+      "8": 6
+     },
+     "link": {
+      "offset": 24,
+      "storage": "u64",
+      "nameLength": 10
+     }
+    },
+    "drone": {
+     "resource": "0x4B071633584E4594",
+     "path": "content/fac_helldivers/equipment/backpacks/guard_dog_stun_backpack/drone_stun",
+     "entityRow": 1428,
+     "components": [
+      "AbilityComponentData",
+      "AttachableComponentData",
+      "BehaviorComponentData",
+      "BoidsComponentData",
+      "DetectorComponentData",
+      "EffectReferenceComponentData",
+      "FactionComponentData",
+      "HealthComponentData",
+      "MotionComponentData",
+      "MountComponentData",
+      "MultiTargetComponentData",
+      "NavigationComponentData",
+      "RotationComponentData",
+      "SensorEyeComponentData",
+      "TagComponentData",
+      "TargetingComponentData",
+      "UnitComponentData",
+      "WeaponWielderComponentData"
+     ],
+     "health": {
+      "ownership": {
+       "component": "HealthComponentData",
+       "recordIndex": 304,
+       "indexRow": 34,
+       "recordSize": 22096,
+       "ownerCount": 1,
+       "uniqueOwner": true,
+       "ownerResources": [
+        "0x4B071633584E4594"
+       ],
+       "recordSha256": "735F42DEC01655F019A796036F301E0CC14B7E9E0A83E3887AD8DBCACB340857"
+      },
+      "mainHealth": 100,
+      "defaultArmor": 1,
+      "zones": [
+       {
+        "index": 0,
+        "name": null,
+        "nameHash": 1537588878,
+        "armor": 1,
+        "health": 100,
+        "affectsMainHealth": 1.0,
+        "actorCount": 9
+       }
+      ]
+     },
+     "mount": {
+      "component": "MountComponentData",
+      "recordIndex": 102,
+      "indexRow": 221,
+      "recordSize": 120,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "ownerResources": [
+       "0x4B071633584E4594"
+      ],
+      "recordSha256": "9C4D7D63B7ACBC2F78B60966F8A8EB5773032961A031BDC83A14DD887045D369",
+      "slots": [
+       {
+        "slot": 0,
+        "resource": "0xA0532C3616528CBF",
+        "path": "content/fac_helldivers/equipment/backpacks/drone_weapons/drone_stun_gun/drone_stun_gun_mount",
+        "name": "gun",
+        "attachNode": "gun_mount"
+       }
+      ]
+     },
+     "genericComponents": {
+      "SensorEyeComponentData": {
+       "recordIndex": 199,
+       "ownerCount": 1
+      },
+      "NavigationComponentData": {
+       "recordIndex": 157,
+       "ownerCount": 1
+      },
+      "TargetingComponentData": {
+       "recordIndex": 181,
+       "ownerCount": 1
+      },
+      "WeaponWielderComponentData": {
+       "recordIndex": 146,
+       "ownerCount": 1
+      },
+      "MultiTargetComponentData": {
+       "recordIndex": 15,
+       "ownerCount": 1
+      },
+      "DetectorComponentData": {
+       "recordIndex": 201,
+       "ownerCount": 1
+      },
+      "BehaviorComponentData": {
+       "recordIndex": 602,
+       "ownerCount": 1
+      },
+      "AbilityComponentData": {
+       "recordIndex": 495,
+       "ownerCount": 1
+      },
+      "BoidsComponentData": {
+       "recordIndex": 17,
+       "ownerCount": 1
+      },
+      "RotationComponentData": {
+       "recordIndex": 139,
+       "ownerCount": 1
+      },
+      "MotionComponentData": {
+       "recordIndex": 148,
+       "ownerCount": 1
+      },
+      "FactionComponentData": {
+       "recordIndex": 288,
+       "ownerCount": 1
+      },
+      "UnitComponentData": {
+       "recordIndex": 979,
+       "ownerCount": 1
+      },
+      "AttachableComponentData": {
+       "recordIndex": 399,
+       "ownerCount": 1
+      },
+      "TagComponentData": {
+       "recordIndex": 321,
+       "ownerCount": 1
+      }
+     }
+    },
+    "weapon": {
+     "resource": "0xA0532C3616528CBF",
+     "path": "content/fac_helldivers/equipment/backpacks/drone_weapons/drone_stun_gun/drone_stun_gun_mount",
+     "entityRow": 3263,
+     "family": "arc",
+     "ownership": {
+      "WeaponDataComponentData": {
+       "component": "WeaponDataComponentData",
+       "recordIndex": 261,
+       "indexRow": 571,
+       "recordSize": 1232,
+       "ownerCount": 1,
+       "uniqueOwner": true,
+       "ownerResources": [
+        "0xA0532C3616528CBF"
+       ],
+       "recordSha256": "2D5C08AFC2B1236E9D86DA54E3FBAB76E3F189C239A805BA5C30D3B7E7AAD3BE"
+      },
+      "ArcWeaponComponentData": {
+       "component": "ArcWeaponComponentData",
+       "recordIndex": 7,
+       "indexRow": 11,
+       "recordSize": 80,
+       "ownerCount": 1,
+       "uniqueOwner": true,
+       "ownerResources": [
+        "0xA0532C3616528CBF"
+       ],
+       "recordSha256": "90013A3DD3198331EBA53B3ABFE0894A79ACD2CB6064048BFF6431B1229D9F7B"
+      },
+      "WeaponMagazineComponentData": {
+       "component": "WeaponMagazineComponentData",
+       "recordIndex": 200,
+       "indexRow": 191,
+       "recordSize": 160,
+       "ownerCount": 1,
+       "uniqueOwner": true,
+       "ownerResources": [
+        "0xA0532C3616528CBF"
+       ],
+       "recordSha256": "BFB1C78819D38301F0FD497853E19255F96E8877D785735D8635DB0A33494D6A"
+      },
+      "WeaponReloadComponentData": {
+       "component": "WeaponReloadComponentData",
+       "recordIndex": 163,
+       "indexRow": 335,
+       "recordSize": 80,
+       "ownerCount": 1,
+       "uniqueOwner": true,
+       "ownerResources": [
+        "0xA0532C3616528CBF"
+       ],
+       "recordSha256": "C6E140988FC95C01D47F806B5809A868B5835877B916E1DE25B57D4422861A3A"
+      }
+     }
+    },
+    "wiki": {
+     "mainHealth": 100,
+     "mainArmor": 1,
+     "magsFromSupply": 6,
+     "maxRounds": 6,
+     "startingRounds": 6
+    },
+    "correlation": {
+     "mainHealth": true,
+     "mainArmor": true,
+     "capacity": true,
+     "start": true,
+     "fromSupply": true
+    }
+   },
+   {
+    "backpack": "AX/TX-13 Dog Breath",
+    "backpackResource": "0xBFFCB4CD971A8EDA",
+    "deposit": {
+     "component": "DepositComponentData",
+     "recordIndex": 12,
+     "indexRow": 46,
+     "recordSize": 152,
+     "ownerCount": 1,
+     "uniqueOwner": true,
+     "ownerResources": [
+      "0xBFFCB4CD971A8EDA"
+     ],
+     "recordSha256": "936A72CDEE69E57580C93B69780781BAC526F78047B59E1C68E19C3A473E1EAF",
+     "values": {
+      "0": 6,
+      "4": 6,
+      "8": 6
+     },
+     "link": {
+      "offset": 24,
+      "storage": "u64",
+      "nameLength": 10
+     }
+    },
+    "drone": {
+     "resource": "0xB9BAF571FC8F9959",
+     "path": "content/fac_helldivers/equipment/backpacks/drone_gas_projector_backpack/drone_gas_projector",
+     "entityRow": 2393,
+     "components": [
+      "AbilityComponentData",
+      "AttachableComponentData",
+      "BehaviorComponentData",
+      "BoidsComponentData",
+      "DetectorComponentData",
+      "EffectReferenceComponentData",
+      "FactionComponentData",
+      "HealthComponentData",
+      "MotionComponentData",
+      "MountComponentData",
+      "MultiTargetComponentData",
+      "NavigationComponentData",
+      "RotationComponentData",
+      "SensorEyeComponentData",
+      "TagComponentData",
+      "TargetingComponentData",
+      "UnitComponentData",
+      "WeaponWielderComponentData"
+     ],
+     "health": {
+      "ownership": {
+       "component": "HealthComponentData",
+       "recordIndex": 298,
+       "indexRow": 187,
+       "recordSize": 22096,
+       "ownerCount": 1,
+       "uniqueOwner": true,
+       "ownerResources": [
+        "0xB9BAF571FC8F9959"
+       ],
+       "recordSha256": "735F42DEC01655F019A796036F301E0CC14B7E9E0A83E3887AD8DBCACB340857"
+      },
+      "mainHealth": 100,
+      "defaultArmor": 1,
+      "zones": [
+       {
+        "index": 0,
+        "name": null,
+        "nameHash": 1537588878,
+        "armor": 1,
+        "health": 100,
+        "affectsMainHealth": 1.0,
+        "actorCount": 9
+       }
+      ]
+     },
+     "mount": {
+      "component": "MountComponentData",
+      "recordIndex": 96,
+      "indexRow": 244,
+      "recordSize": 120,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "ownerResources": [
+       "0xB9BAF571FC8F9959"
+      ],
+      "recordSha256": "D7A01CE80808C44A7D316DEDA99C442EC069C102E90DA6831AF9B89B277197B5",
+      "slots": [
+       {
+        "slot": 0,
+        "resource": "0xB729A2BA153BCAED",
+        "path": "content/fac_helldivers/equipment/backpacks/drone_weapons/drone_gas_projector/drone_gas_projector_mount",
+        "name": "gun",
+        "attachNode": "gun_mount"
+       }
+      ]
+     },
+     "genericComponents": {
+      "SensorEyeComponentData": {
+       "recordIndex": 193,
+       "ownerCount": 1
+      },
+      "NavigationComponentData": {
+       "recordIndex": 151,
+       "ownerCount": 1
+      },
+      "TargetingComponentData": {
+       "recordIndex": 175,
+       "ownerCount": 1
+      },
+      "WeaponWielderComponentData": {
+       "recordIndex": 140,
+       "ownerCount": 1
+      },
+      "MultiTargetComponentData": {
+       "recordIndex": 9,
+       "ownerCount": 1
+      },
+      "DetectorComponentData": {
+       "recordIndex": 195,
+       "ownerCount": 1
+      },
+      "BehaviorComponentData": {
+       "recordIndex": 596,
+       "ownerCount": 1
+      },
+      "AbilityComponentData": {
+       "recordIndex": 480,
+       "ownerCount": 1
+      },
+      "BoidsComponentData": {
+       "recordIndex": 11,
+       "ownerCount": 1
+      },
+      "RotationComponentData": {
+       "recordIndex": 133,
+       "ownerCount": 1
+      },
+      "MotionComponentData": {
+       "recordIndex": 142,
+       "ownerCount": 1
+      },
+      "FactionComponentData": {
+       "recordIndex": 282,
+       "ownerCount": 1
+      },
+      "UnitComponentData": {
+       "recordIndex": 964,
+       "ownerCount": 1
+      },
+      "AttachableComponentData": {
+       "recordIndex": 384,
+       "ownerCount": 1
+      },
+      "TagComponentData": {
+       "recordIndex": 315,
+       "ownerCount": 1
+      }
+     }
+    },
+    "weapon": {
+     "resource": "0xB729A2BA153BCAED",
+     "path": "content/fac_helldivers/equipment/backpacks/drone_weapons/drone_gas_projector/drone_gas_projector_mount",
+     "entityRow": 2798,
+     "family": "spray",
+     "ownership": {
+      "WeaponDataComponentData": {
+       "component": "WeaponDataComponentData",
+       "recordIndex": 259,
+       "indexRow": 664,
+       "recordSize": 1232,
+       "ownerCount": 1,
+       "uniqueOwner": true,
+       "ownerResources": [
+        "0xB729A2BA153BCAED"
+       ],
+       "recordSha256": "6BB92292E11DECE865FA163CE553400BAB0BA222E099A3BBF50827B14D419339"
+      },
+      "SprayWeaponComponentData": {
+       "component": "SprayWeaponComponentData",
+       "recordIndex": 16,
+       "indexRow": 33,
+       "recordSize": 224,
+       "ownerCount": 1,
+       "uniqueOwner": true,
+       "ownerResources": [
+        "0xB729A2BA153BCAED"
+       ],
+       "recordSha256": "FE6F83142DADBDBF5CB20BA915477A88E010C80E3F9C3642EB27C56E04774683"
+      },
+      "WeaponMagazineComponentData": {
+       "component": "WeaponMagazineComponentData",
+       "recordIndex": 199,
+       "indexRow": 341,
+       "recordSize": 160,
+       "ownerCount": 1,
+       "uniqueOwner": true,
+       "ownerResources": [
+        "0xB729A2BA153BCAED"
+       ],
+       "recordSha256": "024166EDECB16FB5280BC63BC07F97D80BB117F86738A39A42D7BF7827A12DD8"
+      },
+      "WeaponReloadComponentData": {
+       "component": "WeaponReloadComponentData",
+       "recordIndex": 161,
+       "indexRow": 443,
+       "recordSize": 80,
+       "ownerCount": 1,
+       "uniqueOwner": true,
+       "ownerResources": [
+        "0xB729A2BA153BCAED"
+       ],
+       "recordSha256": "C6E140988FC95C01D47F806B5809A868B5835877B916E1DE25B57D4422861A3A"
+      }
+     }
+    },
+    "wiki": {
+     "mainHealth": 100,
+     "mainArmor": 1,
+     "magsFromSupply": 6,
+     "maxRounds": 6,
+     "startingRounds": 6
+    },
+    "correlation": {
+     "mainHealth": true,
+     "mainArmor": true,
+     "capacity": true,
+     "start": true,
+     "fromSupply": true
+    }
+   }
+  ],
+  "variants": [
+   {
+    "path": "content/fac_helldivers/equipment/backpacks/drone_weapons/drone_assault_rifle/drone_assault_rifle_backpack",
+    "racks": [
+     "content/fac_helldivers/hellpod/weapon_rack/weapon_rack_drone_assault_rifle"
+    ],
+    "stratagemsDeliveringRack": [],
+    "reason": "A hellpod rack attaches this assault-rifle drone backpack, but no stratagem in the retained snapshot delivers that rack and the wiki lists no such backpack; not a catalog item, not exposed."
+   }
+  ],
+  "genericNote": "Sensor, navigation, targeting, behavior, boids, rotation and motion are generic unit components; every drone record holds the same values and their members have no published correlation (no wiki value for detection, leash or speed). They stay unknown and read-only."
+ },
+ "heat": {
+  "component": "WeaponHeatComponentData",
+  "recordSize": 592,
+  "members": [
+   {
+    "offset": 0,
+    "storage": "FP32",
+    "nameLength": 21,
+    "type": null,
+    "struct": "HeatLevelSetting<19>[0]"
+   },
+   {
+    "offset": 4,
+    "storage": "ENUM_UINT32",
+    "nameLength": 15,
+    "type": "ProjectileType",
+    "struct": "HeatLevelSetting<19>[0]"
+   },
+   {
+    "offset": 8,
+    "storage": "UINT64",
+    "nameLength": 19,
+    "type": null,
+    "struct": "HeatLevelSetting<19>[0]"
+   },
+   {
+    "offset": 16,
+    "storage": "UINT32",
+    "nameLength": 17,
+    "type": null,
+    "struct": "HeatLevelSetting<19>[0]"
+   },
+   {
+    "offset": 20,
+    "storage": "ENUM_INT32",
+    "nameLength": 22,
+    "type": "StatusEffectType",
+    "struct": "HeatLevelSetting<19>[0]"
+   },
+   {
+    "offset": 24,
+    "storage": "FP32",
+    "nameLength": 21,
+    "type": null,
+    "struct": "HeatLevelSetting<19>[1]"
+   },
+   {
+    "offset": 28,
+    "storage": "ENUM_UINT32",
+    "nameLength": 15,
+    "type": "ProjectileType",
+    "struct": "HeatLevelSetting<19>[1]"
+   },
+   {
+    "offset": 32,
+    "storage": "UINT64",
+    "nameLength": 19,
+    "type": null,
+    "struct": "HeatLevelSetting<19>[1]"
+   },
+   {
+    "offset": 40,
+    "storage": "UINT32",
+    "nameLength": 17,
+    "type": null,
+    "struct": "HeatLevelSetting<19>[1]"
+   },
+   {
+    "offset": 44,
+    "storage": "ENUM_INT32",
+    "nameLength": 22,
+    "type": "StatusEffectType",
+    "struct": "HeatLevelSetting<19>[1]"
+   },
+   {
+    "offset": 48,
+    "storage": "FP32",
+    "nameLength": 21,
+    "type": null,
+    "struct": "HeatLevelSetting<19>[2]"
+   },
+   {
+    "offset": 52,
+    "storage": "ENUM_UINT32",
+    "nameLength": 15,
+    "type": "ProjectileType",
+    "struct": "HeatLevelSetting<19>[2]"
+   },
+   {
+    "offset": 56,
+    "storage": "UINT64",
+    "nameLength": 19,
+    "type": null,
+    "struct": "HeatLevelSetting<19>[2]"
+   },
+   {
+    "offset": 64,
+    "storage": "UINT32",
+    "nameLength": 17,
+    "type": null,
+    "struct": "HeatLevelSetting<19>[2]"
+   },
+   {
+    "offset": 68,
+    "storage": "ENUM_INT32",
+    "nameLength": 22,
+    "type": "StatusEffectType",
+    "struct": "HeatLevelSetting<19>[2]"
+   },
+   {
+    "offset": 72,
+    "storage": "FP32",
+    "nameLength": 20,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 76,
+    "storage": "FP32",
+    "nameLength": 22,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 80,
+    "storage": "UINT8",
+    "nameLength": 15,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 84,
+    "storage": "UINT32",
+    "nameLength": 9,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 88,
+    "storage": "UINT32",
+    "nameLength": 16,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 92,
+    "storage": "UINT32",
+    "nameLength": 13,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 96,
+    "storage": "FP32",
+    "nameLength": 20,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 100,
+    "storage": "FP32",
+    "nameLength": 28,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 104,
+    "storage": "FP32",
+    "nameLength": 19,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 108,
+    "storage": "FP32",
+    "nameLength": 20,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 112,
+    "storage": "FP32",
+    "nameLength": 16,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 116,
+    "storage": "FP32",
+    "nameLength": 18,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 120,
+    "storage": "FP32",
+    "nameLength": 20,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 124,
+    "storage": "FP32",
+    "nameLength": 29,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 128,
+    "storage": "FP32",
+    "nameLength": 20,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 132,
+    "storage": "FP32",
+    "nameLength": 31,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 136,
+    "storage": "FP32",
+    "nameLength": 31,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 140,
+    "storage": "FP32",
+    "nameLength": 31,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 144,
+    "storage": "UINT8",
+    "nameLength": 27,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 148,
+    "storage": "FP32",
+    "nameLength": 13,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 152,
+    "storage": "FP32",
+    "nameLength": 22,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 156,
+    "storage": "FP32",
+    "nameLength": 22,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 160,
+    "storage": "UINT8",
+    "nameLength": 23,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 161,
+    "storage": "UINT8",
+    "nameLength": 33,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 164,
+    "storage": "UINT32",
+    "nameLength": 22,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 168,
+    "storage": "UINT32",
+    "nameLength": 23,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 172,
+    "storage": "FP32",
+    "nameLength": 22,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 176,
+    "storage": "UINT32",
+    "nameLength": 11,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 180,
+    "storage": "UINT32",
+    "nameLength": 15,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 184,
+    "storage": "UINT32",
+    "nameLength": 15,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 188,
+    "storage": "UINT32",
+    "nameLength": 17,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 192,
+    "storage": "UINT8",
+    "nameLength": 19,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 484,
+    "storage": "UINT32",
+    "nameLength": 26,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 488,
+    "storage": "UINT32",
+    "nameLength": 29,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 492,
+    "storage": "UINT32",
+    "nameLength": 29,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 496,
+    "storage": "UINT32",
+    "nameLength": 32,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 500,
+    "storage": "UINT32",
+    "nameLength": 18,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 504,
+    "storage": "UINT32",
+    "nameLength": 32,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 508,
+    "storage": "UINT32",
+    "nameLength": 31,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 512,
+    "storage": "UINT32",
+    "nameLength": 29,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 516,
+    "storage": "UINT32",
+    "nameLength": 28,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 520,
+    "storage": "UINT32",
+    "nameLength": 22,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 524,
+    "storage": "UINT32",
+    "nameLength": 35,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 528,
+    "storage": "UINT32",
+    "nameLength": 34,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 536,
+    "storage": "UINT64",
+    "nameLength": 30,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 544,
+    "storage": "UINT64",
+    "nameLength": 28,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 552,
+    "storage": "UINT64",
+    "nameLength": 33,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 560,
+    "storage": "UINT64",
+    "nameLength": 30,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 568,
+    "storage": "UINT64",
+    "nameLength": 34,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 576,
+    "storage": "UINT64",
+    "nameLength": 30,
+    "type": null,
+    "struct": null
+   },
+   {
+    "offset": 584,
+    "storage": "ENUM_UINT32",
+    "nameLength": 16,
+    "type": "AbilityId",
+    "struct": null
+   },
+   {
+    "offset": 588,
+    "storage": "FP32",
+    "nameLength": 31,
+    "type": null,
+    "struct": null
+   }
+  ],
+  "weapons": {
+   "LAS-98 Laser Cannon": {
+    "resource": "0xD54B9505C0F72873",
+    "ownership": {
+     "component": "WeaponHeatComponentData",
+     "recordIndex": 27,
+     "indexRow": 57,
+     "recordSize": 592,
+     "ownerCount": 1,
+     "uniqueOwner": true,
+     "ownerResources": [
+      "0xD54B9505C0F72873"
+     ],
+     "recordSha256": "3EE8BD6B1649AEED7DA93EC5CF2455FF546B18902488556AD15D09327A04E926"
+    },
+    "values": {
+     "80": 1,
+     "96": 100.0,
+     "104": 80.0,
+     "108": 65.0,
+     "116": 2.0,
+     "120": 8.0,
+     "124": 100.0,
+     "128": 5.0,
+     "132": 0.75,
+     "136": 1.5,
+     "140": 400.0,
+     "144": 1,
+     "148": 100.0,
+     "152": 200.0,
+     "156": 500.0,
+     "172": 50.0
+    }
+   },
+   "LAS-5 Scythe": {
+    "resource": "0x27EE1ED8F6FB6356",
+    "ownership": {
+     "component": "WeaponHeatComponentData",
+     "recordIndex": 18,
+     "indexRow": 42,
+     "recordSize": 592,
+     "ownerCount": 1,
+     "uniqueOwner": true,
+     "ownerResources": [
+      "0x27EE1ED8F6FB6356"
+     ],
+     "recordSha256": "BF0FA4DF4C6805E39749866F16307CBD4B45B2597A4E9A5511FA565DBFC8C15F"
+    },
+    "values": {
+     "80": 1,
+     "96": 100.0,
+     "104": 80.0,
+     "108": 65.0,
+     "116": 2.0,
+     "120": 12.5,
+     "124": 100.0,
+     "128": 8.5,
+     "132": 0.75,
+     "136": 1.5,
+     "140": 400.0,
+     "144": 1,
+     "148": 100.0,
+     "152": 400.0,
+     "156": 1000.0,
+     "172": 0.0
+    }
+   },
+   "LAS-16 Sickle": {
+    "resource": "0x8645F167B3C813A2",
+    "ownership": {
+     "component": "WeaponHeatComponentData",
+     "recordIndex": 20,
+     "indexRow": 45,
+     "recordSize": 592,
+     "ownerCount": 1,
+     "uniqueOwner": true,
+     "ownerResources": [
+      "0x8645F167B3C813A2"
+     ],
+     "recordSha256": "DFF153CFC79F8742A27485BE76FE13FEF40AE74C41CEF5A87BE8F7A0A3B6F50B"
+    },
+    "values": {
+     "80": 1,
+     "96": 100.0,
+     "104": 80.0,
+     "108": 65.0,
+     "116": 1.15,
+     "120": 0.0,
+     "124": 100.0,
+     "128": 8.0,
+     "132": 0.75,
+     "136": 1.5,
+     "140": 400.0,
+     "144": 1,
+     "148": 100.0,
+     "152": 200.0,
+     "156": 75.0,
+     "172": 0.0
+    }
+   },
+   "LAS-17 Double-Edge Sickle": {
+    "resource": "0x295BEB26DC4F8FF1",
+    "ownership": {
+     "component": "WeaponHeatComponentData",
+     "recordIndex": 21,
+     "indexRow": 53,
+     "recordSize": 592,
+     "ownerCount": 1,
+     "uniqueOwner": true,
+     "ownerResources": [
+      "0x295BEB26DC4F8FF1"
+     ],
+     "recordSha256": "45FDA9AA612DFCF0BEAC3296FE8F30D9CE2D3E6A2164E066107CF7750BE8E7A3"
+    },
+    "values": {
+     "80": 0,
+     "96": 200.0,
+     "104": 80.0,
+     "108": 50.0,
+     "116": 1.15,
+     "120": 0.0,
+     "124": 100.0,
+     "128": 8.0,
+     "132": 0.75,
+     "136": 1.5,
+     "140": 400.0,
+     "144": 1,
+     "148": 100.0,
+     "152": 200.0,
+     "156": 75.0,
+     "172": 0.0
+    }
+   },
+   "LAS-13 Trident": {
+    "resource": "0x3C86E871923F3970",
+    "ownership": {
+     "component": "WeaponHeatComponentData",
+     "recordIndex": 22,
+     "indexRow": 51,
+     "recordSize": 592,
+     "ownerCount": 1,
+     "uniqueOwner": true,
+     "ownerResources": [
+      "0x3C86E871923F3970"
+     ],
+     "recordSha256": "349E4598C7F92AFD81458E06FC44656576BF70AD764E091F6590F4C14D29DF49"
+    },
+    "values": {
+     "80": 1,
+     "96": 100.0,
+     "104": 80.0,
+     "108": 65.0,
+     "116": 10.0,
+     "120": 0.0,
+     "124": 100.0,
+     "128": 15.0,
+     "132": 0.75,
+     "136": 1.5,
+     "140": 400.0,
+     "144": 1,
+     "148": 0.0,
+     "152": 0.0,
+     "156": 10.0,
+     "172": 0.0
+    }
+   },
+   "A/LAS-98 Laser Sentry": {
+    "resource": "0x56070F36CFFFA8A8",
+    "ownership": {
+     "component": "WeaponHeatComponentData",
+     "recordIndex": 11,
+     "indexRow": 10,
+     "recordSize": 592,
+     "ownerCount": 1,
+     "uniqueOwner": true,
+     "ownerResources": [
+      "0x56070F36CFFFA8A8"
+     ],
+     "recordSha256": "F58E5E8E29D6B0B3729BDFD47FC59930953F43DE837BA62A0A8E5F04CD2CF72B"
+    },
+    "values": {
+     "80": 1,
+     "96": 250.0,
+     "104": 175.0,
+     "108": 100.0,
+     "116": 2.0,
+     "120": 8.0,
+     "124": 100.0,
+     "128": 5.0,
+     "132": 0.75,
+     "136": 1.5,
+     "140": 400.0,
+     "144": 1,
+     "148": 100.0,
+     "152": 200.0,
+     "156": 500.0,
+     "172": 50.0
+    }
+   },
+   "AX/LAS-5 Rover": {
+    "resource": "0x2C66C201B2543D2C",
+    "ownership": {
+     "component": "WeaponHeatComponentData",
+     "recordIndex": 17,
+     "indexRow": 28,
+     "recordSize": 592,
+     "ownerCount": 1,
+     "uniqueOwner": true,
+     "ownerResources": [
+      "0x2C66C201B2543D2C"
+     ],
+     "recordSha256": "F33175F3FA04703B28E5229F0EF91C0743716F4EEAF55948AE7D74DD32913ECC"
+    },
+    "values": {
+     "80": 1,
+     "96": 200.0,
+     "104": 150.0,
+     "108": 50.0,
+     "116": 2.0,
+     "120": 0.0,
+     "124": 100.0,
+     "128": 50.0,
+     "132": 0.75,
+     "136": 1.5,
+     "140": 400.0,
+     "144": 1,
+     "148": 100.0,
+     "152": 400.0,
+     "156": 1000.0,
+     "172": 0.0
+    }
+   }
+  },
+  "doubleEdge": {
+   "levels": [
+    {
+     "index": 1,
+     "thresholdOffset": 0,
+     "threshold": 50.0,
+     "projectileTypeOffset": 4,
+     "projectileType": 185,
+     "statusOffset": 20,
+     "statusType": 60,
+     "status": "hotshot_laser_rifle",
+     "statusDuration": 0.15,
+     "tickDamage": {
+      "damageType": 542,
+      "standardDamage": 20,
+      "durableDamage": 20,
+      "armorPenetration": [
+       9,
+       9,
+       9,
+       9
+      ]
+     },
+     "tickDamageStatuses": []
+    },
+    {
+     "index": 2,
+     "thresholdOffset": 24,
+     "threshold": 100.0,
+     "projectileTypeOffset": 28,
+     "projectileType": 219,
+     "statusOffset": 44,
+     "statusType": 61,
+     "status": "hotshot_laser_rifle_2",
+     "statusDuration": 0.15,
+     "tickDamage": {
+      "damageType": 543,
+      "standardDamage": 40,
+      "durableDamage": 40,
+      "armorPenetration": [
+       9,
+       9,
+       9,
+       9
+      ]
+     },
+     "tickDamageStatuses": []
+    },
+    {
+     "index": 3,
+     "thresholdOffset": 48,
+     "threshold": 190.0,
+     "projectileTypeOffset": 52,
+     "projectileType": 25,
+     "statusOffset": 68,
+     "statusType": 62,
+     "status": "hotshot_laser_rifle_3",
+     "statusDuration": 0.15,
+     "tickDamage": {
+      "damageType": 544,
+      "standardDamage": 100,
+      "durableDamage": 100,
+      "armorPenetration": [
+       9,
+       9,
+       9,
+       9
+      ]
+     },
+     "tickDamageStatuses": [
+      {
+       "statusType": 5,
+       "status": "fire",
+       "strength": 10.0
+      }
+     ]
+    }
+   ],
+   "levelStruct": {
+    "type": "HeatLevelSetting",
+    "nameLength": 19,
+    "count": 3,
+    "stride": 24,
+    "members": {
+     "+0": "f32 (name length 21): heat at which the level applies",
+     "+4": "ProjectileType (15): the projectile fired at this level",
+     "+8": "u64 (19)",
+     "+16": "u32 (17)",
+     "+20": "StatusEffectType (22): the status applied to the wielder while firing at this level"
+    }
+   },
+   "tickDamageUsers": {
+    "544": [
+     "hotshot_laser_rifle_3"
+    ],
+    "542": [
+     "hotshot_laser_rifle"
+    ],
+    "543": [
+     "hotshot_laser_rifle_2"
+    ]
+   },
+   "ignition": {
+    "mechanism": "data-driven: level 3 applies status hotshot_laser_rifle_3, whose tick DamageInfo carries status slot 1 = Fire (strength 10); no hard-coded heat callback",
+    "threshold": 190.0,
+    "sameAsDamageThreshold": true
+   },
+   "overheatLock": {
+    "offset": 80,
+    "storage": "UINT8",
+    "nameLength": 15,
+    "value": 0,
+    "zeroOn": [
+     [
+      "content/objectives/obj_common/shoulder_mounted_camera/shoulder_mounted_camera"
+     ],
+     [
+      "content/fac_helldivers/equipment/primary_weapons/laser_rifle_long_hotshot/laser_rifle_long_hotshot"
+     ]
+    ],
+    "evidence": [
+     "LAS-17 is the only weapon record with 0 (the other 0 is a shoulder camera with 10000 capacity that never overheats)",
+     "armory: \"all overheating protections conveniently removed\"",
+     "wiki: \"the heatsink does not need to be replaced upon reaching maximum heat\""
+    ],
+    "unproven": "that the game reads this byte as the lock-at-maximum-heat switch"
+   },
+   "published": {
+    "capacity": 200.0,
+    "heatPerShot": 1.14999998,
+    "coolPerSecond": [
+     12.0,
+     8.0,
+     6.0
+    ],
+    "level1": null,
+    "level2": null,
+    "level3": null,
+    "noLock": null
+   },
+   "coolMultipliers": {
+    "native": [
+     1.5,
+     0.75
+    ],
+    "coolPerSecond": 8.0,
+    "publishedTriple": [
+     12.0,
+     8.0,
+     6.0
+    ],
+    "exact": true
+   }
+  },
+  "laserCannon": {
+   "values": {
+    "80": 1,
+    "96": 100.0,
+    "104": 80.0,
+    "108": 65.0,
+    "116": 2.0,
+    "120": 8.0,
+    "124": 100.0,
+    "128": 5.0,
+    "132": 0.75,
+    "136": 1.5,
+    "140": 400.0,
+    "144": 1,
+    "148": 100.0,
+    "152": 200.0,
+    "156": 500.0,
+    "172": 50.0
+   },
+   "published": {
+    "capacity": 100.0,
+    "heatPerSecond": 8.0,
+    "coolPerSecond": [
+     7.5,
+     5.0,
+     3.8
+    ],
+    "warmup": 0.5,
+    "beamFireRate": 60,
+    "beamRange": 1000.0
+   },
+   "coolMultipliers": "WeaponHeat +136 (1.5) and +132 (0.75) times the cool rate give the published triple 7.5 - 5 - 3.8 (and 12 - 8 - 6 on the LAS-17, 12.8 - 8.5 - 6.4 on the Scythe). Which condition selects each multiplier is not published (the LAS-17 page ties 1.5x to Extreme Cold but also calls the LAS-17 unaffected by Intense Heat while it carries the same 0.75); read-only.",
+   "warmup": "The published 0.5 s warmup (0.2 s on the Scythe and Rover) is stored in no common member of the laser components or their BeamSettings rows; not located."
+  }
+ },
+ "beamFireRate": {
+  "component": "BeamWeaponComponentData",
+  "member": {
+   "offset": 104,
+   "storage": "INT32",
+   "nameLength": 16,
+   "unit": "rpm"
+  },
+  "fireModeMember": {
+   "offset": 100,
+   "type": "BeamFireMode"
+  },
+  "correlations": [
+   {
+    "weapon": "LAS-98 Laser Cannon",
+    "resource": "0xD54B9505C0F72873",
+    "ownership": {
+     "component": "BeamWeaponComponentData",
+     "recordIndex": 22,
+     "indexRow": 41,
+     "recordSize": 120,
+     "ownerCount": 1,
+     "uniqueOwner": true,
+     "ownerResources": [
+      "0xD54B9505C0F72873"
+     ],
+     "recordSha256": "9B8A9E60B9E59C417E86B6EB6BECB1CD56688A94B20805FD8A9739FC581BDD9A"
+    },
+    "fireRate": 60,
+    "fireMode": 4,
+    "published": 60,
+    "exact": true
+   },
+   {
+    "weapon": "LAS-13 Trident",
+    "resource": "0x3C86E871923F3970",
+    "ownership": {
+     "component": "BeamWeaponComponentData",
+     "recordIndex": 18,
+     "indexRow": 20,
+     "recordSize": 120,
+     "ownerCount": 1,
+     "uniqueOwner": true,
+     "ownerResources": [
+      "0x3C86E871923F3970"
+     ],
+     "recordSha256": "6FEFA0FD58584A67D62C404E0792EC2E936C8819543ED83BC95AF03A29375260"
+    },
+    "fireRate": 300,
+    "fireMode": 6,
+    "published": 300,
+    "exact": true
+   },
+   {
+    "weapon": "40-K Meltagun",
+    "resource": "0x6CFCC7F8801A0266",
+    "ownership": {
+     "component": "BeamWeaponComponentData",
+     "recordIndex": 21,
+     "indexRow": 16,
+     "recordSize": 120,
+     "ownerCount": 1,
+     "uniqueOwner": true,
+     "ownerResources": [
+      "0x6CFCC7F8801A0266"
+     ],
+     "recordSha256": "44DA0ED50C44E4F30B7B36700AB26BDDA88B5BC941F050C21253A01C53A306FE"
+    },
+    "fireRate": 50,
+    "fireMode": 5,
+    "published": 50,
+    "exact": true
+   },
+   {
+    "weapon": "LAS-5 Scythe",
+    "resource": "0x27EE1ED8F6FB6356",
+    "ownership": {
+     "component": "BeamWeaponComponentData",
+     "recordIndex": 16,
+     "indexRow": 6,
+     "recordSize": 120,
+     "ownerCount": 1,
+     "uniqueOwner": true,
+     "ownerResources": [
+      "0x27EE1ED8F6FB6356"
+     ],
+     "recordSha256": "5F74CFFC88FF74343858129D06EF2C55928F69DD32EC40BD3F25047B7865B63C"
+    },
+    "fireRate": 60,
+    "fireMode": 4,
+    "published": 60,
+    "exact": true
+   },
+   {
+    "weapon": "LAS-7 Dagger",
+    "resource": "0x7B06196E90154C88",
+    "ownership": {
+     "component": "BeamWeaponComponentData",
+     "recordIndex": 20,
+     "indexRow": 34,
+     "recordSize": 120,
+     "ownerCount": 1,
+     "uniqueOwner": true,
+     "ownerResources": [
+      "0x7B06196E90154C88"
+     ],
+     "recordSha256": "740FF7B6324F0F3FEF8E95465054EACCEB19C44091BBEBC6E0C24EFD38C6461B"
+    },
+    "fireRate": 60,
+    "fireMode": 4,
+    "published": 60,
+    "exact": true
+   },
+   {
+    "weapon": "A/LAS-98 Laser Sentry",
+    "resource": "0x56070F36CFFFA8A8",
+    "ownership": {
+     "component": "BeamWeaponComponentData",
+     "recordIndex": 9,
+     "indexRow": 0,
+     "recordSize": 120,
+     "ownerCount": 1,
+     "uniqueOwner": true,
+     "ownerResources": [
+      "0x56070F36CFFFA8A8"
+     ],
+     "recordSha256": "2E40CE47A5D94B62E0FAD4B41B9B29A5EF801F67D0201CA149F3CCDE2491BF5C"
+    },
+    "fireRate": 60,
+    "fireMode": 4,
+    "published": 60,
+    "exact": true
+   },
+   {
+    "weapon": "AX/LAS-5 Rover",
+    "resource": "0x2C66C201B2543D2C",
+    "ownership": {
+     "component": "BeamWeaponComponentData",
+     "recordIndex": 15,
+     "indexRow": 38,
+     "recordSize": 120,
+     "ownerCount": 1,
+     "uniqueOwner": true,
+     "ownerResources": [
+      "0x2C66C201B2543D2C"
+     ],
+     "recordSha256": "E279FD0E2A01A230523F2B224DCABD8BDD3C797C25FA8A7395930D548E4826DE"
+    },
+    "fireRate": 60,
+    "fireMode": 4,
+    "published": 60,
+    "exact": true
+   }
+  ],
+  "decision": "beam.fire_rate: exact published \"Beam Fire Rate\" on seven weapons, including the two non-60 values (LAS-13 300 rpm, 40-K 50 rpm); typed INT32, one owner per weapon."
+ },
+ "maxigun": {
+  "resource": "0x43A58CB89CFA197C",
+  "weaponData": {
+   "component": "WeaponDataComponentData",
+   "recordIndex": 348,
+   "indexRow": 116,
+   "recordSize": 1232,
+   "ownerCount": 1,
+   "uniqueOwner": true,
+   "ownerResources": [
+    "0x43A58CB89CFA197C"
+   ],
+   "recordSha256": "CA5B00B9B5982E920A1C0E0BFB475E5AB95DA832F3EA3C46BCEA3CEF42808C93"
+  },
+  "recordType": "WeaponDataComponent",
+  "firedProjectile": {
+   "type": 306,
+   "velocity": 920,
+   "mass": 11
+  },
+  "reference": {
+   "path": "Maxigun-Reimagined-v1.0/Addon/9ba626afa44a3aa3.patch_0",
+   "sha256": "E072A87AD91E447659E96EB29B3DE3A8F50E8AE1220651E455936FD28DDA7F02",
+   "available": true
+  },
+  "claims": [
+   {
+    "claim": "fire rate selector low/medium/high 1000/2000/3000 (ProjectileWeapon +4/+8/+12)",
+    "located": "ProjectileWeaponComponent record of the Maxigun: +8 is the live rate, +4/+12 the X/Z slots",
+    "classification": "already_mapped (+8: weapon.fire_rate) / dormant (+4/+12)",
+    "reason": "The Maxigun binds no fire-rate selector, so the X/Z slots are never read; Reimagined binds one through the weapon-function members below. Selectors are not authored on wind-up weapons."
+   },
+   {
+    "claim": "function_left 0, function_mode 2 (its +176/+180)",
+    "located": "WeaponDataComponent +184/+188 (Reimagined addresses the record from +8)",
+    "classification": "already_mapped, blocked by policy (weapon_function.left/right)",
+    "reason": "Binding a selector on the wind-up Maxigun is unproven; Runtime blocks it with a reason."
+   },
+   {
+    "claim": "recoil_h 0.5 / recoil_v 5.0 \"internal multipliers\" (its +52/+56)",
+    "located": "WeaponDataComponent +60/+64: members of the typed struct RecoilModifiers (member name recoil_modifiers), six f32 with name lengths 21/19/27/25/27/25",
+    "classification": "genuinely_missing",
+    "reason": "Typed recoil multipliers, 1.0 on 363 of 365 weapon records, never changed by an attachment delta; the first pair is exposed behind allow_unverified_effect with a live test.",
+    "values": [
+     {
+      "offset": 60,
+      "nameLength": 21,
+      "value": 1.0
+     },
+     {
+      "offset": 64,
+      "nameLength": 19,
+      "value": 1.0
+     },
+     {
+      "offset": 68,
+      "nameLength": 27,
+      "value": 1.0
+     },
+     {
+      "offset": 72,
+      "nameLength": 25,
+      "value": 1.0
+     },
+     {
+      "offset": 76,
+      "nameLength": 27,
+      "value": 1.0
+     },
+     {
+      "offset": 80,
+      "nameLength": 25,
+      "value": 1.0
+     }
+    ],
+    "distribution": {
+     "(1.0, 1.0)": 364,
+     "(0.0, 0.0)": 2
+    }
+   },
+   {
+    "claim": "spread 6/6 (its +76/+80)",
+    "located": "WeaponDataComponent +84/+88",
+    "classification": "already_mapped (weapon.horizontal_spread / weapon.vertical_spread)"
+   },
+   {
+    "claim": "sway 1.5 (its +96)",
+    "located": "WeaponDataComponent +104",
+    "classification": "already_mapped (weapon.sway)"
+   },
+   {
+    "claim": "ergonomics 10 (its +348)",
+    "located": "WeaponDataComponent +356",
+    "classification": "already_mapped (weapon.ergonomics)"
+   },
+   {
+    "claim": "crosshair 3 (its +392)",
+    "located": "WeaponDataComponent +400 CrosshairWeaponType",
+    "classification": "already_mapped (weapon.third_person_reticle)",
+    "reason": "Runtime authors the reticle through its reviewed on/off policy; the raw type 3 is not reproduced."
+   },
+   {
+    "claim": "companion record: same edits plus mobile_fire 0 (its +0x173)",
+    "located": "the same Maxigun WeaponData record (Reimagined addresses it from +16): +387",
+    "classification": "already_mapped (weapon.stationary_while_firing)",
+    "reason": "Not a second record: both Reimagined layouts resolve to WeaponData record 348 (one owner, the Maxigun)."
+   },
+   {
+    "claim": "wind up 0.3 / down 0.2",
+    "located": "WeaponWindUpComponent +0/+4",
+    "classification": "already_mapped (windup.wind_up_seconds / windup.wind_down_seconds)"
+   },
+   {
+    "claim": "backpack capacity/start/refill 600",
+    "located": "Maxigun backpack DepositComponent +0/+4/+8",
+    "classification": "already_mapped (deposit.capacity / start_amount / refill_amount, range 0..1023)"
+   },
+   {
+    "claim": "damage durable 36, AP 4, stagger 35, push 2, status 37 (stun_small) with buildup 0.2",
+    "located": "DamageInfo 127 (one projectile consumer)",
+    "classification": "already_mapped (damage.durable_damage, ap_*, stagger, push_force, status_1_type, status_1_strength)"
+   },
+   {
+    "claim": "projectile speed 820 -> 900, mass 11 -> 35",
+    "located": "Reimagined scans for a ProjectileSettings row at 820 m/s and 11 g; the Maxigun fires projectile type 306 at 920 m/s and 11 g (wiki M-1000 P, retained snapshot)",
+    "rowsAt820": [
+     148,
+     49,
+     164,
+     135,
+     44,
+     119
+    ],
+    "classification": "incorrect_target",
+    "reason": "The 820 m/s rows belong to other weapons; Runtime maps the fired row (projectile.velocity, projectile.mass)."
+   },
+   {
+    "claim": "calibre, penetration slowdown, raycast flag",
+    "classification": "no_op",
+    "reason": "Reimagined writes them only when already equal to its targets."
+   },
+   {
+    "claim": "muzzle effect (ProjectileWeapon +0xE0) and audio events",
+    "classification": "ignored_by_request",
+    "reason": "Muzzle-flash, particle, material and audio edits are excluded from this pass."
+   }
+  ],
+  "recoilModifiers": {
+   "struct": "RecoilModifiers",
+   "memberNameLength": 16,
+   "offset": 60,
+   "members": [
+    {
+     "offset": 60,
+     "nameLength": 21,
+     "value": 1.0
+    },
+    {
+     "offset": 64,
+     "nameLength": 19,
+     "value": 1.0
+    },
+    {
+     "offset": 68,
+     "nameLength": 27,
+     "value": 1.0
+    },
+    {
+     "offset": 72,
+     "nameLength": 25,
+     "value": 1.0
+    },
+    {
+     "offset": 76,
+     "nameLength": 27,
+     "value": 1.0
+    },
+    {
+     "offset": 80,
+     "nameLength": 25,
+     "value": 1.0
+    }
+   ],
+   "exposed": [
+    {
+     "offset": 60,
+     "field": "weapon.recoil_multiplier_horizontal"
+    },
+    {
+     "offset": 64,
+     "field": "weapon.recoil_multiplier_vertical"
+    }
+   ],
+   "unexposed": "the drift and climb pairs (+68..+80): no lead or published value separates them."
+  }
+ },
+ "scytheIdentity": {
+  "catalogResolution": "DUPLICATE",
+  "candidates": [
+   {
+    "path": "content/fac_helldivers/equipment/primary_weapons/laser_rifle/laser_rifle",
+    "heatCapacity": 100.0,
+    "heatPerSecond": 12.5,
+    "coolPerSecond": 8.5,
+    "beamType": 8,
+    "matchesPublishedHeat": true
+   },
+   {
+    "path": "content/fac_helldivers/equipment/primary_weapons/laser_rifle_charge/laser_rifle_charge",
+    "heatCapacity": 100.0,
+    "heatPerSecond": 30.0,
+    "coolPerSecond": 15.0,
+    "beamType": 8,
+    "matchesPublishedHeat": false
+   }
+  ],
+  "finding": "Both candidates fire the same BeamSettings type, so the shared weapon mapper cannot separate them and the catalog blocks the Scythe (DUPLICATE). The published heat data (12.5 heat/s, cooling 12.8 - 8.5 - 6.4) matches laser_rifle only; laser_rifle_charge (30 heat/s, cooling 15) is another weapon.",
+  "decision": "Not changed in this pass: the weapon identity feeds about 45 generated catalogs (attachments, residency, ownership, composition). A reviewed disambiguation that selects laser_rifle is the follow-up."
+ }
+}
