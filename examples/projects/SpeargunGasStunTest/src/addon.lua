@@ -22,22 +22,17 @@ local enabled=options:toggle({id='enabled',label='Enabled',default=true,
     description='Off removes the stun mode: the Speargun fires only gas spears again.'})
 local labels=options:toggle({id='labels',label='Mode labels',default=true,
     description='Name the modes GAS and STUN (stun icon) in the weapon-function menu. Off: the game defaults.'})
--- The game has no gas icon. Compare the game's placeholder (what a mode without its own icon shows) with the
--- generic ammunition icon "auto" picks (ammo_slug, a plain round); switch it live and reopen the menu.
-local gas_icon=options:choice({id='gas_icon',label='GAS icon',choices={'Game placeholder','Plain round (auto)'},
-    values={'default','auto'},default=1,
-    description='The GAS mode icon: the game placeholder (the default icon) or the generic plain round.'})
 local operations={}
 operations[1]=hd2.ensure({enabled=enabled,transaction={id='speargun-gas-stun',target=source.target,
     allow_unverified_effect=true,allow_unverified_reference=true,changes={
         {field=source.binding.field,expect=source.binding.expect,value=source.binding.value},
         {field=hd2.fields.function_ammo.projectile,expect=source.expect,value=ems}}}})
--- GAS has no native mode icon: the GAS icon option keeps the game placeholder ("default") or writes the generic
--- ammunition icon ("auto": ammo_slug, a plain round). STUN names its native stun icon explicitly.
+-- GAS has no native mode icon: "auto" writes the generic ammunition icon (ammo_slug, a plain round) so the menu never
+-- shows a blank icon. STUN names its native stun icon explicitly (an explicit icon always wins over auto).
 operations[2]=hd2.ensure({enabled=labels,transaction={id='speargun-gas-label',target=gas,
     allow_unverified_effect=true,changes={
         {field=hd2.fields.presentation.mode_label,expect=gas:describe().presentation.label,value='gas'},
-        {field=hd2.fields.presentation.mode_icon,expect=gas:describe().presentation.icon,value=gas_icon}}}})
+        {field=hd2.fields.presentation.mode_icon,expect=gas:describe().presentation.icon,value='auto'}}}})
 operations[3]=hd2.ensure({enabled=labels,transaction={id='speargun-stun-label',target=ems,
     allow_unverified_effect=true,changes={
         {field=hd2.fields.presentation.mode_label,expect=ems:describe().presentation.label,value='stun'},
