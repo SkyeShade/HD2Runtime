@@ -205,7 +205,8 @@ def stats_section(pins: Pins, state: dict) -> dict:
         'tableEntries': 0x00, 'tableCapacity': 0x08, 'tableEmpty': 0x0C, 'tableMultiplier': 0x10, 'entryStride': 0x14,
         'entryValue': 0x04, 'sources': 0x18, 'sourceBlocks': 0x40, 'sourceStride': 0x148, 'sourceEntries': 0x08,
         'sourceEntryCount': 0x10, 'keys': {'projectiles_fired': keys['projectiles_fired'],
-            'dealt_kills': keys['dealt_kills'], 'received_deaths': keys['received_deaths']}}
+            'dealt_kills': keys['dealt_kills'], 'received_deaths': keys['received_deaths'],
+            'projectiles_hit': keys['projectiles_hit'], 'dealt_damage': keys['dealt_damage']}}
 
 
 def corpses_section(pins: Pins, mission: dict) -> dict:

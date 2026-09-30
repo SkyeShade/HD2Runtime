@@ -1,5 +1,5 @@
 {
-  "examples": 96,
+  "examples": 97,
   "failed": [],
   "mode": "snapshot",
   "results": {
@@ -3650,6 +3650,19 @@
       "usesOptions": false,
       "versionReasons": [
         "typed writes -> 0.23.2"
+      ]
+    },
+    "VampiricThrowingKnivesTest": {
+      "baselineChanges": null,
+      "calls": [],
+      "minVersion": "0.27.0",
+      "operations": {},
+      "problems": [],
+      "requiredMinVersion": "0.27.0",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.27.0"
       ]
     },
     "WarpPackTest": {

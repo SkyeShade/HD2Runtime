@@ -299,9 +299,14 @@ M.health=events.register_source(health)
 -- The local player's mission stats as the game keeps them (main table plus one block per source type; the game's own
 -- get_stat sums both). Checked 10 times per second: one event per check that saw growth, with the count.
 -- player_fired: projectiles_fired grew. player_kill_credited: dealt_kills grew (the game credited kills).
+-- player_hit: projectiles_hit grew (the projectile system adds it once per projectile that hits).
+-- player_damage_dealt: dealt_damage grew by the damage the game recorded (the damage-stats path, 0x12A0F50).
 -- Each carries `sources`: the growth per source type (the weapon, throwable or stratagem payload the game recorded
 -- the stat under), and `unattributed`: growth of the main table, which has no source.
-local stats={name='stats',events={'player_fired','player_kill_credited'},depends={'game_state'},interval=0.1}
+local stats={name='stats',events={'player_fired','player_kill_credited','player_hit','player_damage_dealt'},
+    depends={'game_state'},interval=0.1}
+local STAT_EVENTS={{'projectiles_fired','player_fired','shots'},{'dealt_kills','player_kill_credited','kills'},
+    {'projectiles_hit','player_hit','hits'},{'dealt_damage','player_damage_dealt','damage'}}
 function stats.start(source)
     local ok,why=open(source)
     if not ok then return nil,why end
@@ -328,26 +333,34 @@ function stats.poll(source)
     for _,item in ipairs(world_module.players(world,false))do if item['local']then player=item end end
     if not player or not player.entity then source.last=nil;return end
     local K=natives.stats.keys
-    local current=world_module.stat_breakdown(world,player.entity,{K.projectiles_fired,K.dealt_kills},source.block)
+    -- Only the stats someone subscribed to are read: all four share the same bulk read of the source blocks.
+    local wanted={}
+    for _,item in ipairs(STAT_EVENTS)do
+        if events.wanted(item[2])then wanted[#wanted+1]=K[item[1]]end
+    end
+    if #wanted==0 then source.last=nil;return end
+    local current=world_module.stat_breakdown(world,player.entity,wanted,source.block)
     if not current then return end
     local last=source.last
-    if source.entity~=player.entity or not last or current.totals[K.projectiles_fired]<last.totals[K.projectiles_fired]
-        or current.totals[K.dealt_kills]<last.totals[K.dealt_kills]then
-        source.entity,source.last=player.entity,current   -- (re)baseline: new player entity or a reset table
+    local reset=source.entity~=player.entity or not last
+    if not reset then
+        for _,key in ipairs(wanted)do
+            if last.totals[key]==nil or current.totals[key]<last.totals[key]then reset=true end
+        end
+    end
+    if reset then
+        source.entity,source.last=player.entity,current   -- (re)baseline: new player entity, new stats or a reset table
         return
     end
     source.last=current
-    local shots=current.totals[K.projectiles_fired]-last.totals[K.projectiles_fired]
-    if shots>0 then
-        local list,unattributed=growth(current,last,K.projectiles_fired,'shots')
-        events.queue('player_fired',{player=handles.player(player),local_player=true,shots=shots,
-            total=current.totals[K.projectiles_fired],sources=list,unattributed=unattributed})
-    end
-    local kills=current.totals[K.dealt_kills]-last.totals[K.dealt_kills]
-    if kills>0 then
-        local list,unattributed=growth(current,last,K.dealt_kills,'kills')
-        events.queue('player_kill_credited',{player=handles.player(player),local_player=true,kills=kills,
-            total=current.totals[K.dealt_kills],sources=list,unattributed=unattributed})
+    for _,item in ipairs(STAT_EVENTS)do
+        local key=K[item[1]]
+        local added=current.totals[key]and current.totals[key]-last.totals[key]or 0
+        if added>0 then
+            local list,unattributed=growth(current,last,key,item[3])
+            events.queue(item[2],{player=handles.player(player),local_player=true,[item[3]]=added,
+                total=current.totals[key],sources=list,unattributed=unattributed})
+        end
     end
 end
 M.stats=events.register_source(stats)

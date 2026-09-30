@@ -41,6 +41,8 @@ and the LuaLS stubs). Subscribing to a name that is not in it, or to a `blocked`
 | `player_healed` | health | post | `amount`, `health`; `cause` names the mod when Runtime performed the heal |
 | `player_fired` | stats | post | local player only: `shots` since the last check (10 per second), `total`, `sources` (shots per weapon), `unattributed` |
 | `player_kill_credited` | stats | post | local player only: `kills` the game credited since the last check, `total`, `sources` (kills per weapon, throwable or stratagem), `unattributed` |
+| `player_hit` | stats | post | local player only: projectile `hits` since the last check (the projectile system adds one per projectile that hits), `total`, `sources` (hits per weapon), `unattributed` |
+| `player_damage_dealt` | stats | post | local player only: `damage` the game recorded since the last check, `total`, `sources` (damage per weapon, throwable or stratagem), `unattributed` |
 | `key_down` / `key_up` | input | post | `binding`, `key`, `owner` |
 | `entity_damage_pre` | — | blocked | see [Damage](#damage) |
 
@@ -74,7 +76,7 @@ module bases.
 | `game_state` | The Game object's state (`+0xAC21C`: 3 Ship, 4 Mission, 6 PrepareMission, ...), the `game_mode` object count, its descriptor's authority bit (host) and mode type | mission = state 4 with a game_mode object |
 | `players` | The player list (peer ids, lifecycle state, avatar network id), each avatar through the game's network-id map, its health record and unit position | positions only while `player_died` / `player_spawned` have subscribers |
 | `health` | One bulk read each of the health manager header, its entity hash (entity → record index), the records (0x1B8 each), the ext records (0x1C) and the descriptor pointers | a descriptor is read only when an entity is first seen or its descriptor pointer changes; the corpse manager only in a tick where a tracked record disappeared |
-| `stats` | The local player's `projectiles_fired` and `dealt_kills`: main table plus the 64 source blocks (as the game's own `get_stat` sums them), per source type, 10 times per second | |
+| `stats` | The local player's `projectiles_fired`, `dealt_kills`, `projectiles_hit` and `dealt_damage` (only those with subscribers): main table plus the 64 source blocks (as the game's own `get_stat` sums them), per source type, 10 times per second | one bulk read of the source blocks for all four |
 | `weapons` | The local avatar's wielder slot 0 (the entity in hand), the inventory selection and the held entity's descriptor type, 10 times per second | the local player only |
 | `input` | Bound keys only, while the game window has focus | |
 
@@ -191,6 +193,55 @@ per source for the local player, named from `domains/event_entities.lua` (`sourc
 throwables and single-stratagem payloads; a payload shared by several stratagems, such as the hellpod, is not named).
 A single death still carries no weapon: `entity_killed` names the credited player only, and the persisted
 `event+0x60` value is not proven to be the DamageInfoType.
+
+## Damage and hit attribution
+
+`player_damage_dealt` and `player_hit` attribute damage and hits exactly, without inferring anything from timing. They
+read the game's own accounting: the per-player mission stats, which keep one block per **source type**
+(`research/event-state-F5FEE03DCFDB.json` derives the stat keys, the call sites below come from its `addStatCallSites`).
+
+| Stat | Added by | Amount | Source block |
+| --- | --- | --- | --- |
+| `projectiles_hit` (0x897A5551) | the projectile system (game.dll 0x13AE275), once per projectile that hits | 1 | the weapon that fired it |
+| `dealt_damage` (0x5C7A2930) | the damage-stats function 0x12A0F50 (`AddStat` at 0x12A11F2) when damage is applied | the damage the game recorded | the source entity of the damage |
+| `dealt_team_damage` | the same call, for team damage | | not reported |
+
+`AddStat(stats, creditor peer, key, amount, source entity)` resolves the source entity to its type (0xFD9D40), exactly
+as it does for `dealt_kills`. The retained in-mission snapshots hold, for the local player (validated by
+`scripts/validate_event_world_snapshot.py` on the production readers):
+
+| Source | Fired | Hits | Damage |
+| --- | --- | --- | --- |
+| R-36 Eruptor | 8 | 6 | 9592 |
+| P-113 Verdict | 20 | 13 | 1721 |
+| Eagle Strafing Run | | | 29097 |
+| (main table, no source) | | | 300 |
+
+**Source taxonomy.** Each `sources[]` entry is `{type, name, hits|damage}`. `type` is the entity type the game recorded
+the stat under; `name` comes from `domains/event_entities.lua`:
+
+| Kind | What the game keys it by | Named |
+| --- | --- | --- |
+| weapon | the weapon entity (primary, secondary, support) | yes |
+| throwable | the throwable itself (the K-2 Throwing Knife is `F7B35A9C5AE340B6`) | yes |
+| stratagem | the stratagem payload | yes, when one stratagem owns the payload |
+| unnamed | an entity type the catalog does not name, for example a payload shared by several stratagems, or the local avatar (Runtime's own `hd2.explosions.spawn` names the avatar as source) | no (`name = nil`) |
+| unattributed | damage the game recorded without a source (the main table); which damage lands there is not proven | `unattributed` |
+
+Not claimed, for lack of proof:
+
+- **Direct vs follow-up damage.** `dealt_damage` counts everything the game credits to the source, including its
+  explosions and statuses. `player_hit` counts only projectile hits.
+- **The victim.** The stats hold no victim. `entity_damaged` still names the victim, with the last hit's creditor
+  only.
+- **Other players.** Only the local player is read.
+- **Damage a target's armor stops completely.** It records nothing, so it is not a "hit" for `player_damage_dealt`.
+- **Thrown entities.** The K-2 knife is a sticky thrown entity, not a projectile-system projectile, so it appears in
+  `player_damage_dealt`, never in `player_hit`.
+
+The events are polled 10 times per second: one event sums everything recorded since the previous check.
+`examples/projects/VampiricThrowingKnivesTest` heals the local player on K-2 damage (a fixed 25, or a proportion of the
+recorded damage).
 
 ## Actions
 

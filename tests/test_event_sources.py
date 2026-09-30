@@ -270,6 +270,53 @@ assert(#fired==1,'no new shots')
 return 'ok'
 ''')
 
+    def test_hits_and_damage_are_attributed_to_their_sources(self):
+        # The game's own per-source accounting: projectiles_hit (projectile system) and dealt_damage (damage stats).
+        self.lua(r'''
+local mod=api.mod('mods/t/hits')
+local hits,damage={}, {}
+mod:on('player_hit',function(e)hits[#hits+1]=e end)
+mod:on('player_damage_dealt',function(e)damage[#damage+1]=e end)
+local natives=require('hd2runtime/domains/event_natives')
+local K=natives.stats.keys
+local KNIFE,ERUPTOR='F7B35A9C5AE340B6','B6AFF2195568767F'
+W.players({{peer=LOCAL}},LOCAL)
+W.stat(10,K.dealt_damage,0,1,KNIFE);W.stat(10,K.projectiles_hit,1,2,ERUPTOR);W.stat(10,K.dealt_damage,0,2,ERUPTOR)
+W.state(4);tick(2)                                                   -- baseline
+-- A knife that misses records nothing: no event.
+tick(2);assert(#damage==0 and #hits==0)
+-- A knife hit: 300 damage under the knife, no projectile hit (the knife is a thrown entity).
+W.stat(10,K.dealt_damage,300,1,KNIFE);tick()
+assert(#damage==1 and damage[1].damage==300 and damage[1].unattributed==0 and #hits==0,tostring(#damage))
+local s=damage[1].sources
+assert(#s==1 and s[1].type==KNIFE and s[1].name=='K-2 Throwing Knife' and s[1].damage==300)
+-- Another weapon: its hit and damage are its own source, never the knife's.
+W.stat(10,K.projectiles_hit,3,2,ERUPTOR);W.stat(10,K.dealt_damage,905,2,ERUPTOR);tick()
+assert(#hits==1 and hits[1].hits==2 and hits[1].sources[1].name=='R-36 Eruptor' and hits[1].sources[1].hits==2)
+assert(#damage==2 and damage[2].damage==905 and #damage[2].sources==1 and damage[2].sources[1].name=='R-36 Eruptor')
+-- Damage without a source (the main table) is unattributed.
+W.stat(10,K.dealt_damage,40);tick()
+assert(#damage==3 and damage[3].damage==40 and damage[3].unattributed==40 and #damage[3].sources==0)
+-- A reset table re-baselines without an event.
+W.stat(10,K.dealt_damage,0,1,KNIFE);tick(2);assert(#damage==3)
+W.stat(10,K.dealt_damage,300,1,KNIFE);tick();assert(#damage==4 and damage[4].sources[1].damage==300)
+return 'ok'
+''')
+
+    def test_only_subscribed_stats_are_read(self):
+        self.lua(r'''
+local mod=api.mod('mods/t/only-damage')
+local damage={}
+mod:on('player_damage_dealt',function(e)damage[#damage+1]=e end)
+local natives=require('hd2runtime/domains/event_natives')
+local K=natives.stats.keys
+W.players({{peer=LOCAL}},LOCAL)
+W.stat(10,K.dealt_damage,0,1,'F7B35A9C5AE340B6');W.state(4);tick(2)
+W.stat(10,K.projectiles_fired,5,2,'B6AFF2195568767F');W.stat(10,K.dealt_damage,120,1,'F7B35A9C5AE340B6');tick()
+assert(#damage==1 and damage[1].damage==120,'shots nobody subscribed to change nothing')
+return 'ok'
+''')
+
     def test_player_fired_counts_new_shots_every_tenth_of_a_second(self):
         self.lua(r'''
 local mod=api.mod('mods/t/fired')

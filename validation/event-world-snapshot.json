@@ -131,15 +131,18 @@
     }
    ],
    "projectileSystemActive": 0,
-   "reads": 318,
+   "reads": 332,
    "sources": {},
    "stats": {
+    "dealt_damage": 0,
     "dealt_kills": 0,
     "projectiles_fired": 0,
+    "projectiles_hit": 0,
     "received_deaths": 0
    },
    "statusQueue": 0,
    "tamperRefused": true,
+   "unattributedDamage": 0,
    "passed": true,
    "problems": []
   },
@@ -272,15 +275,18 @@
     }
    ],
    "projectileSystemActive": 0,
-   "reads": 318,
+   "reads": 332,
    "sources": {},
    "stats": {
+    "dealt_damage": 0,
     "dealt_kills": 0,
     "projectiles_fired": 0,
+    "projectiles_hit": 0,
     "received_deaths": 0
    },
    "statusQueue": 0,
    "tamperRefused": true,
+   "unattributedDamage": 0,
    "passed": true,
    "problems": []
   },
@@ -413,15 +419,18 @@
     }
    ],
    "projectileSystemActive": 0,
-   "reads": 318,
+   "reads": 332,
    "sources": {},
    "stats": {
+    "dealt_damage": 0,
     "dealt_kills": 0,
     "projectiles_fired": 0,
+    "projectiles_hit": 0,
     "received_deaths": 0
    },
    "statusQueue": 0,
    "tamperRefused": true,
+   "unattributedDamage": 0,
    "passed": true,
    "problems": []
   },
@@ -560,15 +569,18 @@
     }
    ],
    "projectileSystemActive": 1,
-   "reads": 401,
+   "reads": 415,
    "sources": {},
    "stats": {
+    "dealt_damage": 0,
     "dealt_kills": 0,
     "projectiles_fired": 0,
+    "projectiles_hit": 0,
     "received_deaths": 0
    },
    "statusQueue": 0,
    "tamperRefused": true,
+   "unattributedDamage": 0,
    "passed": true,
    "problems": []
   },
@@ -707,14 +719,17 @@
     }
    ],
    "projectileSystemActive": 1,
-   "reads": 401,
+   "reads": 415,
    "sources": [
     {
+     "damage": 17272,
      "kills": 5,
      "name": "Eagle Strafing Run",
      "type": "23A60681DD4383EC"
     },
     {
+     "damage": 905,
+     "hits": 1,
      "kills": 1,
      "name": "R-36 Eruptor",
      "shots": 1,
@@ -722,12 +737,15 @@
     }
    ],
    "stats": {
+    "dealt_damage": 18177,
     "dealt_kills": 8,
     "projectiles_fired": 1,
+    "projectiles_hit": 1,
     "received_deaths": 0
    },
    "statusQueue": 0,
    "tamperRefused": true,
+   "unattributedDamage": 0,
    "passed": true,
    "problems": []
   },
@@ -861,20 +879,25 @@
     }
    ],
    "projectileSystemActive": 1,
-   "reads": 382,
+   "reads": 396,
    "sources": [
     {
+     "damage": 1721,
+     "hits": 13,
      "kills": 2,
      "name": "P-113 Verdict",
      "shots": 20,
      "type": "1A437158E1B8D2A1"
     },
     {
+     "damage": 29097,
      "kills": 14,
      "name": "Eagle Strafing Run",
      "type": "23A60681DD4383EC"
     },
     {
+     "damage": 9592,
+     "hits": 6,
      "kills": 13,
      "name": "R-36 Eruptor",
      "shots": 8,
@@ -882,12 +905,15 @@
     }
    ],
    "stats": {
+    "dealt_damage": 40710,
     "dealt_kills": 33,
     "projectiles_fired": 28,
+    "projectiles_hit": 19,
     "received_deaths": 1
    },
    "statusQueue": 0,
    "tamperRefused": true,
+   "unattributedDamage": 300,
    "passed": true,
    "problems": []
   },
@@ -1001,24 +1027,29 @@
     }
    ],
    "projectileSystemActive": 0,
-   "reads": 265,
+   "reads": 279,
    "sources": [
     {
+     "damage": 7360,
      "kills": 1,
      "type": "0E8C2515261E0325"
     },
     {
+     "damage": 1721,
+     "hits": 13,
      "kills": 2,
      "name": "P-113 Verdict",
      "shots": 20,
      "type": "1A437158E1B8D2A1"
     },
     {
+     "damage": 40535,
      "kills": 17,
      "name": "Eagle Strafing Run",
      "type": "23A60681DD4383EC"
     },
     {
+     "damage": 7748,
      "kills": 6,
      "type": "486522867199D7F3"
     },
@@ -1028,6 +1059,8 @@
      "type": "55F3747B8C27AEF6"
     },
     {
+     "damage": 12161,
+     "hits": 7,
      "kills": 15,
      "name": "R-36 Eruptor",
      "shots": 12,
@@ -1035,12 +1068,15 @@
     }
    ],
    "stats": {
+    "dealt_damage": 70152,
     "dealt_kills": 47,
     "projectiles_fired": 32,
+    "projectiles_hit": 20,
     "received_deaths": 6
    },
    "statusQueue": 0,
    "tamperRefused": true,
+   "unattributedDamage": 627,
    "passed": true,
    "problems": []
   }
