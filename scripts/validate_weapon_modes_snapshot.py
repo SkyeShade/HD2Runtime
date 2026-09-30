@@ -422,8 +422,12 @@ local worker=coroutine.create(function()
  local owner_reader=Reader.new(runtime)
  local owner=presenter.capture(runtime,owner_reader,spear_spec)
  local owner_record=owner.catalog.record(owner.candidate,spear_output.backing.component)
+ assert(resolve_output(spear_spec).notes==nil,'a swapped-owner note on a Speargun firing its own row')
  poke(owner_record.owner.base+owner_record.offset,b.encode(7,'u32'))
- assert(#resolve_output(spear_spec).changes>0,'a re-pointed Speargun owner blocked its row presentation')
+ local repointed=resolve_output(spear_spec)
+ assert(#repointed.changes>0,'a re-pointed Speargun owner blocked its row presentation')
+ assert(repointed.notes and repointed.notes[1]:find('currently fires another projectile',1,true),
+  'a re-pointed Speargun owner logged no note')
  reset()
  local spear_row=owner.roots.projectile.records[spear_output.currentDefault]
  poke(owner.roots.projectile.owner.base+spear_row.offset,b.encode(40000,'u32'))

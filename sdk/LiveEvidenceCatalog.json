@@ -19,9 +19,9 @@
   "note": "A failed host is host-path evidence, never evidence against the donor output. null means the test did not establish that part."
  },
  "summary": {
-  "sessions": 8,
-  "tests": 48,
-  "passed": 40,
+  "sessions": 9,
+  "tests": 52,
+  "passed": 44,
   "families": {
    "live_proven": [
     "attack_output_cross_class",
@@ -41,6 +41,7 @@
     "sentry_turret_turn_speed",
     "stratagem_definition_cooldown",
     "support_projectile_reference",
+    "vehicle_projectile_reference",
     "weapon_ammunition_projectile_reference",
     "weapon_fire_rate_modes_native",
     "weapon_fire_rate_selector_added",
@@ -815,6 +816,50 @@
     "cross-class donors on support hosts"
    ]
   },
+  "vehicle_projectile_reference": {
+   "status": "live_proven",
+   "domain": "vehicle_weapon",
+   "fields": [
+    "attack.<role>.projectile"
+   ],
+   "scope": "The EXO-45 Patriot Exosuit minigun (right_gun) replacing its fired projectile, for exactly three donor outputs: EAT-17 Expendable Anti-Tank, LAS-58 Talon and PLAS-1 Scorcher; and restoring its own projectile. The mount chain was re-proven on every write; the Exosuit moved, aimed and fired normally.",
+   "provenTargets": [
+    {
+     "target": "EXO-45 Patriot Exosuit / right_gun",
+     "field": "attack.primary.projectile",
+     "values": [
+      "output/v1/projectile/eat-17-expendable-anti-tank",
+      "output/v1/projectile/las-58-talon",
+      "output/v1/projectile/plas-1-scorcher"
+     ]
+    }
+   ],
+   "provenCompositions": [
+    {
+     "host": "EXO-45 Patriot Exosuit / right_gun",
+     "mechanism": "component",
+     "output": "EAT-17 Expendable Anti-Tank"
+    },
+    {
+     "host": "EXO-45 Patriot Exosuit / right_gun",
+     "mechanism": "component",
+     "output": "PLAS-1 Scorcher"
+    }
+   ],
+   "tests": [
+    "VehicleProjectileBuilderTest"
+   ],
+   "acknowledgementRemoved": "allow_unverified_effect (these three donors on the Patriot minigun); allow_unverified_reference (the two cross-class donors, EAT-17 and PLAS-1 Scorcher)",
+   "observations": [
+    "Whether an Exosuit already deployed changed, or only a fresh one, was not reported."
+   ],
+   "notPromoted": [
+    "the status bullets the test also offers (R-4 Hyena, AR-32 Pacifier, P-35 Re-Educator): not reported",
+    "other donors on the Patriot minigun",
+    "the other eight mounted hosts",
+    "an impact or other slot effect following the swapped projectile (a slot write edits a row, not a host)"
+   ]
+  },
   "projectile_slot_composition": {
    "status": "live_proven",
    "domain": "attack_output",
@@ -823,7 +868,7 @@
     "projectile.expiry_explosion",
     "projectile.direct_damage"
    ],
-   "scope": "Projectile slot writes for exactly these (row, slot, donor) tuples: the AR-2 Coyote bullet with the GL-21 grenade blast, the EMS Mortar shell field, the Speargun gas cloud or the EAT-700 napalm burst as its impact explosion (and back to none), the Coyote direct hit swapped for the AR-32 Pacifier stun, and the Speargun spare twin with the EMS Mortar shell expiry explosion. Each effect formed per hit; no unrelated weapon changed.",
+   "scope": "Projectile slot writes for exactly these (row, slot, donor) tuples: the AR-2 Coyote bullet with the GL-21 grenade blast, the EMS Mortar shell field, the Speargun gas cloud or the EAT-700 napalm burst as its impact explosion (and back to none), the Coyote direct hit swapped for the AR-32 Pacifier stun, the Speargun spare twin with the EMS Mortar shell expiry explosion, and the EXO-45 Patriot minigun bullet (a shared row: allow_shared stays) with the same four impact explosions (and back to none) while the minigun fires its own bullet. Each effect formed per hit; no unrelated weapon changed.",
    "provenTargets": [
     {
      "target": "AR-2 Coyote",
@@ -849,21 +894,36 @@
      "values": [
       "output/v1/projectile/a-m-23-ems-mortar-sentry#expiryExplosion"
      ]
+    },
+    {
+     "target": "EXO-45 Patriot Exosuit / right_gun",
+     "field": "projectile.impact_explosion",
+     "values": [
+      "none",
+      "output/v1/projectile/a-m-23-ems-mortar-sentry#expiryExplosion",
+      "output/v1/projectile/eat-700-expendable-napalm#impactExplosion",
+      "output/v1/projectile/gl-21-grenade-launcher#impactExplosion",
+      "output/v1/projectile/s-11-speargun#expiryExplosion"
+     ]
     }
    ],
    "tests": [
     "SpeargunProjectileBuilderTest",
-    "ProjectileSlotTest"
+    "ProjectileSlotTest",
+    "VehicleProjectileBuilderTest"
    ],
    "acknowledgementRemoved": "allow_unverified_effect (these tuples only)",
    "observations": [
-    "A slot write reached the next shots; the ProjectileSlotTest report did not note a re-equip."
+    "A slot write reached the next shots; the ProjectileSlotTest report did not note a re-equip.",
+    "The Patriot impact effect showed while the minigun fired its own bullet and did not follow a swapped donor projectile: a slot write edits a row, not a host (VehicleProjectileBuilderTest)."
    ],
    "notPromoted": [
     "every other ExplosionType, DamageInfo or status donor",
     "these donors on other rows",
     "expiry-explosion writes on the Coyote",
-    "shared rows"
+    "other shared rows",
+    "the Patriot row's other consumers (Gatling and machine-gun sentries): not reported",
+    "a slot effect following a swapped host projectile"
    ]
   },
   "weapon_mode_presentation": {
@@ -2107,6 +2167,105 @@
      "family": "event_damage_source_attribution",
      "writes": [],
      "observation": "K-2 Throwing Knife damage healed the local player by the fixed 25; misses and other weapons did not heal: player_damage_dealt named the knife as its own source, exactly."
+    }
+   ]
+  },
+  {
+   "id": "vehicle-projectile-builder-2026-09-30",
+   "date": "2026-09-30",
+   "runtime": "HD2Runtime 0.27.0 RC test build (commit 2760dc3, build/test-artifacts/rc-live-tests/HD2Runtime-0.27.0-runtime-rc-test.zip)",
+   "logSignals": [],
+   "tests": [
+    {
+     "mod": "VehicleProjectileBuilderTest",
+     "operation": "patriot-minigun-projectile",
+     "choice": "EAT-17",
+     "result": "PASS",
+     "family": "vehicle_projectile_reference",
+     "host": "EXO-45 Patriot Exosuit / right_gun",
+     "donor": "EAT-17 Expendable Anti-Tank",
+     "mechanism": "component",
+     "writes": [
+      {
+       "target": "EXO-45 Patriot Exosuit / right_gun",
+       "field": "attack.projectile",
+       "from": "EXO-45 Patriot Exosuit / right_gun projectile",
+       "to": "EAT-17 Expendable Anti-Tank output"
+      }
+     ],
+     "evidence": {
+      "donorOutputWorks": true,
+      "referenceWriteSucceeded": true,
+      "hostReadsReference": true,
+      "gameplayOutputChanged": true
+     },
+     "observation": "The EXO-45 Patriot minigun fired the EAT-17 Expendable Anti-Tank projectile. The Exosuit stayed functional and nothing crashed during the test."
+    },
+    {
+     "mod": "VehicleProjectileBuilderTest",
+     "operation": "patriot-minigun-projectile",
+     "choice": "Talon",
+     "result": "PASS",
+     "family": "vehicle_projectile_reference",
+     "host": "EXO-45 Patriot Exosuit / right_gun",
+     "donor": "LAS-58 Talon",
+     "mechanism": "component",
+     "writes": [
+      {
+       "target": "EXO-45 Patriot Exosuit / right_gun",
+       "field": "attack.projectile",
+       "from": "EXO-45 Patriot Exosuit / right_gun projectile",
+       "to": "LAS-58 Talon output"
+      }
+     ],
+     "evidence": {
+      "donorOutputWorks": true,
+      "referenceWriteSucceeded": true,
+      "hostReadsReference": true,
+      "gameplayOutputChanged": true
+     },
+     "observation": "The EXO-45 Patriot minigun fired the LAS-58 Talon projectile. The Exosuit stayed functional and nothing crashed during the test."
+    },
+    {
+     "mod": "VehicleProjectileBuilderTest",
+     "operation": "patriot-minigun-projectile",
+     "choice": "Scorcher",
+     "result": "PASS",
+     "family": "vehicle_projectile_reference",
+     "host": "EXO-45 Patriot Exosuit / right_gun",
+     "donor": "PLAS-1 Scorcher",
+     "mechanism": "component",
+     "writes": [
+      {
+       "target": "EXO-45 Patriot Exosuit / right_gun",
+       "field": "attack.projectile",
+       "from": "EXO-45 Patriot Exosuit / right_gun projectile",
+       "to": "PLAS-1 Scorcher output"
+      }
+     ],
+     "evidence": {
+      "donorOutputWorks": true,
+      "referenceWriteSucceeded": true,
+      "hostReadsReference": true,
+      "gameplayOutputChanged": true
+     },
+     "observation": "The EXO-45 Patriot minigun fired the PLAS-1 Scorcher projectile. The Exosuit stayed functional and nothing crashed during the test."
+    },
+    {
+     "mod": "VehicleProjectileBuilderTest",
+     "operation": "patriot-minigun-impact",
+     "choice": "Grenade blast, Gas cloud, EMS field, Napalm",
+     "result": "PASS",
+     "family": "projectile_slot_composition",
+     "writes": [
+      {
+       "target": "EXO-45 Patriot Exosuit / right_gun",
+       "field": "projectile.impact_explosion",
+       "from": "none",
+       "to": "GL-21 Grenade Launcher impact explosion, S-11 Speargun expiry explosion, A/M-23 EMS Mortar Sentry expiry explosion or EAT-700 Expendable Napalm impact explosion"
+      }
+     ],
+     "observation": "The impact effect worked while the minigun fired its own bullet (projectile Vanilla). With a donor projectile selected the effect did not follow it: the minigun then fires the donor's row, and this write edits the Patriot bullet row (ProjectileSettings row 148) only. That is the API as designed (a slot write edits a row, not a host; docs/attack-outputs.md, host swaps and slot writes), so swap plus effect on the donor is not proven. The row's other consumers (the Gatling and machine-gun sentries) were not reported."
     }
    ]
   }

@@ -725,12 +725,13 @@ return function(frame,watches,counts,lines)
 end
 '''
 
-def toggles_live(items, choices=()):
+def toggles_live(items, choices=(), notes=()):
     """A live program for an options-driven test mod: every option starts at its default (default-off operations are
     disabled and write nothing), then each default-on option is turned off (its operations restore exactly their
     writes) and every option is turned on (its operations apply exactly their writes). It ends with every operation
     applied, so the simulated reset re-applies all of them. items: (option id, [watch indexes], writes, default).
-    choices, applied after the toggles: (choice option id, index, [watch indexes], writes, package requests so far)."""
+    choices, applied after the toggles: (choice option id, index, [watch indexes], writes, package requests so far).
+    notes: log text that must have appeared by the end (for example a swapped-owner note)."""
     rows = ','.join("{option='%s',watches={%s},writes=%d,default=%s}" % (option, ','.join(map(str, indexes)), writes,
         'true' if default else 'false') for option, indexes, writes, default in items)
     picks = ','.join("{option='%s',index=%d,watches={%s},writes=%d,packages=%d}" % (option, index,
@@ -740,6 +741,7 @@ return function(frame,watches,counts,lines)
  local menu=rawget(_G,'ModOptionsMenu');local results={}
  local SPEC={''' + rows + r'''}
  local PICKS={''' + picks + r'''}
+ local NOTES={''' + ','.join("'%s'" % note for note in notes) + r'''}
  local function step(name,ok,detail)results[#results+1]={name=name,passed=ok==true,detail=detail}end
  local function applied(w)return w.status=='waiting'and w.result and w.result.status=='APPLIED'end
  local function state(w)return tostring(w.status)..'/'..tostring(w.result and w.result.status)..'/'..tostring(w.error)end
@@ -793,6 +795,11 @@ return function(frame,watches,counts,lines)
   step(item.option..' = '..item.index..' re-resolves exactly its writes',ok,('writes=%d packages=%d '):format(
    counts.writes-writes,counts.package_requests or 0)..table.concat(detail,' '))
  end
+ for _,note in ipairs(NOTES)do
+  local seen=0
+  for _,line in ipairs(lines)do if line:find(note,1,true)then seen=seen+1 end end
+  step('logged: '..note,seen>0,('lines=%d'):format(seen))
+ end
  return results
 end
 '''
@@ -843,13 +850,17 @@ PROJECTILE_BUILDER_TOGGLES = {
     # OneTwoUnderbarrelTest: the One-Two launcher entity's own WeaponData (spread) and WeaponRounds (reserve) records.
     'example-one-two-underbarrel-test': ([('one_two_underbarrel_test.tight_grenades', [1], 2, True),
         ('one_two_underbarrel_test.grenade_pouch', [2], 3, True)], (), 0),
-    # VehicleProjectileBuilderTest: the Patriot minigun's own ProjectileWeapon +0 (mount chain re-proven) through every
-    # donor, then the shared minigun bullet row's impact slot through every effect; each switch is one write.
-    'example-vehicle-projectile-builder-test': ([],
+    # VehicleProjectileBuilderTest: the Talon bolt row's impact slot (the explicit donor-row composition: GL-21
+    # package), the Patriot minigun's own ProjectileWeapon +0 (mount chain re-proven) through every donor, then the
+    # shared minigun bullet row's impact slot through every effect; each switch is one write. The impact picks run
+    # with the minigun swapped to EAT-17, so row 148 is edited for its other consumers and the log says the edit does
+    # not reach the minigun.
+    'example-vehicle-projectile-builder-test': ([('vehicle_projectile_builder.talon_impact', [3], 1, False)],
         [('vehicle_projectile_builder.projectile', index, [1], 1, packages) for index, packages in
-            ((2, 1), (3, 2), (4, 3), (5, 4), (6, 5), (7, 6), (1, 6), (2, 6))]
+            ((2, 2), (3, 3), (4, 4), (5, 5), (6, 6), (7, 7), (1, 7), (2, 7))]
         + [('vehicle_projectile_builder.impact', index, [2], 1, packages) for index, packages in
-            ((2, 7), (3, 8), (4, 9), (5, 10), (1, 10), (2, 10))], 10),
+            ((2, 7), (3, 8), (4, 9), (5, 10), (1, 10), (2, 10))], 10,
+        ('note: patriot-minigun-impact edits the EXO-45 Patriot Exosuit / right_gun projectile row',)),
 }
 
 EXTRAS = {'options-live': {'menu': MENU_STUB, 'after': OPTIONS_LIVE},
@@ -898,8 +909,8 @@ EXTRAS = {'options-live': {'menu': MENU_STUB, 'after': OPTIONS_LIVE},
     'example-asset-test-frv-bastion-cannon': {'packageRequests': 1},
     'example-asset-test-mg43-pod-grenade-box': {'packageRequests': 1},
     **{name: {'menu': MENU_STUB, 'after': toggles_live(items)} for name, items in EQUIPMENT_TOGGLES.items()},
-    **{name: {'menu': MENU_STUB, 'after': toggles_live(items, choices), 'packageRequests': packages}
-        for name, (items, choices, packages) in PROJECTILE_BUILDER_TOGGLES.items()}}
+    **{name: {'menu': MENU_STUB, 'after': toggles_live(items, choices, *notes), 'packageRequests': packages}
+        for name, (items, choices, packages, *notes) in PROJECTILE_BUILDER_TOGGLES.items()}}
 
 
 def example_source(name, folder='projects'):

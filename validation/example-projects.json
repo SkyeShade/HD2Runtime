@@ -3910,7 +3910,7 @@
       ]
     },
     "VehicleProjectileBuilderTest": {
-      "baselineChanges": 2,
+      "baselineChanges": 3,
       "calls": [
         "ensure"
       ],
@@ -3935,6 +3935,15 @@
           ],
           "callKind": "ensure",
           "id": "patriot-minigun-impact",
+          "mode": "transaction",
+          "resource": "attack_output"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "talon-bolt-impact",
           "mode": "transaction",
           "resource": "attack_output"
         }

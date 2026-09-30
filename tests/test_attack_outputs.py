@@ -181,10 +181,11 @@ class CatalogTests(unittest.TestCase):
                 'provenOnHosts': live_hosts[name][1]})
         # The Talon output is live-proven as a donor (fired by the Reprimand); the Liberator failure is host-path
         # evidence and does not count against it.
-        # UnifiedProjectileSwapTest (2026-09-30) fired it from the Liberator's ammunition too.
+        # UnifiedProjectileSwapTest (2026-09-30) fired it from the Liberator's ammunition too, and
+        # VehicleProjectileBuilderTest (2026-09-30) from the Patriot minigun.
         self.assertEqual(self.outputs['LAS-58 Talon']['liveProof'], {'donorOutput': 'live_proven',
-            'tests': ['AssetTestReprimandTalonProjectile', 'UnifiedProjectileSwapTest'],
-            'provenOnHosts': ['AR-23 Liberator', 'SMG-32 Reprimand']})
+            'tests': ['AssetTestReprimandTalonProjectile', 'UnifiedProjectileSwapTest', 'VehicleProjectileBuilderTest'],
+            'provenOnHosts': ['AR-23 Liberator', 'EXO-45 Patriot Exosuit / right_gun', 'SMG-32 Reprimand']})
         for name, kind in (('LAS-98 Laser Cannon', 'continuous_beam'), ('LAS-13 Trident', 'pulsed_multi_beam'),
                 ('ARC-3 Arc Thrower', 'arc')):
             output = self.outputs[name]
@@ -273,12 +274,15 @@ class CatalogTests(unittest.TestCase):
         for name in ('JAR-5 Dominator', 'P-19 Redeemer', 'P-2 Peacemaker', 'R-63 Diligence', 'SG-225 Breaker'):
             self.assertEqual((ammunition[name]['acknowledgements'], ammunition[name]['liveProof']),
                 (['allow_shared', 'allow_unverified_effect'], 'pending'), name)
-        # Every (host, output, mechanism) a live test proved: cross-class compositions, the two support host pairs and
-        # the programmable-ammo function projectiles (projectile builder session, 2026-09-30).
+        # Every (host, output, mechanism) a live test proved: cross-class compositions, the two support host pairs, the
+        # three Patriot minigun donors and the programmable-ammo function projectiles (2026-09-30).
         self.assertEqual([(c['host'], c['output'], c['mechanism']) for c in self.catalog['provenCompositions']],
             [('AR-23 Liberator', 'output/v1/projectile/eat-700-expendable-napalm', 'ammunition'),
              ('AR-23 Liberator', 'output/v1/projectile/gl-52-de-escalator', 'ammunition'),
              ('EAT-17 Expendable Anti-Tank', 'output/v1/projectile/plas-1-scorcher', 'component'),
+             ('EXO-45 Patriot Exosuit / right_gun', 'output/v1/projectile/eat-17-expendable-anti-tank', 'component'),
+             ('EXO-45 Patriot Exosuit / right_gun', 'output/v1/projectile/las-58-talon', 'component'),
+             ('EXO-45 Patriot Exosuit / right_gun', 'output/v1/projectile/plas-1-scorcher', 'component'),
              ('M-105 Stalwart', 'output/v1/projectile/apw-1-anti-materiel-rifle', 'component'),
              ('MG-206 Heavy Machine Gun', 'output/v1/projectile/ar-32-pacifier', 'programmable_ammo'),
              ('MG-206 Heavy Machine Gun', 'output/v1/projectile/p-35-re-educator', 'programmable_ammo'),

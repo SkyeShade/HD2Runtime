@@ -138,6 +138,7 @@ function M.prepare_phase(resolved,reader,phase)
     for spec_index,spec in ipairs(phase.capture_specs)do
         local prepared=domains.for_kind(spec.kind).prepare(resolved[spec_index],reader,spec)
         local operation_id=assert(phase.capture_operation_ids[spec_index])
+        for _,note in ipairs(prepared.notes or{})do plan.notes=plan.notes or{};plan.notes[#plan.notes+1]=note end
         plan.operation_fields[operation_id]={}
         for _,change in ipairs(prepared.changes)do
             local key=tostring(change.owner.base)..':'..tostring(change.offset)..':'..#change.desired

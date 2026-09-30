@@ -153,6 +153,10 @@
   },
   "status": "VALIDATED",
   "submunitionChainAccepted": "EAT-700 Expendable Napalm impact explosion",
+  "swappedOwnerSlot": {
+    "note": "note: p edits the EXO-45 Patriot Exosuit / right_gun projectile row, but EXO-45 Patriot Exosuit / right_gun currently fires another projectile (a swap), so the edit does not reach it until it fires its own row again; every other entity that fires this row still shows it. Slot and label writes edit a row and do not follow a swapped projectile.",
+    "row": 148
+  },
   "unified": {
     "Liberator ammunition <- Talon": {
       "crossClass": false,
