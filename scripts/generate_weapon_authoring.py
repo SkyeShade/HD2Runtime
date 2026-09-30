@@ -18,6 +18,7 @@ import fire_mode_fields
 import weapon_mode_fields
 import presentation_fields
 import status_fields
+import equipment_fields
 
 ROOT=Path(__file__).resolve().parents[1]
 DEFAULT_REPORT=ROOT/'build/snapshot-results-authoring/PlayerWeaponRuntimeMap.json'
@@ -392,6 +393,12 @@ def build(catalog_path=CATALOG):
                 fields.append(make_field(field_id,item.get('value'),backend,
                     editable=unique and item['writable'],reason=blocked or item.get('reason'),
                     derived=item.get('derived',False)))
+        if name==equipment_fields.DOUBLE_EDGE and 'WeaponHeatComponentData' in ownership:
+            # Heat levels (research/equipment-coverage): threshold, the status each level applies to the wielder,
+            # and the lock-at-maximum-heat flag.
+            fields+=equipment_fields.double_edge_fields(
+                lambda field_id,value,backend:make_field(field_id,value,backend,editable=unique,reason=blocked),
+                lambda offset,storage:component_backend(candidate,'WeaponHeatComponentData',offset,storage))
 
         attacks=candidate.get('attacks') or []
         for attack in composition['attacks']:
@@ -706,7 +713,9 @@ def settings_row_sources(value):
     return rows
 
 
-OWN_EFFECT_FIELDS={weapon_mode_fields.RATES_FIELD,*weapon_mode_fields.INPUT_FIELDS.values(),
+OWN_EFFECT_FIELDS={'heat.level_1_threshold','heat.level_2_threshold','heat.level_3_threshold',
+    'heat.level_1_self_status','heat.level_2_self_status','heat.level_3_self_status','heat.overheat_lock',
+    weapon_mode_fields.RATES_FIELD,*weapon_mode_fields.INPUT_FIELDS.values(),
     weapon_mode_fields.FUNCTION_PROJECTILE_FIELD,presentation_fields.TRAITS_FIELD,presentation_fields.PENETRATION_FIELD}
 
 

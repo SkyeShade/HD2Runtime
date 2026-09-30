@@ -720,6 +720,81 @@ return function(frame,watches,counts,lines)
 end
 '''
 
+def toggles_live(items):
+    """A live program for an options-driven test mod: every option starts at its default (default-off operations are
+    disabled and write nothing), then each default-on option is turned off (its operations restore exactly their
+    writes) and every option is turned on (its operations apply exactly their writes). It ends with every operation
+    applied, so the simulated reset re-applies all of them. items: (option id, [watch indexes], writes, default)."""
+    rows = ','.join("{option='%s',watches={%s},writes=%d,default=%s}" % (option, ','.join(map(str, indexes)), writes,
+        'true' if default else 'false') for option, indexes, writes, default in items)
+    return r'''
+return function(frame,watches,counts,lines)
+ local menu=rawget(_G,'ModOptionsMenu');local results={}
+ local SPEC={''' + rows + r'''}
+ local function step(name,ok,detail)results[#results+1]={name=name,passed=ok==true,detail=detail}end
+ local function applied(w)return w.status=='waiting'and w.result and w.result.status=='APPLIED'end
+ local function state(w)return tostring(w.status)..'/'..tostring(w.result and w.result.status)..'/'..tostring(w.error)end
+ local function wait(list,want)
+  local function done()
+   for _,w in ipairs(list)do
+    if want=='applied'and not applied(w)then return false end
+    if want=='disabled'and w.status~='disabled'then return false end
+   end
+   return true
+  end
+  local spent=0
+  while not done()and spent<20000 do frame();spent=spent+1 end
+  for _=1,20 do frame()end
+ end
+ local function of(item)local list={};for _,i in ipairs(item.watches)do list[#list+1]=watches[i]end;return list end
+ for _,item in ipairs(SPEC)do
+  local ok,detail=true,{}
+  for _,w in ipairs(of(item))do
+   ok=ok and(item.default and applied(w)or not item.default and w.status=='disabled')
+   detail[#detail+1]=state(w)
+  end
+  step('default '..item.option..(item.default and' on: applied'or' off: nothing written'),ok,table.concat(detail,' '))
+ end
+ for _,item in ipairs(SPEC)do
+  local list=of(item);local writes=counts.writes
+  if item.default then
+   menu.apply(item.option,false);wait(list,'disabled')
+   local ok=counts.writes==writes+item.writes
+   for _,w in ipairs(list)do ok=ok and w.status=='disabled'end
+   step(item.option..' off restores exactly its writes',ok,('writes=%d'):format(counts.writes-writes))
+   writes=counts.writes
+  end
+  menu.apply(item.option,true);wait(list,'applied')
+  local ok,detail=counts.writes==writes+item.writes,{}
+  for _,w in ipairs(list)do ok=ok and applied(w);detail[#detail+1]=state(w)end
+  step(item.option..' on applies exactly its writes',ok,('writes=%d '):format(counts.writes-writes)
+   ..table.concat(detail,' '))
+ end
+ return results
+end
+'''
+
+
+# Equipment coverage live tests (research/equipment-coverage-F5FEE03DCFDB.json).
+EQUIPMENT_TOGGLES = {
+    'example-double-edge-overheat-test': [('double_edge_overheat.later_levels', [1], 3, True),
+        ('double_edge_overheat.no_ignition', [2], 1, True), ('double_edge_overheat.overheat_lock', [3], 1, False)],
+    'example-warp-pack-test': [('warp_pack_test.long_warp', [1], 1, True), ('warp_pack_test.cool_pack', [2], 1, True),
+        ('warp_pack_test.no_limb_damage', [3], 5, False)],
+    'example-guard-dog-test': [('guard_dog_test.more_reloads', [1], 2, True), ('guard_dog_test.tough_dog', [2, 3], 2, True),
+        ('guard_dog_test.drum', [4], 1, True), ('guard_dog_test.fast_gun', [5], 1, False),
+        ('guard_dog_test.rover_beam', [6], 1, False), ('guard_dog_test.k9_arc', [7], 2, False)],
+    'example-shield-generator-pack-test': [('shield_generator_pack_test.fast_recharge', [1], 1, True),
+        ('shield_generator_pack_test.fast_restart', [2], 1, True), ('shield_generator_pack_test.slow_refill', [3], 1, False)],
+    'example-directional-shield-test': [('directional_shield_test.big_barrier', [1], 1, True),
+        ('directional_shield_test.long_outage', [2], 1, True), ('directional_shield_test.sturdy_emitter', [3], 1, False)],
+    'example-hover-pack-test': [('hover_pack_test.long_hover', [1], 1, True), ('hover_pack_test.high_launch', [2], 1, False),
+        ('hover_pack_test.quick_recharge', [3], 1, False)],
+    'example-laser-cannon-test': [('laser_cannon_test.fast_beam', [1], 1, True)],
+    'example-maxigun-coverage-test': [('maxigun_coverage_test.heavy_climb', [1], 1, True),
+        ('maxigun_coverage_test.no_side_kick', [2], 1, True)],
+}
+
 EXTRAS = {'options-live': {'menu': MENU_STUB, 'after': OPTIONS_LIVE},
     # Event-only mods observe the game and write nothing (readOnly: exactly zero overlay writes).
     'example-event-isolation-test': {'after': EVENT_ISOLATION_LIVE, 'readOnly': True},
@@ -758,7 +833,8 @@ EXTRAS = {'options-live': {'menu': MENU_STUB, 'after': OPTIONS_LIVE},
         'outside the reviewed range for deposit.capacity (1 to 1023)'}},
     'example-explosive-projectile-swap': {'packageRequests': 1},
     'example-asset-test-frv-bastion-cannon': {'packageRequests': 1},
-    'example-asset-test-mg43-pod-grenade-box': {'packageRequests': 1}}
+    'example-asset-test-mg43-pod-grenade-box': {'packageRequests': 1},
+    **{name: {'menu': MENU_STUB, 'after': toggles_live(items)} for name, items in EQUIPMENT_TOGGLES.items()}}
 
 
 def example_source(name, folder='projects'):
@@ -818,7 +894,8 @@ return function(frame,watches,counts,lines)
 end
 '''
 
-EXTRAS['runtime-version-warning'] = {'after': VERSION_WARNING_LIVE}
+# Informational only: the too-new mods fail closed and nothing is written (readOnly: exactly zero overlay writes).
+EXTRAS['runtime-version-warning'] = {'after': VERSION_WARNING_LIVE, 'readOnly': True}
 
 
 def version_warning_addon():

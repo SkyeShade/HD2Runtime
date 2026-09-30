@@ -43,7 +43,15 @@ BOOSTER_PATH_FLOORS = {'tuning': '0.25.0', 'explosion': '0.25.0', 'status_damage
 DELIVERY_RESOLVED = {'MG-43 Machine Gun', 'M-105 Stalwart', 'MG-206 Heavy Machine Gun', 'CQC-20 Breaching Hammer'}
 # Features not in any published release yet need the release that ships them, i.e. the version being built.
 UNRELEASED = (ROOT / 'VERSION').read_text().strip()
-UNRELEASED_FIELDS = {'weapon.stationary_while_firing'}
+UNRELEASED_FIELDS = {'weapon.stationary_while_firing',
+    # Equipment coverage (research/equipment-coverage-F5FEE03DCFDB.json).
+    'shield.recharge_delay', 'shield.broken_recharge_delay', 'shield.recharge_rate', 'hover.duration',
+    'warp.distance', 'warp.upward_bias', 'warp.downward_bias', 'warp.safe_heat_threshold', 'warp.unsafe_heat_threshold',
+    'warp.heat_per_use', 'warp.heat_cooldown_per_second', 'warp.head_injury_damage', 'warp.left_arm_injury_damage',
+    'warp.right_arm_injury_damage', 'warp.left_leg_injury_damage', 'warp.right_leg_injury_damage',
+    'heat.level_1_threshold', 'heat.level_2_threshold', 'heat.level_3_threshold', 'heat.level_1_self_status',
+    'heat.level_2_self_status', 'heat.level_3_self_status', 'heat.overheat_lock', 'beam.fire_rate',
+    'weapon.recoil_multiplier_horizontal', 'weapon.recoil_multiplier_vertical'}
 UNRELEASED_SUPPORT_WEAPONS = {'EAT-17 Expendable Anti-Tank', 'LAS-98 Laser Cannon', 'B/FLAM-80 Cremator'}
 UNRELEASED_STRATAGEM_WEAPONS = {'mine'}   # a mine deployer's launcher owns its mine attacks
 OPTIONS_FLOOR = '0.25.1'

@@ -20,10 +20,10 @@
       "CQC-72 Entrenchment Tool"
     ],
     "writableSupportWeapons": 34,
-    "writableFieldInstances": 1347,
+    "writableFieldInstances": 1350,
     "fieldInstancesByDomain": {
       "arc": 6,
-      "beam": 4,
+      "beam": 5,
       "charge": 20,
       "damage": 336,
       "explosion": 256,
@@ -38,7 +38,7 @@
       "reload": 15,
       "rounds": 15,
       "status": 20,
-      "weapon": 343,
+      "weapon": 345,
       "weapon_function": 18,
       "windup": 2
     },
@@ -106,12 +106,12 @@
       ]
     },
     "sharedFieldInstances": 747,
-    "internalSupportAuthoringInstances": 1347,
-    "publishedSupportFieldInstances": 1347,
-    "legacyFlattenedFieldEntries": 1284,
+    "internalSupportAuthoringInstances": 1350,
+    "publishedSupportFieldInstances": 1350,
+    "legacyFlattenedFieldEntries": 1287,
     "branchSpecificFieldInstances": 747,
-    "backingObjectCount": 224,
-    "operationGroupingCount": 252,
+    "backingObjectCount": 225,
+    "operationGroupingCount": 253,
     "sharedBackingObjectCount": 95,
     "sharedConsumerScopeCount": 95,
     "duplicateSemanticFieldGroups": 18,
@@ -3901,6 +3901,7 @@
       ],
       "writableFieldsByDomain": {
         "beam": [
+          "beam.fire_rate",
           "beam.length",
           "beam.radius"
         ],
@@ -4013,7 +4014,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 35,
+      "writableFieldCount": 36,
       "fieldInstanceKeys": [
         "support-field/v1/las-98-laser-cannon/weapon/root/weapon-ergonomics/52074142a65e4909",
         "support-field/v1/las-98-laser-cannon/weapon/root/weapon-sway/5b5fe09b0b689242",
@@ -4034,6 +4035,7 @@
         "support-field/v1/las-98-laser-cannon/weapon/root/heatsink-starting/39a7a24157ea1c87",
         "support-field/v1/las-98-laser-cannon/weapon/root/heatsink-from-supply/8a35948604594968",
         "support-field/v1/las-98-laser-cannon/weapon/root/heatsink-spare/3832b2c9eca87c6e",
+        "support-field/v1/las-98-laser-cannon/weapon/root/beam-fire-rate/4808990f7d7cae25",
         "support-field/v1/las-98-laser-cannon/attack/primary/beam-radius/296916b190280768",
         "support-field/v1/las-98-laser-cannon/attack/primary/beam-length/51dbc2a2fced7e3b",
         "support-field/v1/las-98-laser-cannon/attack/primary/damage-standard-damage/9800d96cc796b008",
@@ -4324,6 +4326,8 @@
           "weapon.recoil_climb_vertical",
           "weapon.recoil_drift_horizontal",
           "weapon.recoil_drift_vertical",
+          "weapon.recoil_multiplier_horizontal",
+          "weapon.recoil_multiplier_vertical",
           "weapon.stationary_while_firing",
           "weapon.sway",
           "weapon.third_person_reticle",
@@ -4425,7 +4429,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 33,
+      "writableFieldCount": 35,
       "fieldInstanceKeys": [
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-ergonomics/167edc58b5e7a64b",
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-sway/6f16603015ec52f5",
@@ -4443,6 +4447,8 @@
         "support-field/v1/m-1000-maxigun/weapon/root/reload-duration/bccce4e5c11ce386",
         "support-field/v1/m-1000-maxigun/weapon/root/windup-wind-up-seconds/d59dcd26d31c899e",
         "support-field/v1/m-1000-maxigun/weapon/root/windup-wind-down-seconds/06895a0725bf9f1e",
+        "support-field/v1/m-1000-maxigun/weapon/root/weapon-recoil-multiplier-horizontal/c0bcff57fab5054a",
+        "support-field/v1/m-1000-maxigun/weapon/root/weapon-recoil-multiplier-vertical/c08a69b4bcb00d62",
         "support-field/v1/m-1000-maxigun/projectile-reference/primary/projectile-velocity/966bae3f285928da",
         "support-field/v1/m-1000-maxigun/projectile-reference/primary/projectile-mass/dacaad234d427cd9",
         "support-field/v1/m-1000-maxigun/projectile-reference/primary/projectile-drag/6d2a9b1cb297e2a8",
@@ -100296,6 +100302,119 @@
       }
     },
     {
+      "instanceKey": "support-field/v1/las-98-laser-cannon/weapon/root/beam-fire-rate/4808990f7d7cae25",
+      "supportWeapon": "LAS-98 Laser Cannon",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/las-98-laser-cannon/7d66ab30f2190028",
+        "name": "LAS-98 Laser Cannon",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "beam.fire_rate",
+      "qualifiedSemanticFieldId": "beam.fire_rate",
+      "apiFieldConstant": "hd2.fields.beam.fire_rate",
+      "display": {
+        "name": "Beam fire rate",
+        "domain": "beam",
+        "group": "BeamWeaponComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "integer",
+        "baseline": 60,
+        "expected": 60,
+        "unit": "rpm",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/beamweaponcomponentdata/ab92fbfd9dd981db17db",
+        "kind": "component",
+        "semanticType": "BeamWeaponComponentData",
+        "domain": "BeamWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/a1895ca0e139e6fa1896",
+        "runtimeBackingScope": "component:BeamWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/ec566178a028bd9e3f26",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "LAS-98 Laser Cannon",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/las-98-laser-cannon/weapon/root/f042d4976055cf9f"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/a1895ca0e139e6fa1896",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/las-98-laser-cannon/7d66ab30f219",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Beam fire rate: exact published \"Beam Fire Rate\" on seven weapons (LAS-98 60, LAS-13 300, 40-K 50 rpm, ...) at the typed BeamWeaponComponent member; how often the beam applies its damage. Not yet shown in game."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": false,
+        "reason": "The member is copied into the weapon when it is built; no attachment option patches it. Whether the game reads it for this behaviour is not yet shown in game."
+      }
+    },
+    {
       "instanceKey": "support-field/v1/las-98-laser-cannon/attack/primary/beam-radius/296916b190280768",
       "supportWeapon": "LAS-98 Laser Cannon",
       "supportWeaponIdentity": {
@@ -111424,6 +111543,228 @@
         "baseline": "exact retained-snapshot value",
         "validation": "production resolver guarded ALREADY_DESIRED no-op",
         "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/m-1000-maxigun/weapon/root/weapon-recoil-multiplier-horizontal/c0bcff57fab5054a",
+      "supportWeapon": "M-1000 Maxigun",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/m-1000-maxigun/95638dbb80d59593",
+        "name": "M-1000 Maxigun",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.recoil_multiplier_horizontal",
+      "qualifiedSemanticFieldId": "weapon.recoil_multiplier_horizontal",
+      "apiFieldConstant": "hd2.fields.weapon.recoil_multiplier_horizontal",
+      "display": {
+        "name": "Horizontal recoil multiplier",
+        "domain": "weapon",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "number",
+        "baseline": 1.0,
+        "expected": 1.0,
+        "unit": "multiplier",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/4a5a5509bab57900fd72",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/45e3040ddec472dc7dec",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/4cd140fcb459e294a8bd",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "M-1000 Maxigun",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/m-1000-maxigun/weapon/root/859009eb9b9999d2"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/45e3040ddec472dc7dec",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/m-1000-maxigun/95638dbb80d5",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "First pair of the typed RecoilModifiers struct (WeaponData +60/+64): 1.0 on 364 of 366 weapon records and never changed by an attachment. Maxigun Reimagined (a research lead) edits the same members as recoil multipliers; not yet shown in game."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": false,
+        "reason": "The member is copied into the weapon when it is built; no attachment option patches it. Whether the game reads it for this behaviour is not yet shown in game."
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/m-1000-maxigun/weapon/root/weapon-recoil-multiplier-vertical/c08a69b4bcb00d62",
+      "supportWeapon": "M-1000 Maxigun",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/m-1000-maxigun/95638dbb80d59593",
+        "name": "M-1000 Maxigun",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.recoil_multiplier_vertical",
+      "qualifiedSemanticFieldId": "weapon.recoil_multiplier_vertical",
+      "apiFieldConstant": "hd2.fields.weapon.recoil_multiplier_vertical",
+      "display": {
+        "name": "Vertical recoil multiplier",
+        "domain": "weapon",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "number",
+        "baseline": 1.0,
+        "expected": 1.0,
+        "unit": "multiplier",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/4a5a5509bab57900fd72",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/45e3040ddec472dc7dec",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/4cd140fcb459e294a8bd",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "M-1000 Maxigun",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/m-1000-maxigun/weapon/root/859009eb9b9999d2"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/45e3040ddec472dc7dec",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/m-1000-maxigun/95638dbb80d5",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "First pair of the typed RecoilModifiers struct (WeaponData +60/+64): 1.0 on 364 of 366 weapon records and never changed by an attachment. Maxigun Reimagined (a research lead) edits the same members as recoil multipliers; not yet shown in game."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": false,
+        "reason": "The member is copied into the weapon when it is built; no attachment option patches it. Whether the game reads it for this behaviour is not yet shown in game."
       }
     },
     {
@@ -179157,6 +179498,35 @@
       ]
     },
     {
+      "objectKey": "support-object/v1/beamweaponcomponentdata/ab92fbfd9dd981db17db",
+      "kind": "component",
+      "semanticType": "BeamWeaponComponentData",
+      "domains": [
+        "beam"
+      ],
+      "shared": false,
+      "requiresSharedAcknowledgement": false,
+      "sharedScopeKey": "support-scope/v1/ec566178a028bd9e3f26",
+      "reviewedConsumerCount": 1,
+      "affectedSemanticConsumers": [
+        {
+          "weapon": "LAS-98 Laser Cannon",
+          "targetPath": "weapon",
+          "attackRole": null,
+          "attackKind": null,
+          "parentAttackRole": null,
+          "catalogBranches": [],
+          "writableCatalogBranches": [],
+          "consumerKey": "support-consumer/v1/las-98-laser-cannon/weapon/root/f042d4976055cf9f"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "fieldInstanceKeys": [
+        "support-field/v1/las-98-laser-cannon/weapon/root/beam-fire-rate/4808990f7d7cae25"
+      ]
+    },
+    {
       "objectKey": "support-object/v1/damageinfo/03473e988dd6645a4a96",
       "kind": "settings",
       "semanticType": "DamageInfo",
@@ -186362,7 +186732,9 @@
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-recoil-climb-horizontal/d3055793a75dc396",
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-recoil-climb-vertical/5ce19108e2225372",
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-stationary-while-firing/0e42bfeb0cc3db53",
-        "support-field/v1/m-1000-maxigun/weapon/root/weapon-third-person-reticle/494f3c4a3bb34c03"
+        "support-field/v1/m-1000-maxigun/weapon/root/weapon-third-person-reticle/494f3c4a3bb34c03",
+        "support-field/v1/m-1000-maxigun/weapon/root/weapon-recoil-multiplier-horizontal/c0bcff57fab5054a",
+        "support-field/v1/m-1000-maxigun/weapon/root/weapon-recoil-multiplier-vertical/c08a69b4bcb00d62"
       ]
     },
     {
@@ -190934,7 +191306,9 @@
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-recoil-climb-horizontal/d3055793a75dc396",
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-recoil-climb-vertical/5ce19108e2225372",
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-stationary-while-firing/0e42bfeb0cc3db53",
-        "support-field/v1/m-1000-maxigun/weapon/root/weapon-third-person-reticle/494f3c4a3bb34c03"
+        "support-field/v1/m-1000-maxigun/weapon/root/weapon-third-person-reticle/494f3c4a3bb34c03",
+        "support-field/v1/m-1000-maxigun/weapon/root/weapon-recoil-multiplier-horizontal/c0bcff57fab5054a",
+        "support-field/v1/m-1000-maxigun/weapon/root/weapon-recoil-multiplier-vertical/c08a69b4bcb00d62"
       ],
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
@@ -194258,6 +194632,31 @@
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": true,
       "planGroupingKey": "support-plan/v1/gl-28-belt-fed-grenade-launcher/d20d8fc730ea",
+      "phase": 1,
+      "dependencies": []
+    },
+    {
+      "operationGroupingKey": "support-operation/v1/a1895ca0e139e6fa1896",
+      "backingObjectKey": "support-object/v1/beamweaponcomponentdata/ab92fbfd9dd981db17db",
+      "runtimeBackingScope": "component:BeamWeaponComponentData",
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "fieldInstanceKeys": [
+        "support-field/v1/las-98-laser-cannon/weapon/root/beam-fire-rate/4808990f7d7cae25"
+      ],
+      "recommendedApi": "hd2.patch",
+      "allowSharedRequired": false,
+      "planGroupingKey": "support-plan/v1/las-98-laser-cannon/7d66ab30f219",
       "phase": 1,
       "dependencies": []
     },
@@ -201257,8 +201656,8 @@
     "fixtureFallback": "disabled"
   },
   "instanceAudit": {
-    "internalInstances": 1347,
-    "publishedInstances": 1347,
+    "internalInstances": 1350,
+    "publishedInstances": 1350,
     "missingInstances": 0,
     "unexpectedInstances": 0,
     "identityCoverage": "exact"

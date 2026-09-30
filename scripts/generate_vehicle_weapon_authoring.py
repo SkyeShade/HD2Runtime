@@ -1,4 +1,4 @@
-"""Generate guarded mounted-weapon authoring (vehicles, Exosuits, GATER) from native evidence."""
+"""Generate guarded mounted-weapon authoring (vehicles, Exosuits, GATER, Guard Dog drones) from native evidence."""
 from __future__ import annotations
 
 import argparse
@@ -27,6 +27,18 @@ PROJECTILE = (('velocity', 32, 'f32', 'Projectile velocity', 'meters_per_second'
     ('drag', 40, 'f32', 'Projectile drag', None), ('gravity', 44, 'f32', 'Projectile gravity', None),
     ('pellet_count', 28, 'u32', 'Pellets per shot', 'pellets'), ('penetration_slowdown', 64, 'f32', 'Penetration slowdown', None),
     ('lifetime', 52, 'f32', 'Projectile lifetime', 'seconds'))
+BEAM = (('radius', 4, 'f32', 'Beam radius', 'meters'), ('length', 8, 'f32', 'Beam length', 'meters'))
+ARC = (('velocity', 4, 'f32', 'Arc velocity', None), ('range', 8, 'f32', 'Arc range', 'meters'),
+    ('distance_at_max_spread', 12, 'f32', 'Arc distance at maximum spread', 'meters'),
+    ('max_angle_spread', 20, 'f32', 'Arc maximum angle spread', 'degrees'),
+    ('chain_count', 28, 'u32', 'Arc maximum chain length', 'targets'), ('max_split', 32, 'u32', 'Arc maximum split', 'targets'))
+HEAT = (('heat.capacity', 'capacity', 96, 'Overheat threshold', 'heat_units'),
+    ('heat.heat_per_shot', 'heatPerShot', 116, 'Heat per shot', 'heat_units_per_shot'),
+    ('heat.heat_per_second', 'heatPerSecond', 120, 'Heat per second', 'heat_units_per_second'),
+    ('heat.cool_per_second', 'coolPerSecond', 128, 'Cooling rate', 'heat_units_per_second'))
+DRONE_MAGAZINES = ('The drone reloads from its backpack: the drone magazines are the backpack DepositComponent (exact '
+    'published Max Rounds / Starting Rounds / Mags from Supply), authored through hd2.backpack(name). The drone '
+    "weapon's own spare-magazine counts are not what the game publishes and are not exposed.")
 EXPLOSION = (('inner_radius', 16, 'f32', 'Explosion inner radius', 'meters'),
     ('outer_radius', 20, 'f32', 'Explosion outer radius', 'meters'),
     ('shockwave_radius', 24, 'f32', 'Explosion shockwave radius', 'meters'))
@@ -95,7 +107,7 @@ def build(research_path=RESEARCH):
         generate_entity_authoring.api_constants().items() for constant, value in items.items()}
 
     def api_constant(field_id):
-        public = re.sub(r'^(projectile|damage|explosion)\.(primary|impact|expiry)\.', r'\1.', field_id)
+        public = re.sub(r'^(projectile|damage|explosion|beam|arc)\.(primary|impact|expiry)\.', r'\1.', field_id)
         return constants.get(public)
     runtime_weapons, by_vehicle, public_vehicles, instances = {}, {}, [], []
     # One mounted weapon entity can sit in several mounts (two FRVs, or two slots of one vehicle); its own
@@ -171,7 +183,11 @@ def build(research_path=RESEARCH):
             if 'fireRate' in values:
                 field('weapon.fire_rate', 'Fire rate', 'rpm', 'number', values['fireRate'],
                     component('ProjectileWeaponComponentData', 8, 'f32'), weapon_target, 'weapon_local')
-            if 'magazine' in values:
+            if 'magazine' in values and vehicle.get('carrier'):
+                field('weapon.capacity', 'Magazine capacity', 'rounds', 'integer', values['magazine']['capacity'],
+                    component('WeaponMagazineComponentData', 136, 'u32'), weapon_target, 'weapon_local')
+                blocked.append({'field': 'magazine.*', 'reason': DRONE_MAGAZINES})
+            elif 'magazine' in values:
                 magazine = values['magazine']
                 for field_id, name, unit, offset, value in (
                         ('weapon.capacity', 'Magazine capacity', 'rounds', 136, magazine['capacity']),
@@ -205,6 +221,14 @@ def build(research_path=RESEARCH):
                     'health; zone values follow the main health.'})
             if 'ProjectileWeaponComponentData' in own:
                 blocked.append({'field': 'weapon damage/armor-penetration addends', 'reason': ADDENDS_BLOCKER})
+            if values.get('beamFireRate'):
+                field('beam.fire_rate', 'Beam fire rate', 'rpm', 'integer', values['beamFireRate'],
+                    component('BeamWeaponComponentData', 104, 'i32'), weapon_target, 'weapon_local')
+            heat = values.get('heat') or {}
+            for field_id, heat_key, offset, name, unit in HEAT:
+                if heat.get(heat_key):
+                    field(field_id, name, unit, 'number', heat[heat_key],
+                        component('WeaponHeatComponentData', offset, 'f32'), weapon_target, 'weapon_local')
             projectile = slot.get('projectile')
             if projectile and projectile.get('settings'):
                 others = [consumer_label(c) for c in projectile['firedBy']
@@ -261,18 +285,47 @@ def build(research_path=RESEARCH):
                         settings('damage', spray['settings'], offset, storage, 'primary', 'spray_damage'),
                         target, 'shared_damage', others)
                 status_slots('damage.primary.', 'damage', spray['settings'], 'primary', 'spray_damage', target, others)
+            for kind, layout in (('beam', BEAM), ('arc', ARC)):
+                record = slot.get(kind)
+                if not (record and record.get('settings')):
+                    continue
+                others = [consumer_label(c) for c in record['usedBy']
+                    if not (c['kind'] == 'vehicle_weapon' and c['vehicle'] == vehicle['name'] and c['slot'] == slot['slot'])]
+                target = {'resource': 'vehicle_weapon', 'path': 'attack', 'weapon': key, 'attack': 'primary'}
+                attacks['primary'] = {'role': 'primary', 'kind': kind.capitalize(), 'targetPath': 'attack'}
+                for suffix, offset, storage, name, unit in layout:
+                    field(kind + '.primary.' + suffix, name, unit, integer(storage), record['values'][suffix],
+                        settings(kind, record['settings'], offset, storage, 'primary', kind), target,
+                        'shared_' + kind, others)
+                damage = record.get('damage') or {}
+                if damage.get('settings'):
+                    for suffix, offset, storage, name, unit in DAMAGE:
+                        field('damage.primary.' + suffix, name, unit, 'integer', damage['values'][suffix],
+                            settings('damage', damage['settings'], offset, storage, 'primary', kind + '_damage'),
+                            target, 'shared_damage', others)
+                    status_slots('damage.primary.', 'damage', damage['settings'], 'primary', kind + '_damage',
+                        target, others)
             chain = {'vehicle': vehicle['name'], 'vehicleResource': vehicle['resource'], 'slot': slot['slot'],
                 'mountPath': slot['path']}
+            if vehicle.get('carrier'):
+                # Guard Dog: the backpack that deploys this drone (backpack DepositComponent +24 = the drone).
+                carrier = vehicle['carrier']
+                chain['carrier'] = {'kind': carrier['kind'], 'backpack': carrier['backpack'],
+                    'backpackResource': carrier['backpackResource'], 'link': carrier['link'],
+                    'droneEntityRow': carrier['droneEntityRow']}
             runtime_weapons[key] = {'name': key, 'semanticId': semantic, 'supportWeapon': True, 'vehicleWeapon': True,
                 'vehicle': vehicle['name'], 'mount': label, 'slot': slot['slot'], 'resources': [slot['path']],
+                **({'carrier': 'backpack_drone'} if vehicle.get('carrier') else {}),
                 'attackResource': slot['path'], 'ordinaryWritesBlocked': False, 'mountChain': chain,
                 'attacks': attacks, 'fields': fields}
             by_vehicle.setdefault(vehicle['name'], {})[str(slot['slot'])] = key
-            groups = {'local': [], 'projectile': [], 'damage': [], 'explosion': []}
+            groups = {'local': [], 'projectile': [], 'damage': [], 'explosion': [], 'beam': [], 'arc': []}
             for item in fields:
                 group = ('local' if item['writeScope'] in ('weapon_local', 'shared_mounted_weapon') else 'explosion'
                     if item['semanticFieldId'].startswith('explosion.') else 'projectile'
-                    if item['semanticFieldId'].startswith('projectile.') else 'damage')
+                    if item['semanticFieldId'].startswith('projectile.') else 'beam'
+                    if item['semanticFieldId'].startswith('beam.') else 'arc'
+                    if item['semanticFieldId'].startswith('arc.') else 'damage')
                 instance = {'instanceKey': 'vehicle-field/v1/' + slug(key) + '/' + slug(item['semanticFieldId']) + '/'
                     + digest({'weapon': key, 'field': item['semanticFieldId']}), 'weapon': key,
                     'weaponSemanticId': semantic, 'semanticFieldId': item['semanticFieldId'],
@@ -294,7 +347,11 @@ def build(research_path=RESEARCH):
                     'sharedProjectileConsumers': len((projectile or {}).get('firedBy', [])),
                     'sharedDamageConsumers': ((projectile or {}).get('damage') or {}).get('projectileUsers')},
                 'blocked': blocked}})
-        public_vehicles.append({'vehicle': vehicle['name'], 'mounts': public_mounts})
+        public_vehicles.append({'vehicle': vehicle['name'], 'mounts': public_mounts,
+            **({'carrier': {'kind': 'backpack_drone', 'backpack': vehicle['carrier']['backpack'],
+                'api': "hd2.backpack('" + vehicle['carrier']['backpack'] + "'):drone():weapon()",
+                'chain': ['backpack DepositComponent +24 (the drone)', 'drone MountComponent slot',
+                    'drone weapon entity']}} if vehicle.get('carrier') else {})})
     summary = {'vehicles': len(public_vehicles),
         'weaponMounts': sum(1 for v in public_vehicles for m in v['mounts'] if m['weapon']),
         'fieldInstances': len(instances), 'writableFieldInstances': sum(1 for i in instances if i['writable']),
@@ -306,15 +363,19 @@ def build(research_path=RESEARCH):
         'byField': dict(sorted(Counter(i['semanticFieldId'] for i in instances).items()))}
     public = {'contract': 'hd2runtime.vehicle_weapon.v1', 'schemaVersion': 1,
         'hd2RuntimeVersion': (ROOT / 'VERSION').read_text().strip(),
-        'ownershipModel': ['vehicle MountComponentData slot path', 'mounted weapon entity (own component records: '
-            'weapon-local)', 'ProjectileWeaponComponentData.projectile_type -> ProjectileSettings -> DamageInfo / '
-            'ExplosionSettings (shared settings rows: allow_shared)'],
+        'ownershipModel': ['vehicle MountComponentData slot path (Guard Dog: the drone the backpack deploys, '
+            'through its DepositComponent +24)', 'mounted weapon entity (own component records: weapon-local)',
+            'ProjectileWeaponComponentData.projectile_type -> ProjectileSettings -> DamageInfo / ExplosionSettings; '
+            'BeamWeapon -> BeamSettings -> DamageInfo; ArcWeapon -> ArcSettings -> DamageInfo; SprayWeapon -> '
+            'DamageInfo (shared settings rows: allow_shared)'],
         'scopes': {'weapon_local': 'The mounted weapon\'s own component record; one owner, one mount.',
             'shared_mounted_weapon': 'The same mounted weapon entity sits in several mounts; its own records change '
                 'all of them (allow_shared).',
             'shared_projectile': 'A ProjectileSettings row fired by every listed consumer.',
             'shared_damage': 'A DamageInfo row; every projectile or spray referencing it changes.',
-            'shared_explosion': 'An ExplosionSettings row referenced by the projectile.'},
+            'shared_explosion': 'An ExplosionSettings row referenced by the projectile.',
+            'shared_beam': 'A BeamSettings row; every beam weapon of that beam type changes.',
+            'shared_arc': 'An ArcSettings row; every arc weapon of that arc type changes.'},
         'vehicles': public_vehicles, 'fieldInstances': instances, 'summary': summary,
         'safety': {'runtimeAddresses': False, 'writesDuringGeneration': 0}}
     if re.search(r'0x[0-9a-f]{8,}', json.dumps(public).lower()):

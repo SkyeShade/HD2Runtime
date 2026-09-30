@@ -7,6 +7,7 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import struct
 import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -17,14 +18,15 @@ ROOT = Path(__file__).resolve().parents[1]
 RESEARCH = ROOT / 'research/entity-authoring-runtime-F5FEE03DCFDB.json'
 BACKPACK_AMMO = ROOT / 'research/backpack-ammo-F5FEE03DCFDB.json'
 SHIELD_RESEARCH = ROOT / 'research/ballistic-shield-F5FEE03DCFDB.json'
+EQUIPMENT_RESEARCH = ROOT / 'research/equipment-coverage-F5FEE03DCFDB.json'
 FIELDS = ROOT / 'schemas/entity_fields.json'
 VEHICLE_OUTPUT = ROOT / 'sdk/VehicleAuthoringCapabilities.json'
 BACKPACK_OUTPUT = ROOT / 'sdk/BackpackAuthoringCapabilities.json'
 LUA_OUTPUT = ROOT / 'domains/entity_authoring.lua'
 
 ZONE_BASE, ZONE_STRIDE = 520, 552
-TIER_ORDER = ('gameplay_proven', 'gameplay_proven_combined', 'schema_proven', 'live_write_verified',
-    'structural_reference')
+TIER_ORDER = ('gameplay_proven', 'gameplay_proven_combined', 'schema_proven', 'native_correlated',
+    'live_write_verified', 'structural_reference')
 # Semantic members promoted by the reviewed reference-mod proofs. The key is the
 # semantic field; the value names the exact entity the proof ran on.
 GAMEPLAY_ENTITY = {
@@ -96,16 +98,73 @@ SHIELD_BODY_FIELDS = {
         'effect': {'activeSource': 'DORMANT_OR_METADATA', 'activeSourceProven': True,
             'appliesWhen': 'entity_spawn', 'instantiationOnly': True, 'activeField': 'damage_zone shield / zone.armor'}},
     ('SH-51 Directional Shield', 'entity.health'): {'acknowledgement': 'allow_unverified_effect',
-        'acknowledgementReason': ('Health of the SH-51 backpack body. The energy barrier is a separate entity with its '
-            "own health record; which of the two the barrier's hits reach is not traced."),
-        'effect': {'activeSource': 'AMBIGUOUS', 'activeSourceProven': False, 'appliesWhen': 'entity_spawn',
-            'instantiationOnly': True}},
+        'acknowledgementReason': ('Health of the SH-51 backpack body (the emitter on the back, published Main Health '
+            '400). The energy barrier is a separate entity with its own shield and health: author it through '
+            "hd2.backpack('SH-51 Directional Shield'):energy_shield(). Not yet shown in game."),
+        'effect': {'activeSource': 'ACTIVE_AT_INSTANTIATION', 'activeSourceProven': False, 'appliesWhen': 'entity_spawn',
+            'instantiationOnly': True, 'appliesTo': 'backpack body'}},
     ('SH-51 Directional Shield', 'entity.armor'): {'acknowledgement': 'allow_unverified_effect',
-        'acknowledgementReason': ('Default-zone armor of the SH-51 backpack body. The energy barrier is a separate '
-            "entity with its own damage zone; which of the two the barrier's hits reach is not traced."),
-        'effect': {'activeSource': 'AMBIGUOUS', 'activeSourceProven': False, 'appliesWhen': 'entity_spawn',
-            'instantiationOnly': True}},
+        'acknowledgementReason': ('Armor of the SH-51 backpack body (published Main Armor Heavy). The body has no '
+            'populated damage zone, so every hit on the body resolves to this default zone. It is not the '
+            "barrier's armor: the barrier is a separate entity. Not yet shown in game."),
+        'effect': {'activeSource': 'ACTIVE_AT_INSTANTIATION', 'activeSourceProven': False, 'appliesWhen': 'entity_spawn',
+            'instantiationOnly': True, 'appliesTo': 'backpack body'}},
 }
+
+# Backpack, Guard Dog drone and SH-51 barrier fields proven by research/equipment-coverage-F5FEE03DCFDB.json: a
+# typed member with an exact published value (several independent entities where they exist), a differential
+# fingerprint and a consistent hidden-name length. Not yet shown in game: allow_unverified_effect is required.
+LIFECYCLE = ('Apply before the backpack is called in: the definition record is what a newly spawned backpack '
+    'starts from; whether one already in the world re-reads it is not proven.')
+
+
+def correlated_extra(reason, correlations, active='DEFINITION_RECORD', applies='entity_spawn', **more):
+    item = {'acknowledgement': 'allow_unverified_effect', 'acknowledgementReason': reason,
+        'evidence': {'tier': 'native_correlated', 'referenceMod': None, 'proof': None, 'provenOn': [],
+            'sharedTypedSchema': False, 'correlations': correlations},
+        'effect': {'activeSource': active, 'activeSourceProven': False, 'appliesWhen': applies,
+            'instantiationOnly': None, 'lifecycle': LIFECYCLE}}
+    item.update(more)
+    return item
+
+
+def shield_correlations(research, field_id):
+    decision = next(item for item in research['shields']['decisions'].values() if item['field'] == field_id)
+    return [{'entity': c['consumer'], 'native': c['native'], 'published': c['published']}
+        for c in decision['correlations']]
+
+
+SHIELD_RECHARGE = (('shield.recharge_delay', 88, 'Seconds after damage before a damaged (unbroken) shield starts '
+        'recharging.'),
+    ('shield.broken_recharge_delay', 92, 'Seconds after the shield breaks before it restarts.'),
+    ('shield.recharge_rate', 96, 'Shield health restored per second while recharging.'))
+SHIELD_RECHARGE_REASON = ('Exact published values on three independent shields (SH-32, SH-51 barrier, FX-12 relay) '
+    'at the same typed ShieldComponent member; not yet shown in game.')
+WARP_FIELDS = (('warp.distance', 120, 'teleportDistance'), ('warp.upward_bias', 128, 'upwardBias'),
+    ('warp.downward_bias', 132, 'downwardBias'), ('warp.safe_heat_threshold', 140, 'safeHeatThreshold'),
+    ('warp.unsafe_heat_threshold', 144, 'unsafeHeatThreshold'), ('warp.heat_per_use', 148, 'heatGain'),
+    ('warp.heat_cooldown_per_second', 152, 'heatCooldown'))
+WARP_RANGES = {'warp.distance': (0, 100), 'warp.upward_bias': (0, 50), 'warp.downward_bias': (0, 50),
+    'warp.safe_heat_threshold': (0, 100), 'warp.unsafe_heat_threshold': (0, 100), 'warp.heat_per_use': (0, 100),
+    'warp.heat_cooldown_per_second': (0, 100)}
+WARP_INJURIES = (('warp.head_injury_damage', 'head'), ('warp.left_arm_injury_damage', 'l_hand'),
+    ('warp.right_arm_injury_damage', 'r_hand'), ('warp.left_leg_injury_damage', 'l_knee'),
+    ('warp.right_leg_injury_damage', 'r_knee'))
+WARP_REASON = ('Exact published LIFT-182 value at a typed DisplacementComponent member (one owner, the Warp Pack); '
+    'not yet shown in game.')
+WARP_INJURY_REASON = ('Damage dealt to this limb by an unsafe warp: HeatInjuryInfo entry named by the native limb '
+    '(exact published values: head 10, arms 35, legs 45); not yet shown in game.')
+DRONE_DEPOSIT_LABELS = {'deposit.capacity': 'Drone magazines the backpack holds',
+    'deposit.start_amount': 'Drone magazines at call-in', 'deposit.refill_amount': 'Drone magazines from supply'}
+DRONE_DEPOSIT_REASON = ('Exact published Max Rounds / Starting Rounds / Mags from Supply on all five Guard Dog '
+    'backpacks at the typed DepositComponent members; not yet shown in game.')
+LINKED_REASON = {'drone': ('The Guard Dog drone entity the backpack deploys (backpack DepositComponent +24, '
+        're-proven before every write). Exact published Main Health 100 / Very Light. Applies to drones deployed '
+        'after the write; not yet shown in game.'),
+    'energy_shield': ('The SH-51 energy barrier (backpack ShieldControllerComponent +0, re-proven before every '
+        'write): exact published capacity and delays. Applies to barriers spawned after the write; not yet shown in '
+        'game.')}
+
 
 
 def shield_plate(name, backpack, health):
@@ -129,6 +188,148 @@ def shield_plate(name, backpack, health):
                 'appliesWhen': 'entity_spawn', 'instantiationOnly': True,
                 'damageRule': 'AP - armor >= 1: full damage; AP == armor: 65%; AP < armor: none'},
             'zoneActors': active['zoneActors']}}
+
+
+def linked_backing(ownership_record, resource, offset, storage, owners):
+    width = 8 if storage == 'u64' else 4
+    return {'component': ownership_record['component'], 'resource': resource,
+        'recordIndex': ownership_record['recordIndex'], 'indexRow': ownership_record['indexRow'],
+        'ownerCount': ownership_record['ownerCount'], 'uniqueOwner': ownership_record['uniqueOwner'],
+        'offset': offset, 'storage': storage, 'width': width, 'semanticOwners': owners}
+
+
+def zone_guard(ownership_record, zone):
+    return [{'offset': ZONE_BASE + zone['index'] * ZONE_STRIDE + 96, 'hex': struct.pack('<I', zone['nameHash']).hex()}]
+
+
+def linked_drone(builder, name, drone):
+    """The Guard Dog drone: its own Health record (one owner), reached through the backpack DepositComponent."""
+    health = drone['drone']['health']
+    ownership_record = health['ownership']
+    if not ownership_record['uniqueOwner']:
+        raise ValueError(name + ': drone health record is shared')
+    owners = [name + ' drone']
+    target = {'resource': 'backpack', 'backpack': name, 'path': 'linked', 'linked': 'drone'}
+    correlation = [{'entity': name + ' drone', 'native': health['mainHealth'], 'published': drone['wiki']['mainHealth']}]
+    keys = [builder.add(name, target, 'entity.health', health['mainHealth'],
+            linked_backing(ownership_record, drone['drone']['resource'], 0, 'i32', owners),
+            extra={'acknowledgement': 'allow_unverified_effect', 'acknowledgementReason': LINKED_REASON['drone'],
+                'min': 1, 'max': 1000000, 'correlations': correlation,
+                'effect': {'activeSource': 'ACTIVE_AT_INSTANTIATION', 'activeSourceProven': False,
+                    'appliesWhen': 'entity_spawn', 'instantiationOnly': True}})['instanceKey'],
+        builder.add(name, target, 'entity.armor', health['defaultArmor'],
+            linked_backing(ownership_record, drone['drone']['resource'], 280, 'u32', owners), editable=False,
+            reason=('Default-zone armor: the drone lists its body actors in damage zone 0, so this is only the '
+                'fallback for an unlisted actor. Use the drone damage zone armor.'))['instanceKey']]
+    zones = {}
+    for zone in health['zones']:
+        zone_target = {'resource': 'backpack', 'backpack': name, 'path': 'damage_zone', 'linked': 'drone',
+            'zone': zone_id(zone['index'])}
+        base = ZONE_BASE + zone['index'] * ZONE_STRIDE
+        for field_id, offset, storage, value, limit in (('zone.armor', 216, 'u32', zone['armor'], (0, 10)),
+                ('zone.health', 232, 'i32', zone['health'], (1, 1000000))):
+            backing = linked_backing(ownership_record, drone['drone']['resource'], base + offset, storage, owners)
+            backing['guards'] = zone_guard(ownership_record, zone)
+            keys.append(builder.add(name, zone_target, field_id, value, backing,
+                extra={'acknowledgement': 'allow_unverified_effect', 'acknowledgementReason': (
+                    'Drone body damage zone (' + str(zone['actorCount']) + ' hit actors); ' + LINKED_REASON['drone']),
+                    'min': limit[0], 'max': limit[1],
+                    'effect': {'activeSource': 'ACTIVE_AT_INSTANTIATION', 'activeSourceProven': False,
+                        'appliesWhen': 'entity_spawn', 'instantiationOnly': True}})['instanceKey'])
+        zones[zone_id(zone['index'])] = {'index': zone['index'], 'name': zone['name']}
+    via = drone['deposit']
+    runtime = {'resource': drone['drone']['resource'], 'entityRow': drone['drone']['entityRow'],
+        'via': {'component': 'DepositComponentData', 'offset': via['link']['offset'], 'recordIndex': via['recordIndex'],
+            'indexRow': via['indexRow'], 'ownerCount': via['ownerCount']}, 'zones': zones}
+    public = {'linked': 'drone', 'relationship': 'deployed_drone',
+        'chain': ['backpack DepositComponent +24 (the deployed entity)', 'drone entity (own Health, Mount, AI)'],
+        'weaponFamily': drone['weapon']['family'],
+        'damageZones': [{'zoneId': zone, 'index': info['index'], 'name': info['name']} for zone, info in zones.items()],
+        'fieldInstanceKeys': keys}
+    return runtime, public
+
+
+def linked_barrier(builder, name, research, equipment):
+    """The SH-51 energy barrier: its own ShieldComponent and Health, reached through the ShieldController."""
+    barrier = research['barrier']
+    owners = [name + ' energy barrier']
+    target = {'resource': 'backpack', 'backpack': name, 'path': 'linked', 'linked': 'energy_shield'}
+    shield = barrier['shield']
+    if not shield['uniqueOwner'] or not barrier['health']['ownership']['uniqueOwner']:
+        raise ValueError('SH-51 barrier records are shared')
+    consumer = next(c for c in equipment['shields']['consumers'] if c['consumer'] == name)
+    keys = [builder.add(name, target, 'shield.durability', consumer['values']['76'],
+        linked_backing(shield, barrier['resource'], 76, 'f32', owners),
+        extra={'acknowledgement': 'allow_unverified_effect', 'acknowledgementReason': (
+            'Barrier shield capacity: exact published 1000; the same typed member is gameplay-proven on the FX-12 '
+            'relay. ' + LINKED_REASON['energy_shield']), 'min': 0, 'max': 1000000,
+            'correlations': shield_correlations(equipment, 'shield.durability')[1:2]})['instanceKey']]
+    for field_id, offset, meaning in SHIELD_RECHARGE:
+        keys.append(builder.add(name, target, field_id, consumer['values'][str(offset)],
+            linked_backing(shield, barrier['resource'], offset, 'f32', owners),
+            extra=correlated_extra(SHIELD_RECHARGE_REASON + ' ' + meaning, shield_correlations(equipment, field_id),
+                min=0, max=100000))['instanceKey'])
+    keys.append(builder.add(name, target, 'shield.radius', consumer['values']['0'],
+        linked_backing(shield, barrier['resource'], 0, 'f32', owners), editable=False,
+        reason='0 on the directional barrier (exact published "Shield Radius 0 m"): its shape is the barrier model, '
+            'not a sphere; a non-zero radius is untested.')['instanceKey'])
+    health = barrier['health']
+    zones = {}
+    for zone in health['zones']:
+        zone_target = {'resource': 'backpack', 'backpack': name, 'path': 'damage_zone', 'linked': 'energy_shield',
+            'zone': zone_id(zone['index'])}
+        base = ZONE_BASE + zone['index'] * ZONE_STRIDE
+        for field_id, offset, storage, value, limit in (('zone.armor', 216, 'u32', zone['armor'], (0, 10)),
+                ('zone.health', 232, 'i32', zone['health'], (1, 1000000))):
+            backing = linked_backing(health['ownership'], barrier['resource'], base + offset, storage, owners)
+            backing['guards'] = zone_guard(health['ownership'], zone)
+            keys.append(builder.add(name, zone_target, field_id, value, backing,
+                extra={'acknowledgement': 'allow_unverified_effect', 'acknowledgementReason': (
+                    'The barrier damage zone "' + zone['name'] + '": its only hit actor is the barrier collision, so '
+                    'projectiles striking the barrier resolve here (the default-zone armor is the fallback, not the '
+                    'shield-facing armor). Whether the shield energy absorbs a hit before this zone is consulted is '
+                    'not traced. ' + LINKED_REASON['energy_shield']), 'min': limit[0], 'max': limit[1],
+                    'effect': {'activeSource': 'UNPROVEN', 'activeSourceProven': False, 'appliesWhen': 'entity_spawn',
+                        'instantiationOnly': True, 'zoneActors': zone['actors']}})['instanceKey'])
+        zones[zone_id(zone['index'])] = {'index': zone['index'], 'name': zone['name']}
+    keys.append(builder.add(name, target, 'entity.armor', health['defaultArmor'],
+        linked_backing(health['ownership'], barrier['resource'], 280, 'u32', owners), editable=False,
+        reason=('Barrier default-zone armor: the fallback for a hit on an actor no zone lists. The barrier lists its '
+            'collision in zone "body_front"; use that zone armor.'))['instanceKey'])
+    controller = research['controller']
+    runtime = {'resource': barrier['resource'], 'entityRow': barrier['entityRow'],
+        'via': {'component': 'ShieldControllerComponentData', 'offset': 0, 'recordIndex': controller['recordIndex'],
+            'indexRow': controller['indexRow'], 'ownerCount': controller['ownerCount']}, 'zones': zones}
+    public = {'linked': 'energy_shield', 'relationship': 'spawned_shield',
+        'chain': ['backpack ShieldControllerComponent +0 (the barrier entity)',
+            'barrier entity: ShieldComponent (energy), ShieldHitFilter, Health (zone body_front)'],
+        'damageZones': [{'zoneId': zone, 'index': info['index'], 'name': info['name']} for zone, info in zones.items()],
+        'unknownMembers': [{'component': 'ShieldHitFilterComponentData', **member}
+            for member in barrier['hitFilter']['members']],
+        'findings': research['findings'], 'fieldInstanceKeys': keys}
+    return runtime, public
+
+
+def warp_fields(builder, name, target, warp):
+    ownership_record = warp['ownership']
+    owners = [name]
+    keys = []
+    for field_id, offset, key in WARP_FIELDS:
+        decision = warp['decisions'][str(offset)]
+        low, high = WARP_RANGES[field_id]
+        keys.append(builder.add(name, target, field_id, decision['native'],
+            linked_backing(ownership_record, warp['resource'], offset, 'f32', owners),
+            extra=correlated_extra(WARP_REASON, [{'entity': name, 'native': decision['native'],
+                'published': decision['published']}], min=low, max=high))['instanceKey'])
+    injuries = {entry['limb']: entry for entry in warp['injuries']['entries'] if entry['limb']}
+    for field_id, limb in WARP_INJURIES:
+        entry = injuries[limb]
+        backing = linked_backing(ownership_record, warp['resource'], entry['damageOffset'], 'f32', owners)
+        backing['guards'] = [{'offset': entry['offset'], 'hex': struct.pack('<I', entry['limbHash']).hex()}]
+        keys.append(builder.add(name, target, field_id, entry['damage'], backing,
+            extra=correlated_extra(WARP_INJURY_REASON, [{'entity': name, 'native': entry['damage'],
+                'published': entry['damage'], 'limb': limb}], min=0, max=1000))['instanceKey'])
+    return keys
 
 
 def backpack_ammo_name(weapon):
@@ -232,6 +433,8 @@ class Builder:
     def add(self, entity, target, field_id, baseline, backing, editable=True, reason=None, extra=None):
         definition = self.definitions[field_id]
         identity = ':'.join(str(target.get(key, '')) for key in (self.family, 'path', 'zone', 'mount'))
+        if target.get('linked'):
+            identity += ':' + target['linked']
         instance_key = f'{self.family}:{slug(entity)}:{slug(identity)}:{field_id}'
         object_identity = {'component': backing['component'], 'recordIndex': backing['recordIndex']}
         object_key = 'backing:' + digest(object_identity)
@@ -279,6 +482,8 @@ class Builder:
                     item[key] = descriptor.get(key)
             item['backing'] = {key: backing[key] for key in ('component', 'resource', 'recordIndex', 'indexRow',
                 'ownerCount', 'uniqueOwner', 'offset', 'storage', 'width')}
+            if descriptor['target'].get('linked'):
+                item['backing']['linked'] = descriptor['target']['linked']
             if backing.get('guards'):
                 item['backing']['guards'] = backing['guards']
             result.append(item)
@@ -444,6 +649,10 @@ def build(research_path=RESEARCH):
 
     backpack_builder = Builder('backpack', research)
     public_backpacks, runtime_backpacks = [], {}
+    equipment = json.loads(EQUIPMENT_RESEARCH.read_text())
+    drones = {item['backpack']: item for item in equipment['guardDogs']['drones']}
+    warp = equipment['warpPack']
+    jump_hover = {str(row['offset']): row['values']['hover'] for row in equipment['hoverPack']['members']}
     for backpack in research['backpacks']:
         name = backpack['name']; components = backpack['components']
         target = {'resource': 'backpack', 'backpack': name, 'path': 'backpack'}
@@ -462,9 +671,10 @@ def build(research_path=RESEARCH):
         if jump:
             proven = name in GAMEPLAY_ENTITY['jump.vertical_launch_velocity']
             descriptor = backpack_builder.add(name, target, 'jump.vertical_launch_velocity', jump['values']['0'],
-                component_backing(jump, backpack['resource'], 0, 'f32', owners_of(jump)), editable=proven,
-                reason=None if proven else ('The member is proven on the Jump Pack only; the Hover Pack consumer '
-                    'uses distinct hover members and its launch semantics are unproven.'))
+                component_backing(jump, backpack['resource'], 0, 'f32', owners_of(jump)),
+                extra=None if proven else {'acknowledgement': 'allow_unverified_effect', 'acknowledgementReason': (
+                    'The same typed member is gameplay-proven on the LIFT-850 Jump Pack; whether the Hover Pack launch '
+                    'reads it is not yet shown in game.'), 'min': 0, 'max': 200})
             groups.append({'group': 'movement', 'fieldInstanceKeys': [descriptor['instanceKey']]})
             blocked += [{'field': 'unlabelled launch members', 'reason': 'Two further Jumppack launch scalars were tested only as experiment profiles that were never gameplay-reported.'},
                 {'field': 'horizontal impulse', 'reason': 'No horizontal or forward impulse member has been identified.'}]
@@ -473,9 +683,14 @@ def build(research_path=RESEARCH):
             keys = [backpack_builder.add(name, target, field_id, shield['values'][str(offset)],
                 component_backing(shield, backpack['resource'], offset, 'f32', owners_of(shield)))['instanceKey']
                 for field_id, offset in (('shield.radius', 0), ('shield.durability', 76))]
+            for field_id, offset, meaning in SHIELD_RECHARGE:
+                keys.append(backpack_builder.add(name, target, field_id, shield['values'][str(offset)],
+                    component_backing(shield, backpack['resource'], offset, 'f32', owners_of(shield)),
+                    extra=correlated_extra(SHIELD_RECHARGE_REASON + ' ' + meaning, shield_correlations(equipment, field_id),
+                        min=0, max=100000))['instanceKey'])
             groups.append({'group': 'shield', 'fieldInstanceKeys': keys})
-            blocked.append({'field': 'shield recharge delay/rate', 'reason':
-                'Labels come from an external export only; no reference mod wrote them.'})
+            blocked.append({'field': 'shield restart charge (+100)', 'reason':
+                'Labelled "restart charge" only by an external export; no published value. Unknown, read-only.'})
         health = components.get('HealthComponentData')
         zones = {}
         if health:
@@ -500,13 +715,61 @@ def build(research_path=RESEARCH):
                 zones[plate['zoneId']] = {'index': plate['index'], 'name': plate['name']}
                 groups.append({'group': 'shield_plate', 'fieldInstanceKeys': [descriptor['instanceKey']]})
         deposit = components.get('DepositComponentData')
-        if deposit:
+        drone = drones.get(name)
+        if deposit and drone:
+            keys = []
+            for field_id, offset, storage in (('deposit.capacity', 0, 'u32'), ('deposit.start_amount', 4, 'i32'),
+                    ('deposit.refill_amount', 8, 'u32')):
+                low, high = AMMO_RANGE[field_id]
+                keys.append(backpack_builder.add(name, target, field_id, deposit['values'][str(offset)],
+                    component_backing(deposit, backpack['resource'], offset, storage, owners_of(deposit)),
+                    extra=correlated_extra(DRONE_DEPOSIT_REASON, [{'entity': name, 'native': deposit['values'][str(offset)],
+                        'published': drone['wiki'][{'0': 'maxRounds', '4': 'startingRounds', '8': 'magsFromSupply'}
+                            [str(offset)]]}], displayName=DRONE_DEPOSIT_LABELS[field_id], unit='magazines',
+                        uiGroup='drone_magazines', min=low, max=high, rangeReason=AMMO_RANGE_REASON))['instanceKey'])
+            groups.append({'group': 'drone_magazines', 'fieldInstanceKeys': keys})
+        elif deposit:
             keys = [backpack_builder.add(name, target, field_id, deposit['values'][str(offset)],
                 component_backing(deposit, backpack['resource'], offset, storage, owners_of(deposit)),
                 editable=False)['instanceKey']
                 for field_id, offset, storage in (('deposit.capacity', 0, 'u32'),
                     ('deposit.start_amount', 4, 'i32'), ('deposit.refill_amount', 8, 'u32'))]
             groups.append({'group': 'charges', 'fieldInstanceKeys': keys, 'readOnly': True})
+        linked_runtime, linked_public = {}, []
+        if drone:
+            linked_runtime['drone'], entry = linked_drone(backpack_builder, name, drone)
+            linked_public.append(entry)
+            groups.append({'group': 'drone', 'linked': 'drone', 'fieldInstanceKeys': entry['fieldInstanceKeys']})
+            blocked += [{'field': 'drone movement / targeting / behavior', 'reason': equipment['guardDogs']['genericNote']},
+                {'field': 'drone weapon', 'reason': "Authored through hd2.backpack(name):drone():weapon() "
+                    '(sdk/VehicleWeaponCapabilities.json, carrier = this backpack).'}]
+        if name == 'SH-51 Directional Shield':
+            linked_runtime['energy_shield'], entry = linked_barrier(backpack_builder, name, equipment['directionalShield'],
+                equipment)
+            linked_public.append(entry)
+            groups.append({'group': 'energy_shield', 'linked': 'energy_shield',
+                'fieldInstanceKeys': entry['fieldInstanceKeys']})
+        displacement = warp if name == 'LIFT-182 Warp Pack' else None
+        if displacement:
+            keys = warp_fields(backpack_builder, name, target, displacement)
+            groups.append({'group': 'warp', 'fieldInstanceKeys': keys})
+            blocked += [{'field': 'max survivable unit size', 'reason': displacement['maxSurvivableUnitSize']['reason']},
+                {'field': 'chest injury status', 'reason': 'The chest entry applies Fire (StatusEffectType 5, exact '
+                    'published "Inflicts Fire"); status references on this record are not authored yet.'},
+                {'field': 'arrival explosion', 'reason': displacement['explosionType']['reason']},
+                {'field': 'other DisplacementComponent members', 'reason': 'Typed but without a published value or '
+                    'differential; published as unknown members in research/equipment-coverage-F5FEE03DCFDB.json.'}]
+        if jump and name == 'LIFT-860 Hover Pack':
+            decision = equipment['hoverPack']['decisions']['156']
+            keys = [backpack_builder.add(name, target, 'hover.duration', jump_hover['156'],
+                component_backing(jump, backpack['resource'], 156, 'f32', owners_of(jump)),
+                extra=correlated_extra('Seconds the Hover Pack holds its height: exact published six seconds, a member only '
+                    'the Hover Pack record sets (both jump-pack records hold -1); not yet shown in game.',
+                    [{'entity': name, 'native': decision['native']['hover'], 'published': decision['published']}],
+                    min=0, max=120))['instanceKey']]
+            groups.append({'group': 'hover', 'fieldInstanceKeys': keys})
+            blocked.append({'field': 'hover ascent / speed / fuel members', 'reason': 'The hover-only vectors and '
+                'scalars (+145..+276) have no published values; unknown, read-only.'})
         if not groups:
             blocked.append({'field': 'backpack behavior', 'reason':
                 'No typed backpack behavior component with reviewed semantics is owned by this entity.'})
@@ -519,6 +782,7 @@ def build(research_path=RESEARCH):
             'correlation': backpack['correlation'],
             'components': sorted(key.removesuffix('ComponentData') for key in components),
             'settingGroups': groups, 'blockedFields': blocked,
+            **({'linkedEntities': linked_public} if linked_public else {}),
             'fieldInstanceKeys': [descriptor['instanceKey'] for descriptor in backpack_builder.public()
                 if descriptor['target']['backpack'] == name]})
         rack = backpack['rack']
@@ -527,6 +791,7 @@ def build(research_path=RESEARCH):
             'rack': {'resource': backpack['stratagemRoot']['payloads'][0], 'recordIndex': rack['recordIndex'],
                 'indexRow': rack['indexRow']},
             **({'zones': zones} if zones else {}),
+            **({'linked': linked_runtime} if linked_runtime else {}),
             'fields': backpack_builder.runtime(name)}
 
     # Weapon-fed backpacks: the call-in rack delivers the support weapon with this backpack, and the weapon's
@@ -660,6 +925,9 @@ def build(research_path=RESEARCH):
         'evidenceTiers': {'gameplay_proven': 'Reference mod confirmed this field on this entity in gameplay.',
             'gameplay_proven_combined': 'Written as part of a gameplay-confirmed edit; its individual effect is not isolated.',
             'schema_proven': 'Same typed native member was gameplay-proven on another entity of this record type.',
+            'native_correlated': ('Typed native member whose meaning is proven offline: an exact published value (on '
+                'every independent entity that publishes one), a differential across the record type and a '
+                'consistent hidden-name length. Not yet shown in game; allow_unverified_effect is required.'),
             'live_write_verified': 'Reference mod committed this write live; gameplay effect is unconfirmed.',
             'structural_reference': ('Same typed mount reference mechanism as the live-verified swap; '
                 'this slot and replacement have no reference-mod write.')},
@@ -690,7 +958,7 @@ def build(research_path=RESEARCH):
             raise ValueError('public entity capability leaks a native identifier')
         for resource in list(mounted) + [item['resource'] for item in vehicles_source] + \
                 [item['resource'] for item in research['backpacks']] + \
-                [x for item in ammo_research['backpackFedWeapons'] for x in (item['backpackResource'], item['weaponResource'])]:
+                [x for item in ammo_research['backpackFedWeapons'] for x in (item['backpackResource'], item['weaponResource'])] +                 [linked['resource'] for entry in runtime_backpacks.values() for linked in (entry.get('linked') or {}).values()] +                 [warp['resource']]:
             if resource[2:].lower() in text:
                 raise ValueError('public entity capability leaks a native resource hash')
 

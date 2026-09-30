@@ -36,6 +36,8 @@ class PlayerWeaponAuthoringTests(unittest.TestCase):
                     self.assertEqual((field['min'],field['max']),(1,3000))
                 elif field.get('statusAttach')and field['type']=='number':
                     self.assertEqual((field['min'],field['max']),(0,1000))
+                elif field['semanticFieldId'].startswith('heat.level_')and field['type']=='number':
+                    self.assertEqual((field['min'],field['max']),(0,10000))   # LAS-17 heat levels
                 else:
                     self.assertIsNone(field['min']);self.assertIsNone(field['max'])
                 if field['semanticFieldId']=='weapon.default_fire_mode':

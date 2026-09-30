@@ -10,7 +10,8 @@ local database=require('hd2runtime/domains/entity_authoring')
 local M={}
 local component_names={'HealthComponentData','MountComponentData','RechargeComponentData',
     'JumppackComponentData','ShieldComponentData','HellpodRackComponentData','WeaponDataComponentData',
-    'DepositComponentData','TagComponentData','WeaponLinkedAmmoComponentData'}
+    'DepositComponentData','TagComponentData','WeaponLinkedAmmoComponentData','DisplacementComponentData',
+    'ShieldControllerComponentData'}
 local REFERENCE='mounted_weapon_reference'
 
 local function equal(a,c,storage)
@@ -46,19 +47,25 @@ local function entry_for(target)
     assert(target.resource=='backpack','unsupported entity target')
     local entry=assert(type(target.backpack)=='string'and database.backpacks[target.backpack],
         'unknown reviewed backpack: '..tostring(target.backpack))
+    -- A linked entity (the Guard Dog drone, the SH-51 barrier) is named by the backpack and its link, never by a
+    -- native identity.
+    local linked=rawget(target,'linked')
+    local link=linked~=nil and assert(type(linked)=='string'and entry.linked and entry.linked[linked],
+        'unknown linked entity of '..entry.name..': '..tostring(linked))or nil
     if target.path=='damage_zone'then
-        assert(type(rawget(target,'zone'))=='string'and entry.zones and entry.zones[target.zone],
-            'damage zone identity required')
-    else assert(target.path=='backpack','unsupported backpack target path')end
-    for key in pairs(target)do assert(key=='resource'or key=='backpack'or key=='path'or key=='zone',
-        'unsupported backpack target identity')end
+        local zones=link and link.zones or entry.zones
+        assert(type(rawget(target,'zone'))=='string'and zones and zones[target.zone],'damage zone identity required')
+    elseif target.path=='linked'then assert(link,'linked entity identity required')
+    else assert(target.path=='backpack'and not link,'unsupported backpack target path')end
+    for key in pairs(target)do assert(key=='resource'or key=='backpack'or key=='path'or key=='zone'
+        or key=='linked','unsupported backpack target identity')end
     return entry,target.backpack
 end
 local function find_field(entry,target,id)
     for _,field in ipairs(entry.fields)do
         local t=field.target
-        if field.semanticFieldId==id and t.path==target.path
-            and t.zone==rawget(target,'zone') and t.mount==rawget(target,'mount') then return field end
+        if field.semanticFieldId==id and t.path==target.path and t.zone==rawget(target,'zone')
+            and t.mount==rawget(target,'mount') and t.linked==rawget(target,'linked') then return field end
     end
     error('field is not exposed for '..entry.name..': '..tostring(id),0)
 end
@@ -166,6 +173,7 @@ function M.capture_many(runtime,reader,specs)
     for index,spec in ipairs(specs)do
         local entry=assert(entry_of(spec),'reviewed entity entry absent')
         local candidate=find_candidate(catalog,entry.resource,entry.entityRow)
+        local linked
         if spec.family=='backpack'then
             -- Re-prove the call-in chain: the reviewed hellpod rack still attaches this backpack.
             local rack=find_candidate(catalog,entry.rack.resource)
@@ -182,6 +190,21 @@ function M.capture_many(runtime,reader,specs)
                 else assert(item=='0x0000000000000000','backpack rack attaches an unreviewed item')end
             end
             assert(attached,'backpack rack no longer attaches the reviewed backpack')
+            -- Re-prove every linked entity a change targets: the backpack's own typed link still names it.
+            for _,change in ipairs(spec.changes)do
+                local name=change.descriptor.backing.linked
+                if name and not(linked and linked[name])then
+                    local link=assert(entry.linked and entry.linked[name],'linked entity metadata missing')
+                    local via=link.via
+                    local record=catalog.record(candidate,via.component)
+                    assert(record.identity.recordIndex==via.recordIndex and record.identity.indexRow==via.indexRow
+                        and record.identity.ownerCount==via.ownerCount,'backpack link ownership changed ('..name..')')
+                    assert(b.resource(record.bytes,via.offset)==link.resource,
+                        'backpack no longer links the reviewed '..name..' entity')
+                    linked=linked or{}
+                    linked[name]=find_candidate(catalog,link.resource,link.entityRow)
+                end
+            end
             local feeds=entry.feeds
             if feeds then
                 -- Re-prove the ammunition link: the weapon draws from the Backpack slot through a tag
@@ -204,7 +227,7 @@ function M.capture_many(runtime,reader,specs)
                 assert(weapon.ownership.WeaponDataComponentData,'replacement mounted weapon is not a live weapon entity')
             end
         end
-        results[index]={entry=entry,catalog=catalog,candidate=candidate}
+        results[index]={entry=entry,catalog=catalog,candidate=candidate,linked=linked}
     end
     return results
 end
@@ -214,7 +237,9 @@ function M.prepare(resolved,reader,spec)
     local plan={changes={},snapshots=reader.snapshots};local physical={}
     for _,change in ipairs(spec.changes)do
         local backing=change.descriptor.backing
-        local record=resolved.catalog.record(resolved.candidate,backing.component)
+        local owner_candidate=backing.linked and assert(resolved.linked and resolved.linked[backing.linked],
+            'linked entity was not freshly proven')or resolved.candidate
+        local record=resolved.catalog.record(owner_candidate,backing.component)
         assert(record.identity.recordIndex==backing.recordIndex
             and record.identity.indexRow==backing.indexRow,'entity component ownership changed')
         assert(record.identity.ownerCount==backing.ownerCount

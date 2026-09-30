@@ -188,3 +188,28 @@ Each relationship has a reference-only `deliveryGraph`. Its nodes name the ownin
 uses these to select existing `fieldInstances`; no fields are copied. For Solo Silo the graph is
 stratagem call-in (cooldown) -> deployable silo -> missile -> `detonation` and `impact`
 explosions. Edits still persist through the original target types.
+
+## Equipment coverage (research/equipment-coverage-F5FEE03DCFDB.json)
+
+- **LAS-98 Laser Cannon `beam.fire_rate`** (`BeamWeaponComponentData` +104, rpm, 60): how often the beam applies its
+  damage. It is the published "Beam Fire Rate" on seven weapons, including the two non-60 values (LAS-13 Trident
+  300, 40-K Meltagun 50). Already authored before this pass: beam length and radius, damage and armor
+  penetration, heat, cooling, heatsinks, reload, handling, stationary firing and the Fire status. The published
+  cooling triple (7.5 - 5 - 3.8) is the cool rate times the native 1.5 / 0.75 multipliers
+  (`heat.cool_per_second_cold` / `_hot`, derived and read-only). The published 0.5 s warmup is stored in no common
+  member: not located.
+- **M-1000 Maxigun `weapon.recoil_multiplier_horizontal` / `weapon.recoil_multiplier_vertical`**
+  (`WeaponDataComponentData` +60 / +64): the first pair of the typed `RecoilModifiers` struct. It is 1.0 on 364
+  of 366 weapon records, and no attachment patches it.
+
+Both need `allow_unverified_effect`.
+
+Maxigun Reimagined was reviewed as a research lead, not a source. Every edit it makes was located independently:
+
+- Already authored: its spread, sway, ergonomics, crosshair, mobile firing, wind-up, backpack, damage and status
+  edits. Its "companion record" is the Maxigun's own WeaponData record, addressed 16 bytes in.
+- Its selector and weapon-function binding are not reproduced: selectors are not authored on wind-up weapons, and
+  its rate slots X/Z are dormant.
+- Its projectile edit targets a ProjectileSettings row at 820 m/s. The Maxigun fires projectile 306 at 920 m/s,
+  the published M-1000 P, so that edit would change another weapon's projectile.
+- Its muzzle-effect and audio edits are ignored.

@@ -14,6 +14,22 @@
     {"id": "deposit.capacity", "display_name": "Charge capacity", "type": "integer", "unit": "charges", "writable": true, "storage": "u32", "component": "DepositComponentData", "offset": 0, "reason": "Exact wiki correlation for drone backpacks and a typed schema member, but no reference mod has proven write semantics."},
     {"id": "deposit.start_amount", "display_name": "Starting charges", "type": "integer", "unit": "charges", "writable": true, "storage": "i32", "component": "DepositComponentData", "offset": 4, "reason": "Exact wiki correlation for drone backpacks and a typed schema member, but no reference mod has proven write semantics."},
     {"id": "deposit.refill_amount", "display_name": "Charges per resupply", "type": "integer", "unit": "charges", "writable": true, "storage": "u32", "component": "DepositComponentData", "offset": 8, "reason": "Typed schema member without wiki correlation or proven write semantics."},
-    {"id": "mount.weapon", "display_name": "Mounted weapon", "type": "mounted_weapon_reference", "unit": null, "writable": true, "storage": "u64", "component": "MountComponentData", "slotStride": 24, "offset": 0}
+    {"id": "mount.weapon", "display_name": "Mounted weapon", "type": "mounted_weapon_reference", "unit": null, "writable": true, "storage": "u64", "component": "MountComponentData", "slotStride": 24, "offset": 0},
+    {"id": "shield.recharge_delay", "display_name": "Shield recharge delay (after damage)", "type": "number", "unit": "seconds", "writable": true, "storage": "f32", "component": "ShieldComponentData", "offset": 88},
+    {"id": "shield.broken_recharge_delay", "display_name": "Shield restart delay (after breaking)", "type": "number", "unit": "seconds", "writable": true, "storage": "f32", "component": "ShieldComponentData", "offset": 92},
+    {"id": "shield.recharge_rate", "display_name": "Shield recharge rate", "type": "number", "unit": "health_per_second", "writable": true, "storage": "f32", "component": "ShieldComponentData", "offset": 96},
+    {"id": "warp.distance", "display_name": "Warp distance", "type": "number", "unit": "meters", "writable": true, "storage": "f32", "component": "DisplacementComponentData", "offset": 120},
+    {"id": "warp.upward_bias", "display_name": "Warp upward bias", "type": "number", "unit": "meters", "writable": true, "storage": "f32", "component": "DisplacementComponentData", "offset": 128},
+    {"id": "warp.downward_bias", "display_name": "Warp downward bias", "type": "number", "unit": "meters", "writable": true, "storage": "f32", "component": "DisplacementComponentData", "offset": 132},
+    {"id": "warp.safe_heat_threshold", "display_name": "Safe heat threshold", "type": "number", "unit": "percent", "writable": true, "storage": "f32", "component": "DisplacementComponentData", "offset": 140},
+    {"id": "warp.unsafe_heat_threshold", "display_name": "Unsafe heat threshold", "type": "number", "unit": "percent", "writable": true, "storage": "f32", "component": "DisplacementComponentData", "offset": 144},
+    {"id": "warp.heat_per_use", "display_name": "Heat per warp", "type": "number", "unit": "percent", "writable": true, "storage": "f32", "component": "DisplacementComponentData", "offset": 148},
+    {"id": "warp.heat_cooldown_per_second", "display_name": "Heat cooldown", "type": "number", "unit": "percent_per_second", "writable": true, "storage": "f32", "component": "DisplacementComponentData", "offset": 152},
+    {"id": "warp.head_injury_damage", "display_name": "Unsafe-warp damage: head", "type": "number", "unit": "damage", "writable": true, "storage": "f32", "component": "DisplacementComponentData", "offset": 164},
+    {"id": "warp.left_arm_injury_damage", "display_name": "Unsafe-warp damage: left arm", "type": "number", "unit": "damage", "writable": true, "storage": "f32", "component": "DisplacementComponentData", "offset": 188},
+    {"id": "warp.right_arm_injury_damage", "display_name": "Unsafe-warp damage: right arm", "type": "number", "unit": "damage", "writable": true, "storage": "f32", "component": "DisplacementComponentData", "offset": 212},
+    {"id": "warp.left_leg_injury_damage", "display_name": "Unsafe-warp damage: left leg", "type": "number", "unit": "damage", "writable": true, "storage": "f32", "component": "DisplacementComponentData", "offset": 236},
+    {"id": "warp.right_leg_injury_damage", "display_name": "Unsafe-warp damage: right leg", "type": "number", "unit": "damage", "writable": true, "storage": "f32", "component": "DisplacementComponentData", "offset": 260},
+    {"id": "hover.duration", "display_name": "Hover duration", "type": "number", "unit": "seconds", "writable": true, "storage": "f32", "component": "JumppackComponentData", "offset": 156}
   ]
 }

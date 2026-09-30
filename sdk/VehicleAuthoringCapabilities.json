@@ -48717,6 +48717,7 @@
     "gameplay_proven": "Reference mod confirmed this field on this entity in gameplay.",
     "gameplay_proven_combined": "Written as part of a gameplay-confirmed edit; its individual effect is not isolated.",
     "schema_proven": "Same typed native member was gameplay-proven on another entity of this record type.",
+    "native_correlated": "Typed native member whose meaning is proven offline: an exact published value (on every independent entity that publishes one), a differential across the record type and a consistent hidden-name length. Not yet shown in game; allow_unverified_effect is required.",
     "live_write_verified": "Reference mod committed this write live; gameplay effect is unconfirmed.",
     "structural_reference": "Same typed mount reference mechanism as the live-verified swap; this slot and replacement have no reference-mod write."
   },

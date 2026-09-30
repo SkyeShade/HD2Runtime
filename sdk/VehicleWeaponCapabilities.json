@@ -3,16 +3,18 @@
   "schemaVersion": 1,
   "hd2RuntimeVersion": "0.27.0",
   "ownershipModel": [
-    "vehicle MountComponentData slot path",
+    "vehicle MountComponentData slot path (Guard Dog: the drone the backpack deploys, through its DepositComponent +24)",
     "mounted weapon entity (own component records: weapon-local)",
-    "ProjectileWeaponComponentData.projectile_type -> ProjectileSettings -> DamageInfo / ExplosionSettings (shared settings rows: allow_shared)"
+    "ProjectileWeaponComponentData.projectile_type -> ProjectileSettings -> DamageInfo / ExplosionSettings; BeamWeapon -> BeamSettings -> DamageInfo; ArcWeapon -> ArcSettings -> DamageInfo; SprayWeapon -> DamageInfo (shared settings rows: allow_shared)"
   ],
   "scopes": {
     "weapon_local": "The mounted weapon's own component record; one owner, one mount.",
     "shared_mounted_weapon": "The same mounted weapon entity sits in several mounts; its own records change all of them (allow_shared).",
     "shared_projectile": "A ProjectileSettings row fired by every listed consumer.",
     "shared_damage": "A DamageInfo row; every projectile or spray referencing it changes.",
-    "shared_explosion": "An ExplosionSettings row referenced by the projectile."
+    "shared_explosion": "An ExplosionSettings row referenced by the projectile.",
+    "shared_beam": "A BeamSettings row; every beam weapon of that beam type changes.",
+    "shared_arc": "An ArcSettings row; every arc weapon of that arc type changes."
   },
   "vehicles": [
     {
@@ -57,7 +59,9 @@
                 "vehicle-field/v1/m-103-supply-frv-gun/damage-primary-status-1-type/509d9c9d1cdf6d3d",
                 "vehicle-field/v1/m-103-supply-frv-gun/damage-primary-status-1-strength/31330877bf183739"
               ],
-              "explosion": []
+              "explosion": [],
+              "beam": [],
+              "arc": []
             },
             "values": {
               "fireRate": 640.0,
@@ -153,7 +157,9 @@
                 "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/damage-primary-status-1-type/4cb1b85baa6f70f9",
                 "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/damage-primary-status-1-strength/671bbf8f59d72c5d"
               ],
-              "explosion": []
+              "explosion": [],
+              "beam": [],
+              "arc": []
             },
             "values": {
               "fireRate": 1200.0,
@@ -231,7 +237,9 @@
                 "vehicle-field/v1/td-110-maelstrom-slot-2/projectile-primary-penetration-slowdown/e0a4a46502a2abee"
               ],
               "damage": [],
-              "explosion": []
+              "explosion": [],
+              "beam": [],
+              "arc": []
             },
             "values": {
               "fireRate": 12.0,
@@ -335,7 +343,9 @@
                 "vehicle-field/v1/td-110-maelstrom-slot-3/explosion-impact-damage-push-force/c9fd2af377b1f15d",
                 "vehicle-field/v1/td-110-maelstrom-slot-3/explosion-impact-damage-status-1-type/774fb33bc076d809",
                 "vehicle-field/v1/td-110-maelstrom-slot-3/explosion-impact-damage-status-1-strength/99eea12e466492f7"
-              ]
+              ],
+              "beam": [],
+              "arc": []
             },
             "values": {
               "fireRate": 240.0,
@@ -429,7 +439,9 @@
                 "vehicle-field/v1/td-110-maelstrom-slot-4/explosion-impact-damage-push-force/1f33a36d14f265d8",
                 "vehicle-field/v1/td-110-maelstrom-slot-4/explosion-impact-damage-status-1-type/aa731248e8f5f57d",
                 "vehicle-field/v1/td-110-maelstrom-slot-4/explosion-impact-damage-status-1-strength/41653c8be929444f"
-              ]
+              ],
+              "beam": [],
+              "arc": []
             },
             "values": {
               "fireRate": 240.0,
@@ -505,7 +517,9 @@
                 "vehicle-field/v1/m-104-incinerator-frv-gun/damage-primary-status-4-type/ab86d75995961432",
                 "vehicle-field/v1/m-104-incinerator-frv-gun/damage-primary-status-4-strength/5eaab817b39959b7"
               ],
-              "explosion": []
+              "explosion": [],
+              "beam": [],
+              "arc": []
             },
             "values": {
               "magazine": {
@@ -601,7 +615,9 @@
                 "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/explosion-impact-damage-push-force/6ea79b9975576455",
                 "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/explosion-impact-damage-status-1-type/078a33b1352a9ee3",
                 "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/explosion-impact-damage-status-1-strength/5290b7da3f47b5ef"
-              ]
+              ],
+              "beam": [],
+              "arc": []
             },
             "values": {
               "fireRate": 175.0,
@@ -699,7 +715,9 @@
                 "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/explosion-impact-damage-push-force/d78a557162028992",
                 "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/explosion-impact-damage-status-1-type/f09c616639fabc29",
                 "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/explosion-impact-damage-status-1-strength/9e9c57b09ecc1f9a"
-              ]
+              ],
+              "beam": [],
+              "arc": []
             },
             "values": {
               "fireRate": 175.0,
@@ -803,7 +821,9 @@
                 "vehicle-field/v1/exo-45-patriot-exosuit-left-gun/explosion-impact-damage-push-force/0d8c5cae9969f52a",
                 "vehicle-field/v1/exo-45-patriot-exosuit-left-gun/explosion-impact-damage-status-1-type/eec81e253157c5e3",
                 "vehicle-field/v1/exo-45-patriot-exosuit-left-gun/explosion-impact-damage-status-1-strength/0f08c5e7ac5a176c"
-              ]
+              ],
+              "beam": [],
+              "arc": []
             },
             "values": {
               "fireRate": 90.0,
@@ -880,7 +900,9 @@
                 "vehicle-field/v1/exo-45-patriot-exosuit-right-gun/damage-primary-status-1-type/b9b467bd45d1d13d",
                 "vehicle-field/v1/exo-45-patriot-exosuit-right-gun/damage-primary-status-1-strength/89d3588bdaeca380"
               ],
-              "explosion": []
+              "explosion": [],
+              "beam": [],
+              "arc": []
             },
             "values": {
               "fireRate": 1200.0,
@@ -964,7 +986,9 @@
                 "vehicle-field/v1/m-102-gunner-frv-gun/damage-primary-status-1-type/2db0baed1c77c0ac",
                 "vehicle-field/v1/m-102-gunner-frv-gun/damage-primary-status-1-strength/76524c1c2839a23e"
               ],
-              "explosion": []
+              "explosion": [],
+              "beam": [],
+              "arc": []
             },
             "values": {
               "fireRate": 600.0,
@@ -1067,7 +1091,9 @@
                 "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/explosion-impact-damage-push-force/24af9a4a1a40fd36",
                 "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/explosion-impact-damage-status-1-type/fd19b585aadf0d76",
                 "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/explosion-impact-damage-status-1-strength/5b2ac2d2a1d0d1f4"
-              ]
+              ],
+              "beam": [],
+              "arc": []
             },
             "values": {
               "fireRate": 12.0,
@@ -1148,7 +1174,9 @@
                 "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/damage-primary-status-1-type/06b22278e52cd42b",
                 "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/damage-primary-status-1-strength/25cf0c2aaee04d9e"
               ],
-              "explosion": []
+              "explosion": [],
+              "beam": [],
+              "arc": []
             },
             "values": {
               "fireRate": 600.0,
@@ -1236,7 +1264,9 @@
                 "vehicle-field/v1/exo-55-breakthrough-exosuit-right-gun/damage-primary-status-1-type/61e160fed6374cd0",
                 "vehicle-field/v1/exo-55-breakthrough-exosuit-right-gun/damage-primary-status-1-strength/5e6329aa5cd42ffd"
               ],
-              "explosion": []
+              "explosion": [],
+              "beam": [],
+              "arc": []
             },
             "values": {
               "fireRate": 180.0,
@@ -1313,7 +1343,9 @@
                 "vehicle-field/v1/exo-51-lumberer-exosuit-left-gun/damage-primary-status-4-type/b3574475c2118a1e",
                 "vehicle-field/v1/exo-51-lumberer-exosuit-left-gun/damage-primary-status-4-strength/82813dd86567bc96"
               ],
-              "explosion": []
+              "explosion": [],
+              "beam": [],
+              "arc": []
             },
             "values": {
               "magazine": {
@@ -1399,7 +1431,9 @@
                 "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/explosion-impact-damage-push-force/7186078834ea2cc0",
                 "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/explosion-impact-damage-status-1-type/53d69360f24a5b2b",
                 "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/explosion-impact-damage-status-1-strength/d7e0dbd25e704a08"
-              ]
+              ],
+              "beam": [],
+              "arc": []
             },
             "values": {
               "fireRate": 30.0,
@@ -1483,7 +1517,9 @@
                 "vehicle-field/v1/frv-super-earth-variant-gun/damage-primary-status-1-type/9578352e232449fb",
                 "vehicle-field/v1/frv-super-earth-variant-gun/damage-primary-status-1-strength/7677589ed7231a68"
               ],
-              "explosion": []
+              "explosion": [],
+              "beam": [],
+              "arc": []
             },
             "values": {
               "fireRate": 600.0,
@@ -1586,7 +1622,9 @@
                 "vehicle-field/v1/gater-oil-rig-turret/explosion-impact-damage-push-force/5881acd8174916a3",
                 "vehicle-field/v1/gater-oil-rig-turret/explosion-impact-damage-status-1-type/c0166c05873b1b55",
                 "vehicle-field/v1/gater-oil-rig-turret/explosion-impact-damage-status-1-strength/9832450fa28acd42"
-              ]
+              ],
+              "beam": [],
+              "arc": []
             },
             "values": {
               "fireRate": 220.0,
@@ -1633,6 +1671,427 @@
           }
         }
       ]
+    },
+    {
+      "vehicle": "AX/AR-23 Guard Dog",
+      "mounts": [
+        {
+          "slot": 0,
+          "label": "gun",
+          "weapon": {
+            "key": "AX/AR-23 Guard Dog / gun",
+            "semanticId": "vehicle-weapon/v1/ax-ar-23-guard-dog/gun/9d81adefdfb8a0d2",
+            "nativePath": "content/fac_helldivers/equipment/backpacks/drone_mg/drone_mg_weapon",
+            "attacks": [
+              "primary"
+            ],
+            "fieldGroups": {
+              "local": [
+                "vehicle-field/v1/ax-ar-23-guard-dog-gun/weapon-fire-rate/9e215a75274a93c0",
+                "vehicle-field/v1/ax-ar-23-guard-dog-gun/weapon-capacity/09c9f0077bf4a807",
+                "vehicle-field/v1/ax-ar-23-guard-dog-gun/reload-duration/2ce5f62ae4be3c6f"
+              ],
+              "projectile": [
+                "vehicle-field/v1/ax-ar-23-guard-dog-gun/projectile-primary-velocity/a760b64bd81ec784",
+                "vehicle-field/v1/ax-ar-23-guard-dog-gun/projectile-primary-mass/07818fe1168d886e",
+                "vehicle-field/v1/ax-ar-23-guard-dog-gun/projectile-primary-drag/d155c3efda5f53f9",
+                "vehicle-field/v1/ax-ar-23-guard-dog-gun/projectile-primary-gravity/7ff723b54e1b0e91",
+                "vehicle-field/v1/ax-ar-23-guard-dog-gun/projectile-primary-pellet-count/9131877989fed33e",
+                "vehicle-field/v1/ax-ar-23-guard-dog-gun/projectile-primary-penetration-slowdown/47e8c402dfe2afda"
+              ],
+              "damage": [
+                "vehicle-field/v1/ax-ar-23-guard-dog-gun/damage-primary-standard-damage/5848e3ae21ce633c",
+                "vehicle-field/v1/ax-ar-23-guard-dog-gun/damage-primary-durable-damage/e380ee9457ce1f9b",
+                "vehicle-field/v1/ax-ar-23-guard-dog-gun/damage-primary-ap-direct/5c7e8f909a3470dd",
+                "vehicle-field/v1/ax-ar-23-guard-dog-gun/damage-primary-ap-slight/973745d50e93ca2b",
+                "vehicle-field/v1/ax-ar-23-guard-dog-gun/damage-primary-ap-large/ba14bf2319c7ccb3",
+                "vehicle-field/v1/ax-ar-23-guard-dog-gun/damage-primary-ap-extreme/fafa306d3e497020",
+                "vehicle-field/v1/ax-ar-23-guard-dog-gun/damage-primary-demolition/69433e5f18256cbb",
+                "vehicle-field/v1/ax-ar-23-guard-dog-gun/damage-primary-stagger/169906cc83ecb46d",
+                "vehicle-field/v1/ax-ar-23-guard-dog-gun/damage-primary-push-force/deed0382518fb37b",
+                "vehicle-field/v1/ax-ar-23-guard-dog-gun/damage-primary-status-1-type/1bcbf51148d1c044",
+                "vehicle-field/v1/ax-ar-23-guard-dog-gun/damage-primary-status-1-strength/c996a60bd9a11e20"
+              ],
+              "explosion": [],
+              "beam": [],
+              "arc": []
+            },
+            "values": {
+              "fireRate": 660.0,
+              "magazine": {
+                "capacity": 45,
+                "magazines": 6,
+                "refill": 6,
+                "max": 12,
+                "reloadThreshold": 0
+              },
+              "reloadDuration": 2.5,
+              "infiniteAmmo": 0
+            },
+            "ownership": {
+              "weaponLocal": [
+                "ProjectileWeaponComponentData",
+                "WeaponDataComponentData",
+                "WeaponMagazineComponentData",
+                "WeaponReloadComponentData"
+              ],
+              "alsoMountedAt": [],
+              "sharedProjectileConsumers": 5,
+              "sharedDamageConsumers": 2
+            },
+            "blocked": [
+              {
+                "field": "magazine.*",
+                "reason": "The drone reloads from its backpack: the drone magazines are the backpack DepositComponent (exact published Max Rounds / Starting Rounds / Mags from Supply), authored through hd2.backpack(name). The drone weapon's own spare-magazine counts are not what the game publishes and are not exposed."
+              },
+              {
+                "field": "weapon damage/armor-penetration addends",
+                "reason": "ProjectileWeaponComponent +128 and +136 are per-weapon damage/armor-penetration addends. The pinned type library names +128 damage_addends and +136 ap_addends, but the M-103 turret reference mod reports the opposite in game; the assignment stays read-only until one in-game test separates them."
+              },
+              {
+                "attack": "primary",
+                "field": "projectile.lifetime",
+                "reason": "Native lifetime is 0 (no explicit limit); only non-zero lifetimes are tunable."
+              }
+            ]
+          }
+        }
+      ],
+      "carrier": {
+        "kind": "backpack_drone",
+        "backpack": "AX/AR-23 Guard Dog",
+        "api": "hd2.backpack('AX/AR-23 Guard Dog'):drone():weapon()",
+        "chain": [
+          "backpack DepositComponent +24 (the drone)",
+          "drone MountComponent slot",
+          "drone weapon entity"
+        ]
+      }
+    },
+    {
+      "vehicle": "AX/LAS-5 Rover",
+      "mounts": [
+        {
+          "slot": 0,
+          "label": "gun",
+          "weapon": {
+            "key": "AX/LAS-5 Rover / gun",
+            "semanticId": "vehicle-weapon/v1/ax-las-5-rover/gun/e2fce6f92c3d7a55",
+            "nativePath": "content/fac_helldivers/equipment/backpacks/drone_weapons/drone_laser_rifle/drone_laser_rifle_mount",
+            "attacks": [
+              "primary"
+            ],
+            "fieldGroups": {
+              "local": [
+                "vehicle-field/v1/ax-las-5-rover-gun/reload-duration/d0807c60773d401f",
+                "vehicle-field/v1/ax-las-5-rover-gun/beam-fire-rate/c89d2d48249d8e1e",
+                "vehicle-field/v1/ax-las-5-rover-gun/heat-capacity/5b12f9f598e079e4",
+                "vehicle-field/v1/ax-las-5-rover-gun/heat-heat-per-shot/0e8dec604ab1d9cd",
+                "vehicle-field/v1/ax-las-5-rover-gun/heat-cool-per-second/0b9a238417e139a8"
+              ],
+              "projectile": [],
+              "damage": [
+                "vehicle-field/v1/ax-las-5-rover-gun/damage-primary-standard-damage/a3dee916fa02cd75",
+                "vehicle-field/v1/ax-las-5-rover-gun/damage-primary-durable-damage/6287e9b172d623c1",
+                "vehicle-field/v1/ax-las-5-rover-gun/damage-primary-ap-direct/50eef067c807ec30",
+                "vehicle-field/v1/ax-las-5-rover-gun/damage-primary-ap-slight/c29b21f8adf2f241",
+                "vehicle-field/v1/ax-las-5-rover-gun/damage-primary-ap-large/85c1ee13b9f3dd88",
+                "vehicle-field/v1/ax-las-5-rover-gun/damage-primary-ap-extreme/a7fc41d939d42fb9",
+                "vehicle-field/v1/ax-las-5-rover-gun/damage-primary-demolition/9207ab0538a81cfb",
+                "vehicle-field/v1/ax-las-5-rover-gun/damage-primary-stagger/07decea7cc9ddeac",
+                "vehicle-field/v1/ax-las-5-rover-gun/damage-primary-push-force/fc451d3c6cececff",
+                "vehicle-field/v1/ax-las-5-rover-gun/damage-primary-status-1-type/d4e1930692d724fa",
+                "vehicle-field/v1/ax-las-5-rover-gun/damage-primary-status-2-type/a28e19b255101022",
+                "vehicle-field/v1/ax-las-5-rover-gun/damage-primary-status-2-strength/c2c6b9e85c46d83d"
+              ],
+              "explosion": [],
+              "beam": [
+                "vehicle-field/v1/ax-las-5-rover-gun/beam-primary-radius/c66c9f506e75da77",
+                "vehicle-field/v1/ax-las-5-rover-gun/beam-primary-length/d3c2de733761889f"
+              ],
+              "arc": []
+            },
+            "values": {
+              "reloadDuration": 3.0
+            },
+            "ownership": {
+              "weaponLocal": [
+                "BeamWeaponComponentData",
+                "WeaponDataComponentData",
+                "WeaponHeatComponentData",
+                "WeaponReloadComponentData"
+              ],
+              "alsoMountedAt": [],
+              "sharedProjectileConsumers": 0,
+              "sharedDamageConsumers": null
+            },
+            "blocked": []
+          }
+        }
+      ],
+      "carrier": {
+        "kind": "backpack_drone",
+        "backpack": "AX/LAS-5 Rover",
+        "api": "hd2.backpack('AX/LAS-5 Rover'):drone():weapon()",
+        "chain": [
+          "backpack DepositComponent +24 (the drone)",
+          "drone MountComponent slot",
+          "drone weapon entity"
+        ]
+      }
+    },
+    {
+      "vehicle": "AX/FLAM-75 Hot Dog",
+      "mounts": [
+        {
+          "slot": 0,
+          "label": "gun",
+          "weapon": {
+            "key": "AX/FLAM-75 Hot Dog / gun",
+            "semanticId": "vehicle-weapon/v1/ax-flam-75-hot-dog/gun/05dbb175f1e6a77e",
+            "nativePath": "content/fac_helldivers/equipment/backpacks/drone_weapons/drone_flamethrower/drone_flamethrower_mount",
+            "attacks": [
+              "primary"
+            ],
+            "fieldGroups": {
+              "local": [
+                "vehicle-field/v1/ax-flam-75-hot-dog-gun/weapon-capacity/363034f3336298e5"
+              ],
+              "projectile": [],
+              "damage": [
+                "vehicle-field/v1/ax-flam-75-hot-dog-gun/damage-primary-standard-damage/0e42f068aa71b150",
+                "vehicle-field/v1/ax-flam-75-hot-dog-gun/damage-primary-durable-damage/592b9236f517cebb",
+                "vehicle-field/v1/ax-flam-75-hot-dog-gun/damage-primary-ap-direct/1ca934021078204e",
+                "vehicle-field/v1/ax-flam-75-hot-dog-gun/damage-primary-ap-slight/4d628010e45a056c",
+                "vehicle-field/v1/ax-flam-75-hot-dog-gun/damage-primary-ap-large/6f004f32f8667dd5",
+                "vehicle-field/v1/ax-flam-75-hot-dog-gun/damage-primary-ap-extreme/d410688aa832a35e",
+                "vehicle-field/v1/ax-flam-75-hot-dog-gun/damage-primary-demolition/82b633818aac752f",
+                "vehicle-field/v1/ax-flam-75-hot-dog-gun/damage-primary-stagger/293e48b2aa9278f1",
+                "vehicle-field/v1/ax-flam-75-hot-dog-gun/damage-primary-push-force/ea691dd95cdd195f",
+                "vehicle-field/v1/ax-flam-75-hot-dog-gun/damage-primary-status-1-type/5f3737e73ad3626d",
+                "vehicle-field/v1/ax-flam-75-hot-dog-gun/damage-primary-status-2-type/87a7e1e5823f5bad",
+                "vehicle-field/v1/ax-flam-75-hot-dog-gun/damage-primary-status-3-type/02315310c70c126e",
+                "vehicle-field/v1/ax-flam-75-hot-dog-gun/damage-primary-status-4-type/c9a32643d6b7b6a4",
+                "vehicle-field/v1/ax-flam-75-hot-dog-gun/damage-primary-status-4-strength/7f157422b33f6c1f"
+              ],
+              "explosion": [],
+              "beam": [],
+              "arc": []
+            },
+            "values": {
+              "magazine": {
+                "capacity": 80,
+                "magazines": 6,
+                "refill": 6,
+                "max": 12,
+                "reloadThreshold": 0
+              },
+              "reloadDuration": 0.0
+            },
+            "ownership": {
+              "weaponLocal": [
+                "SprayWeaponComponentData",
+                "WeaponDataComponentData",
+                "WeaponMagazineComponentData",
+                "WeaponReloadComponentData"
+              ],
+              "alsoMountedAt": [],
+              "sharedProjectileConsumers": 0,
+              "sharedDamageConsumers": null
+            },
+            "blocked": [
+              {
+                "field": "magazine.*",
+                "reason": "The drone reloads from its backpack: the drone magazines are the backpack DepositComponent (exact published Max Rounds / Starting Rounds / Mags from Supply), authored through hd2.backpack(name). The drone weapon's own spare-magazine counts are not what the game publishes and are not exposed."
+              },
+              {
+                "field": "reload.duration",
+                "reason": "Native reload duration is 0 (use the default reload ability); a non-zero value would add a timing rather than tune one."
+              }
+            ]
+          }
+        }
+      ],
+      "carrier": {
+        "kind": "backpack_drone",
+        "backpack": "AX/FLAM-75 Hot Dog",
+        "api": "hd2.backpack('AX/FLAM-75 Hot Dog'):drone():weapon()",
+        "chain": [
+          "backpack DepositComponent +24 (the drone)",
+          "drone MountComponent slot",
+          "drone weapon entity"
+        ]
+      }
+    },
+    {
+      "vehicle": "AX/ARC-3 K-9",
+      "mounts": [
+        {
+          "slot": 0,
+          "label": "gun",
+          "weapon": {
+            "key": "AX/ARC-3 K-9 / gun",
+            "semanticId": "vehicle-weapon/v1/ax-arc-3-k-9/gun/cc5717a3957d9a5b",
+            "nativePath": "content/fac_helldivers/equipment/backpacks/drone_weapons/drone_stun_gun/drone_stun_gun_mount",
+            "attacks": [
+              "primary"
+            ],
+            "fieldGroups": {
+              "local": [
+                "vehicle-field/v1/ax-arc-3-k-9-gun/weapon-capacity/95cb5474038f7adb"
+              ],
+              "projectile": [],
+              "damage": [
+                "vehicle-field/v1/ax-arc-3-k-9-gun/damage-primary-standard-damage/5229deea455794ea",
+                "vehicle-field/v1/ax-arc-3-k-9-gun/damage-primary-durable-damage/6d6d2460bced7e77",
+                "vehicle-field/v1/ax-arc-3-k-9-gun/damage-primary-ap-direct/5a0e588aa4832a96",
+                "vehicle-field/v1/ax-arc-3-k-9-gun/damage-primary-ap-slight/de5ab5a24ae3004e",
+                "vehicle-field/v1/ax-arc-3-k-9-gun/damage-primary-ap-large/f984fc6acac02450",
+                "vehicle-field/v1/ax-arc-3-k-9-gun/damage-primary-ap-extreme/663ab6796a4a9b9f",
+                "vehicle-field/v1/ax-arc-3-k-9-gun/damage-primary-demolition/98547d718bd94999",
+                "vehicle-field/v1/ax-arc-3-k-9-gun/damage-primary-stagger/4f0784de450a5e27",
+                "vehicle-field/v1/ax-arc-3-k-9-gun/damage-primary-push-force/b32626a78860b0d0",
+                "vehicle-field/v1/ax-arc-3-k-9-gun/damage-primary-status-1-type/23a81114f190f20e",
+                "vehicle-field/v1/ax-arc-3-k-9-gun/damage-primary-status-2-type/f6c806ae409999f8",
+                "vehicle-field/v1/ax-arc-3-k-9-gun/damage-primary-status-2-strength/6604779f894653d8"
+              ],
+              "explosion": [],
+              "beam": [],
+              "arc": [
+                "vehicle-field/v1/ax-arc-3-k-9-gun/arc-primary-velocity/5ad6657020784f51",
+                "vehicle-field/v1/ax-arc-3-k-9-gun/arc-primary-range/a97855b70da44a43",
+                "vehicle-field/v1/ax-arc-3-k-9-gun/arc-primary-distance-at-max-spread/d240b1413dc214ed",
+                "vehicle-field/v1/ax-arc-3-k-9-gun/arc-primary-max-angle-spread/d17433531d417d5b",
+                "vehicle-field/v1/ax-arc-3-k-9-gun/arc-primary-chain-count/13074bbd02bf513a",
+                "vehicle-field/v1/ax-arc-3-k-9-gun/arc-primary-max-split/fb2025c4a027a384"
+              ]
+            },
+            "values": {
+              "magazine": {
+                "capacity": 100,
+                "magazines": 6,
+                "refill": 6,
+                "max": 12,
+                "reloadThreshold": 0
+              },
+              "reloadDuration": 0.0
+            },
+            "ownership": {
+              "weaponLocal": [
+                "ArcWeaponComponentData",
+                "WeaponDataComponentData",
+                "WeaponMagazineComponentData",
+                "WeaponReloadComponentData"
+              ],
+              "alsoMountedAt": [],
+              "sharedProjectileConsumers": 0,
+              "sharedDamageConsumers": null
+            },
+            "blocked": [
+              {
+                "field": "magazine.*",
+                "reason": "The drone reloads from its backpack: the drone magazines are the backpack DepositComponent (exact published Max Rounds / Starting Rounds / Mags from Supply), authored through hd2.backpack(name). The drone weapon's own spare-magazine counts are not what the game publishes and are not exposed."
+              },
+              {
+                "field": "reload.duration",
+                "reason": "Native reload duration is 0 (use the default reload ability); a non-zero value would add a timing rather than tune one."
+              }
+            ]
+          }
+        }
+      ],
+      "carrier": {
+        "kind": "backpack_drone",
+        "backpack": "AX/ARC-3 K-9",
+        "api": "hd2.backpack('AX/ARC-3 K-9'):drone():weapon()",
+        "chain": [
+          "backpack DepositComponent +24 (the drone)",
+          "drone MountComponent slot",
+          "drone weapon entity"
+        ]
+      }
+    },
+    {
+      "vehicle": "AX/TX-13 Dog Breath",
+      "mounts": [
+        {
+          "slot": 0,
+          "label": "gun",
+          "weapon": {
+            "key": "AX/TX-13 Dog Breath / gun",
+            "semanticId": "vehicle-weapon/v1/ax-tx-13-dog-breath/gun/5184a972aeba56ba",
+            "nativePath": "content/fac_helldivers/equipment/backpacks/drone_weapons/drone_gas_projector/drone_gas_projector_mount",
+            "attacks": [
+              "primary"
+            ],
+            "fieldGroups": {
+              "local": [
+                "vehicle-field/v1/ax-tx-13-dog-breath-gun/weapon-capacity/d14bc971283876a0"
+              ],
+              "projectile": [],
+              "damage": [
+                "vehicle-field/v1/ax-tx-13-dog-breath-gun/damage-primary-standard-damage/d941cb0b08ce7e80",
+                "vehicle-field/v1/ax-tx-13-dog-breath-gun/damage-primary-durable-damage/50e8fbb786036e1f",
+                "vehicle-field/v1/ax-tx-13-dog-breath-gun/damage-primary-ap-direct/fc837742089f3bae",
+                "vehicle-field/v1/ax-tx-13-dog-breath-gun/damage-primary-ap-slight/9359eb064fe78313",
+                "vehicle-field/v1/ax-tx-13-dog-breath-gun/damage-primary-ap-large/64930427a9d5e182",
+                "vehicle-field/v1/ax-tx-13-dog-breath-gun/damage-primary-ap-extreme/de683cd3de466de9",
+                "vehicle-field/v1/ax-tx-13-dog-breath-gun/damage-primary-demolition/979dd8bbc1b0c8e6",
+                "vehicle-field/v1/ax-tx-13-dog-breath-gun/damage-primary-stagger/bd0fd0fe8442ba7c",
+                "vehicle-field/v1/ax-tx-13-dog-breath-gun/damage-primary-push-force/e65073ff1710973f",
+                "vehicle-field/v1/ax-tx-13-dog-breath-gun/damage-primary-status-1-type/bd3a79bdd6a99e00",
+                "vehicle-field/v1/ax-tx-13-dog-breath-gun/damage-primary-status-2-type/b9fc975af995cee1",
+                "vehicle-field/v1/ax-tx-13-dog-breath-gun/damage-primary-status-3-type/fc160e478b2fc07c",
+                "vehicle-field/v1/ax-tx-13-dog-breath-gun/damage-primary-status-3-strength/2d5919995b3b807e"
+              ],
+              "explosion": [],
+              "beam": [],
+              "arc": []
+            },
+            "values": {
+              "magazine": {
+                "capacity": 100,
+                "magazines": 6,
+                "refill": 6,
+                "max": 12,
+                "reloadThreshold": 0
+              },
+              "reloadDuration": 0.0
+            },
+            "ownership": {
+              "weaponLocal": [
+                "SprayWeaponComponentData",
+                "WeaponDataComponentData",
+                "WeaponMagazineComponentData",
+                "WeaponReloadComponentData"
+              ],
+              "alsoMountedAt": [],
+              "sharedProjectileConsumers": 0,
+              "sharedDamageConsumers": null
+            },
+            "blocked": [
+              {
+                "field": "magazine.*",
+                "reason": "The drone reloads from its backpack: the drone magazines are the backpack DepositComponent (exact published Max Rounds / Starting Rounds / Mags from Supply), authored through hd2.backpack(name). The drone weapon's own spare-magazine counts are not what the game publishes and are not exposed."
+              },
+              {
+                "field": "reload.duration",
+                "reason": "Native reload duration is 0 (use the default reload ability); a non-zero value would add a timing rather than tune one."
+              }
+            ]
+          }
+        }
+      ],
+      "carrier": {
+        "kind": "backpack_drone",
+        "backpack": "AX/TX-13 Dog Breath",
+        "api": "hd2.backpack('AX/TX-13 Dog Breath'):drone():weapon()",
+        "chain": [
+          "backpack DepositComponent +24 (the drone)",
+          "drone MountComponent slot",
+          "drone weapon entity"
+        ]
+      }
     }
   ],
   "fieldInstances": [
@@ -1773,7 +2232,7 @@
       "otherConsumers": [
         "unnamed entity",
         "AR-23P Liberator Penetrator",
-        "content/fac_helldivers/equipment/backpacks/drone_mg/drone_mg_weapon",
+        "AX/AR-23 Guard Dog (slot 0)",
         "unnamed entity"
       ],
       "acknowledgement": "allow_unverified_effect",
@@ -1802,7 +2261,7 @@
       "otherConsumers": [
         "unnamed entity",
         "AR-23P Liberator Penetrator",
-        "content/fac_helldivers/equipment/backpacks/drone_mg/drone_mg_weapon",
+        "AX/AR-23 Guard Dog (slot 0)",
         "unnamed entity"
       ],
       "acknowledgement": "allow_unverified_effect",
@@ -1831,7 +2290,7 @@
       "otherConsumers": [
         "unnamed entity",
         "AR-23P Liberator Penetrator",
-        "content/fac_helldivers/equipment/backpacks/drone_mg/drone_mg_weapon",
+        "AX/AR-23 Guard Dog (slot 0)",
         "unnamed entity"
       ],
       "acknowledgement": "allow_unverified_effect",
@@ -1860,7 +2319,7 @@
       "otherConsumers": [
         "unnamed entity",
         "AR-23P Liberator Penetrator",
-        "content/fac_helldivers/equipment/backpacks/drone_mg/drone_mg_weapon",
+        "AX/AR-23 Guard Dog (slot 0)",
         "unnamed entity"
       ],
       "acknowledgement": "allow_unverified_effect",
@@ -1889,7 +2348,7 @@
       "otherConsumers": [
         "unnamed entity",
         "AR-23P Liberator Penetrator",
-        "content/fac_helldivers/equipment/backpacks/drone_mg/drone_mg_weapon",
+        "AX/AR-23 Guard Dog (slot 0)",
         "unnamed entity"
       ],
       "acknowledgement": "allow_unverified_effect",
@@ -1918,7 +2377,7 @@
       "otherConsumers": [
         "unnamed entity",
         "AR-23P Liberator Penetrator",
-        "content/fac_helldivers/equipment/backpacks/drone_mg/drone_mg_weapon",
+        "AX/AR-23 Guard Dog (slot 0)",
         "unnamed entity"
       ],
       "acknowledgement": "allow_unverified_effect",
@@ -1947,7 +2406,7 @@
       "otherConsumers": [
         "unnamed entity",
         "AR-23P Liberator Penetrator",
-        "content/fac_helldivers/equipment/backpacks/drone_mg/drone_mg_weapon",
+        "AX/AR-23 Guard Dog (slot 0)",
         "unnamed entity"
       ],
       "acknowledgement": "allow_unverified_effect",
@@ -1976,7 +2435,7 @@
       "otherConsumers": [
         "unnamed entity",
         "AR-23P Liberator Penetrator",
-        "content/fac_helldivers/equipment/backpacks/drone_mg/drone_mg_weapon",
+        "AX/AR-23 Guard Dog (slot 0)",
         "unnamed entity"
       ],
       "acknowledgement": "allow_unverified_effect",
@@ -2005,7 +2464,7 @@
       "otherConsumers": [
         "unnamed entity",
         "AR-23P Liberator Penetrator",
-        "content/fac_helldivers/equipment/backpacks/drone_mg/drone_mg_weapon",
+        "AX/AR-23 Guard Dog (slot 0)",
         "unnamed entity"
       ],
       "acknowledgement": "allow_unverified_effect",
@@ -2034,7 +2493,7 @@
       "otherConsumers": [
         "unnamed entity",
         "AR-23P Liberator Penetrator",
-        "content/fac_helldivers/equipment/backpacks/drone_mg/drone_mg_weapon",
+        "AX/AR-23 Guard Dog (slot 0)",
         "unnamed entity"
       ],
       "acknowledgement": "allow_unverified_effect",
@@ -2063,7 +2522,7 @@
       "otherConsumers": [
         "unnamed entity",
         "AR-23P Liberator Penetrator",
-        "content/fac_helldivers/equipment/backpacks/drone_mg/drone_mg_weapon",
+        "AX/AR-23 Guard Dog (slot 0)",
         "unnamed entity"
       ],
       "acknowledgement": "allow_unverified_effect",
@@ -2092,7 +2551,7 @@
       "otherConsumers": [
         "unnamed entity",
         "AR-23P Liberator Penetrator",
-        "content/fac_helldivers/equipment/backpacks/drone_mg/drone_mg_weapon",
+        "AX/AR-23 Guard Dog (slot 0)",
         "unnamed entity"
       ],
       "acknowledgement": "allow_unverified_effect",
@@ -2121,7 +2580,7 @@
       "otherConsumers": [
         "unnamed entity",
         "AR-23P Liberator Penetrator",
-        "content/fac_helldivers/equipment/backpacks/drone_mg/drone_mg_weapon",
+        "AX/AR-23 Guard Dog (slot 0)",
         "unnamed entity"
       ],
       "acknowledgement": "allow_unverified_effect",
@@ -2150,7 +2609,7 @@
       "otherConsumers": [
         "unnamed entity",
         "AR-23P Liberator Penetrator",
-        "content/fac_helldivers/equipment/backpacks/drone_mg/drone_mg_weapon",
+        "AX/AR-23 Guard Dog (slot 0)",
         "unnamed entity"
       ],
       "acknowledgement": "allow_unverified_effect",
@@ -2179,7 +2638,7 @@
       "otherConsumers": [
         "unnamed entity",
         "AR-23P Liberator Penetrator",
-        "content/fac_helldivers/equipment/backpacks/drone_mg/drone_mg_weapon",
+        "AX/AR-23 Guard Dog (slot 0)",
         "unnamed entity"
       ],
       "acknowledgement": "allow_unverified_effect",
@@ -2208,7 +2667,7 @@
       "otherConsumers": [
         "unnamed entity",
         "AR-23P Liberator Penetrator",
-        "content/fac_helldivers/equipment/backpacks/drone_mg/drone_mg_weapon",
+        "AX/AR-23 Guard Dog (slot 0)",
         "unnamed entity"
       ],
       "acknowledgement": "allow_unverified_effect",
@@ -2237,7 +2696,7 @@
       "otherConsumers": [
         "unnamed entity",
         "AR-23P Liberator Penetrator",
-        "content/fac_helldivers/equipment/backpacks/drone_mg/drone_mg_weapon",
+        "AX/AR-23 Guard Dog (slot 0)",
         "unnamed entity"
       ],
       "acknowledgement": "allow_unverified_effect",
@@ -15869,34 +16328,2235 @@
       "acknowledgement": "allow_unverified_effect",
       "gameplayEvidence": null,
       "backingComponent": "explosion_damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-ar-23-guard-dog-gun/weapon-fire-rate/9e215a75274a93c0",
+      "weapon": "AX/AR-23 Guard Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-ar-23-guard-dog/gun/9d81adefdfb8a0d2",
+      "semanticFieldId": "weapon.fire_rate",
+      "apiFieldConstant": "hd2.fields.weapon.fire_rate",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "AX/AR-23 Guard Dog / gun"
+      },
+      "displayName": "Fire rate",
+      "unit": "rpm",
+      "type": "number",
+      "baseline": 660.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "ProjectileWeaponComponentData"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-ar-23-guard-dog-gun/weapon-capacity/09c9f0077bf4a807",
+      "weapon": "AX/AR-23 Guard Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-ar-23-guard-dog/gun/9d81adefdfb8a0d2",
+      "semanticFieldId": "weapon.capacity",
+      "apiFieldConstant": "hd2.fields.weapon.capacity",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "AX/AR-23 Guard Dog / gun"
+      },
+      "displayName": "Magazine capacity",
+      "unit": "rounds",
+      "type": "integer",
+      "baseline": 45,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponMagazineComponentData"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-ar-23-guard-dog-gun/reload-duration/2ce5f62ae4be3c6f",
+      "weapon": "AX/AR-23 Guard Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-ar-23-guard-dog/gun/9d81adefdfb8a0d2",
+      "semanticFieldId": "reload.duration",
+      "apiFieldConstant": "hd2.fields.reload.duration",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "AX/AR-23 Guard Dog / gun"
+      },
+      "displayName": "Reload duration",
+      "unit": "seconds",
+      "type": "number",
+      "baseline": 2.5,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponReloadComponentData"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-ar-23-guard-dog-gun/projectile-primary-velocity/a760b64bd81ec784",
+      "weapon": "AX/AR-23 Guard Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-ar-23-guard-dog/gun/9d81adefdfb8a0d2",
+      "semanticFieldId": "projectile.primary.velocity",
+      "apiFieldConstant": "hd2.fields.projectile.velocity",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "AX/AR-23 Guard Dog / gun",
+        "attack": "primary"
+      },
+      "displayName": "Projectile velocity",
+      "unit": "meters_per_second",
+      "type": "number",
+      "baseline": 1000,
+      "writable": true,
+      "scope": "shared_projectile",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "M-103 Supply FRV (slot 0)",
+        "unnamed entity",
+        "AR-23P Liberator Penetrator",
+        "unnamed entity"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "projectile"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-ar-23-guard-dog-gun/projectile-primary-mass/07818fe1168d886e",
+      "weapon": "AX/AR-23 Guard Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-ar-23-guard-dog/gun/9d81adefdfb8a0d2",
+      "semanticFieldId": "projectile.primary.mass",
+      "apiFieldConstant": "hd2.fields.projectile.mass",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "AX/AR-23 Guard Dog / gun",
+        "attack": "primary"
+      },
+      "displayName": "Projectile mass",
+      "unit": "kilograms",
+      "type": "number",
+      "baseline": 4.5,
+      "writable": true,
+      "scope": "shared_projectile",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "M-103 Supply FRV (slot 0)",
+        "unnamed entity",
+        "AR-23P Liberator Penetrator",
+        "unnamed entity"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "projectile"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-ar-23-guard-dog-gun/projectile-primary-drag/d155c3efda5f53f9",
+      "weapon": "AX/AR-23 Guard Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-ar-23-guard-dog/gun/9d81adefdfb8a0d2",
+      "semanticFieldId": "projectile.primary.drag",
+      "apiFieldConstant": "hd2.fields.projectile.drag",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "AX/AR-23 Guard Dog / gun",
+        "attack": "primary"
+      },
+      "displayName": "Projectile drag",
+      "unit": null,
+      "type": "number",
+      "baseline": 0.30000001192092896,
+      "writable": true,
+      "scope": "shared_projectile",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "M-103 Supply FRV (slot 0)",
+        "unnamed entity",
+        "AR-23P Liberator Penetrator",
+        "unnamed entity"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "projectile"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-ar-23-guard-dog-gun/projectile-primary-gravity/7ff723b54e1b0e91",
+      "weapon": "AX/AR-23 Guard Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-ar-23-guard-dog/gun/9d81adefdfb8a0d2",
+      "semanticFieldId": "projectile.primary.gravity",
+      "apiFieldConstant": "hd2.fields.projectile.gravity",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "AX/AR-23 Guard Dog / gun",
+        "attack": "primary"
+      },
+      "displayName": "Projectile gravity",
+      "unit": null,
+      "type": "number",
+      "baseline": 1,
+      "writable": true,
+      "scope": "shared_projectile",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "M-103 Supply FRV (slot 0)",
+        "unnamed entity",
+        "AR-23P Liberator Penetrator",
+        "unnamed entity"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "projectile"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-ar-23-guard-dog-gun/projectile-primary-pellet-count/9131877989fed33e",
+      "weapon": "AX/AR-23 Guard Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-ar-23-guard-dog/gun/9d81adefdfb8a0d2",
+      "semanticFieldId": "projectile.primary.pellet_count",
+      "apiFieldConstant": "hd2.fields.projectile.pellet_count",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "AX/AR-23 Guard Dog / gun",
+        "attack": "primary"
+      },
+      "displayName": "Pellets per shot",
+      "unit": "pellets",
+      "type": "integer",
+      "baseline": 1,
+      "writable": true,
+      "scope": "shared_projectile",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "M-103 Supply FRV (slot 0)",
+        "unnamed entity",
+        "AR-23P Liberator Penetrator",
+        "unnamed entity"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "projectile"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-ar-23-guard-dog-gun/projectile-primary-penetration-slowdown/47e8c402dfe2afda",
+      "weapon": "AX/AR-23 Guard Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-ar-23-guard-dog/gun/9d81adefdfb8a0d2",
+      "semanticFieldId": "projectile.primary.penetration_slowdown",
+      "apiFieldConstant": "hd2.fields.projectile.penetration_slowdown",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "AX/AR-23 Guard Dog / gun",
+        "attack": "primary"
+      },
+      "displayName": "Penetration slowdown",
+      "unit": null,
+      "type": "number",
+      "baseline": 0.25,
+      "writable": true,
+      "scope": "shared_projectile",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "M-103 Supply FRV (slot 0)",
+        "unnamed entity",
+        "AR-23P Liberator Penetrator",
+        "unnamed entity"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "projectile"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-ar-23-guard-dog-gun/damage-primary-standard-damage/5848e3ae21ce633c",
+      "weapon": "AX/AR-23 Guard Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-ar-23-guard-dog/gun/9d81adefdfb8a0d2",
+      "semanticFieldId": "damage.primary.standard_damage",
+      "apiFieldConstant": "hd2.fields.damage.player_standard_damage",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "AX/AR-23 Guard Dog / gun",
+        "attack": "primary"
+      },
+      "displayName": "Standard damage",
+      "unit": "damage",
+      "type": "integer",
+      "baseline": 65,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "M-103 Supply FRV (slot 0)",
+        "unnamed entity",
+        "AR-23P Liberator Penetrator",
+        "unnamed entity"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-ar-23-guard-dog-gun/damage-primary-durable-damage/e380ee9457ce1f9b",
+      "weapon": "AX/AR-23 Guard Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-ar-23-guard-dog/gun/9d81adefdfb8a0d2",
+      "semanticFieldId": "damage.primary.durable_damage",
+      "apiFieldConstant": "hd2.fields.damage.player_durable_damage",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "AX/AR-23 Guard Dog / gun",
+        "attack": "primary"
+      },
+      "displayName": "Durable damage",
+      "unit": "damage",
+      "type": "integer",
+      "baseline": 15,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "M-103 Supply FRV (slot 0)",
+        "unnamed entity",
+        "AR-23P Liberator Penetrator",
+        "unnamed entity"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-ar-23-guard-dog-gun/damage-primary-ap-direct/5c7e8f909a3470dd",
+      "weapon": "AX/AR-23 Guard Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-ar-23-guard-dog/gun/9d81adefdfb8a0d2",
+      "semanticFieldId": "damage.primary.ap_direct",
+      "apiFieldConstant": "hd2.fields.damage.ap_direct",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "AX/AR-23 Guard Dog / gun",
+        "attack": "primary"
+      },
+      "displayName": "Armor penetration (direct)",
+      "unit": "armor_class",
+      "type": "integer",
+      "baseline": 3,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "M-103 Supply FRV (slot 0)",
+        "unnamed entity",
+        "AR-23P Liberator Penetrator",
+        "unnamed entity"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-ar-23-guard-dog-gun/damage-primary-ap-slight/973745d50e93ca2b",
+      "weapon": "AX/AR-23 Guard Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-ar-23-guard-dog/gun/9d81adefdfb8a0d2",
+      "semanticFieldId": "damage.primary.ap_slight",
+      "apiFieldConstant": "hd2.fields.damage.ap_slight",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "AX/AR-23 Guard Dog / gun",
+        "attack": "primary"
+      },
+      "displayName": "Armor penetration (slight angle)",
+      "unit": "armor_class",
+      "type": "integer",
+      "baseline": 3,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "M-103 Supply FRV (slot 0)",
+        "unnamed entity",
+        "AR-23P Liberator Penetrator",
+        "unnamed entity"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-ar-23-guard-dog-gun/damage-primary-ap-large/ba14bf2319c7ccb3",
+      "weapon": "AX/AR-23 Guard Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-ar-23-guard-dog/gun/9d81adefdfb8a0d2",
+      "semanticFieldId": "damage.primary.ap_large",
+      "apiFieldConstant": "hd2.fields.damage.ap_large",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "AX/AR-23 Guard Dog / gun",
+        "attack": "primary"
+      },
+      "displayName": "Armor penetration (large angle)",
+      "unit": "armor_class",
+      "type": "integer",
+      "baseline": 3,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "M-103 Supply FRV (slot 0)",
+        "unnamed entity",
+        "AR-23P Liberator Penetrator",
+        "unnamed entity"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-ar-23-guard-dog-gun/damage-primary-ap-extreme/fafa306d3e497020",
+      "weapon": "AX/AR-23 Guard Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-ar-23-guard-dog/gun/9d81adefdfb8a0d2",
+      "semanticFieldId": "damage.primary.ap_extreme",
+      "apiFieldConstant": "hd2.fields.damage.ap_extreme",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "AX/AR-23 Guard Dog / gun",
+        "attack": "primary"
+      },
+      "displayName": "Armor penetration (extreme angle)",
+      "unit": "armor_class",
+      "type": "integer",
+      "baseline": 0,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "M-103 Supply FRV (slot 0)",
+        "unnamed entity",
+        "AR-23P Liberator Penetrator",
+        "unnamed entity"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-ar-23-guard-dog-gun/damage-primary-demolition/69433e5f18256cbb",
+      "weapon": "AX/AR-23 Guard Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-ar-23-guard-dog/gun/9d81adefdfb8a0d2",
+      "semanticFieldId": "damage.primary.demolition",
+      "apiFieldConstant": "hd2.fields.damage.demolition",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "AX/AR-23 Guard Dog / gun",
+        "attack": "primary"
+      },
+      "displayName": "Demolition force",
+      "unit": "force",
+      "type": "integer",
+      "baseline": 10,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "M-103 Supply FRV (slot 0)",
+        "unnamed entity",
+        "AR-23P Liberator Penetrator",
+        "unnamed entity"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-ar-23-guard-dog-gun/damage-primary-stagger/169906cc83ecb46d",
+      "weapon": "AX/AR-23 Guard Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-ar-23-guard-dog/gun/9d81adefdfb8a0d2",
+      "semanticFieldId": "damage.primary.stagger",
+      "apiFieldConstant": "hd2.fields.damage.stagger",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "AX/AR-23 Guard Dog / gun",
+        "attack": "primary"
+      },
+      "displayName": "Stagger force",
+      "unit": "force",
+      "type": "integer",
+      "baseline": 10,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "M-103 Supply FRV (slot 0)",
+        "unnamed entity",
+        "AR-23P Liberator Penetrator",
+        "unnamed entity"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-ar-23-guard-dog-gun/damage-primary-push-force/deed0382518fb37b",
+      "weapon": "AX/AR-23 Guard Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-ar-23-guard-dog/gun/9d81adefdfb8a0d2",
+      "semanticFieldId": "damage.primary.push_force",
+      "apiFieldConstant": "hd2.fields.damage.push_force",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "AX/AR-23 Guard Dog / gun",
+        "attack": "primary"
+      },
+      "displayName": "Push force",
+      "unit": "force",
+      "type": "integer",
+      "baseline": 10,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "M-103 Supply FRV (slot 0)",
+        "unnamed entity",
+        "AR-23P Liberator Penetrator",
+        "unnamed entity"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-ar-23-guard-dog-gun/damage-primary-status-1-type/1bcbf51148d1c044",
+      "weapon": "AX/AR-23 Guard Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-ar-23-guard-dog/gun/9d81adefdfb8a0d2",
+      "semanticFieldId": "damage.primary.status_1_type",
+      "apiFieldConstant": "hd2.fields.damage.status_1_type",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "AX/AR-23 Guard Dog / gun",
+        "attack": "primary"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "none",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "M-103 Supply FRV (slot 0)",
+        "unnamed entity",
+        "AR-23P Liberator Penetrator",
+        "unnamed entity"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-ar-23-guard-dog-gun/damage-primary-status-1-strength/c996a60bd9a11e20",
+      "weapon": "AX/AR-23 Guard Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-ar-23-guard-dog/gun/9d81adefdfb8a0d2",
+      "semanticFieldId": "damage.primary.status_1_strength",
+      "apiFieldConstant": "hd2.fields.damage.status_1_strength",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "AX/AR-23 Guard Dog / gun",
+        "attack": "primary"
+      },
+      "displayName": "Status strength",
+      "unit": "factor",
+      "type": "number",
+      "baseline": 0.0,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "M-103 Supply FRV (slot 0)",
+        "unnamed entity",
+        "AR-23P Liberator Penetrator",
+        "unnamed entity"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-las-5-rover-gun/reload-duration/d0807c60773d401f",
+      "weapon": "AX/LAS-5 Rover / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-las-5-rover/gun/e2fce6f92c3d7a55",
+      "semanticFieldId": "reload.duration",
+      "apiFieldConstant": "hd2.fields.reload.duration",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "AX/LAS-5 Rover / gun"
+      },
+      "displayName": "Reload duration",
+      "unit": "seconds",
+      "type": "number",
+      "baseline": 3.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponReloadComponentData"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-las-5-rover-gun/beam-fire-rate/c89d2d48249d8e1e",
+      "weapon": "AX/LAS-5 Rover / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-las-5-rover/gun/e2fce6f92c3d7a55",
+      "semanticFieldId": "beam.fire_rate",
+      "apiFieldConstant": "hd2.fields.beam.fire_rate",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "AX/LAS-5 Rover / gun"
+      },
+      "displayName": "Beam fire rate",
+      "unit": "rpm",
+      "type": "integer",
+      "baseline": 60,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "BeamWeaponComponentData"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-las-5-rover-gun/heat-capacity/5b12f9f598e079e4",
+      "weapon": "AX/LAS-5 Rover / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-las-5-rover/gun/e2fce6f92c3d7a55",
+      "semanticFieldId": "heat.capacity",
+      "apiFieldConstant": "hd2.fields.heat.capacity",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "AX/LAS-5 Rover / gun"
+      },
+      "displayName": "Overheat threshold",
+      "unit": "heat_units",
+      "type": "number",
+      "baseline": 200.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponHeatComponentData"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-las-5-rover-gun/heat-heat-per-shot/0e8dec604ab1d9cd",
+      "weapon": "AX/LAS-5 Rover / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-las-5-rover/gun/e2fce6f92c3d7a55",
+      "semanticFieldId": "heat.heat_per_shot",
+      "apiFieldConstant": "hd2.fields.heat.heat_per_shot",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "AX/LAS-5 Rover / gun"
+      },
+      "displayName": "Heat per shot",
+      "unit": "heat_units_per_shot",
+      "type": "number",
+      "baseline": 2.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponHeatComponentData"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-las-5-rover-gun/heat-cool-per-second/0b9a238417e139a8",
+      "weapon": "AX/LAS-5 Rover / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-las-5-rover/gun/e2fce6f92c3d7a55",
+      "semanticFieldId": "heat.cool_per_second",
+      "apiFieldConstant": "hd2.fields.heat.cool_per_second",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "AX/LAS-5 Rover / gun"
+      },
+      "displayName": "Cooling rate",
+      "unit": "heat_units_per_second",
+      "type": "number",
+      "baseline": 50.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponHeatComponentData"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-las-5-rover-gun/beam-primary-radius/c66c9f506e75da77",
+      "weapon": "AX/LAS-5 Rover / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-las-5-rover/gun/e2fce6f92c3d7a55",
+      "semanticFieldId": "beam.primary.radius",
+      "apiFieldConstant": "hd2.fields.beam.radius",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/LAS-5 Rover / gun",
+        "attack": "primary"
+      },
+      "displayName": "Beam radius",
+      "unit": "meters",
+      "type": "number",
+      "baseline": 0,
+      "writable": true,
+      "scope": "shared_beam",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "beam"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-las-5-rover-gun/beam-primary-length/d3c2de733761889f",
+      "weapon": "AX/LAS-5 Rover / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-las-5-rover/gun/e2fce6f92c3d7a55",
+      "semanticFieldId": "beam.primary.length",
+      "apiFieldConstant": "hd2.fields.beam.length",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/LAS-5 Rover / gun",
+        "attack": "primary"
+      },
+      "displayName": "Beam length",
+      "unit": "meters",
+      "type": "number",
+      "baseline": 1000,
+      "writable": true,
+      "scope": "shared_beam",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "beam"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-las-5-rover-gun/damage-primary-standard-damage/a3dee916fa02cd75",
+      "weapon": "AX/LAS-5 Rover / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-las-5-rover/gun/e2fce6f92c3d7a55",
+      "semanticFieldId": "damage.primary.standard_damage",
+      "apiFieldConstant": "hd2.fields.damage.player_standard_damage",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/LAS-5 Rover / gun",
+        "attack": "primary"
+      },
+      "displayName": "Standard damage",
+      "unit": "damage",
+      "type": "integer",
+      "baseline": 200,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-las-5-rover-gun/damage-primary-durable-damage/6287e9b172d623c1",
+      "weapon": "AX/LAS-5 Rover / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-las-5-rover/gun/e2fce6f92c3d7a55",
+      "semanticFieldId": "damage.primary.durable_damage",
+      "apiFieldConstant": "hd2.fields.damage.player_durable_damage",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/LAS-5 Rover / gun",
+        "attack": "primary"
+      },
+      "displayName": "Durable damage",
+      "unit": "damage",
+      "type": "integer",
+      "baseline": 40,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-las-5-rover-gun/damage-primary-ap-direct/50eef067c807ec30",
+      "weapon": "AX/LAS-5 Rover / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-las-5-rover/gun/e2fce6f92c3d7a55",
+      "semanticFieldId": "damage.primary.ap_direct",
+      "apiFieldConstant": "hd2.fields.damage.ap_direct",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/LAS-5 Rover / gun",
+        "attack": "primary"
+      },
+      "displayName": "Armor penetration (direct)",
+      "unit": "armor_class",
+      "type": "integer",
+      "baseline": 2,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-las-5-rover-gun/damage-primary-ap-slight/c29b21f8adf2f241",
+      "weapon": "AX/LAS-5 Rover / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-las-5-rover/gun/e2fce6f92c3d7a55",
+      "semanticFieldId": "damage.primary.ap_slight",
+      "apiFieldConstant": "hd2.fields.damage.ap_slight",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/LAS-5 Rover / gun",
+        "attack": "primary"
+      },
+      "displayName": "Armor penetration (slight angle)",
+      "unit": "armor_class",
+      "type": "integer",
+      "baseline": 2,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-las-5-rover-gun/damage-primary-ap-large/85c1ee13b9f3dd88",
+      "weapon": "AX/LAS-5 Rover / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-las-5-rover/gun/e2fce6f92c3d7a55",
+      "semanticFieldId": "damage.primary.ap_large",
+      "apiFieldConstant": "hd2.fields.damage.ap_large",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/LAS-5 Rover / gun",
+        "attack": "primary"
+      },
+      "displayName": "Armor penetration (large angle)",
+      "unit": "armor_class",
+      "type": "integer",
+      "baseline": 2,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-las-5-rover-gun/damage-primary-ap-extreme/a7fc41d939d42fb9",
+      "weapon": "AX/LAS-5 Rover / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-las-5-rover/gun/e2fce6f92c3d7a55",
+      "semanticFieldId": "damage.primary.ap_extreme",
+      "apiFieldConstant": "hd2.fields.damage.ap_extreme",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/LAS-5 Rover / gun",
+        "attack": "primary"
+      },
+      "displayName": "Armor penetration (extreme angle)",
+      "unit": "armor_class",
+      "type": "integer",
+      "baseline": 0,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-las-5-rover-gun/damage-primary-demolition/9207ab0538a81cfb",
+      "weapon": "AX/LAS-5 Rover / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-las-5-rover/gun/e2fce6f92c3d7a55",
+      "semanticFieldId": "damage.primary.demolition",
+      "apiFieldConstant": "hd2.fields.damage.demolition",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/LAS-5 Rover / gun",
+        "attack": "primary"
+      },
+      "displayName": "Demolition force",
+      "unit": "force",
+      "type": "integer",
+      "baseline": 10,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-las-5-rover-gun/damage-primary-stagger/07decea7cc9ddeac",
+      "weapon": "AX/LAS-5 Rover / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-las-5-rover/gun/e2fce6f92c3d7a55",
+      "semanticFieldId": "damage.primary.stagger",
+      "apiFieldConstant": "hd2.fields.damage.stagger",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/LAS-5 Rover / gun",
+        "attack": "primary"
+      },
+      "displayName": "Stagger force",
+      "unit": "force",
+      "type": "integer",
+      "baseline": 0,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-las-5-rover-gun/damage-primary-push-force/fc451d3c6cececff",
+      "weapon": "AX/LAS-5 Rover / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-las-5-rover/gun/e2fce6f92c3d7a55",
+      "semanticFieldId": "damage.primary.push_force",
+      "apiFieldConstant": "hd2.fields.damage.push_force",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/LAS-5 Rover / gun",
+        "attack": "primary"
+      },
+      "displayName": "Push force",
+      "unit": "force",
+      "type": "integer",
+      "baseline": 0,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-las-5-rover-gun/damage-primary-status-1-type/d4e1930692d724fa",
+      "weapon": "AX/LAS-5 Rover / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-las-5-rover/gun/e2fce6f92c3d7a55",
+      "semanticFieldId": "damage.primary.status_1_type",
+      "apiFieldConstant": "hd2.fields.damage.status_1_type",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/LAS-5 Rover / gun",
+        "attack": "primary"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "fire",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-las-5-rover-gun/damage-primary-status-2-type/a28e19b255101022",
+      "weapon": "AX/LAS-5 Rover / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-las-5-rover/gun/e2fce6f92c3d7a55",
+      "semanticFieldId": "damage.primary.status_2_type",
+      "apiFieldConstant": "hd2.fields.damage.status_2_type",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/LAS-5 Rover / gun",
+        "attack": "primary"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "none",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-las-5-rover-gun/damage-primary-status-2-strength/c2c6b9e85c46d83d",
+      "weapon": "AX/LAS-5 Rover / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-las-5-rover/gun/e2fce6f92c3d7a55",
+      "semanticFieldId": "damage.primary.status_2_strength",
+      "apiFieldConstant": "hd2.fields.damage.status_2_strength",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/LAS-5 Rover / gun",
+        "attack": "primary"
+      },
+      "displayName": "Status strength",
+      "unit": "factor",
+      "type": "number",
+      "baseline": 0.0,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-flam-75-hot-dog-gun/weapon-capacity/363034f3336298e5",
+      "weapon": "AX/FLAM-75 Hot Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-flam-75-hot-dog/gun/05dbb175f1e6a77e",
+      "semanticFieldId": "weapon.capacity",
+      "apiFieldConstant": "hd2.fields.weapon.capacity",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "AX/FLAM-75 Hot Dog / gun"
+      },
+      "displayName": "Magazine capacity",
+      "unit": "rounds",
+      "type": "integer",
+      "baseline": 80,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponMagazineComponentData"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-flam-75-hot-dog-gun/damage-primary-standard-damage/0e42f068aa71b150",
+      "weapon": "AX/FLAM-75 Hot Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-flam-75-hot-dog/gun/05dbb175f1e6a77e",
+      "semanticFieldId": "damage.primary.standard_damage",
+      "apiFieldConstant": "hd2.fields.damage.player_standard_damage",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/FLAM-75 Hot Dog / gun",
+        "attack": "primary"
+      },
+      "displayName": "Standard damage",
+      "unit": "damage",
+      "type": "integer",
+      "baseline": 2,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "FLAM-66 Torcher"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-flam-75-hot-dog-gun/damage-primary-durable-damage/592b9236f517cebb",
+      "weapon": "AX/FLAM-75 Hot Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-flam-75-hot-dog/gun/05dbb175f1e6a77e",
+      "semanticFieldId": "damage.primary.durable_damage",
+      "apiFieldConstant": "hd2.fields.damage.player_durable_damage",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/FLAM-75 Hot Dog / gun",
+        "attack": "primary"
+      },
+      "displayName": "Durable damage",
+      "unit": "damage",
+      "type": "integer",
+      "baseline": 2,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "FLAM-66 Torcher"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-flam-75-hot-dog-gun/damage-primary-ap-direct/1ca934021078204e",
+      "weapon": "AX/FLAM-75 Hot Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-flam-75-hot-dog/gun/05dbb175f1e6a77e",
+      "semanticFieldId": "damage.primary.ap_direct",
+      "apiFieldConstant": "hd2.fields.damage.ap_direct",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/FLAM-75 Hot Dog / gun",
+        "attack": "primary"
+      },
+      "displayName": "Armor penetration (direct)",
+      "unit": "armor_class",
+      "type": "integer",
+      "baseline": 4,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "FLAM-66 Torcher"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-flam-75-hot-dog-gun/damage-primary-ap-slight/4d628010e45a056c",
+      "weapon": "AX/FLAM-75 Hot Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-flam-75-hot-dog/gun/05dbb175f1e6a77e",
+      "semanticFieldId": "damage.primary.ap_slight",
+      "apiFieldConstant": "hd2.fields.damage.ap_slight",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/FLAM-75 Hot Dog / gun",
+        "attack": "primary"
+      },
+      "displayName": "Armor penetration (slight angle)",
+      "unit": "armor_class",
+      "type": "integer",
+      "baseline": 4,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "FLAM-66 Torcher"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-flam-75-hot-dog-gun/damage-primary-ap-large/6f004f32f8667dd5",
+      "weapon": "AX/FLAM-75 Hot Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-flam-75-hot-dog/gun/05dbb175f1e6a77e",
+      "semanticFieldId": "damage.primary.ap_large",
+      "apiFieldConstant": "hd2.fields.damage.ap_large",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/FLAM-75 Hot Dog / gun",
+        "attack": "primary"
+      },
+      "displayName": "Armor penetration (large angle)",
+      "unit": "armor_class",
+      "type": "integer",
+      "baseline": 4,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "FLAM-66 Torcher"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-flam-75-hot-dog-gun/damage-primary-ap-extreme/d410688aa832a35e",
+      "weapon": "AX/FLAM-75 Hot Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-flam-75-hot-dog/gun/05dbb175f1e6a77e",
+      "semanticFieldId": "damage.primary.ap_extreme",
+      "apiFieldConstant": "hd2.fields.damage.ap_extreme",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/FLAM-75 Hot Dog / gun",
+        "attack": "primary"
+      },
+      "displayName": "Armor penetration (extreme angle)",
+      "unit": "armor_class",
+      "type": "integer",
+      "baseline": 0,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "FLAM-66 Torcher"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-flam-75-hot-dog-gun/damage-primary-demolition/82b633818aac752f",
+      "weapon": "AX/FLAM-75 Hot Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-flam-75-hot-dog/gun/05dbb175f1e6a77e",
+      "semanticFieldId": "damage.primary.demolition",
+      "apiFieldConstant": "hd2.fields.damage.demolition",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/FLAM-75 Hot Dog / gun",
+        "attack": "primary"
+      },
+      "displayName": "Demolition force",
+      "unit": "force",
+      "type": "integer",
+      "baseline": 10,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "FLAM-66 Torcher"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-flam-75-hot-dog-gun/damage-primary-stagger/293e48b2aa9278f1",
+      "weapon": "AX/FLAM-75 Hot Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-flam-75-hot-dog/gun/05dbb175f1e6a77e",
+      "semanticFieldId": "damage.primary.stagger",
+      "apiFieldConstant": "hd2.fields.damage.stagger",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/FLAM-75 Hot Dog / gun",
+        "attack": "primary"
+      },
+      "displayName": "Stagger force",
+      "unit": "force",
+      "type": "integer",
+      "baseline": 5,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "FLAM-66 Torcher"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-flam-75-hot-dog-gun/damage-primary-push-force/ea691dd95cdd195f",
+      "weapon": "AX/FLAM-75 Hot Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-flam-75-hot-dog/gun/05dbb175f1e6a77e",
+      "semanticFieldId": "damage.primary.push_force",
+      "apiFieldConstant": "hd2.fields.damage.push_force",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/FLAM-75 Hot Dog / gun",
+        "attack": "primary"
+      },
+      "displayName": "Push force",
+      "unit": "force",
+      "type": "integer",
+      "baseline": 5,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "FLAM-66 Torcher"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-flam-75-hot-dog-gun/damage-primary-status-1-type/5f3737e73ad3626d",
+      "weapon": "AX/FLAM-75 Hot Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-flam-75-hot-dog/gun/05dbb175f1e6a77e",
+      "semanticFieldId": "damage.primary.status_1_type",
+      "apiFieldConstant": "hd2.fields.damage.status_1_type",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/FLAM-75 Hot Dog / gun",
+        "attack": "primary"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "fire",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "FLAM-66 Torcher"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-flam-75-hot-dog-gun/damage-primary-status-2-type/87a7e1e5823f5bad",
+      "weapon": "AX/FLAM-75 Hot Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-flam-75-hot-dog/gun/05dbb175f1e6a77e",
+      "semanticFieldId": "damage.primary.status_2_type",
+      "apiFieldConstant": "hd2.fields.damage.status_2_type",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/FLAM-75 Hot Dog / gun",
+        "attack": "primary"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "fire_panic",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "FLAM-66 Torcher"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-flam-75-hot-dog-gun/damage-primary-status-3-type/02315310c70c126e",
+      "weapon": "AX/FLAM-75 Hot Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-flam-75-hot-dog/gun/05dbb175f1e6a77e",
+      "semanticFieldId": "damage.primary.status_3_type",
+      "apiFieldConstant": "hd2.fields.damage.status_3_type",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/FLAM-75 Hot Dog / gun",
+        "attack": "primary"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "flamer_slowed",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "FLAM-66 Torcher"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-flam-75-hot-dog-gun/damage-primary-status-4-type/c9a32643d6b7b6a4",
+      "weapon": "AX/FLAM-75 Hot Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-flam-75-hot-dog/gun/05dbb175f1e6a77e",
+      "semanticFieldId": "damage.primary.status_4_type",
+      "apiFieldConstant": "hd2.fields.damage.status_4_type",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/FLAM-75 Hot Dog / gun",
+        "attack": "primary"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "none",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "FLAM-66 Torcher"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-flam-75-hot-dog-gun/damage-primary-status-4-strength/7f157422b33f6c1f",
+      "weapon": "AX/FLAM-75 Hot Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-flam-75-hot-dog/gun/05dbb175f1e6a77e",
+      "semanticFieldId": "damage.primary.status_4_strength",
+      "apiFieldConstant": "hd2.fields.damage.status_4_strength",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/FLAM-75 Hot Dog / gun",
+        "attack": "primary"
+      },
+      "displayName": "Status strength",
+      "unit": "factor",
+      "type": "number",
+      "baseline": 0.0,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "FLAM-66 Torcher"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-arc-3-k-9-gun/weapon-capacity/95cb5474038f7adb",
+      "weapon": "AX/ARC-3 K-9 / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-arc-3-k-9/gun/cc5717a3957d9a5b",
+      "semanticFieldId": "weapon.capacity",
+      "apiFieldConstant": "hd2.fields.weapon.capacity",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "AX/ARC-3 K-9 / gun"
+      },
+      "displayName": "Magazine capacity",
+      "unit": "rounds",
+      "type": "integer",
+      "baseline": 100,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponMagazineComponentData"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-arc-3-k-9-gun/arc-primary-velocity/5ad6657020784f51",
+      "weapon": "AX/ARC-3 K-9 / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-arc-3-k-9/gun/cc5717a3957d9a5b",
+      "semanticFieldId": "arc.primary.velocity",
+      "apiFieldConstant": "hd2.fields.arc.velocity",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/ARC-3 K-9 / gun",
+        "attack": "primary"
+      },
+      "displayName": "Arc velocity",
+      "unit": null,
+      "type": "number",
+      "baseline": 300,
+      "writable": true,
+      "scope": "shared_arc",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "arc"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-arc-3-k-9-gun/arc-primary-range/a97855b70da44a43",
+      "weapon": "AX/ARC-3 K-9 / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-arc-3-k-9/gun/cc5717a3957d9a5b",
+      "semanticFieldId": "arc.primary.range",
+      "apiFieldConstant": "hd2.fields.arc.range",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/ARC-3 K-9 / gun",
+        "attack": "primary"
+      },
+      "displayName": "Arc range",
+      "unit": "meters",
+      "type": "number",
+      "baseline": 55,
+      "writable": true,
+      "scope": "shared_arc",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "arc"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-arc-3-k-9-gun/arc-primary-distance-at-max-spread/d240b1413dc214ed",
+      "weapon": "AX/ARC-3 K-9 / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-arc-3-k-9/gun/cc5717a3957d9a5b",
+      "semanticFieldId": "arc.primary.distance_at_max_spread",
+      "apiFieldConstant": "hd2.fields.arc.distance_at_max_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/ARC-3 K-9 / gun",
+        "attack": "primary"
+      },
+      "displayName": "Arc distance at maximum spread",
+      "unit": "meters",
+      "type": "number",
+      "baseline": 40,
+      "writable": true,
+      "scope": "shared_arc",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "arc"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-arc-3-k-9-gun/arc-primary-max-angle-spread/d17433531d417d5b",
+      "weapon": "AX/ARC-3 K-9 / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-arc-3-k-9/gun/cc5717a3957d9a5b",
+      "semanticFieldId": "arc.primary.max_angle_spread",
+      "apiFieldConstant": "hd2.fields.arc.max_angle_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/ARC-3 K-9 / gun",
+        "attack": "primary"
+      },
+      "displayName": "Arc maximum angle spread",
+      "unit": "degrees",
+      "type": "number",
+      "baseline": 60,
+      "writable": true,
+      "scope": "shared_arc",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "arc"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-arc-3-k-9-gun/arc-primary-chain-count/13074bbd02bf513a",
+      "weapon": "AX/ARC-3 K-9 / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-arc-3-k-9/gun/cc5717a3957d9a5b",
+      "semanticFieldId": "arc.primary.chain_count",
+      "apiFieldConstant": "hd2.fields.arc.chain_count",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/ARC-3 K-9 / gun",
+        "attack": "primary"
+      },
+      "displayName": "Arc maximum chain length",
+      "unit": "targets",
+      "type": "integer",
+      "baseline": 2,
+      "writable": true,
+      "scope": "shared_arc",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "arc"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-arc-3-k-9-gun/arc-primary-max-split/fb2025c4a027a384",
+      "weapon": "AX/ARC-3 K-9 / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-arc-3-k-9/gun/cc5717a3957d9a5b",
+      "semanticFieldId": "arc.primary.max_split",
+      "apiFieldConstant": "hd2.fields.arc.max_split",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/ARC-3 K-9 / gun",
+        "attack": "primary"
+      },
+      "displayName": "Arc maximum split",
+      "unit": "targets",
+      "type": "integer",
+      "baseline": 5,
+      "writable": true,
+      "scope": "shared_arc",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "arc"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-arc-3-k-9-gun/damage-primary-standard-damage/5229deea455794ea",
+      "weapon": "AX/ARC-3 K-9 / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-arc-3-k-9/gun/cc5717a3957d9a5b",
+      "semanticFieldId": "damage.primary.standard_damage",
+      "apiFieldConstant": "hd2.fields.damage.player_standard_damage",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/ARC-3 K-9 / gun",
+        "attack": "primary"
+      },
+      "displayName": "Standard damage",
+      "unit": "damage",
+      "type": "integer",
+      "baseline": 250,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-arc-3-k-9-gun/damage-primary-durable-damage/6d6d2460bced7e77",
+      "weapon": "AX/ARC-3 K-9 / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-arc-3-k-9/gun/cc5717a3957d9a5b",
+      "semanticFieldId": "damage.primary.durable_damage",
+      "apiFieldConstant": "hd2.fields.damage.player_durable_damage",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/ARC-3 K-9 / gun",
+        "attack": "primary"
+      },
+      "displayName": "Durable damage",
+      "unit": "damage",
+      "type": "integer",
+      "baseline": 45,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-arc-3-k-9-gun/damage-primary-ap-direct/5a0e588aa4832a96",
+      "weapon": "AX/ARC-3 K-9 / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-arc-3-k-9/gun/cc5717a3957d9a5b",
+      "semanticFieldId": "damage.primary.ap_direct",
+      "apiFieldConstant": "hd2.fields.damage.ap_direct",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/ARC-3 K-9 / gun",
+        "attack": "primary"
+      },
+      "displayName": "Armor penetration (direct)",
+      "unit": "armor_class",
+      "type": "integer",
+      "baseline": 7,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-arc-3-k-9-gun/damage-primary-ap-slight/de5ab5a24ae3004e",
+      "weapon": "AX/ARC-3 K-9 / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-arc-3-k-9/gun/cc5717a3957d9a5b",
+      "semanticFieldId": "damage.primary.ap_slight",
+      "apiFieldConstant": "hd2.fields.damage.ap_slight",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/ARC-3 K-9 / gun",
+        "attack": "primary"
+      },
+      "displayName": "Armor penetration (slight angle)",
+      "unit": "armor_class",
+      "type": "integer",
+      "baseline": 7,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-arc-3-k-9-gun/damage-primary-ap-large/f984fc6acac02450",
+      "weapon": "AX/ARC-3 K-9 / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-arc-3-k-9/gun/cc5717a3957d9a5b",
+      "semanticFieldId": "damage.primary.ap_large",
+      "apiFieldConstant": "hd2.fields.damage.ap_large",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/ARC-3 K-9 / gun",
+        "attack": "primary"
+      },
+      "displayName": "Armor penetration (large angle)",
+      "unit": "armor_class",
+      "type": "integer",
+      "baseline": 7,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-arc-3-k-9-gun/damage-primary-ap-extreme/663ab6796a4a9b9f",
+      "weapon": "AX/ARC-3 K-9 / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-arc-3-k-9/gun/cc5717a3957d9a5b",
+      "semanticFieldId": "damage.primary.ap_extreme",
+      "apiFieldConstant": "hd2.fields.damage.ap_extreme",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/ARC-3 K-9 / gun",
+        "attack": "primary"
+      },
+      "displayName": "Armor penetration (extreme angle)",
+      "unit": "armor_class",
+      "type": "integer",
+      "baseline": 0,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-arc-3-k-9-gun/damage-primary-demolition/98547d718bd94999",
+      "weapon": "AX/ARC-3 K-9 / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-arc-3-k-9/gun/cc5717a3957d9a5b",
+      "semanticFieldId": "damage.primary.demolition",
+      "apiFieldConstant": "hd2.fields.damage.demolition",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/ARC-3 K-9 / gun",
+        "attack": "primary"
+      },
+      "displayName": "Demolition force",
+      "unit": "force",
+      "type": "integer",
+      "baseline": 10,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-arc-3-k-9-gun/damage-primary-stagger/4f0784de450a5e27",
+      "weapon": "AX/ARC-3 K-9 / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-arc-3-k-9/gun/cc5717a3957d9a5b",
+      "semanticFieldId": "damage.primary.stagger",
+      "apiFieldConstant": "hd2.fields.damage.stagger",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/ARC-3 K-9 / gun",
+        "attack": "primary"
+      },
+      "displayName": "Stagger force",
+      "unit": "force",
+      "type": "integer",
+      "baseline": 30,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-arc-3-k-9-gun/damage-primary-push-force/b32626a78860b0d0",
+      "weapon": "AX/ARC-3 K-9 / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-arc-3-k-9/gun/cc5717a3957d9a5b",
+      "semanticFieldId": "damage.primary.push_force",
+      "apiFieldConstant": "hd2.fields.damage.push_force",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/ARC-3 K-9 / gun",
+        "attack": "primary"
+      },
+      "displayName": "Push force",
+      "unit": "force",
+      "type": "integer",
+      "baseline": 25,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-arc-3-k-9-gun/damage-primary-status-1-type/23a81114f190f20e",
+      "weapon": "AX/ARC-3 K-9 / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-arc-3-k-9/gun/cc5717a3957d9a5b",
+      "semanticFieldId": "damage.primary.status_1_type",
+      "apiFieldConstant": "hd2.fields.damage.status_1_type",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/ARC-3 K-9 / gun",
+        "attack": "primary"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "stun_small",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-arc-3-k-9-gun/damage-primary-status-2-type/f6c806ae409999f8",
+      "weapon": "AX/ARC-3 K-9 / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-arc-3-k-9/gun/cc5717a3957d9a5b",
+      "semanticFieldId": "damage.primary.status_2_type",
+      "apiFieldConstant": "hd2.fields.damage.status_2_type",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/ARC-3 K-9 / gun",
+        "attack": "primary"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "none",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-arc-3-k-9-gun/damage-primary-status-2-strength/6604779f894653d8",
+      "weapon": "AX/ARC-3 K-9 / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-arc-3-k-9/gun/cc5717a3957d9a5b",
+      "semanticFieldId": "damage.primary.status_2_strength",
+      "apiFieldConstant": "hd2.fields.damage.status_2_strength",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/ARC-3 K-9 / gun",
+        "attack": "primary"
+      },
+      "displayName": "Status strength",
+      "unit": "factor",
+      "type": "number",
+      "baseline": 0.0,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-tx-13-dog-breath-gun/weapon-capacity/d14bc971283876a0",
+      "weapon": "AX/TX-13 Dog Breath / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-tx-13-dog-breath/gun/5184a972aeba56ba",
+      "semanticFieldId": "weapon.capacity",
+      "apiFieldConstant": "hd2.fields.weapon.capacity",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "AX/TX-13 Dog Breath / gun"
+      },
+      "displayName": "Magazine capacity",
+      "unit": "rounds",
+      "type": "integer",
+      "baseline": 100,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponMagazineComponentData"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-tx-13-dog-breath-gun/damage-primary-standard-damage/d941cb0b08ce7e80",
+      "weapon": "AX/TX-13 Dog Breath / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-tx-13-dog-breath/gun/5184a972aeba56ba",
+      "semanticFieldId": "damage.primary.standard_damage",
+      "apiFieldConstant": "hd2.fields.damage.player_standard_damage",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/TX-13 Dog Breath / gun",
+        "attack": "primary"
+      },
+      "displayName": "Standard damage",
+      "unit": "damage",
+      "type": "integer",
+      "baseline": 1,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-tx-13-dog-breath-gun/damage-primary-durable-damage/50e8fbb786036e1f",
+      "weapon": "AX/TX-13 Dog Breath / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-tx-13-dog-breath/gun/5184a972aeba56ba",
+      "semanticFieldId": "damage.primary.durable_damage",
+      "apiFieldConstant": "hd2.fields.damage.player_durable_damage",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/TX-13 Dog Breath / gun",
+        "attack": "primary"
+      },
+      "displayName": "Durable damage",
+      "unit": "damage",
+      "type": "integer",
+      "baseline": 1,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-tx-13-dog-breath-gun/damage-primary-ap-direct/fc837742089f3bae",
+      "weapon": "AX/TX-13 Dog Breath / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-tx-13-dog-breath/gun/5184a972aeba56ba",
+      "semanticFieldId": "damage.primary.ap_direct",
+      "apiFieldConstant": "hd2.fields.damage.ap_direct",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/TX-13 Dog Breath / gun",
+        "attack": "primary"
+      },
+      "displayName": "Armor penetration (direct)",
+      "unit": "armor_class",
+      "type": "integer",
+      "baseline": 5,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-tx-13-dog-breath-gun/damage-primary-ap-slight/9359eb064fe78313",
+      "weapon": "AX/TX-13 Dog Breath / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-tx-13-dog-breath/gun/5184a972aeba56ba",
+      "semanticFieldId": "damage.primary.ap_slight",
+      "apiFieldConstant": "hd2.fields.damage.ap_slight",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/TX-13 Dog Breath / gun",
+        "attack": "primary"
+      },
+      "displayName": "Armor penetration (slight angle)",
+      "unit": "armor_class",
+      "type": "integer",
+      "baseline": 5,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-tx-13-dog-breath-gun/damage-primary-ap-large/64930427a9d5e182",
+      "weapon": "AX/TX-13 Dog Breath / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-tx-13-dog-breath/gun/5184a972aeba56ba",
+      "semanticFieldId": "damage.primary.ap_large",
+      "apiFieldConstant": "hd2.fields.damage.ap_large",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/TX-13 Dog Breath / gun",
+        "attack": "primary"
+      },
+      "displayName": "Armor penetration (large angle)",
+      "unit": "armor_class",
+      "type": "integer",
+      "baseline": 5,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-tx-13-dog-breath-gun/damage-primary-ap-extreme/de683cd3de466de9",
+      "weapon": "AX/TX-13 Dog Breath / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-tx-13-dog-breath/gun/5184a972aeba56ba",
+      "semanticFieldId": "damage.primary.ap_extreme",
+      "apiFieldConstant": "hd2.fields.damage.ap_extreme",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/TX-13 Dog Breath / gun",
+        "attack": "primary"
+      },
+      "displayName": "Armor penetration (extreme angle)",
+      "unit": "armor_class",
+      "type": "integer",
+      "baseline": 0,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-tx-13-dog-breath-gun/damage-primary-demolition/979dd8bbc1b0c8e6",
+      "weapon": "AX/TX-13 Dog Breath / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-tx-13-dog-breath/gun/5184a972aeba56ba",
+      "semanticFieldId": "damage.primary.demolition",
+      "apiFieldConstant": "hd2.fields.damage.demolition",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/TX-13 Dog Breath / gun",
+        "attack": "primary"
+      },
+      "displayName": "Demolition force",
+      "unit": "force",
+      "type": "integer",
+      "baseline": 5,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-tx-13-dog-breath-gun/damage-primary-stagger/bd0fd0fe8442ba7c",
+      "weapon": "AX/TX-13 Dog Breath / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-tx-13-dog-breath/gun/5184a972aeba56ba",
+      "semanticFieldId": "damage.primary.stagger",
+      "apiFieldConstant": "hd2.fields.damage.stagger",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/TX-13 Dog Breath / gun",
+        "attack": "primary"
+      },
+      "displayName": "Stagger force",
+      "unit": "force",
+      "type": "integer",
+      "baseline": 10,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-tx-13-dog-breath-gun/damage-primary-push-force/e65073ff1710973f",
+      "weapon": "AX/TX-13 Dog Breath / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-tx-13-dog-breath/gun/5184a972aeba56ba",
+      "semanticFieldId": "damage.primary.push_force",
+      "apiFieldConstant": "hd2.fields.damage.push_force",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/TX-13 Dog Breath / gun",
+        "attack": "primary"
+      },
+      "displayName": "Push force",
+      "unit": "force",
+      "type": "integer",
+      "baseline": 5,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-tx-13-dog-breath-gun/damage-primary-status-1-type/bd3a79bdd6a99e00",
+      "weapon": "AX/TX-13 Dog Breath / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-tx-13-dog-breath/gun/5184a972aeba56ba",
+      "semanticFieldId": "damage.primary.status_1_type",
+      "apiFieldConstant": "hd2.fields.damage.status_1_type",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/TX-13 Dog Breath / gun",
+        "attack": "primary"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "gas_2",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-tx-13-dog-breath-gun/damage-primary-status-2-type/b9fc975af995cee1",
+      "weapon": "AX/TX-13 Dog Breath / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-tx-13-dog-breath/gun/5184a972aeba56ba",
+      "semanticFieldId": "damage.primary.status_2_type",
+      "apiFieldConstant": "hd2.fields.damage.status_2_type",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/TX-13 Dog Breath / gun",
+        "attack": "primary"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "gas_confusion_2",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-tx-13-dog-breath-gun/damage-primary-status-3-type/fc160e478b2fc07c",
+      "weapon": "AX/TX-13 Dog Breath / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-tx-13-dog-breath/gun/5184a972aeba56ba",
+      "semanticFieldId": "damage.primary.status_3_type",
+      "apiFieldConstant": "hd2.fields.damage.status_3_type",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/TX-13 Dog Breath / gun",
+        "attack": "primary"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "none",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-tx-13-dog-breath-gun/damage-primary-status-3-strength/2d5919995b3b807e",
+      "weapon": "AX/TX-13 Dog Breath / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-tx-13-dog-breath/gun/5184a972aeba56ba",
+      "semanticFieldId": "damage.primary.status_3_strength",
+      "apiFieldConstant": "hd2.fields.damage.status_3_strength",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "AX/TX-13 Dog Breath / gun",
+        "attack": "primary"
+      },
+      "displayName": "Status strength",
+      "unit": "factor",
+      "type": "number",
+      "baseline": 0.0,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
     }
   ],
   "summary": {
-    "vehicles": 11,
-    "weaponMounts": 18,
-    "fieldInstances": 536,
-    "writableFieldInstances": 536,
-    "weaponLocalFields": 106,
+    "vehicles": 16,
+    "weaponMounts": 23,
+    "fieldInstances": 623,
+    "writableFieldInstances": 623,
+    "weaponLocalFields": 117,
     "sharedMountedWeaponFields": 26,
-    "sharedFields": 430,
+    "sharedFields": 506,
     "gameplayProvenFields": 27,
-    "unverifiedEffectFields": 509,
+    "unverifiedEffectFields": 596,
     "byField": {
-      "damage.primary.ap_direct": 17,
-      "damage.primary.ap_extreme": 17,
-      "damage.primary.ap_large": 17,
-      "damage.primary.ap_slight": 17,
-      "damage.primary.demolition": 17,
-      "damage.primary.durable_damage": 17,
-      "damage.primary.push_force": 17,
-      "damage.primary.stagger": 17,
-      "damage.primary.standard_damage": 17,
-      "damage.primary.status_1_strength": 15,
-      "damage.primary.status_1_type": 17,
-      "damage.primary.status_2_type": 2,
-      "damage.primary.status_3_type": 2,
-      "damage.primary.status_4_strength": 2,
-      "damage.primary.status_4_type": 2,
+      "arc.primary.chain_count": 1,
+      "arc.primary.distance_at_max_spread": 1,
+      "arc.primary.max_angle_spread": 1,
+      "arc.primary.max_split": 1,
+      "arc.primary.range": 1,
+      "arc.primary.velocity": 1,
+      "beam.fire_rate": 1,
+      "beam.primary.length": 1,
+      "beam.primary.radius": 1,
+      "damage.primary.ap_direct": 22,
+      "damage.primary.ap_extreme": 22,
+      "damage.primary.ap_large": 22,
+      "damage.primary.ap_slight": 22,
+      "damage.primary.demolition": 22,
+      "damage.primary.durable_damage": 22,
+      "damage.primary.push_force": 22,
+      "damage.primary.stagger": 22,
+      "damage.primary.standard_damage": 22,
+      "damage.primary.status_1_strength": 16,
+      "damage.primary.status_1_type": 22,
+      "damage.primary.status_2_strength": 2,
+      "damage.primary.status_2_type": 6,
+      "damage.primary.status_3_strength": 1,
+      "damage.primary.status_3_type": 4,
+      "damage.primary.status_4_strength": 3,
+      "damage.primary.status_4_type": 3,
       "entity.armor": 13,
       "entity.health": 13,
       "explosion.impact.damage.ap_direct": 8,
@@ -15913,19 +18573,22 @@
       "explosion.impact.inner_radius": 8,
       "explosion.impact.outer_radius": 8,
       "explosion.impact.shockwave_radius": 8,
+      "heat.capacity": 1,
+      "heat.cool_per_second": 1,
+      "heat.heat_per_shot": 1,
       "magazine.magazines_from_supply": 17,
       "magazine.spare_magazines": 17,
       "magazine.starting_magazines": 17,
-      "projectile.primary.drag": 16,
-      "projectile.primary.gravity": 16,
+      "projectile.primary.drag": 17,
+      "projectile.primary.gravity": 17,
       "projectile.primary.lifetime": 3,
-      "projectile.primary.mass": 16,
-      "projectile.primary.pellet_count": 16,
-      "projectile.primary.penetration_slowdown": 16,
-      "projectile.primary.velocity": 16,
-      "reload.duration": 8,
-      "weapon.capacity": 17,
-      "weapon.fire_rate": 16,
+      "projectile.primary.mass": 17,
+      "projectile.primary.pellet_count": 17,
+      "projectile.primary.penetration_slowdown": 17,
+      "projectile.primary.velocity": 17,
+      "reload.duration": 10,
+      "weapon.capacity": 21,
+      "weapon.fire_rate": 17,
       "zone.armor": 7,
       "zone.health": 7
     }

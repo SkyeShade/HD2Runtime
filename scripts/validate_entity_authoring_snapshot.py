@@ -43,7 +43,8 @@ local worker=coroutine.create(function()
   for _,name in ipairs(names)do
    local grouped={};local order={}
    for _,field in ipairs(entries[name].fields)do if field.editable then
-    local target={resource=family,path=field.target.path,zone=field.target.zone,mount=field.target.mount}
+    local target={resource=family,path=field.target.path,zone=field.target.zone,mount=field.target.mount,
+     linked=field.target.linked}
     target[family]=name
     if field.type=='mounted_weapon_reference'then
      -- No-op on the current reference, then prove every allowed replacement is live.
@@ -56,8 +57,8 @@ local worker=coroutine.create(function()
      end
     else
      local key=field.operationGroup
-     if not grouped[key]then grouped[key]={target=target,allow_shared=field.shared,changes={},
-      allow_unverified_effect=field.acknowledgement=='allow_unverified_effect'or nil};order[#order+1]=key end
+     if not grouped[key]then grouped[key]={target=target,allow_shared=field.shared,changes={}};order[#order+1]=key end
+     if field.acknowledgement=='allow_unverified_effect'then grouped[key].allow_unverified_effect=true end
      local changes=grouped[key].changes
      changes[#changes+1]={field=field.semanticFieldId,expect=field.currentDefault,value=field.currentDefault}
     end

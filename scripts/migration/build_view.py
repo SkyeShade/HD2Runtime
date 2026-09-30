@@ -28,7 +28,7 @@ sys.path.insert(0, str(ROOT / 'scripts'))
 from reference_format import dl_hash, find_component, groups, rows  # noqa: E402
 import build_profile  # noqa: E402
 
-EXTRACTOR_VERSION = 3
+EXTRACTOR_VERSION = 4
 CACHE = ROOT / 'build/migration-cache'
 SETTINGS_FILES = {'projectile': 'generated_projectile_settings.dl_bin', 'damage': 'generated_damage_settings.dl_bin',
     'explosion': 'generated_explosion_settings.dl_bin', 'arc': 'generated_arc_settings.dl_bin',
@@ -44,7 +44,8 @@ COMPONENTS = ('ProjectileWeaponComponentData', 'WeaponDataComponentData', 'Healt
     'BombardmentComponentData', 'EagleComponentData', 'MountComponentData', 'WeaponReloadComponentData',
     'WeaponWindUpComponentData', 'DepositComponentData', 'TagComponentData', 'InteractableComponentData',
     'ThrowableComponentData', 'StickyComponentData', 'MinefieldComponentData', 'TurretComponentData',
-    'SensorEyeComponentData', 'ThrowerComponentData', 'LoadoutEntryComponentData')
+    'SensorEyeComponentData', 'ThrowerComponentData', 'LoadoutEntryComponentData', 'DisplacementComponentData',
+    'ShieldControllerComponentData')
 NAME_LENGTH = re.compile(r'inferred_length=(\d+|None)')
 
 

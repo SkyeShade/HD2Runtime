@@ -60,8 +60,10 @@ class ExampleTests(unittest.TestCase):
         texts = set(sources.values())
         for project in (ROOT / 'examples/projects').iterdir():
             if (project / 'src/addon.lua').is_file():
-                # Each scenario runs the addon exactly as its built ZIP ships it: inside the SDK addon wrapper.
-                self.assertIn(module.example(project.name), texts, project.name)
+                # Each scenario runs the addon exactly as its built ZIP ships it: inside the SDK addon wrapper. A
+                # harness scenario may load it as a mod source (RuntimeVersionWarningTest with three more mods).
+                wrapped = module.example(project.name)
+                self.assertTrue(wrapped in texts or any(module.lua(wrapped) in text for text in texts), project.name)
                 self.assertIn((project / 'src/addon.lua').read_text(encoding='utf-8'), module.example(project.name))
 
     def test_template_teaches_a_typed_field(self):
