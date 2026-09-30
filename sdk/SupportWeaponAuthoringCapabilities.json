@@ -20,9 +20,10 @@
       "CQC-72 Entrenchment Tool"
     ],
     "writableSupportWeapons": 34,
-    "writableFieldInstances": 1350,
+    "writableFieldInstances": 1358,
     "fieldInstancesByDomain": {
       "arc": 6,
+      "attack": 8,
       "beam": 5,
       "charge": 20,
       "damage": 336,
@@ -44,6 +45,7 @@
     },
     "weaponsWithDomain": {
       "arc": 1,
+      "attack": 8,
       "beam": 2,
       "charge": 4,
       "damage": 34,
@@ -106,18 +108,18 @@
       ]
     },
     "sharedFieldInstances": 747,
-    "internalSupportAuthoringInstances": 1350,
-    "publishedSupportFieldInstances": 1350,
-    "legacyFlattenedFieldEntries": 1287,
-    "branchSpecificFieldInstances": 747,
+    "internalSupportAuthoringInstances": 1358,
+    "publishedSupportFieldInstances": 1358,
+    "legacyFlattenedFieldEntries": 1295,
+    "branchSpecificFieldInstances": 755,
     "backingObjectCount": 225,
-    "operationGroupingCount": 253,
+    "operationGroupingCount": 261,
     "sharedBackingObjectCount": 95,
     "sharedConsumerScopeCount": 95,
     "duplicateSemanticFieldGroups": 18,
     "duplicateSemanticFieldInstances": 36,
     "deduplicationLossPrevented": 63,
-    "referenceFieldInstances": 81,
+    "referenceFieldInstances": 89,
     "readOnlyFieldInstances": 0,
     "blockedFieldDeclarations": 191,
     "intentionallyOmittedInstances": 0,
@@ -608,6 +610,9 @@
         }
       ],
       "writableFieldsByDomain": {
+        "attack": [
+          "attack.projectile"
+        ],
         "damage": [
           "damage.ap_direct",
           "damage.ap_extreme",
@@ -716,7 +721,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 41,
+      "writableFieldCount": 42,
       "fieldInstanceKeys": [
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-ergonomics/7f27bb228f8a6b8c",
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-sway/b2301dc06e747fa6",
@@ -742,6 +747,7 @@
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/magazine-magazines-from-supply/e62c1d70534a15a2",
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/magazine-spare-magazines/311e666aba099d15",
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/reload-duration/5c31804fe6ae5120",
+        "support-field/v1/apw-1-anti-materiel-rifle/attack/primary/attack-projectile/293f57412d634c6c",
         "support-field/v1/apw-1-anti-materiel-rifle/projectile-reference/primary/projectile-velocity/91b7775a7d75a46b",
         "support-field/v1/apw-1-anti-materiel-rifle/projectile-reference/primary/projectile-mass/e4aecfc3b455f197",
         "support-field/v1/apw-1-anti-materiel-rifle/projectile-reference/primary/projectile-drag/62a43ef6db6bbb82",
@@ -1827,6 +1833,9 @@
         }
       ],
       "writableFieldsByDomain": {
+        "attack": [
+          "attack.projectile"
+        ],
         "damage": [
           "damage.ap_direct",
           "damage.ap_extreme",
@@ -1963,7 +1972,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 53,
+      "writableFieldCount": 54,
       "fieldInstanceKeys": [
         "support-field/v1/eat-17-expendable-anti-tank/weapon/root/weapon-ergonomics/98d58c0d4a1751f2",
         "support-field/v1/eat-17-expendable-anti-tank/weapon/root/weapon-sway/6f592b5db25e2715",
@@ -1987,6 +1996,7 @@
         "support-field/v1/eat-17-expendable-anti-tank/weapon/root/magazine-starting-magazines/37832b7f80618373",
         "support-field/v1/eat-17-expendable-anti-tank/weapon/root/magazine-magazines-from-supply/5e16a4dbb9d3c083",
         "support-field/v1/eat-17-expendable-anti-tank/weapon/root/magazine-spare-magazines/1cde9fe516d9436c",
+        "support-field/v1/eat-17-expendable-anti-tank/attack/primary/attack-projectile/c59c8647522235b4",
         "support-field/v1/eat-17-expendable-anti-tank/projectile-reference/primary/projectile-velocity/ea4427f8f8138c7e",
         "support-field/v1/eat-17-expendable-anti-tank/projectile-reference/primary/projectile-mass/58c7b34a7495966f",
         "support-field/v1/eat-17-expendable-anti-tank/projectile-reference/primary/projectile-drag/cfe12e53c7a32495",
@@ -2060,6 +2070,9 @@
         }
       ],
       "writableFieldsByDomain": {
+        "attack": [
+          "attack.projectile"
+        ],
         "damage": [
           "damage.ap_direct",
           "damage.ap_extreme",
@@ -2192,7 +2205,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 51,
+      "writableFieldCount": 52,
       "fieldInstanceKeys": [
         "support-field/v1/eat-411-leveller/weapon/root/weapon-ergonomics/e622b28f61a1f746",
         "support-field/v1/eat-411-leveller/weapon/root/weapon-sway/0184438576493568",
@@ -2214,6 +2227,7 @@
         "support-field/v1/eat-411-leveller/weapon/root/magazine-starting-magazines/c0d4f3e6b3675c77",
         "support-field/v1/eat-411-leveller/weapon/root/magazine-magazines-from-supply/ab01b0a27a698ea7",
         "support-field/v1/eat-411-leveller/weapon/root/magazine-spare-magazines/33abd5ed71b74289",
+        "support-field/v1/eat-411-leveller/attack/primary/attack-projectile/6ce5002fb56fddfd",
         "support-field/v1/eat-411-leveller/projectile-reference/primary/projectile-velocity/b5bf65c8eee456bd",
         "support-field/v1/eat-411-leveller/projectile-reference/primary/projectile-mass/75d91dfca473ca02",
         "support-field/v1/eat-411-leveller/projectile-reference/primary/projectile-drag/4d6a00c77acebd53",
@@ -2324,6 +2338,9 @@
         }
       ],
       "writableFieldsByDomain": {
+        "attack": [
+          "attack.projectile"
+        ],
         "damage": [
           "damage.ap_direct",
           "damage.ap_extreme",
@@ -2469,7 +2486,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 56,
+      "writableFieldCount": 57,
       "fieldInstanceKeys": [
         "support-field/v1/eat-700-expendable-napalm/weapon/root/weapon-ergonomics/f072a3aab6d8e324",
         "support-field/v1/eat-700-expendable-napalm/weapon/root/weapon-sway/73f0758c035b2937",
@@ -2491,6 +2508,7 @@
         "support-field/v1/eat-700-expendable-napalm/weapon/root/magazine-starting-magazines/0aaa9f7a0ef8d862",
         "support-field/v1/eat-700-expendable-napalm/weapon/root/magazine-magazines-from-supply/0f0518a444c5bc98",
         "support-field/v1/eat-700-expendable-napalm/weapon/root/magazine-spare-magazines/c53f96d35f31213d",
+        "support-field/v1/eat-700-expendable-napalm/attack/primary/attack-projectile/448f03f473329d3a",
         "support-field/v1/eat-700-expendable-napalm/projectile-reference/primary/projectile-velocity/ada56386c14dabe1",
         "support-field/v1/eat-700-expendable-napalm/projectile-reference/primary/projectile-mass/9a08f551b5d898ad",
         "support-field/v1/eat-700-expendable-napalm/projectile-reference/primary/projectile-drag/3878b4564c2cac75",
@@ -2929,6 +2947,9 @@
         }
       ],
       "writableFieldsByDomain": {
+        "attack": [
+          "attack.projectile"
+        ],
         "damage": [
           "damage.ap_direct",
           "damage.ap_extreme",
@@ -3059,7 +3080,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 53,
+      "writableFieldCount": 54,
       "fieldInstanceKeys": [
         "support-field/v1/gl-21-grenade-launcher/weapon/root/weapon-ergonomics/5617bbc106d35682",
         "support-field/v1/gl-21-grenade-launcher/weapon/root/weapon-sway/2e069825ee5ae87d",
@@ -3083,6 +3104,7 @@
         "support-field/v1/gl-21-grenade-launcher/weapon/root/magazine-magazines-from-supply/a627e2fb4998af29",
         "support-field/v1/gl-21-grenade-launcher/weapon/root/magazine-spare-magazines/d61e47d4ee491c42",
         "support-field/v1/gl-21-grenade-launcher/weapon/root/reload-duration/5aae1a615a055628",
+        "support-field/v1/gl-21-grenade-launcher/attack/primary/attack-projectile/32eb6cda3d57cd9f",
         "support-field/v1/gl-21-grenade-launcher/projectile-reference/primary/projectile-velocity/e29a9d8d17dcdaa5",
         "support-field/v1/gl-21-grenade-launcher/projectile-reference/primary/projectile-mass/d8fac39c4ed2d7b8",
         "support-field/v1/gl-21-grenade-launcher/projectile-reference/primary/projectile-drag/0262d0e0a66a2a4a",
@@ -4502,6 +4524,9 @@
         }
       ],
       "writableFieldsByDomain": {
+        "attack": [
+          "attack.projectile"
+        ],
         "damage": [
           "damage.ap_direct",
           "damage.ap_extreme",
@@ -4621,7 +4646,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 38,
+      "writableFieldCount": 39,
       "fieldInstanceKeys": [
         "support-field/v1/m-105-stalwart/weapon/root/weapon-ergonomics/0eb2bad3111c2878",
         "support-field/v1/m-105-stalwart/weapon/root/weapon-sway/ebabce5587299ed5",
@@ -4644,6 +4669,7 @@
         "support-field/v1/m-105-stalwart/weapon/root/magazine-starting-magazines/d8fd0a98b64f40c5",
         "support-field/v1/m-105-stalwart/weapon/root/magazine-magazines-from-supply/851bf6a34af520e0",
         "support-field/v1/m-105-stalwart/weapon/root/magazine-spare-magazines/e45cf03a780508fb",
+        "support-field/v1/m-105-stalwart/attack/primary/attack-projectile/af75cf75f773fc37",
         "support-field/v1/m-105-stalwart/projectile-reference/primary/projectile-velocity/5a2ec82b889021c6",
         "support-field/v1/m-105-stalwart/projectile-reference/primary/projectile-mass/a9dcc0d0cde80d2b",
         "support-field/v1/m-105-stalwart/projectile-reference/primary/projectile-drag/399f7a3d8aa39d64",
@@ -4699,6 +4725,9 @@
         }
       ],
       "writableFieldsByDomain": {
+        "attack": [
+          "attack.projectile"
+        ],
         "damage": [
           "damage.ap_direct",
           "damage.ap_extreme",
@@ -4814,7 +4843,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 40,
+      "writableFieldCount": 41,
       "fieldInstanceKeys": [
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-ergonomics/9615e56e6b38b605",
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-sway/630d9cfe2b6f3ec6",
@@ -4839,6 +4868,7 @@
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/magazine-magazines-from-supply/cc5693985967adaf",
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/magazine-spare-magazines/ad200bad42a3d91e",
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/reload-duration/fdbb8e545df584ae",
+        "support-field/v1/mg-206-heavy-machine-gun/attack/primary/attack-projectile/6f6a23c23d7b2b1d",
         "support-field/v1/mg-206-heavy-machine-gun/projectile-reference/primary/projectile-velocity/a08a7b58ad65cddb",
         "support-field/v1/mg-206-heavy-machine-gun/projectile-reference/primary/projectile-mass/62e06b680a3add38",
         "support-field/v1/mg-206-heavy-machine-gun/projectile-reference/primary/projectile-drag/da09c5d4a474b1be",
@@ -6360,6 +6390,9 @@
         }
       ],
       "writableFieldsByDomain": {
+        "attack": [
+          "attack.projectile"
+        ],
         "damage": [
           "damage.ap_direct",
           "damage.ap_extreme",
@@ -6491,7 +6524,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 62,
+      "writableFieldCount": 63,
       "fieldInstanceKeys": [
         "support-field/v1/s-11-speargun/weapon/root/weapon-ergonomics/b39e2f8134105e69",
         "support-field/v1/s-11-speargun/weapon/root/weapon-sway/ac768d0416c97b58",
@@ -6515,6 +6548,7 @@
         "support-field/v1/s-11-speargun/weapon/root/magazine-magazines-from-supply/d4f8b8dbd940f3e6",
         "support-field/v1/s-11-speargun/weapon/root/magazine-spare-magazines/513af17e8a21c605",
         "support-field/v1/s-11-speargun/weapon/root/reload-duration/99d79b8ec563d8b4",
+        "support-field/v1/s-11-speargun/attack/primary/attack-projectile/0ace99d4f028b7a9",
         "support-field/v1/s-11-speargun/projectile-reference/primary/projectile-velocity/9881ea62d5458c09",
         "support-field/v1/s-11-speargun/projectile-reference/primary/projectile-mass/453ff76ae47b5871",
         "support-field/v1/s-11-speargun/projectile-reference/primary/projectile-drag/c1ee633f0e79b881",
@@ -19614,11 +19648,33 @@
         "runtimeBackingScope": "component:ProjectileWeaponComponentData"
       },
       "sharedScope": {
-        "scopeKey": "support-scope/v1/41b58ec71bf582f5251b",
+        "scopeKey": "support-scope/v1/088572511b9929a388b3",
         "shared": false,
         "requiresAcknowledgement": false,
-        "reviewedConsumerCount": 1,
+        "reviewedConsumerCount": 2,
         "affectedSemanticConsumers": [
+          {
+            "weapon": "APW-1 Anti-Materiel Rifle",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "APW-1 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "APW-1 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/apw-1-anti-materiel-rifle/attack/primary/eedf83bd416ec41c"
+          },
           {
             "weapon": "APW-1 Anti-Materiel Rifle",
             "targetPath": "weapon",
@@ -20005,11 +20061,33 @@
         "runtimeBackingScope": "component:ProjectileWeaponComponentData"
       },
       "sharedScope": {
-        "scopeKey": "support-scope/v1/41b58ec71bf582f5251b",
+        "scopeKey": "support-scope/v1/088572511b9929a388b3",
         "shared": false,
         "requiresAcknowledgement": false,
-        "reviewedConsumerCount": 1,
+        "reviewedConsumerCount": 2,
         "affectedSemanticConsumers": [
+          {
+            "weapon": "APW-1 Anti-Materiel Rifle",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "APW-1 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "APW-1 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/apw-1-anti-materiel-rifle/attack/primary/eedf83bd416ec41c"
+          },
           {
             "weapon": "APW-1 Anti-Materiel Rifle",
             "targetPath": "weapon",
@@ -20500,11 +20578,33 @@
         "runtimeBackingScope": "component:ProjectileWeaponComponentData"
       },
       "sharedScope": {
-        "scopeKey": "support-scope/v1/41b58ec71bf582f5251b",
+        "scopeKey": "support-scope/v1/088572511b9929a388b3",
         "shared": false,
         "requiresAcknowledgement": false,
-        "reviewedConsumerCount": 1,
+        "reviewedConsumerCount": 2,
         "affectedSemanticConsumers": [
+          {
+            "weapon": "APW-1 Anti-Materiel Rifle",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "APW-1 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "APW-1 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/apw-1-anti-materiel-rifle/attack/primary/eedf83bd416ec41c"
+          },
           {
             "weapon": "APW-1 Anti-Materiel Rifle",
             "targetPath": "weapon",
@@ -21074,6 +21174,193 @@
         "baseline": "exact retained-snapshot value",
         "validation": "production resolver guarded ALREADY_DESIRED no-op",
         "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/apw-1-anti-materiel-rifle/attack/primary/attack-projectile/293f57412d634c6c",
+      "supportWeapon": "APW-1 Anti-Materiel Rifle",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/apw-1-anti-materiel-rifle/9c567b76648af95b",
+        "name": "APW-1 Anti-Materiel Rifle",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "attack",
+        "attackRole": "primary",
+        "attackKind": "Projectile",
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon",
+          "attack"
+        ],
+        "catalogBranches": [
+          {
+            "name": "APW-1 P",
+            "kind": "Projectile",
+            "state": "RESOLVED"
+          }
+        ],
+        "writableCatalogBranches": [
+          {
+            "name": "APW-1 P",
+            "kind": "Projectile",
+            "state": "RESOLVED"
+          }
+        ]
+      },
+      "semanticFieldId": "attack.projectile",
+      "qualifiedSemanticFieldId": "attack.primary.projectile",
+      "apiFieldConstant": "hd2.fields.attack.projectile",
+      "display": {
+        "name": "Attack projectile reference",
+        "domain": "attack",
+        "group": "ProjectileWeaponComponentData"
+      },
+      "value": {
+        "kind": "reference",
+        "type": "projectile_reference",
+        "baseline": {
+          "weapon": "APW-1 Anti-Materiel Rifle",
+          "attack": "primary"
+        },
+        "expected": {
+          "weapon": "APW-1 Anti-Materiel Rifle",
+          "attack": "primary"
+        },
+        "unit": null,
+        "reference": {
+          "expectedSemanticReference": "hd2.support_weapon(name):attack(\"primary\"):projectile()",
+          "sourceClass": "projectile_reference",
+          "typedIdentityOnly": true
+        }
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/projectileweaponcomponentdata/692b5ec7bb9e263a8e5b",
+        "kind": "component",
+        "semanticType": "ProjectileWeaponComponentData",
+        "domain": "ProjectileWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/56c684874c95d921a9cb",
+        "runtimeBackingScope": "component:ProjectileWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/088572511b9929a388b3",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 2,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "APW-1 Anti-Materiel Rifle",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "APW-1 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "APW-1 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/apw-1-anti-materiel-rifle/attack/primary/eedf83bd416ec41c"
+          },
+          {
+            "weapon": "APW-1 Anti-Materiel Rifle",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/apw-1-anti-materiel-rifle/weapon/root/938c9960eb7e8811"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/56c684874c95d921a9cb",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/apw-1-anti-materiel-rifle/9c567b76648a",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Replaces the projectile this support weapon fires (its ProjectileWeapon +0, copied into the weapon when it is built). The same structural rule as player component hosts: no customization delta patches a projectile member and no other selector exists. Not yet shown in game for a support weapon."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "projectileReference": {
+        "referenceKind": "projectile",
+        "compatibilityClass": "conventional_plain",
+        "referenceRole": "primary",
+        "projectileSource": {
+          "status": "ACTIVE_DIRECT",
+          "mechanism": "component",
+          "member": "ProjectileWeapon +0",
+          "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+        },
+        "residency": {
+          "classification": "PACKAGE_AUTO_LOADED",
+          "package": "sniper_rifle",
+          "preloadSupported": true,
+          "liveTested": false,
+          "observedWithoutLoader": null,
+          "evidence": "The support weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+          "reason": null
+        },
+        "effect": {
+          "activeSource": "ACTIVE_AT_INSTANTIATION",
+          "appliesWhen": "weapon_build",
+          "instantiationOnly": true,
+          "activeSourceProven": true,
+          "gameplayEffectProven": false,
+          "unverifiedEffect": true,
+          "reason": "A component member the game copies into the weapon when it builds it: a weapon called in after the write fires the new projectile; one already built keeps its copy until it is rebuilt."
+        }
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": true,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true,
+        "reason": "A component member the game copies into the weapon when it builds it: a weapon called in after the write fires the new projectile; one already built keeps its copy until it is rebuilt."
       }
     },
     {
@@ -43949,11 +44236,33 @@
         "runtimeBackingScope": "component:ProjectileWeaponComponentData"
       },
       "sharedScope": {
-        "scopeKey": "support-scope/v1/1643df19830291ede683",
+        "scopeKey": "support-scope/v1/3fa3d3d726ecb1c94767",
         "shared": false,
         "requiresAcknowledgement": false,
-        "reviewedConsumerCount": 1,
+        "reviewedConsumerCount": 2,
         "affectedSemanticConsumers": [
+          {
+            "weapon": "EAT-17 Expendable Anti-Tank",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "EAT-17 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "EAT-17 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/eat-17-expendable-anti-tank/attack/primary/9315387ed770080a"
+          },
           {
             "weapon": "EAT-17 Expendable Anti-Tank",
             "targetPath": "weapon",
@@ -44346,11 +44655,33 @@
         "runtimeBackingScope": "component:ProjectileWeaponComponentData"
       },
       "sharedScope": {
-        "scopeKey": "support-scope/v1/1643df19830291ede683",
+        "scopeKey": "support-scope/v1/3fa3d3d726ecb1c94767",
         "shared": false,
         "requiresAcknowledgement": false,
-        "reviewedConsumerCount": 1,
+        "reviewedConsumerCount": 2,
         "affectedSemanticConsumers": [
+          {
+            "weapon": "EAT-17 Expendable Anti-Tank",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "EAT-17 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "EAT-17 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/eat-17-expendable-anti-tank/attack/primary/9315387ed770080a"
+          },
           {
             "weapon": "EAT-17 Expendable Anti-Tank",
             "targetPath": "weapon",
@@ -44737,11 +45068,33 @@
         "runtimeBackingScope": "component:ProjectileWeaponComponentData"
       },
       "sharedScope": {
-        "scopeKey": "support-scope/v1/1643df19830291ede683",
+        "scopeKey": "support-scope/v1/3fa3d3d726ecb1c94767",
         "shared": false,
         "requiresAcknowledgement": false,
-        "reviewedConsumerCount": 1,
+        "reviewedConsumerCount": 2,
         "affectedSemanticConsumers": [
+          {
+            "weapon": "EAT-17 Expendable Anti-Tank",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "EAT-17 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "EAT-17 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/eat-17-expendable-anti-tank/attack/primary/9315387ed770080a"
+          },
           {
             "weapon": "EAT-17 Expendable Anti-Tank",
             "targetPath": "weapon",
@@ -45217,6 +45570,195 @@
         "baseline": "exact retained-snapshot value",
         "validation": "production resolver guarded ALREADY_DESIRED no-op",
         "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/eat-17-expendable-anti-tank/attack/primary/attack-projectile/c59c8647522235b4",
+      "supportWeapon": "EAT-17 Expendable Anti-Tank",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/eat-17-expendable-anti-tank/e4ba6571169b08a8",
+        "name": "EAT-17 Expendable Anti-Tank",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "attack",
+        "attackRole": "primary",
+        "attackKind": "Projectile",
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon",
+          "attack"
+        ],
+        "catalogBranches": [
+          {
+            "name": "EAT-17 P",
+            "kind": "Projectile",
+            "state": "RESOLVED"
+          }
+        ],
+        "writableCatalogBranches": [
+          {
+            "name": "EAT-17 P",
+            "kind": "Projectile",
+            "state": "RESOLVED"
+          }
+        ]
+      },
+      "semanticFieldId": "attack.projectile",
+      "qualifiedSemanticFieldId": "attack.primary.projectile",
+      "apiFieldConstant": "hd2.fields.attack.projectile",
+      "display": {
+        "name": "Attack projectile reference",
+        "domain": "attack",
+        "group": "ProjectileWeaponComponentData"
+      },
+      "value": {
+        "kind": "reference",
+        "type": "projectile_reference",
+        "baseline": {
+          "weapon": "EAT-17 Expendable Anti-Tank",
+          "attack": "primary"
+        },
+        "expected": {
+          "weapon": "EAT-17 Expendable Anti-Tank",
+          "attack": "primary"
+        },
+        "unit": null,
+        "reference": {
+          "expectedSemanticReference": "hd2.support_weapon(name):attack(\"primary\"):projectile()",
+          "sourceClass": "projectile_reference",
+          "typedIdentityOnly": true
+        }
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/projectileweaponcomponentdata/9975226c73ea690cb494",
+        "kind": "component",
+        "semanticType": "ProjectileWeaponComponentData",
+        "domain": "ProjectileWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/832140ffdc93f358ce5c",
+        "runtimeBackingScope": "component:ProjectileWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/3fa3d3d726ecb1c94767",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 2,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "EAT-17 Expendable Anti-Tank",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "EAT-17 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "EAT-17 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/eat-17-expendable-anti-tank/attack/primary/9315387ed770080a"
+          },
+          {
+            "weapon": "EAT-17 Expendable Anti-Tank",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/eat-17-expendable-anti-tank/weapon/root/857871ad2ae15065"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/832140ffdc93f358ce5c",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/eat-17-expendable-anti-tank/e4ba6571169b",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Replaces the projectile this support weapon fires (its ProjectileWeapon +0, copied into the weapon when it is built). The same structural rule as player component hosts: no customization delta patches a projectile member and no other selector exists. Not yet shown in game for a support weapon."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "projectileReference": {
+        "referenceKind": "projectile",
+        "compatibilityClass": "explosive_impact",
+        "referenceRole": "primary",
+        "projectileSource": {
+          "status": "ACTIVE_DIRECT",
+          "mechanism": "component",
+          "member": "ProjectileWeapon +0",
+          "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+        },
+        "residency": {
+          "classification": "PACKAGE_AUTO_LOADED",
+          "package": "lat_oneshot",
+          "preloadSupported": true,
+          "liveTested": false,
+          "observedWithoutLoader": null,
+          "evidence": "The support weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+          "reason": null
+        },
+        "effect": {
+          "activeSource": "ACTIVE_AT_INSTANTIATION",
+          "appliesWhen": "weapon_build",
+          "instantiationOnly": true,
+          "activeSourceProven": true,
+          "gameplayEffectProven": false,
+          "unverifiedEffect": true,
+          "reason": "A component member the game copies into the weapon when it builds it: a weapon called in after the write fires the new projectile; one already built keeps its copy until it is rebuilt."
+        }
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": true,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true,
+        "reason": "A component member the game copies into the weapon when it builds it: a weapon called in after the write fires the new projectile; one already built keeps its copy until it is rebuilt."
       }
     },
     {
@@ -50710,11 +51252,33 @@
         "runtimeBackingScope": "component:ProjectileWeaponComponentData"
       },
       "sharedScope": {
-        "scopeKey": "support-scope/v1/9e0452a8353e885cc5ae",
+        "scopeKey": "support-scope/v1/3385cafed6b14d9efce5",
         "shared": false,
         "requiresAcknowledgement": false,
-        "reviewedConsumerCount": 1,
+        "reviewedConsumerCount": 2,
         "affectedSemanticConsumers": [
+          {
+            "weapon": "EAT-411 Leveller",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "EAT-411 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "EAT-411 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/eat-411-leveller/attack/primary/a5916de79f1ca85a"
+          },
           {
             "weapon": "EAT-411 Leveller",
             "targetPath": "weapon",
@@ -51101,11 +51665,33 @@
         "runtimeBackingScope": "component:ProjectileWeaponComponentData"
       },
       "sharedScope": {
-        "scopeKey": "support-scope/v1/9e0452a8353e885cc5ae",
+        "scopeKey": "support-scope/v1/3385cafed6b14d9efce5",
         "shared": false,
         "requiresAcknowledgement": false,
-        "reviewedConsumerCount": 1,
+        "reviewedConsumerCount": 2,
         "affectedSemanticConsumers": [
+          {
+            "weapon": "EAT-411 Leveller",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "EAT-411 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "EAT-411 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/eat-411-leveller/attack/primary/a5916de79f1ca85a"
+          },
           {
             "weapon": "EAT-411 Leveller",
             "targetPath": "weapon",
@@ -51225,11 +51811,33 @@
         "runtimeBackingScope": "component:ProjectileWeaponComponentData"
       },
       "sharedScope": {
-        "scopeKey": "support-scope/v1/9e0452a8353e885cc5ae",
+        "scopeKey": "support-scope/v1/3385cafed6b14d9efce5",
         "shared": false,
         "requiresAcknowledgement": false,
-        "reviewedConsumerCount": 1,
+        "reviewedConsumerCount": 2,
         "affectedSemanticConsumers": [
+          {
+            "weapon": "EAT-411 Leveller",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "EAT-411 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "EAT-411 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/eat-411-leveller/attack/primary/a5916de79f1ca85a"
+          },
           {
             "weapon": "EAT-411 Leveller",
             "targetPath": "weapon",
@@ -51695,6 +52303,193 @@
         "baseline": "exact retained-snapshot value",
         "validation": "production resolver guarded ALREADY_DESIRED no-op",
         "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/eat-411-leveller/attack/primary/attack-projectile/6ce5002fb56fddfd",
+      "supportWeapon": "EAT-411 Leveller",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/eat-411-leveller/77b0b0e293adb90a",
+        "name": "EAT-411 Leveller",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "attack",
+        "attackRole": "primary",
+        "attackKind": "Projectile",
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon",
+          "attack"
+        ],
+        "catalogBranches": [
+          {
+            "name": "EAT-411 P",
+            "kind": "Projectile",
+            "state": "RESOLVED"
+          }
+        ],
+        "writableCatalogBranches": [
+          {
+            "name": "EAT-411 P",
+            "kind": "Projectile",
+            "state": "RESOLVED"
+          }
+        ]
+      },
+      "semanticFieldId": "attack.projectile",
+      "qualifiedSemanticFieldId": "attack.primary.projectile",
+      "apiFieldConstant": "hd2.fields.attack.projectile",
+      "display": {
+        "name": "Attack projectile reference",
+        "domain": "attack",
+        "group": "ProjectileWeaponComponentData"
+      },
+      "value": {
+        "kind": "reference",
+        "type": "projectile_reference",
+        "baseline": {
+          "weapon": "EAT-411 Leveller",
+          "attack": "primary"
+        },
+        "expected": {
+          "weapon": "EAT-411 Leveller",
+          "attack": "primary"
+        },
+        "unit": null,
+        "reference": {
+          "expectedSemanticReference": "hd2.support_weapon(name):attack(\"primary\"):projectile()",
+          "sourceClass": "projectile_reference",
+          "typedIdentityOnly": true
+        }
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/projectileweaponcomponentdata/d0dfb1122dfc08d37211",
+        "kind": "component",
+        "semanticType": "ProjectileWeaponComponentData",
+        "domain": "ProjectileWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/2007723da7092f19a8a4",
+        "runtimeBackingScope": "component:ProjectileWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/3385cafed6b14d9efce5",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 2,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "EAT-411 Leveller",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "EAT-411 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "EAT-411 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/eat-411-leveller/attack/primary/a5916de79f1ca85a"
+          },
+          {
+            "weapon": "EAT-411 Leveller",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/eat-411-leveller/weapon/root/baaef546e7448c9e"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/2007723da7092f19a8a4",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/eat-411-leveller/77b0b0e293ad",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Replaces the projectile this support weapon fires (its ProjectileWeapon +0, copied into the weapon when it is built). The same structural rule as player component hosts: no customization delta patches a projectile member and no other selector exists. Not yet shown in game for a support weapon."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "projectileReference": {
+        "referenceKind": "projectile",
+        "compatibilityClass": "explosive_impact",
+        "referenceRole": "primary",
+        "projectileSource": {
+          "status": "ACTIVE_DIRECT",
+          "mechanism": "component",
+          "member": "ProjectileWeapon +0",
+          "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+        },
+        "residency": {
+          "classification": "PACKAGE_AUTO_LOADED",
+          "package": "expendable_massive_rocket_launcher",
+          "preloadSupported": true,
+          "liveTested": false,
+          "observedWithoutLoader": null,
+          "evidence": "The support weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+          "reason": null
+        },
+        "effect": {
+          "activeSource": "ACTIVE_AT_INSTANTIATION",
+          "appliesWhen": "weapon_build",
+          "instantiationOnly": true,
+          "activeSourceProven": true,
+          "gameplayEffectProven": false,
+          "unverifiedEffect": true,
+          "reason": "A component member the game copies into the weapon when it builds it: a weapon called in after the write fires the new projectile; one already built keeps its copy until it is rebuilt."
+        }
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": true,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true,
+        "reason": "A component member the game copies into the weapon when it builds it: a weapon called in after the write fires the new projectile; one already built keeps its copy until it is rebuilt."
       }
     },
     {
@@ -57126,11 +57921,38 @@
         "runtimeBackingScope": "component:ProjectileWeaponComponentData"
       },
       "sharedScope": {
-        "scopeKey": "support-scope/v1/e52d1708f2a2d286e568",
+        "scopeKey": "support-scope/v1/6eb8bfb833f57776bfca",
         "shared": false,
         "requiresAcknowledgement": false,
-        "reviewedConsumerCount": 1,
+        "reviewedConsumerCount": 2,
         "affectedSemanticConsumers": [
+          {
+            "weapon": "EAT-700 Expendable Napalm",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "EAT-700 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              },
+              {
+                "name": "EAT-700 P1",
+                "kind": "Projectile",
+                "state": "PARTIAL"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "EAT-700 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/eat-700-expendable-napalm/attack/primary/3fcce982bf936515"
+          },
           {
             "weapon": "EAT-700 Expendable Napalm",
             "targetPath": "weapon",
@@ -57517,11 +58339,38 @@
         "runtimeBackingScope": "component:ProjectileWeaponComponentData"
       },
       "sharedScope": {
-        "scopeKey": "support-scope/v1/e52d1708f2a2d286e568",
+        "scopeKey": "support-scope/v1/6eb8bfb833f57776bfca",
         "shared": false,
         "requiresAcknowledgement": false,
-        "reviewedConsumerCount": 1,
+        "reviewedConsumerCount": 2,
         "affectedSemanticConsumers": [
+          {
+            "weapon": "EAT-700 Expendable Napalm",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "EAT-700 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              },
+              {
+                "name": "EAT-700 P1",
+                "kind": "Projectile",
+                "state": "PARTIAL"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "EAT-700 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/eat-700-expendable-napalm/attack/primary/3fcce982bf936515"
+          },
           {
             "weapon": "EAT-700 Expendable Napalm",
             "targetPath": "weapon",
@@ -57641,11 +58490,38 @@
         "runtimeBackingScope": "component:ProjectileWeaponComponentData"
       },
       "sharedScope": {
-        "scopeKey": "support-scope/v1/e52d1708f2a2d286e568",
+        "scopeKey": "support-scope/v1/6eb8bfb833f57776bfca",
         "shared": false,
         "requiresAcknowledgement": false,
-        "reviewedConsumerCount": 1,
+        "reviewedConsumerCount": 2,
         "affectedSemanticConsumers": [
+          {
+            "weapon": "EAT-700 Expendable Napalm",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "EAT-700 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              },
+              {
+                "name": "EAT-700 P1",
+                "kind": "Projectile",
+                "state": "PARTIAL"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "EAT-700 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/eat-700-expendable-napalm/attack/primary/3fcce982bf936515"
+          },
           {
             "weapon": "EAT-700 Expendable Napalm",
             "targetPath": "weapon",
@@ -58111,6 +58987,203 @@
         "baseline": "exact retained-snapshot value",
         "validation": "production resolver guarded ALREADY_DESIRED no-op",
         "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/eat-700-expendable-napalm/attack/primary/attack-projectile/448f03f473329d3a",
+      "supportWeapon": "EAT-700 Expendable Napalm",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/eat-700-expendable-napalm/287dc53d1723acd9",
+        "name": "EAT-700 Expendable Napalm",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "attack",
+        "attackRole": "primary",
+        "attackKind": "Projectile",
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon",
+          "attack"
+        ],
+        "catalogBranches": [
+          {
+            "name": "EAT-700 P",
+            "kind": "Projectile",
+            "state": "RESOLVED"
+          },
+          {
+            "name": "EAT-700 P1",
+            "kind": "Projectile",
+            "state": "PARTIAL"
+          }
+        ],
+        "writableCatalogBranches": [
+          {
+            "name": "EAT-700 P",
+            "kind": "Projectile",
+            "state": "RESOLVED"
+          }
+        ]
+      },
+      "semanticFieldId": "attack.projectile",
+      "qualifiedSemanticFieldId": "attack.primary.projectile",
+      "apiFieldConstant": "hd2.fields.attack.projectile",
+      "display": {
+        "name": "Attack projectile reference",
+        "domain": "attack",
+        "group": "ProjectileWeaponComponentData"
+      },
+      "value": {
+        "kind": "reference",
+        "type": "projectile_reference",
+        "baseline": {
+          "weapon": "EAT-700 Expendable Napalm",
+          "attack": "primary"
+        },
+        "expected": {
+          "weapon": "EAT-700 Expendable Napalm",
+          "attack": "primary"
+        },
+        "unit": null,
+        "reference": {
+          "expectedSemanticReference": "hd2.support_weapon(name):attack(\"primary\"):projectile()",
+          "sourceClass": "projectile_reference",
+          "typedIdentityOnly": true
+        }
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/projectileweaponcomponentdata/29e2e29ccd133309e7aa",
+        "kind": "component",
+        "semanticType": "ProjectileWeaponComponentData",
+        "domain": "ProjectileWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/f9596f2c991eb439aebb",
+        "runtimeBackingScope": "component:ProjectileWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/6eb8bfb833f57776bfca",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 2,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "EAT-700 Expendable Napalm",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "EAT-700 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              },
+              {
+                "name": "EAT-700 P1",
+                "kind": "Projectile",
+                "state": "PARTIAL"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "EAT-700 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/eat-700-expendable-napalm/attack/primary/3fcce982bf936515"
+          },
+          {
+            "weapon": "EAT-700 Expendable Napalm",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/eat-700-expendable-napalm/weapon/root/3e211edf9ebb2b2c"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/f9596f2c991eb439aebb",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/eat-700-expendable-napalm/287dc53d1723",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Replaces the projectile this support weapon fires (its ProjectileWeapon +0, copied into the weapon when it is built). The same structural rule as player component hosts: no customization delta patches a projectile member and no other selector exists. Not yet shown in game for a support weapon."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "projectileReference": {
+        "referenceKind": "projectile",
+        "compatibilityClass": "explosive_shrapnel",
+        "referenceRole": "primary",
+        "projectileSource": {
+          "status": "ACTIVE_DIRECT",
+          "mechanism": "component",
+          "member": "ProjectileWeapon +0",
+          "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+        },
+        "residency": {
+          "classification": "PACKAGE_AUTO_LOADED",
+          "package": "expendable_napalm_launcher",
+          "preloadSupported": true,
+          "liveTested": false,
+          "observedWithoutLoader": null,
+          "evidence": "The support weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+          "reason": null
+        },
+        "effect": {
+          "activeSource": "ACTIVE_AT_INSTANTIATION",
+          "appliesWhen": "weapon_build",
+          "instantiationOnly": true,
+          "activeSourceProven": true,
+          "gameplayEffectProven": false,
+          "unverifiedEffect": true,
+          "reason": "A component member the game copies into the weapon when it builds it: a weapon called in after the write fires the new projectile; one already built keeps its copy until it is rebuilt."
+        }
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": true,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true,
+        "reason": "A component member the game copies into the weapon when it builds it: a weapon called in after the write fires the new projectile; one already built keeps its copy until it is rebuilt."
       }
     },
     {
@@ -73572,11 +74645,33 @@
         "runtimeBackingScope": "component:ProjectileWeaponComponentData"
       },
       "sharedScope": {
-        "scopeKey": "support-scope/v1/48f95164a02bf281a4c4",
+        "scopeKey": "support-scope/v1/3043679feecbf8dbb442",
         "shared": false,
         "requiresAcknowledgement": false,
-        "reviewedConsumerCount": 1,
+        "reviewedConsumerCount": 2,
         "affectedSemanticConsumers": [
+          {
+            "weapon": "GL-21 Grenade Launcher",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "GL-21 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "GL-21 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/gl-21-grenade-launcher/attack/primary/7701b7075dcea970"
+          },
           {
             "weapon": "GL-21 Grenade Launcher",
             "targetPath": "weapon",
@@ -73840,11 +74935,33 @@
         "runtimeBackingScope": "component:ProjectileWeaponComponentData"
       },
       "sharedScope": {
-        "scopeKey": "support-scope/v1/48f95164a02bf281a4c4",
+        "scopeKey": "support-scope/v1/3043679feecbf8dbb442",
         "shared": false,
         "requiresAcknowledgement": false,
-        "reviewedConsumerCount": 1,
+        "reviewedConsumerCount": 2,
         "affectedSemanticConsumers": [
+          {
+            "weapon": "GL-21 Grenade Launcher",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "GL-21 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "GL-21 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/gl-21-grenade-launcher/attack/primary/7701b7075dcea970"
+          },
           {
             "weapon": "GL-21 Grenade Launcher",
             "targetPath": "weapon",
@@ -74221,11 +75338,33 @@
         "runtimeBackingScope": "component:ProjectileWeaponComponentData"
       },
       "sharedScope": {
-        "scopeKey": "support-scope/v1/48f95164a02bf281a4c4",
+        "scopeKey": "support-scope/v1/3043679feecbf8dbb442",
         "shared": false,
         "requiresAcknowledgement": false,
-        "reviewedConsumerCount": 1,
+        "reviewedConsumerCount": 2,
         "affectedSemanticConsumers": [
+          {
+            "weapon": "GL-21 Grenade Launcher",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "GL-21 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "GL-21 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/gl-21-grenade-launcher/attack/primary/7701b7075dcea970"
+          },
           {
             "weapon": "GL-21 Grenade Launcher",
             "targetPath": "weapon",
@@ -74795,6 +75934,193 @@
         "baseline": "exact retained-snapshot value",
         "validation": "production resolver guarded ALREADY_DESIRED no-op",
         "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/gl-21-grenade-launcher/attack/primary/attack-projectile/32eb6cda3d57cd9f",
+      "supportWeapon": "GL-21 Grenade Launcher",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/gl-21-grenade-launcher/8ab581c0aebb49f9",
+        "name": "GL-21 Grenade Launcher",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "attack",
+        "attackRole": "primary",
+        "attackKind": "Projectile",
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon",
+          "attack"
+        ],
+        "catalogBranches": [
+          {
+            "name": "GL-21 P",
+            "kind": "Projectile",
+            "state": "RESOLVED"
+          }
+        ],
+        "writableCatalogBranches": [
+          {
+            "name": "GL-21 P",
+            "kind": "Projectile",
+            "state": "RESOLVED"
+          }
+        ]
+      },
+      "semanticFieldId": "attack.projectile",
+      "qualifiedSemanticFieldId": "attack.primary.projectile",
+      "apiFieldConstant": "hd2.fields.attack.projectile",
+      "display": {
+        "name": "Attack projectile reference",
+        "domain": "attack",
+        "group": "ProjectileWeaponComponentData"
+      },
+      "value": {
+        "kind": "reference",
+        "type": "projectile_reference",
+        "baseline": {
+          "weapon": "GL-21 Grenade Launcher",
+          "attack": "primary"
+        },
+        "expected": {
+          "weapon": "GL-21 Grenade Launcher",
+          "attack": "primary"
+        },
+        "unit": null,
+        "reference": {
+          "expectedSemanticReference": "hd2.support_weapon(name):attack(\"primary\"):projectile()",
+          "sourceClass": "projectile_reference",
+          "typedIdentityOnly": true
+        }
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/projectileweaponcomponentdata/255b161c6deaab0de401",
+        "kind": "component",
+        "semanticType": "ProjectileWeaponComponentData",
+        "domain": "ProjectileWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/f6fc639b24b95f8beb26",
+        "runtimeBackingScope": "component:ProjectileWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/3043679feecbf8dbb442",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 2,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "GL-21 Grenade Launcher",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "GL-21 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "GL-21 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/gl-21-grenade-launcher/attack/primary/7701b7075dcea970"
+          },
+          {
+            "weapon": "GL-21 Grenade Launcher",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/gl-21-grenade-launcher/weapon/root/10ce2289d513863e"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/f6fc639b24b95f8beb26",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/gl-21-grenade-launcher/8ab581c0aebb",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Replaces the projectile this support weapon fires (its ProjectileWeapon +0, copied into the weapon when it is built). The same structural rule as player component hosts: no customization delta patches a projectile member and no other selector exists. Not yet shown in game for a support weapon."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "projectileReference": {
+        "referenceKind": "projectile",
+        "compatibilityClass": "explosive_impact_and_expiry",
+        "referenceRole": "primary",
+        "projectileSource": {
+          "status": "ACTIVE_DIRECT",
+          "mechanism": "component",
+          "member": "ProjectileWeapon +0",
+          "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+        },
+        "residency": {
+          "classification": "PACKAGE_AUTO_LOADED",
+          "package": "grenade_launcher",
+          "preloadSupported": true,
+          "liveTested": false,
+          "observedWithoutLoader": null,
+          "evidence": "The support weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+          "reason": null
+        },
+        "effect": {
+          "activeSource": "ACTIVE_AT_INSTANTIATION",
+          "appliesWhen": "weapon_build",
+          "instantiationOnly": true,
+          "activeSourceProven": true,
+          "gameplayEffectProven": false,
+          "unverifiedEffect": true,
+          "reason": "A component member the game copies into the weapon when it builds it: a weapon called in after the write fires the new projectile; one already built keeps its copy until it is rebuilt."
+        }
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": true,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true,
+        "reason": "A component member the game copies into the weapon when it builds it: a weapon called in after the write fires the new projectile; one already built keeps its copy until it is rebuilt."
       }
     },
     {
@@ -115264,11 +116590,33 @@
         "runtimeBackingScope": "component:ProjectileWeaponComponentData"
       },
       "sharedScope": {
-        "scopeKey": "support-scope/v1/95fe6d068f4aac7d0df7",
+        "scopeKey": "support-scope/v1/1db5ddca9099d49e1cac",
         "shared": false,
         "requiresAcknowledgement": false,
-        "reviewedConsumerCount": 1,
+        "reviewedConsumerCount": 2,
         "affectedSemanticConsumers": [
+          {
+            "weapon": "M-105 Stalwart",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "AR-23 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "AR-23 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/m-105-stalwart/attack/primary/4da4883b53907116"
+          },
           {
             "weapon": "M-105 Stalwart",
             "targetPath": "weapon",
@@ -115533,11 +116881,33 @@
         "runtimeBackingScope": "component:ProjectileWeaponComponentData"
       },
       "sharedScope": {
-        "scopeKey": "support-scope/v1/95fe6d068f4aac7d0df7",
+        "scopeKey": "support-scope/v1/1db5ddca9099d49e1cac",
         "shared": false,
         "requiresAcknowledgement": false,
-        "reviewedConsumerCount": 1,
+        "reviewedConsumerCount": 2,
         "affectedSemanticConsumers": [
+          {
+            "weapon": "M-105 Stalwart",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "AR-23 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "AR-23 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/m-105-stalwart/attack/primary/4da4883b53907116"
+          },
           {
             "weapon": "M-105 Stalwart",
             "targetPath": "weapon",
@@ -115914,11 +117284,33 @@
         "runtimeBackingScope": "component:ProjectileWeaponComponentData"
       },
       "sharedScope": {
-        "scopeKey": "support-scope/v1/95fe6d068f4aac7d0df7",
+        "scopeKey": "support-scope/v1/1db5ddca9099d49e1cac",
         "shared": false,
         "requiresAcknowledgement": false,
-        "reviewedConsumerCount": 1,
+        "reviewedConsumerCount": 2,
         "affectedSemanticConsumers": [
+          {
+            "weapon": "M-105 Stalwart",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "AR-23 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "AR-23 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/m-105-stalwart/attack/primary/4da4883b53907116"
+          },
           {
             "weapon": "M-105 Stalwart",
             "targetPath": "weapon",
@@ -116394,6 +117786,195 @@
         "baseline": "exact retained-snapshot value",
         "validation": "production resolver guarded ALREADY_DESIRED no-op",
         "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/m-105-stalwart/attack/primary/attack-projectile/af75cf75f773fc37",
+      "supportWeapon": "M-105 Stalwart",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/m-105-stalwart/5af15aa5bcc38509",
+        "name": "M-105 Stalwart",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "attack",
+        "attackRole": "primary",
+        "attackKind": "Projectile",
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon",
+          "attack"
+        ],
+        "catalogBranches": [
+          {
+            "name": "AR-23 P",
+            "kind": "Projectile",
+            "state": "RESOLVED"
+          }
+        ],
+        "writableCatalogBranches": [
+          {
+            "name": "AR-23 P",
+            "kind": "Projectile",
+            "state": "RESOLVED"
+          }
+        ]
+      },
+      "semanticFieldId": "attack.projectile",
+      "qualifiedSemanticFieldId": "attack.primary.projectile",
+      "apiFieldConstant": "hd2.fields.attack.projectile",
+      "display": {
+        "name": "Attack projectile reference",
+        "domain": "attack",
+        "group": "ProjectileWeaponComponentData"
+      },
+      "value": {
+        "kind": "reference",
+        "type": "projectile_reference",
+        "baseline": {
+          "weapon": "M-105 Stalwart",
+          "attack": "primary"
+        },
+        "expected": {
+          "weapon": "M-105 Stalwart",
+          "attack": "primary"
+        },
+        "unit": null,
+        "reference": {
+          "expectedSemanticReference": "hd2.support_weapon(name):attack(\"primary\"):projectile()",
+          "sourceClass": "projectile_reference",
+          "typedIdentityOnly": true
+        }
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/projectileweaponcomponentdata/c3a6a29d73843697d423",
+        "kind": "component",
+        "semanticType": "ProjectileWeaponComponentData",
+        "domain": "ProjectileWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/5e03020281f155450ea1",
+        "runtimeBackingScope": "component:ProjectileWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/1db5ddca9099d49e1cac",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 2,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "M-105 Stalwart",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "AR-23 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "AR-23 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/m-105-stalwart/attack/primary/4da4883b53907116"
+          },
+          {
+            "weapon": "M-105 Stalwart",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/m-105-stalwart/weapon/root/7bab28c9dc1373b2"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/5e03020281f155450ea1",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/m-105-stalwart/5af15aa5bcc3",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Replaces the projectile this support weapon fires (its ProjectileWeapon +0, copied into the weapon when it is built). The same structural rule as player component hosts: no customization delta patches a projectile member and no other selector exists. Not yet shown in game for a support weapon."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "projectileReference": {
+        "referenceKind": "projectile",
+        "compatibilityClass": "conventional_plain",
+        "referenceRole": "primary",
+        "projectileSource": {
+          "status": "ACTIVE_DIRECT",
+          "mechanism": "component",
+          "member": "ProjectileWeapon +0",
+          "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+        },
+        "residency": {
+          "classification": "PACKAGE_AUTO_LOADED",
+          "package": "lmg_stalwart",
+          "preloadSupported": true,
+          "liveTested": false,
+          "observedWithoutLoader": null,
+          "evidence": "The support weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+          "reason": null
+        },
+        "effect": {
+          "activeSource": "ACTIVE_AT_INSTANTIATION",
+          "appliesWhen": "weapon_build",
+          "instantiationOnly": true,
+          "activeSourceProven": true,
+          "gameplayEffectProven": false,
+          "unverifiedEffect": true,
+          "reason": "A component member the game copies into the weapon when it builds it: a weapon called in after the write fires the new projectile; one already built keeps its copy until it is rebuilt."
+        }
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": true,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true,
+        "reason": "A component member the game copies into the weapon when it builds it: a weapon called in after the write fires the new projectile; one already built keeps its copy until it is rebuilt."
       }
     },
     {
@@ -119917,11 +121498,33 @@
         "runtimeBackingScope": "component:ProjectileWeaponComponentData"
       },
       "sharedScope": {
-        "scopeKey": "support-scope/v1/ea0b0ef02f67cead2f86",
+        "scopeKey": "support-scope/v1/0079cc120b0efe89c698",
         "shared": false,
         "requiresAcknowledgement": false,
-        "reviewedConsumerCount": 1,
+        "reviewedConsumerCount": 2,
         "affectedSemanticConsumers": [
+          {
+            "weapon": "MG-206 Heavy Machine Gun",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "MG-206 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "MG-206 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/mg-206-heavy-machine-gun/attack/primary/c8babda4a4693007"
+          },
           {
             "weapon": "MG-206 Heavy Machine Gun",
             "targetPath": "weapon",
@@ -120196,11 +121799,33 @@
         "runtimeBackingScope": "component:ProjectileWeaponComponentData"
       },
       "sharedScope": {
-        "scopeKey": "support-scope/v1/ea0b0ef02f67cead2f86",
+        "scopeKey": "support-scope/v1/0079cc120b0efe89c698",
         "shared": false,
         "requiresAcknowledgement": false,
-        "reviewedConsumerCount": 1,
+        "reviewedConsumerCount": 2,
         "affectedSemanticConsumers": [
+          {
+            "weapon": "MG-206 Heavy Machine Gun",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "MG-206 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "MG-206 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/mg-206-heavy-machine-gun/attack/primary/c8babda4a4693007"
+          },
           {
             "weapon": "MG-206 Heavy Machine Gun",
             "targetPath": "weapon",
@@ -120704,11 +122329,33 @@
         "runtimeBackingScope": "component:ProjectileWeaponComponentData"
       },
       "sharedScope": {
-        "scopeKey": "support-scope/v1/ea0b0ef02f67cead2f86",
+        "scopeKey": "support-scope/v1/0079cc120b0efe89c698",
         "shared": false,
         "requiresAcknowledgement": false,
-        "reviewedConsumerCount": 1,
+        "reviewedConsumerCount": 2,
         "affectedSemanticConsumers": [
+          {
+            "weapon": "MG-206 Heavy Machine Gun",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "MG-206 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "MG-206 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/mg-206-heavy-machine-gun/attack/primary/c8babda4a4693007"
+          },
           {
             "weapon": "MG-206 Heavy Machine Gun",
             "targetPath": "weapon",
@@ -121290,6 +122937,195 @@
         "baseline": "exact retained-snapshot value",
         "validation": "production resolver guarded ALREADY_DESIRED no-op",
         "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/mg-206-heavy-machine-gun/attack/primary/attack-projectile/6f6a23c23d7b2b1d",
+      "supportWeapon": "MG-206 Heavy Machine Gun",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/mg-206-heavy-machine-gun/ea93be78d91ad0c7",
+        "name": "MG-206 Heavy Machine Gun",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "attack",
+        "attackRole": "primary",
+        "attackKind": "Projectile",
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon",
+          "attack"
+        ],
+        "catalogBranches": [
+          {
+            "name": "MG-206 P",
+            "kind": "Projectile",
+            "state": "RESOLVED"
+          }
+        ],
+        "writableCatalogBranches": [
+          {
+            "name": "MG-206 P",
+            "kind": "Projectile",
+            "state": "RESOLVED"
+          }
+        ]
+      },
+      "semanticFieldId": "attack.projectile",
+      "qualifiedSemanticFieldId": "attack.primary.projectile",
+      "apiFieldConstant": "hd2.fields.attack.projectile",
+      "display": {
+        "name": "Attack projectile reference",
+        "domain": "attack",
+        "group": "ProjectileWeaponComponentData"
+      },
+      "value": {
+        "kind": "reference",
+        "type": "projectile_reference",
+        "baseline": {
+          "weapon": "MG-206 Heavy Machine Gun",
+          "attack": "primary"
+        },
+        "expected": {
+          "weapon": "MG-206 Heavy Machine Gun",
+          "attack": "primary"
+        },
+        "unit": null,
+        "reference": {
+          "expectedSemanticReference": "hd2.support_weapon(name):attack(\"primary\"):projectile()",
+          "sourceClass": "projectile_reference",
+          "typedIdentityOnly": true
+        }
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/projectileweaponcomponentdata/b594c4bd87d88fc5d00c",
+        "kind": "component",
+        "semanticType": "ProjectileWeaponComponentData",
+        "domain": "ProjectileWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/1ef117265d9702cc05e2",
+        "runtimeBackingScope": "component:ProjectileWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/0079cc120b0efe89c698",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 2,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "MG-206 Heavy Machine Gun",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "MG-206 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "MG-206 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/mg-206-heavy-machine-gun/attack/primary/c8babda4a4693007"
+          },
+          {
+            "weapon": "MG-206 Heavy Machine Gun",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/mg-206-heavy-machine-gun/weapon/root/822a547f405e678e"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/1ef117265d9702cc05e2",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/mg-206-heavy-machine-gun/ea93be78d91a",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Replaces the projectile this support weapon fires (its ProjectileWeapon +0, copied into the weapon when it is built). The same structural rule as player component hosts: no customization delta patches a projectile member and no other selector exists. Not yet shown in game for a support weapon."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "projectileReference": {
+        "referenceKind": "projectile",
+        "compatibilityClass": "conventional_plain",
+        "referenceRole": "primary",
+        "projectileSource": {
+          "status": "ACTIVE_DIRECT",
+          "mechanism": "component",
+          "member": "ProjectileWeapon +0",
+          "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+        },
+        "residency": {
+          "classification": "PACKAGE_AUTO_LOADED",
+          "package": "heavy_mg",
+          "preloadSupported": true,
+          "liveTested": false,
+          "observedWithoutLoader": null,
+          "evidence": "The support weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+          "reason": null
+        },
+        "effect": {
+          "activeSource": "ACTIVE_AT_INSTANTIATION",
+          "appliesWhen": "weapon_build",
+          "instantiationOnly": true,
+          "activeSourceProven": true,
+          "gameplayEffectProven": false,
+          "unverifiedEffect": true,
+          "reason": "A component member the game copies into the weapon when it builds it: a weapon called in after the write fires the new projectile; one already built keeps its copy until it is rebuilt."
+        }
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": true,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true,
+        "reason": "A component member the game copies into the weapon when it builds it: a weapon called in after the write fires the new projectile; one already built keeps its copy until it is rebuilt."
       }
     },
     {
@@ -159665,11 +161501,33 @@
         "runtimeBackingScope": "component:ProjectileWeaponComponentData"
       },
       "sharedScope": {
-        "scopeKey": "support-scope/v1/dd391a1be0c0bfa4148c",
+        "scopeKey": "support-scope/v1/8924222cdbf860fbdd1a",
         "shared": false,
         "requiresAcknowledgement": false,
-        "reviewedConsumerCount": 1,
+        "reviewedConsumerCount": 2,
         "affectedSemanticConsumers": [
+          {
+            "weapon": "S-11 Speargun",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "S-11 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "S-11 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/s-11-speargun/attack/primary/e6a0c93c81428064"
+          },
           {
             "weapon": "S-11 Speargun",
             "targetPath": "weapon",
@@ -159933,11 +161791,33 @@
         "runtimeBackingScope": "component:ProjectileWeaponComponentData"
       },
       "sharedScope": {
-        "scopeKey": "support-scope/v1/dd391a1be0c0bfa4148c",
+        "scopeKey": "support-scope/v1/8924222cdbf860fbdd1a",
         "shared": false,
         "requiresAcknowledgement": false,
-        "reviewedConsumerCount": 1,
+        "reviewedConsumerCount": 2,
         "affectedSemanticConsumers": [
+          {
+            "weapon": "S-11 Speargun",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "S-11 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "S-11 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/s-11-speargun/attack/primary/e6a0c93c81428064"
+          },
           {
             "weapon": "S-11 Speargun",
             "targetPath": "weapon",
@@ -160314,11 +162194,33 @@
         "runtimeBackingScope": "component:ProjectileWeaponComponentData"
       },
       "sharedScope": {
-        "scopeKey": "support-scope/v1/dd391a1be0c0bfa4148c",
+        "scopeKey": "support-scope/v1/8924222cdbf860fbdd1a",
         "shared": false,
         "requiresAcknowledgement": false,
-        "reviewedConsumerCount": 1,
+        "reviewedConsumerCount": 2,
         "affectedSemanticConsumers": [
+          {
+            "weapon": "S-11 Speargun",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "S-11 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "S-11 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/s-11-speargun/attack/primary/e6a0c93c81428064"
+          },
           {
             "weapon": "S-11 Speargun",
             "targetPath": "weapon",
@@ -160888,6 +162790,193 @@
         "baseline": "exact retained-snapshot value",
         "validation": "production resolver guarded ALREADY_DESIRED no-op",
         "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/s-11-speargun/attack/primary/attack-projectile/0ace99d4f028b7a9",
+      "supportWeapon": "S-11 Speargun",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/s-11-speargun/12230537964a8c26",
+        "name": "S-11 Speargun",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "attack",
+        "attackRole": "primary",
+        "attackKind": "Projectile",
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon",
+          "attack"
+        ],
+        "catalogBranches": [
+          {
+            "name": "S-11 P",
+            "kind": "Projectile",
+            "state": "RESOLVED"
+          }
+        ],
+        "writableCatalogBranches": [
+          {
+            "name": "S-11 P",
+            "kind": "Projectile",
+            "state": "RESOLVED"
+          }
+        ]
+      },
+      "semanticFieldId": "attack.projectile",
+      "qualifiedSemanticFieldId": "attack.primary.projectile",
+      "apiFieldConstant": "hd2.fields.attack.projectile",
+      "display": {
+        "name": "Attack projectile reference",
+        "domain": "attack",
+        "group": "ProjectileWeaponComponentData"
+      },
+      "value": {
+        "kind": "reference",
+        "type": "projectile_reference",
+        "baseline": {
+          "weapon": "S-11 Speargun",
+          "attack": "primary"
+        },
+        "expected": {
+          "weapon": "S-11 Speargun",
+          "attack": "primary"
+        },
+        "unit": null,
+        "reference": {
+          "expectedSemanticReference": "hd2.support_weapon(name):attack(\"primary\"):projectile()",
+          "sourceClass": "projectile_reference",
+          "typedIdentityOnly": true
+        }
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/projectileweaponcomponentdata/5b41542ee9c52f666b22",
+        "kind": "component",
+        "semanticType": "ProjectileWeaponComponentData",
+        "domain": "ProjectileWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/32c24405a58b0c7edab4",
+        "runtimeBackingScope": "component:ProjectileWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/8924222cdbf860fbdd1a",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 2,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "S-11 Speargun",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "S-11 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "S-11 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/s-11-speargun/attack/primary/e6a0c93c81428064"
+          },
+          {
+            "weapon": "S-11 Speargun",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/s-11-speargun/weapon/root/b519ed0541359b5e"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/32c24405a58b0c7edab4",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/s-11-speargun/12230537964a",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Replaces the projectile this support weapon fires (its ProjectileWeapon +0, copied into the weapon when it is built). The same structural rule as player component hosts: no customization delta patches a projectile member and no other selector exists. Not yet shown in game for a support weapon."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "projectileReference": {
+        "referenceKind": "projectile",
+        "compatibilityClass": "explosive_impact",
+        "referenceRole": "primary",
+        "projectileSource": {
+          "status": "ACTIVE_DIRECT",
+          "mechanism": "component",
+          "member": "ProjectileWeapon +0",
+          "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+        },
+        "residency": {
+          "classification": "PACKAGE_AUTO_LOADED",
+          "package": "harpoon_gun",
+          "preloadSupported": true,
+          "liveTested": false,
+          "observedWithoutLoader": null,
+          "evidence": "The support weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+          "reason": null
+        },
+        "effect": {
+          "activeSource": "ACTIVE_AT_INSTANTIATION",
+          "appliesWhen": "weapon_build",
+          "instantiationOnly": true,
+          "activeSourceProven": true,
+          "gameplayEffectProven": false,
+          "unverifiedEffect": true,
+          "reason": "A component member the game copies into the weapon when it builds it: a weapon called in after the write fires the new projectile; one already built keeps its copy until it is rebuilt."
+        }
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": true,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true,
+        "reason": "A component member the game copies into the weapon when it builds it: a weapon called in after the write fires the new projectile; one already built keeps its copy until it is rebuilt."
       }
     },
     {
@@ -185106,15 +187195,38 @@
       "kind": "component",
       "semanticType": "ProjectileWeaponComponentData",
       "domains": [
+        "attack",
         "fire_rate",
         "function_ammo",
         "weapon"
       ],
       "shared": false,
       "requiresSharedAcknowledgement": false,
-      "sharedScopeKey": "support-scope/v1/48f95164a02bf281a4c4",
-      "reviewedConsumerCount": 1,
+      "sharedScopeKey": "support-scope/v1/3043679feecbf8dbb442",
+      "reviewedConsumerCount": 2,
       "affectedSemanticConsumers": [
+        {
+          "weapon": "GL-21 Grenade Launcher",
+          "targetPath": "attack",
+          "attackRole": "primary",
+          "attackKind": "Projectile",
+          "parentAttackRole": null,
+          "catalogBranches": [
+            {
+              "name": "GL-21 P",
+              "kind": "Projectile",
+              "state": "RESOLVED"
+            }
+          ],
+          "writableCatalogBranches": [
+            {
+              "name": "GL-21 P",
+              "kind": "Projectile",
+              "state": "RESOLVED"
+            }
+          ],
+          "consumerKey": "support-consumer/v1/gl-21-grenade-launcher/attack/primary/7701b7075dcea970"
+        },
         {
           "weapon": "GL-21 Grenade Launcher",
           "targetPath": "weapon",
@@ -185131,7 +187243,8 @@
       "fieldInstanceKeys": [
         "support-field/v1/gl-21-grenade-launcher/weapon/root/fire-rate-modes/c81b2681df4e21d3",
         "support-field/v1/gl-21-grenade-launcher/weapon/root/function-ammo-projectile/a6d75d25f426f012",
-        "support-field/v1/gl-21-grenade-launcher/weapon/root/weapon-fire-rate/655c48edb5d8f9f9"
+        "support-field/v1/gl-21-grenade-launcher/weapon/root/weapon-fire-rate/655c48edb5d8f9f9",
+        "support-field/v1/gl-21-grenade-launcher/attack/primary/attack-projectile/32eb6cda3d57cd9f"
       ]
     },
     {
@@ -185139,15 +187252,43 @@
       "kind": "component",
       "semanticType": "ProjectileWeaponComponentData",
       "domains": [
+        "attack",
         "fire_rate",
         "function_ammo",
         "weapon"
       ],
       "shared": false,
       "requiresSharedAcknowledgement": false,
-      "sharedScopeKey": "support-scope/v1/e52d1708f2a2d286e568",
-      "reviewedConsumerCount": 1,
+      "sharedScopeKey": "support-scope/v1/6eb8bfb833f57776bfca",
+      "reviewedConsumerCount": 2,
       "affectedSemanticConsumers": [
+        {
+          "weapon": "EAT-700 Expendable Napalm",
+          "targetPath": "attack",
+          "attackRole": "primary",
+          "attackKind": "Projectile",
+          "parentAttackRole": null,
+          "catalogBranches": [
+            {
+              "name": "EAT-700 P",
+              "kind": "Projectile",
+              "state": "RESOLVED"
+            },
+            {
+              "name": "EAT-700 P1",
+              "kind": "Projectile",
+              "state": "PARTIAL"
+            }
+          ],
+          "writableCatalogBranches": [
+            {
+              "name": "EAT-700 P",
+              "kind": "Projectile",
+              "state": "RESOLVED"
+            }
+          ],
+          "consumerKey": "support-consumer/v1/eat-700-expendable-napalm/attack/primary/3fcce982bf936515"
+        },
         {
           "weapon": "EAT-700 Expendable Napalm",
           "targetPath": "weapon",
@@ -185164,7 +187305,8 @@
       "fieldInstanceKeys": [
         "support-field/v1/eat-700-expendable-napalm/weapon/root/fire-rate-modes/f33b1e6042bb57b7",
         "support-field/v1/eat-700-expendable-napalm/weapon/root/function-ammo-projectile/7510d8486b6dd873",
-        "support-field/v1/eat-700-expendable-napalm/weapon/root/weapon-fire-rate/7e773944ca00d465"
+        "support-field/v1/eat-700-expendable-napalm/weapon/root/weapon-fire-rate/7e773944ca00d465",
+        "support-field/v1/eat-700-expendable-napalm/attack/primary/attack-projectile/448f03f473329d3a"
       ]
     },
     {
@@ -185261,15 +187403,38 @@
       "kind": "component",
       "semanticType": "ProjectileWeaponComponentData",
       "domains": [
+        "attack",
         "fire_rate",
         "function_ammo",
         "weapon"
       ],
       "shared": false,
       "requiresSharedAcknowledgement": false,
-      "sharedScopeKey": "support-scope/v1/dd391a1be0c0bfa4148c",
-      "reviewedConsumerCount": 1,
+      "sharedScopeKey": "support-scope/v1/8924222cdbf860fbdd1a",
+      "reviewedConsumerCount": 2,
       "affectedSemanticConsumers": [
+        {
+          "weapon": "S-11 Speargun",
+          "targetPath": "attack",
+          "attackRole": "primary",
+          "attackKind": "Projectile",
+          "parentAttackRole": null,
+          "catalogBranches": [
+            {
+              "name": "S-11 P",
+              "kind": "Projectile",
+              "state": "RESOLVED"
+            }
+          ],
+          "writableCatalogBranches": [
+            {
+              "name": "S-11 P",
+              "kind": "Projectile",
+              "state": "RESOLVED"
+            }
+          ],
+          "consumerKey": "support-consumer/v1/s-11-speargun/attack/primary/e6a0c93c81428064"
+        },
         {
           "weapon": "S-11 Speargun",
           "targetPath": "weapon",
@@ -185286,7 +187451,8 @@
       "fieldInstanceKeys": [
         "support-field/v1/s-11-speargun/weapon/root/fire-rate-modes/f91a8b669c9bfd34",
         "support-field/v1/s-11-speargun/weapon/root/function-ammo-projectile/73348fd4b4593770",
-        "support-field/v1/s-11-speargun/weapon/root/weapon-fire-rate/6dc25c29c68a2096"
+        "support-field/v1/s-11-speargun/weapon/root/weapon-fire-rate/6dc25c29c68a2096",
+        "support-field/v1/s-11-speargun/attack/primary/attack-projectile/0ace99d4f028b7a9"
       ]
     },
     {
@@ -185294,15 +187460,38 @@
       "kind": "component",
       "semanticType": "ProjectileWeaponComponentData",
       "domains": [
+        "attack",
         "fire_rate",
         "function_ammo",
         "weapon"
       ],
       "shared": false,
       "requiresSharedAcknowledgement": false,
-      "sharedScopeKey": "support-scope/v1/41b58ec71bf582f5251b",
-      "reviewedConsumerCount": 1,
+      "sharedScopeKey": "support-scope/v1/088572511b9929a388b3",
+      "reviewedConsumerCount": 2,
       "affectedSemanticConsumers": [
+        {
+          "weapon": "APW-1 Anti-Materiel Rifle",
+          "targetPath": "attack",
+          "attackRole": "primary",
+          "attackKind": "Projectile",
+          "parentAttackRole": null,
+          "catalogBranches": [
+            {
+              "name": "APW-1 P",
+              "kind": "Projectile",
+              "state": "RESOLVED"
+            }
+          ],
+          "writableCatalogBranches": [
+            {
+              "name": "APW-1 P",
+              "kind": "Projectile",
+              "state": "RESOLVED"
+            }
+          ],
+          "consumerKey": "support-consumer/v1/apw-1-anti-materiel-rifle/attack/primary/eedf83bd416ec41c"
+        },
         {
           "weapon": "APW-1 Anti-Materiel Rifle",
           "targetPath": "weapon",
@@ -185319,7 +187508,8 @@
       "fieldInstanceKeys": [
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/fire-rate-modes/54f8c8f4d7c98ef7",
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/function-ammo-projectile/d657ab56787a8b08",
-        "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-fire-rate/a0a6deb21a24717f"
+        "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-fire-rate/a0a6deb21a24717f",
+        "support-field/v1/apw-1-anti-materiel-rifle/attack/primary/attack-projectile/293f57412d634c6c"
       ]
     },
     {
@@ -185358,15 +187548,38 @@
       "kind": "component",
       "semanticType": "ProjectileWeaponComponentData",
       "domains": [
+        "attack",
         "fire_rate",
         "function_ammo",
         "weapon"
       ],
       "shared": false,
       "requiresSharedAcknowledgement": false,
-      "sharedScopeKey": "support-scope/v1/1643df19830291ede683",
-      "reviewedConsumerCount": 1,
+      "sharedScopeKey": "support-scope/v1/3fa3d3d726ecb1c94767",
+      "reviewedConsumerCount": 2,
       "affectedSemanticConsumers": [
+        {
+          "weapon": "EAT-17 Expendable Anti-Tank",
+          "targetPath": "attack",
+          "attackRole": "primary",
+          "attackKind": "Projectile",
+          "parentAttackRole": null,
+          "catalogBranches": [
+            {
+              "name": "EAT-17 P",
+              "kind": "Projectile",
+              "state": "RESOLVED"
+            }
+          ],
+          "writableCatalogBranches": [
+            {
+              "name": "EAT-17 P",
+              "kind": "Projectile",
+              "state": "RESOLVED"
+            }
+          ],
+          "consumerKey": "support-consumer/v1/eat-17-expendable-anti-tank/attack/primary/9315387ed770080a"
+        },
         {
           "weapon": "EAT-17 Expendable Anti-Tank",
           "targetPath": "weapon",
@@ -185383,7 +187596,8 @@
       "fieldInstanceKeys": [
         "support-field/v1/eat-17-expendable-anti-tank/weapon/root/fire-rate-modes/e5b543efe12eb39e",
         "support-field/v1/eat-17-expendable-anti-tank/weapon/root/function-ammo-projectile/133a756bb488640c",
-        "support-field/v1/eat-17-expendable-anti-tank/weapon/root/weapon-fire-rate/529bd444e828fc2f"
+        "support-field/v1/eat-17-expendable-anti-tank/weapon/root/weapon-fire-rate/529bd444e828fc2f",
+        "support-field/v1/eat-17-expendable-anti-tank/attack/primary/attack-projectile/c59c8647522235b4"
       ]
     },
     {
@@ -185420,15 +187634,38 @@
       "kind": "component",
       "semanticType": "ProjectileWeaponComponentData",
       "domains": [
+        "attack",
         "fire_rate",
         "function_ammo",
         "weapon"
       ],
       "shared": false,
       "requiresSharedAcknowledgement": false,
-      "sharedScopeKey": "support-scope/v1/ea0b0ef02f67cead2f86",
-      "reviewedConsumerCount": 1,
+      "sharedScopeKey": "support-scope/v1/0079cc120b0efe89c698",
+      "reviewedConsumerCount": 2,
       "affectedSemanticConsumers": [
+        {
+          "weapon": "MG-206 Heavy Machine Gun",
+          "targetPath": "attack",
+          "attackRole": "primary",
+          "attackKind": "Projectile",
+          "parentAttackRole": null,
+          "catalogBranches": [
+            {
+              "name": "MG-206 P",
+              "kind": "Projectile",
+              "state": "RESOLVED"
+            }
+          ],
+          "writableCatalogBranches": [
+            {
+              "name": "MG-206 P",
+              "kind": "Projectile",
+              "state": "RESOLVED"
+            }
+          ],
+          "consumerKey": "support-consumer/v1/mg-206-heavy-machine-gun/attack/primary/c8babda4a4693007"
+        },
         {
           "weapon": "MG-206 Heavy Machine Gun",
           "targetPath": "weapon",
@@ -185445,7 +187682,8 @@
       "fieldInstanceKeys": [
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/fire-rate-modes/64a6d0dc9599555a",
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/function-ammo-projectile/d1fa82b43898f6c6",
-        "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-fire-rate/d8d7dc36af282b07"
+        "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-fire-rate/d8d7dc36af282b07",
+        "support-field/v1/mg-206-heavy-machine-gun/attack/primary/attack-projectile/6f6a23c23d7b2b1d"
       ]
     },
     {
@@ -185453,15 +187691,38 @@
       "kind": "component",
       "semanticType": "ProjectileWeaponComponentData",
       "domains": [
+        "attack",
         "fire_rate",
         "function_ammo",
         "weapon"
       ],
       "shared": false,
       "requiresSharedAcknowledgement": false,
-      "sharedScopeKey": "support-scope/v1/95fe6d068f4aac7d0df7",
-      "reviewedConsumerCount": 1,
+      "sharedScopeKey": "support-scope/v1/1db5ddca9099d49e1cac",
+      "reviewedConsumerCount": 2,
       "affectedSemanticConsumers": [
+        {
+          "weapon": "M-105 Stalwart",
+          "targetPath": "attack",
+          "attackRole": "primary",
+          "attackKind": "Projectile",
+          "parentAttackRole": null,
+          "catalogBranches": [
+            {
+              "name": "AR-23 P",
+              "kind": "Projectile",
+              "state": "RESOLVED"
+            }
+          ],
+          "writableCatalogBranches": [
+            {
+              "name": "AR-23 P",
+              "kind": "Projectile",
+              "state": "RESOLVED"
+            }
+          ],
+          "consumerKey": "support-consumer/v1/m-105-stalwart/attack/primary/4da4883b53907116"
+        },
         {
           "weapon": "M-105 Stalwart",
           "targetPath": "weapon",
@@ -185478,7 +187739,8 @@
       "fieldInstanceKeys": [
         "support-field/v1/m-105-stalwart/weapon/root/fire-rate-modes/a61a814391d5c0a1",
         "support-field/v1/m-105-stalwart/weapon/root/function-ammo-projectile/2a1cb249f2878749",
-        "support-field/v1/m-105-stalwart/weapon/root/weapon-fire-rate/7175d73e569cd545"
+        "support-field/v1/m-105-stalwart/weapon/root/weapon-fire-rate/7175d73e569cd545",
+        "support-field/v1/m-105-stalwart/attack/primary/attack-projectile/af75cf75f773fc37"
       ]
     },
     {
@@ -185517,15 +187779,38 @@
       "kind": "component",
       "semanticType": "ProjectileWeaponComponentData",
       "domains": [
+        "attack",
         "fire_rate",
         "function_ammo",
         "weapon"
       ],
       "shared": false,
       "requiresSharedAcknowledgement": false,
-      "sharedScopeKey": "support-scope/v1/9e0452a8353e885cc5ae",
-      "reviewedConsumerCount": 1,
+      "sharedScopeKey": "support-scope/v1/3385cafed6b14d9efce5",
+      "reviewedConsumerCount": 2,
       "affectedSemanticConsumers": [
+        {
+          "weapon": "EAT-411 Leveller",
+          "targetPath": "attack",
+          "attackRole": "primary",
+          "attackKind": "Projectile",
+          "parentAttackRole": null,
+          "catalogBranches": [
+            {
+              "name": "EAT-411 P",
+              "kind": "Projectile",
+              "state": "RESOLVED"
+            }
+          ],
+          "writableCatalogBranches": [
+            {
+              "name": "EAT-411 P",
+              "kind": "Projectile",
+              "state": "RESOLVED"
+            }
+          ],
+          "consumerKey": "support-consumer/v1/eat-411-leveller/attack/primary/a5916de79f1ca85a"
+        },
         {
           "weapon": "EAT-411 Leveller",
           "targetPath": "weapon",
@@ -185542,7 +187827,8 @@
       "fieldInstanceKeys": [
         "support-field/v1/eat-411-leveller/weapon/root/fire-rate-modes/230bf94e306cc75f",
         "support-field/v1/eat-411-leveller/weapon/root/function-ammo-projectile/2da5de80294d3181",
-        "support-field/v1/eat-411-leveller/weapon/root/weapon-fire-rate/11ee84a8d8f6a792"
+        "support-field/v1/eat-411-leveller/weapon/root/weapon-fire-rate/11ee84a8d8f6a792",
+        "support-field/v1/eat-411-leveller/attack/primary/attack-projectile/6ce5002fb56fddfd"
       ]
     },
     {
@@ -190031,6 +192317,44 @@
       "dependencies": []
     },
     {
+      "operationGroupingKey": "support-operation/v1/1ef117265d9702cc05e2",
+      "backingObjectKey": "support-object/v1/projectileweaponcomponentdata/b594c4bd87d88fc5d00c",
+      "runtimeBackingScope": "component:ProjectileWeaponComponentData",
+      "target": {
+        "resource": "support_weapon",
+        "path": "attack",
+        "attackRole": "primary",
+        "attackKind": "Projectile",
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon",
+          "attack"
+        ],
+        "catalogBranches": [
+          {
+            "name": "MG-206 P",
+            "kind": "Projectile",
+            "state": "RESOLVED"
+          }
+        ],
+        "writableCatalogBranches": [
+          {
+            "name": "MG-206 P",
+            "kind": "Projectile",
+            "state": "RESOLVED"
+          }
+        ]
+      },
+      "fieldInstanceKeys": [
+        "support-field/v1/mg-206-heavy-machine-gun/attack/primary/attack-projectile/6f6a23c23d7b2b1d"
+      ],
+      "recommendedApi": "hd2.patch",
+      "allowSharedRequired": false,
+      "planGroupingKey": "support-plan/v1/mg-206-heavy-machine-gun/ea93be78d91a",
+      "phase": 1,
+      "dependencies": []
+    },
+    {
       "operationGroupingKey": "support-operation/v1/1ef525e6c94fd5e25e7e",
       "backingObjectKey": "support-object/v1/explosionsettings/ae945763735d3a4648fb",
       "runtimeBackingScope": "settings:explosion",
@@ -190116,6 +192440,44 @@
       "recommendedApi": "hd2.patch",
       "allowSharedRequired": true,
       "planGroupingKey": "support-plan/v1/s-11-speargun/12230537964a",
+      "phase": 1,
+      "dependencies": []
+    },
+    {
+      "operationGroupingKey": "support-operation/v1/2007723da7092f19a8a4",
+      "backingObjectKey": "support-object/v1/projectileweaponcomponentdata/d0dfb1122dfc08d37211",
+      "runtimeBackingScope": "component:ProjectileWeaponComponentData",
+      "target": {
+        "resource": "support_weapon",
+        "path": "attack",
+        "attackRole": "primary",
+        "attackKind": "Projectile",
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon",
+          "attack"
+        ],
+        "catalogBranches": [
+          {
+            "name": "EAT-411 P",
+            "kind": "Projectile",
+            "state": "RESOLVED"
+          }
+        ],
+        "writableCatalogBranches": [
+          {
+            "name": "EAT-411 P",
+            "kind": "Projectile",
+            "state": "RESOLVED"
+          }
+        ]
+      },
+      "fieldInstanceKeys": [
+        "support-field/v1/eat-411-leveller/attack/primary/attack-projectile/6ce5002fb56fddfd"
+      ],
+      "recommendedApi": "hd2.patch",
+      "allowSharedRequired": false,
+      "planGroupingKey": "support-plan/v1/eat-411-leveller/77b0b0e293ad",
       "phase": 1,
       "dependencies": []
     },
@@ -190813,6 +193175,44 @@
         "support-field/v1/s-11-speargun/weapon/root/fire-mode-burst-rounds/bfd4d0d07410fb93"
       ],
       "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false,
+      "planGroupingKey": "support-plan/v1/s-11-speargun/12230537964a",
+      "phase": 1,
+      "dependencies": []
+    },
+    {
+      "operationGroupingKey": "support-operation/v1/32c24405a58b0c7edab4",
+      "backingObjectKey": "support-object/v1/projectileweaponcomponentdata/5b41542ee9c52f666b22",
+      "runtimeBackingScope": "component:ProjectileWeaponComponentData",
+      "target": {
+        "resource": "support_weapon",
+        "path": "attack",
+        "attackRole": "primary",
+        "attackKind": "Projectile",
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon",
+          "attack"
+        ],
+        "catalogBranches": [
+          {
+            "name": "S-11 P",
+            "kind": "Projectile",
+            "state": "RESOLVED"
+          }
+        ],
+        "writableCatalogBranches": [
+          {
+            "name": "S-11 P",
+            "kind": "Projectile",
+            "state": "RESOLVED"
+          }
+        ]
+      },
+      "fieldInstanceKeys": [
+        "support-field/v1/s-11-speargun/attack/primary/attack-projectile/0ace99d4f028b7a9"
+      ],
+      "recommendedApi": "hd2.patch",
       "allowSharedRequired": false,
       "planGroupingKey": "support-plan/v1/s-11-speargun/12230537964a",
       "phase": 1,
@@ -191918,6 +194318,44 @@
       "dependencies": []
     },
     {
+      "operationGroupingKey": "support-operation/v1/56c684874c95d921a9cb",
+      "backingObjectKey": "support-object/v1/projectileweaponcomponentdata/692b5ec7bb9e263a8e5b",
+      "runtimeBackingScope": "component:ProjectileWeaponComponentData",
+      "target": {
+        "resource": "support_weapon",
+        "path": "attack",
+        "attackRole": "primary",
+        "attackKind": "Projectile",
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon",
+          "attack"
+        ],
+        "catalogBranches": [
+          {
+            "name": "APW-1 P",
+            "kind": "Projectile",
+            "state": "RESOLVED"
+          }
+        ],
+        "writableCatalogBranches": [
+          {
+            "name": "APW-1 P",
+            "kind": "Projectile",
+            "state": "RESOLVED"
+          }
+        ]
+      },
+      "fieldInstanceKeys": [
+        "support-field/v1/apw-1-anti-materiel-rifle/attack/primary/attack-projectile/293f57412d634c6c"
+      ],
+      "recommendedApi": "hd2.patch",
+      "allowSharedRequired": false,
+      "planGroupingKey": "support-plan/v1/apw-1-anti-materiel-rifle/9c567b76648a",
+      "phase": 1,
+      "dependencies": []
+    },
+    {
       "operationGroupingKey": "support-operation/v1/56e5976f49d77eaa5aab",
       "backingObjectKey": "support-object/v1/projectileweaponcomponentdata/5585af4d590e6c85c384",
       "runtimeBackingScope": "component:ProjectileWeaponComponentData",
@@ -192093,6 +194531,44 @@
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
       "planGroupingKey": "support-plan/v1/ac-8-autocannon/902ed559c079",
+      "phase": 1,
+      "dependencies": []
+    },
+    {
+      "operationGroupingKey": "support-operation/v1/5e03020281f155450ea1",
+      "backingObjectKey": "support-object/v1/projectileweaponcomponentdata/c3a6a29d73843697d423",
+      "runtimeBackingScope": "component:ProjectileWeaponComponentData",
+      "target": {
+        "resource": "support_weapon",
+        "path": "attack",
+        "attackRole": "primary",
+        "attackKind": "Projectile",
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon",
+          "attack"
+        ],
+        "catalogBranches": [
+          {
+            "name": "AR-23 P",
+            "kind": "Projectile",
+            "state": "RESOLVED"
+          }
+        ],
+        "writableCatalogBranches": [
+          {
+            "name": "AR-23 P",
+            "kind": "Projectile",
+            "state": "RESOLVED"
+          }
+        ]
+      },
+      "fieldInstanceKeys": [
+        "support-field/v1/m-105-stalwart/attack/primary/attack-projectile/af75cf75f773fc37"
+      ],
+      "recommendedApi": "hd2.patch",
+      "allowSharedRequired": false,
+      "planGroupingKey": "support-plan/v1/m-105-stalwart/5af15aa5bcc3",
       "phase": 1,
       "dependencies": []
     },
@@ -193334,6 +195810,44 @@
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": true,
       "planGroupingKey": "support-plan/v1/ac-8-autocannon/902ed559c079",
+      "phase": 1,
+      "dependencies": []
+    },
+    {
+      "operationGroupingKey": "support-operation/v1/832140ffdc93f358ce5c",
+      "backingObjectKey": "support-object/v1/projectileweaponcomponentdata/9975226c73ea690cb494",
+      "runtimeBackingScope": "component:ProjectileWeaponComponentData",
+      "target": {
+        "resource": "support_weapon",
+        "path": "attack",
+        "attackRole": "primary",
+        "attackKind": "Projectile",
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon",
+          "attack"
+        ],
+        "catalogBranches": [
+          {
+            "name": "EAT-17 P",
+            "kind": "Projectile",
+            "state": "RESOLVED"
+          }
+        ],
+        "writableCatalogBranches": [
+          {
+            "name": "EAT-17 P",
+            "kind": "Projectile",
+            "state": "RESOLVED"
+          }
+        ]
+      },
+      "fieldInstanceKeys": [
+        "support-field/v1/eat-17-expendable-anti-tank/attack/primary/attack-projectile/c59c8647522235b4"
+      ],
+      "recommendedApi": "hd2.patch",
+      "allowSharedRequired": false,
+      "planGroupingKey": "support-plan/v1/eat-17-expendable-anti-tank/e4ba6571169b",
       "phase": 1,
       "dependencies": []
     },
@@ -197903,6 +200417,44 @@
       "dependencies": []
     },
     {
+      "operationGroupingKey": "support-operation/v1/f6fc639b24b95f8beb26",
+      "backingObjectKey": "support-object/v1/projectileweaponcomponentdata/255b161c6deaab0de401",
+      "runtimeBackingScope": "component:ProjectileWeaponComponentData",
+      "target": {
+        "resource": "support_weapon",
+        "path": "attack",
+        "attackRole": "primary",
+        "attackKind": "Projectile",
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon",
+          "attack"
+        ],
+        "catalogBranches": [
+          {
+            "name": "GL-21 P",
+            "kind": "Projectile",
+            "state": "RESOLVED"
+          }
+        ],
+        "writableCatalogBranches": [
+          {
+            "name": "GL-21 P",
+            "kind": "Projectile",
+            "state": "RESOLVED"
+          }
+        ]
+      },
+      "fieldInstanceKeys": [
+        "support-field/v1/gl-21-grenade-launcher/attack/primary/attack-projectile/32eb6cda3d57cd9f"
+      ],
+      "recommendedApi": "hd2.patch",
+      "allowSharedRequired": false,
+      "planGroupingKey": "support-plan/v1/gl-21-grenade-launcher/8ab581c0aebb",
+      "phase": 1,
+      "dependencies": []
+    },
+    {
       "operationGroupingKey": "support-operation/v1/f901d74750b78722d8df",
       "backingObjectKey": "support-object/v1/weaponmagazinecomponentdata/888b83f773d0aa204e12",
       "runtimeBackingScope": "component:WeaponMagazineComponentData",
@@ -197990,6 +200542,49 @@
       "recommendedApi": "hd2.patch",
       "allowSharedRequired": false,
       "planGroupingKey": "support-plan/v1/sg-88-break-action-shotgun/89e9d693eabc",
+      "phase": 1,
+      "dependencies": []
+    },
+    {
+      "operationGroupingKey": "support-operation/v1/f9596f2c991eb439aebb",
+      "backingObjectKey": "support-object/v1/projectileweaponcomponentdata/29e2e29ccd133309e7aa",
+      "runtimeBackingScope": "component:ProjectileWeaponComponentData",
+      "target": {
+        "resource": "support_weapon",
+        "path": "attack",
+        "attackRole": "primary",
+        "attackKind": "Projectile",
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon",
+          "attack"
+        ],
+        "catalogBranches": [
+          {
+            "name": "EAT-700 P",
+            "kind": "Projectile",
+            "state": "RESOLVED"
+          },
+          {
+            "name": "EAT-700 P1",
+            "kind": "Projectile",
+            "state": "PARTIAL"
+          }
+        ],
+        "writableCatalogBranches": [
+          {
+            "name": "EAT-700 P",
+            "kind": "Projectile",
+            "state": "RESOLVED"
+          }
+        ]
+      },
+      "fieldInstanceKeys": [
+        "support-field/v1/eat-700-expendable-napalm/attack/primary/attack-projectile/448f03f473329d3a"
+      ],
+      "recommendedApi": "hd2.patch",
+      "allowSharedRequired": false,
+      "planGroupingKey": "support-plan/v1/eat-700-expendable-napalm/287dc53d1723",
       "phase": 1,
       "dependencies": []
     },
@@ -198407,7 +201002,7 @@
     "expectedValueProperty": "value.reference.expectedSemanticReference",
     "sourceClassProperty": "value.reference.sourceClass",
     "rawNativeIdentifiersPublished": false,
-    "currentReferenceFieldInstances": 81
+    "currentReferenceFieldInstances": 89
   },
   "supportCallInLinks": {
     "contract": "hd2runtime.support_callin_linkage.v1",
@@ -201656,8 +204251,8 @@
     "fixtureFallback": "disabled"
   },
   "instanceAudit": {
-    "internalInstances": 1350,
-    "publishedInstances": 1350,
+    "internalInstances": 1358,
+    "publishedInstances": 1358,
     "missingInstances": 0,
     "unexpectedInstances": 0,
     "identityCoverage": "exact"

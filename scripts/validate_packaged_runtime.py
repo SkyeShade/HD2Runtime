@@ -720,17 +720,21 @@ return function(frame,watches,counts,lines)
 end
 '''
 
-def toggles_live(items):
+def toggles_live(items, choices=()):
     """A live program for an options-driven test mod: every option starts at its default (default-off operations are
     disabled and write nothing), then each default-on option is turned off (its operations restore exactly their
     writes) and every option is turned on (its operations apply exactly their writes). It ends with every operation
-    applied, so the simulated reset re-applies all of them. items: (option id, [watch indexes], writes, default)."""
+    applied, so the simulated reset re-applies all of them. items: (option id, [watch indexes], writes, default).
+    choices, applied after the toggles: (choice option id, index, [watch indexes], writes, package requests so far)."""
     rows = ','.join("{option='%s',watches={%s},writes=%d,default=%s}" % (option, ','.join(map(str, indexes)), writes,
         'true' if default else 'false') for option, indexes, writes, default in items)
+    picks = ','.join("{option='%s',index=%d,watches={%s},writes=%d,packages=%d}" % (option, index,
+        ','.join(map(str, indexes)), writes, packages) for option, index, indexes, writes, packages in choices)
     return r'''
 return function(frame,watches,counts,lines)
  local menu=rawget(_G,'ModOptionsMenu');local results={}
  local SPEC={''' + rows + r'''}
+ local PICKS={''' + picks + r'''}
  local function step(name,ok,detail)results[#results+1]={name=name,passed=ok==true,detail=detail}end
  local function applied(w)return w.status=='waiting'and w.result and w.result.status=='APPLIED'end
  local function state(w)return tostring(w.status)..'/'..tostring(w.result and w.result.status)..'/'..tostring(w.error)end
@@ -770,6 +774,20 @@ return function(frame,watches,counts,lines)
   step(item.option..' on applies exactly its writes',ok,('writes=%d '):format(counts.writes-writes)
    ..table.concat(detail,' '))
  end
+ for _,item in ipairs(PICKS)do
+  local list=of(item);local writes=counts.writes;local runs={}
+  for index,w in ipairs(list)do runs[index]=w.runs end
+  menu.apply(item.option,item.index)
+  local spent=0
+  local function moved()for index,w in ipairs(list)do if w.runs<=runs[index]or w.status=='running'then return false end end
+   return true end
+  while not moved()and spent<20000 do frame();spent=spent+1 end
+  for _=1,20 do frame()end
+  local ok,detail=counts.writes==writes+item.writes and(counts.package_requests or 0)==item.packages,{}
+  for _,w in ipairs(list)do ok=ok and applied(w);detail[#detail+1]=state(w)end
+  step(item.option..' = '..item.index..' re-resolves exactly its writes',ok,('writes=%d packages=%d '):format(
+   counts.writes-writes,counts.package_requests or 0)..table.concat(detail,' '))
+ end
  return results
 end
 '''
@@ -793,6 +811,24 @@ EQUIPMENT_TOGGLES = {
     'example-laser-cannon-test': [('laser_cannon_test.fast_beam', [1], 1, True)],
     'example-maxigun-coverage-test': [('maxigun_coverage_test.heavy_climb', [1], 1, True),
         ('maxigun_coverage_test.no_side_kick', [2], 1, True)],
+}
+
+# Projectile builder and unified donor pool live tests (research/projectile-builder-F5FEE03DCFDB.json). Speargun:
+# the stun mode is the binding and function projectile (2 writes), the spare twin's expiry explosion (1) and its
+# label and icon (3); the GAS label is the Speargun's own mode (3). HMG: the mode (2), then the three donor labels and
+# the shared STANDARD label (3 each); switching the choice re-points only the function projectile (1 write) and loads
+# that donor's package. Unified: one reference per host.
+PROJECTILE_BUILDER_TOGGLES = {
+    'example-speargun-projectile-builder-test': ([('speargun_projectile_builder.stun_mode', [1, 2, 3], 6, True),
+        ('speargun_projectile_builder.gas_label', [4], 3, True)], (), 1),
+    'example-hmgspecial-ammo-test': ([('hmg_special_ammo.enabled', [1], 2, True),
+        ('hmg_special_ammo.labels', [2, 3, 4, 5], 12, True)],
+        [('hmg_special_ammo.ammo', 2, [1], 1, 2), ('hmg_special_ammo.ammo', 3, [1], 1, 3),
+         ('hmg_special_ammo.ammo', 1, [1], 1, 3)], 3),
+    'example-unified-projectile-swap-test': ([('unified_projectile_swap.eat_scorcher', [1], 1, True),
+        ('unified_projectile_swap.reprimand_napalm', [2], 1, True),
+        ('unified_projectile_swap.liberator_talon', [3], 1, True),
+        ('unified_projectile_swap.stalwart_amr', [4], 1, False)], (), 4),
 }
 
 EXTRAS = {'options-live': {'menu': MENU_STUB, 'after': OPTIONS_LIVE},
@@ -835,7 +871,9 @@ EXTRAS = {'options-live': {'menu': MENU_STUB, 'after': OPTIONS_LIVE},
     'example-explosive-projectile-swap': {'packageRequests': 1},
     'example-asset-test-frv-bastion-cannon': {'packageRequests': 1},
     'example-asset-test-mg43-pod-grenade-box': {'packageRequests': 1},
-    **{name: {'menu': MENU_STUB, 'after': toggles_live(items)} for name, items in EQUIPMENT_TOGGLES.items()}}
+    **{name: {'menu': MENU_STUB, 'after': toggles_live(items)} for name, items in EQUIPMENT_TOGGLES.items()},
+    **{name: {'menu': MENU_STUB, 'after': toggles_live(items, choices), 'packageRequests': packages}
+        for name, (items, choices, packages) in PROJECTILE_BUILDER_TOGGLES.items()}}
 
 
 def example_source(name, folder='projects'):

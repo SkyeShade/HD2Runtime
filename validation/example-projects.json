@@ -1,5 +1,5 @@
 {
-  "examples": 97,
+  "examples": 100,
   "failed": [],
   "mode": "snapshot",
   "results": {
@@ -1867,6 +1867,56 @@
         "typed writes -> 0.23.2"
       ]
     },
+    "HMGSpecialAmmoTest": {
+      "baselineChanges": 8,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "callKind": "ensure",
+          "id": "hmg-special-mode",
+          "mode": "transaction",
+          "path": "weapon",
+          "resource": "support_weapon",
+          "weapon": "MG-206 Heavy Machine Gun"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared",
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "hmg-labels-label",
+          "mode": "transaction",
+          "resource": "attack_output"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared",
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "hmg-labels-primary-label",
+          "mode": "transaction",
+          "resource": "attack_output"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.25.1",
+      "status": "VALIDATED",
+      "usesOptions": true,
+      "versionReasons": [
+        "MG-206 Heavy Machine Gun -> 0.24.0",
+        "in-game options -> 0.25.1",
+        "typed writes -> 0.23.2"
+      ]
+    },
     "HaltFeedTest": {
       "baselineChanges": 4,
       "calls": [
@@ -3370,6 +3420,62 @@
         "typed writes -> 0.23.2"
       ]
     },
+    "SpeargunProjectileBuilderTest": {
+      "baselineChanges": 9,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "callKind": "ensure",
+          "id": "spear-stun-mode",
+          "mode": "transaction",
+          "path": "weapon",
+          "resource": "support_weapon",
+          "weapon": "S-11 Speargun"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "spear-stun-slots",
+          "mode": "transaction",
+          "resource": "attack_output"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "spear-stun-label",
+          "mode": "transaction",
+          "resource": "attack_output"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "spear-gas-primary-label",
+          "mode": "transaction",
+          "resource": "attack_output"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.25.1",
+      "status": "VALIDATED",
+      "usesOptions": true,
+      "versionReasons": [
+        "in-game options -> 0.25.1",
+        "typed writes -> 0.23.2"
+      ]
+    },
     "StatusActionTest": {
       "baselineChanges": null,
       "calls": [],
@@ -3605,6 +3711,70 @@
       "usesOptions": false,
       "versionReasons": [
         "throwable target -> 0.27.0",
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "UnifiedProjectileSwapTest": {
+      "baselineChanges": 4,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "eat-scorcher",
+          "mode": "transaction",
+          "path": "attack",
+          "resource": "support_weapon",
+          "weapon": "EAT-17 Expendable Anti-Tank"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "callKind": "ensure",
+          "id": "reprimand-napalm",
+          "mode": "transaction",
+          "path": "attack",
+          "resource": "player_weapon",
+          "weapon": "SMG-32 Reprimand"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "ensure",
+          "id": "liberator-talon",
+          "mode": "transaction",
+          "path": "ammunition",
+          "resource": "player_weapon",
+          "weapon": "AR-23 Liberator"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "stalwart-amr",
+          "mode": "transaction",
+          "path": "attack",
+          "resource": "support_weapon",
+          "weapon": "M-105 Stalwart"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.27.0",
+      "status": "VALIDATED",
+      "usesOptions": true,
+      "versionReasons": [
+        "EAT-17 Expendable Anti-Tank (structurally delivery-resolved) -> 0.27.0",
+        "M-105 Stalwart -> 0.24.0",
+        "in-game options -> 0.25.1",
         "typed writes -> 0.23.2"
       ]
     },

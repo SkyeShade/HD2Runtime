@@ -2,7 +2,55 @@
   "schema_version": 1,
   "evidence": "Weapon-function mode presentation lives on the fired projectile: ProjectileInfo +12 is its short mode label (a localization string ID, hidden name length 10) and +16 its HUD icon resource (length 8). Targets are catalogued attack outputs (hd2.attack_output(name)); values are native strings and native weapon-function icons only (research/weapon-presentation-F5FEE03DCFDB.json, modes).",
   "fields": [
-    {"id": "presentation.mode_label", "display_name": "Mode label", "type": "mode_label", "unit": "native_string", "settings": "projectile", "offset": 12, "storage": "u32", "native": "ProjectileInfo short mode label (localization string ID)"},
-    {"id": "presentation.mode_icon", "display_name": "Mode icon", "type": "mode_icon", "unit": "native_icon", "settings": "projectile", "offset": 16, "storage": "u64", "native": "ProjectileInfo HUD icon resource (content/ui/mission/hud/weapon_function/...)"}
+    {
+      "id": "presentation.mode_label",
+      "display_name": "Mode label",
+      "type": "mode_label",
+      "unit": "native_string",
+      "settings": "projectile",
+      "offset": 12,
+      "storage": "u32",
+      "native": "ProjectileInfo short mode label (localization string ID)"
+    },
+    {
+      "id": "presentation.mode_icon",
+      "display_name": "Mode icon",
+      "type": "mode_icon",
+      "unit": "native_icon",
+      "settings": "projectile",
+      "offset": 16,
+      "storage": "u64",
+      "native": "ProjectileInfo HUD icon resource (content/ui/mission/hud/weapon_function/...)"
+    },
+    {
+      "id": "projectile.direct_damage",
+      "display_name": "Direct-hit damage",
+      "type": "damage_slot",
+      "unit": "reference",
+      "settings": "projectile",
+      "offset": 60,
+      "storage": "u32",
+      "native": "ProjectileInfo +60 DamageInfoType: the damage row a direct hit applies (damage, penetration, statuses)"
+    },
+    {
+      "id": "projectile.impact_explosion",
+      "display_name": "Impact explosion",
+      "type": "explosion_slot",
+      "unit": "reference",
+      "settings": "projectile",
+      "offset": 144,
+      "storage": "u32",
+      "native": "ProjectileInfo +144 ExplosionType: released when the projectile hits"
+    },
+    {
+      "id": "projectile.expiry_explosion",
+      "display_name": "Expiry explosion",
+      "type": "explosion_slot",
+      "unit": "reference",
+      "settings": "projectile",
+      "offset": 156,
+      "storage": "u32",
+      "native": "ProjectileInfo +156 ExplosionType: released when the projectile expires (a stuck spear, a timed shell)"
+    }
   ]
 }

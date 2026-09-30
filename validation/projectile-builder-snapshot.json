@@ -1,0 +1,196 @@
+{
+  "audit": {
+    "A/M-23 EMS Mortar Sentry": {
+      "directHit": true,
+      "expiry": {
+        "arc": false,
+        "lingeringField": true,
+        "submunition": false
+      },
+      "impact": {
+        "arc": false,
+        "lingeringField": false,
+        "submunition": false
+      }
+    },
+    "AR-2 Coyote": {
+      "directHit": true
+    },
+    "CB-9 Exploding Crossbow": {
+      "directHit": true,
+      "impact": {
+        "arc": false,
+        "lingeringField": false,
+        "submunition": false
+      }
+    },
+    "EAT-700 Expendable Napalm": {
+      "directHit": true,
+      "impact": {
+        "arc": false,
+        "lingeringField": false,
+        "submunition": true
+      }
+    },
+    "GL-21 Grenade Launcher": {
+      "directHit": true,
+      "expiry": {
+        "arc": false,
+        "lingeringField": false,
+        "submunition": false
+      },
+      "impact": {
+        "arc": false,
+        "lingeringField": false,
+        "submunition": false
+      }
+    },
+    "R-36 Eruptor": {
+      "directHit": true,
+      "expiry": {
+        "arc": false,
+        "lingeringField": false,
+        "submunition": true
+      },
+      "impact": {
+        "arc": false,
+        "lingeringField": false,
+        "submunition": true
+      }
+    },
+    "S-11 Speargun": {
+      "directHit": true,
+      "expiry": {
+        "arc": false,
+        "lingeringField": true,
+        "submunition": false
+      }
+    }
+  },
+  "fixtureFallback": "disabled",
+  "hmg": {
+    "hmg-label": {
+      "packages": 0,
+      "writes": 3
+    },
+    "hmg-mode": {
+      "packages": 1,
+      "writes": 2
+    }
+  },
+  "mode": "snapshot-overlay",
+  "proofScope": "guarded write mechanics; every composition here is pending a live test",
+  "protectionChanges": 36,
+  "rejections": {
+    "beamHasNoSlots": "has no projectile slots",
+    "builderWithoutAcknowledgement": "allow_unverified",
+    "crossSlotType": "a damage slot takes",
+    "donorLacksSlot": "has no impactExplosion",
+    "dormantSource": "DORMANT_PROJECTILE_REFERENCE",
+    "incompatibleFamilies": 4,
+    "missingPackage": "ASSET_UNAVAILABLE",
+    "nonHostSupport": "field is not exposed",
+    "recursionDirect": "RECURSIVE_COMPOSITION",
+    "recursionTwoStep": "RECURSIVE_COMPOSITION",
+    "removeDirectHit": "cannot be removed",
+    "sharedRow": "allow_shared",
+    "spareTwinChanged": "SPARE_TWIN_CHANGED",
+    "spareTwinOtherBuild": "SPARE_TWIN_UNVERIFIED_BUILD",
+    "staleDonor": "source projectile reference changed",
+    "staleSlotDonor": "CONFLICT",
+    "stale_identity": "unsupported identity",
+    "unknownOutput": "unknown attack output",
+    "unknownSlot": "must be \"none\"",
+    "wrongExpect": "expect must be this output"
+  },
+  "sharedWithAcknowledgement": {
+    "entities": 6,
+    "references": 15
+  },
+  "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "speargun": {
+    "rows": {
+      "changedMembers": {
+        "own": [
+          "presentation"
+        ],
+        "spare": [
+          "presentation",
+          "expiry_explosion"
+        ]
+      },
+      "gasExpiryUnchanged": true,
+      "spareExpiry": {
+        "from": 342,
+        "to": 180
+      },
+      "spareTwinOf": "S-11 Speargun"
+    },
+    "spear-gas-primary-label": {
+      "changes": 2,
+      "packages": 0,
+      "writes": 3
+    },
+    "spear-stun-label": {
+      "changes": 2,
+      "packages": 0,
+      "writes": 3
+    },
+    "spear-stun-mode": {
+      "changes": 2,
+      "packages": 0,
+      "writes": 2
+    },
+    "spear-stun-slots": {
+      "changes": 1,
+      "packages": 1,
+      "writes": 1
+    }
+  },
+  "status": "VALIDATED",
+  "submunitionChainAccepted": "EAT-700 Expendable Napalm impact explosion",
+  "unified": {
+    "Liberator ammunition <- Talon": {
+      "crossClass": false,
+      "from": 276,
+      "host": "AR-23 Liberator",
+      "member": "ammunition delta",
+      "packages": 1,
+      "to": 144
+    },
+    "primary <- support handle": {
+      "crossClass": true,
+      "from": 123,
+      "host": "SMG-32 Reprimand",
+      "member": "ProjectileWeapon +0",
+      "packages": 1,
+      "to": 259
+    },
+    "restoreIsBaseline": true,
+    "support <- primary handle": {
+      "crossClass": false,
+      "from": 132,
+      "host": "EAT-17 Expendable Anti-Tank",
+      "member": "ProjectileWeapon +0",
+      "packages": 1,
+      "to": 142
+    },
+    "support <- primary output (cross class)": {
+      "crossClass": true,
+      "from": 132,
+      "host": "EAT-17 Expendable Anti-Tank",
+      "member": "ProjectileWeapon +0",
+      "packages": 1,
+      "to": 138
+    },
+    "support <- support handle": {
+      "crossClass": false,
+      "from": 275,
+      "host": "MG-206 Heavy Machine Gun",
+      "member": "ProjectileWeapon +0",
+      "packages": 1,
+      "to": 276
+    }
+  },
+  "writes": 38
+}

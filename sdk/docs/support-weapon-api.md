@@ -52,6 +52,23 @@ LAS-98 uses the 0.18 `WeaponHeatComponentData` layout in the retained snapshot, 
 capacity, generation, cooling, and heatsinks. Its runtime roots are still unresolved (see below),
 so both heat and beam writes remain blocked.
 
+## Projectile swaps (support hosts)
+
+Eight support weapons are projectile hosts: APW-1, EAT-17, EAT-411, EAT-700, GL-21, M-105 Stalwart, MG-206 HMG and
+S-11 Speargun. They pass the same rule as player component hosts: magazine-fed, and every shot is their own
+ProjectileWeapon +0. `hd2.fields.attack.projectile` on `support:attack(role)` replaces what they fire. The donor is
+any catalogued projectile output or another weapon's attack projectile handle, from any loadout slot. The support host
+path is not live-proven yet, so it needs `allow_unverified_effect`; cross-class donors also need
+`allow_unverified_reference`. `support:projectile_source()` gives the target, field and expect, or the reason a
+support weapon is read-only. See [attack outputs](attack-outputs.md) (support hosts, one donor pool).
+
+```lua
+local eat=hd2.support_weapon('EAT-17 Expendable Anti-Tank')
+local source=eat:projectile_source()
+hd2.ensure({transaction={id='eat-scorcher',target=source.target,allow_unverified_effect=true,
+    changes={{field=source.field,expect=source.expect,value=hd2.weapon('PLAS-1 Scorcher'):attack('primary'):projectile()}}}})
+```
+
 ## 0.24 coverage
 
 Evidence: `research/support-weapon-coverage-F5FEE03DCFDB.json`, produced by

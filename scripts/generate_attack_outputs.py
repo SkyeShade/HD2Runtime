@@ -200,6 +200,21 @@ def kind_of(entry):
     return family
 
 
+def public_slots(row):
+    """The composable references of a selectable projectile row, for a projectile builder."""
+    result = {}
+    for field_id, key, offset, kind in SLOTS:
+        field = row['slotFields'][field_id]
+        result[key] = {'field': 'hd2.fields.' + field_id, 'current': field['currentDefault'] != 0,
+            'allowNone': field['allowNone'], 'shared': field['shared'],
+            'sharedConsumerCount': len(field['sharedConsumers']), 'consumerReferences': field['consumerReferences'],
+            'namedSharedConsumers': [c for c in field['sharedConsumers'] if not c.startswith('0x')],
+            'acknowledgements': ['allow_unverified_effect'] + (['allow_shared'] if field['shared'] else []),
+            'valueHandle': 'hd2.attack_output(donor):' + {'directDamage': 'direct_damage',
+                'impactExplosion': 'impact_explosion', 'expiryExplosion': 'expiry_explosion'}[key] + '()'}
+    return result
+
+
 def public_presentation(row):
     fields = row['presentationFields']
     label, icon = fields['presentation.mode_label'], fields['presentation.mode_icon']
@@ -231,6 +246,51 @@ def mode_catalog():
     return labels, icons, modes['projectiles']
 
 
+BUILDER = ROOT / 'research/projectile-builder-F5FEE03DCFDB.json'
+SLOT_UNVERIFIED = ('Re-points one reference of the projectile row (its direct-hit damage, impact or expiry explosion) '
+    'to another catalogued output\'s. Every weapon firing this row changes; the donor row is only referenced. Not yet '
+    'shown in game.')
+SLOTS = (('projectile.direct_damage', 'directDamage', 60, 'damage_slot'),
+    ('projectile.impact_explosion', 'impactExplosion', 144, 'explosion_slot'),
+    ('projectile.expiry_explosion', 'expiryExplosion', 156, 'explosion_slot'))
+
+
+def builder_research():
+    return json.loads(BUILDER.read_text(encoding='utf-8'))
+
+
+def slot_summary(slot):
+    if slot is None:
+        return None
+    if 'radii' in slot:
+        return {'type': slot['type'], 'volume': slot['volume'], 'volumeSeconds': slot['volumeSeconds'],
+            'radius': slot['radii'][1], 'damage': slot['damage'].get('standard'),
+            'statuses': [s['status'] for s in slot['damage'].get('statuses', [])],
+            'submunition': slot['submunition'] is not None, 'arc': slot['arc'] is not None}
+    return {'type': slot['type'], 'damage': slot.get('standard'), 'durable': slot.get('durable'),
+        'armorPenetration': (slot.get('ap') or [None])[0], 'statuses': [s['status'] for s in slot.get('statuses', [])]}
+
+
+def slot_fields(row, consumers, slots, references=None):
+    """The three references of a selectable projectile row (research/projectile-builder): direct-hit damage, impact
+    and expiry explosion. Shared when more than one entity fires the row (the typed reference graph: components,
+    entity deltas and explosion submunitions; references counts every typed member naming the row)."""
+    settings = row['referenceSettings']
+    shared = sorted(consumers)
+    backing = {'kind': 'settings', 'settings': 'projectile', 'recordType': settings['recordType'],
+        'group': settings['group'], 'row': settings['row'], 'settingsType': settings['settingsType']}
+    fields = {}
+    for field_id, key, offset, kind in SLOTS:
+        slot = slots[key]
+        fields[field_id] = {'semanticFieldId': field_id, 'type': kind, 'editable': True,
+            'acknowledgement': 'allow_unverified_effect', 'acknowledgementReason': SLOT_UNVERIFIED,
+            'shared': len(shared) > 1, 'sharedConsumers': shared, 'consumerReferences': references or len(shared),
+            'operationGroup': 'projectile_slots',
+            'appliesWhen': 'use', 'currentDefault': slot['type'] if slot else 0, 'allowNone': kind == 'explosion_slot',
+            'backing': dict(backing, offset=offset, width=4, storage='u32')}
+    return fields
+
+
 def presentation_fields(row, consumers, labels, icons, projectiles):
     """The weapon-function mode label and HUD icon of a selectable projectile output (its ProjectileInfo +12, +16)."""
     projectile = projectiles.get(str(row['currentDefault']))
@@ -257,6 +317,11 @@ def outputs():
     mode_labels, mode_icons, mode_projectiles = mode_catalog()
     active, sources, ammunition, by_weapon = active_sources()
     runtime_outputs, aliases, public = {}, {}, []
+    builder = builder_research()
+    builder_slots = {item['type']: item['slots'] for item in builder['projectileOutputs']}
+    # Who fires each row, from the typed reference graph (a superset of the package owners research/attack-outputs saw).
+    builder_owners = {item['type']: item['consumerOwners'] for item in builder['projectileOutputs']}
+    builder_references = {item['type']: item['consumerCount'] for item in builder['projectileOutputs']}
     for entry in sorted(research['weapons'], key=lambda e: (e['kind'], e['weapon'])):
         semantic = f"output/v1/{entry['family']}/{slug(entry['weapon'])}"
         owner = {'kind': entry['kind'], 'name': entry['weapon']}
@@ -281,8 +346,10 @@ def outputs():
                 if entry['family'] != 'projectile' else owner_reason if fires == 'not_established' else
                 'The projectile row this weapon fires is not resolved in the retained snapshot.')
         if selectable:
-            row['presentationFields'] = presentation_fields(row, entry.get('outputConsumers') or [], mode_labels,
-                mode_icons, mode_projectiles)
+            owners = builder_owners.get(row['currentDefault'], entry.get('outputConsumers') or [])
+            row['presentationFields'] = presentation_fields(row, owners, mode_labels, mode_icons, mode_projectiles)
+            row['slotFields'] = slot_fields(row, owners, builder_slots[row['currentDefault']],
+                builder_references.get(row['currentDefault']))
         runtime_outputs[semantic] = row
         for alias in (entry['weapon'], entry['weapon'] + '/primary'):
             if alias in aliases:
@@ -307,6 +374,7 @@ def outputs():
                 'allow_unverified_effect']} if selectable else None),
             'ownerFiresThisProjectile': fires,
             'presentation': public_presentation(row) if selectable else None,
+            'slots': public_slots(row) if selectable else None,
             'liveProof': output_live_proof(entry['weapon'])})
     # Stratagem-owned projectile donors (research/stun-field-donors-F5FEE03DCFDB.json): a projectile a stratagem entity
     # fires through its own ProjectileWeapon +0 (the EMS Mortar turret's shell). They are catalogued for exactly the
@@ -334,6 +402,9 @@ def outputs():
             'referenceScope': list(donor['referenceScope']), 'fieldEffect': effect}
         runtime_outputs[semantic]['presentationFields'] = presentation_fields(runtime_outputs[semantic],
             [entity for entity in donor.get('consumers') or [donor['name']]], mode_labels, mode_icons, mode_projectiles)
+        runtime_outputs[semantic]['slotFields'] = slot_fields(runtime_outputs[semantic],
+            builder_owners.get(donor['projectileType']) or donor.get('consumers') or [donor['name']],
+            builder_slots[donor['projectileType']], builder_references.get(donor['projectileType']))
         for alias in (donor['name'], donor['name'] + '/primary'):
             if alias in aliases:
                 raise ValueError('duplicate attack output alias ' + alias)
@@ -351,11 +422,76 @@ def outputs():
                 'allow_unverified_effect']},
             'ownerFiresThisProjectile': 'fires_reference',
             'presentation': public_presentation(runtime_outputs[semantic]),
+            'slots': public_slots(runtime_outputs[semantic]),
             'liveProof': output_live_proof(donor['name'])})
+    # Native spare twins (research/projectile-builder): a row no typed data member references that is byte-identical
+    # to a catalogued output's row except its references. The same flight, visuals and audio as its twin (whose
+    # package covers its assets), with an identity no other consumer uses: composing it changes nothing else.
+    for twin in builder['spareTwins']:
+        owner_output = twin['twinOutputs'][0]
+        twin_id = aliases[owner_output['weapon']]
+        twin_row = runtime_outputs[twin_id]
+        name = owner_output['weapon'] + ' (spare twin)'
+        semantic = 'output/v1/projectile/' + slug(name)
+        identity = twin['identity']
+        row = {'id': semantic, 'family': 'projectile', 'owner': {'kind': 'spare_row', 'name': name},
+            'spare': {'twinOf': twin_id, 'twinSettings': twin['twinIdentity'],
+                'excluded': [[item['from'], item['to']] for item in twin['excludedFromTwinCheck']],
+                # Unreferenced is proven on this build only (the typed reference graph); build migration does not
+                # re-derive it, so every other build refuses the row (SPARE_TWIN_UNVERIFIED_BUILD).
+                'researchedBuild': builder['source']['exeSha256']},
+            'currentDefault': twin['spare'], 'editable': True,
+            'referenceSettings': identity, 'compatibilityClass': twin_row['compatibilityClass'],
+            'dependencyKey': twin_row.get('dependencyKey'), 'dependencyOwner': twin_row['owner'],
+            'referenceScope': ['function_ammo.projectile']}
+        twin_projectile = mode_projectiles.get(str(twin['twin']))
+        mode_projectiles[str(twin['spare'])] = dict(twin_projectile, settings=identity)
+        row['presentationFields'] = presentation_fields(row, [], mode_labels, mode_icons, mode_projectiles)
+        row['slotFields'] = slot_fields(row, [], twin['slots'])
+        runtime_outputs[semantic] = row
+        for alias in (name, name + '/primary'):
+            if alias in aliases:
+                raise ValueError('duplicate attack output alias ' + alias)
+            aliases[alias] = semantic
+        twin_public = next(item for item in public if item['semanticId'] == twin_id)
+        public.append({'semanticId': semantic, 'family': 'projectile', 'kind': 'spare_twin',
+            'owner': {'kind': 'spare_row', 'name': name}, 'emitter': 'ProjectileSettings',
+            'compatibilityClass': row['compatibilityClass'], 'selectableAsProjectileReference': True,
+            'compatibleHostFamilies': ['projectile'], 'referenceScope': list(row['referenceScope']),
+            'requiredCoordinatedReferences': [], 'blockedReason': None,
+            'spareTwin': {'twinOf': twin_id, 'twinName': owner_output['weapon'], 'independent': True,
+                'consumers': 0, 'borrowedVanillaRow': True, 'interim': True, 'buildScoped': True,
+                'differingReferences': sorted(twin['differingReferences']),
+                'reason': ('No typed data member references this row; it is byte-identical to its twin except its '
+                    'references, so it flies, looks and sounds like the twin and its twin\'s package covers it. '
+                    'Composing it (slots, presentation) changes no other weapon. It borrows a vanilla ProjectileType '
+                    'slot: an interim until Runtime owns ids of its own, and re-proven before every write.')},
+            'chain': {'impactExplosion': bool(twin['slots']['impactExplosion']),
+                'expiryExplosion': bool(twin['slots']['expiryExplosion']), 'submunition': False, 'arcOnImpact': False},
+            'ownerFireResource': [], 'package': twin_public['package'],
+            'acknowledgements': {'sameClass': [],
+                'crossClass': ['allow_unverified_reference', 'allow_unverified_effect']},
+            'ownerFiresThisProjectile': 'spare_row', 'presentation': public_presentation(row),
+            'slots': public_slots(row), 'liveProof': None})
     # Hosts: a player attack whose fired projectile Runtime can write. `component`: the attack's own ProjectileWeapon
     # +0 is its active source; `ammunition`: the default ammunition delta is. Both keep the live controls' structure
     # (magazine-fed; no rounds, charge or heat). Support weapons have no guarded projectile reference target.
     hosts = {}
+    # Support weapons: the same rule. ACTIVE_DIRECT (their own ProjectileWeapon +0 is fired) and magazine-fed.
+    classes = {entry['weapon']: entry.get('compatibilityClass') for entry in research['weapons']}
+    support_sources = {}
+    for item in builder['supportHosts']:
+        host = bool(item['componentHost'] and classes.get(item['weapon']))
+        if host:
+            hosts[item['weapon']] = {'kind': 'support_weapon', 'class': classes[item['weapon']], 'mechanism': 'component'}
+        reason = item['reason']
+        if not host and item['status'] == 'ACTIVE_DIRECT':
+            reason = ('Every shot is ProjectileWeapon +0, but the weapon is not magazine-fed: the host rule the live '
+                'controls established covers magazine-fed weapons only (no rounds feed, charge or heat), so its '
+                'projectile reference stays read-only.')
+        support_sources[item['weapon']] = {'status': item['status'], 'mechanism': item['mechanism'],
+            'member': 'ProjectileWeapon +0' if item['mechanism'] == 'component' else None, 'reason': reason,
+            'writable': host, 'compatibilityClass': classes.get(item['weapon'])}
     for name, roles in sorted(sources.items()):
         primary = roles.get('primary')
         entry = by_weapon.get(name)
@@ -378,8 +514,8 @@ def outputs():
         for key, item in mode_icons.items()}
     runtime = migration_overlay.apply('attack_outputs', {'outputs': runtime_outputs, 'aliases': aliases,
         'modeLabels': runtime_labels, 'modeIcons': runtime_icons,
-        'hosts': hosts, 'sources': sources, 'ammunition': ammunition, 'provenCompositions': compositions,
-        'crossClassReason': UNVERIFIED_REFERENCE})
+        'hosts': hosts, 'sources': sources, 'supportSources': support_sources, 'ammunition': ammunition,
+        'provenCompositions': compositions, 'crossClassReason': UNVERIFIED_REFERENCE})
     cases = research['liberatorCases']
     public_sources = []
     for name, roles in sorted(sources.items()):
@@ -395,6 +531,12 @@ def outputs():
             else:
                 item['write'] = None
             public_sources.append(item)
+    for name, row in sorted(support_sources.items()):
+        public_sources.append({'weapon': name, 'kind': 'support_weapon', 'attack': 'primary', 'status': row['status'],
+            'mechanism': row['mechanism'], 'member': row['member'], 'reason': row['reason'],
+            'directWritable': row['writable'], 'previouslyWritable': False,
+            'write': ('hd2.support_weapon(name):attack(role):projectile() (hd2.fields.attack.projectile)'
+                if row['writable'] else None)})
     public_ammunition = [{'weapon': name, 'semanticId': a['id'], 'item': a['item'],
         'compatibilityClass': a['compatibilityClass'], 'sharedWithWeapons': a['sharedWithWeapons'],
         'sharedReason': a['sharedReason'], 'appliesWhen': 'weapon build (the ammunition delta is applied when the '
@@ -444,11 +586,48 @@ def outputs():
                 'the attack\'s own ProjectileWeapon +0 is its active source (ACTIVE_DIRECT). ammunition: the default '
                 'ammunition delta is (INDIRECT), written through weapon:ammunition(). Both keep the live controls\' '
                 'structure: magazine-fed, empty magazine pattern, no WeaponRounds, WeaponCharge or WeaponHeat. A '
-                'projectile pointer existing is not enough. Support weapons have no guarded projectile reference '
-                'target.'),
+                'projectile pointer existing is not enough. Support weapons follow the same rule (component hosts: '
+                'hd2.support_weapon(name):attack(role) with hd2.fields.attack.projectile); the donor pool is one '
+                'catalog (hd2.attack_output(name)) whatever loadout slot the donor comes from.'),
             'hostLiveProof': {name: host_live_proof(name) for name in sorted(hosts) if host_live_proof(name)},
             'retained': research['hostRetains']},
         'liberatorCases': cases,
+        # The projectile builder (weapon:programmable_ammo(), research/projectile-builder): what kind of composition the
+        # game supports, the slot model and the guards, for tools that build modes (no native identifiers).
+        'projectileBuilder': {
+            'api': {'builder': 'weapon:programmable_ammo()', 'operations': 'builder:operations(spec)',
+                'presentation': 'builder:presentation(spec)', 'bases': 'builder:bases()',
+                'slotHandles': 'hd2.attack_output(name):direct_damage() / :impact_explosion() / :expiry_explosion()',
+                'acknowledgements': 'passed on from the spec exactly as given; the builder never adds one'},
+            'classes': {name: {'supported': item['supported'], 'interim': item.get('interim', False),
+                'reason': item['reason']} for name, item in builder['classes'].items()},
+            'rows': {'total': builder['model']['rows'], 'referenced': builder['model']['referencedRows'],
+                'unreferenced': len(builder['model']['spareRows'])},
+            'spareTwins': [{'output': 'output/v1/projectile/' + slug(t['twinOutputs'][0]['weapon'] + ' (spare twin)'),
+                'twinOf': aliases[t['twinOutputs'][0]['weapon']], 'borrowedVanillaRow': True, 'interim': True,
+                'differingReferences': sorted(t['differingReferences'])} for t in builder['spareTwins']],
+            'slots': [{'field': 'hd2.fields.' + field_id, 'key': key, 'kind': kind,
+                'none': 'removes it' if kind == 'explosion_slot' else 'refused (a projectile always has a direct hit)',
+                'meaning': {'directDamage': 'the damage, penetration and statuses of a direct hit',
+                    'impactExplosion': 'the explosion released when the projectile hits',
+                    'expiryExplosion': 'the explosion released when the projectile expires (a stuck spear, a timed shell)'
+                    }[key]} for field_id, key, offset, kind in SLOTS],
+            'guards': {
+                'donorProof': 'the donor row is only read; its reference is re-proven live (CONFLICT if it moved)',
+                'slotTypes': 'a damage slot takes only a direct_damage() handle, an explosion slot an explosion handle',
+                'spareTwin': 'before every write the spare twin is re-proven byte-identical to its twin outside its '
+                    'references and presentation (SPARE_TWIN_CHANGED); it is offered only on the build its row was '
+                    'proven unreferenced on (SPARE_TWIN_UNVERIFIED_BUILD elsewhere)',
+                'package': 'the donor package is a declared asset dependency; no catalogued package is refused '
+                    '(ASSET_UNAVAILABLE)',
+                'recursion': 'an explosion chain (explosion, its submunition projectile, that projectile\'s explosions, '
+                    'read live) that reaches the written row is refused (RECURSIVE_COMPOSITION)',
+                'sharing': 'a slot or presentation write changes every entity that fires the row; more than one needs '
+                    'allow_shared (slots[].sharedConsumerCount, consumerReferences)',
+                'effect': 'every slot write needs allow_unverified_effect: no composed slot is gameplay-tested yet'},
+            'unprovenMembers': ['two f32 values after the impact explosion (a delay or a chance is not proven)',
+                'a ProjectileStatusEffect enum (what it does is not proven)'],
+            'examples': ['SpeargunProjectileBuilderTest', 'HMGSpecialAmmoTest', 'UnifiedProjectileSwapTest']},
         'summary': {'outputs': len(public), 'byFamily': {family: sum(1 for o in public if o['family'] == family)
                 for family in research['summary']['byFamily']},
             'stratagemDonors': sorted(o['owner']['name'] for o in public if o['owner']['kind'] == 'stratagem'),
@@ -464,7 +643,8 @@ def outputs():
             'model': ('A weapon-function mode (ProgrammableAmmo, magazine or guidance selection) shows the fired '
                 'projectile\'s own short label and HUD icon. They are members of its ProjectileSettings row, a shared '
                 'definition: every weapon firing that projectile shows the same label and icon.'),
-            'fallback': 'A projectile no native menu shows has no label (none) and the default (skull) icon.',
+            'fallback': ('A projectile no native menu shows has no label (none) and the default icon, a placeholder '
+                'the weapon-function menu shows as an empty spot.'),
             'labels': [{'value': key, 'label': item['label'], 'native': key != 'none', 'icon': item['icon'],
                 'iconSource': item['iconSource']} for key, item in mode_labels.items() if item['offered']],
             'icons': [{'value': key, 'source': 'auto' if item.get('auto') else 'native',
@@ -474,8 +654,9 @@ def outputs():
                 'no native icon exists for it, the generic fallback; it uses the mode_label written in the same '
                 'operation, else the current one. An explicit native icon always overrides it.'),
             'genericFallbackIcon': GENERIC_FALLBACK[0],
-            'defaultIcon': ('default: the skull every unlabelled projectile holds; it is another texture set and '
-                'shows as no usable weapon-function icon (the GAS live test, 2026-09-30).'),
+            'defaultIcon': ('default: the placeholder every unlabelled projectile holds (a skull resource from another '
+                'texture set). The weapon-function menu shows it as an empty spot (live tests, 2026-09-30), so it is '
+                'only for restoring vanilla; "auto" never writes it.'),
             'acknowledgement': 'allow_unverified_effect (plus allow_shared when other weapons fire the projectile)',
             'customText': 'not supported: labels are native localization strings only',
             'customIcons': 'not supported in this release: icons are the native weapon-function icons only'},

@@ -2425,8 +2425,9 @@
    {
     "name": "M-105 Stalwart",
     "resolved": true,
-    "writableFields": 38,
+    "writableFields": 39,
     "writableDomains": [
+     "attack",
      "damage",
      "fire_mode",
      "fire_rate",
@@ -2442,8 +2443,9 @@
    {
     "name": "APW-1 Anti-Materiel Rifle",
     "resolved": true,
-    "writableFields": 41,
+    "writableFields": 42,
     "writableDomains": [
+     "attack",
      "damage",
      "fire_mode",
      "fire_rate",
@@ -2460,8 +2462,9 @@
    {
     "name": "EAT-17 Expendable Anti-Tank",
     "resolved": true,
-    "writableFields": 53,
+    "writableFields": 54,
     "writableDomains": [
+     "attack",
      "damage",
      "explosion",
      "fire_mode",
@@ -2523,8 +2526,9 @@
    {
     "name": "MG-206 Heavy Machine Gun",
     "resolved": true,
-    "writableFields": 40,
+    "writableFields": 41,
     "writableDomains": [
+     "attack",
      "damage",
      "fire_mode",
      "fire_rate",
@@ -2650,8 +2654,9 @@
    {
     "name": "GL-21 Grenade Launcher",
     "resolved": true,
-    "writableFields": 53,
+    "writableFields": 54,
     "writableDomains": [
+     "attack",
      "damage",
      "explosion",
      "fire_mode",
@@ -2799,8 +2804,9 @@
    {
     "name": "S-11 Speargun",
     "resolved": true,
-    "writableFields": 60,
+    "writableFields": 61,
     "writableDomains": [
+     "attack",
      "damage",
      "explosion",
      "fire_mode",
@@ -2819,8 +2825,9 @@
    {
     "name": "EAT-700 Expendable Napalm",
     "resolved": true,
-    "writableFields": 56,
+    "writableFields": 57,
     "writableDomains": [
+     "attack",
      "damage",
      "explosion",
      "fire_mode",
@@ -2897,8 +2904,9 @@
    {
     "name": "EAT-411 Leveller",
     "resolved": true,
-    "writableFields": 51,
+    "writableFields": 52,
     "writableDomains": [
+     "attack",
      "damage",
      "explosion",
      "fire_mode",

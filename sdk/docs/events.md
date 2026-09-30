@@ -239,9 +239,15 @@ Not claimed, for lack of proof:
 - **Thrown entities.** The K-2 knife is a sticky thrown entity, not a projectile-system projectile, so it appears in
   `player_damage_dealt`, never in `player_hit`.
 
-The events are polled 10 times per second: one event sums everything recorded since the previous check.
+The events are polled 10 times per second: one event sums everything recorded since the previous check. Two sources
+in the same check stay separate entries, and unattributed damage is never assigned to one of them.
 `examples/projects/VampiricThrowingKnivesTest` heals the local player on K-2 damage (a fixed 25, or a proportion of the
 recorded damage).
+
+**Cost.** A check is one bulk read of the player's 64 source blocks, whatever the number of hits, victims or
+entities: no world scan. On the offline benchmark (`py scripts/bench_events.py --stats`, 400 entities, every native
+event subscribed, all 64 blocks filled) a check costs 0.05 ms on average and 0.36 ms at most (10 sources changing).
+The steady tick goes from 0.061 to 0.071 ms.
 
 ## Actions
 

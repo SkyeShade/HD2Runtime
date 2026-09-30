@@ -137,11 +137,11 @@ class CatalogTests(unittest.TestCase):
 
     def test_catalog(self):
         summary = self.catalog['summary']
-        self.assertEqual(summary['outputs'], 106)
-        self.assertEqual(summary['byFamily'], {'projectile': 90, 'beam': 3, 'arc': 2, 'spray': 4, 'melee': 7})
+        self.assertEqual(summary['outputs'], 107)
+        self.assertEqual(summary['byFamily'], {'projectile': 91, 'beam': 3, 'arc': 2, 'spray': 4, 'melee': 7})
         self.assertEqual(summary['stratagemDonors'], ['A/M-23 EMS Mortar Sentry'])
         self.assertEqual((summary['selectable'], summary['projectileHosts'], summary['componentHosts'],
-            summary['ammunitionHosts'], summary['directWritableAttackFields']), (67, 35, 29, 6, 37))
+            summary['ammunitionHosts'], summary['directWritableAttackFields']), (68, 43, 37, 6, 45))
         # Every selectable projectile output carries its weapon-function mode label and icon (native values only).
         presentation = self.catalog['modePresentation']
         icons = {i['value']: i for i in presentation['icons']}
@@ -152,7 +152,7 @@ class CatalogTests(unittest.TestCase):
         self.assertEqual((by_label['gas']['icon'], by_label['gas']['iconSource']), ('ammo_slug', 'generic_fallback'))
         self.assertEqual((by_label['stun']['icon'], by_label['stun']['iconSource']), ('ammo_stun', 'exact_native'))
         self.assertTrue({'none', 'gas', 'stun', 'flak', 'he'} <= {l['value'] for l in presentation['labels']})
-        self.assertEqual(sum(1 for o in self.catalog['outputs'] if o.get('presentation')), 67)
+        self.assertEqual(sum(1 for o in self.catalog['outputs'] if o.get('presentation')), 68)
         self.assertEqual(self.outputs['AC-8 Autocannon']['presentation']['label'], 'aphet')
         self.assertTrue(self.outputs['AC-8 Autocannon']['presentation']['shared'])
         self.assertEqual((self.outputs['S-11 Speargun']['presentation']['label'],
@@ -192,6 +192,33 @@ class CatalogTests(unittest.TestCase):
         self.assertTrue(self.outputs['GL-52 De-Escalator']['chain']['arcOnImpact'])
         self.assertTrue(self.outputs['EAT-700 Expendable Napalm']['chain']['submunition'])
 
+    def test_projectile_builder_metadata(self):
+        builder = self.catalog['projectileBuilder']
+        self.assertEqual({k: v['supported'] for k, v in builder['classes'].items()},
+            {'REFERENCE_COMPOSITION': True, 'DERIVED_MUTATION': 'spare_twins_only', 'CUSTOM_ROW': False})
+        self.assertEqual(builder['rows'], {'total': 350, 'referenced': 288, 'unreferenced': 62})
+        self.assertEqual(builder['spareTwins'], [{'output': 'output/v1/projectile/s-11-speargun-spare-twin',
+            'twinOf': 'output/v1/projectile/s-11-speargun', 'borrowedVanillaRow': True, 'interim': True,
+            'differingReferences': ['expiryExplosion']}])
+        # A spare twin borrows a vanilla row: an interim, never presented as the end state.
+        self.assertTrue(builder['classes']['DERIVED_MUTATION']['interim'])
+        self.assertIn('Runtime-owned registry', builder['classes']['CUSTOM_ROW']['reason'])
+        self.assertEqual([slot['key'] for slot in builder['slots']], ['directDamage', 'impactExplosion', 'expiryExplosion'])
+        self.assertIn('RECURSIVE_COMPOSITION', builder['guards']['recursion'])
+        self.assertIn('ASSET_UNAVAILABLE', builder['guards']['package'])
+        self.assertIn('never adds', builder['api']['acknowledgements'])
+        self.assertEqual(len(builder['unprovenMembers']), 2)
+        spare = self.outputs['S-11 Speargun (spare twin)']
+        self.assertEqual((spare['kind'], spare['referenceScope'], spare['spareTwin']['consumers']),
+            ('spare_twin', ['function_ammo.projectile'], 0))
+        self.assertTrue(spare['spareTwin']['buildScoped'] and spare['spareTwin']['borrowedVanillaRow'])
+        self.assertIn('SPARE_TWIN_UNVERIFIED_BUILD', builder['guards']['spareTwin'])
+        self.assertFalse(spare['slots']['expiryExplosion']['shared'])
+        hmg = self.outputs['MG-206 Heavy Machine Gun']['slots']['directDamage']
+        self.assertEqual((hmg['shared'], hmg['sharedConsumerCount'], hmg['consumerReferences']), (True, 6, 15))
+        self.assertIn('allow_shared', hmg['acknowledgements'])
+        self.assertFalse(self.outputs['AR-2 Coyote']['slots']['impactExplosion']['current'])
+
     def test_hosts_are_the_active_source(self):
         hosts = self.catalog['hostModel']
         self.assertIn('SMG-32 Reprimand', hosts['componentHosts'])
@@ -205,9 +232,21 @@ class CatalogTests(unittest.TestCase):
         for name in hosts['ammunitionHosts']:
             self.assertEqual((sources[(name, 'primary')]['status'], sources[(name, 'primary')]['mechanism']),
                 ('INDIRECT', 'ammunition'), name)
-        # No support weapon is a host: none has a guarded projectile reference target.
+        # Support weapons follow the same host rule (research/projectile-builder supportHosts): magazine-fed, every shot
+        # their own ProjectileWeapon +0. Ammunition hosts are player weapons only.
         kinds = {w['weapon']: w['kind'] for w in self.active['weapons']}
-        self.assertTrue(all(kinds[n] == 'player_weapon' for n in hosts['componentHosts'] + hosts['ammunitionHosts']))
+        support = sorted(n for n in hosts['componentHosts'] if kinds[n] == 'support_weapon')
+        self.assertEqual(support, ['APW-1 Anti-Materiel Rifle', 'EAT-17 Expendable Anti-Tank', 'EAT-411 Leveller',
+            'EAT-700 Expendable Napalm', 'GL-21 Grenade Launcher', 'M-105 Stalwart', 'MG-206 Heavy Machine Gun',
+            'S-11 Speargun'])
+        self.assertTrue(all(kinds[n] == 'player_weapon' for n in hosts['ammunitionHosts']))
+        support_sources = {s['weapon']: s for s in self.catalog['projectileSources'] if s.get('kind') == 'support_weapon'}
+        self.assertEqual(sorted(n for n, s in support_sources.items() if s['directWritable']), support)
+        # ACTIVE_DIRECT but not magazine-fed: read-only with the reason; other selectors: their own reason.
+        self.assertIn('not magazine-fed', support_sources['GL-28 Belt-Fed Grenade Launcher']['reason'])
+        self.assertFalse(support_sources['GL-28 Belt-Fed Grenade Launcher']['directWritable'])
+        self.assertIn('WeaponRounds', support_sources['AC-8 Autocannon']['reason'])
+        self.assertEqual(support_sources['FAF-14 Spear']['status'], 'BLOCKED')
         live = hosts['hostLiveProof']
         self.assertEqual([r['result'] for r in live['SMG-32 Reprimand']], ['PASS', 'PASS'])
         liberator = {(r['result'], r['family'], r['superseded']) for r in live['AR-23 Liberator']}
@@ -327,7 +366,7 @@ rejects(function()patches.validate{id='x',target=evictor,field=hd2.fields.attack
  expect=evictor:projectile(),value=evictor:projectile()}end,'UNPROVEN_PROJECTILE_SOURCE')
 -- A weapon whose only projectile is its ammunition (no catalogued attack member).
 assert(hd2.weapon('P-2 Peacemaker'):projectile_source().mechanism=='ammunition')
-assert(#hd2.attack_outputs({selectable=true})==67)
+assert(#hd2.attack_outputs({selectable=true})==68)
 -- The stratagem-owned stun-field donor is scoped to function_ammo.projectile and names its field and presentation.
 local ems=hd2.attack_output('A/M-23 EMS Mortar Sentry'):describe()
 assert(ems.owner.kind=='stratagem'and ems.referenceScope[1]=='function_ammo.projectile'and#ems.referenceScope==1)
@@ -335,6 +374,63 @@ assert(ems.fieldEffect.volume=='StaticField'and ems.fieldEffect.seconds==7 and e
 rejects(function()patches.validate{id='x',target=reprimand,field=hd2.fields.attack.projectile,
  expect=reprimand:projectile(),value=hd2.attack_output('A/M-23 EMS Mortar Sentry'),allow_unverified_reference=true,
  allow_unverified_effect=true}end,'OUTPUT_SCOPE')
+return 'ok'
+''')
+
+    def test_support_hosts_share_the_donor_pool(self):
+        run('''
+local hd2=require('hd2runtime/api/hd2')
+local patches=require('hd2runtime/domains/patches')
+local function rejects(fn,needle)local ok,why=pcall(fn);assert(not ok and tostring(why):find(needle,1,true),tostring(why))end
+local eat=hd2.support_weapon('EAT-17 Expendable Anti-Tank')
+local source=eat:projectile_source()
+assert(source.writable and source.status=='ACTIVE_DIRECT'and source.mechanism=='component'and source.field=='attack.projectile')
+assert(source.target.resource=='support_weapon'and source.expect.path=='projectile_reference')
+assert(source.acknowledgements[1]=='allow_unverified_effect')
+assert(eat:attack('primary'):projectile_source().writable)
+assert(eat:feed('primary'):source().writable)
+local function swap(target,expect,value,extra)
+ local request={id='s',target=target,field=hd2.fields.attack.projectile,expect=expect,value=value,
+  allow_unverified_effect=true,allow_unverified_reference=true}
+ for k,v in pairs(extra or{})do if v==false then request[k]=nil else request[k]=v end end
+ return patches.validate(request)
+end
+-- Support host <- primary donor, by output or by the donor weapon's own handle (one pool).
+local spec=swap(source.target,source.expect,hd2.attack_output('AR-2 Coyote'))
+assert(spec.changes[1].cross_class and spec.asset_dependencies[1])
+spec=swap(source.target,source.expect,hd2.weapon('SMG-32 Reprimand'):attack('primary'):projectile())
+assert(spec.changes[1].desired_selector.output=='output/v1/projectile/smg-32-reprimand')
+-- Same class: no allow_unverified_reference, but the support host path is not yet live-proven.
+swap(source.target,source.expect,hd2.attack_output('EAT-411 Leveller'),{allow_unverified_reference=false})
+rejects(function()swap(source.target,source.expect,hd2.attack_output('EAT-411 Leveller'),
+ {allow_unverified_effect=false,allow_unverified_reference=false})end,'allow_unverified_effect')
+rejects(function()swap(source.target,source.expect,hd2.attack_output('AR-2 Coyote'),
+ {allow_unverified_reference=false})end,'allow_unverified_reference')
+-- Restoring its own projectile is the reviewed baseline.
+assert(swap(source.target,source.expect,source.expect,{allow_unverified_effect=false,
+ allow_unverified_reference=false}).changes[1].self_reference)
+-- Primary host <- support donor handle.
+local reprimand=hd2.weapon('SMG-32 Reprimand'):attack('primary')
+spec=patches.validate{id='p',target=reprimand,field=hd2.fields.attack.projectile,expect=reprimand:projectile(),
+ value=hd2.support_weapon('EAT-700 Expendable Napalm'):attack('primary'):projectile(),allow_unverified_reference=true,
+ allow_unverified_effect=true}
+assert(spec.changes[1].desired_selector.output=='output/v1/projectile/eat-700-expendable-napalm')
+-- Refusals: beam/arc/spray/melee families, another weapon's handle as expect, a non-host support weapon, the spare
+-- twin and the stratagem donor outside their scope.
+for _,name in ipairs({'LAS-98 Laser Cannon','ARC-3 Arc Thrower','FLAM-40 Flamethrower','CQC-2 Saber'})do
+ rejects(function()swap(source.target,source.expect,hd2.attack_output(name))end,'INCOMPATIBLE_OUTPUT_FAMILY')
+end
+local hmg=hd2.support_weapon('MG-206 Heavy Machine Gun')
+rejects(function()swap(hmg:attack('primary'),eat:attack('primary'):projectile(),hd2.attack_output('M-105 Stalwart'))end,
+ 'expect must be the target attack current projectile handle')
+rejects(function()swap(hmg:attack('primary'),hd2.weapon('SMG-32 Reprimand'):attack('primary'):projectile(),
+ hd2.attack_output('M-105 Stalwart'))end,'expect must be the target attack current projectile handle')
+local gl28=hd2.support_weapon('GL-28 Belt-Fed Grenade Launcher')
+assert(not gl28:projectile_source().writable and gl28:projectile_source().reason:find('not magazine-fed',1,true))
+rejects(function()swap(gl28:attack('primary'),gl28:attack('primary'):projectile(),hd2.attack_output('AR-2 Coyote'))end,
+ 'field is not exposed')
+rejects(function()swap(source.target,source.expect,hd2.attack_output('S-11 Speargun (spare twin)'))end,'OUTPUT_SCOPE')
+rejects(function()swap(source.target,source.expect,hd2.attack_output('A/M-23 EMS Mortar Sentry'))end,'OUTPUT_SCOPE')
 return 'ok'
 ''')
 
@@ -353,6 +449,36 @@ return 'ok'
 
 
 class ValidationTests(unittest.TestCase):
+    def test_projectile_builder_snapshot_record(self):
+        # Refresh with: py scripts/validate_projectile_builder_snapshot.py
+        record = load('validation/projectile-builder-snapshot.json')
+        self.assertEqual(record['status'], 'VALIDATED')
+        self.assertIn('pending a live test', record['proofScope'])
+        rows = record['speargun']['rows']
+        self.assertEqual(rows['changedMembers'], {'spare': ['presentation', 'expiry_explosion'], 'own': ['presentation']})
+        self.assertTrue(rows['gasExpiryUnchanged'])
+        self.assertEqual(record['speargun']['spear-stun-slots']['packages'], 1)
+        # Where each showcase row's effect lives: the Speargun gas is an expiry field, the EMS stun too; the EAT-700
+        # and Eruptor release submunitions; the Coyote is a direct hit only.
+        audit = record['audit']
+        self.assertNotIn('impact', audit['S-11 Speargun'])
+        self.assertTrue(audit['S-11 Speargun']['expiry']['lingeringField'])
+        self.assertTrue(audit['A/M-23 EMS Mortar Sentry']['expiry']['lingeringField'])
+        self.assertTrue(audit['EAT-700 Expendable Napalm']['impact']['submunition'])
+        self.assertEqual(audit['AR-2 Coyote'], {'directHit': True})
+        unified = record['unified']
+        self.assertEqual({item['member'] for item in unified.values() if isinstance(item, dict)},
+            {'ProjectileWeapon +0', 'ammunition delta'})
+        self.assertTrue(unified['restoreIsBaseline'])
+        self.assertEqual(set(record['rejections']), {'beamHasNoSlots', 'builderWithoutAcknowledgement',
+            'crossSlotType', 'donorLacksSlot',
+            'dormantSource', 'incompatibleFamilies', 'missingPackage', 'nonHostSupport', 'recursionDirect',
+            'recursionTwoStep', 'removeDirectHit', 'sharedRow', 'spareTwinChanged', 'spareTwinOtherBuild',
+            'staleDonor', 'staleSlotDonor',
+            'stale_identity', 'unknownOutput', 'unknownSlot', 'wrongExpect'})
+        self.assertEqual(record['sharedWithAcknowledgement'], {'entities': 6, 'references': 15})
+        self.assertEqual(record['submunitionChainAccepted'], 'EAT-700 Expendable Napalm impact explosion')
+
     def test_snapshot_validation_record(self):
         record = load('validation/attack-output-snapshot.json')
         self.assertEqual(record['status'], 'VALIDATED')

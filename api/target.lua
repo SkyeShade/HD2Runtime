@@ -104,10 +104,39 @@ function M.new(describe)
             for key,item in pairs(catalog.modeIcons or{})do if item.offered then names[#names+1]=key end end
             table.sort(names);return names
         end
+        -- Projectile slots (research/projectile-builder): value handles naming this output's direct-hit damage,
+        -- impact explosion or expiry explosion, for hd2.fields.projectile.direct_damage / impact_explosion /
+        -- expiry_explosion on any selectable output (the base keeps its flight; only the reference moves).
+        local SLOT_FIELDS={directDamage='projectile.direct_damage',impactExplosion='projectile.impact_explosion',
+            expiryExplosion='projectile.expiry_explosion'}
+        local function slot_handle(slot)
+            local field=assert(output.slotFields and output.slotFields[SLOT_FIELDS[slot]],
+                output.id..' has no projectile slots (not a selectable projectile output)')
+            local slot_methods={}
+            function slot_methods.describe()
+                return {output=output.id,slot=slot,field=field.semanticFieldId,present=field.currentDefault~=0,
+                    allowNone=field.allowNone,shared=field.shared}
+            end
+            return setmetatable({resource='attack_output_slot',output=output.id,slot=slot},{__index=slot_methods})
+        end
+        function methods.direct_damage()return slot_handle('directDamage')end
+        function methods.impact_explosion()return slot_handle('impactExplosion')end
+        function methods.expiry_explosion()return slot_handle('expiryExplosion')end
         function methods.describe()
+            local slots
+            if output.slotFields then
+                slots={}
+                for slot,field_id in pairs(SLOT_FIELDS)do
+                    local field=output.slotFields[field_id]
+                    slots[slot]={field=field_id,present=field.currentDefault~=0,allowNone=field.allowNone,
+                        shared=field.shared,consumers=#field.sharedConsumers,references=field.consumerReferences}
+                end
+            end
             return {id=output.id,family=output.family,owner=copy(output.owner),
                 compatibilityClass=output.compatibilityClass,selectable=output.editable==true,reason=output.reason,
                 referenceScope=copy(output.referenceScope),fieldEffect=copy(output.fieldEffect),
+                spare=output.spare and{twinOf=output.spare.twinOf,independent=true,borrowedVanillaRow=true,
+                    interim=true}or nil,slots=slots,
                 presentation=output.presentationFields and{
                     label=output.presentationFields['presentation.mode_label'].currentDefault,
                     icon=output.presentationFields['presentation.mode_icon'].currentDefault,
@@ -115,6 +144,155 @@ function M.new(describe)
                     fields={label='presentation.mode_label',icon='presentation.mode_icon'}}or nil}
         end
         return setmetatable({resource='attack_output',output=output.id},{__index=methods})
+    end
+    -- A programmable (ProgrammableAmmo) mode built from existing pieces: a base projectile output, optional slot
+    -- overrides on that base and the mode's label and icon. operations(spec) returns the ensure requests that make
+    -- it, one per backing object (the weapon's binding and function projectile; the base's slots; the base's and the
+    -- weapon's own presentation), for hd2.ensure. No new native row is created: a spare twin base is an independent
+    -- native row; writing any other base's row changes every entity that fires it (allow_shared when that is more
+    -- than one). The spec's own acknowledgements are passed on; the builder never adds one.
+    local function programmable_builder(name,weapon_target)
+        local methods={}
+        local function feed()
+            for _,item in ipairs(weapon_target:feeds())do
+                if item:describe().mechanism=='programmable_ammo'then return item end
+            end
+            error(name..' has no programmable-ammunition feed (see weapon:feeds())',0)
+        end
+        function methods.bases()
+            local catalog=require('hd2runtime/domains/attack_outputs')
+            local ids={}
+            for id,output in pairs(catalog.outputs)do
+                local scoped=not output.referenceScope
+                for _,field in ipairs(output.referenceScope or{})do
+                    if field=='function_ammo.projectile'then scoped=true end
+                end
+                if output.family=='projectile'and output.editable==true and scoped then ids[#ids+1]=id end
+            end
+            table.sort(ids)
+            local result={}
+            for index,id in ipairs(ids)do result[index]=attack_output_handle(id)end
+            return result
+        end
+        function methods.describe()
+            local source=feed():source()
+            return {weapon=name,feed='programmable',writable=source.writable,reason=source.reason,
+                binding=copy(source.binding),bases=#methods.bases(),
+                slots={'direct_damage','impact_explosion','expiry_explosion'},
+                presentation={label='a native mode label',icon='a native icon, or "auto" (the default when a label is '
+                    ..'given: the exact native icon of the label, else the plain round)'},
+                acknowledgements={'allow_unverified_effect','allow_unverified_reference'},
+                note='A slot or presentation write changes every entity that fires the base row (its owner weapon '
+                    ..'included); a row more than one entity fires needs allow_shared. A spare twin has none.'}
+        end
+        -- The acknowledgements a spec gives, copied onto one request body (only those the spec sets).
+        local function acknowledged(body,spec,keys)
+            for _,key in ipairs(keys)do if spec[key]==true then body[key]=true end end
+            return body
+        end
+        -- The mode label and icon ensure request for one output ("auto" icon unless one is named: the plain round,
+        -- never the empty placeholder).
+        local function presentation_request(target,id,label,icon,spec)
+            if label==nil and icon==nil then return nil end
+            local view=target:describe().presentation
+            local items={}
+            if label~=nil then items[#items+1]={field='presentation.mode_label',expect=view.label,value=label}end
+            items[#items+1]={field='presentation.mode_icon',expect=view.icon,value=icon or'auto'}
+            local request={transaction=acknowledged({id=id,target=target,changes=items},spec,
+                {'allow_unverified_effect','allow_shared'})}
+            if spec.enabled~=nil then request.enabled=spec.enabled end
+            return request
+        end
+        -- The base output(s) of a spec: a fixed attack output or every value of an options choice.
+        local function spec_bases(spec)
+            local options=require('hd2runtime/api/options')
+            local chosen=options.is_handle(spec.base)
+            local bases
+            if chosen then
+                assert(spec.base.kind=='choice','a programmable mode base option must be a choice')
+                bases=spec.base:samples()
+            else
+                bases={spec.base}
+            end
+            for _,item in ipairs(bases)do
+                assert(type(item)=='table'and item.resource=='attack_output',
+                    'programmable mode spec requires base=hd2.attack_output(name) (or a choice of them)')
+            end
+            return bases,chosen
+        end
+        -- A label or icon for one base: a string, or a map from attack output name (any hd2.attack_output identity)
+        -- to the string, so a choice base names each value's own label.
+        local function per_base(value,item,label)
+            if type(value)~='table'then return value end
+            local catalog=require('hd2runtime/domains/attack_outputs')
+            local found
+            for key,entry in pairs(value)do
+                local id=type(key)=='string'and(catalog.outputs[key]and key or catalog.aliases[key])
+                assert(id,label..' map names an unknown attack output: '..tostring(key))
+                if id==item.output then found=entry end
+            end
+            return found
+        end
+        -- Only the menu presentation: spec {id, base= (optional, as for operations), label=, icon= (a string, or with a
+        -- choice base a map from output name to string), primary_label=, primary_icon= (the weapon's own mode),
+        -- enabled=, allow_shared=}. Lets a separate option drive the labels.
+        function methods.presentation(_,spec)
+            assert(type(spec)=='table'and type(spec.id)=='string','programmable mode spec requires an id')
+            local requests={}
+            local function add(request)if request then requests[#requests+1]=request end end
+            if spec.base~=nil then
+                local bases,chosen=spec_bases(spec)
+                for index,item in ipairs(bases)do
+                    add(presentation_request(item,spec.id..'-label'..(chosen and'-'..index or''),
+                        per_base(spec.label,item,'label'),per_base(spec.icon,item,'icon'),spec))
+                end
+            else
+                assert(spec.label==nil and spec.icon==nil,'a mode label or icon needs the base it is shown for')
+            end
+            add(presentation_request(attack_output_handle(name),spec.id..'-primary-label',spec.primary_label,
+                spec.primary_icon,spec))
+            return requests
+        end
+        -- spec: {id, base=hd2.attack_output(...) or an options choice whose values are attack outputs,
+        -- direct_damage=, impact_explosion=, expiry_explosion= (slot handles or "none"; a fixed base only),
+        -- label=, icon= (default "auto" with a label; with a choice base, a map from output name to string),
+        -- primary_label=, primary_icon= (the weapon's own mode), enabled= (an options toggle, applied to every
+        -- request), allow_unverified_effect=, allow_unverified_reference=, allow_shared= (passed on as given)}
+        function methods.operations(_,spec)
+            assert(type(spec)=='table'and type(spec.id)=='string','programmable mode spec requires an id')
+            local _,chosen=spec_bases(spec)
+            local base=spec.base
+            local source=feed():source()
+            assert(source.writable,name..': the programmable feed is not writable: '..tostring(source.reason))
+            local requests={}
+            local function add(request)
+                if spec.enabled~=nil then request.enabled=spec.enabled end
+                requests[#requests+1]=request
+            end
+            local changes={}
+            if source.binding then changes[#changes+1]={field=source.binding.field,expect=source.binding.expect,
+                value=source.binding.value}end
+            changes[#changes+1]={field='function_ammo.projectile',expect=source.expect,value=base}
+            add({transaction=acknowledged({id=spec.id..'-mode',target=source.target,changes=changes},spec,
+                {'allow_unverified_effect','allow_unverified_reference'})})
+            local slots={}
+            for _,item in ipairs({{'direct_damage','projectile.direct_damage'},
+                    {'impact_explosion','projectile.impact_explosion'},{'expiry_explosion','projectile.expiry_explosion'}})do
+                local value=spec[item[1]]
+                if value~=nil then
+                    assert(not chosen,'slot overrides ('..item[1]..') need a fixed base, not a choice')
+                    local own=base[item[1]](base)
+                    slots[#slots+1]={field=item[2],expect=own:describe().present and own or'none',value=value}
+                end
+            end
+            if #slots>0 then
+                add({transaction=acknowledged({id=spec.id..'-slots',target=base,changes=slots},spec,
+                    {'allow_unverified_effect','allow_shared'})})
+            end
+            for _,request in ipairs(methods.presentation(nil,spec))do requests[#requests+1]=request end
+            return requests
+        end
+        return methods
     end
     function builders.attack_output(identity)return attack_output_handle(identity)end
     -- Catalogued output IDs ({family=..., selectable=true} filters).
@@ -341,6 +519,9 @@ function M.new(describe)
                     reason=feed.reason}
             end
             if kind=='player'and feed.mechanism=='projectile'then return projectile_source(name,'primary')end
+            if kind=='support'and feed.mechanism=='projectile'then
+                return builders.support_weapon(name):projectile_source('primary')
+            end
             return {weapon=name,feed=feed.id,mechanism=feed.mechanism,writable=false,
                 reason=feed.projectileSource and feed.projectileSource.reason or nil}
         end
@@ -402,6 +583,7 @@ function M.new(describe)
         -- Selectable ammunition/output sources: rounds magazines, the ProgrammableAmmo projectile.
         function methods.feeds()return feed_list('player',name)end
         function methods.feed(_,id)return feed_handle('player',name,id)end
+        function methods.programmable_ammo(self)return programmable_builder(name,self)end
         -- The armory trait labels (presentation only).
         function methods.presentation()return presentation_view(weapon,name)end
         function methods.magazine_options()
@@ -515,7 +697,34 @@ function M.new(describe)
     end
     local support_catalog=require('hd2runtime/domains/support_weapon_catalog')
     local support_authoring=require('hd2runtime/domains/support_weapon_authoring')
-    local function support_attack(name,index)
+    local support_attack
+    -- The active projectile source of a support attack, like attack:projectile_source() on a player weapon: the same
+    -- host rule (research/projectile-builder supportHosts), writable where the weapon is a component host.
+    local function support_projectile_source(name,role)
+        local catalog=require('hd2runtime/domains/attack_outputs')
+        local source=(catalog.supportSources or{})[name]
+        local result={weapon=name,attack=role,writable=false,
+            reason='no classified projectile source for '..name..' attack '..tostring(role)}
+        if not source then return result end
+        result.status=source.status;result.mechanism=source.mechanism;result.member=source.member
+        result.reason=source.reason;result.compatibilityClass=source.compatibilityClass
+        local authoring=support_authoring.weapons[name]
+        for _,field in ipairs(authoring and authoring.fields or{})do
+            if field.semanticFieldId=='attack.'..tostring(role)..'.projectile'and field.editable then
+                local weapon=support_catalog.weapons[name]
+                for index,item in ipairs(weapon.attackGraph)do
+                    if item.runtimeMatch and item.runtimeMatch.runtimeAttackRole==role then
+                        local target=support_attack(name,index)
+                        result.writable=true;result.target=target;result.field='attack.projectile'
+                        result.expect=target:projectile();result.acknowledgements={'allow_unverified_effect'}
+                        return result
+                    end
+                end
+            end
+        end
+        return result
+    end
+    support_attack=function(name,index)
         local weapon=assert(support_catalog.weapons[name],'unknown reviewed support weapon')
         local attack=assert(weapon.attackGraph[index],'unknown support weapon attack index')
         local role=attack.runtimeMatch and attack.runtimeMatch.runtimeAttackRole
@@ -544,6 +753,8 @@ function M.new(describe)
             return self
         end
         function methods.output()return attack_output_handle(name)end
+        -- Where this attack's fired projectile lives, and the target/field that changes it (if any).
+        function methods.projectile_source()return support_projectile_source(name,role or'primary')end
         local identity={resource='support_weapon',path=writable and'attack'or'attack_read_only',weapon=name}
         if writable then identity.attack=role else identity.attack_index=index end
         return setmetatable(identity,{__index=methods})
@@ -590,11 +801,13 @@ function M.new(describe)
         end
         function methods.projectile(_,identity)return methods.attack(nil,identity):projectile()end
         function methods.explosion(_,identity)return methods.attack(nil,identity):explosion()end
+        function methods.projectile_source(_,role)return support_projectile_source(name,role or'primary')end
         function methods.fire_modes()return {modeSet=copy(fire_mode_table.weapons['support:'..name])}end
         function methods.fire_rate_modes()return rate_modes(support_authoring.weapons[name],'support',name)end
         function methods.fire_rate_mode(_,index)return rate_mode(support_authoring.weapons[name],'support',name,index)end
         function methods.feeds()return feed_list('support',name)end
         function methods.feed(_,id)return feed_handle('support',name,id)end
+        function methods.programmable_ammo(self)return programmable_builder(name,self)end
         function methods.presentation()return presentation_view(support_authoring.weapons[name],name)end
         return setmetatable({resource='support_weapon',path='weapon',weapon=name},{__index=methods})
     end

@@ -306,8 +306,8 @@ def main():
             'consumerOwners': sorted({c['owner'].rsplit('/', 1)[-1] for c in refs.get(kind, []) if c.get('owner')})})
 
     result = {'schemaVersion': 1,
-        'source': {'mode': 'offline', 'writes': 0, 'protectionChanges': 0, 'entitiesSha256': build_profile.ENTITY_SHA256,
-            'typelibSha256': build_profile.TYPELIB_SHA256},
+        'source': {'mode': 'offline', 'writes': 0, 'protectionChanges': 0, 'exeSha256': build_profile.ACTIVE['exeSha256'],
+            'entitiesSha256': build_profile.ENTITY_SHA256, 'typelibSha256': build_profile.TYPELIB_SHA256},
         'model': {'row': 'ProjectileSettings, 272 bytes, one per ProjectileType (the type is +0 and the row key)',
             'references': {name: {'offset': at, 'type': 'DamageInfoType' if at == 60 else 'ExplosionType'}
                 for name, at in REFERENCES.items()},
@@ -319,15 +319,20 @@ def main():
             'REFERENCE_COMPOSITION': {'supported': True, 'reason': 'Re-point a row\'s direct damage, impact or expiry '
                 'explosion. The written row changes for every consumer (allow_shared when more than one entity fires '
                 'it); the donor rows are only referenced, never changed.'},
-            'DERIVED_MUTATION': {'supported': 'spare_twins_only', 'spareTwins': [t['spare'] for t in twins],
+            'DERIVED_MUTATION': {'supported': 'spare_twins_only', 'interim': True,
+                'spareTwins': [t['spare'] for t in twins],
                 'reason': 'A spare twin is an independent native row with its twin\'s exact flight, visuals and audio, '
-                    'so it can be composed without touching any consumer. Copying a different base into a spare row '
-                    'is not offered: whether the game resolves a row\'s visual resources when it fires (rather than '
-                    'once at load), and whether code references spare types directly, are not proven; other players '
-                    'without the mod would see the spare row\'s vanilla contents.'},
-            'CUSTOM_ROW': {'supported': False, 'reason': 'The settings table has exactly one row per ProjectileType and '
-                'the game reads it by type with no bound (projectile settings by type, pinned in '
-                'domains/event_natives.lua); the type is also what the network replicates. There is no allocation.'}},
+                    'so it can be composed without touching any consumer. It borrows a vanilla ProjectileType slot '
+                    'that no data references: an interim, not the end state (a game update may start using the row, '
+                    'and the unreferenced rows cap how many exist). Copying a different base into a spare row is not '
+                    'offered: whether the game resolves a row\'s visual resources when it fires (rather than once at '
+                    'load), and whether code references spare types directly, are not proven; other players without '
+                    'the mod would see the spare row\'s vanilla contents.'},
+            'CUSTOM_ROW': {'supported': False, 'reason': 'Not available in this pass. The settings table has exactly '
+                'one row per vanilla ProjectileType and the game reads it by type with no bound (projectile settings by '
+                'type, pinned in domains/event_natives.lua); the type is also what the network replicates. Runtime has '
+                'no ids of its own yet: the target is a Runtime-owned registry above the vanilla range backed by '
+                'Runtime-owned rows, which needs the native table extended or relocated and is not researched here.'}},
         'spareTwins': twins, 'projectileOutputs': projectile_outputs,
         'speargun': speargun, 'hmg': hmg_case,
         'liberatorTalon': {'finding': 'Unchanged: the AR-23 Liberator fires its default ammunition delta, so a donor '

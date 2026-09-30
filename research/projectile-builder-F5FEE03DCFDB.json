@@ -4,6 +4,7 @@
   "mode": "offline",
   "writes": 0,
   "protectionChanges": 0,
+  "exeSha256": "F5FEE03DCFDB2E553A4752C283590950AC13316B376D8196AA556FF0400D5F06",
   "entitiesSha256": "21377252B81FDBC670EBA1E59A8AB64B170323DF208F175E708992E4C1FB515E",
   "typelibSha256": "4D04870D0A0D4DC1284998C72CDFA6F8FF6D21ABA0E36B6F758C6F73DD0417A4"
  },
@@ -184,14 +185,15 @@
   },
   "DERIVED_MUTATION": {
    "supported": "spare_twins_only",
+   "interim": true,
    "spareTwins": [
     300
    ],
-   "reason": "A spare twin is an independent native row with its twin's exact flight, visuals and audio, so it can be composed without touching any consumer. Copying a different base into a spare row is not offered: whether the game resolves a row's visual resources when it fires (rather than once at load), and whether code references spare types directly, are not proven; other players without the mod would see the spare row's vanilla contents."
+   "reason": "A spare twin is an independent native row with its twin's exact flight, visuals and audio, so it can be composed without touching any consumer. It borrows a vanilla ProjectileType slot that no data references: an interim, not the end state (a game update may start using the row, and the unreferenced rows cap how many exist). Copying a different base into a spare row is not offered: whether the game resolves a row's visual resources when it fires (rather than once at load), and whether code references spare types directly, are not proven; other players without the mod would see the spare row's vanilla contents."
   },
   "CUSTOM_ROW": {
    "supported": false,
-   "reason": "The settings table has exactly one row per ProjectileType and the game reads it by type with no bound (projectile settings by type, pinned in domains/event_natives.lua); the type is also what the network replicates. There is no allocation."
+   "reason": "Not available in this pass. The settings table has exactly one row per vanilla ProjectileType and the game reads it by type with no bound (projectile settings by type, pinned in domains/event_natives.lua); the type is also what the network replicates. Runtime has no ids of its own yet: the target is a Runtime-owned registry above the vanilla range backed by Runtime-owned rows, which needs the native table extended or relocated and is not researched here."
   }
  },
  "spareTwins": [

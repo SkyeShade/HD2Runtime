@@ -32,8 +32,10 @@ end
 -- Package of a catalogued attack output: a weapon-owned output resolves like its owner weapon (nil when it shares the
 -- target's package); a stratagem-owned donor by its own catalogued key (the entity that fires it owns the package).
 local function output_dependency(target_name,output)
-    if output.owner.kind=='player_weapon'or output.owner.kind=='support_weapon'then
-        return source_dependency(target_name,output.owner.name,'primary')
+    -- A spare twin resolves like its twin's owner (their rows are byte-identical outside the references).
+    local owner=output.dependencyOwner or output.owner
+    if owner.kind=='player_weapon'or owner.kind=='support_weapon'then
+        return source_dependency(target_name,owner.name,'primary')
     end
     return assert(require('hd2runtime/core/assets').dependency(output.dependencyKey),
         'ASSET_UNAVAILABLE: no catalogued package for attack output '..output.id)
@@ -122,7 +124,10 @@ local function field_for(weapon,id,role,path,phase)
             ..' has no reviewed default ammunition that owns its fired projectile (see attack:projectile_source())')
     end
     if weapon.supportWeapon then
-        if path=='projectile_reference'and id:match('^projectile%.')then
+        if id=='attack.projectile'then
+            assert(type(role)=='string','attack.projectile requires weapon:attack(role) target')
+            resolved='attack.'..role..'.projectile'
+        elseif path=='projectile_reference'and id:match('^projectile%.')then
             resolved='projectile.'..role..'.'..id:sub(#'projectile.'+1)
         elseif path=='projectile_reference'and id:match('^damage%.')then
             resolved='damage.'..role..'.'..id:sub(#'damage.'+1)
@@ -278,6 +283,14 @@ end
 local function reference_selector(value,label)
     assert(type(value)=='table',label..' must be a projectile reference handle')
     if value.resource=='attack_output'then return output_selector(value,label)end
+    if value.resource=='support_weapon'then
+        -- A support weapon's attack projectile (hd2.support_weapon(name):attack(role):projectile()).
+        for key in pairs(value)do assert(key=='resource'or key=='path'or key=='weapon'or key=='attack',
+            label..' contains unsupported projectile reference identity')end
+        assert(value.path=='projectile_reference'and type(value.weapon)=='string'and type(value.attack)=='string',
+            label..' must come from weapon:attack(role):projectile()')
+        return {weapon=value.weapon,attack=value.attack,support=true}
+    end
     if value.path=='ammunition_projectile'then
         for key in pairs(value)do assert(key=='resource'or key=='path'or key=='weapon',
             label..' contains unsupported ammunition projectile identity')end
@@ -321,8 +334,9 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
     end
     if path=='attack'and weapon.supportWeapon then
         assert(item.field:match('^damage%.')or item.field:match('^arc%.')
-            or item.field:match('^beam%.')or item.field:match('^status%.'),
-            'support attack target accepts only its reviewed damage/family/status fields')
+            or item.field:match('^beam%.')or item.field:match('^status%.')
+            or item.field=='attack.projectile'or item.field=='attack.'..tostring(role)..'.projectile',
+            'support attack target accepts only its projectile reference and reviewed damage/family/status fields')
     elseif path=='ammunition'then
         assert(item.field=='ammunition.projectile','ammunition targets only accept hd2.fields.ammunition.projectile')
     elseif path=='attack'then
@@ -358,6 +372,10 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
     -- every other value of the field keeps it.
     local live_value=field.liveProvenValues~=nil and item.value==field.currentDefault
     for _,value in ipairs(field.liveProvenValues or{})do if value==item.value then live_value=true end end
+    -- Restoring a host's own projectile is its reviewed baseline.
+    if field.type=='projectile_reference'and type(item.value)=='table'and item.value.path=='projectile_reference'
+        and item.value.weapon==weapon.name and item.value.attack==role
+        and(item.value.resource=='support_weapon')==(weapon.supportWeapon==true)then live_value=true end
     assert(field.acknowledgement~='allow_unverified_effect'or allow_unverified_effect or live_value,
         'field requires allow_unverified_effect=true: '..item.field..' ('..tostring(field.acknowledgementReason)..')'
         ..(field.liveProvenValues and' (live-proven without it: '..table.concat(field.liveProvenValues,', ')..')'or''))
@@ -370,10 +388,29 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
         local expected=reference_selector(item.expect,'expect')
         local desired=reference_selector(item.value,'value')
         local ammunition=path=='ammunition'
+        local support=weapon.supportWeapon==true
         assert(not expected.output and expected.weapon==weapon.name and expected.attack==role
-            and(expected.ammunition==true)==ammunition,ammunition
+            and(expected.support==true)==support and(expected.ammunition==true)==ammunition,ammunition
             and'expect must be the weapon ammunition current projectile handle (weapon:ammunition():projectile())'
             or'expect must be the target attack current projectile handle')
+        if desired.weapon and not desired.ammunition and((desired.support==true)~=support or support)
+            and not(desired.weapon==weapon.name and desired.attack==role and(desired.support==true)==support)then
+            -- One donor pool: another weapon's attack projectile across loadout slots (a support donor on a player
+            -- host, any weapon donor on a support host) resolves to that weapon's catalogued attack output, and is
+            -- checked like hd2.attack_output(name).
+            local catalog=attack_outputs()
+            local output_id=catalog.aliases[desired.weapon..'/'..desired.attack]
+                or desired.attack=='primary'and catalog.aliases[desired.weapon]
+            assert(output_id,'UNKNOWN_DONOR: '..desired.weapon..' attack '..desired.attack..' has no catalogued attack '
+                ..'output (see sdk/AttackOutputCapabilities.json)')
+            desired={output=output_id,entry=catalog.outputs[output_id]}
+        end
+        if desired.weapon and support then
+            -- The support host's own projectile: restoring the reviewed baseline.
+            return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
+                semantic_aliases={item.field},expect=item.expect,value=item.value,
+                expected_selector=expected,desired_selector=desired,source_descriptor=field,self_reference=true}
+        end
         if desired.ammunition then
             -- Only the weapon's own ammunition projectile: restoring the reviewed baseline.
             assert(ammunition and desired.weapon==weapon.name,
@@ -389,8 +426,8 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
                 error('INCOMPATIBLE_OUTPUT_FAMILY: '..output.id..' is a '..output.family..' output. '
                     ..tostring(output.reason),0)
             end
-            assert(output.editable~=false and output.backing,'attack output is not selectable: '..output.id)
             require_output_scope(output,field.semanticFieldId)
+            assert(output.editable~=false and output.backing,'attack output is not selectable: '..output.id)
             local cross=output.compatibilityClass~=field.compatibilityClass
             if cross then
                 local host=attack_outputs().hosts[weapon.name]
@@ -564,7 +601,8 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
                 error('INCOMPATIBLE_OUTPUT_FAMILY: '..output.id..' is a '..output.family..' output. '
                     ..tostring(output.reason),0)
             end
-            assert(output.editable~=false and output.backing,'attack output is not selectable: '..output.id)
+            assert(output.editable~=false and(output.backing or output.spare),'attack output is not selectable: '
+                ..output.id)
             require_output_scope(output,field.semanticFieldId)
             assert(allow_unverified_reference,'a function projectile requires allow_unverified_reference=true: '
                 ..output.id..' ('..tostring(field.acknowledgementReason)..')')
@@ -572,6 +610,8 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
                 backing=output.backing,currentDefault={projectileType=output.currentDefault},
                 referenceSettings=output.referenceSettings}
             change.source_resource=output.resource
+            change.source_spare=output.spare and output or nil
+            if output.spare then require('hd2runtime/domains/output_writes').require_spare_build(output)end
             change.asset_dependency=output_dependency(weapon.name,output)
         else
             change.desired=b.encode(desired.none and 0 or native,'u32')
@@ -842,7 +882,9 @@ function M.capture_many(runtime,reader,specs)
             assert(chain.mountPath==spec.resource,'vehicle mount chain does not name the weapon owner')
         end
         for _,change in ipairs(spec.changes)do
-            if change.source_resource then
+            if change.self_reference then
+                -- The host's own projectile: its reviewed type, re-proven through its settings row in prepare.
+            elseif change.source_resource then
                 resolved.reference_sources[change.canonical_field]=find_candidate(catalog,change.source_resource)
             elseif change.desired_selector and not change.desired_selector.is_null
                 and change.descriptor.type~='function_projectile_reference'then
@@ -1120,7 +1162,29 @@ function M.prepare(resolved,reader,spec)
                     'FUNCTION_HOST_CHANGED: a magazine pattern now selects the fired projectiles')
             end
             local source_type,reviewed_settings
-            if change.desired_selector.output then
+            if change.source_spare then
+                -- A spare twin (no owner entity): its row must still be its twin's, byte for byte, outside the
+                -- references and presentation, so the twin's package covers what it draws.
+                local spare=change.source_spare
+                local function row(settings,label)
+                    local record=assert(resolved.roots.projectile.records[settings.recordType],
+                        label..' ProjectileSettings record absent')
+                    assert(record.group==settings.group and record.row==settings.row and record.kind==settings.recordType
+                        and record.settings_type==settings.settingsType,label..' ProjectileSettings identity changed')
+                    return record.bytes
+                end
+                local function masked(bytes)
+                    for _,range in ipairs(spare.spare.excluded)do
+                        bytes=bytes:sub(1,range[1])..string.rep(string.char(0),range[2]-range[1])..bytes:sub(range[2]+1)
+                    end
+                    return bytes
+                end
+                assert(masked(row(spare.referenceSettings,spare.id))==masked(row(spare.spare.twinSettings,spare.spare.twinOf)),
+                    'SPARE_TWIN_CHANGED: '..spare.id..' is no longer byte-identical to '..spare.spare.twinOf
+                    ..' outside its references')
+                source_type=spare.currentDefault
+                reviewed_settings=spare.referenceSettings
+            elseif change.desired_selector.output then
                 local source_candidate=assert(resolved.reference_sources[change.canonical_field],
                     'function projectile source was not freshly resolved')
                 local source_record=component_record_for(resolved,source_candidate,change.source_descriptor.backing)

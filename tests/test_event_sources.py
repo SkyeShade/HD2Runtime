@@ -297,6 +297,12 @@ assert(#damage==2 and damage[2].damage==905 and #damage[2].sources==1 and damage
 -- Damage without a source (the main table) is unattributed.
 W.stat(10,K.dealt_damage,40);tick()
 assert(#damage==3 and damage[3].damage==40 and damage[3].unattributed==40 and #damage[3].sources==0)
+-- Ambiguity: two sources and unattributed damage in the same check stay separate, never merged or guessed.
+W.stat(10,K.dealt_damage,450,1,KNIFE);W.stat(10,K.dealt_damage,1005,2,ERUPTOR);W.stat(10,K.dealt_damage,55);tick()
+assert(#damage==4 and damage[4].damage==265 and damage[4].unattributed==15 and #damage[4].sources==2)
+local by={};for _,item in ipairs(damage[4].sources)do by[item.name]=item.damage end
+assert(by['K-2 Throwing Knife']==150 and by['R-36 Eruptor']==100)
+table.remove(damage)
 -- A reset table re-baselines without an event.
 W.stat(10,K.dealt_damage,0,1,KNIFE);tick(2);assert(#damage==3)
 W.stat(10,K.dealt_damage,300,1,KNIFE);tick();assert(#damage==4 and damage[4].sources[1].damage==300)
