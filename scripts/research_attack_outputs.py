@@ -143,7 +143,9 @@ def projectile_class(row):
 
 
 def weapons():
-    """(name, kind, resource) for every uniquely resolved player and support weapon."""
+    """(name, kind, resource) for every uniquely resolved player, support and mounted weapon. Mounted weapons (vehicles,
+    Exosuits, Guard Dog drones, emplacements) are keyed '<vehicle> / <mount>' like sdk/VehicleWeaponCapabilities.json;
+    two mounts may carry the same weapon entity."""
     items = []
     for weapon in json.loads((ROOT / 'sdk/PlayerWeaponAuthoringCapabilities.json').read_text())['weapons']:
         if weapon['resolution'] == 'UNIQUE' and weapon['resources']:
@@ -158,7 +160,27 @@ def weapons():
         resource = (match or resources).group(1) if (match or resources) else None
         if resource:
             items.append((weapon['name'], 'support_weapon', resource))
+    text = (ROOT / 'domains/vehicle_weapon_authoring.lua').read_text(encoding='utf-8')
+    for vehicle in json.loads((ROOT / 'sdk/VehicleWeaponCapabilities.json').read_text())['vehicles']:
+        for mount in vehicle['mounts']:
+            if not mount.get('weapon'):
+                continue
+            key = mount['weapon']['key']
+            start = text.find('["' + key + '"]={')
+            if start < 0:
+                continue
+            # attackResource sorts first among the entry's keys; the window stays inside the entry.
+            match = re.match(r'\["' + re.escape(key) + r'"\]=\{\["attackResource"\]="(0x[0-9A-F]+)"', text[start:])
+            if match:
+                items.append((key, 'vehicle_weapon', match.group(1)))
     return items
+
+
+def mounted_asset_keys():
+    """Mounted weapon entity resource -> its asset catalog key (research/package-residency-F5FEE03DCFDB.json)."""
+    residency = json.loads((ROOT / 'research/package-residency-F5FEE03DCFDB.json').read_text(encoding='utf-8'))
+    return {int(item['resource'], 16): key for key, item in residency['catalog'].items()
+        if key.startswith('mounted_weapon/') and item.get('resource')}
 
 
 def build():
@@ -168,7 +190,9 @@ def build():
     assets = {o['key']: o['packageDependency'] for o in
         json.loads((ROOT / 'sdk/AssetDependencyCapabilities.json').read_text())['objects']}
     entries, projectile_types, beam_types, arc_types = [], set(), set(), set()
+    mounted_keys = mounted_asset_keys()
     for name, kind, resource in weapons():
+        asset_key = mounted_keys.get(int(resource, 16)) if kind == 'vehicle_weapon' else kind + '/' + name
         components = {c['name']: c for c in native.report(resource)['components'] if c['resolved'] and c['name']}
         families = [c for c in FAMILY_COMPONENTS if c in components]
         if len(families) != 1:
@@ -184,8 +208,8 @@ def build():
                 'indexRow': components[component]['index_row'], 'ownerCount': ownership['ownerCount'],
                 'uniqueOwner': ownership['uniqueOwner']},
             'fireResource': sorted(c for c in components if c in FIRE_RESOURCE),
-            'package': (assets.get(kind + '/' + name) or {}).get('package'),
-            'packageAutoLoad': (assets.get(kind + '/' + name) or {}).get('autoLoadSupported')}
+            'package': (assets.get(asset_key) or {}).get('package'),
+            'packageAutoLoad': (assets.get(asset_key) or {}).get('autoLoadSupported'), 'assetKey': asset_key}
         if family == 'projectile':
             projectile_types.add(output)
             if 'WeaponRoundsComponentData' in components:
