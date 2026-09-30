@@ -4851,5 +4851,5104 @@
    "armorPenetrationState": "none",
    "armorPenetrationReason": null
   }
- ]
+ ],
+ "modes": {
+  "typeLibrary": [
+   {
+    "struct": "ProjectileInfo",
+    "offset": 4,
+    "member": "long name (upper case)",
+    "nameLength": 10,
+    "storage": "UINT32"
+   },
+   {
+    "struct": "ProjectileInfo",
+    "offset": 8,
+    "member": "long name",
+    "nameLength": 10,
+    "storage": "UINT32"
+   },
+   {
+    "struct": "ProjectileInfo",
+    "offset": 12,
+    "member": "short mode label",
+    "nameLength": 10,
+    "storage": "UINT32"
+   },
+   {
+    "struct": "ProjectileInfo",
+    "offset": 16,
+    "member": "HUD icon resource",
+    "nameLength": 8,
+    "storage": "UINT64"
+   }
+  ],
+  "placeholderLabel": "F1CD5269",
+  "defaultIcon": "content/ui/shared/misc/skull_icon",
+  "unnamedLabels": [
+   "904D8F19",
+   "2CAEDAB6",
+   "E24DEAFA",
+   "C8FC62D6",
+   "889E2862",
+   "D4AA335D",
+   "C6A50167"
+  ],
+  "labels": [
+   {
+    "semanticId": "flak",
+    "nativeId": "54A8332E",
+    "label": "FLAK",
+    "languages": 15,
+    "projectiles": [
+     224,
+     284,
+     312
+    ],
+    "nativeUse": true,
+    "offered": true
+   },
+   {
+    "semanticId": "buckshot",
+    "nativeId": "DB2360CA",
+    "label": "BUCKSHOT",
+    "languages": 4,
+    "projectiles": [
+     62,
+     260
+    ],
+    "nativeUse": true,
+    "offered": true
+   },
+   {
+    "semanticId": "non_guided",
+    "nativeId": "ED1FC986",
+    "label": "Non-Guided",
+    "languages": 15,
+    "projectiles": [
+     127,
+     319
+    ],
+    "nativeUse": true,
+    "offered": true
+   },
+   {
+    "semanticId": "guided",
+    "nativeId": "F1143DF5",
+    "label": "Guided",
+    "languages": 15,
+    "projectiles": [
+     152,
+     326
+    ],
+    "nativeUse": true,
+    "offered": true
+   },
+   {
+    "semanticId": "scatter_shot",
+    "nativeId": "0883952A",
+    "label": "SCATTER SHOT",
+    "languages": 4,
+    "projectiles": [
+     14
+    ],
+    "nativeUse": true,
+    "offered": true
+   },
+   {
+    "semanticId": "heat_mk2",
+    "nativeId": "1290EAA1",
+    "label": "HEAT MK2",
+    "languages": 15,
+    "projectiles": [
+     231
+    ],
+    "nativeUse": true,
+    "offered": true
+   },
+   {
+    "semanticId": "bugshot",
+    "nativeId": "240075B6",
+    "label": "BUGSHOT",
+    "languages": 4,
+    "projectiles": [
+     199
+    ],
+    "nativeUse": true,
+    "offered": true
+   },
+   {
+    "semanticId": "heat",
+    "nativeId": "253DF5D7",
+    "label": "HEAT",
+    "languages": 15,
+    "projectiles": [
+     153
+    ],
+    "nativeUse": true,
+    "offered": true
+   },
+   {
+    "semanticId": "hi_velo_sabot",
+    "nativeId": "271EC40D",
+    "label": "HI-VELO SABOT",
+    "languages": 4,
+    "projectiles": [
+     37
+    ],
+    "nativeUse": true,
+    "offered": true
+   },
+   {
+    "semanticId": "slugs",
+    "nativeId": "28534CEC",
+    "label": "SLUGS",
+    "languages": 15,
+    "projectiles": [
+     240
+    ],
+    "nativeUse": true,
+    "offered": true
+   },
+   {
+    "semanticId": "he",
+    "nativeId": "4920EB9F",
+    "label": "HE",
+    "languages": 15,
+    "projectiles": [
+     36
+    ],
+    "nativeUse": true,
+    "offered": true
+   },
+   {
+    "semanticId": "he_2359c1bc",
+    "nativeId": "2359C1BC",
+    "label": "HE",
+    "languages": 15,
+    "projectiles": [
+     280,
+     297
+    ],
+    "nativeUse": true,
+    "offered": false
+   },
+   {
+    "semanticId": "flechettes",
+    "nativeId": "70562955",
+    "label": "FLECHETTES",
+    "languages": 15,
+    "projectiles": [
+     183
+    ],
+    "nativeUse": true,
+    "offered": true
+   },
+   {
+    "semanticId": "sabot",
+    "nativeId": "72A3B887",
+    "label": "SABOT",
+    "languages": 4,
+    "projectiles": [
+     1
+    ],
+    "nativeUse": true,
+    "offered": true
+   },
+   {
+    "semanticId": "magnum",
+    "nativeId": "76EF3CE3",
+    "label": "MAGNUM",
+    "languages": 4,
+    "projectiles": [
+     217
+    ],
+    "nativeUse": true,
+    "offered": true
+   },
+   {
+    "semanticId": "liberty_fire",
+    "nativeId": "786E4B83",
+    "label": "LIBERTY FIRE",
+    "languages": 4,
+    "projectiles": [
+     292
+    ],
+    "nativeUse": true,
+    "offered": true
+   },
+   {
+    "semanticId": "stun",
+    "nativeId": "7C0337D9",
+    "label": "STUN",
+    "languages": 15,
+    "projectiles": [
+     191
+    ],
+    "nativeUse": true,
+    "offered": true
+   },
+   {
+    "semanticId": "stun_18af731b",
+    "nativeId": "18AF731B",
+    "label": "STUN",
+    "languages": 15,
+    "projectiles": [
+     67
+    ],
+    "nativeUse": true,
+    "offered": false
+   },
+   {
+    "semanticId": "artillery",
+    "nativeId": "803A17B5",
+    "label": "Artillery",
+    "languages": 15,
+    "projectiles": [
+     330
+    ],
+    "nativeUse": true,
+    "offered": true
+   },
+   {
+    "semanticId": "cluster_bomb",
+    "nativeId": "844732B0",
+    "label": "CLUSTER BOMB",
+    "languages": 15,
+    "projectiles": [
+     96
+    ],
+    "nativeUse": true,
+    "offered": true
+   },
+   {
+    "semanticId": "deploy",
+    "nativeId": "84DF8234",
+    "label": "DEPLOY",
+    "languages": 15,
+    "projectiles": [
+     55
+    ],
+    "nativeUse": true,
+    "offered": true
+   },
+   {
+    "semanticId": "dual_sabot",
+    "nativeId": "87446BF8",
+    "label": "DUAL SABOT",
+    "languages": 4,
+    "projectiles": [
+     332
+    ],
+    "nativeUse": true,
+    "offered": true
+   },
+   {
+    "semanticId": "burst",
+    "nativeId": "9665AC41",
+    "label": "Burst",
+    "languages": 15,
+    "projectiles": [
+     43
+    ],
+    "nativeUse": true,
+    "offered": true
+   },
+   {
+    "semanticId": "magnum_trib",
+    "nativeId": "ADDD097E",
+    "label": "MAGNUM TRIB",
+    "languages": 4,
+    "projectiles": [
+     73
+    ],
+    "nativeUse": true,
+    "offered": true
+   },
+   {
+    "semanticId": "he_mk2",
+    "nativeId": "AF462F43",
+    "label": "HE MK2",
+    "languages": 15,
+    "projectiles": [
+     350
+    ],
+    "nativeUse": true,
+    "offered": true
+   },
+   {
+    "semanticId": "he_mk2_73a09751",
+    "nativeId": "73A09751",
+    "label": "HE MK2",
+    "languages": 15,
+    "projectiles": [
+     214
+    ],
+    "nativeUse": true,
+    "offered": false
+   },
+   {
+    "semanticId": "birdshot",
+    "nativeId": "BBB7BDFE",
+    "label": "BIRDSHOT",
+    "languages": 4,
+    "projectiles": [
+     232
+    ],
+    "nativeUse": true,
+    "offered": true
+   },
+   {
+    "semanticId": "tri_ball",
+    "nativeId": "CFB1902F",
+    "label": "TRI-BALL",
+    "languages": 4,
+    "projectiles": [
+     47
+    ],
+    "nativeUse": true,
+    "offered": true
+   },
+   {
+    "semanticId": "aphet",
+    "nativeId": "D6AC1AC7",
+    "label": "APHET",
+    "languages": 15,
+    "projectiles": [
+     115
+    ],
+    "nativeUse": true,
+    "offered": true
+   },
+   {
+    "semanticId": "frag",
+    "nativeId": "E23EC048",
+    "label": "FRAG",
+    "languages": 15,
+    "projectiles": [
+     322
+    ],
+    "nativeUse": true,
+    "offered": true
+   },
+   {
+    "semanticId": "gas",
+    "nativeId": "ED94AE1A",
+    "label": "GAS",
+    "languages": 15,
+    "projectiles": [],
+    "nativeUse": false,
+    "offered": true
+   },
+   {
+    "semanticId": "arc",
+    "nativeId": "3F748867",
+    "label": "ARC",
+    "languages": 15,
+    "projectiles": [],
+    "nativeUse": false,
+    "offered": true
+   },
+   {
+    "semanticId": "incendiary",
+    "nativeId": "1BA54742",
+    "label": "INCENDIARY",
+    "languages": 15,
+    "projectiles": [],
+    "nativeUse": false,
+    "offered": true
+   },
+   {
+    "semanticId": "smoke",
+    "nativeId": "1B6BA5F3",
+    "label": "SMOKE",
+    "languages": 15,
+    "projectiles": [],
+    "nativeUse": false,
+    "offered": true
+   },
+   {
+    "semanticId": "standard",
+    "nativeId": "B8FCB55E",
+    "label": "STANDARD",
+    "languages": 15,
+    "projectiles": [],
+    "nativeUse": false,
+    "offered": true
+   }
+  ],
+  "icons": [
+   {
+    "semanticId": "default",
+    "resource": "0x6A6598587D4BC8F5",
+    "path": "content/ui/shared/misc/skull_icon",
+    "projectiles": 314,
+    "offered": true
+   },
+   {
+    "semanticId": "ammo_buckshot",
+    "resource": "0x8D197BFB4F7E95FC",
+    "path": "content/ui/mission/hud/weapon_function/ammo_buckshot",
+    "projectiles": 13,
+    "offered": true
+   },
+   {
+    "semanticId": "ammo_flechettes",
+    "resource": "0x3B975896BC689499",
+    "path": "content/ui/mission/hud/weapon_function/ammo_flechettes",
+    "projectiles": 4,
+    "offered": true
+   },
+   {
+    "semanticId": "ammo_flak",
+    "resource": "0x9DCC0312A14E11E6",
+    "path": "content/ui/mission/hud/weapon_function/ammo_flak",
+    "projectiles": 3,
+    "offered": true
+   },
+   {
+    "semanticId": "ammo_heat",
+    "resource": "0x4B867645DB9F364E",
+    "path": "content/ui/mission/hud/weapon_function/ammo_heat",
+    "projectiles": 2,
+    "offered": true
+   },
+   {
+    "semanticId": "guidance_off",
+    "resource": "0xBC7975E05284CF57",
+    "path": "content/ui/mission/hud/weapon_function/guidance_off",
+    "projectiles": 2,
+    "offered": true
+   },
+   {
+    "semanticId": "ammo_frag",
+    "resource": "0x8DC0EC9CE217AB7F",
+    "path": "content/ui/mission/hud/weapon_function/ammo_frag",
+    "projectiles": 2,
+    "offered": true
+   },
+   {
+    "semanticId": "ammo_he",
+    "resource": "0x081DCAF42DC2ECBB",
+    "path": "content/ui/mission/hud/weapon_function/ammo_he",
+    "projectiles": 2,
+    "offered": true
+   },
+   {
+    "semanticId": "guidance_on",
+    "resource": "0x7DB70E669D8034C9",
+    "path": "content/ui/mission/hud/weapon_function/guidance_on",
+    "projectiles": 2,
+    "offered": true
+   },
+   {
+    "semanticId": "ammo_stun",
+    "resource": "0x2D9268907FB9420E",
+    "path": "content/ui/mission/hud/weapon_function/ammo_stun",
+    "projectiles": 1,
+    "offered": true
+   },
+   {
+    "semanticId": "firemode_deploy_c4",
+    "resource": "0x38ADABC6A32AF014",
+    "path": "content/ui/mission/hud/weapon_function/firemode_deploy_c4",
+    "projectiles": 1,
+    "offered": true
+   },
+   {
+    "semanticId": "airstrike",
+    "resource": "0xF83F6F461ED94E4B",
+    "path": "content/ui/mission/hud/weapon_function/airstrike",
+    "projectiles": 1,
+    "offered": true
+   },
+   {
+    "semanticId": "ammo_slug",
+    "resource": "0xB7812FA260A5F64F",
+    "path": "content/ui/mission/hud/weapon_function/ammo_slug",
+    "projectiles": 1,
+    "offered": true
+   },
+   {
+    "semanticId": "ammo_aphet",
+    "resource": "0xF8EDE5F922C05CB6",
+    "path": "content/ui/mission/hud/weapon_function/ammo_aphet",
+    "projectiles": 1,
+    "offered": true
+   },
+   {
+    "semanticId": "burst_fire",
+    "resource": "0x62D0512DAEBB0BE0",
+    "path": "content/ui/mission/hud/weapon_function/burst_fire",
+    "projectiles": 1,
+    "offered": true
+   }
+  ],
+  "projectiles": {
+   "1": {
+    "label": "sabot",
+    "labelNativeId": "72A3B887",
+    "icon": "ammo_flechettes",
+    "iconResource": "0x3B975896BC689499",
+    "name": "10g Sabot",
+    "settings": {
+     "group": 0,
+     "recordType": 1,
+     "row": 290,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "2": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 2,
+     "row": 47,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "3": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "12x25mm Full Metal Jacket",
+    "settings": {
+     "group": 0,
+     "recordType": 3,
+     "row": 173,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "4": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "9x20mm Plasma",
+    "settings": {
+     "group": 0,
+     "recordType": 4,
+     "row": 168,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "5": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Laser",
+    "settings": {
+     "group": 0,
+     "recordType": 5,
+     "row": 334,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "6": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "110mm Standard Rocket Mk2",
+    "settings": {
+     "group": 0,
+     "recordType": 6,
+     "row": 270,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "7": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "5.5x50mm Penetrator",
+    "settings": {
+     "group": 0,
+     "recordType": 7,
+     "row": 200,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "8": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 8,
+     "row": 337,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "9": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 9,
+     "row": 118,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "10": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "SEAF Artillery: Smoke",
+    "settings": {
+     "group": 0,
+     "recordType": 10,
+     "row": 159,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "11": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Shrapnel",
+    "settings": {
+     "group": 0,
+     "recordType": 11,
+     "row": 304,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "12": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "15x100mm Thermite",
+    "settings": {
+     "group": 0,
+     "recordType": 12,
+     "row": 263,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "13": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "120mm HE Cannon Round",
+    "settings": {
+     "group": 0,
+     "recordType": 13,
+     "row": 344,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "14": {
+    "label": "scatter_shot",
+    "labelNativeId": "0883952A",
+    "icon": "ammo_buckshot",
+    "iconResource": "0x8D197BFB4F7E95FC",
+    "name": "10g Scatter Shot",
+    "settings": {
+     "group": 0,
+     "recordType": 14,
+     "row": 293,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "15": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "12x25mm Full Metal Jacket",
+    "settings": {
+     "group": 0,
+     "recordType": 15,
+     "row": 182,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "16": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "23mm HE Cannon",
+    "settings": {
+     "group": 0,
+     "recordType": 16,
+     "row": 38,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "17": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Large Plasma Bolt",
+    "settings": {
+     "group": 0,
+     "recordType": 17,
+     "row": 319,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "18": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 18,
+     "row": 53,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "19": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "13x40mm Magnum",
+    "settings": {
+     "group": 0,
+     "recordType": 19,
+     "row": 195,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "20": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "15x100mm Toxic",
+    "settings": {
+     "group": 0,
+     "recordType": 20,
+     "row": 264,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "21": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "15x100mm Plasma",
+    "settings": {
+     "group": 0,
+     "recordType": 21,
+     "row": 258,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "22": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 22,
+     "row": 114,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "23": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 23,
+     "row": 17,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "24": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "40mm HE Mortar",
+    "settings": {
+     "group": 0,
+     "recordType": 24,
+     "row": 69,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "25": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Laser",
+    "settings": {
+     "group": 0,
+     "recordType": 25,
+     "row": 330,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "26": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "110mm Airburst Cannon Round Mk2",
+    "settings": {
+     "group": 0,
+     "recordType": 26,
+     "row": 134,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "27": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "23mm HE Cannon",
+    "settings": {
+     "group": 0,
+     "recordType": 27,
+     "row": 39,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "28": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "13x40mm Hollow Point",
+    "settings": {
+     "group": 0,
+     "recordType": 28,
+     "row": 194,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "29": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "110mm E.M.S. Cannon Round Mk2",
+    "settings": {
+     "group": 0,
+     "recordType": 29,
+     "row": 149,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "30": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 30,
+     "row": 24,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "31": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "75mm HEAT Grenade",
+    "settings": {
+     "group": 0,
+     "recordType": 31,
+     "row": 345,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "32": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 32,
+     "row": 48,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "33": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 33,
+     "row": 20,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "34": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 34,
+     "row": 147,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "35": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "9x70mm Socom Assassin",
+    "settings": {
+     "group": 0,
+     "recordType": 35,
+     "row": 245,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "36": {
+    "label": "he",
+    "labelNativeId": "4920EB9F",
+    "icon": "ammo_he",
+    "iconResource": "0x081DCAF42DC2ECBB",
+    "name": "85mm High-Explosive Grenade",
+    "settings": {
+     "group": 0,
+     "recordType": 36,
+     "row": 97,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "37": {
+    "label": "hi_velo_sabot",
+    "labelNativeId": "271EC40D",
+    "icon": "ammo_flechettes",
+    "iconResource": "0x3B975896BC689499",
+    "name": "10g High Velocity Sabot",
+    "settings": {
+     "group": 0,
+     "recordType": 37,
+     "row": 292,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "38": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "12x25mm Full Metal Jacket",
+    "settings": {
+     "group": 0,
+     "recordType": 38,
+     "row": 190,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "39": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 39,
+     "row": 109,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "40": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "15x100mm High Explosive",
+    "settings": {
+     "group": 0,
+     "recordType": 40,
+     "row": 265,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "41": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 41,
+     "row": 52,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "42": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "23mm HE Cannon",
+    "settings": {
+     "group": 0,
+     "recordType": 42,
+     "row": 43,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "43": {
+    "label": "burst",
+    "labelNativeId": "9665AC41",
+    "icon": "burst_fire",
+    "iconResource": "0x62D0512DAEBB0BE0",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 43,
+     "row": 127,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "44": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 44,
+     "row": 236,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "45": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 45,
+     "row": 19,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "46": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "15x100mm High Velocity",
+    "settings": {
+     "group": 0,
+     "recordType": 46,
+     "row": 259,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "47": {
+    "label": "tri_ball",
+    "labelNativeId": "CFB1902F",
+    "icon": "ammo_buckshot",
+    "iconResource": "0x8D197BFB4F7E95FC",
+    "name": "10g Tri-Ball",
+    "settings": {
+     "group": 0,
+     "recordType": 47,
+     "row": 296,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "48": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 48,
+     "row": 73,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "49": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "8x60mm Full Metal Jacket",
+    "settings": {
+     "group": 0,
+     "recordType": 49,
+     "row": 222,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "50": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 50,
+     "row": 77,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "51": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 51,
+     "row": 64,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "52": {
+    "label": "unnamed_904d8f19",
+    "labelNativeId": "904D8F19",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 52,
+     "row": 72,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "53": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 53,
+     "row": 45,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "54": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 54,
+     "row": 112,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "55": {
+    "label": "deploy",
+    "labelNativeId": "84DF8234",
+    "icon": "firemode_deploy_c4",
+    "iconResource": "0x38ADABC6A32AF014",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 55,
+     "row": 348,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "56": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "12x25mm Plasma",
+    "settings": {
+     "group": 0,
+     "recordType": 56,
+     "row": 177,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "57": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Large Plasma Bolt",
+    "settings": {
+     "group": 0,
+     "recordType": 57,
+     "row": 316,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "58": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 58,
+     "row": 65,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "59": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "5.5x50mm Ripper",
+    "settings": {
+     "group": 0,
+     "recordType": 59,
+     "row": 207,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "60": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Flames",
+    "settings": {
+     "group": 0,
+     "recordType": 60,
+     "row": 338,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "61": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 61,
+     "row": 213,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "62": {
+    "label": "buckshot",
+    "labelNativeId": "DB2360CA",
+    "icon": "ammo_buckshot",
+    "iconResource": "0x8D197BFB4F7E95FC",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 62,
+     "row": 298,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "63": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 63,
+     "row": 193,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "64": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 64,
+     "row": 44,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "65": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 65,
+     "row": 111,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "66": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Nuke",
+    "settings": {
+     "group": 0,
+     "recordType": 66,
+     "row": 340,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "67": {
+    "label": "stun_18af731b",
+    "labelNativeId": "18AF731B",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 67,
+     "row": 87,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "68": {
+    "label": "unnamed_d4aa335d",
+    "labelNativeId": "D4AA335D",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 68,
+     "row": 300,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "69": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Flames Mk2",
+    "settings": {
+     "group": 0,
+     "recordType": 69,
+     "row": 339,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "70": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Small Plasma Bolt",
+    "settings": {
+     "group": 0,
+     "recordType": 70,
+     "row": 307,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "71": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "SEAF Artillery: Explosive",
+    "settings": {
+     "group": 0,
+     "recordType": 71,
+     "row": 156,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "72": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "23mm HE Cannon",
+    "settings": {
+     "group": 0,
+     "recordType": 72,
+     "row": 40,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "73": {
+    "label": "magnum_trib",
+    "labelNativeId": "ADDD097E",
+    "icon": "ammo_buckshot",
+    "iconResource": "0x8D197BFB4F7E95FC",
+    "name": "10g Magnum Triball",
+    "settings": {
+     "group": 0,
+     "recordType": 73,
+     "row": 289,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "74": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "110mm E.M.S. Cannon Round",
+    "settings": {
+     "group": 0,
+     "recordType": 74,
+     "row": 148,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "75": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "23mm HE Cannon",
+    "settings": {
+     "group": 0,
+     "recordType": 75,
+     "row": 37,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "76": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "9x20mm High Velocity",
+    "settings": {
+     "group": 0,
+     "recordType": 76,
+     "row": 167,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "77": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "23mm HE Cannon",
+    "settings": {
+     "group": 0,
+     "recordType": 77,
+     "row": 42,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "78": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Cluster Bomb",
+    "settings": {
+     "group": 0,
+     "recordType": 78,
+     "row": 103,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "79": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 79,
+     "row": 15,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "80": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "380mm HE Cannon Round",
+    "settings": {
+     "group": 0,
+     "recordType": 80,
+     "row": 138,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "81": {
+    "label": "unnamed_904d8f19",
+    "labelNativeId": "904D8F19",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 81,
+     "row": 71,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "82": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "110mm Standard Rocket",
+    "settings": {
+     "group": 0,
+     "recordType": 82,
+     "row": 268,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "83": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "12.5mm Standard Rifle Rounds",
+    "settings": {
+     "group": 0,
+     "recordType": 83,
+     "row": 249,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "84": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "380mm HE Cannon Round",
+    "settings": {
+     "group": 0,
+     "recordType": 84,
+     "row": 139,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "85": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "40mm HEAT Grenade",
+    "settings": {
+     "group": 0,
+     "recordType": 85,
+     "row": 86,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "86": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 86,
+     "row": 261,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "87": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 87,
+     "row": 341,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "88": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 88,
+     "row": 120,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "89": {
+    "label": "unnamed_c6a50167",
+    "labelNativeId": "C6A50167",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 89,
+     "row": 80,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "90": {
+    "label": "unnamed_904d8f19",
+    "labelNativeId": "904D8F19",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 90,
+     "row": 84,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "91": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "12g Bugshot",
+    "settings": {
+     "group": 0,
+     "recordType": 91,
+     "row": 273,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "92": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "SEAF Artillery: Static Field",
+    "settings": {
+     "group": 0,
+     "recordType": 92,
+     "row": 161,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "93": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "380mm HE Cannon Round",
+    "settings": {
+     "group": 0,
+     "recordType": 93,
+     "row": 144,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "94": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 94,
+     "row": 197,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "95": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "8x60mm Explosive",
+    "settings": {
+     "group": 0,
+     "recordType": 95,
+     "row": 219,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "96": {
+    "label": "cluster_bomb",
+    "labelNativeId": "844732B0",
+    "icon": "ammo_frag",
+    "iconResource": "0x8DC0EC9CE217AB7F",
+    "name": "CLUSTER BOMB",
+    "settings": {
+     "group": 0,
+     "recordType": 96,
+     "row": 102,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "97": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "13x40mm Ripper",
+    "settings": {
+     "group": 0,
+     "recordType": 97,
+     "row": 196,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "98": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 98,
+     "row": 212,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "99": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "SEAF Artillery: Mini Nuke",
+    "settings": {
+     "group": 0,
+     "recordType": 99,
+     "row": 158,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "100": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "380mm HE Cannon Round",
+    "settings": {
+     "group": 0,
+     "recordType": 100,
+     "row": 142,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "101": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "8x60mm Devastator",
+    "settings": {
+     "group": 0,
+     "recordType": 101,
+     "row": 218,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "102": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 102,
+     "row": 22,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "103": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 103,
+     "row": 146,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "104": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "9x70mm Super Uranium Core",
+    "settings": {
+     "group": 0,
+     "recordType": 104,
+     "row": 247,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "105": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "12x25mm Hollow Point",
+    "settings": {
+     "group": 0,
+     "recordType": 105,
+     "row": 175,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "106": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 106,
+     "row": 57,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "107": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 107,
+     "row": 231,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "108": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "8x60mm Liberty Fire",
+    "settings": {
+     "group": 0,
+     "recordType": 108,
+     "row": 220,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "109": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "12x25mm Ripper",
+    "settings": {
+     "group": 0,
+     "recordType": 109,
+     "row": 178,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "110": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "75mm HEAT Grenade",
+    "settings": {
+     "group": 0,
+     "recordType": 110,
+     "row": 96,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "111": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "12.5mm EIT Rounds",
+    "settings": {
+     "group": 0,
+     "recordType": 111,
+     "row": 251,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "112": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "380mm HE Cannon Round",
+    "settings": {
+     "group": 0,
+     "recordType": 112,
+     "row": 79,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "113": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "15x100mm Emp-Rounds",
+    "settings": {
+     "group": 0,
+     "recordType": 113,
+     "row": 255,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "114": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "13x40mm Penetrator",
+    "settings": {
+     "group": 0,
+     "recordType": 114,
+     "row": 191,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "115": {
+    "label": "aphet",
+    "labelNativeId": "D6AC1AC7",
+    "icon": "ammo_aphet",
+    "iconResource": "0xF8EDE5F922C05CB6",
+    "name": "20mm APHET Rounds",
+    "settings": {
+     "group": 0,
+     "recordType": 115,
+     "row": 30,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "116": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "100kg Bomb Mk3",
+    "settings": {
+     "group": 0,
+     "recordType": 116,
+     "row": 4,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "117": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Shrapnel",
+    "settings": {
+     "group": 0,
+     "recordType": 117,
+     "row": 302,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "118": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "8x60mm Airburst",
+    "settings": {
+     "group": 0,
+     "recordType": 118,
+     "row": 215,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "119": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 119,
+     "row": 237,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "120": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "40mm APHE Cannon",
+    "settings": {
+     "group": 0,
+     "recordType": 120,
+     "row": 36,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "121": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 121,
+     "row": 60,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "122": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 122,
+     "row": 119,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "123": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "12x25mm Full Metal Jacket",
+    "settings": {
+     "group": 0,
+     "recordType": 123,
+     "row": 189,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "124": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 124,
+     "row": 63,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "125": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 125,
+     "row": 321,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "126": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "20mm HVAP Rounds",
+    "settings": {
+     "group": 0,
+     "recordType": 126,
+     "row": 32,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "127": {
+    "label": "non_guided",
+    "labelNativeId": "ED1FC986",
+    "icon": "guidance_off",
+    "iconResource": "0xBC7975E05284CF57",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 127,
+     "row": 188,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "128": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "70mm Laser-Guided Missile",
+    "settings": {
+     "group": 0,
+     "recordType": 128,
+     "row": 129,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "129": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Volatile Plasma Bolt",
+    "settings": {
+     "group": 0,
+     "recordType": 129,
+     "row": 314,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "130": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "100kg Bomb",
+    "settings": {
+     "group": 0,
+     "recordType": 130,
+     "row": 9,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "131": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Cluster Bomb",
+    "settings": {
+     "group": 0,
+     "recordType": 131,
+     "row": 1,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "132": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "75mm HEAT Grenade",
+    "settings": {
+     "group": 0,
+     "recordType": 132,
+     "row": 93,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "133": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Laser",
+    "settings": {
+     "group": 0,
+     "recordType": 133,
+     "row": 333,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "134": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "9x70mm Self Propelled",
+    "settings": {
+     "group": 0,
+     "recordType": 134,
+     "row": 246,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "135": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "8x60mm Full Metal Jacket",
+    "settings": {
+     "group": 0,
+     "recordType": 135,
+     "row": 235,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "136": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 136,
+     "row": 108,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "137": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "120mm HE Cannon Round",
+    "settings": {
+     "group": 0,
+     "recordType": 137,
+     "row": 136,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "138": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 138,
+     "row": 216,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "139": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "5.5x50mm Subsonic",
+    "settings": {
+     "group": 0,
+     "recordType": 139,
+     "row": 209,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "140": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 140,
+     "row": 18,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "141": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Napalm Bomb Mk2",
+    "settings": {
+     "group": 0,
+     "recordType": 141,
+     "row": 6,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "142": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Medium Plasma Bolt",
+    "settings": {
+     "group": 0,
+     "recordType": 142,
+     "row": 310,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "143": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Volatile Plasma Bolt",
+    "settings": {
+     "group": 0,
+     "recordType": 143,
+     "row": 312,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "144": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Laser",
+    "settings": {
+     "group": 0,
+     "recordType": 144,
+     "row": 332,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "145": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "SEAF Artillery: Napalm",
+    "settings": {
+     "group": 0,
+     "recordType": 145,
+     "row": 160,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "146": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "110mm Standard Rocket",
+    "settings": {
+     "group": 0,
+     "recordType": 146,
+     "row": 269,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "147": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Contact Mine",
+    "settings": {
+     "group": 0,
+     "recordType": 147,
+     "row": 336,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "148": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "8x60mm Full Metal Jacket",
+    "settings": {
+     "group": 0,
+     "recordType": 148,
+     "row": 221,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "149": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Laser",
+    "settings": {
+     "group": 0,
+     "recordType": 149,
+     "row": 326,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "150": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "12x25mm Full Metal Jacket",
+    "settings": {
+     "group": 0,
+     "recordType": 150,
+     "row": 174,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "151": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "500kg Bomb Mk2",
+    "settings": {
+     "group": 0,
+     "recordType": 151,
+     "row": 13,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "152": {
+    "label": "guided",
+    "labelNativeId": "F1143DF5",
+    "icon": "guidance_on",
+    "iconResource": "0x7DB70E669D8034C9",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 152,
+     "row": 187,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "153": {
+    "label": "heat",
+    "labelNativeId": "253DF5D7",
+    "icon": "ammo_heat",
+    "iconResource": "0x4B867645DB9F364E",
+    "name": "85mm HEAT Grenade",
+    "settings": {
+     "group": 0,
+     "recordType": 153,
+     "row": 99,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "154": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 154,
+     "row": 91,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "155": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Medium Plasma Bolt",
+    "settings": {
+     "group": 0,
+     "recordType": 155,
+     "row": 311,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "156": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "9x20mm Toxic",
+    "settings": {
+     "group": 0,
+     "recordType": 156,
+     "row": 171,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "157": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 157,
+     "row": 181,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "158": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "110mm Airburst Cannon Round",
+    "settings": {
+     "group": 0,
+     "recordType": 158,
+     "row": 133,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "159": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 159,
+     "row": 16,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "160": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "12g Magnum",
+    "settings": {
+     "group": 0,
+     "recordType": 160,
+     "row": 276,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "161": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "40mm Proximity Grenade",
+    "settings": {
+     "group": 0,
+     "recordType": 161,
+     "row": 89,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "162": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Napalm Bomb Mk3",
+    "settings": {
+     "group": 0,
+     "recordType": 162,
+     "row": 7,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "163": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "8x60mm Super Uranium Core",
+    "settings": {
+     "group": 0,
+     "recordType": 163,
+     "row": 229,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "164": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "8x60mm Full Metal Jacket",
+    "settings": {
+     "group": 0,
+     "recordType": 164,
+     "row": 223,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "165": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Large Plasma Bolt",
+    "settings": {
+     "group": 0,
+     "recordType": 165,
+     "row": 317,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "166": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 166,
+     "row": 113,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "167": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 167,
+     "row": 343,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "168": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "12x25mm High Velocity",
+    "settings": {
+     "group": 0,
+     "recordType": 168,
+     "row": 176,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "169": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 169,
+     "row": 55,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "170": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "100kg Bomb",
+    "settings": {
+     "group": 0,
+     "recordType": 170,
+     "row": 2,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "171": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Small Plasma Bolt",
+    "settings": {
+     "group": 0,
+     "recordType": 171,
+     "row": 309,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "172": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 172,
+     "row": 50,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "173": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "9x20mm Explosive",
+    "settings": {
+     "group": 0,
+     "recordType": 173,
+     "row": 163,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "174": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "12g Birdshot",
+    "settings": {
+     "group": 0,
+     "recordType": 174,
+     "row": 271,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "175": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "20mm HE Cannon",
+    "settings": {
+     "group": 0,
+     "recordType": 175,
+     "row": 33,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "176": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 176,
+     "row": 25,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "177": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "15x100mm Standard Rocket",
+    "settings": {
+     "group": 0,
+     "recordType": 177,
+     "row": 262,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "178": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 178,
+     "row": 27,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "179": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "12g Buckshot",
+    "settings": {
+     "group": 0,
+     "recordType": 179,
+     "row": 272,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "180": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 180,
+     "row": 26,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "181": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 181,
+     "row": 75,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "182": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 182,
+     "row": 145,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "183": {
+    "label": "flechettes",
+    "labelNativeId": "70562955",
+    "icon": "ammo_flechettes",
+    "iconResource": "0x3B975896BC689499",
+    "name": "10g Flechettes",
+    "settings": {
+     "group": 0,
+     "recordType": 183,
+     "row": 285,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "184": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 184,
+     "row": 214,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "185": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Laser",
+    "settings": {
+     "group": 0,
+     "recordType": 185,
+     "row": 328,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "186": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Railgun Round",
+    "settings": {
+     "group": 0,
+     "recordType": 186,
+     "row": 320,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "187": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Shrapnel",
+    "settings": {
+     "group": 0,
+     "recordType": 187,
+     "row": 305,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "188": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 188,
+     "row": 8,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "189": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "5.5x50mm Super Uranium Core",
+    "settings": {
+     "group": 0,
+     "recordType": 189,
+     "row": 210,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "190": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 190,
+     "row": 153,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "191": {
+    "label": "stun",
+    "labelNativeId": "7C0337D9",
+    "icon": "ammo_stun",
+    "iconResource": "0x2D9268907FB9420E",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 191,
+     "row": 294,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "192": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "200kg Bomb",
+    "settings": {
+     "group": 0,
+     "recordType": 192,
+     "row": 11,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "193": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Large Plasma Bolt",
+    "settings": {
+     "group": 0,
+     "recordType": 193,
+     "row": 318,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "194": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "120mm HE Cannon Round",
+    "settings": {
+     "group": 0,
+     "recordType": 194,
+     "row": 135,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "195": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 195,
+     "row": 347,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "196": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 196,
+     "row": 117,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "197": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "110mm Gas Cannon Round",
+    "settings": {
+     "group": 0,
+     "recordType": 197,
+     "row": 151,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "198": {
+    "label": "unnamed_2caedab6",
+    "labelNativeId": "2CAEDAB6",
+    "icon": "ammo_buckshot",
+    "iconResource": "0x8D197BFB4F7E95FC",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 198,
+     "row": 297,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "199": {
+    "label": "bugshot",
+    "labelNativeId": "240075B6",
+    "icon": "ammo_buckshot",
+    "iconResource": "0x8D197BFB4F7E95FC",
+    "name": "10g Bugshot",
+    "settings": {
+     "group": 0,
+     "recordType": 199,
+     "row": 284,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "200": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "9x70mm Penetrator",
+    "settings": {
+     "group": 0,
+     "recordType": 200,
+     "row": 241,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "201": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Shrapnel",
+    "settings": {
+     "group": 0,
+     "recordType": 201,
+     "row": 301,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "202": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "15x100mm Standard Rocket",
+    "settings": {
+     "group": 0,
+     "recordType": 202,
+     "row": 260,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "203": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 203,
+     "row": 132,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "204": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "12x25mm Toxic",
+    "settings": {
+     "group": 0,
+     "recordType": 204,
+     "row": 180,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "205": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "5.5x50mm Hollow-Point",
+    "settings": {
+     "group": 0,
+     "recordType": 205,
+     "row": 204,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "206": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "15x100mm High Explosive",
+    "settings": {
+     "group": 0,
+     "recordType": 206,
+     "row": 256,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "207": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "9x70mm Full Metal Jacket",
+    "settings": {
+     "group": 0,
+     "recordType": 207,
+     "row": 248,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "208": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "110mm E.M.S. Cannon Round Mk3",
+    "settings": {
+     "group": 0,
+     "recordType": 208,
+     "row": 150,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "209": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "40mm HE Mortar",
+    "settings": {
+     "group": 0,
+     "recordType": 209,
+     "row": 67,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "210": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Cluster Bomb",
+    "settings": {
+     "group": 0,
+     "recordType": 210,
+     "row": 105,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "211": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "8x60mm High Velocity",
+    "settings": {
+     "group": 0,
+     "recordType": 211,
+     "row": 224,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "212": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "8x60mm Double Power",
+    "settings": {
+     "group": 0,
+     "recordType": 212,
+     "row": 226,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "213": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 213,
+     "row": 58,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "214": {
+    "label": "he_mk2_73a09751",
+    "labelNativeId": "73A09751",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 214,
+     "row": 83,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "215": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "9x20mm Full Metal Jacket",
+    "settings": {
+     "group": 0,
+     "recordType": 215,
+     "row": 165,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "216": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "380mm HE Cannon Round",
+    "settings": {
+     "group": 0,
+     "recordType": 216,
+     "row": 137,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "217": {
+    "label": "magnum",
+    "labelNativeId": "76EF3CE3",
+    "icon": "ammo_buckshot",
+    "iconResource": "0x8D197BFB4F7E95FC",
+    "name": "10g Magnum",
+    "settings": {
+     "group": 0,
+     "recordType": 217,
+     "row": 288,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "218": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Railgun Stun Round",
+    "settings": {
+     "group": 0,
+     "recordType": 218,
+     "row": 325,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "219": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Laser",
+    "settings": {
+     "group": 0,
+     "recordType": 219,
+     "row": 329,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "220": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Homing Ground Missile Mk2",
+    "settings": {
+     "group": 0,
+     "recordType": 220,
+     "row": 126,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "221": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Small Plasma Bolt",
+    "settings": {
+     "group": 0,
+     "recordType": 221,
+     "row": 306,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "222": {
+    "label": "unnamed_e24deafa",
+    "labelNativeId": "E24DEAFA",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 222,
+     "row": 88,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "223": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Cluster Bomb",
+    "settings": {
+     "group": 0,
+     "recordType": 223,
+     "row": 106,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "224": {
+    "label": "flak",
+    "labelNativeId": "54A8332E",
+    "icon": "ammo_flak",
+    "iconResource": "0x9DCC0312A14E11E6",
+    "name": "20mm Flak Rounds",
+    "settings": {
+     "group": 0,
+     "recordType": 224,
+     "row": 95,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "225": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Homing Ground Missile",
+    "settings": {
+     "group": 0,
+     "recordType": 225,
+     "row": 125,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "226": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "12.5mm EIT Rounds",
+    "settings": {
+     "group": 0,
+     "recordType": 226,
+     "row": 250,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "227": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "12g Tri-Ball",
+    "settings": {
+     "group": 0,
+     "recordType": 227,
+     "row": 279,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "228": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "High-Velocity Shrapnel",
+    "settings": {
+     "group": 0,
+     "recordType": 228,
+     "row": 303,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "229": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 229,
+     "row": 23,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "230": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "12x25mm Explosive",
+    "settings": {
+     "group": 0,
+     "recordType": 230,
+     "row": 172,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "231": {
+    "label": "heat_mk2",
+    "labelNativeId": "1290EAA1",
+    "icon": "ammo_heat",
+    "iconResource": "0x4B867645DB9F364E",
+    "name": "85mm HEAT Grenade Mk2",
+    "settings": {
+     "group": 0,
+     "recordType": 231,
+     "row": 100,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "232": {
+    "label": "birdshot",
+    "labelNativeId": "BBB7BDFE",
+    "icon": "ammo_buckshot",
+    "iconResource": "0x8D197BFB4F7E95FC",
+    "name": "10g Birdshot",
+    "settings": {
+     "group": 0,
+     "recordType": 232,
+     "row": 280,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "233": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Cluster Bomb",
+    "settings": {
+     "group": 0,
+     "recordType": 233,
+     "row": 104,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "234": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "120mm HE Cannon Round",
+    "settings": {
+     "group": 0,
+     "recordType": 234,
+     "row": 140,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "235": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 235,
+     "row": 28,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "236": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Laser",
+    "settings": {
+     "group": 0,
+     "recordType": 236,
+     "row": 327,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "237": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "15x100mm Standard Rocket",
+    "settings": {
+     "group": 0,
+     "recordType": 237,
+     "row": 183,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "238": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "120mm HE Cannon Round",
+    "settings": {
+     "group": 0,
+     "recordType": 238,
+     "row": 141,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "239": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "500kg Bomb",
+    "settings": {
+     "group": 0,
+     "recordType": 239,
+     "row": 12,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "240": {
+    "label": "slugs",
+    "labelNativeId": "28534CEC",
+    "icon": "ammo_slug",
+    "iconResource": "0xB7812FA260A5F64F",
+    "name": "10g Rifled Slugs",
+    "settings": {
+     "group": 0,
+     "recordType": 240,
+     "row": 295,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "241": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "9x70mm High Velocity",
+    "settings": {
+     "group": 0,
+     "recordType": 241,
+     "row": 243,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "242": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 242,
+     "row": 230,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "243": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 243,
+     "row": 121,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "244": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "9x20mm Ripper",
+    "settings": {
+     "group": 0,
+     "recordType": 244,
+     "row": 169,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "245": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "66mm Missile",
+    "settings": {
+     "group": 0,
+     "recordType": 245,
+     "row": 122,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "246": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 246,
+     "row": 61,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "247": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 247,
+     "row": 152,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "248": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 248,
+     "row": 116,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "249": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 249,
+     "row": 254,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "250": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Flames",
+    "settings": {
+     "group": 0,
+     "recordType": 250,
+     "row": 78,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "251": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "12.5mm BCHP Rifle Rounds",
+    "settings": {
+     "group": 0,
+     "recordType": 251,
+     "row": 253,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "252": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "12g Scatter Shot",
+    "settings": {
+     "group": 0,
+     "recordType": 252,
+     "row": 278,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "253": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 253,
+     "row": 51,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "254": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "23mm HE Cannon",
+    "settings": {
+     "group": 0,
+     "recordType": 254,
+     "row": 41,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "255": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "5.5x50mm Double Power",
+    "settings": {
+     "group": 0,
+     "recordType": 255,
+     "row": 206,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "256": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 256,
+     "row": 76,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "257": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "15x100mm Fragmentation",
+    "settings": {
+     "group": 0,
+     "recordType": 257,
+     "row": 257,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "258": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "8x60mm Sniper Armor Piercing",
+    "settings": {
+     "group": 0,
+     "recordType": 258,
+     "row": 227,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "259": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 259,
+     "row": 94,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "260": {
+    "label": "buckshot",
+    "labelNativeId": "DB2360CA",
+    "icon": "ammo_buckshot",
+    "iconResource": "0x8D197BFB4F7E95FC",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 260,
+     "row": 281,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "261": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "30mm APHE Cannon",
+    "settings": {
+     "group": 0,
+     "recordType": 261,
+     "row": 34,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "262": {
+    "label": "unnamed_c8fc62d6",
+    "labelNativeId": "C8FC62D6",
+    "icon": "ammo_buckshot",
+    "iconResource": "0x8D197BFB4F7E95FC",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 262,
+     "row": 349,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "263": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "40mm HEAT Grenade",
+    "settings": {
+     "group": 0,
+     "recordType": 263,
+     "row": 85,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "264": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "9x70mm Sniper Armor Piercing",
+    "settings": {
+     "group": 0,
+     "recordType": 264,
+     "row": 244,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "265": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "12g Flechettes",
+    "settings": {
+     "group": 0,
+     "recordType": 265,
+     "row": 274,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "266": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "380mm HE Cannon Round",
+    "settings": {
+     "group": 0,
+     "recordType": 266,
+     "row": 143,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "267": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 267,
+     "row": 211,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "268": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 268,
+     "row": 56,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "269": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 269,
+     "row": 110,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "270": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 270,
+     "row": 324,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "271": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 271,
+     "row": 232,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "272": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "66mm Missile Mk2",
+    "settings": {
+     "group": 0,
+     "recordType": 272,
+     "row": 123,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "273": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Laser",
+    "settings": {
+     "group": 0,
+     "recordType": 273,
+     "row": 335,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "274": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 274,
+     "row": 107,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "275": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "12.5mm BCHP Rifle Rounds",
+    "settings": {
+     "group": 0,
+     "recordType": 275,
+     "row": 252,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "276": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "5.5x50mm Full Metal Jacket",
+    "settings": {
+     "group": 0,
+     "recordType": 276,
+     "row": 199,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "277": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Rail Cannon Round",
+    "settings": {
+     "group": 0,
+     "recordType": 277,
+     "row": 155,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "278": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "5.5x50mm Devastator",
+    "settings": {
+     "group": 0,
+     "recordType": 278,
+     "row": 202,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "279": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 279,
+     "row": 154,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "280": {
+    "label": "he_2359c1bc",
+    "labelNativeId": "2359C1BC",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "40mm HE Grenade",
+    "settings": {
+     "group": 0,
+     "recordType": 280,
+     "row": 81,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "281": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 281,
+     "row": 74,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "282": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 282,
+     "row": 238,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "283": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "9x20mm Thermite",
+    "settings": {
+     "group": 0,
+     "recordType": 283,
+     "row": 170,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "284": {
+    "label": "flak",
+    "labelNativeId": "54A8332E",
+    "icon": "ammo_flak",
+    "iconResource": "0x9DCC0312A14E11E6",
+    "name": "20mm Flak Rounds",
+    "settings": {
+     "group": 0,
+     "recordType": 284,
+     "row": 31,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "285": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Large Plasma Bolt",
+    "settings": {
+     "group": 0,
+     "recordType": 285,
+     "row": 313,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "286": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "100kg Cluster Bomb",
+    "settings": {
+     "group": 0,
+     "recordType": 286,
+     "row": 0,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "287": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "12x25mm Thermite",
+    "settings": {
+     "group": 0,
+     "recordType": 287,
+     "row": 179,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "288": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 288,
+     "row": 234,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "289": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 289,
+     "row": 59,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "290": {
+    "label": "unnamed_2caedab6",
+    "labelNativeId": "2CAEDAB6",
+    "icon": "ammo_buckshot",
+    "iconResource": "0x8D197BFB4F7E95FC",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 290,
+     "row": 282,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "291": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "9x20mm Full Metal Jacket",
+    "settings": {
+     "group": 0,
+     "recordType": 291,
+     "row": 164,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "292": {
+    "label": "liberty_fire",
+    "labelNativeId": "786E4B83",
+    "icon": "ammo_buckshot",
+    "iconResource": "0x8D197BFB4F7E95FC",
+    "name": "10g Liberty Fire",
+    "settings": {
+     "group": 0,
+     "recordType": 292,
+     "row": 286,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "293": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "500kg Bomb Mk3",
+    "settings": {
+     "group": 0,
+     "recordType": 293,
+     "row": 14,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "294": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "40mm Flak Cannon",
+    "settings": {
+     "group": 0,
+     "recordType": 294,
+     "row": 35,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "295": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 295,
+     "row": 346,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "296": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Large Plasma Bolt",
+    "settings": {
+     "group": 0,
+     "recordType": 296,
+     "row": 315,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "297": {
+    "label": "he_2359c1bc",
+    "labelNativeId": "2359C1BC",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "40mm HE Grenade",
+    "settings": {
+     "group": 0,
+     "recordType": 297,
+     "row": 82,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "298": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Anti-Air Missile",
+    "settings": {
+     "group": 0,
+     "recordType": 298,
+     "row": 131,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "299": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 299,
+     "row": 240,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "300": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 300,
+     "row": 322,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "301": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 301,
+     "row": 54,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "302": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 302,
+     "row": 62,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "303": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "40mm HE Mortar",
+    "settings": {
+     "group": 0,
+     "recordType": 303,
+     "row": 70,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "304": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "70mm Standard Rocket",
+    "settings": {
+     "group": 0,
+     "recordType": 304,
+     "row": 266,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "305": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "9x70mm Full Metal Jacket",
+    "settings": {
+     "group": 0,
+     "recordType": 305,
+     "row": 242,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "306": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "8x60mm High Velocity",
+    "settings": {
+     "group": 0,
+     "recordType": 306,
+     "row": 225,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "307": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "12g Magnum Triball",
+    "settings": {
+     "group": 0,
+     "recordType": 307,
+     "row": 277,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "308": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 308,
+     "row": 184,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "309": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "13x40mm Full Metal Jacket",
+    "settings": {
+     "group": 0,
+     "recordType": 309,
+     "row": 192,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "310": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "5.5x50mm Explosive",
+    "settings": {
+     "group": 0,
+     "recordType": 310,
+     "row": 203,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "311": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 311,
+     "row": 46,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "312": {
+    "label": "flak",
+    "labelNativeId": "54A8332E",
+    "icon": "ammo_flak",
+    "iconResource": "0x9DCC0312A14E11E6",
+    "name": "20mm Flak Rounds",
+    "settings": {
+     "group": 0,
+     "recordType": 312,
+     "row": 101,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "313": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Napalm Bomb",
+    "settings": {
+     "group": 0,
+     "recordType": 313,
+     "row": 5,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "314": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "12g Liberty Fire",
+    "settings": {
+     "group": 0,
+     "recordType": 314,
+     "row": 275,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "315": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 315,
+     "row": 49,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "316": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 316,
+     "row": 342,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "317": {
+    "label": "unnamed_889e2862",
+    "labelNativeId": "889E2862",
+    "icon": "ammo_buckshot",
+    "iconResource": "0x8D197BFB4F7E95FC",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 317,
+     "row": 299,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "318": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 318,
+     "row": 198,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "319": {
+    "label": "non_guided",
+    "labelNativeId": "ED1FC986",
+    "icon": "guidance_off",
+    "iconResource": "0xBC7975E05284CF57",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 319,
+     "row": 186,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "320": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "70mm Standard Rocket",
+    "settings": {
+     "group": 0,
+     "recordType": 320,
+     "row": 267,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "321": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "5.5x50mm Self Propelled",
+    "settings": {
+     "group": 0,
+     "recordType": 321,
+     "row": 208,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "322": {
+    "label": "frag",
+    "labelNativeId": "E23EC048",
+    "icon": "ammo_frag",
+    "iconResource": "0x8DC0EC9CE217AB7F",
+    "name": "10g Fragmentation",
+    "settings": {
+     "group": 0,
+     "recordType": 322,
+     "row": 287,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "323": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 323,
+     "row": 331,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "324": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 324,
+     "row": 10,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "325": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "8x60mm Subsonic",
+    "settings": {
+     "group": 0,
+     "recordType": 325,
+     "row": 228,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "326": {
+    "label": "guided",
+    "labelNativeId": "F1143DF5",
+    "icon": "guidance_on",
+    "iconResource": "0x7DB70E669D8034C9",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 326,
+     "row": 185,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "327": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 327,
+     "row": 239,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "328": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 328,
+     "row": 68,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "329": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 329,
+     "row": 66,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "330": {
+    "label": "artillery",
+    "labelNativeId": "803A17B5",
+    "icon": "airstrike",
+    "iconResource": "0xF83F6F461ED94E4B",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 330,
+     "row": 128,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "331": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "5.5x50mm Penetrator",
+    "settings": {
+     "group": 0,
+     "recordType": 331,
+     "row": 201,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "332": {
+    "label": "dual_sabot",
+    "labelNativeId": "87446BF8",
+    "icon": "ammo_flechettes",
+    "iconResource": "0x3B975896BC689499",
+    "name": "10g Dual Sabot",
+    "settings": {
+     "group": 0,
+     "recordType": 332,
+     "row": 291,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "333": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "8x60mm Penetrator",
+    "settings": {
+     "group": 0,
+     "recordType": 333,
+     "row": 217,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "334": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 334,
+     "row": 233,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "335": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 335,
+     "row": 115,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "336": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Homing Anti-Air Missile",
+    "settings": {
+     "group": 0,
+     "recordType": 336,
+     "row": 124,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "337": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "9x20mm Hollow Point",
+    "settings": {
+     "group": 0,
+     "recordType": 337,
+     "row": 166,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "338": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "100kg Bomb Mk2",
+    "settings": {
+     "group": 0,
+     "recordType": 338,
+     "row": 3,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "339": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "SEAF Artillery: HIGH-YIELD EXPLOSIVE",
+    "settings": {
+     "group": 0,
+     "recordType": 339,
+     "row": 157,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "340": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 340,
+     "row": 162,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "341": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "Small Plasma Bolt",
+    "settings": {
+     "group": 0,
+     "recordType": 341,
+     "row": 308,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "342": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 342,
+     "row": 92,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "343": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 343,
+     "row": 323,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "344": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 344,
+     "row": 29,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "345": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "5.5x50mm High Velocity",
+    "settings": {
+     "group": 0,
+     "recordType": 345,
+     "row": 205,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "346": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "40mm HE Mortar",
+    "settings": {
+     "group": 0,
+     "recordType": 346,
+     "row": 90,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "347": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 347,
+     "row": 283,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "348": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": null,
+    "settings": {
+     "group": 0,
+     "recordType": 348,
+     "row": 21,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "349": {
+    "label": null,
+    "labelNativeId": "F1CD5269",
+    "icon": "default",
+    "iconResource": "0x6A6598587D4BC8F5",
+    "name": "70mm Laser-Guided Missile Mk2",
+    "settings": {
+     "group": 0,
+     "recordType": 349,
+     "row": 130,
+     "settingsType": "0xBD4042C2"
+    }
+   },
+   "350": {
+    "label": "he_mk2",
+    "labelNativeId": "AF462F43",
+    "icon": "ammo_he",
+    "iconResource": "0x081DCAF42DC2ECBB",
+    "name": "85mm High-Explosive Grenade Mk2",
+    "settings": {
+     "group": 0,
+     "recordType": 350,
+     "row": 98,
+     "settingsType": "0xBD4042C2"
+    }
+   }
+  },
+  "model": {
+   "label": "ProjectileInfo +12: the short mode label (localization string ID); a projectile no menu shows holds the unnamed placeholder.",
+   "icon": "ProjectileInfo +16: the HUD icon resource; unlisted projectiles share the skull icon.",
+   "names": "ProjectileInfo +4 / +8: long names.",
+   "reader": "Every native selectable mode reads as these members; the weapon-function menu reader is not traced.",
+   "shared": "A ProjectileSettings row is a definition: every weapon firing that projectile shows the same label and icon."
+  },
+  "summary": {
+   "projectiles": 350,
+   "labelled": 46,
+   "labels": 35,
+   "offeredLabels": 32,
+   "icons": 15
+  }
+ }
 }

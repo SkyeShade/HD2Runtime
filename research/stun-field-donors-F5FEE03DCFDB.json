@@ -1,0 +1,2227 @@
+{
+ "schemaVersion": 1,
+ "build": "F5FEE03DCFDB",
+ "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+ "question": "Which native object leaves a stun (EMS) field where it lands, and can a ProgrammableAmmo host fire it?",
+ "model": {
+  "field": "A lingering area effect is ExplosionInfo persistent_status_volume (+100, StatusEffectTemplateType) and status_volume_effect_time (+104, seconds): the explosion leaves a volume of that template.",
+  "ems": "The EMS field is the StaticField template; its explosions apply Stun Medium (strength 100) and no damage.",
+  "stunGrenade": "The G-23 Stun is a single Stun Large burst from a thrown entity, not a field.",
+  "classification": {
+   "explosion": "the status burst itself (DamageInfo status slots of the explosion)",
+   "status": "Stun Small / Medium / Large / Massive: global StatusEffectSettings rows the damage applies",
+   "volume": "the persistent status volume an explosion leaves (StaticField, Gas, Smoke, Freezing, ...)",
+   "entity": "thrown grenades (G-23, emp_grenade) are entities with an ExplosiveComponent",
+   "secondaryImpactObject": "none: no stun source spawns a separate object on impact"
+  }
+ },
+ "typeLibrary": [
+  {
+   "struct": "ExplosionInfo",
+   "offset": 100,
+   "member": "persistent_status_volume",
+   "nameLength": 24,
+   "storage": "ENUM_UINT32",
+   "type": "StatusEffectTemplateType"
+  },
+  {
+   "struct": "ExplosionInfo",
+   "offset": 104,
+   "member": "status_volume_effect_time",
+   "nameLength": 25,
+   "storage": "FP32",
+   "type": null
+  },
+  {
+   "struct": "ExplosionInfo",
+   "offset": 4,
+   "member": "damage_type",
+   "nameLength": 11,
+   "storage": "ENUM_UINT32",
+   "type": "DamageInfoType"
+  },
+  {
+   "struct": "ProjectileInfo",
+   "offset": 144,
+   "member": "impact explosion",
+   "nameLength": 24,
+   "storage": "ENUM_UINT32",
+   "type": "ExplosionType"
+  },
+  {
+   "struct": "ProjectileInfo",
+   "offset": 156,
+   "member": "expiry explosion",
+   "nameLength": 21,
+   "storage": "ENUM_UINT32",
+   "type": "ExplosionType"
+  }
+ ],
+ "templates": {
+  "1": "Flamethrower",
+  "2": "Barbwire",
+  "3": "Fire",
+  "4": "Acid_Splash",
+  "5": "Acid_Stream",
+  "6": "Water",
+  "7": "Electric",
+  "8": "NukeRadiation",
+  "9": "Snow",
+  "10": "Mud",
+  "11": "Sand",
+  "12": "Pure_Damage",
+  "13": "Thornbush",
+  "14": "Smoke",
+  "15": "StaticField",
+  "16": "Gas",
+  "17": "Hidden",
+  "18": "ExtremeCold",
+  "20": "Freezing"
+ },
+ "volumes": [
+  {
+   "type": 17,
+   "volume": "Smoke",
+   "volumeSeconds": 10,
+   "radii": [
+    8,
+    8,
+    0
+   ],
+   "damage": {
+    "standard": null,
+    "status": []
+   },
+   "arc": false,
+   "shrapnel": 0,
+   "projectiles": [],
+   "owners": {
+    "entities": [
+     "0xC39E7FD97E974E5E"
+    ],
+    "direct": [
+     [
+      "ExplosiveComponentData",
+      36
+     ]
+    ],
+    "settingsOnly": 0
+   }
+  },
+  {
+   "type": 28,
+   "volume": "Smoke",
+   "volumeSeconds": 30,
+   "radii": [
+    8,
+    8,
+    0
+   ],
+   "damage": {
+    "standard": null,
+    "status": []
+   },
+   "arc": false,
+   "shrapnel": 0,
+   "projectiles": [],
+   "owners": {
+    "entities": [
+     "smoke_grenade"
+    ],
+    "direct": [
+     [
+      "ExplosiveComponentData",
+      36
+     ]
+    ],
+    "settingsOnly": 0
+   }
+  },
+  {
+   "type": 38,
+   "volume": "Smoke",
+   "volumeSeconds": 30,
+   "radii": [
+    12,
+    12,
+    0
+   ],
+   "damage": {
+    "standard": null,
+    "status": []
+   },
+   "arc": false,
+   "shrapnel": 0,
+   "projectiles": [],
+   "owners": {
+    "entities": [],
+    "direct": [],
+    "settingsOnly": 0
+   }
+  },
+  {
+   "type": 70,
+   "volume": "Smoke",
+   "volumeSeconds": 20,
+   "radii": [
+    7,
+    8,
+    9
+   ],
+   "damage": {
+    "standard": 5,
+    "status": [
+     {
+      "status": "stun_medium",
+      "strength": 50
+     }
+    ]
+   },
+   "arc": false,
+   "shrapnel": 0,
+   "projectiles": [],
+   "owners": {
+    "entities": [],
+    "direct": [],
+    "settingsOnly": 0
+   }
+  },
+  {
+   "type": 75,
+   "volume": "Smoke",
+   "volumeSeconds": 30,
+   "radii": [
+    12,
+    12,
+    0
+   ],
+   "damage": {
+    "standard": null,
+    "status": []
+   },
+   "arc": false,
+   "shrapnel": 0,
+   "projectiles": [
+    {
+     "projectile": 130,
+     "role": "impact"
+    },
+    {
+     "projectile": 247,
+     "role": "impact"
+    }
+   ],
+   "owners": {
+    "entities": [
+     "0x08D58CB1BF65F7A9",
+     "0xDA76A06325E692C9",
+     "eagle_airstrike_smoke"
+    ],
+    "direct": [
+     [
+      "projectile",
+      144
+     ]
+    ],
+    "settingsOnly": 0
+   }
+  },
+  {
+   "type": 124,
+   "volume": "Smoke",
+   "volumeSeconds": 20,
+   "radii": [
+    0.5,
+    1,
+    9
+   ],
+   "damage": {
+    "standard": 500,
+    "status": []
+   },
+   "arc": false,
+   "shrapnel": 0,
+   "projectiles": [],
+   "owners": {
+    "entities": [],
+    "direct": [],
+    "settingsOnly": 0
+   }
+  },
+  {
+   "type": 156,
+   "volume": "Smoke",
+   "volumeSeconds": 20,
+   "radii": [
+    1,
+    10,
+    9
+   ],
+   "damage": {
+    "standard": 5,
+    "status": [
+     {
+      "status": "gas",
+      "strength": 50
+     }
+    ]
+   },
+   "arc": false,
+   "shrapnel": 0,
+   "projectiles": [],
+   "owners": {
+    "entities": [],
+    "direct": [],
+    "settingsOnly": 0
+   }
+  },
+  {
+   "type": 205,
+   "volume": "Smoke",
+   "volumeSeconds": 15,
+   "radii": [
+    5,
+    5,
+    0
+   ],
+   "damage": {
+    "standard": null,
+    "status": []
+   },
+   "arc": false,
+   "shrapnel": 0,
+   "projectiles": [],
+   "owners": {
+    "entities": [],
+    "direct": [],
+    "settingsOnly": 0
+   }
+  },
+  {
+   "type": 237,
+   "volume": "Smoke",
+   "volumeSeconds": 30,
+   "radii": [
+    5,
+    5,
+    0
+   ],
+   "damage": {
+    "standard": null,
+    "status": []
+   },
+   "arc": false,
+   "shrapnel": 0,
+   "projectiles": [],
+   "owners": {
+    "entities": [
+     "impact_smoke_grenade"
+    ],
+    "direct": [
+     [
+      "ExplosiveComponentData",
+      36
+     ]
+    ],
+    "settingsOnly": 0
+   }
+  },
+  {
+   "type": 245,
+   "volume": "Smoke",
+   "volumeSeconds": 30,
+   "radii": [
+    12,
+    12,
+    0
+   ],
+   "damage": {
+    "standard": null,
+    "status": []
+   },
+   "arc": false,
+   "shrapnel": 0,
+   "projectiles": [],
+   "owners": {
+    "entities": [],
+    "direct": [],
+    "settingsOnly": 0
+   }
+  },
+  {
+   "type": 261,
+   "volume": "Smoke",
+   "volumeSeconds": 30,
+   "radii": [
+    13,
+    13,
+    0
+   ],
+   "damage": {
+    "standard": null,
+    "status": []
+   },
+   "arc": false,
+   "shrapnel": 0,
+   "projectiles": [
+    {
+     "projectile": 10,
+     "role": "impact"
+    }
+   ],
+   "owners": {
+    "entities": [
+     "0xF598598C47617605"
+    ],
+    "direct": [
+     [
+      "projectile",
+      144
+     ]
+    ],
+    "settingsOnly": 0
+   }
+  },
+  {
+   "type": 302,
+   "volume": "Smoke",
+   "volumeSeconds": 30,
+   "radii": [
+    5,
+    5,
+    0
+   ],
+   "damage": {
+    "standard": null,
+    "status": []
+   },
+   "arc": false,
+   "shrapnel": 0,
+   "projectiles": [
+    {
+     "projectile": 223,
+     "role": "expiry"
+    }
+   ],
+   "owners": {
+    "entities": [],
+    "direct": [
+     [
+      "projectile",
+      156
+     ]
+    ],
+    "settingsOnly": 1
+   }
+  },
+  {
+   "type": 312,
+   "volume": "Smoke",
+   "volumeSeconds": 20,
+   "radii": [
+    10,
+    13,
+    9
+   ],
+   "damage": {
+    "standard": 5,
+    "status": [
+     {
+      "status": "stun_medium",
+      "strength": 50
+     }
+    ]
+   },
+   "arc": false,
+   "shrapnel": 0,
+   "projectiles": [],
+   "owners": {
+    "entities": [],
+    "direct": [],
+    "settingsOnly": 0
+   }
+  },
+  {
+   "type": 400,
+   "volume": "Smoke",
+   "volumeSeconds": 30,
+   "radii": [
+    5,
+    5,
+    0
+   ],
+   "damage": {
+    "standard": null,
+    "status": []
+   },
+   "arc": false,
+   "shrapnel": 0,
+   "projectiles": [],
+   "owners": {
+    "entities": [],
+    "direct": [],
+    "settingsOnly": 0
+   }
+  },
+  {
+   "type": 23,
+   "volume": "StaticField",
+   "volumeSeconds": 20,
+   "radii": [
+    1,
+    13,
+    20
+   ],
+   "damage": {
+    "standard": 0,
+    "status": [
+     {
+      "status": "stun_medium",
+      "strength": 100
+     }
+    ]
+   },
+   "arc": false,
+   "shrapnel": 0,
+   "projectiles": [
+    {
+     "projectile": 29,
+     "role": "impact"
+    }
+   ],
+   "owners": {
+    "entities": [],
+    "direct": [
+     [
+      "projectile",
+      144
+     ]
+    ],
+    "settingsOnly": 1
+   }
+  },
+  {
+   "type": 55,
+   "volume": "StaticField",
+   "volumeSeconds": 15,
+   "radii": [
+    1,
+    13,
+    20
+   ],
+   "damage": {
+    "standard": 0,
+    "status": [
+     {
+      "status": "stun_medium",
+      "strength": 100
+     }
+    ]
+   },
+   "arc": false,
+   "shrapnel": 0,
+   "projectiles": [
+    {
+     "projectile": 92,
+     "role": "impact"
+    }
+   ],
+   "owners": {
+    "entities": [
+     "0xC02C2623B6359BB3"
+    ],
+    "direct": [
+     [
+      "projectile",
+      144
+     ]
+    ],
+    "settingsOnly": 0
+   }
+  },
+  {
+   "type": 180,
+   "volume": "StaticField",
+   "volumeSeconds": 7,
+   "radii": [
+    1,
+    10,
+    12
+   ],
+   "damage": {
+    "standard": 0,
+    "status": [
+     {
+      "status": "stun_medium",
+      "strength": 100
+     }
+    ]
+   },
+   "arc": false,
+   "shrapnel": 0,
+   "projectiles": [
+    {
+     "projectile": 154,
+     "role": "expiry"
+    }
+   ],
+   "owners": {
+    "entities": [
+     "mortar_turret_staticfield"
+    ],
+    "direct": [
+     [
+      "projectile",
+      156
+     ]
+    ],
+    "settingsOnly": 0
+   }
+  },
+  {
+   "type": 188,
+   "volume": "StaticField",
+   "volumeSeconds": 15,
+   "radii": [
+    1,
+    13,
+    20
+   ],
+   "damage": {
+    "standard": 0,
+    "status": [
+     {
+      "status": "stun_medium",
+      "strength": 100
+     }
+    ]
+   },
+   "arc": false,
+   "shrapnel": 0,
+   "projectiles": [
+    {
+     "projectile": 74,
+     "role": "impact"
+    }
+   ],
+   "owners": {
+    "entities": [
+     "0x55F3747B8C27AEF6",
+     "0x732AEF8A79F36E61",
+     "emp_grenade"
+    ],
+    "direct": [
+     [
+      "ExplosiveComponentData",
+      36
+     ],
+     [
+      "projectile",
+      144
+     ]
+    ],
+    "settingsOnly": 0
+   }
+  },
+  {
+   "type": 82,
+   "volume": "Gas",
+   "volumeSeconds": 15,
+   "radii": [
+    1,
+    15,
+    20
+   ],
+   "damage": {
+    "standard": 0,
+    "status": [
+     {
+      "status": "gas",
+      "strength": 100
+     },
+     {
+      "status": "gas_confusion",
+      "strength": 100
+     }
+    ]
+   },
+   "arc": false,
+   "shrapnel": 0,
+   "projectiles": [
+    {
+     "projectile": 197,
+     "role": "impact"
+    }
+   ],
+   "owners": {
+    "entities": [
+     "0x05F3C83A91075766"
+    ],
+    "direct": [
+     [
+      "projectile",
+      144
+     ]
+    ],
+    "settingsOnly": 0
+   }
+  },
+  {
+   "type": 97,
+   "volume": "Gas",
+   "volumeSeconds": 10,
+   "radii": [
+    2,
+    5,
+    7
+   ],
+   "damage": {
+    "standard": 3,
+    "status": [
+     {
+      "status": "gas",
+      "strength": 100
+     },
+     {
+      "status": "gas_confusion",
+      "strength": 100
+     }
+    ]
+   },
+   "arc": false,
+   "shrapnel": 0,
+   "projectiles": [
+    {
+     "projectile": 125,
+     "role": "expiry"
+    }
+   ],
+   "owners": {
+    "entities": [
+     "harpoon_gun"
+    ],
+    "direct": [
+     [
+      "projectile",
+      156
+     ]
+    ],
+    "settingsOnly": 0
+   }
+  },
+  {
+   "type": 177,
+   "volume": "Gas",
+   "volumeSeconds": 15,
+   "radii": [
+    2,
+    7,
+    7
+   ],
+   "damage": {
+    "standard": 3,
+    "status": [
+     {
+      "status": "gas",
+      "strength": 100
+     },
+     {
+      "status": "gas_confusion",
+      "strength": 100
+     }
+    ]
+   },
+   "arc": false,
+   "shrapnel": 0,
+   "projectiles": [],
+   "owners": {
+    "entities": [
+     "gas_grenade"
+    ],
+    "direct": [
+     [
+      "ExplosiveComponentData",
+      36
+     ]
+    ],
+    "settingsOnly": 0
+   }
+  },
+  {
+   "type": 185,
+   "volume": "Gas",
+   "volumeSeconds": 15,
+   "radii": [
+    2,
+    7,
+    7
+   ],
+   "damage": {
+    "standard": 0,
+    "status": [
+     {
+      "status": "gas",
+      "strength": 100
+     },
+     {
+      "status": "gas_confusion",
+      "strength": 100
+     }
+    ]
+   },
+   "arc": false,
+   "shrapnel": 0,
+   "projectiles": [
+    {
+     "projectile": 342,
+     "role": "impact"
+    }
+   ],
+   "owners": {
+    "entities": [
+     "0x299C0D3DFD2F0994"
+    ],
+    "direct": [
+     [
+      "projectile",
+      144
+     ]
+    ],
+    "settingsOnly": 0
+   }
+  },
+  {
+   "type": 270,
+   "volume": "Gas",
+   "volumeSeconds": 15,
+   "radii": [
+    2,
+    6,
+    6
+   ],
+   "damage": {
+    "standard": 3,
+    "status": [
+     {
+      "status": "gas",
+      "strength": 100
+     },
+     {
+      "status": "gas_confusion",
+      "strength": 100
+     }
+    ]
+   },
+   "arc": false,
+   "shrapnel": 0,
+   "projectiles": [],
+   "owners": {
+    "entities": [
+     "gas_mine",
+     "mine_launcher_gas"
+    ],
+    "direct": [
+     [
+      "ExplosiveComponentData",
+      36
+     ],
+     [
+      "MinefieldComponentData",
+      24
+     ]
+    ],
+    "settingsOnly": 0
+   }
+  },
+  {
+   "type": 331,
+   "volume": "Gas",
+   "volumeSeconds": 15,
+   "radii": [
+    1,
+    12,
+    15
+   ],
+   "damage": {
+    "standard": 0,
+    "status": [
+     {
+      "status": "gas",
+      "strength": 100
+     },
+     {
+      "status": "gas_confusion",
+      "strength": 100
+     }
+    ]
+   },
+   "arc": false,
+   "shrapnel": 0,
+   "projectiles": [
+    {
+     "projectile": 188,
+     "role": "impact"
+    }
+   ],
+   "owners": {
+    "entities": [
+     "0xDBB286AD7ED9DF96"
+    ],
+    "direct": [
+     [
+      "projectile",
+      144
+     ]
+    ],
+    "settingsOnly": 0
+   }
+  },
+  {
+   "type": 104,
+   "volume": "Freezing",
+   "volumeSeconds": 10,
+   "radii": [
+    2.5,
+    4.95,
+    3
+   ],
+   "damage": {
+    "standard": 15,
+    "status": [
+     {
+      "status": "stun_medium",
+      "strength": 50
+     }
+    ]
+   },
+   "arc": false,
+   "shrapnel": 0,
+   "projectiles": [],
+   "owners": {
+    "entities": [],
+    "direct": [],
+    "settingsOnly": 0
+   }
+  },
+  {
+   "type": 345,
+   "volume": 28,
+   "volumeSeconds": 10,
+   "radii": [
+    2.25,
+    6,
+    2.5
+   ],
+   "damage": {
+    "standard": 15,
+    "status": []
+   },
+   "arc": false,
+   "shrapnel": 0,
+   "projectiles": [
+    {
+     "projectile": 159,
+     "role": "impact"
+    }
+   ],
+   "owners": {
+    "entities": [
+     "cha_strider_gloom"
+    ],
+    "direct": [
+     [
+      "projectile",
+      144
+     ]
+    ],
+    "settingsOnly": 0
+   }
+  },
+  {
+   "type": 168,
+   "volume": 29,
+   "volumeSeconds": 18,
+   "radii": [
+    6,
+    7,
+    8
+   ],
+   "damage": {
+    "standard": 5,
+    "status": [
+     {
+      "status": "stun_medium",
+      "strength": 50
+     }
+    ]
+   },
+   "arc": false,
+   "shrapnel": 0,
+   "projectiles": [],
+   "owners": {
+    "entities": [],
+    "direct": [],
+    "settingsOnly": 0
+   }
+  },
+  {
+   "type": 382,
+   "volume": 29,
+   "volumeSeconds": 10,
+   "radii": [
+    5,
+    6,
+    7
+   ],
+   "damage": {
+    "standard": 5,
+    "status": [
+     {
+      "status": "confusion",
+      "strength": 1
+     }
+    ]
+   },
+   "arc": false,
+   "shrapnel": 0,
+   "projectiles": [],
+   "owners": {
+    "entities": [],
+    "direct": [],
+    "settingsOnly": 0
+   }
+  }
+ ],
+ "stunExplosions": [
+  {
+   "explosion": 4,
+   "status": [
+    {
+     "status": "stun_small",
+     "strength": 25
+    }
+   ],
+   "volume": null,
+   "radius": 5,
+   "projectiles": [
+    {
+     "projectile": 243,
+     "role": "expiry"
+    }
+   ],
+   "owners": {
+    "entities": [],
+    "direct": [
+     [
+      "projectile",
+      156
+     ]
+    ],
+    "settingsOnly": 1
+   },
+   "owned": true
+  },
+  {
+   "explosion": 18,
+   "status": [
+    {
+     "status": "stun_medium",
+     "strength": 50
+    }
+   ],
+   "volume": null,
+   "radius": 6,
+   "projectiles": [],
+   "owners": {
+    "entities": [],
+    "direct": [],
+    "settingsOnly": 0
+   },
+   "owned": false
+  },
+  {
+   "explosion": 22,
+   "status": [
+    {
+     "status": "stun_large",
+     "strength": 0
+    }
+   ],
+   "volume": null,
+   "radius": 4.5,
+   "projectiles": [],
+   "owners": {
+    "entities": [],
+    "direct": [],
+    "settingsOnly": 0
+   },
+   "owned": false
+  },
+  {
+   "explosion": 23,
+   "status": [
+    {
+     "status": "stun_medium",
+     "strength": 100
+    }
+   ],
+   "volume": "StaticField",
+   "radius": 13,
+   "projectiles": [
+    {
+     "projectile": 29,
+     "role": "impact"
+    }
+   ],
+   "owners": {
+    "entities": [],
+    "direct": [
+     [
+      "projectile",
+      144
+     ]
+    ],
+    "settingsOnly": 1
+   },
+   "owned": true
+  },
+  {
+   "explosion": 55,
+   "status": [
+    {
+     "status": "stun_medium",
+     "strength": 100
+    }
+   ],
+   "volume": "StaticField",
+   "radius": 13,
+   "projectiles": [
+    {
+     "projectile": 92,
+     "role": "impact"
+    }
+   ],
+   "owners": {
+    "entities": [
+     "0xC02C2623B6359BB3"
+    ],
+    "direct": [
+     [
+      "projectile",
+      144
+     ]
+    ],
+    "settingsOnly": 0
+   },
+   "owned": true
+  },
+  {
+   "explosion": 65,
+   "status": [
+    {
+     "status": "tornado_stun",
+     "strength": 1
+    }
+   ],
+   "volume": null,
+   "radius": 10,
+   "projectiles": [],
+   "owners": {
+    "entities": [],
+    "direct": [],
+    "settingsOnly": 0
+   },
+   "owned": false
+  },
+  {
+   "explosion": 70,
+   "status": [
+    {
+     "status": "stun_medium",
+     "strength": 50
+    }
+   ],
+   "volume": "Smoke",
+   "radius": 8,
+   "projectiles": [],
+   "owners": {
+    "entities": [],
+    "direct": [],
+    "settingsOnly": 0
+   },
+   "owned": false
+  },
+  {
+   "explosion": 73,
+   "status": [
+    {
+     "status": "stun_small",
+     "strength": 25
+    }
+   ],
+   "volume": null,
+   "radius": 1,
+   "projectiles": [],
+   "owners": {
+    "entities": [
+     "0xCCFAE6D4A601C741"
+    ],
+    "direct": [
+     [
+      "ExplosiveComponentData",
+      36
+     ]
+    ],
+    "settingsOnly": 0
+   },
+   "owned": true
+  },
+  {
+   "explosion": 78,
+   "status": [
+    {
+     "status": "tornado_stun",
+     "strength": 1
+    }
+   ],
+   "volume": null,
+   "radius": 4.5,
+   "projectiles": [],
+   "owners": {
+    "entities": [],
+    "direct": [],
+    "settingsOnly": 0
+   },
+   "owned": false
+  },
+  {
+   "explosion": 86,
+   "status": [
+    {
+     "status": "stun_small",
+     "strength": 25
+    }
+   ],
+   "volume": null,
+   "radius": 1.5,
+   "projectiles": [],
+   "owners": {
+    "entities": [
+     "0x19A6BB8EEA30C564",
+     "0x2D20A78B282C365A",
+     "0x6C2350AF73D4D79D",
+     "0x864342E94C8DDAF5",
+     "0xA436B278181E1532"
+    ],
+    "direct": [
+     [
+      "ExplosiveComponentData",
+      36
+     ]
+    ],
+    "settingsOnly": 0
+   },
+   "owned": true
+  },
+  {
+   "explosion": 90,
+   "status": [
+    {
+     "status": "tornado_stun",
+     "strength": 1
+    }
+   ],
+   "volume": null,
+   "radius": 7.5,
+   "projectiles": [],
+   "owners": {
+    "entities": [],
+    "direct": [],
+    "settingsOnly": 0
+   },
+   "owned": false
+  },
+  {
+   "explosion": 104,
+   "status": [
+    {
+     "status": "stun_medium",
+     "strength": 50
+    }
+   ],
+   "volume": "Freezing",
+   "radius": 4.95,
+   "projectiles": [],
+   "owners": {
+    "entities": [],
+    "direct": [],
+    "settingsOnly": 0
+   },
+   "owned": false
+  },
+  {
+   "explosion": 134,
+   "status": [
+    {
+     "status": "stun_small",
+     "strength": 5
+    }
+   ],
+   "volume": null,
+   "radius": 1.25,
+   "projectiles": [],
+   "owners": {
+    "entities": [],
+    "direct": [],
+    "settingsOnly": 0
+   },
+   "owned": false
+  },
+  {
+   "explosion": 141,
+   "status": [
+    {
+     "status": "tornado_stun",
+     "strength": 1
+    }
+   ],
+   "volume": null,
+   "radius": 20,
+   "projectiles": [],
+   "owners": {
+    "entities": [],
+    "direct": [],
+    "settingsOnly": 0
+   },
+   "owned": false
+  },
+  {
+   "explosion": 144,
+   "status": [
+    {
+     "status": "stun_medium",
+     "strength": 50
+    }
+   ],
+   "volume": null,
+   "radius": 6,
+   "projectiles": [],
+   "owners": {
+    "entities": [],
+    "direct": [],
+    "settingsOnly": 0
+   },
+   "owned": false
+  },
+  {
+   "explosion": 164,
+   "status": [
+    {
+     "status": "stun_large",
+     "strength": 25
+    }
+   ],
+   "volume": null,
+   "radius": 10,
+   "projectiles": [
+    {
+     "projectile": 67,
+     "role": "impact"
+    },
+    {
+     "projectile": 67,
+     "role": "expiry"
+    }
+   ],
+   "owners": {
+    "entities": [],
+    "direct": [
+     [
+      "projectile",
+      144
+     ],
+     [
+      "projectile",
+      156
+     ]
+    ],
+    "settingsOnly": 2
+   },
+   "owned": true
+  },
+  {
+   "explosion": 168,
+   "status": [
+    {
+     "status": "stun_medium",
+     "strength": 50
+    }
+   ],
+   "volume": 29,
+   "radius": 7,
+   "projectiles": [],
+   "owners": {
+    "entities": [],
+    "direct": [],
+    "settingsOnly": 0
+   },
+   "owned": false
+  },
+  {
+   "explosion": 180,
+   "status": [
+    {
+     "status": "stun_medium",
+     "strength": 100
+    }
+   ],
+   "volume": "StaticField",
+   "radius": 10,
+   "projectiles": [
+    {
+     "projectile": 154,
+     "role": "expiry"
+    }
+   ],
+   "owners": {
+    "entities": [
+     "mortar_turret_staticfield"
+    ],
+    "direct": [
+     [
+      "projectile",
+      156
+     ]
+    ],
+    "settingsOnly": 0
+   },
+   "owned": true
+  },
+  {
+   "explosion": 188,
+   "status": [
+    {
+     "status": "stun_medium",
+     "strength": 100
+    }
+   ],
+   "volume": "StaticField",
+   "radius": 13,
+   "projectiles": [
+    {
+     "projectile": 74,
+     "role": "impact"
+    }
+   ],
+   "owners": {
+    "entities": [
+     "0x55F3747B8C27AEF6",
+     "0x732AEF8A79F36E61",
+     "emp_grenade"
+    ],
+    "direct": [
+     [
+      "ExplosiveComponentData",
+      36
+     ],
+     [
+      "projectile",
+      144
+     ]
+    ],
+    "settingsOnly": 0
+   },
+   "owned": true
+  },
+  {
+   "explosion": 220,
+   "status": [
+    {
+     "status": "stun_large",
+     "strength": 25
+    }
+   ],
+   "volume": null,
+   "radius": 10,
+   "projectiles": [],
+   "owners": {
+    "entities": [
+     "flashbang"
+    ],
+    "direct": [
+     [
+      "ExplosiveComponentData",
+      36
+     ]
+    ],
+    "settingsOnly": 0
+   },
+   "owned": true
+  },
+  {
+   "explosion": 230,
+   "status": [
+    {
+     "status": "stun_small",
+     "strength": 5
+    }
+   ],
+   "volume": null,
+   "radius": 10,
+   "projectiles": [],
+   "owners": {
+    "entities": [
+     "caltrops_grenade"
+    ],
+    "direct": [
+     [
+      "ExplosiveComponentData",
+      36
+     ],
+     [
+      "MinefieldComponentData",
+      24
+     ]
+    ],
+    "settingsOnly": 0
+   },
+   "owned": true
+  },
+  {
+   "explosion": 233,
+   "status": [
+    {
+     "status": "stun_medium",
+     "strength": 100
+    }
+   ],
+   "volume": null,
+   "radius": 15,
+   "projectiles": [],
+   "owners": {
+    "entities": [],
+    "direct": [],
+    "settingsOnly": 0
+   },
+   "owned": false
+  },
+  {
+   "explosion": 273,
+   "status": [
+    {
+     "status": "stun_small",
+     "strength": 25
+    }
+   ],
+   "volume": null,
+   "radius": 5,
+   "projectiles": [],
+   "owners": {
+    "entities": [],
+    "direct": [],
+    "settingsOnly": 0
+   },
+   "owned": false
+  },
+  {
+   "explosion": 274,
+   "status": [
+    {
+     "status": "stun_small",
+     "strength": 200
+    }
+   ],
+   "volume": null,
+   "radius": 20,
+   "projectiles": [],
+   "owners": {
+    "entities": [],
+    "direct": [],
+    "settingsOnly": 0
+   },
+   "owned": false
+  },
+  {
+   "explosion": 286,
+   "status": [
+    {
+     "status": "stun_small",
+     "strength": 200
+    }
+   ],
+   "volume": null,
+   "radius": 20,
+   "projectiles": [],
+   "owners": {
+    "entities": [],
+    "direct": [],
+    "settingsOnly": 0
+   },
+   "owned": false
+  },
+  {
+   "explosion": 312,
+   "status": [
+    {
+     "status": "stun_medium",
+     "strength": 50
+    }
+   ],
+   "volume": "Smoke",
+   "radius": 13,
+   "projectiles": [],
+   "owners": {
+    "entities": [],
+    "direct": [],
+    "settingsOnly": 0
+   },
+   "owned": false
+  },
+  {
+   "explosion": 322,
+   "status": [
+    {
+     "status": "stun_small",
+     "strength": 200
+    }
+   ],
+   "volume": null,
+   "radius": 12,
+   "projectiles": [],
+   "owners": {
+    "entities": [],
+    "direct": [],
+    "settingsOnly": 0
+   },
+   "owned": false
+  },
+  {
+   "explosion": 323,
+   "status": [
+    {
+     "status": "stun_large",
+     "strength": 25
+    }
+   ],
+   "volume": null,
+   "radius": 8,
+   "projectiles": [],
+   "owners": {
+    "entities": [],
+    "direct": [],
+    "settingsOnly": 0
+   },
+   "owned": false
+  },
+  {
+   "explosion": 335,
+   "status": [
+    {
+     "status": "stun_massive",
+     "strength": 100
+    }
+   ],
+   "volume": null,
+   "radius": 4,
+   "projectiles": [],
+   "owners": {
+    "entities": [],
+    "direct": [],
+    "settingsOnly": 0
+   },
+   "owned": false
+  },
+  {
+   "explosion": 348,
+   "status": [
+    {
+     "status": "stun_large",
+     "strength": 100
+    }
+   ],
+   "volume": null,
+   "radius": 50,
+   "projectiles": [],
+   "owners": {
+    "entities": [],
+    "direct": [],
+    "settingsOnly": 0
+   },
+   "owned": false
+  },
+  {
+   "explosion": 365,
+   "status": [
+    {
+     "status": "stun_medium",
+     "strength": 50
+    }
+   ],
+   "volume": null,
+   "radius": 2,
+   "projectiles": [
+    {
+     "projectile": 167,
+     "role": "impact"
+    }
+   ],
+   "owners": {
+    "entities": [
+     "0x1FCE01BC5C92B368",
+     "0x82B4FBEBF0F9D41C"
+    ],
+    "direct": [
+     [
+      "projectile",
+      144
+     ]
+    ],
+    "settingsOnly": 0
+   },
+   "owned": true
+  },
+  {
+   "explosion": 369,
+   "status": [
+    {
+     "status": "stun_large",
+     "strength": 10
+    }
+   ],
+   "volume": null,
+   "radius": 4,
+   "projectiles": [],
+   "owners": {
+    "entities": [
+     "sticky_stun_grenade"
+    ],
+    "direct": [
+     [
+      "ExplosiveComponentData",
+      36
+     ]
+    ],
+    "settingsOnly": 0
+   },
+   "owned": true
+  },
+  {
+   "explosion": 412,
+   "status": [
+    {
+     "status": "stun_large",
+     "strength": 10
+    }
+   ],
+   "volume": null,
+   "radius": 4,
+   "projectiles": [],
+   "owners": {
+    "entities": [],
+    "direct": [],
+    "settingsOnly": 0
+   },
+   "owned": false
+  }
+ ],
+ "candidates": [
+  {
+   "id": "speargun_gas",
+   "name": "S-11 Speargun gas cloud (control)",
+   "projectileType": 125,
+   "velocity": 300,
+   "chain": [
+    {
+     "type": 97,
+     "volume": "Gas",
+     "volumeSeconds": 10,
+     "radii": [
+      2,
+      5,
+      7
+     ],
+     "damage": {
+      "standard": 3,
+      "status": [
+       {
+        "status": "gas",
+        "strength": 100
+       },
+       {
+        "status": "gas_confusion",
+        "strength": 100
+       }
+      ]
+     },
+     "arc": false,
+     "shrapnel": 0,
+     "role": "expiry"
+    }
+   ],
+   "owners": {
+    "entities": [
+     "harpoon_gun"
+    ],
+    "direct": [
+     [
+      "ProjectileWeaponComponentData",
+      0
+     ]
+    ],
+    "settingsOnly": 0
+   },
+   "effect": "persistent status volume (Gas 10 s, radius 5) left by its expiry explosion",
+   "projectileWeaponOwners": 1,
+   "owner": {
+    "resource": "0x3828E2051AA9E897",
+    "path": "content/fac_helldivers/equipment/support_weapons/harpoon_gun/harpoon_gun",
+    "stratagem": null,
+    "component": "ProjectileWeaponComponentData",
+    "componentIdentity": {
+     "recordIndex": 251,
+     "indexRow": 406,
+     "ownerCount": 1,
+     "uniqueOwner": true
+    },
+    "entityRow": 2200,
+    "package": {
+     "package": "0x70D708E5FD627493",
+     "name": "packages/generated/loadout/harpoon_gun",
+     "via": "own_loadout_package",
+     "inBundleDatabase": true
+    }
+   },
+   "decision": "control",
+   "reason": "Mode A: the Speargun spear itself. Its gas cloud is a Gas status volume left by its expiry explosion."
+  },
+  {
+   "id": "ems_mortar",
+   "name": "A/M-23 EMS Mortar Sentry shell",
+   "projectileType": 154,
+   "velocity": 100,
+   "chain": [
+    {
+     "type": 150,
+     "volume": null,
+     "volumeSeconds": null,
+     "radii": [
+      1,
+      2,
+      3
+     ],
+     "damage": {
+      "standard": 150,
+      "status": []
+     },
+     "arc": false,
+     "shrapnel": 0,
+     "role": "impact"
+    },
+    {
+     "type": 180,
+     "volume": "StaticField",
+     "volumeSeconds": 7,
+     "radii": [
+      1,
+      10,
+      12
+     ],
+     "damage": {
+      "standard": 0,
+      "status": [
+       {
+        "status": "stun_medium",
+        "strength": 100
+       }
+      ]
+     },
+     "arc": false,
+     "shrapnel": 0,
+     "role": "expiry"
+    }
+   ],
+   "owners": {
+    "entities": [
+     "mortar_turret_staticfield"
+    ],
+    "direct": [
+     [
+      "ProjectileWeaponComponentData",
+      0
+     ]
+    ],
+    "settingsOnly": 0
+   },
+   "effect": "persistent status volume (StaticField 7 s, radius 10) left by its expiry explosion",
+   "projectileWeaponOwners": 1,
+   "owner": {
+    "resource": "0xB2053A1838092F8B",
+    "path": "content/fac_helldivers/hellpod/mortar_turret/mortar_turret_staticfield",
+    "stratagem": "A/M-23 EMS Mortar Sentry",
+    "component": "ProjectileWeaponComponentData",
+    "componentIdentity": {
+     "recordIndex": 148,
+     "indexRow": 405,
+     "ownerCount": 1,
+     "uniqueOwner": true
+    },
+    "entityRow": 3979,
+    "package": {
+     "package": "0x4666692B63185121",
+     "name": "packages/generated/loadout/mortar_turret_staticfield",
+     "via": "own_loadout_package",
+     "inBundleDatabase": true
+    }
+   },
+   "decision": "supported",
+   "reason": "A ProjectileType fired by the EMS Mortar turret's own ProjectileWeapon +0 (unique owner), whose expiry explosion leaves a StaticField volume applying Stun Medium; the turret owns its own loadout package. The write engine re-proves the owner record and loads the package before writing."
+  },
+  {
+   "id": "orbital_ems",
+   "name": "Orbital EMS Strike shell",
+   "projectileType": 74,
+   "velocity": 400,
+   "chain": [
+    {
+     "type": 188,
+     "volume": "StaticField",
+     "volumeSeconds": 15,
+     "radii": [
+      1,
+      13,
+      20
+     ],
+     "damage": {
+      "standard": 0,
+      "status": [
+       {
+        "status": "stun_medium",
+        "strength": 100
+       }
+      ]
+     },
+     "arc": false,
+     "shrapnel": 0,
+     "role": "impact"
+    }
+   ],
+   "owners": {
+    "entities": [
+     "0x55F3747B8C27AEF6",
+     "0x732AEF8A79F36E61"
+    ],
+    "direct": [
+     [
+      "BombardmentComponentData",
+      64
+     ]
+    ],
+    "settingsOnly": 0
+   },
+   "effect": "persistent status volume (StaticField 15 s, radius 13) left by its impact explosion",
+   "projectileWeaponOwners": 0,
+   "decision": "blocked",
+   "reason": "The shell leaves the largest StaticField, but its owner is the orbital's BombardmentComponent (+64), which the runtime profile does not describe, so the source cannot be re-proven live. Adding that component to the profile would make it a donor."
+  },
+  {
+   "id": "artillery_ems",
+   "name": "Mission artillery EMS shell",
+   "projectileType": 92,
+   "velocity": 300,
+   "chain": [
+    {
+     "type": 55,
+     "volume": "StaticField",
+     "volumeSeconds": 15,
+     "radii": [
+      1,
+      13,
+      20
+     ],
+     "damage": {
+      "standard": 0,
+      "status": [
+       {
+        "status": "stun_medium",
+        "strength": 100
+       }
+      ]
+     },
+     "arc": false,
+     "shrapnel": 0,
+     "role": "impact"
+    }
+   ],
+   "owners": {
+    "entities": [
+     "0xC02C2623B6359BB3"
+    ],
+    "direct": [
+     [
+      "ObjectiveShellComponentData",
+      0
+     ]
+    ],
+    "settingsOnly": 0
+   },
+   "effect": "persistent status volume (StaticField 15 s, radius 13) left by its impact explosion",
+   "projectileWeaponOwners": 0,
+   "decision": "blocked",
+   "reason": "Owned by a mission objective shell component, not by a loadout item: no package Runtime can name."
+  },
+  {
+   "id": "unowned_static_field",
+   "name": "Unowned StaticField projectile",
+   "projectileType": 29,
+   "velocity": 400,
+   "chain": [
+    {
+     "type": 23,
+     "volume": "StaticField",
+     "volumeSeconds": 20,
+     "radii": [
+      1,
+      13,
+      20
+     ],
+     "damage": {
+      "standard": 0,
+      "status": [
+       {
+        "status": "stun_medium",
+        "strength": 100
+       }
+      ]
+     },
+     "arc": false,
+     "shrapnel": 0,
+     "role": "impact"
+    }
+   ],
+   "owners": {
+    "entities": [],
+    "direct": [],
+    "settingsOnly": 0
+   },
+   "effect": "persistent status volume (StaticField 20 s, radius 13) left by its impact explosion",
+   "projectileWeaponOwners": 0,
+   "decision": "blocked",
+   "reason": "No entity or settings row references this projectile: no owner and no package."
+  },
+  {
+   "id": "g23_stun",
+   "name": "G-23 Stun grenade",
+   "explosion": {
+    "type": 220,
+    "volume": null,
+    "volumeSeconds": null,
+    "radii": [
+     1,
+     10,
+     15
+    ],
+    "damage": {
+     "standard": 0,
+     "status": [
+      {
+       "status": "stun_large",
+       "strength": 25
+      }
+     ]
+    },
+    "arc": false,
+    "shrapnel": 0
+   },
+   "owners": {
+    "entities": [
+     "flashbang"
+    ],
+    "direct": [
+     [
+      "ExplosiveComponentData",
+      36
+     ]
+    ],
+    "settingsOnly": 0
+   },
+   "effect": "single status burst (no lasting field)",
+   "decision": "not_a_projectile",
+   "reason": "A thrown entity whose ExplosiveComponent detonates one Stun Large burst (no lasting field). A ProgrammableAmmo host fires a ProjectileType, and this is an entity; spawning it would be the function entity member (+584), which Runtime does not write."
+  },
+  {
+   "id": "emp_grenade",
+   "name": "emp_grenade throwable",
+   "explosion": {
+    "type": 188,
+    "volume": "StaticField",
+    "volumeSeconds": 15,
+    "radii": [
+     1,
+     13,
+     20
+    ],
+    "damage": {
+     "standard": 0,
+     "status": [
+      {
+       "status": "stun_medium",
+       "strength": 100
+      }
+     ]
+    },
+    "arc": false,
+    "shrapnel": 0
+   },
+   "owners": {
+    "entities": [
+     "0x55F3747B8C27AEF6",
+     "0x732AEF8A79F36E61",
+     "emp_grenade"
+    ],
+    "direct": [
+     [
+      "ExplosiveComponentData",
+      36
+     ],
+     [
+      "projectile",
+      144
+     ]
+    ],
+    "settingsOnly": 0
+   },
+   "effect": "persistent status volume",
+   "decision": "not_a_projectile",
+   "reason": "A thrown entity that detonates the Orbital EMS static-field explosion; the same entity limit as the G-23."
+  },
+  {
+   "id": "gl52_arc",
+   "name": "GL-52 De-Escalator arc grenade (the tested donor)",
+   "projectileType": 222,
+   "velocity": 100,
+   "chain": [
+    {
+     "type": 41,
+     "volume": null,
+     "volumeSeconds": null,
+     "radii": [
+      1,
+      3,
+      4
+     ],
+     "damage": {
+      "standard": 0,
+      "status": []
+     },
+     "arc": true,
+     "shrapnel": 0,
+     "role": "impact"
+    }
+   ],
+   "owners": {
+    "entities": [
+     "grenade_launcher_tactical"
+    ],
+    "direct": [
+     [
+      "ProjectileWeaponComponentData",
+      0
+     ],
+     [
+      "WeaponRoundsComponentData",
+      64
+     ]
+    ],
+    "settingsOnly": 0
+   },
+   "effect": "arc on impact",
+   "projectileWeaponOwners": 1,
+   "owner": {
+    "resource": "0xFE3B29B2CFA63F9B",
+    "path": "content/fac_helldivers/equipment/support_weapons/grenade_launcher_tactical/grenade_launcher_tactical",
+    "stratagem": null,
+    "component": "ProjectileWeaponComponentData",
+    "componentIdentity": {
+     "recordIndex": 250,
+     "indexRow": 95,
+     "ownerCount": 1,
+     "uniqueOwner": true
+    },
+    "entityRow": 3995,
+    "package": {
+     "package": "0x4FEE9CC13C0B4CEC",
+     "name": "packages/generated/loadout/grenade_launcher_tactical",
+     "via": "own_loadout_package",
+     "inBundleDatabase": true
+    }
+   },
+   "decision": "supported_not_a_field",
+   "reason": "The tested donor: its impact explosion arcs (electric damage) and leaves no field. Works as a function projectile (live, 2026-09-30) but is not a stun field."
+  }
+ ],
+ "donors": [
+  {
+   "id": "ems_mortar",
+   "name": "A/M-23 EMS Mortar Sentry",
+   "ownerKind": "stratagem",
+   "label": "A/M-23 EMS Mortar Sentry shell",
+   "resource": "0xB2053A1838092F8B",
+   "entityRow": 3979,
+   "component": "ProjectileWeaponComponentData",
+   "componentIdentity": {
+    "recordIndex": 148,
+    "indexRow": 405,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "projectileType": 154,
+   "settings": {
+    "group": 0,
+    "recordType": 154,
+    "row": 91,
+    "settingsType": "0xBD4042C2"
+   },
+   "compatibilityClass": "explosive_impact_and_expiry",
+   "package": {
+    "package": "0x4666692B63185121",
+    "name": "packages/generated/loadout/mortar_turret_staticfield",
+    "via": "own_loadout_package",
+    "inBundleDatabase": true
+   },
+   "field": {
+    "type": 180,
+    "volume": "StaticField",
+    "volumeSeconds": 7,
+    "radii": [
+     1,
+     10,
+     12
+    ],
+    "damage": {
+     "standard": 0,
+     "status": [
+      {
+       "status": "stun_medium",
+       "strength": 100
+      }
+     ]
+    },
+    "arc": false,
+    "shrapnel": 0,
+    "role": "expiry"
+   },
+   "referenceScope": [
+    "function_ammo.projectile"
+   ]
+  }
+ ],
+ "summary": {
+  "volumes": 28,
+  "staticFieldExplosions": 4,
+  "stunExplosions": 33,
+  "unownedStunExplosions": 21,
+  "supportedDonors": [
+   "ems_mortar"
+  ]
+ }
+}

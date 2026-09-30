@@ -313,7 +313,7 @@
    "path": "content/fac_helldivers/equipment/backpacks/drone_flamethrower_backpack/drone_flamethrower_backpack",
    "dependency": {
     "package": "0x82EC28278BF9B79A",
-    "name": null,
+    "name": "packages/generated/loadout/drone_flamethrower_backpack",
     "via": "own_loadout_package",
     "holder": null,
     "inBundleDatabase": true
@@ -327,7 +327,7 @@
    "path": "content/fac_helldivers/equipment/backpacks/drone_weapons/drone_laser_rifle/drone_laser_rifle_backpack",
    "dependency": {
     "package": "0x32CB44321DA1B5A0",
-    "name": null,
+    "name": "packages/generated/loadout/drone_laser_rifle_backpack",
     "via": "own_loadout_package",
     "holder": null,
     "inBundleDatabase": true
@@ -1423,7 +1423,7 @@
    "path": "content/fac_helldivers/equipment/backpacks/drone_flamethrower_backpack/drone_flamethrower_backpack",
    "dependency": {
     "package": "0x82EC28278BF9B79A",
-    "name": null,
+    "name": "packages/generated/loadout/drone_flamethrower_backpack",
     "via": "own_loadout_package",
     "holder": null,
     "inBundleDatabase": true
@@ -1437,7 +1437,7 @@
    "path": "content/fac_helldivers/equipment/backpacks/drone_weapons/drone_laser_rifle/drone_laser_rifle_backpack",
    "dependency": {
     "package": "0x32CB44321DA1B5A0",
-    "name": null,
+    "name": "packages/generated/loadout/drone_laser_rifle_backpack",
     "via": "own_loadout_package",
     "holder": null,
     "inBundleDatabase": true
@@ -1627,7 +1627,7 @@
    "path": "content/fac_helldivers/equipment/backpacks/drone_weapons/drone_assault_rifle/drone_assault_rifle_backpack",
    "dependency": {
     "package": "0xA14F1A98C80575AF",
-    "name": null,
+    "name": "packages/generated/loadout/drone_assault_rifle_backpack",
     "via": "own_loadout_package",
     "holder": null,
     "inBundleDatabase": true
@@ -3410,6 +3410,20 @@
    },
    "known": true
   },
+  "stratagem_weapon/A/M-23 EMS Mortar Sentry": {
+   "label": "A/M-23 EMS Mortar Sentry",
+   "kind": "stratagem_weapon",
+   "resource": "0xB2053A1838092F8B",
+   "path": "content/fac_helldivers/hellpod/mortar_turret/mortar_turret_staticfield",
+   "dependency": {
+    "package": "0x4666692B63185121",
+    "name": "packages/generated/loadout/mortar_turret_staticfield",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
   "support_weapon/40-K Meltagun": {
    "label": "40-K Meltagun",
    "kind": "support_weapon",
@@ -4415,7 +4429,7 @@
    "path": "content/fac_helldivers/vehicles/combat_walker_breacher/combat_walker_breacher",
    "dependency": {
     "package": "0x7DE417DB7552D9FC",
-    "name": null,
+    "name": "packages/generated/loadout/combat_walker_breacher",
     "via": "own_loadout_package",
     "holder": null,
     "inBundleDatabase": true
@@ -4522,9 +4536,9 @@
   }
  },
  "summary": {
-  "semanticObjects": 333,
-  "known": 263,
-  "ownPackage": 253,
+  "semanticObjects": 334,
+  "known": 264,
+  "ownPackage": 254,
   "holderPackage": 7,
   "stratagemPackage": 3,
   "unknown": 70

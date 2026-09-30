@@ -41,6 +41,21 @@ def sha(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest().upper()
 
 
+def murmur64a(data: bytes, seed: int = 0) -> int:
+    """Stingray resource name hash (MurmurHash64A)."""
+    m, mask = 0xC6A4A7935BD1E995, (1 << 64) - 1
+    h = (seed ^ (len(data) * m)) & mask
+    whole = len(data) // 8
+    for i in range(whole):
+        k = (int.from_bytes(data[i * 8:i * 8 + 8], 'little') * m) & mask
+        k = ((k ^ (k >> 47)) * m) & mask
+        h = ((h ^ k) * m) & mask
+    if len(data) % 8:
+        h = ((h ^ int.from_bytes(data[whole * 8:], 'little')) * m) & mask
+    h = ((h ^ (h >> 47)) * m) & mask
+    return h ^ (h >> 47)
+
+
 def hexid(value: int) -> str:
     return f'0x{value:016X}'
 
@@ -276,7 +291,14 @@ def build():
     def dependency(resource, holders=()):
         own = loadout.get(resource)
         if own:
-            return package(own, 'own_loadout_package')
+            found = package(own, 'own_loadout_package')
+            if found['name'] is None and native.path(resource):
+                # A generated loadout package is named after its entity: accept the name only when it hashes to
+                # exactly this package ID.
+                candidate = 'packages/generated/loadout/' + native.path(resource).rsplit('/', 1)[-1]
+                if murmur64a(candidate.encode()) == own:
+                    found['name'] = candidate
+            return found
         for holder in holders:
             if loadout.get(holder):
                 return package(loadout[holder], 'native_holder_package', native.path(holder))
@@ -318,6 +340,13 @@ def build():
     for item in throwables['catalog']:
         if item['identity']['status'] == 'RESOLVED':
             add('throwable/' + item['name'], item['name'], int(item['identity']['resource'], 16), kind='throwable')
+    # Stratagem-owned projectile donors (research/stun-field-donors-F5FEE03DCFDB.json): the entity whose own
+    # ProjectileWeapon fires the donor projectile (the EMS Mortar turret) owns the package its effects ship in.
+    donors_path = ROOT / 'research/stun-field-donors-F5FEE03DCFDB.json'
+    if donors_path.is_file():
+        for donor in json.loads(donors_path.read_text(encoding='utf-8'))['donors']:
+            add('stratagem_weapon/' + donor['name'], donor['name'], int(donor['resource'], 16),
+                kind='stratagem_weapon')
     # Projectiles: a projectile reference swap needs the source weapon's package (the projectile's unit and
     # effects are generated into it); the source is the weapon the reference is copied from.
     composition = json.loads((ROOT / 'schemas/player_weapon_composition_catalog.json').read_text())
