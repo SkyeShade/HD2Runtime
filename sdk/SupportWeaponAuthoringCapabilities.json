@@ -19584,10 +19584,14 @@
         "kind": "scalar",
         "type": "fire_rate_set",
         "baseline": [
-          400.0
+          0.0,
+          400.0,
+          0.0
         ],
         "expected": [
-          400.0
+          0.0,
+          400.0,
+          0.0
         ],
         "unit": "rpm",
         "reference": null
@@ -19666,7 +19670,13 @@
           400.0,
           0.0
         ],
-        "slotOrder": [
+        "slotNames": [
+          "x",
+          "y",
+          "z"
+        ],
+        "defaultSlot": "y",
+        "selectorOrder": [
           "y",
           "z",
           "x"
@@ -43909,10 +43919,14 @@
         "kind": "scalar",
         "type": "fire_rate_set",
         "baseline": [
-          600.0
+          0.0,
+          600.0,
+          0.0
         ],
         "expected": [
-          600.0
+          0.0,
+          600.0,
+          0.0
         ],
         "unit": "rpm",
         "reference": null
@@ -43993,7 +44007,13 @@
           600.0,
           0.0
         ],
-        "slotOrder": [
+        "slotNames": [
+          "x",
+          "y",
+          "z"
+        ],
+        "defaultSlot": "y",
+        "selectorOrder": [
           "y",
           "z",
           "x"
@@ -50660,10 +50680,14 @@
         "kind": "scalar",
         "type": "fire_rate_set",
         "baseline": [
-          600.0
+          0.0,
+          600.0,
+          0.0
         ],
         "expected": [
-          600.0
+          0.0,
+          600.0,
+          0.0
         ],
         "unit": "rpm",
         "reference": null
@@ -50742,7 +50766,13 @@
           600.0,
           0.0
         ],
-        "slotOrder": [
+        "slotNames": [
+          "x",
+          "y",
+          "z"
+        ],
+        "defaultSlot": "y",
+        "selectorOrder": [
           "y",
           "z",
           "x"
@@ -57066,10 +57096,14 @@
         "kind": "scalar",
         "type": "fire_rate_set",
         "baseline": [
-          600.0
+          0.0,
+          600.0,
+          0.0
         ],
         "expected": [
-          600.0
+          0.0,
+          600.0,
+          0.0
         ],
         "unit": "rpm",
         "reference": null
@@ -57148,7 +57182,13 @@
           600.0,
           0.0
         ],
-        "slotOrder": [
+        "slotNames": [
+          "x",
+          "y",
+          "z"
+        ],
+        "defaultSlot": "y",
+        "selectorOrder": [
           "y",
           "z",
           "x"
@@ -64829,10 +64869,14 @@
         "kind": "scalar",
         "type": "fire_rate_set",
         "baseline": [
-          240.0
+          0.0,
+          240.0,
+          0.0
         ],
         "expected": [
-          240.0
+          0.0,
+          240.0,
+          0.0
         ],
         "unit": "rpm",
         "reference": null
@@ -64911,7 +64955,13 @@
           240.0,
           0.0
         ],
-        "slotOrder": [
+        "slotNames": [
+          "x",
+          "y",
+          "z"
+        ],
+        "defaultSlot": "y",
+        "selectorOrder": [
           "y",
           "z",
           "x"
@@ -73492,10 +73542,14 @@
         "kind": "scalar",
         "type": "fire_rate_set",
         "baseline": [
-          160.0
+          0.0,
+          160.0,
+          0.0
         ],
         "expected": [
-          160.0
+          0.0,
+          160.0,
+          0.0
         ],
         "unit": "rpm",
         "reference": null
@@ -73574,7 +73628,13 @@
           160.0,
           0.0
         ],
-        "slotOrder": [
+        "slotNames": [
+          "x",
+          "y",
+          "z"
+        ],
+        "defaultSlot": "y",
+        "selectorOrder": [
           "y",
           "z",
           "x"
@@ -86196,10 +86256,14 @@
         "kind": "scalar",
         "type": "fire_rate_set",
         "baseline": [
-          200.0
+          0.0,
+          200.0,
+          0.0
         ],
         "expected": [
-          200.0
+          0.0,
+          200.0,
+          0.0
         ],
         "unit": "rpm",
         "reference": null
@@ -86278,7 +86342,13 @@
           200.0,
           0.0
         ],
-        "slotOrder": [
+        "slotNames": [
+          "x",
+          "y",
+          "z"
+        ],
+        "defaultSlot": "y",
+        "selectorOrder": [
           "y",
           "z",
           "x"
@@ -114829,14 +114899,14 @@
         "kind": "scalar",
         "type": "fire_rate_set",
         "baseline": [
+          700.0,
           850.0,
-          1150.0,
-          700.0
+          1150.0
         ],
         "expected": [
+          700.0,
           850.0,
-          1150.0,
-          700.0
+          1150.0
         ],
         "unit": "rpm",
         "reference": null
@@ -114917,7 +114987,13 @@
           850.0,
           1150.0
         ],
-        "slotOrder": [
+        "slotNames": [
+          "x",
+          "y",
+          "z"
+        ],
+        "defaultSlot": "y",
+        "selectorOrder": [
           "y",
           "z",
           "x"
@@ -119476,14 +119552,14 @@
         "kind": "scalar",
         "type": "fire_rate_set",
         "baseline": [
+          450.0,
           600.0,
-          750.0,
-          450.0
+          750.0
         ],
         "expected": [
+          450.0,
           600.0,
-          750.0,
-          450.0
+          750.0
         ],
         "unit": "rpm",
         "reference": null
@@ -119532,8 +119608,18 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": false,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The three native rate-of-fire slots, the ROF selector traversal (Y -> Z -> X, skipping 0.0 slots) and the default slot are proven, but editing, adding or removing rates on this weapon has not been gameplay-tested."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_fire_rate_modes_native",
+        "tests": [
+          "HMGFireRateModesTest"
+        ],
+        "date": "2026-09-30",
+        "target": "MG-206 Heavy Machine Gun",
+        "field": "fire_rate.modes"
       },
       "resolution": {
         "rootChain": [
@@ -119564,7 +119650,13 @@
           600.0,
           750.0
         ],
-        "slotOrder": [
+        "slotNames": [
+          "x",
+          "y",
+          "z"
+        ],
+        "defaultSlot": "y",
+        "selectorOrder": [
           "y",
           "z",
           "x"
@@ -119584,8 +119676,8 @@
         "activeSourceProven": true,
         "reason": "A component member the game copies into the weapon when it builds it (the projectile_weapon ROF record and the weapon_data bindings): weapons built after the write use it; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip).",
         "writeVerifiedOnApply": true,
-        "gameplayEffectProven": false,
-        "unverifiedEffect": true
+        "gameplayEffectProven": true,
+        "unverifiedEffect": false
       }
     },
     {
@@ -124356,14 +124448,14 @@
         "kind": "scalar",
         "type": "fire_rate_set",
         "baseline": [
+          630.0,
           760.0,
-          900.0,
-          630.0
+          900.0
         ],
         "expected": [
+          630.0,
           760.0,
-          900.0,
-          630.0
+          900.0
         ],
         "unit": "rpm",
         "reference": null
@@ -124444,7 +124536,13 @@
           760.0,
           900.0
         ],
-        "slotOrder": [
+        "slotNames": [
+          "x",
+          "y",
+          "z"
+        ],
+        "defaultSlot": "y",
+        "selectorOrder": [
           "y",
           "z",
           "x"
@@ -159202,10 +159300,14 @@
         "kind": "scalar",
         "type": "fire_rate_set",
         "baseline": [
-          60.0
+          0.0,
+          60.0,
+          0.0
         ],
         "expected": [
-          60.0
+          0.0,
+          60.0,
+          0.0
         ],
         "unit": "rpm",
         "reference": null
@@ -159284,7 +159386,13 @@
           60.0,
           0.0
         ],
-        "slotOrder": [
+        "slotNames": [
+          "x",
+          "y",
+          "z"
+        ],
+        "defaultSlot": "y",
+        "selectorOrder": [
           "y",
           "z",
           "x"

@@ -26,6 +26,8 @@ from generate_fire_mode_authoring import lua  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 COMPOSITION = ROOT / 'research/output-composition-F5FEE03DCFDB.json'
+PRESENTATION = ROOT / 'research/weapon-presentation-F5FEE03DCFDB.json'
+FALLBACK_NAMES = {'primary': 'Primary', 'alternate': 'Alternate', 'programmable': 'Programmable'}
 PLAYER = ROOT / 'sdk/PlayerWeaponAuthoringCapabilities.json'
 SUPPORT = ROOT / 'sdk/SupportWeaponAuthoringCapabilities.json'
 OUTPUTS = ROOT / 'sdk/AttackOutputCapabilities.json'
@@ -37,7 +39,7 @@ VERSION = (ROOT / 'VERSION').read_text().strip()
 RATE_STATES = {'selectable': 'The rate-of-fire selector is bound: every rate can be edited, added (up to three) or removed.',
     'addable': 'No selector is bound but an input is free: rates beyond the default are written together with a '
         'weapon_function binding of "rate_of_fire" (one transaction).',
-    'single_rate': 'Both inputs are bound: only the default rate (one entry) can be edited.',
+    'single_rate': 'Both inputs are bound: only the default rate (slot Y) can be edited; X and Z stay 0.',
     'blocked': 'Read-only; see reason.', 'absent': 'The weapon has no rate-of-fire slots.'}
 FEED_MECHANISMS = {'projectile': 'The weapon normal projectile (see attack:projectile_source() for where it lives).',
     'rounds_magazine': 'One of the two WeaponRounds magazines (primary +64, alternate +68), switched with the Magazine '
@@ -67,11 +69,34 @@ def writable_fields():
             out.setdefault(('support', instance['supportWeapon']), {})[instance['semanticFieldId']] = {
                 'editable': instance['writable'], 'reason': instance['blockedReason'], **(instance.get('fireRate') or {}),
                 **(instance.get('functionAmmo') or {}), **(instance.get('weaponFunction') or {}),
-                'currentDefault': instance['value']['baseline']}
+                'currentDefault': instance['value']['baseline'],
+                'acknowledgement': instance['operation']['acknowledgement'], 'liveEvidence': instance.get('liveEvidence'),
+                'liveProvenValues': (instance.get('liveEvidence') or {}).get('values')}
     return out
 
 
-def feed_list(kind, row, fields):
+def mode_presentation():
+    """(projectile type -> {label, icon}, label semantic id -> text, output owner -> output) for the feeds."""
+    modes = json.loads(PRESENTATION.read_text(encoding='utf-8'))['modes']
+    texts = {item['semanticId']: item['label'] for item in modes['labels']}
+    outputs = {o['owner']['name']: o for o in json.loads(OUTPUTS.read_text(encoding='utf-8'))['outputs']
+        if o['family'] == 'projectile' and o['selectableAsProjectileReference']}
+    return modes['projectiles'], texts, outputs
+
+
+def feed_presentation(feed, projectile_type, mode):
+    """What the weapon-function menu shows for a feed: the fired projectile's native short label and HUD icon (or
+    the none / default fallback), a display name, and the attack output whose presentation fields edit it."""
+    projectiles, texts, _ = mode
+    row = projectiles.get(str(projectile_type)) if projectile_type else None
+    if row is None:
+        return None
+    label = row['label']
+    return {'label': label, 'icon': row['icon'], 'displayName': texts.get(label) or FALLBACK_NAMES[feed],
+        'nativeLabel': bool(label and label in texts)}
+
+
+def feed_list(kind, row, fields, mode):
     """The weapon's feeds in native order: its normal projectile or two rounds magazines, then a programmable feed."""
     feeds = []
     rounds = row.get('feeds')
@@ -81,6 +106,7 @@ def feed_list(kind, row, fields):
         for index, feed in enumerate(('primary', 'alternate'), 1):
             item = rounds[feed]
             feeds.append({'id': feed, 'index': index, 'mechanism': 'rounds_magazine', 'native': True,
+                'presentation': feed_presentation(feed, item['projectile'], mode),
                 'selector': {'function': 'magazine', 'input': rounds['selectorInput'], 'bound': rounds['selectorBound']},
                 'attackRole': 'feed_' + feed if kind == 'player' else None, 'capacity': item['capacity'],
                 'capacityField': 'rounds.feed_capacity_' + str(index), 'ownedBy': item['ownedBy'],
@@ -91,12 +117,26 @@ def feed_list(kind, row, fields):
                         'feed:projectile().') if item['ownedBy'] else 'Rounds-feed projectile swaps are not authored yet.'}})
         attack_role = None
     elif (row.get('fireRate') or {}).get('state') != 'absent' or function.get('state') not in (None, 'absent'):
+        # The weapon's own projectile output (sdk/AttackOutputCapabilities.json) when it fires that row.
+        own = mode[2].get(row['weapon'])
+        presentation = None
+        if own and own.get('presentation'):
+            label = own['presentation']['label']
+            texts = mode[1]
+            presentation = {'label': None if label == 'none' else label, 'icon': own['presentation']['icon'],
+                'displayName': texts.get(label) or FALLBACK_NAMES['primary'], 'nativeLabel': label in texts,
+                'output': own['semanticId']}
         feeds.append({'id': 'primary', 'index': 1, 'mechanism': 'projectile', 'native': True, 'selector': None,
+            'presentation': presentation,
             'attackRole': attack_role, 'projectileSource': {'status': 'see attack:projectile_source()', 'writable': None}})
     if function.get('state') in ('native', 'addable', 'native_blocked'):
         field = fields.get(weapon_mode_fields.FUNCTION_PROJECTILE_FIELD) or {}
         native = function['state'] != 'addable'
         feeds.append({'id': 'programmable', 'index': len(feeds) + 1, 'mechanism': 'programmable_ammo', 'native': native,
+            'presentation': feed_presentation('programmable', function.get('projectile'), mode) or {
+                'label': None, 'icon': None, 'displayName': FALLBACK_NAMES['programmable'], 'nativeLabel': False,
+                'note': 'Shows the label and icon of the projectile function_ammo.projectile sets (its attack output '
+                    'presentation fields).'},
             'state': function['state'], 'selector': {'function': 'programmable_ammo', 'input': function.get('selectorInput'),
                 'bound': bool(function.get('selectorBound')), 'bindableInputs': function.get('bindableInputs') or []},
             'field': weapon_mode_fields.FUNCTION_PROJECTILE_FIELD, 'writable': bool(field.get('editable')),
@@ -107,8 +147,30 @@ def feed_list(kind, row, fields):
     return feeds
 
 
+def menu_modes(slots):
+    """The filled slots in weapon-menu order (X, Y, Z), each with the selector presses from the default (Y)."""
+    if not slots:
+        return None
+    filled = [name for name in weapon_mode_fields.SLOT_NAMES if slots[name]]
+    visits = [name for name in weapon_mode_fields.SELECTOR_ORDER if slots[name]]
+    return [{'slot': name, 'menu': position, 'rpm': slots[name], 'default': name == 'y', 'presses': visits.index(name)}
+        for position, name in enumerate(filled, 1)]
+
+
+def rate_acknowledgements(rate_field, fields, rate):
+    """What writing the rates (and, for an addable weapon, its rate_of_fire binding) must acknowledge; a live-proven
+    pair needs nothing (schemas/live_evidence.json)."""
+    needed = [rate_field['acknowledgement']] if rate_field.get('acknowledgement') else []
+    for side in (rate.get('bindableInputs') or [])[:1]:
+        binding = fields.get(weapon_mode_fields.INPUT_FIELDS[side]) or {}
+        if binding.get('acknowledgement') and 'rate_of_fire' not in (binding.get('liveProvenValues') or [])                 and binding['acknowledgement'] not in needed:
+            needed.append(binding['acknowledgement'])
+    return needed
+
+
 def build():
     rows, research = weapon_mode_fields.load()
+    mode = mode_presentation()
     composition = json.loads(COMPOSITION.read_text())
     fields_by_weapon = writable_fields()
     runtime, rates_public, feeds_public = {}, [], []
@@ -119,8 +181,10 @@ def build():
         writable = bool(rate_field.get('editable'))
         slots = rate.get('slots')
         rates_public.append({'kind': kind, 'weapon': name, 'state': rate.get('state') if writable or rate.get('state') in
-                ('blocked', 'absent') else 'blocked', 'modes': rate.get('modes'), 'defaultRpm': rate.get('defaultRpm'),
-            'slots': slots, 'slotOrder': ['y', 'z', 'x'], 'maxModes': rate.get('maxModes') if writable else None,
+                ('blocked', 'absent') else 'blocked', 'modes': menu_modes(slots), 'defaultRpm': rate.get('defaultRpm'),
+            'slots': slots, 'expect': [slots[name] for name in weapon_mode_fields.SLOT_NAMES] if slots else None,
+            'selectorOrder': [name for name in weapon_mode_fields.SELECTOR_ORDER if slots[name]] if slots else None,
+            'maxModes': rate.get('maxModes') if writable else None,
             'selector': {'bound': rate.get('selectorBound'), 'input': rate.get('selectorInput'),
                 'bindableInputs': rate.get('bindableInputs') or []} if slots else None,
             'overriddenWhenEquipped': rate.get('overriddenWhenEquipped') or [],
@@ -128,8 +192,9 @@ def build():
             'fields': {'modes': weapon_mode_fields.RATES_FIELD, 'default': 'weapon.fire_rate',
                 'binding': [weapon_mode_fields.INPUT_FIELDS[side] for side in rate.get('bindableInputs') or []]}
                 if writable else None,
-            'acknowledgements': ['allow_unverified_effect'] if writable else None})
-        feeds = feed_list(kind, row, fields)
+            'acknowledgements': rate_acknowledgements(rate_field, fields, rate) if writable else None,
+            'liveEvidence': rate_field.get('liveEvidence')})
+        feeds = feed_list(kind, row, fields, mode)
         if feeds:
             feeds_public.append({'kind': kind, 'weapon': name, 'feeds': feeds, 'selectableNatively': any(f['native']
                 and f['mechanism'] != 'projectile' and (f['selector'] or {}).get('bound') for f in feeds),
@@ -141,13 +206,20 @@ def build():
         'addableSelectors': sum(1 for w in rates_public if w['state'] == 'addable')}
     rates = {'contract': 'hd2runtime.weapon.fire_rates.v1', 'schemaVersion': 1, 'hd2RuntimeVersion': VERSION,
         'nativeModel': research['model']['rateOfFire'], 'states': RATE_STATES,
-        'maxSlots': 3, 'slotNames': ['x', 'y', 'z'], 'defaultSlot': 'y', 'selectorOrder': ['y', 'z', 'x'],
+        'maxSlots': 3, 'slotNames': list(weapon_mode_fields.SLOT_NAMES), 'menuOrder': list(weapon_mode_fields.SLOT_NAMES),
+        'defaultSlot': 'y', 'selectorOrder': list(weapon_mode_fields.SELECTOR_ORDER),
+        'order': 'The weapon menu lists the filled slots in storage order X, Y, Z (inferred from the MG-206 and '
+            'Liberator live tests, where a list in selector order did not match the menu; the menu reader itself is not '
+            'traced). A weapon is built on Y (the middle one) and each selector press moves to the next filled slot: '
+            'Y -> Z -> X -> Y. modes[] is in menu order; each mode carries its slot and its presses from the default.',
         'range': list(weapon_mode_fields.RATE_RANGE), 'unit': 'rounds per minute',
-        'fields': {'modes': {'constant': 'hd2.fields.fire_rate.modes', 'type': 'ordered list of rates (rpm)',
-                'default': 'the first entry (native slot Y; also weapon.fire_rate)', 'maxEntries': 3,
+        'fields': {'modes': {'constant': 'hd2.fields.fire_rate.modes',
+                'type': 'the three rate slots in weapon-menu order {X, Y, Z} (rpm; 0 = no mode in that slot)',
+                'default': 'the middle entry (native slot Y; also weapon.fire_rate); never 0', 'entries': 3,
                 'acknowledgement': 'allow_unverified_effect'},
             'binding': {'constants': ['hd2.fields.weapon_function.left', 'hd2.fields.weapon_function.right'],
-                'value': 'rate_of_fire', 'rule': 'bound in the same transaction as fire_rate.modes with 2+ rates'}},
+                'value': 'rate_of_fire',
+                'rule': 'bound in the same transaction as fire_rate.modes with 2+ filled slots'}},
         'compatibility': {'weapon.fire_rate': 'unchanged: the default (Y) rate; it covers the same bytes, so it cannot '
             'be combined with fire_rate.modes in one plan'},
         'shareScope': 'weapon_local: every ProjectileWeaponComponentData and WeaponDataComponentData record has one owner.',

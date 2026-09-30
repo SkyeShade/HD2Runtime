@@ -27,5 +27,9 @@ The defaults are deliberately mismatched: the menu should say HEAVY while the gu
 5. Set Gameplay to Vanilla, APPLY: medium armor should now deflect the bullets, while the label stays as set.
 
 Report the label shown after each APPLY (and whether reopening the menu was needed) and the penetration you saw. The
-label storage and the armory reader are proven natively (`docs/weapon-presentation.md`); this is their first live
-test (`allow_unverified_effect`).
+label storage and the armory reader are proven natively (`docs/weapon-presentation.md`).
+
+Live result (2026-09-30): PASS. The armory said HEAVY while the bullets penetrated as AP 3 (medium); each option
+changed only its own side, and reopening the menu was enough (no restart). The Concussive's Light, Medium and Heavy
+labels are therefore live-proven and need no `allow_unverified_effect`; other labels, other weapons and
+`presentation.traits` still do.

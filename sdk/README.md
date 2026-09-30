@@ -46,11 +46,14 @@ constant in `apiFieldConstant`.
 In this development build (after 0.27.0; see `docs/fire-rate-modes.md`, `docs/weapon-feeds.md` and
 `docs/weapon-presentation.md`):
 
-- **Rate-of-fire modes.** `WeaponFireRateCapabilities.json`: every weapon's three native rate slots in selector
-  order, the selector binding, `maxModes` (3) and writability (60 writable). `hd2.fields.fire_rate.modes` with
-  `hd2.fields.weapon_function.left/right`.
+- **Rate-of-fire modes.** `WeaponFireRateCapabilities.json`: every weapon's three native rate slots in weapon-menu
+  order `{X, Y, Z}` (each mode with its slot, menu position and selector presses), the selector binding, `maxModes`
+  (3) and writability (60 writable). `hd2.fields.fire_rate.modes` with `hd2.fields.weapon_function.left/right`.
 - **Feeds.** `WeaponFeedCapabilities.json`: rounds magazines (SG-20 Halt) and the ProgrammableAmmo projectile a
-  weapon can host (`hd2.fields.function_ammo.projectile`), with the binding each needs.
+  weapon can host (`hd2.fields.function_ammo.projectile`), with the binding each needs and each feed's native mode
+  label and icon. Mode labels and icons are written on attack outputs (`AttackOutputCapabilities.json`
+  `modePresentation`: `hd2.fields.presentation.mode_label` / `mode_icon`), which also list the stratagem-owned EMS
+  Mortar shell donor.
 - **Presentation.** `WeaponPresentationCapabilities.json`: the armory trait labels, penetration display choices and
   per-weapon writability (`hd2.fields.presentation.armor_penetration`, `hd2.fields.presentation.traits`).
 - **Output composition.** `OutputCompositionCapabilities.json`: why a projectile weapon cannot fire a beam, blocker

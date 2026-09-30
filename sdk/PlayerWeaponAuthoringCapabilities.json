@@ -376,7 +376,7 @@
       "component": "ProjectileWeaponComponentData",
       "offset": 4,
       "storage": "fire_rate_set",
-      "reason": "The weapon's three native rate-of-fire slots (X/Y/Z) as rates in the order the ROF selector visits them; the first rate is the default (the Y slot, weapon.fire_rate). Up to three where a selector is bound or bindable, otherwise exactly one."
+      "reason": "The weapon's three native rate-of-fire slots in the order the weapon menu lists them {X, Y, Z} (rpm; 0 = no mode in that slot). The middle one (Y, weapon.fire_rate) is the default and never 0; the ROF selector visits the filled slots Y -> Z -> X. X and Z are filled only where a selector is bound or bindable."
     },
     {
       "id": "weapon_function.left",
@@ -2288,7 +2288,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            1200.0
+            0.0,
+            1200.0,
+            0.0
           ],
           "editable": false,
           "derivedReadOnly": false,
@@ -2331,7 +2333,13 @@
             1200.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -5716,7 +5724,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            600.0
+            0.0,
+            600.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -5759,7 +5769,13 @@
             600.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -9297,7 +9313,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            640.0
+            0.0,
+            640.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -9340,7 +9358,13 @@
             640.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -9355,8 +9379,8 @@
           "overriddenWhenEquipped": [
             "Recoil Spring Liberator"
           ],
-          "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The three native rate-of-fire slots, the ROF selector traversal (Y -> Z -> X, skipping 0.0 slots) and the default slot are proven, but editing, adding or removing rates on this weapon has not been gameplay-tested.",
+          "acknowledgement": null,
+          "acknowledgementReason": null,
           "operationGroup": "weapon_selector",
           "evidence": {
             "source": "research/weapon-functions-F5FEE03DCFDB.json",
@@ -9371,11 +9395,21 @@
             "activeSourceProven": false,
             "reason": "Equipping Recoil Spring Liberator overwrites all three rate slots at weapon build; the rates apply while an option that does not patch them is equipped.",
             "writeVerifiedOnApply": true,
-            "gameplayEffectProven": false,
-            "unverifiedEffect": true,
+            "gameplayEffectProven": true,
+            "unverifiedEffect": false,
             "overriddenWhenEquipped": [
               "Recoil Spring Liberator"
             ]
+          },
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "weapon_fire_rate_selector_added",
+            "tests": [
+              "AddedFireRateModeTest"
+            ],
+            "date": "2026-09-30",
+            "target": "AR-23 Liberator",
+            "field": "fire_rate.modes"
           },
           "apiFieldConstant": "hd2.fields.fire_rate.modes"
         },
@@ -9454,9 +9488,25 @@
             "activeSourceProven": true,
             "reason": "A component member the game copies into the weapon when it builds it (the projectile_weapon ROF record and the weapon_data bindings): weapons built after the write use it; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip).",
             "writeVerifiedOnApply": true,
-            "gameplayEffectProven": false,
+            "gameplayEffectProven": true,
             "unverifiedEffect": true
           },
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "weapon_fire_rate_selector_added",
+            "tests": [
+              "AddedFireRateModeTest"
+            ],
+            "date": "2026-09-30",
+            "target": "AR-23 Liberator",
+            "field": "weapon_function.left",
+            "values": [
+              "rate_of_fire"
+            ]
+          },
+          "liveProvenValues": [
+            "rate_of_fire"
+          ],
           "apiFieldConstant": "hd2.fields.weapon_function.left"
         },
         {
@@ -12713,7 +12763,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            920.0
+            0.0,
+            920.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -12756,7 +12808,13 @@
             920.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -16126,7 +16184,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            400.0
+            0.0,
+            400.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -16169,7 +16229,13 @@
             400.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -16629,9 +16695,29 @@
             "presentationOnly": true,
             "reason": "Presentation only: read when a menu builds its item view (armory, loadout); an open menu keeps the labels it built. It never changes gameplay (damage and penetration are the projectile DamageInfo).",
             "writeVerifiedOnApply": true,
-            "gameplayEffectProven": false,
+            "gameplayEffectProven": true,
             "unverifiedEffect": true
           },
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "weapon_presentation_penetration_label",
+            "tests": [
+              "WeaponPresentationTest"
+            ],
+            "date": "2026-09-30",
+            "target": "AR-23C Liberator Concussive",
+            "field": "presentation.armor_penetration",
+            "values": [
+              "heavy",
+              "light",
+              "medium"
+            ]
+          },
+          "liveProvenValues": [
+            "heavy",
+            "light",
+            "medium"
+          ],
           "apiFieldConstant": "hd2.fields.presentation.armor_penetration"
         },
         {
@@ -19464,7 +19550,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            640.0
+            0.0,
+            640.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -19507,7 +19595,13 @@
             640.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -22806,7 +22900,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            700.0
+            0.0,
+            700.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -22849,7 +22945,13 @@
             700.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -26283,7 +26385,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            850.0
+            0.0,
+            850.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -26326,7 +26430,13 @@
             850.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -29619,6 +29729,7 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
+            0.0,
             600.0,
             850.0
           ],
@@ -29663,7 +29774,13 @@
             600.0,
             850.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -33049,7 +33166,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            650.0
+            0.0,
+            650.0,
+            0.0
           ],
           "editable": false,
           "derivedReadOnly": false,
@@ -33092,7 +33211,13 @@
             650.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -39133,7 +39258,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            550.0
+            0.0,
+            550.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -39176,7 +39303,13 @@
             550.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -42569,7 +42702,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            50.0
+            0.0,
+            50.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -42612,7 +42747,13 @@
             50.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -59150,7 +59291,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            650.0
+            0.0,
+            650.0,
+            0.0
           ],
           "editable": false,
           "derivedReadOnly": false,
@@ -59193,7 +59336,13 @@
             650.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -65552,7 +65701,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            60.0
+            0.0,
+            60.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -65595,7 +65746,13 @@
             60.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -70023,7 +70180,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            900.0
+            0.0,
+            900.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -70066,7 +70225,13 @@
             900.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -74227,7 +74392,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            900.0
+            0.0,
+            900.0,
+            0.0
           ],
           "editable": false,
           "derivedReadOnly": false,
@@ -74263,14 +74430,20 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "The weapon's three native rate-of-fire slots (X/Y/Z) as rates in the order the ROF selector visits them; the first rate is the default (the Y slot, weapon.fire_rate). Up to three where a selector is bound or bindable, otherwise exactly one.",
+          "reason": "The weapon's three native rate-of-fire slots in the order the weapon menu lists them {X, Y, Z} (rpm; 0 = no mode in that slot). The middle one (Y, weapon.fire_rate) is the default and never 0; the ROF selector visits the filled slots Y -> Z -> X. X and Z are filled only where a selector is bound or bindable.",
           "acceptedForWrites": false,
           "nativeSlots": [
             0.0,
             900.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -78506,7 +78679,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            250.0
+            0.0,
+            250.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -78549,7 +78724,13 @@
             250.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -81967,7 +82148,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            800.0
+            0.0,
+            800.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -82010,7 +82193,13 @@
             800.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -88402,7 +88591,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            750.0
+            0.0,
+            750.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -88445,7 +88636,13 @@
             750.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -92159,7 +92356,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            700.0
+            0.0,
+            700.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -92202,7 +92401,13 @@
             700.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -98717,7 +98922,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            750.0
+            0.0,
+            750.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -98760,7 +98967,13 @@
             750.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -104969,7 +105182,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            900.0
+            0.0,
+            900.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -105012,7 +105227,13 @@
             900.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -108414,7 +108635,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            872.0
+            0.0,
+            872.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -108457,7 +108680,13 @@
             872.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -111853,7 +112082,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            80.0
+            0.0,
+            80.0,
+            0.0
           ],
           "editable": false,
           "derivedReadOnly": false,
@@ -111896,7 +112127,13 @@
             80.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -115463,7 +115700,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            640.0
+            0.0,
+            640.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -115506,7 +115745,13 @@
             640.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -118911,7 +119156,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            1380.0
+            0.0,
+            1380.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -118954,7 +119201,13 @@
             1380.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -122305,7 +122558,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            70.0
+            0.0,
+            70.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -122348,7 +122603,13 @@
             70.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -125207,7 +125468,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            450.0
+            0.0,
+            450.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -125250,7 +125513,13 @@
             450.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -128649,7 +128918,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            1100.0
+            0.0,
+            1100.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -128692,7 +128963,13 @@
             1100.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -130619,7 +130896,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            900.0
+            0.0,
+            900.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -130662,7 +130941,13 @@
             900.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -132590,7 +132875,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            60.0
+            0.0,
+            60.0,
+            0.0
           ],
           "editable": false,
           "derivedReadOnly": false,
@@ -132633,7 +132920,13 @@
             60.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -137012,7 +137305,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            20.0
+            0.0,
+            20.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -137055,7 +137350,13 @@
             20.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -141408,7 +141709,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            110.0
+            0.0,
+            110.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -141451,7 +141754,13 @@
             110.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -145190,7 +145499,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            200.0
+            0.0,
+            200.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -145233,7 +145544,13 @@
             200.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -148812,7 +149129,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            750.0
+            0.0,
+            750.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -148855,7 +149174,13 @@
             750.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -155153,7 +155478,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            450.0
+            0.0,
+            450.0,
+            0.0
           ],
           "editable": false,
           "derivedReadOnly": false,
@@ -155196,7 +155523,13 @@
             450.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -158609,7 +158942,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            150.0
+            0.0,
+            150.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -158652,7 +158987,13 @@
             150.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -162932,7 +163273,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            350.0
+            0.0,
+            350.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -162975,7 +163318,13 @@
             350.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -167257,7 +167606,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            1000.0
+            0.0,
+            1000.0,
+            0.0
           ],
           "editable": false,
           "derivedReadOnly": false,
@@ -167300,7 +167651,13 @@
             1000.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -171559,7 +171916,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            1000.0
+            0.0,
+            1000.0,
+            0.0
           ],
           "editable": false,
           "derivedReadOnly": false,
@@ -171602,7 +171961,13 @@
             1000.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -175779,7 +176144,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            550.0
+            0.0,
+            550.0,
+            0.0
           ],
           "editable": false,
           "derivedReadOnly": false,
@@ -175822,7 +176189,13 @@
             550.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -180038,7 +180411,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            480.0
+            0.0,
+            480.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -180081,7 +180456,13 @@
             480.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -183474,7 +183855,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            60.0
+            0.0,
+            60.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -183517,7 +183900,13 @@
             60.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -187093,7 +187482,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            32.0
+            0.0,
+            32.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -187136,7 +187527,13 @@
             32.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -191442,7 +191839,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            190.0
+            0.0,
+            190.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -191485,7 +191884,13 @@
             190.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -194915,7 +195320,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            100.0
+            0.0,
+            100.0,
+            0.0
           ],
           "editable": false,
           "derivedReadOnly": false,
@@ -194958,7 +195365,13 @@
             100.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -198529,7 +198942,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            350.0
+            0.0,
+            350.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -198572,7 +198987,13 @@
             350.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -201990,7 +202411,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            350.0
+            0.0,
+            350.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -202033,7 +202456,13 @@
             350.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -205425,7 +205854,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            400.0
+            0.0,
+            400.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -205468,7 +205899,13 @@
             400.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -208758,7 +209195,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            210.0
+            0.0,
+            210.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -208801,7 +209240,13 @@
             210.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -212252,7 +212697,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            80.0
+            0.0,
+            80.0,
+            0.0
           ],
           "editable": false,
           "derivedReadOnly": false,
@@ -212295,7 +212742,13 @@
             80.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -213343,6 +213796,16 @@
           "reason": null,
           "acceptedForWrites": true,
           "apiFieldConstant": "hd2.fields.rounds.feed_capacity_1",
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "weapon_rounds_feed_capacity",
+            "tests": [
+              "HaltFeedTest"
+            ],
+            "date": "2026-09-30",
+            "target": "SG-20 Halt",
+            "field": "rounds.feed_capacity_1"
+          },
           "effect": {
             "activeSource": "ACTIVE_AT_INSTANTIATION",
             "appliesWhen": "weapon_build",
@@ -213350,7 +213813,7 @@
             "activeSourceProven": true,
             "reason": "A component member the game copies into the weapon when it builds it (base plus customization deltas, observed in snapshot memory): weapons built after the write use it; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip).",
             "writeVerifiedOnApply": true,
-            "gameplayEffectProven": false,
+            "gameplayEffectProven": true,
             "unverifiedEffect": false
           }
         },
@@ -213397,6 +213860,16 @@
           "reason": null,
           "acceptedForWrites": true,
           "apiFieldConstant": "hd2.fields.rounds.feed_capacity_2",
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "weapon_rounds_feed_capacity",
+            "tests": [
+              "HaltFeedTest"
+            ],
+            "date": "2026-09-30",
+            "target": "SG-20 Halt",
+            "field": "rounds.feed_capacity_2"
+          },
           "effect": {
             "activeSource": "ACTIVE_AT_INSTANTIATION",
             "appliesWhen": "weapon_build",
@@ -213404,7 +213877,7 @@
             "activeSourceProven": true,
             "reason": "A component member the game copies into the weapon when it builds it (base plus customization deltas, observed in snapshot memory): weapons built after the write use it; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip).",
             "writeVerifiedOnApply": true,
-            "gameplayEffectProven": false,
+            "gameplayEffectProven": true,
             "unverifiedEffect": false
           }
         },
@@ -217382,7 +217855,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            650.0
+            0.0,
+            650.0,
+            0.0
           ],
           "editable": false,
           "derivedReadOnly": false,
@@ -217425,7 +217900,13 @@
             650.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -221043,7 +221524,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            300.0
+            0.0,
+            300.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -221086,7 +221569,13 @@
             300.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -224378,7 +224867,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            300.0
+            0.0,
+            300.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -224421,7 +224912,13 @@
             300.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -227853,7 +228350,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            330.0
+            0.0,
+            330.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -227896,7 +228395,13 @@
             330.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -231186,7 +231691,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            80.0
+            0.0,
+            80.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -231229,7 +231736,13 @@
             80.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -234947,7 +235460,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            80.0
+            0.0,
+            80.0,
+            0.0
           ],
           "editable": false,
           "derivedReadOnly": false,
@@ -234990,7 +235505,13 @@
             80.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -238607,7 +239128,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            80.0
+            0.0,
+            80.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -238650,7 +239173,13 @@
             80.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -242874,7 +243403,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            80.0
+            0.0,
+            80.0,
+            0.0
           ],
           "editable": false,
           "derivedReadOnly": false,
@@ -242917,7 +243448,13 @@
             80.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -246487,7 +247024,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            150.0
+            0.0,
+            150.0,
+            0.0
           ],
           "editable": false,
           "derivedReadOnly": false,
@@ -246530,7 +247069,13 @@
             150.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -250103,7 +250648,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            1380.0
+            0.0,
+            1380.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -250146,7 +250693,13 @@
             1380.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -253439,7 +253992,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            490.0
+            0.0,
+            490.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -253482,7 +254037,13 @@
             490.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -256810,7 +257371,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            520.0
+            0.0,
+            520.0,
+            0.0
           ],
           "editable": false,
           "derivedReadOnly": false,
@@ -256846,14 +257409,20 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "The weapon's three native rate-of-fire slots (X/Y/Z) as rates in the order the ROF selector visits them; the first rate is the default (the Y slot, weapon.fire_rate). Up to three where a selector is bound or bindable, otherwise exactly one.",
+          "reason": "The weapon's three native rate-of-fire slots in the order the weapon menu lists them {X, Y, Z} (rpm; 0 = no mode in that slot). The middle one (Y, weapon.fire_rate) is the default and never 0; the ROF selector visits the filled slots Y -> Z -> X. X and Z are filled only where a selector is bound or bindable.",
           "acceptedForWrites": false,
           "nativeSlots": [
             0.0,
             520.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -260145,7 +260714,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            475.0
+            0.0,
+            475.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -260188,7 +260759,13 @@
             475.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -263621,7 +264198,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            420.0
+            0.0,
+            420.0,
+            0.0
           ],
           "editable": false,
           "derivedReadOnly": false,
@@ -263664,7 +264243,13 @@
             420.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -266948,7 +267533,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            1050.0
+            0.0,
+            1050.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -266991,7 +267578,13 @@
             1050.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -270432,7 +271025,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
-            790.0
+            0.0,
+            790.0,
+            0.0
           ],
           "editable": true,
           "derivedReadOnly": false,
@@ -270475,7 +271070,13 @@
             790.0,
             0.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"
@@ -273938,9 +274539,9 @@
           "type": "fire_rate_set",
           "unit": "rpm",
           "currentDefault": [
+            300.0,
             550.0,
-            750.0,
-            300.0
+            750.0
           ],
           "editable": false,
           "derivedReadOnly": false,
@@ -273983,7 +274584,13 @@
             550.0,
             750.0
           ],
-          "slotOrder": [
+          "slotNames": [
+            "x",
+            "y",
+            "z"
+          ],
+          "defaultSlot": "y",
+          "selectorOrder": [
             "y",
             "z",
             "x"

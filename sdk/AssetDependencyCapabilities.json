@@ -135,14 +135,14 @@
     "refcountFillLimit": 0.75
   },
   "summary": {
-    "semanticObjects": 333,
-    "known": 263,
-    "ownPackage": 253,
+    "semanticObjects": 334,
+    "known": 264,
+    "ownPackage": 254,
     "holderPackage": 7,
     "stratagemPackage": 3,
     "unknown": 70,
-    "packages": 175,
-    "unnamedPackages": 24,
+    "packages": 176,
+    "unnamedPackages": 21,
     "liveTestedObjects": 3,
     "liveLoadedPackages": 3,
     "liveProvenFamilies": [
@@ -189,8 +189,8 @@
         "known": true,
         "autoLoadSupported": true,
         "derivation": "own_loadout_package",
-        "package": null,
-        "packageNamed": false,
+        "package": "drone_flamethrower_backpack",
+        "packageNamed": true,
         "liveTested": false,
         "packageLiveLoaded": false,
         "blocker": null
@@ -204,8 +204,8 @@
         "known": true,
         "autoLoadSupported": true,
         "derivation": "own_loadout_package",
-        "package": null,
-        "packageNamed": false,
+        "package": "drone_laser_rifle_backpack",
+        "packageNamed": true,
         "liveTested": false,
         "packageLiveLoaded": false,
         "blocker": null
@@ -1764,8 +1764,8 @@
         "known": true,
         "autoLoadSupported": true,
         "derivation": "own_loadout_package",
-        "package": null,
-        "packageNamed": false,
+        "package": "drone_flamethrower_backpack",
+        "packageNamed": true,
         "liveTested": false,
         "packageLiveLoaded": false,
         "blocker": null
@@ -1779,8 +1779,8 @@
         "known": true,
         "autoLoadSupported": true,
         "derivation": "own_loadout_package",
-        "package": null,
-        "packageNamed": false,
+        "package": "drone_laser_rifle_backpack",
+        "packageNamed": true,
         "liveTested": false,
         "packageLiveLoaded": false,
         "blocker": null
@@ -1989,8 +1989,8 @@
         "known": true,
         "autoLoadSupported": true,
         "derivation": "own_loadout_package",
-        "package": null,
-        "packageNamed": false,
+        "package": "drone_assault_rifle_backpack",
+        "packageNamed": true,
         "liveTested": false,
         "packageLiveLoaded": false,
         "blocker": null
@@ -3932,6 +3932,21 @@
       }
     },
     {
+      "key": "stratagem_weapon/A/M-23 EMS Mortar Sentry",
+      "label": "A/M-23 EMS Mortar Sentry",
+      "kind": "stratagem_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "mortar_turret_staticfield",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
       "key": "support_weapon/40-K Meltagun",
       "label": "40-K Meltagun",
       "kind": "support_weapon",
@@ -5034,8 +5049,8 @@
         "known": true,
         "autoLoadSupported": true,
         "derivation": "own_loadout_package",
-        "package": null,
-        "packageNamed": false,
+        "package": "combat_walker_breacher",
+        "packageNamed": true,
         "liveTested": false,
         "packageLiveLoaded": false,
         "blocker": null

@@ -35,11 +35,12 @@ Composition tests record four separate facts: the donor output works, the refere
 | `event_action_projectile` | live-proven | `hd2.projectiles.spawn` | hd2.projectiles.spawn('R-36 Eruptor') by the mission host: the game's own FireProjectile, fired and repeated, gameplay-proven on host. | unchanged |
 | `event_action_status` | live-proven | `hd2.status.apply` | hd2.status.apply(enemy, 'fire', {buildup = 100}) by the mission host: the fire status visibly applied to a live enemy through the game's status request queue. | unchanged |
 | `event_weapon_in_hand` | live-proven | `player:equipped_weapon`, `weapon_equipped`, `weapon_unequipped`, `weapon_changed` | The local player's weapon in hand: primary and secondary switches detected correctly, the three events matched the actual switches, and uncatalogued held items were reported as uncatalogued (no name). | unchanged |
-| `weapon_fire_rate_modes_native` | pending | `fire_rate.modes` | Editing the three native rate-of-fire slots of the MG-206 Heavy Machine Gun (its own ProjectileWeapon record), each on its own. | unchanged |
-| `weapon_fire_rate_selector_added` | pending | `fire_rate.modes`, `weapon_function.left`, `weapon_function.right` | Filling empty rate-of-fire slots and binding the ROF weapon function to a free input (AR-23 Liberator, left input). | unchanged |
-| `weapon_rounds_feed_capacity` | pending | `rounds.feed_capacity_1`, `rounds.feed_capacity_2` | The SG-20 Halt magazine capacities per feed (WeaponRounds +72 / +76). | unchanged |
-| `weapon_programmable_ammo_added` | pending | `function_ammo.projectile`, `weapon_function.left` | Giving a weapon without it a ProgrammableAmmo selector and a donor function projectile (S-11 Speargun, left input). | unchanged |
-| `weapon_presentation_traits` | pending | `presentation.armor_penetration`, `presentation.traits` | The armory trait labels of a weapon loadout entry (localization string IDs), independent of gameplay. | unchanged |
+| `weapon_fire_rate_modes_native` | live-proven | `fire_rate.modes` | Editing the three native rate-of-fire slots of the MG-206 Heavy Machine Gun (its own ProjectileWeapon record), each on its own: the edited rates are used in play. | removed `allow_unverified_effect (MG-206 fire_rate.modes only)` |
+| `weapon_fire_rate_selector_added` | live-proven | `fire_rate.modes`, `weapon_function.left`, `weapon_function.right` | Filling the empty rate-of-fire slots of the AR-23 Liberator and binding the ROF weapon function to its free left input: the new selector works in play and switches between the three rates. | removed `allow_unverified_effect (AR-23 Liberator: fire_rate.modes, and weapon_function.left = rate_of_fire)` |
+| `weapon_rounds_feed_capacity` | live-proven | `rounds.feed_capacity_1`, `rounds.feed_capacity_2` | The SG-20 Halt magazine capacities per feed (WeaponRounds +72 / +76): 4 flechette rounds and 12 stun rounds, each feed independent. | unchanged |
+| `weapon_programmable_ammo_added` | live-partial | `function_ammo.projectile`, `weapon_function.left` | Giving a weapon without it a ProgrammableAmmo selector and a donor function projectile (S-11 Speargun, left input). | unchanged |
+| `weapon_presentation_penetration_label` | live-proven | `presentation.armor_penetration` | The AR-23C Liberator Concussive's armory penetration label (a loadout-entry trait tag), independent of gameplay: HEAVY and MEDIUM shown while the bullets stayed AP 3; menus pick the label up when they are reopened. | removed `allow_unverified_effect (AR-23C Liberator Concussive: light, medium, heavy)` |
+| `weapon_presentation_traits` | pending | `presentation.traits` | The full armory trait list of a weapon loadout entry (localization string IDs), independent of gameplay. | unchanged |
 
 ## Notes
 
@@ -115,6 +116,28 @@ Composition tests record four separate facts: the donor output works, the refere
 
 **`event_weapon_in_hand`**
 - Not promoted (offline-proven only): the inferred slot labels support, held_item and unknown (slot_proven stays false), death and reinforce transitions (not reported), remote players (not read; unproven).
+
+**`weapon_fire_rate_modes_native`**
+- Observation: The weapon menu lists the rates in storage order X, Y, Z (inferred: a list in selector order Y, Z, X did not match it). fire_rate.modes now uses that order; the slots written are unchanged.
+- Not promoted (still need `allow_unverified_effect`): fire_rate.modes of every other weapon, including the other native selectors (MG-43, M-105 Stalwart, AR-61 Tenderizer), whether an HMG already built picks up new rates (not reported).
+- Next tests: `HMGFireRateModesTest (menu-order build): the weapon menu lists 300 / 550 / 1200 from top to bottom, the slider order, starting on 550`.
+
+**`weapon_fire_rate_selector_added`**
+- Not promoted (still need `allow_unverified_effect`): every other weapon that can take a selector, weapon_function.right, weapon_function.left = programmable_ammo on the Liberator.
+- Next tests: `AddedFireRateModeTest (menu-order build): the weapon menu lists 450 / 700 / 950 from top to bottom, starting on 700`.
+
+**`weapon_rounds_feed_capacity`**
+- Not promoted (offline-proven only): the feed capacities of any other weapon.
+
+**`weapon_programmable_ammo_added`**
+- Observation: The selector and the function projectile work in play: mode A fires the normal gas spear, mode B the donor projectile.
+- Observation: The GL-52 De-Escalator donor produces heavy arc damage, not a stun field: the donor, not the mechanism, missed the intended effect.
+- Not promoted (still need `allow_unverified_effect`): function_ammo.projectile and the programmable_ammo binding on every weapon, the Speargun included: the acknowledgements stay until a donor with the intended effect is tested.
+- Next tests: `SpeargunGasStunTest with a true stun-field donor (see docs/weapon-feeds.md, stun-field donors)`.
+
+**`weapon_presentation_penetration_label`**
+- Behaviour: Presentation only: the label is read when a menu builds its item view; reopening or changing the menu state is enough, no restart.
+- Not promoted (still need `allow_unverified_effect`): none, light_anti_tank and anti_tank on the Concussive, the label of every other weapon, presentation.traits (family weapon_presentation_traits).
 
 ## Session coverage-pass-2026-09-29
 
@@ -194,3 +217,17 @@ Every operation logged: `HD2Runtime 0.27.0 initialized (API 1)`, `2 registered o
 | ProjectileActionTest | pass |  |  | F6 fired the R-36 Eruptor projectile through hd2.projectiles.spawn; repeated requests worked. |
 | StatusActionTest | pass |  |  | The fire status (buildup 100) visibly applied to a live enemy. |
 | EquippedWeaponEventTest | pass |  |  | Primary and secondary switches were detected correctly; weapon_equipped, weapon_unequipped and weapon_changed matched the actual switches; uncatalogued held items were reported as uncatalogued (no name), not misidentified. |
+
+## Session weapon-composition-2026-09-30
+
+Runtime: HD2Runtime 0.27.0 weapon composition test build (commit 0010541, build/test-artifacts/weapon-composition/HD2Runtime-0.27.0-runtime-weapon-composition-test.zip).
+
+Every operation logged: `target resolved`, `APPLIED`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| HMGFireRateModesTest | pass | MG-206 Heavy Machine Gun: `fire_rate.modes` X/Y/Z 450/600/750 → X/Y/Z 1400/200/700, then each slider on its own |  | The edited rates were used in play and each slider changed its own mode. The weapon menu listed the rates in a different order from the sliders, which followed the selector (Y, Z, X); the user found the order confusing. fire_rate.modes now lists the slots in weapon-menu order {X, Y, Z}; the slots and bytes written are unchanged. |
+| AddedFireRateModeTest | pass | AR-23 Liberator: `fire_rate.modes` X/Y/Z 0/640/0 → X/Y/Z 950/450/700; AR-23 Liberator: `weapon_function.left` none → rate_of_fire |  | The Liberator gained a working rate-of-fire selector with the three rates. As with the HMG, the displayed order did not follow the sliders (selector order); it is now normalized to the weapon-menu order. |
+| HaltFeedTest | pass | SG-20 Halt: `rounds.feed_capacity_1` 8 → 4; SG-20 Halt: `rounds.feed_capacity_2` 8 → 12 |  | The flechette magazine held 4 rounds and the stun magazine 12; each feed kept its own behaviour (reported: independent behaviour kept). |
+| SpeargunGasStunTest (GL-52 De-Escalator) | partial | S-11 Speargun: `weapon_function.left` none → programmable_ammo; S-11 Speargun: `function_ammo.projectile` none → GL-52 De-Escalator output | yes / yes / yes / yes | The Speargun gained a real two-mode selector: mode A fired the normal gas spear and cloud, mode B fired the donor. The GL-52 donor mainly produces heavy electric arc damage, not the crowd-control stun field the test wanted, so the intended gameplay (gas / stun field) did not hold with this donor. |
+| WeaponPresentationTest | pass | AR-23C Liberator Concussive: `presentation.armor_penetration` light → heavy, then medium |  | The armory said HEAVY ARMOR PENETRATING while the bullets stayed AP 3 (medium); label and gameplay changed independently. Reopening or changing the menu state showed the new label; no restart was needed. The user noted AP 3 = medium and AP 4 = heavy. The gameplay AP write (damage.ap_* 2 -> 3) is recorded here only as the control, not promoted. |

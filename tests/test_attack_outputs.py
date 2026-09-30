@@ -137,11 +137,26 @@ class CatalogTests(unittest.TestCase):
 
     def test_catalog(self):
         summary = self.catalog['summary']
-        self.assertEqual(summary['outputs'], 105)
-        self.assertEqual(summary['byFamily'], {'projectile': 89, 'beam': 3, 'arc': 2, 'spray': 4, 'melee': 7})
+        self.assertEqual(summary['outputs'], 106)
+        self.assertEqual(summary['byFamily'], {'projectile': 90, 'beam': 3, 'arc': 2, 'spray': 4, 'melee': 7})
+        self.assertEqual(summary['stratagemDonors'], ['A/M-23 EMS Mortar Sentry'])
         self.assertEqual((summary['selectable'], summary['projectileHosts'], summary['componentHosts'],
-            summary['ammunitionHosts'], summary['directWritableAttackFields']), (66, 35, 29, 6, 37))
+            summary['ammunitionHosts'], summary['directWritableAttackFields']), (67, 35, 29, 6, 37))
+        # Every selectable projectile output carries its weapon-function mode label and icon (native values only).
+        presentation = self.catalog['modePresentation']
+        self.assertIn('ammo_stun', presentation['icons'])
+        self.assertTrue({'none', 'gas', 'stun', 'flak', 'he'} <= {l['value'] for l in presentation['labels']})
+        self.assertEqual(sum(1 for o in self.catalog['outputs'] if o.get('presentation')), 67)
+        self.assertEqual(self.outputs['AC-8 Autocannon']['presentation']['label'], 'aphet')
+        self.assertTrue(self.outputs['AC-8 Autocannon']['presentation']['shared'])
+        self.assertEqual((self.outputs['S-11 Speargun']['presentation']['label'],
+            self.outputs['S-11 Speargun']['presentation']['icon']), ('none', 'default'))
         self.assertNotRegex(json.dumps(self.catalog), r'0x[0-9A-Fa-f]{8}')
+        live_hosts = {'EAT-700 Expendable Napalm': (['LiberatorAttackOutputTest'], ['AR-23 Liberator']),
+            # The GL-52 also worked as the Speargun's function projectile (its donor output; that run is partial
+            # because the GL-52 is not a stun field, not because the donor failed).
+            'GL-52 De-Escalator': (['LiberatorAttackOutputTest', 'SpeargunGasStunTest'],
+                ['AR-23 Liberator', 'S-11 Speargun'])}
         for name in ('EAT-700 Expendable Napalm', 'GL-52 De-Escalator'):
             output = self.outputs[name]
             self.assertTrue(output['selectableAsProjectileReference'])
@@ -151,8 +166,8 @@ class CatalogTests(unittest.TestCase):
             self.assertEqual(output['acknowledgements']['crossClass'],
                 ['allow_unverified_reference', 'allow_unverified_effect'])
             # Live-proven as donors: the Liberator fired both through its ammunition source.
-            self.assertEqual(output['liveProof'], {'donorOutput': 'live_proven', 'tests': ['LiberatorAttackOutputTest'],
-                'provenOnHosts': ['AR-23 Liberator']})
+            self.assertEqual(output['liveProof'], {'donorOutput': 'live_proven', 'tests': live_hosts[name][0],
+                'provenOnHosts': live_hosts[name][1]})
         # The Talon output is live-proven as a donor (fired by the Reprimand); the Liberator failure is host-path
         # evidence and does not count against it.
         self.assertEqual(self.outputs['LAS-58 Talon']['liveProof'], {'donorOutput': 'live_proven',
@@ -306,7 +321,14 @@ rejects(function()patches.validate{id='x',target=evictor,field=hd2.fields.attack
  expect=evictor:projectile(),value=evictor:projectile()}end,'UNPROVEN_PROJECTILE_SOURCE')
 -- A weapon whose only projectile is its ammunition (no catalogued attack member).
 assert(hd2.weapon('P-2 Peacemaker'):projectile_source().mechanism=='ammunition')
-assert(#hd2.attack_outputs({selectable=true})==66)
+assert(#hd2.attack_outputs({selectable=true})==67)
+-- The stratagem-owned stun-field donor is scoped to function_ammo.projectile and names its field and presentation.
+local ems=hd2.attack_output('A/M-23 EMS Mortar Sentry'):describe()
+assert(ems.owner.kind=='stratagem'and ems.referenceScope[1]=='function_ammo.projectile'and#ems.referenceScope==1)
+assert(ems.fieldEffect.volume=='StaticField'and ems.fieldEffect.seconds==7 and ems.presentation.label=='none')
+rejects(function()patches.validate{id='x',target=reprimand,field=hd2.fields.attack.projectile,
+ expect=reprimand:projectile(),value=hd2.attack_output('A/M-23 EMS Mortar Sentry'),allow_unverified_reference=true,
+ allow_unverified_effect=true}end,'OUTPUT_SCOPE')
 return 'ok'
 ''')
 

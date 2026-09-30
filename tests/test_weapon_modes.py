@@ -64,6 +64,52 @@ class WeaponModeResearchTests(unittest.TestCase):
         self.assertEqual(rows[('player', 'AR-23C Liberator Concussive')]['armorPenetration'], 'light')
         self.assertEqual(rows[('player', 'SG-20 Halt')]['armorPenetrationState'], 'blocked')
 
+    def test_stun_field_donors(self):
+        """A stun field is an explosion's persistent status volume (StaticField); only the EMS Mortar shell is a
+        donor a ProgrammableAmmo host can fire; the G-23 is an entity, the orbital shell a Bombardment member."""
+        research = load('research/stun-field-donors-F5FEE03DCFDB.json')
+        members = {(m['struct'], m['offset']): m for m in research['typeLibrary']}
+        self.assertEqual((members[('ExplosionInfo', 100)]['member'], members[('ExplosionInfo', 100)]['type']),
+            ('persistent_status_volume', 'StatusEffectTemplateType'))
+        self.assertEqual(members[('ExplosionInfo', 104)]['storage'], 'FP32')
+        self.assertEqual(research['templates']['15'], 'StaticField')
+        decisions = {c['id']: c['decision'] for c in research['candidates']}
+        self.assertEqual(decisions, {'speargun_gas': 'control', 'ems_mortar': 'supported', 'orbital_ems': 'blocked',
+            'artillery_ems': 'blocked', 'unowned_static_field': 'blocked', 'g23_stun': 'not_a_projectile',
+            'emp_grenade': 'not_a_projectile', 'gl52_arc': 'supported_not_a_field'})
+        candidates = {c['id']: c for c in research['candidates']}
+        gas = [c for c in candidates['speargun_gas']['chain'] if c['volume']]
+        self.assertEqual((gas[0]['volume'], gas[0]['volumeSeconds']), ('Gas', 10))
+        self.assertEqual(candidates['g23_stun']['explosion']['volume'], None)
+        [donor] = research['donors']
+        self.assertEqual((donor['name'], donor['projectileType'], donor['field']['volume'], donor['field']['volumeSeconds'],
+            donor['field']['radii'][1]), ('A/M-23 EMS Mortar Sentry', 154, 'StaticField', 7, 10))
+        self.assertEqual(donor['field']['damage']['status'], [{'status': 'stun_medium', 'strength': 100}])
+        self.assertTrue(donor['componentIdentity']['uniqueOwner'] and donor['package']['inBundleDatabase'])
+        self.assertEqual(donor['package']['name'], 'packages/generated/loadout/mortar_turret_staticfield')
+
+    def test_mode_presentation_model(self):
+        """Weapon-function mode labels and icons are the fired projectile's ProjectileInfo +12 / +16: every native
+        mode reads as them, and unlabelled projectiles share the placeholder label and the skull icon."""
+        modes = self.presentation['modes']
+        layout = {m['offset']: (m['nameLength'], m['storage']) for m in modes['typeLibrary']}
+        self.assertEqual(layout, {4: (10, 'UINT32'), 8: (10, 'UINT32'), 12: (10, 'UINT32'), 16: (8, 'UINT64')})
+        projectiles = modes['projectiles']
+        self.assertEqual([(projectiles[t]['label'], projectiles[t]['icon']) for t in ('115', '284', '153', '36',
+            '183', '191')], [('aphet', 'ammo_aphet'), ('flak', 'ammo_flak'), ('heat', 'ammo_heat'), ('he', 'ammo_he'),
+            ('flechettes', 'ammo_flechettes'), ('stun', 'ammo_stun')])
+        self.assertEqual((projectiles['125']['label'], projectiles['125']['icon']), (None, 'default'))
+        self.assertEqual((projectiles['154']['label'], projectiles['154']['icon']), (None, 'default'))
+        self.assertEqual(modes['placeholderLabel'], 'F1CD5269')
+        labels = {l['semanticId']: l for l in modes['labels']}
+        self.assertEqual((labels['gas']['nativeId'], labels['gas']['nativeUse'], labels['gas']['languages']),
+            ('ED94AE1A', False, 15))
+        self.assertEqual(labels['stun']['nativeId'], '7C0337D9')
+        self.assertFalse(labels['stun_18af731b']['offered'])
+        icons = {i['semanticId']: i for i in modes['icons'] if i['semanticId']}
+        self.assertEqual(icons['default']['path'], 'content/ui/shared/misc/skull_icon')
+        self.assertEqual(len(icons), 15)
+
     def test_cross_family_verdicts(self):
         self.assertEqual({v['donor']: v['status'] for v in self.composition['verdicts']},
             {'LAS-5 Scythe': 'blocked', 'LAS-98 Laser Cannon': 'blocked', 'LAS-13 Trident': 'blocked'})
@@ -109,24 +155,40 @@ local function rejected(fn,needle)
 end
 local hmg=hd2.support_weapon('MG-206 Heavy Machine Gun')
 local modes=hmg:fire_rate_modes()
-assert(modes.state=='selectable'and modes.modes[1].rpm==600 and modes.modes[1].slot=='y'and modes.modes[3].slot=='x')
-assert(hmg:fire_rate_mode(2).rpm==750)
-local spec=w.validate_patch({id='h',target=hmg,field=F.fire_rate.modes,expect={600,750,450},value={200,700,1400},
+-- Weapon-menu order: the slots X, Y, Z; the default is Y and the selector visits Y -> Z -> X.
+assert(modes.state=='selectable'and#modes.modes==3 and#modes.slots==3)
+assert(modes.modes[1].rpm==450 and modes.modes[1].slot=='x'and modes.modes[1].menu==1 and modes.modes[1].presses==2)
+assert(modes.modes[2].rpm==600 and modes.modes[2].default and modes.modes[2].presses==0)
+assert(modes.modes[3].slot=='z'and modes.modes[3].presses==1 and modes.default.slot=='y')
+assert(table.concat(modes.selectorOrder,',')=='y,z,x'and table.concat(modes.expect,',')=='450,600,750')
+assert(hmg:fire_rate_mode(3).rpm==750 and hmg:fire_rate_mode('x').rpm==450)
+local spec=w.validate_patch({id='h',target=hmg,field=F.fire_rate.modes,expect={450,600,750},value={1400,200,700},
  allow_unverified_effect=true})
 assert(b.hex(spec.changes[1].desired)==b.hex(b.encode(1400,'f32')..b.encode(200,'f32')..b.encode(700,'f32')))
+rejected(function()w.validate_patch({id='h',target=hmg,field=F.fire_rate.modes,expect={450,600,750},
+ value={1,2,3,4},allow_unverified_effect=true})end,'got 4 entries')
 rejected(function()w.validate_patch({id='h',target=hmg,field=F.fire_rate.modes,expect={600,750,450},
- value={1,2,3,4},allow_unverified_effect=true})end,'lists 4 rates')
+ value={450,600,750},allow_unverified_effect=true})end,'weapon-menu order')
+rejected(function()w.validate_patch({id='h',target=hmg,field=F.fire_rate.modes,expect={450,600,750},
+ value={450,0,750},allow_unverified_effect=true})end,'cannot be empty')
+-- An empty X or Z is a mode the menu and the selector skip.
+w.validate_patch({id='h',target=hmg,field=F.fire_rate.modes,expect={450,600,750},value={0,600,750},
+ allow_unverified_effect=true})
+local tenderizer=hd2.weapon('AR-61 Tenderizer'):fire_rate_modes()
+assert(#tenderizer.modes==2 and tenderizer.modes[1].slot=='y'and tenderizer.modes[1].menu==1
+ and tenderizer.modes[2].presses==1 and not tenderizer.slots[1].enabled and tenderizer.slots[1].menu==nil)
 local lib=hd2.weapon('AR-23 Liberator')
 local rates=lib:fire_rate_modes()
 assert(rates.state=='addable'and rates.binding.field=='weapon_function.left')
-rejected(function()w.validate_patch({id='l',target=lib,field=F.fire_rate.modes,expect={640},value={450,700},
+assert(table.concat(rates.expect,',')=='0,640,0'and#rates.modes==1 and rates.modes[1].slot=='y')
+rejected(function()w.validate_patch({id='l',target=lib,field=F.fire_rate.modes,expect={0,640,0},value={450,700,0},
  allow_unverified_effect=true})end,'SELECTOR_REQUIRED')
 rejected(function()w.validate_patch({id='l',target=lib,field=F.weapon_function.left,expect='none',
  value='rate_of_fire',allow_unverified_effect=true})end,'SELECTOR_REQUIRED')
 rejected(function()w.validate_patch({id='l',target=lib,field=F.weapon_function.left,expect='none',
  value='magazine',allow_unverified_effect=true})end,'cannot bind')
 w.validate_transaction({id='l',target=lib,allow_unverified_effect=true,changes={
- {field=F.fire_rate.modes,expect={640},value={450,700,950}},{field=F.weapon_function.left,expect='none',
+ {field=F.fire_rate.modes,expect={0,640,0},value={450,700,950}},{field=F.weapon_function.left,expect='none',
  value='rate_of_fire'}}})
 local spear=hd2.support_weapon('S-11 Speargun')
 local source=spear:feed('programmable'):source()
@@ -157,6 +219,33 @@ rejected(function()w.validate_patch({id='c',target=con,field=F.presentation.trai
  value={'stun','stun'},allow_unverified_effect=true})end,'twice')
 rejected(function()w.validate_patch({id='c',target=halt,field=F.presentation.armor_penetration,expect='light',
  value='heavy',allow_unverified_effect=true})end,'read-only')
+-- Mode presentation (domains/output_writes.lua): native labels and icons on attack outputs.
+local presenter=require('hd2runtime/domains/output_writes')
+local gas_output=hd2.attack_output('S-11 Speargun')
+local mode=presenter.validate_transaction({id='m',target=gas_output,allow_unverified_effect=true,changes={
+ {field=F.presentation.mode_label,expect='none',value='gas'},{field=F.presentation.mode_icon,expect='default',
+ value='ammo_stun'}}})
+assert(b.hex(mode.changes[1].desired)=='1aae94ed'and b.hex(mode.changes[2].desired)=='0e42b97f9068922d')
+rejected(function()presenter.validate_patch({id='m',target=gas_output,field=F.presentation.mode_label,expect='none',
+ value='gas'})end,'allow_unverified_effect')
+rejected(function()presenter.validate_patch({id='m',target=gas_output,field=F.presentation.mode_label,expect='none',
+ value='GAS!',allow_unverified_effect=true})end,'native mode label')
+rejected(function()presenter.validate_patch({id='m',target=gas_output,field=F.presentation.mode_icon,expect='default',
+ value='content/ui/my_icon',allow_unverified_effect=true})end,'native weapon-function icon')
+rejected(function()presenter.validate_patch({id='m',target=hd2.attack_output('AC-8 Autocannon'),
+ field=F.presentation.mode_label,expect='aphet',value='stun',allow_unverified_effect=true})end,'allow_shared')
+rejected(function()presenter.validate_patch({id='m',target=hd2.attack_output('LAS-98 Laser Cannon'),
+ field=F.presentation.mode_label,expect='none',value='stun',allow_unverified_effect=true})end,'no writable presentation')
+assert(#gas_output:mode_icons()==15 and gas_output:describe().presentation.fields.label=='presentation.mode_label')
+local feed=spear:feed('primary'):describe().presentation
+assert(feed.output=='output/v1/projectile/s-11-speargun'and feed.icon=='default'and feed.displayName=='Primary')
+local halt_alt=halt:feed('alternate'):describe().presentation
+assert(halt_alt.label=='stun'and halt_alt.icon=='ammo_stun'and halt_alt.displayName=='STUN')
+-- The EMS stun-field donor: a function projectile only, with the turret's own package.
+local ems_spec=w.validate_transaction({id='s',target=spear,allow_unverified_effect=true,allow_unverified_reference=true,
+ changes={{field=F.weapon_function.left,expect='none',value='programmable_ammo'},
+ {field=F.function_ammo.projectile,expect='none',value=hd2.attack_output('A/M-23 EMS Mortar Sentry')}}})
+assert(ems_spec.asset_dependencies[1].key=='stratagem_weapon/A/M-23 EMS Mortar Sentry')
 -- Mod Options: a semantic-name choice and sliders inside a list value are accepted.
 local page=hd2.options({id='modes_test',title='Modes Test'})
 local choice=page:choice({id='label',label='Label',choices={'Light','Heavy'},values={'light','heavy'}})
@@ -180,7 +269,16 @@ return 'ok'
         for name in ('example-hmgfire-rate-modes-test', 'example-added-fire-rate-mode-test',
                 'example-speargun-gas-stun-test', 'example-weapon-presentation-test', 'example-halt-feed-test'):
             self.assertIn(name, validate_packaged_runtime.SCENARIOS)
-        self.assertEqual(validate_packaged_runtime.EXTRAS['example-speargun-gas-stun-test']['packageRequests'], 3)
+        self.assertEqual(validate_packaged_runtime.EXTRAS['example-speargun-gas-stun-test']['packageRequests'], 1)
+        # The EMS stun-field donor and the Speargun mode labels (GAS, STUN with the stun icon) are pinned.
+        self.assertEqual(result['speargunEms']['written'],
+            ['ProjectileWeaponComponentData+576=9a000000', 'WeaponDataComponentData+184=08000000'])
+        self.assertEqual(result['speargunEms']['assetDependency']['name'],
+            'packages/generated/loadout/mortar_turret_staticfield')
+        self.assertEqual(result['modePresentation']['output/v1/projectile/s-11-speargun']['label'], '1aae94ed')
+        ems = result['modePresentation']['output/v1/projectile/a-m-23-ems-mortar-sentry']
+        self.assertEqual((ems['label'], ems['icon']), ('d937037c', '0e42b97f9068922d'))
+        self.assertEqual(result['presentation']['outputs'], 67)
 
 
 if __name__ == '__main__':

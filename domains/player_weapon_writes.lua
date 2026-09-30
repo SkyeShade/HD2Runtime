@@ -29,6 +29,22 @@ local function source_dependency(target_name,source_name,attack)
     if source and target and source.package==target.package then return nil end
     return source
 end
+-- Package of a catalogued attack output: a weapon-owned output resolves like its owner weapon (nil when it shares the
+-- target's package); a stratagem-owned donor by its own catalogued key (the entity that fires it owns the package).
+local function output_dependency(target_name,output)
+    if output.owner.kind=='player_weapon'or output.owner.kind=='support_weapon'then
+        return source_dependency(target_name,output.owner.name,'primary')
+    end
+    return assert(require('hd2runtime/core/assets').dependency(output.dependencyKey),
+        'ASSET_UNAVAILABLE: no catalogued package for attack output '..output.id)
+end
+-- An output catalogued for particular fields only (referenceScope) is refused everywhere else.
+local function require_output_scope(output,field_id)
+    if not output.referenceScope then return end
+    for _,allowed in ipairs(output.referenceScope)do if allowed==field_id then return end end
+    error('OUTPUT_SCOPE: '..output.id..' is catalogued only for '..table.concat(output.referenceScope,', ')
+        ..' (see sdk/AttackOutputCapabilities.json)',0)
+end
 local component_names={'ProjectileWeaponComponentData','WeaponDataComponentData',
     'WeaponMagazineComponentData','WeaponRoundsComponentData','ArcWeaponComponentData',
     'MeleeWeaponComponentData','BeamWeaponComponentData','SprayWeaponComponentData',
@@ -180,28 +196,34 @@ end
 -- write crosses a slot. fire_mode_set: four FireMode slots; fire_rate_set: the three rate-of-fire slots X/Y/Z;
 -- trait_set and armor_penetration_label: the five LoadoutEntry trait tags.
 local SLOT_SETS={fire_mode_set=4,fire_rate_set=3,trait_set=5,armor_penetration_label=5}
--- Rate-of-fire modes: rates in the order the ROF selector visits them from the default (Y -> Z -> X). The first rate
--- is the default (native slot Y); a missing rate is an empty 0.0 slot, which the selector skips.
-local RATE_SLOTS={2,3,1}
+-- Rate-of-fire modes: the three native slots in the order the weapon menu lists them (X, Y, Z). The middle slot (Y) is
+-- the default a weapon is built on; 0 is an empty slot, which the menu and the selector skip. The selector visits the
+-- slots Y -> Z -> X.
 local function plain_list(value,label,noun)
     assert(type(value)=='table'and getmetatable(value)==nil,label..' must be a list of '..noun)
     local count=0;for _ in pairs(value)do count=count+1 end
     assert(count==#value,label..' must be a list of '..noun)
 end
+local RATE_SLOT_NAMES={'X','Y','Z'}
 local function rate_set(field,value,label)
-    plain_list(value,label,'rates of fire (rounds per minute)')
-    assert(#value>=1,label..' must list at least one rate of fire')
-    assert(#value<=field.maxModes,label..' lists '..#value..' rates; this weapon allows '..field.maxModes
-        ..(field.maxModes==1 and' (no rate-of-fire selector can be bound)'or' (three native slots)'))
-    local slots={0,0,0}
+    plain_list(value,label,'three rates of fire (rounds per minute)')
+    assert(#value==3,label..' must list the three rate slots in weapon-menu order {X, Y, Z} (0 = no mode in that slot); '
+        ..'got '..#value..(#value==1 and' entry'or' entries'))
+    local rates=0
     for index,rate in ipairs(value)do
+        local slot=RATE_SLOT_NAMES[index]
         assert(type(rate)=='number'and rate==rate and rate>-math.huge and rate<math.huge,
-            label..' rate '..index..' must be a finite number')
-        assert(rate>=field.min and rate<=field.max,label..' rate '..index..' is outside the reviewed range '
-            ..field.min..' to '..field.max..' rounds per minute')
-        slots[RATE_SLOTS[index]]=rate
+            label..' slot '..slot..' must be a finite number')
+        if rate~=0 or index==2 then
+            assert(rate>=field.min and rate<=field.max,label..' slot '..slot..' is outside the reviewed range '
+                ..field.min..' to '..field.max..' rounds per minute'..(index==2 and' (Y is the default rate and '
+                ..'cannot be empty)'or' (0 = no mode)'))
+            rates=rates+1
+        end
     end
-    return b.encode(slots[1],'f32')..b.encode(slots[2],'f32')..b.encode(slots[3],'f32')
+    assert(rates<=field.maxModes,label..' lists '..rates..' rates; this weapon allows '..field.maxModes
+        ..(field.maxModes==1 and' (no rate-of-fire selector can be bound: X and Z stay 0)'or' (three native slots)'))
+    return b.encode(value[1],'f32')..b.encode(value[2],'f32')..b.encode(value[3],'f32'),rates
 end
 local function encode_slots(values)
     local bytes={};for index,value in ipairs(values)do bytes[index]=b.encode(value,'u32')end
@@ -330,8 +352,14 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
     assert(field.editable and field.backing,'field is read-only: '..item.field..' ('..tostring(field.reason)..')')
     assert(not field.affectsMultipleWeapons or allow_shared,
         'shared field requires allow_shared=true: '..item.field)
-    assert(field.acknowledgement~='allow_unverified_effect'or allow_unverified_effect,
-        'field requires allow_unverified_effect=true: '..item.field..' ('..tostring(field.acknowledgementReason)..')')
+    -- A value a user test proved on exactly this target (liveProvenValues, from the provenTargets of
+    -- schemas/live_evidence.json) needs no acknowledgement, nor does restoring that field's reviewed baseline;
+    -- every other value of the field keeps it.
+    local live_value=field.liveProvenValues~=nil and item.value==field.currentDefault
+    for _,value in ipairs(field.liveProvenValues or{})do if value==item.value then live_value=true end end
+    assert(field.acknowledgement~='allow_unverified_effect'or allow_unverified_effect or live_value,
+        'field requires allow_unverified_effect=true: '..item.field..' ('..tostring(field.acknowledgementReason)..')'
+        ..(field.liveProvenValues and' (live-proven without it: '..table.concat(field.liveProvenValues,', ')..')'or''))
     if path=='projectile_reference'and field.backing.settings then
         assert(allow_shared,'projectile object edits require allow_shared=true because definitions are shared')
     end
@@ -361,6 +389,7 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
                     ..tostring(output.reason),0)
             end
             assert(output.editable~=false and output.backing,'attack output is not selectable: '..output.id)
+            require_output_scope(output,field.semanticFieldId)
             local cross=output.compatibilityClass~=field.compatibilityClass
             if cross then
                 local host=attack_outputs().hosts[weapon.name]
@@ -380,7 +409,7 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
             local source={referenceKind='projectile',compatibilityClass=output.compatibilityClass,
                 backing=output.backing,currentDefault={projectileType=output.currentDefault},
                 referenceSettings=output.referenceSettings}
-            local dependency=source_dependency(weapon.name,output.owner.name,'primary')
+            local dependency=output_dependency(weapon.name,output)
             return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
                 semantic_aliases={item.field},expect=item.expect,value=item.value,
                 expected_selector=expected,desired_selector=desired,source_descriptor=source,
@@ -462,16 +491,15 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
             expected=b.encode(expected,'u32'),desired=b.encode(desired,'u32'),status_type=desired}
     end
     if field.type=='fire_rate_set'then
-        -- The three native rate slots as the selector visits them; expect is the reviewed list, and its bytes are the
-        -- exact native slots.
+        -- The three native rate slots in weapon-menu order {X, Y, Z}; expect is the reviewed list, and its bytes are
+        -- the exact native slots.
         assert(same_list(item.expect,field.currentDefault),'expect differs from the reviewed rates of fire for '
-            ..item.field)
-        rate_set(field,item.expect,'expect')
-        local native=field.nativeSlots
+            ..item.field..' (three slots in weapon-menu order {X, Y, Z}: see weapon:fire_rate_modes().expect)')
+        local expected=rate_set(field,item.expect,'expect')
+        local desired,rates=rate_set(field,item.value,'value')
         return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
-            semantic_aliases={item.field},expect=item.expect,value=item.value,
-            expected=b.encode(native[1],'f32')..b.encode(native[2],'f32')..b.encode(native[3],'f32'),
-            desired=rate_set(field,item.value,'value'),rates=#item.value}
+            semantic_aliases={item.field},expect=item.expect,value=item.value,expected=expected,desired=desired,
+            rates=rates}
     end
     if field.type=='weapon_function'then
         -- The WeaponFunctionType bound to one weapon-function input. Only an unbound input takes a binding, and only
@@ -536,13 +564,14 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
                     ..tostring(output.reason),0)
             end
             assert(output.editable~=false and output.backing,'attack output is not selectable: '..output.id)
+            require_output_scope(output,field.semanticFieldId)
             assert(allow_unverified_reference,'a function projectile requires allow_unverified_reference=true: '
                 ..output.id..' ('..tostring(field.acknowledgementReason)..')')
             change.source_descriptor={referenceKind='projectile',compatibilityClass=output.compatibilityClass,
                 backing=output.backing,currentDefault={projectileType=output.currentDefault},
                 referenceSettings=output.referenceSettings}
             change.source_resource=output.resource
-            change.asset_dependency=source_dependency(weapon.name,output.owner.name,'primary')
+            change.asset_dependency=output_dependency(weapon.name,output)
         else
             change.desired=b.encode(desired.none and 0 or native,'u32')
         end
@@ -589,13 +618,13 @@ local function check_selector_pairs(weapon,changes)
         if kind=='function_projectile_reference'then projectile=change end
     end
     if rates and rates.rates>1 and not rates.descriptor.selectorBound then
-        assert(binds.rate_of_fire,'SELECTOR_REQUIRED: fire_rate.modes lists '..rates.rates..' rates, but '..weapon.name
+        assert(binds.rate_of_fire,'SELECTOR_REQUIRED: fire_rate.modes fills '..rates.rates..' rate slots, but '..weapon.name
             ..' has no rate-of-fire selector; bind it in the same transaction (hd2.fields.weapon_function.'
             ..table.concat(rates.descriptor.bindableInputs or{'left'},' or ')..' = "rate_of_fire")')
     end
     if binds.rate_of_fire then
         assert(rates and rates.rates>1,'SELECTOR_REQUIRED: binding the rate-of-fire selector needs fire_rate.modes with '
-            ..'at least two rates in the same transaction')
+            ..'at least two filled rate slots in the same transaction')
     end
     if projectile and not projectile.desired_selector.none and not projectile.descriptor.selectorBound then
         assert(binds.programmable_ammo,'SELECTOR_REQUIRED: function_ammo.projectile needs a bound ProgrammableAmmo '

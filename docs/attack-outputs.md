@@ -186,8 +186,18 @@ a projectile pointer exists.
   58 counted any magazine-fed projectile pointer, including the Liberator and eight support weapons that have no
   guarded projectile reference target.
 - **Beam, arc, spray and melee outputs** fail closed with `INCOMPATIBLE_OUTPUT_FAMILY` and the structural reason.
-- **Donor outputs** are selectable only when their owner is established to fire that row (66 of 89). Owners that
-  fire a spawned entity, charge or heat levels or a magazine pattern do not offer their +0 row as their output.
+- **Donor outputs** are selectable only when their owner is established to fire that row (66 of 89 weapon
+  outputs). Owners that fire a spawned entity, charge or heat levels or a magazine pattern do not offer their +0 row
+  as their output.
+- **Stratagem-owned donor.** One output is owned by a stratagem entity: the A/M-23 EMS Mortar Sentry shell, fired by
+  the turret's own ProjectileWeapon +0, whose expiry explosion leaves an EMS (StaticField) field. It is catalogued for
+  `function_ammo.projectile` only (`referenceScope`); any other reference field refuses it with `OUTPUT_SCOPE`. Its
+  package is the turret's own loadout package (`stratagem_weapon/A/M-23 EMS Mortar Sentry` in the asset catalog).
+  See [stun-field donors](weapon-feeds.md#stun-field-donors).
+- **Mode label and icon.** Every selectable projectile output is also a write target for the label and HUD icon a
+  weapon-function mode shows when it fires that projectile (`hd2.fields.presentation.mode_label`,
+  `hd2.fields.presentation.mode_icon`; native strings and icons only). See
+  [mode labels and icons](weapon-feeds.md#mode-labels-and-icons).
 - **Source proof.** The output's owner entity, its ProjectileWeapon record identity and the ProjectileSettings row are
   re-proven live. A stale source is a CONFLICT.
 - **Assets.** The owner's loadout package is loaded through the 0.27 asset loader before the reference is written.
@@ -197,7 +207,9 @@ a projectile pointer exists.
 
 ## Catalog and proof model
 
-`sdk/AttackOutputCapabilities.json` lists 105 outputs: 89 projectile, 3 beam, 2 arc, 4 spray and 7 melee. 66
+`sdk/AttackOutputCapabilities.json` lists 106 outputs: 90 projectile (one of them the stratagem-owned EMS Mortar
+shell), 3 beam, 2 arc, 4 spray and 7 melee. Each selectable projectile output publishes its `presentation` (mode
+label, icon, whether the row is shared) and the catalog's `modePresentation` lists the offered labels and icons. 66
 projectile outputs are selectable. It also publishes `projectileSources` (every player attack's status, mechanism
 and reason), `ammunitionSources`, `activeSourceModel` (statuses, proof basis, counts, live controls) and `hostModel`
 (component and ammunition hosts, with per-host live evidence). Each output records:

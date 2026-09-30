@@ -11,9 +11,7 @@
       "minVersion": "0.27.0",
       "operations": [
         {
-          "acknowledgements": [
-            "allow_unverified_effect"
-          ],
+          "acknowledgements": {},
           "callKind": "ensure",
           "id": "liberator-fire-rates",
           "mode": "transaction",
@@ -1651,9 +1649,7 @@
       "minVersion": "0.27.0",
       "operations": [
         {
-          "acknowledgements": [
-            "allow_unverified_effect"
-          ],
+          "acknowledgements": {},
           "callKind": "ensure",
           "id": "hmg-fire-rate-modes",
           "mode": "patch",
@@ -2951,7 +2947,7 @@
       ]
     },
     "SpeargunGasStunTest": {
-      "baselineChanges": 2,
+      "baselineChanges": 6,
       "calls": [
         "ensure"
       ],
@@ -2968,6 +2964,24 @@
           "path": "weapon",
           "resource": "support_weapon",
           "weapon": "S-11 Speargun"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "speargun-gas-label",
+          "mode": "patch",
+          "resource": "attack_output"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "speargun-stun-label",
+          "mode": "transaction",
+          "resource": "attack_output"
         }
       ],
       "problems": [],
@@ -3280,9 +3294,7 @@
           "weapon": "AR-23C Liberator Concussive"
         },
         {
-          "acknowledgements": [
-            "allow_unverified_effect"
-          ],
+          "acknowledgements": {},
           "callKind": "ensure",
           "id": "concussive-displayed-ap",
           "mode": "patch",

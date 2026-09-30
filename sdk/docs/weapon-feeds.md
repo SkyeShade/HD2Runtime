@@ -60,7 +60,7 @@ input, an ordinary projectile trigger (the fire-mode research's constraints), no
 magazine pattern: 39 player and 10 support weapons (`programmableAddable` in the catalog).
 
 ```lua
--- S-11 Speargun: Gas (normal) and a selectable Stun ammunition (examples/projects/SpeargunGasStunTest).
+-- S-11 Speargun: Gas (normal) and a selectable EMS stun field (examples/projects/SpeargunGasStunTest).
 local spear=hd2.support_weapon('S-11 Speargun')
 local source=spear:feed('programmable'):source()
 -- {writable=true, target=spear, field='function_ammo.projectile', expect='none',
@@ -69,7 +69,8 @@ local source=spear:feed('programmable'):source()
 hd2.ensure({transaction={id='speargun-stun',target=source.target,allow_unverified_effect=true,
     allow_unverified_reference=true,changes={
         {field=source.binding.field,expect='none',value='programmable_ammo'},
-        {field=hd2.fields.function_ammo.projectile,expect='none',value=hd2.attack_output('GL-52 De-Escalator')}}}})
+        {field=hd2.fields.function_ammo.projectile,expect='none',
+            value=hd2.attack_output('A/M-23 EMS Mortar Sentry')}}}})
 ```
 
 | Field | Values |
@@ -81,26 +82,96 @@ hd2.ensure({transaction={id='speargun-stun',target=source.target,allow_unverifie
   and the binding needs the projectile (`SELECTOR_REQUIRED` otherwise).
 - **Donors.** Only projectile outputs: the donor's owner entity, its ProjectileWeapon record and the ProjectileSettings
   row are re-proven live, and its package is loaded first (the 0.27 asset loader). Beam, arc, spray and melee outputs
-  fail closed with `INCOMPATIBLE_OUTPUT_FAMILY`.
+  fail closed with `INCOMPATIBLE_OUTPUT_FAMILY`. Besides weapon outputs, the catalog has one stratagem-owned donor,
+  the A/M-23 EMS Mortar Sentry shell ([stun-field donors](#stun-field-donors)); it is offered for
+  `function_ammo.projectile` only (`OUTPUT_SCOPE` elsewhere).
 - **Host.** The host must still have the shape the research saw (rounds feed or not, no spawned entity, no magazine
   pattern); otherwise `FUNCTION_HOST_CHANGED`.
-- **Acknowledgements.** `allow_unverified_effect` and `allow_unverified_reference`: the mechanism is proven, a given
-  composition is not gameplay-tested.
+- **Acknowledgements.** `allow_unverified_effect` and `allow_unverified_reference`. The mechanism was shown in play
+  on the Speargun (2026-09-30: a real two-mode selector, gas in mode A, the donor in mode B), but that run is recorded
+  as partial (the GL-52 donor was not the intended stun field), so every composition keeps both.
 - **Native hosts.** The AC-8, GR-8 and RL-77 can swap their own function projectile for a donor, and restore it with
   `weapon:feed('programmable'):projectile()`.
 - **When it applies.** The binding is copied into a weapon when it is built; the projectile is read at every shot.
   Call in or rebuild the weapon after a change.
-- **In game** the new selector appears in the weapon's function menu as the game's own ProgrammableAmmo entry; its
-  label is the game's generic one for that function (not traced).
+- **In game** the new selector appears in the weapon's function menu as the game's own ProgrammableAmmo entry. Each
+  mode shows its projectile's own label and icon ([mode labels and icons](#mode-labels-and-icons)).
 
-### Speargun gas / stun result
+### Speargun gas / stun
 
 The Speargun has no WeaponRounds component, so it cannot take a second magazine; the component layout is never
 changed. It does have an empty +576 and a free left input, so the programmable-ammunition feed gives it a genuine
-player-selectable second ammunition: gas spears when the function is off, the chosen stun projectile when it is on.
-The stun choices are projectile outputs with stun: GL-52 De-Escalator (arc on impact; live-proven donor), AR-32
-Pacifier and SMG-72 Pummeler stun rounds. A "stun spear" (the spear with a stun explosion) is not offered: it would
-need a new projectile row, and settings tables cannot grow.
+player-selectable second ammunition: gas spears when the function is off, the function projectile when it is on.
+
+The first live run (2026-09-30) used the GL-52 De-Escalator. The selector worked and gas stayed normal, but the GL-52
+arc grenade does heavy electric damage rather than stunning an area. The stun mode now fires the EMS Mortar shell,
+which leaves an EMS field where it lands.
+
+## Stun-field donors
+
+`scripts/research_stun_field_donors.py` (`research/stun-field-donors-F5FEE03DCFDB.json`) answers what a stun field
+is natively, from the pinned type library and the settings and entity tables of the retained snapshot:
+
+- **A lingering field is part of an explosion**, not a separate entity or status. ExplosionInfo +100 is a
+  `StatusEffectTemplateType` (`persistent_status_volume`, hidden name length 24) and +104 its duration in seconds
+  (`status_volume_effect_time`, length 25). An explosion with a template leaves a status volume of it. The Speargun's
+  gas cloud is exactly this: its spear ends in an explosion with the Gas template for 10 s.
+- **The EMS field is the StaticField template.** Every explosion carrying it applies Stun Medium (strength 100) and
+  no damage. None spawns a separate object on impact.
+
+| Candidate | What it is | Decision |
+| --- | --- | --- |
+| A/M-23 EMS Mortar Sentry shell | a projectile; its expiry explosion leaves a StaticField volume, 7 s, radius 10 | **supported**: fired by the turret's own ProjectileWeapon (unique owner), which owns its own loadout package |
+| Orbital EMS Strike shell | a projectile; its impact explosion leaves a StaticField volume, 15 s, radius 13 | blocked: owned by the orbital's BombardmentComponent, which the runtime profile does not describe (the source cannot be re-proven live) |
+| Mission artillery EMS shell | the same field, 15 s | blocked: owned by a mission objective, no loadout package |
+| G-23 Stun grenade | a thrown entity whose explosion applies one Stun Large burst, no field | not a projectile: spawning it would be the function entity member (+584), which Runtime does not write |
+| emp_grenade throwable | a thrown entity detonating the Orbital EMS static-field explosion | not a projectile (as the G-23) |
+| Environmental stun sources | stun explosions and volumes (a Freezing volume with Stun Medium, a Stun Massive burst) with no owner in the entity or settings tables | not selectable: requested by code or data outside those tables, no package |
+| GL-52 De-Escalator | arc on impact, no field | works (the tested donor), but it is not a stun field |
+
+The EMS Mortar shell keeps its own flight (100 m/s with drop) and small impact explosion; the field forms where it
+lands. `hd2.attack_output('A/M-23 EMS Mortar Sentry'):describe().fieldEffect` publishes the field
+(`{volume='StaticField', seconds=7, radius=10, status={{status='stun_medium', strength=100}}}`). An EMS field can
+stun Helldivers too.
+
+## Mode labels and icons
+
+A weapon-function mode shows the **fired projectile's own** label and icon
+(`scripts/research_weapon_presentation.py`, `modes`). ProjectileInfo +12 is the short mode label (a localization
+string ID) and +16 the HUD icon resource. Every native selectable mode reads as these members: AC-8 APHET / FLAK,
+GR-8 HEAT / HE, the Halt's FLECHETTES / STUN magazines, guidance on / off. Their icons are under
+`content/ui/mission/hud/weapon_function/`. A projectile no menu shows holds a placeholder label with no string and the
+shared skull icon: the Speargun spear and the EMS Mortar shell are two of them. The menu reader itself is not traced.
+
+```lua
+-- Mode A (the spear): GAS. Mode B (the EMS shell): STUN with the stun icon.
+hd2.ensure({patch={id='gas-label',target=hd2.attack_output('S-11 Speargun'),
+    field=hd2.fields.presentation.mode_label,expect='none',value='gas',allow_unverified_effect=true}})
+hd2.ensure({transaction={id='stun-label',target=hd2.attack_output('A/M-23 EMS Mortar Sentry'),
+    allow_unverified_effect=true,changes={
+        {field=hd2.fields.presentation.mode_label,expect='none',value='stun'},
+        {field=hd2.fields.presentation.mode_icon,expect='default',value='ammo_stun'}}}})
+```
+
+| Field | Values |
+| --- | --- |
+| `hd2.fields.presentation.mode_label` | a native mode label: `none`, the labels native modes use (`flak`, `he`, `heat`, `stun`, `flechettes`, `sabot`, ...) and five native strings no mode uses yet (`gas`, `arc`, `incendiary`, `smoke`, `standard`); `output:mode_labels()` lists them |
+| `hd2.fields.presentation.mode_icon` | a native weapon-function icon (`ammo_stun`, `ammo_flak`, `ammo_he`, ...) or `default` (the skull); `output:mode_icons()` |
+
+- **Target.** The attack output whose projectile the mode fires (`hd2.attack_output(name)`): a weapon's own output
+  for its normal mode, the donor's for a programmable mode. Every selectable projectile output has both fields.
+- **Shared definitions.** The label is on the projectile's settings row, so every weapon firing that projectile shows
+  it. `allow_shared` is required when other entities fire it (the catalog's `presentation.shared`); the spear and the
+  EMS shell are each fired by one entity.
+- **Custom text and icons** are not supported: labels are native localization strings, icons native
+  weapon-function icons. A mode without a label shows the fallback (no label, the skull icon). Arbitrary icon assets
+  are a later step.
+- **Guards.** `domains/output_writes.lua` re-proves that the output's owner still fires that projectile and the
+  settings row identity; the icon is written as two aligned 4-byte halves in one transaction.
+- **Acknowledgement.** `allow_unverified_effect`: the members and the native data pattern are proven, but the menu
+  reader is not traced and an edited label has not been seen in game yet.
+- **Feeds.** `feed:describe().presentation` gives each feed's current `label`, `icon`, `displayName` (the native
+  label text, else Primary / Alternate / Programmable) and, for the primary feed, the output that edits it.
 
 ## Catalog
 
@@ -118,8 +189,13 @@ record the exact blockers for AR-23 Liberator -> LAS-5 Scythe, LAS-98 Laser Cann
 
 - `scripts/validate_weapon_modes_snapshot.py`: every addable host gains the binding and a GL-52 donor (two writes),
   the three native hosts swap and restore their own projectile, all with exact read-back and rollback; a stale donor,
-  a changed host, a beam donor and a missing reference acknowledgement are refused. It pins the Speargun write
-  (+576 = the GL-52 projectile, left input = ProgrammableAmmo) and its declared GL-52 package.
+  a changed host, a beam donor and a missing reference acknowledgement are refused. It pins the Speargun GL-52 write
+  and the EMS write (+576 = the EMS Mortar shell, the turret's package declared), refuses a stale turret record and
+  the EMS donor on an ordinary projectile reference (`OUTPUT_SCOPE`). Every selectable projectile output's mode label
+  and icon apply as no-ops, change exactly their bytes and roll back; conflicts, stale owners, a missing shared or
+  effect acknowledgement, unknown, unoffered and custom values are refused; the Speargun GAS and EMS STUN writes are
+  pinned.
 - The packaged-runtime scenario `example-speargun-gas-stun-test` runs the live test from the built ZIP: one package
-  request per donor, one write per donor switch, disable removes both.
+  request (the EMS turret's), the mode and the two label operations each apply, restore and re-apply only their own
+  writes.
 - `example-halt-feed-test` applies the Halt feed test from the built ZIP.

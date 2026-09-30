@@ -14,6 +14,7 @@
       "type": "ordered list of trait semantic IDs (at most five, shown in order)",
       "acknowledgement": "allow_unverified_effect"
     },
+    "liveProven": "A weapon whose liveProven names a field needs no acknowledgement for it (only for the listed values when values is set): the exact pairs a user test proved (sdk/LiveEvidenceCatalog.json).",
     "armorPenetration": {
       "constant": "hd2.fields.presentation.armor_penetration",
       "choices": [
@@ -323,6 +324,19 @@
       "reason": {
         "traits": null,
         "armorPenetration": null
+      },
+      "liveProven": {
+        "armorPenetration": {
+          "family": "weapon_presentation_penetration_label",
+          "tests": [
+            "WeaponPresentationTest"
+          ],
+          "values": [
+            "heavy",
+            "light",
+            "medium"
+          ]
+        }
       }
     },
     {

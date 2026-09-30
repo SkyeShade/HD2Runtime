@@ -580,8 +580,8 @@ return function(frame,watches,counts,lines)
 end
 """
 
-# HMGFireRateModesTest: the defaults (200 / 700 / 1400) write all three MG-206 rate slots at startup; each slider then
-# changes exactly its own slot (one write), and disable restores 600 / 750 / 450.
+# HMGFireRateModesTest: the defaults (X / Y / Z = 300 / 550 / 1200, weapon-menu order) write all three MG-206 rate
+# slots at startup; each slider then changes exactly its own slot (one write), and disable restores 450 / 600 / 750.
 HMG_RATES_LIVE = r'''
 return function(frame,watches,counts,lines)
  local menu=rawget(_G,'ModOptionsMenu');local w=watches[1];local results={}
@@ -595,15 +595,15 @@ return function(frame,watches,counts,lines)
  step('defaults write the three native rate slots',w.status=='waiting'and w.result and w.result.status=='APPLIED'
   and counts.writes==3,('status=%s writes=%d'):format(tostring(w.status),counts.writes))
  local values={650,800,850}
- for index,id in ipairs({'hmg_fire_rate_modes.mode_1','hmg_fire_rate_modes.mode_2','hmg_fire_rate_modes.mode_3'})do
+ for index,id in ipairs({'hmg_fire_rate_modes.slot_x','hmg_fire_rate_modes.slot_y','hmg_fire_rate_modes.slot_z'})do
   local runs,writes=w.runs,counts.writes
   menu.apply(id,values[index]);settle(runs)
-  step('mode '..index..' alone writes one slot',w.result and w.result.status=='APPLIED'and counts.writes==writes+1,
+  step('slot '..('XYZ'):sub(index,index)..' alone writes one slot',w.result and w.result.status=='APPLIED'and counts.writes==writes+1,
    ('writes=%d error=%s'):format(counts.writes-writes,tostring(w.error)))
  end
  local writes=counts.writes
  menu.apply('hmg_fire_rate_modes.enabled',false);settle(w.runs)
- step('disable restores 600 / 750 / 450',w.status=='disabled'and w.restores==1 and counts.writes==writes+3,
+ step('disable restores 450 / 600 / 750',w.status=='disabled'and w.restores==1 and counts.writes==writes+3,
   ('writes=%d'):format(counts.writes-writes))
  menu.apply('hmg_fire_rate_modes.enabled',true)
  local spent=0
@@ -630,8 +630,8 @@ return function(frame,watches,counts,lines)
  step('defaults write three rates and the selector binding',w.status=='waiting'and w.result
   and w.result.status=='APPLIED'and counts.writes==4,('status=%s writes=%d'):format(tostring(w.status),counts.writes))
  local runs,writes=w.runs,counts.writes
- menu.apply('added_fire_rate_mode.mode_2',800);settle(runs)
- step('rate 2 alone writes one slot',w.result and w.result.status=='APPLIED'and counts.writes==writes+1,
+ menu.apply('added_fire_rate_mode.slot_z',800);settle(runs)
+ step('slot Z alone writes one slot',w.result and w.result.status=='APPLIED'and counts.writes==writes+1,
   ('writes=%d'):format(counts.writes-writes))
  writes=counts.writes
  menu.apply('added_fire_rate_mode.enabled',false);settle(w.runs)
@@ -647,42 +647,45 @@ return function(frame,watches,counts,lines)
 end
 '''
 
-# SpeargunGasStunTest: the default GL-52 arc grenade binds ProgrammableAmmo and sets the function projectile (two
-# writes) after its package loads; each other donor is one owned transition with its own package; disable removes both.
+# SpeargunGasStunTest: the EMS Mortar shell (a stratagem-owned donor) binds ProgrammableAmmo and sets the function
+# projectile (two writes) after the turret's package loads; the GAS label (one slot) and the STUN label and stun icon
+# (three slots) are separate operations on the two outputs; each toggle restores or re-applies exactly its own writes.
 SPEARGUN_LIVE = r'''
 return function(frame,watches,counts,lines)
- local menu=rawget(_G,'ModOptionsMenu');local w=watches[1];local results={}
+ local menu=rawget(_G,'ModOptionsMenu');local mode,gas,stun=watches[1],watches[2],watches[3];local results={}
  local function step(name,ok,detail)results[#results+1]={name=name,passed=ok==true,detail=detail}end
- local function settle(runs)
+ local function settle(w,runs,final)
   local spent=0
-  while(w.runs<=runs or w.status=='running')and w.status~='blocked'and w.status~='disabled'and spent<20000 do
+  while(w.runs<=runs or w.status=='running')and w.status~='blocked'and w.status~=final and spent<20000 do
    frame();spent=spent+1 end
   for _=1,20 do frame()end
  end
- step('GL-52 default: package loaded, then selector and projectile written',w.status=='waiting'and w.result
-  and w.result.status=='APPLIED'and counts.writes==2 and(counts.package_requests or 0)==1,
-  ('status=%s writes=%d packages=%d error=%s'):format(tostring(w.status),counts.writes,counts.package_requests or 0,
-   tostring(w.error)))
- local function choose(index,label,packages)
-  local runs,writes=w.runs,counts.writes
-  menu.apply('speargun_gas_stun.stun',index);settle(runs)
-  step(label,w.result and w.result.status=='APPLIED'and counts.writes==writes+1
-   and(counts.package_requests or 0)==packages,('writes=%d packages=%d error=%s'):format(counts.writes-writes,
-   counts.package_requests or 0,tostring(w.error)))
- end
- choose(2,'GL-52 -> Pacifier: second donor package, one projectile write',2)
- choose(3,'Pacifier -> Pummeler: third donor package, one projectile write',3)
- choose(1,'Pummeler -> GL-52: package already held',3)
- local writes=counts.writes
- menu.apply('speargun_gas_stun.enabled',false);settle(w.runs)
- step('disable removes the selector and the projectile',w.status=='disabled'and counts.writes==writes+2,
-  ('writes=%d'):format(counts.writes-writes))
- menu.apply('speargun_gas_stun.enabled',true)
+ local function applied(w)return w.status=='waiting'and w.result and w.result.status=='APPLIED'end
+ step('EMS default: turret package loaded, selector and projectile written, both labels applied',applied(mode)
+  and applied(gas)and applied(stun)and counts.writes==6 and(counts.package_requests or 0)==1,
+  ('status=%s/%s/%s writes=%d packages=%d error=%s'):format(tostring(mode.status),tostring(gas.status),
+   tostring(stun.status),counts.writes,counts.package_requests or 0,tostring(mode.error or gas.error or stun.error)))
+ local writes,runs=counts.writes,gas.runs
+ menu.apply('speargun_gas_stun.labels',false);settle(gas,runs,'disabled');settle(stun,stun.runs,'disabled')
+ step('labels off restores the two outputs (four slots), the mode untouched',gas.status=='disabled'
+  and stun.status=='disabled'and counts.writes==writes+4 and applied(mode),('writes=%d'):format(counts.writes-writes))
+ writes=counts.writes
+ menu.apply('speargun_gas_stun.labels',true)
  local spent=0
- while w.status~='waiting'and w.status~='blocked'and spent<20000 do frame();spent=spent+1 end
+ while(gas.status~='waiting'or stun.status~='waiting')and spent<20000 do frame();spent=spent+1 end
  for _=1,20 do frame()end
- step('re-enable applies the options again',w.status=='waiting'and w.result and w.result.status=='APPLIED',
-  tostring(w.status))
+ step('labels on applies them again',applied(gas)and applied(stun)and counts.writes==writes+4,
+  ('writes=%d'):format(counts.writes-writes))
+ writes=counts.writes
+ menu.apply('speargun_gas_stun.enabled',false);settle(mode,mode.runs,'disabled')
+ step('disable removes the selector and the projectile, labels untouched',mode.status=='disabled'
+  and counts.writes==writes+2 and applied(gas)and applied(stun),('writes=%d'):format(counts.writes-writes))
+ menu.apply('speargun_gas_stun.enabled',true)
+ spent=0
+ while mode.status~='waiting'and mode.status~='blocked'and spent<20000 do frame();spent=spent+1 end
+ for _=1,20 do frame()end
+ step('re-enable applies the mode again, package already held',applied(mode)and(counts.package_requests or 0)==1,
+  tostring(mode.status))
  return results
 end
 '''
@@ -731,7 +734,7 @@ EXTRAS = {'options-live': {'menu': MENU_STUB, 'after': OPTIONS_LIVE},
     'example-resupply-test': {'menu': MENU_STUB, 'after': RESUPPLY_LIVE, 'packageRequests': 1},
     'example-hmgfire-rate-modes-test': {'menu': MENU_STUB, 'after': HMG_RATES_LIVE},
     'example-added-fire-rate-mode-test': {'menu': MENU_STUB, 'after': ADDED_RATES_LIVE},
-    'example-speargun-gas-stun-test': {'menu': MENU_STUB, 'after': SPEARGUN_LIVE, 'packageRequests': 3},
+    'example-speargun-gas-stun-test': {'menu': MENU_STUB, 'after': SPEARGUN_LIVE, 'packageRequests': 1},
     'example-weapon-presentation-test': {'menu': MENU_STUB, 'after': PRESENTATION_LIVE},
     'options-missing': {'after': OPTIONS_MISSING},
     'options-missing-strict': {'after': OPTIONS_MISSING_STRICT, 'unavailable': ('liberator-damage',)},

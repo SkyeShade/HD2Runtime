@@ -30,6 +30,12 @@ import live_evidence  # noqa: E402
 ROOT = Path(__file__).resolve().parents[1]
 RESEARCH = ROOT / 'research/attack-outputs-F5FEE03DCFDB.json'
 ACTIVE = ROOT / 'research/active-projectile-sources-F5FEE03DCFDB.json'
+DONORS = ROOT / 'research/stun-field-donors-F5FEE03DCFDB.json'
+PRESENTATION = ROOT / 'research/weapon-presentation-F5FEE03DCFDB.json'
+MODE_UNVERIFIED = ('The label and icon are the fired projectile\'s own ProjectileInfo members, which every native '
+    'weapon-function mode reads as; the menu reader is not traced and an edited mode label or icon has not been '
+    'gameplay-tested. Only native strings and native weapon-function icons are offered.')
+ASSETS = ROOT / 'sdk/AssetDependencyCapabilities.json'
 LUA_OUTPUT = ROOT / 'domains/attack_outputs.lua'
 JSON_OUTPUT = ROOT / 'sdk/AttackOutputCapabilities.json'
 CONTRACT = 'hd2runtime.attack_outputs.v1'
@@ -194,8 +200,52 @@ def kind_of(entry):
     return family
 
 
+def public_presentation(row):
+    fields = row['presentationFields']
+    label, icon = fields['presentation.mode_label'], fields['presentation.mode_icon']
+    return {'label': label['currentDefault'], 'icon': icon['currentDefault'], 'writable': True,
+        'shared': label['shared'], 'acknowledgements': ['allow_unverified_effect'] + (['allow_shared']
+            if label['shared'] else [])}
+
+
+def mode_catalog():
+    """(labels, icons, projectiles) from research/weapon-presentation-F5FEE03DCFDB.json `modes`."""
+    modes = json.loads(PRESENTATION.read_text(encoding='utf-8'))['modes']
+    labels = {'none': {'nativeId': int(modes['placeholderLabel'], 16), 'offered': True, 'label': None}}
+    for item in modes['labels']:
+        labels[item['semanticId']] = {'nativeId': int(item['nativeId'], 16), 'offered': item['offered'],
+            'label': item['label']}
+    for native in modes['unnamedLabels']:
+        labels['unnamed_' + native.lower()] = {'nativeId': int(native, 16), 'offered': False, 'label': None}
+    icons = {item['semanticId']: {'resource': item['resource'], 'offered': item['offered']}
+        for item in modes['icons'] if item['semanticId']}
+    return labels, icons, modes['projectiles']
+
+
+def presentation_fields(row, consumers, labels, icons, projectiles):
+    """The weapon-function mode label and HUD icon of a selectable projectile output (its ProjectileInfo +12, +16)."""
+    projectile = projectiles.get(str(row['currentDefault']))
+    settings = row['referenceSettings']
+    if not projectile or projectile['settings'] != settings:
+        raise ValueError(row['id'] + ': projectile presentation row does not match the output settings')
+    shared = sorted(consumers)
+    common = {'editable': True, 'acknowledgement': 'allow_unverified_effect', 'acknowledgementReason': MODE_UNVERIFIED,
+        'shared': len(shared) > 1, 'sharedConsumers': shared, 'operationGroup': 'mode_presentation',
+        'appliesWhen': 'menu_build'}
+    backing = {'kind': 'settings', 'settings': 'projectile', 'recordType': settings['recordType'],
+        'group': settings['group'], 'row': settings['row'], 'settingsType': settings['settingsType']}
+    label = projectile['label'] or 'none'
+    if label not in labels:
+        raise ValueError(row['id'] + ': unknown mode label ' + label)
+    return {'presentation.mode_label': dict(common, semanticFieldId='presentation.mode_label', type='mode_label',
+            currentDefault=label, backing=dict(backing, offset=12, width=4, storage='u32')),
+        'presentation.mode_icon': dict(common, semanticFieldId='presentation.mode_icon', type='mode_icon',
+            currentDefault=projectile['icon'], backing=dict(backing, offset=16, width=8, storage='u64'))}
+
+
 def outputs():
     research = json.loads(RESEARCH.read_text(encoding='utf-8'))
+    mode_labels, mode_icons, mode_projectiles = mode_catalog()
     active, sources, ammunition, by_weapon = active_sources()
     runtime_outputs, aliases, public = {}, {}, []
     for entry in sorted(research['weapons'], key=lambda e: (e['kind'], e['weapon'])):
@@ -221,6 +271,9 @@ def outputs():
                 emitter=FAMILY_EMITTER.get(entry['family'], entry['component']), extra=EXTRA.get(entry['family'], ''))
                 if entry['family'] != 'projectile' else owner_reason if fires == 'not_established' else
                 'The projectile row this weapon fires is not resolved in the retained snapshot.')
+        if selectable:
+            row['presentationFields'] = presentation_fields(row, entry.get('outputConsumers') or [], mode_labels,
+                mode_icons, mode_projectiles)
         runtime_outputs[semantic] = row
         for alias in (entry['weapon'], entry['weapon'] + '/primary'):
             if alias in aliases:
@@ -244,7 +297,52 @@ def outputs():
             'acknowledgements': ({'sameClass': [], 'crossClass': ['allow_unverified_reference',
                 'allow_unverified_effect']} if selectable else None),
             'ownerFiresThisProjectile': fires,
+            'presentation': public_presentation(row) if selectable else None,
             'liveProof': output_live_proof(entry['weapon'])})
+    # Stratagem-owned projectile donors (research/stun-field-donors-F5FEE03DCFDB.json): a projectile a stratagem entity
+    # fires through its own ProjectileWeapon +0 (the EMS Mortar turret's shell). They are catalogued for exactly the
+    # fields in referenceScope (a ProgrammableAmmo function projectile), with the entity's own loadout package.
+    assets = {o['key']: o['packageDependency'] for o in json.loads(ASSETS.read_text(encoding='utf-8'))['objects']}
+    for donor in json.loads(DONORS.read_text(encoding='utf-8'))['donors']:
+        semantic = 'output/v1/projectile/' + slug(donor['name'])
+        owner = {'kind': donor['ownerKind'], 'name': donor['name']}
+        key = 'stratagem_weapon/' + donor['name']
+        package = assets.get(key) or {}
+        if not package.get('autoLoadSupported'):
+            raise ValueError(donor['name'] + ': a stratagem donor needs a loadable package (' + key + ')')
+        settings = donor['settings']
+        field = donor['field']
+        effect = {'volume': field['volume'], 'seconds': field['volumeSeconds'], 'radius': field['radii'][1],
+            'status': field['damage']['status'], 'explosion': field['role']}
+        runtime_outputs[semantic] = {'id': semantic, 'family': 'projectile', 'owner': owner,
+            'resource': donor['resource'], 'entityRow': donor['entityRow'],
+            'backing': {'kind': 'component', 'component': donor['component'], 'offset': 0, 'storage': 'u32',
+                'width': 4, **donor['componentIdentity']},
+            'currentDefault': donor['projectileType'], 'editable': True,
+            'referenceSettings': {'group': settings['group'], 'row': settings['row'],
+                'recordType': settings['recordType'], 'settingsType': settings['settingsType']},
+            'compatibilityClass': donor['compatibilityClass'], 'dependencyKey': key,
+            'referenceScope': list(donor['referenceScope']), 'fieldEffect': effect}
+        runtime_outputs[semantic]['presentationFields'] = presentation_fields(runtime_outputs[semantic],
+            [entity for entity in donor.get('consumers') or [donor['name']]], mode_labels, mode_icons, mode_projectiles)
+        for alias in (donor['name'], donor['name'] + '/primary'):
+            if alias in aliases:
+                raise ValueError('duplicate attack output alias ' + alias)
+            aliases[alias] = semantic
+        public.append({'semanticId': semantic, 'family': 'projectile', 'kind': 'status_field', 'owner': owner,
+            'emitter': 'ProjectileWeapon', 'compatibilityClass': donor['compatibilityClass'],
+            'selectableAsProjectileReference': True, 'compatibleHostFamilies': ['projectile'],
+            'referenceScope': list(donor['referenceScope']),
+            'requiredCoordinatedReferences': [], 'blockedReason': None,
+            'chain': {'impactExplosion': True, 'expiryExplosion': True, 'submunition': False, 'arcOnImpact': False},
+            'fieldEffect': effect,
+            'ownerFireResource': [],
+            'package': {'name': package.get('package'), 'known': True, 'autoLoad': True},
+            'acknowledgements': {'sameClass': [], 'crossClass': ['allow_unverified_reference',
+                'allow_unverified_effect']},
+            'ownerFiresThisProjectile': 'fires_reference',
+            'presentation': public_presentation(runtime_outputs[semantic]),
+            'liveProof': output_live_proof(donor['name'])})
     # Hosts: a player attack whose fired projectile Runtime can write. `component`: the attack's own ProjectileWeapon
     # +0 is its active source; `ammunition`: the default ammunition delta is. Both keep the live controls' structure
     # (magazine-fed; no rounds, charge or heat). Support weapons have no guarded projectile reference target.
@@ -265,7 +363,10 @@ def outputs():
         for output, mechanism in pairs.items():
             if output not in runtime_outputs or (hosts.get(host) or {}).get('mechanism') != mechanism:
                 raise ValueError(f'proven composition {host} / {output} is not a catalogued host and output')
+    runtime_labels = {key: {'nativeId': item['nativeId'], 'offered': item['offered']} for key, item in mode_labels.items()}
+    runtime_icons = {key: {'resource': item['resource'], 'offered': item['offered']} for key, item in mode_icons.items()}
     runtime = migration_overlay.apply('attack_outputs', {'outputs': runtime_outputs, 'aliases': aliases,
+        'modeLabels': runtime_labels, 'modeIcons': runtime_icons,
         'hosts': hosts, 'sources': sources, 'ammunition': ammunition, 'provenCompositions': compositions,
         'crossClassReason': UNVERIFIED_REFERENCE})
     cases = research['liberatorCases']
@@ -337,13 +438,28 @@ def outputs():
             'hostLiveProof': {name: host_live_proof(name) for name in sorted(hosts) if host_live_proof(name)},
             'retained': research['hostRetains']},
         'liberatorCases': cases,
-        'summary': {'outputs': len(public), 'byFamily': research['summary']['byFamily'],
+        'summary': {'outputs': len(public), 'byFamily': {family: sum(1 for o in public if o['family'] == family)
+                for family in research['summary']['byFamily']},
+            'stratagemDonors': sorted(o['owner']['name'] for o in public if o['owner']['kind'] == 'stratagem'),
             'selectable': sum(1 for o in public if o['selectableAsProjectileReference']),
             'projectileHosts': len(hosts),
             'componentHosts': sum(1 for h in hosts.values() if h['mechanism'] == 'component'),
             'ammunitionHosts': sum(1 for h in hosts.values() if h['mechanism'] == 'ammunition'),
             'directWritableAttackFields': sum(1 for s in public_sources if s['directWritable'])},
         'outputs': public,
+        'modePresentation': {'fields': {'label': 'hd2.fields.presentation.mode_label',
+                'icon': 'hd2.fields.presentation.mode_icon'},
+            'target': 'hd2.attack_output(name): the output whose projectile a weapon-function mode fires',
+            'model': ('A weapon-function mode (ProgrammableAmmo, magazine or guidance selection) shows the fired '
+                'projectile\'s own short label and HUD icon. They are members of its ProjectileSettings row, a shared '
+                'definition: every weapon firing that projectile shows the same label and icon.'),
+            'fallback': 'A projectile no native menu shows has no label (none) and the default (skull) icon.',
+            'labels': [{'value': key, 'label': item['label'], 'native': key != 'none'} for key, item in
+                mode_labels.items() if item['offered']],
+            'icons': [key for key, item in mode_icons.items() if item['offered']],
+            'acknowledgement': 'allow_unverified_effect (plus allow_shared when other weapons fire the projectile)',
+            'customText': 'not supported: labels are native localization strings only',
+            'customIcons': 'not supported: icons are the native weapon-function icons only'},
         'safety': {'runtimeAddresses': False, 'nativeIdentifiers': False, 'writesDuringGeneration': 0}}
     text = json.dumps(document, indent=1)
     if re.search(r'0x[0-9A-Fa-f]{8}', text):

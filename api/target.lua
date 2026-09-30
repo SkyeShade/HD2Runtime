@@ -86,9 +86,27 @@ function M.new(describe)
         local id=catalog.outputs[identity]and identity or catalog.aliases[identity]
         local output=assert(id and catalog.outputs[id],'unknown attack output: '..tostring(identity))
         local methods={}
+        -- The weapon-function mode label and icon this output's projectile shows (hd2.fields.presentation.*):
+        -- native strings and icons only (sdk/AttackOutputCapabilities.json modePresentation).
+        function methods.mode_labels()
+            local names={}
+            for key,item in pairs(catalog.modeLabels or{})do if item.offered then names[#names+1]=key end end
+            table.sort(names);return names
+        end
+        function methods.mode_icons()
+            local names={}
+            for key,item in pairs(catalog.modeIcons or{})do if item.offered then names[#names+1]=key end end
+            table.sort(names);return names
+        end
         function methods.describe()
             return {id=output.id,family=output.family,owner=copy(output.owner),
-                compatibilityClass=output.compatibilityClass,selectable=output.editable==true,reason=output.reason}
+                compatibilityClass=output.compatibilityClass,selectable=output.editable==true,reason=output.reason,
+                referenceScope=copy(output.referenceScope),fieldEffect=copy(output.fieldEffect),
+                presentation=output.presentationFields and{
+                    label=output.presentationFields['presentation.mode_label'].currentDefault,
+                    icon=output.presentationFields['presentation.mode_icon'].currentDefault,
+                    shared=output.presentationFields['presentation.mode_label'].shared,
+                    fields={label='presentation.mode_label',icon='presentation.mode_icon'}}or nil}
         end
         return setmetatable({resource='attack_output',output=output.id},{__index=methods})
     end
@@ -202,9 +220,20 @@ function M.new(describe)
     -- hd2.fields.weapon_function.*, hd2.fields.function_ammo.projectile and hd2.fields.presentation.*.
     local weapon_modes=require('hd2runtime/domains/weapon_modes')
     local presentation_catalog=require('hd2runtime/domains/weapon_presentation')
-    local SLOT_ORDER={'y','z','x'}
+    -- Rate slots in storage and weapon-menu order, and the order the selector visits them from the default (Y).
+    local SLOT_NAMES,SELECTOR_ORDER={'x','y','z'},{'y','z','x'}
     local function field_of(entry,id)
         for _,field in ipairs(entry and entry.fields or{})do if field.semanticFieldId==id then return field end end
+    end
+    -- What a write of this field must acknowledge, and its live proof: a live-proven pair needs nothing, a
+    -- value-scoped one nothing for its liveProvenValues (schemas/live_evidence.json).
+    local function acknowledgements_of(field)
+        return field and field.acknowledgement and{field.acknowledgement}or{}
+    end
+    local function live_of(field)
+        if not(field and field.liveEvidence)then return nil end
+        return {family=field.liveEvidence.family,tests=copy(field.liveEvidence.tests),
+            values=copy(field.liveProvenValues)}
     end
     local function rate_modes(entry,kind,name)
         local field=field_of(entry,'fire_rate.modes')
@@ -213,25 +242,53 @@ function M.new(describe)
             return {weapon=name,state=modes_entry and modes_entry.fireRateState or'absent',modes={},writable=false,
                 reason='rate-of-fire modes are not authored for '..name..' (see WeaponFireRateCapabilities.json)'}
         end
-        local modes={}
-        for index,rpm in ipairs(field.currentDefault or{})do
-            modes[index]={index=index,rpm=rpm,slot=SLOT_ORDER[index],default=index==1,enabled=true}
+        -- slots: all three, in storage order. modes: the filled ones in the order the weapon menu lists them, each
+        -- with its slot and the selector presses that reach it from the default.
+        local slots,modes,by_slot,selector_order={},{},{},{}
+        for index,slot_name in ipairs(SLOT_NAMES)do
+            local rpm=(field.currentDefault or{})[index]or 0
+            slots[index]={slot=slot_name,index=index,rpm=rpm,enabled=rpm~=0,default=slot_name=='y'}
+            by_slot[slot_name]=slots[index]
+        end
+        for _,slot_name in ipairs(SELECTOR_ORDER)do
+            local slot=by_slot[slot_name]
+            if slot.enabled then slot.presses=#selector_order;selector_order[#selector_order+1]=slot_name end
+        end
+        for _,slot in ipairs(slots)do
+            if slot.enabled then modes[#modes+1]=slot;slot.menu=#modes end
         end
         local binding
+        local acknowledgements=acknowledgements_of(field)
         if not field.selectorBound and field.bindableInputs and field.bindableInputs[1]then
             binding={field='weapon_function.'..field.bindableInputs[1],expect='none',value='rate_of_fire'}
+            -- The binding keeps its own acknowledgement unless rate_of_fire is live-proven on this input.
+            local input=field_of(entry,binding.field)
+            local proven=false
+            for _,value in ipairs(input and input.liveProvenValues or{})do proven=proven or value=='rate_of_fire'end
+            binding.acknowledgements=proven and{}or acknowledgements_of(input)
+            binding.liveProven=proven and live_of(input)or nil
+            for _,item in ipairs(binding.acknowledgements)do
+                if item~=acknowledgements[1]then acknowledgements[#acknowledgements+1]=item end
+            end
         end
-        return {weapon=name,state=field.fireRateState,modes=modes,maxModes=field.maxModes,
-            selector={bound=field.selectorBound==true,input=field.selectorInput,bindableInputs=copy(field.bindableInputs)},
+        return {weapon=name,state=field.fireRateState,modes=modes,slots=slots,default=by_slot.y,
+            selectorOrder=selector_order,maxModes=field.maxModes,
+            selector={bound=field.selectorBound==true,input=field.selectorInput,bindableInputs=copy(field.bindableInputs),
+                order=copy(selector_order)},
             nativeSlots=copy(field.nativeSlots),field='fire_rate.modes',expect=copy(field.currentDefault),
             writable=field.editable==true,reason=field.reason,range={min=field.min,max=field.max},
-            binding=binding,acknowledgements={'allow_unverified_effect'},
+            binding=binding,acknowledgements=acknowledgements,liveProven=live_of(field),
             overriddenWhenEquipped=copy(field.overriddenWhenEquipped)}
     end
+    -- A mode by its menu position (1 = the top of the weapon menu) or by its slot ('x', 'y', 'z').
     local function rate_mode(entry,kind,name,index)
         local view=rate_modes(entry,kind,name)
+        if type(index)=='string'then
+            for _,slot in ipairs(view.slots or{})do if slot.slot==index then return slot end end
+            error(name..' has no rate-of-fire slot '..index..' (slots are x, y and z)',2)
+        end
         return assert(view.modes[index],name..' has no rate-of-fire mode '..tostring(index)..' ('..#view.modes
-            ..' native)')
+            ..' in its weapon menu)')
     end
     local function function_projectile_handle(kind,name,feed)
         local methods={};function methods.describe()return copy(feed)end
@@ -300,7 +357,9 @@ function M.new(describe)
             reason={traits=traits and traits.reason or(not traits and missing)or nil,
                 armorPenetration=penetration and penetration.reason or(not penetration and missing)or nil},
             choices={armorPenetration=penetration and copy(penetration.allowedValues)or nil,traits=all},
-            labels=copy(presentation_catalog.penetration),acknowledgements={'allow_unverified_effect'},
+            labels=copy(presentation_catalog.penetration),
+            acknowledgements={traits=acknowledgements_of(traits),armorPenetration=acknowledgements_of(penetration)},
+            liveProven={traits=live_of(traits),armorPenetration=live_of(penetration)},
             refresh='Menus build their trait labels when they open: reopen the armory or loadout screen.'}
     end
     local function player_target(name,legacy)

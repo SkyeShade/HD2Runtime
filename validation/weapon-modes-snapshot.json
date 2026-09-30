@@ -1,6 +1,6 @@
 {
-  "acknowledgementRejections": 112,
-  "adversarialRejections": 987,
+  "acknowledgementRejections": 193,
+  "adversarialRejections": 1498,
   "blockedRejections": 6,
   "concussive": {
     "record": 104,
@@ -12,7 +12,7 @@
       }
     ]
   },
-  "conflictRejections": 160,
+  "conflictRejections": 227,
   "fixtureFallback": "disabled",
   "functions": {
     "checked": 52,
@@ -37,11 +37,24 @@
     ]
   },
   "mode": "snapshot-overlay",
+  "modePresentation": {
+    "output/v1/projectile/a-m-23-ems-mortar-sentry": {
+      "icon": "0e42b97f9068922d",
+      "label": "d937037c",
+      "row": 91
+    },
+    "output/v1/projectile/s-11-speargun": {
+      "icon": "f5c84b7d5898656a",
+      "label": "1aae94ed",
+      "row": 321
+    }
+  },
   "neighbourChecks": 100,
   "overlapRejected": true,
   "presentation": {
     "added": 19,
     "checked": 100,
+    "outputs": 67,
     "removed": 81,
     "replaced": 81,
     "traits": 103
@@ -50,9 +63,13 @@
     "added": 56,
     "checked": 60,
     "edited": 60,
+    "liveProven": [
+      "AR-23 Liberator",
+      "MG-206 Heavy Machine Gun"
+    ],
     "noops": 60
   },
-  "rollbacks": 452,
+  "rollbacks": 519,
   "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
   "speargun": {
     "assetDependency": {
@@ -64,6 +81,24 @@
     },
     "written": [
       "ProjectileWeaponComponentData+576=de000000",
+      "WeaponDataComponentData+184=08000000"
+    ]
+  },
+  "speargunEms": {
+    "assetDependency": {
+      "key": "stratagem_weapon/A/M-23 EMS Mortar Sentry",
+      "label": "A/M-23 EMS Mortar Sentry",
+      "name": "packages/generated/loadout/mortar_turret_staticfield",
+      "package": "0x4666692B63185121",
+      "via": "own_loadout_package"
+    },
+    "fieldEffect": {
+      "radius": 10,
+      "seconds": 7,
+      "volume": "StaticField"
+    },
+    "written": [
+      "ProjectileWeaponComponentData+576=9a000000",
       "WeaponDataComponentData+184=08000000"
     ]
   },

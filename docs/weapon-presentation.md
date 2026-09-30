@@ -6,10 +6,14 @@ separately from gameplay.
 
 ```lua
 -- AR-23C Liberator Concussive: the menu says MEDIUM ARMOR PENETRATING (examples/projects/WeaponPresentationTest).
+-- Live-proven for the Concussive's light, medium and heavy labels: no acknowledgement.
 local concussive=hd2.weapon('AR-23C Liberator Concussive')
 hd2.ensure({patch={id='concussive-label',target=concussive,field=hd2.fields.presentation.armor_penetration,
-    expect='light',value='medium',allow_unverified_effect=true}})
+    expect='light',value='medium'}})
 ```
+
+The weapon-function menu's mode labels and icons (GAS / STUN, FLAK, HE, ...) are a different native member, on the
+fired projectile: see [mode labels and icons](weapon-feeds.md#mode-labels-and-icons).
 
 ## Native model
 
@@ -57,8 +61,9 @@ Proven on build F5FEE03DCFDB (`scripts/research_weapon_presentation.py`, `resear
 - Both are the same five slots, so they are never combined in one plan.
 - Weapons that show several penetration labels (the Halt: one per feed; the LAS-17 Double-Edge Sickle: one per heat
   level; the P-33) edit them with `traits`, not the single selector.
-- **Acknowledgement.** `allow_unverified_effect`: the storage and the reader are proven, the menu showing an edited
-  label is not live-tested yet.
+- **Acknowledgement.** `allow_unverified_effect`, except the live-proven scope: the AR-23C Liberator Concussive's
+  `armor_penetration` set to light, medium or heavy (2026-09-30: the armory said HEAVY while the bullets stayed AP 3;
+  reopening the menu was enough, no restart). Its other labels, every other weapon and `traits` keep it.
 - **Scope.** Weapon-local (every LoadoutEntry record has one owner).
 - **Coverage.** 103 weapons have writable traits and 100 a writable penetration label. Two tags (EAT-411, EAT-700)
   have no string in any loaded table and stay read-only.

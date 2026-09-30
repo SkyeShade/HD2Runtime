@@ -27,6 +27,10 @@ JSON_OUTPUT = ROOT / 'sdk/WeaponPresentationCapabilities.json'
 PENETRATION_ORDER = ['light', 'medium', 'heavy', 'light_anti_tank', 'anti_tank']
 
 
+# (kind, weapon, field) -> the live promotion of that exact pair (schemas/live_evidence.json), filled by writable().
+LIVE = {}
+
+
 def writable():
     out = {}
     wanted = {presentation_fields.TRAITS_FIELD, presentation_fields.PENETRATION_FIELD}
@@ -34,10 +38,14 @@ def writable():
         for field in weapon['fields']:
             if field['semanticFieldId'] in wanted:
                 out[('player', weapon['name'], field['semanticFieldId'])] = (field['editable'], field.get('reason'))
+                if field.get('liveEvidence'):
+                    LIVE[('player', weapon['name'], field['semanticFieldId'])] = field['liveEvidence']
     for instance in json.loads(SUPPORT.read_text())['fieldInstances']:
         if instance['semanticFieldId'] in wanted:
             out[('support', instance['supportWeapon'], instance['semanticFieldId'])] = (instance['writable'],
                 instance['blockedReason'])
+            if instance.get('liveEvidence'):
+                LIVE[('support', instance['supportWeapon'], instance['semanticFieldId'])] = instance['liveEvidence']
     for weapon in json.loads(SUPPORT.read_text())['weapons']:
         for blocked in weapon['blockedFields']:
             if blocked['field'] in wanted:
@@ -68,6 +76,13 @@ def build():
             'writable': {'traits': traits_ok, 'armorPenetration': pen_ok},
             'reason': {'traits': None if traits_ok else traits_reason, 'armorPenetration': None if pen_ok else
                 pen_reason or row.get('armorPenetrationReason')}})
+        live = {key: {'family': LIVE[(kind, name, field)]['family'], 'tests': LIVE[(kind, name, field)]['tests'],
+                'values': LIVE[(kind, name, field)].get('values')}
+            for key, field in (('traits', presentation_fields.TRAITS_FIELD),
+                ('armorPenetration', presentation_fields.PENETRATION_FIELD)) if (kind, name, field) in LIVE}
+        if live:
+            # A live-proven pair needs no acknowledgement (for its values, when the promotion is value-scoped).
+            weapons[-1]['liveProven'] = live
     labels = research['penetrationLabels']
     summary = {'weapons': len(weapons), 'traitsWritable': sum(1 for w in weapons if (w['writable'] or {}).get('traits')
         if isinstance(w['writable'], dict)), 'armorPenetrationWritable': sum(1 for w in weapons
@@ -79,6 +94,8 @@ def build():
         'nativeModel': research['model'],
         'fields': {'traits': {'constant': 'hd2.fields.presentation.traits', 'type': 'ordered list of trait semantic IDs '
                 '(at most five, shown in order)', 'acknowledgement': 'allow_unverified_effect'},
+            'liveProven': 'A weapon whose liveProven names a field needs no acknowledgement for it (only for the listed '
+                'values when values is set): the exact pairs a user test proved (sdk/LiveEvidenceCatalog.json).',
             'armorPenetration': {'constant': 'hd2.fields.presentation.armor_penetration',
                 'choices': ['none'] + PENETRATION_ORDER, 'acknowledgement': 'allow_unverified_effect',
                 'rule': 'replaces the single penetration label in place, adds one in the first empty slot, or removes '

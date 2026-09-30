@@ -118,6 +118,10 @@ def outputs():
         if constant in fields[domain] and fields[domain][constant]!=field_id:
             constant='throwable_'+constant
         fields[domain][constant]=field_id
+    # Weapon-function mode presentation of attack outputs (domains/output_writes.lua).
+    for definition in json.loads((ROOT/'schemas/output_fields.json').read_text())['fields']:
+        field_id=definition['id'];domain,name=field_id.split('.',1)
+        fields.setdefault(domain,{})[ident(name)]=field_id
     # A weapon's default ammunition projectile (domains/attack_outputs.lua `ammunition`).
     if attack_outputs['ammunitionSources']:
         fields.setdefault('ammunition',{})['projectile']='ammunition.projectile'
@@ -254,21 +258,28 @@ def outputs():
         'function HD2Weapon:attachment_options(category) end','---@param category string',
         '---@param identity string','---@return HD2AttachmentOption',
         'function HD2Weapon:attachment(category, identity) end',
-        '','---@class HD2FireRateMode','---@field index integer 1 = the default rate','---@field rpm number',
-        '---@field slot "x"|"y"|"z" The native slot (the selector visits y, z, x)','---@field default boolean',
-        '---@field enabled boolean','',
+        '','---@class HD2FireRateMode','---@field slot "x"|"y"|"z" The native slot',
+        '---@field index integer Storage position (x = 1, y = 2, z = 3): the position in hd2.fields.fire_rate.modes',
+        '---@field rpm number 0 = no mode in this slot','---@field enabled boolean rpm is not 0',
+        '---@field default boolean The Y slot: the rate a weapon is built on (weapon.fire_rate)',
+        '---@field menu integer? Position in the weapon menu (filled slots, X, Y, Z order)',
+        '---@field presses integer? Selector presses from the default (0 = the default)','',
         '---@class HD2FireRateModes','---@field weapon string',
         '---@field state "selectable"|"addable"|"single_rate"|"blocked"|"absent"',
-        '---@field modes HD2FireRateMode[] In selector order; the first is the default (weapon.fire_rate)',
-        '---@field maxModes integer At most 3: the native storage','---@field expect number[] The expect of hd2.fields.fire_rate.modes',
-        '---@field selector table {bound, input, bindableInputs}',
+        '---@field modes HD2FireRateMode[] The filled slots in weapon-menu order (X, Y, Z)',
+        '---@field slots HD2FireRateMode[] All three slots in storage order','---@field default HD2FireRateMode The Y slot',
+        '---@field selectorOrder string[] The filled slots in the order the selector visits them (from y)',
+        '---@field maxModes integer At most 3: the native storage',
+        '---@field expect number[] {X, Y, Z}: the expect of hd2.fields.fire_rate.modes',
+        '---@field selector table {bound, input, bindableInputs, order}',
         '---@field binding table? {field, expect, value}: the weapon_function change a selector-less weapon adds with 2+ rates',
         '---@field writable boolean','---@field reason string?','',
-        '---The native rates of fire (three slots) as the rate-of-fire selector visits them. Write them with',
+        '---The native rates of fire: three slots {X, Y, Z}, the order the weapon menu lists them. A weapon is built on',
+        '---Y and each selector press moves Y -> Z -> X, skipping empty (0) slots. Write them with',
         '---hd2.fields.fire_rate.modes (allow_unverified_effect=true); weapons without a selector add one with the',
         '---returned binding in the same transaction.','---@return HD2FireRateModes',
-        'function HD2Weapon:fire_rate_modes() end','---@param index integer','---@return HD2FireRateMode',
-        'function HD2Weapon:fire_rate_mode(index) end',
+        'function HD2Weapon:fire_rate_modes() end','---@param mode integer|"x"|"y"|"z" Menu position or slot',
+        '---@return HD2FireRateMode','function HD2Weapon:fire_rate_mode(mode) end',
         '','---@class HD2Feed','---@field resource "player_weapon"|"support_weapon"','---@field path "feed"',
         '---@field weapon string','---@field feed "primary"|"alternate"|"programmable"','local HD2Feed = {}',
         '---mechanism (projectile, rounds_magazine, programmable_ammo), selector, capacity field, writability.',
@@ -323,7 +334,8 @@ def outputs():
         '---@return HD2Backpack','function HD2SupportWeapon:backpack() end',
         '---@return table','function HD2SupportWeapon:fire_modes() end',
         '---@return HD2FireRateModes','function HD2SupportWeapon:fire_rate_modes() end',
-        '---@param index integer','---@return HD2FireRateMode','function HD2SupportWeapon:fire_rate_mode(index) end',
+        '---@param mode integer|"x"|"y"|"z" Menu position or slot','---@return HD2FireRateMode',
+        'function HD2SupportWeapon:fire_rate_mode(mode) end',
         '---@return HD2Feed[]','function HD2SupportWeapon:feeds() end',
         '---@param id "primary"|"alternate"|"programmable"|integer','---@return HD2Feed',
         'function HD2SupportWeapon:feed(id) end','---@return table','function HD2SupportWeapon:presentation() end']
@@ -551,8 +563,13 @@ def outputs():
         '---Family (projectile, beam, arc, spray, melee), owner, structural class and whether a projectile host can',
         '---reference it. Use as the value of hd2.fields.attack.projectile on weapon:attack(role); cross-class',
         '---outputs need allow_unverified_reference=true and allow_unverified_effect=true; beam and arc outputs',
-        '---fail closed (INCOMPATIBLE_OUTPUT_FAMILY).',
-        '---@return table','function HD2AttackOutput:describe() end']
+        '---fail closed (INCOMPATIBLE_OUTPUT_FAMILY). A projectile output is also the target of its weapon-function',
+        '---mode label and icon (hd2.fields.presentation.mode_label / mode_icon; describe().presentation).',
+        '---@return table','function HD2AttackOutput:describe() end',
+        '---The native mode labels hd2.fields.presentation.mode_label accepts.',
+        '---@return string[]','function HD2AttackOutput:mode_labels() end',
+        '---The native weapon-function icons hd2.fields.presentation.mode_icon accepts ("default" is the skull).',
+        '---@return string[]','function HD2AttackOutput:mode_icons() end']
     # Event actions: the named explosions (Hellbombs) and the statuses hd2.status offers (domains/event_natives.lua).
     event_actions = json.loads((ROOT/'research/event-actions-F5FEE03DCFDB.json').read_text(encoding='utf-8'))
     alias('HD2ExplosionName',[item['name'] for item in event_actions['namedExplosions']]
