@@ -296,7 +296,8 @@ return 'ok'
         self.assertEqual((gas['label'], gas['iconValue'], gas['icon']), ('1aae94ed', 'ammo_slug', '4ff6a560a22f81b7'))
         ems = result['modePresentation']['output/v1/projectile/a-m-23-ems-mortar-sentry']
         self.assertEqual((ems['label'], ems['icon']), ('d937037c', '0e42b97f9068922d'))
-        self.assertEqual(result['presentation']['outputs'], 67)
+        # 66 weapon outputs, the EMS shell and the Speargun spare twin.
+        self.assertEqual(result['presentation']['outputs'], 68)
 
 
 if __name__ == '__main__':

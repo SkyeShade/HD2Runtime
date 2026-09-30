@@ -27,6 +27,13 @@ FIELDS=ROOT/'schemas/player_weapon_fields.json'
 LEGACY=ROOT/'research/support-weapon-runtime-F5FEE03DCFDB.json'
 COVERAGE=ROOT/'research/support-weapon-coverage-F5FEE03DCFDB.json'
 BACKPACK_AMMO=ROOT/'research/backpack-ammo-F5FEE03DCFDB.json'
+# Projectile hosts (research/projectile-builder): support weapons whose every shot is their own ProjectileWeapon +0,
+# with the class and component identity research/attack-outputs saw.
+BUILDER=ROOT/'research/projectile-builder-F5FEE03DCFDB.json'
+ATTACK_OUTPUTS=ROOT/'research/attack-outputs-F5FEE03DCFDB.json'
+HOST_UNVERIFIED=('Replaces the projectile this support weapon fires (its ProjectileWeapon +0, copied into the weapon '
+    'when it is built). The same structural rule as player component hosts: no customization delta patches a projectile '
+    'member and no other selector exists. Not yet shown in game for a support weapon.')
 UNVERIFIED_REASONS={
     'reload.duration':'Schema-labelled native reload duration; scraped reload times agree only approximately '
         '(they include animation), and the gameplay effect of an edit is not yet confirmed.',
@@ -81,6 +88,8 @@ def canonical_public_field_id(qualified):
         return parts[0]+'.'+'.'.join(parts[2:])
     if parts[0]=='explosion'and len(parts)>2:
         return 'explosion.'+'.'.join(parts[2:])
+    if parts[0]=='attack'and len(parts)==3 and parts[2]=='projectile':
+        return 'attack.projectile'
     return qualified
 
 
@@ -198,6 +207,8 @@ def build(catalog_path=CATALOG):
             return definitions[parts[0]+'.'+'.'.join(parts[2:])]
         if parts[0]=='explosion'and len(parts)>2:
             return definitions['explosion.'+'.'.join(parts[2:])]
+        if parts[0]=='attack'and len(parts)==3 and parts[2]=='projectile':
+            return definitions['attack.projectile']
         return definitions[field_id]
 
     def component(candidate,name,offset,storage):
@@ -255,6 +266,43 @@ def build(catalog_path=CATALOG):
             slot_field.update(status_fields.type_extra(spec,status_fields.projectile_live_evidence()
                 if prefix=='damage' and linkage=='projectile_damage' else None))
             fields.append(slot_field)
+
+    builder_hosts={item['weapon']:item for item in json.loads(BUILDER.read_text())['supportHosts']}
+    output_weapons={item['weapon']:item for item in json.loads(ATTACK_OUTPUTS.read_text())['weapons']
+        if item['kind']=='support_weapon'}
+
+    def projectile_host_field(weapon,candidate,target):
+        # The projectile reference of a support component host: written only where research proved the member is the
+        # projectile every shot fires, on the component record research saw, for the attack that fires it.
+        host=builder_hosts.get(weapon['name']);research=output_weapons.get(weapon['name'])
+        if not host or not host['componentHost']or not research:return None
+        owner=candidate['ownership'].get('ProjectileWeaponComponentData')
+        identity=research['componentIdentity']
+        assert research['resource']==candidate['resourceHash']and owner and all(
+            owner[key]==identity[key]for key in('recordIndex','indexRow','ownerCount','uniqueOwner')),\
+            weapon['name']+': projectile host identity diverged from research/attack-outputs'
+        fired=research['reference']['value']
+        attack=next((item for item in candidate['attacks']if item['kind']=='Projectile'
+            and(item.get('projectileSettings')or{}).get('recordType')==fired),None)
+        assert attack,weapon['name']+': no reviewed attack fires the host projectile'
+        role=attack['role']
+        field=make_field('attack.'+role+'.projectile',{'weapon':weapon['name'],'attack':role,'projectileType':fired},
+            component(candidate,'ProjectileWeaponComponentData',0,'u32'),dict(target,path='attack',attack=role),
+            acknowledgement='allow_unverified_effect')
+        field['acknowledgementReason']=HOST_UNVERIFIED
+        field['projectileSource']={'status':host['status'],'mechanism':host['mechanism'],
+            'member':'ProjectileWeapon +0','reason':host['reason']}
+        field['referenceKind']='projectile';field['compatibilityClass']=research['compatibilityClass']
+        field['referenceRole']=role;field['referenceSettings']=research['output']['settings']
+        field['residency']={'classification':'PACKAGE_AUTO_LOADED'if research['packageAutoLoad']else'PACKAGE_REQUIRED',
+            'package':research['package'],'preloadSupported':True,'liveTested':False,'observedWithoutLoader':None,
+            'evidence':"The support weapon's own loadout package; Runtime loads it before a swap from a weapon in "
+                'another package.','reason':None}
+        field['effect']={'activeSource':'ACTIVE_AT_INSTANTIATION','appliesWhen':'weapon_build','instantiationOnly':True,
+            'activeSourceProven':True,'gameplayEffectProven':False,'unverifiedEffect':True,
+            'reason':('A component member the game copies into the weapon when it builds it: a weapon called in after '
+                'the write fires the new projectile; one already built keeps its copy until it is rebuilt.')}
+        return field
 
     reticle_rows,reticle_research=reticle_fields.load()
     movement_rows=weapon_movement_fields.load()
@@ -462,6 +510,8 @@ def build(catalog_path=CATALOG):
                 fields+=equipment_fields.recoil_multiplier_fields(equipment_make,
                     lambda offset,storage:component(candidate,'WeaponDataComponentData',offset,storage))
 
+            host_field=projectile_host_field(weapon,candidate,target)
+            if host_field:fields.append(host_field)
             for attack in candidate['attacks']:
                 role=attack['role'];kind=attack['kind']
                 if role not in resolved_roles:continue
@@ -860,6 +910,14 @@ def build(catalog_path=CATALOG):
                     'overriddenWhenEquipped')}
             if field_id in weapon_mode_fields.INPUT_FIELDS.values():
                 instance['weaponFunction']={key:field.get(key) for key in ('input','allowedValues')}
+            if field['type']=='projectile_reference':
+                # The host's projectile reference: semantic handles only (weapon:attack(role):projectile() as the
+                # expect; a donor from hd2.attack_output(name) or another weapon's attack projectile).
+                instance['projectileReference']={key:field.get(key)for key in('referenceKind','compatibilityClass',
+                    'referenceRole','projectileSource','residency','effect')}
+                instance['value']['baseline']=instance['value']['expected']={'weapon':weapon_name,'attack':role}
+                instance['value']['reference']['expectedSemanticReference']=(
+                    'hd2.support_weapon(name):attack("'+role+'"):projectile()')
             if field_id==weapon_mode_fields.FUNCTION_PROJECTILE_FIELD:
                 instance['functionAmmo']={key:field.get(key) for key in ('functionAmmoState','selectorBound',
                     'selectorInput','bindableInputs','compatibilityClass')}

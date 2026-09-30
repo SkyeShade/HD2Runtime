@@ -907,6 +907,282 @@
    "directWritable": true,
    "previouslyWritable": true,
    "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "AC-8 Autocannon",
+   "kind": "support_weapon",
+   "attack": "primary",
+   "status": "BLOCKED",
+   "mechanism": null,
+   "member": null,
+   "reason": "Another native selector owns the fired projectile: WeaponRounds ammo types (primary / alternate magazine projectile).",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "write": null
+  },
+  {
+   "weapon": "APW-1 Anti-Materiel Rifle",
+   "kind": "support_weapon",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": false,
+   "write": "hd2.support_weapon(name):attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "EAT-17 Expendable Anti-Tank",
+   "kind": "support_weapon",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": false,
+   "write": "hd2.support_weapon(name):attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "EAT-411 Leveller",
+   "kind": "support_weapon",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": false,
+   "write": "hd2.support_weapon(name):attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "EAT-700 Expendable Napalm",
+   "kind": "support_weapon",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": false,
+   "write": "hd2.support_weapon(name):attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "FAF-14 Spear",
+   "kind": "support_weapon",
+   "attack": "primary",
+   "status": "BLOCKED",
+   "mechanism": null,
+   "member": null,
+   "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile).",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "write": null
+  },
+  {
+   "weapon": "GL-21 Grenade Launcher",
+   "kind": "support_weapon",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": false,
+   "write": "hd2.support_weapon(name):attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "GL-28 Belt-Fed Grenade Launcher",
+   "kind": "support_weapon",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "Every shot is ProjectileWeapon +0, but the weapon is not magazine-fed: the host rule the live controls established covers magazine-fed weapons only (no rounds feed, charge or heat), so its projectile reference stays read-only.",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "write": null
+  },
+  {
+   "weapon": "GL-52 De-Escalator",
+   "kind": "support_weapon",
+   "attack": "primary",
+   "status": "BLOCKED",
+   "mechanism": null,
+   "member": null,
+   "reason": "Another native selector owns the fired projectile: WeaponRounds ammo types (primary / alternate magazine projectile).",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "write": null
+  },
+  {
+   "weapon": "GR-8 Recoilless Rifle",
+   "kind": "support_weapon",
+   "attack": "primary",
+   "status": "AMBIGUOUS",
+   "mechanism": null,
+   "member": null,
+   "reason": "A weapon function (programmable ammo) switches to WeaponFunctionProjectileType; the base member is only the default function's projectile.",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "write": null
+  },
+  {
+   "weapon": "LAS-99 Quasar Cannon",
+   "kind": "support_weapon",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "Every shot is ProjectileWeapon +0, but the weapon is not magazine-fed: the host rule the live controls established covers magazine-fed weapons only (no rounds feed, charge or heat), so its projectile reference stays read-only.",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "write": null
+  },
+  {
+   "weapon": "M-1000 Maxigun",
+   "kind": "support_weapon",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "Every shot is ProjectileWeapon +0, but the weapon is not magazine-fed: the host rule the live controls established covers magazine-fed weapons only (no rounds feed, charge or heat), so its projectile reference stays read-only.",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "write": null
+  },
+  {
+   "weapon": "M-105 Stalwart",
+   "kind": "support_weapon",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": false,
+   "write": "hd2.support_weapon(name):attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "MG-206 Heavy Machine Gun",
+   "kind": "support_weapon",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": false,
+   "write": "hd2.support_weapon(name):attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "MG-43 Machine Gun",
+   "kind": "support_weapon",
+   "attack": "primary",
+   "status": "BLOCKED",
+   "mechanism": null,
+   "member": null,
+   "reason": "Another native selector owns the fired projectile: magazine pattern (WeaponMagazine Projectiles[32] / FirstProjectile).",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "write": null
+  },
+  {
+   "weapon": "MGX-42 Bullet Storm",
+   "kind": "support_weapon",
+   "attack": "primary",
+   "status": "BLOCKED",
+   "mechanism": null,
+   "member": null,
+   "reason": "Another native selector owns the fired projectile: magazine pattern (WeaponMagazine Projectiles[32] / FirstProjectile).",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "write": null
+  },
+  {
+   "weapon": "MLS-4X Commando",
+   "kind": "support_weapon",
+   "attack": "primary",
+   "status": "BLOCKED",
+   "mechanism": null,
+   "member": null,
+   "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile).",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "write": null
+  },
+  {
+   "weapon": "PLAS-45 Epoch",
+   "kind": "support_weapon",
+   "attack": "primary",
+   "status": "BLOCKED",
+   "mechanism": null,
+   "member": null,
+   "reason": "Another native selector owns the fired projectile: WeaponCharge (level-selected projectile).",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "write": null
+  },
+  {
+   "weapon": "RL-77 Airburst Rocket Launcher",
+   "kind": "support_weapon",
+   "attack": "primary",
+   "status": "AMBIGUOUS",
+   "mechanism": null,
+   "member": null,
+   "reason": "A weapon function (programmable ammo) switches to WeaponFunctionProjectileType; the base member is only the default function's projectile.",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "write": null
+  },
+  {
+   "weapon": "RS-422 Railgun",
+   "kind": "support_weapon",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "Every shot is ProjectileWeapon +0, but the weapon is not magazine-fed: the host rule the live controls established covers magazine-fed weapons only (no rounds feed, charge or heat), so its projectile reference stays read-only.",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "write": null
+  },
+  {
+   "weapon": "S-11 Speargun",
+   "kind": "support_weapon",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": false,
+   "write": "hd2.support_weapon(name):attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "SG-88 Break-Action Shotgun",
+   "kind": "support_weapon",
+   "attack": "primary",
+   "status": "BLOCKED",
+   "mechanism": null,
+   "member": null,
+   "reason": "Another native selector owns the fired projectile: WeaponRounds ammo types (primary / alternate magazine projectile).",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "write": null
+  },
+  {
+   "weapon": "StA-X3 W.A.S.P. Launcher",
+   "kind": "support_weapon",
+   "attack": "primary",
+   "status": "BLOCKED",
+   "mechanism": null,
+   "member": null,
+   "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile).",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "write": null
   }
  ],
  "ammunitionSources": [
@@ -1045,6 +1321,7 @@
  ],
  "hostModel": {
   "componentHosts": [
+   "APW-1 Anti-Materiel Rifle",
    "AR-11 Arbitrator",
    "AR-23A Liberator Carbine",
    "AR-23C Liberator Concussive",
@@ -1054,10 +1331,16 @@
    "AR/GL-21 One-Two",
    "BR-14 Adjudicator",
    "CB-9 Exploding Crossbow",
+   "EAT-17 Expendable Anti-Tank",
+   "EAT-411 Leveller",
+   "EAT-700 Expendable Napalm",
+   "GL-21 Grenade Launcher",
    "GP-20 Ultimatum",
+   "M-105 Stalwart",
    "M6C/SOCOM Pistol",
    "M7S SMG",
    "MA5C Assault Rifle",
+   "MG-206 Heavy Machine Gun",
    "P-113 Verdict",
    "P/40-K Bolt Pistol",
    "PLAS-1 Scorcher",
@@ -1066,6 +1349,7 @@
    "R-63CS Diligence Counter Sniper",
    "R-72 Censor",
    "R/40-K Hot-Shot Marksman Rifle",
+   "S-11 Speargun",
    "SG-225SP Breaker Spray&Pray",
    "SG-8P Punisher Plasma",
    "SMG-203 Gallant",
@@ -1083,7 +1367,7 @@
    "R-63 Diligence",
    "SG-225 Breaker"
   ],
-  "rule": "A projectile output needs a player attack whose fired projectile Runtime can write. component: the attack's own ProjectileWeapon +0 is its active source (ACTIVE_DIRECT). ammunition: the default ammunition delta is (INDIRECT), written through weapon:ammunition(). Both keep the live controls' structure: magazine-fed, empty magazine pattern, no WeaponRounds, WeaponCharge or WeaponHeat. A projectile pointer existing is not enough. Support weapons have no guarded projectile reference target.",
+  "rule": "A projectile output needs a player attack whose fired projectile Runtime can write. component: the attack's own ProjectileWeapon +0 is its active source (ACTIVE_DIRECT). ammunition: the default ammunition delta is (INDIRECT), written through weapon:ammunition(). Both keep the live controls' structure: magazine-fed, empty magazine pattern, no WeaponRounds, WeaponCharge or WeaponHeat. A projectile pointer existing is not enough. Support weapons follow the same rule (component hosts: hd2.support_weapon(name):attack(role) with hd2.fields.attack.projectile); the donor pool is one catalog (hd2.attack_output(name)) whatever loadout slot the donor comes from.",
   "hostLiveProof": {
    "AR-23 Liberator": [
     {
@@ -1118,6 +1402,15 @@
      "test": "LiberatorAttackOutputTest (GL-52 Arc (impact))",
      "result": "PASS",
      "family": "weapon_ammunition_projectile_reference",
+     "hostReadsReference": true,
+     "superseded": false
+    }
+   ],
+   "S-11 Speargun": [
+    {
+     "test": "SpeargunGasStunTest (GL-52 De-Escalator)",
+     "result": "PARTIAL",
+     "family": "weapon_programmable_ammo_added",
      "hostReadsReference": true,
      "superseded": false
     }
@@ -1192,10 +1485,94 @@
    ]
   }
  },
+ "projectileBuilder": {
+  "api": {
+   "builder": "weapon:programmable_ammo()",
+   "operations": "builder:operations(spec)",
+   "presentation": "builder:presentation(spec)",
+   "bases": "builder:bases()",
+   "slotHandles": "hd2.attack_output(name):direct_damage() / :impact_explosion() / :expiry_explosion()",
+   "acknowledgements": "passed on from the spec exactly as given; the builder never adds one"
+  },
+  "classes": {
+   "REFERENCE_COMPOSITION": {
+    "supported": true,
+    "interim": false,
+    "reason": "Re-point a row's direct damage, impact or expiry explosion. The written row changes for every consumer (allow_shared when more than one entity fires it); the donor rows are only referenced, never changed."
+   },
+   "DERIVED_MUTATION": {
+    "supported": "spare_twins_only",
+    "interim": true,
+    "reason": "A spare twin is an independent native row with its twin's exact flight, visuals and audio, so it can be composed without touching any consumer. It borrows a vanilla ProjectileType slot that no data references: an interim, not the end state (a game update may start using the row, and the unreferenced rows cap how many exist). Copying a different base into a spare row is not offered: whether the game resolves a row's visual resources when it fires (rather than once at load), and whether code references spare types directly, are not proven; other players without the mod would see the spare row's vanilla contents."
+   },
+   "CUSTOM_ROW": {
+    "supported": false,
+    "interim": false,
+    "reason": "Not available in this pass. The settings table has exactly one row per vanilla ProjectileType and the game reads it by type with no bound (projectile settings by type, pinned in domains/event_natives.lua); the type is also what the network replicates. Runtime has no ids of its own yet: the target is a Runtime-owned registry above the vanilla range backed by Runtime-owned rows, which needs the native table extended or relocated and is not researched here."
+   }
+  },
+  "rows": {
+   "total": 350,
+   "referenced": 288,
+   "unreferenced": 62
+  },
+  "spareTwins": [
+   {
+    "output": "output/v1/projectile/s-11-speargun-spare-twin",
+    "twinOf": "output/v1/projectile/s-11-speargun",
+    "borrowedVanillaRow": true,
+    "interim": true,
+    "differingReferences": [
+     "expiryExplosion"
+    ]
+   }
+  ],
+  "slots": [
+   {
+    "field": "hd2.fields.projectile.direct_damage",
+    "key": "directDamage",
+    "kind": "damage_slot",
+    "none": "refused (a projectile always has a direct hit)",
+    "meaning": "the damage, penetration and statuses of a direct hit"
+   },
+   {
+    "field": "hd2.fields.projectile.impact_explosion",
+    "key": "impactExplosion",
+    "kind": "explosion_slot",
+    "none": "removes it",
+    "meaning": "the explosion released when the projectile hits"
+   },
+   {
+    "field": "hd2.fields.projectile.expiry_explosion",
+    "key": "expiryExplosion",
+    "kind": "explosion_slot",
+    "none": "removes it",
+    "meaning": "the explosion released when the projectile expires (a stuck spear, a timed shell)"
+   }
+  ],
+  "guards": {
+   "donorProof": "the donor row is only read; its reference is re-proven live (CONFLICT if it moved)",
+   "slotTypes": "a damage slot takes only a direct_damage() handle, an explosion slot an explosion handle",
+   "spareTwin": "before every write the spare twin is re-proven byte-identical to its twin outside its references and presentation (SPARE_TWIN_CHANGED); it is offered only on the build its row was proven unreferenced on (SPARE_TWIN_UNVERIFIED_BUILD elsewhere)",
+   "package": "the donor package is a declared asset dependency; no catalogued package is refused (ASSET_UNAVAILABLE)",
+   "recursion": "an explosion chain (explosion, its submunition projectile, that projectile's explosions, read live) that reaches the written row is refused (RECURSIVE_COMPOSITION)",
+   "sharing": "a slot or presentation write changes every entity that fires the row; more than one needs allow_shared (slots[].sharedConsumerCount, consumerReferences)",
+   "effect": "every slot write needs allow_unverified_effect: no composed slot is gameplay-tested yet"
+  },
+  "unprovenMembers": [
+   "two f32 values after the impact explosion (a delay or a chance is not proven)",
+   "a ProjectileStatusEffect enum (what it does is not proven)"
+  ],
+  "examples": [
+   "SpeargunProjectileBuilderTest",
+   "HMGSpecialAmmoTest",
+   "UnifiedProjectileSwapTest"
+  ]
+ },
  "summary": {
-  "outputs": 106,
+  "outputs": 107,
   "byFamily": {
-   "projectile": 90,
+   "projectile": 91,
    "beam": 3,
    "arc": 2,
    "spray": 4,
@@ -1204,11 +1581,11 @@
   "stratagemDonors": [
    "A/M-23 EMS Mortar Sentry"
   ],
-  "selectable": 67,
-  "projectileHosts": 35,
-  "componentHosts": 29,
+  "selectable": 68,
+  "projectileHosts": 43,
+  "componentHosts": 37,
   "ammunitionHosts": 6,
-  "directWritableAttackFields": 37
+  "directWritableAttackFields": 45
  },
  "outputs": [
   {
@@ -1261,6 +1638,53 @@
      "allow_unverified_effect"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "assault_rifle_risk"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "assault_rifle_risk"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "assault_rifle_risk"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -1312,6 +1736,53 @@
     "acknowledgements": [
      "allow_unverified_effect"
     ]
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "assault_rifle_large_calibre_01"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "assault_rifle_large_calibre_01"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "assault_rifle_large_calibre_01"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
    },
    "liveProof": null
   },
@@ -1366,6 +1837,65 @@
      "allow_shared"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": true,
+     "sharedConsumerCount": 7,
+     "consumerReferences": 8,
+     "namedSharedConsumers": [
+      "assault_rifle",
+      "assault_rifle_helghast",
+      "assault_rifle_patriot",
+      "lmg_stalwart"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 7,
+     "consumerReferences": 8,
+     "namedSharedConsumers": [
+      "assault_rifle",
+      "assault_rifle_helghast",
+      "assault_rifle_patriot",
+      "lmg_stalwart"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 7,
+     "consumerReferences": 8,
+     "namedSharedConsumers": [
+      "assault_rifle",
+      "assault_rifle_helghast",
+      "assault_rifle_patriot",
+      "lmg_stalwart"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -1418,6 +1948,65 @@
      "allow_unverified_effect",
      "allow_shared"
     ]
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": true,
+     "sharedConsumerCount": 7,
+     "consumerReferences": 8,
+     "namedSharedConsumers": [
+      "assault_rifle",
+      "assault_rifle_helghast",
+      "assault_rifle_patriot",
+      "lmg_stalwart"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 7,
+     "consumerReferences": 8,
+     "namedSharedConsumers": [
+      "assault_rifle",
+      "assault_rifle_helghast",
+      "assault_rifle_patriot",
+      "lmg_stalwart"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 7,
+     "consumerReferences": 8,
+     "namedSharedConsumers": [
+      "assault_rifle",
+      "assault_rifle_helghast",
+      "assault_rifle_patriot",
+      "lmg_stalwart"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
    },
    "liveProof": null
   },
@@ -1472,6 +2061,56 @@
      "allow_shared"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": true,
+     "sharedConsumerCount": 3,
+     "consumerReferences": 4,
+     "namedSharedConsumers": [
+      "assault_rifle_exp"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 3,
+     "consumerReferences": 4,
+     "namedSharedConsumers": [
+      "assault_rifle_exp"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 3,
+     "consumerReferences": 4,
+     "namedSharedConsumers": [
+      "assault_rifle_exp"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -1525,6 +2164,59 @@
      "allow_shared"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": true,
+     "sharedConsumerCount": 5,
+     "consumerReferences": 6,
+     "namedSharedConsumers": [
+      "assault_rifle_ap",
+      "drone_mg_weapon"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 5,
+     "consumerReferences": 6,
+     "namedSharedConsumers": [
+      "assault_rifle_ap",
+      "drone_mg_weapon"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 5,
+     "consumerReferences": 6,
+     "namedSharedConsumers": [
+      "assault_rifle_ap",
+      "drone_mg_weapon"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -1576,6 +2268,53 @@
     "acknowledgements": [
      "allow_unverified_effect"
     ]
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "assault_rifle_karbin"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "assault_rifle_karbin"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "assault_rifle_karbin"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
    },
    "liveProof": null
   },
@@ -1629,6 +2368,53 @@
      "allow_unverified_effect"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "assault_rifle_whisper"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "assault_rifle_whisper"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "assault_rifle_whisper"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -1680,6 +2466,53 @@
     "acknowledgements": [
      "allow_unverified_effect"
     ]
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "assault_rifle_rico"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "assault_rifle_rico"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "assault_rifle_rico"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
    },
    "liveProof": null
   },
@@ -1733,6 +2566,53 @@
      "allow_unverified_effect"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "assault_rifle_grenadier"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "assault_rifle_grenadier"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "assault_rifle_grenadier"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -1763,6 +2643,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": null,
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -1814,6 +2695,53 @@
     "acknowledgements": [
      "allow_unverified_effect"
     ]
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "battle_rifle"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "battle_rifle"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "battle_rifle"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
    },
    "liveProof": null
   },
@@ -1867,6 +2795,53 @@
      "allow_unverified_effect"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "crossbow_greyfax"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": true,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "crossbow_greyfax"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "crossbow_greyfax"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -1896,6 +2871,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": null,
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -1925,6 +2901,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": null,
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -1954,6 +2931,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": null,
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -1983,6 +2961,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": null,
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -2019,6 +2998,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -2050,6 +3030,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": null,
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -2101,6 +3082,53 @@
     "acknowledgements": [
      "allow_unverified_effect"
     ]
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "pump_grenade_launcher"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": true,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "pump_grenade_launcher"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": true,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "pump_grenade_launcher"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
    },
    "liveProof": null
   },
@@ -2154,6 +3182,53 @@
      "allow_unverified_effect"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "pistol_cricket"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": true,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "pistol_cricket"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "pistol_cricket"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -2205,6 +3280,53 @@
     "acknowledgements": [
      "allow_unverified_effect"
     ]
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "jet_rifle"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "jet_rifle"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "jet_rifle"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
    },
    "liveProof": null
   },
@@ -2258,6 +3380,53 @@
      "allow_unverified_effect"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "laser_smg_blaster"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "laser_smg_blaster"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "laser_smg_blaster"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -2289,6 +3458,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": null,
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -2342,6 +3512,59 @@
      "allow_shared"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": true,
+     "sharedConsumerCount": 2,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "laser_rifle_long",
+      "laser_rifle_long_hotshot"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 2,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "laser_rifle_long",
+      "laser_rifle_long_hotshot"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 2,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "laser_rifle_long",
+      "laser_rifle_long_hotshot"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -2378,6 +3601,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -2429,6 +3653,53 @@
     "acknowledgements": [
      "allow_unverified_effect"
     ]
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "energy_revolver"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "energy_revolver"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "energy_revolver"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
    },
    "liveProof": {
     "donorOutput": "live_proven",
@@ -2490,6 +3761,53 @@
      "allow_unverified_effect"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "pistol_nacho"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "pistol_nacho"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "pistol_nacho"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -2541,6 +3859,53 @@
     "acknowledgements": [
      "allow_unverified_effect"
     ]
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "smg_nacho"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "smg_nacho"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "smg_nacho"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
    },
    "liveProof": null
   },
@@ -2594,6 +3959,53 @@
      "allow_unverified_effect"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "shotgun_nacho"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "shotgun_nacho"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "shotgun_nacho"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -2645,6 +4057,53 @@
     "acknowledgements": [
      "allow_unverified_effect"
     ]
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "assault_rifle_nacho"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "assault_rifle_nacho"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "assault_rifle_nacho"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
    },
    "liveProof": null
   },
@@ -2699,6 +4158,59 @@
      "allow_shared"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": true,
+     "sharedConsumerCount": 2,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "smg_defender",
+      "smg_helghast"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 2,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "smg_defender",
+      "smg_helghast"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 2,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "smg_defender",
+      "smg_helghast"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -2752,6 +4264,56 @@
      "allow_shared"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": false,
+     "allowNone": false,
+     "shared": true,
+     "sharedConsumerCount": 2,
+     "consumerReferences": 4,
+     "namedSharedConsumers": [
+      "stim_pistol"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 2,
+     "consumerReferences": 4,
+     "namedSharedConsumers": [
+      "stim_pistol"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 2,
+     "consumerReferences": 4,
+     "namedSharedConsumers": [
+      "stim_pistol"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -2804,6 +4366,53 @@
      "allow_unverified_effect"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "magnum_pistol"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "magnum_pistol"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "magnum_pistol"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -2840,6 +4449,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -2876,6 +4486,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -2912,6 +4523,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -2948,6 +4560,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -3000,6 +4613,53 @@
      "allow_unverified_effect"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "caustic_dart_gun"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "caustic_dart_gun"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "caustic_dart_gun"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -3036,6 +4696,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -3088,6 +4749,53 @@
      "allow_unverified_effect"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "pistol_broomhandle"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "pistol_broomhandle"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "pistol_broomhandle"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -3124,6 +4832,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -3175,6 +4884,53 @@
     "acknowledgements": [
      "allow_unverified_effect"
     ]
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "pistol_shark"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": true,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "pistol_shark"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "pistol_shark"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
    },
    "liveProof": null
   },
@@ -3229,6 +4985,56 @@
      "allow_shared"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": true,
+     "sharedConsumerCount": 3,
+     "consumerReferences": 3,
+     "namedSharedConsumers": [
+      "plasma_rifle"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": true,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 3,
+     "consumerReferences": 3,
+     "namedSharedConsumers": [
+      "plasma_rifle"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 3,
+     "consumerReferences": 3,
+     "namedSharedConsumers": [
+      "plasma_rifle"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -3266,6 +5072,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -3303,6 +5110,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -3356,6 +5164,53 @@
      "allow_unverified_effect"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "sniper_rifle_helghast"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": true,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "sniper_rifle_helghast"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "sniper_rifle_helghast"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -3408,6 +5263,53 @@
      "allow_unverified_effect"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "battle_rifle_ceremonial"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "battle_rifle_ceremonial"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "battle_rifle_ceremonial"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -3444,6 +5346,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -3495,6 +5398,53 @@
     "acknowledgements": [
      "allow_unverified_effect"
     ]
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "jet_rifle_phoenix"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": true,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "jet_rifle_phoenix"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": true,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "jet_rifle_phoenix"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
    },
    "liveProof": null
   },
@@ -3548,6 +5498,53 @@
      "allow_unverified_effect"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "marksman_rifle_drake"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "marksman_rifle_drake"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "marksman_rifle_drake"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -3599,6 +5596,53 @@
     "acknowledgements": [
      "allow_unverified_effect"
     ]
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "lever_action_rifle_01"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "lever_action_rifle_01"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "lever_action_rifle_01"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
    },
    "liveProof": null
   },
@@ -3652,6 +5696,53 @@
      "allow_unverified_effect"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "marksman_rifle_vigilance"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "marksman_rifle_vigilance"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "marksman_rifle_vigilance"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -3703,6 +5794,53 @@
     "acknowledgements": [
      "allow_unverified_effect"
     ]
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "marksman_rifle_vigilance_burst"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "marksman_rifle_vigilance_burst"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "marksman_rifle_vigilance_burst"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
    },
    "liveProof": null
   },
@@ -3756,6 +5894,53 @@
      "allow_unverified_effect"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "marksman_rifle_justice"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "marksman_rifle_justice"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "marksman_rifle_justice"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -3808,6 +5993,53 @@
      "allow_unverified_effect"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "marksman_rifle_shark"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "marksman_rifle_shark"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "marksman_rifle_shark"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -3844,6 +6076,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -3880,6 +6113,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -3931,6 +6165,53 @@
     "acknowledgements": [
      "allow_unverified_effect"
     ]
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "assault_shotgun"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "assault_shotgun"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "assault_shotgun"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
    },
    "liveProof": null
   },
@@ -3984,6 +6265,53 @@
      "allow_unverified_effect"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "assault_shotgun_incendiary"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "assault_shotgun_incendiary"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "assault_shotgun_incendiary"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -4036,6 +6364,53 @@
      "allow_unverified_effect"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "assault_shotgun_bir"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "assault_shotgun_bir"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "assault_shotgun_bir"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -4072,6 +6447,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -4108,6 +6484,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -4160,6 +6537,53 @@
      "allow_unverified_effect"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "pump_shotgun_plasma"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": true,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "pump_shotgun_plasma"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "pump_shotgun_plasma"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -4196,6 +6620,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -4247,6 +6672,53 @@
     "acknowledgements": [
      "allow_unverified_effect"
     ]
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "pump_shotgun_trench"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "pump_shotgun_trench"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "pump_shotgun_trench"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
    },
    "liveProof": null
   },
@@ -4300,6 +6772,53 @@
      "allow_unverified_effect"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "smg_solvent"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "smg_solvent"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "smg_solvent"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -4351,6 +6870,53 @@
     "acknowledgements": [
      "allow_unverified_effect"
     ]
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "smg_rhino"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "smg_rhino"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "smg_rhino"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
    },
    "liveProof": null
   },
@@ -4404,6 +6970,53 @@
      "allow_unverified_effect"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "personal_defense_weapon_pepper"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "personal_defense_weapon_pepper"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "personal_defense_weapon_pepper"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -4455,6 +7068,53 @@
     "acknowledgements": [
      "allow_unverified_effect"
     ]
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "smg_flamer"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "smg_flamer"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "smg_flamer"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
    },
    "liveProof": null
   },
@@ -4509,6 +7169,59 @@
      "allow_shared"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": true,
+     "sharedConsumerCount": 2,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "smg_defender",
+      "smg_helghast"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 2,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "smg_defender",
+      "smg_helghast"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 2,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "smg_defender",
+      "smg_helghast"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -4562,6 +7275,65 @@
      "allow_shared"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": true,
+     "sharedConsumerCount": 7,
+     "consumerReferences": 8,
+     "namedSharedConsumers": [
+      "assault_rifle",
+      "assault_rifle_helghast",
+      "assault_rifle_patriot",
+      "lmg_stalwart"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 7,
+     "consumerReferences": 8,
+     "namedSharedConsumers": [
+      "assault_rifle",
+      "assault_rifle_helghast",
+      "assault_rifle_patriot",
+      "lmg_stalwart"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 7,
+     "consumerReferences": 8,
+     "namedSharedConsumers": [
+      "assault_rifle",
+      "assault_rifle_helghast",
+      "assault_rifle_patriot",
+      "lmg_stalwart"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -4614,6 +7386,53 @@
      "allow_unverified_effect"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "volley_gun"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "volley_gun"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "volley_gun"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -4646,6 +7465,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": null,
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -4699,6 +7519,59 @@
      "allow_shared"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": true,
+     "sharedConsumerCount": 4,
+     "consumerReferences": 5,
+     "namedSharedConsumers": [
+      "automatic_cannon",
+      "eagle_gunpods"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": true,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 4,
+     "consumerReferences": 5,
+     "namedSharedConsumers": [
+      "automatic_cannon",
+      "eagle_gunpods"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 4,
+     "consumerReferences": 5,
+     "namedSharedConsumers": [
+      "automatic_cannon",
+      "eagle_gunpods"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -4751,6 +7624,53 @@
      "allow_unverified_effect"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "sniper_rifle"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "sniper_rifle"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "sniper_rifle"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -4781,6 +7701,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": null,
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -4811,6 +7732,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": null,
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -4840,6 +7762,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": null,
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -4871,6 +7794,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": null,
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -4900,6 +7824,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": null,
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -4952,6 +7877,56 @@
      "allow_shared"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": true,
+     "sharedConsumerCount": 2,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "lat_oneshot"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": true,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 2,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "lat_oneshot"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 2,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "lat_oneshot"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -5002,6 +7977,53 @@
     "acknowledgements": [
      "allow_unverified_effect"
     ]
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "expendable_massive_rocket_launcher"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": true,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "expendable_massive_rocket_launcher"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "expendable_massive_rocket_launcher"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
    },
    "liveProof": null
   },
@@ -5054,6 +8076,53 @@
      "allow_unverified_effect"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "expendable_napalm_launcher"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": true,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "expendable_napalm_launcher"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "expendable_napalm_launcher"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": {
     "donorOutput": "live_proven",
     "tests": [
@@ -5098,6 +8167,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -5129,6 +8199,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": null,
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -5182,6 +8253,56 @@
      "allow_shared"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": true,
+     "sharedConsumerCount": 3,
+     "consumerReferences": 3,
+     "namedSharedConsumers": [
+      "grenade_launcher"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": true,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 3,
+     "consumerReferences": 3,
+     "namedSharedConsumers": [
+      "grenade_launcher"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": true,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 3,
+     "consumerReferences": 3,
+     "namedSharedConsumers": [
+      "grenade_launcher"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -5232,6 +8353,53 @@
     "acknowledgements": [
      "allow_unverified_effect"
     ]
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "belt_fed_grenade_launcher"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": true,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "belt_fed_grenade_launcher"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "belt_fed_grenade_launcher"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
    },
    "liveProof": null
   },
@@ -5284,6 +8452,53 @@
     "acknowledgements": [
      "allow_unverified_effect"
     ]
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "grenade_launcher_tactical"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": true,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "grenade_launcher_tactical"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "grenade_launcher_tactical"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
    },
    "liveProof": {
     "donorOutput": "live_proven",
@@ -5347,6 +8562,53 @@
      "allow_unverified_effect"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "recoilless_rifle"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": true,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "recoilless_rifle"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "recoilless_rifle"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -5378,6 +8640,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": null,
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -5428,6 +8691,53 @@
     "acknowledgements": [
      "allow_unverified_effect"
     ]
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "laser_pulse_cannon"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": true,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "laser_pulse_cannon"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "laser_pulse_cannon"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
    },
    "liveProof": null
   },
@@ -5480,6 +8790,53 @@
     "acknowledgements": [
      "allow_unverified_effect"
     ]
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "minigun"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "minigun"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "minigun"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
    },
    "liveProof": null
   },
@@ -5534,6 +8891,65 @@
      "allow_shared"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": true,
+     "sharedConsumerCount": 7,
+     "consumerReferences": 8,
+     "namedSharedConsumers": [
+      "assault_rifle",
+      "assault_rifle_helghast",
+      "assault_rifle_patriot",
+      "lmg_stalwart"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 7,
+     "consumerReferences": 8,
+     "namedSharedConsumers": [
+      "assault_rifle",
+      "assault_rifle_helghast",
+      "assault_rifle_patriot",
+      "lmg_stalwart"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 7,
+     "consumerReferences": 8,
+     "namedSharedConsumers": [
+      "assault_rifle",
+      "assault_rifle_helghast",
+      "assault_rifle_patriot",
+      "lmg_stalwart"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -5587,6 +9003,59 @@
      "allow_shared"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": true,
+     "sharedConsumerCount": 6,
+     "consumerReferences": 15,
+     "namedSharedConsumers": [
+      "frv_mg",
+      "heavy_mg"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 6,
+     "consumerReferences": 15,
+     "namedSharedConsumers": [
+      "frv_mg",
+      "heavy_mg"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 6,
+     "consumerReferences": 15,
+     "namedSharedConsumers": [
+      "frv_mg",
+      "heavy_mg"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -5623,6 +9092,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -5658,6 +9128,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -5693,6 +9164,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -5730,6 +9202,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -5781,6 +9254,53 @@
     "acknowledgements": [
      "allow_unverified_effect"
     ]
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "air_burst_rocket_launcher"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": true,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "air_burst_rocket_launcher"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": true,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "air_burst_rocket_launcher"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
    },
    "liveProof": null
   },
@@ -5836,6 +9356,56 @@
      "allow_shared"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": true,
+     "sharedConsumerCount": 2,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "railgun"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 2,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "railgun"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": true,
+     "sharedConsumerCount": 2,
+     "consumerReferences": 2,
+     "namedSharedConsumers": [
+      "railgun"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect",
+      "allow_shared"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -5888,6 +9458,53 @@
      "allow_unverified_effect"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "harpoon_gun"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "harpoon_gun"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": true,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "harpoon_gun"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   },
   {
@@ -5924,6 +9541,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -5960,6 +9578,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": "not_established",
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -5991,6 +9610,7 @@
    "acknowledgements": null,
    "ownerFiresThisProjectile": null,
    "presentation": null,
+   "slots": null,
    "liveProof": null
   },
   {
@@ -6053,6 +9673,157 @@
      "allow_unverified_effect"
     ]
    },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "mortar_turret_staticfield"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": true,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "mortar_turret_staticfield"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": true,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 1,
+     "consumerReferences": 1,
+     "namedSharedConsumers": [
+      "mortar_turret_staticfield"
+     ],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/s-11-speargun-spare-twin",
+   "family": "projectile",
+   "kind": "spare_twin",
+   "owner": {
+    "kind": "spare_row",
+    "name": "S-11 Speargun (spare twin)"
+   },
+   "emitter": "ProjectileSettings",
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "referenceScope": [
+    "function_ammo.projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "spareTwin": {
+    "twinOf": "output/v1/projectile/s-11-speargun",
+    "twinName": "S-11 Speargun",
+    "independent": true,
+    "consumers": 0,
+    "borrowedVanillaRow": true,
+    "interim": true,
+    "buildScoped": true,
+    "differingReferences": [
+     "expiryExplosion"
+    ],
+    "reason": "No typed data member references this row; it is byte-identical to its twin except its references, so it flies, looks and sounds like the twin and its twin's package covers it. Composing it (slots, presentation) changes no other weapon. It borrows a vanilla ProjectileType slot: an interim until Runtime owns ids of its own, and re-proven before every write."
+   },
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": true,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [],
+   "package": {
+    "name": "harpoon_gun",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "spare_row",
+   "presentation": {
+    "label": "none",
+    "icon": "default",
+    "writable": true,
+    "shared": false,
+    "acknowledgements": [
+     "allow_unverified_effect"
+    ]
+   },
+   "slots": {
+    "directDamage": {
+     "field": "hd2.fields.projectile.direct_damage",
+     "current": true,
+     "allowNone": false,
+     "shared": false,
+     "sharedConsumerCount": 0,
+     "consumerReferences": 0,
+     "namedSharedConsumers": [],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):direct_damage()"
+    },
+    "impactExplosion": {
+     "field": "hd2.fields.projectile.impact_explosion",
+     "current": false,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 0,
+     "consumerReferences": 0,
+     "namedSharedConsumers": [],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):impact_explosion()"
+    },
+    "expiryExplosion": {
+     "field": "hd2.fields.projectile.expiry_explosion",
+     "current": true,
+     "allowNone": true,
+     "shared": false,
+     "sharedConsumerCount": 0,
+     "consumerReferences": 0,
+     "namedSharedConsumers": [],
+     "acknowledgements": [
+      "allow_unverified_effect"
+     ],
+     "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
+    }
+   },
    "liveProof": null
   }
  ],
@@ -6063,7 +9834,7 @@
   },
   "target": "hd2.attack_output(name): the output whose projectile a weapon-function mode fires",
   "model": "A weapon-function mode (ProgrammableAmmo, magazine or guidance selection) shows the fired projectile's own short label and HUD icon. They are members of its ProjectileSettings row, a shared definition: every weapon firing that projectile shows the same label and icon.",
-  "fallback": "A projectile no native menu shows has no label (none) and the default (skull) icon.",
+  "fallback": "A projectile no native menu shows has no label (none) and the default icon, a placeholder the weapon-function menu shows as an empty spot.",
   "labels": [
    {
     "value": "none",
@@ -6397,7 +10168,7 @@
   ],
   "autoIcon": "mode_icon = \"auto\" writes the label exact native icon (iconSource exact_native) or, when no native icon exists for it, the generic fallback; it uses the mode_label written in the same operation, else the current one. An explicit native icon always overrides it.",
   "genericFallbackIcon": "ammo_slug",
-  "defaultIcon": "default: the skull every unlabelled projectile holds; it is another texture set and shows as no usable weapon-function icon (the GAS live test, 2026-09-30).",
+  "defaultIcon": "default: the placeholder every unlabelled projectile holds (a skull resource from another texture set). The weapon-function menu shows it as an empty spot (live tests, 2026-09-30), so it is only for restoring vanilla; \"auto\" never writes it.",
   "acknowledgement": "allow_unverified_effect (plus allow_shared when other weapons fire the projectile)",
   "customText": "not supported: labels are native localization strings only",
   "customIcons": "not supported in this release: icons are the native weapon-function icons only"

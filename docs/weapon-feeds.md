@@ -57,7 +57,9 @@ entity with +584 if that is non-zero). That is how the AC-8, GR-8 and RL-77 swit
 
 A weapon can **gain** this second feed when it has the member (every ProjectileWeapon does), a free weapon-function
 input, an ordinary projectile trigger (the fire-mode research's constraints), no rounds feed, no spawned entity and no
-magazine pattern: 39 player and 10 support weapons (`programmableAddable` in the catalog).
+magazine pattern: 39 player and 10 support weapons (`programmableAddable` in the catalog). The same feed and field
+serve player and support weapons; `weapon:programmable_ammo()` is the builder over it
+([projectile builder](#projectile-builder)).
 
 ```lua
 -- S-11 Speargun: Gas (normal) and a selectable EMS stun field (examples/projects/SpeargunGasStunTest).
@@ -107,6 +109,29 @@ The first live run (2026-09-30) used the GL-52 De-Escalator. The selector worked
 arc grenade does heavy electric damage rather than stunning an area. The stun mode now fires the EMS Mortar shell,
 which leaves an EMS field where it lands.
 
+### Projectile builder
+
+`weapon:programmable_ammo()` builds a programmable mode from native pieces; see
+[the projectile builder](attack-outputs.md#projectile-builder-slots-spare-twins-and-composition-classes) for slots,
+spare twins and the composition classes.
+
+- **Speargun, keeping the spear** (examples/projects/SpeargunProjectileBuilderTest).
+  - Mode A (GAS) is the Speargun's own spear. Its gas comes from two places: the direct hit applies gas and gas
+    confusion, and the expiry explosion leaves the gas cloud. Impact explosion: none.
+  - Mode B (STUN) fires the Speargun's spare twin, the same spear on an independent native row, with its expiry
+    explosion pointed at the EMS Mortar shell's (a StaticField). The flight, model and direct hit stay the spear's;
+    the field forms where the spear expires instead of the gas cloud. No other weapon changes. The EMS turret's
+    package is loaded first.
+- **HMG special ammunition** (examples/projects/HMGSpecialAmmoTest).
+  - The HMG's right input selects its rate of fire; the ProgrammableAmmo function goes on the free left input.
+  - Its own bullet row is shared (15 typed references across 6 entities) with no spare twin, so a status on the HMG's
+    own bullet would need `allow_shared` and change all of them.
+  - The mode fires a same-class donor bullet that already applies the status on hit: R-4 Hyena (fire), AR-32
+    Pacifier (Stun Medium) or P-35 Re-Educator (gas), chosen in Mod Options. The flight and damage are the donor's.
+  - No catalogued ballistic bullet applies acid on hit.
+- **Labels.** Mode labels default to `mode_icon = "auto"`: the exact native icon, else the plain round
+  (`ammo_slug`), never the empty placeholder.
+
 ## Stun-field donors
 
 `scripts/research_stun_field_donors.py` (`research/stun-field-donors-F5FEE03DCFDB.json`) answers what a stun field
@@ -141,7 +166,7 @@ A weapon-function mode shows the **fired projectile's own** label and icon
 string ID) and +16 the HUD icon resource. Every native selectable mode reads as these members: AC-8 APHET / FLAK,
 GR-8 HEAT / HE, the Halt's FLECHETTES / STUN magazines, guidance on / off. Their icons are under
 `content/ui/mission/hud/weapon_function/`. A projectile no menu shows holds a placeholder label with no string and the
-shared skull icon: the Speargun spear and the EMS Mortar shell are two of them. The menu reader itself is not traced.
+shared placeholder icon (an empty spot in the menu): the Speargun spear and the EMS Mortar shell are two of them. The menu reader itself is not traced.
 
 ```lua
 -- Mode A (the spear): GAS with the generic ammunition icon ("auto"). Mode B (the EMS shell): STUN with the stun icon.
@@ -158,7 +183,7 @@ hd2.ensure({transaction={id='stun-label',target=hd2.attack_output('A/M-23 EMS Mo
 | Field | Values |
 | --- | --- |
 | `hd2.fields.presentation.mode_label` | a native mode label: `none`, the labels native modes use (`flak`, `he`, `heat`, `stun`, `flechettes`, `sabot`, ...) and five native strings no mode uses yet (`gas`, `arc`, `incendiary`, `smoke`, `standard`); `output:mode_labels()` lists them |
-| `hd2.fields.presentation.mode_icon` | a native weapon-function icon (`ammo_stun`, `ammo_flak`, `ammo_he`, ...), `auto` (see below) or `default` (the skull); `output:mode_icons()` |
+| `hd2.fields.presentation.mode_icon` | a native weapon-function icon (`ammo_stun`, `ammo_flak`, `ammo_he`, ...), `auto` (see below) or `default` (restores the unlabelled placeholder: an empty spot in the menu); `output:mode_icons()` |
 
 - **Target.** The attack output whose projectile the mode fires (`hd2.attack_output(name)`): a weapon's own output
   for its normal mode, the donor's for a programmable mode. Every selectable projectile output has both fields.
@@ -167,8 +192,9 @@ hd2.ensure({transaction={id='stun-label',target=hd2.attack_output('A/M-23 EMS Mo
   EMS shell are each fired by one entity.
 - **Icon fallback.** A mode should never show a blank icon just because its effect has no native one. The native
   set is 14 weapon-function icons in one texture set (`research/weapon-presentation-F5FEE03DCFDB.json`, `modes`:
-  `iconTextures`, `iconVisuals`). The unlabelled default is the skull, which belongs to another texture set and shows
-  as no usable icon (the GAS live test). `mode_icon = "auto"` resolves deterministically:
+  `iconTextures`, `iconVisuals`). The unlabelled default is a placeholder (a skull resource from another texture
+  set) that the menu shows as an empty spot (the GAS and default-icon live tests, 2026-09-30). `mode_icon = "auto"`
+  resolves deterministically:
   1. the **exact** native icon: the one icon every native mode with that label shows (`stun` -> `ammo_stun`,
      `flak` -> `ammo_flak`, `he` -> `ammo_he`, `sabot` -> `ammo_flechettes`, `cluster_bomb` -> `ammo_frag`, ...);
   2. otherwise the **generic fallback** `ammo_slug`: a single plain cartridge, the only native icon that implies

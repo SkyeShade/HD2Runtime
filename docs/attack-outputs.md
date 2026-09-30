@@ -2,8 +2,10 @@
 
 Can an ordinary magazine-fed ballistic weapon keep its own fire control and ammunition while its attack produces a
 different kind of output? This page records what the native data allows, and the Runtime API built on it.
-- Research: `scripts/research_attack_outputs.py` → `research/attack-outputs-F5FEE03DCFDB.json`, and
-  `scripts/research_active_projectile_sources.py` → `research/active-projectile-sources-F5FEE03DCFDB.json`.
+- Research: `scripts/research_attack_outputs.py` → `research/attack-outputs-F5FEE03DCFDB.json`,
+  `scripts/research_active_projectile_sources.py` → `research/active-projectile-sources-F5FEE03DCFDB.json`, and
+  `scripts/research_projectile_builder.py` → `research/projectile-builder-F5FEE03DCFDB.json` (the typed reference
+  graph, spare rows, twins, slots, support hosts).
 - Catalog: `sdk/AttackOutputCapabilities.json` (contract `hd2runtime.attack_outputs.v1`, schema 2).
 
 ## Native model
@@ -180,11 +182,29 @@ a projectile pointer exists.
   direct swap.
 - **Cross-class projectile outputs** need `allow_unverified_reference` and `allow_unverified_effect`, on either
   mechanism.
-- **Host eligibility.** 35 player weapons: 29 `component` hosts and 6 `ammunition` hosts, each keeping the live
-  controls' structure (magazine-fed, empty magazine pattern, no WeaponRounds, WeaponCharge or WeaponHeat). Others
-  fail with `CROSS_CLASS_HOST_REJECTED`, and the magazine structure is re-proven live before every write. The earlier
-  58 counted any magazine-fed projectile pointer, including the Liberator and eight support weapons that have no
-  guarded projectile reference target.
+- **Host eligibility.** 43 hosts: 37 `component` hosts (29 player weapons and 8 support weapons) and 6 `ammunition`
+  hosts. Each keeps the live controls' structure: magazine-fed, empty magazine pattern, no WeaponRounds,
+  WeaponCharge or WeaponHeat. Others fail with `CROSS_CLASS_HOST_REJECTED`, and the magazine structure is re-proven
+  live before every write.
+- **Support hosts.** A support weapon is a host by the same rule, not a separate system. The eight are the APW-1,
+  EAT-17, EAT-411, EAT-700, GL-21, M-105 Stalwart, MG-206 HMG and S-11 Speargun: magazine-fed, no customization delta
+  patches a projectile member, and no other selector exists, so every shot is their own ProjectileWeapon +0.
+  - **API.** `hd2.support_weapon(name):projectile_source()` and `:attack(role):projectile_source()` return the same
+    shape as for a player weapon. The field is `hd2.fields.attack.projectile` on `support:attack(role)`, with
+    `support:attack(role):projectile()` as the expect and the restore value.
+  - **Acknowledgement.** The support host path is not yet live-proven, so every support host swap needs
+    `allow_unverified_effect`, and cross-class donors also `allow_unverified_reference`.
+  - **Read-only support weapons** carry their reason in `projectileSources` and `projectile_source()`:
+    - another selector owns the projectile (WeaponRounds ammo types, a magazine pattern, a spawned entity, charge
+      levels);
+    - a weapon function switches it (GR-8, RL-77);
+    - the weapon is not magazine-fed (GL-28, Quasar, Maxigun, Railgun: ACTIVE_DIRECT, but outside the rule the live
+      controls established).
+- **One donor pool.** Any catalogued projectile output (`hd2.attack_output(name)`), whatever loadout slot or
+  stratagem owns it. On a support host, and for a support donor on a player host, another weapon's attack projectile
+  handle resolves to that weapon's catalogued output and is checked like it (`UNKNOWN_DONOR` if it has none).
+  Liberator → EAT-700 / Talon (ammunition), support ← primary, primary ← support and support ← support all go through
+  the one path; examples/projects/UnifiedProjectileSwapTest exercises each.
 - **Beam, arc, spray and melee outputs** fail closed with `INCOMPATIBLE_OUTPUT_FAMILY` and the structural reason.
 - **Donor outputs** are selectable only when their owner is established to fire that row (66 of 89 weapon
   outputs). Owners that fire a spawned entity, charge or heat levels or a magazine pattern do not offer their +0 row
@@ -205,14 +225,136 @@ a projectile pointer exists.
 - **Mod Options.** A choice option's `values` may be reference handles, so one dropdown can select between complete
   output compositions. Each choice is a single reference value, so switching choices is one atomic write.
 
+## Projectile builder: slots, spare twins and composition classes
+
+A weapon's alternate mode is a native ProgrammableAmmo function projectile ([weapon feeds](weapon-feeds.md)). The
+projectile builder (`weapon:programmable_ammo()`) makes one from existing native pieces. The research
+(`research/projectile-builder-F5FEE03DCFDB.json`) settles which kind of composition the game supports:
+
+| Class | Meaning | 0.28 status |
+| --- | --- | --- |
+| REFERENCE_COMPOSITION | re-point references between existing rows (the host's projectile, a row's direct hit or explosions) | supported |
+| DERIVED_MUTATION | a distinct native row whose references are edited, so no other entity changes | spare twins only, as an **interim**: they borrow unreferenced vanilla rows |
+| CUSTOM_ROW | a new ProjectileType row | not available in this pass: one row per vanilla ProjectileType, read by type with no bound, and the type is what the network replicates; Runtime has no ids of its own yet |
+
+The target for custom projectiles is a Runtime-owned registry, not borrowed rows. Custom projectiles would get their
+own ids above the vanilla range, backed by Runtime-owned rows. That needs the native table extended or relocated and
+is not researched in this pass. Until then, a spare twin is the only distinct identity, and it is labelled
+`interim` and `borrowedVanillaRow` in the catalog.
+
+**Rows and references.** ProjectileSettings has 350 rows (272 bytes each, indexed by ProjectileType). A typed
+reference graph covers component members (through nested structs), entity deltas and explosion submunitions
+(ExplosionInfo +84). 62 rows are referenced by no typed member. They are not free: a new identity needs one, and
+nothing proves what an unreferenced row would draw.
+
+**Spare twins.** An unreferenced row that is byte-identical to a catalogued output's row except its key,
+presentation and references has the same flight, model, trail and sound as its twin, and its twin's package covers
+it. It is an independent identity: composing it changes no other entity. It is still a **borrowed vanilla row**, and
+the unreferenced rows cap how many can exist. A game update may start referencing it. Build migration does not
+re-derive "unreferenced", so a spare twin is offered only on the build it was researched on; any other build refuses
+it (`SPARE_TWIN_UNVERIFIED_BUILD`) until `scripts/research_projectile_builder.py` is re-run there. This build has
+one:
+- `S-11 Speargun (spare twin)`: row 300, the Speargun spear with an explosive expiry (400 damage, radius 2.5 / 7 / 8)
+  instead of the gas cloud.
+
+Copying a different base into a spare row is not offered. Two things are unproven: whether the game resolves a row's
+visual resources when it fires (rather than once at load), and whether code references spare types directly. A
+composed spare twin is a local edit: another player without the mod sees the row's vanilla contents.
+
+A spare twin is catalogued for `function_ammo.projectile` only (`referenceScope`). Before every write, of the twin
+itself or of a mode firing it, its live row is re-proven byte-identical to its twin's outside the excluded members
+(`SPARE_TWIN_CHANGED` otherwise). No catalogued HMG, primary or other support row has a spare twin, so a status on
+those bullets is a shared edit (below).
+
+**Slots.** Every selectable projectile output has three references a builder composes, each a value handle on the
+donor output:
+
+| Field | Member | Value handle | `none` |
+| --- | --- | --- | --- |
+| `hd2.fields.projectile.direct_damage` | +60 DamageInfoType: damage, penetration and statuses of a direct hit | `hd2.attack_output(donor):direct_damage()` | refused (a projectile always has a direct hit) |
+| `hd2.fields.projectile.impact_explosion` | +144 ExplosionType: released when the projectile hits | `:impact_explosion()` | removes it |
+| `hd2.fields.projectile.expiry_explosion` | +156 ExplosionType: released when the projectile expires | `:expiry_explosion()` | removes it |
+
+- **Target and expect.** The target is the output whose row is written (`hd2.attack_output(name)`). The expect is
+  that output's own slot handle, or `"none"` where it has none.
+- **Donor proof.** The donor row is only read, and its reference is re-proven live (`CONFLICT` if it moved). A damage
+  slot takes only a damage handle, an explosion slot only an explosion handle.
+- **Packages.** The donor's package is a declared asset dependency; a donor without a catalogued package is refused
+  (`ASSET_UNAVAILABLE`).
+- **Sharing.** A slot write changes every entity that fires the row, its owner weapon included: `describe().slots`
+  and the catalog `slots` publish the entities and typed references. A row with more than one needs `allow_shared`;
+  the HMG bullet is 15 references across 6 entities. Every slot write needs `allow_unverified_effect`.
+- **Recursion.** A composition must never make a projectile spawn itself. Before an explosion slot is written, the
+  chain explosion → submunition projectile → its impact and expiry explosions is followed in the live tables, and a
+  chain that reaches the written row is refused (`RECURSIVE_COMPOSITION`). Native submunition chains (the EAT-700
+  shrapnel) pass.
+- **Unproven members.** +148 and +152 (f32 values after the impact explosion) and +228 (a ProjectileStatusEffect
+  enum) stay unknown and read-only. Nothing proves a delay, a chance or what the status member does.
+
+**Where each effect lives** (the live rows, `validation/projectile-builder-snapshot.json` `audit`). A lingering field
+is a status volume the explosion leaves; a submunition is a projectile the explosion releases:
+
+| Output | Direct hit | Impact explosion | Expiry explosion |
+| --- | --- | --- | --- |
+| S-11 Speargun | damage plus gas and gas confusion | none | gas cloud (Gas lingering field, 10 s, radius 5) |
+| A/M-23 EMS Mortar Sentry shell | damage | explosion | EMS field (StaticField lingering field, Stun Medium, 7 s) |
+| GL-21 Grenade Launcher | damage | explosion | explosion |
+| EAT-700 Expendable Napalm | damage plus burning | explosion releasing shrapnel (fire) | none |
+| R-36 Eruptor | damage | explosion releasing shrapnel | explosion releasing shrapnel |
+| CB-9 Exploding Crossbow | damage | explosion | none |
+| AR-2 Coyote | damage plus fire | none | none |
+
+No row here has a delayed explosion member: a delay would be a timed expiry (a lifetime), and +148 / +152 stay
+unproven.
+
+**The builder API.** `builder:operations(spec)` returns ensure requests, one per backing object, because the
+binding and the function projectile belong to the weapon while the slots and labels belong to projectile rows:
+- `<id>-mode`: the binding and the function projectile;
+- `<id>-slots`: the base's slots;
+- `<id>-label` (`-n` per choice value): the base's mode label and icon;
+- `<id>-primary-label`: the weapon's own mode.
+
+`builder:presentation(spec)` returns only the label requests, for a separate option. `builder:bases()` lists every
+output a mode can fire.
+
+```lua
+local spear=hd2.support_weapon('S-11 Speargun')
+local builder=spear:programmable_ammo()
+for _,request in ipairs(builder:operations({id='spear-stun',base=hd2.attack_output('S-11 Speargun (spare twin)'),
+        expiry_explosion=hd2.attack_output('A/M-23 EMS Mortar Sentry'):expiry_explosion(),label='stun',
+        allow_unverified_effect=true,allow_unverified_reference=true}))do
+    hd2.ensure(request)
+end
+```
+
+**The spec.**
+- **`base`** is an output or a Mod Options choice of outputs. Slot overrides need a fixed base.
+- **`label`** is a native mode label; with a choice base it is a map from output name to label.
+- **`icon`** defaults to `auto`: the label's exact native icon, else the plain round. The empty placeholder is only
+  written when restoring vanilla.
+- **`enabled`** is a toggle, applied to every request.
+- **`allow_unverified_effect`, `allow_unverified_reference` and `allow_shared`** are passed on to the requests
+  exactly as the spec gives them. The builder never adds an acknowledgement, so a missing one is refused by the
+  write, with its reason.
+
+Examples: SpeargunProjectileBuilderTest (the spear with an EMS field), HMGSpecialAmmoTest (status bullets from donor
+rows), UnifiedProjectileSwapTest.
+
 ## Catalog and proof model
 
-`sdk/AttackOutputCapabilities.json` lists 106 outputs: 90 projectile (one of them the stratagem-owned EMS Mortar
-shell), 3 beam, 2 arc, 4 spray and 7 melee. Each selectable projectile output publishes its `presentation` (mode
-label, icon, whether the row is shared) and the catalog's `modePresentation` lists the offered labels and icons. 66
-projectile outputs are selectable. It also publishes `projectileSources` (every player attack's status, mechanism
-and reason), `ammunitionSources`, `activeSourceModel` (statuses, proof basis, counts, live controls) and `hostModel`
-(component and ammunition hosts, with per-host live evidence). Each output records:
+`sdk/AttackOutputCapabilities.json` lists 107 outputs:
+- 91 projectile, among them the stratagem-owned EMS Mortar shell and the Speargun spare twin;
+- 3 beam, 2 arc, 4 spray and 7 melee.
+
+68 projectile outputs are selectable. Each selectable projectile output publishes its `presentation` (mode label,
+icon, whether the row is shared) and its `slots`. The catalog also publishes:
+- `modePresentation`: the offered labels and icons;
+- `projectileSources`: every player attack's and support weapon's status, mechanism and reason;
+- `ammunitionSources`;
+- `activeSourceModel`: statuses, proof basis, counts and live controls;
+- `hostModel`: component and ammunition hosts, with per-host live evidence.
+
+Each output records:
 - family and kind: ballistic, explosive, explosive submunition, arc on impact, continuous beam, pulsed multi-beam,
   arc, spray or melee;
 - owner, emitter component, structural class, and whether the owner is established to fire it;
@@ -262,12 +404,37 @@ mechanics only; every scenario first asserts the host's active source:
 - family, acknowledgement (shared, reference, effect), `NO_AMMUNITION_SOURCE`, wrong expect handle,
   `AMMUNITION_SOURCE_CHANGED`, stale output source and host magazine pattern rejections.
 
+`scripts/validate_projectile_builder_snapshot.py` (`validation/projectile-builder-snapshot.json`) runs the
+projectile builder and the unified pool on the retained snapshot.
+- **Speargun builder.** Every request applies and rolls back in reverse. The spare twin changes only in its
+  presentation and expiry explosion (342 → the EMS explosion), and the Speargun's own row only in its presentation.
+- **Unified pool.** Support ← primary handle, support ← primary output (cross class), support ← support handle,
+  primary ← support handle and the Liberator ammunition each land in the host's own fired member and roll back.
+  Restoring a support host's own projectile is its baseline.
+- **Refusals.**
+  - stale donor and stale slot donor;
+  - spare twin changed;
+  - dormant source;
+  - the four blocked families;
+  - a shared row without `allow_shared`;
+  - removing the direct hit;
+  - a cross slot type;
+  - a slot the donor lacks;
+  - the wrong expect;
+  - a missing package;
+  - a spare twin on another game build;
+  - direct and two-step recursion;
+  - an unknown output, an unknown slot or an extra handle identity;
+  - a non-host support weapon.
+
 The packaged runtime (`scripts/validate_packaged_runtime.py`) runs, from the built ZIP:
 - `example-asset-test-reprimand-talon-projectile`: the Reprimand direct source;
 - `projectile-active-sources`: the Reprimand is ACTIVE_DIRECT, the Liberator's dormant member is refused, and the
   same donor is written to its ammunition source after its package loads;
 - `example-liberator-attack-output-test`: the Mod Options choice through Talon, EAT-700, GL-52 and back to Vanilla,
-  checking each package request and the exact ammunition baseline.
+  checking each package request and the exact ammunition baseline;
+- `example-speargun-projectile-builder-test`, `example-hmgspecial-ammo-test` (including switching the choice) and
+  `example-unified-projectile-swap-test`: each option's exact writes and package requests.
 
 ## Cross-family composition (research)
 

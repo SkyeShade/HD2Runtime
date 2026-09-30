@@ -526,6 +526,11 @@ W.stat(10,K.dealt_damage,905,2,ERUPTOR);tick()
 assert(count('damage 905 by R-36 Eruptor -> no heal (not the knife)')==1 and #W.runtime.heals==1)
 W.stat(10,K.dealt_damage,40);tick()
 assert(count('damage 40 without a source -> no heal')==1 and #W.runtime.heals==1)
+-- The knife and another weapon in the same check: one heal for the knife, none for the other weapon.
+W.set(100,{health=80})
+W.stat(10,K.dealt_damage,450,1,KNIFE);W.stat(10,K.dealt_damage,1005,2,ERUPTOR);tick()
+assert(count('knife damage 150 -> heal +25 requested')==1 and #W.runtime.heals==2)
+assert(count('damage 100 by R-36 Eruptor -> no heal (not the knife)')==1)
 return 'ok'
 ''')
 

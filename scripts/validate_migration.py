@@ -41,7 +41,8 @@ SNAPSHOT_VALIDATORS = ('validate_entity_authoring_snapshot', 'validate_stratagem
     'validate_reticle_authoring_snapshot', 'validate_vehicle_weapon_authoring_snapshot',
     'validate_support_weapon_authoring_snapshot', 'validate_weapon_authoring_snapshot',
     'validate_throwable_authoring_snapshot', 'validate_reference_recreations', 'validate_coverage_pass_snapshot',
-    'validate_attack_output_snapshot', 'validate_weapon_modes_snapshot', 'validate_equipment_coverage_snapshot')
+    'validate_attack_output_snapshot', 'validate_weapon_modes_snapshot', 'validate_equipment_coverage_snapshot',
+    'validate_projectile_builder_snapshot')
 # Longest first, so the slowest validators set the phase's critical path instead of starting last.
 SLOWEST_FIRST = ('validate_vehicle_weapon_authoring_snapshot', 'validate_throwable_authoring_snapshot',
     'validate_attachment_authoring_snapshot', 'validate_pod_payload_snapshot', 'validate_weapon_authoring_snapshot',
