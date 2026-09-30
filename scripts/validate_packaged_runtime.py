@@ -662,31 +662,21 @@ return function(frame,watches,counts,lines)
   for _=1,20 do frame()end
  end
  local function applied(w)return w.status=='waiting'and w.result and w.result.status=='APPLIED'end
- -- Default GAS icon: the game placeholder, i.e. the vanilla icon (no icon write): selector 1 + projectile 1,
- -- GAS label 1, STUN label 1 + stun icon 2 halves.
  step('EMS default: turret package loaded, selector and projectile written, both labels applied',applied(mode)
-  and applied(gas)and applied(stun)and counts.writes==6 and(counts.package_requests or 0)==1,
+  and applied(gas)and applied(stun)and counts.writes==8 and(counts.package_requests or 0)==1,
   ('status=%s/%s/%s writes=%d packages=%d error=%s'):format(tostring(mode.status),tostring(gas.status),
    tostring(stun.status),counts.writes,counts.package_requests or 0,tostring(mode.error or gas.error or stun.error)))
  local writes,runs=counts.writes,gas.runs
- menu.apply('speargun_gas_stun.gas_icon',2);settle(gas,runs)
- step('GAS icon Plain round: the auto icon (two halves), nothing else',applied(gas)and counts.writes==writes+2
-  and applied(stun)and applied(mode),('writes=%d'):format(counts.writes-writes))
- writes,runs=counts.writes,gas.runs
- menu.apply('speargun_gas_stun.gas_icon',1);settle(gas,runs)
- step('GAS icon Game placeholder: the default icon back (two halves)',applied(gas)and counts.writes==writes+2,
-  ('writes=%d'):format(counts.writes-writes))
- writes,runs=counts.writes,gas.runs
  menu.apply('speargun_gas_stun.labels',false);settle(gas,runs,'disabled');settle(stun,stun.runs,'disabled')
- step('labels off restores the two outputs (vanilla labels and icons), the mode untouched',
-  gas.status=='disabled'and stun.status=='disabled'and counts.writes==writes+4 and applied(mode),
+ step('labels off restores the two outputs (six slots: vanilla labels and icons), the mode untouched',
+  gas.status=='disabled'and stun.status=='disabled'and counts.writes==writes+6 and applied(mode),
   ('writes=%d'):format(counts.writes-writes))
  writes=counts.writes
  menu.apply('speargun_gas_stun.labels',true)
  local spent=0
  while(gas.status~='waiting'or stun.status~='waiting')and spent<20000 do frame();spent=spent+1 end
  for _=1,20 do frame()end
- step('labels on applies them again',applied(gas)and applied(stun)and counts.writes==writes+4,
+ step('labels on applies them again',applied(gas)and applied(stun)and counts.writes==writes+6,
   ('writes=%d'):format(counts.writes-writes))
  writes=counts.writes
  menu.apply('speargun_gas_stun.enabled',false);settle(mode,mode.runs,'disabled')
