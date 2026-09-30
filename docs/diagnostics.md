@@ -2,7 +2,8 @@
 
 Two cheap diagnostics help tell whether HD2Runtime is involved when a large mixed mod setup loses frames. They do
 not assume Runtime is the cause, and they do not prove it isn't. Both live in `runtime/diagnostics.lua` and are
-reachable through `hd2.diagnostics`.
+reachable through `hd2.diagnostics`. A third, `hd2.diagnostics.operations()`, lists every registered operation and
+how it ended (see [Registered operations](#registered-operations-hd2runtime-0281)).
 
 ## Write conflicts (always on)
 
@@ -56,6 +57,32 @@ p95 0.03 p99 0.05 max 0.08 (40); event polling avg 0.05 ms ...; active ensures 1
 - **Precise clock.** Timing needs the game's precise clock (in game); offline, the report says so.
 
 `hd2.diagnostics.telemetry()` without arguments returns the state and the running interval's sections.
+
+## Registered operations (HD2Runtime 0.28.1+)
+
+`hd2.diagnostics.operations()` returns every operation registered this session, in registration order, including
+the ones Runtime refused. An addon that keeps no handle, or registers operations in a callback, is covered too:
+
+```lua
+for _, op in ipairs(hd2.diagnostics.operations()) do
+    -- op.kind ('patch'|'transaction'|'plan'|'ensure'), op.id, op.mod, op.sdk, op.sdk_source,
+    -- op.status ('rejected', 'complete', 'waiting', 'unavailable', ...), op.result ('APPLIED', 'REJECTED', ...),
+    -- op.code, op.error, op.runs (ensure), op.legacy
+end
+```
+
+- **`status` / `result`.** `status='rejected'` is a refusal: at registration (logged as `<kind> <id> rejected:
+  <reason>`) or when applying (for example `CONFLICT`). `unavailable` and `disabled` are option-bound operations that
+  are switched off or have no Mod Options Menu. An ensure that applied has `runs >= 1` and `result='APPLIED'`
+  (or `ALREADY_DESIRED`).
+- **`sdk` and `sdk_source`.** The SDK version the registering mod declares, and where it came from: `wrapper` (read
+  from the mod's addon wrapper), `mod` (remembered for that mod resource) or `unknown`.
+- **`legacy`.** `{target, field, acknowledgement, since}` for each field this operation wrote without an
+  acknowledgement that a later SDK added (docs/legacy-sdk-compatibility.md). Each one is also logged once when the
+  operation registers.
+
+The list is a copy; the entries are read when it is called. At most 4096 registrations are kept (the oldest are
+dropped first; the second return value is `{dropped = n}`).
 
 ## Asking for a report
 

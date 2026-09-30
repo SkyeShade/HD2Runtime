@@ -9,6 +9,8 @@ local status_catalog=require('hd2runtime/domains/status_catalog')
 local support_database=require('hd2runtime/domains/support_weapon_authoring')
 -- Mounted weapons (vehicles, Exosuits, GATER) share the support-weapon entry shape.
 local vehicle_database=require('hd2runtime/domains/vehicle_weapon_authoring')
+-- Acknowledgements a later SDK added, which a mod declaring an older SDK need not carry (docs/legacy-sdk-compatibility.md).
+local sdk_compatibility=require('hd2runtime/core/sdk_compatibility')
 local function database_for(kind)
     if kind=='vehicle_weapon'then return vehicle_database end
     return kind=='support_weapon'and support_database or database
@@ -389,9 +391,16 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
     if field.type=='projectile_reference'and type(item.value)=='table'and item.value.path=='projectile_reference'
         and item.value.weapon==weapon.name and item.value.attack==role
         and item.value.resource==host_resource(weapon)then live_value=true end
-    assert(field.acknowledgement~='allow_unverified_effect'or allow_unverified_effect or live_value,
+    -- A field that gained the acknowledgement after the SDK the registering mod declares keeps its earlier rule.
+    local legacy,legacy_detail
+    if field.acknowledgement=='allow_unverified_effect'and not allow_unverified_effect and not live_value then
+        legacy,legacy_detail=sdk_compatibility.legacy('allow_unverified_effect',host_resource(weapon),weapon.name,
+            field.semanticFieldId,field.acknowledgementReason)
+    end
+    assert(field.acknowledgement~='allow_unverified_effect'or allow_unverified_effect or live_value or legacy,
         'field requires allow_unverified_effect=true: '..item.field..' ('..tostring(field.acknowledgementReason)..')'
-        ..(field.liveProvenValues and' (live-proven without it: '..table.concat(field.liveProvenValues,', ')..')'or''))
+        ..(field.liveProvenValues and' (live-proven without it: '..table.concat(field.liveProvenValues,', ')..')'or'')
+        ..(legacy_detail and' ['..legacy_detail..']'or''))
     if path=='projectile_reference'and field.backing.settings then
         assert(allow_shared,'projectile object edits require allow_shared=true because definitions are shared')
     end

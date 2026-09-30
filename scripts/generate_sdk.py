@@ -752,6 +752,11 @@ def outputs():
         '---Ensure-owned targets something else keeps overwriting (always on; a warning is logged after 3 re-applications',
         '---in the operation\'s window): {operation, target, externalChanges, warnings, windowSeconds}[], most first.',
         '---@return table[]','function HD2Diagnostics.write_conflicts() end',
+        '---Every operation registered this session, refused ones included (HD2Runtime 0.28.1+): {kind, id, mod, sdk,',
+        '---sdk_source, status, result, code, error, runs, legacy}[], in registration order. `legacy` lists the fields an',
+        '---operation of a mod declaring an older SDK wrote without an acknowledgement a later SDK added',
+        '---(docs/legacy-sdk-compatibility.md).',
+        '---@return table[]','function HD2Diagnostics.operations() end',
         '---@type HD2Diagnostics','hd2.diagnostics = {}']
     stub+=event_functions
     for method,spec in schema['api']['functions'].items():
@@ -820,6 +825,7 @@ def outputs():
             'sdk/docs/vehicle-weapons.md':(ROOT/'docs/vehicle-weapons.md').read_text(encoding='utf-8'),
             'sdk/docs/stratagem-uses.md':(ROOT/'docs/stratagem-uses.md').read_text(encoding='utf-8'),
             'sdk/docs/diagnostics.md':(ROOT/'docs/diagnostics.md').read_text(encoding='utf-8'),
+            'sdk/docs/legacy-sdk-compatibility.md':(ROOT/'docs/legacy-sdk-compatibility.md').read_text(encoding='utf-8'),
             'sdk/tools/hd2_archive.py':(ROOT/'scripts/hd2_archive.py').read_text(encoding='utf-8')}
 
 

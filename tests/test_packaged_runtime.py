@@ -119,6 +119,31 @@ class PackagedRuntimeSnapshotTests(unittest.TestCase):
             else:
                 self.assertGreater(item['overlayWrites'], 0, name)
 
+    def test_a_refused_or_skipped_write_fails_its_scenario_from_the_built_artifact(self):
+        # One operation applies; another is refused at registration and the addon keeps no handle for it; a third is
+        # refused only when it applies (its expect is stale). The resulting state holds the one good write, which is
+        # what the validator used to look at; now each refused operation fails the scenario by name.
+        addon = r'''local hd2=require('mods/skyeshade/hd2runtime')
+hd2.ensure({patch={id='silently-refused',target=hd2.weapon('PLAS-101 Purifier'):attack('primary'):projectile(),
+    allow_shared=true,field=hd2.fields.projectile.drag,expect=1.5,value=0.8}})
+hd2.patch({id='stale-expect',target=hd2.weapon('AR-23 Liberator'),field=hd2.fields.weapon.fire_rate,expect=1,
+    value=2})
+return hd2.patch({id='concussive-fire-rate',target=hd2.weapon('AR-23C Liberator Concussive'),
+    field=hd2.fields.weapon.fire_rate,expect=400,value=1100})
+'''
+        packaged.SCENARIOS['silent-refusal'] = lambda: addon
+        try:
+            with tempfile.TemporaryDirectory(dir=ROOT/'build') as folder:
+                with self.assertRaises(AssertionError) as caught:
+                    packaged.validate(build_release.build_runtime(VERSION, folder=folder), scenarios=['silent-refusal'])
+        finally:
+            del packaged.SCENARIOS['silent-refusal']
+        message = str(caught.exception)
+        self.assertIn('silent-refusal: silently-refused: rejected unexpectedly', message)
+        self.assertIn('required since SDK 0.28.0', message)   # a bare addon declares no SDK: the current rule
+        self.assertIn('silent-refusal: stale-expect: rejected unexpectedly', message)
+        self.assertNotIn('concussive-fire-rate:', message)
+
     def test_validator_reproduces_the_uncaptured_entry_failure(self):
         resources = build_release.runtime_resources()
         resources[hd2.MODULE] = UNCAPTURED_ENTRY

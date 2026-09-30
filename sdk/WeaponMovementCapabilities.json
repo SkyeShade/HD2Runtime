@@ -1,7 +1,7 @@
 {
   "contract": "hd2runtime.weapon_movement.v1",
   "schemaVersion": 1,
-  "hd2RuntimeVersion": "0.28.0",
+  "hd2RuntimeVersion": "0.28.1",
   "model": {
     "summary": "One data-driven restriction: WeaponDataComponent +387 \"stationary while firing\" (bool). When set, firing sends the weapon's firing-start/stop wielder animation events and raises wielder action bit 55. No per-weapon movement multiplier, sprint/dive/crouch ban or stance-specific restriction exists in weapon data.",
     "modes": {

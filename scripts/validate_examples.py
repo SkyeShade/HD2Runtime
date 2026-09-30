@@ -41,6 +41,7 @@ KIND_FIELD_FLOORS = {('stratagem', 'stratagem.max_uses'): '0.26.0'}
 # fields below), plus members 0.27.0 published but not writable: status slots on player-weapon projectiles. Every
 # example these floors mark was also checked to fail validation against the v0.27.0 runtime.
 RELEASE_0_28_0 = '0.28.0'
+RELEASE_0_28_1 = '0.28.1'   # hd2.diagnostics.operations()
 FIELDS_0_28_0 = {'weapon.stationary_while_firing', 'weapon.recoil_multiplier_horizontal',
     'weapon.recoil_multiplier_vertical', 'beam.fire_rate',
     # Equipment coverage (research/equipment-coverage-F5FEE03DCFDB.json).
@@ -134,6 +135,7 @@ local function materialize(value,depth)
 end
 local function run_example(body,name)
  local report={operations={},usesOptions=false,calls={}}
+ report.usesOperationList=body:find('diagnostics%.operations')~=nil
  report.usesEvents=body:find('hd2%.events')~=nil or body:find('hd2%.mod%(')~=nil or body:find('hd2%.after')~=nil
   or body:find('hd2%.every')~=nil or body:find('hd2%.input')~=nil
  local function record(kind,request)
@@ -252,6 +254,8 @@ def required_version(report):
         reasons.append('typed writes -> ' + TYPED_WRITES)
     if report.get('usesOptions'):
         bump(OPTIONS_FLOOR, 'in-game options')
+    if report.get('usesOperationList'):
+        bump(RELEASE_0_28_1, 'hd2.diagnostics.operations()')
     if report.get('usesEvents'):
         bump(RELEASE_0_28_0, 'gameplay scripting (hd2.events, hd2.mod, timers, keybinds)')
     for operation in report.get('operations', []):

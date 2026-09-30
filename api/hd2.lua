@@ -138,19 +138,57 @@ local function warn_duplicate(kind,request)
         require('hd2runtime/runtime/metrics').count('api.duplicate_operation_ids')
     end
 end
+-- Every registration this session, rejected ones included, for hd2.diagnostics.operations(): a validator or a mod can
+-- see an operation that was refused or never applied even when the addon kept no handle. The oldest entries are
+-- dropped past REGISTRY_LIMIT.
+local sdk_compatibility=require('hd2runtime/core/sdk_compatibility')
+local REGISTRY_LIMIT=4096
+local registry,registry_dropped={},0
+local function remember(kind,request,origin,handle)
+    if type(handle)~='table'then return handle end
+    if #registry>=REGISTRY_LIMIT then table.remove(registry,1);registry_dropped=registry_dropped+1 end
+    registry[#registry+1]={kind=kind,id=operation_id(kind,request),origin=origin,handle=handle}
+    return handle
+end
 local function register(kind,module,request,check)
     warn_duplicate(kind,request)
+    -- The registering mod and the SDK it declares (core/sdk_compatibility.lua): read once, here, while its wrapper is
+    -- on the call stack; every validation of this operation, now and on a later option change, runs as it.
+    local origin=sdk_compatibility.origin()
+    local function refuse(why)
+        sdk_compatibility.discard(origin)
+        return remember(kind,request,origin,track(rejected(kind,request,why)))
+    end
     if check then
-        local valid,why=pcall(check,request)
-        if not valid then return track(rejected(kind,request,why))end
+        local valid,why=pcall(sdk_compatibility.with_origin,origin,check,request)
+        if not valid then return refuse(why)end
     end
     local ok,adapter=pcall(require,'hd2runtime/runtime/windows_write')
     if not ok then return disabled()end
-    local started,watch=pcall(function()
+    local started,watch=pcall(sdk_compatibility.with_origin,origin,function()
         return require(module).start(adapter.create(),log.emit,request)
     end)
-    if not started then return track(rejected(kind,request,watch))end
-    return track(require('hd2runtime/runtime/scheduler').attach(watch))
+    if not started then return refuse(watch)end
+    sdk_compatibility.flush(origin,kind,operation_id(kind,request))
+    return remember(kind,request,origin,track(require('hd2runtime/runtime/scheduler').attach(watch)))
+end
+-- A plain copy of every registration: kind, id, mod, the SDK it declares and how that was read, the handle's status,
+-- result, code and error, its runs (ensure), and the fields it wrote as a legacy SDK operation.
+local function operations()
+    local out={}
+    for index,item in ipairs(registry)do
+        local h,origin=item.handle,item.origin or{}
+        local result=type(h.result)=='table'and h.result or{}
+        local legacy={}
+        for _,use in ipairs(origin.legacy or{})do
+            legacy[#legacy+1]={target=use.target,field=use.field:match('([^|]*)$'),acknowledgement=use.acknowledgement,
+                since=use.since}
+        end
+        out[index]={kind=item.kind,id=item.id,mod=origin.mod,sdk=origin.sdk,sdk_source=origin.source,
+            status=h.status,result=result.status,code=result.code,error=h.error or result.reason,runs=h.runs,
+            legacy=legacy}
+    end
+    return out,{dropped=registry_dropped}
 end
 function M.patch(request)return register('patch','hd2runtime/api/patch',request,one_shot)end
 function M.transaction(request)return register('transaction','hd2runtime/api/transaction',request,one_shot)end
@@ -165,6 +203,8 @@ end
 -- Offline: is this target's package dependency known and auto-loadable? (no IDs)
 function M.asset_dependency(target)return require('hd2runtime/api/assets').describe(target)end
 function M.ensure(request)return register('ensure','hd2runtime/api/ensure',request)end
+-- Every registered operation and how it ended so far, legacy SDK operations included (docs/diagnostics.md).
+M.diagnostics.operations=operations
 -- Gameplay scripting (docs/events.md): events, timers, keybinds and per-mod contexts. Required at startup with the
 -- rest of the API; nothing polls until a mod subscribes, starts a timer or binds a key.
 local scripting=require('hd2runtime/api/events')

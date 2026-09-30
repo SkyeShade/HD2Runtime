@@ -34,6 +34,7 @@ import generate_events
 import generate_event_natives
 import generate_event_entities
 import generate_attack_outputs
+import generate_legacy_acknowledgements
 from build_live_validation import revision,verify_installed
 from hd2_archive import ARCHIVE_NAME,make_archive,resource_hash,lua_resource
 import validate_packaged_runtime
@@ -119,6 +120,7 @@ def main():
     generate_events.generate(check=True)
     generate_event_natives.generate(check=True)
     generate_event_entities.generate(check=True)
+    generate_legacy_acknowledgements.generate(check=True)
     generate_sdk.generate(check=True)
     schema=hd2.database();version=(ROOT/'VERSION').read_text().strip()
     assert version==schema['runtime_version'],'Version/schema mismatch'

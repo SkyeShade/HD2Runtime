@@ -7,6 +7,8 @@ local discover=require('hd2runtime/runtime/discover')
 local entities=require('hd2runtime/core/entity_catalog')
 local profile=require('hd2runtime/schemas/current')
 local database=require('hd2runtime/domains/entity_authoring')
+-- Acknowledgements a later SDK added, which a mod declaring an older SDK need not carry (docs/legacy-sdk-compatibility.md).
+local sdk_compatibility=require('hd2runtime/core/sdk_compatibility')
 local M={}
 local component_names={'HealthComponentData','MountComponentData','RechargeComponentData',
     'JumppackComponentData','ShieldComponentData','HellpodRackComponentData','WeaponDataComponentData',
@@ -81,8 +83,18 @@ local function validate_change(entry,target,item,request)
     local field=find_field(entry,target,item.field)
     assert(field.editable and field.backing,'field is read-only: '..item.field..' ('..tostring(field.reason)..')')
     assert(not field.shared or request.allow_shared==true,'shared field requires allow_shared=true: '..item.field)
-    assert(field.acknowledgement~='allow_unverified_effect'or request.allow_unverified_effect==true,
-        'field requires allow_unverified_effect=true: '..item.field..' ('..tostring(field.acknowledgementReason)..')')
+    -- A field that gained the acknowledgement after the SDK the registering mod declares keeps its earlier rule. The
+    -- key is the field's identity as find_field matches it: path, linked entity, zone, mount and id.
+    local legacy,legacy_detail
+    if field.acknowledgement=='allow_unverified_effect'and request.allow_unverified_effect~=true then
+        local t=field.target
+        legacy,legacy_detail=sdk_compatibility.legacy('allow_unverified_effect',request.target.resource,entry.name,
+            table.concat({t.path or'',t.linked or'',t.zone or'',t.mount or'',field.semanticFieldId},'|'),
+            field.acknowledgementReason)
+    end
+    assert(field.acknowledgement~='allow_unverified_effect'or request.allow_unverified_effect==true or legacy,
+        'field requires allow_unverified_effect=true: '..item.field..' ('..tostring(field.acknowledgementReason)..')'
+        ..(legacy_detail and' ['..legacy_detail..']'or''))
     local storage=field.backing.storage
     if field.type==REFERENCE then
         assert(request.allow_unverified_reference==true,
