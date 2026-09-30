@@ -4885,6 +4885,281 @@
   ],
   "placeholderLabel": "F1CD5269",
   "defaultIcon": "content/ui/shared/misc/skull_icon",
+  "labelIcons": {
+   "flak": {
+    "icon": "ammo_flak",
+    "source": "exact_native"
+   },
+   "buckshot": {
+    "icon": "ammo_buckshot",
+    "source": "exact_native"
+   },
+   "non_guided": {
+    "icon": "guidance_off",
+    "source": "exact_native"
+   },
+   "guided": {
+    "icon": "guidance_on",
+    "source": "exact_native"
+   },
+   "scatter_shot": {
+    "icon": "ammo_buckshot",
+    "source": "exact_native"
+   },
+   "heat_mk2": {
+    "icon": "ammo_heat",
+    "source": "exact_native"
+   },
+   "bugshot": {
+    "icon": "ammo_buckshot",
+    "source": "exact_native"
+   },
+   "heat": {
+    "icon": "ammo_heat",
+    "source": "exact_native"
+   },
+   "hi_velo_sabot": {
+    "icon": "ammo_flechettes",
+    "source": "exact_native"
+   },
+   "slugs": {
+    "icon": "ammo_slug",
+    "source": "exact_native"
+   },
+   "he": {
+    "icon": "ammo_he",
+    "source": "exact_native"
+   },
+   "he_2359c1bc": {
+    "icon": "ammo_he",
+    "source": "exact_native"
+   },
+   "flechettes": {
+    "icon": "ammo_flechettes",
+    "source": "exact_native"
+   },
+   "sabot": {
+    "icon": "ammo_flechettes",
+    "source": "exact_native"
+   },
+   "magnum": {
+    "icon": "ammo_buckshot",
+    "source": "exact_native"
+   },
+   "liberty_fire": {
+    "icon": "ammo_buckshot",
+    "source": "exact_native"
+   },
+   "stun": {
+    "icon": "ammo_stun",
+    "source": "exact_native"
+   },
+   "stun_18af731b": {
+    "icon": "ammo_stun",
+    "source": "exact_native"
+   },
+   "artillery": {
+    "icon": "airstrike",
+    "source": "exact_native"
+   },
+   "cluster_bomb": {
+    "icon": "ammo_frag",
+    "source": "exact_native"
+   },
+   "deploy": {
+    "icon": "firemode_deploy_c4",
+    "source": "exact_native"
+   },
+   "dual_sabot": {
+    "icon": "ammo_flechettes",
+    "source": "exact_native"
+   },
+   "burst": {
+    "icon": "burst_fire",
+    "source": "exact_native"
+   },
+   "magnum_trib": {
+    "icon": "ammo_buckshot",
+    "source": "exact_native"
+   },
+   "he_mk2": {
+    "icon": "ammo_he",
+    "source": "exact_native"
+   },
+   "he_mk2_73a09751": {
+    "icon": "ammo_he",
+    "source": "exact_native"
+   },
+   "birdshot": {
+    "icon": "ammo_buckshot",
+    "source": "exact_native"
+   },
+   "tri_ball": {
+    "icon": "ammo_buckshot",
+    "source": "exact_native"
+   },
+   "aphet": {
+    "icon": "ammo_aphet",
+    "source": "exact_native"
+   },
+   "frag": {
+    "icon": "ammo_frag",
+    "source": "exact_native"
+   },
+   "gas": {
+    "icon": "ammo_slug",
+    "source": "generic_fallback"
+   },
+   "arc": {
+    "icon": "ammo_slug",
+    "source": "generic_fallback"
+   },
+   "incendiary": {
+    "icon": "ammo_slug",
+    "source": "generic_fallback"
+   },
+   "smoke": {
+    "icon": "ammo_slug",
+    "source": "generic_fallback"
+   },
+   "standard": {
+    "icon": "ammo_slug",
+    "source": "generic_fallback"
+   }
+  },
+  "genericFallbackIcon": "ammo_slug",
+  "iconVisuals": {
+   "ammo_slug": "a single plain cartridge",
+   "ammo_stun": "lightning around a round (stun)",
+   "ammo_he": "an explosion burst",
+   "ammo_heat": "an explosion against a tank",
+   "ammo_frag": "a fragmenting burst",
+   "ammo_aphet": "an armour-piercing round with a burst",
+   "ammo_flak": "a jet (anti-air)",
+   "ammo_flechettes": "a dart",
+   "ammo_buckshot": "a cluster of pellets",
+   "burst_fire": "three stacked rounds",
+   "guidance_on": "a guidance reticle (guided)",
+   "guidance_off": "a guidance reticle (unguided)",
+   "firemode_deploy_c4": "a deployable charge",
+   "airstrike": "an aircraft with a blast",
+   "default": "a skull (another texture set, not a weapon-function icon)"
+  },
+  "iconTextures": {
+   "available": true,
+   "icons": {
+    "airstrike": {
+     "archive": "033FD51C0660AFA2",
+     "width": 128,
+     "height": 128,
+     "dxgiFormat": 71,
+     "gpuBytes": 10936
+    },
+    "ammo_aphet": {
+     "archive": "033FD51C0660AFA2",
+     "width": 128,
+     "height": 128,
+     "dxgiFormat": 71,
+     "gpuBytes": 10936
+    },
+    "ammo_buckshot": {
+     "archive": "033FD51C0660AFA2",
+     "width": 128,
+     "height": 128,
+     "dxgiFormat": 71,
+     "gpuBytes": 10936
+    },
+    "ammo_flak": {
+     "archive": "033FD51C0660AFA2",
+     "width": 128,
+     "height": 128,
+     "dxgiFormat": 71,
+     "gpuBytes": 10936
+    },
+    "ammo_flechettes": {
+     "archive": "033FD51C0660AFA2",
+     "width": 128,
+     "height": 128,
+     "dxgiFormat": 71,
+     "gpuBytes": 10936
+    },
+    "ammo_frag": {
+     "archive": "033FD51C0660AFA2",
+     "width": 128,
+     "height": 128,
+     "dxgiFormat": 71,
+     "gpuBytes": 10936
+    },
+    "ammo_he": {
+     "archive": "033FD51C0660AFA2",
+     "width": 128,
+     "height": 128,
+     "dxgiFormat": 71,
+     "gpuBytes": 10936
+    },
+    "ammo_heat": {
+     "archive": "033FD51C0660AFA2",
+     "width": 128,
+     "height": 128,
+     "dxgiFormat": 71,
+     "gpuBytes": 10936
+    },
+    "ammo_slug": {
+     "archive": "033FD51C0660AFA2",
+     "width": 128,
+     "height": 128,
+     "dxgiFormat": 71,
+     "gpuBytes": 10936
+    },
+    "ammo_stun": {
+     "archive": "033FD51C0660AFA2",
+     "width": 128,
+     "height": 128,
+     "dxgiFormat": 71,
+     "gpuBytes": 10936
+    },
+    "burst_fire": {
+     "archive": "033FD51C0660AFA2",
+     "width": 128,
+     "height": 128,
+     "dxgiFormat": 71,
+     "gpuBytes": 10936
+    },
+    "default": {
+     "archive": "6A3EECFDDCE28FE8",
+     "width": 128,
+     "height": 128,
+     "dxgiFormat": 77,
+     "gpuBytes": 21872
+    },
+    "firemode_deploy_c4": {
+     "archive": "033FD51C0660AFA2",
+     "width": 128,
+     "height": 128,
+     "dxgiFormat": 71,
+     "gpuBytes": 10936
+    },
+    "guidance_off": {
+     "archive": "033FD51C0660AFA2",
+     "width": 128,
+     "height": 128,
+     "dxgiFormat": 71,
+     "gpuBytes": 10936
+    },
+    "guidance_on": {
+     "archive": "033FD51C0660AFA2",
+     "width": 128,
+     "height": 128,
+     "dxgiFormat": 71,
+     "gpuBytes": 10936
+    }
+   },
+   "weaponFunctionArchives": [
+    "033FD51C0660AFA2"
+   ],
+   "defaultIconArchive": "6A3EECFDDCE28FE8",
+   "note": "The weapon-function icons are one texture set (one archive); the default skull is another."
+  },
   "unnamedLabels": [
    "904D8F19",
    "2CAEDAB6",

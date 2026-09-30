@@ -40,11 +40,13 @@
   "modePresentation": {
     "output/v1/projectile/a-m-23-ems-mortar-sentry": {
       "icon": "0e42b97f9068922d",
+      "iconValue": "ammo_stun",
       "label": "d937037c",
       "row": 91
     },
     "output/v1/projectile/s-11-speargun": {
-      "icon": "f5c84b7d5898656a",
+      "icon": "4ff6a560a22f81b7",
+      "iconValue": "ammo_slug",
       "label": "1aae94ed",
       "row": 321
     }

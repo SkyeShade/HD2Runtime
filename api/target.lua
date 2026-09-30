@@ -93,6 +93,12 @@ function M.new(describe)
             for key,item in pairs(catalog.modeLabels or{})do if item.offered then names[#names+1]=key end end
             table.sort(names);return names
         end
+        -- The icon mode_icon = "auto" writes for a label: {icon, source} (exact_native or generic_fallback).
+        function methods.mode_icon_for(_,label)
+            local entry=assert(type(label)=='string'and(catalog.modeLabels or{})[label],
+                'unknown mode label: '..tostring(label))
+            return {icon=entry.icon,source=entry.iconSource}
+        end
         function methods.mode_icons()
             local names={}
             for key,item in pairs(catalog.modeIcons or{})do if item.offered then names[#names+1]=key end end

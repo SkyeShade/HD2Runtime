@@ -8,8 +8,8 @@ local hd2=require('mods/skyeshade/hd2runtime')
 -- EMS field is the same mechanism with the StaticField template (Stun Medium, no damage). The A/M-23 EMS Mortar
 -- Sentry's shell leaves one for 7 s, radius 10, and Runtime loads the turret's package before writing it.
 -- Mode labels: the weapon-function menu shows each mode's projectile label and icon. The spear and the EMS shell
--- have none (a blank label, the default icon), so a second option names them GAS and STUN (with the stun icon),
--- using the game's own strings and icon; the menu reads them from the projectile rows. The binding and the function
+-- have none (a blank label, the default icon), so a second option names them GAS (generic ammunition icon) and
+-- STUN (the stun icon), using the game's own strings and icons; the menu reads them from the projectile rows. The binding and the function
 -- projectile are copied into a Speargun when the game builds it: call in a fresh one after APPLY.
 local spear=hd2.support_weapon('S-11 Speargun')
 local source=spear:feed('programmable'):source()
@@ -27,9 +27,12 @@ operations[1]=hd2.ensure({enabled=enabled,transaction={id='speargun-gas-stun',ta
     allow_unverified_effect=true,allow_unverified_reference=true,changes={
         {field=source.binding.field,expect=source.binding.expect,value=source.binding.value},
         {field=hd2.fields.function_ammo.projectile,expect=source.expect,value=ems}}}})
-operations[2]=hd2.ensure({enabled=labels,patch={id='speargun-gas-label',target=gas,
-    field=hd2.fields.presentation.mode_label,expect=gas:describe().presentation.label,value='gas',
-    allow_unverified_effect=true}})
+-- GAS has no native mode icon: "auto" writes the generic ammunition icon (ammo_slug, a plain round) so the menu never
+-- shows a blank icon. STUN names its native stun icon explicitly (an explicit icon always wins over auto).
+operations[2]=hd2.ensure({enabled=labels,transaction={id='speargun-gas-label',target=gas,
+    allow_unverified_effect=true,changes={
+        {field=hd2.fields.presentation.mode_label,expect=gas:describe().presentation.label,value='gas'},
+        {field=hd2.fields.presentation.mode_icon,expect=gas:describe().presentation.icon,value='auto'}}}})
 operations[3]=hd2.ensure({enabled=labels,transaction={id='speargun-stun-label',target=ems,
     allow_unverified_effect=true,changes={
         {field=hd2.fields.presentation.mode_label,expect=ems:describe().presentation.label,value='stun'},

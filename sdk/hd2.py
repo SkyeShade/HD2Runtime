@@ -160,23 +160,58 @@ def optional_dependencies(spec):
     return optional
 
 
-def wrap_addon(name,minimum,body):
+# SemVer 2.0 (MAJOR.MINOR.PATCH, optional -prerelease and +build), for the minimum HD2Runtime a mod requires.
+SEMVER=r'(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?(\+[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?'
+
+
+def wrap_addon(name,minimum,body,display=None):
     """The shipped addon resource: a dependency check, then the author's src/addon.lua run once per game session.
     The startup runs as the mod's own resource id (hd2.events.run_as), so every subscription, timer, keybind and
     action it registers belongs to the mod without passing the id; an older HD2Runtime without run_as runs it
-    directly. This wrapper checks runtime dependencies; it contains no HD2Runtime implementation."""
+    directly. The version check is SemVer (a prerelease is older than its release). When the installed HD2Runtime is
+    too old, the wrapper tells it (hd2.compatibility, HD2Runtime 0.28.0+, which shows one update warning per session)
+    and then fails closed as before. This wrapper checks runtime dependencies; it contains no HD2Runtime
+    implementation."""
     return '-- HD2-Addon: '+name+'\n'+'''local loader=rawget(_G,'CowboyBingusModLoader')
 assert(loader and loader.api==1 and type(loader.version)=='number' and loader.version>=16,
     'Requires Bingus Shared Loader v15+ / API 1')
 local hd2=require('mods/skyeshade/hd2runtime')
-local function version(v)
-    local a,b,c=tostring(v):match('^(%d+)%.(%d+)%.(%d+)$')
-    assert(a,'Invalid HD2Runtime version');return tonumber(a),tonumber(b),tonumber(c)
+local function semver(v)
+    local core,pre=tostring(v):match('^([^%-+]+)%-?([^+]*)')
+    local a,b,c=(core or''):match('^(%d+)%.(%d+)%.(%d+)$')
+    assert(a,'Invalid HD2Runtime version: '..tostring(v))
+    local ids={}
+    for id in(pre~=''and pre..'.'or''):gmatch('([^%.]*)%.')do ids[#ids+1]=id end
+    return {tonumber(a),tonumber(b),tonumber(c),ids}
 end
-local a,b,c=version(hd2.version)
-local x,y,z=version('''+json.dumps(minimum)+''')
-assert(hd2.api_version==1 and (a>x or a==x and (b>y or b==y and c>=z)),
-    'HD2Runtime dependency version mismatch')
+local function order(p,q)
+    local x,y=tonumber(p:match('^%d+$')),tonumber(q:match('^%d+$'))
+    if x and y then return x<y and -1 or x>y and 1 or 0 end
+    if x then return -1 end
+    if y then return 1 end
+    return p<q and -1 or p>q and 1 or 0
+end
+local function at_least(have,need)
+    local x,y=semver(have),semver(need)
+    for i=1,3 do if x[i]~=y[i]then return x[i]>y[i]end end
+    local p,q=x[4],y[4]
+    if#p==0 then return true end
+    if#q==0 then return false end
+    for i=1,math.max(#p,#q)do
+        if p[i]==nil then return false end
+        if q[i]==nil then return true end
+        local o=order(p[i],q[i])
+        if o~=0 then return o>0 end
+    end
+    return true
+end
+local minimum='''+json.dumps(minimum)+'''
+local satisfied=hd2.api_version==1 and at_least(hd2.version,minimum)
+if not satisfied and hd2.api_version==1 then
+    local compatibility=type(hd2.compatibility)=='table'and hd2.compatibility.require_runtime
+    if type(compatibility)=='function'then pcall(compatibility,'''+json.dumps(name)+''',minimum,'''+json.dumps(display or name)+''')end
+end
+assert(satisfied,'HD2Runtime dependency version mismatch')
 local key='HD2RuntimeMod:'..'''+json.dumps(name)+'''
 local existing=rawget(_G,key)
 if existing then return existing end
@@ -203,7 +238,7 @@ def build_project(project):
     if required['bingus']!={'min_release':15,'api':1} or required['hd2runtime']['module']!=MODULE or required['hd2runtime']['api']!=1:
         raise ValueError('Unsupported dependency contract')
     minimum=required['hd2runtime']['min_version']
-    if not re.fullmatch(r'\d+\.\d+\.\d+',minimum):raise ValueError('Invalid minimum runtime version')
+    if not re.fullmatch(SEMVER,minimum):raise ValueError('Invalid minimum runtime version (SemVer MAJOR.MINOR.PATCH)')
     optional=optional_dependencies(spec)
     sources={}
     for path in sorted((project/'src').rglob('*.lua')):
@@ -213,7 +248,7 @@ def build_project(project):
         resource=name if relative=='addon' else name+'/'+relative
         body=path.read_text(encoding='utf-8-sig')
         if '---@meta' in body or '-- HD2-Addon:' in body:raise ValueError('SDK stubs or extra declarations are not gameplay source')
-        if relative=='addon':body=wrap_addon(name,minimum,body)
+        if relative=='addon':body=wrap_addon(name,minimum,body,spec.get('name'))
         sources[resource]=body.encode()
     if name not in sources:raise ValueError('Missing src/addon.lua')
     archive=make_archive({resource_hash(k):lua_resource(v) for k,v in sources.items()})

@@ -1115,9 +1115,14 @@ function HD2AttackOutput:describe() end
 ---The native mode labels hd2.fields.presentation.mode_label accepts.
 ---@return string[]
 function HD2AttackOutput:mode_labels() end
----The native weapon-function icons hd2.fields.presentation.mode_icon accepts ("default" is the skull).
+---The native weapon-function icons hd2.fields.presentation.mode_icon accepts ("default" is the skull;
+---"auto" writes the label exact native icon, else the generic ammunition icon ammo_slug).
 ---@return string[]
 function HD2AttackOutput:mode_icons() end
+---The icon "auto" writes for a mode label: {icon, source="exact_native"|"generic_fallback"}.
+---@param label string
+---@return table
+function HD2AttackOutput:mode_icon_for(label) end
 ---@alias HD2ExplosionName "B-100 Portable Hellbomb"|"Hellbomb"|"NUX-223 Hellbomb"|"Portable Hellbomb"
 ---@alias HD2StatusId "burning_heavy"|"fire"|"fire_panic"|"flamer_slowed"|"gas"|"gas_2"|"gas_confusion"|"gas_confusion_2"|"stun_large"|"stun_medium"|"stun_small"
 ---@alias HD2MagazineAttachmentId "Jet Assisted Rifle 15mm. Drum Standard"|"Karbin Rifle Standard"|"Pistol 12x20mm. Standard"|"Pistol 9x20mm. Extended"|"Plasma Medium. Canister Extended"|"Plasma Medium. Canister Standard"|"Plasma Pistol. Canister Extended"|"Plasma Pistol. Canister Pistol"|"RIFLE 9x70mm. Extended"|"RIFLE 9x70mm. Standard"|"RIFLE Drake. Short"|"RIFLE Drake. Standard"|"RIFLE Justice. Extended"|"RIFLE Justice. Short"|"RIFLE Justice. Standard"|"Rifle 5,5x50mm. Drum"|"Rifle 5,5x50mm. Drum Carbine"|"Rifle 5,5x50mm. Extended"|"Rifle 5,5x50mm. Extended Fastreload"|"Rifle 5,5x50mm. Standard"|"Rifle 5,5x50mm. Standard Fastreload"|"Rifle 8x40mm Rifle Standard"|"SHOTGUN 12g. Drum"|"SHOTGUN 12g. Drum Light"|"SHOTGUN 12g. Magazine Extended"|"SHOTGUN 12g. Magazine Extended Light"|"SMG 12x25mm. Drum"|"SMG 12x25mm. Drum Pummeler"|"SMG 12x25mm. Extended"|"SMG 12x25mm. Extended Pummeler"|"SMG 12x25mm. Standard"|"SMG 12x25mm. Standard Pummeler"|"SMG 9x20mm. Top Mounted Extended"|"SMG 9x20mm. Top Mounted Extended Solvent"|"SMG 9x20mm. Top Mounted Standard"|"SMG 9x20mm. Top Mounted Standard Solvent"|"SMG Flamer Drum Magazine"|"SMG Flamer Extended Magazine"|"SMG Flamer Standard Magazine"|"Shotgun 12g. Magazine Standard"|"Shotgun 12g. Magazine Standard Light"|"Whisper Rifle 5,5x50mm. Drum"|"Whisper Rifle 5,5x50mm. Standard"|"weapon-attachment/v1/magazine/jet-assisted-rifle-15mm-drum-standard/d973eb6ff9b6c804"|"weapon-attachment/v1/magazine/karbin-rifle-standard/e2f9b6b1f2e8fddb"|"weapon-attachment/v1/magazine/pistol-12x20mm-standard/874261a0d16e5e00"|"weapon-attachment/v1/magazine/pistol-9x20mm-extended/98939255db31bed4"|"weapon-attachment/v1/magazine/plasma-medium-canister-extended/09729aaa96113627"|"weapon-attachment/v1/magazine/plasma-medium-canister-standard/f4fa14d4afd3ea71"|"weapon-attachment/v1/magazine/plasma-pistol-canister-extended/6ec0d8e8516cbc07"|"weapon-attachment/v1/magazine/plasma-pistol-canister-pistol/b427e5ddcd7ebe62"|"weapon-attachment/v1/magazine/rifle-5-5x50mm-drum-carbine/00618531fc7a3692"|"weapon-attachment/v1/magazine/rifle-5-5x50mm-drum/fa499a29b375c6cf"|"weapon-attachment/v1/magazine/rifle-5-5x50mm-extended-fastreload/b9d2c29a3b15b591"|"weapon-attachment/v1/magazine/rifle-5-5x50mm-extended/bfc7127000978692"|"weapon-attachment/v1/magazine/rifle-5-5x50mm-standard-fastreload/b46fd3d0a10576b9"|"weapon-attachment/v1/magazine/rifle-5-5x50mm-standard/272e4c5f18bbd39e"|"weapon-attachment/v1/magazine/rifle-8x40mm-rifle-standard/892779ea0d77aeb3"|"weapon-attachment/v1/magazine/rifle-9x70mm-extended/ac5002ad314cd5a3"|"weapon-attachment/v1/magazine/rifle-9x70mm-standard/cda05894170c4de9"|"weapon-attachment/v1/magazine/rifle-drake-short/a04c9bf6b8f34a03"|"weapon-attachment/v1/magazine/rifle-drake-standard/30c524ee2906dec4"|"weapon-attachment/v1/magazine/rifle-justice-extended/621a26851cfd19a2"|"weapon-attachment/v1/magazine/rifle-justice-short/9deab1113f78adfa"|"weapon-attachment/v1/magazine/rifle-justice-standard/c52443137e402fe8"|"weapon-attachment/v1/magazine/shotgun-12g-drum-light/6848f4e70d10b9a7"|"weapon-attachment/v1/magazine/shotgun-12g-drum/c1aeebcaa7c23988"|"weapon-attachment/v1/magazine/shotgun-12g-magazine-extended-light/ce3ad89a45cec7a2"|"weapon-attachment/v1/magazine/shotgun-12g-magazine-extended/95b6103970039345"|"weapon-attachment/v1/magazine/shotgun-12g-magazine-standard-light/6304622136df620c"|"weapon-attachment/v1/magazine/shotgun-12g-magazine-standard/f9f877be8deda58d"|"weapon-attachment/v1/magazine/smg-12x25mm-drum-pummeler/4fded5f56e190410"|"weapon-attachment/v1/magazine/smg-12x25mm-drum/568bc4a451110ca0"|"weapon-attachment/v1/magazine/smg-12x25mm-extended-pummeler/946ef6b4fae7c0de"|"weapon-attachment/v1/magazine/smg-12x25mm-extended/73a27ec123b6d632"|"weapon-attachment/v1/magazine/smg-12x25mm-standard-pummeler/ea054f1cc567db3b"|"weapon-attachment/v1/magazine/smg-12x25mm-standard/6c63bd137af2da1e"|"weapon-attachment/v1/magazine/smg-9x20mm-top-mounted-extended-solvent/11156cef840b147a"|"weapon-attachment/v1/magazine/smg-9x20mm-top-mounted-extended/176c9113b2833712"|"weapon-attachment/v1/magazine/smg-9x20mm-top-mounted-standard-solvent/80bf5c7ef57ea0e0"|"weapon-attachment/v1/magazine/smg-9x20mm-top-mounted-standard/fc9cc6afc9155eb2"|"weapon-attachment/v1/magazine/smg-flamer-drum-magazine/edd0b384b4ec7242"|"weapon-attachment/v1/magazine/smg-flamer-extended-magazine/a7609a0fd1736a11"|"weapon-attachment/v1/magazine/smg-flamer-standard-magazine/e68347c558fb8b96"|"weapon-attachment/v1/magazine/whisper-rifle-5-5x50mm-drum/dc2b49810b002079"|"weapon-attachment/v1/magazine/whisper-rifle-5-5x50mm-standard/16af29c8d0590809"
@@ -2491,6 +2496,27 @@ function hd2.enemies(filter) end
 ---@param identity HD2AttackOutputId
 ---@return HD2AttackOutput
 function hd2.attack_output(identity) end
+---Mods that need a newer HD2Runtime (HD2Runtime 0.28.0+). The SDK wrapper of every mod reports here before its
+---own version check fails closed; HD2Runtime logs each mod and shows one update warning per session on the ship.
+hd2.compatibility = {}
+---Record that `mod` needs `minimum` (SemVer); true when the installed HD2Runtime satisfies it.
+---@param mod string
+---@param minimum string
+---@param display string?
+---@return boolean ok
+---@return string? reason
+function hd2.compatibility.require_runtime(mod, minimum, display) end
+---SemVer precedence (-1, 0, 1; nil when malformed). A prerelease is older than its release.
+---@param a string
+---@param b string
+---@return integer?
+function hd2.compatibility.compare(a, b) end
+---@return table[] {mod, display, required}
+function hd2.compatibility.incompatible() end
+---@return string? highest
+function hd2.compatibility.highest() end
+---@return table {incompatible, highest, shown, dialog}
+function hd2.compatibility.status() end
 ---Catalogued attack output IDs, optionally filtered.
 ---@param filter? {family?: "projectile"|"beam"|"arc"|"spray"|"melee", selectable?: boolean}
 ---@return string[]

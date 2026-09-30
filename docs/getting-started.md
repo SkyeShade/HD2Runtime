@@ -62,6 +62,14 @@ Leave `build.cmd`, `build.ps1`, `.luarc.json`, `stubs`, the `bingus` block, and
 `guid: "auto"` alone. Keep `requires.hd2runtime.min_version` at the template
 version unless you know your mod uses nothing newer.
 
+`min_version` is SemVer (`0.28.0`, `0.29.0-rc.1`; a prerelease is older than its
+release). A player whose HD2Runtime is older than it gets no gameplay from your mod
+(the mod refuses to start, as before). With HD2Runtime 0.28.0 or newer installed,
+your mod's wrapper also tells HD2Runtime, which logs the mod and its requirement
+and, once per session on the ship, shows one "HD2Runtime update required" message
+box naming the highest version any installed mod needs. Mods for the installed or
+an older HD2Runtime never trigger it.
+
 Build with `build.cmd`. The result is `build\<Name>-<VERSION>.zip`. Import that ZIP
 into your mod manager and enable it.
 

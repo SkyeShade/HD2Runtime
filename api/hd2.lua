@@ -163,4 +163,9 @@ M.actions={heal=actions.heal,status=actions.status}
 M.explosions=actions.explosions
 M.projectiles=actions.projectiles
 M.status=actions.status_effects
+-- Mods needing a newer HD2Runtime (api/compatibility.lua): their SDK wrapper reports here before failing closed.
+local compatibility=require('hd2runtime/api/compatibility')
+M.compatibility={require_runtime=compatibility.require_runtime,compare=compatibility.compare,
+    parse=compatibility.parse,incompatible=compatibility.incompatible,highest=compatibility.highest,
+    status=compatibility.status}
 return M

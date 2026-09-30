@@ -236,7 +236,24 @@ rejected(function()presenter.validate_patch({id='m',target=hd2.attack_output('AC
  field=F.presentation.mode_label,expect='aphet',value='stun',allow_unverified_effect=true})end,'allow_shared')
 rejected(function()presenter.validate_patch({id='m',target=hd2.attack_output('LAS-98 Laser Cannon'),
  field=F.presentation.mode_label,expect='none',value='stun',allow_unverified_effect=true})end,'no writable presentation')
-assert(#gas_output:mode_icons()==15 and gas_output:describe().presentation.fields.label=='presentation.mode_label')
+assert(#gas_output:mode_icons()==16 and gas_output:describe().presentation.fields.label=='presentation.mode_label')
+-- Icon fallback: exact native icons where a native mode shows one, else the generic ammunition icon; "auto" resolves
+-- deterministically from the label in the same operation, an explicit icon is kept.
+assert(gas_output:mode_icon_for('stun').icon=='ammo_stun'and gas_output:mode_icon_for('stun').source=='exact_native')
+assert(gas_output:mode_icon_for('gas').icon=='ammo_slug'and gas_output:mode_icon_for('gas').source=='generic_fallback')
+assert(gas_output:mode_icon_for('sabot').icon=='ammo_flechettes')
+local auto=presenter.validate_transaction({id='m',target=gas_output,allow_unverified_effect=true,changes={
+ {field=F.presentation.mode_label,expect='none',value='gas'},{field=F.presentation.mode_icon,expect='default',
+ value='auto'}}})
+assert(auto.changes[2].value=='ammo_slug'and b.hex(auto.changes[2].desired)=='4ff6a560a22f81b7')
+local changes={{field=F.presentation.mode_label,expect='none',value='stun'},{field=F.presentation.mode_icon,
+ expect='default',value='auto'}}
+local stun_auto=presenter.validate_transaction({id='m',target=gas_output,allow_unverified_effect=true,changes=changes})
+assert(stun_auto.changes[2].value=='ammo_stun'and changes[2].value=='auto')
+local explicit=presenter.validate_transaction({id='m',target=gas_output,allow_unverified_effect=true,changes={
+ {field=F.presentation.mode_label,expect='none',value='gas'},{field=F.presentation.mode_icon,expect='default',
+ value='ammo_stun'}}})
+assert(explicit.changes[2].value=='ammo_stun')
 local feed=spear:feed('primary'):describe().presentation
 assert(feed.output=='output/v1/projectile/s-11-speargun'and feed.icon=='default'and feed.displayName=='Primary')
 local halt_alt=halt:feed('alternate'):describe().presentation
@@ -275,7 +292,8 @@ return 'ok'
             ['ProjectileWeaponComponentData+576=9a000000', 'WeaponDataComponentData+184=08000000'])
         self.assertEqual(result['speargunEms']['assetDependency']['name'],
             'packages/generated/loadout/mortar_turret_staticfield')
-        self.assertEqual(result['modePresentation']['output/v1/projectile/s-11-speargun']['label'], '1aae94ed')
+        gas = result['modePresentation']['output/v1/projectile/s-11-speargun']
+        self.assertEqual((gas['label'], gas['iconValue'], gas['icon']), ('1aae94ed', 'ammo_slug', '4ff6a560a22f81b7'))
         ems = result['modePresentation']['output/v1/projectile/a-m-23-ems-mortar-sentry']
         self.assertEqual((ems['label'], ems['icon']), ('d937037c', '0e42b97f9068922d'))
         self.assertEqual(result['presentation']['outputs'], 67)

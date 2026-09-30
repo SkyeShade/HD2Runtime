@@ -144,9 +144,11 @@ GR-8 HEAT / HE, the Halt's FLECHETTES / STUN magazines, guidance on / off. Their
 shared skull icon: the Speargun spear and the EMS Mortar shell are two of them. The menu reader itself is not traced.
 
 ```lua
--- Mode A (the spear): GAS. Mode B (the EMS shell): STUN with the stun icon.
-hd2.ensure({patch={id='gas-label',target=hd2.attack_output('S-11 Speargun'),
-    field=hd2.fields.presentation.mode_label,expect='none',value='gas',allow_unverified_effect=true}})
+-- Mode A (the spear): GAS with the generic ammunition icon ("auto"). Mode B (the EMS shell): STUN with the stun icon.
+hd2.ensure({transaction={id='gas-label',target=hd2.attack_output('S-11 Speargun'),
+    allow_unverified_effect=true,changes={
+        {field=hd2.fields.presentation.mode_label,expect='none',value='gas'},
+        {field=hd2.fields.presentation.mode_icon,expect='default',value='auto'}}}})
 hd2.ensure({transaction={id='stun-label',target=hd2.attack_output('A/M-23 EMS Mortar Sentry'),
     allow_unverified_effect=true,changes={
         {field=hd2.fields.presentation.mode_label,expect='none',value='stun'},
@@ -156,16 +158,29 @@ hd2.ensure({transaction={id='stun-label',target=hd2.attack_output('A/M-23 EMS Mo
 | Field | Values |
 | --- | --- |
 | `hd2.fields.presentation.mode_label` | a native mode label: `none`, the labels native modes use (`flak`, `he`, `heat`, `stun`, `flechettes`, `sabot`, ...) and five native strings no mode uses yet (`gas`, `arc`, `incendiary`, `smoke`, `standard`); `output:mode_labels()` lists them |
-| `hd2.fields.presentation.mode_icon` | a native weapon-function icon (`ammo_stun`, `ammo_flak`, `ammo_he`, ...) or `default` (the skull); `output:mode_icons()` |
+| `hd2.fields.presentation.mode_icon` | a native weapon-function icon (`ammo_stun`, `ammo_flak`, `ammo_he`, ...), `auto` (see below) or `default` (the skull); `output:mode_icons()` |
 
 - **Target.** The attack output whose projectile the mode fires (`hd2.attack_output(name)`): a weapon's own output
   for its normal mode, the donor's for a programmable mode. Every selectable projectile output has both fields.
 - **Shared definitions.** The label is on the projectile's settings row, so every weapon firing that projectile shows
   it. `allow_shared` is required when other entities fire it (the catalog's `presentation.shared`); the spear and the
   EMS shell are each fired by one entity.
-- **Custom text and icons** are not supported: labels are native localization strings, icons native
-  weapon-function icons. A mode without a label shows the fallback (no label, the skull icon). Arbitrary icon assets
-  are a later step.
+- **Icon fallback.** A mode should never show a blank icon just because its effect has no native one. The native
+  set is 14 weapon-function icons in one texture set (`research/weapon-presentation-F5FEE03DCFDB.json`, `modes`:
+  `iconTextures`, `iconVisuals`). The unlabelled default is the skull, which belongs to another texture set and shows
+  as no usable icon (the GAS live test). `mode_icon = "auto"` resolves deterministically:
+  1. the **exact** native icon: the one icon every native mode with that label shows (`stun` -> `ammo_stun`,
+     `flak` -> `ammo_flak`, `he` -> `ammo_he`, `sabot` -> `ammo_flechettes`, `cluster_bomb` -> `ammo_frag`, ...);
+  2. otherwise the **generic fallback** `ammo_slug`: a single plain cartridge, the only native icon that implies
+     no effect (every other one shows stun, an explosion, armour piercing, a jet, darts, pellets, guidance, burst
+     rounds, C4 or an airstrike). `gas`, `arc`, `incendiary`, `smoke`, `standard` and any label without a native
+     icon resolve here.
+  `auto` uses the `mode_label` written in the same operation, else the output's current label.
+  `output:mode_icon_for(label)` returns `{icon, source}` (`exact_native` / `generic_fallback`), and the catalog
+  publishes the same per label (`modePresentation.labels[].icon`, `iconSource`). An explicit native icon always
+  wins over `auto`; restoring (disabling the operation) writes the native label and icon back.
+- **Custom text and icons** are not supported in this release: labels are native localization strings, icons native
+  weapon-function icons. Arbitrary icon assets are a later step.
 - **Guards.** `domains/output_writes.lua` re-proves that the output's owner still fires that projectile and the
   settings row identity; the icon is written as two aligned 4-byte halves in one transaction.
 - **Acknowledgement.** `allow_unverified_effect`: the members and the native data pattern are proven, but the menu

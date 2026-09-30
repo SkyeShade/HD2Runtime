@@ -6068,189 +6068,339 @@
    {
     "value": "none",
     "label": null,
-    "native": false
+    "native": false,
+    "icon": "ammo_slug",
+    "iconSource": "generic_fallback"
    },
    {
     "value": "flak",
     "label": "FLAK",
-    "native": true
+    "native": true,
+    "icon": "ammo_flak",
+    "iconSource": "exact_native"
    },
    {
     "value": "buckshot",
     "label": "BUCKSHOT",
-    "native": true
+    "native": true,
+    "icon": "ammo_buckshot",
+    "iconSource": "exact_native"
    },
    {
     "value": "non_guided",
     "label": "Non-Guided",
-    "native": true
+    "native": true,
+    "icon": "guidance_off",
+    "iconSource": "exact_native"
    },
    {
     "value": "guided",
     "label": "Guided",
-    "native": true
+    "native": true,
+    "icon": "guidance_on",
+    "iconSource": "exact_native"
    },
    {
     "value": "scatter_shot",
     "label": "SCATTER SHOT",
-    "native": true
+    "native": true,
+    "icon": "ammo_buckshot",
+    "iconSource": "exact_native"
    },
    {
     "value": "heat_mk2",
     "label": "HEAT MK2",
-    "native": true
+    "native": true,
+    "icon": "ammo_heat",
+    "iconSource": "exact_native"
    },
    {
     "value": "bugshot",
     "label": "BUGSHOT",
-    "native": true
+    "native": true,
+    "icon": "ammo_buckshot",
+    "iconSource": "exact_native"
    },
    {
     "value": "heat",
     "label": "HEAT",
-    "native": true
+    "native": true,
+    "icon": "ammo_heat",
+    "iconSource": "exact_native"
    },
    {
     "value": "hi_velo_sabot",
     "label": "HI-VELO SABOT",
-    "native": true
+    "native": true,
+    "icon": "ammo_flechettes",
+    "iconSource": "exact_native"
    },
    {
     "value": "slugs",
     "label": "SLUGS",
-    "native": true
+    "native": true,
+    "icon": "ammo_slug",
+    "iconSource": "exact_native"
    },
    {
     "value": "he",
     "label": "HE",
-    "native": true
+    "native": true,
+    "icon": "ammo_he",
+    "iconSource": "exact_native"
    },
    {
     "value": "flechettes",
     "label": "FLECHETTES",
-    "native": true
+    "native": true,
+    "icon": "ammo_flechettes",
+    "iconSource": "exact_native"
    },
    {
     "value": "sabot",
     "label": "SABOT",
-    "native": true
+    "native": true,
+    "icon": "ammo_flechettes",
+    "iconSource": "exact_native"
    },
    {
     "value": "magnum",
     "label": "MAGNUM",
-    "native": true
+    "native": true,
+    "icon": "ammo_buckshot",
+    "iconSource": "exact_native"
    },
    {
     "value": "liberty_fire",
     "label": "LIBERTY FIRE",
-    "native": true
+    "native": true,
+    "icon": "ammo_buckshot",
+    "iconSource": "exact_native"
    },
    {
     "value": "stun",
     "label": "STUN",
-    "native": true
+    "native": true,
+    "icon": "ammo_stun",
+    "iconSource": "exact_native"
    },
    {
     "value": "artillery",
     "label": "Artillery",
-    "native": true
+    "native": true,
+    "icon": "airstrike",
+    "iconSource": "exact_native"
    },
    {
     "value": "cluster_bomb",
     "label": "CLUSTER BOMB",
-    "native": true
+    "native": true,
+    "icon": "ammo_frag",
+    "iconSource": "exact_native"
    },
    {
     "value": "deploy",
     "label": "DEPLOY",
-    "native": true
+    "native": true,
+    "icon": "firemode_deploy_c4",
+    "iconSource": "exact_native"
    },
    {
     "value": "dual_sabot",
     "label": "DUAL SABOT",
-    "native": true
+    "native": true,
+    "icon": "ammo_flechettes",
+    "iconSource": "exact_native"
    },
    {
     "value": "burst",
     "label": "Burst",
-    "native": true
+    "native": true,
+    "icon": "burst_fire",
+    "iconSource": "exact_native"
    },
    {
     "value": "magnum_trib",
     "label": "MAGNUM TRIB",
-    "native": true
+    "native": true,
+    "icon": "ammo_buckshot",
+    "iconSource": "exact_native"
    },
    {
     "value": "he_mk2",
     "label": "HE MK2",
-    "native": true
+    "native": true,
+    "icon": "ammo_he",
+    "iconSource": "exact_native"
    },
    {
     "value": "birdshot",
     "label": "BIRDSHOT",
-    "native": true
+    "native": true,
+    "icon": "ammo_buckshot",
+    "iconSource": "exact_native"
    },
    {
     "value": "tri_ball",
     "label": "TRI-BALL",
-    "native": true
+    "native": true,
+    "icon": "ammo_buckshot",
+    "iconSource": "exact_native"
    },
    {
     "value": "aphet",
     "label": "APHET",
-    "native": true
+    "native": true,
+    "icon": "ammo_aphet",
+    "iconSource": "exact_native"
    },
    {
     "value": "frag",
     "label": "FRAG",
-    "native": true
+    "native": true,
+    "icon": "ammo_frag",
+    "iconSource": "exact_native"
    },
    {
     "value": "gas",
     "label": "GAS",
-    "native": true
+    "native": true,
+    "icon": "ammo_slug",
+    "iconSource": "generic_fallback"
    },
    {
     "value": "arc",
     "label": "ARC",
-    "native": true
+    "native": true,
+    "icon": "ammo_slug",
+    "iconSource": "generic_fallback"
    },
    {
     "value": "incendiary",
     "label": "INCENDIARY",
-    "native": true
+    "native": true,
+    "icon": "ammo_slug",
+    "iconSource": "generic_fallback"
    },
    {
     "value": "smoke",
     "label": "SMOKE",
-    "native": true
+    "native": true,
+    "icon": "ammo_slug",
+    "iconSource": "generic_fallback"
    },
    {
     "value": "standard",
     "label": "STANDARD",
-    "native": true
+    "native": true,
+    "icon": "ammo_slug",
+    "iconSource": "generic_fallback"
    }
   ],
   "icons": [
-   "default",
-   "ammo_buckshot",
-   "ammo_flechettes",
-   "ammo_flak",
-   "ammo_heat",
-   "guidance_off",
-   "ammo_frag",
-   "ammo_he",
-   "guidance_on",
-   "ammo_stun",
-   "firemode_deploy_c4",
-   "airstrike",
-   "ammo_slug",
-   "ammo_aphet",
-   "burst_fire"
+   {
+    "value": "default",
+    "source": "native",
+    "genericFallback": false,
+    "description": "a skull (another texture set, not a weapon-function icon)"
+   },
+   {
+    "value": "ammo_buckshot",
+    "source": "native",
+    "genericFallback": false,
+    "description": "a cluster of pellets"
+   },
+   {
+    "value": "ammo_flechettes",
+    "source": "native",
+    "genericFallback": false,
+    "description": "a dart"
+   },
+   {
+    "value": "ammo_flak",
+    "source": "native",
+    "genericFallback": false,
+    "description": "a jet (anti-air)"
+   },
+   {
+    "value": "ammo_heat",
+    "source": "native",
+    "genericFallback": false,
+    "description": "an explosion against a tank"
+   },
+   {
+    "value": "guidance_off",
+    "source": "native",
+    "genericFallback": false,
+    "description": "a guidance reticle (unguided)"
+   },
+   {
+    "value": "ammo_frag",
+    "source": "native",
+    "genericFallback": false,
+    "description": "a fragmenting burst"
+   },
+   {
+    "value": "ammo_he",
+    "source": "native",
+    "genericFallback": false,
+    "description": "an explosion burst"
+   },
+   {
+    "value": "guidance_on",
+    "source": "native",
+    "genericFallback": false,
+    "description": "a guidance reticle (guided)"
+   },
+   {
+    "value": "ammo_stun",
+    "source": "native",
+    "genericFallback": false,
+    "description": "lightning around a round (stun)"
+   },
+   {
+    "value": "firemode_deploy_c4",
+    "source": "native",
+    "genericFallback": false,
+    "description": "a deployable charge"
+   },
+   {
+    "value": "airstrike",
+    "source": "native",
+    "genericFallback": false,
+    "description": "an aircraft with a blast"
+   },
+   {
+    "value": "ammo_slug",
+    "source": "native",
+    "genericFallback": true,
+    "description": "a single plain cartridge"
+   },
+   {
+    "value": "ammo_aphet",
+    "source": "native",
+    "genericFallback": false,
+    "description": "an armour-piercing round with a burst"
+   },
+   {
+    "value": "burst_fire",
+    "source": "native",
+    "genericFallback": false,
+    "description": "three stacked rounds"
+   },
+   {
+    "value": "auto",
+    "source": "auto",
+    "genericFallback": false,
+    "description": null
+   }
   ],
+  "autoIcon": "mode_icon = \"auto\" writes the label exact native icon (iconSource exact_native) or, when no native icon exists for it, the generic fallback; it uses the mode_label written in the same operation, else the current one. An explicit native icon always overrides it.",
+  "genericFallbackIcon": "ammo_slug",
+  "defaultIcon": "default: the skull every unlabelled projectile holds; it is another texture set and shows as no usable weapon-function icon (the GAS live test, 2026-09-30).",
   "acknowledgement": "allow_unverified_effect (plus allow_shared when other weapons fire the projectile)",
   "customText": "not supported: labels are native localization strings only",
-  "customIcons": "not supported: icons are the native weapon-function icons only"
+  "customIcons": "not supported in this release: icons are the native weapon-function icons only"
  },
  "safety": {
   "runtimeAddresses": false,
