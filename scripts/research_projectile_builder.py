@@ -298,6 +298,22 @@ def main():
             'magazineFed': entry.get('magazineFed'), 'mechanism': source.get('kind'),
             'componentHost': entry['status'] == 'ACTIVE_DIRECT' and bool(entry.get('magazineFed')),
             'reason': entry.get('reason')})
+    # Mounted weapons (vehicles, Exosuits, Guard Dog drones, emplacements): the same host rule. Two mounts can carry
+    # the same weapon entity (the M-102 Gunner FRV and the Super Earth FRV): writing it changes both (sharedEntity).
+    mounted_hosts = []
+    by_resource = {}
+    for entry in active['weapons']:
+        if entry['kind'] == 'vehicle_weapon':
+            by_resource.setdefault(entry['resource'], []).append(entry['weapon'])
+    for entry in active['weapons']:
+        if entry['kind'] != 'vehicle_weapon':
+            continue
+        source = entry.get('activeSource') or {}
+        mounted_hosts.append({'weapon': entry['weapon'], 'status': entry['status'],
+            'magazineFed': entry.get('magazineFed'), 'mechanism': source.get('kind'),
+            'componentHost': entry['status'] == 'ACTIVE_DIRECT' and bool(entry.get('magazineFed')),
+            'sharedEntity': sorted(set(by_resource[entry['resource']]) - {entry['weapon']}),
+            'reason': entry.get('reason')})
 
     projectile_outputs = []
     for kind, owners in sorted(outputs.items()):
@@ -337,11 +353,12 @@ def main():
         'speargun': speargun, 'hmg': hmg_case,
         'liberatorTalon': {'finding': 'Unchanged: the AR-23 Liberator fires its default ammunition delta, so a donor '
             'goes through ammunition.projectile (live-proven for EAT-700 and GL-52); the Talon is a catalogued output.'},
-        'supportHosts': support_hosts}
+        'supportHosts': support_hosts, 'mountedHosts': mounted_hosts}
     OUTPUT.write_text(json.dumps(result, indent=1) + '\n', newline='\n')
     print(json.dumps({'rows': len(projectiles), 'spare': len(spare), 'twins': [(t['spare'], t['twin']) for t in twins],
         'emsField': ems_field['type'] if ems_field else None, 'hmgConsumers': len(consumers(hmg_type)),
-        'supportComponentHosts': [h['weapon'] for h in support_hosts if h['componentHost']]}))
+        'supportComponentHosts': [h['weapon'] for h in support_hosts if h['componentHost']],
+        'mountedComponentHosts': [h['weapon'] for h in mounted_hosts if h['componentHost']]}))
 
 
 if __name__ == '__main__':

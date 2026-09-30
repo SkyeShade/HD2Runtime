@@ -1,0 +1,284 @@
+{
+ "schemaVersion": 1,
+ "mode": "offline",
+ "writes": 0,
+ "model": "An underbarrel is a separate weapon entity named by the host's default underbarrel item (its delta sets WeaponCustomization +192 underbarrel_path to the entity); the host entity carries none of its records.",
+ "members": [
+  {
+   "field": "weapon.horizontal_spread",
+   "component": "WeaponDataComponentData",
+   "offset": 84,
+   "storage": "f32"
+  },
+  {
+   "field": "weapon.vertical_spread",
+   "component": "WeaponDataComponentData",
+   "offset": 88,
+   "storage": "f32"
+  },
+  {
+   "field": "weapon.fire_rate",
+   "component": "ProjectileWeaponComponentData",
+   "offset": 8,
+   "storage": "f32"
+  },
+  {
+   "field": "rounds.feed_capacity_1",
+   "component": "WeaponRoundsComponentData",
+   "offset": 72,
+   "storage": "f32"
+  },
+  {
+   "field": "rounds.spare_rounds",
+   "component": "WeaponRoundsComponentData",
+   "offset": 80,
+   "storage": "u32"
+  },
+  {
+   "field": "rounds.rounds_from_supply",
+   "component": "WeaponRoundsComponentData",
+   "offset": 84,
+   "storage": "u32"
+  },
+  {
+   "field": "rounds.starting_rounds",
+   "component": "WeaponRoundsComponentData",
+   "offset": 88,
+   "storage": "u32"
+  }
+ ],
+ "unproven": [
+  "which of ProjectileWeapon +0 / WeaponRounds +64 the underbarrel fires from",
+  "the reload time (the reload ability duration)",
+  "WeaponRounds +92 and +104",
+  "whether a built underbarrel keeps copies of its values"
+ ],
+ "underbarrels": [
+  {
+   "item": "Grenade Launcher Grenadier",
+   "optionId": "0xA051BF6B",
+   "addPath": "0x02CD7321CD8445F5",
+   "selfReference": true,
+   "hostsByDefault": [
+    {
+     "resource": "0xA955C4EA6F6D4203",
+     "slot": 1
+    }
+   ],
+   "underbarrel": {
+    "resource": "0x02CD7321CD8445F5",
+    "path": null,
+    "entityRow": 1527,
+    "family": "ProjectileWeapon",
+    "components": {
+     "ProjectileWeaponComponentData": {
+      "recordIndex": 186,
+      "indexRow": 257,
+      "ownerCount": 1,
+      "uniqueOwner": true
+     },
+     "WeaponCustomizationComponentData": {
+      "recordIndex": 76,
+      "indexRow": 131,
+      "ownerCount": 1,
+      "uniqueOwner": true
+     },
+     "WeaponDataComponentData": {
+      "recordIndex": 250,
+      "indexRow": 202,
+      "ownerCount": 1,
+      "uniqueOwner": true
+     },
+     "WeaponReloadComponentData": {
+      "recordIndex": 152,
+      "indexRow": 296,
+      "ownerCount": 1,
+      "uniqueOwner": true
+     },
+     "WeaponRoundsComponentData": {
+      "recordIndex": 13,
+      "indexRow": 1,
+      "ownerCount": 1,
+      "uniqueOwner": true
+     }
+    },
+    "values": {
+     "weapon.horizontal_spread": 30.0,
+     "weapon.vertical_spread": 30.0,
+     "weapon.fire_rate": 900.0,
+     "rounds.feed_capacity_1": 1.0,
+     "rounds.spare_rounds": 5,
+     "rounds.rounds_from_supply": 5,
+     "rounds.starting_rounds": 3
+    },
+    "projectile": {
+     "projectileWeapon0": 263,
+     "weaponRounds64": 263
+    },
+    "reload": {
+     "duration": 0.0,
+     "note": "WeaponReload +56 is 0: the reload ability duration applies; the actual reload time is not a component member and stays unpublished"
+    }
+   },
+   "hosts": [
+    "AR/GL-21 One-Two"
+   ]
+  },
+  {
+   "item": "Flamerthrower SMG Flamer",
+   "optionId": "0x3E186F1F",
+   "addPath": "0x992B6F65A5BAB53D",
+   "selfReference": true,
+   "hostsByDefault": [
+    {
+     "resource": "0x8A307BD1811A5FE9",
+     "slot": 1
+    }
+   ],
+   "underbarrel": {
+    "resource": "0x992B6F65A5BAB53D",
+    "path": null,
+    "entityRow": 1341,
+    "family": "SprayWeapon",
+    "components": {
+     "SprayWeaponComponentData": {
+      "recordIndex": 13,
+      "indexRow": 11,
+      "ownerCount": 1,
+      "uniqueOwner": true
+     },
+     "WeaponCustomizationComponentData": {
+      "recordIndex": 75,
+      "indexRow": 333,
+      "ownerCount": 1,
+      "uniqueOwner": true
+     },
+     "WeaponDataComponentData": {
+      "recordIndex": 249,
+      "indexRow": 151,
+      "ownerCount": 1,
+      "uniqueOwner": true
+     },
+     "WeaponMagazineComponentData": {
+      "recordIndex": 192,
+      "indexRow": 102,
+      "ownerCount": 1,
+      "uniqueOwner": true
+     },
+     "WeaponReloadComponentData": {
+      "recordIndex": 151,
+      "indexRow": 185,
+      "ownerCount": 1,
+      "uniqueOwner": true
+     }
+    },
+    "values": {
+     "weapon.horizontal_spread": 1.0,
+     "weapon.vertical_spread": 1.0
+    },
+    "projectile": null,
+    "reload": {
+     "duration": 2.5,
+     "note": "WeaponReload +56 is 0: the reload ability duration applies; the actual reload time is not a component member and stays unpublished"
+    }
+   },
+   "hosts": [
+    "SMG/FLAM-34 Stoker"
+   ]
+  },
+  {
+   "item": "shotgun risk",
+   "optionId": "0xFC0659C0",
+   "addPath": "0xB9C209B4F99B5335",
+   "selfReference": true,
+   "hostsByDefault": [
+    {
+     "resource": "0xA8A91EB54892B6B2",
+     "slot": 1
+    }
+   ],
+   "underbarrel": {
+    "resource": "0xB9C209B4F99B5335",
+    "path": null,
+    "entityRow": 821,
+    "family": "ProjectileWeapon",
+    "components": {
+     "ProjectileWeaponComponentData": {
+      "recordIndex": 187,
+      "indexRow": 74,
+      "ownerCount": 1,
+      "uniqueOwner": true
+     },
+     "WeaponCustomizationComponentData": {
+      "recordIndex": 77,
+      "indexRow": 273,
+      "ownerCount": 1,
+      "uniqueOwner": true
+     },
+     "WeaponDataComponentData": {
+      "recordIndex": 251,
+      "indexRow": 303,
+      "ownerCount": 1,
+      "uniqueOwner": true
+     },
+     "WeaponReloadComponentData": {
+      "recordIndex": 153,
+      "indexRow": 439,
+      "ownerCount": 1,
+      "uniqueOwner": true
+     },
+     "WeaponRoundsComponentData": {
+      "recordIndex": 14,
+      "indexRow": 3,
+      "ownerCount": 1,
+      "uniqueOwner": true
+     }
+    },
+    "values": {
+     "weapon.horizontal_spread": 150.0,
+     "weapon.vertical_spread": 130.0,
+     "weapon.fire_rate": 80.0,
+     "rounds.feed_capacity_1": 4.0,
+     "rounds.spare_rounds": 20,
+     "rounds.rounds_from_supply": 20,
+     "rounds.starting_rounds": 20
+    },
+    "projectile": {
+     "projectileWeapon0": 198,
+     "weaponRounds64": 198
+    },
+    "reload": {
+     "duration": 0.0,
+     "note": "WeaponReload +56 is 0: the reload ability duration applies; the actual reload time is not a component member and stays unpublished"
+    }
+   },
+   "hosts": [
+    "AR-11 Arbitrator"
+   ]
+  }
+ ],
+ "catalogCorrections": [
+  {
+   "weapon": "GP-31 Grenade Pistol",
+   "dropRoot": "0x02CD7321CD8445F5",
+   "underbarrelOf": [
+    "AR/GL-21 One-Two"
+   ],
+   "keptRoots": [
+    "0x52E4334E6A128CAF"
+   ],
+   "resolution": "UNIQUE"
+  },
+  {
+   "weapon": "P-72 Crisper",
+   "dropRoot": "0x992B6F65A5BAB53D",
+   "underbarrelOf": [
+    "SMG/FLAM-34 Stoker"
+   ],
+   "keptRoots": [
+    "0x3F92BA65EF65CCA9"
+   ],
+   "resolution": "UNIQUE"
+  }
+ ]
+}

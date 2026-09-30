@@ -441,18 +441,18 @@
   }
  },
  "summary": {
-  "projectileWeapons": 89,
+  "projectileWeapons": 106,
   "byStatus": {
-   "ACTIVE_DIRECT": 51,
-   "AMBIGUOUS": 3,
-   "BLOCKED": 29,
+   "ACTIVE_DIRECT": 60,
+   "AMBIGUOUS": 5,
+   "BLOCKED": 35,
    "INDIRECT": 6
   },
-  "previousHosts": 58,
+  "previousHosts": 72,
   "previousHostsByStatus": {
-   "ACTIVE_DIRECT": 43,
-   "AMBIGUOUS": 3,
-   "BLOCKED": 6,
+   "ACTIVE_DIRECT": 52,
+   "AMBIGUOUS": 5,
+   "BLOCKED": 9,
    "INDIRECT": 6
   },
   "baseDisagreesWithActive": [
@@ -462,7 +462,7 @@
   "fireRateOverriddenByDefault": [],
   "outputHosts": {
    "ammunition": 6,
-   "component": 43
+   "component": 52
   },
   "ammunitionItemsPatchingProjectile": 97,
   "attackFields": 67,
@@ -10670,6 +10670,619 @@
    "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile).",
    "activeSource": null,
    "baseMember": "NOT_SOLE_SOURCE"
+  },
+  {
+   "weapon": "M-103 Supply FRV / gun",
+   "kind": "vehicle_weapon",
+   "resource": "0x4DF41F84668D07FB",
+   "components": [
+    "ProjectileWeapon",
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload",
+    "WeaponWielder"
+   ],
+   "base": {
+    "projType": 7,
+    "weaponFunctionProjectileType": 0,
+    "projectileEntity": false,
+    "fireRate": 640.0
+   },
+   "magazinePattern": {
+    "entries": 0,
+    "firstProjectile": 0
+   },
+   "defaultCustomization": [],
+   "unlockList": false,
+   "equippableProjectileOptions": [],
+   "armoryCategories": null,
+   "fireRateOverriddenByDefault": [],
+   "magazineFed": true,
+   "outputHost": "component",
+   "selectors": [],
+   "status": "ACTIVE_DIRECT",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "activeSource": {
+    "kind": "component",
+    "value": 7
+   },
+   "baseMember": "ACTIVE"
+  },
+  {
+   "weapon": "TD-110 Maelstrom / attach_tank_gun",
+   "kind": "vehicle_weapon",
+   "resource": "0xD58AE6A04EDB10DE",
+   "components": [
+    "ProjectileWeapon",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload",
+    "WeaponWindUp"
+   ],
+   "base": {
+    "projType": 251,
+    "weaponFunctionProjectileType": 0,
+    "projectileEntity": false,
+    "fireRate": 1200.0
+   },
+   "magazinePattern": {
+    "entries": 5,
+    "firstProjectile": 0
+   },
+   "defaultCustomization": [],
+   "unlockList": false,
+   "equippableProjectileOptions": [],
+   "armoryCategories": null,
+   "fireRateOverriddenByDefault": [],
+   "magazineFed": true,
+   "outputHost": null,
+   "selectors": [
+    "magazine pattern (WeaponMagazine Projectiles[32] / FirstProjectile)"
+   ],
+   "status": "BLOCKED",
+   "reason": "Another native selector owns the fired projectile: magazine pattern (WeaponMagazine Projectiles[32] / FirstProjectile).",
+   "activeSource": null,
+   "baseMember": "NOT_SOLE_SOURCE"
+  },
+  {
+   "weapon": "TD-110 Maelstrom / slot_2",
+   "kind": "vehicle_weapon",
+   "resource": "0x3A061009AA31E9CB",
+   "components": [
+    "ProjectileWeapon",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "base": {
+    "projType": 324,
+    "weaponFunctionProjectileType": 36,
+    "projectileEntity": false,
+    "fireRate": 12.0
+   },
+   "magazinePattern": {
+    "entries": 0,
+    "firstProjectile": 0
+   },
+   "defaultCustomization": [],
+   "unlockList": false,
+   "equippableProjectileOptions": [],
+   "armoryCategories": null,
+   "fireRateOverriddenByDefault": [],
+   "magazineFed": true,
+   "outputHost": null,
+   "selectors": [],
+   "status": "AMBIGUOUS",
+   "reason": "A weapon function (programmable ammo) switches to WeaponFunctionProjectileType; the base member is only the default function's projectile.",
+   "activeSource": null,
+   "baseMember": "UNPROVEN"
+  },
+  {
+   "weapon": "TD-110 Maelstrom / slot_3",
+   "kind": "vehicle_weapon",
+   "resource": "0x8AFF7F0793A5BCED",
+   "components": [
+    "ProjectileWeapon",
+    "WeaponData",
+    "WeaponMagazine"
+   ],
+   "base": {
+    "projType": 245,
+    "weaponFunctionProjectileType": 0,
+    "projectileEntity": true,
+    "fireRate": 240.0
+   },
+   "magazinePattern": {
+    "entries": 0,
+    "firstProjectile": 0
+   },
+   "defaultCustomization": [],
+   "unlockList": false,
+   "equippableProjectileOptions": [],
+   "armoryCategories": null,
+   "fireRateOverriddenByDefault": [],
+   "magazineFed": true,
+   "outputHost": null,
+   "selectors": [
+    "ProjectileEntity (spawns an entity instead of a projectile)"
+   ],
+   "status": "BLOCKED",
+   "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile).",
+   "activeSource": null,
+   "baseMember": "NOT_SOLE_SOURCE"
+  },
+  {
+   "weapon": "TD-110 Maelstrom / slot_4",
+   "kind": "vehicle_weapon",
+   "resource": "0x8AFF7F0793A5BCED",
+   "components": [
+    "ProjectileWeapon",
+    "WeaponData",
+    "WeaponMagazine"
+   ],
+   "base": {
+    "projType": 245,
+    "weaponFunctionProjectileType": 0,
+    "projectileEntity": true,
+    "fireRate": 240.0
+   },
+   "magazinePattern": {
+    "entries": 0,
+    "firstProjectile": 0
+   },
+   "defaultCustomization": [],
+   "unlockList": false,
+   "equippableProjectileOptions": [],
+   "armoryCategories": null,
+   "fireRateOverriddenByDefault": [],
+   "magazineFed": true,
+   "outputHost": null,
+   "selectors": [
+    "ProjectileEntity (spawns an entity instead of a projectile)"
+   ],
+   "status": "BLOCKED",
+   "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile).",
+   "activeSource": null,
+   "baseMember": "NOT_SOLE_SOURCE"
+  },
+  {
+   "weapon": "EXO-49 Emancipator Exosuit / left_gun",
+   "kind": "vehicle_weapon",
+   "resource": "0xE5F64DCC3BFE9DD1",
+   "components": [
+    "ProjectileWeapon",
+    "WeaponData",
+    "WeaponMagazine"
+   ],
+   "base": {
+    "projType": 261,
+    "weaponFunctionProjectileType": 0,
+    "projectileEntity": false,
+    "fireRate": 175.0
+   },
+   "magazinePattern": {
+    "entries": 0,
+    "firstProjectile": 0
+   },
+   "defaultCustomization": [],
+   "unlockList": false,
+   "equippableProjectileOptions": [],
+   "armoryCategories": null,
+   "fireRateOverriddenByDefault": [],
+   "magazineFed": true,
+   "outputHost": "component",
+   "selectors": [],
+   "status": "ACTIVE_DIRECT",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "activeSource": {
+    "kind": "component",
+    "value": 261
+   },
+   "baseMember": "ACTIVE"
+  },
+  {
+   "weapon": "EXO-49 Emancipator Exosuit / right_gun",
+   "kind": "vehicle_weapon",
+   "resource": "0xFF9878576A4C543B",
+   "components": [
+    "ProjectileWeapon",
+    "WeaponData",
+    "WeaponMagazine"
+   ],
+   "base": {
+    "projType": 261,
+    "weaponFunctionProjectileType": 0,
+    "projectileEntity": false,
+    "fireRate": 175.0
+   },
+   "magazinePattern": {
+    "entries": 0,
+    "firstProjectile": 0
+   },
+   "defaultCustomization": [],
+   "unlockList": false,
+   "equippableProjectileOptions": [],
+   "armoryCategories": null,
+   "fireRateOverriddenByDefault": [],
+   "magazineFed": true,
+   "outputHost": "component",
+   "selectors": [],
+   "status": "ACTIVE_DIRECT",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "activeSource": {
+    "kind": "component",
+    "value": 261
+   },
+   "baseMember": "ACTIVE"
+  },
+  {
+   "weapon": "EXO-45 Patriot Exosuit / left_gun",
+   "kind": "vehicle_weapon",
+   "resource": "0x824B7E0C4C879EB5",
+   "components": [
+    "ProjectileWeapon",
+    "WeaponData",
+    "WeaponMagazine"
+   ],
+   "base": {
+    "projType": 128,
+    "weaponFunctionProjectileType": 0,
+    "projectileEntity": true,
+    "fireRate": 90.0
+   },
+   "magazinePattern": {
+    "entries": 0,
+    "firstProjectile": 0
+   },
+   "defaultCustomization": [],
+   "unlockList": false,
+   "equippableProjectileOptions": [],
+   "armoryCategories": null,
+   "fireRateOverriddenByDefault": [],
+   "magazineFed": true,
+   "outputHost": null,
+   "selectors": [
+    "ProjectileEntity (spawns an entity instead of a projectile)"
+   ],
+   "status": "BLOCKED",
+   "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile).",
+   "activeSource": null,
+   "baseMember": "NOT_SOLE_SOURCE"
+  },
+  {
+   "weapon": "EXO-45 Patriot Exosuit / right_gun",
+   "kind": "vehicle_weapon",
+   "resource": "0x08F6089289C83D22",
+   "components": [
+    "ProjectileWeapon",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponWindUp"
+   ],
+   "base": {
+    "projType": 148,
+    "weaponFunctionProjectileType": 0,
+    "projectileEntity": false,
+    "fireRate": 1200.0
+   },
+   "magazinePattern": {
+    "entries": 0,
+    "firstProjectile": 0
+   },
+   "defaultCustomization": [],
+   "unlockList": false,
+   "equippableProjectileOptions": [],
+   "armoryCategories": null,
+   "fireRateOverriddenByDefault": [],
+   "magazineFed": true,
+   "outputHost": "component",
+   "selectors": [],
+   "status": "ACTIVE_DIRECT",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "activeSource": {
+    "kind": "component",
+    "value": 148
+   },
+   "baseMember": "ACTIVE"
+  },
+  {
+   "weapon": "M-102 Gunner FRV / gun",
+   "kind": "vehicle_weapon",
+   "resource": "0x085C1EDB038EC24E",
+   "components": [
+    "ProjectileWeapon",
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "base": {
+    "projType": 275,
+    "weaponFunctionProjectileType": 0,
+    "projectileEntity": false,
+    "fireRate": 600.0
+   },
+   "magazinePattern": {
+    "entries": 0,
+    "firstProjectile": 0
+   },
+   "defaultCustomization": [],
+   "unlockList": false,
+   "equippableProjectileOptions": [],
+   "armoryCategories": null,
+   "fireRateOverriddenByDefault": [],
+   "magazineFed": true,
+   "outputHost": "component",
+   "selectors": [],
+   "status": "ACTIVE_DIRECT",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "activeSource": {
+    "kind": "component",
+    "value": 275
+   },
+   "baseMember": "ACTIVE"
+  },
+  {
+   "weapon": "TD-220 Bastion MK XVI / attach_tank_gun",
+   "kind": "vehicle_weapon",
+   "resource": "0x1FA1F596769225C2",
+   "components": [
+    "ProjectileWeapon",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "base": {
+    "projType": 13,
+    "weaponFunctionProjectileType": 36,
+    "projectileEntity": false,
+    "fireRate": 12.0
+   },
+   "magazinePattern": {
+    "entries": 0,
+    "firstProjectile": 0
+   },
+   "defaultCustomization": [],
+   "unlockList": false,
+   "equippableProjectileOptions": [],
+   "armoryCategories": null,
+   "fireRateOverriddenByDefault": [],
+   "magazineFed": true,
+   "outputHost": null,
+   "selectors": [],
+   "status": "AMBIGUOUS",
+   "reason": "A weapon function (programmable ammo) switches to WeaponFunctionProjectileType; the base member is only the default function's projectile.",
+   "activeSource": null,
+   "baseMember": "UNPROVEN"
+  },
+  {
+   "weapon": "TD-220 Bastion MK XVI / attach_tank_gun_mg",
+   "kind": "vehicle_weapon",
+   "resource": "0x439F9E65C18567DA",
+   "components": [
+    "ProjectileWeapon",
+    "WeaponData",
+    "WeaponMagazine"
+   ],
+   "base": {
+    "projType": 275,
+    "weaponFunctionProjectileType": 0,
+    "projectileEntity": false,
+    "fireRate": 600.0
+   },
+   "magazinePattern": {
+    "entries": 5,
+    "firstProjectile": 0
+   },
+   "defaultCustomization": [],
+   "unlockList": false,
+   "equippableProjectileOptions": [],
+   "armoryCategories": null,
+   "fireRateOverriddenByDefault": [],
+   "magazineFed": true,
+   "outputHost": null,
+   "selectors": [
+    "magazine pattern (WeaponMagazine Projectiles[32] / FirstProjectile)"
+   ],
+   "status": "BLOCKED",
+   "reason": "Another native selector owns the fired projectile: magazine pattern (WeaponMagazine Projectiles[32] / FirstProjectile).",
+   "activeSource": null,
+   "baseMember": "NOT_SOLE_SOURCE"
+  },
+  {
+   "weapon": "EXO-55 Breakthrough Exosuit / right_gun",
+   "kind": "vehicle_weapon",
+   "resource": "0xDF51FE8D62F294BE",
+   "components": [
+    "ProjectileWeapon",
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponReload",
+    "WeaponRounds"
+   ],
+   "base": {
+    "projType": 68,
+    "weaponFunctionProjectileType": 0,
+    "projectileEntity": false,
+    "fireRate": 180.0
+   },
+   "rounds": [
+    68,
+    0
+   ],
+   "defaultCustomization": [],
+   "unlockList": false,
+   "equippableProjectileOptions": [],
+   "armoryCategories": null,
+   "fireRateOverriddenByDefault": [],
+   "magazineFed": false,
+   "outputHost": null,
+   "selectors": [
+    "WeaponRounds ammo types (primary / alternate magazine projectile)"
+   ],
+   "status": "BLOCKED",
+   "reason": "Another native selector owns the fired projectile: WeaponRounds ammo types (primary / alternate magazine projectile).",
+   "activeSource": null,
+   "baseMember": "NOT_SOLE_SOURCE"
+  },
+  {
+   "weapon": "EXO-51 Lumberer Exosuit / right_gun",
+   "kind": "vehicle_weapon",
+   "resource": "0x17C5D12D8D5DEE2C",
+   "components": [
+    "ProjectileWeapon",
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine"
+   ],
+   "base": {
+    "projType": 110,
+    "weaponFunctionProjectileType": 0,
+    "projectileEntity": false,
+    "fireRate": 30.0
+   },
+   "magazinePattern": {
+    "entries": 0,
+    "firstProjectile": 0
+   },
+   "defaultCustomization": [],
+   "unlockList": false,
+   "equippableProjectileOptions": [],
+   "armoryCategories": null,
+   "fireRateOverriddenByDefault": [],
+   "magazineFed": true,
+   "outputHost": "component",
+   "selectors": [],
+   "status": "ACTIVE_DIRECT",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "activeSource": {
+    "kind": "component",
+    "value": 110
+   },
+   "baseMember": "ACTIVE"
+  },
+  {
+   "weapon": "FRV (Super Earth variant) / gun",
+   "kind": "vehicle_weapon",
+   "resource": "0x085C1EDB038EC24E",
+   "components": [
+    "ProjectileWeapon",
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "base": {
+    "projType": 275,
+    "weaponFunctionProjectileType": 0,
+    "projectileEntity": false,
+    "fireRate": 600.0
+   },
+   "magazinePattern": {
+    "entries": 0,
+    "firstProjectile": 0
+   },
+   "defaultCustomization": [],
+   "unlockList": false,
+   "equippableProjectileOptions": [],
+   "armoryCategories": null,
+   "fireRateOverriddenByDefault": [],
+   "magazineFed": true,
+   "outputHost": "component",
+   "selectors": [],
+   "status": "ACTIVE_DIRECT",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "activeSource": {
+    "kind": "component",
+    "value": 275
+   },
+   "baseMember": "ACTIVE"
+  },
+  {
+   "weapon": "GATER Oil Rig / turret",
+   "kind": "vehicle_weapon",
+   "resource": "0x9872EEB31A5F88FD",
+   "components": [
+    "ProjectileWeapon",
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload",
+    "WeaponWielder"
+   ],
+   "base": {
+    "projType": 120,
+    "weaponFunctionProjectileType": 0,
+    "projectileEntity": false,
+    "fireRate": 220.0
+   },
+   "magazinePattern": {
+    "entries": 0,
+    "firstProjectile": 0
+   },
+   "defaultCustomization": [],
+   "unlockList": false,
+   "equippableProjectileOptions": [],
+   "armoryCategories": null,
+   "fireRateOverriddenByDefault": [],
+   "magazineFed": true,
+   "outputHost": "component",
+   "selectors": [],
+   "status": "ACTIVE_DIRECT",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "activeSource": {
+    "kind": "component",
+    "value": 120
+   },
+   "baseMember": "ACTIVE"
+  },
+  {
+   "weapon": "AX/AR-23 Guard Dog / gun",
+   "kind": "vehicle_weapon",
+   "resource": "0xA32621E3BDE13379",
+   "components": [
+    "ProjectileWeapon",
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "base": {
+    "projType": 7,
+    "weaponFunctionProjectileType": 0,
+    "projectileEntity": false,
+    "fireRate": 660.0
+   },
+   "magazinePattern": {
+    "entries": 0,
+    "firstProjectile": 0
+   },
+   "defaultCustomization": [
+    {
+     "slot": 4,
+     "item": "No Muzzle",
+     "optionId": "0x0A702474",
+     "pairOffset": 0,
+     "addPath": "0x0000000000000000",
+     "projectilePatches": [],
+     "fireRatePatched": false
+    }
+   ],
+   "unlockList": false,
+   "equippableProjectileOptions": [],
+   "armoryCategories": null,
+   "fireRateOverriddenByDefault": [],
+   "magazineFed": true,
+   "outputHost": "component",
+   "selectors": [],
+   "status": "ACTIVE_DIRECT",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "activeSource": {
+    "kind": "component",
+    "value": 7
+   },
+   "baseMember": "ACTIVE"
   }
  ]
 }

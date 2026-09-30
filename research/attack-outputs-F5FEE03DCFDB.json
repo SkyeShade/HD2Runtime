@@ -314,6 +314,7 @@
    ],
    "package": "assault_rifle",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/AR-23 Liberator",
    "magazinePatternEntries": 0,
    "rpm": 640.0,
    "infiniteAmmo": false,
@@ -368,6 +369,7 @@
    ],
    "package": "manned_turret_laser",
    "packageAutoLoad": true,
+   "assetKey": "support_weapon/LAS-98 Laser Cannon",
    "beamFireMode": 4,
    "beamIntegers": [
     60,
@@ -419,6 +421,7 @@
    ],
    "package": "laser_shotgun",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/LAS-13 Trident",
    "beamFireMode": 6,
    "beamIntegers": [
     300,
@@ -469,6 +472,7 @@
    ],
    "package": "expendable_napalm_launcher",
    "packageAutoLoad": true,
+   "assetKey": "support_weapon/EAT-700 Expendable Napalm",
    "magazinePatternEntries": 0,
    "rpm": 600.0,
    "infiniteAmmo": false,
@@ -533,6 +537,7 @@
    ],
    "package": "arc_thrower",
    "packageAutoLoad": true,
+   "assetKey": "support_weapon/ARC-3 Arc Thrower",
    "rpm": -1.0,
    "infiniteAmmo": true,
    "projectileHost": false,
@@ -581,6 +586,7 @@
    ],
    "package": "grenade_launcher_tactical",
    "packageAutoLoad": true,
+   "assetKey": "support_weapon/GL-52 De-Escalator",
    "roundsProjectiles": [
     222,
     0
@@ -648,6 +654,7 @@
    ],
    "package": "arc_shotgun",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/ARC-12 Blitzer",
    "rpm": 45.0,
    "infiniteAmmo": true,
    "projectileHost": false,
@@ -805,15 +812,15 @@
   }
  },
  "summary": {
-  "weapons": 105,
+  "weapons": 128,
   "byFamily": {
-   "projectile": 89,
-   "beam": 3,
-   "arc": 2,
-   "spray": 4,
+   "projectile": 106,
+   "beam": 4,
+   "arc": 3,
+   "spray": 8,
    "melee": 7
   },
-  "projectileHosts": 58,
+  "projectileHosts": 72,
   "explosionArcRows": 3
  },
  "weapons": [
@@ -843,6 +850,7 @@
    ],
    "package": "assault_rifle_risk",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/AR-11 Arbitrator",
    "magazinePatternEntries": 0,
    "rpm": 1200.0,
    "infiniteAmmo": false,
@@ -890,6 +898,7 @@
    ],
    "package": null,
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/AR-2 Coyote",
    "magazinePatternEntries": 0,
    "rpm": 600.0,
    "infiniteAmmo": false,
@@ -937,6 +946,7 @@
    ],
    "package": "assault_rifle",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/AR-23 Liberator",
    "magazinePatternEntries": 0,
    "rpm": 640.0,
    "infiniteAmmo": false,
@@ -990,6 +1000,7 @@
    ],
    "package": "assault_rifle_patriot",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/AR-23A Liberator Carbine",
    "magazinePatternEntries": 0,
    "rpm": 920.0,
    "infiniteAmmo": false,
@@ -1043,6 +1054,7 @@
    ],
    "package": "assault_rifle",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/AR-23C Liberator Concussive",
    "magazinePatternEntries": 0,
    "rpm": 400.0,
    "infiniteAmmo": false,
@@ -1092,6 +1104,7 @@
    ],
    "package": "assault_rifle",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/AR-23P Liberator Penetrator",
    "magazinePatternEntries": 0,
    "rpm": 640.0,
    "infiniteAmmo": false,
@@ -1143,6 +1156,7 @@
    ],
    "package": "assault_rifle_karbin",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/AR-32 Pacifier",
    "magazinePatternEntries": 0,
    "rpm": 700.0,
    "infiniteAmmo": false,
@@ -1190,6 +1204,7 @@
    ],
    "package": "assault_rifle_whisper",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/AR-59 Suppressor",
    "magazinePatternEntries": 0,
    "rpm": 850.0,
    "infiniteAmmo": false,
@@ -1237,6 +1252,7 @@
    ],
    "package": "assault_rifle_rico",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/AR-61 Tenderizer",
    "magazinePatternEntries": 0,
    "rpm": 600.0,
    "infiniteAmmo": false,
@@ -1284,6 +1300,7 @@
    ],
    "package": "assault_rifle_grenadier",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/AR/GL-21 One-Two",
    "magazinePatternEntries": 0,
    "rpm": 650.0,
    "infiniteAmmo": false,
@@ -1330,6 +1347,7 @@
    ],
    "package": "arc_shotgun",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/ARC-12 Blitzer",
    "rpm": 45.0,
    "infiniteAmmo": true,
    "projectileHost": false,
@@ -1377,6 +1395,7 @@
    ],
    "package": "battle_rifle",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/BR-14 Adjudicator",
    "magazinePatternEntries": 0,
    "rpm": 550.0,
    "infiniteAmmo": false,
@@ -1424,6 +1443,7 @@
    ],
    "package": "crossbow_greyfax",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/CB-9 Exploding Crossbow",
    "magazinePatternEntries": 0,
    "rpm": 50.0,
    "infiniteAmmo": false,
@@ -1486,6 +1506,7 @@
    ],
    "package": "power_sword",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/CQC-19 Stun Lance",
    "projectileHost": false
   },
   {
@@ -1512,6 +1533,7 @@
    ],
    "package": "ceremonial_saber",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/CQC-2 Saber",
    "projectileHost": false
   },
   {
@@ -1538,6 +1560,7 @@
    ],
    "package": "stun_baton",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/CQC-30 Stun Baton",
    "projectileHost": false
   },
   {
@@ -1564,6 +1587,7 @@
    ],
    "package": "hand_axe",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/CQC-5 Combat Hatchet",
    "projectileHost": false
   },
   {
@@ -1592,6 +1616,7 @@
    ],
    "package": "shotgun_double_freedom",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/DBS-2 Double Freedom",
    "roundsProjectiles": [
     317,
     0
@@ -1629,6 +1654,7 @@
    ],
    "package": "flamethrower_ripley",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/FLAM-66 Torcher",
    "projectileHost": false
   },
   {
@@ -1657,6 +1683,7 @@
    ],
    "package": "pump_shotgun",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/GL-15 Evictor",
    "roundsProjectiles": [
     297,
     0
@@ -1741,6 +1768,7 @@
    ],
    "package": "cricket_pistol",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/GP-20 Ultimatum",
    "magazinePatternEntries": 0,
    "rpm": 900.0,
    "infiniteAmmo": false,
@@ -1805,6 +1833,7 @@
    ],
    "package": "jet_rifle",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/JAR-5 Dominator",
    "magazinePatternEntries": 0,
    "rpm": 250.0,
    "infiniteAmmo": false,
@@ -1852,6 +1881,7 @@
    ],
    "package": "laser_smg_blaster",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/LAS-12 Sai",
    "rpm": 800.0,
    "infiniteAmmo": false,
    "projectileHost": false,
@@ -1898,6 +1928,7 @@
    ],
    "package": "laser_shotgun",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/LAS-13 Trident",
    "beamFireMode": 6,
    "beamIntegers": [
     300,
@@ -1948,6 +1979,7 @@
    ],
    "package": "laser_rifle_long",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/LAS-16 Sickle",
    "rpm": 750.0,
    "infiniteAmmo": false,
    "projectileHost": false,
@@ -1995,6 +2027,7 @@
    ],
    "package": "laser_rifle_long_hotshot",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/LAS-17 Double-Edge Sickle",
    "rpm": 700.0,
    "infiniteAmmo": false,
    "projectileHost": false,
@@ -2042,6 +2075,7 @@
    ],
    "package": "laser_pistol",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/LAS-58 Talon",
    "rpm": 750.0,
    "infiniteAmmo": false,
    "projectileHost": false,
@@ -2088,6 +2122,7 @@
    ],
    "package": "pistol_nacho",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/M6C/SOCOM Pistol",
    "magazinePatternEntries": 0,
    "rpm": 900.0,
    "infiniteAmmo": false,
@@ -2135,6 +2170,7 @@
    ],
    "package": "smg_nacho",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/M7S SMG",
    "magazinePatternEntries": 0,
    "rpm": 872.0,
    "infiniteAmmo": false,
@@ -2182,6 +2218,7 @@
    ],
    "package": "shotgun_nacho",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/M90A Shotgun",
    "roundsProjectiles": [
     62,
     0
@@ -2232,6 +2269,7 @@
    ],
    "package": "assault_rifle_nacho",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/MA5C Assault Rifle",
    "magazinePatternEntries": 0,
    "rpm": 640.0,
    "infiniteAmmo": false,
@@ -2279,6 +2317,7 @@
    ],
    "package": "smg_defender",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/MP-98 Knight",
    "magazinePatternEntries": 0,
    "rpm": 1380.0,
    "infiniteAmmo": false,
@@ -2327,6 +2366,7 @@
    ],
    "package": null,
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/P-11 Stim Pistol",
    "roundsProjectiles": [
     318,
     0
@@ -2378,6 +2418,7 @@
    ],
    "package": "magnum_pistol",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/P-113 Verdict",
    "magazinePatternEntries": 0,
    "rpm": 450.0,
    "infiniteAmmo": false,
@@ -2425,6 +2466,7 @@
    ],
    "package": "automatic_pistol",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/P-19 Redeemer",
    "magazinePatternEntries": 0,
    "rpm": 1100.0,
    "infiniteAmmo": false,
@@ -2459,6 +2501,7 @@
    ],
    "package": "standard_pistol",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/P-2 Peacemaker",
    "magazinePatternEntries": 0,
    "rpm": 900.0,
    "infiniteAmmo": false,
@@ -2493,6 +2536,7 @@
    ],
    "package": "pistol_smart_missile",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/P-33 Missile Pistol",
    "magazinePatternEntries": 0,
    "rpm": 60.0,
    "infiniteAmmo": false,
@@ -2574,6 +2618,7 @@
    ],
    "package": "hornet_pistol",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/P-34 Breacher",
    "magazinePatternEntries": 0,
    "rpm": 20.0,
    "infiniteAmmo": false,
@@ -2655,6 +2700,7 @@
    ],
    "package": "caustic_dart_gun",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/P-35 Re-Educator",
    "magazinePatternEntries": 0,
    "rpm": 110.0,
    "infiniteAmmo": false,
@@ -2702,6 +2748,7 @@
    ],
    "package": "revolver_pistol",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/P-4 Senator",
    "roundsProjectiles": [
     309,
     0
@@ -2739,6 +2786,7 @@
    ],
    "package": "pistol_broomhandle",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/P-69 Veto",
    "roundsProjectiles": [
     237,
     0
@@ -2789,6 +2837,7 @@
    ],
    "package": "smart_pistol",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/P-92 Warrant",
    "magazinePatternEntries": 0,
    "rpm": 450.0,
    "infiniteAmmo": false,
@@ -2836,6 +2885,7 @@
    ],
    "package": "pistol_shark",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/P/40-K Bolt Pistol",
    "magazinePatternEntries": 0,
    "rpm": 150.0,
    "infiniteAmmo": false,
@@ -2900,6 +2950,7 @@
    ],
    "package": "plasma_rifle",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/PLAS-1 Scorcher",
    "magazinePatternEntries": 0,
    "rpm": 350.0,
    "infiniteAmmo": false,
@@ -2967,6 +3018,7 @@
    ],
    "package": "plasma_rifle",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/PLAS-101 Purifier",
    "magazinePatternEntries": 0,
    "rpm": 1000.0,
    "infiniteAmmo": false,
@@ -3032,6 +3084,7 @@
    ],
    "package": "plasma_pistol",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/PLAS-15 Loyalist",
    "magazinePatternEntries": 0,
    "rpm": 1000.0,
    "infiniteAmmo": false,
@@ -3097,6 +3150,7 @@
    ],
    "package": "sniper_rifle_helghast",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/PLAS-39 Accelerator Rifle",
    "magazinePatternEntries": 0,
    "rpm": 550.0,
    "infiniteAmmo": false,
@@ -3161,6 +3215,7 @@
    ],
    "package": "battle_rifle_ceremonial",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/R-2 Amendment",
    "magazinePatternEntries": 0,
    "rpm": 480.0,
    "infiniteAmmo": false,
@@ -3208,6 +3263,7 @@
    ],
    "package": "bolt_action_rifle",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/R-2124 Constitution",
    "roundsProjectiles": [
     282,
     0
@@ -3245,6 +3301,7 @@
    ],
    "package": "jet_rifle_phoenix",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/R-36 Eruptor",
    "magazinePatternEntries": 0,
    "rpm": 32.0,
    "infiniteAmmo": false,
@@ -3326,6 +3383,7 @@
    ],
    "package": "marksman_rifle_vigilance",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/R-4 Hyena",
    "magazinePatternEntries": 0,
    "rpm": 190.0,
    "infiniteAmmo": false,
@@ -3373,6 +3431,7 @@
    ],
    "package": null,
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/R-6 Deadeye",
    "roundsProjectiles": [
     299,
     0
@@ -3423,6 +3482,7 @@
    ],
    "package": "marksman_rifle_vigilance",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/R-63 Diligence",
    "magazinePatternEntries": 0,
    "rpm": 350.0,
    "infiniteAmmo": false,
@@ -3470,6 +3530,7 @@
    ],
    "package": "marksman_rifle_vigilance",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/R-63CS Diligence Counter Sniper",
    "magazinePatternEntries": 0,
    "rpm": 350.0,
    "infiniteAmmo": false,
@@ -3517,6 +3578,7 @@
    ],
    "package": "marksman_rifle",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/R-72 Censor",
    "magazinePatternEntries": 0,
    "rpm": 400.0,
    "infiniteAmmo": false,
@@ -3564,6 +3626,7 @@
    ],
    "package": "marksman_rifle_shark",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/R/40-K Hot-Shot Marksman Rifle",
    "magazinePatternEntries": 0,
    "rpm": 210.0,
    "infiniteAmmo": false,
@@ -3611,6 +3674,7 @@
    ],
    "package": "pump_shotgun_stun",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/SG-20 Halt",
    "roundsProjectiles": [
     183,
     191
@@ -3648,6 +3712,7 @@
    ],
    "package": null,
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/SG-22 Bushwhacker",
    "roundsProjectiles": [
     260,
     0
@@ -3685,6 +3750,7 @@
    ],
    "package": "assault_shotgun",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/SG-225 Breaker",
    "magazinePatternEntries": 0,
    "rpm": 300.0,
    "infiniteAmmo": false,
@@ -3732,6 +3798,7 @@
    ],
    "package": "assault_shotgun_incendiary",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/SG-225IE Breaker Incendiary",
    "magazinePatternEntries": 0,
    "rpm": 300.0,
    "infiniteAmmo": false,
@@ -3779,6 +3846,7 @@
    ],
    "package": "assault_shotgun",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/SG-225SP Breaker Spray&Pray",
    "magazinePatternEntries": 0,
    "rpm": 330.0,
    "infiniteAmmo": false,
@@ -3826,6 +3894,7 @@
    ],
    "package": "pump_shotgun_dragon",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/SG-451 Cookout",
    "roundsProjectiles": [
     347,
     347
@@ -3863,6 +3932,7 @@
    ],
    "package": "pump_shotgun",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/SG-8 Punisher",
    "roundsProjectiles": [
     260,
     260
@@ -3900,6 +3970,7 @@
    ],
    "package": null,
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/SG-8P Punisher Plasma",
    "magazinePatternEntries": 0,
    "rpm": 80.0,
    "infiniteAmmo": false,
@@ -3964,6 +4035,7 @@
    ],
    "package": null,
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/SG-8S Slugger",
    "roundsProjectiles": [
     240,
     240
@@ -4001,6 +4073,7 @@
    ],
    "package": "pump_shotgun_trench",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/SG-97 Sweeper",
    "roundsProjectiles": [
     262,
     0
@@ -4051,6 +4124,7 @@
    ],
    "package": "smg_solvent",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/SMG-203 Gallant",
    "magazinePatternEntries": 0,
    "rpm": 1380.0,
    "infiniteAmmo": false,
@@ -4098,6 +4172,7 @@
    ],
    "package": "smg_rhino",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/SMG-32 Reprimand",
    "magazinePatternEntries": 0,
    "rpm": 490.0,
    "infiniteAmmo": false,
@@ -4145,6 +4220,7 @@
    ],
    "package": "personal_defense_weapon_pepper",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/SMG-72 Pummeler",
    "magazinePatternEntries": 0,
    "rpm": 475.0,
    "infiniteAmmo": false,
@@ -4192,6 +4268,7 @@
    ],
    "package": "smg_flamer",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/SMG/FLAM-34 Stoker",
    "magazinePatternEntries": 0,
    "rpm": 420.0,
    "infiniteAmmo": false,
@@ -4239,6 +4316,7 @@
    ],
    "package": "smg_helghast",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/StA-11 SMG",
    "magazinePatternEntries": 0,
    "rpm": 1050.0,
    "infiniteAmmo": false,
@@ -4287,6 +4365,7 @@
    ],
    "package": "assault_rifle_helghast",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/StA-52 Assault Rifle",
    "magazinePatternEntries": 0,
    "rpm": 790.0,
    "infiniteAmmo": false,
@@ -4340,6 +4419,7 @@
    ],
    "package": "volley_gun",
    "packageAutoLoad": true,
+   "assetKey": "player_weapon/VG-70 Variable",
    "magazinePatternEntries": 0,
    "rpm": 550.0,
    "infiniteAmmo": false,
@@ -4388,6 +4468,7 @@
    ],
    "package": "energy_weapon_shark",
    "packageAutoLoad": true,
+   "assetKey": "support_weapon/40-K Meltagun",
    "beamFireMode": 5,
    "beamIntegers": [
     50,
@@ -4438,6 +4519,7 @@
    ],
    "package": "automatic_cannon",
    "packageAutoLoad": true,
+   "assetKey": "support_weapon/AC-8 Autocannon",
    "roundsProjectiles": [
     115,
     0
@@ -4507,6 +4589,7 @@
    ],
    "package": "sniper_rifle",
    "packageAutoLoad": true,
+   "assetKey": "support_weapon/APW-1 Anti-Materiel Rifle",
    "magazinePatternEntries": 0,
    "rpm": 400.0,
    "infiniteAmmo": false,
@@ -4553,6 +4636,7 @@
    ],
    "package": "arc_thrower",
    "packageAutoLoad": true,
+   "assetKey": "support_weapon/ARC-3 Arc Thrower",
    "rpm": -1.0,
    "infiniteAmmo": true,
    "projectileHost": false,
@@ -4599,6 +4683,7 @@
    ],
    "package": null,
    "packageAutoLoad": false,
+   "assetKey": "support_weapon/B/FLAM-80 Cremator",
    "projectileHost": false
   },
   {
@@ -4625,6 +4710,7 @@
    ],
    "package": "melee_flag",
    "packageAutoLoad": true,
+   "assetKey": "support_weapon/CQC-1 One True Flag",
    "projectileHost": false
   },
   {
@@ -4653,6 +4739,7 @@
    ],
    "package": "melee_sledge_hammer",
    "packageAutoLoad": true,
+   "assetKey": "support_weapon/CQC-20 Breaching Hammer",
    "projectileHost": false
   },
   {
@@ -4679,6 +4766,7 @@
    ],
    "package": "melee_chainsaw_greatsword",
    "packageAutoLoad": true,
+   "assetKey": "support_weapon/CQC-9 Defoliation Tool",
    "projectileHost": false
   },
   {
@@ -4706,6 +4794,7 @@
    ],
    "package": "lat_oneshot",
    "packageAutoLoad": true,
+   "assetKey": "support_weapon/EAT-17 Expendable Anti-Tank",
    "magazinePatternEntries": 0,
    "rpm": 600.0,
    "infiniteAmmo": false,
@@ -4770,6 +4859,7 @@
    ],
    "package": "expendable_massive_rocket_launcher",
    "packageAutoLoad": true,
+   "assetKey": "support_weapon/EAT-411 Leveller",
    "magazinePatternEntries": 0,
    "rpm": 600.0,
    "infiniteAmmo": false,
@@ -4833,6 +4923,7 @@
    ],
    "package": "expendable_napalm_launcher",
    "packageAutoLoad": true,
+   "assetKey": "support_weapon/EAT-700 Expendable Napalm",
    "magazinePatternEntries": 0,
    "rpm": 600.0,
    "infiniteAmmo": false,
@@ -4897,6 +4988,7 @@
    ],
    "package": null,
    "packageAutoLoad": true,
+   "assetKey": "support_weapon/FAF-14 Spear",
    "magazinePatternEntries": 0,
    "rpm": 240.0,
    "infiniteAmmo": false,
@@ -4961,6 +5053,7 @@
    ],
    "package": "flamethrower",
    "packageAutoLoad": true,
+   "assetKey": "support_weapon/FLAM-40 Flamethrower",
    "projectileHost": false
   },
   {
@@ -4989,6 +5082,7 @@
    ],
    "package": "grenade_launcher",
    "packageAutoLoad": true,
+   "assetKey": "support_weapon/GL-21 Grenade Launcher",
    "magazinePatternEntries": 0,
    "rpm": 160.0,
    "infiniteAmmo": false,
@@ -5071,6 +5165,7 @@
    ],
    "package": null,
    "packageAutoLoad": true,
+   "assetKey": "support_weapon/GL-28 Belt-Fed Grenade Launcher",
    "rpm": 240.0,
    "infiniteAmmo": false,
    "projectileHost": false,
@@ -5134,6 +5229,7 @@
    ],
    "package": "grenade_launcher_tactical",
    "packageAutoLoad": true,
+   "assetKey": "support_weapon/GL-52 De-Escalator",
    "roundsProjectiles": [
     222,
     0
@@ -5201,6 +5297,7 @@
    ],
    "package": "recoilless_rifle",
    "packageAutoLoad": true,
+   "assetKey": "support_weapon/GR-8 Recoilless Rifle",
    "magazinePatternEntries": 0,
    "rpm": 600.0,
    "infiniteAmmo": false,
@@ -5265,6 +5362,7 @@
    ],
    "package": "manned_turret_laser",
    "packageAutoLoad": true,
+   "assetKey": "support_weapon/LAS-98 Laser Cannon",
    "beamFireMode": 4,
    "beamIntegers": [
     60,
@@ -5314,6 +5412,7 @@
    ],
    "package": "laser_cannon",
    "packageAutoLoad": true,
+   "assetKey": "support_weapon/LAS-99 Quasar Cannon",
    "rpm": 10.0,
    "infiniteAmmo": true,
    "projectileHost": false,
@@ -5377,6 +5476,7 @@
    ],
    "package": null,
    "packageAutoLoad": true,
+   "assetKey": "support_weapon/M-1000 Maxigun",
    "rpm": 1500.0,
    "infiniteAmmo": false,
    "projectileHost": false,
@@ -5423,6 +5523,7 @@
    ],
    "package": "lmg_stalwart",
    "packageAutoLoad": true,
+   "assetKey": "support_weapon/M-105 Stalwart",
    "magazinePatternEntries": 0,
    "rpm": 850.0,
    "infiniteAmmo": false,
@@ -5476,6 +5577,7 @@
    ],
    "package": "heavy_mg",
    "packageAutoLoad": true,
+   "assetKey": "support_weapon/MG-206 Heavy Machine Gun",
    "magazinePatternEntries": 0,
    "rpm": 600.0,
    "infiniteAmmo": false,
@@ -5527,6 +5629,7 @@
    ],
    "package": "machinegun",
    "packageAutoLoad": true,
+   "assetKey": "support_weapon/MG-43 Machine Gun",
    "magazinePatternEntries": 5,
    "rpm": 760.0,
    "infiniteAmmo": false,
@@ -5582,6 +5685,7 @@
    ],
    "package": "expendable_machinegun",
    "packageAutoLoad": true,
+   "assetKey": "support_weapon/MGX-42 Bullet Storm",
    "magazinePatternEntries": 8,
    "rpm": 1300.0,
    "infiniteAmmo": false,
@@ -5628,6 +5732,7 @@
    ],
    "package": "laser_guided_missile_launcher",
    "packageAutoLoad": true,
+   "assetKey": "support_weapon/MLS-4X Commando",
    "magazinePatternEntries": 0,
    "rpm": 240.0,
    "infiniteAmmo": false,
@@ -5694,6 +5799,7 @@
    ],
    "package": "plasma_blaster",
    "packageAutoLoad": true,
+   "assetKey": "support_weapon/PLAS-45 Epoch",
    "magazinePatternEntries": 0,
    "rpm": 600.0,
    "infiniteAmmo": false,
@@ -5775,6 +5881,7 @@
    ],
    "package": null,
    "packageAutoLoad": true,
+   "assetKey": "support_weapon/RL-77 Airburst Rocket Launcher",
    "magazinePatternEntries": 0,
    "rpm": 600.0,
    "infiniteAmmo": false,
@@ -5857,6 +5964,7 @@
    ],
    "package": "railgun",
    "packageAutoLoad": true,
+   "assetKey": "support_weapon/RS-422 Railgun",
    "magazinePatternEntries": 0,
    "rpm": 60.0,
    "infiniteAmmo": false,
@@ -5905,6 +6013,7 @@
    ],
    "package": "harpoon_gun",
    "packageAutoLoad": true,
+   "assetKey": "support_weapon/S-11 Speargun",
    "magazinePatternEntries": 0,
    "rpm": 60.0,
    "infiniteAmmo": false,
@@ -5969,6 +6078,7 @@
    ],
    "package": "shotgun_doublebarrel",
    "packageAutoLoad": true,
+   "assetKey": "support_weapon/SG-88 Break-Action Shotgun",
    "roundsProjectiles": [
     217,
     0
@@ -6006,6 +6116,7 @@
    ],
    "package": null,
    "packageAutoLoad": true,
+   "assetKey": "support_weapon/StA-X3 W.A.S.P. Launcher",
    "magazinePatternEntries": 0,
    "rpm": 500.0,
    "infiniteAmmo": false,
@@ -6070,6 +6181,1207 @@
    ],
    "package": "chemgun",
    "packageAutoLoad": true,
+   "assetKey": "support_weapon/TX-41 Sterilizer",
+   "projectileHost": false
+  },
+  {
+   "weapon": "M-103 Supply FRV / gun",
+   "kind": "vehicle_weapon",
+   "resource": "0x4DF41F84668D07FB",
+   "entityRow": 2043,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 7
+   },
+   "componentIdentity": {
+    "recordIndex": 267,
+    "indexRow": 55,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "ammo_rack_mounted_turret",
+   "packageAutoLoad": true,
+   "assetKey": "mounted_weapon/mounted-weapon/v1/m-103-supply-frv-gun-weapon/34d73fd6e0ab1d96",
+   "magazinePatternEntries": 0,
+   "rpm": 640.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 105,
+    "mass": 4.5,
+    "settings": {
+     "group": 0,
+     "recordType": 7,
+     "row": 200,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 7,
+    "velocity": 1000
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "0x3357EEBB0184FDEE",
+    "0x4DF41F84668D07FB",
+    "0x73681FFD58FA1A90",
+    "assault_rifle_ap",
+    "drone_mg_weapon"
+   ]
+  },
+  {
+   "weapon": "TD-110 Maelstrom / attach_tank_gun",
+   "kind": "vehicle_weapon",
+   "resource": "0xD58AE6A04EDB10DE",
+   "entityRow": 222,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 251
+   },
+   "componentIdentity": {
+    "recordIndex": 65,
+    "indexRow": 497,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData",
+    "WeaponWindUpComponentData"
+   ],
+   "package": null,
+   "packageAutoLoad": true,
+   "assetKey": "mounted_weapon/mounted-weapon/v1/td-110-maelstrom-attach-tank-gun-weapon/dd2241a292c7330b",
+   "magazinePatternEntries": 5,
+   "rpm": 1200.0,
+   "infiniteAmmo": false,
+   "projectileHost": false,
+   "output": {
+    "damage": 205,
+    "mass": 52,
+    "settings": {
+     "group": 0,
+     "recordType": 251,
+     "row": 253,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 251,
+    "velocity": 980
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "0xD58AE6A04EDB10DE"
+   ]
+  },
+  {
+   "weapon": "TD-110 Maelstrom / slot_2",
+   "kind": "vehicle_weapon",
+   "resource": "0x3A061009AA31E9CB",
+   "entityRow": 2508,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 324
+   },
+   "componentIdentity": {
+    "recordIndex": 67,
+    "indexRow": 419,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": null,
+   "packageAutoLoad": true,
+   "assetKey": "mounted_weapon/mounted-weapon/v1/td-110-maelstrom-slot-2-weapon/3a06c77a110e70c2",
+   "magazinePatternEntries": 0,
+   "rpm": 12.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 0,
+    "mass": 11,
+    "settings": {
+     "group": 0,
+     "recordType": 324,
+     "row": 10,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 324,
+    "velocity": 500
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "0x3A061009AA31E9CB"
+   ]
+  },
+  {
+   "weapon": "TD-110 Maelstrom / slot_3",
+   "kind": "vehicle_weapon",
+   "resource": "0x8AFF7F0793A5BCED",
+   "entityRow": 3309,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 245
+   },
+   "componentIdentity": {
+    "recordIndex": 66,
+    "indexRow": 193,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData"
+   ],
+   "package": null,
+   "packageAutoLoad": true,
+   "assetKey": "mounted_weapon/mounted-weapon/v1/td-110-maelstrom-slot-3-weapon/605fcfcd1be790c4",
+   "magazinePatternEntries": 0,
+   "rpm": 240.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 237,
+    "impact": {
+     "arc": 0,
+     "damage": 392,
+     "radii": [
+      1,
+      2,
+      4
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 148,
+      "row": 236,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 148
+    },
+    "mass": 350,
+    "settings": {
+     "group": 0,
+     "recordType": 245,
+     "row": 122,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 245,
+    "velocity": 70
+   },
+   "compatibilityClass": "explosive_impact",
+   "outputConsumers": [
+    "0x8AFF7F0793A5BCED",
+    "laser_guided_missile_launcher"
+   ]
+  },
+  {
+   "weapon": "TD-110 Maelstrom / slot_4",
+   "kind": "vehicle_weapon",
+   "resource": "0x8AFF7F0793A5BCED",
+   "entityRow": 3309,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 245
+   },
+   "componentIdentity": {
+    "recordIndex": 66,
+    "indexRow": 193,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData"
+   ],
+   "package": null,
+   "packageAutoLoad": true,
+   "assetKey": "mounted_weapon/mounted-weapon/v1/td-110-maelstrom-slot-3-weapon/605fcfcd1be790c4",
+   "magazinePatternEntries": 0,
+   "rpm": 240.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 237,
+    "impact": {
+     "arc": 0,
+     "damage": 392,
+     "radii": [
+      1,
+      2,
+      4
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 148,
+      "row": 236,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 148
+    },
+    "mass": 350,
+    "settings": {
+     "group": 0,
+     "recordType": 245,
+     "row": 122,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 245,
+    "velocity": 70
+   },
+   "compatibilityClass": "explosive_impact",
+   "outputConsumers": [
+    "0x8AFF7F0793A5BCED",
+    "laser_guided_missile_launcher"
+   ]
+  },
+  {
+   "weapon": "M-104 Incinerator FRV / gun",
+   "kind": "vehicle_weapon",
+   "resource": "0x444880F62CA7EAE8",
+   "entityRow": 2792,
+   "family": "spray",
+   "component": "SprayWeaponComponentData",
+   "reference": {
+    "enum": "DamageInfoType",
+    "offset": 200,
+    "value": 17
+   },
+   "componentIdentity": {
+    "recordIndex": 22,
+    "indexRow": 30,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "flamethrower",
+   "packageAutoLoad": true,
+   "assetKey": "mounted_weapon/mounted-weapon/v1/frv-flamethrower/52eb6d862f0c81ce",
+   "projectileHost": false
+  },
+  {
+   "weapon": "EXO-49 Emancipator Exosuit / left_gun",
+   "kind": "vehicle_weapon",
+   "resource": "0xE5F64DCC3BFE9DD1",
+   "entityRow": 3537,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 261
+   },
+   "componentIdentity": {
+    "recordIndex": 157,
+    "indexRow": 201,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData"
+   ],
+   "package": "combat_walker_obsidian",
+   "packageAutoLoad": true,
+   "assetKey": "mounted_weapon/mounted-weapon/v1/combat-walker-autocannon-left/cb15fea8423aa2f6",
+   "magazinePatternEntries": 0,
+   "rpm": 175.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 215,
+    "impact": {
+     "arc": 0,
+     "damage": 371,
+     "radii": [
+      1.5,
+      4.5,
+      6
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 235,
+      "row": 136,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 235
+    },
+    "mass": 900,
+    "settings": {
+     "group": 0,
+     "recordType": 261,
+     "row": 34,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 261,
+    "velocity": 1021
+   },
+   "compatibilityClass": "explosive_impact",
+   "outputConsumers": [
+    "0x0A03761D50BA5121",
+    "0x32C7063B4BCC4208",
+    "0x3E3A31261A124454",
+    "0x8CA4DFA795A473C8",
+    "0xBF4167FD26917AB1",
+    "combat_walker_autocannon_left",
+    "combat_walker_autocannon_right"
+   ]
+  },
+  {
+   "weapon": "EXO-49 Emancipator Exosuit / right_gun",
+   "kind": "vehicle_weapon",
+   "resource": "0xFF9878576A4C543B",
+   "entityRow": 1084,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 261
+   },
+   "componentIdentity": {
+    "recordIndex": 160,
+    "indexRow": 345,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData"
+   ],
+   "package": "combat_walker_obsidian",
+   "packageAutoLoad": true,
+   "assetKey": "mounted_weapon/mounted-weapon/v1/combat-walker-autocannon-right/54728c643193e559",
+   "magazinePatternEntries": 0,
+   "rpm": 175.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 215,
+    "impact": {
+     "arc": 0,
+     "damage": 371,
+     "radii": [
+      1.5,
+      4.5,
+      6
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 235,
+      "row": 136,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 235
+    },
+    "mass": 900,
+    "settings": {
+     "group": 0,
+     "recordType": 261,
+     "row": 34,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 261,
+    "velocity": 1021
+   },
+   "compatibilityClass": "explosive_impact",
+   "outputConsumers": [
+    "0x0A03761D50BA5121",
+    "0x32C7063B4BCC4208",
+    "0x3E3A31261A124454",
+    "0x8CA4DFA795A473C8",
+    "0xBF4167FD26917AB1",
+    "combat_walker_autocannon_left",
+    "combat_walker_autocannon_right"
+   ]
+  },
+  {
+   "weapon": "EXO-45 Patriot Exosuit / left_gun",
+   "kind": "vehicle_weapon",
+   "resource": "0x824B7E0C4C879EB5",
+   "entityRow": 3765,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 128
+   },
+   "componentIdentity": {
+    "recordIndex": 51,
+    "indexRow": 285,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData"
+   ],
+   "package": "combat_walker",
+   "packageAutoLoad": true,
+   "assetKey": "mounted_weapon/mounted-weapon/v1/combat-walker-missle-launcher/b69f79ed51aeb683",
+   "magazinePatternEntries": 0,
+   "rpm": 90.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 239,
+    "impact": {
+     "arc": 0,
+     "damage": 395,
+     "radii": [
+      1,
+      2,
+      4
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 416,
+      "row": 238,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 416
+    },
+    "mass": 2500,
+    "settings": {
+     "group": 0,
+     "recordType": 128,
+     "row": 129,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 128,
+    "velocity": 200
+   },
+   "compatibilityClass": "explosive_impact",
+   "outputConsumers": [
+    "combat_walker_missle_launcher"
+   ]
+  },
+  {
+   "weapon": "EXO-45 Patriot Exosuit / right_gun",
+   "kind": "vehicle_weapon",
+   "resource": "0x08F6089289C83D22",
+   "entityRow": 3362,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 148
+   },
+   "componentIdentity": {
+    "recordIndex": 52,
+    "indexRow": 483,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponWindUpComponentData"
+   ],
+   "package": "combat_walker",
+   "packageAutoLoad": true,
+   "assetKey": "mounted_weapon/mounted-weapon/v1/combat-walker-turret/ec85bacd57e03497",
+   "magazinePatternEntries": 0,
+   "rpm": 1200.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 125,
+    "mass": 11,
+    "settings": {
+     "group": 0,
+     "recordType": 148,
+     "row": 221,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 148,
+    "velocity": 820
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "0x60778A2CFFB6E47F",
+    "0xAA4564F90CDBF5F1",
+    "combat_walker_turret",
+    "gatling_turret",
+    "machinegun",
+    "power_generated_gatling_turret",
+    "safety_turret",
+    "target_turret",
+    "turret_machinegun_gpmg",
+    "tutorial_turret"
+   ]
+  },
+  {
+   "weapon": "M-102 Gunner FRV / gun",
+   "kind": "vehicle_weapon",
+   "resource": "0x085C1EDB038EC24E",
+   "entityRow": 595,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 275
+   },
+   "componentIdentity": {
+    "recordIndex": 265,
+    "indexRow": 72,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "heavy_mg",
+   "packageAutoLoad": true,
+   "assetKey": "mounted_weapon/mounted-weapon/v1/frv-mg/87956cec45a21b90",
+   "magazinePatternEntries": 0,
+   "rpm": 600.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 205,
+    "mass": 52,
+    "settings": {
+     "group": 0,
+     "recordType": 275,
+     "row": 252,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 275,
+    "velocity": 980
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "0x439F9E65C18567DA",
+    "0xC25DC40EDE0E2D16",
+    "0xCD00BDC1149C2928",
+    "frv_mg",
+    "heavy_mg"
+   ]
+  },
+  {
+   "weapon": "TD-220 Bastion MK XVI / attach_tank_gun",
+   "kind": "vehicle_weapon",
+   "resource": "0x1FA1F596769225C2",
+   "entityRow": 1474,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 13
+   },
+   "componentIdentity": {
+    "recordIndex": 63,
+    "indexRow": 118,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": null,
+   "packageAutoLoad": true,
+   "assetKey": "mounted_weapon/mounted-weapon/v1/td-220-bastion-mk-xvi-attach-tank-gun-weapon/e90a7fd19ec0d437",
+   "magazinePatternEntries": 0,
+   "rpm": 12.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 643,
+    "impact": {
+     "arc": 0,
+     "damage": 645,
+     "radii": [
+      3.299999952316284,
+      10,
+      11
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 267,
+      "row": 412,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 267
+    },
+    "mass": 5000,
+    "settings": {
+     "group": 0,
+     "recordType": 13,
+     "row": 344,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 13,
+    "velocity": 400
+   },
+   "compatibilityClass": "explosive_impact",
+   "outputConsumers": [
+    "0x1FA1F596769225C2"
+   ]
+  },
+  {
+   "weapon": "TD-220 Bastion MK XVI / attach_tank_gun_mg",
+   "kind": "vehicle_weapon",
+   "resource": "0x439F9E65C18567DA",
+   "entityRow": 2010,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 275
+   },
+   "componentIdentity": {
+    "recordIndex": 64,
+    "indexRow": 280,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData"
+   ],
+   "package": null,
+   "packageAutoLoad": true,
+   "assetKey": "mounted_weapon/mounted-weapon/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg-weapon/10e4809cf1704447",
+   "magazinePatternEntries": 5,
+   "rpm": 600.0,
+   "infiniteAmmo": false,
+   "projectileHost": false,
+   "output": {
+    "damage": 205,
+    "mass": 52,
+    "settings": {
+     "group": 0,
+     "recordType": 275,
+     "row": 252,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 275,
+    "velocity": 980
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "0x439F9E65C18567DA",
+    "0xC25DC40EDE0E2D16",
+    "0xCD00BDC1149C2928",
+    "frv_mg",
+    "heavy_mg"
+   ]
+  },
+  {
+   "weapon": "EXO-55 Breakthrough Exosuit / right_gun",
+   "kind": "vehicle_weapon",
+   "resource": "0xDF51FE8D62F294BE",
+   "entityRow": 1214,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 68
+   },
+   "componentIdentity": {
+    "recordIndex": 50,
+    "indexRow": 284,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponReloadComponentData",
+    "WeaponRoundsComponentData"
+   ],
+   "package": null,
+   "packageAutoLoad": true,
+   "assetKey": "mounted_weapon/mounted-weapon/v1/combat-walker-flak-cannon/84989fb7944d6bba",
+   "roundsProjectiles": [
+    68,
+    0
+   ],
+   "rpm": 180.0,
+   "infiniteAmmo": false,
+   "projectileHost": false,
+   "output": {
+    "damage": 188,
+    "mass": 6,
+    "settings": {
+     "group": 0,
+     "recordType": 68,
+     "row": 300,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 68,
+    "velocity": 385
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "combat_walker_flak_cannon"
+   ]
+  },
+  {
+   "weapon": "EXO-51 Lumberer Exosuit / left_gun",
+   "kind": "vehicle_weapon",
+   "resource": "0x0736BEE2D6328726",
+   "entityRow": 1830,
+   "family": "spray",
+   "component": "SprayWeaponComponentData",
+   "reference": {
+    "enum": "DamageInfoType",
+    "offset": 200,
+    "value": 17
+   },
+   "componentIdentity": {
+    "recordIndex": 7,
+    "indexRow": 12,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData"
+   ],
+   "package": "combat_walker_lumberer",
+   "packageAutoLoad": true,
+   "assetKey": "mounted_weapon/mounted-weapon/v1/combat-walker-flamethrower/61d1fb4e55fd37dd",
+   "projectileHost": false
+  },
+  {
+   "weapon": "EXO-51 Lumberer Exosuit / right_gun",
+   "kind": "vehicle_weapon",
+   "resource": "0x17C5D12D8D5DEE2C",
+   "entityRow": 3628,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 110
+   },
+   "componentIdentity": {
+    "recordIndex": 48,
+    "indexRow": 214,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData"
+   ],
+   "package": "combat_walker_lumberer",
+   "packageAutoLoad": true,
+   "assetKey": "mounted_weapon/mounted-weapon/v1/combat-walker-anti-tank-cannon/7b5046ba53f31e10",
+   "magazinePatternEntries": 0,
+   "rpm": 30.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 226,
+    "impact": {
+     "arc": 0,
+     "damage": 382,
+     "radii": [
+      3,
+      6,
+      7
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 46,
+      "row": 123,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 46
+    },
+    "mass": 6500,
+    "settings": {
+     "group": 0,
+     "recordType": 110,
+     "row": 96,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 110,
+    "velocity": 625
+   },
+   "compatibilityClass": "explosive_impact",
+   "outputConsumers": [
+    "antitank_emplacement",
+    "combat_walker_anti_tank_cannon"
+   ]
+  },
+  {
+   "weapon": "FRV (Super Earth variant) / gun",
+   "kind": "vehicle_weapon",
+   "resource": "0x085C1EDB038EC24E",
+   "entityRow": 595,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 275
+   },
+   "componentIdentity": {
+    "recordIndex": 265,
+    "indexRow": 72,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "heavy_mg",
+   "packageAutoLoad": true,
+   "assetKey": "mounted_weapon/mounted-weapon/v1/frv-mg/87956cec45a21b90",
+   "magazinePatternEntries": 0,
+   "rpm": 600.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 205,
+    "mass": 52,
+    "settings": {
+     "group": 0,
+     "recordType": 275,
+     "row": 252,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 275,
+    "velocity": 980
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "0x439F9E65C18567DA",
+    "0xC25DC40EDE0E2D16",
+    "0xCD00BDC1149C2928",
+    "frv_mg",
+    "heavy_mg"
+   ]
+  },
+  {
+   "weapon": "GATER Oil Rig / turret",
+   "kind": "vehicle_weapon",
+   "resource": "0x9872EEB31A5F88FD",
+   "entityRow": 2301,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 120
+   },
+   "componentIdentity": {
+    "recordIndex": 47,
+    "indexRow": 490,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "oil_rig",
+   "packageAutoLoad": true,
+   "assetKey": "mounted_weapon/mounted-weapon/v1/gater-oil-rig-turret-weapon/3aba6f3418fada66",
+   "magazinePatternEntries": 0,
+   "rpm": 220.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 216,
+    "impact": {
+     "arc": 0,
+     "damage": 373,
+     "radii": [
+      2,
+      6,
+      8
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 234,
+      "row": 138,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 234
+    },
+    "mass": 900,
+    "settings": {
+     "group": 0,
+     "recordType": 120,
+     "row": 36,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 120,
+    "velocity": 1021
+   },
+   "compatibilityClass": "explosive_impact",
+   "outputConsumers": [
+    "0x54D86057F5DACFB9",
+    "0x9872EEB31A5F88FD",
+    "0xDE6CD49631940A14",
+    "lav_autocannon",
+    "shuttle_gunship_turret_hmg"
+   ]
+  },
+  {
+   "weapon": "AX/AR-23 Guard Dog / gun",
+   "kind": "vehicle_weapon",
+   "resource": "0xA32621E3BDE13379",
+   "entityRow": 890,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 7
+   },
+   "componentIdentity": {
+    "recordIndex": 188,
+    "indexRow": 413,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": null,
+   "packageAutoLoad": false,
+   "assetKey": "mounted_weapon/mounted-weapon/v1/drone-mg-weapon/473e6c3f3ecb9759",
+   "magazinePatternEntries": 0,
+   "rpm": 660.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 105,
+    "mass": 4.5,
+    "settings": {
+     "group": 0,
+     "recordType": 7,
+     "row": 200,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 7,
+    "velocity": 1000
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "0x3357EEBB0184FDEE",
+    "0x4DF41F84668D07FB",
+    "0x73681FFD58FA1A90",
+    "assault_rifle_ap",
+    "drone_mg_weapon"
+   ]
+  },
+  {
+   "weapon": "AX/LAS-5 Rover / gun",
+   "kind": "vehicle_weapon",
+   "resource": "0x2C66C201B2543D2C",
+   "entityRow": 3372,
+   "family": "beam",
+   "component": "BeamWeaponComponentData",
+   "reference": {
+    "enum": "BeamType",
+    "offset": 0,
+    "value": 25
+   },
+   "componentIdentity": {
+    "recordIndex": 15,
+    "indexRow": 38,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponHeatComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "laser_rifle_mount",
+   "packageAutoLoad": true,
+   "assetKey": "mounted_weapon/mounted-weapon/v1/drone-laser-rifle-mount/d24c7f3b6e85858c",
+   "beamFireMode": 4,
+   "beamIntegers": [
+    60,
+    1
+   ],
+   "beamPulse": 0.0,
+   "projectileHost": false,
+   "output": {
+    "damage": 503,
+    "explosion": 0,
+    "length": 1000,
+    "radius": 0,
+    "settings": {
+     "group": 0,
+     "recordType": 25,
+     "row": 3,
+     "settingsType": "0xC5085606"
+    },
+    "type": 25
+   },
+   "outputConsumers": [
+    "drone_laser_rifle_mount"
+   ]
+  },
+  {
+   "weapon": "AX/FLAM-75 Hot Dog / gun",
+   "kind": "vehicle_weapon",
+   "resource": "0x65CD4325BA23F3C6",
+   "entityRow": 966,
+   "family": "spray",
+   "component": "SprayWeaponComponentData",
+   "reference": {
+    "enum": "DamageInfoType",
+    "offset": 200,
+    "value": 15
+   },
+   "componentIdentity": {
+    "recordIndex": 15,
+    "indexRow": 44,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": null,
+   "packageAutoLoad": false,
+   "assetKey": "mounted_weapon/mounted-weapon/v1/drone-flamethrower-mount/4eef657729c544ac",
+   "projectileHost": false
+  },
+  {
+   "weapon": "AX/ARC-3 K-9 / gun",
+   "kind": "vehicle_weapon",
+   "resource": "0xA0532C3616528CBF",
+   "entityRow": 3263,
+   "family": "arc",
+   "component": "ArcWeaponComponentData",
+   "reference": {
+    "enum": "ArcType",
+    "offset": 0,
+    "value": 8
+   },
+   "componentIdentity": {
+    "recordIndex": 7,
+    "indexRow": 11,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "stun_gun_mount",
+   "packageAutoLoad": true,
+   "assetKey": "mounted_weapon/mounted-weapon/v1/drone-stun-gun-mount/7f06093280ceb95e",
+   "rpm": 12.0,
+   "infiniteAmmo": true,
+   "projectileHost": false,
+   "output": {
+    "chain": 2,
+    "damage": 200,
+    "distance": 55,
+    "settings": {
+     "group": 0,
+     "recordType": 8,
+     "row": 5,
+     "settingsType": "0xAFDF0267"
+    },
+    "speed": 300,
+    "split": 5,
+    "type": 8
+   },
+   "outputConsumers": [
+    "drone_stun_gun_mount"
+   ]
+  },
+  {
+   "weapon": "AX/TX-13 Dog Breath / gun",
+   "kind": "vehicle_weapon",
+   "resource": "0xB729A2BA153BCAED",
+   "entityRow": 2798,
+   "family": "spray",
+   "component": "SprayWeaponComponentData",
+   "reference": {
+    "enum": "DamageInfoType",
+    "offset": 200,
+    "value": 29
+   },
+   "componentIdentity": {
+    "recordIndex": 16,
+    "indexRow": 33,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": null,
+   "packageAutoLoad": false,
+   "assetKey": "mounted_weapon/mounted-weapon/v1/drone-gas-projector-mount/fa183017e162b3a1",
    "projectileHost": false
   }
  ]

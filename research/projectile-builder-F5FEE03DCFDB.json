@@ -319,6 +319,14 @@
     {
      "weapon": "AR-23P Liberator Penetrator",
      "kind": "player_weapon"
+    },
+    {
+     "weapon": "M-103 Supply FRV / gun",
+     "kind": "vehicle_weapon"
+    },
+    {
+     "weapon": "AX/AR-23 Guard Dog / gun",
+     "kind": "vehicle_weapon"
     }
    ],
    "identity": {
@@ -364,6 +372,79 @@
     "0x73681FFD58FA1A90",
     "assault_rifle_ap",
     "drone_mg_weapon"
+   ]
+  },
+  {
+   "type": 13,
+   "outputs": [
+    {
+     "weapon": "TD-220 Bastion MK XVI / attach_tank_gun",
+     "kind": "vehicle_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 344,
+    "recordType": 13,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 643,
+     "standard": 3500,
+     "durable": 3500,
+     "ap": [
+      8,
+      7,
+      6,
+      6
+     ],
+     "statuses": []
+    },
+    "impactExplosion": {
+     "type": 267,
+     "row": 412,
+     "damage": {
+      "type": 645,
+      "standard": 750,
+      "durable": 750,
+      "ap": [
+       5,
+       0,
+       0,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      3.3,
+      10.0,
+      11.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": null,
+     "arc": null
+    },
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "0x1FA1F596769225C2"
    ]
   },
   {
@@ -928,6 +1009,55 @@
    ]
   },
   {
+   "type": 68,
+   "outputs": [
+    {
+     "weapon": "EXO-55 Breakthrough Exosuit / right_gun",
+     "kind": "vehicle_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 300,
+    "recordType": 68,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 188,
+     "standard": 90,
+     "durable": 30,
+     "ap": [
+      4,
+      4,
+      4,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 2,
+   "consumerOwners": [
+    "combat_walker_flak_cannon"
+   ]
+  },
+  {
    "type": 76,
    "outputs": [
     {
@@ -1275,6 +1405,80 @@
    ]
   },
   {
+   "type": 110,
+   "outputs": [
+    {
+     "weapon": "EXO-51 Lumberer Exosuit / right_gun",
+     "kind": "vehicle_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 96,
+    "recordType": 110,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 226,
+     "standard": 1300,
+     "durable": 1300,
+     "ap": [
+      6,
+      6,
+      6,
+      3
+     ],
+     "statuses": []
+    },
+    "impactExplosion": {
+     "type": 46,
+     "row": 123,
+     "damage": {
+      "type": 382,
+      "standard": 150,
+      "durable": 150,
+      "ap": [
+       3,
+       0,
+       0,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      3.0,
+      6.0,
+      7.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": null,
+     "arc": null
+    },
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 2,
+   "consumerOwners": [
+    "antitank_emplacement",
+    "combat_walker_anti_tank_cannon"
+   ]
+  },
+  {
    "type": 115,
    "outputs": [
     {
@@ -1397,6 +1601,83 @@
    "consumerCount": 1,
    "consumerOwners": [
     "assault_rifle_nacho"
+   ]
+  },
+  {
+   "type": 120,
+   "outputs": [
+    {
+     "weapon": "GATER Oil Rig / turret",
+     "kind": "vehicle_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 36,
+    "recordType": 120,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 216,
+     "standard": 450,
+     "durable": 450,
+     "ap": [
+      5,
+      5,
+      5,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": {
+     "type": 234,
+     "row": 138,
+     "damage": {
+      "type": 373,
+      "standard": 150,
+      "durable": 150,
+      "ap": [
+       3,
+       0,
+       0,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      2.0,
+      6.0,
+      8.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": null,
+     "arc": null
+    },
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 5,
+   "consumerOwners": [
+    "0x54D86057F5DACFB9",
+    "0x9872EEB31A5F88FD",
+    "0xDE6CD49631940A14",
+    "lav_autocannon",
+    "shuttle_gunship_turret_hmg"
    ]
   },
   {
@@ -1537,6 +1818,79 @@
    "consumerCount": 1,
    "consumerOwners": [
     "harpoon_gun"
+   ]
+  },
+  {
+   "type": 128,
+   "outputs": [
+    {
+     "weapon": "EXO-45 Patriot Exosuit / left_gun",
+     "kind": "vehicle_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 129,
+    "recordType": 128,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 239,
+     "standard": 1250,
+     "durable": 1250,
+     "ap": [
+      6,
+      6,
+      5,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": {
+     "type": 416,
+     "row": 238,
+     "damage": {
+      "type": 395,
+      "standard": 400,
+      "durable": 400,
+      "ap": [
+       3,
+       0,
+       0,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      1.0,
+      2.0,
+      4.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": null,
+     "arc": null
+    },
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "combat_walker_missle_launcher"
    ]
   },
   {
@@ -1968,6 +2322,10 @@
     {
      "weapon": "MG-43 Machine Gun",
      "kind": "support_weapon"
+    },
+    {
+     "weapon": "EXO-45 Patriot Exosuit / right_gun",
+     "kind": "vehicle_weapon"
     }
    ],
    "identity": {
@@ -3369,6 +3727,14 @@
     {
      "weapon": "MLS-4X Commando",
      "kind": "support_weapon"
+    },
+    {
+     "weapon": "TD-110 Maelstrom / slot_3",
+     "kind": "vehicle_weapon"
+    },
+    {
+     "weapon": "TD-110 Maelstrom / slot_4",
+     "kind": "vehicle_weapon"
     }
    ],
    "identity": {
@@ -3511,6 +3877,55 @@
    ]
   },
   {
+   "type": 251,
+   "outputs": [
+    {
+     "weapon": "TD-110 Maelstrom / attach_tank_gun",
+     "kind": "vehicle_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 253,
+    "recordType": 251,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 205,
+     "standard": 150,
+     "durable": 35,
+     "ap": [
+      4,
+      4,
+      4,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "0xD58AE6A04EDB10DE"
+   ]
+  },
+  {
    "type": 259,
    "outputs": [
     {
@@ -3595,6 +4010,89 @@
    "consumerCount": 1,
    "consumerOwners": [
     "expendable_napalm_launcher"
+   ]
+  },
+  {
+   "type": 261,
+   "outputs": [
+    {
+     "weapon": "EXO-49 Emancipator Exosuit / left_gun",
+     "kind": "vehicle_weapon"
+    },
+    {
+     "weapon": "EXO-49 Emancipator Exosuit / right_gun",
+     "kind": "vehicle_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 34,
+    "recordType": 261,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 215,
+     "standard": 300,
+     "durable": 150,
+     "ap": [
+      5,
+      5,
+      5,
+      0
+     ],
+     "statuses": []
+    },
+    "impactExplosion": {
+     "type": 235,
+     "row": 136,
+     "damage": {
+      "type": 371,
+      "standard": 150,
+      "durable": 150,
+      "ap": [
+       3,
+       0,
+       0,
+       0
+      ],
+      "statuses": []
+     },
+     "radii": [
+      1.5,
+      4.5,
+      6.0
+     ],
+     "volume": null,
+     "volumeSeconds": null,
+     "submunition": null,
+     "arc": null
+    },
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 7,
+   "consumerOwners": [
+    "0x0A03761D50BA5121",
+    "0x32C7063B4BCC4208",
+    "0x3E3A31261A124454",
+    "0x8CA4DFA795A473C8",
+    "0xBF4167FD26917AB1",
+    "combat_walker_autocannon_left",
+    "combat_walker_autocannon_right"
    ]
   },
   {
@@ -3749,6 +4247,18 @@
     {
      "weapon": "MG-206 Heavy Machine Gun",
      "kind": "support_weapon"
+    },
+    {
+     "weapon": "M-102 Gunner FRV / gun",
+     "kind": "vehicle_weapon"
+    },
+    {
+     "weapon": "TD-220 Bastion MK XVI / attach_tank_gun_mg",
+     "kind": "vehicle_weapon"
+    },
+    {
+     "weapon": "FRV (Super Earth variant) / gun",
+     "kind": "vehicle_weapon"
     }
    ],
    "identity": {
@@ -4620,6 +5130,47 @@
    "consumerOwners": [
     "0x03271411D3D0BAB9",
     "stim_pistol"
+   ]
+  },
+  {
+   "type": 324,
+   "outputs": [
+    {
+     "weapon": "TD-110 Maelstrom / slot_2",
+     "kind": "vehicle_weapon"
+    }
+   ],
+   "identity": {
+    "group": 0,
+    "row": 10,
+    "recordType": 324,
+    "settingsType": "0xBD4042C2"
+   },
+   "slots": {
+    "directDamage": {
+     "type": 0,
+     "resolved": false
+    },
+    "impactExplosion": null,
+    "expiryExplosion": null,
+    "unknownMembers": {
+     "148": {
+      "value": 0.0,
+      "note": "f32 (name length 19) after the impact explosion: its meaning (a delay or a chance) is not proven"
+     },
+     "152": {
+      "value": 0.0,
+      "note": "f32 (name length 15) after it: not proven"
+     },
+     "228": {
+      "value": 0,
+      "note": "ProjectileStatusEffect enum: not proven"
+     }
+    }
+   },
+   "consumerCount": 1,
+   "consumerOwners": [
+    "0x3A061009AA31E9CB"
    ]
   },
   {
@@ -5517,6 +6068,169 @@
    "mechanism": null,
    "componentHost": false,
    "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile)."
+  }
+ ],
+ "mountedHosts": [
+  {
+   "weapon": "M-103 Supply FRV / gun",
+   "status": "ACTIVE_DIRECT",
+   "magazineFed": true,
+   "mechanism": "component",
+   "componentHost": true,
+   "sharedEntity": [],
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+  },
+  {
+   "weapon": "TD-110 Maelstrom / attach_tank_gun",
+   "status": "BLOCKED",
+   "magazineFed": true,
+   "mechanism": null,
+   "componentHost": false,
+   "sharedEntity": [],
+   "reason": "Another native selector owns the fired projectile: magazine pattern (WeaponMagazine Projectiles[32] / FirstProjectile)."
+  },
+  {
+   "weapon": "TD-110 Maelstrom / slot_2",
+   "status": "AMBIGUOUS",
+   "magazineFed": true,
+   "mechanism": null,
+   "componentHost": false,
+   "sharedEntity": [],
+   "reason": "A weapon function (programmable ammo) switches to WeaponFunctionProjectileType; the base member is only the default function's projectile."
+  },
+  {
+   "weapon": "TD-110 Maelstrom / slot_3",
+   "status": "BLOCKED",
+   "magazineFed": true,
+   "mechanism": null,
+   "componentHost": false,
+   "sharedEntity": [
+    "TD-110 Maelstrom / slot_4"
+   ],
+   "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile)."
+  },
+  {
+   "weapon": "TD-110 Maelstrom / slot_4",
+   "status": "BLOCKED",
+   "magazineFed": true,
+   "mechanism": null,
+   "componentHost": false,
+   "sharedEntity": [
+    "TD-110 Maelstrom / slot_3"
+   ],
+   "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile)."
+  },
+  {
+   "weapon": "EXO-49 Emancipator Exosuit / left_gun",
+   "status": "ACTIVE_DIRECT",
+   "magazineFed": true,
+   "mechanism": "component",
+   "componentHost": true,
+   "sharedEntity": [],
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+  },
+  {
+   "weapon": "EXO-49 Emancipator Exosuit / right_gun",
+   "status": "ACTIVE_DIRECT",
+   "magazineFed": true,
+   "mechanism": "component",
+   "componentHost": true,
+   "sharedEntity": [],
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+  },
+  {
+   "weapon": "EXO-45 Patriot Exosuit / left_gun",
+   "status": "BLOCKED",
+   "magazineFed": true,
+   "mechanism": null,
+   "componentHost": false,
+   "sharedEntity": [],
+   "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile)."
+  },
+  {
+   "weapon": "EXO-45 Patriot Exosuit / right_gun",
+   "status": "ACTIVE_DIRECT",
+   "magazineFed": true,
+   "mechanism": "component",
+   "componentHost": true,
+   "sharedEntity": [],
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+  },
+  {
+   "weapon": "M-102 Gunner FRV / gun",
+   "status": "ACTIVE_DIRECT",
+   "magazineFed": true,
+   "mechanism": "component",
+   "componentHost": true,
+   "sharedEntity": [
+    "FRV (Super Earth variant) / gun"
+   ],
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+  },
+  {
+   "weapon": "TD-220 Bastion MK XVI / attach_tank_gun",
+   "status": "AMBIGUOUS",
+   "magazineFed": true,
+   "mechanism": null,
+   "componentHost": false,
+   "sharedEntity": [],
+   "reason": "A weapon function (programmable ammo) switches to WeaponFunctionProjectileType; the base member is only the default function's projectile."
+  },
+  {
+   "weapon": "TD-220 Bastion MK XVI / attach_tank_gun_mg",
+   "status": "BLOCKED",
+   "magazineFed": true,
+   "mechanism": null,
+   "componentHost": false,
+   "sharedEntity": [],
+   "reason": "Another native selector owns the fired projectile: magazine pattern (WeaponMagazine Projectiles[32] / FirstProjectile)."
+  },
+  {
+   "weapon": "EXO-55 Breakthrough Exosuit / right_gun",
+   "status": "BLOCKED",
+   "magazineFed": false,
+   "mechanism": null,
+   "componentHost": false,
+   "sharedEntity": [],
+   "reason": "Another native selector owns the fired projectile: WeaponRounds ammo types (primary / alternate magazine projectile)."
+  },
+  {
+   "weapon": "EXO-51 Lumberer Exosuit / right_gun",
+   "status": "ACTIVE_DIRECT",
+   "magazineFed": true,
+   "mechanism": "component",
+   "componentHost": true,
+   "sharedEntity": [],
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+  },
+  {
+   "weapon": "FRV (Super Earth variant) / gun",
+   "status": "ACTIVE_DIRECT",
+   "magazineFed": true,
+   "mechanism": "component",
+   "componentHost": true,
+   "sharedEntity": [
+    "M-102 Gunner FRV / gun"
+   ],
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+  },
+  {
+   "weapon": "GATER Oil Rig / turret",
+   "status": "ACTIVE_DIRECT",
+   "magazineFed": true,
+   "mechanism": "component",
+   "componentHost": true,
+   "sharedEntity": [],
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
+  },
+  {
+   "weapon": "AX/AR-23 Guard Dog / gun",
+   "status": "ACTIVE_DIRECT",
+   "magazineFed": true,
+   "mechanism": "component",
+   "componentHost": true,
+   "sharedEntity": [],
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0."
   }
  ]
 }
