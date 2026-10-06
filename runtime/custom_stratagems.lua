@@ -2736,9 +2736,9 @@ local function start_capture(ctx,d)
                             items={ctx.missile_network},entities={ctx.missile},roles={'payload'}})
                     end
                     ctx:log(ok and(('CUSTOM MP ITEMS: missile network id %d (call beacon network id %s) published to every '
-                        ..'compatible Runtime: the session host requests its blast'):format(ctx.missile_network,
-                        tostring(ctx.beacon and ctx.beacon.network)))or('CUSTOM MP ITEMS NOT published (the host cannot '
-                        ..'watch this missile: no blast unless this machine is the host): '..tostring(pwhy)))
+                        ..'compatible Runtime: every machine requests its blast from its own copy'):format(ctx.missile_network,
+                        tostring(ctx.beacon and ctx.beacon.network)))or('CUSTOM MP ITEMS NOT published (the other '
+                        ..'machines cannot watch this missile: only this machine draws its blast): '..tostring(pwhy)))
                 end
                 local silos=require('hd2runtime/runtime/custom_silos')
                 ctx.silo_watch=silos.watch({missile=ctx.missile,detonation=s.detonation,label=ctx.call_id},function(ev)
@@ -2747,10 +2747,10 @@ local function start_capture(ctx,d)
                     elseif ev.kind=='gone'then
                         ctx:log(('missile %d ended before it left the silo: no blast'):format(ctx.missile))
                     elseif ev.kind=='detonated'then
-                        local action,name=silos.blast(d,ev.position,ctx.call_id)
+                        local action,name=silos.blast(d,ev.position,ctx.call_id,ev.origin)
                         ctx:log(('missile %d DETONATED at %s (%s, %.1f s after its capture): %s'):format(ctx.missile,
                             at(ev.position),ev.via=='queue'and'its own detonation in the explosion queue'
-                            or'inferred: the missile is gone',ev.seconds,action and(name..' explosion requested there ('
+                            or'inferred: the missile is gone',ev.seconds,action and(name..' explosion requested there on this machine ('
                             ..tostring(action.status)..')')or('no blast from this machine: '..tostring(name))))
                     end
                 end)
@@ -4201,8 +4201,8 @@ do
             return {missile=entity}
         end,
         describe=function(d)
-            return mission.client and'watched here (the session host requests its blast)'
-                or('watched here: where it detonates this machine, the host, requests the '..d.delivery.blast..' explosion')
+            return 'watched here: where it detonates this machine requests the '..d.delivery.blast..' explosion from its '
+                ..'own copy'
         end,
         bind=function(spec)
             local d=spec.definition
@@ -4216,9 +4216,9 @@ do
                 if ev.kind=='launched'then line('LAUNCHED at '..at(ev.position))
                 elseif ev.kind=='gone'then line('ended before it left the silo: no blast')
                 elseif ev.kind=='detonated'then
-                    local action,name=silos.blast(d,ev.position,label)
+                    local action,name=silos.blast(d,ev.position,label,ev.origin)
                     line(('DETONATED at %s (%s): %s'):format(at(ev.position),ev.via=='queue'and'its own detonation in the '
-                        ..'explosion queue'or'inferred: the missile is gone',action and(name..' explosion requested there ('
+                        ..'explosion queue'or'inferred: the missile is gone',action and(name..' explosion requested there on this machine ('
                         ..tostring(action.status)..')')or('no blast from this machine: '..tostring(name))))
                 end
             end)

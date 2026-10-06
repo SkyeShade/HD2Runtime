@@ -9,9 +9,12 @@
 --     entity (event natives: an explosive's detonation is queued with its own entity as the source), read every update
 --     while the missile exists: its position, at once. Else, the missile entity gone after it left the silo: its last
 --     read position (inferred). Gone before it left the silo (the silo destroyed first): no blast;
---   * the request: the session host's (hd2.explosions.spawn refuses a client, HOST_ONLY: enemy health is the host's),
---     credited to the host's player (the live-proven request). With several players the caller publishes the
---     missile's network id (runtime/custom_mp_items.lua) and the host watches its own copy of that missile;
+--   * the request: on EVERY machine that watches the missile, each from its own copy, as the game requests the
+--     missile's own blast (live 2026-10-07: a host-only request drew nothing on the client; the client's queue held the
+--     missile's own detonation from its own copy). Each machine's request draws and sounds it there and is its own
+--     local simulation (enemy health stays the host's), attributed as the game attributes that detonation: its source,
+--     owner and creditor (api/actions.lua mirror_explosion). With several players the caller publishes the missile's
+--     network id (runtime/custom_mp_items.lua) and every other compatible Runtime watches its own copy of it;
 --   * assets: the blast's packages (and the fallback's) are the definition's, requested at mission start on every
 --     machine whose lobby picked it (the custom stratagem is not callable before the caller's are resident). Not
 --     resident at the detonation: the fallback blast, if any; else none.
@@ -116,7 +119,8 @@ function M.watch(spec,callback)
         -- Its own detonation, queued this frame or still readable from an earlier one.
         local q=launched and queued(world)
         if q then
-            emit({kind='detonated',position={x=q.x,y=q.y,z=q.z},via='queue',seconds=w.seconds})
+            emit({kind='detonated',position={x=q.x,y=q.y,z=q.z},via='queue',seconds=w.seconds,
+                origin={source=q.source,owner=q.owner,peer_lo=q.peer_lo,peer_hi=q.peer_hi}})
             return finish('detonated')
         end
         if not exists then
@@ -137,15 +141,11 @@ end
 -- The blast of a detonation: the definition's explosion (or its fallback when the blast's packages are not resident
 -- here) requested at the position, by the session host only. d: the definition (its delivery a silo spec); owner: the
 -- requesting mod (rate limit and log). Returns the explosion action (hd2.explosions.spawn's handle), or nil and why.
-function M.blast(d,position,label)
+function M.blast(d,position,label,origin)
     local s=d.delivery
     local actions=require('hd2runtime/api/actions')
     local world=world_module.open()
     if not world then return nil,'no game world'end
-    local game=world_module.game_state(world)
-    if not(game and game.host==true)then
-        return nil,'HOST_ONLY: the session host requests the blast (enemy health is the host\'s)'
-    end
     local name=s.blast
     local target=actions.explosion_target(name)
     if not(target and actions.explosion_resident(world.runtime,target))then
@@ -158,9 +158,9 @@ function M.blast(d,position,label)
             s.fallback))
         name=s.fallback
     end
-    local action=actions.explosions.spawn(name,{position=position,owner=d.owner})
-    if action.status=='refused'then return nil,tostring(action.code)..': '..tostring(action.reason)end
-    return action,name
+    local requested,code,reason=actions.mirror_explosion(name,position,origin)
+    if not requested then return nil,tostring(code)..': '..tostring(reason)end
+    return {status='requested'},requested
 end
 
 -- The delivery's log text (registration).

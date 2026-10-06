@@ -17,13 +17,13 @@ The log names this build: `ShredderSilo 0.1.0 BUILD`.
 ## What to look for in a live test
 
 1. The silo and remote arrive in the Solo Silo's own pod; fire it at a target more than 100 m away.
-2. At the impact, a second, much larger explosion with the Cyborg Production Unit's effect and sound; the log: `missile N LAUNCHED`, then `missile N DETONATED at (...) (its own detonation in the explosion queue ...): Cyborg Production Unit explosion requested there (requested)`.
+2. At the impact, a second, much larger explosion with the Cyborg Production Unit's effect and sound; the log: `missile N LAUNCHED`, then `missile N DETONATED at (...) (its own detonation in the explosion queue ...): Cyborg Production Unit explosion requested there on this machine (requested)`.
 3. At mission start the log says `assets for custom-stratagem-shredder_silo requested: 4 package(s)` and, once loaded, `resident`; note how long that takes and whether the game hitches.
 4. It destroys structures (demolition 60, the Hellbomb's) within its radius.
 5. The custom panel's details show the code in arrows, the stats above and these item traits.
 
 ## Several players
 
-NEW (not live-tested): a client runs its own silo call and publishes its missile (`CUSTOM MP ITEMS: missile network id N`); the session host watches its own copy of that missile (`REMOTE CUSTOM SILO`) and requests the blast there, credited to the host's player. What the other players see of a host-requested explosion is unproven (no network send was found for the game's explosion request).
+A client runs its own silo call and publishes its missile (`CUSTOM MP ITEMS: missile network id N`); every other compatible Runtime watches its own copy of that missile (`REMOTE CUSTOM SILO`). Every machine requests the blast where the missile detonates, from its own copy, as the game requests the missile's own blast (`explosion Cyborg Production Unit mirrored at (...) on this machine`), attributed as the game attributes that detonation, so its kills credit the caller. (Runtime r32; r30 requested it on the host only, and a client drew nothing.) Not live-tested in this form.
 
 Every machine needs the same mods and the same Runtime build (the definitions are part of the custom stratagem registry hash).

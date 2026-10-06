@@ -335,6 +335,8 @@ GAME_PROOFS = {
         (0x8CB179, 'mov ecx, dword ptr [r14 + 0xc]', None, 'its unit: the position is the unit position'),
         (0x8CB17F, 'mov r9d, dword ptr [r14 + 8]', None, 'source = the explosive entity itself (argument 4)'),
         (0x8CB187, 'mov r8d, dword ptr [r15 + 0x24]', None, 'type = its record +0x24, the detonation (argument 3)'),
+        (0x8CB1D1, 'mov rax, qword ptr [r12 + r13 + 0x30]', None, 'creditor = its instance +0x30 (argument 6)'),
+        (0x8CB1EC, 'mov eax, dword ptr [r12 + r13 + 0x2c]', None, 'owner = its instance +0x2C (argument 5)'),
     ],
     'hellbomb': [
         (0x4966EA, 'cmp edx, 0x2b4', None, 'behavior event dispatcher: BehaviorId - 1 <= 0x2B4'),

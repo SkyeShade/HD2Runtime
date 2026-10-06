@@ -569,9 +569,13 @@ silo={donor='MS-11 Solo Silo',blast='Cyborg Production Unit',fallback='NUX-223 H
   at once. If the missile is gone after it left the silo (more than 15 m from where it was first read), its last read
   position is used (`inferred`). If it ends before it left the silo (the silo destroyed first), there is no blast.
 - **`blast`:** a catalogued explosion (`hd2.explosions.list()`): a named one (`'Cyborg Production Unit'`, `'Hellbomb'`)
-  or a weapon's. It is requested at the detonation point by the session host only (`hd2.explosions.spawn`: HOST_ONLY on
-  a client), credited to the host's player. `fallback`: requested instead when the blast's packages are not resident
-  on the host.
+  or a weapon's. It is requested at the detonation point on EVERY machine that watches the missile, each from its own
+  copy, as the game requests the missile's own blast (live 2026-10-07: requested on the host alone, a client drew
+  nothing, while the client's own queue held the missile's own detonation from its own copy). Each machine's request
+  draws and sounds it there and is that machine's own local simulation (enemy health stays the host's). It is
+  attributed as the game attributes that detonation: its source, owner and creditor (so its kills credit the caller),
+  else the local player. `hd2.explosions.spawn` itself stays host only for mods. `fallback`: requested instead on a
+  machine where the blast's packages are not resident.
 - **Assets:** the blast's and the fallback's packages are the definition's assets, requested at mission start on
   every machine whose lobby picked it, before it can be called. The Cyborg Production Unit's are two objective
   packages, about 300 MB together (its effect ships only with the whole production unit, its sound in its own audio
@@ -579,8 +583,9 @@ silo={donor='MS-11 Solo Silo',blast='Cyborg Production Unit',fallback='NUX-223 H
 - **No countdown:** the launch sequence is the missile explosive's armed ability, timed in code (research
   silo-payload); no data field delays it, and the Runtime has no in-mission positional sound post.
 - **Several players:** a client runs its own call (the silo client family) and publishes its missile's network id
-  (`CUSTOM MP ITEMS: missile network id N`). The host watches its own copy of that missile (`REMOTE CUSTOM SILO`) and
-  requests the blast where it detonates. What other players see of a host-requested explosion is unproven.
+  (`CUSTOM MP ITEMS: missile network id N`). Every other compatible Runtime watches its own copy of that missile
+  (`REMOTE CUSTOM SILO`) and requests the blast where it detonates there (`explosion ... mirrored at ... on this
+  machine`). Not live-tested in this form.
 
 ### Weapon modifications
 
@@ -1072,7 +1077,7 @@ turret's data (live, the Pelican's), so a configuration on one machine alone sho
 | Orbital (Runtime bombardment) | the shells exist on the host only (SpawnProjectile sends nothing): others may see no shells at all |
 | Orbital (native custom barrage, r4) | the game's own barrage on every machine (same seed); its shells converted on every compatible Runtime's own copies |
 | Pelican CAS | the Pelican replicates (network ids); its chin gun mirrored on every compatible Runtime's own copy (r4) |
-| Silo | the donor's native pod and missile (spawned by the caller's beacon, replicated); the blast the host's request |
+| Silo | the donor's native pod and missile (spawned by the caller's beacon, replicated); the blast each machine's own request from its own copy |
 
 ### Multiplayer log lines
 
@@ -1090,7 +1095,7 @@ turret's data (live, the Pelican's), so a configuration on one machine alone sho
 | `REMOTE CUSTOM ITEM` | another machine's launcher correlated here (or REFUSED, with the reason), and each conversion of its rocket's copy here |
 | `REMOTE CUSTOM BARRAGE` | another machine's native custom barrage derived (or confirmed) here, and its shells converted on this machine's copies |
 | `REMOTE CUSTOM PELICAN` | a host-spawned Pelican correlated here, and its chin gun mirrored on this machine's own copy |
-| `REMOTE CUSTOM SILO` | another machine's silo missile correlated here, its launch and its detonation (the host requests the blast) |
+| `REMOTE CUSTOM SILO` | another machine's silo missile correlated here, its launch and its detonation (this machine requests the blast from its own copy) |
 | `CUSTOM MP CALL REQUESTED` / `CUSTOM MP CALL REQUEST` | a client asked the host to run its call / the host ACCEPTED or REFUSED it |
 | `HOST CALL` | the host runs a validated request for that player |
 | `CUSTOM MP ASSETS` | a custom id the synced lobby selects is resident here for remote presentation and payload |

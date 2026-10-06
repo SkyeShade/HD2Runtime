@@ -96,9 +96,11 @@ end
 -- The explosion queue's entries through the production reader (read-only; runtime/custom_silos.lua watches a missile's
 -- own detonation there): the first four slots, filled ones only (a drained queue keeps its stale entries).
 local entries=world_module.explosion_queue(world,4)
+local function wm_peer(lo,hi)return world_module.peer_hex(lo or 0,hi or 0)end
 out.queueEntries=entries and{}or nil
 for _,q in ipairs(entries or{})do
- if q.type~=0 then out.queueEntries[#out.queueEntries+1]={type=q.type,source=q.source}end
+ if q.type~=0 then out.queueEntries[#out.queueEntries+1]={type=q.type,source=q.source,owner=q.owner,
+  peer=wm_peer(q.peer_lo,q.peer_hi)}end
 end
 -- What the local player holds (wielder slot 0 + inventory selection), through the production reader.
 local me=handles.local_player()
@@ -139,7 +141,7 @@ return json.encode(out)
 def validate(snapshots=SNAPSHOTS):
     results = {}
     research = json.loads((ROOT / 'research/event-actions-F5FEE03DCFDB.json').read_text(encoding='utf-8'))
-    research_queue = {o['snapshot']: [(e['type'], e['source']) for e in o['staleEntries']]
+    research_queue = {o['snapshot']: [(e['type'], e['source'], e['owner'], e['peer']) for e in o['staleEntries']]
         for o in research['observations']}
     for name in snapshots:
         path = build_profile.snapshot_directory() / name
@@ -195,7 +197,7 @@ def validate(snapshots=SNAPSHOTS):
         stale = research_queue.get(name)
         if report.get('queueEntries') is None:
             problems.append('explosion queue entries unreadable')
-        elif stale is not None and [(q['type'], q['source']) for q in report['queueEntries']] != stale:
+        elif stale is not None and [(q['type'], q['source'], q['owner'], q['peer']) for q in report['queueEntries']] != stale:
             problems.append('explosion queue entries differ from the research')
         if report['statusQueue'] is None:
             problems.append('status queue unreadable')

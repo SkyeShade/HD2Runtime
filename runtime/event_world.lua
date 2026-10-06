@@ -442,10 +442,11 @@ function M.explode(world,spec)
     metrics.count('events.native_explosions')
     return true
 end
--- The explosion queue's first `slots` entries as they are now, read-only: {{x, y, z, type, source}, ...}, or nil when
--- unreadable. The game drains the queue every frame (its count back to 0) without clearing an entry, so an entry stays
--- readable until a later request reuses its slot: this frame's requests, then stale ones of earlier frames. An
--- explosive's own detonation is queued with its type and its own entity as the source (event natives pins).
+-- The explosion queue's first `slots` entries as they are now, read-only: {{x, y, z, type, source, owner, peer_lo,
+-- peer_hi}, ...}, or nil when unreadable. The game drains the queue every frame (its count back to 0) without clearing
+-- an entry, so an entry stays readable until a later request reuses its slot: this frame's requests, then stale ones of
+-- earlier frames. An explosive's own detonation is queued with its type, its own entity as the source and its instance's
+-- owner and creditor (event natives pins).
 function M.explosion_queue(world,slots)
     local queue=world.view.pointer(world.game+X.queue)
     local n=math.min(slots or 0,X.capacity)
@@ -455,7 +456,8 @@ function M.explosion_queue(world,slots)
     for i=0,n-1 do
         local at=i*X.stride
         out[#out+1]={x=b.value(raw,at,'f32'),y=b.value(raw,at+4,'f32'),z=b.value(raw,at+8,'f32'),
-            type=b.u32(raw,at+X.entryType),source=b.u32(raw,at+X.entrySource)}
+            type=b.u32(raw,at+X.entryType),source=b.u32(raw,at+X.entrySource),owner=b.u32(raw,at+X.entryOwner),
+            peer_lo=b.u32(raw,at+X.entryCreditor),peer_hi=b.u32(raw,at+X.entryCreditor+4)}
     end
     metrics.count('events.explosion_queue_reads')
     return out

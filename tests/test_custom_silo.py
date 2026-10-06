@@ -10,7 +10,9 @@ explosions, research/silo-payload-F5FEE03DCFDB.json, research/event-actions "Cyb
     blast; the refusals (another donor, an unknown blast, the same fallback, a red carrier, an unknown field);
   * the detonation watch: the missile's own queued detonation (type and source) at once, else its removal after it left
     the silo, never a blast for a missile that never left it; another source or type is not this missile's;
-  * the blast: only the session host requests it; the fallback when the blast's packages are not resident;
+  * the blast: every machine that watches the missile requests it from its own copy (the game's pattern for an
+    explosive's own blast), with the detonation's own attribution; the fallback when the blast's packages are not
+    resident; the mirrored request itself (api/actions.lua, internal);
   * the example: a valid custom_stratagems.json, its addon the compiled project, its fixture the project, its code free
     of every native code and of the other examples', the user's name, description and traits."""
 import hashlib
@@ -239,11 +241,12 @@ F.queue={{x=5,y=5,z=5,type=135,source=6000},{x=6,y=6,z=6,type=158,source=7001}}
 w.tick(0.1)
 assert(kinds(events)=='launched',kinds(events))
 F.pos={x=300,y=10,z=2}
-F.queue={{x=1,y=2,z=3,type=50,source=1},{x=301.5,y=10.5,z=1.5,type=135,source=7001}}
+F.queue={{x=1,y=2,z=3,type=50,source=1},{x=301.5,y=10.5,z=1.5,type=135,source=7001,owner=900,peer_lo=5,peer_hi=6}}
 w.tick(0.1)
 assert(kinds(events)=='launched detonated ended',kinds(events))
 local e=events[2]
 assert(e.via=='queue'and e.position.x==301.5 and e.position.y==10.5 and e.position.z==1.5)
+assert(e.origin.source==7001 and e.origin.owner==900 and e.origin.peer_lo==5 and e.origin.peer_hi==6)
 assert(w.status=='complete')
 return 'ok'
 '''), b'ok')
@@ -278,33 +281,80 @@ return 'ok'
 
 
 class BlastTests(unittest.TestCase):
-    def test_only_the_host_requests_it_and_the_fallback(self):
+    def test_every_watching_machine_requests_it_and_the_fallback(self):
         self.assertEqual(run(WORLD + SILO + FAKE + r'''
 local custom=require('hd2runtime/runtime/custom_stratagems');custom.reset_for_tests()
 local d=custom.register(silo_spec(),'mods/test/silo')
 local actions=require('hd2runtime/api/actions')
-local spawned={}
-actions.explosions.spawn=function(name,opts)
-    spawned[#spawned+1]=name..'@'..opts.position.x..'/'..tostring(opts.owner)
-    return {status='requested'}
+local requested={}
+actions.mirror_explosion=function(name,position,origin)
+    requested[#requested+1]={name=name,x=position.x,origin=origin}
+    return name
 end
--- A client never requests it.
-F.host=false
-local a,why=silos.blast(d,{x=1,y=2,z=3},'t')
-assert(a==nil and why:find('HOST_ONLY',1,true)and#spawned==0)
-F.host=true
+local origin={source=7001,owner=900,peer_lo=5,peer_hi=6}
 -- Neither package set resident: none.
-a,why=silos.blast(d,{x=1,y=2,z=3},'t')
+local a,why=silos.blast(d,{x=1,y=2,z=3},'t',origin)
 assert(a==nil and why:find('ASSET_UNAVAILABLE',1,true)and why:find('nor the fallback NUX-223 Hellbomb',1,true),why)
--- Only the Hellbomb's: the fallback.
+-- Only the Hellbomb's: the fallback, with the detonation's own attribution.
 F.resident={['0x681275AF9E93CB2C']='resident'}
 local name
-a,name=silos.blast(d,{x=1,y=2,z=3},'t')
-assert(a and name=='NUX-223 Hellbomb'and spawned[1]=='NUX-223 Hellbomb@1/mods/test/silo',tostring(spawned[1]))
--- Both of the Cyborg Production Unit's: the blast itself.
+a,name=silos.blast(d,{x=1,y=2,z=3},'t',origin)
+assert(a and a.status=='requested'and name=='NUX-223 Hellbomb'and requested[1].origin==origin and requested[1].x==1)
+-- Both of the Cyborg Production Unit's: the blast itself; a client requests it too (each machine its own copy).
 F.resident['0x9BFA7EB1324C29A5']='resident';F.resident['0xCF1B36D0765B57A5']='resident'
-a,name=silos.blast(d,{x=4,y=5,z=6},'t')
-assert(a and name=='Cyborg Production Unit'and spawned[2]=='Cyborg Production Unit@4/mods/test/silo')
+F.host=false
+a,name=silos.blast(d,{x=4,y=5,z=6},'t',origin)
+assert(a and name=='Cyborg Production Unit'and requested[2].name=='Cyborg Production Unit'and requested[2].x==4)
+-- A refusal of the request is reported.
+actions.mirror_explosion=function()return nil,'RATE_LIMITED','too many'end
+a,why=silos.blast(d,{x=4,y=5,z=6},'t',origin)
+assert(a==nil and why=='RATE_LIMITED: too many')
+return 'ok'
+'''), b'ok')
+
+    def test_the_mirrored_request_on_this_machine(self):
+        self.assertEqual(run(WORLD + r'''
+local wm=require('hd2runtime/runtime/event_world')
+local handles=require('hd2runtime/runtime/handles')
+local actions=require('hd2runtime/api/actions')
+local F={mission=true,host=false,exists={[7001]=true,[900]=true},resident={}}
+wm.open=function()return {runtime={package_state=function(hex)return F.resident[hex]or'absent'end}}end
+wm.game_state=function()return {mission=F.mission,host=F.host}end
+wm.entity_exists=function(_,e)return F.exists[e]==true end
+wm.local_peer=function()return 11,12 end
+handles.local_avatar=function()return {id=555}end
+local calls={}
+wm.explode=function(_,spec)calls[#calls+1]=spec;if F.refuse then local r=F.refuse;F.refuse=nil;return nil,r end
+    return true end
+local origin={source=7001,owner=900,peer_lo=5,peer_hi=6}
+-- Its packages not resident: refused, nothing requested.
+local name,code=actions.mirror_explosion('Cyborg Production Unit',{x=1,y=2,z=3},origin)
+assert(name==nil and code=='ASSET_UNAVAILABLE'and#calls==0)
+F.resident['0x9BFA7EB1324C29A5']='resident';F.resident['0xCF1B36D0765B57A5']='resident'
+-- On a client too, with the detonation's own source, owner and creditor.
+name=actions.mirror_explosion('Cyborg Production Unit',{x=1,y=2,z=3},origin)
+local c=calls[1]
+assert(name=='Cyborg Production Unit'and c.type==293 and c.source==7001 and c.owner==900 and c.peer_lo==5
+    and c.peer_hi==6 and c.x==1 and c.z==3)
+-- The detonation's entities gone: the local avatar and peer.
+F.exists[7001]=nil
+name=actions.mirror_explosion('Cyborg Production Unit',{x=1,y=2,z=3},origin)
+c=calls[2]
+assert(name and c.source==555 and c.owner==555 and c.peer_lo==11 and c.peer_hi==12)
+-- The game refusing the detonation's attribution: once more with the local avatar.
+F.exists[7001]=true
+F.refuse='the source entity no longer exists'
+name=actions.mirror_explosion('Cyborg Production Unit',{x=1,y=2,z=3},origin)
+assert(name and calls[3].source==7001 and calls[4].source==555)
+-- Not in a mission: refused. A raw type: refused. Not exported to mods.
+F.mission=false
+name,code=actions.mirror_explosion('Cyborg Production Unit',{x=1,y=2,z=3},origin)
+assert(name==nil and code=='NOT_IN_MISSION')
+F.mission=true
+name,code=actions.mirror_explosion(293,{x=1,y=2,z=3},origin)
+assert(name==nil and code=='UNKNOWN_EXPLOSION')
+local hd2=require('hd2runtime/api/hd2')
+assert(hd2.explosions.mirror_explosion==nil and hd2.actions.mirror_explosion==nil)
 return 'ok'
 '''), b'ok')
 
@@ -322,7 +372,8 @@ local d=custom.register(silo_spec(),'mods/test/silo')
 local watched,wcb
 silos.watch=function(spec,cb)watched=spec;wcb=cb;return {status='active',cancel=function()watched.cancelled=true end}end
 local blasted
-silos.blast=function(def,pos,label)blasted={def=def,pos=pos,label=label};return {status='requested'},'Cyborg Production Unit'end
+silos.blast=function(def,pos,label,origin)blasted={def=def,pos=pos,label=label,origin=origin}
+    return {status='requested'},'Cyborg Production Unit'end
 '''
 
 
@@ -359,15 +410,18 @@ assert(count('shredder#1: DELIVERED: pod 510, silo 6100: missile 6101, remote 61
 -- Several players: the missile's network id published (the host watches its own copy).
 assert(published and published.id=='shredder'and published.items[1]==301 and published.entities[1]==6101
     and published.roles[1]=='payload'and published.beacon==810)
-assert(count('CUSTOM MP ITEMS: missile network id 301 (call beacon network id 810) published')==1)
+assert(count('CUSTOM MP ITEMS: missile network id 301 (call beacon network id 810) published to every compatible '
+    ..'Runtime: every machine requests its blast from its own copy')==1)
 -- The watch of exactly that missile; the blast where it detonates.
 assert(watched.missile==6101 and watched.detonation==135)
 wcb({kind='launched',position={x=0,y=0,z=40}})
 assert(blasted==nil)
-wcb({kind='detonated',position={x=300,y=10,z=2},via='queue',seconds=12})
-assert(blasted and blasted.def==d and blasted.pos.x==300 and blasted.label=='shredder#1')
+local origin={source=6101,owner=900,peer_lo=5,peer_hi=6}
+wcb({kind='detonated',position={x=300,y=10,z=2},via='queue',seconds=12,origin=origin})
+assert(blasted and blasted.def==d and blasted.pos.x==300 and blasted.label=='shredder#1'and blasted.origin==origin)
 assert(count('missile 6101 DETONATED at (300.0, 10.0, 2.0) (its own detonation in the explosion queue, 12.0 s after its '
-    ..'capture): Cyborg Production Unit explosion requested there (requested)')==1,table.concat(logged,' | '))
+    ..'capture): Cyborg Production Unit explosion requested there on this machine (requested)')==1,
+    table.concat(logged,' | '))
 return 'ok'
 '''), b'ok')
 
@@ -383,7 +437,8 @@ assert(b.status=='active'and b.kind=='silo'and watched.missile==6201 and watched
 wcb({kind='detonated',position={x=1,y=2,z=3},via='removal',seconds=4})
 assert(blasted and blasted.def==d and blasted.label=='remote peer-b shredder missile 401')
 assert(count('REMOTE CUSTOM SILO: peer peer-b\'s custom shredder missile network id 401 (entity 6201 here): DETONATED '
-    ..'at (1.0, 2.0, 3.0) (inferred: the missile is gone): Cyborg Production Unit explosion requested there')==1,
+    ..'at (1.0, 2.0, 3.0) (inferred: the missile is gone): Cyborg Production Unit explosion requested there on this '
+    ..'machine')==1,
     table.concat(logged,' | '))
 b.cancel()
 assert(watched.cancelled)

@@ -296,11 +296,16 @@ def explosion_section(pins: Pins, actions: dict) -> dict:
     pins.use(0x13C0AD1, 'movsd qword ptr [rdi + rcx + 0x28], xmm0', 'explosion queue entries from +0x28: position')
     pins.use(0x13C0ADB, 'mov dword ptr [rdi + rcx + 0x34], r8d', 'explosion queue entry +0x0C: type')
     pins.use(0x13C0B25, 'mov dword ptr [rdi + rbx + 0x38], r9d', 'explosion queue entry +0x10: source')
+    pins.use(0x13C0B34, 'mov dword ptr [rdi + rbx + 0x3c], ecx', 'explosion queue entry +0x14: owner')
+    pins.use(0x13C0B0F, 'mov qword ptr [rdi + rbx + 0x40], rax', 'explosion queue entry +0x18: creditor peer')
+    pins.use(0x8CB1EC, 'mov eax, dword ptr [r12 + r13 + 0x2c]', 'an explosive detonation: owner = its instance +0x2C')
+    pins.use(0x8CB1D1, 'mov rax, qword ptr [r12 + r13 + 0x30]', 'an explosive detonation: creditor = its instance +0x30')
     pins.use(0x8CB17F, 'mov r9d, dword ptr [r14 + 8]', 'an explosive detonation: source = the explosive entity')
     pins.use(0x8CB187, 'mov r8d, dword ptr [r15 + 0x24]', 'an explosive detonation: type = its record +0x24')
     return {'rva': research['request'], 'prologue': research['prologue'], 'queue': research['queueGlobal'],
         'count': 0x20, 'capacity': research['queueCapacity'], 'entry': research['entry'], 'stride': research['stride'],
-        'entryType': 0x0C, 'entrySource': 0x10, 'settingsTable': research['settingsTable'],
+        'entryType': 0x0C, 'entrySource': 0x10, 'entryOwner': 0x14, 'entryCreditor': 0x18,
+        'settingsTable': research['settingsTable'],
         'typeBound': research['typeBound'], 'signature': research['signature'],
         # Catalogued weapon explosions whose settings-table entry the research matched in every mission snapshot.
         'weapons': [{'weapon': item['weapon'], 'type': item['type']} for item in actions['catalogueTypes']],

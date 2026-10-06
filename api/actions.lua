@@ -218,6 +218,60 @@ local function fire(action,target)
     return action
 end
 
+-- INTERNAL (the Runtime's custom silos, runtime/custom_silos.lua; not exported to mods: hd2.explosions.spawn stays host
+-- only). Requests a catalogued explosion on THIS machine, host or client, where an explosive the game simulates here
+-- detonated: the game itself requests an explosive's own blast on every machine from that machine's copy (live
+-- 2026-10-07: a client's queue held a host-called silo missile's own detonation, its source the client's copy of the
+-- missile), and that local request is what draws and sounds it there; damage stays each machine's own simulation, enemy
+-- health the host's. origin = {source, owner, peer_lo, peer_hi}: that detonation's own queue entry (the game's own
+-- attribution: the explosive's owner and creditor); without it, or when its entities are gone, the local avatar and
+-- peer. In a mission, with every package of the explosion resident now (it never waits: the detonation is now).
+-- Returns the requested name, or nil, code, reason.
+function M.mirror_explosion(explosion,position,origin)
+    local target,code,reason=resolve(explosion)
+    if not target then return nil,code,reason end
+    local world,why=world_module.open()
+    if not world then return nil,'EXPLOSION_UNAVAILABLE',tostring(why)end
+    local state=world_module.game_state(world)
+    if not(state and state.mission)then return nil,'NOT_IN_MISSION','the game is not in a mission'end
+    if not M.explosion_resident(world.runtime,target)then
+        return nil,'ASSET_UNAVAILABLE','the '..target.name..' explosion\'s packages are not resident here'
+    end
+    local p=position_of(position)
+    if not p then return nil,'INVALID_POSITION','the position must be {x, y, z} world coordinates'end
+    if not take_token('the custom silos','mirror')then
+        return nil,'RATE_LIMITED','at most '..M.EXPLOSION_BURST..' mirrored explosions at once'
+    end
+    local function local_origin()
+        local avatar=handles.local_avatar(world,{include_dead=true})
+        local lo,hi=world_module.local_peer(world)
+        if not(avatar and lo)then return nil end
+        return {source=avatar.id,owner=avatar.id,peer_lo=lo,peer_hi=hi,from='this machine\'s player'}
+    end
+    local o=origin
+    if not(o and world_module.entity_exists(world,o.source)==true and world_module.entity_exists(world,o.owner)==true)then
+        o=local_origin()
+    end
+    if not o then return nil,'NO_LOCAL_AVATAR','neither the detonation\'s own entities nor a local avatar exist'end
+    local function request(x)
+        return world_module.explode(world,{type=target.type,x=p.x,y=p.y,z=p.z,source=x.source,owner=x.owner,
+            peer_lo=x.peer_lo,peer_hi=x.peer_hi})
+    end
+    local ok,err=request(o)
+    if not ok and o==origin then
+        o=local_origin()
+        if o then ok,err=request(o)end
+    end
+    if not ok then
+        return nil,tostring(err):match('^([A-Z_]+):')or'EXPLOSION_UNAVAILABLE',(tostring(err):gsub('^[A-Z_]+: ',''))
+    end
+    metrics.count('actions.mirrored_explosions')
+    events.emit_log(('explosion %s mirrored at %s on this machine (%s: source %d, owner %d, creditor %s)'):format(
+        target.name,tostring(p),o.from or'the detonation\'s own attribution',o.source,o.owner,
+        world_module.peer_hex(o.peer_lo or 0,o.peer_hi or 0)))
+    return target.name
+end
+
 -- Request a catalogued explosion at a position: hd2.explosions.spawn(explosion, {position = event.position}).
 -- explosion: a named explosion ('Hellbomb' = the NUX-223 Hellbomb, 'B-100 Portable Hellbomb'), a weapon name
 -- ('R-36 Eruptor') or a typed explosion handle. Host only, during a mission, credited to
