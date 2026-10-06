@@ -720,6 +720,27 @@ function M.widgets_mirror(view)
     return true
 end
 
+-- What a slot may be written to hold (the token, or a carrier itself): its row enabled, selectable, unlimited, not a
+-- vehicle, and owned. Returns its type, or nil, code, reason.
+local function pick_checks(world,pick_id,pick_name)
+    local token=loadout.type_of(world,pick_id)
+    local trow=token and row(world,token)
+    if not trow then return nil,'UNKNOWN_STRATAGEM','no row carries '..pick_name end
+    if not(math.floor(world.view.u32(trow+ROWM.selectable)/ROWM.selectableBit)%2==1
+            and world.view.u32(trow+ROWM.enabled)%2==1)then
+        return nil,'TOKEN_NOT_SELECTABLE',pick_name..' is not an enabled, selectable stratagem'
+    end
+    if signed(world.view.u32(trow+ROWM.maxUses))~=-1 then
+        return nil,'TOKEN_LIMITED',pick_name..' does not have unlimited uses'
+    end
+    if math.floor(world.view.u32(trow+0x104)/0x100000)%8~=0 then
+        return nil,'TOKEN_VEHICLE','vehicle categories are redirected by the game\'s pick; not a token'
+    end
+    local is_owned=slot_conversion.owned(world,pick_id)
+    if is_owned==nil then return nil,'UNAVAILABLE','the account catalogue is unreadable'end
+    if not is_owned then return nil,'TOKEN_NOT_OWNED',pick_name..' is not owned'end
+    return token
+end
 -- The checks before the write: the screen, the token, the slot. Returns view, target ({index, appended, old}) or nil,
 -- code, reason.
 local function check(world,definition,pick)
@@ -752,22 +773,8 @@ local function check(world,definition,pick)
     -- under the same guards.
     local pick_id=pick and pick.id or definition.selection.tokenId
     local pick_name=pick and pick.name or definition.selection.token
-    local token=loadout.type_of(world,pick_id)
-    local trow=token and row(world,token)
-    if not trow then return nil,'UNKNOWN_STRATAGEM','no row carries '..pick_name end
-    if not(math.floor(world.view.u32(trow+ROWM.selectable)/ROWM.selectableBit)%2==1
-            and world.view.u32(trow+ROWM.enabled)%2==1)then
-        return nil,'TOKEN_NOT_SELECTABLE',pick_name..' is not an enabled, selectable stratagem'
-    end
-    if signed(world.view.u32(trow+ROWM.maxUses))~=-1 then
-        return nil,'TOKEN_LIMITED',pick_name..' does not have unlimited uses'
-    end
-    if math.floor(world.view.u32(trow+0x104)/0x100000)%8~=0 then
-        return nil,'TOKEN_VEHICLE','vehicle categories are redirected by the game\'s pick; not a token'
-    end
-    local is_owned=slot_conversion.owned(world,pick_id)
-    if is_owned==nil then return nil,'UNAVAILABLE','the account catalogue is unreadable'end
-    if not is_owned then return nil,'TOKEN_NOT_OWNED',pick_name..' is not owned'end
+    local token,code,reason=pick_checks(world,pick_id,pick_name)
+    if not token then return nil,code,reason end
     -- An occupied slot is replaced (whatever it holds, a virtual slot included); a slot that already holds the token
     -- needs no write and only becomes (or stays) virtual.
     local slot=view.editedSlot
@@ -1204,6 +1211,97 @@ function M.restore_body()
 end
 function M.restore(callback)return job(M.restore_body,callback)end
 
+-- A stratagem's name from its stable id (the authoring catalogue).
+local names_by_id
+local function stratagem_name(id)
+    if not names_by_id then
+        names_by_id={}
+        for name,entry in pairs(catalog.stratagems)do if entry.root and entry.root.id then names_by_id[entry.root.id]=name end end
+    end
+    return names_by_id[id]or('stable id '..tostring(id))
+end
+-- THE CARRIER MOVE (the carrier-in-slot probe 0.2.1, runtime/carrier_in_slot.lua; the user's rule of 2026-10-07: a
+-- carrier slot never locks its carrier out of anyone's loadout; when anyone else picks it, the slot moves to its next
+-- carrier before the mission). One virtual carrier slot of this player rewritten from its carrier to `to` = {id
+-- (stable id), name}: the pick's own guarded loadout write (plan_for: the entry's type, the panel's cached record
+-- pointer cleared, the game repaints), at the slot's own index, with the stratagem grid open or closed. Refused with
+-- nothing written unless: aboard the ship, the loadout screen open with the local record bound, not ready, not
+-- launched, the slots on screen mirror the record; the slot is a virtual CARRIER slot of `definition` whose record entry
+-- reads exactly its carrier (type and stable id) with unlimited uses; `to` passes the pick's row checks and is in no
+-- entry of the record (never a duplicate of a real pick). Only that entry's type changes; the virtual slot then records
+-- the new carrier. Returns a job: 'moved' {slot, from, to, report, verify} or 'refused' / 'failed'.
+function M.move_carrier(slot,definition,to,callback)
+    return job(function()
+        local world,why=world_module.open()
+        if not world then return nil,'UNAVAILABLE',tostring(why)end
+        local ok,proof_why=M.prove(world)
+        if not ok then return nil,'UNSUPPORTED_BUILD',tostring(proof_why)end
+        local game=world_module.game_state(world)
+        if not(game and game.name=='Ship')then return nil,'NOT_ABOARD','a carrier slot moves aboard the ship only'end
+        local view,vwhy=M.screen(world)
+        if not view then return nil,'UNAVAILABLE',vwhy end
+        if not view.open then return nil,'SCREEN_CLOSED','the loadout screen is not open'end
+        if not view.record then return nil,'NO_RECORD','the local loadout record is not set'end
+        if view.launched then return nil,'LAUNCHED','the loadout is already launched'end
+        if view.ready then return nil,'READY','the player is ready; unready to let the slot move'end
+        if view.bound~=view.record.address then return nil,'NOT_BOUND','the local panel is not bound to the local record'end
+        local record=view.record
+        if record.count>L.maxLoadoutEntries then return nil,'RECORD_SHAPE','the record holds '..record.count..' entries'end
+        for _,entry in ipairs(record.entries)do
+            if not entry.type or entry.type==0 then return nil,'RECORD_SHAPE','the loadout entries are not contiguous'end
+        end
+        local mirrors,mirror_why=M.widgets_mirror(view)
+        if not mirrors then return nil,'SLOTS_DIFFER',mirror_why end
+        local e=virtual_slots and virtual_slots.slots[slot]
+        if not(e and e.carrier and e.definition==definition)then
+            return nil,'NOT_CARRIER_SLOT',('slot %s is not a carrier slot of %s'):format(tostring(slot),tostring(definition))
+        end
+        local entry=record.entries[slot+1]
+        if not(entry and entry.type==e.type and loadout.id_of(world,entry.type)==e.token and entry.uses==-1)then
+            return nil,'SLOT_CHANGED',('slot %d no longer reads its carrier (type %s, unlimited)'):format(slot,
+                tostring(e.type))
+        end
+        if type(to)~='table'or type(to.id)~='number'or type(to.name)~='string'then
+            return nil,'BAD_SPEC','to = {id, name}'
+        end
+        if to.id==e.token then return nil,'SAME_CARRIER','the slot already holds '..to.name end
+        local kind,code,reason=pick_checks(world,to.id,to.name)
+        if not kind then return nil,code,reason end
+        for _,other in ipairs(record.entries)do
+            if other.type==kind then
+                return nil,'CARRIER_IN_LOADOUT',('%s is already in loadout slot %d'):format(to.name,other.index)
+            end
+        end
+        local target={index=slot,current_type=entry.type,current_uses=0xFFFFFFFF}
+        local plan=plan_for(world,view,target,kind,0xFFFFFFFF,record.count)
+        if not plan then return nil,'RECORD_CHANGED','the loadout UI is not in private read-write memory'end
+        local report=transaction.apply(world.runtime,plan)
+        metrics.count('stratagem_selector.transactions')
+        if report.status~='APPLIED'then return nil,'GUARD_REJECTED',tostring(report.reason)end
+        local after=M.screen(world)
+        local now=after and after.record and after.record.entries[slot+1]
+        local verify={type=now~=nil and now.type==kind and now.uses==-1,count=after~=nil and after.record~=nil
+            and after.record.count==record.count,others=after~=nil and after.record~=nil and others_same(view,after,slot),
+            nonTarget=report.non_target_bytes_unchanged==true,protection=report.protection_restored==true}
+        local painted,paint_why=repainted(world,view,slot,kind)
+        verify.repainted=painted
+        local final=M.screen(world)
+        local from_name=stratagem_name(e.token)
+        remember(slot,{definition=definition,token=to.id,type=kind,carrier=true},
+            final and final.record and pairs_of(world,final)or nil)
+        log(('MOVED (carrier-in-slot probe): virtual slot %d (%s): its carrier %s (type %d) -> %s (type %d): %d write%s; '
+            ..'the entry reads the new carrier: %s; every other entry unchanged: %s; count unchanged: %s; the game '
+            ..'repainted the slots from the record: %s%s; non-target bytes unchanged %s; protection restored %s; nothing '
+            ..'else written (no save, account, catalogue or StratagemInfo write)'):format(slot,definition,from_name,e.type,
+            to.name,kind,report.writes,report.writes==1 and''or's',tostring(verify.type),tostring(verify.others),
+            tostring(verify.count),tostring(painted),painted and''or(' ('..tostring(paint_why)..')'),
+            tostring(verify.nonTarget),tostring(verify.protection)))
+        log('virtual slots: '..slots_text(virtual_slots))
+        return {status='moved',slot=slot,from={id=e.token,type=e.type,name=from_name},to={id=to.id,type=kind,
+            name=to.name},report=report,verify=verify,virtual=virtual_slots}
+    end,callback)
+end
+
 -- The virtual slots (the Runtime's own record, never the save): {slots = {[slot] = {definition, token, type}},
 -- pairs}, or nil when none.
 function M.virtual_slots()return virtual_slots end
@@ -1254,14 +1352,6 @@ end
 -- state (the mission, the transitions) and once the loadout is readied or launched, the loadout screen's record is the
 -- game's, not the player's edit, and the identity is left as it is. A drop logs what the slot holds now. The caller
 -- passes a settled record (the custom stratagems panel waits until it has not changed for a moment). Read-only.
-local names_by_id
-local function stratagem_name(id)
-    if not names_by_id then
-        names_by_id={}
-        for name,entry in pairs(catalog.stratagems)do if entry.root and entry.root.id then names_by_id[entry.root.id]=name end end
-    end
-    return names_by_id[id]or('stable id '..tostring(id))
-end
 local function order_text(ids)
     local out={}
     for k,id in ipairs(ids)do out[k]=id==0 and'empty'or stratagem_name(id)end

@@ -237,6 +237,10 @@ end
 -- Returns {ready, reason, assignments = {[id] = {label, carrier, stable_id, type, class, family, beacon, beam, ping,
 -- eligible, skipped, owned, local_refused}}, refused = {[id] = reason}, verdicts = {[id] = {[stable id] = text}},
 -- candidates = {[id] = list}, order = {ids}, distinct, line}. opts.report: the ids the line names (default all).
+-- d.pin (the carrier-in-slot probe, runtime/carrier_in_slot.lua: a stable id the definition's loadout slots already
+-- hold): while that carrier is in its pool (eligible, never a native pick) the definition keeps it, ahead of every
+-- unpinned definition; otherwise it is allocated as any other (its slot then moves to that carrier). Pinned
+-- definitions are allocated first, by id.
 function M.allocate_policies(world,definitions,present,global_exclude,opts)
     opts=opts or{}
     local out={ready=true,assignments={},refused={},verdicts={},candidates={},order={}}
@@ -295,9 +299,18 @@ function M.allocate_policies(world,definitions,present,global_exclude,opts)
         end)
         pools[d.id]=pool
     end
+    -- A pin counts only while its carrier is in the definition's pool.
+    local pinned={}
+    for _,d in ipairs(definitions)do
+        if d.pin then
+            for _,c in ipairs(pools[d.id])do if c.id==d.pin then pinned[d.id]=c end end
+        end
+    end
     local order={}
     for k,d in ipairs(definitions)do order[k]=d end
     table.sort(order,function(a,c)
+        local pa,pc=pinned[a.id]and 0 or 1,pinned[c.id]and 0 or 1
+        if pa~=pc then return pa<pc end
         local na,nc=#pools[a.id],#pools[c.id]
         if na~=nc then return na<nc end
         return a.id<c.id
@@ -307,18 +320,22 @@ function M.allocate_policies(world,definitions,present,global_exclude,opts)
         out.order[#out.order+1]=d.id
         local verdicts,pool=out.verdicts[d.id],pools[d.id]
         local chosen,skipped=nil,0
+        local pin=pinned[d.id]
+        if pin and not taken[pin.id]then chosen=pin end
         for _,c in ipairs(pool)do
-            if taken[c.id]then skipped=skipped+1;verdicts[c.id]='taken by '..taken[c.id]..' (never shared)'
+            if c==chosen then
+            elseif taken[c.id]then skipped=skipped+1;verdicts[c.id]='taken by '..taken[c.id]..' (never shared)'
             elseif not chosen then chosen=c
-            else verdicts[c.id]='eligible, ranked after the selected one'end
+            else verdicts[c.id]=chosen==pin and'eligible; its slot holds another carrier (kept)'
+                or'eligible, ranked after the selected one'end
         end
         if chosen then
             taken[chosen.id]=d.label
-            verdicts[chosen.id]='SELECTED'
+            verdicts[chosen.id]=chosen==pin and'SELECTED (its loadout slot already holds it)'or'SELECTED'
             local owned=chosen.eligible==true
             out.assignments[d.id]={label=d.label,carrier=chosen.name,stable_id=chosen.id,type=chosen.type,
                 class=chosen.class,family=chosen.family,beacon=chosen.beaconCategory,beam=chosen.beamColour,
-                ping=chosen.pingColour,eligible=#pool,skipped=skipped,owned=owned,
+                ping=chosen.pingColour,eligible=#pool,skipped=skipped,owned=owned,pinned=chosen==pin or nil,
                 local_refused=not owned and('the lobby\'s carrier for it is '..chosen.name..', which this account does '
                     ..'not own: unavailable to this player (never remapped: every player must agree)')or nil}
         else

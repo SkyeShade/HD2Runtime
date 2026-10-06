@@ -1,11 +1,12 @@
--- CarrierSlotProbe 0.2.0: the carrier-in-slot probe (development; docs/custom-stratagem-api.md, "selection =
+-- CarrierSlotProbe 0.2.1: the carrier-in-slot probe (development; docs/custom-stratagem-api.md, "selection =
 -- 'carrier' (probe)"). One custom stratagem, an Orbital Gas Barrage, whose loadout slot holds its CARRIER itself
 -- instead of the Orbital Precision Strike token. Solo host only. What it answers: the slot holds the carrier from the
 -- pick on (no conversion in the mission), the presentation lands before the HUD builds (no Precision Strike flash),
--- the slot is locked until it is ready to call, and its 3 uses are the game's own per-slot uses (the HUD counter).
+-- the slot is locked until it is ready to call, its 3 uses are the game's own per-slot uses (the HUD counter), and
+-- its carrier is never locked out of the native picker (0.2.1).
 local hd2=require('mods/skyeshade/hd2runtime')
 local mod=hd2.mod()
-local BUILD='0.2.0 CARRIER SLOT USES PROBE BUILD'
+local BUILD='0.2.1 CARRIER SLOT NO LOCKOUT PROBE BUILD'
 mod:log('CarrierSlotProbe '..BUILD..': solo, select Carrier Slot Probe in the custom panel, then a mission; call it '
     ..'with UP DOWN UP DOWN LEFT RIGHT LEFT. The log lines CARRIER-IN-SLOT PROBE show the timing.')
 

@@ -1417,6 +1417,14 @@ local function expendable_pass(world,present,list,ids,who,lobby)
     return out
 end
 -- quiet: a feasibility probe (nothing logged, nothing of the ship's log state changed).
+-- The carrier-in-slot probe's pins: {[definition id] = the stable id all its carrier slots hold} (none when they differ).
+function M.probe_pins()
+    local out={}
+    for id,x in pairs(require('hd2runtime/runtime/carrier_in_slot').slots_by_definition(selector.virtual_slots()))do
+        if not x.mixed and defs[id]and defs[id].selection=='carrier'then out[id]=x.id end
+    end
+    return out
+end
 local function allocate(world,present,list,where,ids,who,quiet)
     local definitions,report={},{}
     -- ids (custom multiplayer): only the custom stratagems the synced lobby table selects, one carrier each.
@@ -1426,10 +1434,13 @@ local function allocate(world,present,list,where,ids,who,quiet)
     -- The expendable custom stratagems first: a condensed one takes no policy carrier (its carrier is its weapon's own
     -- stratagem); only a fallback one is allocated a separate support carrier with the policies.
     local ex=expendable_pass(world,present,list,ids,who,#players>1)
+    -- The carrier-in-slot probe: a definition whose loadout slots hold its carrier keeps it while nobody else holds it
+    -- (the allocator's pin); never with the synced lobby table (every peer must allocate alike).
+    local pins=not ids and M.probe_pins()or{}
     for _,d in ipairs(order)do
         if(not only or only[d.id])and(d.kind~='expendable'or ex.fallback[d.id])then
             definitions[#definitions+1]={id=d.id,label=d.label,token=M.TOKEN,policy=d.alloc_policy or d.policy,
-                eagle=d.eagle~=nil,filter=d.filter}
+                eagle=d.eagle~=nil,filter=d.filter,pin=pins[d.id]}
         end
     end
     for _,d in ipairs(list)do report[d.id]=true end
@@ -1794,7 +1805,11 @@ local function ship_step(world,v)
         if next(own)then present=probe.discount(present,own)end
     end
     local table_ids=mp_on and sync.table_ids(v.table)or nil
-    local key=table.concat(ids,',')..'|'..table.concat(lobby.peers,',')..'|'..(mp_on and v.table_hash or'-')
+    local pin_parts={}
+    for id,stable in pairs(M.probe_pins())do pin_parts[#pin_parts+1]=id..'='..stable end
+    table.sort(pin_parts)
+    local key=table.concat(ids,',')..'|'..table.concat(lobby.peers,',')..'|'..(mp_on and v.table_hash or'-')..'|'
+        ..table.concat(pin_parts,',')
     if key==ship.key and clock<ship.at+M.REVALIDATE_EVERY then return end
     ship.key,ship.at=key,clock
     local a,why=allocate(world,present,list,mp_on and'aboard the ship, a PREVIEW from the synced lobby table (every '
@@ -1854,6 +1869,87 @@ local function ship_step(world,v)
             log(('PRE-MISSION (%s): %s'):format(d.id,text))
         end
     end
+end
+
+-- The carrier-in-slot probe aboard the ship (0.2.1; the user's rule of 2026-10-07: never a lockout of the carrier):
+-- a carrier slot whose carrier is no longer its definition's (anyone else picked it natively, or it went to another
+-- custom stratagem: its pin no longer holds) is MOVED to the carrier the allocation gives it now, before the mission
+-- (stratagem_selector.move_carrier: the pick's own guarded loadout write). One slot at a time; the difference must hold
+-- for M.PROBE_MOVE_SETTLE s first (the loadout settles), then it is retried every M.PROBE_MOVE_RETRY s while the loadout
+-- screen cannot take it (each reason logged once). A slot that has not moved by the launch is refused at mission start
+-- (its slot locked, never called).
+M.PROBE_MOVE_SETTLE=1
+M.PROBE_MOVE_RETRY=2
+do
+    local probe_move={busy=false,seen={},said={},at=-math.huge}
+    local function probe_move_why(world,set,e)
+        local present=ship.inputs and ship.inputs.present or{}
+        if present[e.token]then
+            for k,id in ipairs(loadout_ids(world)or{})do
+                local other=set.slots[k-1]
+                if id==e.token and not(other and other.carrier and other.token==id)then
+                    return('you picked it natively into loadout slot %d'):format(k-1)
+                end
+            end
+            return 'another player picked it natively'
+        end
+        for id,x in pairs(ship.alloc and ship.alloc.assignments or{})do
+            if id~=e.definition and x.stable_id==e.token then return 'it is now the carrier of '..id end
+        end
+        return 'it is no longer eligible for it'
+    end
+    local function probe_move_step(world)
+        if probe_move.busy then return end
+        local game=world_module.game_state(world)
+        local set=selector.virtual_slots()
+        local a=ship.alloc
+        if not(game and game.name=='Ship'and set and a)then probe_move.seen={};return end
+        local list={}
+        for slot,e in pairs(set.slots)do if e.carrier then list[#list+1]=slot end end
+        table.sort(list)
+        for _,slot in ipairs(list)do
+            local e=set.slots[slot]
+            local mine=a.assignments[e.definition]
+            local key=mine and mine.stable_id and mine.stable_id~=e.token and not mine.local_refused
+                and(e.token..'>'..mine.stable_id)or nil
+            local seen=probe_move.seen[slot]
+            if not key then probe_move.seen[slot]=nil;probe_move.said[slot]=nil
+            elseif not(seen and seen.key==key)then probe_move.seen[slot]={key=key,at=clock}
+            elseif clock>=seen.at+M.PROBE_MOVE_SETTLE and clock>=probe_move.at+M.PROBE_MOVE_RETRY then
+                probe_move.at=clock
+                local from=names_by_id[e.token]or('stable id '..tostring(e.token))
+                local why=probe_move_why(world,set,e)
+                local function waiting(text)
+                    if probe_move.said[slot]~=text then
+                        probe_move.said[slot]=text
+                        log(('SHIP (%s): its loadout slot %d holds %s, but %s: it moves to %s once %s (a slot that has not moved '
+                            ..'by the launch is refused in the mission, locked)'):format(e.definition,slot,from,why,mine.carrier,
+                            text))
+                    end
+                end
+                local view=selector.screen(world)
+                if not(view and view.open and view.record)then waiting('the loadout screen is open')
+                elseif view.launched then waiting('the loadout is not launched yet (too late now)')
+                elseif view.ready then waiting('you are not ready (unready to let it move)')
+                elseif view.bound~=view.record.address then waiting('the loadout panel is bound again')
+                else
+                    probe_move.busy=true
+                    selector.move_carrier(slot,e.definition,{id=mine.stable_id,name=mine.carrier},function(h)
+                        probe_move.busy=false
+                        if h.status=='moved'then
+                            probe_move.seen[slot],probe_move.said[slot]=nil,nil
+                            log(('SHIP (%s): loadout slot %d MOVED from %s to %s (%s), before the mission; nothing else in the '
+                                ..'loadout changed'):format(e.definition,slot,from,mine.carrier,why))
+                        else
+                            waiting(('the write is accepted (%s: %s)'):format(tostring(h.code),tostring(h.reason)))
+                        end
+                    end)
+                    return
+                end
+            end
+        end
+    end
+    M.probe_move_step=probe_move_step
 end
 
 ------------------------------------------------------------------ expendable: availability (aboard the ship) --
@@ -1958,8 +2054,9 @@ function M.probe_refusal(d,a,players)
         if e.definition==d.id and not e.carrier then return 'its slots mix the token and the carrier',name end
     end
     if x.id~=a.stable_id then
-        return('its slot%s hold%s the carrier %s, but its carrier now is %s (moving a slot to another carrier is probe '
-            ..'2)'):format(#x.slots==1 and''or's',#x.slots==1 and's'or'',name,tostring(a.carrier)),name
+        return('its slot%s hold%s the carrier %s, but its carrier now is %s (anyone else picked it, and the slot could not '
+            ..'move aboard the ship before the launch)'):format(#x.slots==1 and''or's',#x.slots==1 and's'or'',name,
+            tostring(a.carrier)),name
     end
     return nil
 end
@@ -2231,15 +2328,9 @@ do
             if#parts>0 then log('CARRIER BLOCKS (aboard the ship): '..text)end
             reservations.text,reservations.last=text,set
         end
-        -- The carrier-in-slot probe: a carrier a carrier slot holds is never picked natively (that pick could not be told
-        -- apart from the custom one in the same slot).
-        local vs=selector.virtual_slots()
-        for slot,e in pairs(vs and vs.slots or{})do
-            if e.carrier and not blocked[e.token]then
-                blocked[e.token]={reason=('held by your custom stratagem %s (its carrier itself, in loadout slot %d): '
-                    ..'unpick it first'):format(e.definition,slot),holders={'you slot '..slot}}
-            end
-        end
+        -- The carrier-in-slot probe adds no block of its own (the user's rule, 2026-10-07): a carrier slot's carrier is
+        -- blocked only as above (the last viable carrier); when anyone else picks it, the slot moves to its next carrier
+        -- aboard the ship (probe_move_step).
         reservations.blocked=blocked
     end
 end
@@ -3792,8 +3883,9 @@ function M.disabled_notice(advice)
 end
 -- Every custom slot of this machine that will NOT run in this mission is LOCKED: its token (Orbital Precision Strike)
 -- is never called (runtime/slot_cooldown.lua lock: its own entry unavailable all mission; the client's write carries the
--- lockout mark, runtime/multiplayer.lua). only: {[custom id] = true} or nil (every virtual slot). Returns the slots
--- locked now.
+-- lockout mark, runtime/multiplayer.lua). A carrier slot (the carrier-in-slot probe) is locked the same way on its own
+-- entry holding its own carrier (the entry by loadout position, its type checked: never another slot holding the same
+-- stratagem). only: {[custom id] = true} or nil (every virtual slot). Returns the slots locked now.
 local fail_closed
 do
     function fail_closed(world,reason,only)
@@ -3821,20 +3913,23 @@ do
             if(not only or only[v.definition])and not mission.locked[slot]then
                 local index=entry_of[slot]
                 local said=false
-                mission.locked[slot]=cooldowns.lock({index=index or-1,token=token,client='lockout',
-                    label=v.definition},function(e)
-                        if e.kind=='locked'and not said then
+                local native=v.carrier and(names_by_id[v.token]or('stable id '..tostring(v.token)))or M.TOKEN
+                local what=v.carrier and('its carrier '..native..' itself (the carrier-in-slot probe)')
+                    or('its token '..M.TOKEN)
+                mission.locked[slot]=cooldowns.lock({index=index or-1,token=v.carrier and v.type or token,
+                    client='lockout',label=v.definition},function(e)
+                        if(e.kind=='locked'or e.kind=='held')and not said then
                             said=true
-                            log(('CUSTOM STRATAGEM LOCKED: loadout slot %d (%s): its token %s (record entry %d) is unavailable '
-                                ..'for this mission and is never called (its own cooldown end set far ahead, re-applied; '
-                                ..'verified %s). Why it does not run: %s'):format(slot,v.definition,M.TOKEN,e.index,
-                                tostring(e.verified),tostring(reason)))
+                            log(('CUSTOM STRATAGEM LOCKED: loadout slot %d (%s): %s (record entry %d) is unavailable '
+                                ..'for this mission and is never called (its own cooldown end %s far ahead, re-applied; '
+                                ..'verified %s). Why it does not run: %s'):format(slot,v.definition,what,e.index,
+                                e.kind=='held'and'already held'or'set',tostring(e.verified),tostring(reason)))
                         elseif e.kind=='refused'and said~='refused'then
                             said='refused'
                             log(('CUSTOM STRATAGEM LOCK FAILED: loadout slot %d (%s): %s: %s. DO NOT CALL loadout slot %d in '
                                 ..'this mission: it would call the native %s'):format(slot,v.definition,tostring(e.code),
-                                tostring(e.reason),slot,M.TOKEN))
-                            M.disabled_notice(('DO NOT call loadout slot %d: it would call %s.'):format(slot+1,M.TOKEN))
+                                tostring(e.reason),slot,native))
+                            M.disabled_notice(('DO NOT call loadout slot %d: it would call %s.'):format(slot+1,native))
                         end
                     end)
                 count=count+1
@@ -3850,8 +3945,10 @@ local function setup_refused(text,by)
     for id,list_slots in pairs(by or{})do
         only[id]=true
         for _,slot in ipairs(list_slots)do
+            local v=(selector.virtual_slots()or{slots={}}).slots[slot]
             log(('CUSTOM MP SETUP REFUSED: loadout slot %d (%s) is UNAVAILABLE in this mission: %s. It was not converted: '
-                ..'its token %s is LOCKED for this mission (never called)'):format(slot,id,text,M.TOKEN))
+                ..'%s is LOCKED for this mission (never called)'):format(slot,id,text,v and v.carrier
+                and('its carrier '..(names_by_id[v.token]or tostring(v.token))..' itself')or('its token '..M.TOKEN)))
         end
     end
     if next(only)then fail_closed(world_module.open(),text,only)end
@@ -4729,9 +4826,21 @@ local function tick(dt)
         local game=wp and world_module.game_state(wp)
         if game then
             local players=world_module.players(wp)
-            require('hd2runtime/runtime/carrier_in_slot').step({game=game,clock=clock,definitions=defs,set=set,world=wp,
+            local probe=require('hd2runtime/runtime/carrier_in_slot')
+            probe.step({game=game,clock=clock,definitions=defs,set=set,world=wp,
                 carrier_name=function(id)return names_by_id[id]end,players=players and#players or nil,
-                hud=function()return stratagem_hud.populated(wp)end})
+                hud=function()return stratagem_hud.populated(wp)end,
+                -- Whether the slots' carrier is the definition's carrier now and held by nobody else.
+                consistent=function(id,x)
+                    local mine=cache[id]
+                    if not(mine and mine.stable_id==x.id)then
+                        return false,'its carrier now is '..tostring(mine and mine.carrier or'none')
+                    end
+                    if not probe.own_carriers(loadout_ids(wp),set,M.peer_ids(wp))[x.id]then
+                        return false,'it is also a native pick'
+                    end
+                    return true
+                end})
         end
     end
     -- Other players' thrown balls, faster than the step (a ball lives only around its landing): cached as evidence.
@@ -4782,7 +4891,8 @@ local function tick(dt)
     end
     if not in_mission then
         if game then
-            ship_step(world,v);availability_step(world,v);reservations_step(world,v);mp_ship_step(world)
+            ship_step(world,v);M.probe_move_step(world);availability_step(world,v);reservations_step(world,v)
+            mp_ship_step(world)
         end
         return
     end

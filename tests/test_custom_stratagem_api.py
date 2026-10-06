@@ -222,6 +222,32 @@ assert(names(b)==names(a)and names(c)==names(a),names(b)..' / '..names(c))
 return 'ok'
 ''')
 
+    def test_a_pinned_carrier_is_kept_until_anyone_else_holds_it(self):
+        # The carrier-in-slot probe 0.2.1: a definition whose loadout slot holds its carrier keeps it (pinned first),
+        # whatever ranks higher; once it is a native pick the pin no longer holds and the next carrier is given.
+        self.lua(r'''
+CANDIDATES=full()
+local EXCL={'Orbital Gas Strike','EAT-17 Expendable Anti-Tank'}
+local function pinned(d,pin)local c={};for k,v in pairs(d)do c[k]=v end;c.pin=pin;return c end
+-- The Pelican's slot holds the Gatling (the Gas Barrage's carrier without pins): the Pelican keeps it.
+local a=A.allocate_policies(nil,{pinned(PELICAN,2084654169),GAS},{},EXCL)
+assert(names(a)=='eat17_gas=nil; orbital_gas_barrage=Orbital 380mm HE Barrage; pelican_close_air_support=Orbital '
+    ..'Gatling Barrage',names(a))
+assert(a.assignments.pelican_close_air_support.pinned and not a.assignments.orbital_gas_barrage.pinned)
+assert(a.verdicts.pelican_close_air_support[2084654169]=='SELECTED (its loadout slot already holds it)')
+-- A higher-ranked carrier being free never moves a pinned slot.
+local b=A.allocate_policies(nil,{pinned(GAS,3108516875)},{},EXCL)
+assert(b.assignments.orbital_gas_barrage.carrier=='Orbital 380mm HE Barrage'and b.assignments.orbital_gas_barrage.pinned)
+assert(b.verdicts.orbital_gas_barrage[2084654169]=='eligible; its slot holds another carrier (kept)')
+-- Picked natively by anyone: the pin no longer holds; the next carrier.
+local c=A.allocate_policies(nil,{pinned(GAS,3108516875)},{[3108516875]=true},EXCL)
+assert(c.assignments.orbital_gas_barrage.carrier=='Orbital Gatling Barrage'and not c.assignments.orbital_gas_barrage.pinned)
+-- A pin outside its pool (an excluded carrier) counts for nothing.
+local d=A.allocate_policies(nil,{pinned(GAS,3193297673)},{},EXCL)
+assert(d.assignments.orbital_gas_barrage.carrier=='Orbital Gatling Barrage'and not d.assignments.orbital_gas_barrage.pinned)
+return 'ok'
+''')
+
     def test_a_support_policy_falls_back_to_a_backpack_then_refuses(self):
         self.lua(r'''
 CANDIDATES=full()

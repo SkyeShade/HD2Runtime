@@ -15,6 +15,11 @@
 --     refuses a call). Before READY the slot already holds the carrier, with the custom code, and a call would be the
 --     carrier's own vanilla call. Released (unlock_entry: the end written back) right before its cooldown is armed;
 --     a definition that never becomes ready stays locked;
+--   * no lockout (0.2.1, the user's rule): a carrier slot never blocks its carrier natively (only the regular rule
+--     does: the last viable carrier of a selected custom stratagem); the slot keeps its carrier while nobody else
+--     holds it (the allocator's pin), and when anyone else picks it the slot MOVES to its next carrier aboard the ship
+--     (stratagem_selector.move_carrier, custom_stratagems' probe_move_step). The early presentation goes only on a
+--     carrier that is the definition's own and no real pick (ctx.consistent);
 --   * the mission: nothing converts; the slots are verified and adopted (stratagem_slot_conversion.adopt_virtual),
 --     their native per-slot uses written when the definition has `uses` (0.2.0), and the cooldown, code, beacon and
 --     payload work as for a converted slot;
@@ -74,7 +79,9 @@ end
 
 -- Every Runtime step (the orchestrator's): the timing log and the early presentation. ctx = {game (event_world
 -- game_state), clock, definitions (id -> definition), set (the virtual slots), carrier_name(stable id) -> name,
--- players (the player count, or nil when unreadable), hud() -> whether the mission HUD is populated (read lazily)}.
+-- players (the player count, or nil when unreadable), hud() -> whether the mission HUD is populated (read lazily),
+-- consistent(id, x) -> true, or false and why (the slots' carrier is not the definition's own carrier now, or it is
+-- also a real pick: no early presentation; the mission refuses the definition)}.
 function M.step(ctx)
     local game=ctx.game
     state.clock=ctx.clock
@@ -90,7 +97,10 @@ function M.step(ctx)
     if game and game.mission and populated and not state.hud then
         state.hud=true
         local parts={}
-        for id,x in pairs(state.early)do parts[#parts+1]=('%s presented at %.2f s during %s'):format(id,x.at,x.during)end
+        for id,x in pairs(state.early)do
+            parts[#parts+1]=x.skipped and('%s NOT presented early (%s)'):format(id,x.skipped)
+                or('%s presented at %.2f s during %s'):format(id,x.at,x.during)
+        end
         table.sort(parts)
         log(('TIMING: the mission HUD is populated at %.2f s; %s'):format(ctx.clock,#parts>0 and table.concat(parts,'; ')
             or'no early presentation (applied by the mission steps after the HUD instead)'))
@@ -109,6 +119,13 @@ function M.step(ctx)
     for id,x in pairs(by)do
         local d=ctx.definitions[id]
         local name=ctx.carrier_name(x.id)
+        local ok,why=true,nil
+        if ctx.consistent then ok,why=ctx.consistent(id,x)end
+        if d and name and not state.early[id]and not x.mixed and not ok then
+            state.early[id]={carrier=name,at=ctx.clock,during=game.name,skipped=why}
+            log(('%s: NO early presentation on %s: %s (never on a carrier that is not its own)'):format(id,name,
+                tostring(why)))
+        end
         if d and name and not state.early[id]and not x.mixed and not cp.applied(name)then
             state.early[id]={carrier=name,at=ctx.clock,during=game.name,pending=true}
             log(('%s: applying the presentation on its carrier %s during %s at %.2f s (loadout slot%s %s)'):format(id,name,

@@ -10,7 +10,10 @@ picked into its loadout slot as its CARRIER itself, not the Orbital Precision St
   * the timing: the presentation is applied on the loading screen or before the HUD is populated, once; the HUD's
     population is logged against it; nothing without carrier slots;
   * the orchestrator: selection = 'carrier' registers (and anything else is refused); a mission refuses it with
-    several players, mixed slots, or a slot carrier that is no longer its carrier."""
+    several players, mixed slots, or a slot carrier that is no longer its carrier;
+  * no lockout (0.2.1): a carrier slot never blocks its carrier natively; when anyone else picks it, the slot moves to
+    its next carrier aboard the ship (the pick's guarded write at the slot's own index; refused with nothing written
+    unless the slot still reads its carrier and the new one is in no slot), the native pick untouched."""
 import unittest
 
 from support import run
@@ -122,6 +125,58 @@ tick(2)
 local before=#W.runtime.writes
 local refused=settle_job(selector.select('orbital_gas_barrage',nil,{carrier={id=2281932031,name='Eagle'}}))
 assert(refused.status=='refused'and refused.code=='TOKEN_NOT_OWNED'and#W.runtime.writes==before,tostring(refused.code))
+return 'ok'
+'''), b'ok')
+
+
+class MoveTests(unittest.TestCase):
+    def test_a_carrier_slot_moves_to_another_carrier_and_every_guard_refuses(self):
+        self.assertEqual(run(WORLD + SELECT + r'''
+SCREEN=W.loadout_screen({entries={{type=22},{type=41}},editedSlot=2})
+W.catalogue({[PRECISION_ID]=2,[BIG_ID]=2,[3193297673]=2})
+tick(2)
+assert(settle_job(selector.select('orbital_gas_barrage',nil,{carrier={id=BIG_ID,name='Orbital 120mm HE Barrage'}}))
+    .status=='selected')
+-- The grid closes; the loadout screen stays open.
+SCREEN.set('selecting',false);tick(2)
+local TO={id=PRECISION_ID,name='Orbital Precision Strike'}
+local function refused(code,slot,to,definition)
+    local before,record=#W.runtime.writes,W.read(SCREEN.record,0x80)
+    local job=settle_job(selector.move_carrier(slot or 2,definition or'orbital_gas_barrage',to or TO))
+    assert(job.status=='refused'and job.code==code,code..' expected, got '..tostring(job.code)..': '..tostring(job.reason))
+    assert(#W.runtime.writes==before and W.read(SCREEN.record,0x80)==record,'nothing written: '..code)
+end
+-- Never into a carrier another slot holds (a real pick), never onto itself, never a slot that is not its carrier slot.
+refused('CARRIER_IN_LOADOUT',2,{id=3193297673,name='Orbital Gas Strike'})
+refused('SAME_CARRIER',2,{id=BIG_ID,name='Orbital 120mm HE Barrage'})
+refused('NOT_CARRIER_SLOT',0)
+refused('NOT_CARRIER_SLOT',2,nil,'another_definition')
+-- Ready, launched, closed, or not aboard the ship.
+SCREEN.set('ready',true);refused('READY');SCREEN.set('ready',false)
+SCREEN.set('launched',true);refused('LAUNCHED');SCREEN.set('launched',false)
+W.state(6);refused('NOT_ABOARD');W.state(3)
+-- The slot no longer reads its carrier exactly (here: limited uses): refused.
+local LO=SEL.loadout
+local at=SCREEN.record+LO.entries+2*LO.entryStride+LO.entryUses
+W.write(at,W.u32(3));refused('SLOT_CHANGED');W.write(at,W.u32(4294967295))
+-- The move: only the slot's type changes; the virtual slot records the new carrier.
+local before=#W.runtime.writes
+local job=settle_job(selector.move_carrier(2,'orbital_gas_barrage',TO))
+assert(job.status=='moved',tostring(job.code)..' '..tostring(job.reason))
+for key,value in pairs(job.verify)do assert(value==true,key)end
+local k0,u0=SCREEN.entry(0)
+local k1,u1=SCREEN.entry(1)
+local k2,u2=SCREEN.entry(2)
+assert(k0==22 and k1==41 and k2==118 and u2==4294967295 and SCREEN.count()==3 and SCREEN.widget(2)==118)
+assert(#W.runtime.writes-before==2,'the type and the panel\'s cached record pointer')
+local set=selector.virtual_slots()
+assert(set.slots[2].definition=='orbital_gas_barrage'and set.slots[2].token==PRECISION_ID and set.slots[2].type==118
+    and set.slots[2].carrier==true)
+assert(count('stratagem selector MOVED (carrier-in-slot probe): virtual slot 2 (orbital_gas_barrage): its carrier ')==1)
+assert(count('(type 136) -> Orbital Precision Strike (type 118): 2 writes; the entry reads the new carrier: true; every '
+    ..'other entry unchanged: true; count unchanged: true; the game repainted the slots from the record: true')==1)
+-- Closed: refused.
+SCREEN.close();refused('SCREEN_CLOSED',2,{id=BIG_ID,name='Orbital 120mm HE Barrage'})
 return 'ok'
 '''), b'ok')
 
@@ -353,8 +408,8 @@ return 'ok'
 
 
 class FlowTests(unittest.TestCase):
-    def test_from_the_pick_to_ready_to_call_with_nothing_converted(self):
-        # The Orbital Gas Barrage example (frozen 0.1.7 source), registered with selection = 'carrier', alone.
+    def flow(self, body):
+        # The Orbital Gas Barrage example (frozen 0.1.7 source), registered with selection = 'carrier' and 3 uses, alone.
         from support import lua as lua_literal
         from test_stratagem_calldown_code import PROOF
         from test_custom_stratagem_flow import addon, FLOW_HARNESS, CAS_CARRIERS
@@ -366,7 +421,18 @@ class FlowTests(unittest.TestCase):
         anchor = "    code={'up','up','down','down'},\n"
         self.assertEqual(gas_addon.count(anchor), 1)
         gas_addon = gas_addon.replace(anchor, anchor + "    selection='carrier',\n    uses=3,\n")
-        body = r'''
+        self.assertEqual(run(WORLD + SLOT + 'local ADDON=' + lua_literal(pelican_addon) + '\nlocal RESOURCE='
+            + lua_literal(pelican) + '\nlocal GAS_ADDON=' + lua_literal(gas_addon) + '\nlocal GAS_RESOURCE='
+            + lua_literal(gas) + '\nlocal EAT_ADDON=' + lua_literal(eat_addon) + '\nlocal EAT_RESOURCE='
+            + lua_literal(eat) + PROOF + FLOW_HARNESS + CAS_CARRIERS + PAYLOAD_FLOW + CAS_WORLD
+            + 'return (function()\nlocal lines=CT.lines\n'
+            + "local custom=require('hd2runtime/runtime/custom_stratagems');custom.reset_for_tests()\n"
+            + "require('hd2runtime/runtime/spawned_instances').reset_for_tests()\n"
+            + "require('hd2runtime/runtime/carrier_in_slot').reset_for_tests()\n"
+            + body + '\nend)()\n'), b'ok')
+
+    def test_from_the_pick_to_ready_to_call_with_nothing_converted(self):
+        self.flow(r'''
 rawset(_G,'ModOptionsMenu',MENU)
 -- The native picker's block set, as the orchestrator hands it over every ship update.
 local blocked_seen={}
@@ -390,10 +456,10 @@ assert(V and V.slots[0]and V.slots[0].definition=='orbital_gas_barrage'and V.slo
     selector.slots_text(V)..' | '..lines('CARRIER-IN-SLOT')..' | '..lines('SELECTED'))
 local kind,cid=V.slots[0].type,V.slots[0].token
 assert(kind~=118 and cid~=PRECISION_ID,'the carrier itself, not the token')
--- Its carrier is blocked in the native picker (a native pick of it into this slot could not be told apart).
+-- 0.2.1: no lockout: the carrier the slot holds is never blocked natively for being in a carrier slot (only by the
+-- regular rule: the last viable carrier of a selected custom stratagem).
 tick(4)
-assert(blocked_seen[cid]and blocked_seen[cid].reason:find('held by your custom stratagem orbital_gas_barrage',1,true),
-    'the carrier is blocked natively')
+assert(not(blocked_seen[cid]and blocked_seen[cid].reason:find('held by your custom stratagem',1,true)),'no lockout')
 assert(count('the CARRIER itself: the carrier-in-slot probe')==1,lines('SELECTED'))
 -- Aboard the ship its own carrier is never invalidated as a native pick.
 W.saved_loadout({{id=cid},{id=ID22},{id=1298599997}})
@@ -428,17 +494,109 @@ assert(count('MISSION (orbital_gas_barrage): NATIVE USES: 3 per slot')==1,lines(
 for _,i in ipairs({0,1,3,4,5})do
     assert(b.u32(W.read(h.record+0x38+0x188+i*0x30+4,4),0)==4294967295,'a native entry keeps unlimited')
 end
+assert(count('stratagem selector MOVED')==0,'nothing moved: nobody else holds its carrier')
 return 'ok'
-'''
-        self.assertEqual(run(WORLD + SLOT + 'local ADDON=' + lua_literal(pelican_addon) + '\nlocal RESOURCE='
-            + lua_literal(pelican) + '\nlocal GAS_ADDON=' + lua_literal(gas_addon) + '\nlocal GAS_RESOURCE='
-            + lua_literal(gas) + '\nlocal EAT_ADDON=' + lua_literal(eat_addon) + '\nlocal EAT_RESOURCE='
-            + lua_literal(eat) + PROOF + FLOW_HARNESS + CAS_CARRIERS + PAYLOAD_FLOW + CAS_WORLD
-            + 'return (function()\nlocal lines=CT.lines\n'
-            + "local custom=require('hd2runtime/runtime/custom_stratagems');custom.reset_for_tests()\n"
-            + "require('hd2runtime/runtime/spawned_instances').reset_for_tests()\n"
-            + "require('hd2runtime/runtime/carrier_in_slot').reset_for_tests()\n"
-            + body + '\nend)()\n'), b'ok')
+''')
+
+    def test_anyone_else_picking_its_carrier_moves_the_slot_before_the_mission(self):
+        self.flow(r'''
+rawset(_G,'ModOptionsMenu',MENU)
+assert(loadstring(GAS_ADDON,'@'..GAS_RESOURCE))()
+tick(40)
+ship({})
+tick(4)
+select_into(0)
+native_append(22);native_append(130)
+SCREEN.set('selecting',false);tick(8)
+local selector=require('hd2runtime/runtime/stratagem_selector')
+local V=selector.virtual_slots()
+local kind,cid=V.slots[0].type,V.slots[0].token
+assert(V.slots[0].carrier and kind~=118)
+tick(80)
+assert(count('stratagem selector MOVED')==0,'its slot keeps its carrier while nobody else holds it')
+-- Its carrier picked natively (into slot 3, as the game's pick writes the record), the loadout screen open, the grid
+-- closed: the slot moves to its next carrier; the native pick is untouched.
+native_append(kind)
+tick(120)
+assert(count('stratagem selector MOVED (carrier-in-slot probe): virtual slot 0 (orbital_gas_barrage): its carrier ')==1,
+    lines('MOVED')..' | '..lines('SHIP (orbital_gas_barrage)')..' | '..lines('REFUSED'))
+assert(count('SHIP (orbital_gas_barrage): loadout slot 0 MOVED from ')==1
+    and count('(you picked it natively into loadout slot 3), before the mission')==1,lines('SHIP (orbital_gas_barrage)'))
+V=selector.virtual_slots()
+local nkind,nid=V.slots[0].type,V.slots[0].token
+assert(V.slots[0].carrier and nid~=cid and nkind~=kind and nkind~=118)
+local k0=SCREEN.entry(0)
+local k3,u3=SCREEN.entry(3)
+assert(k0==nkind and k3==kind and u3==4294967295,'slot 0 moved; the native pick in slot 3 untouched')
+tick(120)
+assert(count('stratagem selector MOVED')==1,'once: the new carrier is kept (its pin)')
+-- The launch: the saved loadout, then the mission.
+W.saved_loadout({{id=nid},{id=ID22},{id=1298599997},{id=cid}})
+SCREEN.close();tick(80)
+mission({host=true})
+local record,hud=mission_record({nkind,22,130,kind})
+local h=W.stratagem_hud({peer=LOCAL,slots=hud,record=record})
+live_cooldowns(h,#record)
+CT.player(0,0,0)
+tick(120)
+assert(count('MISSION (orbital_gas_barrage): READY TO CALL: loadout slot 0 = ')==1,lines('MISSION')..' | '
+    ..lines('CARRIER-IN-SLOT')..' | '..lines('REFUSED'))
+-- Its native uses on its own entry (2); the native pick's entry (5) keeps unlimited, its row its own look.
+assert(count('NATIVE USES (carrier-in-slot probe): virtual orbital_gas_barrage: record entry 2')==1,lines('NATIVE'))
+assert(b.u32(W.read(h.record+0x38+0x188+2*0x30+4,4),0)==3)
+assert(b.u32(W.read(h.record+0x38+0x188+5*0x30,4),0)==kind)
+assert(b.u32(W.read(h.record+0x38+0x188+5*0x30+4,4),0)==4294967295,'the native pick keeps unlimited uses')
+assert(count('applying the presentation on its carrier ')==1 and count('NO early presentation')==0,
+    lines('CARRIER-IN-SLOT'))
+local to_name=lines('loadout slot 0 MOVED from '):match(' to (.-) %(you picked')
+assert(to_name and lines('applying the presentation on its carrier '):find('its carrier '..to_name,1,true),
+    tostring(to_name)..' | '..lines('applying the presentation'))
+return 'ok'
+''')
+
+    def test_a_slot_that_cannot_move_never_touches_the_native_pick(self):
+        self.flow(r'''
+rawset(_G,'ModOptionsMenu',MENU)
+assert(loadstring(GAS_ADDON,'@'..GAS_RESOURCE))()
+tick(40)
+ship({})
+tick(4)
+select_into(0)
+native_append(22);native_append(130)
+SCREEN.set('selecting',false);tick(8)
+local selector=require('hd2runtime/runtime/stratagem_selector')
+local V=selector.virtual_slots()
+local kind,cid=V.slots[0].type,V.slots[0].token
+tick(80)
+-- Its carrier picked natively into slot 3 while the slot cannot move (the player is ready), then the launch.
+native_append(kind)
+SCREEN.set('ready',true)
+tick(120)
+assert(count('stratagem selector MOVED')==0)
+W.saved_loadout({{id=cid},{id=ID22},{id=1298599997},{id=cid}})
+SCREEN.close();tick(80)
+mission({host=true})
+local record,hud=mission_record({kind,22,130,kind})
+local h=W.stratagem_hud({peer=LOCAL,slots=hud,record=record})
+live_cooldowns(h,#record)
+CT.player(0,0,0)
+local native_before=W.read(h.record+0x38+0x188+5*0x30,0x30)
+tick(160)
+-- Never ready; no presentation on that carrier (it is a real pick too); the native pick's entry never written.
+assert(count('MISSION (orbital_gas_barrage): READY TO CALL')==0,lines('MISSION'))
+assert(count('applying the presentation on its carrier')==0,lines('CARRIER-IN-SLOT'))
+assert(count('stratagem presentation custom text APPLIED')==0 and count('carrier presentation APPLIED')==0,
+    lines('APPLIED'))
+assert(count('NATIVE USES (carrier-in-slot probe)')==0,lines('NATIVE'))
+assert(W.read(h.record+0x38+0x188+5*0x30,0x30)==native_before,'the native pick\'s record entry is untouched')
+-- Refused and locked on its own entry (2) with its own carrier, the reason named; never 'LOCK FAILED'.
+assert(count('REFUSED (the carrier-in-slot probe): its slot holds the carrier ')>=1
+    and count('(anyone else picked it, and the slot could not move aboard the ship before the launch)')>=1,lines('REFUSED'))
+assert(count('CUSTOM STRATAGEM LOCKED: loadout slot 0 (orbital_gas_barrage): its carrier ')==1
+    and count('(record entry 2) is unavailable for this mission')==1 and count('LOCK FAILED')==0,lines('LOCK'))
+assert(count('NOT presented early (it is also a native pick)')==1,lines('TIMING'))
+return 'ok'
+''')
 
 
 if __name__ == '__main__':

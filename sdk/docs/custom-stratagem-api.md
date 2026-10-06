@@ -126,7 +126,7 @@ Up to four labels of 1 to 32 characters, shown in upper case after the automatic
 of another label, is dropped). Without `traits`, the panel shows the payload family's (`SUPPORT WEAPON`, `ORBITAL`, the
 custom model, the round, ...). Presentation only: not part of the registry hash.
 
-### `selection = 'carrier'` (probe; development, solo host, NOT live-tested)
+### `selection = 'carrier'` (probe; development, solo host; r34 log evidence only)
 
 The carrier-in-slot probe (2026-10-07; runtime/carrier_in_slot.lua; proof/CarrierSlotProbe). The pick writes the
 custom stratagem's CARRIER itself into the loadout slot instead of the Orbital Precision Strike token: the same guarded
@@ -136,13 +136,48 @@ everywhere else.
 - **Identity:** the slot is still the Runtime's virtual slot, recorded with the carrier's stable id, so the selector's
   tracking, the saved-order reconstruction and the loadout overlay work as for a token slot.
 - **Allocation:** a carrier this player holds only in its own carrier slots is not one of its native picks, so it never
-  invalidates itself. Held anywhere else (another slot, another player) it still is.
+  invalidates itself. Held anywhere else (another slot, another player) it still is. The slot keeps its carrier while
+  nobody else holds it (0.2.1: the allocator's pin, ahead of every unpinned definition), so it never moves because
+  another carrier would now rank higher.
 - **Mission:** nothing converts. The carrier's presentation is applied as early as the Runtime runs after the launch:
   on the loading screen when the Runtime's update runs there, else in the mission's first update before the HUD is
-  populated. The slots are then verified and adopted (`ADOPTED (carrier-in-slot probe)`, no write) and work as a
-  converted slot (cooldown, uses, code, beacon, payload). The probe logs the timing (`CARRIER-IN-SLOT PROBE TIMING`).
+  populated. The slots are then verified and adopted (`ADOPTED (carrier-in-slot probe)`, no slot write) and work as a
+  converted slot (cooldown, code, beacon, payload). The probe logs the timing (`CARRIER-IN-SLOT PROBE TIMING`).
+- **The lock** (0.2.0): from the mission's first update until READY TO CALL each carrier slot's own record entry is
+  locked (its cooldown end far ahead): before then the slot holds the carrier with the custom code, and a call would be
+  the carrier's own. Released (the exact original end written back) right before its cooldown is armed. A definition
+  that never becomes ready stays locked.
+- **Native uses** (0.2.0): with `uses`, they are the game's own per-slot uses (its HUD counter, its depleted look, its
+  refusal at 0; the game counts them down): one 4-byte write -1 -> `uses` into each of this player's own adopted record
+  entries, never the row (docs/research/carrier-max-uses-F5FEE03DCFDB.md, option A). Refused with nothing written (the
+  definition refused, its slots locked) unless the entry reads the carrier with unlimited uses in this mission's
+  record, the carrier's type is in no other record entry (`CARRIER_ELSEWHERE`), its row has unlimited uses
+  (`USES_DIFFER`) and a per-player cooldown (`SHARED_COOLDOWN`), and it is not an Eagle or type 28/124
+  (`SPECIAL_USES`). Written back to -1 when the slot is let go while the record still stands; the game rebuilds the
+  record for every mission, so nothing carries over.
+- **No lockout; the move** (0.2.1, the user's rule): a carrier slot never blocks its carrier in the native picker (the
+  0.2.0 block is removed). Only the regular rule blocks a carrier: the last viable carrier of a selected custom
+  stratagem. The game itself greys a stratagem that is already in the player's own loadout ("already in this
+  loadout"), the carrier included. When anyone else picks the carrier natively (or it becomes another custom
+  stratagem's), the slot MOVES to the carrier the allocation now gives it, aboard the ship before the launch
+  (`stratagem selector MOVED (carrier-in-slot probe)`, `SHIP (<id>): loadout slot N MOVED from A to B (why)`). This is
+  the pick's own guarded loadout write at the slot's own index, with the stratagem grid open or closed. The
+  difference must hold for 1 s first, then the write is retried every 2 s while the screen cannot take it. Refused
+  with nothing written unless the loadout screen is open with the local record bound, the player is not ready and not
+  launched, the slots on screen mirror the record, the slot still reads exactly its carrier with unlimited uses, and
+  the new carrier is in no slot of the loadout (`CARRIER_IN_LOADOUT`). Only that entry's type changes; a native pick
+  is never written.
+- **A slot that could not move** (the player was ready, or the screen closed): at mission start its carrier is not its
+  carrier, so the definition is refused and its own entry locked (by position, its own carrier type checked: never
+  another slot holding the same stratagem). The early presentation goes only on a carrier that is the definition's
+  own and no real pick (`NOT presented early (it is also a native pick)`); the native uses are refused
+  (`CARRIER_ELSEWHERE`).
 - **Refused in a mission** (the slot locked, never called): with several players; when its slots mix the token and the
-  carrier; when the slot's carrier is no longer its carrier (moving a slot to another carrier is probe 2).
+  carrier; when the slot's carrier is no longer its carrier (it could not move before the launch).
+- **Evidence:** r34 solo log (2026-10-07), two missions: `LOCKED`, `NATIVE USES` (-1 -> 3, read back true),
+  `ADOPTED`, `RELEASED`, `READY TO CALL`, three calls landed, presentation applied during PrepareMission before the
+  HUD was populated. Not yet reported: the HUD counter, the depleted look, an early call, and whether the HUD showed
+  the custom look from its first frame. The move (0.2.1) is offline only.
 - **With several players** the pick writes the token, as before.
 
 ### `code`

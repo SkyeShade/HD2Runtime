@@ -507,6 +507,8 @@ function M.lock(spec,on_event)
         local r,code,reason=M.lock_entry(world,spec)
         if r and r.kind=='locked'then emit({kind='locked',index=spec.index,desired=r.desired,verified=r.verified,
             writes=r.writes})
+        -- Already held far ahead (another lock of this entry, e.g. the carrier-in-slot probe's early lock).
+        elseif r and r.kind=='held'then emit({kind='held',index=spec.index,desired=r.desired,verified=true,writes=0})
         elseif not r then emit({kind='refused',index=spec.index,code=code,reason=reason})end
     end
     function w.tick(dt)
