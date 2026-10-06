@@ -2162,13 +2162,15 @@
       "nextTests": ["HeavyMgSentry 0.3.0 with two players, every machine with the same mods: the host calls it, then the client calls it. Each sentry fires slowly with heavy rounds on both screens; the caller logs CUSTOM MP ITEMS: sentry network id N, the other machine REMOTE CUSTOM SENTRY ... mirrored; heavy armor takes the MG-206 round's damage whichever player called it."]
     },
     "custom_stratagem_pelican_native_gun": {
-      "status": "pending",
+      "status": "live_partial",
       "domain": "stratagem",
       "fields": ["hd2.custom_stratagem pelican.gun.round native"],
       "scope": "A Runtime Pelican with its own chin autocannon and its own burst AI (gun = {round = 'native'}: no Gatling AI, no other change), its kills credited to its caller.",
-      "tests": [],
+      "tests": ["PelicanCannonSupport"],
       "acknowledgementRemoved": null,
-      "nextTests": ["PelicanCannonSupport 0.1.0: the Pelican holds over the beacon 90 s firing autocannon bursts; its kills count for the caller."]
+      "observations": ["PelicanCannonSupport 0.1.0 with two players (r29/r30, reported 2026-10-07): the host saw six-round bursts; the client saw the vanilla three-round bursts and normal behaviour. Cause (code, offline): the host still made the chin turret's own weapon copy, at the copy's default 600 RPM; the client's mirror kept the turret's rate. Fixed offline (2026-10-07): round = 'native' alone leaves the turret untouched on every machine (only the kill credit is written); not re-tested."],
+      "notPromoted": ["the untouched turret on the host (the 2026-10-07 fix, not re-tested)", "kill credit to the caller with the untouched turret"],
+      "nextTests": ["PelicanCannonSupport 0.1.0 on the fixed runtime, host and client: the same three-round bursts on both screens; the host log says ARMED: chin turret N UNTOUCHED, the client REMOTE CUSTOM PELICAN ... chin gun UNTOUCHED; its kills count for the caller."]
     },
     "custom_stratagem_silo": {
       "status": "pending",

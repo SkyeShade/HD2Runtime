@@ -5591,7 +5591,7 @@
     }
    },
    "notes": [
-    "the Pelican Gatling, Gas and EMS examples use behave_as = gatling_sentry; the Pelican Cannon uses round = native (the vanilla autocannon)"
+    "the Pelican Gatling, Gas and EMS examples use behave_as = gatling_sentry; the Pelican Cannon uses round = native (the vanilla autocannon); round = native alone leaves the chin turret exactly as the game spawned it, on every machine (only its kill credit is set)"
    ]
   },
   {

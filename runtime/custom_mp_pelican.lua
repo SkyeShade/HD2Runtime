@@ -51,6 +51,14 @@ local function num(v,fmt)return v and(fmt or'%.2f'):format(v)or'?'end
 -- gun data), label, client}. Returns the handle {status, cancel(), describe()}.
 function M.mirror(spec)
     local gun=spec.gun or{}
+    -- An untouched gun ({round = 'native'} alone; runtime/pelican_gunship.lua M.plain): the Pelican's own chin turret on
+    -- this machine too, nothing copied or written.
+    if require('hd2runtime/runtime/pelican_gunship').untouched(gun)then
+        log(('REMOTE CUSTOM PELICAN: %s: chin gun UNTOUCHED: the Pelican\'s own autocannon on this machine, nothing '
+            ..'mirrored'):format(tostring(spec.label)))
+        return {status='complete',untouched=true,cancel=function()end,
+            describe=function()return'its chin gun is the Pelican\'s own autocannon on this machine (nothing mirrored)'end}
+    end
     local h={status='active',seconds=0,holds=0,label=spec.label,counts={},codes={},updates=0,fire=0,samples=0}
     for _,k in ipairs(KINDS)do h.counts[k]=0 end
     -- Why it never held, from the per-branch counts: the most frequent branch that did not hold, and the last values.

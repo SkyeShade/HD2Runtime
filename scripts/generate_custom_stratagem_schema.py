@@ -428,7 +428,8 @@ def build(facts: dict | None = None) -> dict:
                      default=PE['approach']['height']['default'])},
                  'doc': 'where it is created: back from the beacon along its heading and up'}},
          'notes': ['the Pelican Gatling, Gas and EMS examples use behave_as = gatling_sentry; the Pelican Cannon uses '
-                   'round = native (the vanilla autocannon)']},
+                   'round = native (the vanilla autocannon); round = native alone leaves the chin turret exactly as the '
+                   'game spawned it, on every machine (only its kill credit is set)']},
         {'family': 'silo', 'apiField': 'silo', 'builder': True,
          'doc': 'the donor silo\'s own vanilla pod (the support redirect): its silo and laser remote, launched as the '
                 'donor\'s; where exactly this call\'s missile detonates, the session host requests the blast explosion '

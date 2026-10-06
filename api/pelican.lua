@@ -82,7 +82,9 @@ local function finite(v,limit)return type(v)=='number'and v==v and math.abs(v)<=
 --             'refused' / 'unverified' / 'hold_refused' / 'cargo' (never expected) with code and reason; with a gun
 --             also 'gun_armed' (turret, round, rpm, credit), 'gun_refused' (stage, code, reason), 'gun_ended';
 --   gun       its chin gun's OWN configuration (development; runtime/pelican_gunship.lua): {round = 'standard' |
---             'native' (the chin turret's own round 120) | 'ap4', behave_as = 'gatling_sentry' (the Gatling Sentry's
+--             'native' (the chin turret's own round 120; alone, {round = 'native'}, the chin turret is left exactly as
+--             the game spawned it on every machine: nothing copied or written but its kill credit) | 'ap4',
+--             behave_as = 'gatling_sentry' (the Gatling Sentry's
 --             AI, casing and rate, with the Runtime target lock), rate_multiplier = 1 | 1.5 | 2, rpm = 30..3000 (with
 --             behave_as: an explicit rate in place of the Gatling rate, held on its own copy's rate slot and on every
 --             other machine's mirror), casing = 'gatling' | 'own' (with behave_as: the Gatling Sentry's casing, the

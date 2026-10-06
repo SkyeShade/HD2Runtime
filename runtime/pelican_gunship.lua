@@ -192,6 +192,21 @@ function M.check_gun(gun)
     end
     return out
 end
+-- An UNTOUCHED gun: {round = 'native'} and no other option (a normalized gun, M.check_gun's). The Pelican's own chin
+-- turret stays exactly as the game spawned it, on every machine: its own round, rate, bursts, spread, recoil,
+-- ammunition, sound and AI; nothing of it is copied or written (live 2026-10-07: the private copy's default 600 RPM gave
+-- the host six-round bursts where the other machines saw the vanilla three). Only its kill credit is set (the no-credit
+-- tag on its own Tag mask, or each round's pool creditor for another player's call).
+function M.plain(gun)
+    return type(gun)=='table'and gun.round=='native'and gun.behave_as==nil and(gun.rate or 1)==1 and gun.rpm==nil
+        and gun.casing==nil and gun.spread==nil and gun.recoil==nil and gun.ammo==nil and gun.face==nil
+        and gun.sound==nil and not gun.impact_set and gun.aim_height==nil
+end
+-- The same for a gun spec as a definition gives it (hd2.pelican.spawn's gun).
+function M.untouched(spec)
+    local gun=M.check_gun(spec or{})
+    return gun~=nil and M.plain(gun)
+end
 -- gun.impact_explosion as it stands now (rpm: the gun's explicit rate, gun.rpm): the donor's name, 'none' (a Mod
 -- Options choice on none, or unusable), or nil when unset. What the registry hash and the logs compare (a choice is
 -- read now).
@@ -409,6 +424,29 @@ local function configure(world,g)
         impact_explosion=g.impact_binding and g.gun.impact or nil})
 end
 
+-- An untouched gun (M.plain): no weapon copy, rate, refill or AI change; only the kill credit.
+local function arm_untouched(world,g)
+    local projectile=weapon.FROZEN.chin.projectile
+    local cr=g.credit and weapon.configure_credit(world,g.turret,g.label)or nil
+    g.config={untouched=true,credit=cr,writes=cr and cr.writes or 0}
+    g.round='native'
+    if g.credit_peer then
+        local impacts=require('hd2runtime/runtime/projectile_impact')
+        local binding,ccode,creason=impacts.bind_credit({sources={g.turret},projectiles={projectile},
+            credit_to=g.credit_peer,label=g.label..' credit',multiplayer=true})
+        g.credit_binding=binding
+        log(binding and(('%s: CREDIT: chin turret %d\'s rounds credited to the requesting player %s (each round\'s own pool '
+            ..'creditor, written before its first step; a round missed keeps the host)'):format(g.label,g.turret,
+            g.credit_peer))or(('%s: CREDIT REFUSED (the rounds credit the host): %s: %s'):format(g.label,tostring(ccode),
+            tostring(creason))))
+    end
+    log(('%s: ARMED: chin turret %d UNTOUCHED: the Pelican\'s own autocannon (projectile %d) with its own rate, bursts, '
+        ..'aim, ammunition and AI; nothing of it is copied or written; credit %s'):format(g.label,g.turret,projectile,
+        cr and(cr.applied and'to the caller (the host)'or('NOT APPLIED: '..tostring(cr.reason)))or'native'))
+    emit(g,{kind='armed',turret=g.turret,round='native',projectile=projectile,untouched=true,verified=true,
+        credit=cr and cr.applied,credit_peer=g.credit_peer,credit_written=g.credit_binding~=nil})
+end
+
 local clock,next_step=0,0
 local function stage_text(times)
     local keys={}
@@ -510,7 +548,10 @@ local function step(g,world)
     local ds=g.gun.impact and donor_state[g.gun.impact]
     local donor_settled=not g.gun.impact or(ds and(ds.state=='ready'or ds.state=='failed'))
         or(g.waited or 0)>=M.SOUND_WAIT
-    if g.turret and not g.configured and gatling_state.state=='ready'and ap_settled and sound_settled and donor_settled then
+    if g.turret and not g.configured and M.plain(g.gun)then
+        g.configured=true
+        arm_untouched(world,g)
+    elseif g.turret and not g.configured and gatling_state.state=='ready'and ap_settled and sound_settled and donor_settled then
         g.configured=true
         configure(world,g)
     elseif g.turret and not g.configured and gatling_state.state=='failed'then
@@ -547,7 +588,7 @@ local function step(g,world)
             end
         end
     end
-    if not(g.turret and g.config)then return end
+    if not(g.turret and g.config)or g.config.untouched then return end
     -- The firing sound skipped while the turret fired or its bank loaded: on its own copy once it is quiet and the bank
     -- resident (pelican_weapon.apply_sound); a package that failed leaves its own.
     if g.sound_retry then
@@ -750,8 +791,10 @@ local function tick(dt)
     for _,g in pairs(active)do if g.status=='active'then target_tick(g,world)end end
     if clock<next_step then return end
     next_step=clock+M.STEP
-    -- The packages the configuration needs, requested at once (shared by every gunship).
-    if gatling_state.state~='ready'and gatling_state.state~='failed'then
+    -- The packages the configuration needs, requested at once (shared by every gunship; none for an untouched gun).
+    local gatling_wanted=false
+    for _,g in pairs(active)do if not M.plain(g.gun)then gatling_wanted=true end end
+    if gatling_wanted and gatling_state.state~='ready'and gatling_state.state~='failed'then
         gatling_state.state,gatling_state.reason=weapon.assets(world,M.STEP)
     end
     local ap_wanted=false
