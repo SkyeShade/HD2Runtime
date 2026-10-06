@@ -2464,10 +2464,12 @@ local HD2CustomStratagemCarrier = {}
 ---@field cooldown number|nil Seconds from the call-in's arrival (at most 600); nil: the carrier's own.
 ---@field uses integer|nil Calls per mission, each player's own (1 to 100): the call that uses the last of them ends with a cooldown longer than any mission; nil: unlimited. Not for an Eagle (eagle.uses is per rearm).
 ---@field traits string[]|nil Up to 4 ITEM TRAITS the custom panel shows after the automatic CUSTOM STRATAGEM (1 to 32 characters each, shown in upper case); nil: the payload family's.
+---@field selection 'token'|'carrier'|nil development probe (the carrier-in-slot probe, solo host): 'carrier' picks the carrier itself into the loadout slot instead of the Orbital Precision Strike token; default 'token'
 ---@field carrier HD2CustomStratagemCarrier Its carrier policy.
 ---@field sentry table|nil {donor, weapon = {projectile, rpm, spread, ammo, recoil}}: the donor sentry's own pod, its sentry's own weapon configured (docs/custom-stratagem-api.md).
 ---@field orbital table|nil {native = true, pattern, impact_explosion} (the donor's own barrage) or a Runtime bombardment {shell, pattern, salvos, ...}.
 ---@field pelican table|nil {hover, orbit = {radius, altitude, duration, period, entry}, gun = {...}, approach}: the Runtime's Pelican; gun = {round = 'native'} is its vanilla autocannon.
+---@field silo table|nil {donor = a reviewed missile silo ('MS-11 Solo Silo'), blast = an hd2.explosions name, fallback = an hd2.explosions name or nil}: the donor silo's own pod; where exactly the call's missile detonates, every watching machine requests the blast from its own copy
 ---@field assets string[]|nil Stratagems whose call-in packages it needs in the mission (loaded before it can be called).
 ---@field delivery "runtime"|{stratagem: string}|nil runtime (default): the carrier's own delivery never comes and the mod delivers; {stratagem = 'EAT-17 Expendable Anti-Tank'}: that vanilla support delivery's pod.
 ---@field on_called fun(ctx: HD2CustomStratagemCall)|nil The call-in started.

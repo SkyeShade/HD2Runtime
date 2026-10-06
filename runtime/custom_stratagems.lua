@@ -263,7 +263,8 @@ local function colour_donor(policy,delivery)
 end
 local CALLBACKS={'on_called','on_beacon_created','on_beacon_landed','on_activate','on_delivered'}
 local SPEC_KEYS={id=true,name=true,name_cased=true,description=true,icon=true,code=true,cooldown=true,carrier=true,
-    assets=true,delivery=true,sentry=true,eagle=true,orbital=true,pelican=true,silo=true,uses=true,traits=true}
+    assets=true,delivery=true,sentry=true,eagle=true,orbital=true,pelican=true,silo=true,uses=true,traits=true,
+    selection=true}
 
 ----------------------------------------------------------------------------------- the payload families (data) --
 -- A donor reference: a catalogued name, or a typed handle (hd2.support_weapon(name), hd2.backpack(name), or a table
@@ -983,6 +984,9 @@ function M.register(spec,owner)
     -- cooldown longer than any mission).
     assert(spec.uses==nil or(type(spec.uses)=='number'and spec.uses%1==0 and spec.uses>=1 and spec.uses<=M.MAX_USES),
         'uses must be a whole number of calls per mission from 1 to '..M.MAX_USES)
+    -- The carrier-in-slot probe (runtime/carrier_in_slot.lua, development, solo host): the slot holds the carrier itself.
+    assert(spec.selection==nil or spec.selection=='token'or spec.selection=='carrier',
+        "selection must be 'token' (the default) or 'carrier' (the carrier-in-slot probe)")
     assert(spec.uses==nil or spec.eagle==nil,'uses counts calls per mission; an Eagle\'s uses are per rearm (eagle.uses)')
     local ok,why=allocator.check_policy(spec.carrier)
     assert(ok,tostring(why))
@@ -1083,6 +1087,7 @@ function M.register(spec,owner)
     if delivery~='runtime'then exclude[#exclude+1]=delivery.stratagem end
     local definition={id=id,owner=owner,label=name_cased,texts=t,icon=icon,code=spec.code,code_values=values,
         code_text=calldown.text(values),cooldown=cooldown,uses=spec.uses,traits=M.traits_of(spec.traits),
+        selection=spec.selection=='carrier'and'carrier'or nil,
         policy=spec.carrier,assets=assets,delivery=delivery,
         exclude=exclude,callbacks={},kind=kind,sentry=sentry,eagle=eagle,orbital=orbital,pelican=pelican,
         group=group,group_source=group_source,alloc_policy=policy,
@@ -1194,6 +1199,10 @@ function M.register(spec,owner)
             orbital.pattern,orbital.total,orbital.impact and('; each explodes as '..orbital.impact..'\'s')or'')
     else
         payload_text='by the mod (the carrier\'s own is neutralized)'
+    end
+    if definition.selection=='carrier'then
+        payload_text=payload_text..'; SELECTION: its loadout slot holds the carrier itself, not the token (the '
+            ..'carrier-in-slot probe, solo host)'
     end
     pcall(function()require('hd2runtime/runtime/init_progress').custom_registered()end)
     log(('REGISTERED %s (%s) by %s: code %s, cooldown %s, carrier policy: %s beacon%s%s; delivery %s; assets %s%s; '
@@ -1778,6 +1787,12 @@ local function ship_step(world,v)
     -- other players' records are not proven to be there; in a mission each player's is).
     local lobby=allocator.lobby_native(world,saved)
     local present=lobby.present
+    -- The carrier-in-slot probe: a carrier this player holds only in its own custom slots is not its native pick.
+    do
+        local probe=require('hd2runtime/runtime/carrier_in_slot')
+        local own=probe.own_carriers(ids,selector.virtual_slots(),M.peer_ids(world))
+        if next(own)then present=probe.discount(present,own)end
+    end
     local table_ids=mp_on and sync.table_ids(v.table)or nil
     local key=table.concat(ids,',')..'|'..table.concat(lobby.peers,',')..'|'..(mp_on and v.table_hash or'-')
     if key==ship.key and clock<ship.at+M.REVALIDATE_EVERY then return end
@@ -1875,6 +1890,19 @@ local function lobby_picks(world,ids)
     return present,who,set
 end
 M.lobby_picks=lobby_picks
+-- The stable ids other players' stratagem records hold now (a set; read-only).
+function M.peer_ids(world)
+    local out={}
+    for _,r in ipairs(slots.records(world)or{})do
+        if not r['local']then
+            for _,e in ipairs(r.entries or{})do
+                local id=loadout.id_of(world,e.type)
+                if id then out[id]=true end
+            end
+        end
+    end
+    return out
+end
 -- Definitions that follow the availability rule: every expendable one, every carrier pod, and every definition that
 -- requested a carrier GROUP. (A legacy policy-only definition keeps its PRE-MISSION refusal, unchanged.)
 -- r6: every definition with a carrier group, requested or default (the user's rule: both directions for every custom
@@ -1913,6 +1941,47 @@ local function group_allocation(world,present,players)
     local ok,a=pcall(allocator.allocate_lobby,world,definitions,{present=present,players=players},global_exclude())
     group_view.key,group_view.at,group_view.a=key,clock,ok and a and a.ready and a or nil
     return group_view.a
+end
+-- The carrier-in-slot probe at mission start: why a definition whose slots hold its carrier cannot run now (text and
+-- that carrier's name), or nil (it runs; or its slots hold the token).
+function M.probe_refusal(d,a,players)
+    local set=selector.virtual_slots()
+    local x=require('hd2runtime/runtime/carrier_in_slot').slots_by_definition(set)[d.id]
+    if not x then return nil end
+    local name=names_by_id[x.id]or('stable id '..tostring(x.id))
+    if players>1 then
+        return('the probe runs solo only; its slot%s hold%s the carrier %s itself and %s locked for this mission'):format(
+            #x.slots==1 and''or's',#x.slots==1 and's'or'',name,#x.slots==1 and'is'or'are'),name
+    end
+    if x.mixed then return 'its slots hold different carriers',name end
+    for _,e in pairs(set.slots)do
+        if e.definition==d.id and not e.carrier then return 'its slots mix the token and the carrier',name end
+    end
+    if x.id~=a.stable_id then
+        return('its slot%s hold%s the carrier %s, but its carrier now is %s (moving a slot to another carrier is probe '
+            ..'2)'):format(#x.slots==1 and''or's',#x.slots==1 and's'or'',name,tostring(a.carrier)),name
+    end
+    return nil
+end
+-- The carrier-in-slot probe (runtime/carrier_in_slot.lua): the carrier a definition's pick writes into the slot now,
+-- {id (stable id), name}, or nil (its pick writes the token: another selection mode, several players, or no carrier
+-- known yet).
+function M.probe_carrier(id)
+    local d=defs[id]
+    if not(d and d.selection=='carrier')then return nil end
+    local world=world_module.open()
+    local players=world and world_module.players(world)
+    if players and#players>1 then
+        require('hd2runtime/runtime/carrier_in_slot').log(id..': several players: its pick writes the token (the probe is '
+            ..'solo only)')
+        return nil
+    end
+    local a=cache[id]or(group_view.a and group_view.a.assignments[id])
+    if not(a and a.stable_id and a.carrier)then
+        require('hd2runtime/runtime/carrier_in_slot').log(id..': no carrier is allocated yet: its pick writes the token')
+        return nil
+    end
+    return {id=a.stable_id,name=a.carrier}
 end
 local function availability_step(world,v)
     if clock<avail.at+M.AVAILABILITY_EVERY then return end
@@ -3591,6 +3660,17 @@ local function advance(world,item)
     if item.state=='presenting'then
         -- (The job runs from here; the tick never advances an item in 'presenting'.)
         mission.by_type[a.type]=item
+        -- The carrier-in-slot probe: the presentation applied early (the loading screen, or before the HUD) is kept.
+        if d.selection=='carrier'then
+            local probe=require('hd2runtime/runtime/carrier_in_slot')
+            if probe.waiting(d.id)then return end
+            if probe.early(d.id,a.carrier)then
+                log(('MISSION (%s): its presentation on %s was applied early (the carrier-in-slot probe): kept'):format(
+                    d.id,a.carrier))
+                item.state='arming'
+                return
+            end
+        end
         carrier_presentation.apply({carrier=a.carrier,text=d.texts,icon=d.icon,code=d.code,
             uses=d.eagle and d.eagle.uses or nil},function(h)
             if h.status=='applied'then
@@ -3609,7 +3689,11 @@ local function advance(world,item)
                 tostring(why)))end
         end
         item.state='converting'
-        selector.convert_virtual(d.id,function(h)
+        -- The carrier-in-slot probe: its slots already hold the carrier: verified and adopted, nothing written.
+        local adopt=d.selection=='carrier'
+            and require('hd2runtime/runtime/carrier_in_slot').slots_by_definition(selector.virtual_slots())[d.id]~=nil
+        local convert=adopt and selector.adopt_virtual or selector.convert_virtual
+        convert(d.id,function(h)
             if h.status=='converted'then
                 item.state='ready'
                 item.indices=h.indices
@@ -4388,6 +4472,19 @@ local function start_mission(world)
     -- defaults): a carrier a faster peer's Runtime converted and the game synced since is never a native pick.
     local token_type=loadout.type_of(world,stratagem_id(M.TOKEN))
     local native=cmp.native(world,saved or{},token_type)
+    -- The carrier-in-slot probe: a carrier this player holds only in its own custom slots is not its native pick.
+    do
+        local probe=require('hd2runtime/runtime/carrier_in_slot')
+        local own=probe.own_carriers(saved_ids(world),selector.virtual_slots(),M.peer_ids(world))
+        if next(own)then
+            local removed
+            native.present,removed=probe.discount(native.present,own)
+            local names={}
+            for k,id in ipairs(removed)do names[k]=names_by_id[id]or tostring(id)end
+            probe.log(('MISSION: %s, held only in this player\'s custom slots, %s not a native pick'):format(
+                table.concat(names,', '),#names==1 and'is'or'are'))
+        end
+    end
     if#native.converted>0 then
         log('MISSION: converted custom slots seen in the records before this allocation (not native picks): '
             ..table.concat(native.converted,'; '))
@@ -4440,6 +4537,13 @@ local function start_mission(world)
                 ..'(every lobby member a compatible Runtime converting the same carrier weapon); it is %s'):format(id,
                 v and v.status or'unknown'))
             setup_refused('custom multiplayer is not enabled',{[id]=by[id]})
+        elseif assignment and M.probe_refusal(d,assignment,#players)then
+            local text,carrier=M.probe_refusal(d,assignment,#players)
+            log(('MISSION (%s): REFUSED (the carrier-in-slot probe): %s'):format(id,text))
+            if carrier and carrier_presentation.applied(carrier)then
+                carrier_presentation.restore(function()end,carrier)
+            end
+            setup_refused(text,{[id]=by[id]})
         elseif assignment then
             mission.queue[#mission.queue+1]={definition=d,assignment=assignment,state='checks',slots=by[id]}
             -- No carrier weapon conversion for a definition whose code the slot checks will refuse anyway (its type
@@ -4587,6 +4691,21 @@ local function tick(dt)
         local wg=world_module.open()
         if wg then blocked_apply(wg,dt)end
     end
+    -- The carrier-in-slot probe (development, runtime/carrier_in_slot.lua): its timing log and its early presentation,
+    -- every update while a carrier slot is picked (nothing otherwise).
+    do
+        local set=selector.virtual_slots()
+        local has=false
+        for _,e in pairs(set and set.slots or{})do if e.carrier then has=true end end
+        local wp=has and world_module.open()
+        local game=wp and world_module.game_state(wp)
+        if game then
+            local players=world_module.players(wp)
+            require('hd2runtime/runtime/carrier_in_slot').step({game=game,clock=clock,definitions=defs,set=set,
+                carrier_name=function(id)return names_by_id[id]end,players=players and#players or nil,
+                hud=function()return stratagem_hud.populated(wp)end})
+        end
+    end
     -- Other players' thrown balls, faster than the step (a ball lives only around its landing): cached as evidence.
     if mission.mp and mission.mp.state=='running'and clock>=(mission.ball_next or 0)then
         mission.ball_next=clock+M.BALL_SCAN
@@ -4616,7 +4735,11 @@ local function tick(dt)
         sync.mission_ended(clock)
         loadout_state.leave()
     end
-    if game then lifecycle_step(world,in_mission)end
+    -- (Entering a mission with the carrier-in-slot probe's early presentation: no ship-side restore on the loading screen.)
+    if game then
+        lifecycle_step(world,in_mission or(game.name=='PrepareMission'
+            and require('hd2runtime/runtime/carrier_in_slot').entering()))
+    end
     -- Back aboard the ship: the ship loadout state reconciled before anything is published.
     if game and not in_mission then loadout_state.step(world)end
     local v
@@ -4752,10 +4875,15 @@ function M.start()
         availability=function(id)return avail.state[id]end,
         -- A focused card's details, drawn over the native details panel.
         details=function(id)return M.panel_details(id)end,
+        -- The carrier-in-slot probe: the carrier a definition's pick writes (nil: the token).
+        carrier_for=function(id)return M.probe_carrier(id)end,
         on_selected=function(h)
             if h.status=='selected'then
-                log(('SHIP: selected into loadout slot %s (the saved loadout holds the %s token); virtual slots: %s'):format(
-                    tostring(h.index),M.TOKEN,selector.slots_text(selector.virtual_slots())))
+                local vs=selector.virtual_slots()
+                local e=vs and vs.slots[h.index]
+                log(('SHIP: selected into loadout slot %s (%s); virtual slots: %s'):format(tostring(h.index),
+                    e and e.carrier and'the saved loadout holds its carrier itself: the carrier-in-slot probe'
+                    or('the saved loadout holds the '..M.TOKEN..' token'),selector.slots_text(vs)))
             elseif h.status~='restored'then
                 log(('SHIP: selection REFUSED (nothing written): %s: %s'):format(tostring(h.code),tostring(h.reason)))
             end

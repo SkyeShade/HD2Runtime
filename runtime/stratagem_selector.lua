@@ -722,7 +722,7 @@ end
 
 -- The checks before the write: the screen, the token, the slot. Returns view, target ({index, appended, old}) or nil,
 -- code, reason.
-local function check(world,definition)
+local function check(world,definition,pick)
     local game=world_module.game_state(world)
     if game and game.mission then return nil,'IN_MISSION','the loadout is selected aboard the ship'end
     local view,why=M.screen(world)
@@ -748,22 +748,26 @@ local function check(world,definition)
     end
     local mirrors,mirror_why=M.widgets_mirror(view)
     if not mirrors then return nil,'SLOTS_DIFFER',mirror_why end
-    local token=loadout.type_of(world,definition.selection.tokenId)
+    -- What the slot will hold: the token, or (the carrier-in-slot probe, runtime/carrier_in_slot.lua) the carrier itself,
+    -- under the same guards.
+    local pick_id=pick and pick.id or definition.selection.tokenId
+    local pick_name=pick and pick.name or definition.selection.token
+    local token=loadout.type_of(world,pick_id)
     local trow=token and row(world,token)
-    if not trow then return nil,'UNKNOWN_STRATAGEM','no row carries '..definition.selection.token end
+    if not trow then return nil,'UNKNOWN_STRATAGEM','no row carries '..pick_name end
     if not(math.floor(world.view.u32(trow+ROWM.selectable)/ROWM.selectableBit)%2==1
             and world.view.u32(trow+ROWM.enabled)%2==1)then
-        return nil,'TOKEN_NOT_SELECTABLE',definition.selection.token..' is not an enabled, selectable stratagem'
+        return nil,'TOKEN_NOT_SELECTABLE',pick_name..' is not an enabled, selectable stratagem'
     end
     if signed(world.view.u32(trow+ROWM.maxUses))~=-1 then
-        return nil,'TOKEN_LIMITED',definition.selection.token..' does not have unlimited uses'
+        return nil,'TOKEN_LIMITED',pick_name..' does not have unlimited uses'
     end
     if math.floor(world.view.u32(trow+0x104)/0x100000)%8~=0 then
         return nil,'TOKEN_VEHICLE','vehicle categories are redirected by the game\'s pick; not a token'
     end
-    local is_owned=slot_conversion.owned(world,definition.selection.tokenId)
+    local is_owned=slot_conversion.owned(world,pick_id)
     if is_owned==nil then return nil,'UNAVAILABLE','the account catalogue is unreadable'end
-    if not is_owned then return nil,'TOKEN_NOT_OWNED',definition.selection.token..' is not owned'end
+    if not is_owned then return nil,'TOKEN_NOT_OWNED',pick_name..' is not owned'end
     -- An occupied slot is replaced (whatever it holds, a virtual slot included); a slot that already holds the token
     -- needs no write and only becomes (or stays) virtual.
     local slot=view.editedSlot
@@ -855,7 +859,7 @@ local function remember(slot,entry,pairs_now)
     if next(virtual_slots.slots)==nil then virtual_slots=nil end
 end
 local function copy_entry(entry)
-    return entry and{definition=entry.definition,token=entry.token,type=entry.type}or nil
+    return entry and{definition=entry.definition,token=entry.token,type=entry.type,carrier=entry.carrier}or nil
 end
 
 -- The first empty slot after `index` (index+1 .. 3; never wrapping to slot 0), or nil when every later slot is filled:
@@ -1083,7 +1087,9 @@ function M.select(id,callback,opts)
         if not world then return nil,'UNAVAILABLE',tostring(why)end
         local ok,proof_why=M.prove(world)
         if not ok then return nil,'UNSUPPORTED_BUILD',tostring(proof_why)end
-        local view,target,token=check(world,definition)
+        -- opts.carrier = {id (stable id), name}: the carrier-in-slot probe writes the carrier itself.
+        local carrier=opts.carrier
+        local view,target,token=check(world,definition,carrier)
         if not view then return nil,target,token end
         target.current_type,target.current_uses=target.old.type,target.old.uses%4294967296
         local count=target.appended and view.record.count+1 or view.record.count
@@ -1115,21 +1121,25 @@ function M.select(id,callback,opts)
         verify.repainted=painted
         local final=M.screen(world)
         if final and final.record then
-            remember(target.index,{definition=definition.id,token=definition.selection.tokenId,type=token},
-                pairs_of(world,final))
+            remember(target.index,{definition=definition.id,token=carrier and carrier.id or definition.selection.tokenId,
+                type=token,carrier=carrier and true or nil},pairs_of(world,final))
         end
         local text
         if written then
-            text=('%s -> slot %d holds %s (type %d, the token)%s: %d writes; the entry reads the token: %s; count %d: %s; '
+            text=('%s -> slot %d holds %s (type %d, '..(carrier and'the CARRIER itself: the carrier-in-slot probe'
+                or'the token')..')%s: %d writes; the entry reads '..(carrier and'the carrier'or'the token')
+                ..': %s; count %d: %s; '
                 ..'every other entry unchanged: %s; the game repainted the slots from the record: %s%s; non-target bytes '
                 ..'unchanged %s; protection restored %s; nothing else written (no save, account, catalogue or '
-                ..'StratagemInfo write)'):format(definition.id,target.index,definition.selection.token,token,
+                ..'StratagemInfo write)'):format(definition.id,target.index,carrier and carrier.name
+                or definition.selection.token,token,
                 target.appended and''or(' replacing type '..tostring(target.old.type)),report.writes,tostring(verify.type),
                 count,tostring(verify.count),tostring(verify.others),tostring(painted),
                 painted and''or(' ('..tostring(paint_why)..')'),tostring(verify.nonTarget),tostring(verify.protection))
         else
-            text=('%s -> slot %d already holds %s (type %d, the token, unlimited): no write; the slot is now virtual')
-                :format(definition.id,target.index,definition.selection.token,token)
+            text=('%s -> slot %d already holds %s (type %d, %s, unlimited): no write; the slot is now virtual')
+                :format(definition.id,target.index,carrier and carrier.name or definition.selection.token,token,
+                carrier and'the carrier itself'or'the token')
         end
         log('SELECTED: '..text)
         log('virtual slots: '..slots_text(virtual_slots))
@@ -1220,7 +1230,9 @@ M.slots_text=slots_text
 local function copy_set(set)
     if not set then return nil end
     local out={slots={},pairs={}}
-    for slot,e in pairs(set.slots or{})do out.slots[slot]={definition=e.definition,token=e.token,type=e.type}end
+    for slot,e in pairs(set.slots or{})do
+        out.slots[slot]={definition=e.definition,token=e.token,type=e.type,carrier=e.carrier}
+    end
     for k,id in ipairs(set.pairs or{})do out.pairs[k]=id end
     if next(out.slots)==nil then return nil end
     return out
@@ -1536,6 +1548,21 @@ end
 -- (stratagem_slot_conversion.convert_virtual; every guard there). carrier: one of the definition's carriers (default
 -- its first). A job; refused NO_VIRTUAL_SLOT when none is recorded.
 -- opts.uses: an Eagle carrier's slot's own uses per rearm (the conversion writes them with the type).
+-- The carrier-in-slot probe (runtime/carrier_in_slot.lua): the virtual slots of `id` picked with the carrier itself are
+-- verified and adopted in the mission record, nothing written (stratagem_slot_conversion.adopt_virtual).
+function M.adopt_virtual(id,callback,carrier)
+    local slots={}
+    for _,slot in ipairs(slot_list(virtual_slots))do
+        local entry=virtual_slots.slots[slot]
+        if entry.definition==id and entry.carrier then slots[#slots+1]=slot end
+    end
+    local order={}
+    for k,stable in ipairs(virtual_slots and virtual_slots.pairs or{})do order[k]=stable end
+    if#slots==0 then
+        return slot_conversion.adopt_virtual({definition=tostring(id),slots={},order=order,carrier=carrier},callback)
+    end
+    return slot_conversion.adopt_virtual({definition=id,slots=slots,order=order,carrier=carrier},callback)
+end
 function M.convert_virtual(id,callback,carrier,opts)
     local spec,why=M.conversion_spec(id,carrier)
     if spec and opts and opts.uses then spec.uses=opts.uses end

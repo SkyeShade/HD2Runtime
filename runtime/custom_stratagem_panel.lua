@@ -1454,13 +1454,16 @@ function M.panel(opts)
                 tostring(track.slot)))
             return'the selector is no longer open for slot '..tostring(track.slot)
         end
-        log(('%s: selecting %s (token %s) into slot %d'):format(how or'selection',entry.id,
-            tostring(virtual.get(entry.id)and virtual.get(entry.id).selection.token),view.editedSlot))
+        -- The carrier-in-slot probe (runtime/carrier_in_slot.lua): the carrier itself instead of the token.
+        local carrier=opts.carrier_for and opts.carrier_for(entry.id)or nil
+        local holds=carrier and carrier.name or tostring(virtual.get(entry.id)and virtual.get(entry.id).selection.token)
+        log(('%s: selecting %s (%s %s) into slot %d'):format(how or'selection',entry.id,carrier and'its carrier'
+            or'token',holds,view.editedSlot))
         S.handle=selector.select(entry.id,function(handle)
             if handle.status=='selected'then
                 S.selected={id=entry.id,slot=handle.index}
                 log(('SELECTED %s: slot %d now holds %s%s; virtual slots: %s'):format(entry.id,handle.index,
-                    tostring(virtual.get(entry.id).selection.token),handle.written and''or' (already; no write)',
+                    holds,handle.written and''or' (already; no write)',
                     selector.slots_text(selector.virtual_slots())))
                 local advance=handle.advance
                 if advance and advance.status=='advanced'then
@@ -1487,7 +1490,7 @@ function M.panel(opts)
                 end
             end
             if opts.on_selected then opts.on_selected(handle)end
-        end,{advance=opts.advance~=false and slot_focus.advance or nil,sound=opts.sound~=false})
+        end,{advance=opts.advance~=false and slot_focus.advance or nil,sound=opts.sound~=false,carrier=carrier})
         return'selecting '..entry.id..' into slot '..tostring(track.slot)
     end
     -- F7 fallback: the first press focuses, the next selects the focused entry.

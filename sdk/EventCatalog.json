@@ -3530,6 +3530,11 @@
       "Up to 4 ITEM TRAITS the custom panel shows after the automatic CUSTOM STRATAGEM (1 to 32 characters each, shown in upper case); nil: the payload family's."
      ],
      [
+      "selection",
+      "'token'|'carrier'|nil",
+      "development probe (the carrier-in-slot probe, solo host): 'carrier' picks the carrier itself into the loadout slot instead of the Orbital Precision Strike token; default 'token'"
+     ],
+     [
       "carrier",
       "HD2CustomStratagemCarrier",
       "Its carrier policy."
@@ -3548,6 +3553,11 @@
       "pelican",
       "table|nil",
       "{hover, orbit = {radius, altitude, duration, period, entry}, gun = {...}, approach}: the Runtime's Pelican; gun = {round = 'native'} is its vanilla autocannon."
+     ],
+     [
+      "silo",
+      "table|nil",
+      "{donor = a reviewed missile silo ('MS-11 Solo Silo'), blast = an hd2.explosions name, fallback = an hd2.explosions name or nil}: the donor silo's own pod; where exactly the call's missile detonates, every watching machine requests the blast from its own copy"
      ],
      [
       "assets",

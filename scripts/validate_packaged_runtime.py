@@ -4247,6 +4247,34 @@ def _silo_scenario():
 
 
 EXTRAS['example-shredder-silo'] = {'after': _silo_scenario(), 'readOnly': True}
+
+
+# The carrier-in-slot probe (proof/CarrierSlotProbe 0.1.0; runtime/carrier_in_slot.lua): the custom stratagem checks of
+# the other examples (a red orbital carrier, the token's colour set), then: registered with selection 'carrier', the
+# probe module loaded at startup, its pick's carrier read from the real allocation (read-only), nothing written.
+PROBE_STEPS = r'''
+ local probe=require('hd2runtime/runtime/carrier_in_slot')
+ local c=custom.probe_carrier(ID)
+ step('the carrier-in-slot probe: registered with selection carrier, its module loaded at startup, its pick\'s carrier '
+  ..'from the real allocation ('..tostring(c and c.name or'none yet')..'); nothing written',d.selection=='carrier'
+  and package.loaded['hd2runtime/runtime/carrier_in_slot']~=nil and probe.enabled(d)
+  and(c==nil or(type(c.id)=='number'and type(c.name)=='string'))and counts.writes==0,tostring(c and c.name))
+ return results
+end
+'''
+
+
+def _probe_scenario():
+    text = EXAMPLE_CUSTOM_STRATAGEM % {'id': 'carrier_slot_probe', 'banner': 'CarrierSlotProbe 0.1.0 CARRIER IN SLOT PROBE BUILD',
+        'beacon': 'offensive', 'families': "{'orbital','eagle','sentry','emplacement','mine','support','backpack'}",
+        'colour_set': 0}
+    old = " return results\nend\n"
+    if old not in text:
+        raise AssertionError('the custom stratagem scenario changed')
+    return text.replace(old, PROBE_STEPS)
+
+
+EXTRAS['proof-carrier-slot-probe'] = {'after': _probe_scenario(), 'readOnly': True}
 # Pelican CAS 0.7.1 (proof/PelicanCasExplosive: the aim point, the 15 mrad spread and the explosive rounds in Mod Options;
 # the same resource as proof/PelicanCasExample) and the two Pelican support stratagems split out of ExtraStratagems 0.1.1
 # (proof/PelicanEmsExample, proof/PelicanGasExample): the same custom stratagem checks as the other examples.
@@ -4673,6 +4701,7 @@ SCENARIOS = {
     'example-orbital-ems-barrage': lambda: proof('OrbitalEmsBarrageExample'),
     'example-eat23': lambda: proof('EAT23Example'),
     'example-shredder-silo': lambda: proof('ShredderSiloExample'),
+    'proof-carrier-slot-probe': lambda: proof('CarrierSlotProbe'),
     'example-hmg-sentry': lambda: proof('HmgSentryExample'),
     'example-eagle-stun-rocket-pods': lambda: proof('EagleStunRocketPodsExample'),
     'custom-stratagem-multiplayer': lambda: proof('HmgSentryExample'),

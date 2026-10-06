@@ -126,6 +126,25 @@ Up to four labels of 1 to 32 characters, shown in upper case after the automatic
 of another label, is dropped). Without `traits`, the panel shows the payload family's (`SUPPORT WEAPON`, `ORBITAL`, the
 custom model, the round, ...). Presentation only: not part of the registry hash.
 
+### `selection = 'carrier'` (probe; development, solo host, NOT live-tested)
+
+The carrier-in-slot probe (2026-10-07; runtime/carrier_in_slot.lua; proof/CarrierSlotProbe). The pick writes the
+custom stratagem's CARRIER itself into the loadout slot instead of the Orbital Precision Strike token: the same guarded
+loadout-record write, the carrier the ship allocation gives it at that moment. Default `'token'`, the system described
+everywhere else.
+
+- **Identity:** the slot is still the Runtime's virtual slot, recorded with the carrier's stable id, so the selector's
+  tracking, the saved-order reconstruction and the loadout overlay work as for a token slot.
+- **Allocation:** a carrier this player holds only in its own carrier slots is not one of its native picks, so it never
+  invalidates itself. Held anywhere else (another slot, another player) it still is.
+- **Mission:** nothing converts. The carrier's presentation is applied as early as the Runtime runs after the launch:
+  on the loading screen when the Runtime's update runs there, else in the mission's first update before the HUD is
+  populated. The slots are then verified and adopted (`ADOPTED (carrier-in-slot probe)`, no write) and work as a
+  converted slot (cooldown, uses, code, beacon, payload). The probe logs the timing (`CARRIER-IN-SLOT PROBE TIMING`).
+- **Refused in a mission** (the slot locked, never called): with several players; when its slots mix the token and the
+  carrier; when the slot's carrier is no longer its carrier (moving a slot to another carrier is probe 2).
+- **With several players** the pick writes the token, as before.
+
 ### `code`
 
 A code **equal** to a vanilla stratagem's own code is refused at registration, naming that stratagem: the game would

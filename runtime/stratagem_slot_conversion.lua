@@ -857,6 +857,74 @@ end
 function M.convert_virtual(spec,callback)
     return job(function()return virtual_body(spec,false)end,callback)
 end
+-- THE CARRIER-IN-SLOT PROBE (development; runtime/carrier_in_slot.lua): the virtual slots of spec.definition were
+-- picked with the CARRIER itself (spec.carrier), not the token, so the mission record already holds it there. Nothing
+-- is written: the entries are verified (the recorded loadout order, each slot exactly the carrier with unlimited uses,
+-- no call-in in flight, not held by another conversion) and adopted as this definition's conversion, so what reads a
+-- conversion (runtime/slot_cooldown.lua, hud_types, observe) finds them. Its restore writes nothing back: the slot is the
+-- carrier in the save too. spec = {definition, carrier, slots, order}. Same handle as convert_virtual.
+function M.adopt_virtual(spec,callback)
+    return job(function()
+        if type(spec)~='table'or type(spec.definition)~='string'or type(spec.slots)~='table'or#spec.slots<1
+                or type(spec.order)~='table'then
+            return nil,'BAD_SPEC','spec must name the definition, its slots and the recorded order'
+        end
+        local current=conversions[spec.definition]
+        if current and current.converted then return nil,'ALREADY_CONVERTED','its slots are adopted already'end
+        local world,why=world_module.open()
+        if not world then return nil,'UNAVAILABLE',tostring(why)end
+        local ok,proof_why=M.prove(world)
+        if not ok then return nil,'UNSUPPORTED_BUILD',tostring(proof_why)end
+        local game=world_module.game_state(world)
+        if not(game and game.mission)then return nil,'NOT_IN_MISSION','the record is adopted in a mission only'end
+        local carrier=catalog.stratagems[spec.carrier]
+        local carrier_type=carrier and carrier.root and loadout.type_of(world,carrier.root.id)
+        if not carrier_type then return nil,'UNKNOWN_STRATAGEM','no row carries '..tostring(spec.carrier)end
+        local record,code,reason=local_record(world)
+        if not record then return nil,code,reason end
+        local picks={}
+        for _,entry in ipairs(record.entries)do if entry.granted==0 then picks[#picks+1]=entry end end
+        if#picks~=#spec.order then
+            return nil,'IDENTITY_CHANGED',('the mission loadout holds %d stratagems; the slots were recorded in a loadout '
+                ..'of %d'):format(#picks,#spec.order)
+        end
+        for k,entry in ipairs(picks)do
+            if loadout.id_of(world,entry.type)~=spec.order[k]then
+                return nil,'IDENTITY_CHANGED',('loadout slot %d holds %s, the slots were recorded with %s there'):format(
+                    k-1,name_of(world,entry.type),tostring(spec.order[k]))
+            end
+        end
+        local others=held_entries(spec.definition)
+        local indices={}
+        for _,slot in ipairs(spec.slots)do
+            local entry=picks[slot+1]
+            if not entry then return nil,'IDENTITY_CHANGED','no loadout slot '..tostring(slot)end
+            if others[entry.index]then
+                return nil,'SLOT_HELD',('loadout slot %d (entry %d) is converted for %s'):format(slot,entry.index,
+                    tostring(others[entry.index].definition))
+            end
+            if entry.type~=carrier_type then
+                return nil,'NOT_CARRIER',('loadout slot %d (entry %d) holds %s, not the carrier %s'):format(slot,
+                    entry.index,name_of(world,entry.type),spec.carrier)
+            end
+            local ecode,ewhy=entry_checks(world,record,entry)
+            if ecode then return nil,ecode,ewhy end
+            indices[#indices+1]=entry.index
+        end
+        local state={converted=true,adopted=true,record=record.address,index=indices[1],indices=indices,
+            token=carrier_type,carrier=carrier_type,token_name=spec.carrier,carrier_name=spec.carrier,key=record.key,
+            definition=spec.definition,slots=spec.slots,cooldowns={}}
+        for _,index in ipairs(indices)do
+            state.cooldowns[index]=record.entries[index+1].bytes:sub(E.cooldownEnd+1,E.cooldownEnd+8)
+        end
+        conversions[spec.definition],latest=state,state
+        log(('ADOPTED (carrier-in-slot probe): virtual %s: loadout slot%s %s = record entr%s %s already hold the carrier '
+            ..'%s (type %d) with unlimited uses: no write; the saved loadout holds it too'):format(spec.definition,
+            #spec.slots==1 and''or's',list_text(spec.slots),#indices==1 and'y'or'ies',list_text(indices),spec.carrier,
+            carrier_type))
+        return {status='converted',adopted=true,index=indices[1],indices=indices,slots=spec.slots,writes=0}
+    end,callback)
+end
 -- The same conversion inside the caller's own job, for stratagem_selector.convert_with_payload: with atomic, it never
 -- yields (a package that is not resident refuses it: NOT_READY), so the caller's next step runs in the same tick.
 function M.convert_virtual_body(spec,opts)return virtual_body(spec,opts and opts.atomic)end
@@ -866,6 +934,15 @@ function M.convert_virtual_body(spec,opts)return virtual_body(spec,opts and opts
 function M.restore_body(definition)
     local state=pick(definition)
     if not(state and state.converted)then return nil,'NOT_CONVERTED','nothing to restore'end
+    -- An adopted slot (the carrier-in-slot probe) was never written: nothing to write back.
+    if state.adopted then
+        state.converted=false
+        disarm()
+        log(('RELEASED (carrier-in-slot probe): entr%s %s keep the carrier %s (adopted, nothing written)'):format(
+            #state.indices==1 and'y'or'ies',list_text(state.indices),state.carrier_name))
+        return {status='restored',index=state.index,indices=state.indices,adopted=true,exact=true,
+            report={writes=0,non_target_bytes_unchanged=true,protection_restored=true}}
+    end
     local world,why=world_module.open()
     if not world then return nil,'UNAVAILABLE',tostring(why)end
     local proven_ok,proof_why=M.prove(world)
