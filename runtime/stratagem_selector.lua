@@ -1550,7 +1550,7 @@ end
 -- opts.uses: an Eagle carrier's slot's own uses per rearm (the conversion writes them with the type).
 -- The carrier-in-slot probe (runtime/carrier_in_slot.lua): the virtual slots of `id` picked with the carrier itself are
 -- verified and adopted in the mission record, nothing written (stratagem_slot_conversion.adopt_virtual).
-function M.adopt_virtual(id,callback,carrier)
+function M.adopt_virtual(id,callback,carrier,opts)
     local slots={}
     for _,slot in ipairs(slot_list(virtual_slots))do
         local entry=virtual_slots.slots[slot]
@@ -1561,7 +1561,9 @@ function M.adopt_virtual(id,callback,carrier)
     if#slots==0 then
         return slot_conversion.adopt_virtual({definition=tostring(id),slots={},order=order,carrier=carrier},callback)
     end
-    return slot_conversion.adopt_virtual({definition=id,slots=slots,order=order,carrier=carrier},callback)
+    -- opts.uses: the native per-slot uses its adoption writes (probe 0.2.0).
+    return slot_conversion.adopt_virtual({definition=id,slots=slots,order=order,carrier=carrier,
+        uses=opts and opts.uses or nil},callback)
 end
 function M.convert_virtual(id,callback,carrier,opts)
     local spec,why=M.conversion_spec(id,carrier)

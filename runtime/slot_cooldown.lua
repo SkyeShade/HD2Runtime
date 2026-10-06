@@ -187,7 +187,10 @@ local function guards(world,a,index,now,clock,secs)
     if not(entry and entry.type==a.carrier)then
         return nil,'NOT_THE_CARRIER',('entry %d no longer holds the converted carrier %s'):format(index,a.carrier_name)
     end
-    if entry.uses~=-1 then return nil,'USES_DIFFER','entry '..index..' does not have unlimited uses'end
+    -- Unlimited, or (the carrier-in-slot probe) the slot's own native count, 0 to the number its adoption wrote.
+    if not(entry.uses==-1 or(a.native_uses and entry.uses>=0 and entry.uses<=a.native_uses))then
+        return nil,'USES_DIFFER','entry '..index..' does not have unlimited uses (nor its own native count)'
+    end
     local r=row(world,a.carrier)
     if not(r and signed(world.view.u32(r+ROWM.maxUses))==-1)then
         return nil,'USES_DIFFER',a.carrier_name..' does not have unlimited uses'
@@ -273,6 +276,9 @@ local function tick(a)
     if not a.record then
         -- The conversion seen for the first time: its record, carrier and slots, and each entry's end as recorded.
         a.record,a.key,a.carrier,a.carrier_name=conv.record,conv.key,conv.carrier,conv.carrier_name
+        -- The carrier-in-slot probe's native per-slot uses (stratagem_slot_conversion adopt_virtual spec.uses): its
+        -- entries count down from that number by the game itself.
+        a.native_uses=conv.adopted and conv.native_uses or nil
         a.slots,a.entries={},{}
         for k,index in ipairs(conv.indices)do
             a.slots[index]=conv.slots and conv.slots[k]
@@ -452,8 +458,40 @@ function M.lock_entry(world,spec)
     if report.status~='APPLIED'then return nil,'GUARD_REJECTED',tostring(report.reason)end
     local after=slots.local_record(world)
     local written=after and after.entries[spec.index+1]and u64(after.entries[spec.index+1].bytes,E.cooldownEnd)
-    return {kind='locked',desired=desired,writes=report.writes,
+    return {kind='locked',desired=desired,writes=report.writes,raw_before=now.raw,raw_desired=encode64(desired),
         verified=written==desired and only_the_end(record,after,spec.index)}
+end
+-- THE CARRIER-IN-SLOT PROBE's release (runtime/carrier_in_slot.lua): a lock it set at the mission's first update, while
+-- the slot was not yet its custom stratagem's, written back once the custom stratagem is ready to call. spec = {index,
+-- token (the entry's type: its carrier), locked (the 8 end bytes the lock wrote), original (the 8 end bytes before it),
+-- label}. Only while the entry still reads exactly the lock's end (else nothing: the game or another writer changed
+-- it). One guarded 8-byte write of this machine's OWN entry, the same as the lock. Returns {writes, verified} or nil,
+-- code, reason.
+function M.unlock_entry(world,spec)
+    local ok,why=M.prove(world)
+    if not ok then return nil,'UNSUPPORTED_BUILD',tostring(why)end
+    local game=world_module.game_state(world)
+    if not(game and game.mission)then return nil,'NOT_IN_MISSION','a lock is released in a mission only'end
+    local hcode,hwhy=require('hd2runtime/runtime/multiplayer').host_guard(game,spec.client,
+        'a release of this machine\'s own entry')
+    if hcode then return nil,hcode,hwhy end
+    local record,code,reason=slots.local_record(world)
+    if not record then return nil,code,reason end
+    local entry=record.entries[spec.index+1]
+    if not(entry and entry.type==spec.token)then
+        return nil,'NOT_THE_CARRIER',('entry %d does not hold type %s'):format(spec.index,tostring(spec.token))
+    end
+    local now=entry.bytes:sub(E.cooldownEnd+1,E.cooldownEnd+8)
+    if now~=spec.locked then return nil,'NOT_LOCKED','entry '..spec.index..' no longer reads the lock\'s end'end
+    local plan=plan_for(world,record,spec.index,now,spec.original)
+    if not plan then return nil,'RECORD_CHANGED','the stratagem record is not in private read-write memory'end
+    local report=transaction.apply(world.runtime,plan)
+    metrics.count('slot_cooldown.transactions')
+    if report.status~='APPLIED'then return nil,'GUARD_REJECTED',tostring(report.reason)end
+    local after=slots.local_record(world)
+    local written=after and after.entries[spec.index+1]and after.entries[spec.index+1].bytes:sub(E.cooldownEnd+1,
+        E.cooldownEnd+8)
+    return {writes=report.writes,verified=written==spec.original and only_the_end(record,after,spec.index)}
 end
 -- A lock kept for the mission: checked every RELOCK_EVERY s (set again before it runs out), ended with the mission.
 -- on_event(e) gets {kind = 'locked' | 'refused' | 'ended', ...}. Returns the watch.

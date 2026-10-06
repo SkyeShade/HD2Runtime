@@ -148,7 +148,7 @@ assert(#W.runtime.writes==writes and W.read(h.record+0x38+0x188,7*0x30)==before,
 local st=slots.state('orbital_gas_barrage')
 assert(st.converted and st.adopted and st.carrier==136 and st.indices[2]==5,'the cooldowns find its entries')
 assert(count('ADOPTED (carrier-in-slot probe): virtual orbital_gas_barrage: loadout slots 0, 3 = record entries 2, 5 '
-    ..'already hold the carrier Orbital 120mm HE Barrage (type 136) with unlimited uses: no write')==1,
+    ..'already hold the carrier Orbital 120mm HE Barrage (type 136) with unlimited uses: no slot write')==1,
     table.concat(logged,' | '))
 -- Twice: refused.
 assert(settle_job(slots.adopt_virtual(spec)).code=='ALREADY_CONVERTED')
@@ -181,6 +181,130 @@ assert(try({{type=124,uses=-1,granted=1},{type=136,uses=3,granted=0},{type=22,us
 assert(try(base,{slots={}}).code=='BAD_SPEC')
 return 'ok'
 """)
+
+
+class NativeUsesTests(unittest.TestCase):
+    """Probe 0.2.0: the native per-slot uses (research carrier-max-uses option A): only this player's own adopted
+    entries, -1 -> N, never the row, never another entry; every guard refuses with nothing written."""
+    def check(self, body):
+        self.assertEqual(run(WORLD + SLOT + VIRTUAL + r"""
+-- Loadout: the carrier (slot 0) / native Precision Strike / Eagle (22).
+local RECORD3={{type=124,uses=-1,granted=1},{type=136,uses=-1,granted=0},{type=118,uses=-1,granted=0},
+    {type=22,uses=-1,granted=0},{type=41,uses=-1,granted=1}}
+local SPEC3={definition='orbital_gas_barrage',carrier='Orbital 120mm HE Barrage',slots={0},
+    order={BIG_ID,PRECISION_ID,ID22},uses=3}
+local function entry_uses(h,index)return b.u32(W.read(h.record+0x38+0x188+index*0x30+4,4),0)end
+""" + body), b'ok')
+
+    def test_the_slot_gets_its_native_uses_and_nothing_else_changes(self):
+        self.check(r"""
+local h=vworld(RECORD3)
+local rows=W.read(settings.base,settings.size)
+local before=W.read(h.record+0x38+0x188,5*0x30)
+local writes=#W.runtime.writes
+local job=settle_job(slots.adopt_virtual(SPEC3))
+assert(job.status=='converted'and job.native_uses==3 and job.writes==1,tostring(job.code)..' '..tostring(job.reason))
+assert(entry_uses(h,1)==3,'the slot entry has 3 uses')
+assert(entry_uses(h,2)==4294967295 and entry_uses(h,3)==4294967295,'the other entries keep theirs')
+assert(#W.runtime.writes==writes+1,'one 4-byte write')
+local now=W.read(h.record+0x38+0x188,5*0x30)
+for i=1,#now do
+    local at=i-1
+    assert(now:byte(i)==before:byte(i)or(at>=1*0x30+4 and at<1*0x30+8),'byte '..at)
+end
+assert(W.read(settings.base,settings.size)==rows,'no StratagemInfo row written (the carrier row keeps unlimited)')
+assert(slots.state('orbital_gas_barrage').native_uses==3)
+assert(count('NATIVE USES (carrier-in-slot probe): virtual orbital_gas_barrage: record entry 1 (Orbital 120mm HE '
+    ..'Barrage) uses -1 -> 3')==1,table.concat(logged,' | '))
+-- The game counts down (written here as it would); the restore while the record stands writes -1 back.
+W.write(h.record+0x38+0x188+1*0x30+4,W.u32(1))
+local restored=settle_job(slots.restore(nil,'orbital_gas_barrage'))
+assert(restored.status=='restored'and restored.adopted and entry_uses(h,1)==4294967295)
+assert(entry_type(h,1)==136,'the carrier stays in its slot')
+assert(count('NATIVE USES RELEASED (carrier-in-slot probe): entry 1 (Orbital 120mm HE Barrage): 1 write back to '
+    ..'unlimited')==1,table.concat(logged,' | '))
+return 'ok'
+""")
+
+    def test_a_rebuilt_record_is_never_written(self):
+        self.check(r"""
+local h=vworld(RECORD3)
+assert(settle_job(slots.adopt_virtual(SPEC3)).status=='converted')
+-- The mission ends: the game rebuilds the record (the slot back to the row's uses); the keeper lets the adoption go.
+W.write(h.record+0x38+0x188+1*0x30,W.u32(22))
+tick(3)
+assert(not slots.state('orbital_gas_barrage').converted)
+local writes=#W.runtime.writes
+local restored=slots.restore(nil,'orbital_gas_barrage')
+for _=1,20 do tick()end
+assert(#W.runtime.writes==writes,'nothing written into a rebuilt record')
+return 'ok'
+""")
+
+    def test_every_guard_refuses_with_nothing_written(self):
+        self.check(r"""
+local function try(record,changes,prep)
+    slots.reset_for_tests()
+    local h=vworld(record or RECORD3)
+    if prep then prep(h)end
+    local spec={}
+    for k,v in pairs(SPEC3)do spec[k]=v end
+    for k,v in pairs(changes or{})do spec[k]=v end
+    local writes=#W.runtime.writes
+    local job=settle_job(slots.adopt_virtual(spec))
+    assert(job.status=='converted'or#W.runtime.writes==writes,'a refusal writes nothing: '..tostring(job.code))
+    return job
+end
+assert(try(nil,{uses=0}).code=='BAD_SPEC')
+assert(try(nil,{uses=101}).code=='BAD_SPEC')
+-- The carrier also natively in another slot: never written (that entry is a real pick).
+local twice={{type=124,uses=-1,granted=1},{type=136,uses=-1,granted=0},{type=136,uses=-1,granted=0},
+    {type=22,uses=-1,granted=0},{type=41,uses=-1,granted=1}}
+assert(try(twice,{order={BIG_ID,BIG_ID,ID22}}).code=='CARRIER_ELSEWHERE')
+-- A carrier with limited uses of its own, or a team-shared cooldown type: its uses are not per entry.
+local CD=require('hd2runtime/domains/slot_cooldown').row
+assert(try(nil,nil,function()W.write(ROW[136]+0x50,W.u32(4))end).code=='USES_DIFFER')
+W.write(ROW[136]+0x50,W.u32(4294967295))
+assert(try(nil,nil,function()W.write(ROW[136]+CD.cooldownType,W.u32(2))end).code=='SHARED_COOLDOWN')
+W.write(ROW[136]+CD.cooldownType,W.u32(0))
+-- The slot entry not unlimited now (another writer): refused by the adoption itself.
+assert(try({{type=124,uses=-1,granted=1},{type=136,uses=2,granted=0},{type=118,uses=-1,granted=0},
+    {type=22,uses=-1,granted=0},{type=41,uses=-1,granted=1}}).code=='USES_DIFFER')
+assert(try().status=='converted','and with every guard holding it is written')
+return 'ok'
+""")
+
+
+class LockTests(unittest.TestCase):
+    def test_the_slot_is_locked_until_ready_and_released(self):
+        from test_bombardment_payload import PAYLOAD
+        self.assertEqual(run(WORLD + SLOT + PAYLOAD + VIRTUAL + r"""
+local probe=require('hd2runtime/runtime/carrier_in_slot');probe.reset_for_tests()
+local cooldowns=require('hd2runtime/runtime/slot_cooldown')
+BOMB.set_clock(500000000)
+local RECORD3={{type=124,uses=-1,granted=1},{type=136,uses=-1,granted=0},{type=118,uses=-1,granted=0},
+    {type=22,uses=-1,granted=0},{type=41,uses=-1,granted=1}}
+local h=vworld(RECORD3)
+local function end_bytes(index)return W.read(h.record+0x38+0x188+index*0x30+0x18,8)end
+local original=end_bytes(1)
+local world=world_module.open()
+local x={slots={0},id=BIG_ID}
+probe.lock(world,'orbital_gas_barrage',x)
+local l=probe.lock_state('orbital_gas_barrage')
+assert(l and l.entries and#l.entries==1 and l.entries[1].index==1,tostring(l and l.failed))
+assert(end_bytes(1)~=original,'locked: its end far ahead')
+assert(end_bytes(2)==W.read(h.record+0x38+0x188+2*0x30+0x18,8))
+assert(count('orbital_gas_barrage: LOCKED record entry 1')==1,table.concat(logged,' | '))
+-- Released: exactly the end it had.
+assert(probe.release(world,'orbital_gas_barrage'))
+assert(end_bytes(1)==original,'released: the end written back')
+assert(count('orbital_gas_barrage: RELEASED record entry 1')==1)
+-- A slot that does not hold its carrier is never locked.
+probe.reset_for_tests()
+probe.lock(world,'orbital_gas_barrage',{slots={1},id=BIG_ID})
+assert(probe.lock_state('orbital_gas_barrage').failed:find('does not hold its carrier',1,true))
+return 'ok'
+"""), b'ok')
 
 
 class OrchestratorTests(unittest.TestCase):
@@ -241,9 +365,15 @@ class FlowTests(unittest.TestCase):
         eat, eat_addon = addon('GasEatExample')
         anchor = "    code={'up','up','down','down'},\n"
         self.assertEqual(gas_addon.count(anchor), 1)
-        gas_addon = gas_addon.replace(anchor, anchor + "    selection='carrier',\n")
+        gas_addon = gas_addon.replace(anchor, anchor + "    selection='carrier',\n    uses=3,\n")
         body = r'''
 rawset(_G,'ModOptionsMenu',MENU)
+-- The native picker's block set, as the orchestrator hands it over every ship update.
+local blocked_seen={}
+require('hd2runtime/runtime/stratagem_blocking').apply=function(world,set)
+    for id,b in pairs(set or{})do blocked_seen[id]=b end
+    return {status='applied'}
+end
 assert(loadstring(GAS_ADDON,'@'..GAS_RESOURCE))()
 local d=custom.get('orbital_gas_barrage')
 assert(d and d.selection=='carrier')
@@ -260,6 +390,10 @@ assert(V and V.slots[0]and V.slots[0].definition=='orbital_gas_barrage'and V.slo
     selector.slots_text(V)..' | '..lines('CARRIER-IN-SLOT')..' | '..lines('SELECTED'))
 local kind,cid=V.slots[0].type,V.slots[0].token
 assert(kind~=118 and cid~=PRECISION_ID,'the carrier itself, not the token')
+-- Its carrier is blocked in the native picker (a native pick of it into this slot could not be told apart).
+tick(4)
+assert(blocked_seen[cid]and blocked_seen[cid].reason:find('held by your custom stratagem orbital_gas_barrage',1,true),
+    'the carrier is blocked natively')
 assert(count('the CARRIER itself: the carrier-in-slot probe')==1,lines('SELECTED'))
 -- Aboard the ship its own carrier is never invalidated as a native pick.
 W.saved_loadout({{id=cid},{id=ID22},{id=1298599997}})
@@ -285,6 +419,15 @@ assert(count('CARRIER-IN-SLOT PROBE orbital_gas_barrage: applying the presentati
 assert(count('its presentation on ')==1 and count('was applied early (the carrier-in-slot probe): kept')==1,
     lines('MISSION'))
 assert(count('held only in this player\'s custom slots, is not a native pick')==1,lines('CARRIER-IN-SLOT'))
+-- 0.2.0: locked from the first mission update until ready; its native uses written; released; its cooldown armed.
+assert(count('orbital_gas_barrage: LOCKED record entry 2')==1,lines('CARRIER-IN-SLOT')..' | '..lines('LOCK'))
+assert(count('NATIVE USES (carrier-in-slot probe): virtual orbital_gas_barrage: record entry 2')==1,lines('NATIVE'))
+assert(b.u32(W.read(h.record+0x38+0x188+2*0x30+4,4),0)==3,'the slot entry has 3 native uses')
+assert(count('orbital_gas_barrage: RELEASED record entry 2')==1,lines('RELEASED'))
+assert(count('MISSION (orbital_gas_barrage): NATIVE USES: 3 per slot')==1,lines('MISSION'))
+for _,i in ipairs({0,1,3,4,5})do
+    assert(b.u32(W.read(h.record+0x38+0x188+i*0x30+4,4),0)==4294967295,'a native entry keeps unlimited')
+end
 return 'ok'
 '''
         self.assertEqual(run(WORLD + SLOT + 'local ADDON=' + lua_literal(pelican_addon) + '\nlocal RESOURCE='

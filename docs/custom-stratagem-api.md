@@ -139,8 +139,22 @@ everywhere else.
   invalidates itself. Held anywhere else (another slot, another player) it still is.
 - **Mission:** nothing converts. The carrier's presentation is applied as early as the Runtime runs after the launch:
   on the loading screen when the Runtime's update runs there, else in the mission's first update before the HUD is
-  populated. The slots are then verified and adopted (`ADOPTED (carrier-in-slot probe)`, no write) and work as a
-  converted slot (cooldown, uses, code, beacon, payload). The probe logs the timing (`CARRIER-IN-SLOT PROBE TIMING`).
+  populated. The slots are then verified and adopted (`ADOPTED (carrier-in-slot probe)`, no slot write) and work as a
+  converted slot (cooldown, code, beacon, payload). The probe logs the timing (`CARRIER-IN-SLOT PROBE TIMING`).
+- **The lock** (0.2.0): from the mission's first update until READY TO CALL each carrier slot's own record entry is
+  locked (its cooldown end far ahead): before then the slot holds the carrier with the custom code, and a call would be
+  the carrier's own. Released (the exact original end written back) right before its cooldown is armed. A definition
+  that never becomes ready stays locked.
+- **Native uses** (0.2.0): with `uses`, they are the game's own per-slot uses (its HUD counter, its depleted look, its
+  refusal at 0; the game counts them down): one 4-byte write -1 -> `uses` into each of this player's own adopted record
+  entries, never the row (docs/research/carrier-max-uses-F5FEE03DCFDB.md, option A). Refused with nothing written (the
+  definition refused, its slots locked) unless the entry reads the carrier with unlimited uses in this mission's
+  record, the carrier's type is in no other record entry (`CARRIER_ELSEWHERE`), its row has unlimited uses
+  (`USES_DIFFER`) and a per-player cooldown (`SHARED_COOLDOWN`), and it is not an Eagle or type 28/124
+  (`SPECIAL_USES`). Written back to -1 when the slot is let go while the record still stands; the game rebuilds the
+  record for every mission, so nothing carries over.
+- **The native block** (0.2.0): a carrier a carrier slot holds is blocked in the native picker (`held by your custom
+  stratagem ...`): a native pick of it into the same slot could not be told apart from the custom one.
 - **Refused in a mission** (the slot locked, never called): with several players; when its slots mix the token and the
   carrier; when the slot's carrier is no longer its carrier (moving a slot to another carrier is probe 2).
 - **With several players** the pick writes the token, as before.

@@ -329,6 +329,29 @@ local function plan_for(world,record,indices,expected,desired,uses)
             {owner=owner,offset=first-owner.base,bytes=context}},changes=changes}
 end
 
+-- A plan of uses changes only: uses = {[record entry index] = {expected, desired}} (the type is never written).
+local function uses_plan(world,record,uses)
+    local first=record.state+R.entries
+    local span=R.entryCount+4-R.entries
+    local owner=owner_of(world,record.address,R.state+R.entryCount+4)
+    local context=owner and world.view.read(first,span)
+    local peer=owner and world.view.read(record.address,8)
+    if not(owner and context and peer)then return nil end
+    local changes={}
+    local indices={}
+    for index in pairs(uses)do indices[#indices+1]=index end
+    table.sort(indices)
+    for _,index in ipairs(indices)do
+        local u=uses[index]
+        changes[#changes+1]={label='stratagem.record.slot'..index..'.uses',owner=owner,
+            offset=record.entries[index+1].address+E.uses-owner.base,expected=u32(u[1]),desired=u32(u[2]),
+            before=u32(u[1]),already_desired=false,
+            identity={component='StratagemRecord',component_type='native',unique_owner=true,owner_count=1},chain={}}
+    end
+    return {snapshots={{owner=owner,offset=record.address-owner.base,bytes=peer},
+            {owner=owner,offset=first-owner.base,bytes=context}},changes=changes}
+end
+
 local function same_except(before,after,indices)
     if not after or after.count~=before.count then return false end
     local skip={}
@@ -862,7 +885,14 @@ end
 -- is written: the entries are verified (the recorded loadout order, each slot exactly the carrier with unlimited uses,
 -- no call-in in flight, not held by another conversion) and adopted as this definition's conversion, so what reads a
 -- conversion (runtime/slot_cooldown.lua, hud_types, observe) finds them. Its restore writes nothing back: the slot is the
--- carrier in the save too. spec = {definition, carrier, slots, order}. Same handle as convert_virtual.
+-- carrier in the save too. spec = {definition, carrier, slots, order, uses}. Same handle as convert_virtual.
+-- spec.uses = N (1..100; probe 0.2.0, research carrier-max-uses option A): each adopted entry's OWN uses -1 -> N, the
+-- game's native per-slot count (its HUD counter, its depleted look, its refusal at 0; the game decrements it). One
+-- guarded transaction of this player's own record entries only, never the carrier's row (a shared definition) and never
+-- another player's record. Extra guards: the carrier row unlimited, its cooldown type 0 (not team-shared), not an Eagle,
+-- not type 28 or 124; the carrier type nowhere else in the record (no native entry of it can be touched); read back
+-- exactly N. The game rebuilds the record at the mission end and at every launch (the next one starts from the row);
+-- a restore while the record still stands writes -1 back.
 function M.adopt_virtual(spec,callback)
     return job(function()
         if type(spec)~='table'or type(spec.definition)~='string'or type(spec.slots)~='table'or#spec.slots<1
@@ -917,12 +947,64 @@ function M.adopt_virtual(spec,callback)
         for _,index in ipairs(indices)do
             state.cooldowns[index]=record.entries[index+1].bytes:sub(E.cooldownEnd+1,E.cooldownEnd+8)
         end
+        -- The native uses (spec.uses): every guard first, then one transaction; nothing written when any fails.
+        local writes=0
+        if spec.uses~=nil then
+            local n=spec.uses
+            if not(type(n)=='number'and n%1==0 and n>=1 and n<=100)then
+                return nil,'BAD_SPEC','spec.uses must be a whole number from 1 to 100'
+            end
+            local crow=row(world,carrier_type)
+            if not(crow and signed(world.view.u32(crow+ROWM.maxUses))==-1)then
+                return nil,'USES_DIFFER',spec.carrier..' does not have unlimited uses: its uses are its own'
+            end
+            local _,cooldown_type=require('hd2runtime/runtime/slot_cooldown').row_cooldown(world,carrier_type)
+            if cooldown_type~=0 then
+                return nil,'SHARED_COOLDOWN',spec.carrier..'\'s cooldown type is '..tostring(cooldown_type)
+                    ..' (team-shared: its uses are not per entry)'
+            end
+            if carrier.family=='eagle'or carrier_type==28 or carrier_type==124 then
+                return nil,'SPECIAL_USES',spec.carrier..' has the game\'s own special uses (an Eagle, type 28 or 124)'
+            end
+            local mine={}
+            for _,index in ipairs(indices)do mine[index]=true end
+            for _,entry in ipairs(record.entries)do
+                if entry.type==carrier_type and not mine[entry.index]then
+                    return nil,'CARRIER_ELSEWHERE',('record entry %d holds %s too (not this custom stratagem\'s): no uses are '
+                        ..'written'):format(entry.index,spec.carrier)
+                end
+            end
+            local uses={}
+            for _,index in ipairs(indices)do uses[index]={-1,n}end
+            local plan=uses_plan(world,record,uses)
+            if not plan then return nil,'RECORD_CHANGED','the stratagem record is not in private read-write memory'end
+            local report=transaction.apply(world.runtime,plan)
+            metrics.count('stratagem_slot.transactions')
+            if report.status~='APPLIED'then return nil,'GUARD_REJECTED',tostring(report.reason)end
+            local after=local_record(world)
+            local exact=after~=nil and same_except(record,after,indices)
+            for _,index in ipairs(indices)do
+                local e=after and after.entries[index+1]
+                if not(e and e.type==carrier_type and e.uses==n)then exact=false end
+            end
+            writes=report.writes
+            state.native_uses=n
+            log(('NATIVE USES (carrier-in-slot probe): virtual %s: record entr%s %s (%s) uses -1 -> %d, the game\'s own '
+                ..'per-slot count: %d write%s; read back %s; every other entry unchanged; the carrier\'s row and every other '
+                ..'record not written'):format(spec.definition,#indices==1 and'y'or'ies',list_text(indices),spec.carrier,n,
+                writes,writes==1 and''or's',tostring(exact)))
+            if not exact then
+                return nil,'VERIFY_FAILED','the entries do not read back exactly '..n..' uses'
+            end
+        end
         conversions[spec.definition],latest=state,state
+        keep(world,state)
         log(('ADOPTED (carrier-in-slot probe): virtual %s: loadout slot%s %s = record entr%s %s already hold the carrier '
-            ..'%s (type %d) with unlimited uses: no write; the saved loadout holds it too'):format(spec.definition,
+            ..'%s (type %d)%s: no slot write; the saved loadout holds it too'):format(spec.definition,
             #spec.slots==1 and''or's',list_text(spec.slots),#indices==1 and'y'or'ies',list_text(indices),spec.carrier,
-            carrier_type))
-        return {status='converted',adopted=true,index=indices[1],indices=indices,slots=spec.slots,writes=0}
+            carrier_type,state.native_uses and(' with '..state.native_uses..' native uses each')or' with unlimited uses'))
+        return {status='converted',adopted=true,index=indices[1],indices=indices,slots=spec.slots,writes=writes,
+            native_uses=state.native_uses}
     end,callback)
 end
 -- The same conversion inside the caller's own job, for stratagem_selector.convert_with_payload: with atomic, it never
@@ -934,14 +1016,39 @@ function M.convert_virtual_body(spec,opts)return virtual_body(spec,opts and opts
 function M.restore_body(definition)
     local state=pick(definition)
     if not(state and state.converted)then return nil,'NOT_CONVERTED','nothing to restore'end
-    -- An adopted slot (the carrier-in-slot probe) was never written: nothing to write back.
+    -- An adopted slot (the carrier-in-slot probe) keeps its carrier; its native uses (if written) go back to unlimited
+    -- while the record still stands (rebuilt, the game re-seeded it from the row: nothing to write).
     if state.adopted then
+        local writes=0
+        if state.native_uses then
+            local world=world_module.open()
+            local record=world and local_record(world)
+            local held=record~=nil and record.address==state.record and record.key==state.key
+            local uses={}
+            for _,index in ipairs(state.indices)do
+                local e=held and record.entries[index+1]
+                if not(e and e.type==state.carrier and e.uses>=0 and e.uses<=state.native_uses)then held=false
+                elseif e.uses~=-1 then uses[index]={e.uses,-1}end
+            end
+            if held and next(uses)then
+                local plan=uses_plan(world,record,uses)
+                local report=plan and transaction.apply(world.runtime,plan)
+                if not(report and report.status=='APPLIED')then
+                    return nil,'GUARD_REJECTED','the native uses were not written back: '..tostring(report and report.reason)
+                end
+                writes=report.writes
+            end
+            log(('NATIVE USES RELEASED (carrier-in-slot probe): entr%s %s (%s): %s'):format(#state.indices==1 and'y'
+                or'ies',list_text(state.indices),state.carrier_name,held and(writes..' write'..(writes==1 and''or's')
+                ..' back to unlimited')or'the record was rebuilt (re-seeded from the row): nothing to write'))
+        end
         state.converted=false
+        if state.keeper then state.keeper.cancel()end
         disarm()
-        log(('RELEASED (carrier-in-slot probe): entr%s %s keep the carrier %s (adopted, nothing written)'):format(
+        log(('RELEASED (carrier-in-slot probe): entr%s %s keep the carrier %s (adopted)'):format(
             #state.indices==1 and'y'or'ies',list_text(state.indices),state.carrier_name))
         return {status='restored',index=state.index,indices=state.indices,adopted=true,exact=true,
-            report={writes=0,non_target_bytes_unchanged=true,protection_restored=true}}
+            report={writes=writes,non_target_bytes_unchanged=true,protection_restored=true}}
     end
     local world,why=world_module.open()
     if not world then return nil,'UNAVAILABLE',tostring(why)end

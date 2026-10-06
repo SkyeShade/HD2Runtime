@@ -2231,6 +2231,15 @@ do
             if#parts>0 then log('CARRIER BLOCKS (aboard the ship): '..text)end
             reservations.text,reservations.last=text,set
         end
+        -- The carrier-in-slot probe: a carrier a carrier slot holds is never picked natively (that pick could not be told
+        -- apart from the custom one in the same slot).
+        local vs=selector.virtual_slots()
+        for slot,e in pairs(vs and vs.slots or{})do
+            if e.carrier and not blocked[e.token]then
+                blocked[e.token]={reason=('held by your custom stratagem %s (its carrier itself, in loadout slot %d): '
+                    ..'unpick it first'):format(e.definition,slot),holders={'you slot '..slot}}
+            end
+        end
         reservations.blocked=blocked
     end
 end
@@ -3570,6 +3579,22 @@ function M.mirrored(d)
         or d.kind=='sentry'and d.sentry~=nil and next(d.sentry.weapon)~=nil or d.kind=='silo')
 end
 
+-- The carrier-in-slot probe, once its slots are adopted (h: the adoption's handle): its early lock released, then its
+-- cooldown armed (the game counts its native uses itself, so no last-call cooldown), then READY.
+function M.probe_ready(item,h)
+    local d=item.definition
+    require('hd2runtime/runtime/carrier_in_slot').release(world_module.open(),d.id)
+    if d.cooldown then
+        local armed,why=cooldowns.arm({definition=d.id,seconds=d.cooldown,uses=not h.native_uses and d.uses or nil,
+            from='arrival',carrier=item.assignment.carrier,multiplayer=true,client=item.client==true},cooldown_event(item))
+        if not armed then log(('MISSION (%s): cooldown not armed (the carrier\'s own applies): %s'):format(d.id,
+            tostring(why)))end
+    end
+    if h.native_uses then
+        log(('MISSION (%s): NATIVE USES: %d per slot, counted down by the game (its HUD counter, its depleted look, its '
+            ..'refusal at 0)'):format(d.id,h.native_uses))
+    end
+end
 local function advance(world,item)
     local d,a=item.definition,item.assignment
     if item.state=='checks'then
@@ -3682,19 +3707,21 @@ local function advance(world,item)
         return
     end
     if item.state=='arming'then
-        if d.cooldown or d.uses then
+        -- The carrier-in-slot probe: its slots already hold the carrier: verified and adopted, nothing written but its
+        -- native uses; its cooldown is armed after the adoption and the release of its early lock (M.probe_ready).
+        local adopt=d.selection=='carrier'
+            and require('hd2runtime/runtime/carrier_in_slot').slots_by_definition(selector.virtual_slots())[d.id]~=nil
+        if(d.cooldown or d.uses)and not adopt then
             local armed,why=cooldowns.arm({definition=d.id,seconds=d.cooldown,uses=d.uses,from='arrival',carrier=a.carrier,
                 multiplayer=true,client=item.client==true},cooldown_event(item))
             if not armed then log(('MISSION (%s): cooldown not armed (the carrier\'s own applies): %s'):format(d.id,
                 tostring(why)))end
         end
         item.state='converting'
-        -- The carrier-in-slot probe: its slots already hold the carrier: verified and adopted, nothing written.
-        local adopt=d.selection=='carrier'
-            and require('hd2runtime/runtime/carrier_in_slot').slots_by_definition(selector.virtual_slots())[d.id]~=nil
         local convert=adopt and selector.adopt_virtual or selector.convert_virtual
         convert(d.id,function(h)
             if h.status=='converted'then
+                if adopt then M.probe_ready(item,h)end
                 item.state='ready'
                 item.indices=h.indices
                 if item.client then
@@ -3724,7 +3751,8 @@ local function advance(world,item)
             else
                 refuse_definition(item,'the slot conversion was refused: '..tostring(h.code)..': '..tostring(h.reason))
             end
-        end,a.carrier,{uses=d.eagle and d.eagle.uses or nil,multiplayer=true,client=item.client==true})
+        end,a.carrier,adopt and{uses=d.uses}or{uses=d.eagle and d.eagle.uses or nil,multiplayer=true,
+            client=item.client==true})
         return
     end
 end
@@ -4701,7 +4729,7 @@ local function tick(dt)
         local game=wp and world_module.game_state(wp)
         if game then
             local players=world_module.players(wp)
-            require('hd2runtime/runtime/carrier_in_slot').step({game=game,clock=clock,definitions=defs,set=set,
+            require('hd2runtime/runtime/carrier_in_slot').step({game=game,clock=clock,definitions=defs,set=set,world=wp,
                 carrier_name=function(id)return names_by_id[id]end,players=players and#players or nil,
                 hud=function()return stratagem_hud.populated(wp)end})
         end

@@ -10,8 +10,14 @@
 --     PrepareMission) when the Runtime's update runs there, else in the mission's first update, before the HUD is
 --     populated, so the HUD builds the slot with the custom name and icon from its first frame (the HUD does not
 --     rebuild a slot whose type never changes);
---   * the mission: nothing converts; the slots are verified and adopted (stratagem_slot_conversion.adopt_virtual) and
---     the cooldown, uses, code, beacon and payload work as for a converted slot;
+--   * the LOCK (probe 0.2.0): from the mission's first update until the custom stratagem is READY TO CALL, each
+--     carrier slot's own record entry is locked (slot_cooldown.lock_entry: its cooldown end far ahead, so the game
+--     refuses a call). Before READY the slot already holds the carrier, with the custom code, and a call would be the
+--     carrier's own vanilla call. Released (unlock_entry: the end written back) right before its cooldown is armed;
+--     a definition that never becomes ready stays locked;
+--   * the mission: nothing converts; the slots are verified and adopted (stratagem_slot_conversion.adopt_virtual),
+--     their native per-slot uses written when the definition has `uses` (0.2.0), and the cooldown, code, beacon and
+--     payload work as for a converted slot;
 --   * the timing (the probe's question): every game state change, the presentation and the HUD population are logged
 --     with their Runtime clock (CARRIER-IN-SLOT PROBE ...).
 -- Several players: not part of the probe (selection writes the token there, as before; a carrier slot picked solo is
@@ -19,7 +25,7 @@
 local world_module=require('hd2runtime/runtime/event_world')
 local log_module=require('hd2runtime/runtime/log')
 local M={}
-local state={early={},last_state=nil,clock=0,hud=false}
+local state={early={},locks={},last_state=nil,clock=0,hud=false}
 
 local function log(text)log_module.emit('[HD2Runtime] CARRIER-IN-SLOT PROBE '..text)end
 
@@ -77,7 +83,7 @@ function M.step(ctx)
     if game and game.name~=state.last_state then
         log(('TIMING: game state %s -> %s at %.2f s'):format(tostring(state.last_state),tostring(game.name),ctx.clock))
         state.last_state=game.name
-        if game.name=='Ship'then state.early,state.hud={},false end
+        if game.name=='Ship'then state.early,state.locks,state.hud={},{},false end
     end
     local populated=state.hud
     if game and game.mission and not populated then populated=ctx.hud()==true end
@@ -89,10 +95,16 @@ function M.step(ctx)
         log(('TIMING: the mission HUD is populated at %.2f s; %s'):format(ctx.clock,#parts>0 and table.concat(parts,'; ')
             or'no early presentation (applied by the mission steps after the HUD instead)'))
     end
+    if ctx.players and ctx.players>1 then return end
+    -- The lock: the mission's first update (its record is this mission's), once per definition.
+    if game and game.mission and ctx.world then
+        for id,x in pairs(by)do
+            if not state.locks[id]and not x.mixed then M.lock(ctx.world,id,x)end
+        end
+    end
     -- The early presentation: entering the mission (the loading screen) or the mission before the HUD is populated.
     local entering=game and(game.name=='PrepareMission'or(game.mission and not populated))
     if not entering then return end
-    if ctx.players and ctx.players>1 then return end
     local cp=require('hd2runtime/runtime/carrier_presentation')
     for id,x in pairs(by)do
         local d=ctx.definitions[id]
@@ -117,6 +129,61 @@ function M.early(id,carrier)
     local e=state.early[id]
     return e~=nil and e.applied==true and e.carrier==carrier
 end
+-- Locks each of a definition's carrier slots (x = M.slots_by_definition(set)[id]) in this mission's own record.
+function M.lock(world,id,x)
+    local slots=require('hd2runtime/runtime/stratagem_slot_conversion')
+    local cooldowns=require('hd2runtime/runtime/slot_cooldown')
+    local carrier_type=require('hd2runtime/runtime/stratagem_loadout').type_of(world,x.id)
+    local record=slots.local_record(world)
+    if not(record and carrier_type)then return end
+    local picks={}
+    for _,entry in ipairs(record.entries)do if entry.granted==0 then picks[#picks+1]=entry end end
+    local list={}
+    for _,slot in ipairs(x.slots)do
+        local entry=picks[slot+1]
+        if not(entry and entry.type==carrier_type)then
+            state.locks[id]={failed=('loadout slot %d does not hold its carrier (type %s)'):format(slot,tostring(carrier_type))}
+            log(('%s: NOT LOCKED: %s'):format(id,state.locks[id].failed))
+            return
+        end
+        local r,code,reason=cooldowns.lock_entry(world,{index=entry.index,token=carrier_type,label=id})
+        if not(r and r.kind=='locked'and r.verified)then
+            state.locks[id]={failed=tostring(code or(r and r.kind))..': '..tostring(reason)}
+            log(('%s: NOT LOCKED (its slot can be called before it is ready): %s'):format(id,state.locks[id].failed))
+            for _,l in ipairs(list)do cooldowns.unlock_entry(world,l)end
+            return
+        end
+        list[#list+1]={index=entry.index,token=carrier_type,locked=r.raw_desired,original=r.raw_before,label=id}
+    end
+    state.locks[id]={entries=list}
+    local indices={}
+    for k,l in ipairs(list)do indices[k]=l.index end
+    log(('%s: LOCKED record entr%s %s at %.2f s until it is ready to call (its slot holds the carrier with the custom '
+        ..'code: a call before then would be the carrier\'s own)'):format(id,#list==1 and'y'or'ies',
+        table.concat(indices,', '),state.clock))
+end
+-- Releases a definition's lock (its cooldown is armed right after). Returns true when nothing stays locked by it.
+function M.release(world,id)
+    local l=state.locks[id]
+    if not(l and l.entries)then return true end
+    local cooldowns=require('hd2runtime/runtime/slot_cooldown')
+    local all=true
+    for _,e in ipairs(l.entries)do
+        local r,code,reason=world and cooldowns.unlock_entry(world,e)
+        if r and r.verified then
+            log(('%s: RELEASED record entry %d at %.2f s (%d write)'):format(id,e.index,state.clock,r.writes))
+        else
+            all=false
+            log(('%s: record entry %d NOT RELEASED (it stays unavailable this mission): %s: %s'):format(id,e.index,
+                tostring(code),tostring(reason)))
+        end
+    end
+    l.entries=nil
+    l.released=true
+    return all
+end
+-- Whether a definition's lock is held (or failed: {failed}). For tests and diagnostics.
+function M.lock_state(id)return state.locks[id]end
 -- Whether a definition's early presentation is still being applied (the mission step waits for it).
 function M.waiting(id)
     local e=state.early[id]
@@ -128,5 +195,5 @@ function M.entering()
     return false
 end
 function M.log(text)log(text)end
-function M.reset_for_tests()state={early={},last_state=nil,clock=0,hud=false}end
+function M.reset_for_tests()state={early={},locks={},last_state=nil,clock=0,hud=false}end
 return M
