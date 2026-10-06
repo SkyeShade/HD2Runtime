@@ -37,8 +37,15 @@ from the type library, the entity table, game.dll code and the retained snapshot
 - **The selector** (game.dll 0x617960): each built projectile weapon has a 0x20-byte runtime record in the
   projectile_weapon manager holding a copy of its rate slots and a current index. Each press sets
   `index = (index + 1) mod 3` and skips a slot whose rate is 0.0, at most three times; the chosen rate becomes the
-  weapon's current rate and is replicated. The record starts zeroed and is seeded when the weapon is built; in every
-  mission snapshot it holds the settings' slots with index 1. So the default is Y and **the selector visits Y, Z, X**.
+  weapon's current rate and is replicated. The record starts zeroed and is seeded when the weapon is built (game.dll
+  0x6117C0: the settings' slots times the mission factor, index 1). Right after, 0x611990 replaces the index with the
+  player's saved rate setting for that weapon type (0x878CB0: its customization record, +0x84 block +0xC), or keeps 1
+  when the weapon has no saved setting (research 2026-10-06, offline: the VG-70 Variable's record holds a saved 2; no
+  retained snapshot has one for the MG-43). So the default is Y unless the player saved another rate, and **the
+  selector visits Y, Z, X**.
+- **`hd2.fields.weapon.fire_rate` on such a weapon** writes only its Y slot (the middle mode): its X and Z modes stay
+  vanilla, and a player whose saved setting is X or Z starts on an unchanged mode. Change every mode with
+  `hd2.fields.fire_rate.modes` (all three slots); a custom stratagem's per-call `rpm` is refused for these weapons.
 - **The menu order** is the storage order X, Y, Z (filled slots only), with the default in the middle. This is
   inferred, not traced: in the first live tests (MG-206 and Liberator, 2026-09-30) a list in selector order did not
   match what the menu showed, and the only code that reads the slots by index walks them X, Y, Z. The menu reader

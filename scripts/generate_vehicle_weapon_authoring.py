@@ -13,6 +13,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from migration import overlay as migration_overlay  # noqa: E402  build-migration hook
 import generate_entity_authoring
 import live_evidence  # noqa: E402
+import vehicle_tuning_fields  # noqa: E402
 import status_fields  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -119,6 +120,7 @@ def build(research_path=RESEARCH):
         public = re.sub(r'^(projectile|damage|explosion|beam|arc)\.(primary|impact|expiry)\.', r'\1.', field_id)
         return constants.get(public)
     runtime_weapons, by_vehicle, public_vehicles, instances = {}, {}, [], []
+    tuning = vehicle_tuning_fields.load()
     mounted_hosts = {item['weapon']: item for item in json.loads(BUILDER.read_text())['mountedHosts']}
     output_research = {item['weapon']: item for item in json.loads(ATTACK_OUTPUTS.read_text())['weapons']
         if item['kind'] == 'vehicle_weapon'}
@@ -241,6 +243,22 @@ def build(research_path=RESEARCH):
                 if heat.get(heat_key):
                     field(field_id, name, unit, 'number', heat[heat_key],
                         component('WeaponHeatComponentData', offset, 'f32'), weapon_target, 'weapon_local')
+            # Turret motion (TurretComponent): the sentry turret ids on the same members, on every mount that owns a
+            # turret record (scripts/vehicle_tuning_fields.py). Mounts without one aim through their vehicle.
+            turret_items = vehicle_tuning_fields.mount_items(tuning, key, slot['path'])
+            if turret_items:
+                identity = own['TurretComponentData']
+                for item in turret_items:
+                    assert (item['recordIndex'], item['indexRow'], item['ownerCount']) == (identity['recordIndex'],
+                        identity['indexRow'], identity['ownerCount']), key + ': turret record identity diverged'
+                    contract = tuning['fieldContracts'][item['field']]
+                    entry = field(item['field'], contract['displayName'], contract['units'], 'number', item['baseline'],
+                        component('TurretComponentData', item['offset'], 'f32'), weapon_target, 'weapon_local',
+                        ack='allow_unverified_effect')
+                    entry.update(vehicle_tuning_fields.contract_extra(contract))
+            elif 'TurretComponentData' not in own:
+                blocked.append({'field': 'turret.*', 'reason': 'The mount owns no TurretComponent (it aims through its '
+                    'vehicle, seat or Exosuit arm), so there is no turret record to tune.'})
             projectile = slot.get('projectile')
             if projectile and projectile.get('settings'):
                 others = [consumer_label(c) for c in projectile['firedBy']
@@ -368,6 +386,10 @@ def build(research_path=RESEARCH):
                     'otherConsumers': item['sharedWithWeapons'], 'acknowledgement': item['acknowledgement'],
                     'gameplayEvidence': item['gameplayEvidence'],
                     'backingComponent': item['backing'].get('component') or item['backing']['settings']}
+                if item.get('lifecycle'):
+                    # Turret motion: range, sibling order and when the game reads the member (lifecycle).
+                    instance.update({key_: item[key_] for key_ in ('min', 'max', 'rangeReason', 'order', 'lifecycle',
+                        'appliesWhen', 'acknowledgementReason')})
                 if item['type'] == 'projectile_reference':
                     # The mount's projectile reference: the one host model (class, active source); semantic handles
                     # only (expect: vehicle:weapon(mount):attack(role); a donor from hd2.attack_output(name)).

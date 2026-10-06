@@ -31,26 +31,32 @@ STRATAGEM_STATS = {
     'rearmTimeSeconds': ('eagle.rearm_time',),
     'charges': ('eagle.uses_per_rearm',),
     'durationSeconds': ('orbital.duration',),
-    'salvos': ('minefield.salvos',),
+    'salvos': ('minefield.salvos', 'orbital.salvos'),
     'capacity': ('minefield.mines_per_salvo', 'weapon.capacity', 'magazine.capacity', 'rounds.capacity',
         'deposit.capacity'),
     'targetingRadiusMeters': ('orbital.search_radius',),
-    'callInTimeSeconds': (),
-    'volleys': (), 'strikes': (), 'bombsPerSalvo': (), 'projectilesPerStrike': (),
-    'delayBetweenSalvosSeconds': (), 'delayBetweenShotsSeconds': (),
+    'callInTimeSeconds': ('stratagem.call_in_time',),
+    'volleys': ('orbital.salvos',), 'strikes': ('orbital.salvos',),
+    'bombsPerSalvo': ('orbital.shells_per_salvo', 'eagle.airstrike_pattern'),
+    'projectilesPerStrike': ('orbital.shells_per_salvo',),
+    'delayBetweenSalvosSeconds': ('orbital.salvo_interval',),
+    'delayBetweenShotsSeconds': ('orbital.shell_interval', 'eagle.drop_interval'),
     'trackingSpeedMetersPerSecond': ('orbital.movement_speed',),
 }
 STRATAGEM_STAT_NOTES = {
-    'callInTimeSeconds': 'The resolved spawn-time scalar does not reproduce the call-in time across families.',
-    'volleys': 'Barrage delivery arrays are preserved as structure; no scalar volley count is invented.',
-    'strikes': 'Barrage delivery arrays are preserved as structure.',
-    'bombsPerSalvo': 'Barrage delivery arrays are preserved as structure.',
-    'projectilesPerStrike': 'Barrage delivery arrays are preserved as structure.',
-    'delayBetweenSalvosSeconds': 'Barrage timing lives in the delivery arrays; not a proven scalar.',
-    'delayBetweenShotsSeconds': 'Barrage timing lives in the delivery arrays; not a proven scalar.',
+    'callInTimeSeconds': ('StratagemInfo +0x54, the call-in countdown before the delivery: the game\'s upgrades apply on '
+        'top, and a wiki value that counts the pod fall or the travel is larger.'),
+    'volleys': 'The orbital bombardment record\'s salvo count (orbital.salvos).',
+    'strikes': 'The orbital bombardment record\'s salvo count (orbital.salvos).',
+    'bombsPerSalvo': ('Orbitals: the bombardment record\'s shells per salvo. Eagles: the native landing pattern '
+        '(eagle.airstrike_pattern) sets the bomb count.'),
+    'projectilesPerStrike': 'The orbital bombardment record\'s shells per salvo (orbital.shells_per_salvo).',
+    'delayBetweenSalvosSeconds': 'The orbital bombardment record\'s delay between salvos (orbital.salvo_interval).',
+    'delayBetweenShotsSeconds': ('Orbitals: the bombardment record\'s delay between shells. Eagles: the time between '
+        'bomb releases.'),
     'trackingSpeedMetersPerSecond': 'The orbital laser movement speed (10 m/s, equal to the wiki).',
     'targetingRadiusMeters': 'Only the orbital laser search radius is proven.',
-    'salvos': 'Proven for the four minefields only; barrage salvos have no scalar owner.',
+    'salvos': 'The four minefields (minefield.salvos) and the ten reviewed orbitals (orbital.salvos).',
     'durationSeconds': 'Proven for the orbital laser only.',
 }
 # Wiki weapon stat -> Runtime fields (normalized: domain + last path component).
@@ -117,15 +123,19 @@ CANDIDATES = [
      'evidence': 'Typed f32 members; the min/max pairs differ per mine as spread would',
      'missing': 'The wiki only says "10-20 meters"; needs a live measurement',
      'risk': 'medium'},
-    {'rank': 4, 'member': 'TurretComponent +16 / +36 / +40',
+    {'rank': 4, 'member': 'TurretComponent +36 / +40 (+16 is now turret.pitch_yaw_coupling)',
      'where': 'Every turreted sentry and enemy turret',
-     'evidence': 'Typed members beside the proven turn speeds and limits',
-     'missing': 'No published table value; needs a live test',
-     'risk': 'medium'},
-    {'rank': 5, 'member': 'SensorEye field-of-view members and targeting/retarget timers',
-     'where': 'SensorEyeComponent (after +0 range) and the sentry targeting components',
-     'evidence': 'Typed members; retarget/search delays are plausible from layout only',
-     'missing': 'No wiki statement; timers need a live observation',
+     'evidence': 'Code-read by the turret update (research/sentry-components-F5FEE03DCFDB.json): the debounce of the '
+        'rotation start/stop sound and animation events',
+     'missing': 'Presentation only; not worth exposing',
+     'risk': 'low'},
+    {'rank': 5, 'member': 'SensorEye cone half-angles +12/+16, TargetingComponent aim spring +8/+12/+16/+20/+40 and '
+        'its unread +0/+4 (side/rear ranges are now targeting.side_range / rear_range)',
+     'where': 'SensorEyeComponent and the sentry targeting components',
+     'evidence': 'Code-read (research/sentry-components-F5FEE03DCFDB.json): the cone angles only matter to shape-type 2 '
+        'sensors (no sentry); the aim spring is the same on every sentry. Retarget and search timings are compiled '
+        'AI constants, not data',
+     'missing': 'Whether the turret follows the aim spring; a reader of Targeting +0/+4',
      'risk': 'medium'},
     {'rank': 6, 'member': 'HellpodPayload +0',
      'where': 'Every deployable payload',
@@ -140,9 +150,6 @@ CANDIDATES = [
     {'rank': 8, 'member': 'Enemy movement speed, detection and aggression members',
      'where': 'Enemy AI / locomotion components',
      'evidence': 'None independent', 'missing': 'Everything; deliberately not attempted (speculative AI fields)',
-     'risk': 'high'},
-    {'rank': 9, 'member': 'Stratagem call-in time', 'where': 'StratagemDefinition spawn-time scalar',
-     'evidence': 'A spawn-time member exists', 'missing': 'It does not reproduce the wiki call-in time across families',
      'risk': 'high'},
 ]
 

@@ -6,6 +6,8 @@ local steady=require('hd2runtime/core/steady_state')
 local metrics=require('hd2runtime/runtime/metrics')
 local options=require('hd2runtime/api/options')
 local diagnostics=require('hd2runtime/runtime/diagnostics')
+local shared_records=require('hd2runtime/core/shared_records')
+local sdk_compatibility=require('hd2runtime/core/sdk_compatibility')
 local M={}
 local DEBOUNCE=0.5 -- update seconds that coalesce a burst of option changes into one resolution
 
@@ -61,13 +63,20 @@ local function start_bound(runtime,emit,request,kind,validate,module,interval,st
     assert(enabled_handle==nil or(options.is_handle(enabled_handle)and enabled_handle.kind=='toggle'),
         'ensure enabled must be a toggle option')
     local bound={}
-    local function build(override,baseline)return validate(materialize(body,nil,nil,override,baseline))end
+    -- A later option change re-validates as the mod that registered this ensure (core/sdk_compatibility.lua).
+    local origin=sdk_compatibility.current()
+    local function build(override,baseline)
+        return sdk_compatibility.with_origin(origin,validate,materialize(body,nil,nil,override,baseline))
+    end
     local current=materialize(body,nil,bound)
     for _,handle in ipairs(bound)do
         assert(handle.kind~='toggle','a toggle option can only control ensure enabled')
     end
     local spec=validate(current)
     local id=spec.id
+    -- The registering mod names this operation in another operation's CONFLICT (core/shared_records.lua).
+    local mod=shared_records.current_mod()
+    spec.mod,spec.ensured=mod,true;pcall(shared_records.warn_unlisted,spec,'ensure',mod,emit)
     local conflict=diagnostics.watch(id,diagnostics.describe(kind,body),interval,function(line)pcall(emit,line)end)
     -- Bind-time proof: the whole option domain passes the normal guarded validation
     -- (acknowledgements, reviewed ranges, integer storage, known values), and so does restore.
@@ -88,6 +97,7 @@ local function start_bound(runtime,emit,request,kind,validate,module,interval,st
     local dirty,debounce=false,0
 
     local function launch(next_mode,next_spec,next_signature)
+        next_spec.mod,next_spec.ensured=mod,true
         -- Bytes this operation verified live last time are its own, not a conflict.
         each_change(kind,next_spec,function(key,change)
             local mine=owned[key]
@@ -102,6 +112,7 @@ local function start_bound(runtime,emit,request,kind,validate,module,interval,st
     local function settle()
         dirty=false
         local ok,next_spec=pcall(build)
+        if ok then sdk_compatibility.flush(origin,'ensure',id)else sdk_compatibility.discard(origin)end
         if not ok then
             if child then child.cancel();child=nil end
             watch.status='blocked';watch.error=tostring(next_spec)
@@ -278,6 +289,9 @@ function M.start(runtime,emit,request)
         kind='plan';spec=plans.validate(request.plan);module=require('hd2runtime/api/plan')
     end
     local function log(message)pcall(emit,'[HD2Runtime] '..message)end
+    -- The registering mod names this operation in another operation's CONFLICT (core/shared_records.lua).
+    spec.mod,spec.ensured=shared_records.current_mod(),true
+    pcall(shared_records.warn_unlisted,spec,'ensure',spec.mod,emit)
     local watch={status='waiting',runs=0,kind=kind,id=spec.id,interval=interval,
         max_interval=max_interval,current_interval=interval,verifications=0,drifts=0}
     local conflict=diagnostics.watch(spec.id,diagnostics.describe(kind,request[kind]),interval,

@@ -1,0 +1,1 @@
+{"format":1,"name":"SlotOverlayProof","resource":"mods/skyeshade/hd2runtime_slot_overlay_proof","guid":"ef69323a-5587-4907-a591-0337ae9f3bed","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.28.0","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../sdk","ide_library":"../../sdk/stubs"}

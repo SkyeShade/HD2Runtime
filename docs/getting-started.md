@@ -15,6 +15,15 @@ or scanning.
 | SDK (`HD2Runtime-<version>-sdk.zip`) | Reference kit: capability files, these docs, editor stubs, optional Python CLI. | No |
 | Capability files (`*Capabilities.json` in the SDK) | Generated lists of everything you can edit: names, fields, vanilla values, writable or not, required safety flags, evidence. | No, you read them |
 
+### Which ZIP do I need?
+
+| You want to | Download |
+| --- | --- |
+| Play with HD2Runtime mods | `HD2Runtime-<version>-runtime.zip` (and Bingus Shared Loader). Nothing else. |
+| Make your first mod | The runtime ZIP (to test in game) and `HD2Runtime-ModTemplate-<version>.zip`. No Python needed. |
+| Look up what you can change, read the docs, use the Python CLI | `HD2Runtime-<version>-sdk.zip` |
+| Read or build working examples | `HD2Runtime-<version>-example-projects.zip` **and** the SDK ZIP (the examples build with the SDK's `hd2.py`). |
+
 Every mod calls `require('mods/skyeshade/hd2runtime')` and shares one installed
 runtime. Your built mod never contains the runtime. The game only needs Bingus
 Shared Loader, HD2Runtime, and your built mod ZIP. Never install the template,
@@ -26,8 +35,9 @@ its `stubs` folder, or the SDK.
 2. Bingus Shared Loader v15 or newer, imported and enabled. Keep it below other
    startup-replacement mods in the manager's order.
 3. `HD2Runtime-<version>-runtime.zip`, imported and enabled once.
-4. The mod template, extracted outside the game, for example
-   `C:\HD2Mods\MyFirstMod\`.
+4. The mod template, extracted outside the game into a folder you create for
+   your mod, for example `C:\HD2Mods\MyFirstMod\` (`MyFirstMod` is your own
+   name, not a folder in the ZIP: the ZIP holds the project's files directly).
 5. An editor. The template is set up for Rider with a Lua plugin. LuaLS-style
    plugins read `.luarc.json`, which already points at `./stubs`.
 
@@ -158,7 +168,7 @@ Concussive is 2 / 2 / 2 / 2. Never copy `expect` values from a similar weapon.
 | Boosters | `BoosterAuthoringCapabilities.json` |
 | The Lua name of a field | `stubs/mods/skyeshade/hd2runtime.lua`, the `---@class HD2Fields_<domain>` blocks |
 | Explanations | the other files in `docs/` |
-| Working code | `examples/projects/*/src/addon.lua` in the example-projects ZIP |
+| Working code | `<Example>/src/addon.lua` in the example-projects ZIP (each top-level folder is one example) |
 
 **Do not guess, and do not copy.** Take the target, field constant and `expect` for *this* weapon
 from one of:
@@ -388,11 +398,11 @@ Logs are in `%LOCALAPPDATA%\CowboyBingus\Helldivers2\Logs\`:
 
 - `BingusSharedLoader.log`: was your mod found and started? Script errors appear here.
 - `HD2Runtime.log`: what the runtime did. Its first line names the Runtime that actually loaded:
-  `[HD2Runtime] HD2Runtime 0.28.0 initialized (API 1)`. If the version is not the one you expect, the wrong Runtime
+  `[HD2Runtime] HD2Runtime 0.30.0-dev initialized (API 1)`. If the version is not the one you expect, the wrong Runtime
   is installed.
 
 ```
-[HD2Runtime] HD2Runtime 0.28.0 initialized (API 1)
+[HD2Runtime] HD2Runtime 0.30.0-dev initialized (API 1)
 [HD2Runtime] ensure my-other-id rejected: field is not exposed for SG-20 Halt: damage.no_such_field
 [HD2Runtime] patch my-id target resolved
 [HD2Runtime] patch my-id target not ready (TARGET_UNAVAILABLE); retry 2/6 in 5 update seconds
@@ -412,8 +422,71 @@ written definition is the one gameplay reads, and when.
   projectile reference, backpack ammo) are copied into a weapon or backpack when the game builds it. A weapon you
   already hold keeps its copy until it is rebuilt: redeploy, reinforce, or call in a new support weapon. Projectile,
   damage and explosion values are read when used.
-- **A large mod takes a while to apply.** Operations resolve one at a time (about 1 to 2 seconds each at 60 fps). Wait
-  for `N registered operations settled` before deploying, or weapons built earlier keep the old values.
+- **A large mod takes a while to apply.** Operations resolve one at a time, each reading about 1 ms of memory per frame.
+  Most take a few frames; the first, and one about every 15 s, also walks the address space, which takes a few dozen
+  frames. Wait for `N registered operations settled` before deploying, or weapons built earlier keep the old values.
+
+### Startup progress
+
+While the Runtime's own initial work is still pending, a small panel in the top-right corner shows it:
+
+```
+HD2Runtime 0.30
+Initializing...
+[########----] 63%
+Applying mod plans (5/8)
+```
+
+The percentage is computed from the actual work, never from a timer. It is the weighted sum of five stages:
+
+| Stage | Weight | Done when |
+|---|---|---|
+| Loading catalogue data | 10 | The Runtime's data and the mods have loaded (by the first update). |
+| Waiting for the game | 10 | The game world is readable, aboard the ship or in a mission. |
+| Loading asset packages | 25 | Every asset package gate the mods opened is resident or failed. |
+| Applying mod plans | 45 | Every registered operation (`ensure`, `plan`, `patch`, `transaction`) has settled: verified once, or rejected / unavailable / cancelled. |
+| Preparing custom stratagems | 10 | The custom stratagems' carriers are allocated aboard the ship (or none is selected). |
+
+- A stage with no work counts as done, so the bar shows 100% only when every stage is done.
+- **It never blocks.** The panel is only a display, and nothing waits for it. A quick start never shows it: it appears
+  only if work is still pending half a second after the game world exists. It closes one second after everything is
+  done.
+- A mod that registers late shows it again.
+- If a stage makes no progress for 45 s (an operation waiting for something that is not Runtime work, such as a weapon
+  not built yet), the display ends and the log names what is still pending.
+- If the game's UI cannot be drawn, the display is turned off for the session (logged once) and the Runtime continues.
+
+The log gets one line when the world appears, one per stage, and one at the end, with each stage's time:
+
+```
+[HD2Runtime] startup: initializing: 8 mod operations, 2 asset gates; the Runtime and the mods loaded in 0.41 s CPU
+[HD2Runtime] startup: stage assets done in 1.20 s (2 of 2)
+[HD2Runtime] startup: stage plans done in 9.85 s (8 of 8)
+[HD2Runtime] startup: READY in 10.90 s of updates (catalogue 0.41 s CPU, game 0.00 s, assets 1.20 s (2/2), plans 9.85 s (8/8), custom 0.00 s)
+```
+
+`hd2.diagnostics.telemetry({enabled=true})` adds timing for the Runtime's own watches (`init_progress.tick`,
+`custom_stratagems.tick`, `projectile_impact.tick`, `custom_eagles.rockets_tick`, ...) to its periodic report.
+
+### Version label (0.30.0-dev)
+
+Aboard the ship, a small dim label in the bottom-left corner shows which Runtime and which game build are running:
+
+```text
+HD2Runtime 0.30.0-dev
+Game F5FEE03DCFDB
+```
+
+- **The game build** is the one the Runtime proved on startup: the first 12 hex digits of its pinned executable
+  fingerprint, as in the Runtime's log and file names. An unsupported build shows no label.
+- **When it shows:** only in the game's Ship state. It is hidden while a mission loads, in a mission and while the
+  ship loads again, and shown again aboard the ship.
+- **What decides it:** the events engine's `game_state` source, the same state every `hd2.mod()` context follows.
+- **How it is drawn:** with the engine font at the lowest layer of a Ui World screen GUI, so any native interface
+  drawn in that corner covers it.
+- **Size:** 18 px text 14 px from the corner at 1920 x 1080, scaled with the window by the tighter of width/1920
+  and height/1080. It is the same share of the screen at every resolution: 36 px at 4K, 12 px at 720p. The GUI is created when the label appears and destroyed when it hides; nothing is
+  redrawn while it shows (`runtime/version_label.lua`).
 
 ## 11. Common problems
 
@@ -496,12 +569,39 @@ return hd2.ensure({patch={id='concussive-drum',target=drum,
     allow_shared=true,allow_unverified_effect=true}})
 ```
 
+### Building the example projects
+
+The example projects build with the SDK's Python CLI (Python 3.10+), not with `build.cmd`. Extract the
+example-projects ZIP and the SDK ZIP side by side, for example:
+
+```
+C:\HD2Mods\
+  HD2Runtime-<version>-sdk\                the SDK ZIP (holds hd2.py and metadata.json)
+  HD2Runtime-<version>-example-projects\   the example-projects ZIP
+    KillHealTest\
+      build.py
+```
+
+Then run `python build.py` inside an example (or double-click it; the window stays open to show the result). The
+result is the example's `build\<Name>-<version>.zip`.
+
+`build.py` finds the SDK by itself, in this order:
+
+1. the `HD2RUNTIME_SDK` environment variable;
+2. the `sdk` path in the example's `hd2runtime.json`;
+3. the example's folder and every folder above it: the folder itself when it is the SDK, or a subfolder named `sdk`
+   or ending in `-sdk`.
+
+With the SDK anywhere else, point the example at it once:
+`python <SDK>\hd2.py configure <example folder> --sdk <SDK>`. That also points the editor's autocomplete
+(`.luarc.json`) at the SDK's stubs.
+
 ## 13. Going further
 
 1. Read the example projects; each is a small, working mod.
 2. Browse the capability file for what you want to change.
 3. Read the matching doc (`vehicle-authoring.md`, `vehicle-weapons.md`, `backpack-authoring.md`,
-   `backpack-ammo.md`, `stratagem-authoring.md`, `stratagem-uses.md`, `pod-payloads.md`,
+   `backpack-ammo.md`, `stratagem-authoring.md`, `stratagem-uses.md`, `stratagem-calldown-code.md`, `stratagem-presentation.md`, `custom-images.md`, `custom-text.md`, `pod-payloads.md`,
    `support-weapon-api.md`, `magazine-attachments.md`, `weapon-reticles.md`, `fire-modes.md`,
    `composition-plans.md`).
 4. Use `:describe()` on a target.

@@ -1,0 +1,4770 @@
+{
+ "schemaVersion": 1,
+ "build": "F5FEE03DCFDB",
+ "contract": "hd2.sounds.list / describe (docs/weapon-sounds.md); a name of kind shot or loop is accepted by hd2.pelican.spawn{gun = {sound = name}} and a custom stratagem's pelican.gun.sound",
+ "summary": {
+  "types": 271,
+  "sounding": 233,
+  "entries": 171,
+  "folded": 62,
+  "byFamily": {
+   "automaton": 36,
+   "backpack": 1,
+   "eagle": 1,
+   "emplacement": 2,
+   "illuminate": 7,
+   "objective": 2,
+   "other": 4,
+   "pelican": 1,
+   "primary": 52,
+   "seaf": 2,
+   "secondary": 18,
+   "sentry": 7,
+   "support": 25,
+   "vehicle": 13
+  },
+  "byKind": {
+   "loop": 19,
+   "shot": 152
+  },
+  "withStratagem": 48,
+  "residentOnly": 122
+ },
+ "rangeIsHeuristic": true,
+ "aliases": {
+  "maelstrom_main_gun": "vehicle/maelstrom/main_gun"
+ },
+ "sounds": [
+  {
+   "name": "automaton/assault_walker",
+   "label": "Automaton assault walker",
+   "family": "automaton",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 350.0,
+   "fireMode": 1,
+   "rangeM": 240.0,
+   "layers": [
+    {
+     "distance": 240.0,
+     "count": 1
+    },
+    {
+     "distance": 80.0,
+     "count": 4
+    }
+   ],
+   "bank": "content/audio/bots_assaultwalker",
+   "alsoTypes": 0
+  },
+  {
+   "name": "automaton/assaultwalker/1",
+   "label": "Automaton assaultwalker weapon 1 (unidentified; bank bots_assaultwalker)",
+   "family": "automaton",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 120.0,
+   "fireMode": 1,
+   "rangeM": 120.0,
+   "layers": [
+    {
+     "distance": 120.0,
+     "count": 1
+    },
+    {
+     "distance": 80.0,
+     "count": 3
+    }
+   ],
+   "bank": "content/audio/bots_assaultwalker",
+   "alsoTypes": 1
+  },
+  {
+   "name": "automaton/big_walker_turret_cannon",
+   "label": "Automaton big walker turret cannon",
+   "family": "automaton",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 60.0,
+   "fireMode": 1,
+   "rangeM": 120.0,
+   "layers": [
+    {
+     "distance": 120.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/bots_fabricator",
+   "alsoTypes": 0
+  },
+  {
+   "name": "automaton/conscript_cannon",
+   "label": "Automaton conscript cannon",
+   "family": "automaton",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 100.0,
+   "fireMode": 1,
+   "rangeM": 64.0,
+   "layers": [
+    {
+     "distance": 64.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/bots_interceptor",
+   "alsoTypes": 1
+  },
+  {
+   "name": "automaton/conscript_handgun",
+   "label": "Automaton conscript handgun",
+   "family": "automaton",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 325.0,
+   "fireMode": 1,
+   "rangeM": 120.0,
+   "layers": [
+    {
+     "distance": 120.0,
+     "count": 1
+    },
+    {
+     "distance": 48.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/bots_interceptor",
+   "alsoTypes": 1
+  },
+  {
+   "name": "automaton/conscript_lmg",
+   "label": "Automaton conscript lmg",
+   "family": "automaton",
+   "kind": "loop",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 650.0,
+   "fireMode": 1,
+   "rangeM": 48.0,
+   "layers": [
+    {
+     "distance": 48.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/bots_interceptor",
+   "alsoTypes": 1
+  },
+  {
+   "name": "automaton/conscript_smg",
+   "label": "Automaton conscript smg",
+   "family": "automaton",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 425.0,
+   "fireMode": 1,
+   "rangeM": 80.0,
+   "layers": [
+    {
+     "distance": 80.0,
+     "count": 1
+    },
+    {
+     "distance": 48.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/bots_interceptor",
+   "alsoTypes": 1
+  },
+  {
+   "name": "automaton/devastator/1",
+   "label": "Automaton devastator weapon 1 (unidentified; bank bots_devastator)",
+   "family": "automaton",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 100.0,
+   "fireMode": 3,
+   "rangeM": 120.0,
+   "layers": [
+    {
+     "distance": 120.0,
+     "count": 1
+    },
+    {
+     "distance": 80.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/bots_devastator",
+   "alsoTypes": 0
+  },
+  {
+   "name": "automaton/elite/1",
+   "label": "Automaton elite weapon 1 (unidentified; bank cyborg_elite)",
+   "family": "automaton",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 55.0,
+   "fireMode": 1,
+   "rangeM": 120.0,
+   "layers": [
+    {
+     "distance": 120.0,
+     "count": 1
+    },
+    {
+     "distance": 80.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/cyborg_elite",
+   "alsoTypes": 0
+  },
+  {
+   "name": "automaton/elite/2",
+   "label": "Automaton elite weapon 2 (unidentified; bank cyborg_elite)",
+   "family": "automaton",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 700.0,
+   "fireMode": 1,
+   "rangeM": 120.0,
+   "layers": [
+    {
+     "distance": 120.0,
+     "count": 1
+    },
+    {
+     "distance": 80.0,
+     "count": 2
+    }
+   ],
+   "bank": "content/audio/cyborg_elite",
+   "alsoTypes": 0
+  },
+  {
+   "name": "automaton/emplacement_hmg",
+   "label": "Automaton emplacement hmg",
+   "family": "automaton",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 300.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 8
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/weapons_bots",
+   "alsoTypes": 0
+  },
+  {
+   "name": "automaton/emplacement_mg",
+   "label": "Automaton emplacement mg",
+   "family": "automaton",
+   "kind": "loop",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 1200.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    },
+    {
+     "distance": 32.0,
+     "count": 2
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/weapons_bots",
+   "alsoTypes": 0
+  },
+  {
+   "name": "automaton/fabricator/1",
+   "label": "Automaton fabricator weapon 1 (unidentified; bank bots_fabricator)",
+   "family": "automaton",
+   "kind": "loop",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 1200.0,
+   "fireMode": 1,
+   "rangeM": 240.0,
+   "layers": [
+    {
+     "distance": 240.0,
+     "count": 1
+    },
+    {
+     "distance": 120.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/bots_fabricator",
+   "alsoTypes": 5
+  },
+  {
+   "name": "automaton/gunship/1",
+   "label": "Automaton gunship weapon 1 (unidentified; bank bots_gunship)",
+   "family": "automaton",
+   "kind": "loop",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 500.0,
+   "fireMode": 1,
+   "rangeM": 120.0,
+   "layers": [
+    {
+     "distance": 120.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/bots_gunship",
+   "alsoTypes": 0
+  },
+  {
+   "name": "automaton/gunship/2",
+   "label": "Automaton gunship weapon 2 (unidentified; bank bots_gunship)",
+   "family": "automaton",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 600.0,
+   "fireMode": 1,
+   "rangeM": 120.0,
+   "layers": [
+    {
+     "distance": 120.0,
+     "count": 3
+    }
+   ],
+   "bank": "content/audio/bots_gunship",
+   "alsoTypes": 0
+  },
+  {
+   "name": "automaton/hulk/1",
+   "label": "Automaton hulk weapon 1 (unidentified; bank bots_hulk)",
+   "family": "automaton",
+   "kind": "loop",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 500.0,
+   "fireMode": 1,
+   "rangeM": 120.0,
+   "layers": [
+    {
+     "distance": 120.0,
+     "count": 1
+    },
+    {
+     "distance": 48.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/bots_hulk",
+   "alsoTypes": 0
+  },
+  {
+   "name": "automaton/hulk/2",
+   "label": "Automaton hulk weapon 2 (unidentified; bank bots_hulk)",
+   "family": "automaton",
+   "kind": "loop",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 60.0,
+   "fireMode": 1,
+   "rangeM": 120.0,
+   "layers": [
+    {
+     "distance": 120.0,
+     "count": 1
+    },
+    {
+     "distance": 80.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/bots_hulk",
+   "alsoTypes": 1
+  },
+  {
+   "name": "automaton/hulk/3",
+   "label": "Automaton hulk weapon 3 (unidentified; bank bots_hulk)",
+   "family": "automaton",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 30.0,
+   "fireMode": 1,
+   "rangeM": 120.0,
+   "layers": [
+    {
+     "distance": 120.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/bots_hulk",
+   "alsoTypes": 0
+  },
+  {
+   "name": "automaton/lieutenant_cannon",
+   "label": "Automaton lieutenant cannon",
+   "family": "automaton",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 100.0,
+   "fireMode": 1,
+   "rangeM": 120.0,
+   "layers": [
+    {
+     "distance": 120.0,
+     "count": 1
+    },
+    {
+     "distance": 80.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/bots_hulk",
+   "alsoTypes": 0
+  },
+  {
+   "name": "automaton/scoutwalker/1",
+   "label": "Automaton scoutwalker weapon 1 (unidentified; bank bots_scoutwalker)",
+   "family": "automaton",
+   "kind": "loop",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 300.0,
+   "fireMode": 1,
+   "rangeM": 80.0,
+   "layers": [
+    {
+     "distance": 80.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/bots_scoutwalker",
+   "alsoTypes": 0
+  },
+  {
+   "name": "automaton/scoutwalker/2",
+   "label": "Automaton scoutwalker weapon 2 (unidentified; bank bots_scoutwalker)",
+   "family": "automaton",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 350.0,
+   "fireMode": 1,
+   "rangeM": 240.0,
+   "layers": [
+    {
+     "distance": 240.0,
+     "count": 1
+    },
+    {
+     "distance": 80.0,
+     "count": 1
+    },
+    {
+     "distance": 32.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/bots_scoutwalker",
+   "alsoTypes": 0
+  },
+  {
+   "name": "automaton/siege_engine",
+   "label": "Automaton siege engine",
+   "family": "automaton",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 300.0,
+   "fireMode": 1,
+   "rangeM": 160.0,
+   "layers": [
+    {
+     "distance": 160.0,
+     "count": 2
+    },
+    {
+     "distance": 64.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/cyborg_siegeengine",
+   "alsoTypes": 0
+  },
+  {
+   "name": "automaton/siegeengine/1",
+   "label": "Automaton siegeengine weapon 1 (unidentified; bank cyborg_siegeengine)",
+   "family": "automaton",
+   "kind": "loop",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 1500.0,
+   "fireMode": 1,
+   "rangeM": 240.0,
+   "layers": [
+    {
+     "distance": 240.0,
+     "count": 1
+    },
+    {
+     "distance": 120.0,
+     "count": 2
+    }
+   ],
+   "bank": "content/audio/cyborg_siegeengine",
+   "alsoTypes": 1
+  },
+  {
+   "name": "automaton/siegeengine/2",
+   "label": "Automaton siegeengine weapon 2 (unidentified; bank cyborg_siegeengine)",
+   "family": "automaton",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 235.0,
+   "fireMode": 1,
+   "rangeM": 160.0,
+   "layers": [
+    {
+     "distance": 160.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/cyborg_siegeengine",
+   "alsoTypes": 0
+  },
+  {
+   "name": "automaton/soldier_flamer",
+   "label": "Automaton soldier flamer",
+   "family": "automaton",
+   "kind": "loop",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 900.0,
+   "fireMode": 1,
+   "rangeM": 80.0,
+   "layers": [
+    {
+     "distance": 80.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/bots_devastator",
+   "alsoTypes": 2
+  },
+  {
+   "name": "automaton/soldier_machinegun_flm",
+   "label": "Automaton soldier machinegun flm",
+   "family": "automaton",
+   "kind": "loop",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 200.0,
+   "fireMode": 1,
+   "rangeM": 80.0,
+   "layers": [
+    {
+     "distance": 80.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/bots_devastator",
+   "alsoTypes": 0
+  },
+  {
+   "name": "automaton/soldier_standard_rifle",
+   "label": "Automaton soldier standard rifle",
+   "family": "automaton",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 350.0,
+   "fireMode": 3,
+   "rangeM": 120.0,
+   "layers": [
+    {
+     "distance": 120.0,
+     "count": 1
+    },
+    {
+     "distance": 80.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/bots_devastator",
+   "alsoTypes": 1
+  },
+  {
+   "name": "automaton/tank/1",
+   "label": "Automaton tank weapon 1 (unidentified; bank bots_tank)",
+   "family": "automaton",
+   "kind": "loop",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 1200.0,
+   "fireMode": 1,
+   "rangeM": 120.0,
+   "layers": [
+    {
+     "distance": 120.0,
+     "count": 1
+    },
+    {
+     "distance": 48.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/bots_tank",
+   "alsoTypes": 0
+  },
+  {
+   "name": "automaton/tank_hull_mg",
+   "label": "Automaton tank hull mg",
+   "family": "automaton",
+   "kind": "loop",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 1200.0,
+   "fireMode": 1,
+   "rangeM": 320.0,
+   "layers": [
+    {
+     "distance": 320.0,
+     "count": 1
+    },
+    {
+     "distance": 64.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/bots_tank",
+   "alsoTypes": 1
+  },
+  {
+   "name": "automaton/tank_turret_autocannons",
+   "label": "Automaton tank turret autocannons",
+   "family": "automaton",
+   "kind": "loop",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 1200.0,
+   "fireMode": 1,
+   "rangeM": 320.0,
+   "layers": [
+    {
+     "distance": 320.0,
+     "count": 1
+    },
+    {
+     "distance": 120.0,
+     "count": 2
+    }
+   ],
+   "bank": "content/audio/bots_tank",
+   "alsoTypes": 0
+  },
+  {
+   "name": "automaton/tank_turret_heavycannon",
+   "label": "Automaton tank turret heavycannon",
+   "family": "automaton",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 15.0,
+   "fireMode": 1,
+   "rangeM": 320.0,
+   "layers": [
+    {
+     "distance": 320.0,
+     "count": 1
+    },
+    {
+     "distance": 120.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/bots_tank",
+   "alsoTypes": 0
+  },
+  {
+   "name": "automaton/tank_turret_rocketlauncher",
+   "label": "Automaton tank turret rocketlauncher",
+   "family": "automaton",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 1000.0,
+   "fireMode": 1,
+   "rangeM": 120.0,
+   "layers": [
+    {
+     "distance": 120.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/bots_tank",
+   "alsoTypes": 0
+  },
+  {
+   "name": "automaton/turret_autocannons",
+   "label": "Automaton turret autocannons",
+   "family": "automaton",
+   "kind": "loop",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 800.0,
+   "fireMode": 1,
+   "rangeM": 120.0,
+   "layers": [
+    {
+     "distance": 120.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/env_bots",
+   "alsoTypes": 0
+  },
+  {
+   "name": "automaton/turret_base",
+   "label": "Automaton turret base",
+   "family": "automaton",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 60.0,
+   "fireMode": 1,
+   "rangeM": 320.0,
+   "layers": [
+    {
+     "distance": 320.0,
+     "count": 1
+    },
+    {
+     "distance": 160.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/env_bots",
+   "alsoTypes": 2
+  },
+  {
+   "name": "automaton/turret_command_bunker_hmg",
+   "label": "Automaton turret command bunker hmg",
+   "family": "automaton",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 200.0,
+   "fireMode": 1,
+   "rangeM": 320.0,
+   "layers": [
+    {
+     "distance": 320.0,
+     "count": 1
+    },
+    {
+     "distance": 160.0,
+     "count": 2
+    }
+   ],
+   "bank": "content/audio/obj_cy_destroy_command_bunker",
+   "alsoTypes": 0
+  },
+  {
+   "name": "automaton/turret_mortar",
+   "label": "Automaton turret mortar",
+   "family": "automaton",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 8.0,
+   "fireMode": 1,
+   "rangeM": 160.0,
+   "layers": [
+    {
+     "distance": 160.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/obj_cy_mortar_emplacement",
+   "alsoTypes": 0
+  },
+  {
+   "name": "backpack/guard_dog",
+   "label": "AX/AR-23 Guard Dog",
+   "family": "backpack",
+   "kind": "loop",
+   "stratagem": "AX/ARC-3 K-9",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 660.0,
+   "fireMode": 1,
+   "rangeM": 32.0,
+   "layers": [
+    {
+     "distance": 32.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/stratagems_guard_dog_stun",
+   "alsoTypes": 2
+  },
+  {
+   "name": "eagle/cannon",
+   "label": "Eagle cannon (strafing run)",
+   "family": "eagle",
+   "kind": "loop",
+   "stratagem": "Eagle Strafing Run",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 4000.0,
+   "fireMode": 1,
+   "rangeM": 1000.0,
+   "layers": [
+    {
+     "distance": 1000.0,
+     "count": 1
+    },
+    {
+     "distance": 800.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/stratagems_eagle_strafing_run",
+   "alsoTypes": 9
+  },
+  {
+   "name": "emplacement/anti_tank",
+   "label": "E/AT-12 Anti-Tank Emplacement",
+   "family": "emplacement",
+   "kind": "shot",
+   "stratagem": "E/AT-12 Anti-Tank Emplacement",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 60.0,
+   "fireMode": 1,
+   "rangeM": 80.0,
+   "layers": [
+    {
+     "distance": 80.0,
+     "count": 5
+    },
+    {
+     "distance": 48.0,
+     "count": 1
+    },
+    {
+     "distance": 10.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/stratagems_anti_tank_emplacement",
+   "alsoTypes": 0
+  },
+  {
+   "name": "emplacement/hmg",
+   "label": "E/MG-101 HMG Emplacement",
+   "family": "emplacement",
+   "kind": "shot",
+   "stratagem": "E/MG-101 HMG Emplacement",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 600.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_heavy_machinegun",
+   "alsoTypes": 1
+  },
+  {
+   "name": "illuminate/beamer_champion_gun",
+   "label": "Illuminate beamer champion gun",
+   "family": "illuminate",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 1500.0,
+   "fireMode": 1,
+   "rangeM": 160.0,
+   "layers": [
+    {
+     "distance": 160.0,
+     "count": 1
+    },
+    {
+     "distance": 120.0,
+     "count": 2
+    }
+   ],
+   "bank": "content/audio/illuminates_champion_beamer",
+   "alsoTypes": 0
+  },
+  {
+   "name": "illuminate/beamer_champion_gun_direct",
+   "label": "Illuminate beamer champion gun direct",
+   "family": "illuminate",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 1500.0,
+   "fireMode": 1,
+   "rangeM": 120.0,
+   "layers": [
+    {
+     "distance": 120.0,
+     "count": 2
+    },
+    {
+     "distance": 80.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/illuminates_champion_beamer",
+   "alsoTypes": 0
+  },
+  {
+   "name": "illuminate/exomech/1",
+   "label": "Illuminate exomech weapon 1 (unidentified; bank illuminates_exomech)",
+   "family": "illuminate",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 50.0,
+   "fireMode": 1,
+   "rangeM": 160.0,
+   "layers": [
+    {
+     "distance": 160.0,
+     "count": 2
+    },
+    {
+     "distance": 120.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/illuminates_exomech",
+   "alsoTypes": 2
+  },
+  {
+   "name": "illuminate/exomech/2",
+   "label": "Illuminate exomech weapon 2 (unidentified; bank illuminates_exomech)",
+   "family": "illuminate",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 400.0,
+   "fireMode": 1,
+   "rangeM": 160.0,
+   "layers": [
+    {
+     "distance": 160.0,
+     "count": 2
+    }
+   ],
+   "bank": "content/audio/illuminates_exomech",
+   "alsoTypes": 1
+  },
+  {
+   "name": "illuminate/jet_champion_rifle",
+   "label": "Illuminate jet champion rifle",
+   "family": "illuminate",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 500.0,
+   "fireMode": 1,
+   "rangeM": 80.0,
+   "layers": [
+    {
+     "distance": 80.0,
+     "count": 4
+    }
+   ],
+   "bank": "content/audio/illuminates_champion_jetpack",
+   "alsoTypes": 0
+  },
+  {
+   "name": "illuminate/observer/1",
+   "label": "Illuminate observer weapon 1 (unidentified; bank illuminates_observer)",
+   "family": "illuminate",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 500.0,
+   "fireMode": 1,
+   "rangeM": 80.0,
+   "layers": [
+    {
+     "distance": 80.0,
+     "count": 1
+    },
+    {
+     "distance": 48.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/illuminates_observer",
+   "alsoTypes": 0
+  },
+  {
+   "name": "illuminate/pathfinder_lightspear",
+   "label": "Illuminate pathfinder lightspear",
+   "family": "illuminate",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 325.0,
+   "fireMode": 1,
+   "rangeM": 80.0,
+   "layers": [
+    {
+     "distance": 80.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/illuminates_champion",
+   "alsoTypes": 0
+  },
+  {
+   "name": "objective/cy_destroy_command_bunker/1",
+   "label": "Objective cy destroy command bunker weapon 1 (unidentified; bank obj_cy_destroy_command_bunker)",
+   "family": "objective",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 60.0,
+   "fireMode": 1,
+   "rangeM": 320.0,
+   "layers": [
+    {
+     "distance": 320.0,
+     "count": 1
+    },
+    {
+     "distance": 160.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/obj_cy_destroy_command_bunker",
+   "alsoTypes": 0
+  },
+  {
+   "name": "objective/sam_site",
+   "label": "Objective sam site",
+   "family": "objective",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 180.0,
+   "fireMode": 1,
+   "rangeM": 160.0,
+   "layers": [
+    {
+     "distance": 160.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/obj_cy_city_blow_up_assembly_site",
+   "alsoTypes": 1
+  },
+  {
+   "name": "other/passive_booster_ammorack_turret/1",
+   "label": "Other passive booster ammorack turret weapon 1 (unidentified; bank passive_booster_ammorack_turret)",
+   "family": "other",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 640.0,
+   "fireMode": 1,
+   "rangeM": 80.0,
+   "layers": [
+    {
+     "distance": 80.0,
+     "count": 2
+    }
+   ],
+   "bank": "content/audio/passive_booster_ammorack_turret",
+   "alsoTypes": 0
+  },
+  {
+   "name": "other/revolver_pistol_long",
+   "label": "Other revolver pistol long",
+   "family": "other",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 200.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    }
+   ],
+   "bank": "content/audio/ombudsman",
+   "alsoTypes": 0
+  },
+  {
+   "name": "other/wep_ac3_arc_thrower/1",
+   "label": "Other wep ac3 arc thrower weapon 1 (unidentified; bank wep_ac3_arc_thrower)",
+   "family": "other",
+   "kind": "shot",
+   "stratagem": "ARC-3 Arc Thrower",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 325.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_ac3_arc_thrower",
+   "alsoTypes": 0
+  },
+  {
+   "name": "other/wep_ar_risk/1",
+   "label": "Other wep ar risk weapon 1 (unidentified; bank wep_ar_risk)",
+   "family": "other",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 80.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    }
+   ],
+   "bank": "content/audio/wep_ar_risk",
+   "alsoTypes": 0
+  },
+  {
+   "name": "pelican/chin_autocannon",
+   "label": "Pelican chin autocannon (its own sound)",
+   "family": "pelican",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": false,
+   "pelicanDefault": true,
+   "midi": false,
+   "designedRpm": 300.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    }
+   ],
+   "bank": "content/audio/vehicle_shuttle",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/ar11",
+   "label": "AR-11 Arbitrator",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 1200.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_ar_risk",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/ar2",
+   "label": "AR-2 Coyote",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 600.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 5
+    }
+   ],
+   "bank": "content/audio/wep_ar_large_calibre",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/ar23",
+   "label": "AR-23 Liberator",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 640.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_ar19_liberator",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/ar23a",
+   "label": "AR-23A Liberator Carbine",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 920.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_ar22_patriot",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/ar23c",
+   "label": "AR-23C Liberator Concussive",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 400.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_ar19_liberator",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/ar23p",
+   "label": "AR-23P Liberator Penetrator",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 640.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_ar19_liberator",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/ar32",
+   "label": "AR-32 Pacifier",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 700.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_ar90_karbin",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/ar59",
+   "label": "AR-59 Suppressor",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 850.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 5
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_ar_whisper",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/ar61",
+   "label": "AR-61 Tenderizer",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 600.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    }
+   ],
+   "bank": "content/audio/wep_ar61_marauder",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/argl21",
+   "label": "AR/GL-21 One-Two",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 650.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_grenadier_rifle",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/br14",
+   "label": "BR-14 Adjudicator",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 550.0,
+   "fireMode": 1,
+   "rangeM": 240.0,
+   "layers": [
+    {
+     "distance": 240.0,
+     "count": 5
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_cr1_adjudicator",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/cb9",
+   "label": "CB-9 Exploding Crossbow",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 50.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_cb9_exploding_crossbow_greyfax",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/dbs2",
+   "label": "DBS-2 Double Freedom",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 650.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_double_freedom",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/gl15",
+   "label": "GL-15 Evictor",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 60.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 5
+    }
+   ],
+   "bank": "content/audio/wep_pump_grenade_launcher",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/jar5",
+   "label": "JAR-5 Dominator",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 250.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_jar5_dominator",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/las12",
+   "label": "LAS-12 Sai",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 800.0,
+   "fireMode": 1,
+   "rangeM": 240.0,
+   "layers": [
+    {
+     "distance": 240.0,
+     "count": 5
+    }
+   ],
+   "bank": "content/audio/wep_smg_laser_blaster",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/las16",
+   "label": "LAS-16 Sickle",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 750.0,
+   "fireMode": 1,
+   "rangeM": 240.0,
+   "layers": [
+    {
+     "distance": 240.0,
+     "count": 6
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_hotshot_laser_rifle",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/las17",
+   "label": "LAS-17 Double-Edge Sickle",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 700.0,
+   "fireMode": 1,
+   "rangeM": 240.0,
+   "layers": [
+    {
+     "distance": 240.0,
+     "count": 6
+    }
+   ],
+   "bank": "content/audio/wep_hotshot_laser_rifle",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/m7s",
+   "label": "M7S SMG",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 872.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_m7s_smg_nacho",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/m90a",
+   "label": "M90A Shotgun",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 80.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_m90a_shotgun_nacho",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/ma5c",
+   "label": "MA5C Assault Rifle",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 640.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 2
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_ma5c_assault_rifle_fire",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/mp98",
+   "label": "MP-98 Knight",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 1380.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wpn_mp98_knight",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/plas1",
+   "label": "PLAS-1 Scorcher",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 350.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 2
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_plas1_single",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/plas101",
+   "label": "PLAS-101 Purifier",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 1000.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 5
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/plas_3_plasma_pistol",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/plas39",
+   "label": "PLAS-39 Accelerator Rifle",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 550.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_vc39_accelerator_rifle",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/r2",
+   "label": "R-2 Amendment",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 480.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_battle_rifle_partisan",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/r2124",
+   "label": "R-2124 Constitution",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 60.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_bar_bolt_action_rifle",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/r36",
+   "label": "R-36 Eruptor",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 32.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 2
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_jpr_eruptor",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/r4",
+   "label": "R-4 Hyena",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 190.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_drake_rifle",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/r40k",
+   "label": "R/40-K Hot-Shot Marksman Rifle",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 210.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    }
+   ],
+   "bank": "content/audio/wep_hotshot_marksman_rifle",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/r6",
+   "label": "R-6 Deadeye",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 100.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 5
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_lever_action_Rifle",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/r63",
+   "label": "R-63 Diligence",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 350.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_r63_vigilance",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/r63cs",
+   "label": "R-63CS Diligence Counter Sniper",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 350.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_r63_vigilance",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/r72",
+   "label": "R-72 Censor",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 400.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 5
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_ar_justice",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/sg20",
+   "label": "SG-20 Halt",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 80.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_stun_shotgun",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/sg225",
+   "label": "SG-225 Breaker",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 300.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_sg225_breaker",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/sg225ie",
+   "label": "SG-225IE Breaker Incendiary",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 300.0,
+   "fireMode": 3,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_sg225_breaker",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/sg225sp",
+   "label": "SG-225SP Breaker Spray&Pray",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 330.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_sg225_breaker",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/sg451",
+   "label": "SG-451 Cookout",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 80.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_sg_dragon_shotgun",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/sg8",
+   "label": "SG-8 Punisher",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 80.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_sg8_punisher",
+   "alsoTypes": 1
+  },
+  {
+   "name": "primary/sg8p",
+   "label": "SG-8P Punisher Plasma",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 80.0,
+   "fireMode": 2,
+   "rangeM": 240.0,
+   "layers": [
+    {
+     "distance": 240.0,
+     "count": 5
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_sg8_punisher",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/sg8s",
+   "label": "SG-8S Slugger",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 80.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_sg8_punisher",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/sg97",
+   "label": "SG-97 Sweeper",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 150.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_sg_trenchgun",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/smg203",
+   "label": "SMG-203 Gallant",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 1380.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_smg_solvent",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/smg32",
+   "label": "SMG-32 Reprimand",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 490.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_smg_rhino",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/smg37",
+   "label": "SMG-37 Defender",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 520.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 6
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_smg45_defender",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/smg37/seaf",
+   "label": "SMG-37 Defender (SEAF trooper)",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 520.0,
+   "fireMode": 1,
+   "rangeM": 120.0,
+   "layers": [
+    {
+     "distance": 120.0,
+     "count": 1
+    },
+    {
+     "distance": 64.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/foley_seafs",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/smg72",
+   "label": "SMG-72 Pummeler",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 475.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 6
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_smg72_pummeler",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/smgflam34",
+   "label": "SMG/FLAM-34 Stoker",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 420.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_smg_flamer",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/sta11",
+   "label": "StA-11 SMG",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 1050.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_sta11_submachine_gun",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/sta52",
+   "label": "StA-52 Assault Rifle",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 790.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 5
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_sta52_assault_rifle",
+   "alsoTypes": 0
+  },
+  {
+   "name": "primary/vg70",
+   "label": "VG-70 Variable",
+   "family": "primary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 550.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_volley_gun",
+   "alsoTypes": 0
+  },
+  {
+   "name": "seaf/1",
+   "label": "SEAF weapon 1 (unidentified; bank foley_seafs)",
+   "family": "seaf",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 70.0,
+   "fireMode": 2,
+   "rangeM": 120.0,
+   "layers": [
+    {
+     "distance": 120.0,
+     "count": 1
+    },
+    {
+     "distance": 64.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/foley_seafs",
+   "alsoTypes": 0
+  },
+  {
+   "name": "seaf/2",
+   "label": "SEAF weapon 2 (unidentified; bank foley_seafs)",
+   "family": "seaf",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 640.0,
+   "fireMode": 1,
+   "rangeM": 64.0,
+   "layers": [
+    {
+     "distance": 64.0,
+     "count": 2
+    }
+   ],
+   "bank": "content/audio/foley_seafs",
+   "alsoTypes": 0
+  },
+  {
+   "name": "secondary/gp20",
+   "label": "GP-20 Ultimatum",
+   "family": "secondary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 900.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 2
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/cricket_pistol",
+   "alsoTypes": 0
+  },
+  {
+   "name": "secondary/gp31",
+   "label": "GP-31 Grenade Pistol",
+   "family": "secondary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 900.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 2
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/gp_31_grenade_pistol",
+   "alsoTypes": 0
+  },
+  {
+   "name": "secondary/gp31/alt",
+   "label": "GP-31 Grenade Pistol (alternate)",
+   "family": "secondary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 900.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_grenadier_rifle",
+   "alsoTypes": 0
+  },
+  {
+   "name": "secondary/las58",
+   "label": "LAS-58 Talon",
+   "family": "secondary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 750.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/energy_revolver",
+   "alsoTypes": 0
+  },
+  {
+   "name": "secondary/m6csocom",
+   "label": "M6C/SOCOM Pistol",
+   "family": "secondary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 900.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 5
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/m6c_pistol",
+   "alsoTypes": 0
+  },
+  {
+   "name": "secondary/p11",
+   "label": "P-11 Stim Pistol",
+   "family": "secondary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 70.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/stim_stim_pistol",
+   "alsoTypes": 0
+  },
+  {
+   "name": "secondary/p113",
+   "label": "P-113 Verdict",
+   "family": "secondary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 450.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 2
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/p113_hardtap",
+   "alsoTypes": 0
+  },
+  {
+   "name": "secondary/p19",
+   "label": "P-19 Redeemer",
+   "family": "secondary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 1100.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/p18_redeemer",
+   "alsoTypes": 0
+  },
+  {
+   "name": "secondary/p2",
+   "label": "P-2 Peacemaker",
+   "family": "secondary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 900.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/p2_peacemaker",
+   "alsoTypes": 0
+  },
+  {
+   "name": "secondary/p33",
+   "label": "P-33 Missile Pistol",
+   "family": "secondary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 60.0,
+   "fireMode": 3,
+   "rangeM": 240.0,
+   "layers": [
+    {
+     "distance": 240.0,
+     "count": 6
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/smart_pistol_missile",
+   "alsoTypes": 0
+  },
+  {
+   "name": "secondary/p34",
+   "label": "P-34 Breacher",
+   "family": "secondary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 20.0,
+   "fireMode": 3,
+   "rangeM": 240.0,
+   "layers": [
+    {
+     "distance": 240.0,
+     "count": 4
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/hornet_pistol",
+   "alsoTypes": 0
+  },
+  {
+   "name": "secondary/p35",
+   "label": "P-35 Re-Educator",
+   "family": "secondary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 110.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    }
+   ],
+   "bank": "content/audio/wep_caustic_dart_gun",
+   "alsoTypes": 0
+  },
+  {
+   "name": "secondary/p4",
+   "label": "P-4 Senator",
+   "family": "secondary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 200.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/p8_senator",
+   "alsoTypes": 0
+  },
+  {
+   "name": "secondary/p40k",
+   "label": "P/40-K Bolt Pistol",
+   "family": "secondary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 150.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/pistol_shark",
+   "alsoTypes": 0
+  },
+  {
+   "name": "secondary/p69",
+   "label": "P-69 Veto",
+   "family": "secondary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 750.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 2
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/broomhandle",
+   "alsoTypes": 0
+  },
+  {
+   "name": "secondary/p92",
+   "label": "P-92 Warrant",
+   "family": "secondary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 450.0,
+   "fireMode": 3,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/k9_smart_pistol",
+   "alsoTypes": 0
+  },
+  {
+   "name": "secondary/plas15",
+   "label": "PLAS-15 Loyalist",
+   "family": "secondary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 1000.0,
+   "fireMode": 5,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 2
+    },
+    {
+     "distance": 240.0,
+     "count": 5
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/plas_3_plasma_pistol",
+   "alsoTypes": 0
+  },
+  {
+   "name": "secondary/sg22",
+   "label": "SG-22 Bushwhacker",
+   "family": "secondary",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 650.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_sg89_triple_barrel_shotgun",
+   "alsoTypes": 0
+  },
+  {
+   "name": "sentry/autocannon",
+   "label": "A/AC-8 Autocannon Sentry",
+   "family": "sentry",
+   "kind": "shot",
+   "stratagem": "A/AC-8 Autocannon Sentry",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 160.0,
+   "fireMode": 3,
+   "rangeM": 160.0,
+   "layers": [
+    {
+     "distance": 160.0,
+     "count": 3
+    },
+    {
+     "distance": 80.0,
+     "count": 1
+    },
+    {
+     "distance": 10.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/stratagems_sentry_auto_cannon",
+   "alsoTypes": 0
+  },
+  {
+   "name": "sentry/ems_mortar",
+   "label": "A/M-23 EMS Mortar Sentry",
+   "family": "sentry",
+   "kind": "shot",
+   "stratagem": "A/M-23 EMS Mortar Sentry",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 60.0,
+   "fireMode": 3,
+   "rangeM": 160.0,
+   "layers": [
+    {
+     "distance": 160.0,
+     "count": 2
+    },
+    {
+     "distance": 120.0,
+     "count": 1
+    },
+    {
+     "distance": 80.0,
+     "count": 1
+    },
+    {
+     "distance": 64.0,
+     "count": 1
+    },
+    {
+     "distance": 10.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/stratagems_sentry_static_field",
+   "alsoTypes": 0
+  },
+  {
+   "name": "sentry/gas_mortar",
+   "label": "A/GM-17 Gas Mortar Sentry",
+   "family": "sentry",
+   "kind": "shot",
+   "stratagem": "A/GM-17 Gas Mortar Sentry",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 80.0,
+   "fireMode": 3,
+   "rangeM": 160.0,
+   "layers": [
+    {
+     "distance": 160.0,
+     "count": 4
+    },
+    {
+     "distance": 10.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/stratagems_sentry_mortar_gas",
+   "alsoTypes": 0
+  },
+  {
+   "name": "sentry/gatling",
+   "label": "A/G-16 Gatling Sentry",
+   "family": "sentry",
+   "kind": "loop",
+   "stratagem": "A/G-16 Gatling Sentry",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 1600.0,
+   "fireMode": 1,
+   "rangeM": 160.0,
+   "layers": [
+    {
+     "distance": 160.0,
+     "count": 2
+    }
+   ],
+   "bank": "content/audio/stratagems_sentry_gatling",
+   "alsoTypes": 3
+  },
+  {
+   "name": "sentry/machine_gun",
+   "label": "A/MG-43 Machine Gun Sentry",
+   "family": "sentry",
+   "kind": "loop",
+   "stratagem": "A/MG-43 Machine Gun Sentry",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 630.0,
+   "fireMode": 1,
+   "rangeM": 320.0,
+   "layers": [
+    {
+     "distance": 320.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/stratagems_sentry_machine_gun",
+   "alsoTypes": 0
+  },
+  {
+   "name": "sentry/mortar",
+   "label": "A/M-12 Mortar Sentry",
+   "family": "sentry",
+   "kind": "shot",
+   "stratagem": "A/M-12 Mortar Sentry",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 60.0,
+   "fireMode": 3,
+   "rangeM": 160.0,
+   "layers": [
+    {
+     "distance": 160.0,
+     "count": 1
+    },
+    {
+     "distance": 120.0,
+     "count": 1
+    },
+    {
+     "distance": 80.0,
+     "count": 1
+    },
+    {
+     "distance": 64.0,
+     "count": 1
+    },
+    {
+     "distance": 10.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/stratagems_sentry_mortar",
+   "alsoTypes": 0
+  },
+  {
+   "name": "sentry/rocket",
+   "label": "A/MLS-4X Rocket Sentry",
+   "family": "sentry",
+   "kind": "shot",
+   "stratagem": "A/MLS-4X Rocket Sentry",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 90.0,
+   "fireMode": 3,
+   "rangeM": 160.0,
+   "layers": [
+    {
+     "distance": 160.0,
+     "count": 2
+    },
+    {
+     "distance": 64.0,
+     "count": 1
+    },
+    {
+     "distance": 10.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/stratagems_sentry_rocket",
+   "alsoTypes": 0
+  },
+  {
+   "name": "support/ac8",
+   "label": "AC-8 Autocannon",
+   "family": "support",
+   "kind": "shot",
+   "stratagem": "AC-8 Autocannon",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 190.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 2
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_autocannon",
+   "alsoTypes": 6
+  },
+  {
+   "name": "support/apw1",
+   "label": "APW-1 Anti-Materiel Rifle",
+   "family": "support",
+   "kind": "shot",
+   "stratagem": "APW-1 Anti-Materiel Rifle",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 400.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_sar1_sniper",
+   "alsoTypes": 0
+  },
+  {
+   "name": "support/eat17",
+   "label": "EAT-17 Expendable Anti-Tank",
+   "family": "support",
+   "kind": "shot",
+   "stratagem": "EAT-17 Expendable Anti-Tank",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 600.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_eat17_expendable_at_rifle",
+   "alsoTypes": 0
+  },
+  {
+   "name": "support/eat17/seaf",
+   "label": "EAT-17 Expendable Anti-Tank (SEAF trooper)",
+   "family": "support",
+   "kind": "shot",
+   "stratagem": "EAT-17 Expendable Anti-Tank",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 600.0,
+   "fireMode": 2,
+   "rangeM": 240.0,
+   "layers": [
+    {
+     "distance": 240.0,
+     "count": 1
+    },
+    {
+     "distance": 80.0,
+     "count": 1
+    },
+    {
+     "distance": 32.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/seaf_weapons_eat",
+   "alsoTypes": 0
+  },
+  {
+   "name": "support/eat411",
+   "label": "EAT-411 Leveller",
+   "family": "support",
+   "kind": "shot",
+   "stratagem": "EAT-411 Leveller",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 600.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    },
+    {
+     "distance": 32.0,
+     "count": 1
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_expendable_massive_rocket_launcher",
+   "alsoTypes": 0
+  },
+  {
+   "name": "support/eat700",
+   "label": "EAT-700 Expendable Napalm",
+   "family": "support",
+   "kind": "shot",
+   "stratagem": "EAT-700 Expendable Napalm",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 600.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 6
+    }
+   ],
+   "bank": "content/audio/wep_expendable_napalm_launcher",
+   "alsoTypes": 0
+  },
+  {
+   "name": "support/faf14",
+   "label": "FAF-14 Spear",
+   "family": "support",
+   "kind": "shot",
+   "stratagem": "FAF-14 Spear",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 240.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 2
+    },
+    {
+     "distance": 160.0,
+     "count": 4
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_spear_launcher",
+   "alsoTypes": 0
+  },
+  {
+   "name": "support/gl21",
+   "label": "GL-21 Grenade Launcher",
+   "family": "support",
+   "kind": "shot",
+   "stratagem": "GL-21 Grenade Launcher",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 160.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_grenade_launcher",
+   "alsoTypes": 1
+  },
+  {
+   "name": "support/gl28",
+   "label": "GL-28 Belt-Fed Grenade Launcher",
+   "family": "support",
+   "kind": "shot",
+   "stratagem": "GL-28 Belt-Fed Grenade Launcher",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 240.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    },
+    {
+     "distance": 48.0,
+     "count": 1
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_belt_fed_grenade_launcher",
+   "alsoTypes": 0
+  },
+  {
+   "name": "support/gl52",
+   "label": "GL-52 De-Escalator",
+   "family": "support",
+   "kind": "shot",
+   "stratagem": "GL-52 De-Escalator",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 200.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 48.0,
+     "count": 1
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_g22_tactical_grenade_launcher",
+   "alsoTypes": 0
+  },
+  {
+   "name": "support/gr8",
+   "label": "GR-8 Recoilless Rifle",
+   "family": "support",
+   "kind": "shot",
+   "stratagem": "GR-8 Recoilless Rifle",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 600.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_recoilless_ap",
+   "alsoTypes": 0
+  },
+  {
+   "name": "support/las99",
+   "label": "LAS-99 Quasar Cannon",
+   "family": "support",
+   "kind": "shot",
+   "stratagem": "LAS-98 Laser Cannon",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 10.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_laser_pulse_cannon",
+   "alsoTypes": 0
+  },
+  {
+   "name": "support/m1000",
+   "label": "M-1000 Maxigun",
+   "family": "support",
+   "kind": "loop",
+   "stratagem": "M-1000 Maxigun",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 1500.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 2
+    },
+    {
+     "distance": 240.0,
+     "count": 6
+    }
+   ],
+   "bank": "content/audio/wep_minigun",
+   "alsoTypes": 0
+  },
+  {
+   "name": "support/m105",
+   "label": "M-105 Stalwart",
+   "family": "support",
+   "kind": "shot",
+   "stratagem": "M-105 Stalwart",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 850.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_mg105_stalwart",
+   "alsoTypes": 3
+  },
+  {
+   "name": "support/mg206",
+   "label": "MG-206 Heavy Machine Gun",
+   "family": "support",
+   "kind": "shot",
+   "stratagem": "E/MG-101 HMG Emplacement",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 600.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 2
+    },
+    {
+     "distance": 240.0,
+     "count": 6
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_heavy_machinegun",
+   "alsoTypes": 1
+  },
+  {
+   "name": "support/mg43",
+   "label": "MG-43 Machine Gun",
+   "family": "support",
+   "kind": "shot",
+   "stratagem": "MG-43 Machine Gun",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 760.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 8.0,
+     "count": 1
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_mg43",
+   "alsoTypes": 1
+  },
+  {
+   "name": "support/mg43/seaf",
+   "label": "MG-43 Machine Gun (SEAF trooper)",
+   "family": "support",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 760.0,
+   "fireMode": 1,
+   "rangeM": 64.0,
+   "layers": [
+    {
+     "distance": 64.0,
+     "count": 2
+    }
+   ],
+   "bank": "content/audio/foley_seafs",
+   "alsoTypes": 0
+  },
+  {
+   "name": "support/mgx42",
+   "label": "MGX-42 Bullet Storm",
+   "family": "support",
+   "kind": "shot",
+   "stratagem": "MGX-42 Bullet Storm",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 1300.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_expendable_machinegun",
+   "alsoTypes": 0
+  },
+  {
+   "name": "support/mls4x",
+   "label": "MLS-4X Commando",
+   "family": "support",
+   "kind": "shot",
+   "stratagem": "MLS-4X Commando",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 240.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_mls4x_commando",
+   "alsoTypes": 1
+  },
+  {
+   "name": "support/plas45",
+   "label": "PLAS-45 Epoch",
+   "family": "support",
+   "kind": "shot",
+   "stratagem": "PLAS-45 Epoch",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 600.0,
+   "fireMode": 6,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 2
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_plasma_blaster",
+   "alsoTypes": 0
+  },
+  {
+   "name": "support/rl77",
+   "label": "RL-77 Airburst Rocket Launcher",
+   "family": "support",
+   "kind": "shot",
+   "stratagem": "RL-77 Airburst Rocket Launcher",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 600.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_airburst_rocket_launcher",
+   "alsoTypes": 0
+  },
+  {
+   "name": "support/rs422",
+   "label": "RS-422 Railgun",
+   "family": "support",
+   "kind": "shot",
+   "stratagem": "RS-422 Railgun",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 60.0,
+   "fireMode": 5,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_railgun",
+   "alsoTypes": 2
+  },
+  {
+   "name": "support/s11",
+   "label": "S-11 Speargun",
+   "family": "support",
+   "kind": "shot",
+   "stratagem": "S-11 Speargun",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 60.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_harpoon_gun",
+   "alsoTypes": 0
+  },
+  {
+   "name": "support/sg88",
+   "label": "SG-88 Break-Action Shotgun",
+   "family": "support",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 600.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_colony_shotgun",
+   "alsoTypes": 0
+  },
+  {
+   "name": "support/stax3",
+   "label": "StA-X3 W.A.S.P. Launcher",
+   "family": "support",
+   "kind": "shot",
+   "stratagem": "StA-X3 W.A.S.P. Launcher",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 500.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    },
+    {
+     "distance": 16.0,
+     "count": 1
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_stax3_wasp_launcher",
+   "alsoTypes": 0
+  },
+  {
+   "name": "vehicle/bastion/cannon",
+   "label": "TD-220 Bastion MK XVI cannon",
+   "family": "vehicle",
+   "kind": "shot",
+   "stratagem": "TD-220 Bastion MK XVI",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 12.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/vehicle_tank",
+   "alsoTypes": 0
+  },
+  {
+   "name": "vehicle/bastion/hmg",
+   "label": "TD-220 Bastion MK XVI heavy machine gun",
+   "family": "vehicle",
+   "kind": "shot",
+   "stratagem": "E/MG-101 HMG Emplacement",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 600.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 2
+    },
+    {
+     "distance": 240.0,
+     "count": 6
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_heavy_machinegun",
+   "alsoTypes": 1
+  },
+  {
+   "name": "vehicle/breakthrough/flak_cannon",
+   "label": "EXO-55 Breakthrough Exosuit flak cannon",
+   "family": "vehicle",
+   "kind": "shot",
+   "stratagem": "EXO-55 Breakthrough Exosuit",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 180.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 2
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/vehicle_combat_walker_breacher",
+   "alsoTypes": 0
+  },
+  {
+   "name": "vehicle/emancipator/autocannons",
+   "label": "EXO-49 Emancipator Exosuit autocannons",
+   "family": "vehicle",
+   "kind": "shot",
+   "stratagem": "EXO-49 Emancipator Exosuit",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 175.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 2
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/vehicle_combat_walker",
+   "alsoTypes": 6
+  },
+  {
+   "name": "vehicle/gunner_frv/hmg",
+   "label": "M-102 Gunner FRV heavy machine gun",
+   "family": "vehicle",
+   "kind": "shot",
+   "stratagem": "E/MG-101 HMG Emplacement",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 600.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 2
+    },
+    {
+     "distance": 240.0,
+     "count": 6
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_heavy_machinegun",
+   "alsoTypes": 0
+  },
+  {
+   "name": "vehicle/lumberer/cannon",
+   "label": "EXO-51 Lumberer Exosuit anti-tank cannon",
+   "family": "vehicle",
+   "kind": "shot",
+   "stratagem": "EXO-51 Lumberer Exosuit",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 30.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 2
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_combat_walker_lumberer_cannon",
+   "alsoTypes": 0
+  },
+  {
+   "name": "vehicle/maelstrom/main_gun",
+   "label": "TD-110 Maelstrom main gun",
+   "family": "vehicle",
+   "kind": "shot",
+   "stratagem": "TD-110 Maelstrom",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 1200.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    }
+   ],
+   "bank": "content/audio/vehicle_storm_tank",
+   "alsoTypes": 0
+  },
+  {
+   "name": "vehicle/maelstrom/rockets",
+   "label": "TD-110 Maelstrom rockets",
+   "family": "vehicle",
+   "kind": "shot",
+   "stratagem": "TD-110 Maelstrom",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 240.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 2
+    },
+    {
+     "distance": 80.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/vehicle_storm_tank",
+   "alsoTypes": 0
+  },
+  {
+   "name": "vehicle/maelstrom/slot_2",
+   "label": "TD-110 Maelstrom slot 2 weapon",
+   "family": "vehicle",
+   "kind": "shot",
+   "stratagem": "TD-110 Maelstrom",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 12.0,
+   "fireMode": 1,
+   "rangeM": 120.0,
+   "layers": [
+    {
+     "distance": 120.0,
+     "count": 1
+    },
+    {
+     "distance": 80.0,
+     "count": 2
+    },
+    {
+     "distance": 64.0,
+     "count": 1
+    },
+    {
+     "distance": 10.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/vehicle_storm_tank",
+   "alsoTypes": 0
+  },
+  {
+   "name": "vehicle/oil_rig/turret",
+   "label": "GATER Oil Rig turret",
+   "family": "vehicle",
+   "kind": "shot",
+   "stratagem": "AC-8 Autocannon",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 220.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 2
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_autocannon",
+   "alsoTypes": 0
+  },
+  {
+   "name": "vehicle/patriot/minigun",
+   "label": "EXO-45 Patriot Exosuit minigun",
+   "family": "vehicle",
+   "kind": "shot",
+   "stratagem": "EXO-49 Emancipator Exosuit",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 1200.0,
+   "fireMode": 1,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 2
+    },
+    {
+     "distance": 240.0,
+     "count": 4
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/vehicle_combat_walker",
+   "alsoTypes": 1
+  },
+  {
+   "name": "vehicle/patriot/rockets",
+   "label": "EXO-45 Patriot Exosuit rocket launcher",
+   "family": "vehicle",
+   "kind": "shot",
+   "stratagem": "EXO-49 Emancipator Exosuit",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 90.0,
+   "fireMode": 1,
+   "rangeM": 240.0,
+   "layers": [
+    {
+     "distance": 240.0,
+     "count": 4
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/vehicle_combat_walker",
+   "alsoTypes": 1
+  },
+  {
+   "name": "vehicle/supply_frv/gun",
+   "label": "M-103 Supply FRV gun",
+   "family": "vehicle",
+   "kind": "shot",
+   "stratagem": "M-103 Supply FRV",
+   "residentOnly": false,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 640.0,
+   "fireMode": 1,
+   "rangeM": 24.0,
+   "layers": [
+    {
+     "distance": 24.0,
+     "count": 3
+    }
+   ],
+   "bank": "content/audio/wep_frv_supply_autoturret",
+   "alsoTypes": 0
+  }
+ ]
+}

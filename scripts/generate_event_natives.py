@@ -1,6 +1,7 @@
 """Generate domains/event_natives.lua: the native structures event sources read, from the event research.
 
-Every global, offset and callable function is taken from a research output (research/event-*-F5FEE03DCFDB.json)
+Every global, offset and callable function is taken from a research output (research/event-*-F5FEE03DCFDB.json,
+research/player-injury-path-F5FEE03DCFDB.json, research/player-avatar-actions-F5FEE03DCFDB.json)
 together with the exact instruction bytes that prove it. The generator checks each value against the pinned
 instruction's own text (for example `mov r9d, dword ptr [r10 + 0x1038]` for the hash capacity), so a value can only
 enter the runtime table if a pinned instruction uses exactly that value. At runtime every pin is re-read from the
@@ -22,18 +23,25 @@ STATE = ROOT / 'research/event-state-F5FEE03DCFDB.json'
 ACTIONS = ROOT / 'research/event-actions-F5FEE03DCFDB.json'
 WIELDER = ROOT / 'research/event-wielder-F5FEE03DCFDB.json'
 MISSION = ROOT / 'research/event-mission-F5FEE03DCFDB.json'
+INJURY = ROOT / 'research/player-injury-path-F5FEE03DCFDB.json'
+AVATAR = ROOT / 'research/player-avatar-actions-F5FEE03DCFDB.json'
 OUTPUT = ROOT / 'domains/event_natives.lua'
 
 
 class Pins:
     """Pinned instructions from the research outputs, per module ('game' = game.dll, 'exe' = the executable)."""
 
-    def __init__(self, combat: dict, state: dict, mission: dict, actions: dict, wielder: dict):
+    def __init__(self, combat: dict, state: dict, mission: dict, actions: dict, wielder: dict,
+            injury: dict | None = None, avatar: dict | None = None):
         self.by_rva = {'game': {}, 'exe': {}}
         for group in (list(mission['proofs'].values()) + list(actions['proofs'].values())
-                + list(wielder['proofs'].values())):
+                + list(wielder['proofs'].values()) + list((injury or {}).get('proofs', {}).values())
+                + list((avatar or {}).get('proofs', {}).values())):
             for pin in group:
                 self.by_rva['game'].setdefault(pin['rva'], pin)
+        for group in (injury or {}).get('exeProofs', {}).values():
+            for pin in group:
+                self.by_rva['exe'].setdefault(pin['rva'], pin)
         for name, function in combat['functions'].items():
             for pin in function['pins']:
                 self.by_rva['game'][pin['rva']] = dict(pin, function=name)
@@ -259,19 +267,40 @@ def explosion_section(pins: Pins, actions: dict) -> dict:
             (0x288825, 'call 0x4c89c0', 'NUX-223 Hellbomb: through the behavior explosion wrapper')],
         125: [(0xC2FE9, 'cmp edx, 0xb3fd1aff', 'B-100 Portable Hellbomb: explode event'),
             (0xC3305, 'mov edx, 0x7d', 'B-100 Portable Hellbomb: requests ExplosionType 125'),
-            (0xC3313, 'call 0x4c89c0', 'B-100 Portable Hellbomb: through the behavior explosion wrapper')]}
+            (0xC3313, 'call 0x4c89c0', 'B-100 Portable Hellbomb: through the behavior explosion wrapper')],
+        # An ability's literal (the Cyborg Production Unit's self-destruct), through the ability explosion wrapper.
+        293: [(0x10CEAD7, 'cmp edx, 0x708', 'Cyborg Production Unit: AbilityId 906 at tick 1800'),
+            (0x10CEAF6, 'mov edx, 0x125', 'Cyborg Production Unit: requests ExplosionType 293'),
+            (0x10CEB08, 'call 0x11ad240', 'Cyborg Production Unit: through the ability explosion wrapper')]}
+    wrappers = {'ability': [(0x11AD279, 'mov r14d, edx', 'ability explosion wrapper keeps the type'),
+        (0x11AD416, 'mov r8d, r14d', 'ability wrapper: type is request argument 3'),
+        (0x11AD464, 'call 0x13c0a80', 'ability wrapper calls RequestExplosion')]}
     named = []
     for item in actions['namedExplosions']:
         rows = literals[item['type']]
-        for rva, asm, label in rows:
+        for rva, asm, label in rows + wrappers.get(item.get('requestedBy'), []):
             pins.use(rva, asm, label)
-        if not item['stratagemPackage']:
+        assets = item.get('assets')
+        if not item['stratagemPackage'] and not assets:
             raise ValueError(item['name'] + ': no single delivering stratagem package')
-        named.append({'name': item['name'], 'type': item['type'], 'literal': rows[1][0],
-            'package': item['stratagemPackage'], 'packagePath': item['stratagemPackagePath'],
-            'sharedType': bool(item['sharedType'])})
+        entry = {'name': item['name'], 'type': item['type'], 'literal': rows[1][0],
+            'package': item['stratagemPackage'] or assets['effectPackage'], 'packagePath': item['stratagemPackagePath'],
+            'sharedType': bool(item['sharedType'])}
+        if assets:
+            # Its effect and its sound ship in objective packages: both must be resident before it is requested.
+            entry.update(soundPackage=assets['soundPackage'], objective=True)
+        named.append(entry)
+    # The queue's entries (read-only: what was requested this frame, and stale entries of earlier frames until a request
+    # reuses their slot), and an explosive's own detonation entry: its type and its own entity as the source.
+    pins.use(0x13C0AC0, 'imul rdi, r10, 0x98', 'explosion queue entry stride')
+    pins.use(0x13C0AD1, 'movsd qword ptr [rdi + rcx + 0x28], xmm0', 'explosion queue entries from +0x28: position')
+    pins.use(0x13C0ADB, 'mov dword ptr [rdi + rcx + 0x34], r8d', 'explosion queue entry +0x0C: type')
+    pins.use(0x13C0B25, 'mov dword ptr [rdi + rbx + 0x38], r9d', 'explosion queue entry +0x10: source')
+    pins.use(0x8CB17F, 'mov r9d, dword ptr [r14 + 8]', 'an explosive detonation: source = the explosive entity')
+    pins.use(0x8CB187, 'mov r8d, dword ptr [r15 + 0x24]', 'an explosive detonation: type = its record +0x24')
     return {'rva': research['request'], 'prologue': research['prologue'], 'queue': research['queueGlobal'],
-        'count': 0x20, 'capacity': research['queueCapacity'], 'settingsTable': research['settingsTable'],
+        'count': 0x20, 'capacity': research['queueCapacity'], 'entry': research['entry'], 'stride': research['stride'],
+        'entryType': 0x0C, 'entrySource': 0x10, 'settingsTable': research['settingsTable'],
         'typeBound': research['typeBound'], 'signature': research['signature'],
         # Catalogued weapon explosions whose settings-table entry the research matched in every mission snapshot.
         'weapons': [{'weapon': item['weapon'], 'type': item['type']} for item in actions['catalogueTypes']],
@@ -379,24 +408,182 @@ def heal_section(pins: Pins, research: dict) -> dict:
     return {'rva': callable_['rva'], 'prologue': callable_['prologue'], 'signature': callable_['signature']}
 
 
+def injury_section(pins: Pins, research: dict) -> dict:
+    """The game's own limb injury of the local avatar (research/player-injury-path-F5FEE03DCFDB.json): QueueDamage with
+    the VG-70 Variable's self-damage template, the engine's unit actor lookup, and the zones it reaches."""
+    queue, unit, actor = research['queueDamage'], research['unitApi'], research['actorApi']
+    # QueueDamage: the queue, its bounds, and the arguments Runtime fills.
+    pins.rip(0x129F93B, 'mov rdi, qword ptr [rip + 0x21dd5f6]', 'QueueDamage: the damage system global', queue['system'])
+    pins.rip(0x129F931, 'cmp r9d, dword ptr [rip + 0x21e42e8]', 'QueueDamage: refuses the invalid entity', 0x3483C20)
+    pins.rip(0x129F94E, 'mov rax, qword ptr [rip + 0x2086d33]', 'QueueDamage: the target needs a health record',
+        queue['healthManager'])
+    pins.use(0x129F9BE, 'je 0x129fcba', 'QueueDamage: no health record, nothing queued')
+    pins.use(0x129F9C4, 'mov eax, dword ptr [rdi + 0x201120]', 'QueueDamage: queue 0 count')
+    pins.use(0x129F9CA, 'cmp eax, 0x1000', 'QueueDamage: queue 0 holds 4096 events')
+    pins.use(0x129F9CF, 'jae 0x129fcba', 'QueueDamage: full, nothing queued')
+    pins.use(0x129F9EE, 'imul rsi, rax, 0x70', 'QueueDamage: event stride 0x70')
+    pins.use(0x129FA2C, 'mov eax, dword ptr [rbp + 0x57]', 'QueueDamage: argument 5 is the damage ...')
+    pins.use(0x129FA3E, 'mov dword ptr [rbp - 0x6d], eax', '... event +0x2C')
+    pins.use(0x129FA02, 'mov r12d, dword ptr [rbp + 0xaf]', 'QueueDamage: argument 16 is the actor handle ...')
+    pins.use(0x129FAB6, 'mov dword ptr [rsp + 0x3c], r12d', '... event +0x0C')
+    pins.use(0x129FAC0, 'mov dword ptr [rsp + 0x44], r15d', 'QueueDamage: event +0x14 owner')
+    pins.use(0x129FB96, 'test r14d, r14d', 'QueueDamage: element 0 queues no element entry')
+    # The drain and the consumer: the handle becomes the actor's name, ApplyDamage's hit actor.
+    pins.use(0x13F7D5E, 'call 0x12a6ef0', 'the world update drains the damage system every frame')
+    pins.use(0x12A6F17, 'mov eax, dword ptr [rcx + 0x201120]', 'the drain reads queue 0')
+    pins.use(0x12A6FA3, 'call 0x12a7d40', 'the drain consumes each event')
+    pins.use(0x12A7D6E, 'mov ecx, dword ptr [rdx + 0xc]', 'consumer: the event actor handle')
+    pins.rip(0x12A7D7C, 'mov rax, qword ptr [rip + 0x207e5b5]', 'consumer: the engine actor API', actor['global'])
+    pins.use(0x12A7D83, 'mov rdx, qword ptr [rax + 0x18]', 'consumer: actor API slot +0x18 (live actor)')
+    pins.use(0x12A7D98, 'mov rdx, qword ptr [rax + 0x78]', 'consumer: actor API slot +0x78 (actor name)')
+    pins.use(0x12A7DC2, 'cmp eax, dword ptr [r14]', 'consumer: an owner that is the target itself ...')
+    pins.use(0x12A7DD8, 'test byte ptr [rax + 0x14], 1', '... is applied by the target\'s owner only')
+    pins.use(0x12A8283, 'mov dword ptr [rsp + 0x60], eax', 'consumer: the actor name is ApplyDamage argument 13')
+    pins.use(0x12A82EB, 'call 0x9235f0', 'consumer: ApplyDamage')
+    # ApplyDamage: the zone that lists the hit actor loses health.
+    pins.use(0x92364C, 'mov eax, dword ptr [rbp + 0xb20]', 'ApplyDamage: argument 13, the hit actor')
+    pins.use(0x923C68, 'lea rax, [rdi + 0x3d0]', 'ApplyDamage: each zone\'s actor names')
+    pins.use(0x923C83, 'cmp ecx, r10d', 'ApplyDamage: the zone lists the hit actor')
+    pins.use(0x923F04, 'mov eax, dword ptr [rdx + rax*4 + 0xf8]', 'ApplyDamage: zone health')
+    pins.use(0x923F15, 'mov dword ptr [rdx + rcx*4 + 0xf8], r13d', 'ApplyDamage: zone health stored')
+    pins.use(0x921F4C, 'mov rax, qword ptr [rax + r8*8 + 0x20]', 'zone states at record +0x20 (2 bits per zone)')
+    pins.use(0x921F56, 'cmp al, 2', 'zone state 2: an injured (dead) limb')
+    # The game's own template: the VG-70 Variable's self-damage call (0x11ADF50).
+    pins.rip(0x11AE08C, 'mov rdx, qword ptr [rip + 0x217827d]', 'VG-70 self-damage: the engine unit API', unit['global'])
+    pins.use(0x11AE09D, 'mov rax, qword ptr [rdx + 0x10]', 'VG-70 self-damage: unit API slot +0x10 (actor by name)')
+    pins.use(0x11AE0A3, 'call rax', 'VG-70 self-damage: looks the actor up')
+    pins.rip(0x11AE12C, 'movsd xmm0, qword ptr [rip + 0x25ebc74]', 'VG-70 template: argument 15 vector (zero)', 0x3799DA8)
+    pins.rip(0x11AE151, 'movsd xmm0, qword ptr [rip + 0x107053f]', 'VG-70 template: argument 14 vector', 0x221E698)
+    pins.rip(0x11AE162, 'movss xmm0, dword ptr [rip + 0x1218c06]', 'VG-70 template: argument 19', 0x23C6D70)
+    pins.use(0x11AE176, 'mov dword ptr [rsp + 0x88], 0', 'VG-70 template: argument 18 = 0')
+    pins.use(0x11AE181, 'mov dword ptr [rsp + 0x80], 9', 'VG-70 template: argument 17 = 9')
+    pins.use(0x11AE18C, 'mov dword ptr [rsp + 0x78], r14d', 'VG-70 template: argument 16 = the actor handle')
+    pins.use(0x11AE1A3, 'xor r8d, r8d', 'VG-70 template: element 0')
+    pins.use(0x11AE1C8, 'mov rax, qword ptr [rcx + rax + 0x38]', 'VG-70 template: the target\'s record +0x38 ...')
+    pins.use(0x11AE1CD, 'mov qword ptr [rsp + 0x40], rax', '... is the creditor')
+    pins.use(0x11AE1DA, 'lea edx, [r8 + 6]', 'VG-70 template: kind 6 (Ability)')
+    pins.use(0x11AE1DE, 'mov byte ptr [rsp + 0x28], 1', 'VG-70 template: argument 6 = 1')
+    pins.use(0x11AE1EB, 'call 0x129f910', 'VG-70 template: QueueDamage')
+    # The engine's own lookups (executable).
+    pins.use(0x799DF0, 'mov ebp, edx', 'unit actor lookup: the actor name', 'exe')
+    pins.use(0x799E55, 'cmp dword ptr [rax + 0x18], ebp', 'unit actor lookup: actor +0x18 is its name', 'exe')
+    pins.use(0x799E62, 'mov eax, 0xffffffff', 'unit actor lookup: none is -1', 'exe')
+    pins.use(0x7972FE, 'setne cl', 'actor API +0x18: a live actor', 'exe')
+    pins.use(0x799CF3, 'mov eax, dword ptr [rax + 0x18]', 'actor API +0x78: the actor\'s name', 'exe')
+    template = queue['runtimeTemplate']
+    if (template['kind'], template['element'], template['a6'], template['a17'], template['a18'], template['a19'],
+            template['a14'], template['a15']) != (6, 0, 1, 9, 0, 1.0, [0.0, 0.0, -1.0], [0.0, 0.0, 0.0]):
+        raise ValueError('injury call template changed')
+    if (queue['count'], queue['capacity'], queue['eventSize']) != (0x201120, 0x1000, 0x70):
+        raise ValueError('damage queue layout changed')
+    for o in research['observations']:
+        if o['damageQueueCounts'][0] != 0 or not all(o['engineApis'].values()):
+            raise ValueError('damage queue or engine API disagrees in ' + o['snapshot'])
+        avatar = o['localAvatar']
+        if avatar and not all(avatar['limbActors'].values()):
+            raise ValueError('a limb actor is missing on the avatar unit in ' + o['snapshot'])
+    limbs = []
+    for item in research['limbs']:
+        if item['zoneHealth'] <= 0:
+            raise ValueError('zone without health: ' + item['limb'])
+        limbs.append({'name': item['limb'], 'actor': item['actor'], 'zone': item['zone'], 'zoneIndex': item['zoneIndex'],
+            'maxDamage': item['zoneHealth'], 'affectsMainHealth': item['affectsMainHealth']})
+    if [limb['name'] for limb in limbs] != ['head', 'chest', 'l_hand', 'r_hand', 'l_knee', 'r_knee']:
+        raise ValueError('injury limbs changed')
+    return {'rva': queue['rva'], 'prologue': queue['prologue'], 'signature': queue['signature'],
+        'system': queue['system'], 'count': queue['count'], 'capacity': queue['capacity'],
+        'kind': template['kind'], 'element': template['element'], 'creditor': 0x38, 'zoneStates': 0x20,
+        'zoneHealth': 0xF8,
+        'avatarType': research['avatar']['type'],
+        'unitApi': {'global': unit['global'], 'table': unit['tableRva'], 'slot': unit['actorSlot'], 'rva': unit['actorRva'],
+            'prologue': unit['prologue']},
+        'actorApi': {'global': actor['global'], 'table': actor['tableRva'], 'validSlot': actor['validSlot'],
+            'validRva': actor['validRva'], 'nameSlot': actor['nameSlot'], 'nameRva': actor['nameRva']},
+        'limbs': limbs}
+
+
+def limb_heal_section(pins: Pins, research: dict) -> dict:
+    """The game's own one-zone restore (research/player-avatar-actions-F5FEE03DCFDB.json): RestoreZone(ignored, entity,
+    zone name) sets one zone to its full health and clears its injured state."""
+    restore = research['restoreZone']
+    pins.rip(0x65B306, 'mov r15, qword ptr [rip + 0x2ccb37b]', 'RestoreZone: the health manager', restore['healthManager'])
+    pins.rip(0x65B2FD, 'cmp edx, dword ptr [rip + 0x2e2891d]', 'RestoreZone: the invalid entity', 0x3483C20)
+    pins.use(0x65B303, 'mov esi, r8d', 'RestoreZone: argument 3 is the zone name')
+    pins.use(0x65B30D, 'mov ebx, edx', 'RestoreZone: argument 2 is the entity')
+    pins.use(0x65B3A0, 'call 0x921a80', 'RestoreZone: zone index by name')
+    pins.use(0x65B3B4, 'mov edx, dword ptr [rcx + r14 + 0x2f0]', 'RestoreZone: the zone settings health')
+    pins.use(0x65B3BC, 'mov dword ptr [rbp + r9*4 + 0xf8], edx', 'RestoreZone: zone health = full')
+    pins.use(0x65B3FD, 'and qword ptr [r8], rax', 'RestoreZone: the zone state cleared')
+    pins.use(0x65B44E, 'call 0x925f10', 'RestoreZone: zone states committed')
+    pins.use(0x65B490, 'call 0xbdf5e0', 'RestoreZone: an owned entity sends the states')
+    pins.use(0x921B2D, 'add rax, 0x268', 'zone lookup: the zone name')
+    pins.use(0x921B44, 'mov eax, 0xffffffff', 'zone lookup: no such zone is -1')
+    zones = restore['zones']
+    if set(restore['limbZones'].values()) - set(zones):
+        raise ValueError('a limb zone has no name')
+    for o in research['observations']:
+        avatar = o['localAvatar']
+        if avatar and not all(avatar['zoneNames'].values()):
+            raise ValueError('a zone name is missing from the avatar settings in ' + o['snapshot'])
+    return {'rva': restore['rva'], 'prologue': restore['prologue'], 'signature': restore['signature'],
+        'zones': {name: zones[zone] for name, zone in restore['limbZones'].items()}}
+
+
+def velocity_section(pins: Pins, research: dict) -> dict:
+    """The game's own MotionComponent velocity setter (research/player-avatar-actions-F5FEE03DCFDB.json)."""
+    velocity = research['setVelocity']
+    layout = velocity['layout']
+    pins.rip(0x4A7560, 'mov rbx, qword ptr [rip + 0x2e7eff1]', 'SetVelocity: the motion manager', velocity['manager'])
+    pins.use(0x4A7578, 'mov r9d, dword ptr [rbx + 0x48a8]', 'motion hash capacity')
+    pins.use(0x4A7581, 'mov r10d, dword ptr [rbx + 0x48b0]', 'motion hash multiplier')
+    pins.use(0x4A759A, 'mov r11, qword ptr [rbx + 0x48a0]', 'motion hash buckets')
+    pins.use(0x4A75A1, 'mov edi, dword ptr [rbx + 0x48ac]', 'motion hash empty key')
+    pins.use(0x4A75D4, 'mov eax, 0xffffffff', 'SetVelocity: no motion record is -1 (unchecked)')
+    pins.use(0x4A75DE, 'mov rcx, qword ptr [rbx + 0x48c8]', 'motion records')
+    pins.use(0x4A75FC, 'imul rdx, r8, 0x84', 'motion record stride 0x84')
+    pins.use(0x4A7603, 'movsd qword ptr [rcx + rdx], xmm0', 'motion record +0x00: velocity')
+    pins.use(0x4A7608, 'mov dword ptr [rcx + rdx + 8], eax', 'motion record +0x08: velocity z')
+    pins.use(0x5A666F, 'mov edi, dword ptr [rcx + 0x4880]', 'motion capacity')
+    pins.use(0x5A2CC3, 'mov rax, qword ptr [r14 + 0x48b8]', 'motion descriptors')
+    pins.use(0xA5121A, 'call 0x4a7550', 'the game launches an avatar through SetVelocity')
+    pins.use(0x9B5186, 'movss dword ptr [r13], xmm0', 'the jump pack adds to the same velocity')
+    if (layout['capacity'], layout['hash'], layout['descriptors'], layout['records'], layout['stride'],
+            layout['velocity']) != (0x4880, 0x48A0, 0x48B8, 0x48C8, 0x84, 0):
+        raise ValueError('motion layout changed')
+    for o in research['observations']:
+        avatar = o['localAvatar']
+        if avatar and not (avatar['motion'] and avatar['motion']['descriptorNamesAvatar']):
+            raise ValueError('the avatar has no motion record in ' + o['snapshot'])
+    return {'rva': velocity['rva'], 'prologue': velocity['prologue'], 'signature': velocity['signature'],
+        'manager': velocity['manager'], 'capacity': layout['capacity'], 'hash': layout['hash'],
+        'descriptors': layout['descriptors'], 'records': layout['records'], 'stride': layout['stride'],
+        'velocity': layout['velocity'], 'launch': velocity['gameLaunch']}
+
+
 def build() -> dict:
     combat = json.loads(COMBAT.read_text(encoding='utf-8'))
     state = json.loads(STATE.read_text(encoding='utf-8'))
     mission = json.loads(MISSION.read_text(encoding='utf-8'))
     actions = json.loads(ACTIONS.read_text(encoding='utf-8'))
     wielder = json.loads(WIELDER.read_text(encoding='utf-8'))
-    for research in (combat, state, mission, actions, wielder):
+    injury = json.loads(INJURY.read_text(encoding='utf-8'))
+    avatar = json.loads(AVATAR.read_text(encoding='utf-8'))
+    for research in (combat, state, mission, actions, wielder, injury, avatar):
         if research['writes'] or research['protectionChanges']:
             raise ValueError('event research must be read-only')
     if state['gameDll']['sha256'] != combat['gameDll']['sha256']:
         raise ValueError('event research covers different game.dll builds')
     if not (state['gameDll']['sha256'] == mission['gameDll']['sha256'] == actions['gameDll']['sha256']
-            == wielder['gameDll']['sha256']):
+            == wielder['gameDll']['sha256'] == injury['gameDll']['sha256'] == avatar['gameDll']['sha256']):
         raise ValueError('event research covers different game.dll builds')
-    if any(any(r['pinnedBytesMismatchPerSnapshot'].values()) for r in (state, mission, actions, wielder)):
+    if injury['exe']['sha256'] != state['exe']['sha256'] or injury['exe']['imageSize'] != state['exe']['imageSize']:
+        raise ValueError('the injury research covers another executable')
+    if any(any(r['pinnedBytesMismatchPerSnapshot'].values()) for r in (state, mission, actions, wielder, injury,
+            avatar)):
         raise ValueError('a pinned instruction differs between retained snapshots')
-    pins = Pins(combat, state, mission, actions, wielder)
-    value = {'source': {'research': [COMBAT.name, STATE.name, MISSION.name, ACTIONS.name, WIELDER.name],
+    pins = Pins(combat, state, mission, actions, wielder, injury, avatar)
+    value = {'source': {'research': [COMBAT.name, STATE.name, MISSION.name, ACTIONS.name, WIELDER.name, INJURY.name,
+            AVATAR.name],
             'gameDllSha256': combat['gameDll']['sha256'],
             'imageSize': combat['gameDll']['imageSize'], 'exeImageSize': state['exe']['imageSize']},
         'health': health_section(pins, combat), 'players': players_section(pins, combat),
@@ -404,7 +591,9 @@ def build() -> dict:
         'engine': engine_section(pins, state), 'stats': stats_section(pins, state),
         'corpses': corpses_section(pins, mission), 'heal': heal_section(pins, combat),
         'explosion': explosion_section(pins, actions), 'projectile': projectile_section(pins, actions),
-        'status': status_section(pins, actions), 'wielder': wielder_section(pins, wielder)}
+        'status': status_section(pins, actions), 'wielder': wielder_section(pins, wielder),
+        'injury': injury_section(pins, injury), 'limbHeal': limb_heal_section(pins, avatar),
+        'velocity': velocity_section(pins, avatar)}
     value['pins'] = sorted(pins.used, key=lambda pin: (pin['module'], pin['rva']))
     return value
 

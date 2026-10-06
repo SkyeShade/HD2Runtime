@@ -61,7 +61,11 @@ function M.compare(a,c)
     end
     return 0
 end
-function M.installed()return require('hd2runtime/domains/metadata').version end
+-- The compatibility version (hd2.version: MAJOR.MINOR.PATCH of the installed build), the one every wrapper compares.
+function M.installed()
+    local v=require('hd2runtime/domains/metadata').version
+    return tostring(v):match('^(%d+%.%d+%.%d+)')or v
+end
 
 -- Called by a mod's wrapper. Returns true when the installed Runtime satisfies `minimum`; otherwise records the mod
 -- (once) and returns false with the reason. Equal and older requirements never warn.

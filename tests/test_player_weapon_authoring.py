@@ -120,7 +120,10 @@ class PlayerWeaponAuthoringTests(unittest.TestCase):
         self.assertEqual(set(aliases),{
             ('weapon.capacity','magazine.capacity'),
             ('weapon.feed_capacity_1','rounds.feed_capacity_1'),
-            ('weapon.feed_capacity_2','rounds.feed_capacity_2')})
+            ('weapon.feed_capacity_2','rounds.feed_capacity_2'),
+            # The mislabelled charge speed ids: published on support weapons only (no player weapon instance).
+            ('charge.minimum_seconds','charge.speed_multiplier_min'),
+            ('charge.maximum_seconds','charge.speed_multiplier_overcharge')})
         self.assertEqual(aliases[('weapon.capacity','magazine.capacity')]['instanceCount'],32)
         self.assertEqual(aliases[('weapon.feed_capacity_1','rounds.feed_capacity_1')]['instanceCount'],15)
         self.assertEqual(aliases[('weapon.feed_capacity_2','rounds.feed_capacity_2')]['instanceCount'],15)

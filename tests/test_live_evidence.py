@@ -53,22 +53,45 @@ class LiveEvidenceTests(unittest.TestCase):
         generate_live_evidence.generate(check=True)
         catalog = load('LiveEvidenceCatalog.json')
         self.assertEqual(catalog['summary']['families'], {
-            'live_proven': ['attack_output_cross_class', 'donor_row_slot_composition', 'enemy_main_health',
+            'live_proven': ['attack_output_cross_class', 'custom_icon_resource_family',
+                'custom_stratagem_expendable_availability', 'custom_stratagem_expendable_clone',
+                'custom_stratagem_expendable_payload', 'custom_stratagem_weapon_variant', 'donor_row_slot_composition',
+                'enemy_main_health',
                 'enemy_zone_armor',
                 'event_action_explosion_named', 'event_action_heal', 'event_action_projectile', 'event_action_status',
                 'event_damage_source_attribution', 'event_player_died_position', 'event_weapon_in_hand',
                 'minefield_salvos', 'pod_payload_pair', 'projectile_slot_composition', 'sentry_targeting_range',
-                'sentry_turret_turn_speed', 'stratagem_definition_cooldown', 'support_projectile_reference',
+                'sentry_turret_turn_speed', 'stratagem_calldown_code', 'stratagem_carrier_bombardment_pattern',
+                'stratagem_carrier_presentation_lifecycle', 'stratagem_carrier_shell_redirect',
+                'stratagem_custom_panel_icon',
+                'stratagem_custom_panel_lifecycle', 'stratagem_custom_panel_multiple_instances',
+                'stratagem_custom_panel_rendering',
+                'stratagem_custom_panel_selection',
+                'stratagem_definition_cooldown', 'stratagem_mission_slot_conversion',
+                'stratagem_presentation', 'stratagem_presentation_custom_image',
+                'stratagem_presentation_custom_text', 'stratagem_selector_advance', 'stratagem_selector_lifecycle',
+                'stratagem_selector_rendering', 'stratagem_slot_focus', 'stratagem_slot_icon_borrowed',
+                'stratagem_slot_overlay', 'stratagem_virtual_carrier_conversion',
+                'stratagem_virtual_slot_reconstruction',
+                'support_projectile_reference',
                 'vehicle_projectile_reference', 'weapon_ammunition_projectile_reference', 'weapon_fire_rate_modes_native',
                 'weapon_fire_rate_selector_added', 'weapon_heat_per_shot', 'weapon_magazine_capacity',
                 'weapon_mode_presentation', 'weapon_presentation_penetration_label', 'weapon_programmable_ammo_added',
                 'weapon_projectile_damage', 'weapon_projectile_reference_direct', 'weapon_projectile_status_reference',
                 'weapon_rounds_feed_capacity'],
-            'live_partial': ['backpack_deposit_ammo'],
-            'not_tested': ['enemy_attack_damage'], 'inconclusive': ['structure_health'],
-            'live_failed': ['backpack_shield_default_armor', 'weapon_projectile_reference_dormant_member'],
-            'pending': ['backpack_shield_zone_armor', 'weapon_presentation_traits']})
-        self.assertEqual((catalog['summary']['tests'], catalog['summary']['passed']), (54, 46))
+            'live_partial': ['backpack_deposit_ammo', 'custom_stratagem_expendable_delivery',
+                'custom_stratagem_native_panel'],
+            'not_tested': ['enemy_attack_damage'],
+            'inconclusive': ['stratagem_selector_grid_placement', 'structure_health'],
+            'live_failed': ['backpack_shield_default_armor', 'runtime_gui_render_order',
+                'weapon_projectile_reference_dormant_member'],
+            'pending': ['backpack_shield_zone_armor', 'custom_stratagem_pelican_native_gun',
+                'custom_stratagem_sentry_multiplayer', 'custom_stratagem_silo', 'custom_stratagem_uses',
+                'eagle_component_fields',
+                'enemy_spawn_weights',
+                'orbital_pattern_fields', 'projectile_homing', 'projectile_more_donors', 'sentry_component_fields', 'stratagem_call_in_time', 'support_charge_level_rows',
+                'support_overcharge_explosion_rows', 'weapon_presentation_traits']})
+        self.assertEqual((catalog['summary']['tests'], catalog['summary']['passed']), (123, 96))
         for name, entry in self.registry['families'].items():
             if entry['status'] == 'live_proven':
                 self.assertTrue(any(t['result'] == 'PASS' for t in live_evidence.tests(name)), name)
@@ -168,7 +191,9 @@ class LiveEvidenceTests(unittest.TestCase):
         support = [f for f in self.support['fieldInstances']
             if re.search(r'status_\d_(type|strength)$', f['semanticFieldId'])]
         for field in support:
-            projectile = field['target']['path'] == 'projectile_reference' and field['semanticFieldId'].startswith('damage.')
+            # A charge-level row only one charge level fires (the PLAS-45 Epoch's shots) does not inherit it either.
+            projectile = field['target']['path'] == 'projectile_reference' and field['semanticFieldId'].startswith(
+                'damage.') and not field.get('chargeLevel')
             self.assertEqual(bool(field.get('liveEvidence')), projectile, field['instanceKey'])
             self.assertEqual(field['operation']['acknowledgement'] is None, projectile, field['instanceKey'])
         vehicle = [f for f in load('VehicleWeaponCapabilities.json')['fieldInstances'] if 'status_' in f['semanticFieldId']]
@@ -204,6 +229,11 @@ class LiveEvidenceTests(unittest.TestCase):
         self.assertEqual(sorted(live_evidence.proven_targets()), sorted([
             ('LAS-16 Sickle', 'heat.heat_per_shot'), ('M-1000 Maxigun', 'damage.primary.standard_damage'),
             ('MA5C Assault Rifle', 'magazine.capacity'), ('Orbital Precision Strike', 'stratagem.definition_cooldown'),
+        ('Orbital 120mm HE Barrage', 'stratagem.calldown_code'), ('GR-8 Recoilless Rifle', 'stratagem.calldown_code'),
+        ('Orbital 120mm HE Barrage', 'stratagem.presentation.name'),
+        ('Orbital 120mm HE Barrage', 'stratagem.presentation.name_cased'),
+        ('Orbital 120mm HE Barrage', 'stratagem.presentation.description'),
+        ('Orbital 120mm HE Barrage', 'stratagem.presentation.icon'),
             ('SG-20 Halt', 'damage.primary.standard_damage')] + TASK3_TARGETS + COMPOSITION_TARGETS
             + PROJECTILE_BUILDER_TARGETS + VEHICLE_TARGETS))
         weapons = load('PlayerWeaponAuthoringCapabilities.json')

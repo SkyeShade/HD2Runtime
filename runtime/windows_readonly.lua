@@ -76,8 +76,13 @@ local function create_runtime()
             allocation_protect=tonumber(region[0].allocation_protection)}
     end
 
+    -- Reads of up to 4 KiB (nearly all of them) share one buffer and count instead of allocating two per read; the
+    -- result is copied out (ffi.string) before the next read.
+    local scratch,scratch_count=ffi.new('uint8_t[4096]'),ffi.new('size_t[1]')
     function runtime.read(address,size)
-        local buffer,count=ffi.new('uint8_t[?]',size),ffi.new('size_t[1]')
+        local buffer,count
+        if size<=4096 then buffer,count=scratch,scratch_count;count[0]=0
+        else buffer,count=ffi.new('uint8_t[?]',size),ffi.new('size_t[1]')end
         if kernel.ReadProcessMemory(process,ffi.cast('const void *',address),
             buffer,size,count)==0 then
             return nil,tonumber(kernel.GetLastError()),tonumber(count[0])

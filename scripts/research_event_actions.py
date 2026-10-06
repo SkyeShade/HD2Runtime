@@ -22,6 +22,16 @@ Read-only. Proves, on build F5FEE03DCFDB:
    owner of BehaviorId 8) requests ExplosionType 125 the same way. Both settings rows (17 / 25 / 45 m, damage type
    479) are identical in every snapshot. Type 242 is also requested by several mission objectives, so editing its
    settings would change them too; requesting it does not.
+   The Cyborg Production Unit's self-destruct (ExplosionType 293) is requested by an ABILITY: the only owner of
+   BehaviorId 327 (behavior dispatcher entry 326 -> 0x357150) plays AbilityId 906 (0x3571D9); the ability dispatcher's
+   entry 905 calls 0x10CEA90, which at tick 1800 (30 s at 60 ticks a second) requests ExplosionType 293 at the
+   "vfx_nuke" node through the ability explosion wrapper 0x11AD240, which passes the type on as argument 3 of the
+   request (0x11AD279, 0x11AD416, 0x11AD464). No other code requests 293. Its settings row (50 / 100 / 100 m, damage
+   type 497) is identical in every snapshot. Its effect and sound ship in no stratagem's package: the effect package
+   is the smallest package that holds the row's particle effect (+0x38; only two Automaton objective packages hold
+   it, each with the whole Cyborg Production Unit), the sound package the one that holds the bank of its sound
+   (+0x40 is the game's sound key; the hash_lookup slot table maps it to the event; the bank
+   obj_cy_city_blow_up_assembly_site holds that event; besides an audio test level one package holds that bank).
 6. Projectiles: game.dll 0x13A8F50 FireProjectile(ignored, type, const float pos[3], const float dir[3], entity,
    target, entity_path) is the game's own scalar wrapper (the AI fire helper calls it at 0x119E612 with a zero
    entity_path). It returns at once unless the projectile system (global game+0x347CEA8) is active (+0x28 = 1, set
@@ -81,6 +91,18 @@ HELLBOMBS = [
         'entity': 0x9ACE8638421ABC8E, 'stratagemKinds': [31, 120], 'damageType': 479,
         'inner': 17.0, 'outer': 25.0, 'shockwave': 45.0},
 ]
+# Named explosions an ABILITY requests: the type is a code literal of the ability's own handler (at one tick of the
+# ability), carried by the ability explosion wrapper (0x11AD240) to the request. The entity whose behavior plays the
+# ability is the only owner of that BehaviorId. The effect and the sound ship in objective packages (see effect_assets).
+ABILITY_EXPLOSIONS = [
+    {'name': 'Cyborg Production Unit', 'type': 293, 'behaviorId': 327, 'behaviorStub': 0x49A73B,
+        'behaviorHandler': 0x357150, 'abilityId': 906, 'abilityStub': 0x1154556, 'abilityHandler': 0x10CEA90,
+        'tick': 1800, 'node': 0x9EAD14D1, 'proofs': 'cyborgProductionUnit', 'entity': 0x900FF9707522851F,
+        'soundBank': 'content/audio/obj_cy_city_blow_up_assembly_site', 'soundTestLevel': 0x22150AB83161D8EC,
+        'damageType': 497, 'inner': 50.0, 'outer': 100.0, 'shockwave': 100.0},
+]
+ABILITY_TABLE = 0x115C784
+HASH_LOOKUP = 0xB9EE36888EF19818  # the game's sound key table (resource type hash_lookup)
 PROJECTILES = ROOT / 'sdk/ProjectileCompositionCapabilities.json'
 STATUSES = ROOT / 'research/status-effects-F5FEE03DCFDB.json'
 PROJECTILE_SYSTEM, PROJECTILE_TABLE, PROJECTILE_TYPES = 0x347CEA8, 0x37C7670, 351
@@ -179,6 +201,105 @@ def hellbomb_evidence(data):
             result[-1]['stratagemPackagePath'] = native.path(int(result[-1]['stratagemPackage'], 16))
     return result
 
+def effect_assets(item, record):
+    """An ability explosion's effect and sound packages, from its settings record (the first snapshot's) and the
+    installed game data (read-only): the particle effect (+0x38) and every archive (package) that holds it, the
+    smallest one chosen; the sound key (+0x40) -> its event (hash_lookup) -> the bank that holds it (HIRC) -> the
+    packages that hold the bank, the audio test level excluded."""
+    import hd2_game_data
+    import research_custom_payloads as payloads
+    M = hd2_game_data.murmur64
+    particle, key = struct.unpack_from('<QI', record, 0x38)
+    data = hd2_game_data.Data()
+    PACKAGE, BANK, LOOKUP = M(b'package'), M(b'wwise_bank'), M(b'hash_lookup')
+    bank = M(item['soundBank'].encode())
+    sizes, holders, found = {}, {'particle': [], 'bank': []}, {}
+    for archive, rname, rtype, main, stream, gpu in data.tables():
+        sizes[archive] = sizes.get(archive, 0) + main[1] + stream[1] + gpu[1]
+        if rtype == payloads.PARTICLES and rname == particle:
+            holders['particle'].append(archive)
+        if rtype == BANK and rname == bank:
+            holders['bank'].append(archive)
+            found.setdefault('bank', (archive, main))
+        if rtype == LOOKUP and rname == HASH_LOOKUP:
+            found.setdefault('lookup', (archive, main))
+    table = data.read(*found['lookup'])
+    slots = table[len(table) - 0x100000:]
+    event = None
+    for i in range(0x10000):
+        e, k = struct.unpack_from('<II', slots, 16 * i)
+        if k == key and e:
+            if event is not None:
+                raise ValueError(item['name'] + ': the sound key maps to several events')
+            event = e
+    if event is None:
+        raise ValueError(item['name'] + ': the sound key maps to no event')
+    raw = data.read(*found['bank'])
+    events, at = set(), raw.find(b'BKHD')
+    while 0 <= at < len(raw) - 8:
+        tag, size = raw[at:at + 4], struct.unpack_from('<I', raw, at + 4)[0]
+        if tag == b'HIRC':
+            p = at + 12
+            for _ in range(struct.unpack_from('<I', raw, at + 8)[0]):
+                kind, length, oid = struct.unpack_from('<BII', raw, p)
+                if kind == 4:
+                    events.add(oid)
+                p += 5 + length
+        at += 8 + size
+    if event not in events:
+        raise ValueError(item['name'] + ': the sound bank does not hold its event')
+    # Package names: every package path the research and domains know, as research_custom_payloads.effect_packages.
+    import glob
+    import re as regex
+    known = set(payloads.EXTRA_PACKAGE_NAMES)
+    for path in glob.glob(str(ROOT / 'research/*.json')) + glob.glob(str(ROOT / 'domains/*.lua')):
+        known.update(regex.findall(r'packages/[A-Za-z0-9_/\-\.]+', Path(path).read_text(encoding='utf-8',
+            errors='ignore')))
+    by_hash = {M(n.encode()): n for n in known}
+
+    def described(archives):
+        return sorted(({'id': '0x%016X' % int(a, 16), 'name': by_hash.get(int(a, 16)), 'bytes': sizes[a]}
+            for a in set(archives)), key=lambda p: p['id'])
+    effect = described(holders['particle'])
+    sound = [p for p in described(holders['bank']) if int(p['id'], 16) != item['soundTestLevel']]
+    if not effect or len(sound) != 1:
+        raise ValueError(item['name'] + ': the effect or sound package is not unique enough: %r %r' % (effect, sound))
+    chosen = min(effect, key=lambda p: (p['bytes'], p['id']))
+    return {'particle': '0x%016X' % particle, 'effectPackages': effect, 'effectPackage': chosen['id'],
+        'soundKey': key, 'soundEvent': event, 'soundBank': item['soundBank'], 'soundBankResource': '0x%016X' % bank,
+        'soundPackages': described(holders['bank']), 'soundPackage': sound[0]['id']}
+
+
+def ability_explosion_evidence(data):
+    """The entity, behavior and ability behind each ability explosion, its settings row's assets (pinned data)."""
+    import research_entity_authoring as entity_research
+    native = entity_research.Native()
+    behaviors = {}
+    for record, owners in native.owners(BEHAVIOR).items():
+        behaviors.setdefault(struct.unpack_from('<I', native.record(BEHAVIOR, record), 0)[0], []).extend(owners)
+    result = []
+    for item in ABILITY_EXPLOSIONS:
+        if behaviors.get(item['behaviorId'], []) != [item['entity']]:
+            raise ValueError('BehaviorId %d is not owned by exactly the %s entity' % (item['behaviorId'], item['name']))
+        if struct.unpack_from('<I', data, DISPATCH_TABLE + 4 * (item['behaviorId'] - 1))[0] != item['behaviorStub']:
+            raise ValueError('behavior dispatcher entry for %s moved' % item['name'])
+        if struct.unpack_from('<I', data, ABILITY_TABLE + 4 * (item['abilityId'] - 1))[0] != item['abilityStub']:
+            raise ValueError('ability dispatcher entry for %s moved' % item['name'])
+        mem = base.Mem(SNAPSHOTS[0])
+        record = mem.read(mem.ptr(mem.game + SETTINGS_TABLE + 8 * item['type']), 0x48)
+        mem.close()
+        result.append({'name': item['name'], 'type': item['type'], 'entity': '0x%016X' % item['entity'],
+            'path': native.path(item['entity']), 'requestedBy': 'ability', 'behaviorId': item['behaviorId'],
+            'behaviorOwners': 1, 'dispatcherEntry': item['behaviorId'] - 1, 'handler': item['behaviorStub'],
+            'behaviorHandler': item['behaviorHandler'], 'abilityId': item['abilityId'],
+            'abilityEntry': item['abilityId'] - 1, 'abilityHandler': item['abilityHandler'], 'tick': item['tick'],
+            'node': item['node'], 'deliveredBy': [], 'stratagemPackage': None, 'stratagemPackagePath': None,
+            'assets': effect_assets(item, record),
+            'settings': {'damageType': item['damageType'], 'inner': item['inner'], 'outer': item['outer'],
+                'shockwave': item['shockwave']}, 'sharedType': []})
+    return result
+
+
 GAME_PROOFS = {
     'request': [
         (0x13C0A80, 'push rbx', None, 'RequestExplosion(queue, const vec3 *position, u32 type, u32 source, ...)'),
@@ -206,6 +327,15 @@ GAME_PROOFS = {
         (0x8CB18B, 'mov rcx, qword ptr [rip + {rip}]', QUEUE, 'a caller loads the explosion queue global'),
         (0x8CB1FA, 'call 0x13c0a80', None, 'and requests an explosion'),
     ],
+    # An explosive's own detonation (the explosive update 0x8CAFF0): its type is its ExplosiveComponent record's +0x24,
+    # its source its own entity (the instance's +8; +0xC is its unit, whose position it is). A queued entry of that type
+    # and source is that entity's detonation (custom silo payloads observe their missile's this way, read-only).
+    'explosiveDetonation': [
+        (0x8CB15A, 'cmp dword ptr [r15 + 0x24], 0', None, 'an explosive with a detonation type (record +0x24)'),
+        (0x8CB179, 'mov ecx, dword ptr [r14 + 0xc]', None, 'its unit: the position is the unit position'),
+        (0x8CB17F, 'mov r9d, dword ptr [r14 + 8]', None, 'source = the explosive entity itself (argument 4)'),
+        (0x8CB187, 'mov r8d, dword ptr [r15 + 0x24]', None, 'type = its record +0x24, the detonation (argument 3)'),
+    ],
     'hellbomb': [
         (0x4966EA, 'cmp edx, 0x2b4', None, 'behavior event dispatcher: BehaviorId - 1 <= 0x2B4'),
         (0x496708, 'mov edx, dword ptr [rcx + rax*4 + 0x4a0154]', None, 'dispatcher jump table'),
@@ -229,6 +359,23 @@ GAME_PROOFS = {
         (0xC3305, 'mov edx, 0x7d', None, 'requests ExplosionType 125'),
         (0xC330A, 'mov r8d, 0xbccf91e5', None, 'at the "root" node'),
         (0xC3313, 'call 0x4c89c0', None, 'through the same behavior explosion wrapper'),
+    ],
+    'cyborgProductionUnit': [
+        (0x49A741, 'call 0x357150', None, 'BehaviorId 327 (table entry 326): the production unit\'s event handler'),
+        (0x3571D9, 'mov edx, 0x38a', None, 'plays AbilityId 906'),
+        (0x3571E1, 'call 0x4c3210', None, 'ability play'),
+        (0x11509E7, 'dec edx', None, 'ability dispatcher: AbilityId - 1'),
+        (0x11509E9, 'cmp edx, 0xb32', None, 'ability dispatcher bound'),
+        (0x11509FC, 'mov edx, dword ptr [r10 + rdx*4 + 0x115c784]', None, 'ability dispatcher jump table'),
+        (0x1154559, 'call 0x10cea90', None, 'AbilityId 906 (table entry 905): the self-destruct ability handler'),
+        (0x10CEAD7, 'cmp edx, 0x708', None, 'at tick 1800'),
+        (0x10CEAF6, 'mov edx, 0x125', None, 'requests ExplosionType 293'),
+        (0x10CEAFB, 'mov r8d, 0x9ead14d1', None, 'at the "vfx_nuke" node'),
+        (0x10CEB08, 'call 0x11ad240', None, 'ability explosion wrapper'),
+        (0x11AD279, 'mov r14d, edx', None, 'wrapper keeps the type'),
+        (0x11AD416, 'mov r8d, r14d', None, 'type is argument 3 of the request'),
+        (0x11AD41D, 'mov rcx, qword ptr [rip + {rip}]', QUEUE, 'the explosion queue'),
+        (0x11AD464, 'call 0x13c0a80', None, 'RequestExplosion'),
     ],
     'projectile': [
         (0x13A8F50, 'mov r11, rsp', None, 'FireProjectile(ignored, type, pos, dir, entity, target, entity_path)'),
@@ -419,7 +566,7 @@ def main():
             catalog.append({'type': item['explosionType'], 'weapon': weapon['weapon'], 'damageType': item['damageType'],
                 'inner': values['explosion.inner_radius'], 'outer': values['explosion.outer_radius'],
                 'shockwave': values['explosion.shockwave_radius']})
-    for item in HELLBOMBS:
+    for item in HELLBOMBS + ABILITY_EXPLOSIONS:
         catalog.append({'type': item['type'], 'weapon': item['name'], 'damageType': item['damageType'],
             'inner': item['inner'], 'outer': item['outer'], 'shockwave': item['shockwave']})
     snap = snapshot_image.Snapshot(build_profile.snapshot_directory() / SNAPSHOTS[0])
@@ -434,7 +581,7 @@ def main():
     status_prologue = data[0x129F170:0x129F199].hex()
     projectiles = projectile_catalog()
     statuses = status_allowlist()
-    hellbombs = hellbomb_evidence(data)
+    hellbombs = hellbomb_evidence(data) + ability_explosion_evidence(data)
     templates = call_templates(image)
     common = [t for t in templates if zero_template(t['arguments7to15'])]
     pins = [p for rows in proofs.values() for p in rows]
@@ -495,7 +642,7 @@ def main():
             'allowlist': statuses,
             'unproven': ['The drain has not been observed running (the queue was empty in every snapshot).',
                 'Behaviour on clients (routed to the owner) and what other players see.']},
-        'catalogueTypes': [c for c in catalog if c['weapon'] not in {h['name'] for h in HELLBOMBS}],
+        'catalogueTypes': [c for c in catalog if c['weapon'] not in {h['name'] for h in HELLBOMBS + ABILITY_EXPLOSIONS}],
         'namedExplosions': hellbombs, 'observations': observations,
         'findings': {
             'identity': 'The drain indexes game+0x37CC920 by the request ExplosionType; for all %d catalogued weapon '
@@ -506,6 +653,11 @@ def main():
             'hellbombs': 'NUX-223 Hellbomb = ExplosionType 242 and B-100 Portable Hellbomb = ExplosionType 125: code '
                 'literals in the behavior of the only entity with that BehaviorId, passed unchanged to the request; '
                 'their settings rows match in every mission snapshot.',
+            'cyborgProductionUnit': 'Cyborg Production Unit = ExplosionType 293: a code literal of AbilityId 906\'s '
+                'handler (tick 1800), played by the only entity with BehaviorId 327, passed unchanged to the request '
+                'by the ability explosion wrapper; its settings row matches in every mission snapshot. Its effect '
+                'and sound ship only in Automaton objective packages (the effect package holds the whole production '
+                'unit), so requesting it needs both packages resident.',
             'drained': 'The queue count is 0 in every snapshot: requests live for less than a frame.',
             'network': 'No network message call was found in the drain itself; the queue is the local explosion system. '
                 'Health is host-authoritative (a remote-owned record is overwritten by synced health), so only a host '
@@ -516,6 +668,8 @@ def main():
             'Whether the explosion effect is visible on other machines.',
             'Who sends the Hellbomb "explode" event (the detonation trigger is inferred from the "nuke" node and the '
                 'destroy that follows); the requested type itself is a pinned code literal.',
+            'What ExplosionType 293 does when its effect or sound package is not resident (Runtime never requests it '
+                'then), and how loading those packages in a mission without the objective behaves (a live test).',
             'Frame order of the drain relative to the Lua update callback (a request made in update is drained by the '
                 'game\'s own explosion update, within a frame).',
         ],

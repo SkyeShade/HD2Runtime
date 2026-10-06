@@ -1,0 +1,42 @@
+{
+ "format": "hd2runtime-custom-stratagems/1",
+ "log": "OrbitalEmsBarrage 0.1.0 BUILD: select Orbital EMS Barrage in the custom panel, then a mission; call it with RIGHT DOWN UP RIGHT LEFT DOWN.",
+ "stratagems": [
+  {
+   "id": "orbital_ems_barrage",
+   "name": "ORBITAL EMS BARRAGE",
+   "name_cased": "Orbital EMS Barrage",
+   "description": "A prolonged \"compliance barrage\" to modify enemy behavior in a wide area. Stuns enemies in a large area.",
+   "icon": {
+    "image": "orbital_ems_barrage",
+    "source": "images/orbital_ems_barrage.png"
+   },
+   "code": [
+    "right",
+    "down",
+    "up",
+    "right",
+    "left",
+    "down"
+   ],
+   "cooldown": 60,
+   "traits": [
+    "Orbital",
+    "Anti-Tank",
+    "Stun"
+   ],
+   "carrier": {
+    "beacon": "offensive",
+    "prefer_families": [
+     "orbital"
+    ]
+   },
+   "payload": {
+    "family": "orbital",
+    "native": true,
+    "pattern": "Orbital 120mm HE Barrage",
+    "impact_explosion": "Orbital EMS Strike"
+   }
+  }
+ ]
+}

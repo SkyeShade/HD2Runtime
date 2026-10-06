@@ -609,9 +609,18 @@ class Engine:
         result.evidence.append(f"stratagem id {b['id']} (identical game.dll)")
         if (target['group'], target['row']) != (b['group'], b['row']):
             result.flag('MOVED', f"stratagem row {b['group']}/{b['row']} -> {target['group']}/{target['row']}")
-        old = bytes.fromhex(source['bytes'])[b['offset']:b['offset'] + b['width']]
-        new = bytes.fromhex(target['bytes'])[b['offset']:b['offset'] + b['width']]
-        self._baseline(result, field, old, new)
+        if b['storage'] == 'calldown':
+            # The calldown code is a pointer to a per-process array plus a count: compare the codes themselves.
+            old_code, new_code = source.get('calldown'), target.get('calldown')
+            result.baseline = {'old': old_code, 'new': new_code, 'release': field['baseline']}
+            if old_code is None or new_code is None:
+                result.flag('UNCHECKED', 'the calldown array is not readable in a view')
+            elif old_code != new_code:
+                result.flag('BASELINE_CHANGED', f'default {old_code} -> {new_code}')
+        else:
+            old = bytes.fromhex(source['bytes'])[b['offset']:b['offset'] + b['width']]
+            new = bytes.fromhex(target['bytes'])[b['offset']:b['offset'] + b['width']]
+            self._baseline(result, field, old, new)
         result.target = dict(b, group=target['group'], row=target['row'])
 
     # game.dll-resident tables --------------------------------------------------------------------------------------

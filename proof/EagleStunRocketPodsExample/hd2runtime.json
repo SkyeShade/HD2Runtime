@@ -1,0 +1,1 @@
+{"format":1,"name":"EagleStunRocketPodsExample","resource":"mods/skyeshade/hd2runtime_eagle_stun_rocket_pods_example","guid":"f9fe2d63-aa71-4e4f-9c52-9c515b12e5d7","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.30.0-dev","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../sdk","ide_library":"../../sdk/stubs"}

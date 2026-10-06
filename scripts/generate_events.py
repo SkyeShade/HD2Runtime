@@ -84,7 +84,12 @@ def action_catalog() -> dict:
                 'strength': 'refused: strength and duration are the status\'s own'},
             unproven=['Visual effect residency is inferred (the same statuses are applied by enemies and '
                 'environments).']),
-        'spawnEntity': {'status': 'blocked', 'reason': 'The generic spawn\'s parameters and replication are not proven.'},
+        'pelican': {'api': 'hd2.pelican.spawn', 'hostOnly': True, 'inMissionOnly': True, 'entity': 'shuttle_transport',
+            'empty': True, 'maxActive': 4, 'maxHoverSeconds': 120, 'rateLimit': {'burst': 4, 'perSecond': 0.25},
+            'liveProven': False,   # PelicanSpawnProof has not run yet
+            'otherPlayersSee': 'unproven (the hold is not replicated)'},
+        'spawnEntity': {'status': 'blocked', 'reason': "The generic spawn's parameters and replication are not "
+            'proven; only the transport Pelican is spawned (hd2.pelican).'},
     }
 
 
@@ -106,7 +111,8 @@ def outputs() -> dict[str, str]:
         str(JSON_OUTPUT.relative_to(ROOT)).replace('\\', '/'): json.dumps(public, indent=1) + '\n'}
 
 
-STATIC = ('HD2Events', 'HD2Input', 'HD2Entities', 'HD2Explosions', 'HD2Actions', 'HD2Projectiles', 'HD2StatusEffects')   # tables of functions, not objects
+STATIC = ('HD2Events', 'HD2Input', 'HD2Entities', 'HD2Explosions', 'HD2Actions', 'HD2Projectiles', 'HD2StatusEffects',
+    'HD2Pelicans', 'HD2Sounds', 'HD2CustomStratagems', 'HD2Ownership', 'HD2Enemies')   # tables of functions, not objects
 
 
 def _class_lines(name: str, spec: dict, parent: str | None = None) -> list[str]:

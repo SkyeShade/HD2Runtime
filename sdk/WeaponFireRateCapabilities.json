@@ -1,7 +1,7 @@
 {
   "contract": "hd2runtime.weapon.fire_rates.v1",
   "schemaVersion": 1,
-  "hd2RuntimeVersion": "0.28.0",
+  "hd2RuntimeVersion": "0.30.0-dev",
   "nativeModel": "ProjectileWeaponComponent +4 rounds_per_minute: three f32 slots X/Y/Z. Y (+8) is the default and the only rate of a weapon without a ROF selector. With WeaponFunctionType ROF bound to an input, each press moves to the next slot (Y -> Z -> X), skipping 0.0 slots. Fixed storage: three rates at most.",
   "states": {
     "selectable": "The rate-of-fire selector is bound: every rate can be edited, added (up to three) or removed.",

@@ -46,7 +46,7 @@ tables in the snapshot, so the datalibrary also supplies the table contents.
 ### 2. Migrate
 
 ```powershell
-py scripts/migrate_build.py --from-runtime 0.28.0 `
+py scripts/migrate_build.py --from-runtime 0.28.1 `
   --snapshot "$env:LOCALAPPDATA\HD2Runtime\local_research\snapshots\<new>-<timestamp>.hd2snap" `
   --datalibrary <path-to-new>\datalibrary
 ```
@@ -176,7 +176,7 @@ target coordinates aborts the apply ("unsafe stale writes"). The result is recor
 ### 7. Validate
 
 ```powershell
-py scripts/migrate_build.py --from-runtime 0.28.0 --snapshot <new snapshot> --label post-profile
+py scripts/migrate_build.py --from-runtime 0.28.1 --snapshot <new snapshot> --label post-profile
 py scripts/validate_migration.py validation/migrations/<new>
 ```
 
@@ -248,8 +248,19 @@ Things to know when changing the pipeline:
 - **`runtime/snapshot_memory_reader.lua` caches small reads** (4 KB blocks, at most 64 MB). The snapshot file is
   immutable once opened. Every discovery walk re-reads the same allocation headers, and each uncached read was
   a seek plus a system call. All checks run before the cache is consulted.
-- **Measure with `scripts/bench_validation.py`.** It records wall time, whole-process-tree CPU time and peak
-  commit.
+- **The packaged harness indexes its write overlay** (`validate_packaged_runtime.py` `runtime.read`). Overlay
+  addresses are kept sorted, and a read applies only the entries it touches, joining the pieces once.
+  - Two reasons: a large project makes millions of reads; and rebuilding a 64 KB read once per entry makes
+    near-identical long strings, which this LuaJIT's sampled string hash chains together.
+  - When touched entries overlap each other, the read falls back to the old full scan, so every result is
+    unchanged.
+  - Measured: user-report-full-project went from 31 s to 10 s, and all 186 scenarios gave byte-identical reports.
+- **Tests load the Runtime modules as bytecode** (`tests/support.py` `run`).
+  - The modules only define `package.preload` entries, so they run as their own chunk before the fixture and the
+    body. They keep the same chunk name, so module line numbers read as before.
+  - The bundle is compiled once per content by the same `lua51.dll` and shared between workers in
+    `build/test-cache` (safe to delete).
+  - Measured: 0.25 s → 0.09 s per call.
 - **Prove engine changes with `scripts/capture_migration_fixtures.py`.** It captures same-build, cross-build and
   synthetic migration outputs, and `--compare` checks two captures for equivalence.
 

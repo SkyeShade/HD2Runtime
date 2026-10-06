@@ -1,0 +1,1 @@
+{"format":1,"name":"LiberatorConcussiveFireModeProof","resource":"mods/skyeshade/hd2runtime_liberator_concussive_firemode_proof","guid":"ced61ec2-c139-40cf-8dfd-5f26f3226772","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.28.0","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../sdk","ide_library":"../../sdk/stubs"}

@@ -1,0 +1,58 @@
+{
+ "format": "hd2runtime-custom-stratagems/1",
+ "log": "PelicanGasSupport 0.3.0 BUILD: select Pelican Gas Support in the custom panel, then a mission; call it with LEFT DOWN LEFT RIGHT DOWN RIGHT.",
+ "stratagems": [
+  {
+   "id": "pelican_gas_support",
+   "name": "PELICAN GAS SUPPORT",
+   "name_cased": "Pelican Gas Support",
+   "description": "Calls down a Pelican for close air support. Hovers around the beacon for 90 seconds and assists Helldivers with a gas bombardment, causing confusion and blindness in hit enemies.",
+   "icon": {
+    "image": "pelican_gas_support",
+    "source": "images/pelican_gas_support.png"
+   },
+   "code": [
+    "left",
+    "down",
+    "left",
+    "right",
+    "down",
+    "right"
+   ],
+   "cooldown": 300,
+   "uses": 4,
+   "traits": [
+    "Pelican",
+    "Caustic"
+   ],
+   "carrier": {
+    "beacon": "offensive",
+    "prefer_families": [
+     "orbital"
+    ]
+   },
+   "payload": {
+    "family": "pelican",
+    "hover": 90,
+    "orbit": {
+     "radius": 40,
+     "altitude": 60,
+     "duration": 85
+    },
+    "gun": {
+     "behave_as": "gatling_sentry",
+     "spread": 15,
+     "recoil": false,
+     "unlimited_ammo": true,
+     "face_target": true,
+     "aim_height": 0.7,
+     "rpm": 60,
+     "round": "native",
+     "casing": "own",
+     "impact_explosion": "Gas grenade cloud",
+     "sound": "sentry/gas_mortar"
+    }
+   }
+  }
+ ]
+}

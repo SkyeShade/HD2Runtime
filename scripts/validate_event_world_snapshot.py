@@ -93,6 +93,13 @@ for _,item in ipairs(natives.explosion.named)do
  out.namedExplosions[#out.namedExplosions+1]={name=item.name,type=item.type,
   settings=world_module.explosion_settings(world,item.type)~=nil}
 end
+-- The explosion queue's entries through the production reader (read-only; runtime/custom_silos.lua watches a missile's
+-- own detonation there): the first four slots, filled ones only (a drained queue keeps its stale entries).
+local entries=world_module.explosion_queue(world,4)
+out.queueEntries=entries and{}or nil
+for _,q in ipairs(entries or{})do
+ if q.type~=0 then out.queueEntries[#out.queueEntries+1]={type=q.type,source=q.source}end
+end
 -- What the local player holds (wielder slot 0 + inventory selection), through the production reader.
 local me=handles.local_player()
 local weapon,weapon_why
@@ -131,6 +138,9 @@ return json.encode(out)
 
 def validate(snapshots=SNAPSHOTS):
     results = {}
+    research = json.loads((ROOT / 'research/event-actions-F5FEE03DCFDB.json').read_text(encoding='utf-8'))
+    research_queue = {o['snapshot']: [(e['type'], e['source']) for e in o['staleEntries']]
+        for o in research['observations']}
     for name in snapshots:
         path = build_profile.snapshot_directory() / name
         report = json.loads(snapshot_regions.run_lua(BODY, path))
@@ -179,7 +189,14 @@ def validate(snapshots=SNAPSHOTS):
                     6, 9592, 13, 1721, 29097, 300):
                 problems.append('per-source hits and damage')
         if not all(item['settings'] for item in report['namedExplosions']):
-            problems.append('Hellbomb explosion settings missing')
+            problems.append('named explosion settings missing')
+        # The production queue reader agrees with the research's own read of the same snapshot (its stale R-36
+        # Eruptor requests: type 158, the Eruptor weapon entity as the source).
+        stale = research_queue.get(name)
+        if report.get('queueEntries') is None:
+            problems.append('explosion queue entries unreadable')
+        elif stale is not None and [(q['type'], q['source']) for q in report['queueEntries']] != stale:
+            problems.append('explosion queue entries differ from the research')
         if report['statusQueue'] is None:
             problems.append('status queue unreadable')
         if phase == 'alive':

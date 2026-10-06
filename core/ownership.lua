@@ -26,12 +26,23 @@ local function decoded(bytes,storage)
     return'0x'..b.hex(bytes)
 end
 -- The conflict names the target, the reviewed expect, the desired value and what was observed, and the field's
--- sharing scope, so a log shows which writer and which value collided. The rule itself is unchanged.
+-- sharing scope, so a log shows which writer and which value collided. It also names the HD2Runtime operation (mod
+-- and operation id) holding the observed bytes, or says none applied them, and every other catalogued target that
+-- uses the same native record (core/shared_records.lua). The rule itself is unchanged.
+local function shared_records()
+    local ok,module=pcall(require,'hd2runtime/core/shared_records')
+    return ok and module or nil
+end
 function M.describe(change,current,context)
     local descriptor=change.descriptor or{}
     local storage=(descriptor.backing or{}).storage
+    local records=shared_records()
     local parts={}
-    if context and context.target then parts[#parts+1]='target '..context.target end
+    if context and context.target then parts[#parts+1]='target '..context.target
+    elseif records then
+        local ok,name=pcall(records.describe,descriptor)
+        if ok and name then parts[#parts+1]='target '..name end
+    end
     parts[#parts+1]='expected '..text(change.expect)..' ('..decoded(change.expected,storage)..')'
     parts[#parts+1]='desired '..text(change.value)..' ('..decoded(change.desired,storage)..')'
     parts[#parts+1]='observed '..decoded(current,storage)
@@ -40,6 +51,10 @@ function M.describe(change,current,context)
         parts[#parts+1]='scope '..tostring(descriptor.writeScope or'unknown')
             ..(descriptor.affectsMultipleWeapons and(', shared with '..#(descriptor.sharedWithWeapons or{})
                 ..' other weapons')or'')
+    end
+    if records then
+        local ok,text=pcall(records.conflict_text,descriptor,current)
+        if ok and text~=''then parts[#parts+1]=text end
     end
     return table.concat(parts,'; ')
 end

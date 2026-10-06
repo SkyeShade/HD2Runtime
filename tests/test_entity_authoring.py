@@ -53,16 +53,18 @@ class EntityAuthoringTests(unittest.TestCase):
         self.assertEqual(summary['mountRecordsSurveyed'], 163)
         self.assertEqual(summary['swappableMountSlots'], 18)
         self.assertEqual(summary['nonWeaponMountSlots'], 4)
+        # + 19 vehicle tuning fields read by native code (Exosuit body rotation, steering; scripts/vehicle_tuning_fields.py).
         self.assertEqual(summary['writableByTier'], {'gameplay_proven': 64, 'schema_proven': 636,
-            'live_write_verified': 2, 'structural_reference': 16})
+            'native_consumer_proven': 19, 'live_write_verified': 2, 'structural_reference': 16})
         backpack = self.backpacks['summary']
         # 13 call-in backpacks plus 3 weapon-fed backpacks that store support weapon ammunition.
         self.assertEqual(backpack['backpacks'], 16)
         self.assertEqual(backpack['rackChainsResolved'], 16)
         self.assertEqual(backpack['weaponFedBackpacks'], 3)
-        self.assertEqual(backpack['writableFieldInstances'], 71)
+        # + 26 jump / hover movement fields read by the flight code (scripts/jump_hover_fields.py).
+        self.assertEqual(backpack['writableFieldInstances'], 97)
         self.assertEqual(backpack['writableByTier'], {'gameplay_proven': 2, 'schema_proven': 35,
-            'native_correlated': 34})
+            'native_correlated': 34, 'native_consumer_proven': 26})
 
     def test_semantic_identities_are_unique_and_stable(self):
         for collection in (self.vehicles['vehicles'], self.backpacks['backpacks'], self.vehicles['mountedWeapons']):
@@ -148,11 +150,13 @@ class EntityAuthoringTests(unittest.TestCase):
             (15.0, True, 'gameplay_proven'))
         launch = self.field('backpack', 'LIFT-850 Jump Pack', 'jump.vertical_launch_velocity')
         self.assertTrue(launch['editable'])
-        # Proven on the Jump Pack; whether the Hover Pack launch reads it is the HoverPackTest question.
+        # Proven on the Jump Pack. The Hover Pack's activation skips the launch thrust (hover-launch flag): the
+        # field stays writable for compatibility, with a one-time dormant notice.
         hover = self.field('backpack', 'LIFT-860 Hover Pack', 'jump.vertical_launch_velocity')
         self.assertTrue(hover['editable'])
         self.assertEqual(hover['acknowledgement'], 'allow_unverified_effect')
         self.assertIn('Hover Pack', hover['acknowledgementReason'])
+        self.assertEqual([notice['kind'] for notice in hover['notices']], ['dormant'])
         self.assertEqual(self.field('backpack', 'LIFT-860 Hover Pack', 'recharge.time')['evidence']['tier'],
             'schema_proven')
         # Guard Dog drone magazines: exact published values on all five (research/equipment-coverage); the Supply

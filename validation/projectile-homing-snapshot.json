@@ -1,0 +1,190 @@
+{
+  "checks": [
+    {
+      "check": "every homing and pool pin proves",
+      "ok": true
+    },
+    {
+      "check": "a mission snapshot",
+      "ok": true
+    },
+    {
+      "check": "the projectile pool is readable",
+      "ok": true
+    },
+    {
+      "check": "the local avatar resolves",
+      "ok": true
+    },
+    {
+      "check": "the local player holds a weapon",
+      "ok": true
+    },
+    {
+      "check": "the weapon in hand is a homing weapon",
+      "detail": "B6AFF2195568767F",
+      "ok": true
+    },
+    {
+      "check": "the avatar has a position",
+      "ok": true
+    },
+    {
+      "check": "hd2.projectiles.homing accepts the weapon",
+      "ok": true
+    },
+    {
+      "check": "the enemy scan finished a pass",
+      "ok": true
+    },
+    {
+      "check": "living catalogued enemies are listed with positions",
+      "detail": 29,
+      "ok": true
+    },
+    {
+      "check": "an enemy within 400 m",
+      "ok": true
+    },
+    {
+      "check": "the planted shot is followed",
+      "detail": "{\"counter\":331,\"log\":[\"[HD2Runtime] projectile homing (validation): R-36 Eruptor shots (projectile type 40) home on enemies: turn 90 deg/s, cone 60 deg, range 400 m, armed after 2 m, solo only\",\"[HD2Runtime] homing (validation: R-36 Eruptor): R-36 Eruptor shot in pool slot 331 locked on shrieker at 43.7 m (enemy; turn 90 deg/s)\",\"[HD2Runtime] homing (validation: R-36 Eruptor): first steering write: pool slot 331 velocity turned 1.50 deg toward shrieker (1 write, 12 bytes; non-target bytes unchanged true; protection restored true; speed kept 200.0 m/s)\"],\"players\":1,\"slot\":331,\"stats\":{\"locks\":1,\"no_target\":0,\"other_sources\":0,\"others\":0,\"refused\":{},\"shots\":1,\"steered\":0,\"writes\":1},\"types\":[{\"slot\":331,\"type\":40}]}",
+      "ok": true
+    },
+    {
+      "check": "it locked on a target",
+      "ok": true
+    },
+    {
+      "check": "one guarded transaction wrote the velocity",
+      "detail": 1,
+      "ok": true
+    },
+    {
+      "check": "no page protection changed",
+      "detail": 0,
+      "ok": true
+    },
+    {
+      "check": "the speed is kept",
+      "detail": 200.00000587237727,
+      "ok": true
+    },
+    {
+      "check": "turned exactly turn_rate x dt toward the aim point",
+      "detail": 4.203207291951747e-08,
+      "ok": true
+    },
+    {
+      "check": "nothing else of the flight record changed",
+      "ok": true
+    },
+    {
+      "check": "the hit, source, type and flag records are unchanged",
+      "ok": true
+    },
+    {
+      "check": "it converges on the aim point and stops writing",
+      "detail": 1.7075472925031877e-06,
+      "ok": true
+    },
+    {
+      "check": "in about 20 / (90 x dt) updates",
+      "detail": 12,
+      "ok": true
+    },
+    {
+      "check": "no write once on target",
+      "ok": true
+    },
+    {
+      "check": "a shot whose distance went backwards is dropped",
+      "ok": true
+    },
+    {
+      "check": "another peer's shot: not steered",
+      "ok": true
+    },
+    {
+      "check": "counted as not this player's",
+      "ok": true
+    },
+    {
+      "check": "a unit-driven shot: not steered",
+      "ok": true
+    },
+    {
+      "check": "refused UNIT_DRIVEN",
+      "ok": true
+    },
+    {
+      "check": "the same type from another entity: not steered",
+      "ok": true
+    },
+    {
+      "check": "counted as another weapon's",
+      "ok": true
+    },
+    {
+      "check": "no target inside the cone: followed, not written",
+      "ok": true
+    },
+    {
+      "check": "the same mod reconfigures the weapon",
+      "ok": true
+    },
+    {
+      "check": "friendly, solo: followed, no target, no write",
+      "ok": true
+    },
+    {
+      "check": "another mod is refused ALREADY_HOMING",
+      "ok": true
+    },
+    {
+      "check": "a changed pin: nothing followed, nothing written",
+      "ok": true
+    },
+    {
+      "check": "and the log says homing is unavailable",
+      "ok": true
+    }
+  ],
+  "convergence": {
+    "residualDegrees": 1.7075472925031877e-06,
+    "speed": 199.99999211511923,
+    "updates": 12
+  },
+  "enemies": 29,
+  "firstTurnDegrees": 1.5,
+  "locked": {
+    "entity": 631,
+    "name": "shrieker"
+  },
+  "log": [
+    "[HD2Runtime] projectile homing (validation): R-36 Eruptor shots (projectile type 40) home on enemies: turn 90 deg/s, cone 60 deg, range 400 m, armed after 2 m, solo only",
+    "[HD2Runtime] homing (validation: R-36 Eruptor): R-36 Eruptor shot in pool slot 331 locked on shrieker at 43.7 m (enemy; turn 90 deg/s)",
+    "[HD2Runtime] homing (validation: R-36 Eruptor): first steering write: pool slot 331 velocity turned 1.50 deg toward shrieker (1 write, 12 bytes; non-target bytes unchanged true; protection restored true; speed kept 200.0 m/s)",
+    "[HD2Runtime] homing (validation: R-36 Eruptor): shot in pool slot 331 done after 0.25 s: 12 writes, its slot was reused",
+    "[HD2Runtime] homing (validation: R-36 Eruptor): R-36 Eruptor shot in pool slot 333 flies straight: UNIT_DRIVEN: a unit drives this projectile (its velocity is recomputed from the unit)",
+    "[HD2Runtime] projectile homing (validation): R-36 Eruptor shots (projectile type 40) home on other players: turn 90 deg/s, cone 60 deg, range 400 m, armed after 2 m, solo only",
+    "[HD2Runtime] projectile homing (another-mod) refused: ALREADY_HOMING: R-36 Eruptor shots already home for validation",
+    "[HD2Runtime] homing (validation: R-36 Eruptor): stopped: projectile 40: 1 own shot seen, 0 steered (0 writes, 0 locks, 1 acquisitions without a target), 0 not this player's and 0 from another weapon untouched",
+    "[HD2Runtime] projectile homing (validation): R-36 Eruptor shots (projectile type 40) home on enemies: turn 90 deg/s, cone 30 deg, range 100 m, armed after 2 m, solo only",
+    "[HD2Runtime] homing UNAVAILABLE: every homing shot flies straight: native projectile update changed (impact handler: each projectile system at game+B9E115)"
+  ],
+  "mode": "snapshot-overlay",
+  "nearest": {
+    "distance": 36.000194175172126,
+    "name": "shrieker"
+  },
+  "pins": 53,
+  "protectionChanges": 0,
+  "snapshot": "F5FEE03DCFDB-20260929T172918Z-mission-host-alive.hd2snap",
+  "status": "VALIDATED",
+  "weapon": "R-36 Eruptor",
+  "weaponTypes": [
+    40
+  ],
+  "writes": 12
+}

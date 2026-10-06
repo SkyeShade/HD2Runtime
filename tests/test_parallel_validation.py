@@ -114,8 +114,9 @@ class PackagedRuntimeJobsTests(unittest.TestCase):
         import build_release
         import validate_packaged_runtime as packaged
         scenarios = ['player-weapon-patch', 'booster-coverage', 'options-live', 'vehicle-weapon-tank']
+        # Named with the version it packages: the validator checks the artifact name (prerelease names included).
         with tempfile.TemporaryDirectory(dir=ROOT / 'build') as folder:
-            runtime_zip = build_release.build_runtime('0.0.0-test', folder=folder)
+            runtime_zip = build_release.build_runtime((ROOT / 'VERSION').read_text().strip(), folder=folder)
             serial = packaged.validate(runtime_zip, scenarios=scenarios, jobs=1)
             wide = packaged.validate(runtime_zip, scenarios=scenarios, jobs=4)
         self.assertEqual(json.dumps(serial, sort_keys=True), json.dumps(wide, sort_keys=True))

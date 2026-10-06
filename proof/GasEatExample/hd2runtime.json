@@ -1,0 +1,1 @@
+{"format":1,"name":"GasEatExample","resource":"mods/skyeshade/hd2runtime_gas_eat_example","guid":"d7851271-e7b7-42b5-b455-cc93990e0b61","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.30.0-dev","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../sdk","ide_library":"../../sdk/stubs"}

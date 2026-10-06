@@ -127,7 +127,7 @@
       "passed": true
     },
     {
-      "detail": "[string \"hd2runtime/domains/stratagem_writes\"]:89: field is read-only: stratagem.max_uses (On Eagle stratagems the same native field is uses per rearm (eagle.uses_per_rearm); Eagles have no separate mission-use limit.)",
+      "detail": "[string \"hd2runtime/domains/stratagem_writes\"]:158: field is read-only: stratagem.max_uses (On Eagle stratagems the same native field is uses per rearm (eagle.uses_per_rearm); Eagles have no separate mission-use limit.)",
       "name": "read-only capabilities stay read-only",
       "passed": true
     },

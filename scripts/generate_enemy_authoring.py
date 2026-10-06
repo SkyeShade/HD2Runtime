@@ -25,6 +25,7 @@ import live_evidence  # noqa: E402  central in-game test evidence (schemas/live_
 ROOT = Path(__file__).resolve().parents[1]
 RESEARCH = ROOT / 'research/enemy-authoring-F5FEE03DCFDB.json'
 ATTACKS = ROOT / 'research/enemy-attacks-F5FEE03DCFDB.json'
+GIB = ROOT / 'research/enemy-gib-threshold-F5FEE03DCFDB.json'
 FIELDS = ROOT / 'schemas/enemy_fields.json'
 LUA_OUTPUT = ROOT / 'domains/enemy_authoring.lua'
 JSON_OUTPUT = ROOT / 'sdk/EnemyAuthoringCapabilities.json'
@@ -45,7 +46,28 @@ RANGES = {'entity.health': (1, 10000000), 'zone.health': (1, 10000000), 'entity.
     'damage.demolition': (0, 1000), 'damage.stagger': (0, 1000), 'damage.push_force': (0, 1000),
     'projectile.velocity': (1, 5000), 'projectile.mass': (0, 1000000), 'projectile.drag': (0, 10),
     'projectile.gravity': (0, 10), 'projectile.pellet_count': (1, 64), 'explosion.inner_radius': (0, 50),
-    'explosion.outer_radius': (0, 50), 'explosion.shockwave_radius': (0, 50)}
+    'explosion.outer_radius': (0, 50), 'explosion.shockwave_radius': (0, 50),
+    'gore.whole_body_gib_damage': (-1, 100000)}
+# The whole-body gib ("splootch") threshold (research/enemy-gib-threshold-F5FEE03DCFDB.json): GoreGroupInfo +0 of the
+# class's first whole-body gore group (+866 set), in its own GoreComponentData record. The gore evaluator (0x9057D0)
+# compares the killing hit's final damage (Electricity doubled) with it on every evaluated hit, read from the shared
+# loaded table: a write reaches enemies already alive. -1 disables bursting; otherwise 0 < value <= 100000. The
+# largest vanilla DamageInfo damage is 10000, so even an Electricity (x2) critical (x1.5) hit stays below 100000.
+GORE_FIELD, GORE_COMPONENT, GORE_DISABLED = 'gore.whole_body_gib_damage', 'GoreComponentData', -1
+# Eligible classes: every Terminid whose whole-body group is enabled, plus the Hive Guard (same Warrior anatomy, the
+# group shipped disabled at -1). Other disabled whole-body groups (dragon, observer, tank turrets) are not offered:
+# the whole-body action on them has never run in vanilla.
+GORE_DISABLED_ELIGIBLE = {'warrior_plus'}
+GORE_UNVERIFIED = ('The whole-body gib threshold is proven offline (pinned gore evaluator code, the class\'s own '
+    'GoreComponent record re-proven before every write, research/enemy-gib-threshold-F5FEE03DCFDB.json), but its '
+    'in-game effect is not yet live-confirmed.')
+GORE_SEMANTICS = ('Final damage of a killing hit (or a hit that kills the damage zone it lands on) at or above which '
+    'the enemy bursts into gibs: the damage after armor, the zone damage multiplier, the durable mix, element and '
+    'relation multipliers and the zone health cap; Electricity counts double. -1 disables bursting. Units: damage '
+    'points. Hits on a limb that owns a gore group of its own use that limb\'s sever threshold instead (not '
+    'authored).')
+GORE_LIFECYCLE = ('ACTIVE_DIRECT: read at hit time from the shared loaded GoreComponentData table, so a write '
+    'affects enemies of the class that are already alive as well as later spawns. Per-class record, no sharing.')
 # Enemy attacks: the DamageInfo rows a class's mounted weapons reach (research/enemy-attacks-*.json). Global settings
 # rows, so every write needs allow_shared; the members are the ones player weapons use, but their effect on enemy
 # attacks is not live-confirmed, so every write also needs allow_unverified_effect.
@@ -220,8 +242,29 @@ def slug(value: str) -> str:
     return re.sub(r'[^a-z0-9]+', '_', value.lower()).strip('_')
 
 
+def gore_field(gib_class):
+    """The whole-body gib threshold field for an eligible class, or None (research/enemy-gib-threshold)."""
+    gore = gib_class['gore']
+    eligible = gib_class['verdict'] == 'WHOLE_BODY_GIB' or (gib_class['verdict'] == 'WHOLE_BODY_DISABLED'
+        and gib_class['className'] in GORE_DISABLED_ELIGIBLE)
+    if not eligible:
+        return None
+    group = gore['wholeBodyGroup']
+    if gib_class['faction'] != 'terminids' or group['actors'] != ['boss'] or not gore['uniqueOwner']:
+        raise ValueError('unreviewed whole-body gore anatomy: ' + gib_class['className'])
+    value = group['destroyThreshold']
+    if value != GORE_DISABLED and not 0 < value <= RANGES[GORE_FIELD][1]:
+        raise ValueError(f"{gib_class['className']} whole-body threshold {value} outside reviewed range")
+    return {'id': GORE_FIELD, 'path': 'entity', 'currentDefault': value, 'editable': True,
+        'backing': {'component': GORE_COMPONENT, 'recordIndex': gore['recordIndex'], 'indexRow': gore['indexRow'],
+            'ownerCount': gore['ownerCount'], 'uniqueOwner': gore['uniqueOwner'],
+            'offset': group['recordOffset'] + 0, 'storage': 'f32', 'width': 4, 'goreGroup': group['index'],
+            'guards': [{'offset': g['offset'], 'hex': g['hex']} for g in group['guards']]}}
+
+
 def outputs():
     research = json.loads(RESEARCH.read_text(encoding='utf-8'))
+    gib = {item['className']: item for item in json.loads(GIB.read_text(encoding='utf-8'))['classes']}
     attack_research = json.loads(ATTACKS.read_text(encoding='utf-8'))
     attack_classes = {item['className']: item for item in attack_research['classes']}
     users = row_users(attack_research['classes'])
@@ -233,7 +276,9 @@ def outputs():
         low, high = RANGES[field_id]
         runtime_schema[field_id] = {'type': item['type'], 'storage': item['storage'], 'min': low, 'max': high,
             'acknowledgement': None if field_id in PROVEN else 'allow_unverified_effect',
-            **({'shared': True} if field_id in SETTINGS_FIELDS else {})}
+            **({'shared': True} if field_id in SETTINGS_FIELDS else {}),
+            **({'disabledValue': GORE_DISABLED, 'acknowledgementReason': GORE_UNVERIFIED}
+               if field_id == GORE_FIELD else {})}
     enemies, aliases, public_classes, instances = {}, {}, [], []
     live, gated = live_by_field(), structure_gate()
     for item in sorted(research['classes'], key=lambda c: c['className']):
@@ -279,6 +324,9 @@ def outputs():
             raise ValueError('attack research disagrees with the enemy identity: ' + item['className'])
         mount = (attack_classes.get(item['className']) or {}).get('mount')
         fields += attack_fields
+        gore = gore_field(gib[item['className']])
+        if gore:
+            fields.append(gore)
         health = item['health']
         enemies[name] = {'name': name, 'className': item['className'], 'wikiName': item['wikiName'],
             'kind': item['kind'], 'faction': item['faction'], 'semanticId': semantic,
@@ -302,6 +350,8 @@ def outputs():
                 target['attack'] = field['attack']
             identity = ':'.join(str(target.get(k, '')) for k in ('enemy', 'path', 'zone'))
             object_key = 'backing:' + digest({'enemy': semantic, 'component': COMPONENT})
+            if field['id'] == GORE_FIELD:
+                object_key = 'backing:' + digest({'enemy': semantic, 'component': GORE_COMPONENT})
             if field.get('attack'):
                 identity = ':'.join((name, 'attack', field['attack']))
                 object_key = 'backing:' + digest({'settings': field['backing']['settings'],
@@ -315,6 +365,10 @@ def outputs():
                     sharedConsumers=attack['reviewedClassesReachingRow'], dynamicConsumersPossible=True)
             if field.get('reason'):
                 instance['reason'] = field['reason']
+            if field['id'] == GORE_FIELD:
+                instance.update(backingObjectId=object_key, effect={'activeSource': 'ACTIVE_DIRECT',
+                    'appliesTo': 'enemies already alive and later spawns (read at hit time)'},
+                    disabledValue=GORE_DISABLED)
             if field['id'] in live and item['kind'] in (live[field['id']][1] or [item['kind']]) and field['editable']:
                 instance['liveEvidence'] = live[field['id']][0]
             if item['kind'] == 'structure' and field['id'] in gated and field['editable']:
@@ -352,6 +406,7 @@ def outputs():
         attacks=sum(len(c['attacks']) for c in public_classes),
         classesWithAttacks=sum(1 for c in public_classes if c['attacks']),
         attackFieldInstances=sum(1 for i in instances if i['target']['path'] == 'attack'),
+        goreFieldInstances=sum(1 for i in instances if i['semanticFieldId'] == GORE_FIELD),
         attacksNamedForClass=sum(1 for c in public_classes for a in c['attacks'] if a['wikiAttacks']),
         attacksWithRowWikiMatch=sum(1 for c in public_classes for a in c['attacks'] if a['rowWikiMatches']),
         attackResearch=attack_research['summary'])
@@ -367,8 +422,12 @@ def outputs():
             'fields': {field_id: {'displayName': item['display_name'], 'type': item['type'], 'unit': item.get('unit'),
                 'apiFieldConstant': API_CONSTANTS.get(field_id, 'hd2.fields.' + field_id),
                 'acknowledgement': runtime_schema[field_id]['acknowledgement'],
-                'acknowledgementReason': None if field_id in PROVEN else (ATTACK_UNVERIFIED if field_id in SETTINGS_FIELDS else UNVERIFIED),
-                'evidence': 'gameplay_proven_member' if field_id in PROVEN else ('mount_chain_structural' if field_id in SETTINGS_FIELDS else 'schema_wiki_correlated'),
+                'acknowledgementReason': None if field_id in PROVEN else (ATTACK_UNVERIFIED if field_id in SETTINGS_FIELDS
+                    else GORE_UNVERIFIED if field_id == GORE_FIELD else UNVERIFIED),
+                'evidence': 'gameplay_proven_member' if field_id in PROVEN else ('mount_chain_structural' if field_id in
+                    SETTINGS_FIELDS else 'native_code_proven' if field_id == GORE_FIELD else 'schema_wiki_correlated'),
+                **({'semantics': GORE_SEMANTICS, 'lifecycle': GORE_LIFECYCLE, 'disabledValue': GORE_DISABLED,
+                    'valueRule': '-1, or 0 < value <= 100000', 'research': GIB.name} if field_id == GORE_FIELD else {}),
                 **({'liveEvidence': dict(live[field_id][0], appliesToKinds=live[field_id][1])} if field_id in live else {}),
                 **({'acknowledgementByKind': {'structure': 'allow_unverified_effect'}} if field_id in gated else {}),
                 'range': [runtime_schema[field_id]['min'], runtime_schema[field_id]['max']]}
@@ -389,7 +448,16 @@ def outputs():
                     'chains reach the row, and other native users (player or neutral weapons) are possible, so '
                     'writes need allow_shared',
                 'acknowledgement': 'allow_unverified_effect (a change to an enemy attack is not live-confirmed)'},
-            'appliesTo': 'entities spawned after the write; already-spawned enemies keep their current health'},
+            'appliesTo': 'health, armor and zone fields: entities spawned after the write (already-spawned enemies '
+                'keep their current health); gore.whole_body_gib_damage: read at hit time, so enemies already alive '
+                'follow it too',
+            'gore': {'field': GORE_FIELD, 'target': 'hd2.enemy(name) (path entity)',
+                'eligibleClasses': 'Terminids with an enabled whole-body gore group, plus the Hive Guard (disabled, '
+                    '-1, in vanilla)',
+                'identity': 'the class\'s own GoreComponentData record (unique owner) and its first whole-body '
+                    'group: record ownership, the group\'s whole-body flag, its actor list and every earlier '
+                    'group\'s cleared flag are re-proven before every write, so a write never lands on a limb group',
+                'research': 'research/enemy-gib-threshold-F5FEE03DCFDB.json'}},
         'unresolvedWikiPages': research['unresolvedWikiPages'], 'classes': public_classes,
         'fieldInstances': instances,
         'safety': {'runtimeAddresses': False, 'rawResourceIdentifiers': False, 'writesDuringGeneration': 0}}

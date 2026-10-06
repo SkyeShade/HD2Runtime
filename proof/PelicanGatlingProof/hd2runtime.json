@@ -1,0 +1,1 @@
+{"format":1,"name":"PelicanGatlingProof","resource":"mods/skyeshade/hd2runtime_pelican_gatling_proof","guid":"11603a5f-0069-495d-adc4-fe063494bfe4","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.28.0","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../sdk","ide_library":"../../sdk/stubs"}

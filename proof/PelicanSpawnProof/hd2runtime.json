@@ -1,0 +1,1 @@
+{"format":1,"name":"PelicanSpawnProof","resource":"mods/skyeshade/hd2runtime_pelican_spawn_proof","guid":"eddce625-8128-4b49-9cbe-6dc3fc3c5aa5","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.28.0","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../sdk","ide_library":"../../sdk/stubs"}

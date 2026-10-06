@@ -1,7 +1,7 @@
 {
   "contract": "hd2runtime.weapon.fire_modes.v1",
   "schemaVersion": 1,
-  "hd2RuntimeVersion": "0.28.0",
+  "hd2RuntimeVersion": "0.30.0-dev",
   "nativeModel": {
     "modeSet": "four packed FireMode slots at +144; slot 1 is the default mode",
     "burst": "num_burst_rounds (+140), weapon-wide",

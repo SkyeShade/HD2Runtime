@@ -1,0 +1,41 @@
+{
+  "format": "hd2runtime-custom-stratagems/1",
+  "stratagems": [
+    {
+      "id": "eat17_gas",
+      "name": "EAT-17G GAS EXPENDABLE ANTI-TANK",
+      "name_cased": "EAT-17G Gas Expendable Anti-Tank",
+      "description": "Drops two expendable launchers whose rockets burst into the Orbital Gas Strike's gas cloud on impact.",
+      "icon": {
+        "image": "eat17_gas",
+        "source": "images/eat17_gas.png"
+      },
+      "code": [
+        "down",
+        "down",
+        "right",
+        "up",
+        "right"
+      ],
+      "cooldown": 70,
+      "carrier": {
+        "beacon": "support",
+        "prefer_families": [
+          "support",
+          "backpack"
+        ]
+      },
+      "payload": {
+        "family": "support",
+        "items": [
+          {
+            "donor": "EAT-17 Expendable Anti-Tank",
+            "modify": {
+              "impact_explosion": "Orbital Gas Strike"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

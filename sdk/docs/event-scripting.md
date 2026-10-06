@@ -176,11 +176,18 @@ a callback still runs in the same mission.
 | Action | API | Limits |
 | --- | --- | --- |
 | Heal the local player | `hd2.actions.heal(amount)`, `player:heal(amount)` | Local player, alive and not downed; clamped to maximum health; the game's own heal. |
+| Injure a limb of the local player | `hd2.actions.injure(player, limb, damage)`, `player:injure(limb, damage)` | Local player only (no host needed), alive and not downed, in a mission; the game's own damage request at the limb (the VG-70 Variable's self-damage path). Not live-tested. |
+| Heal a limb of the local player | `hd2.actions.heal_limb(player, limb)`, `hd2.actions.heal_limbs(player)` | Local player only, alive and not downed, in a mission; the game's own zone restore: the limb back to full (no partial limb heal exists). Not live-tested. |
+| Push the local player | `hd2.actions.add_velocity(player, {x, y, z})` | Local player only, alive and not downed, in a mission; the game's own movement velocity setter; at most 25 m/s per change. What ground movement does with it is not proven. Not live-tested. |
+| Use the worn Supply Pack | `hd2.actions.resupply_from_pack(player)`, `player:resupply_from_pack()` | Local player only, alive and not downed, in a mission; the pack's own self-use ability through the game's own action start (one supply, the game's refill); refused when nothing takes ammunition. Not live-tested. See [player-equipment.md](player-equipment.md). |
 | Change a definition | `mod:value(spec)` bound to `hd2.ensure` | Changes the shared definition (every user of it), re-applied about half a second later. |
 | Explosion | `hd2.explosions.spawn(name, {position = ...})` | The Hellbombs and the catalogued weapon explosions; host only; in a mission; credited to the local player. |
 | Projectile | `hd2.projectiles.spawn(weapon, {position = ..., direction = ...})` | Catalogued weapon projectiles; host only; in a mission; fired and credited by the local player. |
+| Homing shots | `hd2.projectiles.homing(weapon, {target = 'enemy' or 'friendly', turn_rate = ...})` | The local player's own shots of a weapon (173 named in `hd2.projectiles.homing_list()`) turn toward an enemy or another player in flight; one guarded write of each shot's own velocity per update; solo unless `multiplayer = true` (experimental). Not live-tested. See [projectile-homing.md](projectile-homing.md). |
+| Enemy spawn mix | `hd2.enemies.spawn_weight(enemy, multiplier, {allow_unverified_effect = true})` | Scales an enemy type's weight in the game's spawn rosters: 0 = never picked, k = k times as likely within the groups it shares; not how many spawn. The host's rosters decide; a weight never goes from 0 to positive during a mission. Not live-tested. See [enemy-spawns.md](enemy-spawns.md). |
 | Status effect | `hd2.status.apply(entity, status, {buildup = ...})` | Statuses a player weapon applies; buildup, not strength; host only; in a mission. |
-| Spawn an entity | none | Blocked: the generic spawn's parameters and network replication are not proven (Runtime does not guess them). |
+| Pelican | `hd2.pelican.spawn({position = ..., hover = ...})` | The game's transport Pelican, empty; hovers over the position, held per instance; host only; in a mission; at most 4. |
+| Spawn an entity | none | Blocked: the generic spawn's parameters and network replication are not proven (Runtime does not guess them). Only the transport Pelican is spawned (`hd2.pelican`). |
 
 Every action belongs to the calling mod, carries a cause (the event it reacted to), and is refused past four
 mod-caused links. A refusal never raises: the returned handle has `status = 'refused'`, a `code` and a `reason`.
@@ -194,8 +201,9 @@ if action.status == 'refused' then mod:log(action.code .. ': ' .. action.reason)
 
 - The explosion is the game's own: `hd2.explosions.spawn` calls the game's explosion request with the same arguments
   its own callers pass, for an explosion type proven against the game's settings table. `hd2.explosions.list()`
-  names the 15 catalogued explosions:
-  - two named explosions, `'Hellbomb'` (the NUX-223 Hellbomb detonation) and `'B-100 Portable Hellbomb'`;
+  names the 16 catalogued explosions:
+  - three named explosions, `'Hellbomb'` (the NUX-223 Hellbomb detonation), `'B-100 Portable Hellbomb'` and
+    `'Cyborg Production Unit'` (the Halt Cyborg Production objective's self-destruct);
   - the 13 weapon explosions, selected by a weapon name or `hd2.explosions.of(weapon)`.
 
   Raw ids, unknown names and weapons without a catalogued explosion are refused (`UNKNOWN_EXPLOSION`).
@@ -214,6 +222,13 @@ if action.status == 'refused' then mod:log(action.code .. ': ' .. action.reason)
   literal in the Hellbomb's behavior, and Runtime re-proves it at startup. It is live-proven on host (a death
   detonated it at the saved position); the B-100 Portable Hellbomb and the weapon explosions are not live-tested. Type 242 is also used by some mission
   objectives: requesting it is safe, but editing its settings would change them too.
+- `'Cyborg Production Unit'` is the production unit's self-destruct (ExplosionType 293, 50 / 100 / 100 m, 10000
+  damage, demolition 60: the Hellbomb's, four times its radius). Its type is a code literal of the objective's ability
+  (AbilityId 906, at tick 1800), re-proven at startup with the ability explosion wrapper that carries it to the
+  request. Its effect and its sound ship only in Automaton objective packages: an effect package (the whole production
+  unit, about 217 MB) and an audio package (about 81 MB). Both must be resident before it is requested (its list entry
+  says `objective = true`); `hd2.explosions.prepare` loads them. It kills Helldivers within its radius too. Not
+  live-tested.
 
 ### Projectiles
 
@@ -236,6 +251,48 @@ hd2.projectiles.spawn('R-36 Eruptor', {position = {x = p.x, y = p.y, z = p.z + 2
 - No network send was found: other players may not see the projectile itself, only its results.
 - Live-proven on host for the R-36 Eruptor only.
 - At most 12 at once and 4 per second per mod (`RATE_LIMITED`).
+
+### Pelicans
+
+```lua
+local mod = hd2.mod()
+local p = hd2.local_player():position()
+local pelican = hd2.pelican.spawn({position = {x = p.x + 25, y = p.y, z = p.z}, hover = 60, on_event = function(e)
+    mod:log('pelican ' .. e.kind)
+end})
+```
+
+- The Pelican is the game's own transport Pelican (the one a vehicle call-in sends), **empty**: no vehicle, nothing
+  attached, associated with nothing. `hd2.pelican.spawn` calls the game's existing spawn request with the descriptor
+  the game's beacon dispatcher builds for a vehicle's Pelican, minus the vehicle: a copy of the game's default spawn
+  context (no cargo, no associated entity) whose only set member is the hover **anchor**, as a beacon sets it for a
+  vehicle drop. Nothing is patched or hooked, and no other entity can be spawned this way.
+- `position` is the anchor: the game keeps it in the Pelican's own drop-position record, and its flight hovers over it
+  (at a height and free spot of its own). It does not follow anyone.
+- `approach` (`{distance, height}`): where it is created, `distance` metres back from `position` along its heading
+  (default 250, 0 to 1000) and `height` metres up (default 80, 0 to 500). It flies in from there. The handle's
+  `spawn_point` says where that was.
+- `hover` (0 to 120 s): the Runtime holds it that many seconds after its release, with one guarded write of that
+  Pelican's own release time. Then it leaves and disappears as the game makes it (about 14 s). Without `hover` it leaves
+  right after its release.
+- `facing` (`{x, y}`): its heading when created. By default, from the local player toward `position`.
+- `gun` (development): its chin gun's own configuration ([custom-stratagem-api.md](custom-stratagem-api.md), *Pelican
+  gunship*), including `sound`, a firing sound of the catalogue `hd2.sounds` ([weapon-sounds.md](weapon-sounds.md)).
+- The call is made by the Runtime in its next update, on the game thread. The handle's `status` follows the Pelican:
+  `requested`, `arriving`, `hovering`, `released`, `held`, `departing`, `gone`; or `refused` / `unverified` with a
+  `code` and `reason`. `on_event(event)` sees every step, run as your mod. `pelican:state()` reads it now, including
+  the `anchor` its record holds.
+- Refused (`code`) unless: the game build is the researched one (`UNSUPPORTED_BUILD`), the game is in a mission
+  (`NOT_IN_MISSION`) and you are the host (`HOST_ONLY`), the world's default spawn context is the game's neutral one
+  (`CONTEXT_UNEXPECTED`), the Pelican's entity is loaded (`PELICAN_UNAVAILABLE`), the position and the spawn point are
+  finite world coordinates (`INVALID_POSITION`, `INVALID_APPROACH`), and fewer than 4 Runtime Pelicans are alive
+  (`PELICAN_LIMIT`). At most 4 at once and one every 4 s per mod (`RATE_LIMITED`).
+- After the call the Runtime checks the entity is a transport Pelican with no cargo, its flight, and the anchor in its
+  drop-position record; otherwise the handle is `unverified` (the entity may exist; nothing more is written to it).
+- Other players: the Pelican is created as the game creates its own; whether they see it, and the hold, is not
+  live-tested yet.
+- Live: the empty spawn, the 60 s hold and the departure are live-proven (PelicanSpawnProof 0.1.0, solo host). The
+  anchor (where it hovers) is not live-tested yet (PelicanSpawnProof 0.2.0).
 
 ### Status effects
 
@@ -260,6 +317,75 @@ end)
 - The target must still exist (`TARGET_GONE`). Your avatar is the instigator.
 - Not proven: that the status's visual effects are always loaded (the same statuses are applied by enemies and
   environments whatever the players carry, so they are expected to be). Live-proven on host for `fire` only.
+
+### Limb injuries
+
+```lua
+-- player_fired is checked 10 times per second and can count several shots: 2 damage per shot, at most a full arm.
+hd2.events.on('player_fired', function(event)
+    local action = hd2.actions.injure(event.player, 'r_hand', math.min(35, 2 * event.shots))
+    if not action:requested() then mod:log('injury refused: ' .. action.code .. ': ' .. action.reason) end
+end)
+```
+
+- The injury is the game's own. `hd2.actions.injure` looks the limb's physics actor up on your avatar's unit through
+  the engine's own lookup and appends one damage request at that actor to the game's damage queue, with the template
+  of the game's own VG-70 Variable self-damage (its third fire mode hurts the shooter's right shoulder the same way).
+  The game applies it later in the same frame like any hit on that limb: the limb's damage zone loses the damage, and
+  main health loses the zone's share (roughly head x1.5, chest x1.0, arms and legs x0.85). A zone at 0 health is an injured
+  limb, with the game's own effects (arm sway, leg limp, the injury HUD); a stim heals it as usual. Boosters, armour
+  passives and mission modifiers apply as they do to any hit, so the zone can lose less than you asked.
+- Limbs: `head`, `chest`, `l_hand`, `r_hand`, `l_knee`, `r_knee` (`hd2.actions.limbs()`); anything else is refused
+  (`UNKNOWN_LIMB`). `damage` is a whole number from 1 to the limb zone's health: head 85, chest 60, hands 35, knees 45
+  (`INVALID_AMOUNT`). One full-zone request injures a healthy limb.
+- Injuries also cost main health and can down or kill the Helldiver, exactly like ordinary damage.
+- The local player only (`NOT_LOCAL_PLAYER`): each machine injures the avatar it owns, which is how the game itself
+  injures (the Warp Pack and the VG-70 run on the avatar's owner). No host needed. In a mission (`NOT_IN_MISSION`),
+  alive and not downed (`AVATAR_DOWNED`), from a callback, timer or keybind (`NOT_GAME_THREAD`). At most 12 at once
+  and 10 per second per mod (`RATE_LIMITED`).
+- Refused when the game's damage request, the engine's actor lookup or the actor API the game's drain uses is not the
+  exact function this Runtime was built against (`INJURY_UNAVAILABLE`), when the queue is full this frame
+  (`QUEUE_FULL`) or when the avatar's unit has no such actor now (`LIMB_UNAVAILABLE`).
+- The injury names your avatar as its dealer and owner (self-inflicted) and keeps its last-hit creditor, as the VG-70
+  keeps it. The returned handle's `status` is `'requested'` once queued; `zone_health` and `injured_before` describe
+  the limb just before the request. Not live-tested: what the injured limb looks like to other players, and how the
+  game's statistics count a self-inflicted hit. See docs/research/player-injury-path-F5FEE03DCFDB.md.
+
+### Limb heals
+
+```lua
+hd2.input.bind('my_mod.patch_up', {key = 'Alt+F6', on_press = function()
+    local action = hd2.actions.heal_limbs(hd2.local_player())
+    if not action:requested() then mod:log(action.code .. ': ' .. action.reason) end
+end})
+```
+
+- The heal is the game's own one-zone restore (game.dll `RestoreZone`, 0x65B2D0): the limb's damage zone returns to
+  its full health and an injured limb is healed, committed the way the game's own heal commits it. Main health is not
+  touched (use `hd2.actions.heal` for that; note the game's heal also heals every limb by the same fraction).
+- The game has no partial heal of one limb. `amount` is `'full'` (the default) or a whole number that covers what
+  the limb is missing; anything smaller is refused (`PARTIAL_UNSUPPORTED`) rather than faked.
+- `hd2.actions.heal_limbs(player)` restores all six limbs in one request.
+- Same limbs as `injure`. The local player only (`NOT_LOCAL_PLAYER`), in a mission, alive and not downed, from a
+  callback, timer or keybind. At most 6 at once and 2 per second per mod. Refused when the game's function changed
+  (`LIMB_HEAL_UNAVAILABLE`). Not live-tested.
+
+### Velocity
+
+```lua
+hd2.input.bind('my_mod.hop', {key = 'Alt+F5', on_press = function()
+    hd2.actions.add_velocity(hd2.local_player(), {x = 0, y = 0, z = 8})   -- m/s, world space, +Z up
+end})
+```
+
+- The change goes through the game's own movement velocity setter (game.dll `SetVelocity`, 0x4A7550): the avatar's
+  current velocity plus the change. It is the velocity the jump pack pushes and the game's own avatar launch sets
+  (5.8 m/s forward and 3.3 m/s up).
+- At most 25 m/s per change and 50 m/s afterwards (`INVALID_VELOCITY`, `TOO_FAST`). At most 4 at once and 2 per second
+  per mod. The local player only, in a mission, alive and not downed.
+- Not proven: what the avatar's ground movement does with the new velocity on the next frame (the game's own launch
+  also switches the avatar's movement state). An upward change that lifts the avatar is the case most likely to show;
+  a sideways change on the ground may be cancelled at once. What other players see is not observed. Not live-tested.
 
 ### The weapon in hand
 
@@ -287,6 +413,26 @@ end)
 
 This is **not** kill attribution. A weapon in hand when a kill is credited did not necessarily make it (grenades,
 stratagems and delayed explosions kill while another weapon is held). Use `player_kill_credited.sources` for that.
+
+### Loadout, backpack and the Supply Pack
+
+```lua
+local me = hd2.local_player()
+local pack = me:backpack()                         -- the worn backpack and its live deposit
+local ammo = me:ammo()                             -- the weapon in hand: rounds and spare magazines
+if pack and pack.supply_pack and ammo and ammo.feed == 'magazine' and ammo.spare_magazines <= 1 then
+    hd2.actions.resupply_from_pack(me)             -- the pack's own self-use, as when its key is pressed
+end
+```
+
+- `player:loadout()` (primary, secondary, support, backpack, held item, throwable and its count), `player:held_weapon()`,
+  `player:backpack()` and `player:ammo([slot])` read the local player's inventory record through the game's own tables;
+  items carry the catalog name mods already use (`hd2.weapon`, `hd2.support_weapon`, `hd2.throwable`, `hd2.backpack`).
+- `hd2.actions.resupply_from_pack(player)` starts the Supply Pack's own self-use ability through the game's own action
+  start; the game spends one supply and refills the wearer. Local player only, in a mission, from a callback, timer or
+  keybind; refused (without any call) when there is no Supply Pack, no supply, the avatar is busy or nothing takes
+  ammunition. One request per 2 s per mod. Not live-tested.
+- Details, refusal codes and limits: [docs/player-equipment.md](player-equipment.md).
 
 ## 10. Source attribution: what can and cannot be known
 

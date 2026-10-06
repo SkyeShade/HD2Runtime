@@ -58,6 +58,50 @@ weapon-local records.
 | `hd2.fields.projectile.*` | `weapon:projectile()` | Shared `ProjectileSettings` |
 | `hd2.fields.damage.player_standard_damage`, `player_durable_damage`, `ap_*`, `demolition`, `stagger`, `push_force` | `weapon:projectile()`, or the spray attack | Shared `DamageInfo` |
 | `hd2.fields.explosion.*_radius`, `hd2.fields.explosion.damage_*` | `weapon:explosion()` | Shared `ExplosionSettings` and its `DamageInfo` |
+| `hd2.fields.turret.yaw_speed`, `pitch_speed`, `yaw_min`, `yaw_max`, `pitch_min`, `pitch_max` | weapon (turret mounts only) | The mount's own `TurretComponentData` +12 / +8 / +28 / +32 / +20 / +24 (see Turret motion) |
+
+## Turret motion
+
+Five mounted weapons own a `TurretComponentData`:
+- the M-103 Supply FRV gun;
+- the TD-220 Bastion `attach_tank_gun` (cannon) and `attach_tank_gun_mg`;
+- the TD-110 Maelstrom `attach_tank_gun`;
+- the GATER Oil Rig turret.
+
+They take the same turret ids as sentries: one semantic layer. Every other mount aims through its vehicle, seat or
+Exosuit arm and has no turret record, so the fields are refused there:
+- the M-102 and Super Earth FRV gun;
+- the M-104 flamethrower;
+- the Maelstrom launchers;
+- every Exosuit arm;
+- the Guard Dog drones.
+
+| Field | Backing | Range | When it applies |
+| --- | --- | --- | --- |
+| `turret.yaw_speed` | +12, degrees per second (M-103 130, tank guns 35, GATER 60) | 1 to 720 | Copied into the turret when the vehicle is created: call in a new vehicle |
+| `turret.pitch_speed` | +8, degrees per second (M-103 90, tank guns 25, GATER 20) | 1 to 720 | Copied when the vehicle is created |
+| `turret.pitch_min` / `pitch_max` | +20 / +24, degrees (M-103 −60/90, tank guns −3/25, GATER −13/60) | −90 to 90, min < max | Re-read every turret update: immediate |
+| `turret.yaw_min` / `yaw_max` | +28 / +32, degrees (M-103 and GATER −180/180, tank guns −20/20) | −180 to 180, min < max | Re-read every turret update: immediate |
+
+- **Rates.** The turret update multiplies each rate by the turret's own speed modifier and eases it within the last 5
+  degrees of the target.
+- **Limits.** An arc of 360 degrees (−180 to 180) turns freely.
+- **Pairs.** A limit pair must stay ordered after the operation. A limit the operation does not write keeps its
+  reviewed value, so change both in one transaction when they cross (`TURRET_LIMIT_ORDER`).
+- **Scope.** Each turret record has one owner, so no field needs `allow_shared`.
+- **Evidence.** Every field needs `allow_unverified_effect`, because sentry live evidence does not transfer to vehicles
+  (live test: examples/projects/VehicleTuningTest).
+- **Open question.** The Bastion and Maelstrom guns carry a ±20 degree horizontal arc. Whether it limits the gun inside
+  its turret or the turret itself is part of the live test; the record behind the tanks' 360-degree main-turret
+  traverse is not identified.
+
+```lua
+-- TD-220 Bastion cannon: a narrow 10-degree arc and more elevation; a deployed Bastion follows at once.
+local cannon=hd2.vehicle('TD-220 Bastion MK XVI'):weapon('attach_tank_gun')
+hd2.ensure({transaction={id='bastion-arc',target=cannon,allow_unverified_effect=true,changes={
+    {field=hd2.fields.turret.yaw_min,expect=-20,value=-5},{field=hd2.fields.turret.yaw_max,expect=20,value=5},
+    {field=hd2.fields.turret.pitch_max,expect=25,value=45}}}})
+```
 
 ## Projectile swaps
 

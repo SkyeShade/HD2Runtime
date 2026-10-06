@@ -260,6 +260,89 @@ a projectile pointer exists.
 - **Mod Options.** A choice option's `values` may be reference handles, so one dropdown can select between complete
   output compositions. Each choice is a single reference value, so switching choices is one atomic write.
 
+## More donors (0.30.0-dev; not live-tested)
+
+32 more projectiles can be swapped into a weapon (`scripts/research_projectile_donors.py`,
+`research/projectile-donors-F5FEE03DCFDB.json`). They are named projectile types from
+`research/projectile-identities-F5FEE03DCFDB.json` that the catalogue did not have yet: Eagle payloads, orbital
+shells, sentry and emplacement rounds, and some weapons' second projectiles.
+
+```lua
+local reprimand=hd2.weapon('SMG-32 Reprimand'):attack('primary')
+hd2.ensure({patch={id='reprimand-500kg',target=reprimand,field=hd2.fields.attack.projectile,
+    expect=reprimand:projectile(),value=hd2.attack_output('Eagle 500kg Bomb'),
+    allow_unverified_reference=true,allow_unverified_effect=true}})
+```
+
+**What makes a projectile a donor:**
+- **One owner.** One fixed member of one uniquely owned component record holds the type:
+  - a stratagem's Eagle payload (`EagleComponentData` +24);
+  - an orbital shell (`BombardmentComponentData` +64) or orbital projectile (`OrbitalAbilityComponentData` +532);
+  - a stratagem entity's or a weapon's `ProjectileWeapon` +0 or +576 (a weapon's second projectile).
+- **A live re-proof.** Like every donor, that member is re-read right before each write (`CONFLICT` if it changed),
+  and the donor's `ProjectileSettings` row identity with it.
+- **A loadable package.** A stratagem donor's package is its owner entity's own generated loadout package (for example
+  `packages/generated/loadout/eagle_bomb`). It is loaded before the write. A weapon's donor uses its weapon's package.
+- **The same class rule** as every swap (`research_attack_outputs.projectile_class`).
+
+**What they need:** none has been live-tested, so every use needs `allow_unverified_reference` and
+`allow_unverified_effect`, even within the same class. Without them, registration refuses: `this donor is not
+live-tested yet and requires allow_unverified_reference=true`.
+
+**What may differ in play:** a donor flies with its own row: speed, gravity, damage and explosions.
+- Orbital shells and Eagle bombs are fast and heavy.
+- The Railcannon round flies at 14,000 m/s.
+- Guided rounds (the P-92's, the W.A.S.P.'s) do not inherit their weapon's lock-on.
+- Only the projectile changes: the host keeps its own fire rate, magazine and sounds.
+
+**Not donors here** (110 named types, each with its reason in the research):
+- enemy weapons: their effects ship in faction packages;
+- unnamed owners;
+- array members (magazine round patterns; charge, heat and rounds levels): their element strides are not proven
+  here;
+- guided-missile components and objective shells;
+- second shell types that a different, unnamed record holds.
+
+| `hd2.attack_output(...)` | Projectile | From | Class |
+|---|---|---|---|
+| `GP-31 Grenade Pistol (projectile 263)` | 263 | fired projectile | explodes on impact and expiry |
+| `P-33 Missile Pistol (projectile 127)` | 127 | second projectile (+576) | explodes on impact and expiry |
+| `P-92 Warrant (projectile 319)` | 319 | second projectile (+576) | plain |
+| `SMG-37 Defender (projectile 3)` | 3 | fired projectile | plain |
+| `SMG-37 Defender (projectile 150)` | 150 | fired projectile | plain |
+| `A/GM-17 Gas Mortar Sentry` or `A/GM-17 Gas Mortar Sentry (projectile 342)` | 342 | fired projectile | explodes on impact |
+| `A/M-12 Mortar Sentry` or `A/M-12 Mortar Sentry (projectile 346)` | 346 | fired projectile | shrapnel |
+| `A/MLS-4X Rocket Sentry` or `A/MLS-4X Rocket Sentry (projectile 320)` | 320 | fired projectile | explodes on impact |
+| `E/MG-101 HMG Emplacement` or `E/MG-101 HMG Emplacement (projectile 83)` | 83 | fired projectile | plain |
+| `Eagle 110mm Rocket Pods` or `Eagle 110mm Rocket Pods (projectile 82)` | 82 | Eagle payload | explodes on impact |
+| `Eagle 500kg Bomb` or `Eagle 500kg Bomb (projectile 239)` | 239 | Eagle payload | explodes on impact and expiry |
+| `Eagle Airstrike` or `Eagle Airstrike (projectile 170)` | 170 | Eagle payload | explodes on impact |
+| `Eagle Cluster Bomb` or `Eagle Cluster Bomb (projectile 286)` | 286 | Eagle payload | explodes on impact |
+| `Eagle Gas Airstrike` or `Eagle Gas Airstrike (projectile 188)` | 188 | Eagle payload | explodes on impact |
+| `Eagle Napalm Airstrike` or `Eagle Napalm Airstrike (projectile 141)` | 141 | Eagle payload | explodes on impact |
+| `Eagle Smoke Strike (projectile 16)` | 16 | fired projectile | explodes on impact |
+| `Eagle Smoke Strike (projectile 130)` | 130 | Eagle payload | explodes on impact |
+| `Orbital 120mm HE Barrage` or `Orbital 120mm HE Barrage (projectile 194)` | 194 | orbital shell | explodes on impact |
+| `Orbital Airburst Strike` or `Orbital Airburst Strike (projectile 158)` | 158 | orbital shell | shrapnel |
+| `Orbital EMS Strike` or `Orbital EMS Strike (projectile 74)` | 74 | orbital shell | explodes on impact |
+| `Orbital Gas Strike` or `Orbital Gas Strike (projectile 197)` | 197 | orbital shell | explodes on impact |
+| `Orbital Gatling Barrage` or `Orbital Gatling Barrage (projectile 77)` | 77 | orbital shell | explodes on impact |
+| `Orbital Napalm Barrage` or `Orbital Napalm Barrage (projectile 234)` | 234 | orbital shell | explodes on impact |
+| `Orbital Precision Strike` or `Orbital Precision Strike (projectile 100)` | 100 | orbital shell | explodes on impact |
+| `Orbital Railcannon Strike` or `Orbital Railcannon Strike (projectile 277)` | 277 | orbital projectile | explodes on impact |
+| `Orbital Smoke Strike` or `Orbital Smoke Strike (projectile 247)` | 247 | orbital shell | explodes on impact |
+| `Orbital Walking Barrage` or `Orbital Walking Barrage (projectile 80)` | 80 | orbital shell | explodes on impact |
+| `TD-220 Bastion MK XVI` or `TD-220 Bastion MK XVI (projectile 36)` | 36 | second projectile (+576) | explodes on impact |
+| `AC-8 Autocannon (projectile 284)` | 284 | second projectile (+576) | shrapnel |
+| `MG-43 Machine Gun (projectile 49)` | 49 | fired projectile | plain |
+| `RL-77 Airburst Rocket Launcher (projectile 96)` | 96 | second projectile (+576) | shrapnel |
+| `StA-X3 W.A.S.P. Launcher (projectile 330)` | 330 | second projectile (+576) | shrapnel |
+
+Names: `<owner> (projectile <type>)` always works. The owner's name alone works for a stratagem with exactly one donor
+here. Validation: `scripts/validate_packaged_runtime.py` scenario `projectile-donors` (three swaps from the archive,
+each donor's package loaded first, and an unacknowledged donor refused) and `projectile-donors-all` (every donor on its
+own host); `tests/test_projectile_donors.py`.
+
 ## Projectile builder: slots, spare twins and composition classes
 
 A weapon's alternate mode is a native ProgrammableAmmo function projectile ([weapon feeds](weapon-feeds.md)). The

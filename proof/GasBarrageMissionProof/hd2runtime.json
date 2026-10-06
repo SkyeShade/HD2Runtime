@@ -1,0 +1,1 @@
+{"format":1,"name":"GasBarrageMissionProof","resource":"mods/skyeshade/hd2runtime_gas_barrage_mission_proof","guid":"eec24718-c8e9-487d-890e-a27e3ddeef71","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.28.0","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../sdk","ide_library":"../../sdk/stubs"}

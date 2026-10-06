@@ -1,0 +1,571 @@
+{
+ "schemaVersion": 1,
+ "build": "F5FEE03DCFDB",
+ "gameWrites": 0,
+ "passed": true,
+ "snapshots": {
+  "F5FEE03DCFDB-20260926T222226Z.hd2snap": {
+   "phase": "ship",
+   "passed": true,
+   "problems": [],
+   "report": {
+    "apply": {
+     "code": "NOT_IN_MISSION",
+     "reason": "only in a mission (never aboard the ship)",
+     "status": "refused",
+     "writes": 0
+    },
+    "beforeAvatar": {
+     "avatarBefore": true,
+     "avatarHidden": false,
+     "code": "NOT_IN_MISSION",
+     "hidden": true,
+     "identical": true,
+     "reason": "only in a mission (never aboard the ship)",
+     "status": "refused",
+     "totalWrites": 0,
+     "writes": {}
+    },
+    "hud": {
+     "locate": "NOT_IN_MISSION",
+     "pins": {
+      "proven": true
+     }
+    },
+    "pins": {
+     "proven": true
+    },
+    "protections": 0,
+    "read": {
+     "count": 6,
+     "id": 1063322614,
+     "insideSettings": true,
+     "sequence": "Right Right Down Left Right Down",
+     "status": "read",
+     "type": 136
+    },
+    "region": {
+     "protect": 4,
+     "size": 131072,
+     "type": 131072
+    }
+   }
+  },
+  "F5FEE03DCFDB-20260927T155654Z.hd2snap": {
+   "phase": "ship",
+   "passed": true,
+   "problems": [],
+   "report": {
+    "apply": {
+     "code": "NOT_IN_MISSION",
+     "reason": "only in a mission (never aboard the ship)",
+     "status": "refused",
+     "writes": 0
+    },
+    "beforeAvatar": {
+     "avatarBefore": true,
+     "avatarHidden": false,
+     "code": "NOT_IN_MISSION",
+     "hidden": true,
+     "identical": true,
+     "reason": "only in a mission (never aboard the ship)",
+     "status": "refused",
+     "totalWrites": 0,
+     "writes": {}
+    },
+    "hud": {
+     "locate": "NOT_IN_MISSION",
+     "pins": {
+      "proven": true
+     }
+    },
+    "pins": {
+     "proven": true
+    },
+    "protections": 0,
+    "read": {
+     "count": 6,
+     "id": 1063322614,
+     "insideSettings": true,
+     "sequence": "Right Right Down Left Right Down",
+     "status": "read",
+     "type": 136
+    },
+    "region": {
+     "protect": 4,
+     "size": 131072,
+     "type": 131072
+    }
+   }
+  },
+  "F5FEE03DCFDB-20260927T160033Z.hd2snap": {
+   "phase": "ship",
+   "passed": true,
+   "problems": [],
+   "report": {
+    "apply": {
+     "code": "NOT_IN_MISSION",
+     "reason": "only in a mission (never aboard the ship)",
+     "status": "refused",
+     "writes": 0
+    },
+    "beforeAvatar": {
+     "avatarBefore": true,
+     "avatarHidden": false,
+     "code": "NOT_IN_MISSION",
+     "hidden": true,
+     "identical": true,
+     "reason": "only in a mission (never aboard the ship)",
+     "status": "refused",
+     "totalWrites": 0,
+     "writes": {}
+    },
+    "hud": {
+     "locate": "NOT_IN_MISSION",
+     "pins": {
+      "proven": true
+     }
+    },
+    "pins": {
+     "proven": true
+    },
+    "protections": 0,
+    "read": {
+     "count": 6,
+     "id": 1063322614,
+     "insideSettings": true,
+     "sequence": "Right Right Down Left Right Down",
+     "status": "read",
+     "type": 136
+    },
+    "region": {
+     "protect": 4,
+     "size": 131072,
+     "type": 131072
+    }
+   }
+  },
+  "F5FEE03DCFDB-20260929T172647Z-mission-host.hd2snap": {
+   "phase": "alive",
+   "passed": true,
+   "problems": [],
+   "report": {
+    "apply": {
+     "avatarAtWrite": true,
+     "blockOwned": true,
+     "differing": [
+      40336,
+      40337,
+      40338,
+      40339,
+      40340,
+      40341,
+      40344
+     ],
+     "readBack": "Up Up Down Down",
+     "report": {
+      "nonTarget": true,
+      "protectionRestored": true,
+      "status": "APPLIED",
+      "writes": 2
+     },
+     "rowOffset": 40272,
+     "runtimeOwned": true,
+     "status": "applied",
+     "writes": [
+      {
+       "offset": 40344,
+       "value": "04000000",
+       "width": 4
+      },
+      {
+       "offset": 40336,
+       "value": "00000000fe7f0000",
+       "width": 8
+      }
+     ]
+    },
+    "beforeAvatar": {
+     "avatarAtWrite": false,
+     "avatarBefore": true,
+     "avatarHidden": false,
+     "hidden": true,
+     "identical": true,
+     "readBack": "Up Up Down Down",
+     "restored": "restored",
+     "status": "applied",
+     "totalWrites": 4,
+     "writes": [
+      {
+       "offset": 40344,
+       "value": "04000000",
+       "width": 4
+      },
+      {
+       "offset": 40336,
+       "value": "00000000fe7f0000",
+       "width": 8
+      }
+     ]
+    },
+    "hud": {
+     "again": "current",
+     "ancestors": 11,
+     "apply": "applied",
+     "back": {
+      "after": "Down Down Up Right",
+      "restore": "restored",
+      "status": "refreshed",
+      "writes": 16
+     },
+     "code": "Up Up Down Down",
+     "native": "Down Down Up Right",
+     "pins": {
+      "proven": true
+     },
+     "refresh": {
+      "after": "Up Up Down Down",
+      "before": "Down Down Up Right",
+      "drawn": "Up Up Down Down",
+      "guard": "APPLIED",
+      "outside": 0,
+      "status": "refreshed",
+      "writes": 30
+     },
+     "slot": 2,
+     "stratagem": "Resupply",
+     "type": 33
+    },
+    "pins": {
+     "proven": true
+    },
+    "protections": 0,
+    "read": {
+     "count": 6,
+     "id": 1063322614,
+     "insideSettings": true,
+     "sequence": "Right Right Down Left Right Down",
+     "status": "read",
+     "type": 136
+    },
+    "region": {
+     "protect": 4,
+     "size": 131072,
+     "type": 131072
+    },
+    "restore": {
+     "identical": true,
+     "order": [
+      {
+       "offset": 40336,
+       "width": 8
+      },
+      {
+       "offset": 40344,
+       "width": 4
+      }
+     ],
+     "status": "restored",
+     "writes": 4
+    }
+   }
+  },
+  "F5FEE03DCFDB-20260929T172918Z-mission-host-alive.hd2snap": {
+   "phase": "alive",
+   "passed": true,
+   "problems": [],
+   "report": {
+    "apply": {
+     "avatarAtWrite": true,
+     "blockOwned": true,
+     "differing": [
+      40336,
+      40337,
+      40338,
+      40339,
+      40340,
+      40341,
+      40344
+     ],
+     "readBack": "Up Up Down Down",
+     "report": {
+      "nonTarget": true,
+      "protectionRestored": true,
+      "status": "APPLIED",
+      "writes": 2
+     },
+     "rowOffset": 40272,
+     "runtimeOwned": true,
+     "status": "applied",
+     "writes": [
+      {
+       "offset": 40344,
+       "value": "04000000",
+       "width": 4
+      },
+      {
+       "offset": 40336,
+       "value": "00000000fe7f0000",
+       "width": 8
+      }
+     ]
+    },
+    "beforeAvatar": {
+     "avatarAtWrite": false,
+     "avatarBefore": true,
+     "avatarHidden": false,
+     "hidden": true,
+     "identical": true,
+     "readBack": "Up Up Down Down",
+     "restored": "restored",
+     "status": "applied",
+     "totalWrites": 4,
+     "writes": [
+      {
+       "offset": 40344,
+       "value": "04000000",
+       "width": 4
+      },
+      {
+       "offset": 40336,
+       "value": "00000000fe7f0000",
+       "width": 8
+      }
+     ]
+    },
+    "hud": {
+     "again": "current",
+     "ancestors": 11,
+     "apply": "applied",
+     "back": {
+      "after": "Down Down Up Right",
+      "restore": "restored",
+      "status": "refreshed",
+      "writes": 16
+     },
+     "code": "Up Up Down Down",
+     "native": "Down Down Up Right",
+     "pins": {
+      "proven": true
+     },
+     "refresh": {
+      "after": "Up Up Down Down",
+      "before": "Down Down Up Right",
+      "drawn": "Up Up Down Down",
+      "guard": "APPLIED",
+      "outside": 0,
+      "status": "refreshed",
+      "writes": 30
+     },
+     "slot": 2,
+     "stratagem": "Resupply",
+     "type": 33
+    },
+    "pins": {
+     "proven": true
+    },
+    "protections": 0,
+    "read": {
+     "count": 6,
+     "id": 1063322614,
+     "insideSettings": true,
+     "sequence": "Right Right Down Left Right Down",
+     "status": "read",
+     "type": 136
+    },
+    "region": {
+     "protect": 4,
+     "size": 131072,
+     "type": 131072
+    },
+    "restore": {
+     "identical": true,
+     "order": [
+      {
+       "offset": 40336,
+       "width": 8
+      },
+      {
+       "offset": 40344,
+       "width": 4
+      }
+     ],
+     "status": "restored",
+     "writes": 4
+    }
+   }
+  },
+  "F5FEE03DCFDB-20260929T173206Z-mission-host-after-reinforce.hd2snap": {
+   "phase": "reinforced",
+   "passed": true,
+   "problems": [],
+   "report": {
+    "apply": {
+     "avatarAtWrite": true,
+     "blockOwned": true,
+     "differing": [
+      40336,
+      40337,
+      40338,
+      40339,
+      40340,
+      40341,
+      40344
+     ],
+     "readBack": "Up Up Down Down",
+     "report": {
+      "nonTarget": true,
+      "protectionRestored": true,
+      "status": "APPLIED",
+      "writes": 2
+     },
+     "rowOffset": 40272,
+     "runtimeOwned": true,
+     "status": "applied",
+     "writes": [
+      {
+       "offset": 40344,
+       "value": "04000000",
+       "width": 4
+      },
+      {
+       "offset": 40336,
+       "value": "00000000fe7f0000",
+       "width": 8
+      }
+     ]
+    },
+    "beforeAvatar": {
+     "avatarAtWrite": false,
+     "avatarBefore": true,
+     "avatarHidden": false,
+     "hidden": true,
+     "identical": true,
+     "readBack": "Up Up Down Down",
+     "restored": "restored",
+     "status": "applied",
+     "totalWrites": 4,
+     "writes": [
+      {
+       "offset": 40344,
+       "value": "04000000",
+       "width": 4
+      },
+      {
+       "offset": 40336,
+       "value": "00000000fe7f0000",
+       "width": 8
+      }
+     ]
+    },
+    "hud": {
+     "again": "current",
+     "ancestors": 11,
+     "apply": "applied",
+     "back": {
+      "after": "Down Down Up Right",
+      "restore": "restored",
+      "status": "refreshed",
+      "writes": 16
+     },
+     "code": "Up Up Down Down",
+     "native": "Down Down Up Right",
+     "pins": {
+      "proven": true
+     },
+     "refresh": {
+      "after": "Up Up Down Down",
+      "before": "Down Down Up Right",
+      "drawn": "Up Up Down Down",
+      "guard": "APPLIED",
+      "outside": 0,
+      "status": "refreshed",
+      "writes": 30
+     },
+     "slot": 2,
+     "stratagem": "Resupply",
+     "type": 33
+    },
+    "pins": {
+     "proven": true
+    },
+    "protections": 0,
+    "read": {
+     "count": 6,
+     "id": 1063322614,
+     "insideSettings": true,
+     "sequence": "Right Right Down Left Right Down",
+     "status": "read",
+     "type": 136
+    },
+    "region": {
+     "protect": 4,
+     "size": 131072,
+     "type": 131072
+    },
+    "restore": {
+     "identical": true,
+     "order": [
+      {
+       "offset": 40336,
+       "width": 8
+      },
+      {
+       "offset": 40344,
+       "width": 4
+      }
+     ],
+     "status": "restored",
+     "writes": 4
+    }
+   }
+  },
+  "F5FEE03DCFDB-20260929T173443Z-mission-end-transition.hd2snap": {
+   "phase": "ended",
+   "passed": true,
+   "problems": [],
+   "report": {
+    "apply": {
+     "code": "NOT_IN_MISSION",
+     "reason": "only in a mission (never aboard the ship)",
+     "status": "refused",
+     "writes": 0
+    },
+    "beforeAvatar": {
+     "avatarBefore": false,
+     "avatarHidden": false,
+     "code": "NOT_IN_MISSION",
+     "hidden": true,
+     "identical": true,
+     "reason": "only in a mission (never aboard the ship)",
+     "status": "refused",
+     "totalWrites": 0,
+     "writes": {}
+    },
+    "hud": {
+     "locate": "NOT_IN_MISSION",
+     "pins": {
+      "proven": true
+     }
+    },
+    "pins": {
+     "proven": true
+    },
+    "protections": 0,
+    "read": {
+     "count": 6,
+     "id": 1063322614,
+     "insideSettings": true,
+     "sequence": "Right Right Down Left Right Down",
+     "status": "read",
+     "type": 136
+    },
+    "region": {
+     "protect": 4,
+     "size": 131072,
+     "type": 131072
+    }
+   }
+  }
+ }
+}

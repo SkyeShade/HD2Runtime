@@ -1,7 +1,7 @@
 {
   "contract": "hd2runtime.backpack.guarded_authoring.v1",
   "schemaVersion": 1,
-  "hd2RuntimeVersion": "0.28.0",
+  "hd2RuntimeVersion": "0.30.0-dev",
   "canonicalCollection": "fieldInstances",
   "backpacks": [
     {
@@ -77,23 +77,61 @@
         {
           "group": "movement",
           "fieldInstanceKeys": [
-            "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.vertical_launch_velocity"
+            "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.vertical_launch_velocity",
+            "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.launch_duration",
+            "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.launch_forward_ratio",
+            "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.sustain_thrust",
+            "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.sustain_duration",
+            "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.sustain_forward_ratio",
+            "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.sustain_start_delay",
+            "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.sustain_start_speed",
+            "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.sustain_cutoff_speed",
+            "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.air_control_acceleration",
+            "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.air_control_max_speed",
+            "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.takeoff_forward_speed",
+            "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.takeoff_speed",
+            "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.takeoff_speed_alternate_stance"
           ]
         }
       ],
       "blockedFields": [
         {
-          "field": "unlabelled launch members",
-          "reason": "Two further Jumppack launch scalars were tested only as experiment profiles that were never gameplay-reported."
+          "field": "hover.*",
+          "reason": "The Jump Pack does not run the hover model (+153 = 0)."
         },
         {
-          "field": "horizontal impulse",
-          "reason": "No horizontal or forward impulse member has been identified."
+          "field": "alternate launch window (+28)",
+          "reason": "Used while a replicated mode toggle is set; which player action sets the toggle is not identified."
+        },
+        {
+          "field": "behaviour switches (+64, +144, +145, +152..+155)",
+          "reason": "Flight-model switches; changing them swaps the pack model. Not offered."
+        },
+        {
+          "field": "unknown members (+4, +8, +20)",
+          "reason": "Readers found, meaning not decoded."
+        },
+        {
+          "field": "presentation (abilities, indicator, visual sway +220..+276)",
+          "reason": "Presentation only."
         }
       ],
       "fieldInstanceKeys": [
         "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:recharge.time",
-        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.vertical_launch_velocity"
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.vertical_launch_velocity",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.launch_duration",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.launch_forward_ratio",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.sustain_thrust",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.sustain_duration",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.sustain_forward_ratio",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.sustain_start_delay",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.sustain_start_speed",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.sustain_cutoff_speed",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.air_control_acceleration",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.air_control_max_speed",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.takeoff_forward_speed",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.takeoff_speed",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.takeoff_speed_alternate_stance"
       ]
     },
     {
@@ -725,7 +763,20 @@
         {
           "group": "movement",
           "fieldInstanceKeys": [
-            "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.vertical_launch_velocity"
+            "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.vertical_launch_velocity",
+            "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.sustain_thrust",
+            "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.sustain_duration",
+            "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.sustain_forward_ratio",
+            "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.sustain_start_speed",
+            "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.sustain_cutoff_speed",
+            "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.air_control_acceleration",
+            "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.max_horizontal_speed",
+            "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.max_vertical_speed",
+            "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.vertical_acceleration_low_speed",
+            "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.vertical_acceleration_high_speed",
+            "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.vertical_speed_range_end",
+            "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.fuel_rate_low_speed",
+            "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.fuel_rate_high_speed"
           ]
         },
         {
@@ -737,21 +788,50 @@
       ],
       "blockedFields": [
         {
-          "field": "unlabelled launch members",
-          "reason": "Two further Jumppack launch scalars were tested only as experiment profiles that were never gameplay-reported."
+          "field": "jump.launch_duration / jump.launch_forward_ratio",
+          "reason": "The Hover Pack sets the hover-launch flag at activation, which skips the launch thrust."
         },
         {
-          "field": "horizontal impulse",
-          "reason": "No horizontal or forward impulse member has been identified."
+          "field": "jump.sustain_start_delay",
+          "reason": "Skipped for the Hover Pack (hover-launch flag)."
         },
         {
-          "field": "hover ascent / speed / fuel members",
-          "reason": "The hover-only vectors and scalars (+145..+276) have no published values; unknown, read-only."
+          "field": "jump.takeoff_*",
+          "reason": "The Hover Pack skips the take-off hop (+152 = 1)."
+        },
+        {
+          "field": "hover horizontal acceleration (+160/+164)",
+          "reason": "Blended over a zero-width speed range (+184/+188 = 0): a write to one end divides by zero in the flight code; a safe write needs both ends and the range together."
+        },
+        {
+          "field": "behaviour switches (+64, +144, +145, +152..+155)",
+          "reason": "Flight-model switches; changing them swaps the pack model. Not offered."
+        },
+        {
+          "field": "unknown members (+4, +8, +20)",
+          "reason": "Readers found, meaning not decoded."
+        },
+        {
+          "field": "presentation (abilities, indicator, visual sway +220..+276)",
+          "reason": "Presentation only."
         }
       ],
       "fieldInstanceKeys": [
         "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:recharge.time",
         "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.vertical_launch_velocity",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.sustain_thrust",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.sustain_duration",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.sustain_forward_ratio",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.sustain_start_speed",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.sustain_cutoff_speed",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.air_control_acceleration",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.max_horizontal_speed",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.max_vertical_speed",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.vertical_acceleration_low_speed",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.vertical_acceleration_high_speed",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.vertical_speed_range_end",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.fuel_rate_low_speed",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.fuel_rate_high_speed",
         "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.duration"
       ]
     },
@@ -1334,9 +1414,9 @@
     {
       "instanceKey": "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.vertical_launch_velocity",
       "semanticFieldId": "jump.vertical_launch_velocity",
-      "displayName": "Vertical launch velocity",
+      "displayName": "Launch thrust",
       "type": "number",
-      "unit": "meters_per_second",
+      "unit": "meters_per_second_squared",
       "currentDefault": 40.0,
       "editable": true,
       "reason": null,
@@ -1374,6 +1454,747 @@
         "sharedTypedSchema": false
       },
       "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.launch_duration",
+      "semanticFieldId": "jump.launch_duration",
+      "displayName": "Launch thrust duration",
+      "type": "number",
+      "unit": "seconds",
+      "currentDefault": 0.5,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-850 Jump Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:54fc4a99ce6ef88a",
+      "operationGroup": "operation:84ab40f0f568f390",
+      "planGroup": "plan:backpack:lift-850-jump-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-850 Jump Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:5e66e478974e02a9",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "JumppackComponentData",
+      "domain": "jump",
+      "apiFieldConstant": "hd2.fields.jump.launch_duration",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "differential": false,
+        "codeReadCount": 1,
+        "research": "research/hoverpack-components-F5FEE03DCFDB.json"
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Seconds the launch thrust lasts after activation (the launch window). Read live by the flight code; not yet shown in game. The meaning is proven from the code, but no value differs between the packs (no differential), so the magnitude has no independent confirmation.",
+      "min": 0.0,
+      "max": 5.0,
+      "effect": {
+        "activeSource": "LIVE_TYPE_RECORD",
+        "activeSourceProven": true,
+        "appliesWhen": "next_frame",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "lifecycle": "Read live every frame from the backpack's own JumppackComponent record (one owner): a write takes effect on the next frame, including a pack already worn and mid-flight."
+      }
+    },
+    {
+      "instanceKey": "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.launch_forward_ratio",
+      "semanticFieldId": "jump.launch_forward_ratio",
+      "displayName": "Launch thrust forward share",
+      "type": "number",
+      "unit": "ratio",
+      "currentDefault": 0.4000000059604645,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-850 Jump Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:54fc4a99ce6ef88a",
+      "operationGroup": "operation:84ab40f0f568f390",
+      "planGroup": "plan:backpack:lift-850-jump-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-850 Jump Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:5e66e478974e02a9",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "JumppackComponentData",
+      "domain": "jump",
+      "apiFieldConstant": "hd2.fields.jump.launch_forward_ratio",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "differential": true,
+        "codeReadCount": 1,
+        "research": "research/hoverpack-components-F5FEE03DCFDB.json"
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Share of the launch thrust along the travel direction; the rest pushes up (0 = straight up, 1 = flat). Read live by the flight code; not yet shown in game.",
+      "min": 0.0,
+      "max": 1.0,
+      "effect": {
+        "activeSource": "LIVE_TYPE_RECORD",
+        "activeSourceProven": true,
+        "appliesWhen": "next_frame",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "lifecycle": "Read live every frame from the backpack's own JumppackComponent record (one owner): a write takes effect on the next frame, including a pack already worn and mid-flight."
+      }
+    },
+    {
+      "instanceKey": "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.sustain_thrust",
+      "semanticFieldId": "jump.sustain_thrust",
+      "displayName": "Sustain thrust",
+      "type": "number",
+      "unit": "meters_per_second_squared",
+      "currentDefault": 60.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-850 Jump Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:54fc4a99ce6ef88a",
+      "operationGroup": "operation:84ab40f0f568f390",
+      "planGroup": "plan:backpack:lift-850-jump-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-850 Jump Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:5e66e478974e02a9",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "JumppackComponentData",
+      "domain": "jump",
+      "apiFieldConstant": "hd2.fields.jump.sustain_thrust",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "differential": false,
+        "codeReadCount": 1,
+        "research": "research/hoverpack-components-F5FEE03DCFDB.json"
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Peak thrust of the sustain phase (m/s^2, tapering as 1 - t^2 over jump.sustain_duration). Read live by the flight code; not yet shown in game. The meaning is proven from the code, but no value differs between the packs (no differential), so the magnitude has no independent confirmation.",
+      "min": 0.0,
+      "max": 500.0,
+      "effect": {
+        "activeSource": "LIVE_TYPE_RECORD",
+        "activeSourceProven": true,
+        "appliesWhen": "next_frame",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "lifecycle": "Read live every frame from the backpack's own JumppackComponent record (one owner): a write takes effect on the next frame, including a pack already worn and mid-flight."
+      }
+    },
+    {
+      "instanceKey": "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.sustain_duration",
+      "semanticFieldId": "jump.sustain_duration",
+      "displayName": "Sustain thrust duration",
+      "type": "number",
+      "unit": "seconds",
+      "currentDefault": 1.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-850 Jump Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:54fc4a99ce6ef88a",
+      "operationGroup": "operation:84ab40f0f568f390",
+      "planGroup": "plan:backpack:lift-850-jump-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-850 Jump Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:5e66e478974e02a9",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "JumppackComponentData",
+      "domain": "jump",
+      "apiFieldConstant": "hd2.fields.jump.sustain_duration",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "differential": false,
+        "codeReadCount": 1,
+        "research": "research/hoverpack-components-F5FEE03DCFDB.json"
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Seconds the sustain thrust lasts (0 disables the sustain phase). Read live by the flight code; not yet shown in game. The meaning is proven from the code, but no value differs between the packs (no differential), so the magnitude has no independent confirmation.",
+      "min": 0.0,
+      "max": 10.0,
+      "effect": {
+        "activeSource": "LIVE_TYPE_RECORD",
+        "activeSourceProven": true,
+        "appliesWhen": "next_frame",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "lifecycle": "Read live every frame from the backpack's own JumppackComponent record (one owner): a write takes effect on the next frame, including a pack already worn and mid-flight."
+      }
+    },
+    {
+      "instanceKey": "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.sustain_forward_ratio",
+      "semanticFieldId": "jump.sustain_forward_ratio",
+      "displayName": "Sustain thrust forward share",
+      "type": "number",
+      "unit": "ratio",
+      "currentDefault": 0.30000001192092896,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-850 Jump Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:54fc4a99ce6ef88a",
+      "operationGroup": "operation:84ab40f0f568f390",
+      "planGroup": "plan:backpack:lift-850-jump-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-850 Jump Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:5e66e478974e02a9",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "JumppackComponentData",
+      "domain": "jump",
+      "apiFieldConstant": "hd2.fields.jump.sustain_forward_ratio",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "differential": true,
+        "codeReadCount": 1,
+        "research": "research/hoverpack-components-F5FEE03DCFDB.json"
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Share of the sustain thrust along the travel direction; the rest pushes up. Read live by the flight code; not yet shown in game.",
+      "min": 0.0,
+      "max": 1.0,
+      "effect": {
+        "activeSource": "LIVE_TYPE_RECORD",
+        "activeSourceProven": true,
+        "appliesWhen": "next_frame",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "lifecycle": "Read live every frame from the backpack's own JumppackComponent record (one owner): a write takes effect on the next frame, including a pack already worn and mid-flight."
+      }
+    },
+    {
+      "instanceKey": "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.sustain_start_delay",
+      "semanticFieldId": "jump.sustain_start_delay",
+      "displayName": "Earliest sustain start",
+      "type": "number",
+      "unit": "seconds",
+      "currentDefault": 1.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-850 Jump Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:54fc4a99ce6ef88a",
+      "operationGroup": "operation:84ab40f0f568f390",
+      "planGroup": "plan:backpack:lift-850-jump-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-850 Jump Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:5e66e478974e02a9",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "JumppackComponentData",
+      "domain": "jump",
+      "apiFieldConstant": "hd2.fields.jump.sustain_start_delay",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "differential": false,
+        "codeReadCount": 1,
+        "research": "research/hoverpack-components-F5FEE03DCFDB.json"
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Seconds of launch before the sustain phase may start. Read live by the flight code; not yet shown in game. The meaning is proven from the code, but no value differs between the packs (no differential), so the magnitude has no independent confirmation.",
+      "min": 0.0,
+      "max": 10.0,
+      "effect": {
+        "activeSource": "LIVE_TYPE_RECORD",
+        "activeSourceProven": true,
+        "appliesWhen": "next_frame",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "lifecycle": "Read live every frame from the backpack's own JumppackComponent record (one owner): a write takes effect on the next frame, including a pack already worn and mid-flight."
+      }
+    },
+    {
+      "instanceKey": "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.sustain_start_speed",
+      "semanticFieldId": "jump.sustain_start_speed",
+      "displayName": "Minimum speed to start the sustain",
+      "type": "number",
+      "unit": "meters_per_second",
+      "currentDefault": 3.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-850 Jump Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:54fc4a99ce6ef88a",
+      "operationGroup": "operation:84ab40f0f568f390",
+      "planGroup": "plan:backpack:lift-850-jump-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-850 Jump Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:5e66e478974e02a9",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "JumppackComponentData",
+      "domain": "jump",
+      "apiFieldConstant": "hd2.fields.jump.sustain_start_speed",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "differential": false,
+        "codeReadCount": 1,
+        "research": "research/hoverpack-components-F5FEE03DCFDB.json"
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Minimum speed (m/s) to start the sustain phase (a forward probe must also be clear). Read live by the flight code; not yet shown in game. The meaning is proven from the code, but no value differs between the packs (no differential), so the magnitude has no independent confirmation.",
+      "min": 0.0,
+      "max": 100.0,
+      "effect": {
+        "activeSource": "LIVE_TYPE_RECORD",
+        "activeSourceProven": true,
+        "appliesWhen": "next_frame",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "lifecycle": "Read live every frame from the backpack's own JumppackComponent record (one owner): a write takes effect on the next frame, including a pack already worn and mid-flight."
+      }
+    },
+    {
+      "instanceKey": "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.sustain_cutoff_speed",
+      "semanticFieldId": "jump.sustain_cutoff_speed",
+      "displayName": "Sustain cut-off speed",
+      "type": "number",
+      "unit": "meters_per_second",
+      "currentDefault": 1.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-850 Jump Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:54fc4a99ce6ef88a",
+      "operationGroup": "operation:84ab40f0f568f390",
+      "planGroup": "plan:backpack:lift-850-jump-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-850 Jump Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:5e66e478974e02a9",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "JumppackComponentData",
+      "domain": "jump",
+      "apiFieldConstant": "hd2.fields.jump.sustain_cutoff_speed",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "differential": false,
+        "codeReadCount": 1,
+        "research": "research/hoverpack-components-F5FEE03DCFDB.json"
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "The sustain phase ends, and the pack deactivates, below this speed (m/s). Read live by the flight code; not yet shown in game. The meaning is proven from the code, but no value differs between the packs (no differential), so the magnitude has no independent confirmation.",
+      "min": 0.0,
+      "max": 100.0,
+      "effect": {
+        "activeSource": "LIVE_TYPE_RECORD",
+        "activeSourceProven": true,
+        "appliesWhen": "next_frame",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "lifecycle": "Read live every frame from the backpack's own JumppackComponent record (one owner): a write takes effect on the next frame, including a pack already worn and mid-flight."
+      }
+    },
+    {
+      "instanceKey": "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.air_control_acceleration",
+      "semanticFieldId": "jump.air_control_acceleration",
+      "displayName": "Air-control acceleration",
+      "type": "number",
+      "unit": "meters_per_second_squared",
+      "currentDefault": 4.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-850 Jump Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:54fc4a99ce6ef88a",
+      "operationGroup": "operation:84ab40f0f568f390",
+      "planGroup": "plan:backpack:lift-850-jump-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-850 Jump Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:5e66e478974e02a9",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "JumppackComponentData",
+      "domain": "jump",
+      "apiFieldConstant": "hd2.fields.jump.air_control_acceleration",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "differential": false,
+        "codeReadCount": 1,
+        "research": "research/hoverpack-components-F5FEE03DCFDB.json"
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Mid-air steering: acceleration (m/s^2) along the movement input. Read live by the flight code; not yet shown in game. The meaning is proven from the code, but no value differs between the packs (no differential), so the magnitude has no independent confirmation.",
+      "min": 0.0,
+      "max": 200.0,
+      "effect": {
+        "activeSource": "LIVE_TYPE_RECORD",
+        "activeSourceProven": true,
+        "appliesWhen": "next_frame",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "lifecycle": "Read live every frame from the backpack's own JumppackComponent record (one owner): a write takes effect on the next frame, including a pack already worn and mid-flight."
+      }
+    },
+    {
+      "instanceKey": "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.air_control_max_speed",
+      "semanticFieldId": "jump.air_control_max_speed",
+      "displayName": "Air-control speed limit",
+      "type": "number",
+      "unit": "meters_per_second",
+      "currentDefault": 25.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-850 Jump Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:54fc4a99ce6ef88a",
+      "operationGroup": "operation:84ab40f0f568f390",
+      "planGroup": "plan:backpack:lift-850-jump-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-850 Jump Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:5e66e478974e02a9",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "JumppackComponentData",
+      "domain": "jump",
+      "apiFieldConstant": "hd2.fields.jump.air_control_max_speed",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "differential": true,
+        "codeReadCount": 2,
+        "research": "research/hoverpack-components-F5FEE03DCFDB.json"
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Air control applies only below this horizontal speed (m/s; 0 = no limit). Read live by the flight code; not yet shown in game.",
+      "min": 0.0,
+      "max": 100.0,
+      "effect": {
+        "activeSource": "LIVE_TYPE_RECORD",
+        "activeSourceProven": true,
+        "appliesWhen": "next_frame",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "lifecycle": "Read live every frame from the backpack's own JumppackComponent record (one owner): a write takes effect on the next frame, including a pack already worn and mid-flight."
+      }
+    },
+    {
+      "instanceKey": "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.takeoff_forward_speed",
+      "semanticFieldId": "jump.takeoff_forward_speed",
+      "displayName": "Take-off forward impulse",
+      "type": "number",
+      "unit": "meters_per_second",
+      "currentDefault": 0.5,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-850 Jump Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:54fc4a99ce6ef88a",
+      "operationGroup": "operation:84ab40f0f568f390",
+      "planGroup": "plan:backpack:lift-850-jump-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-850 Jump Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:5e66e478974e02a9",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "JumppackComponentData",
+      "domain": "jump",
+      "apiFieldConstant": "hd2.fields.jump.takeoff_forward_speed",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "differential": true,
+        "codeReadCount": 1,
+        "research": "research/hoverpack-components-F5FEE03DCFDB.json"
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Forward impulse (m/s) of the take-off hop when moving. Read live by the flight code; not yet shown in game.",
+      "min": 0.0,
+      "max": 50.0,
+      "effect": {
+        "activeSource": "LIVE_TYPE_RECORD",
+        "activeSourceProven": true,
+        "appliesWhen": "next_frame",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "lifecycle": "Read live every frame from the backpack's own JumppackComponent record (one owner): a write takes effect on the next frame, including a pack already worn and mid-flight."
+      }
+    },
+    {
+      "instanceKey": "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.takeoff_speed",
+      "semanticFieldId": "jump.takeoff_speed",
+      "displayName": "Take-off upward impulse",
+      "type": "number",
+      "unit": "meters_per_second",
+      "currentDefault": 2.799999952316284,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-850 Jump Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:54fc4a99ce6ef88a",
+      "operationGroup": "operation:84ab40f0f568f390",
+      "planGroup": "plan:backpack:lift-850-jump-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-850 Jump Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:5e66e478974e02a9",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "JumppackComponentData",
+      "domain": "jump",
+      "apiFieldConstant": "hd2.fields.jump.takeoff_speed",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "differential": true,
+        "codeReadCount": 1,
+        "research": "research/hoverpack-components-F5FEE03DCFDB.json"
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Upward impulse (m/s) of the take-off hop: vertical speed = clamp(max(vz, 0) + value, 0.75 x value, 1.1 x value). Read live by the flight code; not yet shown in game.",
+      "min": 0.0,
+      "max": 50.0,
+      "effect": {
+        "activeSource": "LIVE_TYPE_RECORD",
+        "activeSourceProven": true,
+        "appliesWhen": "next_frame",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "lifecycle": "Read live every frame from the backpack's own JumppackComponent record (one owner): a write takes effect on the next frame, including a pack already worn and mid-flight."
+      }
+    },
+    {
+      "instanceKey": "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.takeoff_speed_alternate_stance",
+      "semanticFieldId": "jump.takeoff_speed_alternate_stance",
+      "displayName": "Take-off upward impulse (alternate stance)",
+      "type": "number",
+      "unit": "meters_per_second",
+      "currentDefault": 1.5,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-850 Jump Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:54fc4a99ce6ef88a",
+      "operationGroup": "operation:84ab40f0f568f390",
+      "planGroup": "plan:backpack:lift-850-jump-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-850 Jump Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:5e66e478974e02a9",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "JumppackComponentData",
+      "domain": "jump",
+      "apiFieldConstant": "hd2.fields.jump.takeoff_speed_alternate_stance",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "differential": true,
+        "codeReadCount": 1,
+        "research": "research/hoverpack-components-F5FEE03DCFDB.json"
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Upward take-off impulse (m/s) in the alternate stance (character stance state 4 or above). Read live by the flight code; not yet shown in game.",
+      "min": 0.0,
+      "max": 50.0,
+      "effect": {
+        "activeSource": "LIVE_TYPE_RECORD",
+        "activeSourceProven": true,
+        "appliesWhen": "next_frame",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "lifecycle": "Read live every frame from the backpack's own JumppackComponent record (one owner): a write takes effect on the next frame, including a pack already worn and mid-flight."
+      }
     },
     {
       "instanceKey": "backpack:sh-20-ballistic-shield-backpack:sh-20-ballistic-shield-backpack-backpack:entity.health",
@@ -4210,9 +5031,9 @@
     {
       "instanceKey": "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.vertical_launch_velocity",
       "semanticFieldId": "jump.vertical_launch_velocity",
-      "displayName": "Vertical launch velocity",
+      "displayName": "Launch thrust",
       "type": "number",
-      "unit": "meters_per_second",
+      "unit": "meters_per_second_squared",
       "currentDefault": 40.0,
       "editable": true,
       "reason": null,
@@ -4251,9 +5072,756 @@
       },
       "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
       "acknowledgement": "allow_unverified_effect",
-      "acknowledgementReason": "The same typed member is gameplay-proven on the LIFT-850 Jump Pack; whether the Hover Pack launch reads it is not yet shown in game.",
+      "acknowledgementReason": "The same typed member is gameplay-proven on the LIFT-850 Jump Pack, but the Hover Pack launch does not read it: its activation sets the hover-launch flag that skips the launch thrust (research/hoverpack-components-F5FEE03DCFDB.json). Kept writable for compatibility; no effect.",
       "min": 0,
-      "max": 200
+      "max": 200,
+      "notices": [
+        {
+          "kind": "dormant",
+          "text": "jump.vertical_launch_velocity writes the launch thrust (+0), which the Hover Pack never reads: its activation sets the hover-launch flag that skips the launch thrust (research/hoverpack-components-F5FEE03DCFDB.json). The write is kept for compatibility and has no effect on the Hover Pack."
+        }
+      ]
+    },
+    {
+      "instanceKey": "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.sustain_thrust",
+      "semanticFieldId": "jump.sustain_thrust",
+      "displayName": "Sustain thrust",
+      "type": "number",
+      "unit": "meters_per_second_squared",
+      "currentDefault": 60.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-860 Hover Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:f893e32732cc4072",
+      "operationGroup": "operation:e3301bd3584a2090",
+      "planGroup": "plan:backpack:lift-860-hover-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-860 Hover Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:dfd9389efe19b666",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "JumppackComponentData",
+      "domain": "jump",
+      "apiFieldConstant": "hd2.fields.jump.sustain_thrust",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "differential": false,
+        "codeReadCount": 1,
+        "research": "research/hoverpack-components-F5FEE03DCFDB.json"
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Peak thrust of the sustain phase (m/s^2, tapering as 1 - t^2 over jump.sustain_duration). Read live by the flight code; not yet shown in game. The meaning is proven from the code, but no value differs between the packs (no differential), so the magnitude has no independent confirmation.",
+      "min": 0.0,
+      "max": 500.0,
+      "effect": {
+        "activeSource": "LIVE_TYPE_RECORD",
+        "activeSourceProven": true,
+        "appliesWhen": "next_frame",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "lifecycle": "Read live every frame from the backpack's own JumppackComponent record (one owner): a write takes effect on the next frame, including a pack already worn and mid-flight."
+      }
+    },
+    {
+      "instanceKey": "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.sustain_duration",
+      "semanticFieldId": "jump.sustain_duration",
+      "displayName": "Sustain thrust duration",
+      "type": "number",
+      "unit": "seconds",
+      "currentDefault": 1.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-860 Hover Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:f893e32732cc4072",
+      "operationGroup": "operation:e3301bd3584a2090",
+      "planGroup": "plan:backpack:lift-860-hover-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-860 Hover Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:dfd9389efe19b666",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "JumppackComponentData",
+      "domain": "jump",
+      "apiFieldConstant": "hd2.fields.jump.sustain_duration",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "differential": false,
+        "codeReadCount": 1,
+        "research": "research/hoverpack-components-F5FEE03DCFDB.json"
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Seconds the sustain thrust lasts (0 disables the sustain phase). Read live by the flight code; not yet shown in game. The meaning is proven from the code, but no value differs between the packs (no differential), so the magnitude has no independent confirmation.",
+      "min": 0.0,
+      "max": 10.0,
+      "effect": {
+        "activeSource": "LIVE_TYPE_RECORD",
+        "activeSourceProven": true,
+        "appliesWhen": "next_frame",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "lifecycle": "Read live every frame from the backpack's own JumppackComponent record (one owner): a write takes effect on the next frame, including a pack already worn and mid-flight."
+      }
+    },
+    {
+      "instanceKey": "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.sustain_forward_ratio",
+      "semanticFieldId": "jump.sustain_forward_ratio",
+      "displayName": "Sustain thrust forward share",
+      "type": "number",
+      "unit": "ratio",
+      "currentDefault": 0.10000000149011612,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-860 Hover Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:f893e32732cc4072",
+      "operationGroup": "operation:e3301bd3584a2090",
+      "planGroup": "plan:backpack:lift-860-hover-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-860 Hover Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:dfd9389efe19b666",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "JumppackComponentData",
+      "domain": "jump",
+      "apiFieldConstant": "hd2.fields.jump.sustain_forward_ratio",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "differential": true,
+        "codeReadCount": 1,
+        "research": "research/hoverpack-components-F5FEE03DCFDB.json"
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Share of the sustain thrust along the travel direction; the rest pushes up. Read live by the flight code; not yet shown in game.",
+      "min": 0.0,
+      "max": 1.0,
+      "effect": {
+        "activeSource": "LIVE_TYPE_RECORD",
+        "activeSourceProven": true,
+        "appliesWhen": "next_frame",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "lifecycle": "Read live every frame from the backpack's own JumppackComponent record (one owner): a write takes effect on the next frame, including a pack already worn and mid-flight."
+      }
+    },
+    {
+      "instanceKey": "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.sustain_start_speed",
+      "semanticFieldId": "jump.sustain_start_speed",
+      "displayName": "Minimum speed to start the sustain",
+      "type": "number",
+      "unit": "meters_per_second",
+      "currentDefault": 3.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-860 Hover Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:f893e32732cc4072",
+      "operationGroup": "operation:e3301bd3584a2090",
+      "planGroup": "plan:backpack:lift-860-hover-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-860 Hover Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:dfd9389efe19b666",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "JumppackComponentData",
+      "domain": "jump",
+      "apiFieldConstant": "hd2.fields.jump.sustain_start_speed",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "differential": false,
+        "codeReadCount": 1,
+        "research": "research/hoverpack-components-F5FEE03DCFDB.json"
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Minimum speed (m/s) to start the sustain phase (a forward probe must also be clear). Read live by the flight code; not yet shown in game. The meaning is proven from the code, but no value differs between the packs (no differential), so the magnitude has no independent confirmation.",
+      "min": 0.0,
+      "max": 100.0,
+      "effect": {
+        "activeSource": "LIVE_TYPE_RECORD",
+        "activeSourceProven": true,
+        "appliesWhen": "next_frame",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "lifecycle": "Read live every frame from the backpack's own JumppackComponent record (one owner): a write takes effect on the next frame, including a pack already worn and mid-flight."
+      }
+    },
+    {
+      "instanceKey": "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.sustain_cutoff_speed",
+      "semanticFieldId": "jump.sustain_cutoff_speed",
+      "displayName": "Sustain cut-off speed",
+      "type": "number",
+      "unit": "meters_per_second",
+      "currentDefault": 1.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-860 Hover Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:f893e32732cc4072",
+      "operationGroup": "operation:e3301bd3584a2090",
+      "planGroup": "plan:backpack:lift-860-hover-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-860 Hover Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:dfd9389efe19b666",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "JumppackComponentData",
+      "domain": "jump",
+      "apiFieldConstant": "hd2.fields.jump.sustain_cutoff_speed",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "differential": false,
+        "codeReadCount": 1,
+        "research": "research/hoverpack-components-F5FEE03DCFDB.json"
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "The sustain phase ends, and the pack deactivates, below this speed (m/s). Read live by the flight code; not yet shown in game. The meaning is proven from the code, but no value differs between the packs (no differential), so the magnitude has no independent confirmation.",
+      "min": 0.0,
+      "max": 100.0,
+      "effect": {
+        "activeSource": "LIVE_TYPE_RECORD",
+        "activeSourceProven": true,
+        "appliesWhen": "next_frame",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "lifecycle": "Read live every frame from the backpack's own JumppackComponent record (one owner): a write takes effect on the next frame, including a pack already worn and mid-flight."
+      }
+    },
+    {
+      "instanceKey": "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.air_control_acceleration",
+      "semanticFieldId": "jump.air_control_acceleration",
+      "displayName": "Air-control acceleration",
+      "type": "number",
+      "unit": "meters_per_second_squared",
+      "currentDefault": 4.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-860 Hover Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:f893e32732cc4072",
+      "operationGroup": "operation:e3301bd3584a2090",
+      "planGroup": "plan:backpack:lift-860-hover-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-860 Hover Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:dfd9389efe19b666",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "JumppackComponentData",
+      "domain": "jump",
+      "apiFieldConstant": "hd2.fields.jump.air_control_acceleration",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "differential": false,
+        "codeReadCount": 1,
+        "research": "research/hoverpack-components-F5FEE03DCFDB.json"
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Mid-air steering: acceleration (m/s^2) along the movement input. Read live by the flight code; not yet shown in game. The meaning is proven from the code, but no value differs between the packs (no differential), so the magnitude has no independent confirmation.",
+      "min": 0.0,
+      "max": 200.0,
+      "effect": {
+        "activeSource": "LIVE_TYPE_RECORD",
+        "activeSourceProven": true,
+        "appliesWhen": "next_frame",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "lifecycle": "Read live every frame from the backpack's own JumppackComponent record (one owner): a write takes effect on the next frame, including a pack already worn and mid-flight."
+      }
+    },
+    {
+      "instanceKey": "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.max_horizontal_speed",
+      "semanticFieldId": "hover.max_horizontal_speed",
+      "displayName": "Hover horizontal speed",
+      "type": "number",
+      "unit": "meters_per_second",
+      "currentDefault": 3.5,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-860 Hover Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:f893e32732cc4072",
+      "operationGroup": "operation:e3301bd3584a2090",
+      "planGroup": "plan:backpack:lift-860-hover-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-860 Hover Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:dfd9389efe19b666",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "JumppackComponentData",
+      "domain": "hover",
+      "apiFieldConstant": "hd2.fields.hover.max_horizontal_speed",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "differential": true,
+        "codeReadCount": 2,
+        "research": "research/hoverpack-components-F5FEE03DCFDB.json"
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Hover horizontal target speed (m/s); also the air-control speed limit of the Hover Pack. Read live by the flight code; not yet shown in game.",
+      "min": 0.0,
+      "max": 50.0,
+      "effect": {
+        "activeSource": "LIVE_TYPE_RECORD",
+        "activeSourceProven": true,
+        "appliesWhen": "next_frame",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "lifecycle": "Read live every frame from the backpack's own JumppackComponent record (one owner): a write takes effect on the next frame, including a pack already worn and mid-flight."
+      }
+    },
+    {
+      "instanceKey": "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.max_vertical_speed",
+      "semanticFieldId": "hover.max_vertical_speed",
+      "displayName": "Hover climb speed",
+      "type": "number",
+      "unit": "meters_per_second",
+      "currentDefault": 10.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-860 Hover Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:f893e32732cc4072",
+      "operationGroup": "operation:e3301bd3584a2090",
+      "planGroup": "plan:backpack:lift-860-hover-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-860 Hover Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:dfd9389efe19b666",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "JumppackComponentData",
+      "domain": "hover",
+      "apiFieldConstant": "hd2.fields.hover.max_vertical_speed",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "differential": true,
+        "codeReadCount": 2,
+        "research": "research/hoverpack-components-F5FEE03DCFDB.json"
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Hover climb target speed (m/s); no climb acceleration at it. Read live by the flight code; not yet shown in game.",
+      "min": 0.0,
+      "max": 50.0,
+      "effect": {
+        "activeSource": "LIVE_TYPE_RECORD",
+        "activeSourceProven": true,
+        "appliesWhen": "next_frame",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "lifecycle": "Read live every frame from the backpack's own JumppackComponent record (one owner): a write takes effect on the next frame, including a pack already worn and mid-flight."
+      }
+    },
+    {
+      "instanceKey": "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.vertical_acceleration_low_speed",
+      "semanticFieldId": "hover.vertical_acceleration_low_speed",
+      "displayName": "Hover vertical acceleration at low vertical speed",
+      "type": "number",
+      "unit": "meters_per_second_squared",
+      "currentDefault": 9.800000190734863,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-860 Hover Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:f893e32732cc4072",
+      "operationGroup": "operation:e3301bd3584a2090",
+      "planGroup": "plan:backpack:lift-860-hover-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-860 Hover Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:dfd9389efe19b666",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "JumppackComponentData",
+      "domain": "hover",
+      "apiFieldConstant": "hd2.fields.hover.vertical_acceleration_low_speed",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "differential": true,
+        "codeReadCount": 1,
+        "research": "research/hoverpack-components-F5FEE03DCFDB.json"
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Vertical acceleration (m/s^2) toward the climb target at low vertical speed (blended to the high-speed value over 0..hover.vertical_speed_range_end). Read live by the flight code; not yet shown in game.",
+      "min": 0.0,
+      "max": 200.0,
+      "effect": {
+        "activeSource": "LIVE_TYPE_RECORD",
+        "activeSourceProven": true,
+        "appliesWhen": "next_frame",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "lifecycle": "Read live every frame from the backpack's own JumppackComponent record (one owner): a write takes effect on the next frame, including a pack already worn and mid-flight."
+      }
+    },
+    {
+      "instanceKey": "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.vertical_acceleration_high_speed",
+      "semanticFieldId": "hover.vertical_acceleration_high_speed",
+      "displayName": "Hover vertical acceleration at high vertical speed",
+      "type": "number",
+      "unit": "meters_per_second_squared",
+      "currentDefault": 0.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-860 Hover Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:f893e32732cc4072",
+      "operationGroup": "operation:e3301bd3584a2090",
+      "planGroup": "plan:backpack:lift-860-hover-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-860 Hover Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:dfd9389efe19b666",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "JumppackComponentData",
+      "domain": "hover",
+      "apiFieldConstant": "hd2.fields.hover.vertical_acceleration_high_speed",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "differential": false,
+        "codeReadCount": 1,
+        "research": "research/hoverpack-components-F5FEE03DCFDB.json"
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Vertical acceleration (m/s^2) at the end of the vertical speed range. Read live by the flight code; not yet shown in game. The meaning is proven from the code, but no value differs between the packs (no differential), so the magnitude has no independent confirmation.",
+      "min": 0.0,
+      "max": 200.0,
+      "effect": {
+        "activeSource": "LIVE_TYPE_RECORD",
+        "activeSourceProven": true,
+        "appliesWhen": "next_frame",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "lifecycle": "Read live every frame from the backpack's own JumppackComponent record (one owner): a write takes effect on the next frame, including a pack already worn and mid-flight."
+      }
+    },
+    {
+      "instanceKey": "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.vertical_speed_range_end",
+      "semanticFieldId": "hover.vertical_speed_range_end",
+      "displayName": "Hover vertical speed blend range end",
+      "type": "number",
+      "unit": "meters_per_second",
+      "currentDefault": 8.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-860 Hover Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:f893e32732cc4072",
+      "operationGroup": "operation:e3301bd3584a2090",
+      "planGroup": "plan:backpack:lift-860-hover-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-860 Hover Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:dfd9389efe19b666",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "JumppackComponentData",
+      "domain": "hover",
+      "apiFieldConstant": "hd2.fields.hover.vertical_speed_range_end",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "differential": true,
+        "codeReadCount": 1,
+        "research": "research/hoverpack-components-F5FEE03DCFDB.json"
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Vertical speed (m/s) over which the vertical acceleration and the fuel rate blend from their low-speed to their high-speed value (must stay above the range start, 0). Read live by the flight code; not yet shown in game.",
+      "min": 0.01,
+      "max": 100.0,
+      "effect": {
+        "activeSource": "LIVE_TYPE_RECORD",
+        "activeSourceProven": true,
+        "appliesWhen": "next_frame",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "lifecycle": "Read live every frame from the backpack's own JumppackComponent record (one owner): a write takes effect on the next frame, including a pack already worn and mid-flight."
+      }
+    },
+    {
+      "instanceKey": "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.fuel_rate_low_speed",
+      "semanticFieldId": "hover.fuel_rate_low_speed",
+      "displayName": "Hover fuel use at low vertical speed (extra)",
+      "type": "number",
+      "unit": "seconds_per_second",
+      "currentDefault": 1.600000023841858,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-860 Hover Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:f893e32732cc4072",
+      "operationGroup": "operation:e3301bd3584a2090",
+      "planGroup": "plan:backpack:lift-860-hover-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-860 Hover Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:dfd9389efe19b666",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "JumppackComponentData",
+      "domain": "hover",
+      "apiFieldConstant": "hd2.fields.hover.fuel_rate_low_speed",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "differential": true,
+        "codeReadCount": 2,
+        "research": "research/hoverpack-components-F5FEE03DCFDB.json"
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Extra hover fuel use at low vertical speed: each hovering second fills the recharge cooldown by 1 + this value seconds (capped at recharge.time; -1 = no fuel use). Read live by the flight code; not yet shown in game.",
+      "min": -1.0,
+      "max": 10.0,
+      "effect": {
+        "activeSource": "LIVE_TYPE_RECORD",
+        "activeSourceProven": true,
+        "appliesWhen": "next_frame",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "lifecycle": "Read live every frame from the backpack's own JumppackComponent record (one owner): a write takes effect on the next frame, including a pack already worn and mid-flight."
+      }
+    },
+    {
+      "instanceKey": "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.fuel_rate_high_speed",
+      "semanticFieldId": "hover.fuel_rate_high_speed",
+      "displayName": "Hover fuel use at high vertical speed (extra)",
+      "type": "number",
+      "unit": "seconds_per_second",
+      "currentDefault": 0.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-860 Hover Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:f893e32732cc4072",
+      "operationGroup": "operation:e3301bd3584a2090",
+      "planGroup": "plan:backpack:lift-860-hover-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-860 Hover Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:dfd9389efe19b666",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "JumppackComponentData",
+      "domain": "hover",
+      "apiFieldConstant": "hd2.fields.hover.fuel_rate_high_speed",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "differential": false,
+        "codeReadCount": 2,
+        "research": "research/hoverpack-components-F5FEE03DCFDB.json"
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Extra hover fuel use at the end of the vertical speed range (see hover.fuel_rate_low_speed). Read live by the flight code; not yet shown in game. The meaning is proven from the code, but no value differs between the packs (no differential), so the magnitude has no independent confirmation.",
+      "min": -1.0,
+      "max": 10.0,
+      "effect": {
+        "activeSource": "LIVE_TYPE_RECORD",
+        "activeSourceProven": true,
+        "appliesWhen": "next_frame",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "lifecycle": "Read live every frame from the backpack's own JumppackComponent record (one owner): a write takes effect on the next frame, including a pack already worn and mid-flight."
+      }
     },
     {
       "instanceKey": "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.duration",
@@ -5921,7 +7489,20 @@
       ],
       "sharedScopeKey": "shared-scope:5e66e478974e02a9",
       "fieldInstances": [
-        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.vertical_launch_velocity"
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.vertical_launch_velocity",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.launch_duration",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.launch_forward_ratio",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.sustain_thrust",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.sustain_duration",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.sustain_forward_ratio",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.sustain_start_delay",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.sustain_start_speed",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.sustain_cutoff_speed",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.air_control_acceleration",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.air_control_max_speed",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.takeoff_forward_speed",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.takeoff_speed",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.takeoff_speed_alternate_stance"
       ]
     },
     {
@@ -6181,6 +7762,19 @@
       "sharedScopeKey": "shared-scope:dfd9389efe19b666",
       "fieldInstances": [
         "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.vertical_launch_velocity",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.sustain_thrust",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.sustain_duration",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.sustain_forward_ratio",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.sustain_start_speed",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.sustain_cutoff_speed",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.air_control_acceleration",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.max_horizontal_speed",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.max_vertical_speed",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.vertical_acceleration_low_speed",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.vertical_acceleration_high_speed",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.vertical_speed_range_end",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.fuel_rate_low_speed",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.fuel_rate_high_speed",
         "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.duration"
       ]
     },
@@ -6331,9 +7925,22 @@
         "path": "backpack"
       },
       "fieldInstances": [
-        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.vertical_launch_velocity"
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.vertical_launch_velocity",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.launch_duration",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.launch_forward_ratio",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.sustain_thrust",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.sustain_duration",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.sustain_forward_ratio",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.sustain_start_delay",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.sustain_start_speed",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.sustain_cutoff_speed",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.air_control_acceleration",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.air_control_max_speed",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.takeoff_forward_speed",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.takeoff_speed",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.takeoff_speed_alternate_stance"
       ],
-      "recommendedApi": "hd2.patch",
+      "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false
     },
     {
@@ -6686,6 +8293,19 @@
       },
       "fieldInstances": [
         "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.vertical_launch_velocity",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.sustain_thrust",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.sustain_duration",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.sustain_forward_ratio",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.sustain_start_speed",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.sustain_cutoff_speed",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.air_control_acceleration",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.max_horizontal_speed",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.max_vertical_speed",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.vertical_acceleration_low_speed",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.vertical_acceleration_high_speed",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.vertical_speed_range_end",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.fuel_rate_low_speed",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.fuel_rate_high_speed",
         "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.duration"
       ],
       "recommendedApi": "hd2.transaction",
@@ -6819,19 +8439,21 @@
     "gameplay_proven_combined": "Written as part of a gameplay-confirmed edit; its individual effect is not isolated.",
     "schema_proven": "Same typed native member was gameplay-proven on another entity of this record type.",
     "native_correlated": "Typed native member whose meaning is proven offline: an exact published value (on every independent entity that publishes one), a differential across the record type and a consistent hidden-name length. Not yet shown in game; allow_unverified_effect is required.",
+    "native_consumer_proven": "Typed native member whose reader in the native code is traced and whose meaning is proven from that code (the research file is named in the field evidence). Not yet shown in game; allow_unverified_effect is required.",
     "live_write_verified": "Reference mod committed this write live; gameplay effect is unconfirmed.",
     "structural_reference": "Same typed mount reference mechanism as the live-verified swap; this slot and replacement have no reference-mod write."
   },
   "summary": {
     "backpacks": 16,
-    "fieldInstances": 85,
-    "writableFieldInstances": 71,
+    "fieldInstances": 111,
+    "writableFieldInstances": 97,
     "readOnlyFieldInstances": 14,
     "backpacksWithWritableFields": 14,
     "writableByTier": {
       "gameplay_proven": 2,
       "schema_proven": 35,
-      "native_correlated": 34
+      "native_correlated": 34,
+      "native_consumer_proven": 26
     },
     "rackChainsResolved": 16,
     "weaponFedBackpacks": 3,
@@ -6841,8 +8463,8 @@
     "fixtureFallback": "disabled"
   },
   "instanceAudit": {
-    "internalInstances": 85,
-    "publishedInstances": 85,
+    "internalInstances": 111,
+    "publishedInstances": 111,
     "missingInstances": 0,
     "unexpectedInstances": 0,
     "exactMatch": true

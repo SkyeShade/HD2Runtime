@@ -28,7 +28,8 @@ payload/silo root and missile-damage owner. CQC-72 remains a two-resource duplic
 MeleeWeapon, WeaponData, customization, and damage records are byte-identical.
 
 ARC-3's `ArcWeaponComponentData` rate is the native `-1` charge-controlled sentinel. Its owned
-`WeaponChargeComponentData` supplies 0.7/1.4 second charge timing and 1.0/1.1/1.2 charge levels;
+`WeaponChargeComponentData` supplies the 1.0/1.1/1.2 s charge times (and 0.7/1.4 projectile speed multipliers, which
+an arc never reads; see support-weapon-api.md "Charge");
 the catalog's 60 RPM remains a diagnostic display value. GL-28's schema-labelled rate selector is
 `160/240/320`; 240 is the default element and the catalog value is the high element. Its identity
 is supported by the linked projectile and explosion graph rather than by suppressing this

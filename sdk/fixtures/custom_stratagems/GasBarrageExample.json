@@ -1,0 +1,42 @@
+{
+ "format": "hd2runtime-custom-stratagems/1",
+ "log": "OrbitalGasBarrage 0.2.0 BUILD: select Orbital Gas Barrage in the custom panel, then a mission; call it with RIGHT RIGHT DOWN LEFT DOWN LEFT.",
+ "stratagems": [
+  {
+   "id": "orbital_gas_barrage",
+   "name": "ORBITAL GAS BARRAGE",
+   "name_cased": "Orbital Gas Barrage",
+   "description": "A prolonged caustic barrage, spreading corrosive gas over a large area. Causes confusion and blindness on those affected. Breathing it in is not advised.",
+   "icon": {
+    "image": "orbital_gas_barrage",
+    "source": "images/orbital_gas_barrage.png"
+   },
+   "code": [
+    "right",
+    "right",
+    "down",
+    "left",
+    "down",
+    "left"
+   ],
+   "cooldown": 60,
+   "traits": [
+    "Orbital",
+    "Anti-Tank",
+    "Caustic"
+   ],
+   "carrier": {
+    "beacon": "offensive",
+    "prefer_families": [
+     "orbital"
+    ]
+   },
+   "payload": {
+    "family": "orbital",
+    "native": true,
+    "pattern": "Orbital 120mm HE Barrage",
+    "impact_explosion": "Orbital Gas Strike"
+   }
+  }
+ ]
+}

@@ -1,0 +1,356 @@
+{
+ "F5FEE03DCFDB-20260926T222226Z.hd2snap": {
+  "passed": true,
+  "phase": "ship",
+  "problems": [],
+  "summary": {
+   "compatible": [
+    "Orbital 380mm HE Barrage",
+    "Orbital Napalm Barrage",
+    "Orbital Walking Barrage"
+   ],
+   "payload": {
+    "early": "NOT_IN_MISSION",
+    "earlyWrites": 0,
+    "pagesLeftOpen": 0,
+    "protections": 0
+   }
+  }
+ },
+ "F5FEE03DCFDB-20260927T155654Z.hd2snap": {
+  "passed": true,
+  "phase": "ship",
+  "problems": [],
+  "summary": {
+   "compatible": [
+    "Orbital 380mm HE Barrage",
+    "Orbital Napalm Barrage",
+    "Orbital Walking Barrage"
+   ],
+   "payload": {
+    "early": "NOT_IN_MISSION",
+    "earlyWrites": 0,
+    "pagesLeftOpen": 0,
+    "protections": 0
+   }
+  }
+ },
+ "F5FEE03DCFDB-20260927T160033Z.hd2snap": {
+  "passed": true,
+  "phase": "ship",
+  "problems": [],
+  "summary": {
+   "compatible": [
+    "Orbital 380mm HE Barrage",
+    "Orbital Napalm Barrage",
+    "Orbital Walking Barrage"
+   ],
+   "payload": {
+    "early": "NOT_IN_MISSION",
+    "earlyWrites": 0,
+    "pagesLeftOpen": 0,
+    "protections": 0
+   }
+  }
+ },
+ "F5FEE03DCFDB-20260929T172647Z-mission-host.hd2snap": {
+  "passed": true,
+  "phase": "alive",
+  "problems": [],
+  "summary": {
+   "compatible": [
+    "Orbital 380mm HE Barrage",
+    "Orbital Napalm Barrage",
+    "Orbital Walking Barrage"
+   ],
+   "payload": {
+    "busy": "IN_USE",
+    "busyReason": "a barrage of Orbital 380mm HE Barrage is running",
+    "busyWrites": 0,
+    "chosen": "Orbital 380mm HE Barrage",
+    "combined": "applied",
+    "combinedBad": 0,
+    "combinedConversionRestore": "restored",
+    "combinedDesired": true,
+    "combinedExact": true,
+    "combinedObserved": 1,
+    "combinedRestore": "restored",
+    "combinedVanilla": true,
+    "combinedWrites": 7,
+    "conversion": "converted",
+    "conversionRestore": "restored",
+    "cooldownEnd": 110331400,
+    "desired": true,
+    "donorStill": true,
+    "donorVanilla": true,
+    "early": "NOT_CONVERTED",
+    "earlyWrites": 0,
+    "eligible": [
+     "Orbital 380mm HE Barrage",
+     "Orbital Napalm Barrage",
+     "Orbital Walking Barrage"
+    ],
+    "gas": "applied",
+    "gasBad": 0,
+    "gasConversionRestore": "restored",
+    "gasDesired": true,
+    "gasDonors": {
+     "chain": true,
+     "pattern": true,
+     "shells": true
+    },
+    "gasExact": true,
+    "gasObserved": 1,
+    "gasPerSalvo": 3,
+    "gasRestore": "restored",
+    "gasRestoreDonors": {
+     "pattern": true,
+     "shells": true
+    },
+    "gasSalvoDelay": 2,
+    "gasSalvos": 5,
+    "gasScatter": 27,
+    "gasShellCount": 3,
+    "gasShellDelay": 0.75,
+    "gasShells": [
+     197,
+     197,
+     197
+    ],
+    "gasVanilla": true,
+    "gasWrites": 7,
+    "identical": true,
+    "outside": 0,
+    "pagesLeftOpen": 0,
+    "protections": 14,
+    "restore": "restored",
+    "restoreBusy": "IN_USE",
+    "restoreBusyWrites": 0,
+    "restoreExact": true,
+    "restoreWrites": 6,
+    "salvoDelay": 2,
+    "savedCount": 0,
+    "scatter": 27,
+    "shellCount": 3,
+    "shellDelay": 0.75,
+    "shells": [
+     194,
+     137,
+     137
+    ],
+    "status": "applied",
+    "strikeRejected": true,
+    "vanillaAgain": true,
+    "writes": 6,
+    "wrongFamily": "NOT_COMPATIBLE",
+    "wrongWrites": 0
+   }
+  }
+ },
+ "F5FEE03DCFDB-20260929T172918Z-mission-host-alive.hd2snap": {
+  "passed": true,
+  "phase": "alive",
+  "problems": [],
+  "summary": {
+   "compatible": [
+    "Orbital 380mm HE Barrage",
+    "Orbital Napalm Barrage",
+    "Orbital Walking Barrage"
+   ],
+   "payload": {
+    "busy": "IN_USE",
+    "busyReason": "a barrage of Orbital 380mm HE Barrage is running",
+    "busyWrites": 0,
+    "chosen": "Orbital 380mm HE Barrage",
+    "combined": "applied",
+    "combinedBad": 0,
+    "combinedConversionRestore": "restored",
+    "combinedDesired": true,
+    "combinedExact": true,
+    "combinedObserved": 1,
+    "combinedRestore": "restored",
+    "combinedVanilla": true,
+    "combinedWrites": 7,
+    "conversion": "converted",
+    "conversionRestore": "restored",
+    "cooldownEnd": 110331400,
+    "desired": true,
+    "donorStill": true,
+    "donorVanilla": true,
+    "early": "NOT_CONVERTED",
+    "earlyWrites": 0,
+    "eligible": [
+     "Orbital 380mm HE Barrage",
+     "Orbital Napalm Barrage",
+     "Orbital Walking Barrage"
+    ],
+    "gas": "applied",
+    "gasBad": 0,
+    "gasConversionRestore": "restored",
+    "gasDesired": true,
+    "gasDonors": {
+     "chain": true,
+     "pattern": true,
+     "shells": true
+    },
+    "gasExact": true,
+    "gasObserved": 1,
+    "gasPerSalvo": 3,
+    "gasRestore": "restored",
+    "gasRestoreDonors": {
+     "pattern": true,
+     "shells": true
+    },
+    "gasSalvoDelay": 2,
+    "gasSalvos": 5,
+    "gasScatter": 27,
+    "gasShellCount": 3,
+    "gasShellDelay": 0.75,
+    "gasShells": [
+     197,
+     197,
+     197
+    ],
+    "gasVanilla": true,
+    "gasWrites": 7,
+    "identical": true,
+    "outside": 0,
+    "pagesLeftOpen": 0,
+    "protections": 14,
+    "restore": "restored",
+    "restoreBusy": "IN_USE",
+    "restoreBusyWrites": 0,
+    "restoreExact": true,
+    "restoreWrites": 6,
+    "salvoDelay": 2,
+    "savedCount": 0,
+    "scatter": 27,
+    "shellCount": 3,
+    "shellDelay": 0.75,
+    "shells": [
+     194,
+     137,
+     137
+    ],
+    "status": "applied",
+    "strikeRejected": true,
+    "vanillaAgain": true,
+    "writes": 6,
+    "wrongFamily": "NOT_COMPATIBLE",
+    "wrongWrites": 0
+   }
+  }
+ },
+ "F5FEE03DCFDB-20260929T173206Z-mission-host-after-reinforce.hd2snap": {
+  "passed": true,
+  "phase": "reinforced",
+  "problems": [],
+  "summary": {
+   "compatible": [
+    "Orbital 380mm HE Barrage",
+    "Orbital Napalm Barrage",
+    "Orbital Walking Barrage"
+   ],
+   "payload": {
+    "busy": "IN_USE",
+    "busyReason": "a barrage of Orbital 380mm HE Barrage is running",
+    "busyWrites": 0,
+    "chosen": "Orbital 380mm HE Barrage",
+    "combined": "applied",
+    "combinedBad": 0,
+    "combinedConversionRestore": "restored",
+    "combinedDesired": true,
+    "combinedExact": true,
+    "combinedObserved": 1,
+    "combinedRestore": "restored",
+    "combinedVanilla": true,
+    "combinedWrites": 7,
+    "conversion": "converted",
+    "conversionRestore": "restored",
+    "cooldownEnd": 110331400,
+    "desired": true,
+    "donorStill": true,
+    "donorVanilla": true,
+    "early": "NOT_CONVERTED",
+    "earlyWrites": 0,
+    "eligible": [
+     "Orbital 380mm HE Barrage",
+     "Orbital Napalm Barrage",
+     "Orbital Walking Barrage"
+    ],
+    "gas": "applied",
+    "gasBad": 0,
+    "gasConversionRestore": "restored",
+    "gasDesired": true,
+    "gasDonors": {
+     "chain": true,
+     "pattern": true,
+     "shells": true
+    },
+    "gasExact": true,
+    "gasObserved": 1,
+    "gasPerSalvo": 3,
+    "gasRestore": "restored",
+    "gasRestoreDonors": {
+     "pattern": true,
+     "shells": true
+    },
+    "gasSalvoDelay": 2,
+    "gasSalvos": 5,
+    "gasScatter": 27,
+    "gasShellCount": 3,
+    "gasShellDelay": 0.75,
+    "gasShells": [
+     197,
+     197,
+     197
+    ],
+    "gasVanilla": true,
+    "gasWrites": 7,
+    "identical": true,
+    "outside": 0,
+    "pagesLeftOpen": 0,
+    "protections": 14,
+    "restore": "restored",
+    "restoreBusy": "IN_USE",
+    "restoreBusyWrites": 0,
+    "restoreExact": true,
+    "restoreWrites": 6,
+    "salvoDelay": 2,
+    "savedCount": 0,
+    "scatter": 27,
+    "shellCount": 3,
+    "shellDelay": 0.75,
+    "shells": [
+     194,
+     137,
+     137
+    ],
+    "status": "applied",
+    "strikeRejected": true,
+    "vanillaAgain": true,
+    "writes": 6,
+    "wrongFamily": "NOT_COMPATIBLE",
+    "wrongWrites": 0
+   }
+  }
+ },
+ "F5FEE03DCFDB-20260929T173443Z-mission-end-transition.hd2snap": {
+  "passed": true,
+  "phase": "ended",
+  "problems": [],
+  "summary": {
+   "compatible": [
+    "Orbital 380mm HE Barrage",
+    "Orbital Napalm Barrage",
+    "Orbital Walking Barrage"
+   ],
+   "payload": {
+    "early": "NOT_IN_MISSION",
+    "earlyWrites": 0,
+    "pagesLeftOpen": 0,
+    "protections": 0
+   }
+  }
+ }
+}

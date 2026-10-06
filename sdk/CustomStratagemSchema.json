@@ -1,0 +1,6007 @@
+{
+ "api": "hd2.custom_stratagem.register",
+ "carrier": {
+  "allow_families": {
+   "default": "prefer_families (any family when neither is given)",
+   "item": {
+    "type": "enum",
+    "values": [
+     "backpack",
+     "eagle",
+     "emplacement",
+     "mine",
+     "mission",
+     "orbital",
+     "sentry",
+     "support",
+     "vehicle"
+    ]
+   },
+   "optional": true,
+   "type": "list"
+  },
+  "beacon": {
+   "doc": "the beam the player throws: offensive (red), support (blue), any",
+   "required": "unless group is given",
+   "type": "enum",
+   "values": [
+    "offensive",
+    "support",
+    "any"
+   ]
+  },
+  "exclude": {
+   "item": {
+    "catalog": "stratagems",
+    "type": "stratagem"
+   },
+   "optional": true,
+   "type": "list"
+  },
+  "group": {
+   "catalog": "carrierGroups",
+   "default": "the payload family's default group",
+   "doc": "the carrier group the carrier is drawn from (carrierGroups: its beacon and families; refused when it cannot carry the payload)",
+   "optional": true,
+   "type": "enum",
+   "values": [
+    "orbital",
+    "any_red",
+    "any",
+    "support",
+    "support_pod",
+    "expendable",
+    "weapon",
+    "sentry",
+    "emplacement",
+    "eagle"
+   ]
+  },
+  "prefer_families": {
+   "item": {
+    "type": "enum",
+    "values": [
+     "backpack",
+     "eagle",
+     "emplacement",
+     "mine",
+     "mission",
+     "orbital",
+     "sentry",
+     "support",
+     "vehicle"
+    ]
+   },
+   "optional": true,
+   "type": "list"
+  },
+  "slots": {
+   "doc": "the pod capacity asked for (support_pod and expendable groups only); at least the pod's items",
+   "max": 8,
+   "min": 1,
+   "optional": true,
+   "type": "integer",
+   "unit": "pod items"
+  }
+ },
+ "catalogs": {
+  "beacons": [
+   "offensive",
+   "support",
+   "any"
+  ],
+  "blastExplosions": [
+   {
+    "name": "NUX-223 Hellbomb",
+    "source": "behavior",
+    "type": 242
+   },
+   {
+    "name": "B-100 Portable Hellbomb",
+    "source": "behavior",
+    "type": 125
+   },
+   {
+    "name": "Cyborg Production Unit",
+    "objective": true,
+    "source": "behavior",
+    "type": 293
+   },
+   {
+    "name": "CB-9 Exploding Crossbow",
+    "source": "weapon",
+    "type": 59
+   },
+   {
+    "name": "GL-15 Evictor",
+    "source": "weapon",
+    "type": 268
+   },
+   {
+    "name": "GP-20 Ultimatum",
+    "source": "weapon",
+    "type": 341
+   },
+   {
+    "name": "P-33 Missile Pistol",
+    "source": "weapon",
+    "type": 154
+   },
+   {
+    "name": "P-34 Breacher",
+    "source": "weapon",
+    "type": 167
+   },
+   {
+    "name": "P/40-K Bolt Pistol",
+    "source": "weapon",
+    "type": 388
+   },
+   {
+    "name": "PLAS-1 Scorcher",
+    "source": "weapon",
+    "type": 155
+   },
+   {
+    "name": "PLAS-101 Purifier",
+    "source": "weapon",
+    "type": 191
+   },
+   {
+    "name": "PLAS-15 Loyalist",
+    "source": "weapon",
+    "type": 355
+   },
+   {
+    "name": "PLAS-39 Accelerator Rifle",
+    "source": "weapon",
+    "type": 413
+   },
+   {
+    "name": "R-36 Eruptor",
+    "source": "weapon",
+    "type": 158
+   },
+   {
+    "name": "SG-8P Punisher Plasma",
+    "source": "weapon",
+    "type": 290
+   }
+  ],
+  "carrierFamilies": [
+   "backpack",
+   "eagle",
+   "emplacement",
+   "mine",
+   "mission",
+   "orbital",
+   "sentry",
+   "support",
+   "vehicle"
+  ],
+  "carrierGroups": [
+   {
+    "beacon": "any",
+    "defaults": [],
+    "doc": "an orbital carrier (any beam colour): its own delivery replaced",
+    "eagle": false,
+    "families": [
+     "orbital"
+    ],
+    "name": "orbital",
+    "payloads": [
+     "orbital",
+     "orbital_native",
+     "pelican",
+     "runtime"
+    ],
+    "pod": false,
+    "weapon": false
+   },
+   {
+    "beacon": "offensive",
+    "defaults": [
+     "orbital",
+     "orbital_native",
+     "pelican",
+     "runtime"
+    ],
+    "doc": "any red-beam carrier (no Eagle): its own delivery replaced; nothing native needs an in-game item icon",
+    "eagle": false,
+    "name": "any_red",
+    "payloads": [
+     "orbital",
+     "orbital_native",
+     "pelican",
+     "runtime"
+    ],
+    "pod": false,
+    "weapon": false
+   },
+   {
+    "beacon": "any",
+    "defaults": [],
+    "doc": "any eligible carrier: its own delivery replaced",
+    "eagle": false,
+    "name": "any",
+    "payloads": [
+     "orbital",
+     "orbital_native",
+     "pelican",
+     "runtime"
+    ],
+    "pod": false,
+    "weapon": false
+   },
+   {
+    "beacon": "support",
+    "defaults": [
+     "silo",
+     "support"
+    ],
+    "doc": "a blue support/backpack carrier whose beacon is redirected to a donor's vanilla pod",
+    "eagle": false,
+    "families": [
+     "support",
+     "backpack"
+    ],
+    "name": "support",
+    "payloads": [
+     "orbital",
+     "orbital_native",
+     "pelican",
+     "runtime",
+     "silo",
+     "support"
+    ],
+    "pod": false,
+    "weapon": false
+   },
+   {
+    "beacon": "support",
+    "defaults": [
+     "pod"
+    ],
+    "doc": "a blue support/backpack carrier delivering its OWN exclusive pod, rewritten for the mission (capacity: its usable rack slots)",
+    "eagle": false,
+    "families": [
+     "support",
+     "backpack"
+    ],
+    "name": "support_pod",
+    "payloads": [
+     "pod"
+    ],
+    "pod": true,
+    "weapon": false
+   },
+   {
+    "beacon": "support",
+    "defaults": [
+     "expendable"
+    ],
+    "doc": "the carrier weapon's own stratagem: its beacon, its clone and its own pod (one vanilla stratagem); only when that stratagem cannot carry a beacon, a separate blue support/backpack carrier (the fallback, these families)",
+    "eagle": false,
+    "families": [
+     "support",
+     "backpack"
+    ],
+    "name": "expendable",
+    "payloads": [
+     "expendable"
+    ],
+    "pod": false,
+    "weapon": true
+   },
+   {
+    "beacon": "support",
+    "defaults": [
+     "weapon"
+    ],
+    "doc": "the weapon's own stratagem for its variant: its beacon, its own type and its own pod (it has no other carrier); only when that stratagem cannot carry a beacon, a separate blue support/backpack carrier",
+    "eagle": false,
+    "families": [
+     "support",
+     "backpack"
+    ],
+    "name": "weapon",
+    "payloads": [
+     "weapon"
+    ],
+    "pod": false,
+    "weapon": true
+   },
+   {
+    "beacon": "support",
+    "defaults": [
+     "sentry"
+    ],
+    "doc": "a sentry carrier: the donor sentry's pod by redirect",
+    "eagle": false,
+    "families": [
+     "sentry"
+    ],
+    "name": "sentry",
+    "payloads": [
+     "sentry"
+    ],
+    "pod": false,
+    "weapon": false
+   },
+   {
+    "beacon": "any",
+    "defaults": [],
+    "doc": "an emplacement carrier (no payload family uses it yet)",
+    "eagle": false,
+    "families": [
+     "emplacement"
+    ],
+    "name": "emplacement",
+    "payloads": [],
+    "pod": false,
+    "weapon": false
+   },
+   {
+    "beacon": "offensive",
+    "defaults": [
+     "eagle"
+    ],
+    "doc": "an Eagle: the custom Eagle's own strike and uses",
+    "eagle": true,
+    "families": [
+     "eagle"
+    ],
+    "name": "eagle",
+    "payloads": [
+     "eagle"
+    ],
+    "pod": false,
+    "weapon": false
+   }
+  ],
+  "cloneDonors": [
+   {
+    "name": "EAT-17 Expendable Anti-Tank",
+    "packageKnown": true,
+    "pool": [
+     {
+      "name": "EAT-700 Expendable Napalm",
+      "stableId": 1813634375
+     },
+     {
+      "name": "EAT-411 Leveller",
+      "stableId": 2934950455
+     }
+    ],
+    "projectile": 132,
+    "rounds": [
+     "RL-77 Airburst Rocket Launcher"
+    ],
+    "stableId": 3413606544
+   }
+  ],
+  "directions": [
+   "up",
+   "down",
+   "left",
+   "right"
+  ],
+  "eagleDonors": [
+   {
+    "cooldown": 15,
+    "impactExplosionReplaceable": true,
+    "name": "Eagle 110mm Rocket Pods",
+    "stableId": 1979913877,
+    "strikeProjectile": 82,
+    "uses": 3
+   },
+   {
+    "cooldown": 15,
+    "impactExplosionReplaceable": false,
+    "name": "Eagle 500kg Bomb",
+    "stableId": 4119049995,
+    "strikeProjectile": 239,
+    "uses": 1
+   },
+   {
+    "cooldown": 15,
+    "impactExplosionReplaceable": true,
+    "name": "Eagle Airstrike",
+    "stableId": 1238358532,
+    "strikeProjectile": 170,
+    "uses": 2
+   },
+   {
+    "cooldown": 15,
+    "impactExplosionReplaceable": false,
+    "name": "Eagle Cluster Bomb",
+    "stableId": 3656370131,
+    "strikeProjectile": 286,
+    "uses": 4
+   },
+   {
+    "cooldown": 15,
+    "impactExplosionReplaceable": true,
+    "name": "Eagle Gas Airstrike",
+    "stableId": 4196275240,
+    "strikeProjectile": 188,
+    "uses": 2
+   },
+   {
+    "cooldown": 15,
+    "impactExplosionReplaceable": true,
+    "name": "Eagle Napalm Airstrike",
+    "stableId": 2040137691,
+    "strikeProjectile": 141,
+    "uses": 2
+   },
+   {
+    "cooldown": 15,
+    "impactExplosionReplaceable": true,
+    "name": "Eagle Smoke Strike",
+    "stableId": 1685231450,
+    "strikeProjectile": 130,
+    "uses": 2
+   },
+   {
+    "cooldown": 15,
+    "impactExplosionReplaceable": false,
+    "name": "Eagle Strafing Run",
+    "stableId": 2808191861,
+    "uses": 4
+   }
+  ],
+  "explosionDonors": [
+   {
+    "effect": "stun (a 15 s StaticField; no damage)",
+    "explosion": 188,
+    "name": "Orbital EMS Strike",
+    "shell": 74
+   },
+   {
+    "effect": "gas (a 15 s, 15 m cloud; no damage)",
+    "explosion": 82,
+    "name": "Orbital Gas Strike",
+    "shell": 197
+   }
+  ],
+  "nativeCodes": [
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "up",
+     "left",
+     "up",
+     "right",
+     "up"
+    ],
+    "name": "AX/TX-13 Dog Breath",
+    "stableId": 5185868
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "left",
+     "up",
+     "right"
+    ],
+    "name": "MD-6 Anti-Personnel Minefield",
+    "stableId": 12688472
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "left",
+     "down",
+     "up",
+     "up",
+     "left"
+    ],
+    "name": "M-105 Stalwart",
+    "stableId": 14345846
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "down",
+     "right",
+     "up",
+     "up",
+     "up"
+    ],
+    "stableId": 45875024
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "down",
+     "down",
+     "left",
+     "left",
+     "down",
+     "down"
+    ],
+    "stableId": 65564476
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "up",
+     "up",
+     "down",
+     "left",
+     "right"
+    ],
+    "name": "LIFT-860 Hover Pack",
+    "stableId": 73468749
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "right",
+     "left",
+     "right",
+     "left",
+     "down",
+     "up"
+    ],
+    "stableId": 101457192
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "left",
+     "up",
+     "up",
+     "down",
+     "left",
+     "down"
+    ],
+    "stableId": 115737856
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "right",
+     "up",
+     "left",
+     "right"
+    ],
+    "name": "GL-52 De-Escalator",
+    "stableId": 153819019
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "down",
+     "down",
+     "up",
+     "left"
+    ],
+    "stableId": 255298804
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "up",
+     "left",
+     "right",
+     "up",
+     "up"
+    ],
+    "name": "SH-51 Directional Shield",
+    "stableId": 272480476
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "left",
+     "down",
+     "right",
+     "up",
+     "left",
+     "down",
+     "down"
+    ],
+    "name": "EXO-45 Patriot Exosuit",
+    "stableId": 295629711
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "right",
+     "down",
+     "left",
+     "up",
+     "right"
+    ],
+    "name": "S-11 Speargun",
+    "stableId": 336693041
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "left",
+     "down",
+     "up",
+     "right"
+    ],
+    "name": "MG-43 Machine Gun",
+    "stableId": 458198946
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "left",
+     "down",
+     "right",
+     "down",
+     "left",
+     "down",
+     "up",
+     "left",
+     "right"
+    ],
+    "name": "TD-110 Maelstrom",
+    "stableId": 460870572
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "up",
+     "right",
+     "down",
+     "up",
+     "up"
+    ],
+    "name": "A/FLAM-40 Flame Sentry",
+    "stableId": 474724029
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "up",
+     "left",
+     "up",
+     "right",
+     "down"
+    ],
+    "name": "AX/AR-23 Guard Dog",
+    "stableId": 485866824
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "left",
+     "left",
+     "left",
+     "left",
+     "left",
+     "left",
+     "left",
+     "left"
+    ],
+    "stableId": 509712523
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "left",
+     "up",
+     "left",
+     "up",
+     "up"
+    ],
+    "name": "GL-28 Belt-Fed Grenade Launcher",
+    "stableId": 512147393
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "left",
+     "up",
+     "down",
+     "down"
+    ],
+    "name": "MG-206 Heavy Machine Gun",
+    "stableId": 533318241
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "left",
+     "down",
+     "right",
+     "left",
+     "right",
+     "down",
+     "up"
+    ],
+    "name": "EXO-55 Breakthrough Exosuit",
+    "stableId": 563851843
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "down",
+     "up",
+     "down",
+     "up"
+    ],
+    "stableId": 599201298
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "up",
+     "right",
+     "left"
+    ],
+    "name": "A/G-16 Gatling Sentry",
+    "stableId": 623391597
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "left",
+     "left",
+     "right"
+    ],
+    "name": "MD-8 Gas Mines",
+    "stableId": 644090457
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "up",
+     "up",
+     "left",
+     "right",
+     "down",
+     "down"
+    ],
+    "stableId": 650447969
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "down",
+     "down",
+     "down",
+     "left",
+     "up",
+     "up",
+     "up"
+    ],
+    "stableId": 681028671
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "down",
+     "down",
+     "left",
+     "right",
+     "down",
+     "down"
+    ],
+    "stableId": 685210453
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "up",
+     "up",
+     "down",
+     "down",
+     "right",
+     "right",
+     "down"
+    ],
+    "stableId": 705279885
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "up",
+     "right",
+     "left",
+     "up",
+     "right",
+     "left",
+     "up"
+    ],
+    "stableId": 716088572
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "down",
+     "up",
+     "up",
+     "up"
+    ],
+    "stableId": 716273285
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "up",
+     "right",
+     "right",
+     "left"
+    ],
+    "name": "A/MLS-4X Rocket Sentry",
+    "stableId": 717707279
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "up",
+     "left",
+     "right",
+     "right",
+     "right"
+    ],
+    "name": "E/AT-12 Anti-Tank Emplacement",
+    "stableId": 762584056
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "left",
+     "up",
+     "left",
+     "left",
+     "down"
+    ],
+    "name": "40-K Meltagun",
+    "stableId": 774795224
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "up",
+     "right",
+     "up",
+     "left",
+     "up"
+    ],
+    "name": "A/AC-8 Autocannon Sentry",
+    "stableId": 854563507
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "up",
+     "down",
+     "right",
+     "left",
+     "up"
+    ],
+    "stableId": 863373678
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "down",
+     "up",
+     "right"
+    ],
+    "name": "Resupply",
+    "stableId": 867876502
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "up",
+     "right",
+     "left",
+     "up",
+     "right",
+     "left",
+     "up"
+    ],
+    "stableId": 871315230
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "left",
+     "down",
+     "up",
+     "up",
+     "right"
+    ],
+    "name": "AC-8 Autocannon",
+    "stableId": 875551083
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "down",
+     "up",
+     "down",
+     "right"
+    ],
+    "name": "StA-X3 W.A.S.P. Launcher",
+    "stableId": 890972990
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "up",
+     "right",
+     "up",
+     "right",
+     "up",
+     "right"
+    ],
+    "stableId": 905054095
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "left",
+     "left",
+     "left",
+     "up",
+     "down",
+     "right",
+     "down",
+     "down"
+    ],
+    "stableId": 913592461
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "up",
+     "right",
+     "right"
+    ],
+    "stableId": 929878807
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "up",
+     "left",
+     "up",
+     "right",
+     "right"
+    ],
+    "name": "AX/LAS-5 Rover",
+    "stableId": 951988742
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "up",
+     "right",
+     "down",
+     "up",
+     "right"
+    ],
+    "name": "A/LAS-98 Laser Sentry",
+    "stableId": 960389145
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "right",
+     "down",
+     "up",
+     "right",
+     "down"
+    ],
+    "name": "Orbital Laser",
+    "stableId": 970450596
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "right",
+     "down",
+     "up",
+     "left",
+     "left"
+    ],
+    "name": "ARC-3 Arc Thrower",
+    "stableId": 992079466
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "down",
+     "up",
+     "up",
+     "right",
+     "down",
+     "down",
+     "left",
+     "right",
+     "left"
+    ],
+    "stableId": 1005987791
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "up",
+     "left",
+     "right",
+     "down",
+     "up",
+     "up"
+    ],
+    "stableId": 1042447730
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "right",
+     "up",
+     "up",
+     "down"
+    ],
+    "name": "B-100 Portable Hellbomb",
+    "stableId": 1053576110
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "right",
+     "right",
+     "down",
+     "left",
+     "right",
+     "down"
+    ],
+    "name": "Orbital 120mm HE Barrage",
+    "stableId": 1063322614
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "down",
+     "right",
+     "up",
+     "left",
+     "down"
+    ],
+    "stableId": 1091253198
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "up",
+     "left",
+     "up",
+     "left",
+     "left"
+    ],
+    "name": "AX/FLAM-75 Hot Dog",
+    "stableId": 1125307795
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "down",
+     "up",
+     "left",
+     "down",
+     "down",
+     "left",
+     "up",
+     "down"
+    ],
+    "stableId": 1232978203
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "up",
+     "right",
+     "down",
+     "right"
+    ],
+    "name": "Eagle Airstrike",
+    "stableId": 1238358532
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "right",
+     "right",
+     "left",
+     "down"
+    ],
+    "name": "Orbital EMS Strike",
+    "stableId": 1280711447
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "left",
+     "down",
+     "right",
+     "up",
+     "left",
+     "down",
+     "up"
+    ],
+    "name": "EXO-49 Emancipator Exosuit",
+    "stableId": 1290499887
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "down",
+     "down",
+     "up",
+     "right"
+    ],
+    "stableId": 1295431756
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "left",
+     "right",
+     "right",
+     "left"
+    ],
+    "name": "GR-8 Recoilless Rifle",
+    "stableId": 1298599997
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "up",
+     "right",
+     "down",
+     "down"
+    ],
+    "name": "MS-11 Solo Silo",
+    "stableId": 1337271929
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "up",
+     "down",
+     "up",
+     "down",
+     "up",
+     "down"
+    ],
+    "stableId": 1426041086
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "left",
+     "up",
+     "down",
+     "up"
+    ],
+    "name": "FLAM-40 Flamethrower",
+    "stableId": 1432571981
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "left",
+     "down",
+     "right",
+     "right",
+     "down",
+     "up"
+    ],
+    "stableId": 1449420233
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "left",
+     "up",
+     "down",
+     "right",
+     "down",
+     "down"
+    ],
+    "stableId": 1503060624
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "right",
+     "right",
+     "right"
+    ],
+    "name": "Orbital Airburst Strike",
+    "stableId": 1560416221
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "down",
+     "left",
+     "down",
+     "up",
+     "right"
+    ],
+    "stableId": 1567517764
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "up",
+     "right",
+     "right",
+     "down"
+    ],
+    "name": "A/M-12 Mortar Sentry",
+    "stableId": 1582497738
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "up",
+     "up",
+     "down",
+     "down",
+     "right",
+     "down"
+    ],
+    "stableId": 1606251952
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "up",
+     "right",
+     "up",
+     "down"
+    ],
+    "name": "Eagle Smoke Strike",
+    "stableId": 1685231450
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "up",
+     "left",
+     "up",
+     "right",
+     "left"
+    ],
+    "name": "AX/ARC-3 K-9",
+    "stableId": 1692135420
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "right",
+     "right",
+     "left",
+     "left"
+    ],
+    "stableId": 1695682779
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "up",
+     "up",
+     "down",
+     "up"
+    ],
+    "name": "LIFT-850 Jump Pack",
+    "stableId": 1753436707
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "down",
+     "left",
+     "up",
+     "left"
+    ],
+    "name": "EAT-700 Expendable Napalm",
+    "stableId": 1813634375
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "down",
+     "down",
+     "down",
+     "left",
+     "right",
+     "left",
+     "right"
+    ],
+    "stableId": 1824787072
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "left",
+     "down",
+     "up",
+     "up",
+     "down"
+    ],
+    "name": "B-1 Supply Pack",
+    "stableId": 1907808218
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "up",
+     "right",
+     "up",
+     "left"
+    ],
+    "name": "Eagle 110mm Rocket Pods",
+    "stableId": 1979913877
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "left",
+     "down",
+     "right",
+     "down",
+     "left",
+     "down",
+     "up",
+     "down",
+     "up"
+    ],
+    "name": "TD-220 Bastion MK XVI",
+    "stableId": 2002187052
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "up",
+     "up",
+     "left",
+     "right"
+    ],
+    "name": "RL-77 Airburst Rocket Launcher",
+    "stableId": 2007887745
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "up",
+     "right",
+     "down",
+     "up"
+    ],
+    "name": "Eagle Napalm Airstrike",
+    "stableId": 2040137691
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "right",
+     "down",
+     "left",
+     "up",
+     "up"
+    ],
+    "name": "Orbital Gatling Barrage",
+    "stableId": 2084654169
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "left",
+     "right",
+     "down",
+     "left",
+     "right"
+    ],
+    "name": "LIFT-182 Warp Pack",
+    "stableId": 2185045091
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "right",
+     "down",
+     "down",
+     "up",
+     "left",
+     "left",
+     "up"
+    ],
+    "stableId": 2186648412
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "left",
+     "right",
+     "up",
+     "down"
+    ],
+    "name": "APW-1 Anti-Materiel Rifle",
+    "stableId": 2207713849
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "left",
+     "down",
+     "up",
+     "left"
+    ],
+    "stableId": 2229216190
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "left",
+     "up",
+     "up",
+     "down",
+     "left",
+     "down"
+    ],
+    "stableId": 2230051894
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "left",
+     "up",
+     "down",
+     "right"
+    ],
+    "name": "MLS-4X Commando",
+    "stableId": 2232989803
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "left",
+     "up",
+     "up"
+    ],
+    "name": "MD-17 Anti-Tank Mines",
+    "stableId": 2239174926
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "left",
+     "right",
+     "right",
+     "up"
+    ],
+    "name": "CQC-1 One True Flag",
+    "stableId": 2265180087
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "up",
+     "down",
+     "right",
+     "left",
+     "up"
+    ],
+    "stableId": 2266266587
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "down",
+     "right",
+     "down",
+     "up",
+     "up"
+    ],
+    "name": "B/FLAM-80 Cremator",
+    "stableId": 2271469939
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "down",
+     "left",
+     "right",
+     "left",
+     "right"
+    ],
+    "name": "FX-12 Shield Generator Relay",
+    "stableId": 2281932031
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "down",
+     "down",
+     "down",
+     "up",
+     "up"
+    ],
+    "stableId": 2319566343
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "up",
+     "right",
+     "up",
+     "left",
+     "right"
+    ],
+    "name": "A/ARC-3 Tesla Tower",
+    "stableId": 2402590523
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "right",
+     "down",
+     "left",
+     "right"
+    ],
+    "name": "E/GL-21 Grenadier Battlement",
+    "stableId": 2480128092
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "left",
+     "down",
+     "right",
+     "up",
+     "left",
+     "down",
+     "down"
+    ],
+    "stableId": 2587901119
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "down",
+     "up",
+     "left",
+     "right"
+    ],
+    "name": "LAS-99 Quasar Cannon",
+    "stableId": 2625074523
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "left",
+     "down",
+     "left",
+     "left",
+     "down",
+     "up",
+     "right"
+    ],
+    "name": "M-103 Supply FRV",
+    "stableId": 2636699686
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "right",
+     "up",
+     "left",
+     "right",
+     "down",
+     "up",
+     "down"
+    ],
+    "stableId": 2663642538
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "up",
+     "right",
+     "left",
+     "down",
+     "up",
+     "down"
+    ],
+    "stableId": 2670122272
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "down",
+     "up",
+     "left",
+     "right",
+     "up",
+     "down"
+    ],
+    "stableId": 2720892179
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "left",
+     "left",
+     "down"
+    ],
+    "name": "MD-I4 Incendiary Mines",
+    "stableId": 2742141597
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "right",
+     "up",
+     "down",
+     "down",
+     "right"
+    ],
+    "name": "Orbital Railcannon Strike",
+    "stableId": 2744472229
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "up",
+     "right",
+     "right"
+    ],
+    "name": "Eagle Strafing Run",
+    "stableId": 2808191861
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "left",
+     "down",
+     "up",
+     "left"
+    ],
+    "name": "LAS-98 Laser Cannon",
+    "stableId": 2822568285
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "left",
+     "down",
+     "right",
+     "left",
+     "down",
+     "up",
+     "up"
+    ],
+    "name": "M-104 Incinerator FRV",
+    "stableId": 2846457047
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "right",
+     "right",
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "name": "Orbital Napalm Barrage",
+    "stableId": 2902516083
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "up",
+     "left",
+     "right",
+     "right",
+     "left"
+    ],
+    "name": "E/MG-101 HMG Emplacement",
+    "stableId": 2919842659
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "down",
+     "left",
+     "up",
+     "down"
+    ],
+    "name": "EAT-411 Leveller",
+    "stableId": 2934950455
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "right",
+     "up",
+     "up",
+     "down"
+    ],
+    "stableId": 2985177386
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "up",
+     "right",
+     "up",
+     "up"
+    ],
+    "stableId": 3001049275
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "right",
+     "down",
+     "up",
+     "left",
+     "right"
+    ],
+    "name": "RS-422 Railgun",
+    "stableId": 3078242205
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "up",
+     "right",
+     "down",
+     "right"
+    ],
+    "name": "A/M-23 EMS Mortar Sentry",
+    "stableId": 3085503322
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "left",
+     "down",
+     "right",
+     "up",
+     "right",
+     "left",
+     "up"
+    ],
+    "name": "EXO-51 Lumberer Exosuit",
+    "stableId": 3086305673
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "right",
+     "down",
+     "up",
+     "up",
+     "left",
+     "down",
+     "down"
+    ],
+    "name": "Orbital 380mm HE Barrage",
+    "stableId": 3108516875
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "up",
+     "right",
+     "down",
+     "left"
+    ],
+    "name": "A/GM-17 Gas Mortar Sentry",
+    "stableId": 3183339606
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "right",
+     "right",
+     "down",
+     "right"
+    ],
+    "name": "Orbital Gas Strike",
+    "stableId": 3193297673
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "up",
+     "down",
+     "right",
+     "up"
+    ],
+    "stableId": 3193487269
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "down",
+     "right",
+     "up",
+     "right",
+     "left"
+    ],
+    "stableId": 3275255096
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "right",
+     "down",
+     "right",
+     "down",
+     "right",
+     "down"
+    ],
+    "name": "Orbital Walking Barrage",
+    "stableId": 3279813377
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "left",
+     "down",
+     "right",
+     "up",
+     "left"
+    ],
+    "name": "MGX-42 Bullet Storm",
+    "stableId": 3288352984
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "left",
+     "right",
+     "up",
+     "up",
+     "up"
+    ],
+    "stableId": 3300666223
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "down",
+     "up",
+     "up",
+     "down",
+     "up"
+    ],
+    "stableId": 3316399568
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "left",
+     "right",
+     "left",
+     "up"
+    ],
+    "name": "CQC-20 Breaching Hammer",
+    "stableId": 3330450692
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "left",
+     "up",
+     "left",
+     "down"
+    ],
+    "name": "GL-21 Grenade Launcher",
+    "stableId": 3343676429
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "left",
+     "down",
+     "down",
+     "up",
+     "left"
+    ],
+    "name": "SH-20 Ballistic Shield Backpack",
+    "stableId": 3353508219
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "down",
+     "left",
+     "up",
+     "right"
+    ],
+    "name": "EAT-17 Expendable Anti-Tank",
+    "stableId": 3413606544
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "left",
+     "right",
+     "down",
+     "up",
+     "up"
+    ],
+    "name": "M-1000 Maxigun",
+    "stableId": 3455841218
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "right",
+     "right",
+     "up"
+    ],
+    "name": "Orbital Precision Strike",
+    "stableId": 3523620028
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "left",
+     "right",
+     "right",
+     "down"
+    ],
+    "name": "CQC-9 Defoliation Tool",
+    "stableId": 3572024208
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "up",
+     "right",
+     "down",
+     "down",
+     "right"
+    ],
+    "name": "Eagle Cluster Bomb",
+    "stableId": 3656370131
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "left",
+     "right",
+     "left",
+     "right",
+     "down",
+     "up"
+    ],
+    "stableId": 3702563421
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "right",
+     "right",
+     "down",
+     "up"
+    ],
+    "name": "Orbital Smoke Strike",
+    "stableId": 3713568312
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "down",
+     "up",
+     "down",
+     "up"
+    ],
+    "stableId": 3722314010
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "right",
+     "up",
+     "up",
+     "right",
+     "up"
+    ],
+    "name": "B/MD C4 Pack",
+    "stableId": 3748434442
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "down",
+     "down",
+     "left",
+     "up",
+     "up"
+    ],
+    "stableId": 3753216434
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "right",
+     "right",
+     "left",
+     "up",
+     "right",
+     "down"
+    ],
+    "stableId": 3796132384
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "up",
+     "up",
+     "left",
+     "up",
+     "right"
+    ],
+    "stableId": 3837064536
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "up",
+     "left",
+     "right",
+     "left",
+     "right"
+    ],
+    "name": "SH-32 Shield Generator Pack",
+    "stableId": 3843705076
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "up",
+     "down",
+     "up",
+     "up"
+    ],
+    "stableId": 3868299561
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "down",
+     "up",
+     "down",
+     "down"
+    ],
+    "name": "FAF-14 Spear",
+    "stableId": 3923676543
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "down",
+     "down",
+     "down",
+     "down",
+     "down",
+     "up",
+     "up"
+    ],
+    "stableId": 3928947721
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "left",
+     "down",
+     "right",
+     "down",
+     "right",
+     "down",
+     "up"
+    ],
+    "name": "M-102 Gunner FRV",
+    "stableId": 3935317067
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "down",
+     "up",
+     "left",
+     "down",
+     "up",
+     "right",
+     "down",
+     "up"
+    ],
+    "stableId": 3989310204
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "up",
+     "right",
+     "down",
+     "down",
+     "down"
+    ],
+    "name": "Eagle 500kg Bomb",
+    "stableId": 4119049995
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "left",
+     "up",
+     "down",
+     "left"
+    ],
+    "name": "TX-41 Sterilizer",
+    "stableId": 4152191751
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "up",
+     "up",
+     "down",
+     "down",
+     "left",
+     "right",
+     "left",
+     "right"
+    ],
+    "stableId": 4177070437
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "up",
+     "right",
+     "left",
+     "right"
+    ],
+    "name": "Eagle Gas Airstrike",
+    "stableId": 4196275240
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "up",
+     "right",
+     "right",
+     "up"
+    ],
+    "name": "A/MG-43 Machine Gun Sentry",
+    "stableId": 4239785897
+   },
+   {
+    "catalogued": true,
+    "code": [
+     "down",
+     "left",
+     "up",
+     "left",
+     "right"
+    ],
+    "name": "PLAS-45 Epoch",
+    "stableId": 4261593827
+   },
+   {
+    "catalogued": false,
+    "code": [
+     "left",
+     "left",
+     "right",
+     "right",
+     "down",
+     "up"
+    ],
+    "stableId": 4264661046
+   }
+  ],
+  "orbitals": [
+   {
+    "name": "Orbital 120mm HE Barrage",
+    "packageKnown": true,
+    "pattern": {
+     "salvo_interval": 2,
+     "salvo_interval_random": 0,
+     "salvo_scatter": 0,
+     "salvos": 5,
+     "scatter": 27,
+     "shell_interval": 0.75,
+     "shell_interval_random": 0,
+     "shells_per_salvo": 3
+    },
+    "stableId": 1063322614
+   },
+   {
+    "name": "Orbital 380mm HE Barrage",
+    "packageKnown": true,
+    "pattern": {
+     "salvo_interval": 3,
+     "salvo_interval_random": 0,
+     "salvo_scatter": 0,
+     "salvos": 5,
+     "scatter": 36,
+     "shell_interval": 1.5,
+     "shell_interval_random": 0,
+     "shells_per_salvo": 3
+    },
+    "stableId": 3108516875
+   },
+   {
+    "name": "Orbital Airburst Strike",
+    "packageKnown": true,
+    "pattern": {
+     "salvo_interval": 4,
+     "salvo_interval_random": 0,
+     "salvo_scatter": 0,
+     "salvos": 4,
+     "scatter": 2,
+     "shell_interval": 0,
+     "shell_interval_random": 0,
+     "shells_per_salvo": 1
+    },
+    "stableId": 1560416221
+   },
+   {
+    "name": "Orbital EMS Strike",
+    "packageKnown": true,
+    "pattern": {
+     "salvo_interval": 2,
+     "salvo_interval_random": 0,
+     "salvo_scatter": 0,
+     "salvos": 1,
+     "scatter": 1,
+     "shell_interval": 0.3499999940395355,
+     "shell_interval_random": 0,
+     "shells_per_salvo": 1
+    },
+    "stableId": 1280711447
+   },
+   {
+    "name": "Orbital Gas Strike",
+    "packageKnown": true,
+    "pattern": {
+     "salvo_interval": 1,
+     "salvo_interval_random": 0,
+     "salvo_scatter": 1,
+     "salvos": 1,
+     "scatter": 1,
+     "shell_interval": 0.3499999940395355,
+     "shell_interval_random": 0,
+     "shells_per_salvo": 1
+    },
+    "stableId": 3193297673
+   },
+   {
+    "name": "Orbital Gatling Barrage",
+    "packageKnown": true,
+    "pattern": {
+     "salvo_interval": 0,
+     "salvo_interval_random": 0,
+     "salvo_scatter": 1,
+     "salvos": 4,
+     "scatter": 7,
+     "shell_interval": 0.04500000178813934,
+     "shell_interval_random": 0,
+     "shells_per_salvo": 60
+    },
+    "stableId": 2084654169
+   },
+   {
+    "name": "Orbital Napalm Barrage",
+    "packageKnown": true,
+    "pattern": {
+     "salvo_interval": 2,
+     "salvo_interval_random": 0,
+     "salvo_scatter": 0,
+     "salvos": 5,
+     "scatter": 25,
+     "shell_interval": 0.5,
+     "shell_interval_random": 0,
+     "shells_per_salvo": 5
+    },
+    "stableId": 2902516083
+   },
+   {
+    "name": "Orbital Precision Strike",
+    "packageKnown": true,
+    "pattern": {
+     "salvo_interval": 3,
+     "salvo_interval_random": 0,
+     "salvo_scatter": 0,
+     "salvos": 1,
+     "scatter": 1,
+     "shell_interval": 0.5,
+     "shell_interval_random": 0,
+     "shells_per_salvo": 1
+    },
+    "stableId": 3523620028
+   },
+   {
+    "name": "Orbital Smoke Strike",
+    "packageKnown": true,
+    "pattern": {
+     "salvo_interval": 0,
+     "salvo_interval_random": 0,
+     "salvo_scatter": 0,
+     "salvos": 6,
+     "scatter": 15,
+     "shell_interval": 0,
+     "shell_interval_random": 0,
+     "shells_per_salvo": 1
+    },
+    "stableId": 3713568312
+   },
+   {
+    "name": "Orbital Walking Barrage",
+    "packageKnown": true,
+    "pattern": {
+     "salvo_interval": 3,
+     "salvo_interval_random": 0,
+     "salvo_scatter": 0,
+     "salvos": 5,
+     "scatter": 25,
+     "shell_interval": 1.5,
+     "shell_interval_random": 0,
+     "shells_per_salvo": 3
+    },
+    "stableId": 3279813377
+   }
+  ],
+  "pelicanExplosionDonors": [
+   {
+    "kind": "automatic",
+    "name": "66mm Missile Mk2"
+   },
+   {
+    "kind": "automatic",
+    "name": "Assault walker cannon"
+   },
+   {
+    "kind": "automatic",
+    "name": "Automaton explosion 27"
+   },
+   {
+    "kind": "slow",
+    "maxRpm": 60,
+    "name": "EMS mortar field"
+   },
+   {
+    "kind": "automatic",
+    "name": "Exploding crossbow"
+   },
+   {
+    "kind": "slow",
+    "maxRpm": 60,
+    "name": "Gas grenade cloud"
+   },
+   {
+    "kind": "slow",
+    "maxRpm": 60,
+    "name": "Gas mortar cloud"
+   },
+   {
+    "kind": "automatic",
+    "name": "Illuminate explosion 392"
+   },
+   {
+    "kind": "automatic",
+    "name": "Pelican chin autocannon"
+   },
+   {
+    "kind": "automatic",
+    "name": "Strafing run cannon"
+   }
+  ],
+  "pelicanSounds": [
+   "automaton/assault_walker",
+   "automaton/assaultwalker/1",
+   "automaton/big_walker_turret_cannon",
+   "automaton/conscript_cannon",
+   "automaton/conscript_handgun",
+   "automaton/conscript_lmg",
+   "automaton/conscript_smg",
+   "automaton/devastator/1",
+   "automaton/elite/1",
+   "automaton/elite/2",
+   "automaton/emplacement_hmg",
+   "automaton/emplacement_mg",
+   "automaton/fabricator/1",
+   "automaton/gunship/1",
+   "automaton/gunship/2",
+   "automaton/hulk/1",
+   "automaton/hulk/2",
+   "automaton/hulk/3",
+   "automaton/lieutenant_cannon",
+   "automaton/scoutwalker/1",
+   "automaton/scoutwalker/2",
+   "automaton/siege_engine",
+   "automaton/siegeengine/1",
+   "automaton/siegeengine/2",
+   "automaton/soldier_flamer",
+   "automaton/soldier_machinegun_flm",
+   "automaton/soldier_standard_rifle",
+   "automaton/tank/1",
+   "automaton/tank_hull_mg",
+   "automaton/tank_turret_autocannons",
+   "automaton/tank_turret_heavycannon",
+   "automaton/tank_turret_rocketlauncher",
+   "automaton/turret_autocannons",
+   "automaton/turret_base",
+   "automaton/turret_command_bunker_hmg",
+   "automaton/turret_mortar",
+   "backpack/guard_dog",
+   "eagle/cannon",
+   "emplacement/anti_tank",
+   "emplacement/hmg",
+   "illuminate/beamer_champion_gun",
+   "illuminate/beamer_champion_gun_direct",
+   "illuminate/exomech/1",
+   "illuminate/exomech/2",
+   "illuminate/jet_champion_rifle",
+   "illuminate/observer/1",
+   "illuminate/pathfinder_lightspear",
+   "objective/cy_destroy_command_bunker/1",
+   "objective/sam_site",
+   "other/passive_booster_ammorack_turret/1",
+   "other/revolver_pistol_long",
+   "other/wep_ac3_arc_thrower/1",
+   "other/wep_ar_risk/1",
+   "pelican/chin_autocannon",
+   "primary/ar11",
+   "primary/ar2",
+   "primary/ar23",
+   "primary/ar23a",
+   "primary/ar23c",
+   "primary/ar23p",
+   "primary/ar32",
+   "primary/ar59",
+   "primary/ar61",
+   "primary/argl21",
+   "primary/br14",
+   "primary/cb9",
+   "primary/dbs2",
+   "primary/gl15",
+   "primary/jar5",
+   "primary/las12",
+   "primary/las16",
+   "primary/las17",
+   "primary/m7s",
+   "primary/m90a",
+   "primary/ma5c",
+   "primary/mp98",
+   "primary/plas1",
+   "primary/plas101",
+   "primary/plas39",
+   "primary/r2",
+   "primary/r2124",
+   "primary/r36",
+   "primary/r4",
+   "primary/r40k",
+   "primary/r6",
+   "primary/r63",
+   "primary/r63cs",
+   "primary/r72",
+   "primary/sg20",
+   "primary/sg225",
+   "primary/sg225ie",
+   "primary/sg225sp",
+   "primary/sg451",
+   "primary/sg8",
+   "primary/sg8p",
+   "primary/sg8s",
+   "primary/sg97",
+   "primary/smg203",
+   "primary/smg32",
+   "primary/smg37",
+   "primary/smg37/seaf",
+   "primary/smg72",
+   "primary/smgflam34",
+   "primary/sta11",
+   "primary/sta52",
+   "primary/vg70",
+   "seaf/1",
+   "seaf/2",
+   "secondary/gp20",
+   "secondary/gp31",
+   "secondary/gp31/alt",
+   "secondary/las58",
+   "secondary/m6csocom",
+   "secondary/p11",
+   "secondary/p113",
+   "secondary/p19",
+   "secondary/p2",
+   "secondary/p33",
+   "secondary/p34",
+   "secondary/p35",
+   "secondary/p4",
+   "secondary/p40k",
+   "secondary/p69",
+   "secondary/p92",
+   "secondary/plas15",
+   "secondary/sg22",
+   "sentry/autocannon",
+   "sentry/ems_mortar",
+   "sentry/gas_mortar",
+   "sentry/gatling",
+   "sentry/machine_gun",
+   "sentry/mortar",
+   "sentry/rocket",
+   "support/ac8",
+   "support/apw1",
+   "support/eat17",
+   "support/eat17/seaf",
+   "support/eat411",
+   "support/eat700",
+   "support/faf14",
+   "support/gl21",
+   "support/gl28",
+   "support/gl52",
+   "support/gr8",
+   "support/las99",
+   "support/m1000",
+   "support/m105",
+   "support/mg206",
+   "support/mg43",
+   "support/mg43/seaf",
+   "support/mgx42",
+   "support/mls4x",
+   "support/plas45",
+   "support/rl77",
+   "support/rs422",
+   "support/s11",
+   "support/sg88",
+   "support/stax3",
+   "vehicle/bastion/cannon",
+   "vehicle/bastion/hmg",
+   "vehicle/breakthrough/flak_cannon",
+   "vehicle/emancipator/autocannons",
+   "vehicle/gunner_frv/hmg",
+   "vehicle/lumberer/cannon",
+   "vehicle/maelstrom/main_gun",
+   "vehicle/maelstrom/rockets",
+   "vehicle/maelstrom/slot_2",
+   "vehicle/oil_rig/turret",
+   "vehicle/patriot/minigun",
+   "vehicle/patriot/rockets",
+   "vehicle/supply_frv/gun"
+  ],
+  "podCarriers": [
+   {
+    "capacity": 1,
+    "name": "40-K Meltagun",
+    "roles": [
+     "weapon"
+    ]
+   },
+   {
+    "capacity": 2,
+    "name": "AC-8 Autocannon",
+    "roles": [
+     "weapon",
+     "backpack"
+    ]
+   },
+   {
+    "capacity": 1,
+    "name": "APW-1 Anti-Materiel Rifle",
+    "roles": [
+     "weapon"
+    ]
+   },
+   {
+    "capacity": 1,
+    "name": "ARC-3 Arc Thrower",
+    "roles": [
+     "weapon"
+    ]
+   },
+   {
+    "capacity": 1,
+    "name": "AX/AR-23 Guard Dog",
+    "roles": [
+     "backpack"
+    ]
+   },
+   {
+    "capacity": 1,
+    "name": "AX/ARC-3 K-9",
+    "roles": [
+     "backpack"
+    ]
+   },
+   {
+    "capacity": 1,
+    "name": "AX/FLAM-75 Hot Dog",
+    "roles": [
+     "backpack"
+    ]
+   },
+   {
+    "capacity": 1,
+    "name": "AX/LAS-5 Rover",
+    "roles": [
+     "backpack"
+    ]
+   },
+   {
+    "capacity": 1,
+    "name": "AX/TX-13 Dog Breath",
+    "roles": [
+     "backpack"
+    ]
+   },
+   {
+    "capacity": 1,
+    "name": "B-1 Supply Pack",
+    "roles": [
+     "backpack"
+    ]
+   },
+   {
+    "capacity": 2,
+    "name": "B/FLAM-80 Cremator",
+    "roles": [
+     "weapon",
+     "backpack"
+    ]
+   },
+   {
+    "capacity": 2,
+    "name": "B/MD C4 Pack",
+    "roles": [
+     "weapon",
+     "backpack"
+    ]
+   },
+   {
+    "capacity": 1,
+    "name": "CQC-1 One True Flag",
+    "roles": [
+     "weapon"
+    ]
+   },
+   {
+    "capacity": 1,
+    "name": "CQC-20 Breaching Hammer",
+    "roles": [
+     "weapon"
+    ]
+   },
+   {
+    "capacity": 1,
+    "name": "CQC-9 Defoliation Tool",
+    "roles": [
+     "weapon"
+    ]
+   },
+   {
+    "capacity": 2,
+    "name": "EAT-411 Leveller",
+    "roles": [
+     "weapon",
+     "weapon"
+    ]
+   },
+   {
+    "capacity": 2,
+    "name": "EAT-700 Expendable Napalm",
+    "roles": [
+     "weapon",
+     "weapon"
+    ]
+   },
+   {
+    "capacity": 2,
+    "name": "FAF-14 Spear",
+    "roles": [
+     "weapon",
+     "backpack"
+    ]
+   },
+   {
+    "capacity": 1,
+    "name": "FLAM-40 Flamethrower",
+    "roles": [
+     "weapon"
+    ]
+   },
+   {
+    "capacity": 1,
+    "name": "GL-21 Grenade Launcher",
+    "roles": [
+     "weapon"
+    ]
+   },
+   {
+    "capacity": 2,
+    "name": "GL-28 Belt-Fed Grenade Launcher",
+    "roles": [
+     "weapon",
+     "backpack"
+    ]
+   },
+   {
+    "capacity": 1,
+    "name": "GL-52 De-Escalator",
+    "roles": [
+     "weapon"
+    ]
+   },
+   {
+    "capacity": 2,
+    "name": "GR-8 Recoilless Rifle",
+    "roles": [
+     "weapon",
+     "backpack"
+    ]
+   },
+   {
+    "capacity": 1,
+    "name": "LAS-98 Laser Cannon",
+    "roles": [
+     "weapon"
+    ]
+   },
+   {
+    "capacity": 1,
+    "name": "LAS-99 Quasar Cannon",
+    "roles": [
+     "weapon"
+    ]
+   },
+   {
+    "capacity": 1,
+    "name": "LIFT-182 Warp Pack",
+    "roles": [
+     "backpack"
+    ]
+   },
+   {
+    "capacity": 1,
+    "name": "LIFT-860 Hover Pack",
+    "roles": [
+     "backpack"
+    ]
+   },
+   {
+    "capacity": 2,
+    "name": "M-1000 Maxigun",
+    "roles": [
+     "weapon",
+     "backpack"
+    ]
+   },
+   {
+    "capacity": 1,
+    "name": "M-105 Stalwart",
+    "roles": [
+     "weapon"
+    ]
+   },
+   {
+    "capacity": 1,
+    "name": "MG-206 Heavy Machine Gun",
+    "roles": [
+     "weapon"
+    ]
+   },
+   {
+    "capacity": 2,
+    "name": "MGX-42 Bullet Storm",
+    "roles": [
+     "weapon",
+     "weapon"
+    ]
+   },
+   {
+    "capacity": 1,
+    "name": "MLS-4X Commando",
+    "roles": [
+     "weapon"
+    ]
+   },
+   {
+    "capacity": 1,
+    "name": "PLAS-45 Epoch",
+    "roles": [
+     "weapon"
+    ]
+   },
+   {
+    "capacity": 2,
+    "name": "RL-77 Airburst Rocket Launcher",
+    "roles": [
+     "weapon",
+     "backpack"
+    ]
+   },
+   {
+    "capacity": 1,
+    "name": "RS-422 Railgun",
+    "roles": [
+     "weapon"
+    ]
+   },
+   {
+    "capacity": 1,
+    "name": "S-11 Speargun",
+    "roles": [
+     "weapon"
+    ]
+   },
+   {
+    "capacity": 1,
+    "name": "SH-20 Ballistic Shield Backpack",
+    "roles": [
+     "backpack"
+    ]
+   },
+   {
+    "capacity": 1,
+    "name": "SH-32 Shield Generator Pack",
+    "roles": [
+     "backpack"
+    ]
+   },
+   {
+    "capacity": 1,
+    "name": "SH-51 Directional Shield",
+    "roles": [
+     "backpack"
+    ]
+   },
+   {
+    "capacity": 2,
+    "name": "StA-X3 W.A.S.P. Launcher",
+    "roles": [
+     "weapon",
+     "backpack"
+    ]
+   },
+   {
+    "capacity": 1,
+    "name": "TX-41 Sterilizer",
+    "roles": [
+     "weapon"
+    ]
+   }
+  ],
+  "podItems": [
+   {
+    "key": "backpack/AX/AR-23 Guard Dog",
+    "kind": "backpack",
+    "name": "AX/AR-23 Guard Dog",
+    "role": "backpack",
+    "status": "confirmed"
+   },
+   {
+    "key": "backpack/AX/ARC-3 K-9",
+    "kind": "backpack",
+    "name": "AX/ARC-3 K-9",
+    "role": "backpack",
+    "status": "confirmed"
+   },
+   {
+    "key": "backpack/AX/FLAM-75 Hot Dog",
+    "kind": "backpack",
+    "name": "AX/FLAM-75 Hot Dog",
+    "role": "backpack",
+    "status": "confirmed"
+   },
+   {
+    "key": "backpack/AX/LAS-5 Rover",
+    "kind": "backpack",
+    "name": "AX/LAS-5 Rover",
+    "role": "backpack",
+    "status": "confirmed"
+   },
+   {
+    "key": "backpack/AX/TX-13 Dog Breath",
+    "kind": "backpack",
+    "name": "AX/TX-13 Dog Breath",
+    "role": "backpack",
+    "status": "confirmed"
+   },
+   {
+    "key": "backpack/B-1 Supply Pack",
+    "kind": "backpack",
+    "name": "B-1 Supply Pack",
+    "role": "backpack",
+    "status": "confirmed"
+   },
+   {
+    "key": "backpack/B-100 Portable Hellbomb",
+    "kind": "backpack",
+    "name": "B-100 Portable Hellbomb",
+    "role": "backpack",
+    "status": "confirmed"
+   },
+   {
+    "key": "backpack/B/FLAM-80 Cremator Backpack",
+    "kind": "backpack",
+    "name": "B/FLAM-80 Cremator Backpack",
+    "role": "backpack",
+    "status": "confirmed"
+   },
+   {
+    "key": "backpack/GL-28 Belt-Fed Grenade Launcher Backpack",
+    "kind": "backpack",
+    "name": "GL-28 Belt-Fed Grenade Launcher Backpack",
+    "role": "backpack",
+    "status": "confirmed"
+   },
+   {
+    "key": "backpack/LIFT-182 Warp Pack",
+    "kind": "backpack",
+    "name": "LIFT-182 Warp Pack",
+    "role": "backpack",
+    "status": "confirmed"
+   },
+   {
+    "key": "backpack/LIFT-850 Jump Pack",
+    "kind": "backpack",
+    "name": "LIFT-850 Jump Pack",
+    "role": "backpack",
+    "status": "confirmed"
+   },
+   {
+    "key": "backpack/LIFT-860 Hover Pack",
+    "kind": "backpack",
+    "name": "LIFT-860 Hover Pack",
+    "role": "backpack",
+    "status": "confirmed"
+   },
+   {
+    "key": "backpack/M-1000 Maxigun Backpack",
+    "kind": "backpack",
+    "name": "M-1000 Maxigun Backpack",
+    "role": "backpack",
+    "status": "confirmed"
+   },
+   {
+    "key": "backpack/SH-20 Ballistic Shield Backpack",
+    "kind": "backpack",
+    "name": "SH-20 Ballistic Shield Backpack",
+    "role": "backpack",
+    "status": "confirmed"
+   },
+   {
+    "key": "backpack/SH-32 Shield Generator Pack",
+    "kind": "backpack",
+    "name": "SH-32 Shield Generator Pack",
+    "role": "backpack",
+    "status": "confirmed"
+   },
+   {
+    "key": "backpack/SH-51 Directional Shield",
+    "kind": "backpack",
+    "name": "SH-51 Directional Shield",
+    "role": "backpack",
+    "status": "confirmed"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/AR-11 Arbitrator",
+    "kind": "primary",
+    "name": "AR-11 Arbitrator",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/AR-2 Coyote",
+    "kind": "primary",
+    "name": "AR-2 Coyote",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/AR-23 Liberator",
+    "kind": "primary",
+    "name": "AR-23 Liberator",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/AR-23A Liberator Carbine",
+    "kind": "primary",
+    "name": "AR-23A Liberator Carbine",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/AR-23C Liberator Concussive",
+    "kind": "primary",
+    "name": "AR-23C Liberator Concussive",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/AR-23P Liberator Penetrator",
+    "kind": "primary",
+    "name": "AR-23P Liberator Penetrator",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/AR-32 Pacifier",
+    "kind": "primary",
+    "name": "AR-32 Pacifier",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/AR-59 Suppressor",
+    "kind": "primary",
+    "name": "AR-59 Suppressor",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/AR-61 Tenderizer",
+    "kind": "primary",
+    "name": "AR-61 Tenderizer",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/AR/GL-21 One-Two",
+    "kind": "primary",
+    "name": "AR/GL-21 One-Two",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/ARC-12 Blitzer",
+    "kind": "primary",
+    "name": "ARC-12 Blitzer",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/BR-14 Adjudicator",
+    "kind": "primary",
+    "name": "BR-14 Adjudicator",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/CB-9 Exploding Crossbow",
+    "kind": "primary",
+    "name": "CB-9 Exploding Crossbow",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "key": "player_weapon/CQC-42 Machete#2",
+    "kind": "support_weapon",
+    "name": "CQC-42 Machete",
+    "role": "weapon",
+    "status": "confirmed"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/DBS-2 Double Freedom",
+    "kind": "primary",
+    "name": "DBS-2 Double Freedom",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/FLAM-66 Torcher",
+    "kind": "primary",
+    "name": "FLAM-66 Torcher",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/GL-15 Evictor",
+    "kind": "primary",
+    "name": "GL-15 Evictor",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/JAR-5 Dominator",
+    "kind": "primary",
+    "name": "JAR-5 Dominator",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/LAS-12 Sai",
+    "kind": "primary",
+    "name": "LAS-12 Sai",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/LAS-13 Trident",
+    "kind": "primary",
+    "name": "LAS-13 Trident",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/LAS-16 Sickle",
+    "kind": "primary",
+    "name": "LAS-16 Sickle",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/LAS-17 Double-Edge Sickle",
+    "kind": "primary",
+    "name": "LAS-17 Double-Edge Sickle",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/LAS-5 Scythe",
+    "kind": "primary",
+    "name": "LAS-5 Scythe",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/LAS-5 Scythe#2",
+    "kind": "primary",
+    "name": "LAS-5 Scythe",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/M7S SMG",
+    "kind": "primary",
+    "name": "M7S SMG",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/M90A Shotgun",
+    "kind": "primary",
+    "name": "M90A Shotgun",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/MA5C Assault Rifle",
+    "kind": "primary",
+    "name": "MA5C Assault Rifle",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/MP-98 Knight",
+    "kind": "primary",
+    "name": "MP-98 Knight",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/PLAS-1 Scorcher",
+    "kind": "primary",
+    "name": "PLAS-1 Scorcher",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/PLAS-101 Purifier",
+    "kind": "primary",
+    "name": "PLAS-101 Purifier",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/PLAS-39 Accelerator Rifle",
+    "kind": "primary",
+    "name": "PLAS-39 Accelerator Rifle",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/R-2 Amendment",
+    "kind": "primary",
+    "name": "R-2 Amendment",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/R-2124 Constitution",
+    "kind": "primary",
+    "name": "R-2124 Constitution",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/R-36 Eruptor",
+    "kind": "primary",
+    "name": "R-36 Eruptor",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/R-4 Hyena",
+    "kind": "primary",
+    "name": "R-4 Hyena",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/R-6 Deadeye",
+    "kind": "primary",
+    "name": "R-6 Deadeye",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/R-63 Diligence",
+    "kind": "primary",
+    "name": "R-63 Diligence",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/R-63CS Diligence Counter Sniper",
+    "kind": "primary",
+    "name": "R-63CS Diligence Counter Sniper",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/R-72 Censor",
+    "kind": "primary",
+    "name": "R-72 Censor",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/R/40-K Hot-Shot Marksman Rifle",
+    "kind": "primary",
+    "name": "R/40-K Hot-Shot Marksman Rifle",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/SG-20 Halt",
+    "kind": "primary",
+    "name": "SG-20 Halt",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/SG-225 Breaker",
+    "kind": "primary",
+    "name": "SG-225 Breaker",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/SG-225IE Breaker Incendiary",
+    "kind": "primary",
+    "name": "SG-225IE Breaker Incendiary",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/SG-225SP Breaker Spray&Pray",
+    "kind": "primary",
+    "name": "SG-225SP Breaker Spray&Pray",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/SG-451 Cookout",
+    "kind": "primary",
+    "name": "SG-451 Cookout",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/SG-8 Punisher",
+    "kind": "primary",
+    "name": "SG-8 Punisher",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/SG-8P Punisher Plasma",
+    "kind": "primary",
+    "name": "SG-8P Punisher Plasma",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/SG-8S Slugger",
+    "kind": "primary",
+    "name": "SG-8S Slugger",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/SG-97 Sweeper",
+    "kind": "primary",
+    "name": "SG-97 Sweeper",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/SMG-203 Gallant",
+    "kind": "primary",
+    "name": "SMG-203 Gallant",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/SMG-32 Reprimand",
+    "kind": "primary",
+    "name": "SMG-32 Reprimand",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/SMG-37 Defender",
+    "kind": "primary",
+    "name": "SMG-37 Defender",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/SMG-72 Pummeler",
+    "kind": "primary",
+    "name": "SMG-72 Pummeler",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/SMG/FLAM-34 Stoker",
+    "kind": "primary",
+    "name": "SMG/FLAM-34 Stoker",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/StA-11 SMG",
+    "kind": "primary",
+    "name": "StA-11 SMG",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/StA-52 Assault Rifle",
+    "kind": "primary",
+    "name": "StA-52 Assault Rifle",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "acknowledgement": "allow_unverified_effect",
+    "key": "player_weapon/VG-70 Variable",
+    "kind": "primary",
+    "name": "VG-70 Variable",
+    "role": "weapon",
+    "status": "unverified"
+   },
+   {
+    "key": "support_weapon/40-K Meltagun",
+    "kind": "support_weapon",
+    "name": "40-K Meltagun",
+    "role": "weapon",
+    "status": "confirmed"
+   },
+   {
+    "key": "support_weapon/AC-8 Autocannon",
+    "kind": "support_weapon",
+    "name": "AC-8 Autocannon",
+    "role": "weapon",
+    "status": "confirmed"
+   },
+   {
+    "key": "support_weapon/APW-1 Anti-Materiel Rifle",
+    "kind": "support_weapon",
+    "name": "APW-1 Anti-Materiel Rifle",
+    "role": "weapon",
+    "status": "confirmed"
+   },
+   {
+    "key": "support_weapon/ARC-3 Arc Thrower",
+    "kind": "support_weapon",
+    "name": "ARC-3 Arc Thrower",
+    "role": "weapon",
+    "status": "confirmed"
+   },
+   {
+    "key": "support_weapon/B/FLAM-80 Cremator#2",
+    "kind": "support_weapon",
+    "name": "B/FLAM-80 Cremator",
+    "role": "weapon",
+    "status": "confirmed"
+   },
+   {
+    "key": "support_weapon/CQC-1 One True Flag",
+    "kind": "support_weapon",
+    "name": "CQC-1 One True Flag",
+    "role": "weapon",
+    "status": "confirmed"
+   },
+   {
+    "key": "support_weapon/CQC-20 Breaching Hammer",
+    "kind": "support_weapon",
+    "name": "CQC-20 Breaching Hammer",
+    "role": "weapon",
+    "status": "confirmed"
+   },
+   {
+    "key": "support_weapon/CQC-9 Defoliation Tool",
+    "kind": "support_weapon",
+    "name": "CQC-9 Defoliation Tool",
+    "role": "weapon",
+    "status": "confirmed"
+   },
+   {
+    "key": "support_weapon/EAT-17 Expendable Anti-Tank#2",
+    "kind": "support_weapon",
+    "name": "EAT-17 Expendable Anti-Tank",
+    "role": "weapon",
+    "status": "confirmed"
+   },
+   {
+    "key": "support_weapon/EAT-411 Leveller",
+    "kind": "support_weapon",
+    "name": "EAT-411 Leveller",
+    "role": "weapon",
+    "status": "confirmed"
+   },
+   {
+    "key": "support_weapon/EAT-700 Expendable Napalm",
+    "kind": "support_weapon",
+    "name": "EAT-700 Expendable Napalm",
+    "role": "weapon",
+    "status": "confirmed"
+   },
+   {
+    "key": "support_weapon/FAF-14 Spear",
+    "kind": "support_weapon",
+    "name": "FAF-14 Spear",
+    "role": "weapon",
+    "status": "confirmed"
+   },
+   {
+    "key": "support_weapon/FLAM-40 Flamethrower",
+    "kind": "support_weapon",
+    "name": "FLAM-40 Flamethrower",
+    "role": "weapon",
+    "status": "confirmed"
+   },
+   {
+    "key": "support_weapon/GL-21 Grenade Launcher",
+    "kind": "support_weapon",
+    "name": "GL-21 Grenade Launcher",
+    "role": "weapon",
+    "status": "confirmed"
+   },
+   {
+    "key": "support_weapon/GL-28 Belt-Fed Grenade Launcher",
+    "kind": "support_weapon",
+    "name": "GL-28 Belt-Fed Grenade Launcher",
+    "role": "weapon",
+    "status": "confirmed"
+   },
+   {
+    "key": "support_weapon/GL-52 De-Escalator",
+    "kind": "support_weapon",
+    "name": "GL-52 De-Escalator",
+    "role": "weapon",
+    "status": "confirmed"
+   },
+   {
+    "key": "support_weapon/GR-8 Recoilless Rifle",
+    "kind": "support_weapon",
+    "name": "GR-8 Recoilless Rifle",
+    "role": "weapon",
+    "status": "confirmed"
+   },
+   {
+    "key": "support_weapon/LAS-98 Laser Cannon#3",
+    "kind": "support_weapon",
+    "name": "LAS-98 Laser Cannon",
+    "role": "weapon",
+    "status": "confirmed"
+   },
+   {
+    "key": "support_weapon/LAS-99 Quasar Cannon",
+    "kind": "support_weapon",
+    "name": "LAS-99 Quasar Cannon",
+    "role": "weapon",
+    "status": "confirmed"
+   },
+   {
+    "key": "support_weapon/M-1000 Maxigun",
+    "kind": "support_weapon",
+    "name": "M-1000 Maxigun",
+    "role": "weapon",
+    "status": "confirmed"
+   },
+   {
+    "key": "support_weapon/M-105 Stalwart",
+    "kind": "support_weapon",
+    "name": "M-105 Stalwart",
+    "rateSelector": true,
+    "role": "weapon",
+    "status": "confirmed"
+   },
+   {
+    "key": "support_weapon/MG-206 Heavy Machine Gun#2",
+    "kind": "support_weapon",
+    "name": "MG-206 Heavy Machine Gun",
+    "rateSelector": true,
+    "role": "weapon",
+    "status": "confirmed"
+   },
+   {
+    "key": "support_weapon/MG-43 Machine Gun",
+    "kind": "support_weapon",
+    "name": "MG-43 Machine Gun",
+    "rateSelector": true,
+    "role": "weapon",
+    "status": "confirmed"
+   },
+   {
+    "key": "support_weapon/MGX-42 Bullet Storm",
+    "kind": "support_weapon",
+    "name": "MGX-42 Bullet Storm",
+    "role": "weapon",
+    "status": "confirmed"
+   },
+   {
+    "key": "support_weapon/MLS-4X Commando",
+    "kind": "support_weapon",
+    "name": "MLS-4X Commando",
+    "role": "weapon",
+    "status": "confirmed"
+   },
+   {
+    "key": "support_weapon/PLAS-45 Epoch",
+    "kind": "support_weapon",
+    "name": "PLAS-45 Epoch",
+    "role": "weapon",
+    "status": "confirmed"
+   },
+   {
+    "key": "support_weapon/RL-77 Airburst Rocket Launcher",
+    "kind": "support_weapon",
+    "name": "RL-77 Airburst Rocket Launcher",
+    "role": "weapon",
+    "status": "confirmed"
+   },
+   {
+    "key": "support_weapon/RS-422 Railgun",
+    "kind": "support_weapon",
+    "name": "RS-422 Railgun",
+    "role": "weapon",
+    "status": "confirmed"
+   },
+   {
+    "key": "support_weapon/S-11 Speargun",
+    "kind": "support_weapon",
+    "name": "S-11 Speargun",
+    "role": "weapon",
+    "status": "confirmed"
+   },
+   {
+    "key": "support_weapon/StA-X3 W.A.S.P. Launcher",
+    "kind": "support_weapon",
+    "name": "StA-X3 W.A.S.P. Launcher",
+    "role": "weapon",
+    "status": "confirmed"
+   },
+   {
+    "key": "support_weapon/TX-41 Sterilizer",
+    "kind": "support_weapon",
+    "name": "TX-41 Sterilizer",
+    "role": "weapon",
+    "status": "confirmed"
+   }
+  ],
+  "projectileDonors": [
+   {
+    "name": "AC-8 Autocannon",
+    "projectile": 115
+   },
+   {
+    "name": "APW-1 Anti-Materiel Rifle",
+    "projectile": 226
+   },
+   {
+    "name": "EAT-17 Expendable Anti-Tank",
+    "projectile": 132
+   },
+   {
+    "name": "EAT-411 Leveller",
+    "projectile": 34
+   },
+   {
+    "name": "EAT-700 Expendable Napalm",
+    "projectile": 259
+   },
+   {
+    "name": "FAF-14 Spear",
+    "projectile": 225
+   },
+   {
+    "name": "GL-21 Grenade Launcher",
+    "projectile": 280
+   },
+   {
+    "name": "GL-28 Belt-Fed Grenade Launcher",
+    "projectile": 89
+   },
+   {
+    "name": "GL-52 De-Escalator",
+    "projectile": 222
+   },
+   {
+    "name": "GR-8 Recoilless Rifle",
+    "projectile": 153
+   },
+   {
+    "name": "LAS-99 Quasar Cannon",
+    "projectile": 133
+   },
+   {
+    "name": "M-1000 Maxigun",
+    "projectile": 306
+   },
+   {
+    "name": "M-105 Stalwart",
+    "projectile": 276
+   },
+   {
+    "name": "MG-206 Heavy Machine Gun",
+    "projectile": 275
+   },
+   {
+    "name": "MG-43 Machine Gun",
+    "projectile": 148
+   },
+   {
+    "name": "MGX-42 Bullet Storm",
+    "projectile": 61
+   },
+   {
+    "name": "MLS-4X Commando",
+    "projectile": 245
+   },
+   {
+    "name": "PLAS-45 Epoch",
+    "projectile": 165
+   },
+   {
+    "name": "RL-77 Airburst Rocket Launcher",
+    "projectile": 312
+   },
+   {
+    "name": "RS-422 Railgun",
+    "projectile": 186
+   },
+   {
+    "name": "S-11 Speargun",
+    "projectile": 125
+   },
+   {
+    "name": "StA-X3 W.A.S.P. Launcher",
+    "projectile": 43
+   }
+  ],
+  "sentryDonors": [
+   {
+    "deployedEntity": "54D86057F5DACFB9",
+    "name": "A/AC-8 Autocannon Sentry",
+    "stableId": 854563507,
+    "supported": true
+   },
+   {
+    "deployedEntity": "74599E56F72F9D7E",
+    "name": "A/ARC-3 Tesla Tower",
+    "stableId": 2402590523,
+    "supported": true
+   },
+   {
+    "deployedEntity": "820CC3BAFE962858",
+    "name": "A/FLAM-40 Flame Sentry",
+    "stableId": 474724029,
+    "supported": true
+   },
+   {
+    "deployedEntity": "EF85D6CF58E31D70",
+    "name": "A/G-16 Gatling Sentry",
+    "stableId": 623391597,
+    "supported": true
+   },
+   {
+    "deployedEntity": "299C0D3DFD2F0994",
+    "name": "A/GM-17 Gas Mortar Sentry",
+    "stableId": 3183339606,
+    "supported": true
+   },
+   {
+    "deployedEntity": "56070F36CFFFA8A8",
+    "name": "A/LAS-98 Laser Sentry",
+    "stableId": 960389145,
+    "supported": true
+   },
+   {
+    "deployedEntity": "51A0812E3BCE2D74",
+    "name": "A/M-12 Mortar Sentry",
+    "stableId": 1582497738,
+    "supported": true
+   },
+   {
+    "deployedEntity": "B2053A1838092F8B",
+    "name": "A/M-23 EMS Mortar Sentry",
+    "stableId": 3085503322,
+    "supported": true
+   },
+   {
+    "deployedEntity": "37CDE43876BA26BB",
+    "name": "A/MG-43 Machine Gun Sentry",
+    "stableId": 4239785897,
+    "supported": true
+   },
+   {
+    "deployedEntity": "37079568DC86E9C6",
+    "name": "A/MLS-4X Rocket Sentry",
+    "stableId": 717707279,
+    "supported": true
+   }
+  ],
+  "siloDonors": [
+   {
+    "detonation": 135,
+    "name": "MS-11 Solo Silo",
+    "packageKnown": true,
+    "stableId": 1337271929
+   }
+  ],
+  "stratagems": [
+   "40-K Meltagun",
+   "A/AC-8 Autocannon Sentry",
+   "A/ARC-3 Tesla Tower",
+   "A/FLAM-40 Flame Sentry",
+   "A/G-16 Gatling Sentry",
+   "A/GM-17 Gas Mortar Sentry",
+   "A/LAS-98 Laser Sentry",
+   "A/M-12 Mortar Sentry",
+   "A/M-23 EMS Mortar Sentry",
+   "A/MG-43 Machine Gun Sentry",
+   "A/MLS-4X Rocket Sentry",
+   "AC-8 Autocannon",
+   "APW-1 Anti-Materiel Rifle",
+   "ARC-3 Arc Thrower",
+   "AX/AR-23 Guard Dog",
+   "AX/ARC-3 K-9",
+   "AX/FLAM-75 Hot Dog",
+   "AX/LAS-5 Rover",
+   "AX/TX-13 Dog Breath",
+   "B-1 Supply Pack",
+   "B-100 Portable Hellbomb",
+   "B/FLAM-80 Cremator",
+   "B/MD C4 Pack",
+   "CQC-1 One True Flag",
+   "CQC-20 Breaching Hammer",
+   "CQC-9 Defoliation Tool",
+   "E/AT-12 Anti-Tank Emplacement",
+   "E/GL-21 Grenadier Battlement",
+   "E/MG-101 HMG Emplacement",
+   "EAT-17 Expendable Anti-Tank",
+   "EAT-411 Leveller",
+   "EAT-700 Expendable Napalm",
+   "EXO-45 Patriot Exosuit",
+   "EXO-49 Emancipator Exosuit",
+   "EXO-51 Lumberer Exosuit",
+   "EXO-55 Breakthrough Exosuit",
+   "Eagle 110mm Rocket Pods",
+   "Eagle 500kg Bomb",
+   "Eagle Airstrike",
+   "Eagle Cluster Bomb",
+   "Eagle Gas Airstrike",
+   "Eagle Napalm Airstrike",
+   "Eagle Smoke Strike",
+   "Eagle Strafing Run",
+   "FAF-14 Spear",
+   "FLAM-40 Flamethrower",
+   "FX-12 Shield Generator Relay",
+   "GL-21 Grenade Launcher",
+   "GL-28 Belt-Fed Grenade Launcher",
+   "GL-52 De-Escalator",
+   "GR-8 Recoilless Rifle",
+   "LAS-98 Laser Cannon",
+   "LAS-99 Quasar Cannon",
+   "LIFT-182 Warp Pack",
+   "LIFT-850 Jump Pack",
+   "LIFT-860 Hover Pack",
+   "M-1000 Maxigun",
+   "M-102 Gunner FRV",
+   "M-103 Supply FRV",
+   "M-104 Incinerator FRV",
+   "M-105 Stalwart",
+   "MD-17 Anti-Tank Mines",
+   "MD-6 Anti-Personnel Minefield",
+   "MD-8 Gas Mines",
+   "MD-I4 Incendiary Mines",
+   "MG-206 Heavy Machine Gun",
+   "MG-43 Machine Gun",
+   "MGX-42 Bullet Storm",
+   "MLS-4X Commando",
+   "MS-11 Solo Silo",
+   "Orbital 120mm HE Barrage",
+   "Orbital 380mm HE Barrage",
+   "Orbital Airburst Strike",
+   "Orbital EMS Strike",
+   "Orbital Gas Strike",
+   "Orbital Gatling Barrage",
+   "Orbital Laser",
+   "Orbital Napalm Barrage",
+   "Orbital Precision Strike",
+   "Orbital Railcannon Strike",
+   "Orbital Smoke Strike",
+   "Orbital Walking Barrage",
+   "PLAS-45 Epoch",
+   "RL-77 Airburst Rocket Launcher",
+   "RS-422 Railgun",
+   "Resupply",
+   "S-11 Speargun",
+   "SH-20 Ballistic Shield Backpack",
+   "SH-32 Shield Generator Pack",
+   "SH-51 Directional Shield",
+   "StA-X3 W.A.S.P. Launcher",
+   "TD-110 Maelstrom",
+   "TD-220 Bastion MK XVI",
+   "TX-41 Sterilizer"
+  ],
+  "supportDonors": [
+   {
+    "count": 1,
+    "deliverable": true,
+    "family": "support",
+    "items": [
+     {
+      "entityType": "6CFCC7F8801A0266",
+      "kind": "weapon"
+     }
+    ],
+    "modifiable": true,
+    "name": "40-K Meltagun",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 774795224
+   },
+   {
+    "count": 2,
+    "deliverable": true,
+    "family": "support",
+    "items": [
+     {
+      "entityType": "A8CFFB316F0B5C5F",
+      "kind": "weapon",
+      "projectile": 115
+     },
+     {
+      "entityType": "E60AE045E0090F4C",
+      "kind": "backpack"
+     }
+    ],
+    "modifiable": true,
+    "name": "AC-8 Autocannon",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 875551083
+   },
+   {
+    "count": 1,
+    "deliverable": true,
+    "family": "support",
+    "items": [
+     {
+      "entityType": "89C5493E08CA4207",
+      "kind": "weapon",
+      "projectile": 226
+     }
+    ],
+    "modifiable": true,
+    "name": "APW-1 Anti-Materiel Rifle",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 2207713849
+   },
+   {
+    "count": 1,
+    "deliverable": true,
+    "family": "support",
+    "items": [
+     {
+      "entityType": "96DE9CD50F7306E6",
+      "kind": "weapon"
+     }
+    ],
+    "modifiable": true,
+    "name": "ARC-3 Arc Thrower",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 992079466
+   },
+   {
+    "count": 1,
+    "deliverable": true,
+    "family": "backpack",
+    "items": [
+     {
+      "entityType": "255EBC5767D7CEEC",
+      "kind": "backpack"
+     }
+    ],
+    "modifiable": false,
+    "name": "AX/AR-23 Guard Dog",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 485866824
+   },
+   {
+    "count": 1,
+    "deliverable": true,
+    "family": "backpack",
+    "items": [
+     {
+      "entityType": "C28DA712B12E3DFA",
+      "kind": "backpack"
+     }
+    ],
+    "modifiable": false,
+    "name": "AX/ARC-3 K-9",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 1692135420
+   },
+   {
+    "count": 1,
+    "deliverable": true,
+    "family": "backpack",
+    "items": [
+     {
+      "entityType": "3015626AA69F8D4D",
+      "kind": "backpack"
+     }
+    ],
+    "modifiable": false,
+    "name": "AX/FLAM-75 Hot Dog",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 1125307795
+   },
+   {
+    "count": 1,
+    "deliverable": true,
+    "family": "backpack",
+    "items": [
+     {
+      "entityType": "AF9B683CCB6DDC02",
+      "kind": "backpack"
+     }
+    ],
+    "modifiable": false,
+    "name": "AX/LAS-5 Rover",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 951988742
+   },
+   {
+    "count": 1,
+    "deliverable": true,
+    "family": "backpack",
+    "items": [
+     {
+      "entityType": "BFFCB4CD971A8EDA",
+      "kind": "backpack"
+     }
+    ],
+    "modifiable": false,
+    "name": "AX/TX-13 Dog Breath",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 5185868
+   },
+   {
+    "count": 1,
+    "deliverable": true,
+    "family": "backpack",
+    "items": [
+     {
+      "entityType": "4EF9A47109239A58",
+      "kind": "backpack"
+     }
+    ],
+    "modifiable": false,
+    "name": "B-1 Supply Pack",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 1907808218
+   },
+   {
+    "count": 1,
+    "deliverable": true,
+    "family": "backpack",
+    "items": [
+     {
+      "entityType": "9ACE8638421ABC8E",
+      "kind": "backpack"
+     }
+    ],
+    "modifiable": false,
+    "name": "B-100 Portable Hellbomb",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 1053576110
+   },
+   {
+    "count": 2,
+    "deliverable": true,
+    "family": "support",
+    "items": [
+     {
+      "entityType": "43EB1C3C1A1860E0",
+      "kind": "backpack"
+     },
+     {
+      "entityType": "78A8185F63A70795",
+      "kind": "weapon"
+     }
+    ],
+    "modifiable": true,
+    "name": "B/FLAM-80 Cremator",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 2271469939
+   },
+   {
+    "count": 2,
+    "deliverable": true,
+    "family": "support",
+    "items": [
+     {
+      "entityType": "2A18F81C44A26771",
+      "kind": "backpack"
+     },
+     {
+      "entityType": "51F50D6321F52F3D",
+      "kind": "backpack"
+     }
+    ],
+    "modifiable": false,
+    "name": "B/MD C4 Pack",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 3748434442
+   },
+   {
+    "count": 1,
+    "deliverable": true,
+    "family": "support",
+    "items": [
+     {
+      "entityType": "B0F1B354BA1D38D8",
+      "kind": "weapon"
+     }
+    ],
+    "modifiable": true,
+    "name": "CQC-1 One True Flag",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 2265180087
+   },
+   {
+    "count": 1,
+    "deliverable": true,
+    "family": "support",
+    "items": [
+     {
+      "entityType": "5F3EC9BDA2BD8553",
+      "kind": "weapon"
+     }
+    ],
+    "modifiable": true,
+    "name": "CQC-20 Breaching Hammer",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 3330450692
+   },
+   {
+    "count": 1,
+    "deliverable": true,
+    "family": "support",
+    "items": [
+     {
+      "entityType": "BF4CFD2AEABFB5A4",
+      "kind": "weapon"
+     }
+    ],
+    "modifiable": true,
+    "name": "CQC-9 Defoliation Tool",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 3572024208
+   },
+   {
+    "count": 2,
+    "deliverable": true,
+    "family": "support",
+    "items": [
+     {
+      "entityType": "80932FA0ED6901D3",
+      "kind": "weapon",
+      "projectile": 132
+     }
+    ],
+    "modifiable": true,
+    "name": "EAT-17 Expendable Anti-Tank",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 3413606544
+   },
+   {
+    "count": 1,
+    "deliverable": true,
+    "family": "support",
+    "items": [
+     {
+      "entityType": "7617642765AC38C7",
+      "kind": "weapon",
+      "projectile": 34
+     }
+    ],
+    "modifiable": true,
+    "name": "EAT-411 Leveller",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 2934950455
+   },
+   {
+    "count": 2,
+    "deliverable": true,
+    "family": "support",
+    "items": [
+     {
+      "entityType": "B2B5E0D185605F9E",
+      "kind": "weapon",
+      "projectile": 259
+     }
+    ],
+    "modifiable": true,
+    "name": "EAT-700 Expendable Napalm",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 1813634375
+   },
+   {
+    "count": 2,
+    "deliverable": true,
+    "family": "support",
+    "items": [
+     {
+      "entityType": "25AA2FD4643CF4EE",
+      "kind": "weapon",
+      "projectile": 225
+     },
+     {
+      "entityType": "8EC3026B5F2E579A",
+      "kind": "backpack"
+     }
+    ],
+    "modifiable": true,
+    "name": "FAF-14 Spear",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 3923676543
+   },
+   {
+    "count": 1,
+    "deliverable": true,
+    "family": "support",
+    "items": [
+     {
+      "entityType": "39AB99895147A3BF",
+      "kind": "weapon"
+     }
+    ],
+    "modifiable": true,
+    "name": "FLAM-40 Flamethrower",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 1432571981
+   },
+   {
+    "count": 1,
+    "deliverable": true,
+    "family": "support",
+    "items": [
+     {
+      "entityType": "02EECD0B1FA49630",
+      "kind": "weapon",
+      "projectile": 280
+     }
+    ],
+    "modifiable": true,
+    "name": "GL-21 Grenade Launcher",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 3343676429
+   },
+   {
+    "count": 2,
+    "deliverable": true,
+    "family": "support",
+    "items": [
+     {
+      "entityType": "88C2D09AD85A7C9F",
+      "kind": "weapon",
+      "projectile": 89
+     },
+     {
+      "entityType": "BB4B15B588F974FD",
+      "kind": "backpack"
+     }
+    ],
+    "modifiable": true,
+    "name": "GL-28 Belt-Fed Grenade Launcher",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 512147393
+   },
+   {
+    "count": 1,
+    "deliverable": true,
+    "family": "support",
+    "items": [
+     {
+      "entityType": "FE3B29B2CFA63F9B",
+      "kind": "weapon",
+      "projectile": 222
+     }
+    ],
+    "modifiable": true,
+    "name": "GL-52 De-Escalator",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 153819019
+   },
+   {
+    "count": 2,
+    "deliverable": true,
+    "family": "support",
+    "items": [
+     {
+      "entityType": "96DFC6542AA22980",
+      "kind": "backpack"
+     },
+     {
+      "entityType": "9F80D67A12A7E40F",
+      "kind": "weapon",
+      "projectile": 153
+     }
+    ],
+    "modifiable": true,
+    "name": "GR-8 Recoilless Rifle",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 1298599997
+   },
+   {
+    "count": 1,
+    "deliverable": true,
+    "family": "support",
+    "items": [
+     {
+      "entityType": "D54B9505C0F72873",
+      "kind": "weapon"
+     }
+    ],
+    "modifiable": true,
+    "name": "LAS-98 Laser Cannon",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 2822568285
+   },
+   {
+    "count": 1,
+    "deliverable": true,
+    "family": "support",
+    "items": [
+     {
+      "entityType": "35A61296619CC47E",
+      "kind": "weapon",
+      "projectile": 133
+     }
+    ],
+    "modifiable": true,
+    "name": "LAS-99 Quasar Cannon",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 2625074523
+   },
+   {
+    "count": 1,
+    "deliverable": true,
+    "family": "backpack",
+    "items": [
+     {
+      "entityType": "B49756795D9B0E68",
+      "kind": "backpack"
+     }
+    ],
+    "modifiable": false,
+    "name": "LIFT-182 Warp Pack",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 2185045091
+   },
+   {
+    "count": 1,
+    "deliverable": true,
+    "family": "backpack",
+    "items": [
+     {
+      "entityType": "59C5CA839449B379",
+      "kind": "backpack"
+     }
+    ],
+    "modifiable": false,
+    "name": "LIFT-850 Jump Pack",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 1753436707
+   },
+   {
+    "count": 1,
+    "deliverable": true,
+    "family": "backpack",
+    "items": [
+     {
+      "entityType": "5EC80F4F1CDB66CF",
+      "kind": "backpack"
+     }
+    ],
+    "modifiable": false,
+    "name": "LIFT-860 Hover Pack",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 73468749
+   },
+   {
+    "count": 2,
+    "deliverable": true,
+    "family": "support",
+    "items": [
+     {
+      "entityType": "056DE1C5E21E723E",
+      "kind": "backpack"
+     },
+     {
+      "entityType": "43A58CB89CFA197C",
+      "kind": "weapon",
+      "projectile": 306
+     }
+    ],
+    "modifiable": true,
+    "name": "M-1000 Maxigun",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 3455841218
+   },
+   {
+    "count": 1,
+    "deliverable": true,
+    "family": "support",
+    "items": [
+     {
+      "entityType": "A6A735ACCB4A327F",
+      "kind": "weapon",
+      "projectile": 276
+     }
+    ],
+    "modifiable": true,
+    "name": "M-105 Stalwart",
+    "packageKnown": true,
+    "rateSelector": true,
+    "stableId": 14345846
+   },
+   {
+    "count": 1,
+    "deliverable": true,
+    "family": "support",
+    "items": [
+     {
+      "entityType": "2152D5147B0AC418",
+      "kind": "weapon",
+      "projectile": 275
+     }
+    ],
+    "modifiable": true,
+    "name": "MG-206 Heavy Machine Gun",
+    "packageKnown": true,
+    "rateSelector": true,
+    "stableId": 533318241
+   },
+   {
+    "count": 1,
+    "deliverable": true,
+    "family": "support",
+    "items": [
+     {
+      "entityType": "11C27D3BABB38956",
+      "kind": "weapon",
+      "projectile": 148
+     }
+    ],
+    "modifiable": true,
+    "name": "MG-43 Machine Gun",
+    "packageKnown": true,
+    "rateSelector": true,
+    "stableId": 458198946
+   },
+   {
+    "count": 2,
+    "deliverable": true,
+    "family": "support",
+    "items": [
+     {
+      "entityType": "B16C9D490AA59B77",
+      "kind": "weapon",
+      "projectile": 61
+     }
+    ],
+    "modifiable": true,
+    "name": "MGX-42 Bullet Storm",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 3288352984
+   },
+   {
+    "count": 1,
+    "deliverable": true,
+    "family": "support",
+    "items": [
+     {
+      "entityType": "5990123D142B16CB",
+      "kind": "weapon",
+      "projectile": 245
+     }
+    ],
+    "modifiable": true,
+    "name": "MLS-4X Commando",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 2232989803
+   },
+   {
+    "deliverable": false,
+    "family": "support",
+    "name": "MS-11 Solo Silo",
+    "packageKnown": true,
+    "rateSelector": false,
+    "reason": "MS-11 Solo Silo's rack has no active item"
+   },
+   {
+    "count": 1,
+    "deliverable": true,
+    "family": "support",
+    "items": [
+     {
+      "entityType": "E8D5F49AD7780E54",
+      "kind": "weapon",
+      "projectile": 165
+     }
+    ],
+    "modifiable": true,
+    "name": "PLAS-45 Epoch",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 4261593827
+   },
+   {
+    "count": 2,
+    "deliverable": true,
+    "family": "support",
+    "items": [
+     {
+      "entityType": "26E40437EA275296",
+      "kind": "weapon",
+      "projectile": 312
+     },
+     {
+      "entityType": "E75CD68E858A12AC",
+      "kind": "backpack"
+     }
+    ],
+    "modifiable": true,
+    "name": "RL-77 Airburst Rocket Launcher",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 2007887745
+   },
+   {
+    "count": 1,
+    "deliverable": true,
+    "family": "support",
+    "items": [
+     {
+      "entityType": "2E9D0BDC48B09E60",
+      "kind": "weapon",
+      "projectile": 186
+     }
+    ],
+    "modifiable": true,
+    "name": "RS-422 Railgun",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 3078242205
+   },
+   {
+    "count": 1,
+    "deliverable": true,
+    "family": "support",
+    "items": [
+     {
+      "entityType": "3828E2051AA9E897",
+      "kind": "weapon",
+      "projectile": 125
+     }
+    ],
+    "modifiable": true,
+    "name": "S-11 Speargun",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 336693041
+   },
+   {
+    "count": 1,
+    "deliverable": true,
+    "family": "backpack",
+    "items": [
+     {
+      "entityType": "967ED15E0BAE363B",
+      "kind": "backpack"
+     }
+    ],
+    "modifiable": false,
+    "name": "SH-20 Ballistic Shield Backpack",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 3353508219
+   },
+   {
+    "count": 1,
+    "deliverable": true,
+    "family": "backpack",
+    "items": [
+     {
+      "entityType": "12C8D71AC3897A5C",
+      "kind": "backpack"
+     }
+    ],
+    "modifiable": false,
+    "name": "SH-32 Shield Generator Pack",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 3843705076
+   },
+   {
+    "count": 1,
+    "deliverable": true,
+    "family": "backpack",
+    "items": [
+     {
+      "entityType": "A4E796F84801B40A",
+      "kind": "backpack"
+     }
+    ],
+    "modifiable": false,
+    "name": "SH-51 Directional Shield",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 272480476
+   },
+   {
+    "count": 2,
+    "deliverable": true,
+    "family": "support",
+    "items": [
+     {
+      "entityType": "B8FEB0CC191C1EF3",
+      "kind": "backpack"
+     },
+     {
+      "entityType": "CC786F6491FE7E65",
+      "kind": "weapon",
+      "projectile": 43
+     }
+    ],
+    "modifiable": true,
+    "name": "StA-X3 W.A.S.P. Launcher",
+    "packageKnown": true,
+    "rateSelector": false,
+    "stableId": 890972990
+   },
+   {
+    "deliverable": false,
+    "family": "support",
+    "name": "TX-41 Sterilizer",
+    "packageKnown": true,
+    "rateSelector": false,
+    "reason": "TX-41 Sterilizer's rack has no active item"
+   }
+  ]
+ },
+ "families": [
+  {
+   "apiField": "delivery",
+   "builder": false,
+   "carrier": {
+    "beacon": [
+     "offensive",
+     "support",
+     "any"
+    ]
+   },
+   "doc": "delivery = 'runtime': the carrier delivers nothing and the mod delivers in Lua callbacks (on_activate, ctx:barrage, hd2.pelican.spawn, ...). The advanced escape hatch: not representable in a builder project.",
+   "family": "script"
+  },
+  {
+   "apiField": "delivery",
+   "builder": true,
+   "carrier": {
+    "beacon": [
+     "support"
+    ]
+   },
+   "doc": "the donor's own vanilla support pod; exactly the items its rack holds are captured and modified on their own records",
+   "family": "support",
+   "fields": {
+    "items": {
+     "doc": "one donor per call (one native pod delivers one rack)",
+     "item": {
+      "count": {
+       "doc": "must equal the donor rack's own count (supportDonors[].count); another count is refused",
+       "optional": true,
+       "type": "integer"
+      },
+      "donor": {
+       "catalog": "supportDonors",
+       "doc": "a support weapon or backpack with a reviewed pod rack (deliverable = true)",
+       "required": true,
+       "reviewedDonor": true,
+       "type": "support_donor"
+      },
+      "modify": {
+       "doc": "only donors with a weapon (modifiable = true); no backpack field is reviewed",
+       "fields": {
+        "ammo": {
+         "doc": "its own magazine copy (an 11-bit network field: at most 2047)",
+         "max": 2047,
+         "min": 1,
+         "optional": true,
+         "type": "integer",
+         "unit": "rounds per magazine"
+        },
+        "impact_explosion": {
+         "catalog": "explosionDonors",
+         "doc": "each converted projectile requests the donor explosion on impact (its own copy)",
+         "optional": true,
+         "reviewedDonor": true,
+         "type": "explosion_donor"
+        },
+        "projectile": {
+         "catalog": "projectileDonors",
+         "doc": "the round a support weapon fires (its name); its call-in package becomes an asset",
+         "optional": true,
+         "reviewedDonor": true,
+         "type": "projectile_donor"
+        },
+        "recoil": {
+         "doc": "zero aim recoil (its own instance)",
+         "optional": true,
+         "type": "enum",
+         "values": [
+          "zero"
+         ]
+        },
+        "rounds": {
+         "default": 1,
+         "doc": "how many of each weapon's projectiles convert (with impact_explosion)",
+         "max": 64,
+         "min": 1,
+         "optional": true,
+         "type": "integer",
+         "unit": "projectiles per weapon"
+        },
+        "rpm": {
+         "doc": "its own rate slot and current rate (times the mission factor the game applied); refused for a type that binds a rate-of-fire selector",
+         "max": 3000,
+         "min": 30,
+         "optional": true,
+         "type": "number",
+         "unit": "rounds per minute"
+        },
+        "spread": {
+         "doc": "its own WeaponData instance spread, both axes",
+         "exclusiveMin": true,
+         "max": 100,
+         "min": 0,
+         "optional": true,
+         "type": "number",
+         "unit": "milliradians (full width)"
+        }
+       },
+       "optional": true,
+       "type": "object"
+      }
+     },
+     "max": 1,
+     "min": 1,
+     "required": true,
+     "type": "list"
+    }
+   }
+  },
+  {
+   "apiField": "delivery",
+   "builder": true,
+   "carrier": {
+    "beacon": [
+     "support"
+    ]
+   },
+   "doc": "a mission-scoped CLONE of the donor weapon: an unused carrier weapon of the donor's expendable class (cloneDonors[].pool, the first free) becomes the donor for the mission (presentation, model, animations, round, sounds, handling) and is delivered by its own vanilla pod, whose row presents as the custom stratagem; restored aboard the ship. Unavailable (warned, not pickable, unpicked) while every pool weapon is a lobby member's native pick or another custom stratagem's carrier weapon",
+   "family": "expendable",
+   "fields": {
+    "level": {
+     "default": "full",
+     "doc": "development staging: presentation only; + model and animations; full (+ the donor's round, sounds and handling)",
+     "optional": true,
+     "type": "enum",
+     "values": [
+      "presentation",
+      "model",
+      "full"
+     ]
+    },
+    "modify": {
+     "doc": "per call, on the call's own launchers only (as a support delivery's)",
+     "fields": {
+      "ammo": {
+       "doc": "its own magazine copy (an 11-bit network field: at most 2047)",
+       "max": 2047,
+       "min": 1,
+       "optional": true,
+       "type": "integer",
+       "unit": "rounds per magazine"
+      },
+      "impact_explosion": {
+       "catalog": "explosionDonors",
+       "doc": "each converted projectile requests the donor explosion on impact (its own copy)",
+       "optional": true,
+       "reviewedDonor": true,
+       "type": "explosion_donor"
+      },
+      "recoil": {
+       "doc": "zero aim recoil (its own instance)",
+       "optional": true,
+       "type": "enum",
+       "values": [
+        "zero"
+       ]
+      },
+      "rounds": {
+       "default": 1,
+       "doc": "how many of each weapon's projectiles convert (with impact_explosion)",
+       "max": 64,
+       "min": 1,
+       "optional": true,
+       "type": "integer",
+       "unit": "projectiles per weapon"
+      },
+      "rpm": {
+       "doc": "its own rate slot and current rate (times the mission factor the game applied); refused for a type that binds a rate-of-fire selector",
+       "max": 3000,
+       "min": 30,
+       "optional": true,
+       "type": "number",
+       "unit": "rounds per minute"
+      },
+      "spread": {
+       "doc": "its own WeaponData instance spread, both axes",
+       "exclusiveMin": true,
+       "max": 100,
+       "min": 0,
+       "optional": true,
+       "type": "number",
+       "unit": "milliradians (full width)"
+      }
+     },
+     "optional": true,
+     "type": "object"
+    },
+    "presentation": {
+     "doc": "what the carrier weapon shows; a Runtime text or icon the game cannot show is borrowed from the donor (logged)",
+     "fields": {
+      "icon": {
+       "default": "the custom stratagem's icon",
+       "doc": "an image id (images/<id>.png) for its marker and prompt icon; 'donor': the donor's own",
+       "optional": true,
+       "type": "string"
+      },
+      "name": {
+       "default": "the custom stratagem's name",
+       "doc": "the name its pickup prompt, map label and weapon panel show; 'donor': the donor's own",
+       "maxLength": 64,
+       "minLength": 1,
+       "optional": true,
+       "type": "string"
+      }
+     },
+     "optional": true,
+     "type": "object"
+    },
+    "round": {
+     "catalog": "cloneDonors",
+     "doc": "another support weapon's round the clone fires (a cloneDonors[].rounds name, e.g. the RL-77 Airburst's on an EAT-17 clone); not with modify.impact_explosion",
+     "optional": true,
+     "reviewedDonor": true,
+     "type": "support_donor"
+    },
+    "weapon": {
+     "catalog": "cloneDonors",
+     "doc": "the donor weapon (a support weapon with a reviewed expendable clone class)",
+     "required": true,
+     "reviewedDonor": true,
+     "type": "clone_donor"
+    }
+   },
+   "notes": [
+    "CONDENSED: the carrier weapon's own stratagem carries the beacon too (one vanilla stratagem); a separate support carrier only when that stratagem cannot (e.g. not owned)",
+    "its pod: familyOptions.expendable.pod"
+   ]
+  },
+  {
+   "apiField": "sentry",
+   "builder": true,
+   "carrier": {
+    "allowFamilies": [
+     "sentry"
+    ],
+    "beacon": [
+     "support"
+    ]
+   },
+   "doc": "the donor sentry's own vanilla pod; exactly that pod's sentry is captured and its own weapon configured",
+   "family": "sentry",
+   "fields": {
+    "donor": {
+     "catalog": "sentryDonors",
+     "required": true,
+     "reviewedDonor": true,
+     "type": "sentry_donor"
+    },
+    "weapon": {
+     "fields": {
+      "ammo": {
+       "doc": "its own magazine copy (an 11-bit network field: at most 2047)",
+       "max": 2047,
+       "min": 1,
+       "optional": true,
+       "type": "integer",
+       "unit": "rounds per magazine"
+      },
+      "projectile": {
+       "catalog": "projectileDonors",
+       "doc": "the round a support weapon fires (its name); its call-in package becomes an asset",
+       "optional": true,
+       "reviewedDonor": true,
+       "type": "projectile_donor"
+      },
+      "recoil": {
+       "doc": "zero aim recoil (its own instance)",
+       "optional": true,
+       "type": "enum",
+       "values": [
+        "zero"
+       ]
+      },
+      "rpm": {
+       "doc": "its own rate slot and current rate (times the mission factor the game applied); refused for a type that binds a rate-of-fire selector",
+       "max": 3000,
+       "min": 30,
+       "optional": true,
+       "type": "number",
+       "unit": "rounds per minute"
+      },
+      "spread": {
+       "doc": "its own WeaponData instance spread, both axes",
+       "exclusiveMin": true,
+       "max": 100,
+       "min": 0,
+       "optional": true,
+       "type": "number",
+       "unit": "milliradians (full width)"
+      }
+     },
+     "optional": true,
+     "type": "object"
+    }
+   }
+  },
+  {
+   "apiField": "eagle",
+   "builder": true,
+   "carrier": {
+    "allowFamilies": [
+     "eagle"
+    ],
+    "beacon": [
+     "offensive"
+    ]
+   },
+   "doc": "the donor Eagle's own strike from an Eagle carrier; the slot is an Eagle fleet member with its own uses; the call's rockets are those of its jet's mounted pods (live-proven)",
+   "family": "eagle",
+   "fields": {
+    "donor": {
+     "catalog": "eagleDonors",
+     "required": true,
+     "reviewedDonor": true,
+     "type": "eagle_donor"
+    },
+    "payload": {
+     "fields": {
+      "impact_explosion": {
+       "catalog": "explosionDonors",
+       "doc": "only donors with impactExplosionReplaceable = true",
+       "optional": true,
+       "reviewedDonor": true,
+       "type": "explosion_donor"
+      }
+     },
+     "optional": true,
+     "type": "object"
+    },
+    "rearm_seconds": {
+     "default": "Eagle Rearm's own cooldown",
+     "doc": "the Runtime rearm when no native Eagle is in the loadout",
+     "max": 600,
+     "min": 1,
+     "optional": true,
+     "type": "number",
+     "unit": "seconds"
+    },
+    "uses": {
+     "default": "the donor's uses",
+     "max": 20,
+     "min": 1,
+     "optional": true,
+     "type": "integer",
+     "unit": "uses per rearm"
+    }
+   },
+   "notes": [
+    "cooldown is refused: an Eagle keeps its native cooldown and rearm"
+   ]
+  },
+  {
+   "apiField": "orbital",
+   "builder": true,
+   "carrier": {
+    "beacon": [
+     "offensive",
+     "support",
+     "any"
+    ]
+   },
+   "doc": "a Runtime bombardment of a reviewed shell in a reviewed (or explicit) pattern at the activation; or, with native = true, the pattern donor's own native barrage (every player's machine fires it) with each of its shells exploding as impact_explosion's on every compatible machine's own copy",
+   "family": "orbital",
+   "fields": {
+    "impact_explosion": {
+     "catalog": "explosionDonors",
+     "doc": "each shell's own impact copy (required with native)",
+     "optional": true,
+     "reviewedDonor": true,
+     "type": "explosion_donor"
+    },
+    "native": {
+     "default": false,
+     "doc": "true: the pattern donor's own barrage (the beacon's delivery becomes the donor's); only pattern and impact_explosion (required) apply. The form multiplayer mirrors on every machine",
+     "optional": true,
+     "type": "boolean"
+    },
+    "pattern": {
+     "catalog": "orbitals",
+     "default": "Orbital 120mm HE Barrage",
+     "doc": "the vanilla pattern the fields below override",
+     "optional": true,
+     "reviewedDonor": true,
+     "type": "orbital_donor"
+    },
+    "salvo_interval": {
+     "doc": "exact (no random part)",
+     "max": 30,
+     "min": 0,
+     "optional": true,
+     "type": "number",
+     "unit": "seconds"
+    },
+    "salvo_scatter": {
+     "max": 100,
+     "min": 0,
+     "optional": true,
+     "type": "number",
+     "unit": "the pattern record's own units"
+    },
+    "salvos": {
+     "max": 16,
+     "min": 1,
+     "optional": true,
+     "type": "integer"
+    },
+    "scatter": {
+     "doc": "per-shell scatter half-width (the 120mm's is 27)",
+     "max": 100,
+     "min": 0,
+     "optional": true,
+     "type": "number",
+     "unit": "the pattern record's own units"
+    },
+    "shell": {
+     "catalog": "orbitals",
+     "doc": "required unless native: its first shell is fired; its package becomes an asset",
+     "optional": true,
+     "reviewedDonor": true,
+     "type": "orbital_donor"
+    },
+    "shell_interval": {
+     "doc": "exact (no random part)",
+     "max": 10,
+     "min": 0,
+     "optional": true,
+     "type": "number",
+     "unit": "seconds"
+    },
+    "shells_per_salvo": {
+     "max": 16,
+     "min": 1,
+     "optional": true,
+     "type": "integer"
+    }
+   },
+   "notes": [
+    "salvos x shells_per_salvo is at most 64",
+    "native: the Runtime bombardment's shells exist on the caller's machine only; a native barrage is every player's"
+   ]
+  },
+  {
+   "apiField": "pelican",
+   "builder": true,
+   "carrier": {
+    "beacon": [
+     "offensive",
+     "support",
+     "any"
+    ]
+   },
+   "doc": "the Runtime's Pelican CAS as data (hd2.pelican.spawn's hover, orbit, gun and approach): the carrier's own delivery is neutralized and, at the activation, a Pelican flies to the beacon, holds over it and fights with its own chin turret, configured on its own copies. With several players the session host spawns it for whoever called it and every compatible machine mirrors its chin gun",
+   "family": "pelican",
+   "fields": {
+    "approach": {
+     "doc": "where it is created: back from the beacon along its heading and up",
+     "fields": {
+      "distance": {
+       "default": 250,
+       "max": 1000,
+       "min": 0,
+       "optional": true,
+       "type": "number",
+       "unit": "metres"
+      },
+      "height": {
+       "default": 80,
+       "max": 500,
+       "min": 0,
+       "optional": true,
+       "type": "number",
+       "unit": "metres"
+      }
+     },
+     "optional": true,
+     "type": "object"
+    },
+    "gun": {
+     "doc": "its chin turret, on its own copies; without it (or with round = native and nothing else) the Pelican's own autocannon and AI, its kills credited to the caller",
+     "fields": {
+      "aim_height": {
+       "doc": "where it aims (with behave_as); 0: the game's own aim node",
+       "max": 3,
+       "min": 0,
+       "optional": true,
+       "type": "number",
+       "unit": "metres above the target's feet"
+      },
+      "behave_as": {
+       "doc": "the Gatling Sentry's AI (continuous fire, the Runtime target lock); without it the chin turret keeps its own burst AI",
+       "optional": true,
+       "type": "enum",
+       "values": [
+        "gatling_sentry"
+       ]
+      },
+      "casing": {
+       "doc": "the casings it ejects: the Gatling Sentry's (with behave_as, the default) or its own",
+       "optional": true,
+       "type": "enum",
+       "values": [
+        "gatling",
+        "own"
+       ]
+      },
+      "face_target": {
+       "doc": "the Pelican turns its nose to the target (with behave_as)",
+       "optional": true,
+       "type": "enum",
+       "values": [
+        true
+       ]
+      },
+      "impact_explosion": {
+       "catalog": "pelicanExplosionDonors",
+       "doc": "each round's own impact: an automatic donor, or a slow one with rpm at most its maxRpm",
+       "optional": true,
+       "reviewedDonor": true,
+       "type": "explosion_donor"
+      },
+      "rate_multiplier": {
+       "default": 1,
+       "doc": "times the Gatling Sentry's rate (with behave_as)",
+       "optional": true,
+       "type": "enum",
+       "values": [
+        1,
+        1.5,
+        2
+       ]
+      },
+      "recoil": {
+       "doc": "false: no aim recoil",
+       "optional": true,
+       "type": "enum",
+       "values": [
+        false
+       ]
+      },
+      "round": {
+       "default": "standard",
+       "doc": "native: the chin turret's own autocannon round; standard: the Gatling Sentry's; ap4: the MG-206's armor-piercing round; strafing_run / strafing_run_pattern: the Eagle Strafing Run's",
+       "optional": true,
+       "type": "enum",
+       "values": [
+        "ap4",
+        "native",
+        "standard",
+        "strafing_run",
+        "strafing_run_pattern"
+       ]
+      },
+      "rpm": {
+       "doc": "an explicit rate for the Gatling AI (with behave_as, without rate_multiplier); a slow explosion donor needs it at most the donor's maxRpm",
+       "max": 3000,
+       "min": 30,
+       "optional": true,
+       "type": "number",
+       "unit": "rounds per minute"
+      },
+      "sound": {
+       "catalog": "pelicanSounds",
+       "doc": "a firing sound of the catalogue (docs/weapon-sounds.md); without it the turret's own",
+       "optional": true,
+       "type": "enum",
+       "values": [
+        "automaton/assault_walker",
+        "automaton/assaultwalker/1",
+        "automaton/big_walker_turret_cannon",
+        "automaton/conscript_cannon",
+        "automaton/conscript_handgun",
+        "automaton/conscript_lmg",
+        "automaton/conscript_smg",
+        "automaton/devastator/1",
+        "automaton/elite/1",
+        "automaton/elite/2",
+        "automaton/emplacement_hmg",
+        "automaton/emplacement_mg",
+        "automaton/fabricator/1",
+        "automaton/gunship/1",
+        "automaton/gunship/2",
+        "automaton/hulk/1",
+        "automaton/hulk/2",
+        "automaton/hulk/3",
+        "automaton/lieutenant_cannon",
+        "automaton/scoutwalker/1",
+        "automaton/scoutwalker/2",
+        "automaton/siege_engine",
+        "automaton/siegeengine/1",
+        "automaton/siegeengine/2",
+        "automaton/soldier_flamer",
+        "automaton/soldier_machinegun_flm",
+        "automaton/soldier_standard_rifle",
+        "automaton/tank/1",
+        "automaton/tank_hull_mg",
+        "automaton/tank_turret_autocannons",
+        "automaton/tank_turret_heavycannon",
+        "automaton/tank_turret_rocketlauncher",
+        "automaton/turret_autocannons",
+        "automaton/turret_base",
+        "automaton/turret_command_bunker_hmg",
+        "automaton/turret_mortar",
+        "backpack/guard_dog",
+        "eagle/cannon",
+        "emplacement/anti_tank",
+        "emplacement/hmg",
+        "illuminate/beamer_champion_gun",
+        "illuminate/beamer_champion_gun_direct",
+        "illuminate/exomech/1",
+        "illuminate/exomech/2",
+        "illuminate/jet_champion_rifle",
+        "illuminate/observer/1",
+        "illuminate/pathfinder_lightspear",
+        "objective/cy_destroy_command_bunker/1",
+        "objective/sam_site",
+        "other/passive_booster_ammorack_turret/1",
+        "other/revolver_pistol_long",
+        "other/wep_ac3_arc_thrower/1",
+        "other/wep_ar_risk/1",
+        "pelican/chin_autocannon",
+        "primary/ar11",
+        "primary/ar2",
+        "primary/ar23",
+        "primary/ar23a",
+        "primary/ar23c",
+        "primary/ar23p",
+        "primary/ar32",
+        "primary/ar59",
+        "primary/ar61",
+        "primary/argl21",
+        "primary/br14",
+        "primary/cb9",
+        "primary/dbs2",
+        "primary/gl15",
+        "primary/jar5",
+        "primary/las12",
+        "primary/las16",
+        "primary/las17",
+        "primary/m7s",
+        "primary/m90a",
+        "primary/ma5c",
+        "primary/mp98",
+        "primary/plas1",
+        "primary/plas101",
+        "primary/plas39",
+        "primary/r2",
+        "primary/r2124",
+        "primary/r36",
+        "primary/r4",
+        "primary/r40k",
+        "primary/r6",
+        "primary/r63",
+        "primary/r63cs",
+        "primary/r72",
+        "primary/sg20",
+        "primary/sg225",
+        "primary/sg225ie",
+        "primary/sg225sp",
+        "primary/sg451",
+        "primary/sg8",
+        "primary/sg8p",
+        "primary/sg8s",
+        "primary/sg97",
+        "primary/smg203",
+        "primary/smg32",
+        "primary/smg37",
+        "primary/smg37/seaf",
+        "primary/smg72",
+        "primary/smgflam34",
+        "primary/sta11",
+        "primary/sta52",
+        "primary/vg70",
+        "seaf/1",
+        "seaf/2",
+        "secondary/gp20",
+        "secondary/gp31",
+        "secondary/gp31/alt",
+        "secondary/las58",
+        "secondary/m6csocom",
+        "secondary/p11",
+        "secondary/p113",
+        "secondary/p19",
+        "secondary/p2",
+        "secondary/p33",
+        "secondary/p34",
+        "secondary/p35",
+        "secondary/p4",
+        "secondary/p40k",
+        "secondary/p69",
+        "secondary/p92",
+        "secondary/plas15",
+        "secondary/sg22",
+        "sentry/autocannon",
+        "sentry/ems_mortar",
+        "sentry/gas_mortar",
+        "sentry/gatling",
+        "sentry/machine_gun",
+        "sentry/mortar",
+        "sentry/rocket",
+        "support/ac8",
+        "support/apw1",
+        "support/eat17",
+        "support/eat17/seaf",
+        "support/eat411",
+        "support/eat700",
+        "support/faf14",
+        "support/gl21",
+        "support/gl28",
+        "support/gl52",
+        "support/gr8",
+        "support/las99",
+        "support/m1000",
+        "support/m105",
+        "support/mg206",
+        "support/mg43",
+        "support/mg43/seaf",
+        "support/mgx42",
+        "support/mls4x",
+        "support/plas45",
+        "support/rl77",
+        "support/rs422",
+        "support/s11",
+        "support/sg88",
+        "support/stax3",
+        "vehicle/bastion/cannon",
+        "vehicle/bastion/hmg",
+        "vehicle/breakthrough/flak_cannon",
+        "vehicle/emancipator/autocannons",
+        "vehicle/gunner_frv/hmg",
+        "vehicle/lumberer/cannon",
+        "vehicle/maelstrom/main_gun",
+        "vehicle/maelstrom/rockets",
+        "vehicle/maelstrom/slot_2",
+        "vehicle/oil_rig/turret",
+        "vehicle/patriot/minigun",
+        "vehicle/patriot/rockets",
+        "vehicle/supply_frv/gun"
+       ]
+      },
+      "spread": {
+       "exclusiveMin": true,
+       "max": 100,
+       "min": 0,
+       "optional": true,
+       "type": "number",
+       "unit": "milliradians (full width)"
+      },
+      "unlimited_ammo": {
+       "optional": true,
+       "type": "enum",
+       "values": [
+        true
+       ]
+      }
+     },
+     "optional": true,
+     "type": "object"
+    },
+    "hover": {
+     "exclusiveMin": true,
+     "max": 120,
+     "min": 0,
+     "required": true,
+     "type": "number",
+     "unit": "seconds over the beacon"
+    },
+    "orbit": {
+     "doc": "circles the beacon after arriving (radius, altitude above it, duration, period of one lap, entry: the spiral-in seconds, shorter than duration); without it, it holds still",
+     "fields": {
+      "altitude": {
+       "default": 60,
+       "max": 150,
+       "min": 10,
+       "optional": true,
+       "type": "number",
+       "unit": "metres"
+      },
+      "duration": {
+       "default": 55,
+       "max": 120,
+       "min": 1,
+       "optional": true,
+       "type": "number",
+       "unit": "seconds"
+      },
+      "entry": {
+       "default": 15,
+       "max": 60,
+       "min": 0,
+       "optional": true,
+       "type": "number",
+       "unit": "seconds"
+      },
+      "period": {
+       "default": 30,
+       "max": 600,
+       "min": 10,
+       "optional": true,
+       "type": "number",
+       "unit": "seconds"
+      },
+      "radius": {
+       "default": 40,
+       "max": 150,
+       "min": 5,
+       "optional": true,
+       "type": "number",
+       "unit": "metres"
+      }
+     },
+     "optional": true,
+     "type": "object"
+    }
+   },
+   "notes": [
+    "the Pelican Gatling, Gas and EMS examples use behave_as = gatling_sentry; the Pelican Cannon uses round = native (the vanilla autocannon)"
+   ]
+  },
+  {
+   "apiField": "silo",
+   "builder": true,
+   "carrier": {
+    "beacon": [
+     "support"
+    ]
+   },
+   "doc": "the donor silo's own vanilla pod (the support redirect): its silo and laser remote, launched as the donor's; where exactly this call's missile detonates, the session host requests the blast explosion (the missile's own blast stays). With several players the caller publishes its missile and the host requests the blast for it",
+   "family": "silo",
+   "fields": {
+    "blast": {
+     "catalog": "blastExplosions",
+     "doc": "the explosion requested at the detonation (a blastExplosions name); its packages load at mission start, before the custom stratagem can be called",
+     "required": true,
+     "type": "explosion"
+    },
+    "donor": {
+     "catalog": "siloDonors",
+     "required": true,
+     "reviewedDonor": true,
+     "type": "silo_donor"
+    },
+    "fallback": {
+     "catalog": "blastExplosions",
+     "doc": "requested instead when the blast's packages are not resident on the host",
+     "optional": true,
+     "type": "explosion"
+    }
+   },
+   "notes": [
+    "an objective explosion (blastExplosions[].objective) ships in objective packages: the Cyborg Production Unit's are two packages of about 300 MB, loaded at mission start",
+    "the blast is credited to the session host's player (the request is the host's)"
+   ]
+  }
+ ],
+ "familyOptions": {
+  "expendable": {
+   "carrier": {
+    "groups": [
+     "expendable"
+    ]
+   },
+   "pod": {
+    "default": "the carrier weapon's vanilla rack",
+    "doc": "what the carrier weapon's own pod holds: {\"item\": \"clone\", \"count\": n} and other podItems; a pool weapon whose rack cannot hold it is never the carrier weapon",
+    "item": {
+     "allow_unverified_effect": {
+      "doc": "required for a podItems entry with status \"unverified\" (a primary: not live-tested), refused otherwise",
+      "optional": true,
+      "type": "boolean"
+     },
+     "count": {
+      "default": 1,
+      "max": 8,
+      "min": 1,
+      "optional": true,
+      "type": "integer",
+      "unit": "items"
+     },
+     "item": {
+      "catalog": "podItems",
+      "doc": "a podItems key (support_weapon/<name>, backpack/<name>, player_weapon/<name>); an expendable pod also takes \"clone\" (its carrier weapon, the clone)",
+      "required": true,
+      "reviewedDonor": true,
+      "type": "pod_item"
+     },
+     "modify": {
+      "doc": "a weapon item only (no backpack field is reviewed); impact_explosion and rounds for support weapons with a reviewed round",
+      "fields": {
+       "ammo": {
+        "doc": "its own magazine copy (an 11-bit network field: at most 2047)",
+        "max": 2047,
+        "min": 1,
+        "optional": true,
+        "type": "integer",
+        "unit": "rounds per magazine"
+       },
+       "impact_explosion": {
+        "catalog": "explosionDonors",
+        "doc": "each converted projectile requests the donor explosion on impact (its own copy)",
+        "optional": true,
+        "reviewedDonor": true,
+        "type": "explosion_donor"
+       },
+       "projectile": {
+        "catalog": "projectileDonors",
+        "doc": "the round a support weapon fires (its name); its call-in package becomes an asset",
+        "optional": true,
+        "reviewedDonor": true,
+        "type": "projectile_donor"
+       },
+       "recoil": {
+        "doc": "zero aim recoil (its own instance)",
+        "optional": true,
+        "type": "enum",
+        "values": [
+         "zero"
+        ]
+       },
+       "rounds": {
+        "default": 1,
+        "doc": "how many of each weapon's projectiles convert (with impact_explosion)",
+        "max": 64,
+        "min": 1,
+        "optional": true,
+        "type": "integer",
+        "unit": "projectiles per weapon"
+       },
+       "rpm": {
+        "doc": "its own rate slot and current rate (times the mission factor the game applied); refused for a type that binds a rate-of-fire selector",
+        "max": 3000,
+        "min": 30,
+        "optional": true,
+        "type": "number",
+        "unit": "rounds per minute"
+       },
+       "spread": {
+        "doc": "its own WeaponData instance spread, both axes",
+        "exclusiveMin": true,
+        "max": 100,
+        "min": 0,
+        "optional": true,
+        "type": "number",
+        "unit": "milliradians (full width)"
+       }
+      },
+      "optional": true,
+      "type": "object"
+     }
+    },
+    "max": 8,
+    "min": 1,
+    "optional": true,
+    "type": "list"
+   }
+  }
+ },
+ "format": "hd2runtime-custom-stratagems/1",
+ "hd2RuntimeVersion": "0.30.0-dev",
+ "limits": {
+  "definitions": 16,
+  "orbitalShells": 64
+ },
+ "metadata": {
+  "assets": {
+   "doc": "extra call-in packages the payload needs; a payload's own donors are added automatically",
+   "item": {
+    "catalog": "stratagems",
+    "type": "stratagem"
+   },
+   "optional": true,
+   "type": "list"
+  },
+  "code": {
+   "doc": "never equal to, the start of, or started by another custom stratagem's code or a native one",
+   "item": {
+    "type": "enum",
+    "values": [
+     "up",
+     "down",
+     "left",
+     "right"
+    ]
+   },
+   "max": 8,
+   "min": 1,
+   "required": true,
+   "type": "list"
+  },
+  "cooldown": {
+   "default": "the carrier's own",
+   "exclusiveMin": true,
+   "max": 600,
+   "min": 0,
+   "optional": true,
+   "type": "number",
+   "unit": "seconds from the call-in's arrival"
+  },
+  "description": {
+   "maxLength": 400,
+   "minLength": 1,
+   "required": true,
+   "type": "string"
+  },
+  "icon": {
+   "doc": "the id of the mod's images/<id>.png (256 x 256): the build compiles it into the mod's own archive (docs/custom-images.md)",
+   "required": true,
+   "type": "image"
+  },
+  "id": {
+   "doc": "unique across every mod",
+   "maxLength": 48,
+   "pattern": "^[a-z][a-z0-9_]*$",
+   "required": true,
+   "type": "string"
+  },
+  "name": {
+   "doc": "the HUD name",
+   "maxLength": 64,
+   "minLength": 1,
+   "required": true,
+   "type": "string"
+  },
+  "name_cased": {
+   "default": "name",
+   "doc": "the panel's and loadout's name",
+   "maxLength": 64,
+   "minLength": 1,
+   "optional": true,
+   "type": "string"
+  },
+  "traits": {
+   "default": "the payload family's",
+   "doc": "the ITEM TRAITS the custom panel shows after the automatic CUSTOM STRATAGEM (upper case)",
+   "item": {
+    "maxLength": 32,
+    "minLength": 1,
+    "type": "string"
+   },
+   "max": 4,
+   "optional": true,
+   "type": "list"
+  },
+  "uses": {
+   "default": "unlimited",
+   "doc": "each player's own calls; the call that uses the last of them ends with a cooldown longer than any mission (refused for an Eagle, whose uses are per rearm)",
+   "max": 100,
+   "min": 1,
+   "optional": true,
+   "type": "integer",
+   "unit": "calls per mission"
+  }
+ },
+ "podFamily": {
+  "apiField": "delivery",
+  "builder": true,
+  "carrier": {
+   "beacon": [
+    "support"
+   ],
+   "groups": [
+    "support_pod"
+   ]
+  },
+  "doc": "a CARRIER POD: the carrier's OWN pod (no beacon redirect), its exclusive rack holding these items for the mission (written at mission start, restored aboard the ship); the carrier is a support_pod group member whose rack holds them (podCarriers: capacity and slot roles). Solo host only in this build",
+  "family": "pod",
+  "fields": {
+   "items": {
+    "doc": "each item once (give it a count); at most 8 items in all; the carrier's capacity decides",
+    "item": {
+     "allow_unverified_effect": {
+      "doc": "required for a podItems entry with status \"unverified\" (a primary: not live-tested), refused otherwise",
+      "optional": true,
+      "type": "boolean"
+     },
+     "count": {
+      "default": 1,
+      "max": 8,
+      "min": 1,
+      "optional": true,
+      "type": "integer",
+      "unit": "items"
+     },
+     "item": {
+      "catalog": "podItems",
+      "doc": "a podItems key (support_weapon/<name>, backpack/<name>, player_weapon/<name>); an expendable pod also takes \"clone\" (its carrier weapon, the clone)",
+      "required": true,
+      "reviewedDonor": true,
+      "type": "pod_item"
+     },
+     "modify": {
+      "doc": "a weapon item only (no backpack field is reviewed); impact_explosion and rounds for support weapons with a reviewed round",
+      "fields": {
+       "ammo": {
+        "doc": "its own magazine copy (an 11-bit network field: at most 2047)",
+        "max": 2047,
+        "min": 1,
+        "optional": true,
+        "type": "integer",
+        "unit": "rounds per magazine"
+       },
+       "impact_explosion": {
+        "catalog": "explosionDonors",
+        "doc": "each converted projectile requests the donor explosion on impact (its own copy)",
+        "optional": true,
+        "reviewedDonor": true,
+        "type": "explosion_donor"
+       },
+       "projectile": {
+        "catalog": "projectileDonors",
+        "doc": "the round a support weapon fires (its name); its call-in package becomes an asset",
+        "optional": true,
+        "reviewedDonor": true,
+        "type": "projectile_donor"
+       },
+       "recoil": {
+        "doc": "zero aim recoil (its own instance)",
+        "optional": true,
+        "type": "enum",
+        "values": [
+         "zero"
+        ]
+       },
+       "rounds": {
+        "default": 1,
+        "doc": "how many of each weapon's projectiles convert (with impact_explosion)",
+        "max": 64,
+        "min": 1,
+        "optional": true,
+        "type": "integer",
+        "unit": "projectiles per weapon"
+       },
+       "rpm": {
+        "doc": "its own rate slot and current rate (times the mission factor the game applied); refused for a type that binds a rate-of-fire selector",
+        "max": 3000,
+        "min": 30,
+        "optional": true,
+        "type": "number",
+        "unit": "rounds per minute"
+       },
+       "spread": {
+        "doc": "its own WeaponData instance spread, both axes",
+        "exclusiveMin": true,
+        "max": 100,
+        "min": 0,
+        "optional": true,
+        "type": "number",
+        "unit": "milliradians (full width)"
+       }
+      },
+      "optional": true,
+      "type": "object"
+     }
+    },
+    "max": 8,
+    "min": 1,
+    "required": true,
+    "type": "list"
+   }
+  },
+  "notes": [
+   "compiles to delivery = {family = 'support', items = {{item = ...}}}",
+   "a weapon item goes in a weapon slot, a backpack in a backpack slot (the rack's own roles)"
+  ]
+ },
+ "schemaVersion": 1,
+ "status": "development (0.30.0-dev): every payload family runs on the host; with several players (EXPERIMENTAL) a client runs its support, expendable, sentry and silo deliveries and native orbitals, and the host spawns its Pelican and requests its silo blast; Eagles and the Runtime bombardment stay host-only (docs/custom-stratagem-api.md, \"Several players\")",
+ "unsupported": [
+  {
+   "field": "orbital.explosion_scale",
+   "reason": "an explosion's size is a shared row: every shell of it would change"
+  },
+  {
+   "field": "eagle.pattern",
+   "reason": "the strike pattern is the donor's EagleComponentData, a shared definition with no reviewed per-call field"
+  },
+  {
+   "field": "eagle.payload.projectile",
+   "reason": "the strike projectile is the donor's (shared)"
+  },
+  {
+   "field": "eagle cooldown",
+   "reason": "an Eagle keeps its native cooldown and rearm"
+  },
+  {
+   "field": "support.items[].modify on a backpack",
+   "reason": "no instance-local backpack field is reviewed"
+  },
+  {
+   "field": "support.items[].count other than the rack's",
+   "reason": "the rack lists are shared definitions"
+  },
+  {
+   "field": "two support donors in one call",
+   "reason": "one native pod delivers one rack"
+  },
+  {
+   "field": "sentry.weapon.impact_explosion",
+   "reason": "automatic weapons: the conversion is for launchers and rockets"
+  },
+  {
+   "field": "a raw projectile, explosion or entity number",
+   "reason": "a donor's package must be known: donors are named"
+  },
+  {
+   "field": "expendable.modify.projectile",
+   "reason": "the clone fires its donor's own round"
+  },
+  {
+   "field": "an expendable clone on a weapon outside the donor's component class (e.g. the AC-8 as an EAT)",
+   "reason": "components are fixed per type: a reloadable weapon never discards itself (research carrier-weapon-clone)"
+  },
+  {
+   "field": "an expendable carrier weapon a lobby member brings",
+   "reason": "that player's own weapon would change: the custom stratagem is unavailable instead"
+  },
+  {
+   "field": "a pod item that is a secondary, a throwable or has no pickup zone",
+   "reason": "not a reviewed rack item kind (research carrier-pod-items)"
+  },
+  {
+   "field": "more pod items than a carrier rack's usable slots",
+   "reason": "a spawn-count write is not part of this pass: the capacity is the rack's usable slots (1 or 2)"
+  },
+  {
+   "field": "a carrier pod with several players",
+   "reason": "solo host only in this build"
+  }
+ ]
+}

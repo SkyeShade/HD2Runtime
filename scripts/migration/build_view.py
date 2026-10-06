@@ -28,7 +28,7 @@ sys.path.insert(0, str(ROOT / 'scripts'))
 from reference_format import dl_hash, find_component, groups, rows  # noqa: E402
 import build_profile  # noqa: E402
 
-EXTRACTOR_VERSION = 4
+EXTRACTOR_VERSION = 7
 CACHE = ROOT / 'build/migration-cache'
 SETTINGS_FILES = {'projectile': 'generated_projectile_settings.dl_bin', 'damage': 'generated_damage_settings.dl_bin',
     'explosion': 'generated_explosion_settings.dl_bin', 'arc': 'generated_arc_settings.dl_bin',
@@ -45,7 +45,7 @@ COMPONENTS = ('ProjectileWeaponComponentData', 'WeaponDataComponentData', 'Healt
     'WeaponWindUpComponentData', 'DepositComponentData', 'TagComponentData', 'InteractableComponentData',
     'ThrowableComponentData', 'StickyComponentData', 'MinefieldComponentData', 'TurretComponentData',
     'SensorEyeComponentData', 'ThrowerComponentData', 'LoadoutEntryComponentData', 'DisplacementComponentData',
-    'ShieldControllerComponentData')
+    'ShieldControllerComponentData', 'GoreComponentData', 'RotationComponentData', 'VehicleMotionComponentData')
 NAME_LENGTH = re.compile(r'inferred_length=(\d+|None)')
 
 
@@ -377,8 +377,12 @@ local worker=coroutine.create(function()
  local out={}
  for _,record in ipairs(records)do
   local raw=source.read(owner.base+record.offset,profile.stratagem.stride)
+  -- The calldown code the row points to (+0x40 pointer, +0x48 count): the pointer itself is per process.
+  local count,code=b.u32(raw,0x48),nil
+  local array=count>=1 and count<=9 and source.read(b.pointer(raw,0x40),count*4)
+  if array then code={};for index=1,count do code[index]=b.u32(array,(index-1)*4)end end
   out[#out+1]={id=record.id,group=record.group,row=record.row,payloads=record.payloads,package=record.package,
-   kind=record.record_kind,bytes=b.hex(raw)}
+   kind=record.record_kind,bytes=b.hex(raw),calldown=code}
  end
  source.close()
  return json.encode(out)

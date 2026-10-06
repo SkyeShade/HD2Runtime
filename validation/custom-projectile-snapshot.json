@@ -1,0 +1,1261 @@
+{
+ "schemaVersion": 1,
+ "build": "F5FEE03DCFDB",
+ "writes": 0,
+ "passed": true,
+ "snapshots": {
+  "F5FEE03DCFDB-20260926T222226Z.hd2snap": {
+   "phase": "ship",
+   "passed": true,
+   "problems": [],
+   "report": {
+    "aim": {
+     "avatarPose": true,
+     "held": false,
+     "upright": true,
+     "weaponPose": false
+    },
+    "avatar": 249,
+    "call": false,
+    "composition": {
+     "changes": 6,
+     "eruptorResolves": true,
+     "impact": 158,
+     "lifetimeChange": "INVALID",
+     "status": "VALID"
+    },
+    "define": {
+     "changes": [
+      {
+       "base": "fb966aa327993eaa",
+       "component": "visual",
+       "from": "output/v1/projectile/plas-1-scorcher",
+       "label": "spawn_effect",
+       "offset": 72,
+       "type": 142,
+       "value": "2495650132e24757",
+       "weapon": "PLAS-1 Scorcher",
+       "width": 8
+      },
+      {
+       "base": "cdcc4c3d",
+       "component": "visual",
+       "from": "output/v1/projectile/plas-1-scorcher",
+       "label": "spawn_effect_parameter",
+       "offset": 88,
+       "type": 142,
+       "value": "0ad7233c",
+       "weapon": "PLAS-1 Scorcher",
+       "width": 4
+      },
+      {
+       "base": "36000000",
+       "component": "damage",
+       "from": "output/v1/projectile/rs-422-railgun",
+       "label": "direct_damage",
+       "offset": 60,
+       "type": 186,
+       "value": "40000000",
+       "weapon": "RS-422 Railgun",
+       "width": 4
+      }
+     ],
+     "compatibility": "VALID",
+     "differingBytes": [
+      60,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      88,
+      89,
+      90,
+      91
+     ],
+     "line": "custom projectile dev/talon_hybrid_proof base type=144 base identity=LAS-58 Talon custom row=0x7FFE00000000 hybrid compatibility=VALID components: visual from PLAS-1 Scorcher (+0x48 spawn_effect 0xAA3E9927A36A96FB -> 0x5747E23201659524; +0x58 spawn_effect_parameter 0.05 -> 0.01), damage from RS-422 Railgun (+0x3C direct_damage 54 -> 64)",
+     "ok": true,
+     "ownedRow": true
+    },
+    "gameWrites": 0,
+    "outsideUpdate": {
+     "ok": false,
+     "reason": "NOT_GAME_THREAD: a custom projectile is spawned only from the game update (a callback, timer or keybind)"
+    },
+    "rowPins": {
+     "count": 124,
+     "proven": true
+    },
+    "spawn": {
+     "ok": false,
+     "reason": "NOT_IN_MISSION: the projectile system is not active"
+    },
+    "tamperedPin": {
+     "reason": "native projectile structure changed (weapon firing: the weapon's configured projectile type at game+67FC39)",
+     "refused": true
+    },
+    "tamperedRow": {
+     "called": false,
+     "reason": "NOT_IN_MISSION: the projectile system is not active",
+     "refused": true,
+     "validation": "INVALID"
+    },
+    "vanillaRows": {
+     "142": {
+      "resolves": true,
+      "type": 142
+     },
+     "144": {
+      "resolves": true,
+      "type": 144
+     },
+     "186": {
+      "resolves": true,
+      "type": 186
+     }
+    },
+    "vanillaRowsUnchanged": true,
+    "variants": [
+     {
+      "compatibility": "VALID",
+      "componentsDiffering": [
+       "visual"
+      ],
+      "id": "dev/talon_visual",
+      "line": "custom projectile dev/talon_visual base type=144 base identity=LAS-58 Talon custom row=0x7FFE00002000 hybrid compatibility=VALID components: visual from PLAS-1 Scorcher (+0x48 spawn_effect 0xAA3E9927A36A96FB -> 0x5747E23201659524; +0x58 spawn_effect_parameter 0.05 -> 0.01)",
+      "ok": true,
+      "outsideOwned": 0,
+      "packages": 2
+     },
+     {
+      "compatibility": "VALID",
+      "componentsDiffering": [
+       "damage"
+      ],
+      "id": "dev/talon_damage",
+      "line": "custom projectile dev/talon_damage base type=144 base identity=LAS-58 Talon custom row=0x7FFE00003000 hybrid compatibility=VALID components: damage from RS-422 Railgun (+0x3C direct_damage 54 -> 64)",
+      "ok": true,
+      "outsideOwned": 0,
+      "packages": 2
+     },
+     {
+      "compatibility": "VALID",
+      "componentsDiffering": [
+       "ballistics"
+      ],
+      "id": "dev/talon_ballistics",
+      "line": "custom projectile dev/talon_ballistics base type=144 base identity=LAS-58 Talon custom row=0x7FFE00004000 hybrid compatibility=VALID components: ballistics from GL-21 Grenade Launcher (+0x18 diameter 10 -> 40; +0x20 speed 1300 -> 100; +0x24 mass 12 -> 50; +0x28 drag 0 -> 1.2; +0x2C gravity 0 -> 1)",
+      "ok": true,
+      "outsideOwned": 0,
+      "packages": 1
+     },
+     {
+      "compatibility": "VALID",
+      "componentsDiffering": [
+       "impact_explosion"
+      ],
+      "id": "dev/talon_impact",
+      "line": "custom projectile dev/talon_impact base type=144 base identity=LAS-58 Talon custom row=0x7FFE00005000 hybrid compatibility=VALID components: impact_explosion from R-36 Eruptor (+0x90 impact_explosion 0 -> 158)",
+      "ok": true,
+      "outsideOwned": 0,
+      "packages": 2
+     },
+     {
+      "compatibility": "VALID",
+      "componentsDiffering": [
+       "visual",
+       "damage",
+       "impact_explosion",
+       "ballistics"
+      ],
+      "id": "dev/talon_combined",
+      "line": "custom projectile dev/talon_combined base type=144 base identity=LAS-58 Talon custom row=0x7FFE00006000 hybrid compatibility=VALID components: visual from PLAS-1 Scorcher (+0x48 spawn_effect 0xAA3E9927A36A96FB -> 0x5747E23201659524; +0x58 spawn_effect_parameter 0.05 -> 0.01), damage from RS-422 Railgun (+0x3C direct_damage 54 -> 64), impact_explosion from R-36 Eruptor (+0x90 impact_explosion 0 -> 158), ballistics from GL-21 Grenade Launcher (+0x18 diameter 10 -> 40; +0x20 speed 1300 -> 100; +0x24 mass 12 -> 50; +0x28 drag 0 -> 1.2; +0x2C gravity 0 -> 1)",
+      "ok": true,
+      "outsideOwned": 0,
+      "packages": 4
+     }
+    ]
+   }
+  },
+  "F5FEE03DCFDB-20260927T155654Z.hd2snap": {
+   "phase": "ship",
+   "passed": true,
+   "problems": [],
+   "report": {
+    "aim": {
+     "avatarPose": true,
+     "held": false,
+     "upright": true,
+     "weaponPose": false
+    },
+    "avatar": 249,
+    "call": false,
+    "composition": {
+     "changes": 6,
+     "eruptorResolves": true,
+     "impact": 158,
+     "lifetimeChange": "INVALID",
+     "status": "VALID"
+    },
+    "define": {
+     "changes": [
+      {
+       "base": "fb966aa327993eaa",
+       "component": "visual",
+       "from": "output/v1/projectile/plas-1-scorcher",
+       "label": "spawn_effect",
+       "offset": 72,
+       "type": 142,
+       "value": "2495650132e24757",
+       "weapon": "PLAS-1 Scorcher",
+       "width": 8
+      },
+      {
+       "base": "cdcc4c3d",
+       "component": "visual",
+       "from": "output/v1/projectile/plas-1-scorcher",
+       "label": "spawn_effect_parameter",
+       "offset": 88,
+       "type": 142,
+       "value": "0ad7233c",
+       "weapon": "PLAS-1 Scorcher",
+       "width": 4
+      },
+      {
+       "base": "36000000",
+       "component": "damage",
+       "from": "output/v1/projectile/rs-422-railgun",
+       "label": "direct_damage",
+       "offset": 60,
+       "type": 186,
+       "value": "40000000",
+       "weapon": "RS-422 Railgun",
+       "width": 4
+      }
+     ],
+     "compatibility": "VALID",
+     "differingBytes": [
+      60,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      88,
+      89,
+      90,
+      91
+     ],
+     "line": "custom projectile dev/talon_hybrid_proof base type=144 base identity=LAS-58 Talon custom row=0x7FFE00000000 hybrid compatibility=VALID components: visual from PLAS-1 Scorcher (+0x48 spawn_effect 0xAA3E9927A36A96FB -> 0x5747E23201659524; +0x58 spawn_effect_parameter 0.05 -> 0.01), damage from RS-422 Railgun (+0x3C direct_damage 54 -> 64)",
+     "ok": true,
+     "ownedRow": true
+    },
+    "gameWrites": 0,
+    "outsideUpdate": {
+     "ok": false,
+     "reason": "NOT_GAME_THREAD: a custom projectile is spawned only from the game update (a callback, timer or keybind)"
+    },
+    "rowPins": {
+     "count": 124,
+     "proven": true
+    },
+    "spawn": {
+     "ok": false,
+     "reason": "NOT_IN_MISSION: the projectile system is not active"
+    },
+    "tamperedPin": {
+     "reason": "native projectile structure changed (weapon firing: the weapon's configured projectile type at game+67FC39)",
+     "refused": true
+    },
+    "tamperedRow": {
+     "called": false,
+     "reason": "NOT_IN_MISSION: the projectile system is not active",
+     "refused": true,
+     "validation": "INVALID"
+    },
+    "vanillaRows": {
+     "142": {
+      "resolves": true,
+      "type": 142
+     },
+     "144": {
+      "resolves": true,
+      "type": 144
+     },
+     "186": {
+      "resolves": true,
+      "type": 186
+     }
+    },
+    "vanillaRowsUnchanged": true,
+    "variants": [
+     {
+      "compatibility": "VALID",
+      "componentsDiffering": [
+       "visual"
+      ],
+      "id": "dev/talon_visual",
+      "line": "custom projectile dev/talon_visual base type=144 base identity=LAS-58 Talon custom row=0x7FFE00002000 hybrid compatibility=VALID components: visual from PLAS-1 Scorcher (+0x48 spawn_effect 0xAA3E9927A36A96FB -> 0x5747E23201659524; +0x58 spawn_effect_parameter 0.05 -> 0.01)",
+      "ok": true,
+      "outsideOwned": 0,
+      "packages": 2
+     },
+     {
+      "compatibility": "VALID",
+      "componentsDiffering": [
+       "damage"
+      ],
+      "id": "dev/talon_damage",
+      "line": "custom projectile dev/talon_damage base type=144 base identity=LAS-58 Talon custom row=0x7FFE00003000 hybrid compatibility=VALID components: damage from RS-422 Railgun (+0x3C direct_damage 54 -> 64)",
+      "ok": true,
+      "outsideOwned": 0,
+      "packages": 2
+     },
+     {
+      "compatibility": "VALID",
+      "componentsDiffering": [
+       "ballistics"
+      ],
+      "id": "dev/talon_ballistics",
+      "line": "custom projectile dev/talon_ballistics base type=144 base identity=LAS-58 Talon custom row=0x7FFE00004000 hybrid compatibility=VALID components: ballistics from GL-21 Grenade Launcher (+0x18 diameter 10 -> 40; +0x20 speed 1300 -> 100; +0x24 mass 12 -> 50; +0x28 drag 0 -> 1.2; +0x2C gravity 0 -> 1)",
+      "ok": true,
+      "outsideOwned": 0,
+      "packages": 1
+     },
+     {
+      "compatibility": "VALID",
+      "componentsDiffering": [
+       "impact_explosion"
+      ],
+      "id": "dev/talon_impact",
+      "line": "custom projectile dev/talon_impact base type=144 base identity=LAS-58 Talon custom row=0x7FFE00005000 hybrid compatibility=VALID components: impact_explosion from R-36 Eruptor (+0x90 impact_explosion 0 -> 158)",
+      "ok": true,
+      "outsideOwned": 0,
+      "packages": 2
+     },
+     {
+      "compatibility": "VALID",
+      "componentsDiffering": [
+       "visual",
+       "damage",
+       "impact_explosion",
+       "ballistics"
+      ],
+      "id": "dev/talon_combined",
+      "line": "custom projectile dev/talon_combined base type=144 base identity=LAS-58 Talon custom row=0x7FFE00006000 hybrid compatibility=VALID components: visual from PLAS-1 Scorcher (+0x48 spawn_effect 0xAA3E9927A36A96FB -> 0x5747E23201659524; +0x58 spawn_effect_parameter 0.05 -> 0.01), damage from RS-422 Railgun (+0x3C direct_damage 54 -> 64), impact_explosion from R-36 Eruptor (+0x90 impact_explosion 0 -> 158), ballistics from GL-21 Grenade Launcher (+0x18 diameter 10 -> 40; +0x20 speed 1300 -> 100; +0x24 mass 12 -> 50; +0x28 drag 0 -> 1.2; +0x2C gravity 0 -> 1)",
+      "ok": true,
+      "outsideOwned": 0,
+      "packages": 4
+     }
+    ]
+   }
+  },
+  "F5FEE03DCFDB-20260927T160033Z.hd2snap": {
+   "phase": "ship",
+   "passed": true,
+   "problems": [],
+   "report": {
+    "aim": {
+     "avatarPose": true,
+     "held": false,
+     "upright": true,
+     "weaponPose": false
+    },
+    "avatar": 249,
+    "call": false,
+    "composition": {
+     "changes": 6,
+     "eruptorResolves": true,
+     "impact": 158,
+     "lifetimeChange": "INVALID",
+     "status": "VALID"
+    },
+    "define": {
+     "changes": [
+      {
+       "base": "fb966aa327993eaa",
+       "component": "visual",
+       "from": "output/v1/projectile/plas-1-scorcher",
+       "label": "spawn_effect",
+       "offset": 72,
+       "type": 142,
+       "value": "2495650132e24757",
+       "weapon": "PLAS-1 Scorcher",
+       "width": 8
+      },
+      {
+       "base": "cdcc4c3d",
+       "component": "visual",
+       "from": "output/v1/projectile/plas-1-scorcher",
+       "label": "spawn_effect_parameter",
+       "offset": 88,
+       "type": 142,
+       "value": "0ad7233c",
+       "weapon": "PLAS-1 Scorcher",
+       "width": 4
+      },
+      {
+       "base": "36000000",
+       "component": "damage",
+       "from": "output/v1/projectile/rs-422-railgun",
+       "label": "direct_damage",
+       "offset": 60,
+       "type": 186,
+       "value": "40000000",
+       "weapon": "RS-422 Railgun",
+       "width": 4
+      }
+     ],
+     "compatibility": "VALID",
+     "differingBytes": [
+      60,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      88,
+      89,
+      90,
+      91
+     ],
+     "line": "custom projectile dev/talon_hybrid_proof base type=144 base identity=LAS-58 Talon custom row=0x7FFE00000000 hybrid compatibility=VALID components: visual from PLAS-1 Scorcher (+0x48 spawn_effect 0xAA3E9927A36A96FB -> 0x5747E23201659524; +0x58 spawn_effect_parameter 0.05 -> 0.01), damage from RS-422 Railgun (+0x3C direct_damage 54 -> 64)",
+     "ok": true,
+     "ownedRow": true
+    },
+    "gameWrites": 0,
+    "outsideUpdate": {
+     "ok": false,
+     "reason": "NOT_GAME_THREAD: a custom projectile is spawned only from the game update (a callback, timer or keybind)"
+    },
+    "rowPins": {
+     "count": 124,
+     "proven": true
+    },
+    "spawn": {
+     "ok": false,
+     "reason": "NOT_IN_MISSION: the projectile system is not active"
+    },
+    "tamperedPin": {
+     "reason": "native projectile structure changed (weapon firing: the weapon's configured projectile type at game+67FC39)",
+     "refused": true
+    },
+    "tamperedRow": {
+     "called": false,
+     "reason": "NOT_IN_MISSION: the projectile system is not active",
+     "refused": true,
+     "validation": "INVALID"
+    },
+    "vanillaRows": {
+     "142": {
+      "resolves": true,
+      "type": 142
+     },
+     "144": {
+      "resolves": true,
+      "type": 144
+     },
+     "186": {
+      "resolves": true,
+      "type": 186
+     }
+    },
+    "vanillaRowsUnchanged": true,
+    "variants": [
+     {
+      "compatibility": "VALID",
+      "componentsDiffering": [
+       "visual"
+      ],
+      "id": "dev/talon_visual",
+      "line": "custom projectile dev/talon_visual base type=144 base identity=LAS-58 Talon custom row=0x7FFE00002000 hybrid compatibility=VALID components: visual from PLAS-1 Scorcher (+0x48 spawn_effect 0xAA3E9927A36A96FB -> 0x5747E23201659524; +0x58 spawn_effect_parameter 0.05 -> 0.01)",
+      "ok": true,
+      "outsideOwned": 0,
+      "packages": 2
+     },
+     {
+      "compatibility": "VALID",
+      "componentsDiffering": [
+       "damage"
+      ],
+      "id": "dev/talon_damage",
+      "line": "custom projectile dev/talon_damage base type=144 base identity=LAS-58 Talon custom row=0x7FFE00003000 hybrid compatibility=VALID components: damage from RS-422 Railgun (+0x3C direct_damage 54 -> 64)",
+      "ok": true,
+      "outsideOwned": 0,
+      "packages": 2
+     },
+     {
+      "compatibility": "VALID",
+      "componentsDiffering": [
+       "ballistics"
+      ],
+      "id": "dev/talon_ballistics",
+      "line": "custom projectile dev/talon_ballistics base type=144 base identity=LAS-58 Talon custom row=0x7FFE00004000 hybrid compatibility=VALID components: ballistics from GL-21 Grenade Launcher (+0x18 diameter 10 -> 40; +0x20 speed 1300 -> 100; +0x24 mass 12 -> 50; +0x28 drag 0 -> 1.2; +0x2C gravity 0 -> 1)",
+      "ok": true,
+      "outsideOwned": 0,
+      "packages": 1
+     },
+     {
+      "compatibility": "VALID",
+      "componentsDiffering": [
+       "impact_explosion"
+      ],
+      "id": "dev/talon_impact",
+      "line": "custom projectile dev/talon_impact base type=144 base identity=LAS-58 Talon custom row=0x7FFE00005000 hybrid compatibility=VALID components: impact_explosion from R-36 Eruptor (+0x90 impact_explosion 0 -> 158)",
+      "ok": true,
+      "outsideOwned": 0,
+      "packages": 2
+     },
+     {
+      "compatibility": "VALID",
+      "componentsDiffering": [
+       "visual",
+       "damage",
+       "impact_explosion",
+       "ballistics"
+      ],
+      "id": "dev/talon_combined",
+      "line": "custom projectile dev/talon_combined base type=144 base identity=LAS-58 Talon custom row=0x7FFE00006000 hybrid compatibility=VALID components: visual from PLAS-1 Scorcher (+0x48 spawn_effect 0xAA3E9927A36A96FB -> 0x5747E23201659524; +0x58 spawn_effect_parameter 0.05 -> 0.01), damage from RS-422 Railgun (+0x3C direct_damage 54 -> 64), impact_explosion from R-36 Eruptor (+0x90 impact_explosion 0 -> 158), ballistics from GL-21 Grenade Launcher (+0x18 diameter 10 -> 40; +0x20 speed 1300 -> 100; +0x24 mass 12 -> 50; +0x28 drag 0 -> 1.2; +0x2C gravity 0 -> 1)",
+      "ok": true,
+      "outsideOwned": 0,
+      "packages": 4
+     }
+    ]
+   }
+  },
+  "F5FEE03DCFDB-20260929T172647Z-mission-host.hd2snap": {
+   "phase": "alive",
+   "passed": true,
+   "problems": [],
+   "report": {
+    "aim": {
+     "alignment": 0.9997041279447808,
+     "avatarPose": true,
+     "distance": 1.1099642584030733,
+     "held": 605,
+     "inHands": true,
+     "upright": true,
+     "weaponPose": true
+    },
+    "avatar": 602,
+    "call": {
+     "dz": -1,
+     "entryIsSpawn": true,
+     "kind": 2,
+     "ownedRow": true,
+     "ownerIsAvatar": true,
+     "peerIsLocal": true,
+     "rowPosition": 16,
+     "sourceIsAvatar": true,
+     "systemIsGlobal": true
+    },
+    "composition": {
+     "changes": 6,
+     "eruptorResolves": true,
+     "impact": 158,
+     "lifetimeChange": "INVALID",
+     "status": "VALID"
+    },
+    "define": {
+     "changes": [
+      {
+       "base": "fb966aa327993eaa",
+       "component": "visual",
+       "from": "output/v1/projectile/plas-1-scorcher",
+       "label": "spawn_effect",
+       "offset": 72,
+       "type": 142,
+       "value": "2495650132e24757",
+       "weapon": "PLAS-1 Scorcher",
+       "width": 8
+      },
+      {
+       "base": "cdcc4c3d",
+       "component": "visual",
+       "from": "output/v1/projectile/plas-1-scorcher",
+       "label": "spawn_effect_parameter",
+       "offset": 88,
+       "type": 142,
+       "value": "0ad7233c",
+       "weapon": "PLAS-1 Scorcher",
+       "width": 4
+      },
+      {
+       "base": "36000000",
+       "component": "damage",
+       "from": "output/v1/projectile/rs-422-railgun",
+       "label": "direct_damage",
+       "offset": 60,
+       "type": 186,
+       "value": "40000000",
+       "weapon": "RS-422 Railgun",
+       "width": 4
+      }
+     ],
+     "compatibility": "VALID",
+     "differingBytes": [
+      60,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      88,
+      89,
+      90,
+      91
+     ],
+     "line": "custom projectile dev/talon_hybrid_proof base type=144 base identity=LAS-58 Talon custom row=0x7FFE00000000 hybrid compatibility=VALID components: visual from PLAS-1 Scorcher (+0x48 spawn_effect 0xAA3E9927A36A96FB -> 0x5747E23201659524; +0x58 spawn_effect_parameter 0.05 -> 0.01), damage from RS-422 Railgun (+0x3C direct_damage 54 -> 64)",
+     "ok": true,
+     "ownedRow": true
+    },
+    "gameWrites": 0,
+    "outsideUpdate": {
+     "ok": false,
+     "reason": "NOT_GAME_THREAD: a custom projectile is spawned only from the game update (a callback, timer or keybind)"
+    },
+    "rowPins": {
+     "count": 124,
+     "proven": true
+    },
+    "spawn": {
+     "baseUnchanged": true,
+     "compatibility": "VALID",
+     "ok": true,
+     "slot": 0
+    },
+    "tamperedPin": {
+     "reason": "native projectile structure changed (weapon firing: the weapon's configured projectile type at game+67FC39)",
+     "refused": true
+    },
+    "tamperedRow": {
+     "called": false,
+     "reason": "HYBRID_INCOMPATIBLE: INVALID: differs from the base in +0xF4 collision_filter (LATE_LOOKUP)",
+     "refused": true,
+     "validation": "INVALID"
+    },
+    "vanillaRows": {
+     "142": {
+      "resolves": true,
+      "type": 142
+     },
+     "144": {
+      "resolves": true,
+      "type": 144
+     },
+     "186": {
+      "resolves": true,
+      "type": 186
+     }
+    },
+    "vanillaRowsUnchanged": true,
+    "variants": [
+     {
+      "compatibility": "VALID",
+      "componentsDiffering": [
+       "visual"
+      ],
+      "id": "dev/talon_visual",
+      "line": "custom projectile dev/talon_visual base type=144 base identity=LAS-58 Talon custom row=0x7FFE00002000 hybrid compatibility=VALID components: visual from PLAS-1 Scorcher (+0x48 spawn_effect 0xAA3E9927A36A96FB -> 0x5747E23201659524; +0x58 spawn_effect_parameter 0.05 -> 0.01)",
+      "ok": true,
+      "outsideOwned": 0,
+      "packages": 2
+     },
+     {
+      "compatibility": "VALID",
+      "componentsDiffering": [
+       "damage"
+      ],
+      "id": "dev/talon_damage",
+      "line": "custom projectile dev/talon_damage base type=144 base identity=LAS-58 Talon custom row=0x7FFE00003000 hybrid compatibility=VALID components: damage from RS-422 Railgun (+0x3C direct_damage 54 -> 64)",
+      "ok": true,
+      "outsideOwned": 0,
+      "packages": 2
+     },
+     {
+      "compatibility": "VALID",
+      "componentsDiffering": [
+       "ballistics"
+      ],
+      "id": "dev/talon_ballistics",
+      "line": "custom projectile dev/talon_ballistics base type=144 base identity=LAS-58 Talon custom row=0x7FFE00004000 hybrid compatibility=VALID components: ballistics from GL-21 Grenade Launcher (+0x18 diameter 10 -> 40; +0x20 speed 1300 -> 100; +0x24 mass 12 -> 50; +0x28 drag 0 -> 1.2; +0x2C gravity 0 -> 1)",
+      "ok": true,
+      "outsideOwned": 0,
+      "packages": 1
+     },
+     {
+      "compatibility": "VALID",
+      "componentsDiffering": [
+       "impact_explosion"
+      ],
+      "id": "dev/talon_impact",
+      "line": "custom projectile dev/talon_impact base type=144 base identity=LAS-58 Talon custom row=0x7FFE00005000 hybrid compatibility=VALID components: impact_explosion from R-36 Eruptor (+0x90 impact_explosion 0 -> 158)",
+      "ok": true,
+      "outsideOwned": 0,
+      "packages": 2
+     },
+     {
+      "compatibility": "VALID",
+      "componentsDiffering": [
+       "visual",
+       "damage",
+       "impact_explosion",
+       "ballistics"
+      ],
+      "id": "dev/talon_combined",
+      "line": "custom projectile dev/talon_combined base type=144 base identity=LAS-58 Talon custom row=0x7FFE00006000 hybrid compatibility=VALID components: visual from PLAS-1 Scorcher (+0x48 spawn_effect 0xAA3E9927A36A96FB -> 0x5747E23201659524; +0x58 spawn_effect_parameter 0.05 -> 0.01), damage from RS-422 Railgun (+0x3C direct_damage 54 -> 64), impact_explosion from R-36 Eruptor (+0x90 impact_explosion 0 -> 158), ballistics from GL-21 Grenade Launcher (+0x18 diameter 10 -> 40; +0x20 speed 1300 -> 100; +0x24 mass 12 -> 50; +0x28 drag 0 -> 1.2; +0x2C gravity 0 -> 1)",
+      "ok": true,
+      "outsideOwned": 0,
+      "packages": 4
+     }
+    ]
+   }
+  },
+  "F5FEE03DCFDB-20260929T172918Z-mission-host-alive.hd2snap": {
+   "phase": "alive",
+   "passed": true,
+   "problems": [],
+   "report": {
+    "aim": {
+     "alignment": -0.9999304330794071,
+     "avatarPose": true,
+     "distance": 4.751292971175601,
+     "held": 605,
+     "inHands": false,
+     "upright": true,
+     "weaponPose": true
+    },
+    "avatar": 602,
+    "call": {
+     "dz": -1,
+     "entryIsSpawn": true,
+     "kind": 2,
+     "ownedRow": true,
+     "ownerIsAvatar": true,
+     "peerIsLocal": true,
+     "rowPosition": 16,
+     "sourceIsAvatar": true,
+     "systemIsGlobal": true
+    },
+    "composition": {
+     "changes": 6,
+     "eruptorResolves": true,
+     "impact": 158,
+     "lifetimeChange": "INVALID",
+     "status": "VALID"
+    },
+    "define": {
+     "changes": [
+      {
+       "base": "fb966aa327993eaa",
+       "component": "visual",
+       "from": "output/v1/projectile/plas-1-scorcher",
+       "label": "spawn_effect",
+       "offset": 72,
+       "type": 142,
+       "value": "2495650132e24757",
+       "weapon": "PLAS-1 Scorcher",
+       "width": 8
+      },
+      {
+       "base": "cdcc4c3d",
+       "component": "visual",
+       "from": "output/v1/projectile/plas-1-scorcher",
+       "label": "spawn_effect_parameter",
+       "offset": 88,
+       "type": 142,
+       "value": "0ad7233c",
+       "weapon": "PLAS-1 Scorcher",
+       "width": 4
+      },
+      {
+       "base": "36000000",
+       "component": "damage",
+       "from": "output/v1/projectile/rs-422-railgun",
+       "label": "direct_damage",
+       "offset": 60,
+       "type": 186,
+       "value": "40000000",
+       "weapon": "RS-422 Railgun",
+       "width": 4
+      }
+     ],
+     "compatibility": "VALID",
+     "differingBytes": [
+      60,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      88,
+      89,
+      90,
+      91
+     ],
+     "line": "custom projectile dev/talon_hybrid_proof base type=144 base identity=LAS-58 Talon custom row=0x7FFE00000000 hybrid compatibility=VALID components: visual from PLAS-1 Scorcher (+0x48 spawn_effect 0xAA3E9927A36A96FB -> 0x5747E23201659524; +0x58 spawn_effect_parameter 0.05 -> 0.01), damage from RS-422 Railgun (+0x3C direct_damage 54 -> 64)",
+     "ok": true,
+     "ownedRow": true
+    },
+    "gameWrites": 0,
+    "outsideUpdate": {
+     "ok": false,
+     "reason": "NOT_GAME_THREAD: a custom projectile is spawned only from the game update (a callback, timer or keybind)"
+    },
+    "rowPins": {
+     "count": 124,
+     "proven": true
+    },
+    "spawn": {
+     "baseUnchanged": true,
+     "compatibility": "VALID",
+     "ok": true,
+     "slot": 0
+    },
+    "tamperedPin": {
+     "reason": "native projectile structure changed (weapon firing: the weapon's configured projectile type at game+67FC39)",
+     "refused": true
+    },
+    "tamperedRow": {
+     "called": false,
+     "reason": "HYBRID_INCOMPATIBLE: INVALID: differs from the base in +0xF4 collision_filter (LATE_LOOKUP)",
+     "refused": true,
+     "validation": "INVALID"
+    },
+    "vanillaRows": {
+     "142": {
+      "resolves": true,
+      "type": 142
+     },
+     "144": {
+      "resolves": true,
+      "type": 144
+     },
+     "186": {
+      "resolves": true,
+      "type": 186
+     }
+    },
+    "vanillaRowsUnchanged": true,
+    "variants": [
+     {
+      "compatibility": "VALID",
+      "componentsDiffering": [
+       "visual"
+      ],
+      "id": "dev/talon_visual",
+      "line": "custom projectile dev/talon_visual base type=144 base identity=LAS-58 Talon custom row=0x7FFE00002000 hybrid compatibility=VALID components: visual from PLAS-1 Scorcher (+0x48 spawn_effect 0xAA3E9927A36A96FB -> 0x5747E23201659524; +0x58 spawn_effect_parameter 0.05 -> 0.01)",
+      "ok": true,
+      "outsideOwned": 0,
+      "packages": 2
+     },
+     {
+      "compatibility": "VALID",
+      "componentsDiffering": [
+       "damage"
+      ],
+      "id": "dev/talon_damage",
+      "line": "custom projectile dev/talon_damage base type=144 base identity=LAS-58 Talon custom row=0x7FFE00003000 hybrid compatibility=VALID components: damage from RS-422 Railgun (+0x3C direct_damage 54 -> 64)",
+      "ok": true,
+      "outsideOwned": 0,
+      "packages": 2
+     },
+     {
+      "compatibility": "VALID",
+      "componentsDiffering": [
+       "ballistics"
+      ],
+      "id": "dev/talon_ballistics",
+      "line": "custom projectile dev/talon_ballistics base type=144 base identity=LAS-58 Talon custom row=0x7FFE00004000 hybrid compatibility=VALID components: ballistics from GL-21 Grenade Launcher (+0x18 diameter 10 -> 40; +0x20 speed 1300 -> 100; +0x24 mass 12 -> 50; +0x28 drag 0 -> 1.2; +0x2C gravity 0 -> 1)",
+      "ok": true,
+      "outsideOwned": 0,
+      "packages": 1
+     },
+     {
+      "compatibility": "VALID",
+      "componentsDiffering": [
+       "impact_explosion"
+      ],
+      "id": "dev/talon_impact",
+      "line": "custom projectile dev/talon_impact base type=144 base identity=LAS-58 Talon custom row=0x7FFE00005000 hybrid compatibility=VALID components: impact_explosion from R-36 Eruptor (+0x90 impact_explosion 0 -> 158)",
+      "ok": true,
+      "outsideOwned": 0,
+      "packages": 2
+     },
+     {
+      "compatibility": "VALID",
+      "componentsDiffering": [
+       "visual",
+       "damage",
+       "impact_explosion",
+       "ballistics"
+      ],
+      "id": "dev/talon_combined",
+      "line": "custom projectile dev/talon_combined base type=144 base identity=LAS-58 Talon custom row=0x7FFE00006000 hybrid compatibility=VALID components: visual from PLAS-1 Scorcher (+0x48 spawn_effect 0xAA3E9927A36A96FB -> 0x5747E23201659524; +0x58 spawn_effect_parameter 0.05 -> 0.01), damage from RS-422 Railgun (+0x3C direct_damage 54 -> 64), impact_explosion from R-36 Eruptor (+0x90 impact_explosion 0 -> 158), ballistics from GL-21 Grenade Launcher (+0x18 diameter 10 -> 40; +0x20 speed 1300 -> 100; +0x24 mass 12 -> 50; +0x28 drag 0 -> 1.2; +0x2C gravity 0 -> 1)",
+      "ok": true,
+      "outsideOwned": 0,
+      "packages": 4
+     }
+    ]
+   }
+  },
+  "F5FEE03DCFDB-20260929T173206Z-mission-host-after-reinforce.hd2snap": {
+   "phase": "reinforced",
+   "passed": true,
+   "problems": [],
+   "report": {
+    "aim": {
+     "avatarPose": true,
+     "held": false,
+     "upright": true,
+     "weaponPose": false
+    },
+    "avatar": 852,
+    "call": {
+     "dz": -1,
+     "entryIsSpawn": true,
+     "kind": 2,
+     "ownedRow": true,
+     "ownerIsAvatar": true,
+     "peerIsLocal": true,
+     "rowPosition": 16,
+     "sourceIsAvatar": true,
+     "systemIsGlobal": true
+    },
+    "composition": {
+     "changes": 6,
+     "eruptorResolves": true,
+     "impact": 158,
+     "lifetimeChange": "INVALID",
+     "status": "VALID"
+    },
+    "define": {
+     "changes": [
+      {
+       "base": "fb966aa327993eaa",
+       "component": "visual",
+       "from": "output/v1/projectile/plas-1-scorcher",
+       "label": "spawn_effect",
+       "offset": 72,
+       "type": 142,
+       "value": "2495650132e24757",
+       "weapon": "PLAS-1 Scorcher",
+       "width": 8
+      },
+      {
+       "base": "cdcc4c3d",
+       "component": "visual",
+       "from": "output/v1/projectile/plas-1-scorcher",
+       "label": "spawn_effect_parameter",
+       "offset": 88,
+       "type": 142,
+       "value": "0ad7233c",
+       "weapon": "PLAS-1 Scorcher",
+       "width": 4
+      },
+      {
+       "base": "36000000",
+       "component": "damage",
+       "from": "output/v1/projectile/rs-422-railgun",
+       "label": "direct_damage",
+       "offset": 60,
+       "type": 186,
+       "value": "40000000",
+       "weapon": "RS-422 Railgun",
+       "width": 4
+      }
+     ],
+     "compatibility": "VALID",
+     "differingBytes": [
+      60,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      88,
+      89,
+      90,
+      91
+     ],
+     "line": "custom projectile dev/talon_hybrid_proof base type=144 base identity=LAS-58 Talon custom row=0x7FFE00000000 hybrid compatibility=VALID components: visual from PLAS-1 Scorcher (+0x48 spawn_effect 0xAA3E9927A36A96FB -> 0x5747E23201659524; +0x58 spawn_effect_parameter 0.05 -> 0.01), damage from RS-422 Railgun (+0x3C direct_damage 54 -> 64)",
+     "ok": true,
+     "ownedRow": true
+    },
+    "gameWrites": 0,
+    "outsideUpdate": {
+     "ok": false,
+     "reason": "NOT_GAME_THREAD: a custom projectile is spawned only from the game update (a callback, timer or keybind)"
+    },
+    "rowPins": {
+     "count": 124,
+     "proven": true
+    },
+    "spawn": {
+     "baseUnchanged": true,
+     "compatibility": "VALID",
+     "ok": true,
+     "slot": 0
+    },
+    "tamperedPin": {
+     "reason": "native projectile structure changed (weapon firing: the weapon's configured projectile type at game+67FC39)",
+     "refused": true
+    },
+    "tamperedRow": {
+     "called": false,
+     "reason": "HYBRID_INCOMPATIBLE: INVALID: differs from the base in +0xF4 collision_filter (LATE_LOOKUP)",
+     "refused": true,
+     "validation": "INVALID"
+    },
+    "vanillaRows": {
+     "142": {
+      "resolves": true,
+      "type": 142
+     },
+     "144": {
+      "resolves": true,
+      "type": 144
+     },
+     "186": {
+      "resolves": true,
+      "type": 186
+     }
+    },
+    "vanillaRowsUnchanged": true,
+    "variants": [
+     {
+      "compatibility": "VALID",
+      "componentsDiffering": [
+       "visual"
+      ],
+      "id": "dev/talon_visual",
+      "line": "custom projectile dev/talon_visual base type=144 base identity=LAS-58 Talon custom row=0x7FFE00002000 hybrid compatibility=VALID components: visual from PLAS-1 Scorcher (+0x48 spawn_effect 0xAA3E9927A36A96FB -> 0x5747E23201659524; +0x58 spawn_effect_parameter 0.05 -> 0.01)",
+      "ok": true,
+      "outsideOwned": 0,
+      "packages": 2
+     },
+     {
+      "compatibility": "VALID",
+      "componentsDiffering": [
+       "damage"
+      ],
+      "id": "dev/talon_damage",
+      "line": "custom projectile dev/talon_damage base type=144 base identity=LAS-58 Talon custom row=0x7FFE00003000 hybrid compatibility=VALID components: damage from RS-422 Railgun (+0x3C direct_damage 54 -> 64)",
+      "ok": true,
+      "outsideOwned": 0,
+      "packages": 2
+     },
+     {
+      "compatibility": "VALID",
+      "componentsDiffering": [
+       "ballistics"
+      ],
+      "id": "dev/talon_ballistics",
+      "line": "custom projectile dev/talon_ballistics base type=144 base identity=LAS-58 Talon custom row=0x7FFE00004000 hybrid compatibility=VALID components: ballistics from GL-21 Grenade Launcher (+0x18 diameter 10 -> 40; +0x20 speed 1300 -> 100; +0x24 mass 12 -> 50; +0x28 drag 0 -> 1.2; +0x2C gravity 0 -> 1)",
+      "ok": true,
+      "outsideOwned": 0,
+      "packages": 1
+     },
+     {
+      "compatibility": "VALID",
+      "componentsDiffering": [
+       "impact_explosion"
+      ],
+      "id": "dev/talon_impact",
+      "line": "custom projectile dev/talon_impact base type=144 base identity=LAS-58 Talon custom row=0x7FFE00005000 hybrid compatibility=VALID components: impact_explosion from R-36 Eruptor (+0x90 impact_explosion 0 -> 158)",
+      "ok": true,
+      "outsideOwned": 0,
+      "packages": 2
+     },
+     {
+      "compatibility": "VALID",
+      "componentsDiffering": [
+       "visual",
+       "damage",
+       "impact_explosion",
+       "ballistics"
+      ],
+      "id": "dev/talon_combined",
+      "line": "custom projectile dev/talon_combined base type=144 base identity=LAS-58 Talon custom row=0x7FFE00006000 hybrid compatibility=VALID components: visual from PLAS-1 Scorcher (+0x48 spawn_effect 0xAA3E9927A36A96FB -> 0x5747E23201659524; +0x58 spawn_effect_parameter 0.05 -> 0.01), damage from RS-422 Railgun (+0x3C direct_damage 54 -> 64), impact_explosion from R-36 Eruptor (+0x90 impact_explosion 0 -> 158), ballistics from GL-21 Grenade Launcher (+0x18 diameter 10 -> 40; +0x20 speed 1300 -> 100; +0x24 mass 12 -> 50; +0x28 drag 0 -> 1.2; +0x2C gravity 0 -> 1)",
+      "ok": true,
+      "outsideOwned": 0,
+      "packages": 4
+     }
+    ]
+   }
+  },
+  "F5FEE03DCFDB-20260929T173443Z-mission-end-transition.hd2snap": {
+   "phase": "ended",
+   "passed": true,
+   "problems": [],
+   "report": {
+    "avatar": false,
+    "composition": {
+     "changes": 6,
+     "eruptorResolves": true,
+     "impact": 158,
+     "lifetimeChange": "INVALID",
+     "status": "VALID"
+    },
+    "define": {
+     "changes": [
+      {
+       "base": "fb966aa327993eaa",
+       "component": "visual",
+       "from": "output/v1/projectile/plas-1-scorcher",
+       "label": "spawn_effect",
+       "offset": 72,
+       "type": 142,
+       "value": "2495650132e24757",
+       "weapon": "PLAS-1 Scorcher",
+       "width": 8
+      },
+      {
+       "base": "cdcc4c3d",
+       "component": "visual",
+       "from": "output/v1/projectile/plas-1-scorcher",
+       "label": "spawn_effect_parameter",
+       "offset": 88,
+       "type": 142,
+       "value": "0ad7233c",
+       "weapon": "PLAS-1 Scorcher",
+       "width": 4
+      },
+      {
+       "base": "36000000",
+       "component": "damage",
+       "from": "output/v1/projectile/rs-422-railgun",
+       "label": "direct_damage",
+       "offset": 60,
+       "type": 186,
+       "value": "40000000",
+       "weapon": "RS-422 Railgun",
+       "width": 4
+      }
+     ],
+     "compatibility": "VALID",
+     "differingBytes": [
+      60,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      88,
+      89,
+      90,
+      91
+     ],
+     "line": "custom projectile dev/talon_hybrid_proof base type=144 base identity=LAS-58 Talon custom row=0x7FFE00000000 hybrid compatibility=VALID components: visual from PLAS-1 Scorcher (+0x48 spawn_effect 0xAA3E9927A36A96FB -> 0x5747E23201659524; +0x58 spawn_effect_parameter 0.05 -> 0.01), damage from RS-422 Railgun (+0x3C direct_damage 54 -> 64)",
+     "ok": true,
+     "ownedRow": true
+    },
+    "gameWrites": 0,
+    "rowPins": {
+     "count": 124,
+     "proven": true
+    },
+    "tamperedPin": {
+     "reason": "native projectile structure changed (weapon firing: the weapon's configured projectile type at game+67FC39)",
+     "refused": true
+    },
+    "vanillaRows": {
+     "142": {
+      "resolves": true,
+      "type": 142
+     },
+     "144": {
+      "resolves": true,
+      "type": 144
+     },
+     "186": {
+      "resolves": true,
+      "type": 186
+     }
+    },
+    "vanillaRowsUnchanged": true,
+    "variants": [
+     {
+      "compatibility": "VALID",
+      "componentsDiffering": [
+       "visual"
+      ],
+      "id": "dev/talon_visual",
+      "line": "custom projectile dev/talon_visual base type=144 base identity=LAS-58 Talon custom row=0x7FFE00001000 hybrid compatibility=VALID components: visual from PLAS-1 Scorcher (+0x48 spawn_effect 0xAA3E9927A36A96FB -> 0x5747E23201659524; +0x58 spawn_effect_parameter 0.05 -> 0.01)",
+      "ok": true,
+      "outsideOwned": 0,
+      "packages": 2
+     },
+     {
+      "compatibility": "VALID",
+      "componentsDiffering": [
+       "damage"
+      ],
+      "id": "dev/talon_damage",
+      "line": "custom projectile dev/talon_damage base type=144 base identity=LAS-58 Talon custom row=0x7FFE00002000 hybrid compatibility=VALID components: damage from RS-422 Railgun (+0x3C direct_damage 54 -> 64)",
+      "ok": true,
+      "outsideOwned": 0,
+      "packages": 2
+     },
+     {
+      "compatibility": "VALID",
+      "componentsDiffering": [
+       "ballistics"
+      ],
+      "id": "dev/talon_ballistics",
+      "line": "custom projectile dev/talon_ballistics base type=144 base identity=LAS-58 Talon custom row=0x7FFE00003000 hybrid compatibility=VALID components: ballistics from GL-21 Grenade Launcher (+0x18 diameter 10 -> 40; +0x20 speed 1300 -> 100; +0x24 mass 12 -> 50; +0x28 drag 0 -> 1.2; +0x2C gravity 0 -> 1)",
+      "ok": true,
+      "outsideOwned": 0,
+      "packages": 1
+     },
+     {
+      "compatibility": "VALID",
+      "componentsDiffering": [
+       "impact_explosion"
+      ],
+      "id": "dev/talon_impact",
+      "line": "custom projectile dev/talon_impact base type=144 base identity=LAS-58 Talon custom row=0x7FFE00004000 hybrid compatibility=VALID components: impact_explosion from R-36 Eruptor (+0x90 impact_explosion 0 -> 158)",
+      "ok": true,
+      "outsideOwned": 0,
+      "packages": 2
+     },
+     {
+      "compatibility": "VALID",
+      "componentsDiffering": [
+       "visual",
+       "damage",
+       "impact_explosion",
+       "ballistics"
+      ],
+      "id": "dev/talon_combined",
+      "line": "custom projectile dev/talon_combined base type=144 base identity=LAS-58 Talon custom row=0x7FFE00005000 hybrid compatibility=VALID components: visual from PLAS-1 Scorcher (+0x48 spawn_effect 0xAA3E9927A36A96FB -> 0x5747E23201659524; +0x58 spawn_effect_parameter 0.05 -> 0.01), damage from RS-422 Railgun (+0x3C direct_damage 54 -> 64), impact_explosion from R-36 Eruptor (+0x90 impact_explosion 0 -> 158), ballistics from GL-21 Grenade Launcher (+0x18 diameter 10 -> 40; +0x20 speed 1300 -> 100; +0x24 mass 12 -> 50; +0x28 drag 0 -> 1.2; +0x2C gravity 0 -> 1)",
+      "ok": true,
+      "outsideOwned": 0,
+      "packages": 4
+     }
+    ]
+   }
+  }
+ }
+}

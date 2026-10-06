@@ -1,0 +1,1 @@
+{"format":1,"name":"RuntimePeerHelloProof","resource":"mods/skyeshade/hd2runtime_peer_hello_proof","guid":"00d4b385-0f1b-487c-8a1b-03eac6b2187e","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.30.0-dev","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../sdk","ide_library":"../../sdk/stubs"}

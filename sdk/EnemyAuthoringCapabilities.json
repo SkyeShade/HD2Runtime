@@ -1,7 +1,7 @@
 {
  "contract": "hd2runtime.enemy.guarded_authoring.v1",
  "schemaVersion": 1,
- "hd2RuntimeVersion": "0.28.0",
+ "hd2RuntimeVersion": "0.30.0-dev",
  "source": {
   "datalibrary": "build profile F5FEE03DCFDB",
   "entitiesSha256": "21377252B81FDBC670EBA1E59A8AB64B170323DF208F175E708992E4C1FB515E",
@@ -22,14 +22,15 @@
   "sharedHealthRecords": 0,
   "wikiPages": 117,
   "wikiPagesNamed": 21,
-  "fieldInstances": 10425,
-  "writableFieldInstances": 9106,
+  "fieldInstances": 10448,
+  "writableFieldInstances": 9129,
   "proven": 4388,
-  "acknowledged": 4718,
+  "acknowledged": 4741,
   "zones": 1373,
   "attacks": 169,
   "classesWithAttacks": 38,
   "attackFieldInstances": 1125,
+  "goreFieldInstances": 23,
   "attacksNamedForClass": 23,
   "attacksWithRowWikiMatch": 49,
   "attackResearch": {
@@ -454,6 +455,24 @@
      0,
      50
     ]
+   },
+   "gore.whole_body_gib_damage": {
+    "displayName": "Whole-body gib (burst) damage threshold",
+    "type": "number",
+    "unit": "damage",
+    "apiFieldConstant": "hd2.fields.gore.whole_body_gib_damage",
+    "acknowledgement": "allow_unverified_effect",
+    "acknowledgementReason": "The whole-body gib threshold is proven offline (pinned gore evaluator code, the class's own GoreComponent record re-proven before every write, research/enemy-gib-threshold-F5FEE03DCFDB.json), but its in-game effect is not yet live-confirmed.",
+    "evidence": "native_code_proven",
+    "semantics": "Final damage of a killing hit (or a hit that kills the damage zone it lands on) at or above which the enemy bursts into gibs: the damage after armor, the zone damage multiplier, the durable mix, element and relation multipliers and the zone health cap; Electricity counts double. -1 disables bursting. Units: damage points. Hits on a limb that owns a gore group of its own use that limb's sever threshold instead (not authored).",
+    "lifecycle": "ACTIVE_DIRECT: read at hit time from the shared loaded GoreComponentData table, so a write affects enemies of the class that are already alive as well as later spawns. Per-class record, no sharing.",
+    "disabledValue": -1,
+    "valueRule": "-1, or 0 < value <= 100000",
+    "research": "enemy-gib-threshold-F5FEE03DCFDB.json",
+    "range": [
+     -1,
+     100000
+    ]
    }
   },
   "sentinels": {
@@ -473,7 +492,14 @@
    "sharing": "DamageInfo rows are global settings; sharedWithClasses lists the reviewed classes whose chains reach the row, and other native users (player or neutral weapons) are possible, so writes need allow_shared",
    "acknowledgement": "allow_unverified_effect (a change to an enemy attack is not live-confirmed)"
   },
-  "appliesTo": "entities spawned after the write; already-spawned enemies keep their current health"
+  "appliesTo": "health, armor and zone fields: entities spawned after the write (already-spawned enemies keep their current health); gore.whole_body_gib_damage: read at hit time, so enemies already alive follow it too",
+  "gore": {
+   "field": "gore.whole_body_gib_damage",
+   "target": "hd2.enemy(name) (path entity)",
+   "eligibleClasses": "Terminids with an enabled whole-body gore group, plus the Hive Guard (disabled, -1, in vanilla)",
+   "identity": "the class's own GoreComponentData record (unique owner) and its first whole-body group: record ownership, the group's whole-body flag, its actor list and every earlier group's cleared flag are re-proven before every write, so a write never lands on a limb group",
+   "research": "research/enemy-gib-threshold-F5FEE03DCFDB.json"
+  }
  },
  "unresolvedWikiPages": [
   {
@@ -102082,6 +102108,24 @@
    "reason": "This zone carries the not-set sentinel (explosions resolve through another zone); not authored."
   },
   {
+   "instanceKey": "enemy:hunter_base:hunter_base_entity:gore.whole_body_gib_damage",
+   "semanticFieldId": "gore.whole_body_gib_damage",
+   "currentDefault": 500,
+   "editable": true,
+   "target": {
+    "resource": "enemy",
+    "enemy": "hunter_base",
+    "path": "entity"
+   },
+   "operationGroup": "operation:bb6096def8f167eb",
+   "backingObjectId": "backing:f5bf384f85b64fa1",
+   "effect": {
+    "activeSource": "ACTIVE_DIRECT",
+    "appliesTo": "enemies already alive and later spawns (read at hit time)"
+   },
+   "disabledValue": -1
+  },
+  {
    "instanceKey": "enemy:hunter_gloom:spore_burst_hunter_entity:entity.health",
    "semanticFieldId": "entity.health",
    "currentDefault": 160,
@@ -102944,6 +102988,24 @@
    },
    "operationGroup": "operation:4836f0494ed73e66",
    "reason": "This zone carries the not-set sentinel (explosions resolve through another zone); not authored."
+  },
+  {
+   "instanceKey": "enemy:hunter_gloom:spore_burst_hunter_entity:gore.whole_body_gib_damage",
+   "semanticFieldId": "gore.whole_body_gib_damage",
+   "currentDefault": 500,
+   "editable": true,
+   "target": {
+    "resource": "enemy",
+    "enemy": "Spore Burst Hunter",
+    "path": "entity"
+   },
+   "operationGroup": "operation:79d9efeb38b32ded",
+   "backingObjectId": "backing:a33580318d7d2b4f",
+   "effect": {
+    "activeSource": "ACTIVE_DIRECT",
+    "appliesTo": "enemies already alive and later spawns (read at hit time)"
+   },
+   "disabledValue": -1
   },
   {
    "instanceKey": "enemy:hunter_tier_1:hunter_tier_1_entity:entity.health",
@@ -103810,6 +103872,24 @@
    "reason": "This zone carries the not-set sentinel (explosions resolve through another zone); not authored."
   },
   {
+   "instanceKey": "enemy:hunter_tier_1:hunter_tier_1_entity:gore.whole_body_gib_damage",
+   "semanticFieldId": "gore.whole_body_gib_damage",
+   "currentDefault": 500,
+   "editable": true,
+   "target": {
+    "resource": "enemy",
+    "enemy": "hunter_tier_1",
+    "path": "entity"
+   },
+   "operationGroup": "operation:71cd1adfb9fe626b",
+   "backingObjectId": "backing:0389ce4f78b5e50b",
+   "effect": {
+    "activeSource": "ACTIVE_DIRECT",
+    "appliesTo": "enemies already alive and later spawns (read at hit time)"
+   },
+   "disabledValue": -1
+  },
+  {
    "instanceKey": "enemy:hunter_tier_2:hunter_tier_2_entity:entity.health",
    "semanticFieldId": "entity.health",
    "currentDefault": 160,
@@ -104674,6 +104754,24 @@
    "reason": "This zone carries the not-set sentinel (explosions resolve through another zone); not authored."
   },
   {
+   "instanceKey": "enemy:hunter_tier_2:hunter_tier_2_entity:gore.whole_body_gib_damage",
+   "semanticFieldId": "gore.whole_body_gib_damage",
+   "currentDefault": 500,
+   "editable": true,
+   "target": {
+    "resource": "enemy",
+    "enemy": "hunter_tier_2",
+    "path": "entity"
+   },
+   "operationGroup": "operation:894b828b6c7be3e5",
+   "backingObjectId": "backing:49077d69eeba796b",
+   "effect": {
+    "activeSource": "ACTIVE_DIRECT",
+    "appliesTo": "enemies already alive and later spawns (read at hit time)"
+   },
+   "disabledValue": -1
+  },
+  {
    "instanceKey": "enemy:hunter_tier_3:predator_hunter_entity:entity.health",
    "semanticFieldId": "entity.health",
    "currentDefault": 175,
@@ -105536,6 +105634,24 @@
    },
    "operationGroup": "operation:617b5eede66b0ac5",
    "reason": "This zone carries the not-set sentinel (explosions resolve through another zone); not authored."
+  },
+  {
+   "instanceKey": "enemy:hunter_tier_3:predator_hunter_entity:gore.whole_body_gib_damage",
+   "semanticFieldId": "gore.whole_body_gib_damage",
+   "currentDefault": 500,
+   "editable": true,
+   "target": {
+    "resource": "enemy",
+    "enemy": "Predator Hunter",
+    "path": "entity"
+   },
+   "operationGroup": "operation:ff36424f43bac3ce",
+   "backingObjectId": "backing:3ae9ab60943fbb84",
+   "effect": {
+    "activeSource": "ACTIVE_DIRECT",
+    "appliesTo": "enemies already alive and later spawns (read at hit time)"
+   },
+   "disabledValue": -1
   },
   {
    "instanceKey": "enemy:illuminate_attack_ship:illuminate_attack_ship_entity:entity.health",
@@ -131697,6 +131813,24 @@
    "reason": "This zone carries the not-set sentinel (explosions resolve through another zone); not authored."
   },
   {
+   "instanceKey": "enemy:scavenger_base:scavenger_base_entity:gore.whole_body_gib_damage",
+   "semanticFieldId": "gore.whole_body_gib_damage",
+   "currentDefault": 400,
+   "editable": true,
+   "target": {
+    "resource": "enemy",
+    "enemy": "scavenger_base",
+    "path": "entity"
+   },
+   "operationGroup": "operation:a21149fdbe786e13",
+   "backingObjectId": "backing:e87ab269e023a909",
+   "effect": {
+    "activeSource": "ACTIVE_DIRECT",
+    "appliesTo": "enemies already alive and later spawns (read at hit time)"
+   },
+   "disabledValue": -1
+  },
+  {
    "instanceKey": "enemy:scavenger_gloom:scavenger_gloom_entity:entity.health",
    "semanticFieldId": "entity.health",
    "currentDefault": 60,
@@ -132124,6 +132258,24 @@
    },
    "operationGroup": "operation:adc3bc89cdb3f644",
    "reason": "This zone carries the not-set sentinel (explosions resolve through another zone); not authored."
+  },
+  {
+   "instanceKey": "enemy:scavenger_gloom:scavenger_gloom_entity:gore.whole_body_gib_damage",
+   "semanticFieldId": "gore.whole_body_gib_damage",
+   "currentDefault": 400,
+   "editable": true,
+   "target": {
+    "resource": "enemy",
+    "enemy": "scavenger_gloom",
+    "path": "entity"
+   },
+   "operationGroup": "operation:6cf567965e0c2577",
+   "backingObjectId": "backing:ab594c51c9cd8a85",
+   "effect": {
+    "activeSource": "ACTIVE_DIRECT",
+    "appliesTo": "enemies already alive and later spawns (read at hit time)"
+   },
+   "disabledValue": -1
   },
   {
    "instanceKey": "enemy:scavenger_predator:scavenger_predator_entity:entity.health",
@@ -132555,6 +132707,24 @@
    "reason": "This zone carries the not-set sentinel (explosions resolve through another zone); not authored."
   },
   {
+   "instanceKey": "enemy:scavenger_predator:scavenger_predator_entity:gore.whole_body_gib_damage",
+   "semanticFieldId": "gore.whole_body_gib_damage",
+   "currentDefault": 400,
+   "editable": true,
+   "target": {
+    "resource": "enemy",
+    "enemy": "scavenger_predator",
+    "path": "entity"
+   },
+   "operationGroup": "operation:b341920d44b08886",
+   "backingObjectId": "backing:8d3486ebba738505",
+   "effect": {
+    "activeSource": "ACTIVE_DIRECT",
+    "appliesTo": "enemies already alive and later spawns (read at hit time)"
+   },
+   "disabledValue": -1
+  },
+  {
    "instanceKey": "enemy:scavenger_spitter:scavenger_spitter_entity:entity.health",
    "semanticFieldId": "entity.health",
    "currentDefault": 60,
@@ -132982,6 +133152,24 @@
    },
    "operationGroup": "operation:7ab7d7191bdd9f3d",
    "reason": "This zone carries the not-set sentinel (explosions resolve through another zone); not authored."
+  },
+  {
+   "instanceKey": "enemy:scavenger_spitter:scavenger_spitter_entity:gore.whole_body_gib_damage",
+   "semanticFieldId": "gore.whole_body_gib_damage",
+   "currentDefault": 400,
+   "editable": true,
+   "target": {
+    "resource": "enemy",
+    "enemy": "scavenger_spitter",
+    "path": "entity"
+   },
+   "operationGroup": "operation:731ddef70f9854b5",
+   "backingObjectId": "backing:6629ceda0792f639",
+   "effect": {
+    "activeSource": "ACTIVE_DIRECT",
+    "appliesTo": "enemies already alive and later spawns (read at hit time)"
+   },
+   "disabledValue": -1
   },
   {
    "instanceKey": "enemy:scavenger_tier_1:scavenger_tier_1_entity:entity.health",
@@ -133413,6 +133601,24 @@
    "reason": "This zone carries the not-set sentinel (explosions resolve through another zone); not authored."
   },
   {
+   "instanceKey": "enemy:scavenger_tier_1:scavenger_tier_1_entity:gore.whole_body_gib_damage",
+   "semanticFieldId": "gore.whole_body_gib_damage",
+   "currentDefault": 400,
+   "editable": true,
+   "target": {
+    "resource": "enemy",
+    "enemy": "scavenger_tier_1",
+    "path": "entity"
+   },
+   "operationGroup": "operation:c5282818f772a6a0",
+   "backingObjectId": "backing:c7460a478d1755ab",
+   "effect": {
+    "activeSource": "ACTIVE_DIRECT",
+    "appliesTo": "enemies already alive and later spawns (read at hit time)"
+   },
+   "disabledValue": -1
+  },
+  {
    "instanceKey": "enemy:scavenger_tier_1_captive:scavenger_tier_1_captive_entity:entity.health",
    "semanticFieldId": "entity.health",
    "currentDefault": 80,
@@ -133842,6 +134048,24 @@
    "reason": "This zone carries the not-set sentinel (explosions resolve through another zone); not authored."
   },
   {
+   "instanceKey": "enemy:scavenger_tier_1_captive:scavenger_tier_1_captive_entity:gore.whole_body_gib_damage",
+   "semanticFieldId": "gore.whole_body_gib_damage",
+   "currentDefault": 400,
+   "editable": true,
+   "target": {
+    "resource": "enemy",
+    "enemy": "scavenger_tier_1_captive",
+    "path": "entity"
+   },
+   "operationGroup": "operation:ac8e7db2f939cd9b",
+   "backingObjectId": "backing:b7f6b18eda2c557a",
+   "effect": {
+    "activeSource": "ACTIVE_DIRECT",
+    "appliesTo": "enemies already alive and later spawns (read at hit time)"
+   },
+   "disabledValue": -1
+  },
+  {
    "instanceKey": "enemy:scavenger_tier_2:scavenger_tier_2_entity:entity.health",
    "semanticFieldId": "entity.health",
    "currentDefault": 60,
@@ -134269,6 +134493,24 @@
    },
    "operationGroup": "operation:6a128bbed2536254",
    "reason": "This zone carries the not-set sentinel (explosions resolve through another zone); not authored."
+  },
+  {
+   "instanceKey": "enemy:scavenger_tier_2:scavenger_tier_2_entity:gore.whole_body_gib_damage",
+   "semanticFieldId": "gore.whole_body_gib_damage",
+   "currentDefault": 400,
+   "editable": true,
+   "target": {
+    "resource": "enemy",
+    "enemy": "scavenger_tier_2",
+    "path": "entity"
+   },
+   "operationGroup": "operation:f212d7701f289e15",
+   "backingObjectId": "backing:38217975a4c68c65",
+   "effect": {
+    "activeSource": "ACTIVE_DIRECT",
+    "appliesTo": "enemies already alive and later spawns (read at hit time)"
+   },
+   "disabledValue": -1
   },
   {
    "instanceKey": "enemy:shield_forcefield_outcast:shield_forcefield_outcast_entity:entity.health",
@@ -186519,6 +186761,24 @@
    "reason": "This zone carries the not-set sentinel (explosions resolve through another zone); not authored."
   },
   {
+   "instanceKey": "enemy:warrior_acid:warrior_acid_entity:gore.whole_body_gib_damage",
+   "semanticFieldId": "gore.whole_body_gib_damage",
+   "currentDefault": 750,
+   "editable": true,
+   "target": {
+    "resource": "enemy",
+    "enemy": "warrior_acid",
+    "path": "entity"
+   },
+   "operationGroup": "operation:8ea9f266e40fce82",
+   "backingObjectId": "backing:7751c274c8eebc9c",
+   "effect": {
+    "activeSource": "ACTIVE_DIRECT",
+    "appliesTo": "enemies already alive and later spawns (read at hit time)"
+   },
+   "disabledValue": -1
+  },
+  {
    "instanceKey": "enemy:warrior_base:warrior_base_entity:entity.health",
    "semanticFieldId": "entity.health",
    "currentDefault": 250,
@@ -187207,6 +187467,24 @@
    },
    "operationGroup": "operation:2775834d5acb3581",
    "reason": "This zone carries the not-set sentinel (explosions resolve through another zone); not authored."
+  },
+  {
+   "instanceKey": "enemy:warrior_base:warrior_base_entity:gore.whole_body_gib_damage",
+   "semanticFieldId": "gore.whole_body_gib_damage",
+   "currentDefault": 750,
+   "editable": true,
+   "target": {
+    "resource": "enemy",
+    "enemy": "warrior_base",
+    "path": "entity"
+   },
+   "operationGroup": "operation:96ec7c7e4d66d72f",
+   "backingObjectId": "backing:0b060f34accea15a",
+   "effect": {
+    "activeSource": "ACTIVE_DIRECT",
+    "appliesTo": "enemies already alive and later spawns (read at hit time)"
+   },
+   "disabledValue": -1
   },
   {
    "instanceKey": "enemy:warrior_big:warrior_big_entity:entity.health",
@@ -187899,6 +188177,24 @@
    "reason": "This zone carries the not-set sentinel (explosions resolve through another zone); not authored."
   },
   {
+   "instanceKey": "enemy:warrior_big:warrior_big_entity:gore.whole_body_gib_damage",
+   "semanticFieldId": "gore.whole_body_gib_damage",
+   "currentDefault": 750,
+   "editable": true,
+   "target": {
+    "resource": "enemy",
+    "enemy": "warrior_big",
+    "path": "entity"
+   },
+   "operationGroup": "operation:a391f22d01e29a69",
+   "backingObjectId": "backing:6c93a1b1416028c3",
+   "effect": {
+    "activeSource": "ACTIVE_DIRECT",
+    "appliesTo": "enemies already alive and later spawns (read at hit time)"
+   },
+   "disabledValue": -1
+  },
+  {
    "instanceKey": "enemy:warrior_big_tier2:warrior_big_tier2_entity:entity.health",
    "semanticFieldId": "entity.health",
    "currentDefault": 1000,
@@ -188587,6 +188883,24 @@
    },
    "operationGroup": "operation:1f78eedca69501f9",
    "reason": "This zone carries the not-set sentinel (explosions resolve through another zone); not authored."
+  },
+  {
+   "instanceKey": "enemy:warrior_big_tier2:warrior_big_tier2_entity:gore.whole_body_gib_damage",
+   "semanticFieldId": "gore.whole_body_gib_damage",
+   "currentDefault": 750,
+   "editable": true,
+   "target": {
+    "resource": "enemy",
+    "enemy": "warrior_big_tier2",
+    "path": "entity"
+   },
+   "operationGroup": "operation:fe0fcf87ab64ab17",
+   "backingObjectId": "backing:eaec1e60acd3502a",
+   "effect": {
+    "activeSource": "ACTIVE_DIRECT",
+    "appliesTo": "enemies already alive and later spawns (read at hit time)"
+   },
+   "disabledValue": -1
   },
   {
    "instanceKey": "enemy:warrior_burrower:warrior_burrower_entity:entity.health",
@@ -189279,6 +189593,24 @@
    "reason": "This zone carries the not-set sentinel (explosions resolve through another zone); not authored."
   },
   {
+   "instanceKey": "enemy:warrior_burrower:warrior_burrower_entity:gore.whole_body_gib_damage",
+   "semanticFieldId": "gore.whole_body_gib_damage",
+   "currentDefault": 750,
+   "editable": true,
+   "target": {
+    "resource": "enemy",
+    "enemy": "warrior_burrower",
+    "path": "entity"
+   },
+   "operationGroup": "operation:b125b7b04851c013",
+   "backingObjectId": "backing:30d94b5b85a74a3e",
+   "effect": {
+    "activeSource": "ACTIVE_DIRECT",
+    "appliesTo": "enemies already alive and later spawns (read at hit time)"
+   },
+   "disabledValue": -1
+  },
+  {
    "instanceKey": "enemy:warrior_gloom:spore_burst_warrior_entity:entity.health",
    "semanticFieldId": "entity.health",
    "currentDefault": 325,
@@ -189967,6 +190299,24 @@
    },
    "operationGroup": "operation:770ae290f9c2ec83",
    "reason": "This zone carries the not-set sentinel (explosions resolve through another zone); not authored."
+  },
+  {
+   "instanceKey": "enemy:warrior_gloom:spore_burst_warrior_entity:gore.whole_body_gib_damage",
+   "semanticFieldId": "gore.whole_body_gib_damage",
+   "currentDefault": 750,
+   "editable": true,
+   "target": {
+    "resource": "enemy",
+    "enemy": "Spore Burst Warrior",
+    "path": "entity"
+   },
+   "operationGroup": "operation:dd05765ce7cb2840",
+   "backingObjectId": "backing:0e389e6194f67c9a",
+   "effect": {
+    "activeSource": "ACTIVE_DIRECT",
+    "appliesTo": "enemies already alive and later spawns (read at hit time)"
+   },
+   "disabledValue": -1
   },
   {
    "instanceKey": "enemy:warrior_plus:hive_guard_entity:entity.health",
@@ -190833,6 +191183,24 @@
    "reason": "This zone carries the not-set sentinel (explosions resolve through another zone); not authored."
   },
   {
+   "instanceKey": "enemy:warrior_plus:hive_guard_entity:gore.whole_body_gib_damage",
+   "semanticFieldId": "gore.whole_body_gib_damage",
+   "currentDefault": -1,
+   "editable": true,
+   "target": {
+    "resource": "enemy",
+    "enemy": "Hive Guard",
+    "path": "entity"
+   },
+   "operationGroup": "operation:7ea81d488094ffed",
+   "backingObjectId": "backing:c00069fd835a0cec",
+   "effect": {
+    "activeSource": "ACTIVE_DIRECT",
+    "appliesTo": "enemies already alive and later spawns (read at hit time)"
+   },
+   "disabledValue": -1
+  },
+  {
    "instanceKey": "enemy:warrior_tier_1:warrior_tier_1_entity:entity.health",
    "semanticFieldId": "entity.health",
    "currentDefault": 250,
@@ -191521,6 +191889,24 @@
    },
    "operationGroup": "operation:fc4396be5019830f",
    "reason": "This zone carries the not-set sentinel (explosions resolve through another zone); not authored."
+  },
+  {
+   "instanceKey": "enemy:warrior_tier_1:warrior_tier_1_entity:gore.whole_body_gib_damage",
+   "semanticFieldId": "gore.whole_body_gib_damage",
+   "currentDefault": 750,
+   "editable": true,
+   "target": {
+    "resource": "enemy",
+    "enemy": "warrior_tier_1",
+    "path": "entity"
+   },
+   "operationGroup": "operation:b3407093463ade5b",
+   "backingObjectId": "backing:32c96ceef99eaa1b",
+   "effect": {
+    "activeSource": "ACTIVE_DIRECT",
+    "appliesTo": "enemies already alive and later spawns (read at hit time)"
+   },
+   "disabledValue": -1
   },
   {
    "instanceKey": "enemy:warrior_tier_1_captive:warrior_tier_1_captive_entity:entity.health",
@@ -192213,6 +192599,24 @@
    "reason": "This zone carries the not-set sentinel (explosions resolve through another zone); not authored."
   },
   {
+   "instanceKey": "enemy:warrior_tier_1_captive:warrior_tier_1_captive_entity:gore.whole_body_gib_damage",
+   "semanticFieldId": "gore.whole_body_gib_damage",
+   "currentDefault": 750,
+   "editable": true,
+   "target": {
+    "resource": "enemy",
+    "enemy": "warrior_tier_1_captive",
+    "path": "entity"
+   },
+   "operationGroup": "operation:13e4b02e44839425",
+   "backingObjectId": "backing:4c84d2f713721ad9",
+   "effect": {
+    "activeSource": "ACTIVE_DIRECT",
+    "appliesTo": "enemies already alive and later spawns (read at hit time)"
+   },
+   "disabledValue": -1
+  },
+  {
    "instanceKey": "enemy:warrior_tier_2:warrior_tier_2_entity:entity.health",
    "semanticFieldId": "entity.health",
    "currentDefault": 325,
@@ -192903,6 +193307,24 @@
    "reason": "This zone carries the not-set sentinel (explosions resolve through another zone); not authored."
   },
   {
+   "instanceKey": "enemy:warrior_tier_2:warrior_tier_2_entity:gore.whole_body_gib_damage",
+   "semanticFieldId": "gore.whole_body_gib_damage",
+   "currentDefault": 750,
+   "editable": true,
+   "target": {
+    "resource": "enemy",
+    "enemy": "warrior_tier_2",
+    "path": "entity"
+   },
+   "operationGroup": "operation:902e23f1d2845c4a",
+   "backingObjectId": "backing:d30110f1ff7c6d4a",
+   "effect": {
+    "activeSource": "ACTIVE_DIRECT",
+    "appliesTo": "enemies already alive and later spawns (read at hit time)"
+   },
+   "disabledValue": -1
+  },
+  {
    "instanceKey": "enemy:warrior_tier_2_guard:warrior_tier_2_guard_entity:entity.health",
    "semanticFieldId": "entity.health",
    "currentDefault": 325,
@@ -193591,6 +194013,24 @@
    },
    "operationGroup": "operation:43cd7a8ed0f634e6",
    "reason": "This zone carries the not-set sentinel (explosions resolve through another zone); not authored."
+  },
+  {
+   "instanceKey": "enemy:warrior_tier_2_guard:warrior_tier_2_guard_entity:gore.whole_body_gib_damage",
+   "semanticFieldId": "gore.whole_body_gib_damage",
+   "currentDefault": 750,
+   "editable": true,
+   "target": {
+    "resource": "enemy",
+    "enemy": "warrior_tier_2_guard",
+    "path": "entity"
+   },
+   "operationGroup": "operation:8b3ad2597b61e887",
+   "backingObjectId": "backing:f9d600b7827819f0",
+   "effect": {
+    "activeSource": "ACTIVE_DIRECT",
+    "appliesTo": "enemies already alive and later spawns (read at hit time)"
+   },
+   "disabledValue": -1
   }
  ],
  "safety": {

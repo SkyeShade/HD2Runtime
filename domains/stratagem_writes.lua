@@ -6,6 +6,11 @@ local entities=require('hd2runtime/core/entity_catalog')
 local Stratagem=require('hd2runtime/core/stratagem')
 local profile=require('hd2runtime/schemas/current')
 local database=require('hd2runtime/domains/stratagem_authoring')
+local calldown=require('hd2runtime/runtime/calldown_codes')
+local calldown_domain=require('hd2runtime/domains/stratagem_calldown')
+local presentation=require('hd2runtime/runtime/stratagem_presentation')
+local images=require('hd2runtime/runtime/image_resources')
+local texts=require('hd2runtime/runtime/text_resources')
 local M={}
 local component_names={'BombardmentComponentData','EagleComponentData',
     'ProjectileWeaponComponentData','OrbitalAbilityComponentData',
@@ -13,7 +18,7 @@ local component_names={'BombardmentComponentData','EagleComponentData',
     'WeaponRoundsComponentData','WeaponHeatComponentData','WeaponChargeComponentData',
     'ArcWeaponComponentData','BeamWeaponComponentData','SprayWeaponComponentData',
     'ShieldComponentData','HellpodPayloadComponentData','MinefieldComponentData',
-    'TurretComponentData','SensorEyeComponentData','ThrowerComponentData'}
+    'TurretComponentData','SensorEyeComponentData','ThrowerComponentData','WeaponWindUpComponentData'}
 local ENTITY_PATHS={deployed_entity=true,weapon=true,attack=true,shield=true,damage_zone=true,
     turret=true,targeting=true,minefield=true}
 local GRAPH_PATHS={deployed_entity=true,weapon=true,attack=true}
@@ -81,6 +86,94 @@ local function validate_uses(field,item,allow_unverified_effect)
     return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
         expected=b.encode(expected,'u32'),desired=b.encode(desired,'u32'),expect=item.expect,value=item.value}
 end
+-- The calldown code (StratagemInfo +0x40 pointer, +0x48 count; runtime/calldown_codes.lua): a list of 1 to 9
+-- directions. expect must be the reviewed native code. A code equal to another stratagem's native code needs
+-- allow_unverified_effect: how the game chooses between two equal codes is not proven. The bytes are planned in
+-- prepare (a Runtime-owned array per code); expected/desired carry the codes so ensures can compare them.
+local catalogued_by_id
+local function stratagem_name(id)
+    if not catalogued_by_id then
+        catalogued_by_id={}
+        for name,item in pairs(database.stratagems)do
+            if item.root and item.root.id then catalogued_by_id[item.root.id]=name end
+        end
+    end
+    return catalogued_by_id[id]or('StratagemInfo id '..id)
+end
+local function validate_calldown(entry,field,item,allow_unverified_effect)
+    local expect,why=calldown.values(item.expect,'expect')
+    assert(expect,why)
+    local value;value,why=calldown.values(item.value,'value')
+    assert(value,why)
+    local native=assert(calldown.values(field.currentDefault),'the reviewed calldown baseline is missing')
+    assert(calldown.same(expect,native),'expect differs from reviewed current value for '..item.field)
+    if not calldown.same(value,expect)then
+        local equal={}
+        for id,code in pairs(calldown_domain.nativeCodes)do
+            if tonumber(id)~=entry.root.id and calldown.same(code,value)then equal[#equal+1]=stratagem_name(tonumber(id))end
+        end
+        table.sort(equal)
+        assert(#equal==0 or allow_unverified_effect,'calldown code '..calldown.text(value)..' equals the native code of '
+            ..table.concat(equal,', ')..'; which stratagem the game calls for two equal codes is not proven, so it '
+            ..'requires allow_unverified_effect=true: '..item.field)
+    end
+    return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
+        calldown={expect=expect,value=value},expected='calldown:'..calldown.key(expect),
+        desired='calldown:'..calldown.key(value),expect=item.expect,value=item.value}
+end
+-- Presentation (StratagemInfo name, cased name, description, icon; runtime/stratagem_presentation.lua): a value is a
+-- catalogued stratagem, by name or hd2.stratagem(name), and stands for that stratagem's own reviewed value of the same
+-- member, an existing vanilla resource. The field's own stratagem is its native value. Raw localization ids and image
+-- hashes are not accepted. expected/desired are the exact row bytes.
+--
+-- presentation_icon also takes a mod's own icon, hd2.resources.image(id) (docs/custom-images.md): the complete icon
+-- family the SDK builds from images/<id>.png (a texture and its GUI icon material). A stratagem icon value names a GUI
+-- material as well as its pixels, and the loadout grid draws the icon as that material with no fallback, so a texture
+-- alone crashed the game (CustomStratagemP0Proof 0.9.0) and the complete family draws (0.11.0, live-proven). Before
+-- the write every +0xB0 consumer is proven and the family must be loaded and exact as the game reads it
+-- (image_resources.icon_ready); otherwise nothing is written (ASSET_UNAVAILABLE). Custom images are icons only. Custom
+-- text (runtime/text_resources.lua) is refused until its live proof.
+local function presentation_source(value,label,member)
+    -- Runtime-owned text (runtime/text_resources.lua) is a development capability until its live proof.
+    assert(not texts.issued(value),'custom text is not yet a public presentation value: it waits for its live proof '
+        ..'(docs/custom-text.md)')
+    if images.issued(value)then
+        assert(label=='value','expect must be the stratagem itself (its native value), not a custom image')
+        assert(member=='icon','a custom image is a presentation_icon value only: '..tostring(value))
+        return nil,nil,value
+    end
+    local name=value
+    if type(value)=='table'then
+        assert(rawget(value,'resource')=='stratagem'and(rawget(value,'path')==nil or rawget(value,'path')=='stratagem'),
+            label..' must be a catalogued stratagem name or hd2.stratagem(name)'
+            ..(member=='icon'and label=='value'and', or hd2.resources.image(id)'or''))
+        name=rawget(value,'stratagem')
+    end
+    assert(type(name)=='string',label..' must be the name of a catalogued stratagem (raw localization ids and image '
+        ..'hashes are not accepted)')
+    local source=database.stratagems[name]
+    assert(source and source.root and source.root.id,label..' '..name..' is not a catalogued stratagem')
+    return name,source.root.id
+end
+local function validate_presentation(field,item)
+    local member=field.backing.member
+    local expect,expect_id=presentation_source(item.expect,'expect',member)
+    assert(expect==field.currentDefault,'expect differs from reviewed current value for '..item.field
+        ..' (its native value is its own: '..tostring(field.currentDefault)..')')
+    local expected=presentation.reviewed(expect_id,member)
+    assert(expected,'no reviewed presentation for '..expect)
+    local value,value_id,image=presentation_source(item.value,'value',member)
+    if image then
+        return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,presentation=member,
+            image=image,expected=expected,desired=images.bytes(image),expect=expect,value=image}
+    end
+    assert(value==expect or not presentation.unresolved(value_id,member),'value '..value..' cannot be a source for '
+        ..item.field..': its '..member..' does not resolve to displayed text on this build')
+    local desired=presentation.reviewed(value_id,member)
+    assert(desired,'no reviewed presentation for '..value)
+    return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,presentation=member,
+        expected=expected,desired=desired,expect=expect,value=value}
+end
 local function validate_change(entry,target,item,allow_shared,allow_unverified_effect)
     assert(type(item)=='table','change must be a descriptor')
     for key in pairs(item)do assert(key=='field'or key=='expect'or key=='value',
@@ -90,6 +183,8 @@ local function validate_change(entry,target,item,allow_shared,allow_unverified_e
         ..' ('..tostring(field.reason)..')')
     assert(not field.shared or allow_shared,'shared field requires allow_shared=true: '..item.field)
     if field.type=='stratagem_uses'then return validate_uses(field,item,allow_unverified_effect)end
+    if field.type=='calldown_code'then return validate_calldown(entry,field,item,allow_unverified_effect)end
+    if field.type=='stratagem_presentation'then return validate_presentation(field,item)end
     assert(field.acknowledgement~='allow_unverified_effect'or allow_unverified_effect,
         'field requires allow_unverified_effect=true: '..item.field..' ('..tostring(field.acknowledgementReason)..')')
     local expected=item.expect;local desired=item.value
@@ -102,9 +197,19 @@ local function validate_change(entry,target,item,allow_shared,allow_unverified_e
     end
     assert(equal(expected,field.currentDefault,field.backing.storage),
         'expect differs from reviewed current value for '..item.field)
-    if field.min then
+    -- A reviewed sentinel (targeting.side_range / rear_range: -1 = use targeting.range) is accepted besides the range.
+    local sentinel=false
+    for _,option in ipairs(field.sentinelValues or{})do if option.value==desired then sentinel=true end end
+    if field.min and not sentinel then
         assert(desired>=field.min and desired<=field.max,
-            'value outside the reviewed range for '..item.field..' ('..field.min..' to '..field.max..')')
+            'value outside the reviewed range for '..item.field..' ('..field.min..' to '..field.max
+            ..(field.sentinelValues and', or '..field.sentinelValues[1].value or'')..')')
+    end
+    if field.allowedValues then
+        -- An enumerated field (eagle.airstrike_pattern): only the reviewed values, never a neighbour of them.
+        local allowed=false
+        for _,option in ipairs(field.allowedValues)do if option.value==desired then allowed=true end end
+        assert(allowed,'value is not one of the reviewed values of '..item.field..': '..tostring(desired))
     end
     return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
         expected=b.encode(expected,field.backing.storage),desired=b.encode(desired,field.backing.storage),
@@ -243,6 +348,12 @@ local function collect_needs(spec)
     end
     return needed
 end
+-- A change backed by a component of the stratagem's own payload entity on the stratagem target itself (the Eagle
+-- fields: EagleComponentData of the Eagle's jet, payload[0]) resolves that entity like an entity path does.
+local function component_backed(spec)
+    for _,change in ipairs(spec.changes)do if change.descriptor.backing.component then return true end end
+    return false
+end
 function M.capture_many(runtime,reader,specs)
     reader.stage='runtime/windows_readonly:fingerprint'
     require('hd2runtime/core/fingerprint').require(runtime)
@@ -255,7 +366,7 @@ function M.capture_many(runtime,reader,specs)
     for index,spec in ipairs(specs)do
         local entry=assert(database.stratagems[spec.stratagem]);local root=find_root(records,entry.root)
         local component,candidate
-        if ENTITY_PATHS[spec.target_path]then
+        if ENTITY_PATHS[spec.target_path]or(spec.target_path=='stratagem'and entry.rootLink and component_backed(spec))then
             candidate=find_candidate(catalog,entry.rootLink and entry.rootLink.payload
                 or entry.deployedEntity.resource)
             if entry.rootLink then
@@ -280,7 +391,7 @@ function M.capture_many(runtime,reader,specs)
                 validate_graph(entry,roots,component)end
         end
         results[index]={entry=entry,root=root,stratagem_owner=stratagem_owner,roots=roots,
-            catalog=catalog,candidate=candidate,component=component,records=records}
+            catalog=catalog,candidate=candidate,component=component,records=records,runtime=runtime}
     end
     return results
 end
@@ -307,6 +418,13 @@ local function selected_record(resolved,change,spec)
             'deployed component consumer scope changed')
         assert(backing.uniqueOwner==nil or component.identity.uniqueOwner==backing.uniqueOwner,
             'deployed component uniqueness changed')
+        -- Members the Runtime never writes that prove the record still is the reviewed one (an Eagle jet's attack
+        -- kind), re-proven before every write.
+        for _,proof in ipairs(backing.recordProofs or{})do
+            assert(component.bytes:sub(proof.offset+1,proof.offset+4)==b.encode(proof.value,proof.storage),
+                backing.component..' '..tostring(proof.member)..' (+'..proof.offset..') is no longer the reviewed '
+                ..tostring(proof.value))
+        end
         return component
     end
     if backing.kind=='OrbitalAbilityComponentData'then return resolved.component end
@@ -317,6 +435,92 @@ local function selected_record(resolved,change,spec)
     assert(record.group==backing.group and record.row==backing.row and record.kind==backing.nativeIdentity,
         'settings record identity changed')
     return record,root.owner
+end
+-- The calldown code's two physical changes (runtime/calldown_codes.lua): the row's count (+0x48) and pointer (+0x40),
+-- to the native array or to the Runtime-owned array of the desired code. The row must hold the expected (native) code,
+-- the desired code, or the code this same operation wrote last time (an option-bound ensure's own bytes); anything
+-- else is a conflict. Count first when the count does not grow, pointer first when it does, so the applied order never
+-- describes more directions than the array it points to holds (every Runtime array has room for any count).
+local SEQUENCE,COUNT,PADDING=calldown_domain.row.sequence,calldown_domain.row.count,calldown_domain.row.padding
+local function u32(n)return b.encode(n,'u32')end
+local function u64(n)return u32(n%4294967296)..u32(math.floor(n/4294967296))end
+local function prepare_calldown(plan,physical,resolved,reader,change,owner,record)
+    local bytes,label,entry=record.bytes,change.field,resolved.entry
+    local proven,why=calldown.prove(resolved.runtime)
+    assert(proven,'calldown code unavailable on this game build: '..tostring(why))
+    assert(b.u32(bytes,PADDING)==0,'calldown row padding changed: '..label)
+    local pointer,count=b.pointer(bytes,SEQUENCE),b.u32(bytes,COUNT)
+    local address=owner.base+record.offset
+    local native=calldown.native(address)
+    local current=calldown.owned(pointer,count)
+    if current then
+        assert(native,'CONFLICT: '..label..' points to a Runtime array no calldown write planned for this row')
+    else
+        assert(count>=1 and count<=calldown_domain.maxLength and pointer>=owner.base+16
+            and pointer+count*4<=owner.base+owner.size,
+            'CONFLICT: '..label..' points outside the StratagemSettings allocation and outside Runtime')
+        current=calldown.decode(reader.read(owner,pointer-owner.base,count*4))
+        if native then
+            assert(pointer==native.pointer and count==native.count,'CONFLICT: '..label..' native array moved')
+        else
+            native={pointer=pointer,count=count,values=current}
+        end
+    end
+    local expect,wanted=change.calldown.expect,change.calldown.value
+    assert(calldown.same(native.values,expect),'CONFLICT: '..label..' native code is '..calldown.text(native.values)
+        ..', not the reviewed '..calldown.text(expect))
+    local mine=change.owned=='calldown:'..calldown.key(current)
+    if not(calldown.same(current,expect)or calldown.same(current,wanted)or mine)then
+        error('CONFLICT: '..label..' is '..calldown.text(current)..', neither expected ('..calldown.text(expect)
+            ..') nor desired ('..calldown.text(wanted)..')',0)
+    end
+    local desired_pointer,desired_count=native.pointer,native.count
+    if not calldown.same(wanted,native.values)then
+        desired_pointer,desired_count=calldown.array(resolved.runtime,wanted),#wanted
+    end
+    calldown.planned({address=address,id=entry.root.id,type=b.u32(bytes,0),name=entry.name,owner=owner,
+        offset=record.offset,native=native,values=wanted})
+    local parts={count={offset=COUNT,before=u32(count),desired=u32(desired_count),native=u32(native.count)},
+        sequence={offset=SEQUENCE,before=u64(pointer),desired=u64(desired_pointer),native=u64(native.pointer)}}
+    local order=desired_count>count and{'sequence','count'}or{'count','sequence'}
+    for _,name in ipairs(order)do
+        local part=parts[name]
+        local key=tostring(owner.base)..':'..tostring(record.offset+part.offset)..':'..#part.before
+        assert(not physical[key],'overlapping calldown changes conflict')
+        -- Expected: the native bytes, or what is there now when it is this operation's own earlier code.
+        local expected=(calldown.same(current,expect)or mine)and part.before or part.native
+        local item={label=label..'.'..name,canonical_field=change.canonical_field,semantic_aliases={change.field},
+            owner=owner,offset=record.offset+part.offset,field_offset=part.offset,expected=expected,
+            desired=part.desired,before=part.before,already_desired=part.before==part.desired,expect=change.expect,
+            value=change.value,identity={component='StratagemDefinition',component_type='semantic',
+                record_index=change.descriptor.backing.recordIndex or change.descriptor.backing.row,unique_owner=true,
+                owner_count=#change.descriptor.sharedConsumers,scope=change.descriptor.sharedScopeKey},chain={}}
+        physical[key]=item;plan.changes[#plan.changes+1]=item
+    end
+end
+local function prepare_scalar(plan,physical,change,owner,record,backing)
+    assert(backing.offset+backing.width<=#record.bytes,'field outside reviewed record')
+    local current=record.bytes:sub(backing.offset+1,backing.offset+backing.width)
+    local expected=ownership.expected(change,current)
+    local offset=record.offset+backing.offset
+    local key=tostring(owner.base)..':'..tostring(offset)..':'..backing.width
+    local prior=physical[key]
+    if prior then
+        assert(prior.canonical_field==change.canonical_field and prior.desired==change.desired,
+            'overlapping stratagem fields conflict')
+    else
+        local item={label=change.field,canonical_field=change.canonical_field,
+            semantic_aliases={change.field},owner=owner,offset=offset,field_offset=backing.offset,
+            expected=expected,desired=change.desired,before=current,
+            already_desired=current==change.desired,expect=change.expect,value=change.value,
+            identity={component=backing.kind,component_type='semantic',record_index=backing.recordIndex or backing.row,
+                unique_owner=backing.uniqueOwner~=nil and backing.uniqueOwner
+                    or not change.descriptor.shared,
+                owner_count=backing.ownerCount or#change.descriptor.sharedConsumers,
+                scope=change.descriptor.sharedScopeKey},
+            chain={}}
+        physical[key]=item;plan.changes[#plan.changes+1]=item
+    end
 end
 function M.prepare(resolved,reader,spec)
     local plan={changes={},snapshots=reader.snapshots};local physical={}
@@ -332,27 +536,24 @@ function M.prepare(resolved,reader,spec)
             bytes=reader.read(owner,record.offset,profile.stratagem.stride)
             record={bytes=bytes,offset=record.offset}
         end
-        assert(backing.offset+backing.width<=#record.bytes,'field outside reviewed record')
-        local current=record.bytes:sub(backing.offset+1,backing.offset+backing.width)
-        local expected=ownership.expected(change,current)
-        local offset=record.offset+backing.offset
-        local key=tostring(owner.base)..':'..tostring(offset)..':'..backing.width
-        local prior=physical[key]
-        if prior then
-            assert(prior.canonical_field==change.canonical_field and prior.desired==change.desired,
-                'overlapping stratagem fields conflict')
+        if change.calldown then prepare_calldown(plan,physical,resolved,reader,change,owner,record)
         else
-            local item={label=change.field,canonical_field=change.canonical_field,
-                semantic_aliases={change.field},owner=owner,offset=offset,field_offset=backing.offset,
-                expected=expected,desired=change.desired,before=current,
-                already_desired=current==change.desired,expect=change.expect,value=change.value,
-                identity={component=backing.kind,component_type='semantic',record_index=backing.recordIndex or backing.row,
-                    unique_owner=backing.uniqueOwner~=nil and backing.uniqueOwner
-                        or not change.descriptor.shared,
-                    owner_count=backing.ownerCount or#change.descriptor.sharedConsumers,
-                    scope=change.descriptor.sharedScopeKey},
-                chain={}}
-            physical[key]=item;plan.changes[#plan.changes+1]=item
+            if change.presentation then
+                -- The readers of the member are proven on this game.dll before any presentation write.
+                local proven,why=presentation.prove_runtime(resolved.runtime)
+                assert(proven,'stratagem presentation unavailable on this game build: '..tostring(why))
+            end
+            if change.image then
+                -- A custom icon: every +0xB0 consumer proven and the complete family loaded and exact, or nothing is
+                -- written. The family loads with the mod at startup, so a missing one is final.
+                local ready,code,why=images.icon_ready(resolved.runtime,change.image)
+                if not ready then
+                    error((code=='UNSUPPORTED_BUILD'and'custom icons are unavailable on this game build: '
+                        or'ASSET_UNAVAILABLE: ')..tostring(change.image)..' is not ready as a stratagem icon ('
+                        ..tostring(code)..': '..tostring(why)..')',0)
+                end
+            end
+            prepare_scalar(plan,physical,change,owner,record,backing)
         end
     end
     return plan

@@ -16,6 +16,7 @@ import package_residency_evidence as residency_evidence  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 RESEARCH = ROOT / 'research/pod-payloads-F5FEE03DCFDB.json'
+SILO_RESEARCH = ROOT / 'research/silo-payload-F5FEE03DCFDB.json'
 BOOSTER_NATIVE = ROOT / 'research/booster-native-F5FEE03DCFDB.json'
 BOOSTERS = ROOT / 'sdk/BoosterAuthoringCapabilities.json'
 JSON_OUTPUT = ROOT / 'sdk/PodPayloadCapabilities.json'
@@ -264,7 +265,20 @@ def build(research_path=RESEARCH):
         'safety': {'runtimeAddresses': False, 'rawResourceIdentifiers': False, 'writesDuringGeneration': 0}}
     if re.search(r'0x[0-9a-f]{8,}', json.dumps(public).lower()):
         raise ValueError('public pod payload catalog leaks a native identifier')
-    runtime = {'racks': racks_runtime, 'pickups': pickups_runtime,
+    # Missile silos (research/silo-payload-F5FEE03DCFDB.json): what each silo's own rack delivers, by role (the missile,
+    # the remote). Their racks are not authorable (a deployable, not pickups); a custom silo payload captures them.
+    silos = {}
+    for silo in json.loads(SILO_RESEARCH.read_text(encoding='utf-8'))['silos']:
+        rack = racks_runtime.get(by_stratagem.get(silo['stratagem']))
+        if not rack or rack['resource'] != silo['rack'] or rack['writable']:
+            raise ValueError(silo['stratagem'] + ': the silo research names another rack')
+        roles = {item['role']: item for item in silo['items']}
+        silos[silo['stratagem']] = {'rack': silo['rack'], 'id': silo['id'],
+            'missile': {'slot': roles['missile']['slot'], 'resource': roles['missile']['resource'],
+                'detonation': roles['missile']['explosive']['detonation'],
+                'impact': roles['missile']['explosive']['impact']},
+            'remote': {'slot': roles['remote']['slot'], 'resource': roles['remote']['resource']}}
+    runtime = {'racks': racks_runtime, 'pickups': pickups_runtime, 'silos': silos,
         'names': {item['name']: item['semanticId'] for item in pickups},
         'byStratagem': by_stratagem, 'byStratagemId': by_stratagem_id, 'boosterGranted': {booster_name: str(booster_record['id'])},
         'authoredSlots': AUTHORED_SLOTS, 'unverifiedReason': UNVERIFIED, 'countReason': COUNT_UNVERIFIED,

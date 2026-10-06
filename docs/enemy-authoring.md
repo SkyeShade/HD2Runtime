@@ -7,6 +7,9 @@ Since the coverage pass, Runtime can author the health and damage zones of enemi
 - Coverage: 177 classes (138 enemies, 39 structures), 10,425 field instances (9,300 health and zone fields,
   1,125 attack fields), 9,106 of them writable.
 
+How often each enemy type spawns (its weight in the game's spawn rosters) is set with
+`hd2.enemies.spawn_weight`, not with a field: see [enemy spawn weights](enemy-spawns.md).
+
 ## Identity: native first
 
 Each class is a native entity whose resource path is hash-verified. Its HealthComponent record is unique to it:
@@ -73,6 +76,72 @@ default zone and 38 damage-zone slots (552 bytes each, from +520).
 - **Always read-only.** `fatal`, downs-on-death and main-health-capped are published but never writable.
 - **Spawned entities.** Writes change the class definition. Enemies already on the map keep their current health;
   enemies spawned after the write use the new values.
+  The exception is `gore.whole_body_gib_damage`, which is read at hit time; see below.
+
+## Whole-body gib threshold (`gore.whole_body_gib_damage`)
+
+The damage at which a killed enemy bursts into gibs (the "splootch"). Research:
+[enemy-gib-threshold](research/enemy-gib-threshold-F5FEE03DCFDB.md).
+
+**Semantics.** The killing hit's final damage must reach this value for the enemy to burst. A hit that kills only the
+damage zone it lands on is checked too.
+
+- The final damage is the damage after armor, the zone damage multiplier, the durable mix, the element and relation
+  multipliers, and the zone health cap.
+- Electricity counts double.
+- `-1` disables bursting.
+- Units are damage points.
+
+**Native member.** GoreGroupInfo +0 (f32, hidden name 10 characters) of the class's **first whole-body gore group**
+(the first group with flag +866). It lives in the class's own GoreComponentData record, not in its HealthComponent. The
+gore evaluator (0x9057D0) compares the hit with it at 0x905E39.
+
+**Eligible classes.** 23 classes:
+
+| Family | Vanilla value | Classes |
+| --- | ---: | --- |
+| Scavengers | 400 | 7 |
+| Hunters | 500 | 5 |
+| Warriors, including the Brood and Alpha classes | 750 | 10 |
+| Hive Guard | -1 (disabled in vanilla) | 1 |
+
+No other class gets the field:
+
+- Spewers, Chargers, the Bile Titan, Stalkers, Shriekers and every Automaton or Illuminate unit have no whole-body gore
+  group.
+- The other disabled whole-body groups (`dragon`, `observer`, two tank turrets) are not offered, because their
+  whole-body action never runs in vanilla.
+
+**Value rule.** Accepted values are `-1`, or `0 < value <= 100000`. NaN, infinities, 0 and other negatives are refused.
+The largest vanilla DamageInfo damage is 10,000, so even an Electricity (×2) critical (×1.5) hit stays below 100,000.
+
+**Lifecycle (ACTIVE_DIRECT).** The value is read at hit time from the shared loaded GoreComponentData table. A write
+therefore affects enemies of that class that are **already alive**, as well as later spawns. Each class owns its record,
+so nothing is shared.
+
+**Guards.** Each write re-proves:
+
+- the class's GoreComponentData record index, index row and unique owner;
+- that the target is group index × 872 + 0;
+- the group's actor list (+340, `boss`);
+- the group's flags (+864..+867, including +866 = 1);
+- that every earlier group's +866 is clear;
+- the expected current value.
+
+A write therefore never lands on a limb group.
+
+**Acknowledgement.** Writes need `allow_unverified_effect` until the live test passes (`examples/projects/GibThresholdTest`).
+
+```lua
+hd2.ensure({patch={id='warrior-burst',target=hd2.enemy('warrior_tier_2'),allow_unverified_effect=true,
+    field=hd2.fields.gore.whole_body_gib_damage,expect=750,value=400}})
+```
+
+Not authored:
+
+- Per-limb sever thresholds. Limb groups exist, but their identity is not cleanly provable per named group.
+- The secondary "gored" threshold.
+- The gib impulse scales.
 
 ## Zones
 
@@ -114,9 +183,13 @@ A third-party change to the same bytes is a CONFLICT.
 
 The coverage-pass snapshot validator (`validation/coverage-pass-snapshot.json`) checks all of this against the
 retained snapshot:
-- it resolves all 7,981 writable fields as guarded no-ops;
+- it resolves all 9,129 writable fields as guarded no-ops;
 - it round-trips Charger health and head armor, fabricator health and Warrior head health;
 - it checks the conflict, range, acknowledgement, stale-expect and sentinel rejections.
+
+The whole-body gib threshold has its own snapshot validator (`validation/enemy-gib-threshold-snapshot.json`). It covers
+round trips that change exactly the four target bytes of the 7 MB GoreComponentData table, a 23-class transaction within
+the read budget, and the guard tampers.
 
 ## Migration
 
@@ -127,6 +200,9 @@ fields migrate as settings rows re-walked from their weapon (see Attacks).
   - 10,088 MOVED (record, index row or settings row moved; layout unchanged), 336 EXACT and 1 BASELINE_CHANGED
     (the spore lung's main health, 5000 → 30000);
   - all 9,106 writable fields are recovered, with 0 unsafe stale writes.
+- **Whole-body gib fields** (added after that record; GoreComponentData is in the migration view since extractor
+  version 6): all 23 are EXACT on the same build. Against D8E23968D141 all 23 are MOVED (record coordinates moved,
+  layout unchanged), with 0 unsafe stale writes.
 
 ## Attacks (mounted weapons)
 

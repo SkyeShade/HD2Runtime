@@ -1,0 +1,40 @@
+{
+  "format": "hd2runtime-custom-stratagems/1",
+  "stratagems": [
+    {
+      "id": "eagle_stun_rocket_pods",
+      "name": "EAGLE STUN ROCKET PODS",
+      "name_cased": "Eagle Stun Rocket Pods",
+      "description": "An Eagle fires a rocket-pod run whose warheads burst into the Orbital EMS Strike's stun field on impact.",
+      "icon": {
+        "image": "eagle_stun_rocket_pods",
+        "source": "images/eagle_stun_rocket_pods.png"
+      },
+      "code": [
+        "up",
+        "left",
+        "up",
+        "right",
+        "down",
+        "right"
+      ],
+      "carrier": {
+        "beacon": "offensive",
+        "prefer_families": [
+          "eagle"
+        ],
+        "allow_families": [
+          "eagle"
+        ]
+      },
+      "payload": {
+        "family": "eagle",
+        "donor": "Eagle 110mm Rocket Pods",
+        "uses": 5,
+        "payload": {
+          "impact_explosion": "Orbital EMS Strike"
+        }
+      }
+    }
+  ]
+}

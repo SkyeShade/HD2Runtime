@@ -158,10 +158,28 @@ rejection happens before any page is opened) or a captured context, read again
 inside the guarded section. A protection restore that fails after its retries
 logs `protection_restore_failure page=... original=... reason=...`.
 
-Runtime does not accept other protections or allocation layouts on Wine or
-Proton (for example PAGE_EXECUTE_READWRITE heap pages). Nothing proves offline
-that such a page behaves like the Windows one it replaces. A `guard_failure`
-line from an affected system is the evidence needed to decide that.
+**Proton and Wine (0.30.0-dev; GitHub issue #3; not live-tested on Linux).**
+Proton maps game.dll's data pages PAGE_WRITECOPY (0x8) where Windows reports
+PAGE_READWRITE. The guard used to accept only READONLY and READWRITE everywhere,
+so a read-only proof context in game.dll was refused (MG-43 / MG-206 on Proton).
+
+`core/page_protection.lua` now separates two cases, and every reader and the
+guarded transaction use it:
+
+- **Read (contexts, proofs, discovery):** READONLY, READWRITE and WRITECOPY,
+  with or without execute (0x2, 0x4, 0x8, 0x20, 0x40, 0x80). The values must
+  match exactly; a guard, no-cache or write-combine modifier makes a page
+  unreadable.
+- **Write target:** READONLY or READWRITE only, as before. A write target on a
+  copy-on-write or executable page is still refused before any page is opened.
+
+`tests/test_proton_page_protection.py` runs the real MG-43 and MG-206 plans on
+the retained snapshot with game.dll's writable image pages reported as
+PAGE_WRITECOPY. They apply exactly as on Windows.
+
+Runtime still accepts no other protections or allocation layouts on Wine or
+Proton. A `guard_failure` line from an affected system is the evidence needed
+to decide whether to accept more.
 `tests/test_transaction.py` covers these cases with a fault-injecting memory:
 an unchanged region, a benign subdivision into one-page regions of the same
 allocation (accepted), a changed protection, a changed allocation base, a true

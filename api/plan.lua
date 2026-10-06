@@ -178,6 +178,8 @@ function M.start_spec(runtime,emit,spec,startup_delay)
             return fail(result.reason,result)
         end
         watch.status='complete';exclusive.release(watch)
+        -- Which operation holds these bytes, for a later CONFLICT message (core/shared_records.lua).
+        pcall(require('hd2runtime/core/shared_records').claim,spec,'plan',spec.mod)
         log('plan '..spec.id..' '..result.status..' phases='..#result.phases
             ..' writes='..result.writes..' protection_changes='..result.protection_changes)
         for _,line in ipairs(writer.report_lines(result))do log(line)end
@@ -186,6 +188,10 @@ function M.start_spec(runtime,emit,spec,startup_delay)
     return watch
 end
 function M.start(runtime,emit,request)
-    return M.start_spec(runtime,emit,plans.validate(request),3)
+    local spec=plans.validate(request)
+    local shared=require('hd2runtime/core/shared_records')
+    -- Diagnostics only: never part of the registration's outcome.
+    spec.mod=shared.current_mod();pcall(shared.warn_unlisted,spec,'plan',spec.mod,emit)
+    return M.start_spec(runtime,emit,spec,3)
 end
 return M

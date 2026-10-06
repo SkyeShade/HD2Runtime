@@ -690,13 +690,31 @@ def outputs():
         for key,value in spec['values'].items(): stub.append('---@field '+key+' '+str(value))
     stub+=['','---@class HD2Enums']
     for enum in schema['enums']: stub.append('---@field '+enum+' HD2Enum_'+enum)
+    stub+=['','---@class HD2Image','---@field resource "image"','---@field image string','---@field mod string',
+           'local HD2Image = {}','---{kind = "image", id, mod}.','---@return table','function HD2Image:describe() end']
     stub+=['','---@class HD2Resources']
     for key in resources: stub.append('---@field '+key+' '+json.dumps(key))
+    # hd2.resources.image: a mod's own icon (docs/custom-images.md); no hash or archive detail.
+    stub+=['local HD2Resources = {}',
+           "---The calling mod's own image: images/<id>.png in its project, packed by the SDK build as a complete icon",
+           '---family in the mod\'s archive (docs/custom-images.md). A value for hd2.fields.stratagem.presentation_icon;',
+           '---the write is refused (ASSET_UNAVAILABLE) unless the whole family is loaded.',
+           '---@param id string 1 to 64 lowercase letters, digits or underscores','---@return HD2Image',
+           'function HD2Resources.image(id) end',
+           '','---@class HD2Model','---@field resource "model"','---@field model string','---@field mod string',
+           "---The calling mod's own model: models/<id>.json in its project, derived by the SDK build from its base",
+           "---weapon's unit and shipped beside the vanilla resources (docs/custom-models.md). A value for a weapon",
+           "---delivery's model (hd2.custom_stratagem, delivery.family 'weapon'); never used unless it is loaded and exact.",
+           '---@param id string 1 to 64 lowercase letters, digits or underscores','---@return HD2Model',
+           'function HD2Resources.model(id) end']
     import generate_events
     event_classes,event_fields,event_functions=generate_events.stub_lines()
     stub+=event_classes
     stub+=['','---@class HD2Runtime','---@field fields HD2Fields','---@field enums HD2Enums',
-           '---@field resources HD2Resources','---@field version string','---@field api_version integer',
+           '---@field resources HD2Resources',
+           '---@field version string the compatibility version, MAJOR.MINOR.PATCH (every SDK wrapper compares it)',
+           '---@field version_label string the full version of this build (e.g. 0.30.0-dev)',
+           '---@field api_version integer',
            *event_fields,'local hd2 = {}']
     for method,domain in schema['builders'].items():
         names=[n for r in resources.values() if r['kind']==domain for n in r['aliases']]
@@ -724,9 +742,10 @@ def outputs():
         '---@param name HD2EnemyName','---@return HD2Enemy','function hd2.enemy(name) end',
         '---An enemy structure (fabricators, emplacements, objectives) by wiki or native class name.',
         '---@param name HD2StructureName','---@return HD2Enemy','function hd2.structure(name) end',
-        '---Reviewed enemy / structure names, optionally filtered by kind and faction.',
-        '---@param filter? {kind?: "enemy"|"structure", faction?: "terminids"|"automatons"|"illuminate"|"neutral"}',
-        '---@return string[]','function hd2.enemies(filter) end',
+        '---Reviewed enemy / structure names (call it: hd2.enemies(filter), optionally filtered by kind and faction),',
+        '---and how often each enemy type spawns (hd2.enemies.spawn_weight; docs/enemy-spawns.md).',
+        '---@type HD2Enemies|fun(filter?: {kind?: "enemy"|"structure", faction?: "terminids"|"automatons"|"illuminate"|"neutral"}): string[]',
+        'hd2.enemies = {}',
         '---A catalogued attack output by semantic ID or owner weapon name (see docs/attack-outputs.md).',
         '---@param identity HD2AttackOutputId','---@return HD2AttackOutput','function hd2.attack_output(identity) end',
         '---Mods that need a newer HD2Runtime (HD2Runtime 0.28.0+). The SDK wrapper of every mod reports here before its',
@@ -752,6 +771,16 @@ def outputs():
         '---Ensure-owned targets something else keeps overwriting (always on; a warning is logged after 3 re-applications',
         '---in the operation\'s window): {operation, target, externalChanges, warnings, windowSeconds}[], most first.',
         '---@return table[]','function HD2Diagnostics.write_conflicts() end',
+        '---Every operation registered this session, refused ones included (HD2Runtime 0.28.1+): {kind, id, mod, sdk,',
+        '---sdk_source, status, result, code, error, runs, legacy}[], in registration order. `legacy` lists the fields an',
+        '---operation of a mod declaring an older SDK wrote without an acknowledgement a later SDK added',
+        '---(docs/legacy-sdk-compatibility.md).',
+        '---@return table[]','function HD2Diagnostics.operations() end',
+        '---Per-mod CPU time (always on, quiet; HD2Runtime 0.30.0-dev+): every call into a mod (event listeners, timers,',
+        '---keybinds, its main file, custom stratagem callbacks) and every update the Runtime runs for it, by its own time.',
+        '---{timed, single_call_seconds, share_seconds, window_seconds, owners = {owner, total_seconds, calls, max_seconds,',
+        '---max_label, last_window}[]}, the most time first. A slow call or a high share is logged as PERFORMANCE.',
+        '---@return table','function HD2Diagnostics.performance() end',
         '---@type HD2Diagnostics','hd2.diagnostics = {}']
     stub+=event_functions
     for method,spec in schema['api']['functions'].items():
@@ -819,8 +848,22 @@ def outputs():
             'sdk/docs/weapon-presentation.md':(ROOT/'docs/weapon-presentation.md').read_text(encoding='utf-8'),
             'sdk/docs/vehicle-weapons.md':(ROOT/'docs/vehicle-weapons.md').read_text(encoding='utf-8'),
             'sdk/docs/stratagem-uses.md':(ROOT/'docs/stratagem-uses.md').read_text(encoding='utf-8'),
+            'sdk/docs/stratagem-calldown-code.md':(ROOT/'docs/stratagem-calldown-code.md').read_text(encoding='utf-8'),
+            'sdk/docs/stratagem-presentation.md':(ROOT/'docs/stratagem-presentation.md').read_text(encoding='utf-8'),
+            'sdk/docs/custom-images.md':(ROOT/'docs/custom-images.md').read_text(encoding='utf-8'),
+            'sdk/docs/custom-text.md':(ROOT/'docs/custom-text.md').read_text(encoding='utf-8'),
             'sdk/docs/diagnostics.md':(ROOT/'docs/diagnostics.md').read_text(encoding='utf-8'),
-            'sdk/tools/hd2_archive.py':(ROOT/'scripts/hd2_archive.py').read_text(encoding='utf-8')}
+            'sdk/docs/custom-stratagem-api.md':(ROOT/'docs/custom-stratagem-api.md').read_text(encoding='utf-8'),
+            'sdk/docs/custom-stratagem-builder.md':(ROOT/'docs/custom-stratagem-builder.md').read_text(encoding='utf-8'),
+            'sdk/docs/weapon-sounds.md':(ROOT/'docs/weapon-sounds.md').read_text(encoding='utf-8'),
+            'sdk/docs/legacy-sdk-compatibility.md':(ROOT/'docs/legacy-sdk-compatibility.md').read_text(encoding='utf-8'),
+            'sdk/docs/projectile-homing.md':(ROOT/'docs/projectile-homing.md').read_text(encoding='utf-8'),
+            'sdk/docs/enemy-spawns.md':(ROOT/'docs/enemy-spawns.md').read_text(encoding='utf-8'),
+            'sdk/tools/hd2_archive.py':(ROOT/'scripts/hd2_archive.py').read_text(encoding='utf-8'),
+            'sdk/tools/hd2_image.py':(ROOT/'scripts/hd2_image.py').read_text(encoding='utf-8'),
+            'sdk/tools/hd2_model.py':(ROOT/'scripts/hd2_model.py').read_text(encoding='utf-8'),
+            'sdk/tools/hd2_game_data.py':(ROOT/'scripts/hd2_game_data.py').read_text(encoding='utf-8'),
+            'sdk/docs/custom-models.md':(ROOT/'docs/custom-models.md').read_text(encoding='utf-8')}
 
 
 def generate(check=False):

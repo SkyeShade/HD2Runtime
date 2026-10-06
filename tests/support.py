@@ -77,5 +77,44 @@ def _fixture():
     return 'local spans='+lua(spans)+'\nlocal cooldown_offset='+str(target_offset)+'\n'+(ROOT/'tests/memory.lua').read_text()
 
 
+_BUNDLE = {}
+
+
+def module_bytecode():
+    """modules() compiled to bytecode: rebuilt when a module file changes (size or mtime), shared on disk between
+    worker processes (build/test-cache, keyed by the source's digest and the Lua VM's)."""
+    files = [p for folder in ['api', 'core', 'runtime', 'schemas', 'domains', 'examples', 'validation', 'primary_mapper']
+        for p in sorted((ROOT/folder).glob('*.lua'))]
+    key = tuple((p.name, p.stat().st_mtime_ns, p.stat().st_size) for p in files)
+    if _BUNDLE.get('key') != key:
+        import hashlib
+        import os
+        import lua_offline
+        source = modules().encode()
+        vm = (Path(os.environ.get('HD2_GAME_ROOT', r'C:\Program Files (x86)\Steam\steamapps\common\Helldivers 2'))
+            / 'bin/lua51.dll').stat()
+        digest = hashlib.sha256(source + repr((vm.st_size, vm.st_mtime_ns)).encode()).hexdigest()[:32]
+        cache = ROOT/'build/test-cache'/('modules-' + digest + '.ljbc')
+        try:
+            bytecode = cache.read_bytes()
+        except OSError:
+            bytecode = lua_offline.compile_chunk(source)
+            try:
+                cache.parent.mkdir(parents=True, exist_ok=True)
+                partial = cache.with_name(cache.name + '.%d' % os.getpid())
+                partial.write_bytes(bytecode)
+                os.replace(partial, cache)
+                # Keep the newest few bundles only (each is ~18 MB).
+                for old in sorted(cache.parent.glob('modules-*.ljbc'), key=lambda p: p.stat().st_mtime)[:-4]:
+                    old.unlink(missing_ok=True)
+            except OSError:
+                pass   # another worker wrote or removed it: this one still has its bytecode
+        _BUNDLE.update(key=key, bytecode=bytecode)
+    return _BUNDLE['bytecode']
+
+
 def run(body):
-    return execute((modules()+fixture()+'\n'+body).encode())
+    # The modules only define package.preload entries, so they run as a precompiled chunk before fixture + body (one
+    # state, the same chunk name: module line numbers read as before; fixture and body lines count from 1).
+    from lua_offline import execute_after
+    return execute_after(module_bytecode(), (fixture()+'\n'+body).encode())

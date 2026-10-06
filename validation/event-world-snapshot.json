@@ -118,9 +118,14 @@
      "name": "B-100 Portable Hellbomb",
      "settings": true,
      "type": 125
+    },
+    {
+     "name": "Cyborg Production Unit",
+     "settings": true,
+     "type": 293
     }
    ],
-   "pins": 162,
+   "pins": 252,
    "players": [
     {
      "avatar": 249,
@@ -131,7 +136,8 @@
     }
    ],
    "projectileSystemActive": 0,
-   "reads": 332,
+   "queueEntries": {},
+   "reads": 445,
    "sources": {},
    "stats": {
     "dealt_damage": 0,
@@ -262,9 +268,14 @@
      "name": "B-100 Portable Hellbomb",
      "settings": true,
      "type": 125
+    },
+    {
+     "name": "Cyborg Production Unit",
+     "settings": true,
+     "type": 293
     }
    ],
-   "pins": 162,
+   "pins": 252,
    "players": [
     {
      "avatar": 249,
@@ -275,7 +286,8 @@
     }
    ],
    "projectileSystemActive": 0,
-   "reads": 332,
+   "queueEntries": {},
+   "reads": 445,
    "sources": {},
    "stats": {
     "dealt_damage": 0,
@@ -406,9 +418,14 @@
      "name": "B-100 Portable Hellbomb",
      "settings": true,
      "type": 125
+    },
+    {
+     "name": "Cyborg Production Unit",
+     "settings": true,
+     "type": 293
     }
    ],
-   "pins": 162,
+   "pins": 252,
    "players": [
     {
      "avatar": 249,
@@ -419,7 +436,8 @@
     }
    ],
    "projectileSystemActive": 0,
-   "reads": 332,
+   "queueEntries": {},
+   "reads": 445,
    "sources": {},
    "stats": {
     "dealt_damage": 0,
@@ -556,9 +574,14 @@
      "name": "B-100 Portable Hellbomb",
      "settings": true,
      "type": 125
+    },
+    {
+     "name": "Cyborg Production Unit",
+     "settings": true,
+     "type": 293
     }
    ],
-   "pins": 162,
+   "pins": 252,
    "players": [
     {
      "avatar": 602,
@@ -569,7 +592,13 @@
     }
    ],
    "projectileSystemActive": 1,
-   "reads": 415,
+   "queueEntries": [
+    {
+     "source": 619,
+     "type": 113
+    }
+   ],
+   "reads": 486,
    "sources": {},
    "stats": {
     "dealt_damage": 0,
@@ -706,9 +735,14 @@
      "name": "B-100 Portable Hellbomb",
      "settings": true,
      "type": 125
+    },
+    {
+     "name": "Cyborg Production Unit",
+     "settings": true,
+     "type": 293
     }
    ],
-   "pins": 162,
+   "pins": 252,
    "players": [
     {
      "avatar": 602,
@@ -719,7 +753,13 @@
     }
    ],
    "projectileSystemActive": 1,
-   "reads": 415,
+   "queueEntries": [
+    {
+     "source": 720,
+     "type": 50
+    }
+   ],
+   "reads": 486,
    "sources": [
     {
      "damage": 17272,
@@ -866,9 +906,14 @@
      "name": "B-100 Portable Hellbomb",
      "settings": true,
      "type": 125
+    },
+    {
+     "name": "Cyborg Production Unit",
+     "settings": true,
+     "type": 293
     }
    ],
-   "pins": 162,
+   "pins": 252,
    "players": [
     {
      "avatar": 852,
@@ -879,7 +924,21 @@
     }
    ],
    "projectileSystemActive": 1,
-   "reads": 396,
+   "queueEntries": [
+    {
+     "source": 855,
+     "type": 158
+    },
+    {
+     "source": 756,
+     "type": 50
+    },
+    {
+     "source": 756,
+     "type": 50
+    }
+   ],
+   "reads": 467,
    "sources": [
     {
      "damage": 1721,
@@ -1015,9 +1074,14 @@
      "name": "B-100 Portable Hellbomb",
      "settings": true,
      "type": 125
+    },
+    {
+     "name": "Cyborg Production Unit",
+     "settings": true,
+     "type": 293
     }
    ],
-   "pins": 162,
+   "pins": 252,
    "players": [
     {
      "entity": 5,
@@ -1027,7 +1091,21 @@
     }
    ],
    "projectileSystemActive": 0,
-   "reads": 279,
+   "queueEntries": [
+    {
+     "source": 1125,
+     "type": 158
+    },
+    {
+     "source": 969,
+     "type": 109
+    },
+    {
+     "source": 756,
+     "type": 50
+    }
+   ],
+   "reads": 379,
    "sources": [
     {
      "damage": 7360,

@@ -133,18 +133,23 @@ class CatalogTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.catalog = load('sdk/AttackOutputCapabilities.json')
-        cls.outputs = {o['owner']['name']: o for o in cls.catalog['outputs']}
+        # By owner: each owner's own output (the more projectile donors, kind projectile_donor, share their owners'
+        # names and are covered by tests/test_projectile_donors.py).
+        cls.outputs = {o['owner']['name']: o for o in cls.catalog['outputs'] if o.get('kind') != 'projectile_donor'}
         cls.player = load('sdk/PlayerWeaponAuthoringCapabilities.json')
         cls.active = load('research/active-projectile-sources-F5FEE03DCFDB.json')
 
     def test_catalog(self):
         summary = self.catalog['summary']
-        # 107 player, support and stratagem outputs plus the 23 mounted-weapon outputs.
-        self.assertEqual(summary['outputs'], 130)
-        self.assertEqual(summary['byFamily'], {'projectile': 108, 'beam': 4, 'arc': 3, 'spray': 8, 'melee': 7})
-        self.assertEqual(summary['stratagemDonors'], ['A/M-23 EMS Mortar Sentry'])
+        # 107 player, support and stratagem outputs plus the 23 mounted-weapon outputs, and the 32 more projectile
+        # donors (research/projectile-donors-F5FEE03DCFDB.json, tests/test_projectile_donors.py).
+        self.assertEqual(summary['outputs'], 162)
+        self.assertEqual(summary['byFamily'], {'projectile': 140, 'beam': 4, 'arc': 3, 'spray': 8, 'melee': 7})
+        self.assertEqual(len(summary['stratagemDonors']), 23)
+        self.assertIn('A/M-23 EMS Mortar Sentry', summary['stratagemDonors'])
+        self.assertIn('Eagle 500kg Bomb', summary['stratagemDonors'])
         self.assertEqual((summary['selectable'], summary['projectileHosts'], summary['componentHosts'],
-            summary['ammunitionHosts'], summary['directWritableAttackFields']), (80, 52, 46, 6, 54))
+            summary['ammunitionHosts'], summary['directWritableAttackFields']), (112, 52, 46, 6, 54))
         # Every selectable projectile output carries its weapon-function mode label and icon (native values only).
         presentation = self.catalog['modePresentation']
         icons = {i['value']: i for i in presentation['icons']}
@@ -392,7 +397,8 @@ rejects(function()patches.validate{id='x',target=evictor,field=hd2.fields.attack
  expect=evictor:projectile(),value=evictor:projectile()}end,'UNPROVEN_PROJECTILE_SOURCE')
 -- A weapon whose only projectile is its ammunition (no catalogued attack member).
 assert(hd2.weapon('P-2 Peacemaker'):projectile_source().mechanism=='ammunition')
-assert(#hd2.attack_outputs({selectable=true})==80)
+-- 80 catalogued outputs and the 32 more donors (research/projectile-donors-F5FEE03DCFDB.json).
+assert(#hd2.attack_outputs({selectable=true})==112,#hd2.attack_outputs({selectable=true}))
 -- The stratagem-owned stun-field donor is scoped to function_ammo.projectile and names its field and presentation.
 local ems=hd2.attack_output('A/M-23 EMS Mortar Sentry'):describe()
 assert(ems.owner.kind=='stratagem'and ems.referenceScope[1]=='function_ammo.projectile'and#ems.referenceScope==1)

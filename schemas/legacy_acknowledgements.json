@@ -1,0 +1,1604 @@
+{
+ "schemaVersion": 1,
+ "releases": [
+  {
+   "since": "0.28.0",
+   "comparedWith": "v0.27.0",
+   "comparedWithCommit": "d5e9cc6c35a551178e631a6a9e8548b93502b106",
+   "rule": "editable without allow_unverified_effect in the SDK published at v0.27.0, editable and requiring it in 0.28.0"
+  },
+  {
+   "since": "0.30.0",
+   "comparedWith": "v0.28.1",
+   "comparedWithCommit": "96ab2d258d867a5df4f22bb7b3321d84d28de21d",
+   "rule": "editable without allow_unverified_effect in the SDK published at v0.28.1, editable and requiring it in 0.30.0"
+  }
+ ],
+ "entries": [
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "backpack",
+   "target": "SH-51 Directional Shield",
+   "field": "backpack||||entity.armor",
+   "apiFieldConstant": "hd2.fields.entity.armor",
+   "reason": "Armor of the SH-51 backpack body (published Main Armor Heavy). The body has no populated damage zone, so every hit on the body resolves to this default zone. It is not the barrier's armor: the barrier is a separate entity. Not yet shown in game."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "backpack",
+   "target": "SH-51 Directional Shield",
+   "field": "backpack||||entity.health",
+   "apiFieldConstant": "hd2.fields.entity.health",
+   "reason": "Health of the SH-51 backpack body (the emitter on the back, published Main Health 400). The energy barrier is a separate entity with its own shield and health: author it through hd2.backpack('SH-51 Directional Shield'):energy_shield(). Not yet shown in game."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "LAS-17 Double-Edge Sickle",
+   "field": "damage.ap_direct",
+   "apiFieldConstant": "hd2.fields.damage.ap_direct",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every heat level fires another projectile (185, 219, 25); this weapon never fires this row, which it names only through its base reference and shares with LAS-16 Sickle."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "LAS-17 Double-Edge Sickle",
+   "field": "damage.ap_extreme",
+   "apiFieldConstant": "hd2.fields.damage.ap_extreme",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every heat level fires another projectile (185, 219, 25); this weapon never fires this row, which it names only through its base reference and shares with LAS-16 Sickle."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "LAS-17 Double-Edge Sickle",
+   "field": "damage.ap_large",
+   "apiFieldConstant": "hd2.fields.damage.ap_large",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every heat level fires another projectile (185, 219, 25); this weapon never fires this row, which it names only through its base reference and shares with LAS-16 Sickle."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "LAS-17 Double-Edge Sickle",
+   "field": "damage.ap_slight",
+   "apiFieldConstant": "hd2.fields.damage.ap_slight",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every heat level fires another projectile (185, 219, 25); this weapon never fires this row, which it names only through its base reference and shares with LAS-16 Sickle."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "LAS-17 Double-Edge Sickle",
+   "field": "damage.demolition",
+   "apiFieldConstant": "hd2.fields.damage.demolition",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every heat level fires another projectile (185, 219, 25); this weapon never fires this row, which it names only through its base reference and shares with LAS-16 Sickle."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "LAS-17 Double-Edge Sickle",
+   "field": "damage.durable_damage",
+   "apiFieldConstant": "hd2.fields.damage.player_durable_damage",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every heat level fires another projectile (185, 219, 25); this weapon never fires this row, which it names only through its base reference and shares with LAS-16 Sickle."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "LAS-17 Double-Edge Sickle",
+   "field": "damage.push_force",
+   "apiFieldConstant": "hd2.fields.damage.push_force",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every heat level fires another projectile (185, 219, 25); this weapon never fires this row, which it names only through its base reference and shares with LAS-16 Sickle."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "LAS-17 Double-Edge Sickle",
+   "field": "damage.stagger",
+   "apiFieldConstant": "hd2.fields.damage.stagger",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every heat level fires another projectile (185, 219, 25); this weapon never fires this row, which it names only through its base reference and shares with LAS-16 Sickle."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "LAS-17 Double-Edge Sickle",
+   "field": "damage.standard_damage",
+   "apiFieldConstant": "hd2.fields.damage.player_standard_damage",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every heat level fires another projectile (185, 219, 25); this weapon never fires this row, which it names only through its base reference and shares with LAS-16 Sickle."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "LAS-17 Double-Edge Sickle",
+   "field": "projectile.drag",
+   "apiFieldConstant": "hd2.fields.projectile.drag",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every heat level fires another projectile (185, 219, 25); this weapon never fires this row, which it names only through its base reference and shares with LAS-16 Sickle."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "LAS-17 Double-Edge Sickle",
+   "field": "projectile.gravity",
+   "apiFieldConstant": "hd2.fields.projectile.gravity",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every heat level fires another projectile (185, 219, 25); this weapon never fires this row, which it names only through its base reference and shares with LAS-16 Sickle."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "LAS-17 Double-Edge Sickle",
+   "field": "projectile.mass",
+   "apiFieldConstant": "hd2.fields.projectile.mass",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every heat level fires another projectile (185, 219, 25); this weapon never fires this row, which it names only through its base reference and shares with LAS-16 Sickle."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "LAS-17 Double-Edge Sickle",
+   "field": "projectile.pellet_count",
+   "apiFieldConstant": "hd2.fields.projectile.pellet_count",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every heat level fires another projectile (185, 219, 25); this weapon never fires this row, which it names only through its base reference and shares with LAS-16 Sickle."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "LAS-17 Double-Edge Sickle",
+   "field": "projectile.velocity",
+   "apiFieldConstant": "hd2.fields.projectile.velocity",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every heat level fires another projectile (185, 219, 25); this weapon never fires this row, which it names only through its base reference and shares with LAS-16 Sickle."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "LAS-17 Double-Edge Sickle",
+   "field": "terminal.primary.expiry.explosion",
+   "apiFieldConstant": "hd2.fields.terminal.primary_expiry_explosion",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every heat level fires another projectile (185, 219, 25); this weapon never fires this row, which it names only through its base reference and shares with LAS-16 Sickle."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "LAS-17 Double-Edge Sickle",
+   "field": "terminal.primary.impact.explosion",
+   "apiFieldConstant": "hd2.fields.terminal.primary_impact_explosion",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every heat level fires another projectile (185, 219, 25); this weapon never fires this row, which it names only through its base reference and shares with LAS-16 Sickle."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-33 Missile Pistol",
+   "field": "damage.ap_direct",
+   "apiFieldConstant": "hd2.fields.damage.ap_direct",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-33 Missile Pistol",
+   "field": "damage.ap_extreme",
+   "apiFieldConstant": "hd2.fields.damage.ap_extreme",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-33 Missile Pistol",
+   "field": "damage.ap_large",
+   "apiFieldConstant": "hd2.fields.damage.ap_large",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-33 Missile Pistol",
+   "field": "damage.ap_slight",
+   "apiFieldConstant": "hd2.fields.damage.ap_slight",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-33 Missile Pistol",
+   "field": "damage.demolition",
+   "apiFieldConstant": "hd2.fields.damage.demolition",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-33 Missile Pistol",
+   "field": "damage.durable_damage",
+   "apiFieldConstant": "hd2.fields.damage.player_durable_damage",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-33 Missile Pistol",
+   "field": "damage.push_force",
+   "apiFieldConstant": "hd2.fields.damage.push_force",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-33 Missile Pistol",
+   "field": "damage.stagger",
+   "apiFieldConstant": "hd2.fields.damage.stagger",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-33 Missile Pistol",
+   "field": "damage.standard_damage",
+   "apiFieldConstant": "hd2.fields.damage.player_standard_damage",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-33 Missile Pistol",
+   "field": "explosion.primary.impact.damage.ap_direct",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_ap_direct",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-33 Missile Pistol",
+   "field": "explosion.primary.impact.damage.ap_extreme",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_ap_extreme",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-33 Missile Pistol",
+   "field": "explosion.primary.impact.damage.ap_large",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_ap_large",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-33 Missile Pistol",
+   "field": "explosion.primary.impact.damage.ap_slight",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_ap_slight",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-33 Missile Pistol",
+   "field": "explosion.primary.impact.damage.demolition",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_demolition",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-33 Missile Pistol",
+   "field": "explosion.primary.impact.damage.durable_damage",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_durable_damage",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-33 Missile Pistol",
+   "field": "explosion.primary.impact.damage.push_force",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_push_force",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-33 Missile Pistol",
+   "field": "explosion.primary.impact.damage.stagger",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_stagger",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-33 Missile Pistol",
+   "field": "explosion.primary.impact.damage.standard_damage",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_standard_damage",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-33 Missile Pistol",
+   "field": "explosion.primary.impact.inner_radius",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_inner_radius",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-33 Missile Pistol",
+   "field": "explosion.primary.impact.outer_radius",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_outer_radius",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-33 Missile Pistol",
+   "field": "explosion.primary.impact.shockwave_radius",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_shockwave_radius",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-33 Missile Pistol",
+   "field": "projectile.drag",
+   "apiFieldConstant": "hd2.fields.projectile.drag",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-33 Missile Pistol",
+   "field": "projectile.gravity",
+   "apiFieldConstant": "hd2.fields.projectile.gravity",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-33 Missile Pistol",
+   "field": "projectile.mass",
+   "apiFieldConstant": "hd2.fields.projectile.mass",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-33 Missile Pistol",
+   "field": "projectile.pellet_count",
+   "apiFieldConstant": "hd2.fields.projectile.pellet_count",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-33 Missile Pistol",
+   "field": "projectile.velocity",
+   "apiFieldConstant": "hd2.fields.projectile.velocity",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-33 Missile Pistol",
+   "field": "terminal.primary.expiry.explosion",
+   "apiFieldConstant": "hd2.fields.terminal.primary_expiry_explosion",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-33 Missile Pistol",
+   "field": "terminal.primary.impact.explosion",
+   "apiFieldConstant": "hd2.fields.terminal.primary_impact_explosion",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-34 Breacher",
+   "field": "damage.ap_direct",
+   "apiFieldConstant": "hd2.fields.damage.ap_direct",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-34 Breacher",
+   "field": "damage.ap_extreme",
+   "apiFieldConstant": "hd2.fields.damage.ap_extreme",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-34 Breacher",
+   "field": "damage.ap_large",
+   "apiFieldConstant": "hd2.fields.damage.ap_large",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-34 Breacher",
+   "field": "damage.ap_slight",
+   "apiFieldConstant": "hd2.fields.damage.ap_slight",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-34 Breacher",
+   "field": "damage.demolition",
+   "apiFieldConstant": "hd2.fields.damage.demolition",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-34 Breacher",
+   "field": "damage.durable_damage",
+   "apiFieldConstant": "hd2.fields.damage.player_durable_damage",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-34 Breacher",
+   "field": "damage.push_force",
+   "apiFieldConstant": "hd2.fields.damage.push_force",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-34 Breacher",
+   "field": "damage.stagger",
+   "apiFieldConstant": "hd2.fields.damage.stagger",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-34 Breacher",
+   "field": "damage.standard_damage",
+   "apiFieldConstant": "hd2.fields.damage.player_standard_damage",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-34 Breacher",
+   "field": "explosion.primary.impact.damage.ap_direct",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_ap_direct",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-34 Breacher",
+   "field": "explosion.primary.impact.damage.ap_extreme",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_ap_extreme",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-34 Breacher",
+   "field": "explosion.primary.impact.damage.ap_large",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_ap_large",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-34 Breacher",
+   "field": "explosion.primary.impact.damage.ap_slight",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_ap_slight",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-34 Breacher",
+   "field": "explosion.primary.impact.damage.demolition",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_demolition",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-34 Breacher",
+   "field": "explosion.primary.impact.damage.durable_damage",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_durable_damage",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-34 Breacher",
+   "field": "explosion.primary.impact.damage.push_force",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_push_force",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-34 Breacher",
+   "field": "explosion.primary.impact.damage.stagger",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_stagger",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-34 Breacher",
+   "field": "explosion.primary.impact.damage.standard_damage",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_standard_damage",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-34 Breacher",
+   "field": "explosion.primary.impact.inner_radius",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_inner_radius",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-34 Breacher",
+   "field": "explosion.primary.impact.outer_radius",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_outer_radius",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-34 Breacher",
+   "field": "explosion.primary.impact.shockwave_radius",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_shockwave_radius",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-34 Breacher",
+   "field": "projectile.drag",
+   "apiFieldConstant": "hd2.fields.projectile.drag",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-34 Breacher",
+   "field": "projectile.gravity",
+   "apiFieldConstant": "hd2.fields.projectile.gravity",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-34 Breacher",
+   "field": "projectile.mass",
+   "apiFieldConstant": "hd2.fields.projectile.mass",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-34 Breacher",
+   "field": "projectile.pellet_count",
+   "apiFieldConstant": "hd2.fields.projectile.pellet_count",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-34 Breacher",
+   "field": "projectile.velocity",
+   "apiFieldConstant": "hd2.fields.projectile.velocity",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-34 Breacher",
+   "field": "terminal.primary.expiry.explosion",
+   "apiFieldConstant": "hd2.fields.terminal.primary_expiry_explosion",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-34 Breacher",
+   "field": "terminal.primary.impact.explosion",
+   "apiFieldConstant": "hd2.fields.terminal.primary_impact_explosion",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-92 Warrant",
+   "field": "damage.ap_direct",
+   "apiFieldConstant": "hd2.fields.damage.ap_direct",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-92 Warrant",
+   "field": "damage.ap_extreme",
+   "apiFieldConstant": "hd2.fields.damage.ap_extreme",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-92 Warrant",
+   "field": "damage.ap_large",
+   "apiFieldConstant": "hd2.fields.damage.ap_large",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-92 Warrant",
+   "field": "damage.ap_slight",
+   "apiFieldConstant": "hd2.fields.damage.ap_slight",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-92 Warrant",
+   "field": "damage.demolition",
+   "apiFieldConstant": "hd2.fields.damage.demolition",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-92 Warrant",
+   "field": "damage.durable_damage",
+   "apiFieldConstant": "hd2.fields.damage.player_durable_damage",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-92 Warrant",
+   "field": "damage.push_force",
+   "apiFieldConstant": "hd2.fields.damage.push_force",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-92 Warrant",
+   "field": "damage.stagger",
+   "apiFieldConstant": "hd2.fields.damage.stagger",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-92 Warrant",
+   "field": "damage.standard_damage",
+   "apiFieldConstant": "hd2.fields.damage.player_standard_damage",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-92 Warrant",
+   "field": "projectile.drag",
+   "apiFieldConstant": "hd2.fields.projectile.drag",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-92 Warrant",
+   "field": "projectile.gravity",
+   "apiFieldConstant": "hd2.fields.projectile.gravity",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-92 Warrant",
+   "field": "projectile.mass",
+   "apiFieldConstant": "hd2.fields.projectile.mass",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-92 Warrant",
+   "field": "projectile.pellet_count",
+   "apiFieldConstant": "hd2.fields.projectile.pellet_count",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-92 Warrant",
+   "field": "projectile.velocity",
+   "apiFieldConstant": "hd2.fields.projectile.velocity",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-92 Warrant",
+   "field": "terminal.primary.expiry.explosion",
+   "apiFieldConstant": "hd2.fields.terminal.primary_expiry_explosion",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "P-92 Warrant",
+   "field": "terminal.primary.impact.explosion",
+   "apiFieldConstant": "hd2.fields.terminal.primary_impact_explosion",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this projectile row is not established as what it fires."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-101 Purifier",
+   "field": "damage.ap_direct",
+   "apiFieldConstant": "hd2.fields.damage.ap_direct",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Only the charge levels that name this projectile fire it; the other levels fire their own projectiles (129)."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-101 Purifier",
+   "field": "damage.ap_extreme",
+   "apiFieldConstant": "hd2.fields.damage.ap_extreme",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Only the charge levels that name this projectile fire it; the other levels fire their own projectiles (129)."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-101 Purifier",
+   "field": "damage.ap_large",
+   "apiFieldConstant": "hd2.fields.damage.ap_large",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Only the charge levels that name this projectile fire it; the other levels fire their own projectiles (129)."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-101 Purifier",
+   "field": "damage.ap_slight",
+   "apiFieldConstant": "hd2.fields.damage.ap_slight",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Only the charge levels that name this projectile fire it; the other levels fire their own projectiles (129)."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-101 Purifier",
+   "field": "damage.demolition",
+   "apiFieldConstant": "hd2.fields.damage.demolition",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Only the charge levels that name this projectile fire it; the other levels fire their own projectiles (129)."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-101 Purifier",
+   "field": "damage.durable_damage",
+   "apiFieldConstant": "hd2.fields.damage.player_durable_damage",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Only the charge levels that name this projectile fire it; the other levels fire their own projectiles (129)."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-101 Purifier",
+   "field": "damage.push_force",
+   "apiFieldConstant": "hd2.fields.damage.push_force",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Only the charge levels that name this projectile fire it; the other levels fire their own projectiles (129)."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-101 Purifier",
+   "field": "damage.stagger",
+   "apiFieldConstant": "hd2.fields.damage.stagger",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Only the charge levels that name this projectile fire it; the other levels fire their own projectiles (129)."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-101 Purifier",
+   "field": "damage.standard_damage",
+   "apiFieldConstant": "hd2.fields.damage.player_standard_damage",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Only the charge levels that name this projectile fire it; the other levels fire their own projectiles (129)."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-101 Purifier",
+   "field": "explosion.primary.impact.damage.ap_direct",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_ap_direct",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Only the charge levels that name this projectile fire it; the other levels fire their own projectiles (129)."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-101 Purifier",
+   "field": "explosion.primary.impact.damage.ap_extreme",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_ap_extreme",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Only the charge levels that name this projectile fire it; the other levels fire their own projectiles (129)."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-101 Purifier",
+   "field": "explosion.primary.impact.damage.ap_large",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_ap_large",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Only the charge levels that name this projectile fire it; the other levels fire their own projectiles (129)."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-101 Purifier",
+   "field": "explosion.primary.impact.damage.ap_slight",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_ap_slight",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Only the charge levels that name this projectile fire it; the other levels fire their own projectiles (129)."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-101 Purifier",
+   "field": "explosion.primary.impact.damage.demolition",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_demolition",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Only the charge levels that name this projectile fire it; the other levels fire their own projectiles (129)."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-101 Purifier",
+   "field": "explosion.primary.impact.damage.durable_damage",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_durable_damage",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Only the charge levels that name this projectile fire it; the other levels fire their own projectiles (129)."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-101 Purifier",
+   "field": "explosion.primary.impact.damage.push_force",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_push_force",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Only the charge levels that name this projectile fire it; the other levels fire their own projectiles (129)."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-101 Purifier",
+   "field": "explosion.primary.impact.damage.stagger",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_stagger",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Only the charge levels that name this projectile fire it; the other levels fire their own projectiles (129)."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-101 Purifier",
+   "field": "explosion.primary.impact.damage.standard_damage",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_standard_damage",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Only the charge levels that name this projectile fire it; the other levels fire their own projectiles (129)."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-101 Purifier",
+   "field": "explosion.primary.impact.inner_radius",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_inner_radius",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Only the charge levels that name this projectile fire it; the other levels fire their own projectiles (129)."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-101 Purifier",
+   "field": "explosion.primary.impact.outer_radius",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_outer_radius",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Only the charge levels that name this projectile fire it; the other levels fire their own projectiles (129)."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-101 Purifier",
+   "field": "explosion.primary.impact.shockwave_radius",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_shockwave_radius",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Only the charge levels that name this projectile fire it; the other levels fire their own projectiles (129)."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-101 Purifier",
+   "field": "projectile.drag",
+   "apiFieldConstant": "hd2.fields.projectile.drag",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Only the charge levels that name this projectile fire it; the other levels fire their own projectiles (129)."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-101 Purifier",
+   "field": "projectile.gravity",
+   "apiFieldConstant": "hd2.fields.projectile.gravity",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Only the charge levels that name this projectile fire it; the other levels fire their own projectiles (129)."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-101 Purifier",
+   "field": "projectile.mass",
+   "apiFieldConstant": "hd2.fields.projectile.mass",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Only the charge levels that name this projectile fire it; the other levels fire their own projectiles (129)."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-101 Purifier",
+   "field": "projectile.pellet_count",
+   "apiFieldConstant": "hd2.fields.projectile.pellet_count",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Only the charge levels that name this projectile fire it; the other levels fire their own projectiles (129)."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-101 Purifier",
+   "field": "projectile.velocity",
+   "apiFieldConstant": "hd2.fields.projectile.velocity",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Only the charge levels that name this projectile fire it; the other levels fire their own projectiles (129)."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-101 Purifier",
+   "field": "terminal.primary.expiry.explosion",
+   "apiFieldConstant": "hd2.fields.terminal.primary_expiry_explosion",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Only the charge levels that name this projectile fire it; the other levels fire their own projectiles (129)."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-101 Purifier",
+   "field": "terminal.primary.impact.explosion",
+   "apiFieldConstant": "hd2.fields.terminal.primary_impact_explosion",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Only the charge levels that name this projectile fire it; the other levels fire their own projectiles (129)."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-15 Loyalist",
+   "field": "damage.ap_direct",
+   "apiFieldConstant": "hd2.fields.damage.ap_direct",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every charge level fires another projectile (70, 341, 341); this weapon never fires this row, which it names only through its base reference and shares with PLAS-1 Scorcher."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-15 Loyalist",
+   "field": "damage.ap_extreme",
+   "apiFieldConstant": "hd2.fields.damage.ap_extreme",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every charge level fires another projectile (70, 341, 341); this weapon never fires this row, which it names only through its base reference and shares with PLAS-1 Scorcher."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-15 Loyalist",
+   "field": "damage.ap_large",
+   "apiFieldConstant": "hd2.fields.damage.ap_large",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every charge level fires another projectile (70, 341, 341); this weapon never fires this row, which it names only through its base reference and shares with PLAS-1 Scorcher."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-15 Loyalist",
+   "field": "damage.ap_slight",
+   "apiFieldConstant": "hd2.fields.damage.ap_slight",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every charge level fires another projectile (70, 341, 341); this weapon never fires this row, which it names only through its base reference and shares with PLAS-1 Scorcher."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-15 Loyalist",
+   "field": "damage.demolition",
+   "apiFieldConstant": "hd2.fields.damage.demolition",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every charge level fires another projectile (70, 341, 341); this weapon never fires this row, which it names only through its base reference and shares with PLAS-1 Scorcher."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-15 Loyalist",
+   "field": "damage.durable_damage",
+   "apiFieldConstant": "hd2.fields.damage.player_durable_damage",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every charge level fires another projectile (70, 341, 341); this weapon never fires this row, which it names only through its base reference and shares with PLAS-1 Scorcher."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-15 Loyalist",
+   "field": "damage.push_force",
+   "apiFieldConstant": "hd2.fields.damage.push_force",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every charge level fires another projectile (70, 341, 341); this weapon never fires this row, which it names only through its base reference and shares with PLAS-1 Scorcher."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-15 Loyalist",
+   "field": "damage.stagger",
+   "apiFieldConstant": "hd2.fields.damage.stagger",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every charge level fires another projectile (70, 341, 341); this weapon never fires this row, which it names only through its base reference and shares with PLAS-1 Scorcher."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-15 Loyalist",
+   "field": "damage.standard_damage",
+   "apiFieldConstant": "hd2.fields.damage.player_standard_damage",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every charge level fires another projectile (70, 341, 341); this weapon never fires this row, which it names only through its base reference and shares with PLAS-1 Scorcher."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-15 Loyalist",
+   "field": "explosion.primary.impact.damage.ap_direct",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_ap_direct",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every charge level fires another projectile (70, 341, 341); this weapon never fires this row, which it names only through its base reference."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-15 Loyalist",
+   "field": "explosion.primary.impact.damage.ap_extreme",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_ap_extreme",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every charge level fires another projectile (70, 341, 341); this weapon never fires this row, which it names only through its base reference."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-15 Loyalist",
+   "field": "explosion.primary.impact.damage.ap_large",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_ap_large",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every charge level fires another projectile (70, 341, 341); this weapon never fires this row, which it names only through its base reference."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-15 Loyalist",
+   "field": "explosion.primary.impact.damage.ap_slight",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_ap_slight",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every charge level fires another projectile (70, 341, 341); this weapon never fires this row, which it names only through its base reference."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-15 Loyalist",
+   "field": "explosion.primary.impact.damage.demolition",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_demolition",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every charge level fires another projectile (70, 341, 341); this weapon never fires this row, which it names only through its base reference."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-15 Loyalist",
+   "field": "explosion.primary.impact.damage.durable_damage",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_durable_damage",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every charge level fires another projectile (70, 341, 341); this weapon never fires this row, which it names only through its base reference."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-15 Loyalist",
+   "field": "explosion.primary.impact.damage.push_force",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_push_force",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every charge level fires another projectile (70, 341, 341); this weapon never fires this row, which it names only through its base reference."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-15 Loyalist",
+   "field": "explosion.primary.impact.damage.stagger",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_stagger",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every charge level fires another projectile (70, 341, 341); this weapon never fires this row, which it names only through its base reference."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-15 Loyalist",
+   "field": "explosion.primary.impact.damage.standard_damage",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_damage_standard_damage",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every charge level fires another projectile (70, 341, 341); this weapon never fires this row, which it names only through its base reference."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-15 Loyalist",
+   "field": "explosion.primary.impact.inner_radius",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_inner_radius",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every charge level fires another projectile (70, 341, 341); this weapon never fires this row, which it names only through its base reference."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-15 Loyalist",
+   "field": "explosion.primary.impact.outer_radius",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_outer_radius",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every charge level fires another projectile (70, 341, 341); this weapon never fires this row, which it names only through its base reference."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-15 Loyalist",
+   "field": "explosion.primary.impact.shockwave_radius",
+   "apiFieldConstant": "hd2.fields.explosion.primary_impact_shockwave_radius",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every charge level fires another projectile (70, 341, 341); this weapon never fires this row, which it names only through its base reference."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-15 Loyalist",
+   "field": "projectile.drag",
+   "apiFieldConstant": "hd2.fields.projectile.drag",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every charge level fires another projectile (70, 341, 341); this weapon never fires this row, which it names only through its base reference."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-15 Loyalist",
+   "field": "projectile.gravity",
+   "apiFieldConstant": "hd2.fields.projectile.gravity",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every charge level fires another projectile (70, 341, 341); this weapon never fires this row, which it names only through its base reference."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-15 Loyalist",
+   "field": "projectile.mass",
+   "apiFieldConstant": "hd2.fields.projectile.mass",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every charge level fires another projectile (70, 341, 341); this weapon never fires this row, which it names only through its base reference."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-15 Loyalist",
+   "field": "projectile.pellet_count",
+   "apiFieldConstant": "hd2.fields.projectile.pellet_count",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every charge level fires another projectile (70, 341, 341); this weapon never fires this row, which it names only through its base reference."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-15 Loyalist",
+   "field": "projectile.velocity",
+   "apiFieldConstant": "hd2.fields.projectile.velocity",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every charge level fires another projectile (70, 341, 341); this weapon never fires this row, which it names only through its base reference."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-15 Loyalist",
+   "field": "terminal.primary.expiry.explosion",
+   "apiFieldConstant": "hd2.fields.terminal.primary_expiry_explosion",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every charge level fires another projectile (70, 341, 341); this weapon never fires this row, which it names only through its base reference."
+  },
+  {
+   "since": "0.28.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "player_weapon",
+   "target": "PLAS-15 Loyalist",
+   "field": "terminal.primary.impact.explosion",
+   "apiFieldConstant": "hd2.fields.terminal.primary_impact_explosion",
+   "reason": "Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write lands but may not change this weapon in play. Every charge level fires another projectile (70, 341, 341); this weapon never fires this row, which it names only through its base reference."
+  },
+  {
+   "since": "0.30.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "support_weapon",
+   "target": "PLAS-45 Epoch",
+   "field": "damage.primary.ap_direct",
+   "apiFieldConstant": "hd2.fields.damage.ap_direct",
+   "reason": "Only the partial-charge shot fires this row: a release at or after the minimum charge time (1 s) and before the full charge time (2.5 s). Full-charge and overcharged shots fire attack('full_charge') instead, which this write does not change. The charge-level selection is proven from the native fire code; the effect of an edit is not yet shown in game."
+  },
+  {
+   "since": "0.30.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "support_weapon",
+   "target": "PLAS-45 Epoch",
+   "field": "damage.primary.ap_extreme",
+   "apiFieldConstant": "hd2.fields.damage.ap_extreme",
+   "reason": "Only the partial-charge shot fires this row: a release at or after the minimum charge time (1 s) and before the full charge time (2.5 s). Full-charge and overcharged shots fire attack('full_charge') instead, which this write does not change. The charge-level selection is proven from the native fire code; the effect of an edit is not yet shown in game."
+  },
+  {
+   "since": "0.30.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "support_weapon",
+   "target": "PLAS-45 Epoch",
+   "field": "damage.primary.ap_large",
+   "apiFieldConstant": "hd2.fields.damage.ap_large",
+   "reason": "Only the partial-charge shot fires this row: a release at or after the minimum charge time (1 s) and before the full charge time (2.5 s). Full-charge and overcharged shots fire attack('full_charge') instead, which this write does not change. The charge-level selection is proven from the native fire code; the effect of an edit is not yet shown in game."
+  },
+  {
+   "since": "0.30.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "support_weapon",
+   "target": "PLAS-45 Epoch",
+   "field": "damage.primary.ap_slight",
+   "apiFieldConstant": "hd2.fields.damage.ap_slight",
+   "reason": "Only the partial-charge shot fires this row: a release at or after the minimum charge time (1 s) and before the full charge time (2.5 s). Full-charge and overcharged shots fire attack('full_charge') instead, which this write does not change. The charge-level selection is proven from the native fire code; the effect of an edit is not yet shown in game."
+  },
+  {
+   "since": "0.30.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "support_weapon",
+   "target": "PLAS-45 Epoch",
+   "field": "damage.primary.demolition",
+   "apiFieldConstant": "hd2.fields.damage.demolition",
+   "reason": "Only the partial-charge shot fires this row: a release at or after the minimum charge time (1 s) and before the full charge time (2.5 s). Full-charge and overcharged shots fire attack('full_charge') instead, which this write does not change. The charge-level selection is proven from the native fire code; the effect of an edit is not yet shown in game."
+  },
+  {
+   "since": "0.30.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "support_weapon",
+   "target": "PLAS-45 Epoch",
+   "field": "damage.primary.durable_damage",
+   "apiFieldConstant": "hd2.fields.damage.player_durable_damage",
+   "reason": "Only the partial-charge shot fires this row: a release at or after the minimum charge time (1 s) and before the full charge time (2.5 s). Full-charge and overcharged shots fire attack('full_charge') instead, which this write does not change. The charge-level selection is proven from the native fire code; the effect of an edit is not yet shown in game."
+  },
+  {
+   "since": "0.30.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "support_weapon",
+   "target": "PLAS-45 Epoch",
+   "field": "damage.primary.push_force",
+   "apiFieldConstant": "hd2.fields.damage.push_force",
+   "reason": "Only the partial-charge shot fires this row: a release at or after the minimum charge time (1 s) and before the full charge time (2.5 s). Full-charge and overcharged shots fire attack('full_charge') instead, which this write does not change. The charge-level selection is proven from the native fire code; the effect of an edit is not yet shown in game."
+  },
+  {
+   "since": "0.30.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "support_weapon",
+   "target": "PLAS-45 Epoch",
+   "field": "damage.primary.stagger",
+   "apiFieldConstant": "hd2.fields.damage.stagger",
+   "reason": "Only the partial-charge shot fires this row: a release at or after the minimum charge time (1 s) and before the full charge time (2.5 s). Full-charge and overcharged shots fire attack('full_charge') instead, which this write does not change. The charge-level selection is proven from the native fire code; the effect of an edit is not yet shown in game."
+  },
+  {
+   "since": "0.30.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "support_weapon",
+   "target": "PLAS-45 Epoch",
+   "field": "damage.primary.standard_damage",
+   "apiFieldConstant": "hd2.fields.damage.player_standard_damage",
+   "reason": "Only the partial-charge shot fires this row: a release at or after the minimum charge time (1 s) and before the full charge time (2.5 s). Full-charge and overcharged shots fire attack('full_charge') instead, which this write does not change. The charge-level selection is proven from the native fire code; the effect of an edit is not yet shown in game."
+  },
+  {
+   "since": "0.30.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "support_weapon",
+   "target": "PLAS-45 Epoch",
+   "field": "damage.primary.status_1_strength",
+   "apiFieldConstant": "hd2.fields.damage.status_1_strength",
+   "reason": "Only the partial-charge shot fires this row: a release at or after the minimum charge time (1 s) and before the full charge time (2.5 s). Full-charge and overcharged shots fire attack('full_charge') instead, which this write does not change. The charge-level selection is proven from the native fire code; the effect of an edit is not yet shown in game. The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+  },
+  {
+   "since": "0.30.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "support_weapon",
+   "target": "PLAS-45 Epoch",
+   "field": "damage.primary.status_1_type",
+   "apiFieldConstant": "hd2.fields.damage.status_1_type",
+   "reason": "Only the partial-charge shot fires this row: a release at or after the minimum charge time (1 s) and before the full charge time (2.5 s). Full-charge and overcharged shots fire attack('full_charge') instead, which this write does not change. The charge-level selection is proven from the native fire code; the effect of an edit is not yet shown in game. The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+  },
+  {
+   "since": "0.30.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "support_weapon",
+   "target": "PLAS-45 Epoch",
+   "field": "explosion.primary_impact.damage.ap_direct",
+   "apiFieldConstant": "hd2.fields.explosion.damage_ap_direct",
+   "reason": "Only the partial-charge shot releases this explosion (at impact and when the projectile expires): a release at or after the minimum charge time (1 s) and before the full charge time (2.5 s). Full-charge and overcharged shots release attack('full_charge_impact') instead, which this write does not change. The charge-level selection is proven from the native fire code; the effect of an edit is not yet shown in game."
+  },
+  {
+   "since": "0.30.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "support_weapon",
+   "target": "PLAS-45 Epoch",
+   "field": "explosion.primary_impact.damage.ap_extreme",
+   "apiFieldConstant": "hd2.fields.explosion.damage_ap_extreme",
+   "reason": "Only the partial-charge shot releases this explosion (at impact and when the projectile expires): a release at or after the minimum charge time (1 s) and before the full charge time (2.5 s). Full-charge and overcharged shots release attack('full_charge_impact') instead, which this write does not change. The charge-level selection is proven from the native fire code; the effect of an edit is not yet shown in game."
+  },
+  {
+   "since": "0.30.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "support_weapon",
+   "target": "PLAS-45 Epoch",
+   "field": "explosion.primary_impact.damage.ap_large",
+   "apiFieldConstant": "hd2.fields.explosion.damage_ap_large",
+   "reason": "Only the partial-charge shot releases this explosion (at impact and when the projectile expires): a release at or after the minimum charge time (1 s) and before the full charge time (2.5 s). Full-charge and overcharged shots release attack('full_charge_impact') instead, which this write does not change. The charge-level selection is proven from the native fire code; the effect of an edit is not yet shown in game."
+  },
+  {
+   "since": "0.30.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "support_weapon",
+   "target": "PLAS-45 Epoch",
+   "field": "explosion.primary_impact.damage.ap_slight",
+   "apiFieldConstant": "hd2.fields.explosion.damage_ap_slight",
+   "reason": "Only the partial-charge shot releases this explosion (at impact and when the projectile expires): a release at or after the minimum charge time (1 s) and before the full charge time (2.5 s). Full-charge and overcharged shots release attack('full_charge_impact') instead, which this write does not change. The charge-level selection is proven from the native fire code; the effect of an edit is not yet shown in game."
+  },
+  {
+   "since": "0.30.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "support_weapon",
+   "target": "PLAS-45 Epoch",
+   "field": "explosion.primary_impact.damage.demolition",
+   "apiFieldConstant": "hd2.fields.explosion.damage_demolition",
+   "reason": "Only the partial-charge shot releases this explosion (at impact and when the projectile expires): a release at or after the minimum charge time (1 s) and before the full charge time (2.5 s). Full-charge and overcharged shots release attack('full_charge_impact') instead, which this write does not change. The charge-level selection is proven from the native fire code; the effect of an edit is not yet shown in game."
+  },
+  {
+   "since": "0.30.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "support_weapon",
+   "target": "PLAS-45 Epoch",
+   "field": "explosion.primary_impact.damage.durable_damage",
+   "apiFieldConstant": "hd2.fields.explosion.damage_durable_damage",
+   "reason": "Only the partial-charge shot releases this explosion (at impact and when the projectile expires): a release at or after the minimum charge time (1 s) and before the full charge time (2.5 s). Full-charge and overcharged shots release attack('full_charge_impact') instead, which this write does not change. The charge-level selection is proven from the native fire code; the effect of an edit is not yet shown in game."
+  },
+  {
+   "since": "0.30.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "support_weapon",
+   "target": "PLAS-45 Epoch",
+   "field": "explosion.primary_impact.damage.push_force",
+   "apiFieldConstant": "hd2.fields.explosion.damage_push_force",
+   "reason": "Only the partial-charge shot releases this explosion (at impact and when the projectile expires): a release at or after the minimum charge time (1 s) and before the full charge time (2.5 s). Full-charge and overcharged shots release attack('full_charge_impact') instead, which this write does not change. The charge-level selection is proven from the native fire code; the effect of an edit is not yet shown in game."
+  },
+  {
+   "since": "0.30.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "support_weapon",
+   "target": "PLAS-45 Epoch",
+   "field": "explosion.primary_impact.damage.stagger",
+   "apiFieldConstant": "hd2.fields.explosion.damage_stagger",
+   "reason": "Only the partial-charge shot releases this explosion (at impact and when the projectile expires): a release at or after the minimum charge time (1 s) and before the full charge time (2.5 s). Full-charge and overcharged shots release attack('full_charge_impact') instead, which this write does not change. The charge-level selection is proven from the native fire code; the effect of an edit is not yet shown in game."
+  },
+  {
+   "since": "0.30.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "support_weapon",
+   "target": "PLAS-45 Epoch",
+   "field": "explosion.primary_impact.damage.standard_damage",
+   "apiFieldConstant": "hd2.fields.explosion.damage_standard_damage",
+   "reason": "Only the partial-charge shot releases this explosion (at impact and when the projectile expires): a release at or after the minimum charge time (1 s) and before the full charge time (2.5 s). Full-charge and overcharged shots release attack('full_charge_impact') instead, which this write does not change. The charge-level selection is proven from the native fire code; the effect of an edit is not yet shown in game."
+  },
+  {
+   "since": "0.30.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "support_weapon",
+   "target": "PLAS-45 Epoch",
+   "field": "explosion.primary_impact.inner_radius",
+   "apiFieldConstant": "hd2.fields.explosion.inner_radius",
+   "reason": "Only the partial-charge shot releases this explosion (at impact and when the projectile expires): a release at or after the minimum charge time (1 s) and before the full charge time (2.5 s). Full-charge and overcharged shots release attack('full_charge_impact') instead, which this write does not change. The charge-level selection is proven from the native fire code; the effect of an edit is not yet shown in game."
+  },
+  {
+   "since": "0.30.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "support_weapon",
+   "target": "PLAS-45 Epoch",
+   "field": "explosion.primary_impact.outer_radius",
+   "apiFieldConstant": "hd2.fields.explosion.outer_radius",
+   "reason": "Only the partial-charge shot releases this explosion (at impact and when the projectile expires): a release at or after the minimum charge time (1 s) and before the full charge time (2.5 s). Full-charge and overcharged shots release attack('full_charge_impact') instead, which this write does not change. The charge-level selection is proven from the native fire code; the effect of an edit is not yet shown in game."
+  },
+  {
+   "since": "0.30.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "support_weapon",
+   "target": "PLAS-45 Epoch",
+   "field": "explosion.primary_impact.shockwave_radius",
+   "apiFieldConstant": "hd2.fields.explosion.shockwave_radius",
+   "reason": "Only the partial-charge shot releases this explosion (at impact and when the projectile expires): a release at or after the minimum charge time (1 s) and before the full charge time (2.5 s). Full-charge and overcharged shots release attack('full_charge_impact') instead, which this write does not change. The charge-level selection is proven from the native fire code; the effect of an edit is not yet shown in game."
+  },
+  {
+   "since": "0.30.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "support_weapon",
+   "target": "PLAS-45 Epoch",
+   "field": "projectile.primary.drag",
+   "apiFieldConstant": "hd2.fields.projectile.drag",
+   "reason": "Only the partial-charge shot fires this row: a release at or after the minimum charge time (1 s) and before the full charge time (2.5 s). Full-charge and overcharged shots fire attack('full_charge') instead, which this write does not change. The charge-level selection is proven from the native fire code; the effect of an edit is not yet shown in game."
+  },
+  {
+   "since": "0.30.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "support_weapon",
+   "target": "PLAS-45 Epoch",
+   "field": "projectile.primary.gravity",
+   "apiFieldConstant": "hd2.fields.projectile.gravity",
+   "reason": "Only the partial-charge shot fires this row: a release at or after the minimum charge time (1 s) and before the full charge time (2.5 s). Full-charge and overcharged shots fire attack('full_charge') instead, which this write does not change. The charge-level selection is proven from the native fire code; the effect of an edit is not yet shown in game."
+  },
+  {
+   "since": "0.30.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "support_weapon",
+   "target": "PLAS-45 Epoch",
+   "field": "projectile.primary.lifetime",
+   "apiFieldConstant": "hd2.fields.projectile.lifetime",
+   "reason": "Only the partial-charge shot fires this row: a release at or after the minimum charge time (1 s) and before the full charge time (2.5 s). Full-charge and overcharged shots fire attack('full_charge') instead, which this write does not change. The charge-level selection is proven from the native fire code; the effect of an edit is not yet shown in game."
+  },
+  {
+   "since": "0.30.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "support_weapon",
+   "target": "PLAS-45 Epoch",
+   "field": "projectile.primary.mass",
+   "apiFieldConstant": "hd2.fields.projectile.mass",
+   "reason": "Only the partial-charge shot fires this row: a release at or after the minimum charge time (1 s) and before the full charge time (2.5 s). Full-charge and overcharged shots fire attack('full_charge') instead, which this write does not change. The charge-level selection is proven from the native fire code; the effect of an edit is not yet shown in game."
+  },
+  {
+   "since": "0.30.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "support_weapon",
+   "target": "PLAS-45 Epoch",
+   "field": "projectile.primary.pellet_count",
+   "apiFieldConstant": "hd2.fields.projectile.pellet_count",
+   "reason": "Only the partial-charge shot fires this row: a release at or after the minimum charge time (1 s) and before the full charge time (2.5 s). Full-charge and overcharged shots fire attack('full_charge') instead, which this write does not change. The charge-level selection is proven from the native fire code; the effect of an edit is not yet shown in game."
+  },
+  {
+   "since": "0.30.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "support_weapon",
+   "target": "PLAS-45 Epoch",
+   "field": "projectile.primary.penetration_slowdown",
+   "apiFieldConstant": "hd2.fields.projectile.penetration_slowdown",
+   "reason": "Only the partial-charge shot fires this row: a release at or after the minimum charge time (1 s) and before the full charge time (2.5 s). Full-charge and overcharged shots fire attack('full_charge') instead, which this write does not change. The charge-level selection is proven from the native fire code; the effect of an edit is not yet shown in game."
+  },
+  {
+   "since": "0.30.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "support_weapon",
+   "target": "PLAS-45 Epoch",
+   "field": "projectile.primary.velocity",
+   "apiFieldConstant": "hd2.fields.projectile.velocity",
+   "reason": "Only the partial-charge shot fires this row: a release at or after the minimum charge time (1 s) and before the full charge time (2.5 s). Full-charge and overcharged shots fire attack('full_charge') instead, which this write does not change. The charge-level selection is proven from the native fire code; the effect of an edit is not yet shown in game."
+  }
+ ],
+ "description": "Acknowledgements a field gained in a later SDK. A mod that declares an SDK older than `since` wrote the field without the acknowledgement and was valid then; Runtime accepts it as a legacy operation and logs it (docs/legacy-sdk-compatibility.md). Generated by scripts/generate_legacy_acknowledgements.py --research; reviewed."
+}

@@ -1,0 +1,253 @@
+{
+ "status": "VALIDATED",
+ "snapshots": 7,
+ "failed": [],
+ "writes": 0,
+ "nativeCalls": 0,
+ "results": {
+  "F5FEE03DCFDB-20260926T222226Z.hd2snap": {
+   "status": "VALIDATED",
+   "problems": [],
+   "report": {
+    "ammo": {
+     "capacity": 15,
+     "feed": "magazine",
+     "rounds": 14,
+     "spare": 4
+    },
+    "backpack": "NO_BACKPACK: the avatar wears no backpack",
+    "held": "NOTHING_IN_HAND: nothing in hand",
+    "inside": "NO_BACKPACK: the avatar wears no backpack",
+    "loadout": {
+     "primary": {
+      "entity": 252,
+      "kind": "primary",
+      "name": "JAR-5 Dominator"
+     },
+     "secondary": {
+      "entity": 262,
+      "kind": "secondary",
+      "name": "P-113 Verdict"
+     },
+     "selection": 0,
+     "throwable": {
+      "count": 3,
+      "name": "G-4 Gas"
+     }
+    },
+    "outside": "NOT_GAME_THREAD: the Supply Pack is used only from the game update (a callback, timer or keybind)",
+    "proven": true,
+    "tampered": false,
+    "tamperedLoadout": "EQUIPMENT_UNAVAILABLE: native equipment structure changed (per-type lookup loads the entity manager at game+502215)",
+    "tamperedWhy": "native equipment structure changed (per-type lookup loads the entity manager at game+502215)"
+   }
+  },
+  "F5FEE03DCFDB-20260927T155654Z.hd2snap": {
+   "status": "VALIDATED",
+   "problems": [],
+   "report": {
+    "ammo": {
+     "capacity": 60,
+     "feed": "magazine",
+     "rounds": 59,
+     "spare": 6
+    },
+    "backpack": "NO_BACKPACK: the avatar wears no backpack",
+    "held": "NOTHING_IN_HAND: nothing in hand",
+    "inside": "NO_BACKPACK: the avatar wears no backpack",
+    "loadout": {
+     "primary": {
+      "entity": 252,
+      "kind": "primary",
+      "name": "AR-23C Liberator Concussive"
+     },
+     "secondary": {
+      "entity": 254,
+      "kind": "secondary",
+      "name": "P-113 Verdict"
+     },
+     "selection": 0,
+     "throwable": {
+      "count": 4,
+      "name": "G-4 Gas"
+     }
+    },
+    "outside": "NOT_GAME_THREAD: the Supply Pack is used only from the game update (a callback, timer or keybind)",
+    "proven": true,
+    "tampered": false,
+    "tamperedLoadout": "EQUIPMENT_UNAVAILABLE: native equipment structure changed (per-type lookup loads the entity manager at game+502215)",
+    "tamperedWhy": "native equipment structure changed (per-type lookup loads the entity manager at game+502215)"
+   }
+  },
+  "F5FEE03DCFDB-20260927T160033Z.hd2snap": {
+   "status": "VALIDATED",
+   "problems": [],
+   "report": {
+    "ammo": {
+     "capacity": 60,
+     "feed": "magazine",
+     "rounds": 59,
+     "spare": 6
+    },
+    "backpack": "NO_BACKPACK: the avatar wears no backpack",
+    "held": "NOTHING_IN_HAND: nothing in hand",
+    "inside": "NO_BACKPACK: the avatar wears no backpack",
+    "loadout": {
+     "primary": {
+      "entity": 252,
+      "kind": "primary",
+      "name": "AR-23C Liberator Concussive"
+     },
+     "secondary": {
+      "entity": 254,
+      "kind": "secondary",
+      "name": "P-113 Verdict"
+     },
+     "selection": 0,
+     "throwable": {
+      "count": 4,
+      "name": "G-4 Gas"
+     }
+    },
+    "outside": "NOT_GAME_THREAD: the Supply Pack is used only from the game update (a callback, timer or keybind)",
+    "proven": true,
+    "tampered": false,
+    "tamperedLoadout": "EQUIPMENT_UNAVAILABLE: native equipment structure changed (per-type lookup loads the entity manager at game+502215)",
+    "tamperedWhy": "native equipment structure changed (per-type lookup loads the entity manager at game+502215)"
+   }
+  },
+  "F5FEE03DCFDB-20260929T172647Z-mission-host.hd2snap": {
+   "status": "VALIDATED",
+   "problems": [],
+   "report": {
+    "ammo": {
+     "capacity": 5,
+     "feed": "magazine",
+     "rounds": 4,
+     "spare": 6
+    },
+    "backpack": "NO_BACKPACK: the avatar wears no backpack",
+    "held": {
+     "entity": 605,
+     "name": "R-36 Eruptor",
+     "slot": "primary"
+    },
+    "inside": "NO_BACKPACK: the avatar wears no backpack",
+    "loadout": {
+     "primary": {
+      "entity": 605,
+      "kind": "primary",
+      "name": "R-36 Eruptor"
+     },
+     "secondary": {
+      "entity": 607,
+      "kind": "secondary",
+      "name": "P-113 Verdict"
+     },
+     "selection": 1,
+     "throwable": {
+      "count": 4,
+      "name": "G-4 Gas"
+     }
+    },
+    "outside": "NOT_GAME_THREAD: the Supply Pack is used only from the game update (a callback, timer or keybind)",
+    "proven": true,
+    "tampered": false,
+    "tamperedLoadout": "EQUIPMENT_UNAVAILABLE: native equipment structure changed (per-type lookup loads the entity manager at game+502215)",
+    "tamperedWhy": "native equipment structure changed (per-type lookup loads the entity manager at game+502215)"
+   }
+  },
+  "F5FEE03DCFDB-20260929T172918Z-mission-host-alive.hd2snap": {
+   "status": "VALIDATED",
+   "problems": [],
+   "report": {
+    "ammo": {
+     "capacity": 5,
+     "feed": "magazine",
+     "rounds": 3,
+     "spare": 6
+    },
+    "backpack": "NO_BACKPACK: the avatar wears no backpack",
+    "held": {
+     "entity": 605,
+     "name": "R-36 Eruptor",
+     "slot": "primary"
+    },
+    "inside": "NO_BACKPACK: the avatar wears no backpack",
+    "loadout": {
+     "primary": {
+      "entity": 605,
+      "kind": "primary",
+      "name": "R-36 Eruptor"
+     },
+     "secondary": {
+      "entity": 607,
+      "kind": "secondary",
+      "name": "P-113 Verdict"
+     },
+     "selection": 1,
+     "throwable": {
+      "count": 4,
+      "name": "G-4 Gas"
+     }
+    },
+    "outside": "NOT_GAME_THREAD: the Supply Pack is used only from the game update (a callback, timer or keybind)",
+    "proven": true,
+    "tampered": false,
+    "tamperedLoadout": "EQUIPMENT_UNAVAILABLE: native equipment structure changed (per-type lookup loads the entity manager at game+502215)",
+    "tamperedWhy": "native equipment structure changed (per-type lookup loads the entity manager at game+502215)"
+   }
+  },
+  "F5FEE03DCFDB-20260929T173206Z-mission-host-after-reinforce.hd2snap": {
+   "status": "VALIDATED",
+   "problems": [],
+   "report": {
+    "ammo": {
+     "capacity": 5,
+     "feed": "magazine",
+     "rounds": 4,
+     "spare": 6
+    },
+    "backpack": "NO_BACKPACK: the avatar wears no backpack",
+    "held": "NOTHING_IN_HAND: nothing in hand",
+    "inside": "NO_BACKPACK: the avatar wears no backpack",
+    "loadout": {
+     "primary": {
+      "entity": 855,
+      "kind": "primary",
+      "name": "R-36 Eruptor"
+     },
+     "secondary": {
+      "entity": 857,
+      "kind": "secondary",
+      "name": "P-113 Verdict"
+     },
+     "selection": 5,
+     "throwable": {
+      "count": 4,
+      "name": "G-4 Gas"
+     }
+    },
+    "outside": "NOT_GAME_THREAD: the Supply Pack is used only from the game update (a callback, timer or keybind)",
+    "proven": true,
+    "tampered": false,
+    "tamperedLoadout": "EQUIPMENT_UNAVAILABLE: native equipment structure changed (per-type lookup loads the entity manager at game+502215)",
+    "tamperedWhy": "native equipment structure changed (per-type lookup loads the entity manager at game+502215)"
+   }
+  },
+  "F5FEE03DCFDB-20260929T173443Z-mission-end-transition.hd2snap": {
+   "status": "VALIDATED",
+   "problems": [],
+   "report": {
+    "ammo": "NO_AVATAR: the player has no avatar now",
+    "backpack": "NO_AVATAR: the player has no avatar now",
+    "held": "NO_AVATAR: the player has no avatar now",
+    "loadout": "NO_AVATAR: the player has no avatar now",
+    "proven": true,
+    "tampered": false,
+    "tamperedLoadout": "EQUIPMENT_UNAVAILABLE: native equipment structure changed (per-type lookup loads the entity manager at game+502215)",
+    "tamperedWhy": "native equipment structure changed (per-type lookup loads the entity manager at game+502215)"
+   }
+  }
+ }
+}

@@ -1,0 +1,1 @@
+{"format":1,"name":"GasBarragePayloadProof","resource":"mods/skyeshade/hd2runtime_gas_barrage_payload_proof","guid":"bf763bf9-72ab-431a-b683-8752c3127d19","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.28.0","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../sdk","ide_library":"../../sdk/stubs"}

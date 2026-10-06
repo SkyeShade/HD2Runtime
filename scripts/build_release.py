@@ -32,10 +32,23 @@ import generate_enemy_authoring
 import generate_live_evidence
 import generate_events
 import generate_event_natives
+import generate_projectile_rows
+import generate_stratagem_calldown
+import generate_image_resources
+import generate_text_resources
+import generate_stratagem_slots
+import generate_bombardment_payload
+import generate_slot_cooldown
+import generate_beacon_redirect
+import generate_pelican
+import generate_weapon_sounds
+import generate_stratagem_selector
+import generate_stratagem_blocking
 import generate_event_entities
 import generate_attack_outputs
+import generate_legacy_acknowledgements
 from build_live_validation import revision,verify_installed
-from hd2_archive import ARCHIVE_NAME,make_archive,resource_hash,lua_resource
+from hd2_archive import ARCHIVE_NAME,LUA_TYPE,make_archive,make_resource_archive,resource_hash,lua_resource
 import validate_packaged_runtime
 import validate_examples
 import parallel
@@ -58,19 +71,59 @@ def runtime_resources():
     return resources
 
 
+RUNTIME_THUMBNAIL='thumbnail.png'   # packaging/thumbnail.png: the HD2Runtime logo, 512 x 512
+
+
+def runtime_fonts():
+    """The Runtime-owned FS Sinclair engine fonts (scripts/hd2_font.py; domains/ui_fonts.lua records their digest):
+    {(type, name hash): (main, gpu)} from build/.font-cache, rebuilt from the installed game when the cache lacks them,
+    and exactly the resources the domain describes (else refused). {} when neither the cache nor the game has them: the
+    panel then draws in monaco, the engine font it falls back to."""
+    import re
+    import generate_ui_fonts
+    text=(ROOT/generate_ui_fonts.OUTPUT).read_text(encoding='utf-8')
+    m=re.search(r'\["resources"\]="([0-9a-f]{64})"',text)
+    if not m:raise ValueError('domains/ui_fonts.lua has no resource digest')
+    digest=m.group(1)
+    found=generate_ui_fonts.cached_resources(digest)
+    if found is None:
+        try:
+            domain,found=generate_ui_fonts.build_all(generate_ui_fonts.game_sources())
+        except Exception as error:   # no installed game: the build goes on without the fonts
+            print('runtime fonts unavailable ('+str(error)+'): the panel draws in monaco')
+            return {}
+        if domain['source']['resources']!=digest:
+            raise ValueError('the fonts of the installed game build other resources than domains/ui_fonts.lua records: '
+                'run scripts/generate_ui_fonts.py')
+        generate_ui_fonts.store(found)
+    return found
+
+
 def build_runtime(version,report_bytes=b'{}\n',folder=None):
     """Write the installed-once runtime ZIP exactly as released and return its path."""
     spec=json.loads((ROOT/'hd2runtime.json').read_text());sources=runtime_resources()
-    archive=make_archive({resource_hash(k):lua_resource(v) for k,v in sources.items()})
+    fonts=runtime_fonts()
+    gpu_resources=b''
+    if fonts:
+        # Lua and the fonts in the layout of the game's own archives (as a mod with images).
+        resources={(LUA_TYPE,resource_hash(k)):(lua_resource(v),b'') for k,v in sources.items()}
+        resources.update(fonts)
+        archive,gpu_resources=make_resource_archive(resources)
+    else:
+        archive=make_archive({resource_hash(k):lua_resource(v) for k,v in sources.items()})
     description='Shared HD2Runtime API 1. Requires Bingus Shared Loader v15+ / API 1. Install once; no gameplay changes until a dependent mod requests them.'
+    # The HD2Runtime logo for the mod manager (HD2 Arsenal): the manifest's IconPath and the option's Image, as other
+    # mods ship theirs; outside runtime/, so the game never reads it.
     manifest={'Version':1,'Guid':spec['guid'],'Name':'HD2Runtime '+version,'Description':description,
-              'Options':[{'Name':'Shared runtime','Description':description,'Include':['runtime']}]}
+              'Options':[{'Name':'Shared runtime','Description':description,'Include':['runtime'],
+                          'Image':RUNTIME_THUMBNAIL}],'IconPath':RUNTIME_THUMBNAIL}
     runtime_zip=Path(folder or ROOT/'build')/('HD2Runtime-'+version+'-runtime.zip')
     hd2.zip_files(runtime_zip,{'manifest.json':json.dumps(manifest,indent=2).encode(),
         'hd2runtime.json':json.dumps(spec,indent=2).encode(),'runtime/'+ARCHIVE_NAME:archive,
-        'runtime/'+ARCHIVE_NAME+'.stream':b'','runtime/'+ARCHIVE_NAME+'.gpu_resources':b'',
+        'runtime/'+ARCHIVE_NAME+'.stream':b'','runtime/'+ARCHIVE_NAME+'.gpu_resources':gpu_resources,
         'README.md':(ROOT/'sdk/README.md').read_bytes(),'build-report.json':report_bytes,
-        'provenance.json':(ROOT/'docs/provenance.json').read_bytes()})
+        'provenance.json':(ROOT/'docs/provenance.json').read_bytes(),
+        RUNTIME_THUMBNAIL:(ROOT/'packaging'/RUNTIME_THUMBNAIL).read_bytes()})
     return runtime_zip
 
 
@@ -84,6 +137,52 @@ def build_starter(version,folder=None):
     path=Path(folder or ROOT/'build')/('HD2Runtime-ModTemplate-'+version+'.zip')
     hd2.zip_files(path,starter_files())
     return path
+
+
+def example_config(data,version):
+    """An example's hd2runtime.json as shipped: its SDK paths for the example-projects ZIP and the SDK ZIP extracted
+    side by side (the repository's own ../../../sdk means nothing there)."""
+    config=json.loads(data)
+    sdk='../../HD2Runtime-'+version+'-sdk'
+    config.update({'sdk':sdk,'ide_library':sdk+'/stubs'})
+    return json.dumps(config,separators=(',',':')).encode()
+
+
+def examples_readme(version):
+    return '''# HD2Runtime {v} example projects
+
+Each folder is one small, working gameplay mod. Its source is `<Example>/src/addon.lua`; its README says what it does
+and how to test it.
+
+## Building an example
+
+The examples build with the SDK's Python CLI (Python 3.10+). Extract this ZIP and `HD2Runtime-{v}-sdk.zip` side by
+side:
+
+    HD2Mods/
+      HD2Runtime-{v}-sdk/                the SDK (holds hd2.py and metadata.json)
+      HD2Runtime-{v}-example-projects/   this ZIP
+        KillHealTest/
+          build.py
+
+Then run `python build.py` in an example's folder, or double-click it. The mod is written to the example's `build/`
+folder; import that ZIP into your mod manager.
+
+`build.py` finds the SDK by itself, in this order:
+- the `HD2RUNTIME_SDK` environment variable;
+- the `sdk` path in the example's `hd2runtime.json`;
+- the example's folder and every folder above it: the folder itself when it is the SDK, or a subfolder named `sdk` or
+  ending in `-sdk`.
+
+With the SDK anywhere else, run this once:
+
+    python <SDK>/hd2.py configure <example folder> --sdk <SDK>
+
+## Installing
+
+Install Bingus Shared Loader and `HD2Runtime-{v}-runtime.zip` once, then each example you want as its own mod. Never
+install the SDK or this ZIP.
+'''.format(v=version).encode()
 
 
 def main():
@@ -118,7 +217,20 @@ def main():
     generate_weapon_presentation.generate(check=True)
     generate_events.generate(check=True)
     generate_event_natives.generate(check=True)
+    generate_projectile_rows.generate(check=True)
+    generate_stratagem_calldown.generate(check=True)
+    generate_image_resources.generate(check=True)
+    generate_text_resources.generate(check=True)
+    generate_stratagem_slots.generate(check=True)
+    generate_bombardment_payload.generate(check=True)
+    generate_slot_cooldown.generate(check=True)
+    generate_beacon_redirect.generate(check=True)
+    generate_pelican.generate(check=True)
+    generate_weapon_sounds.generate(check=True)
+    generate_stratagem_selector.generate(check=True)
+    generate_stratagem_blocking.generate(check=True)
     generate_event_entities.generate(check=True)
+    generate_legacy_acknowledgements.generate(check=True)
     generate_sdk.generate(check=True)
     schema=hd2.database();version=(ROOT/'VERSION').read_text().strip()
     assert version==schema['runtime_version'],'Version/schema mismatch'
@@ -260,7 +372,9 @@ def main():
         for path in project.rglob('*'):
             if path.is_file() and not {'build','__pycache__','.idea'}.intersection(path.relative_to(project).parts):
                 example_files[path.relative_to(ROOT/'examples/projects').as_posix()]=path.read_bytes()
-    example_files['README.md']=b'Example source projects. Run python <SDK>/hd2.py configure <project> --sdk <SDK> after extraction, then python build.py. Install runtime once and each desired gameplay mod separately.\n'
+        name=project.name+'/hd2runtime.json'
+        example_files[name]=example_config(example_files[name],version)
+    example_files['README.md']=examples_readme(version)
     examples_zip=out/('HD2Runtime-'+version+'-example-projects.zip')
     hd2.zip_files(examples_zip,example_files);artifacts.append(examples_zip)
     report['artifacts']=[{'file':str(p.resolve().relative_to(ROOT) if p.resolve().is_relative_to(ROOT) else p),

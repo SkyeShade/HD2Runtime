@@ -9,6 +9,8 @@ local status_catalog=require('hd2runtime/domains/status_catalog')
 local support_database=require('hd2runtime/domains/support_weapon_authoring')
 -- Mounted weapons (vehicles, Exosuits, GATER) share the support-weapon entry shape.
 local vehicle_database=require('hd2runtime/domains/vehicle_weapon_authoring')
+-- Acknowledgements a later SDK added, which a mod declaring an older SDK need not carry (docs/legacy-sdk-compatibility.md).
+local sdk_compatibility=require('hd2runtime/core/sdk_compatibility')
 local function database_for(kind)
     if kind=='vehicle_weapon'then return vehicle_database end
     return kind=='support_weapon'and support_database or database
@@ -41,6 +43,15 @@ local function output_dependency(target_name,output)
         'ASSET_UNAVAILABLE: no catalogued package for attack output '..output.id)
 end
 -- An output catalogued for particular fields only (referenceScope) is refused everywhere else.
+-- A donor catalogued without a live test (research/projectile-donors: Eagle payloads, orbital shells, sentry rounds,
+-- weapons' second projectiles) needs both acknowledgements, whatever its class.
+local function require_unverified_donor(output,allow_unverified_reference,allow_unverified_effect)
+    if not output.unverifiedDonor then return end
+    assert(allow_unverified_reference,'this donor is not live-tested yet and requires allow_unverified_reference=true: '
+        ..output.id)
+    assert(allow_unverified_effect,'this donor is not live-tested yet and requires allow_unverified_effect=true: '
+        ..output.id)
+end
 local function require_output_scope(output,field_id)
     if not output.referenceScope then return end
     for _,allowed in ipairs(output.referenceScope)do if allowed==field_id then return end end
@@ -369,6 +380,9 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
         assert(requested.semanticTarget==field.semanticTarget
             and identical_backing(requested.backing,field.backing),'semantic alias backing changed')
     end
+    -- A deprecated id published with legacyContract (charge.minimum_seconds / maximum_seconds) keeps exactly the
+    -- acknowledgement and range it always had, while it writes its canonical id's bytes.
+    local contract=requested.aliasOf and requested.legacyContract and requested or field
     assert(field.editable and field.backing,'field is read-only: '..item.field..' ('..tostring(field.reason)..')')
     assert(not field.affectsMultipleWeapons or allow_shared,
         'shared field requires allow_shared=true: '..item.field)
@@ -389,9 +403,17 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
     if field.type=='projectile_reference'and type(item.value)=='table'and item.value.path=='projectile_reference'
         and item.value.weapon==weapon.name and item.value.attack==role
         and item.value.resource==host_resource(weapon)then live_value=true end
-    assert(field.acknowledgement~='allow_unverified_effect'or allow_unverified_effect or live_value,
+    -- A field that gained the acknowledgement after the SDK the registering mod declares keeps its earlier rule (the
+    -- contract the request is checked against: a deprecated alias keeps its own, which never carried one).
+    local legacy,legacy_detail
+    if contract.acknowledgement=='allow_unverified_effect'and not allow_unverified_effect and not live_value then
+        legacy,legacy_detail=sdk_compatibility.legacy('allow_unverified_effect',host_resource(weapon),weapon.name,
+            field.semanticFieldId,field.acknowledgementReason)
+    end
+    assert(contract.acknowledgement~='allow_unverified_effect'or allow_unverified_effect or live_value or legacy,
         'field requires allow_unverified_effect=true: '..item.field..' ('..tostring(field.acknowledgementReason)..')'
-        ..(field.liveProvenValues and' (live-proven without it: '..table.concat(field.liveProvenValues,', ')..')'or''))
+        ..(field.liveProvenValues and' (live-proven without it: '..table.concat(field.liveProvenValues,', ')..')'or'')
+        ..(legacy_detail and' ['..legacy_detail..']'or''))
     if path=='projectile_reference'and field.backing.settings then
         assert(allow_shared,'projectile object edits require allow_shared=true because definitions are shared')
     end
@@ -443,6 +465,7 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
             end
             require_output_scope(output,field.semanticFieldId)
             assert(output.editable~=false and output.backing,'attack output is not selectable: '..output.id)
+            require_unverified_donor(output,allow_unverified_reference,allow_unverified_effect)
             local cross=output.compatibilityClass~=field.compatibilityClass
             if cross then
                 local host=attack_outputs().hosts[weapon.name]
@@ -619,6 +642,7 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
             assert(output.editable~=false and(output.backing or output.spare),'attack output is not selectable: '
                 ..output.id)
             require_output_scope(output,field.semanticFieldId)
+            require_unverified_donor(output,allow_unverified_reference,allow_unverified_effect)
             -- A (weapon, function projectile) pair a live test proved needs no acknowledgement (liveProvenValues).
             assert(allow_unverified_reference or live_value,'a function projectile requires '
                 ..'allow_unverified_reference=true: '..output.id..' ('..tostring(field.acknowledgementReason)..')')
@@ -640,9 +664,38 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
         return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
             semantic_aliases={item.field},expect=item.expect,value=item.value,expected=expected,desired=desired}
     end
+    if field.type=='overcharge_explosion_reference'then
+        -- The explosion a charge weapon's overcharge failure spawns (WeaponChargeComponent +200): the semantic name of
+        -- a catalogued charge weapon whose overcharge explosion it is. Only donors with a known package are listed;
+        -- another weapon's explosion loads that weapon's package first and needs allow_unverified_reference.
+        local function option(value,label)
+            assert(type(value)=='string',label..' must be the name of a charge weapon whose overcharge explosion to use')
+            local entry=field.explosionOptions[value]
+            assert(entry,label..' names no catalogued overcharge explosion: '..value..' (allowed: '
+                ..table.concat(field.allowedValues or{},', ')..')')
+            return entry
+        end
+        assert(item.expect==field.currentDefault,'expect differs from the reviewed overcharge explosion for '
+            ..item.field..': declared='..tostring(item.expect)..' reviewed='..tostring(field.currentDefault))
+        local expected,desired=option(item.expect,'expect'),option(item.value,'value')
+        local dependency
+        if item.value~=item.expect then
+            assert(allow_unverified_reference,"another weapon's overcharge explosion requires "
+                ..'allow_unverified_reference=true: '..item.value)
+            assert(require('hd2runtime/core/assets').dependency(desired.dependencyKey),
+                'UNKNOWN_EXPLOSION_PACKAGE: the package of the '..item.value..' overcharge explosion is not catalogued')
+            dependency=source_dependency(weapon.name,item.value,'overcharge')
+        end
+        return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,requested_descriptor=requested,
+            semantic_aliases={item.field},expect=item.expect,value=item.value,explosion_types={expected.explosionType,
+            desired.explosionType},expected=b.encode(expected.explosionType,'u32'),
+            desired=b.encode(desired.explosionType,'u32'),asset_dependency=dependency}
+    end
     local expected=scalar(field,item.expect,'expect');local desired=scalar(field,item.value,'value')
-    if field.min~=nil then assert(desired>=field.min,'value is below the reviewed minimum '..field.min..' for '..item.field)end
-    if field.max~=nil then assert(desired<=field.max,'value is above the reviewed maximum '..field.max..' for '..item.field)end
+    if contract.min~=nil then assert(desired>=contract.min,'value is below the reviewed minimum '..contract.min..' for '
+        ..item.field..(contract.rangeReason and(': '..contract.rangeReason)or''))end
+    if contract.max~=nil then assert(desired<=contract.max,'value is above the reviewed maximum '..contract.max..' for '
+        ..item.field..(contract.rangeReason and(': '..contract.rangeReason)or''))end
     if field.writeKind=='reorder_native_mode_vector'then
         assert((expected==1 or expected==2)and(expected==field.currentDefault),
             'expect differs from reviewed default fire mode')
@@ -656,9 +709,68 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
     assert(equal(expected,canonical,storage),'expect differs from reviewed current value for '
         ..item.field..': declared='..tostring(expected)..' reviewed='..tostring(canonical)
         ..' resolved='..tostring(field.semanticFieldId))
-    return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
+    return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,requested_descriptor=requested,
         semantic_aliases={item.field},expect=item.expect,value=item.value,
         expected=b.encode(expected,storage),desired=b.encode(desired,storage)}
+end
+-- Charge times (WeaponChargeComponent +0/+24/+48) are meant to stay minimum < full < overcharge. The ids are older than
+-- this check and mods already write them freely, so a write that breaks the order is accepted; it carries a one-time
+-- "CHARGE ORDER" notice (core/field_notices.lua, at registration) saying what the game will do. A time the operation
+-- does not write is taken at its reviewed value (every write's expect is the reviewed value).
+local function check_charge_order(weapon,changes)
+    local times,first={},nil
+    for _,field in ipairs(weapon.fields)do
+        if field.chargeTime then times[field.backing.offset]=field.currentDefault end
+    end
+    for _,change in ipairs(changes)do
+        if change.descriptor.chargeTime then
+            times[change.descriptor.backing.offset]=change.value;first=first or change
+        end
+    end
+    if not first then return end
+    local t0,t1,t2=times[0],times[24],times[48]
+    if not(t0 and t1 and t2)or(t0<t1 and t1<t2)then return end
+    local function s(value)return string.format('%.6g',value)end
+    local effects={}
+    if t1<=t0 then
+        effects[#effects+1]='the full charge time ('..s(t1)..' s) is not above the minimum ('..s(t0)..' s): the charge '
+            ..'meter shows full first, and outside fire mode 6 (Railgun Safe) the charge stops at the full time, so a '
+            ..'release never reaches the minimum and fires nothing unless charge.auto_fire_at_full is on; in fire mode 6 '
+            ..'a release fires only from '..s(t0)..' s'
+    end
+    if t2<=t1 then
+        effects[#effects+1]='the overcharge time ('..s(t2)..' s) is not above the full time ('..s(t1)..' s): in fire '
+            ..'mode 6 the overcharge is reached at '..s(t2)..' s (with charge.explode_at_overcharge the weapon then fires '
+            ..'and is destroyed, even before a full charge) and the shot multipliers jump to their overcharge values'
+    end
+    first.notices={{kind='charge order',text=weapon.name..' charge times after this operation are '..s(t0)..' / '
+        ..s(t1)..' / '..s(t2)..' s (minimum / full / overcharge), not increasing; the write is applied. In game: '
+        ..table.concat(effects,'; ')..'. Write related times together in one transaction to keep them ordered.'}}
+end
+-- Turret limits (TurretComponent +20/+24 vertical, +28/+32 horizontal, docs/vehicle-weapons.md): each minimum must stay
+-- below its maximum after the operation. A limit the operation does not write keeps its reviewed value, so a pair that
+-- crosses must be changed in one transaction.
+local TURRET_PAIRS={{'turret.pitch_min','turret.pitch_max'},{'turret.yaw_min','turret.yaw_max'}}
+local function check_turret_order(weapon,changes)
+    for _,pair in ipairs(TURRET_PAIRS)do
+        local values,written={},false
+        for _,field in ipairs(weapon.fields)do
+            if field.semanticFieldId==pair[1]or field.semanticFieldId==pair[2]then
+                values[field.semanticFieldId]=field.currentDefault
+            end
+        end
+        for _,change in ipairs(changes)do
+            local id=change.descriptor.semanticFieldId
+            if id==pair[1]or id==pair[2]then values[id]=change.value;written=true end
+        end
+        if written then
+            local low,high=values[pair[1]],values[pair[2]]
+            assert(type(low)=='number'and type(high)=='number','turret limit pair incomplete for '..weapon.name)
+            assert(low<high,'TURRET_LIMIT_ORDER: '..weapon.name..' '..pair[1]..' must stay below '..pair[2]
+                ..'; this operation would leave '..low..' / '..high..' degrees (a limit it does not write keeps its '
+                ..'reviewed value: change both in one transaction)')
+        end
+    end
 end
 local function id(value)
     assert(type(value)=='string'and#value>0 and#value<=64 and not value:find('[^%w_%-]'),'invalid operation id')
@@ -707,6 +819,8 @@ function M.validate_patch(request)
         request.allow_shared==true,role,path,phase,request.allow_unverified_effect==true,
         request.allow_unverified_reference==true)
     check_selector_pairs(weapon,{change})
+    check_charge_order(weapon,{change})
+    check_turret_order(weapon,{change})
     return {kind=kind,id=request.id,weapon=name,
         resource=weapon.attackResource or weapon.resources[1],identity_resource=weapon.identityResource,
         ownership_chain=weapon.ownershipChain,root_rack=weapon.rootRack,mount_chain=weapon.mountChain,
@@ -764,6 +878,8 @@ function M.validate_transaction(request)
         end
     end
     check_selector_pairs(weapon,result.changes)
+    check_charge_order(weapon,result.changes)
+    check_turret_order(weapon,result.changes)
     result.asset_dependencies={}
     for _,change in ipairs(result.changes)do
         if change.asset_dependency then result.asset_dependencies[#result.asset_dependencies+1]=change.asset_dependency end
@@ -824,6 +940,7 @@ local function collect_needs(needed,spec)
             add_need(needed,'projectile',true)
         end
         if change.descriptor.type=='status_reference'then add_need(needed,'status',true)end
+        if change.descriptor.type=='overcharge_explosion_reference'then add_need(needed,'explosion',true)end
         if change.descriptor.type=='explosion_reference'or backing.settings=='explosion'
             or backing.settings=='explosion_damage'then
             add_need(needed,'projectile',true);add_need(needed,'explosion',true)
@@ -835,6 +952,28 @@ local function collect_needs(needed,spec)
         end
     end
 end
+-- A mounted weapon's TurretComponent (vehicle turret motion) is captured only by an operation that writes it, so every
+-- other weapon write keeps exactly its guarded context (the table adds its index rows and one record).
+-- A projectile donor's own component (research/projectile-donors: EagleComponentData, BombardmentComponentData,
+-- OrbitalAbilityComponentData) is captured too, so its reference can be re-proven before the write.
+local function with_turret(names,specs)
+    local out
+    local function add(name)
+        for _,have in ipairs(out or names)do if have==name then return end end
+        if not out then out={};for index,have in ipairs(names)do out[index]=have end end
+        out[#out+1]=name
+    end
+    for _,spec in ipairs(specs)do
+        for _,change in ipairs(spec.changes or{})do
+            local backing=change.descriptor and change.descriptor.backing
+            if backing and backing.component=='TurretComponentData'then add('TurretComponentData')end
+            local source=change.source_descriptor and change.source_descriptor.backing
+            if source and source.kind=='component'and source.component then add(source.component)end
+        end
+    end
+    return out or names
+end
+M.with_turret=with_turret
 function M.capture_many(runtime,reader,specs)
     assert(type(specs)=='table'and#specs>=1,'composition capture requires operation specs')
     reader.stage='runtime/windows_readonly:fingerprint'
@@ -842,7 +981,7 @@ function M.capture_many(runtime,reader,specs)
     local needed={};for _,spec in ipairs(specs)do collect_needs(needed,spec)end
     local roots=discover.locate(runtime,reader,profile,needed)
     local catalog=entities.capture(reader,roots.entity,profile,
-        needed.entity_deltas and ammunition_component_names or component_names)
+        with_turret(needed.entity_deltas and ammunition_component_names or component_names,specs))
     local results={}
     for index,spec in ipairs(specs)do
         local selected=database_for(spec.kind)
@@ -988,7 +1127,41 @@ local function linked(resolved,kind,branch,phase)
     error('reviewed settings linkage unavailable: '..kind,0)
 end
 
+-- Charge-level shots and overcharge explosions (research/charge-explosions-F5FEE03DCFDB.json): the weapon's own
+-- WeaponCharge record selects them live. A charge-level shot fires the projectile its level names (+4 partial,
+-- +28 full, +52 overcharged; every selector of the role must name the same row); the overcharge failure spawns the
+-- explosion at +200. The caller re-proves the reviewed row identity, so a swapped selector or overcharge explosion
+-- (charge.overcharge_explosion) refuses the write instead of editing another row.
+local function charge_record(resolved,backing)
+    local identity=assert(backing.chargeRecord,'charge record identity missing')
+    return component_record(resolved,{component='WeaponChargeComponentData',recordIndex=identity.recordIndex,
+        indexRow=identity.indexRow,ownerCount=identity.ownerCount})
+end
+local function charge_projectile(resolved,backing)
+    local record=charge_record(resolved,backing)
+    local projectile_type
+    for _,offset in ipairs(assert(backing.chargeSelectorOffsets,'charge level selector missing'))do
+        local value=b.u32(record.bytes,offset)
+        assert(value~=0,'linked charge level projectile selector absent')
+        assert(projectile_type==nil or projectile_type==value,
+            'charge levels of this role no longer fire one projectile')
+        projectile_type=value
+    end
+    return assert(resolved.roots.projectile.records[projectile_type],'linked charge level ProjectileSettings absent')
+end
+local function charge_explosion(resolved,backing)
+    if backing.linkage:find('charge_overcharge_explosion',1,true)then
+        local record=charge_record(resolved,backing)
+        return assert(resolved.roots.explosion.records[b.u32(record.bytes,assert(backing.chargeExplosionOffset))],
+            'linked overcharge ExplosionSettings absent')
+    end
+    local projectile=charge_projectile(resolved,backing)
+    return assert(resolved.roots.explosion.records[b.u32(projectile.bytes,backing.phase=='expiry'and 156 or 144)],
+        'linked charge level ExplosionSettings absent')
+end
+
 local function support_explosion(resolved,backing)
+    if backing.linkage:find('charge_',1,true)==1 then return charge_explosion(resolved,backing)end
     if backing.linkage:find('explosive_explosion',1,true)then
         local component=component_record(resolved,{component='ExplosiveComponentData',
             recordIndex=resolved.candidate.ownership.ExplosiveComponentData.recordIndex,
@@ -1006,6 +1179,11 @@ local function support_explosion(resolved,backing)
 end
 
 local function support_damage(resolved,backing,linkage)
+    if linkage=='charge_projectile_damage'then
+        local projectile=charge_projectile(resolved,backing)
+        return assert(resolved.roots.damage.records[b.u32(projectile.bytes,60)],
+            'linked charge level DamageInfo absent')
+    end
     if linkage=='projectile_damage'then
         local projectile=projectile_for_candidate(resolved,resolved.candidate,backing.branch)
         return assert(resolved.roots.damage.records[b.u32(projectile.bytes,60)],
@@ -1042,6 +1220,9 @@ local function support_linked(resolved,backing)
     if linkage=='projectile'then
         local record=projectile_for_candidate(resolved,resolved.candidate,backing.branch)
         return record,resolved.roots.projectile.owner
+    end
+    if linkage=='charge_projectile'then
+        return charge_projectile(resolved,backing),resolved.roots.projectile.owner
     end
     if linkage=='arc'then
         local component=resolved.catalog.record(resolved.candidate,'ArcWeaponComponentData')
@@ -1255,6 +1436,12 @@ function M.prepare(resolved,reader,spec)
                     settings_type=settings.settings_type,scope='explosion_reference_source'}
             end
             change.expected=expected;change.desired=b.encode(source_type,'u32')
+        elseif change.descriptor.type=='overcharge_explosion_reference'then
+            -- Both explosions still exist in the live ExplosionSettings table (rows are keyed by ExplosionType).
+            for _,explosion_type in ipairs(change.explosion_types)do
+                assert(resolved.roots.explosion and resolved.roots.explosion.records[explosion_type],
+                    'overcharge explosion '..explosion_type..' is absent from the live explosion table')
+            end
         end
         local expected=ownership.expected(change,current,nil,{target=spec.kind..' '..tostring(spec.weapon)
             ..(spec.attack and(' '..spec.attack)or'')})

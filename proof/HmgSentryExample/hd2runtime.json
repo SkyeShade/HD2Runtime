@@ -1,0 +1,1 @@
+{"format":1,"name":"HeavyMgSentry","resource":"mods/skyeshade/hd2runtime_hmg_sentry_example","guid":"1584b90d-11df-48b3-af3a-e5c997e6d11b","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.30.0-dev","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../sdk","ide_library":"../../sdk/stubs"}

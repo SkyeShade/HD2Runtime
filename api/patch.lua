@@ -134,6 +134,8 @@ function M.start_spec(runtime,emit,spec,startup_delay)
         end
         if result.status=='APPLIED' or result.status=='ALREADY_DESIRED' then
             for _,note in ipairs(result.notes or{})do log(note)end
+            -- Which operation holds these bytes, for a later CONFLICT message (core/shared_records.lua).
+            pcall(require('hd2runtime/core/shared_records').claim,spec,'patch',spec.mod)
         end
         for _,line in ipairs(require('hd2runtime/core/guarded_transaction').report_lines(result))do log(line)end
         if result.status=='REJECTED' then
@@ -148,6 +150,10 @@ function M.start_spec(runtime,emit,spec,startup_delay)
     return watch
 end
 function M.start(runtime,emit,request)
-    return M.start_spec(runtime,emit,fields.validate(request),3)
+    local spec=fields.validate(request)
+    local shared=require('hd2runtime/core/shared_records')
+    -- Diagnostics only: never part of the registration's outcome.
+    spec.mod=shared.current_mod();pcall(shared.warn_unlisted,spec,'patch',spec.mod,emit)
+    return M.start_spec(runtime,emit,spec,3)
 end
 return M

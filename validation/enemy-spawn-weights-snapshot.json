@@ -1,0 +1,178 @@
+{
+  "chargerRows": 1,
+  "chargerShares": [
+    {
+      "after": 1,
+      "before": 1,
+      "difficulty": 1,
+      "group": "A2679E02"
+    },
+    {
+      "after": 1,
+      "before": 1,
+      "difficulty": 2,
+      "group": "A2679E02"
+    },
+    {
+      "after": 1,
+      "before": 1,
+      "difficulty": 3,
+      "group": "A2679E02"
+    },
+    {
+      "after": 1,
+      "before": 1,
+      "difficulty": 4,
+      "group": "A2679E02"
+    },
+    {
+      "after": 1,
+      "before": 1,
+      "difficulty": 5,
+      "group": "A2679E02"
+    },
+    {
+      "after": 1,
+      "before": 1,
+      "difficulty": 6,
+      "group": "A2679E02"
+    },
+    {
+      "after": 0.666666672185615,
+      "before": 0.500000006208817,
+      "difficulty": 7,
+      "group": "A2679E02"
+    },
+    {
+      "after": 0.49999999534338724,
+      "before": 0.333333329194122,
+      "difficulty": 8,
+      "group": "A2679E02"
+    },
+    {
+      "after": 0.37500000931322564,
+      "before": 0.23076923782303482,
+      "difficulty": 9,
+      "group": "A2679E02"
+    },
+    {
+      "after": 0,
+      "before": 0,
+      "difficulty": 10,
+      "group": "A2679E02"
+    }
+  ],
+  "chargerWrites": 5,
+  "checks": [
+    {
+      "check": "a Terminid mission at difficulty 10",
+      "detail": 10,
+      "ok": true
+    },
+    {
+      "check": "the Charger has roster rows",
+      "detail": 1,
+      "ok": true
+    },
+    {
+      "check": "hd2.enemies.spawn_weight applies at once",
+      "detail": "applied nil",
+      "ok": true
+    },
+    {
+      "check": "every Charger weight is the vanilla one x 2",
+      "ok": true
+    },
+    {
+      "check": "no other roster byte changed",
+      "ok": true
+    },
+    {
+      "check": "no page protection changed",
+      "detail": 0,
+      "ok": true
+    },
+    {
+      "check": "the pick model: at each difficulty where it spawns, the Charger's share is 2w / (S + w); where its vanilla weight is 0 it stays 0",
+      "detail": 9,
+      "ok": true
+    },
+    {
+      "check": "the same mod replaces its own multiplier",
+      "ok": true
+    },
+    {
+      "check": "another mod is refused ALREADY_SET",
+      "detail": "ALREADY_SET",
+      "ok": true
+    },
+    {
+      "check": "x 0 applies at once (it only removes candidates)",
+      "ok": true
+    },
+    {
+      "check": "its restore waits while the mission runs",
+      "detail": "stopping",
+      "ok": true
+    },
+    {
+      "check": "aboard the ship it is restored exactly",
+      "detail": "stopped",
+      "ok": true
+    },
+    {
+      "check": "opts.difficulties changes only those weights",
+      "ok": true
+    },
+    {
+      "check": "and stop() restores them",
+      "ok": true
+    },
+    {
+      "check": "another writer's value is a CONFLICT",
+      "detail": "conflict",
+      "ok": true
+    },
+    {
+      "check": "stop() after a conflict writes nothing",
+      "ok": true
+    },
+    {
+      "check": "no acknowledgement: ACKNOWLEDGEMENT_REQUIRED",
+      "ok": true
+    },
+    {
+      "check": "an unknown enemy: UNKNOWN_ENEMY",
+      "ok": true
+    },
+    {
+      "check": "a multiplier above 10: INVALID_MULTIPLIER",
+      "ok": true
+    },
+    {
+      "check": "a changed pin: nothing written",
+      "detail": "unavailable",
+      "ok": true
+    }
+  ],
+  "log": [
+    "[HD2Runtime] enemy spawns (validation): Charger spawn weight x 2 APPLIED in 1 roster row (terminids)",
+    "[HD2Runtime] enemy spawns (validation): Charger spawn weight x 3 APPLIED in 1 roster row (terminids)",
+    "[HD2Runtime] enemy spawn weight (another-mod) refused: ALREADY_SET: Charger spawn weights are set by validation",
+    "[HD2Runtime] enemy spawns (validation): Bile Titan spawn weight x 0 APPLIED in 1 roster row (terminids)",
+    "[HD2Runtime] enemy spawns (validation): restoring Bile Titan waits until no mission is running (a weight goes from 0 to positive; the mission loaded without its packages)",
+    "[HD2Runtime] enemy spawns (validation): Bile Titan restored to the vanilla weights (1 row)",
+    "[HD2Runtime] enemy spawns (validation): hunter_tier_1 spawn weight x 2 at difficulty 10 APPLIED in 1 roster row (terminids)",
+    "[HD2Runtime] enemy spawns (validation): hunter_tier_1 restored to the vanilla weights (1 row)",
+    "[HD2Runtime] enemy spawns (validation): Charger: the terminids row 13 of Charger was changed by another writer",
+    "[HD2Runtime] enemy spawn weight (validation) refused: ACKNOWLEDGEMENT_REQUIRED: spawn weights are not yet shown in game: pass allow_unverified_effect = true",
+    "[HD2Runtime] enemy spawn weight (validation) refused: UNKNOWN_ENEMY: No Such Bug is in no spawn roster (see hd2.enemies.spawn_list())",
+    "[HD2Runtime] enemy spawn weight (validation) refused: INVALID_MULTIPLIER: the multiplier must be a number from 0 to 10",
+    "[HD2Runtime] enemy spawns UNAVAILABLE: no spawn weight is written: native spawn pick changed (per-faction lookup: the mission faction at game+94BA47)"
+  ],
+  "mode": "snapshot-overlay",
+  "protectionChanges": 0,
+  "snapshot": "F5FEE03DCFDB-20260929T172918Z-mission-host-alive.hd2snap",
+  "status": "VALIDATED",
+  "writes": 20
+}

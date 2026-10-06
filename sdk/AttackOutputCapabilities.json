@@ -1,7 +1,7 @@
 {
  "contract": "hd2runtime.attack_outputs.v1",
  "schemaVersion": 2,
- "hd2RuntimeVersion": "0.28.0",
+ "hd2RuntimeVersion": "0.30.0-dev",
  "build": "F5FEE03DCFDB",
  "model": {
   "weaponComposition": "A weapon entity owns exactly one output-family component (ProjectileWeapon, BeamWeapon, ArcWeapon, SprayWeapon or MeleeWeapon) next to fire-control and resource components (WeaponData, WeaponMagazine / WeaponRounds / WeaponHeat / WeaponCharge, WeaponReload).",
@@ -1983,18 +1983,40 @@
   ]
  },
  "summary": {
-  "outputs": 130,
+  "outputs": 162,
   "byFamily": {
-   "projectile": 108,
+   "projectile": 140,
    "beam": 4,
    "arc": 3,
    "spray": 8,
    "melee": 7
   },
   "stratagemDonors": [
-   "A/M-23 EMS Mortar Sentry"
+   "A/GM-17 Gas Mortar Sentry",
+   "A/M-12 Mortar Sentry",
+   "A/M-23 EMS Mortar Sentry",
+   "A/MLS-4X Rocket Sentry",
+   "E/MG-101 HMG Emplacement",
+   "Eagle 110mm Rocket Pods",
+   "Eagle 500kg Bomb",
+   "Eagle Airstrike",
+   "Eagle Cluster Bomb",
+   "Eagle Gas Airstrike",
+   "Eagle Napalm Airstrike",
+   "Eagle Smoke Strike",
+   "Orbital 120mm HE Barrage",
+   "Orbital Airburst Strike",
+   "Orbital EMS Strike",
+   "Orbital Gas Strike",
+   "Orbital Gatling Barrage",
+   "Orbital Napalm Barrage",
+   "Orbital Precision Strike",
+   "Orbital Railcannon Strike",
+   "Orbital Smoke Strike",
+   "Orbital Walking Barrage",
+   "TD-220 Bastion MK XVI"
   ],
-  "selectable": 80,
+  "selectable": 112,
   "projectileHosts": 52,
   "componentHosts": 46,
   "ammunitionHosts": 6,
@@ -12394,6 +12416,1723 @@
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/gp-31-grenade-pistol-projectile-263",
+   "family": "projectile",
+   "kind": "projectile_donor",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "GP-31 Grenade Pistol"
+   },
+   "role": "fired projectile",
+   "names": [
+    "GP-31 Grenade Pistol (projectile 263)"
+   ],
+   "projectileType": 263,
+   "emitter": "ProjectileWeapon",
+   "member": 0,
+   "compatibilityClass": "explosive_impact_and_expiry",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": true,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "flight": {
+    "velocity": 100,
+    "mass": 50,
+    "unitDriven": true
+   },
+   "ownerFireResource": [],
+   "package": {
+    "name": null,
+    "known": true,
+    "autoLoad": true,
+    "via": "owner weapon"
+   },
+   "acknowledgements": {
+    "sameClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/p-33-missile-pistol-projectile-127",
+   "family": "projectile",
+   "kind": "projectile_donor",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "P-33 Missile Pistol"
+   },
+   "role": "second projectile (+576)",
+   "names": [
+    "P-33 Missile Pistol (projectile 127)"
+   ],
+   "projectileType": 127,
+   "emitter": "ProjectileWeapon",
+   "member": 576,
+   "compatibilityClass": "explosive_impact_and_expiry",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": true,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "flight": {
+    "velocity": 1,
+    "mass": 15,
+    "unitDriven": true
+   },
+   "ownerFireResource": [],
+   "package": {
+    "name": null,
+    "known": true,
+    "autoLoad": true,
+    "via": "owner weapon"
+   },
+   "acknowledgements": {
+    "sameClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/p-92-warrant-projectile-319",
+   "family": "projectile",
+   "kind": "projectile_donor",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "P-92 Warrant"
+   },
+   "role": "second projectile (+576)",
+   "names": [
+    "P-92 Warrant (projectile 319)"
+   ],
+   "projectileType": 319,
+   "emitter": "ProjectileWeapon",
+   "member": 576,
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "flight": {
+    "velocity": 285,
+    "mass": 15,
+    "unitDriven": true
+   },
+   "ownerFireResource": [],
+   "package": {
+    "name": null,
+    "known": true,
+    "autoLoad": true,
+    "via": "owner weapon"
+   },
+   "acknowledgements": {
+    "sameClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/smg-37-defender-projectile-3",
+   "family": "projectile",
+   "kind": "projectile_donor",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "SMG-37 Defender"
+   },
+   "role": "fired projectile",
+   "names": [
+    "SMG-37 Defender (projectile 3)"
+   ],
+   "projectileType": 3,
+   "emitter": "ProjectileWeapon",
+   "member": 0,
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "flight": {
+    "velocity": 285,
+    "mass": 15,
+    "unitDriven": true
+   },
+   "ownerFireResource": [],
+   "package": {
+    "name": null,
+    "known": true,
+    "autoLoad": true,
+    "via": "owner weapon"
+   },
+   "acknowledgements": {
+    "sameClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/smg-37-defender-projectile-150",
+   "family": "projectile",
+   "kind": "projectile_donor",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "SMG-37 Defender"
+   },
+   "role": "fired projectile",
+   "names": [
+    "SMG-37 Defender (projectile 150)"
+   ],
+   "projectileType": 150,
+   "emitter": "ProjectileWeapon",
+   "member": 0,
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "flight": {
+    "velocity": 285,
+    "mass": 15,
+    "unitDriven": true
+   },
+   "ownerFireResource": [],
+   "package": {
+    "name": null,
+    "known": true,
+    "autoLoad": true,
+    "via": "owner weapon"
+   },
+   "acknowledgements": {
+    "sameClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/a-gm-17-gas-mortar-sentry-projectile-342",
+   "family": "projectile",
+   "kind": "projectile_donor",
+   "owner": {
+    "kind": "stratagem",
+    "name": "A/GM-17 Gas Mortar Sentry"
+   },
+   "role": "fired projectile",
+   "names": [
+    "A/GM-17 Gas Mortar Sentry (projectile 342)",
+    "A/GM-17 Gas Mortar Sentry"
+   ],
+   "projectileType": 342,
+   "emitter": "ProjectileWeapon",
+   "member": 0,
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "flight": {
+    "velocity": 100,
+    "mass": 70000,
+    "unitDriven": true
+   },
+   "ownerFireResource": [],
+   "package": {
+    "name": "mortar_turret_gas",
+    "known": true,
+    "autoLoad": true,
+    "via": "owner entity loadout package"
+   },
+   "acknowledgements": {
+    "sameClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/a-m-12-mortar-sentry-projectile-346",
+   "family": "projectile",
+   "kind": "projectile_donor",
+   "owner": {
+    "kind": "stratagem",
+    "name": "A/M-12 Mortar Sentry"
+   },
+   "role": "fired projectile",
+   "names": [
+    "A/M-12 Mortar Sentry (projectile 346)",
+    "A/M-12 Mortar Sentry"
+   ],
+   "projectileType": 346,
+   "emitter": "ProjectileWeapon",
+   "member": 0,
+   "compatibilityClass": "explosive_shrapnel",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": true,
+    "arcOnImpact": false
+   },
+   "flight": {
+    "velocity": 100,
+    "mass": 70000,
+    "unitDriven": true
+   },
+   "ownerFireResource": [],
+   "package": {
+    "name": "mortar_turret",
+    "known": true,
+    "autoLoad": true,
+    "via": "owner entity loadout package"
+   },
+   "acknowledgements": {
+    "sameClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/a-mls-4x-rocket-sentry-projectile-320",
+   "family": "projectile",
+   "kind": "projectile_donor",
+   "owner": {
+    "kind": "stratagem",
+    "name": "A/MLS-4X Rocket Sentry"
+   },
+   "role": "fired projectile",
+   "names": [
+    "A/MLS-4X Rocket Sentry (projectile 320)",
+    "A/MLS-4X Rocket Sentry"
+   ],
+   "projectileType": 320,
+   "emitter": "ProjectileWeapon",
+   "member": 0,
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "flight": {
+    "velocity": 100,
+    "mass": 6000,
+    "unitDriven": true
+   },
+   "ownerFireResource": [],
+   "package": {
+    "name": "rocket_turret",
+    "known": true,
+    "autoLoad": true,
+    "via": "owner entity loadout package"
+   },
+   "acknowledgements": {
+    "sameClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/e-mg-101-hmg-emplacement-projectile-83",
+   "family": "projectile",
+   "kind": "projectile_donor",
+   "owner": {
+    "kind": "stratagem",
+    "name": "E/MG-101 HMG Emplacement"
+   },
+   "role": "fired projectile",
+   "names": [
+    "E/MG-101 HMG Emplacement (projectile 83)",
+    "E/MG-101 HMG Emplacement"
+   ],
+   "projectileType": 83,
+   "emitter": "ProjectileWeapon",
+   "member": 0,
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "flight": {
+    "velocity": 880,
+    "mass": 52,
+    "unitDriven": false
+   },
+   "ownerFireResource": [],
+   "package": {
+    "name": "manned_turret",
+    "known": true,
+    "autoLoad": true,
+    "via": "owner entity loadout package"
+   },
+   "acknowledgements": {
+    "sameClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/eagle-110mm-rocket-pods-projectile-82",
+   "family": "projectile",
+   "kind": "projectile_donor",
+   "owner": {
+    "kind": "stratagem",
+    "name": "Eagle 110mm Rocket Pods"
+   },
+   "role": "Eagle payload",
+   "names": [
+    "Eagle 110mm Rocket Pods (projectile 82)",
+    "Eagle 110mm Rocket Pods"
+   ],
+   "projectileType": 82,
+   "emitter": "Eagle",
+   "member": 24,
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "flight": {
+    "velocity": 700,
+    "mass": 3300,
+    "unitDriven": true
+   },
+   "ownerFireResource": [],
+   "package": {
+    "name": "eagle_rocket",
+    "known": true,
+    "autoLoad": true,
+    "via": "owner entity loadout package"
+   },
+   "acknowledgements": {
+    "sameClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/eagle-500kg-bomb-projectile-239",
+   "family": "projectile",
+   "kind": "projectile_donor",
+   "owner": {
+    "kind": "stratagem",
+    "name": "Eagle 500kg Bomb"
+   },
+   "role": "Eagle payload",
+   "names": [
+    "Eagle 500kg Bomb (projectile 239)",
+    "Eagle 500kg Bomb"
+   ],
+   "projectileType": 239,
+   "emitter": "Eagle",
+   "member": 24,
+   "compatibilityClass": "explosive_impact_and_expiry",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": true,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "flight": {
+    "velocity": 500,
+    "mass": 500,
+    "unitDriven": true
+   },
+   "ownerFireResource": [],
+   "package": {
+    "name": "eagle_bomb",
+    "known": true,
+    "autoLoad": true,
+    "via": "owner entity loadout package"
+   },
+   "acknowledgements": {
+    "sameClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/eagle-airstrike-projectile-170",
+   "family": "projectile",
+   "kind": "projectile_donor",
+   "owner": {
+    "kind": "stratagem",
+    "name": "Eagle Airstrike"
+   },
+   "role": "Eagle payload",
+   "names": [
+    "Eagle Airstrike (projectile 170)",
+    "Eagle Airstrike"
+   ],
+   "projectileType": 170,
+   "emitter": "Eagle",
+   "member": 24,
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "flight": {
+    "velocity": 500,
+    "mass": 100,
+    "unitDriven": true
+   },
+   "ownerFireResource": [],
+   "package": {
+    "name": "eagle_airstrike",
+    "known": true,
+    "autoLoad": true,
+    "via": "owner entity loadout package"
+   },
+   "acknowledgements": {
+    "sameClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/eagle-cluster-bomb-projectile-286",
+   "family": "projectile",
+   "kind": "projectile_donor",
+   "owner": {
+    "kind": "stratagem",
+    "name": "Eagle Cluster Bomb"
+   },
+   "role": "Eagle payload",
+   "names": [
+    "Eagle Cluster Bomb (projectile 286)",
+    "Eagle Cluster Bomb"
+   ],
+   "projectileType": 286,
+   "emitter": "Eagle",
+   "member": 24,
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": true,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "flight": {
+    "velocity": 300,
+    "mass": 100,
+    "unitDriven": true
+   },
+   "ownerFireResource": [],
+   "package": {
+    "name": "eagle_clusterbombs",
+    "known": true,
+    "autoLoad": true,
+    "via": "owner entity loadout package"
+   },
+   "acknowledgements": {
+    "sameClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/eagle-gas-airstrike-projectile-188",
+   "family": "projectile",
+   "kind": "projectile_donor",
+   "owner": {
+    "kind": "stratagem",
+    "name": "Eagle Gas Airstrike"
+   },
+   "role": "Eagle payload",
+   "names": [
+    "Eagle Gas Airstrike (projectile 188)",
+    "Eagle Gas Airstrike"
+   ],
+   "projectileType": 188,
+   "emitter": "Eagle",
+   "member": 24,
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "flight": {
+    "velocity": 500,
+    "mass": 100,
+    "unitDriven": true
+   },
+   "ownerFireResource": [],
+   "package": {
+    "name": "eagle_gas",
+    "known": true,
+    "autoLoad": true,
+    "via": "owner entity loadout package"
+   },
+   "acknowledgements": {
+    "sameClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/eagle-napalm-airstrike-projectile-141",
+   "family": "projectile",
+   "kind": "projectile_donor",
+   "owner": {
+    "kind": "stratagem",
+    "name": "Eagle Napalm Airstrike"
+   },
+   "role": "Eagle payload",
+   "names": [
+    "Eagle Napalm Airstrike (projectile 141)",
+    "Eagle Napalm Airstrike"
+   ],
+   "projectileType": 141,
+   "emitter": "Eagle",
+   "member": 24,
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "flight": {
+    "velocity": 500,
+    "mass": 100,
+    "unitDriven": true
+   },
+   "ownerFireResource": [],
+   "package": {
+    "name": "eagle_napalm",
+    "known": true,
+    "autoLoad": true,
+    "via": "owner entity loadout package"
+   },
+   "acknowledgements": {
+    "sameClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/eagle-smoke-strike-projectile-16",
+   "family": "projectile",
+   "kind": "projectile_donor",
+   "owner": {
+    "kind": "stratagem",
+    "name": "Eagle Smoke Strike"
+   },
+   "role": "fired projectile",
+   "names": [
+    "Eagle Smoke Strike (projectile 16)"
+   ],
+   "projectileType": 16,
+   "emitter": "ProjectileWeapon",
+   "member": 0,
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "flight": {
+    "velocity": 1050,
+    "mass": 400,
+    "unitDriven": false
+   },
+   "ownerFireResource": [],
+   "package": {
+    "name": "eagle_airstrike_smoke",
+    "known": true,
+    "autoLoad": true,
+    "via": "owner entity loadout package"
+   },
+   "acknowledgements": {
+    "sameClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/eagle-smoke-strike-projectile-130",
+   "family": "projectile",
+   "kind": "projectile_donor",
+   "owner": {
+    "kind": "stratagem",
+    "name": "Eagle Smoke Strike"
+   },
+   "role": "Eagle payload",
+   "names": [
+    "Eagle Smoke Strike (projectile 130)"
+   ],
+   "projectileType": 130,
+   "emitter": "Eagle",
+   "member": 24,
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "flight": {
+    "velocity": 500,
+    "mass": 100,
+    "unitDriven": true
+   },
+   "ownerFireResource": [],
+   "package": {
+    "name": "eagle_airstrike_smoke",
+    "known": true,
+    "autoLoad": true,
+    "via": "owner entity loadout package"
+   },
+   "acknowledgements": {
+    "sameClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/orbital-120mm-he-barrage-projectile-194",
+   "family": "projectile",
+   "kind": "projectile_donor",
+   "owner": {
+    "kind": "stratagem",
+    "name": "Orbital 120mm HE Barrage"
+   },
+   "role": "orbital shell",
+   "names": [
+    "Orbital 120mm HE Barrage (projectile 194)",
+    "Orbital 120mm HE Barrage"
+   ],
+   "projectileType": 194,
+   "emitter": "Bombardment",
+   "member": 64,
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "flight": {
+    "velocity": 400,
+    "mass": 5000,
+    "unitDriven": true
+   },
+   "ownerFireResource": [],
+   "package": {
+    "name": "orbital_strike",
+    "known": true,
+    "autoLoad": true,
+    "via": "owner entity loadout package"
+   },
+   "acknowledgements": {
+    "sameClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/orbital-airburst-strike-projectile-158",
+   "family": "projectile",
+   "kind": "projectile_donor",
+   "owner": {
+    "kind": "stratagem",
+    "name": "Orbital Airburst Strike"
+   },
+   "role": "orbital shell",
+   "names": [
+    "Orbital Airburst Strike (projectile 158)",
+    "Orbital Airburst Strike"
+   ],
+   "projectileType": 158,
+   "emitter": "Bombardment",
+   "member": 64,
+   "compatibilityClass": "explosive_shrapnel",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": true,
+    "submunition": true,
+    "arcOnImpact": false
+   },
+   "flight": {
+    "velocity": 400,
+    "mass": 5000,
+    "unitDriven": true
+   },
+   "ownerFireResource": [],
+   "package": {
+    "name": "orbital_shot",
+    "known": true,
+    "autoLoad": true,
+    "via": "owner entity loadout package"
+   },
+   "acknowledgements": {
+    "sameClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/orbital-ems-strike-projectile-74",
+   "family": "projectile",
+   "kind": "projectile_donor",
+   "owner": {
+    "kind": "stratagem",
+    "name": "Orbital EMS Strike"
+   },
+   "role": "orbital shell",
+   "names": [
+    "Orbital EMS Strike (projectile 74)",
+    "Orbital EMS Strike"
+   ],
+   "projectileType": 74,
+   "emitter": "Bombardment",
+   "member": 64,
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "flight": {
+    "velocity": 400,
+    "mass": 5000,
+    "unitDriven": true
+   },
+   "ownerFireResource": [],
+   "package": {
+    "name": "orbital_stun",
+    "known": true,
+    "autoLoad": true,
+    "via": "owner entity loadout package"
+   },
+   "acknowledgements": {
+    "sameClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/orbital-gas-strike-projectile-197",
+   "family": "projectile",
+   "kind": "projectile_donor",
+   "owner": {
+    "kind": "stratagem",
+    "name": "Orbital Gas Strike"
+   },
+   "role": "orbital shell",
+   "names": [
+    "Orbital Gas Strike (projectile 197)",
+    "Orbital Gas Strike"
+   ],
+   "projectileType": 197,
+   "emitter": "Bombardment",
+   "member": 64,
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "flight": {
+    "velocity": 400,
+    "mass": 5000,
+    "unitDriven": true
+   },
+   "ownerFireResource": [],
+   "package": {
+    "name": "orbital_gas",
+    "known": true,
+    "autoLoad": true,
+    "via": "owner entity loadout package"
+   },
+   "acknowledgements": {
+    "sameClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/orbital-gatling-barrage-projectile-77",
+   "family": "projectile",
+   "kind": "projectile_donor",
+   "owner": {
+    "kind": "stratagem",
+    "name": "Orbital Gatling Barrage"
+   },
+   "role": "orbital shell",
+   "names": [
+    "Orbital Gatling Barrage (projectile 77)",
+    "Orbital Gatling Barrage"
+   ],
+   "projectileType": 77,
+   "emitter": "Bombardment",
+   "member": 64,
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "flight": {
+    "velocity": 1050,
+    "mass": 400,
+    "unitDriven": false
+   },
+   "ownerFireResource": [],
+   "package": {
+    "name": "orbital_gatling_barrage",
+    "known": true,
+    "autoLoad": true,
+    "via": "owner entity loadout package"
+   },
+   "acknowledgements": {
+    "sameClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/orbital-napalm-barrage-projectile-234",
+   "family": "projectile",
+   "kind": "projectile_donor",
+   "owner": {
+    "kind": "stratagem",
+    "name": "Orbital Napalm Barrage"
+   },
+   "role": "orbital shell",
+   "names": [
+    "Orbital Napalm Barrage (projectile 234)",
+    "Orbital Napalm Barrage"
+   ],
+   "projectileType": 234,
+   "emitter": "Bombardment",
+   "member": 64,
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "flight": {
+    "velocity": 400,
+    "mass": 5000,
+    "unitDriven": true
+   },
+   "ownerFireResource": [],
+   "package": {
+    "name": "orbital_napalm_barrage",
+    "known": true,
+    "autoLoad": true,
+    "via": "owner entity loadout package"
+   },
+   "acknowledgements": {
+    "sameClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/orbital-precision-strike-projectile-100",
+   "family": "projectile",
+   "kind": "projectile_donor",
+   "owner": {
+    "kind": "stratagem",
+    "name": "Orbital Precision Strike"
+   },
+   "role": "orbital shell",
+   "names": [
+    "Orbital Precision Strike (projectile 100)",
+    "Orbital Precision Strike"
+   ],
+   "projectileType": 100,
+   "emitter": "Bombardment",
+   "member": 64,
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "flight": {
+    "velocity": 400,
+    "mass": 30000,
+    "unitDriven": true
+   },
+   "ownerFireResource": [],
+   "package": {
+    "name": "orbital_shell",
+    "known": true,
+    "autoLoad": true,
+    "via": "owner entity loadout package"
+   },
+   "acknowledgements": {
+    "sameClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/orbital-railcannon-strike-projectile-277",
+   "family": "projectile",
+   "kind": "projectile_donor",
+   "owner": {
+    "kind": "stratagem",
+    "name": "Orbital Railcannon Strike"
+   },
+   "role": "orbital projectile",
+   "names": [
+    "Orbital Railcannon Strike (projectile 277)",
+    "Orbital Railcannon Strike"
+   ],
+   "projectileType": 277,
+   "emitter": "OrbitalAbility",
+   "member": 532,
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": true,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "flight": {
+    "velocity": 14000,
+    "mass": 5000,
+    "unitDriven": false
+   },
+   "ownerFireResource": [],
+   "package": {
+    "name": "orbital_railcannon",
+    "known": true,
+    "autoLoad": true,
+    "via": "owner entity loadout package"
+   },
+   "acknowledgements": {
+    "sameClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/orbital-smoke-strike-projectile-247",
+   "family": "projectile",
+   "kind": "projectile_donor",
+   "owner": {
+    "kind": "stratagem",
+    "name": "Orbital Smoke Strike"
+   },
+   "role": "orbital shell",
+   "names": [
+    "Orbital Smoke Strike (projectile 247)",
+    "Orbital Smoke Strike"
+   ],
+   "projectileType": 247,
+   "emitter": "Bombardment",
+   "member": 64,
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "flight": {
+    "velocity": 400,
+    "mass": 5000,
+    "unitDriven": true
+   },
+   "ownerFireResource": [],
+   "package": {
+    "name": "orbital_smoke",
+    "known": true,
+    "autoLoad": true,
+    "via": "owner entity loadout package"
+   },
+   "acknowledgements": {
+    "sameClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/orbital-walking-barrage-projectile-80",
+   "family": "projectile",
+   "kind": "projectile_donor",
+   "owner": {
+    "kind": "stratagem",
+    "name": "Orbital Walking Barrage"
+   },
+   "role": "orbital shell",
+   "names": [
+    "Orbital Walking Barrage (projectile 80)",
+    "Orbital Walking Barrage"
+   ],
+   "projectileType": 80,
+   "emitter": "Bombardment",
+   "member": 64,
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "flight": {
+    "velocity": 400,
+    "mass": 30000,
+    "unitDriven": true
+   },
+   "ownerFireResource": [],
+   "package": {
+    "name": "orbital_walking_barrage",
+    "known": true,
+    "autoLoad": true,
+    "via": "owner entity loadout package"
+   },
+   "acknowledgements": {
+    "sameClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/td-220-bastion-mk-xvi-projectile-36",
+   "family": "projectile",
+   "kind": "projectile_donor",
+   "owner": {
+    "kind": "stratagem",
+    "name": "TD-220 Bastion MK XVI"
+   },
+   "role": "second projectile (+576)",
+   "names": [
+    "TD-220 Bastion MK XVI (projectile 36)",
+    "TD-220 Bastion MK XVI"
+   ],
+   "projectileType": 36,
+   "emitter": "ProjectileWeapon",
+   "member": 576,
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "flight": {
+    "velocity": 250,
+    "mass": 3300,
+    "unitDriven": true
+   },
+   "ownerFireResource": [],
+   "package": {
+    "name": null,
+    "known": true,
+    "autoLoad": true,
+    "via": "owner entity loadout package"
+   },
+   "acknowledgements": {
+    "sameClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/ac-8-autocannon-projectile-284",
+   "family": "projectile",
+   "kind": "projectile_donor",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "AC-8 Autocannon"
+   },
+   "role": "second projectile (+576)",
+   "names": [
+    "AC-8 Autocannon (projectile 284)"
+   ],
+   "projectileType": 284,
+   "emitter": "ProjectileWeapon",
+   "member": 576,
+   "compatibilityClass": "explosive_shrapnel",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": true,
+    "arcOnImpact": false
+   },
+   "flight": {
+    "velocity": 820,
+    "mass": 130,
+    "unitDriven": true
+   },
+   "ownerFireResource": [],
+   "package": {
+    "name": null,
+    "known": true,
+    "autoLoad": true,
+    "via": "owner weapon"
+   },
+   "acknowledgements": {
+    "sameClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/mg-43-machine-gun-projectile-49",
+   "family": "projectile",
+   "kind": "projectile_donor",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "MG-43 Machine Gun"
+   },
+   "role": "fired projectile",
+   "names": [
+    "MG-43 Machine Gun (projectile 49)"
+   ],
+   "projectileType": 49,
+   "emitter": "ProjectileWeapon",
+   "member": 0,
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "flight": {
+    "velocity": 820,
+    "mass": 11,
+    "unitDriven": false
+   },
+   "ownerFireResource": [],
+   "package": {
+    "name": null,
+    "known": true,
+    "autoLoad": true,
+    "via": "owner weapon"
+   },
+   "acknowledgements": {
+    "sameClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/rl-77-airburst-rocket-launcher-projectile-96",
+   "family": "projectile",
+   "kind": "projectile_donor",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "RL-77 Airburst Rocket Launcher"
+   },
+   "role": "second projectile (+576)",
+   "names": [
+    "RL-77 Airburst Rocket Launcher (projectile 96)"
+   ],
+   "projectileType": 96,
+   "emitter": "ProjectileWeapon",
+   "member": 576,
+   "compatibilityClass": "explosive_shrapnel",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": true,
+    "submunition": true,
+    "arcOnImpact": false
+   },
+   "flight": {
+    "velocity": 250,
+    "mass": 3300,
+    "unitDriven": true
+   },
+   "ownerFireResource": [],
+   "package": {
+    "name": null,
+    "known": true,
+    "autoLoad": true,
+    "via": "owner weapon"
+   },
+   "acknowledgements": {
+    "sameClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/sta-x3-w-a-s-p-launcher-projectile-330",
+   "family": "projectile",
+   "kind": "projectile_donor",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "StA-X3 W.A.S.P. Launcher"
+   },
+   "role": "second projectile (+576)",
+   "names": [
+    "StA-X3 W.A.S.P. Launcher (projectile 330)"
+   ],
+   "projectileType": 330,
+   "emitter": "ProjectileWeapon",
+   "member": 576,
+   "compatibilityClass": "explosive_shrapnel",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": true,
+    "arcOnImpact": false
+   },
+   "flight": {
+    "velocity": 500,
+    "mass": 11,
+    "unitDriven": false
+   },
+   "ownerFireResource": [],
+   "package": {
+    "name": null,
+    "known": true,
+    "autoLoad": true,
+    "via": "owner weapon"
+   },
+   "acknowledgements": {
+    "sameClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {

@@ -21,6 +21,7 @@ if existing then return existing end
 local scheduler=require('hd2runtime/runtime/scheduler')
 local metrics=require('hd2runtime/runtime/metrics')
 local log=require('hd2runtime/runtime/log')
+local perf=require('hd2runtime/runtime/perf_watch')
 local catalog=require('hd2runtime/domains/events_catalog')
 
 local M={}
@@ -79,13 +80,22 @@ function M.owner(explicit,level)
 end
 -- Run fn(...) with `owner` as the mod every registration inside it belongs to (nested scopes stack). Errors
 -- propagate after the scope is left.
+-- Timed per mod (runtime/perf_watch.lua): a mod's main file, custom stratagem and Pelican callbacks run here.
+local function describe_function(fn)
+    local info=debug and debug.getinfo and debug.getinfo(fn,'S')
+    if not info then return 'a function'end
+    if info.what=='main'then return 'its main file ('..tostring(info.short_src)..')'end
+    return 'the function at '..tostring(info.short_src)..':'..tostring(info.linedefined)
+end
 function M.run_as(owner,fn,...)
     assert(valid_owner(owner),'run_as needs a mod id string')
     assert(type(fn)=='function','run_as needs a function')
     local scopes=state.scopes
     scopes[#scopes+1]=owner
     local depth=#scopes
+    local timed=perf.begin()
     local results={pcall(fn,...)}
+    perf.finish(timed,owner,fn,describe_function)
     for index=#scopes,depth,-1 do scopes[index]=nil end
     if not results[1]then error(results[2],0)end
     return unpack(results,2,table.maxn(results))
@@ -209,10 +219,14 @@ end
 --------------------------------------------------------------------------------------------------- dispatch --
 -- Runs `fn(a)` isolated as `record` (a subscription, timer or binding) handling `event` (the event being dispatched,
 -- or the event a timer's creator was handling). Returns true when it completed.
+local function describe_record(record)return tostring(record.perf_what)..' ('..tostring(record.label)..')'end
 local function invoke(record,what,fn,a,event)
     local previous,previous_event=state.current,state.current_event
     state.current,state.current_event=record,event
+    record.perf_what=what
+    local timed=perf.begin()
     local ok,why=xpcall(fn,traceback,a)
+    perf.finish(timed,record.owner,record,describe_record)
     state.current,state.current_event=previous,previous_event
     record.calls=record.calls+1
     if ok then record.consecutive=0;return true end

@@ -1,0 +1,258 @@
+{
+  "classes": [
+    {
+      "baseline": -1,
+      "group": 0,
+      "name": "Hive Guard",
+      "recordOffsetOfTarget": 0
+    },
+    {
+      "baseline": 500,
+      "group": 0,
+      "name": "Predator Hunter",
+      "recordOffsetOfTarget": 0
+    },
+    {
+      "baseline": 500,
+      "group": 0,
+      "name": "Spore Burst Hunter",
+      "recordOffsetOfTarget": 0
+    },
+    {
+      "baseline": 750,
+      "group": 0,
+      "name": "Spore Burst Warrior",
+      "recordOffsetOfTarget": 0
+    },
+    {
+      "baseline": 500,
+      "group": 0,
+      "name": "hunter_base",
+      "recordOffsetOfTarget": 0
+    },
+    {
+      "baseline": 500,
+      "group": 0,
+      "name": "hunter_tier_1",
+      "recordOffsetOfTarget": 0
+    },
+    {
+      "baseline": 500,
+      "group": 0,
+      "name": "hunter_tier_2",
+      "recordOffsetOfTarget": 0
+    },
+    {
+      "baseline": 400,
+      "group": 0,
+      "name": "scavenger_base",
+      "recordOffsetOfTarget": 0
+    },
+    {
+      "baseline": 400,
+      "group": 0,
+      "name": "scavenger_gloom",
+      "recordOffsetOfTarget": 0
+    },
+    {
+      "baseline": 400,
+      "group": 0,
+      "name": "scavenger_predator",
+      "recordOffsetOfTarget": 0
+    },
+    {
+      "baseline": 400,
+      "group": 0,
+      "name": "scavenger_spitter",
+      "recordOffsetOfTarget": 0
+    },
+    {
+      "baseline": 400,
+      "group": 0,
+      "name": "scavenger_tier_1",
+      "recordOffsetOfTarget": 0
+    },
+    {
+      "baseline": 400,
+      "group": 0,
+      "name": "scavenger_tier_1_captive",
+      "recordOffsetOfTarget": 0
+    },
+    {
+      "baseline": 400,
+      "group": 0,
+      "name": "scavenger_tier_2",
+      "recordOffsetOfTarget": 0
+    },
+    {
+      "baseline": 750,
+      "group": 0,
+      "name": "warrior_acid",
+      "recordOffsetOfTarget": 0
+    },
+    {
+      "baseline": 750,
+      "group": 0,
+      "name": "warrior_base",
+      "recordOffsetOfTarget": 0
+    },
+    {
+      "baseline": 750,
+      "group": 0,
+      "name": "warrior_big",
+      "recordOffsetOfTarget": 0
+    },
+    {
+      "baseline": 750,
+      "group": 0,
+      "name": "warrior_big_tier2",
+      "recordOffsetOfTarget": 0
+    },
+    {
+      "baseline": 750,
+      "group": 0,
+      "name": "warrior_burrower",
+      "recordOffsetOfTarget": 0
+    },
+    {
+      "baseline": 750,
+      "group": 0,
+      "name": "warrior_tier_1",
+      "recordOffsetOfTarget": 0
+    },
+    {
+      "baseline": 750,
+      "group": 0,
+      "name": "warrior_tier_1_captive",
+      "recordOffsetOfTarget": 0
+    },
+    {
+      "baseline": 750,
+      "group": 0,
+      "name": "warrior_tier_2",
+      "recordOffsetOfTarget": 0
+    },
+    {
+      "baseline": 750,
+      "group": 0,
+      "name": "warrior_tier_2_guard",
+      "recordOffsetOfTarget": 0
+    }
+  ],
+  "combined": {
+    "classes": 23,
+    "contextBytes": 992176,
+    "contextCeiling": 2097152,
+    "contexts": 29,
+    "readAllowance": 51593888,
+    "readCeiling": 67108864,
+    "readerBytes": 1984408,
+    "readerCeiling": 16777216,
+    "restored": true,
+    "writes": 23
+  },
+  "eligibleClasses": 23,
+  "field": "gore.whole_body_gib_damage",
+  "fixtureFallback": "disabled",
+  "mode": "snapshot-overlay",
+  "protectionChanges": 108,
+  "rejections": {
+    "actor list changed": "enemy GoreComponentData identity changed (gore.whole_body_gib_damage guard at +340)",
+    "index row moved": "enemy gore record ownership changed",
+    "missing acknowledgement": "field requires allow_unverified_effect=true: gore.whole_body_gib_damage (The whole-body gib threshold is proven offline (pinned gore evaluator code, the class's",
+    "not eligible: Charger": "field is not exposed for Charger: gore.whole_body_gib_damage",
+    "not eligible: Watcher": "field is not exposed for Watcher: gore.whole_body_gib_damage",
+    "not eligible: dragon": "field is not exposed for dragon: gore.whole_body_gib_damage",
+    "not eligible: soldier": "field is not exposed for soldier: gore.whole_body_gib_damage",
+    "stale expect": "expect differs from reviewed current value for gore.whole_body_gib_damage",
+    "third-party value": "CONFLICT: gore.whole_body_gib_damage is neither expected nor desired (target enemy warrior_tier_2 gore.whole_body_gib_damage; expected 750 (750); desired 400 (4",
+    "value -0.5": "value outside the reviewed range for gore.whole_body_gib_damage (-1 to disable, or above 0 up to 100000)",
+    "value -2": "value outside the reviewed range for gore.whole_body_gib_damage (-1 to disable, or above 0 up to 100000)",
+    "value 0": "value outside the reviewed range for gore.whole_body_gib_damage (-1 to disable, or above 0 up to 100000)",
+    "value 100001": "value outside the reviewed range for gore.whole_body_gib_damage (-1 to disable, or above 0 up to 100000)",
+    "value NaN": "value must be a finite number",
+    "value inf": "value must be a finite number",
+    "whole-body flag cleared": "enemy GoreComponentData identity changed (gore.whole_body_gib_damage guard at +864)"
+  },
+  "roundTrips": {
+    "hive_guard": {
+      "class": "Hive Guard",
+      "contextBytes": 277536,
+      "from": -1,
+      "healthRecordUnchanged": true,
+      "limbGroupBytesUnchanged": 32616,
+      "otherRecordsUnchanged": 208,
+      "protectionChanges": 2,
+      "protectionRestored": true,
+      "readAllowance": 2220320,
+      "readerBytes": 533032,
+      "recordStartInTable": 3188048,
+      "restored": true,
+      "tableBytesCompared": 7005680,
+      "targetBytesChanged": 3,
+      "targetOffsetInRecord": 0,
+      "to": 750,
+      "writes": 1
+    },
+    "scavenger_tier_1": {
+      "class": "scavenger_tier_1",
+      "contextBytes": 277536,
+      "from": 400,
+      "healthRecordUnchanged": true,
+      "limbGroupBytesUnchanged": 32616,
+      "otherRecordsUnchanged": 208,
+      "protectionChanges": 2,
+      "protectionRestored": true,
+      "readAllowance": 2220320,
+      "readerBytes": 533032,
+      "recordStartInTable": 2685728,
+      "restored": true,
+      "tableBytesCompared": 7005680,
+      "targetBytesChanged": 2,
+      "targetOffsetInRecord": 0,
+      "to": -1,
+      "writes": 1
+    },
+    "warrior_big_tier2_max": {
+      "class": "warrior_big_tier2",
+      "contextBytes": 277536,
+      "from": 750,
+      "healthRecordUnchanged": true,
+      "limbGroupBytesUnchanged": 32616,
+      "otherRecordsUnchanged": 208,
+      "protectionChanges": 2,
+      "protectionRestored": true,
+      "readAllowance": 2220320,
+      "readerBytes": 533032,
+      "recordStartInTable": 3121072,
+      "restored": true,
+      "tableBytesCompared": 7005680,
+      "targetBytesChanged": 3,
+      "targetOffsetInRecord": 0,
+      "to": 100000,
+      "writes": 1
+    },
+    "warrior_tier_2": {
+      "class": "warrior_tier_2",
+      "contextBytes": 277536,
+      "from": 750,
+      "healthRecordUnchanged": true,
+      "limbGroupBytesUnchanged": 32616,
+      "otherRecordsUnchanged": 208,
+      "protectionChanges": 2,
+      "protectionRestored": true,
+      "readAllowance": 2220320,
+      "readerBytes": 533032,
+      "recordStartInTable": 2987120,
+      "restored": true,
+      "tableBytesCompared": 7005680,
+      "targetBytesChanged": 3,
+      "targetOffsetInRecord": 0,
+      "to": 400,
+      "writes": 1
+    }
+  },
+  "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "status": "VALIDATED",
+  "writes": 54
+}

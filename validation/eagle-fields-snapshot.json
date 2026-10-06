@@ -1,0 +1,226 @@
+{
+  "eagles": {
+    "Eagle 110mm Rocket Pods": {
+      "editable": [
+        "eagle.attack_angle",
+        "eagle.fire_duration",
+        "eagle.target_radius"
+      ],
+      "readOnly": [
+        "eagle.airstrike_pattern",
+        "eagle.attack_sweep_length",
+        "eagle.drop_interval",
+        "eagle.payload"
+      ],
+      "shared": false
+    },
+    "Eagle 500kg Bomb": {
+      "editable": [
+        "eagle.airstrike_pattern",
+        "eagle.attack_angle",
+        "eagle.drop_interval"
+      ],
+      "readOnly": [
+        "eagle.attack_sweep_length",
+        "eagle.bombs_per_strike",
+        "eagle.fire_duration",
+        "eagle.payload",
+        "eagle.target_radius"
+      ],
+      "shared": false
+    },
+    "Eagle Airstrike": {
+      "editable": [
+        "eagle.airstrike_pattern",
+        "eagle.attack_angle",
+        "eagle.drop_interval"
+      ],
+      "readOnly": [
+        "eagle.attack_sweep_length",
+        "eagle.bombs_per_strike",
+        "eagle.fire_duration",
+        "eagle.payload",
+        "eagle.target_radius"
+      ],
+      "shared": false
+    },
+    "Eagle Cluster Bomb": {
+      "editable": [
+        "eagle.airstrike_pattern",
+        "eagle.attack_angle",
+        "eagle.drop_interval"
+      ],
+      "readOnly": [
+        "eagle.attack_sweep_length",
+        "eagle.bombs_per_strike",
+        "eagle.fire_duration",
+        "eagle.payload",
+        "eagle.target_radius"
+      ],
+      "shared": false
+    },
+    "Eagle Gas Airstrike": {
+      "editable": [
+        "eagle.airstrike_pattern",
+        "eagle.attack_angle",
+        "eagle.drop_interval"
+      ],
+      "readOnly": [
+        "eagle.attack_sweep_length",
+        "eagle.bombs_per_strike",
+        "eagle.fire_duration",
+        "eagle.payload",
+        "eagle.target_radius"
+      ],
+      "shared": true
+    },
+    "Eagle Napalm Airstrike": {
+      "editable": [
+        "eagle.airstrike_pattern",
+        "eagle.attack_angle",
+        "eagle.drop_interval"
+      ],
+      "readOnly": [
+        "eagle.attack_sweep_length",
+        "eagle.bombs_per_strike",
+        "eagle.fire_duration",
+        "eagle.payload",
+        "eagle.target_radius"
+      ],
+      "shared": true
+    },
+    "Eagle Smoke Strike": {
+      "editable": [
+        "eagle.airstrike_pattern",
+        "eagle.attack_angle",
+        "eagle.drop_interval"
+      ],
+      "readOnly": [
+        "eagle.attack_sweep_length",
+        "eagle.bombs_per_strike",
+        "eagle.fire_duration",
+        "eagle.payload",
+        "eagle.target_radius"
+      ],
+      "shared": false
+    },
+    "Eagle Strafing Run": {
+      "editable": [
+        "eagle.attack_angle",
+        "eagle.attack_sweep_length",
+        "eagle.fire_duration",
+        "eagle.target_radius"
+      ],
+      "readOnly": [
+        "eagle.airstrike_pattern",
+        "eagle.drop_interval",
+        "eagle.payload",
+        "eagle.strafe_rounds_per_run"
+      ],
+      "shared": true
+    }
+  },
+  "fixtureFallback": "disabled",
+  "mode": "snapshot-overlay",
+  "noOps": 25,
+  "protectionChanges": 24,
+  "readOnly": 38,
+  "rejections": {
+    "acknowledgement": 25,
+    "allowShared": 10,
+    "conflict": 1,
+    "readOnly": 8,
+    "recordProof": 1,
+    "value": 14
+  },
+  "roundTrips": [
+    {
+      "after": "02000000",
+      "before": "00000000",
+      "field": "eagle.airstrike_pattern",
+      "from": 0,
+      "inverseRestored": true,
+      "offset": 20,
+      "otherBytesUnchanged": true,
+      "otherEaglesUnchanged": true,
+      "protectionRestored": true,
+      "stratagem": "Eagle Airstrike",
+      "to": 2,
+      "writes": 1
+    },
+    {
+      "after": "9a99193f",
+      "before": "cdcc4c3e",
+      "field": "eagle.drop_interval",
+      "from": 0.2,
+      "inverseRestored": true,
+      "offset": 44,
+      "otherBytesUnchanged": true,
+      "otherEaglesUnchanged": true,
+      "protectionRestored": true,
+      "stratagem": "Eagle Napalm Airstrike",
+      "to": 0.6,
+      "writes": 1
+    },
+    {
+      "after": "00004040",
+      "before": "0000c03f",
+      "field": "eagle.fire_duration",
+      "from": 1.5,
+      "inverseRestored": true,
+      "offset": 40,
+      "otherBytesUnchanged": true,
+      "otherEaglesUnchanged": true,
+      "protectionRestored": true,
+      "stratagem": "Eagle Strafing Run",
+      "to": 3,
+      "writes": 1
+    },
+    {
+      "after": "00007042",
+      "before": "0000a041",
+      "field": "eagle.target_radius",
+      "from": 20,
+      "inverseRestored": true,
+      "offset": 36,
+      "otherBytesUnchanged": true,
+      "otherEaglesUnchanged": true,
+      "protectionRestored": true,
+      "stratagem": "Eagle 110mm Rocket Pods",
+      "to": 60,
+      "writes": 1
+    },
+    {
+      "after": "0000f042",
+      "before": "00007042",
+      "field": "eagle.attack_sweep_length",
+      "from": 60,
+      "inverseRestored": true,
+      "offset": 108,
+      "otherBytesUnchanged": true,
+      "otherEaglesUnchanged": true,
+      "protectionRestored": true,
+      "stratagem": "Eagle Strafing Run",
+      "to": 120,
+      "writes": 1
+    },
+    {
+      "after": "0000b442",
+      "before": "00003443",
+      "field": "eagle.attack_angle",
+      "from": 180,
+      "inverseRestored": true,
+      "offset": 28,
+      "otherBytesUnchanged": true,
+      "otherEaglesUnchanged": true,
+      "protectionRestored": true,
+      "stratagem": "Eagle 500kg Bomb",
+      "to": 90,
+      "writes": 1
+    }
+  ],
+  "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "status": "VALIDATED",
+  "withoutAllowShared": 15,
+  "writes": 12
+}

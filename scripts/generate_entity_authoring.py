@@ -13,6 +13,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from migration import overlay as migration_overlay  # noqa: E402  build-migration hook
 import support_callin_linkage
+import jump_hover_fields
 
 ROOT = Path(__file__).resolve().parents[1]
 RESEARCH = ROOT / 'research/entity-authoring-runtime-F5FEE03DCFDB.json'
@@ -26,6 +27,7 @@ LUA_OUTPUT = ROOT / 'domains/entity_authoring.lua'
 
 ZONE_BASE, ZONE_STRIDE = 520, 552
 TIER_ORDER = ('gameplay_proven', 'gameplay_proven_combined', 'schema_proven', 'native_correlated',
+    'native_consumer_proven',
     'live_write_verified', 'structural_reference')
 # Semantic members promoted by the reviewed reference-mod proofs. The key is the
 # semantic field; the value names the exact entity the proof ran on.
@@ -475,6 +477,8 @@ class Builder:
             item['acknowledgement'] = descriptor.get('acknowledgement')
             item['acknowledgementReason'] = descriptor.get('acknowledgementReason')
             item['min'], item['max'] = descriptor.get('min'), descriptor.get('max')
+            if descriptor.get('notices'):
+                item['notices'] = descriptor['notices']
             if descriptor.get('rangeReason'):
                 item['rangeReason'] = descriptor['rangeReason']
             for key in ('displayName', 'unit', 'uiGroup'):
@@ -623,6 +627,10 @@ def build(research_path=RESEARCH):
                     blockedReason=('The mounted entity has no single weapon attack component; non-weapon '
                         'mount references are not swappable.'))
             mounts.append(entry)
+        # Exosuit body rotation and wheeled/tracked steering (scripts/vehicle_tuning_fields.py).
+        import vehicle_tuning_fields
+        tuning_keys = vehicle_tuning_fields.build(vehicle_builder, name, entity_target, vehicle['resource'],
+            vehicle_tuning_fields.load())
         wiki = vehicle['wiki'] or {}
         root = vehicle['stratagemRoot']
         public_vehicles.append({'name': name, 'semanticId': vehicle_key(name),
@@ -639,7 +647,11 @@ def build(research_path=RESEARCH):
                 {'field': 'zone.constitution / death flags', 'reason': 'Typed members without reviewed gameplay semantics.'},
                 {'field': 'zone explosive damage percentage', 'reason': 'The ShieldRelayImprovements gameplay test showed no effect.'},
                 {'field': 'unpopulated zone slots', 'reason': 'Zone slots without a native zone name are unused by this entity.'},
-                {'field': 'motion / collision / seats', 'reason': 'Vehicle motion, collision damage, and seat components are not promoted.'}],
+                {'field': 'motion / collision / seats', 'reason': ('Only the steering response (VehicleMotion +364) '
+                    'and the exosuit body rotation are promoted; the drivetrain is not in the entity data, and the '
+                    'other motion, collision damage, and seat members have no established meaning '
+                    '(research/vehicle-mech-components-F5FEE03DCFDB.json).')}],
+            'tuningFieldInstanceKeys': tuning_keys,
             'fieldInstanceKeys': [descriptor['instanceKey'] for descriptor in vehicle_builder.public()
                 if descriptor['target']['vehicle'] == name]})
         runtime_vehicles[name] = {'name': name, 'semanticId': vehicle_key(name), 'resource': vehicle['resource'],
@@ -653,6 +665,7 @@ def build(research_path=RESEARCH):
     drones = {item['backpack']: item for item in equipment['guardDogs']['drones']}
     warp = equipment['warpPack']
     jump_hover = {str(row['offset']): row['values']['hover'] for row in equipment['hoverPack']['members']}
+    jump_hover_research = jump_hover_fields.load()
     for backpack in research['backpacks']:
         name = backpack['name']; components = backpack['components']
         target = {'resource': 'backpack', 'backpack': name, 'path': 'backpack'}
@@ -673,11 +686,17 @@ def build(research_path=RESEARCH):
             descriptor = backpack_builder.add(name, target, 'jump.vertical_launch_velocity', jump['values']['0'],
                 component_backing(jump, backpack['resource'], 0, 'f32', owners_of(jump)),
                 extra=None if proven else {'acknowledgement': 'allow_unverified_effect', 'acknowledgementReason': (
-                    'The same typed member is gameplay-proven on the LIFT-850 Jump Pack; whether the Hover Pack launch '
-                    'reads it is not yet shown in game.'), 'min': 0, 'max': 200})
-            groups.append({'group': 'movement', 'fieldInstanceKeys': [descriptor['instanceKey']]})
-            blocked += [{'field': 'unlabelled launch members', 'reason': 'Two further Jumppack launch scalars were tested only as experiment profiles that were never gameplay-reported.'},
-                {'field': 'horizontal impulse', 'reason': 'No horizontal or forward impulse member has been identified.'}]
+                    'The same typed member is gameplay-proven on the LIFT-850 Jump Pack, but the Hover Pack launch '
+                    'does not read it: its activation sets the hover-launch flag that skips the launch thrust '
+                    '(research/hoverpack-components-F5FEE03DCFDB.json). Kept writable for compatibility; no effect.'),
+                    'min': 0, 'max': 200, 'notices': [{'kind': 'dormant', 'text': jump_hover_fields.DORMANT_LAUNCH}]})
+            # Launch, sustain, air control, take-off and hover members this pack's flight code reads
+            # (research/hoverpack-components-F5FEE03DCFDB.json, scripts/jump_hover_fields.py).
+            keys, not_offered = jump_hover_fields.build(backpack_builder, name, target, jump,
+                lambda offset, jump=jump: component_backing(jump, backpack['resource'], offset, 'f32', owners_of(jump)),
+                jump_hover_research)
+            groups.append({'group': 'movement', 'fieldInstanceKeys': [descriptor['instanceKey']] + keys})
+            blocked += not_offered
         shield = components.get('ShieldComponentData')
         if shield:
             keys = [backpack_builder.add(name, target, field_id, shield['values'][str(offset)],
@@ -768,8 +787,6 @@ def build(research_path=RESEARCH):
                     [{'entity': name, 'native': decision['native']['hover'], 'published': decision['published']}],
                     min=0, max=120))['instanceKey']]
             groups.append({'group': 'hover', 'fieldInstanceKeys': keys})
-            blocked.append({'field': 'hover ascent / speed / fuel members', 'reason': 'The hover-only vectors and '
-                'scalars (+145..+276) have no published values; unknown, read-only.'})
         if not groups:
             blocked.append({'field': 'backpack behavior', 'reason':
                 'No typed backpack behavior component with reviewed semantics is owned by this entity.'})
@@ -928,6 +945,9 @@ def build(research_path=RESEARCH):
             'native_correlated': ('Typed native member whose meaning is proven offline: an exact published value (on '
                 'every independent entity that publishes one), a differential across the record type and a '
                 'consistent hidden-name length. Not yet shown in game; allow_unverified_effect is required.'),
+            'native_consumer_proven': ('Typed native member whose reader in the native code is traced and whose '
+                'meaning is proven from that code (the research file is named in the field evidence). Not yet shown in '
+                'game; allow_unverified_effect is required.'),
             'live_write_verified': 'Reference mod committed this write live; gameplay effect is unconfirmed.',
             'structural_reference': ('Same typed mount reference mechanism as the live-verified swap; '
                 'this slot and replacement have no reference-mod write.')},

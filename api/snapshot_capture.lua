@@ -3,7 +3,7 @@ local format=require('hd2runtime/core/snapshot_format')
 local metadata=require('hd2runtime/domains/metadata')
 local M={}
 local COMMIT,PRIVATE,MAPPED,IMAGE=0x1000,0x20000,0x40000,0x1000000
-local readable={[2]=true,[4]=true,[8]=true,[0x20]=true,[0x40]=true,[0x80]=true}
+local readable=require('hd2runtime/core/page_protection').READABLE
 local function safe(n)return type(n)=='number'and n>=0 and n%1==0 and n<=9007199254740991 end
 local function now(runtime)return runtime.monotonic_time and runtime.monotonic_time()or os.clock()end
 local function utc()return os.date('!%Y-%m-%dT%H:%M:%SZ')end

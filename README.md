@@ -72,6 +72,17 @@ HD2Runtime is designed to fail safely when a game structure or ownership relatio
 
 Unsupported or ambiguous values remain read-only rather than being modified speculatively.
 
+The development line 0.30.0-dev (not released) turns custom stratagems into a development API
+(`docs/custom-stratagem-api.md`; solo host only). It adds a startup progress display and a builder-facing
+custom-stratagem schema and project format (`docs/custom-stratagem-builder.md`). See `docs/releases/0.30.0-dev.md`.
+
+Version 0.28.1 is a compatibility and stability release. Mods built with SDK 0.27 keep working: an operation
+that leaves out an `allow_unverified_effect` that 0.28.0 added to a field (the PLAS-101 Purifier and five other
+weapons, 144 fields; the SH-51 body) is applied as a logged legacy operation when the mod declares an older SDK.
+Mods that declare SDK 0.28.0 or later keep the rule. `hd2.diagnostics.operations()` lists every registered
+operation, refused ones included, and the packaged validator now fails a scenario when a write it expects is
+refused or skipped. See `docs/releases/0.28.1.md` and `docs/legacy-sdk-compatibility.md`.
+
 Version 0.28.0 adds event-driven gameplay scripting and one projectile system:
 - **Scripting.** Mods react to missions, players, entities, combat and the weapon in hand (`hd2.events`,
   `hd2.mod`). They can heal the local player and, hosting, spawn catalogued explosions and projectiles or apply

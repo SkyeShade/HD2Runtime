@@ -1,0 +1,1 @@
+{"format":1,"name":"PelicanGatlingSupport","resource":"mods/skyeshade/hd2runtime_pelican_cas_example","guid":"4c6f09b0-2bf4-4f11-8777-476f32064c4a","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.30.0-dev","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../sdk","ide_library":"../../sdk/stubs"}

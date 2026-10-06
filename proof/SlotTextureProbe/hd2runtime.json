@@ -1,0 +1,1 @@
+{"format":1,"name":"SlotTextureProbe","resource":"mods/skyeshade/hd2runtime_slot_texture_probe","guid":"4de1c447-f006-4306-856f-31400621be86","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.28.0","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../sdk","ide_library":"../../sdk/stubs"}

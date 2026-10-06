@@ -1,0 +1,46 @@
+{
+ "format": "hd2runtime-custom-stratagems/1",
+ "log": "EAT40ExpendableGas 0.3.0 BUILD: select EAT-40 Expendable Gas in the custom panel, then a mission; call it with DOWN DOWN LEFT DOWN RIGHT.",
+ "stratagems": [
+  {
+   "id": "eat17g_clone",
+   "name": "EAT-40 EXPENDABLE GAS",
+   "name_cased": "EAT-40 Expendable Gas",
+   "description": "A single-use weapon that comes down in pairs. Outfitted with a caustic warhead that causes confusion and blindness in those affected.",
+   "icon": {
+    "image": "eat17g",
+    "source": "images/eat17g.png"
+   },
+   "code": [
+    "down",
+    "down",
+    "left",
+    "down",
+    "right"
+   ],
+   "cooldown": 70,
+   "traits": [
+    "Support Weapon",
+    "Anti-Tank",
+    "Caustic",
+    "Expendable"
+   ],
+   "carrier": {
+    "group": "expendable"
+   },
+   "payload": {
+    "family": "expendable",
+    "weapon": "EAT-17 Expendable Anti-Tank",
+    "modify": {
+     "impact_explosion": "Orbital Gas Strike"
+    },
+    "pod": [
+     {
+      "item": "clone",
+      "count": 2
+     }
+    ]
+   }
+  }
+ ]
+}

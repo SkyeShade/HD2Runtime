@@ -1,7 +1,7 @@
 {
   "contract": "hd2runtime.vehicle.guarded_authoring.v1",
   "schemaVersion": 1,
-  "hd2RuntimeVersion": "0.28.0",
+  "hd2RuntimeVersion": "0.30.0-dev",
   "canonicalCollection": "fieldInstances",
   "vehicles": [
     {
@@ -878,8 +878,11 @@
         },
         {
           "field": "motion / collision / seats",
-          "reason": "Vehicle motion, collision damage, and seat components are not promoted."
+          "reason": "Only the steering response (VehicleMotion +364) and the exosuit body rotation are promoted; the drivetrain is not in the entity data, and the other motion, collision damage, and seat members have no established meaning (research/vehicle-mech-components-F5FEE03DCFDB.json)."
         }
+      ],
+      "tuningFieldInstanceKeys": [
+        "vehicle:m-103-supply-frv:m-103-supply-frv-entity:vehicle.steering_response_speed"
       ],
       "fieldInstanceKeys": [
         "vehicle:m-103-supply-frv:m-103-supply-frv-entity:entity.health",
@@ -989,7 +992,8 @@
         "vehicle:m-103-supply-frv:m-103-supply-frv-damage-zone-zone-34:zone.armor",
         "vehicle:m-103-supply-frv:m-103-supply-frv-damage-zone-zone-34:zone.health",
         "vehicle:m-103-supply-frv:m-103-supply-frv-damage-zone-zone-34:zone.affects_main_health",
-        "vehicle:m-103-supply-frv:m-103-supply-frv-mount-slot-0:mount.weapon"
+        "vehicle:m-103-supply-frv:m-103-supply-frv-mount-slot-0:mount.weapon",
+        "vehicle:m-103-supply-frv:m-103-supply-frv-entity:vehicle.steering_response_speed"
       ]
     },
     {
@@ -2138,8 +2142,11 @@
         },
         {
           "field": "motion / collision / seats",
-          "reason": "Vehicle motion, collision damage, and seat components are not promoted."
+          "reason": "Only the steering response (VehicleMotion +364) and the exosuit body rotation are promoted; the drivetrain is not in the entity data, and the other motion, collision damage, and seat members have no established meaning (research/vehicle-mech-components-F5FEE03DCFDB.json)."
         }
+      ],
+      "tuningFieldInstanceKeys": [
+        "vehicle:td-110-maelstrom:td-110-maelstrom-entity:vehicle.steering_response_speed"
       ],
       "fieldInstanceKeys": [
         "vehicle:td-110-maelstrom:td-110-maelstrom-entity:entity.health",
@@ -2240,7 +2247,8 @@
         "vehicle:td-110-maelstrom:td-110-maelstrom-mount-slot-0:mount.weapon",
         "vehicle:td-110-maelstrom:td-110-maelstrom-mount-slot-2:mount.weapon",
         "vehicle:td-110-maelstrom:td-110-maelstrom-mount-slot-3:mount.weapon",
-        "vehicle:td-110-maelstrom:td-110-maelstrom-mount-slot-4:mount.weapon"
+        "vehicle:td-110-maelstrom:td-110-maelstrom-mount-slot-4:mount.weapon",
+        "vehicle:td-110-maelstrom:td-110-maelstrom-entity:vehicle.steering_response_speed"
       ]
     },
     {
@@ -2940,8 +2948,11 @@
         },
         {
           "field": "motion / collision / seats",
-          "reason": "Vehicle motion, collision damage, and seat components are not promoted."
+          "reason": "Only the steering response (VehicleMotion +364) and the exosuit body rotation are promoted; the drivetrain is not in the entity data, and the other motion, collision damage, and seat members have no established meaning (research/vehicle-mech-components-F5FEE03DCFDB.json)."
         }
+      ],
+      "tuningFieldInstanceKeys": [
+        "vehicle:m-104-incinerator-frv:m-104-incinerator-frv-entity:vehicle.steering_response_speed"
       ],
       "fieldInstanceKeys": [
         "vehicle:m-104-incinerator-frv:m-104-incinerator-frv-entity:entity.health",
@@ -3033,7 +3044,8 @@
         "vehicle:m-104-incinerator-frv:m-104-incinerator-frv-damage-zone-zone-28:zone.armor",
         "vehicle:m-104-incinerator-frv:m-104-incinerator-frv-damage-zone-zone-28:zone.health",
         "vehicle:m-104-incinerator-frv:m-104-incinerator-frv-damage-zone-zone-28:zone.affects_main_health",
-        "vehicle:m-104-incinerator-frv:m-104-incinerator-frv-mount-slot-0:mount.weapon"
+        "vehicle:m-104-incinerator-frv:m-104-incinerator-frv-mount-slot-0:mount.weapon",
+        "vehicle:m-104-incinerator-frv:m-104-incinerator-frv-entity:vehicle.steering_response_speed"
       ]
     },
     {
@@ -3408,8 +3420,13 @@
         },
         {
           "field": "motion / collision / seats",
-          "reason": "Vehicle motion, collision damage, and seat components are not promoted."
+          "reason": "Only the steering response (VehicleMotion +364) and the exosuit body rotation are promoted; the drivetrain is not in the entity data, and the other motion, collision damage, and seat members have no established meaning (research/vehicle-mech-components-F5FEE03DCFDB.json)."
         }
+      ],
+      "tuningFieldInstanceKeys": [
+        "vehicle:exo-49-emancipator-exosuit:exo-49-emancipator-exosuit-entity:rotation.turn_speed",
+        "vehicle:exo-49-emancipator-exosuit:exo-49-emancipator-exosuit-entity:rotation.acceleration",
+        "vehicle:exo-49-emancipator-exosuit:exo-49-emancipator-exosuit-entity:rotation.deceleration"
       ],
       "fieldInstanceKeys": [
         "vehicle:exo-49-emancipator-exosuit:exo-49-emancipator-exosuit-entity:entity.health",
@@ -3439,7 +3456,10 @@
         "vehicle:exo-49-emancipator-exosuit:exo-49-emancipator-exosuit-damage-zone-zone-7:zone.health",
         "vehicle:exo-49-emancipator-exosuit:exo-49-emancipator-exosuit-damage-zone-zone-7:zone.affects_main_health",
         "vehicle:exo-49-emancipator-exosuit:exo-49-emancipator-exosuit-mount-slot-0:mount.weapon",
-        "vehicle:exo-49-emancipator-exosuit:exo-49-emancipator-exosuit-mount-slot-1:mount.weapon"
+        "vehicle:exo-49-emancipator-exosuit:exo-49-emancipator-exosuit-mount-slot-1:mount.weapon",
+        "vehicle:exo-49-emancipator-exosuit:exo-49-emancipator-exosuit-entity:rotation.turn_speed",
+        "vehicle:exo-49-emancipator-exosuit:exo-49-emancipator-exosuit-entity:rotation.acceleration",
+        "vehicle:exo-49-emancipator-exosuit:exo-49-emancipator-exosuit-entity:rotation.deceleration"
       ]
     },
     {
@@ -3814,8 +3834,13 @@
         },
         {
           "field": "motion / collision / seats",
-          "reason": "Vehicle motion, collision damage, and seat components are not promoted."
+          "reason": "Only the steering response (VehicleMotion +364) and the exosuit body rotation are promoted; the drivetrain is not in the entity data, and the other motion, collision damage, and seat members have no established meaning (research/vehicle-mech-components-F5FEE03DCFDB.json)."
         }
+      ],
+      "tuningFieldInstanceKeys": [
+        "vehicle:exo-45-patriot-exosuit:exo-45-patriot-exosuit-entity:rotation.turn_speed",
+        "vehicle:exo-45-patriot-exosuit:exo-45-patriot-exosuit-entity:rotation.acceleration",
+        "vehicle:exo-45-patriot-exosuit:exo-45-patriot-exosuit-entity:rotation.deceleration"
       ],
       "fieldInstanceKeys": [
         "vehicle:exo-45-patriot-exosuit:exo-45-patriot-exosuit-entity:entity.health",
@@ -3845,7 +3870,10 @@
         "vehicle:exo-45-patriot-exosuit:exo-45-patriot-exosuit-damage-zone-zone-7:zone.health",
         "vehicle:exo-45-patriot-exosuit:exo-45-patriot-exosuit-damage-zone-zone-7:zone.affects_main_health",
         "vehicle:exo-45-patriot-exosuit:exo-45-patriot-exosuit-mount-slot-0:mount.weapon",
-        "vehicle:exo-45-patriot-exosuit:exo-45-patriot-exosuit-mount-slot-1:mount.weapon"
+        "vehicle:exo-45-patriot-exosuit:exo-45-patriot-exosuit-mount-slot-1:mount.weapon",
+        "vehicle:exo-45-patriot-exosuit:exo-45-patriot-exosuit-entity:rotation.turn_speed",
+        "vehicle:exo-45-patriot-exosuit:exo-45-patriot-exosuit-entity:rotation.acceleration",
+        "vehicle:exo-45-patriot-exosuit:exo-45-patriot-exosuit-entity:rotation.deceleration"
       ]
     },
     {
@@ -4582,8 +4610,11 @@
         },
         {
           "field": "motion / collision / seats",
-          "reason": "Vehicle motion, collision damage, and seat components are not promoted."
+          "reason": "Only the steering response (VehicleMotion +364) and the exosuit body rotation are promoted; the drivetrain is not in the entity data, and the other motion, collision damage, and seat members have no established meaning (research/vehicle-mech-components-F5FEE03DCFDB.json)."
         }
+      ],
+      "tuningFieldInstanceKeys": [
+        "vehicle:m-102-gunner-frv:m-102-gunner-frv-entity:vehicle.steering_response_speed"
       ],
       "fieldInstanceKeys": [
         "vehicle:m-102-gunner-frv:m-102-gunner-frv-entity:entity.health",
@@ -4675,7 +4706,8 @@
         "vehicle:m-102-gunner-frv:m-102-gunner-frv-damage-zone-zone-28:zone.armor",
         "vehicle:m-102-gunner-frv:m-102-gunner-frv-damage-zone-zone-28:zone.health",
         "vehicle:m-102-gunner-frv:m-102-gunner-frv-damage-zone-zone-28:zone.affects_main_health",
-        "vehicle:m-102-gunner-frv:m-102-gunner-frv-mount-slot-0:mount.weapon"
+        "vehicle:m-102-gunner-frv:m-102-gunner-frv-mount-slot-0:mount.weapon",
+        "vehicle:m-102-gunner-frv:m-102-gunner-frv-entity:vehicle.steering_response_speed"
       ]
     },
     {
@@ -5654,8 +5686,11 @@
         },
         {
           "field": "motion / collision / seats",
-          "reason": "Vehicle motion, collision damage, and seat components are not promoted."
+          "reason": "Only the steering response (VehicleMotion +364) and the exosuit body rotation are promoted; the drivetrain is not in the entity data, and the other motion, collision damage, and seat members have no established meaning (research/vehicle-mech-components-F5FEE03DCFDB.json)."
         }
+      ],
+      "tuningFieldInstanceKeys": [
+        "vehicle:td-220-bastion-mk-xvi:td-220-bastion-mk-xvi-entity:vehicle.steering_response_speed"
       ],
       "fieldInstanceKeys": [
         "vehicle:td-220-bastion-mk-xvi:td-220-bastion-mk-xvi-entity:entity.health",
@@ -5754,7 +5789,8 @@
         "vehicle:td-220-bastion-mk-xvi:td-220-bastion-mk-xvi-damage-zone-zone-30:zone.health",
         "vehicle:td-220-bastion-mk-xvi:td-220-bastion-mk-xvi-damage-zone-zone-30:zone.affects_main_health",
         "vehicle:td-220-bastion-mk-xvi:td-220-bastion-mk-xvi-mount-slot-0:mount.weapon",
-        "vehicle:td-220-bastion-mk-xvi:td-220-bastion-mk-xvi-mount-slot-1:mount.weapon"
+        "vehicle:td-220-bastion-mk-xvi:td-220-bastion-mk-xvi-mount-slot-1:mount.weapon",
+        "vehicle:td-220-bastion-mk-xvi:td-220-bastion-mk-xvi-entity:vehicle.steering_response_speed"
       ]
     },
     {
@@ -6064,8 +6100,13 @@
         },
         {
           "field": "motion / collision / seats",
-          "reason": "Vehicle motion, collision damage, and seat components are not promoted."
+          "reason": "Only the steering response (VehicleMotion +364) and the exosuit body rotation are promoted; the drivetrain is not in the entity data, and the other motion, collision damage, and seat members have no established meaning (research/vehicle-mech-components-F5FEE03DCFDB.json)."
         }
+      ],
+      "tuningFieldInstanceKeys": [
+        "vehicle:exo-55-breakthrough-exosuit:exo-55-breakthrough-exosuit-entity:rotation.turn_speed",
+        "vehicle:exo-55-breakthrough-exosuit:exo-55-breakthrough-exosuit-entity:rotation.acceleration",
+        "vehicle:exo-55-breakthrough-exosuit:exo-55-breakthrough-exosuit-entity:rotation.deceleration"
       ],
       "fieldInstanceKeys": [
         "vehicle:exo-55-breakthrough-exosuit:exo-55-breakthrough-exosuit-entity:entity.health",
@@ -6094,7 +6135,10 @@
         "vehicle:exo-55-breakthrough-exosuit:exo-55-breakthrough-exosuit-damage-zone-zone-7:zone.armor",
         "vehicle:exo-55-breakthrough-exosuit:exo-55-breakthrough-exosuit-damage-zone-zone-7:zone.health",
         "vehicle:exo-55-breakthrough-exosuit:exo-55-breakthrough-exosuit-damage-zone-zone-7:zone.affects_main_health",
-        "vehicle:exo-55-breakthrough-exosuit:exo-55-breakthrough-exosuit-mount-slot-1:mount.weapon"
+        "vehicle:exo-55-breakthrough-exosuit:exo-55-breakthrough-exosuit-mount-slot-1:mount.weapon",
+        "vehicle:exo-55-breakthrough-exosuit:exo-55-breakthrough-exosuit-entity:rotation.turn_speed",
+        "vehicle:exo-55-breakthrough-exosuit:exo-55-breakthrough-exosuit-entity:rotation.acceleration",
+        "vehicle:exo-55-breakthrough-exosuit:exo-55-breakthrough-exosuit-entity:rotation.deceleration"
       ]
     },
     {
@@ -6418,8 +6462,13 @@
         },
         {
           "field": "motion / collision / seats",
-          "reason": "Vehicle motion, collision damage, and seat components are not promoted."
+          "reason": "Only the steering response (VehicleMotion +364) and the exosuit body rotation are promoted; the drivetrain is not in the entity data, and the other motion, collision damage, and seat members have no established meaning (research/vehicle-mech-components-F5FEE03DCFDB.json)."
         }
+      ],
+      "tuningFieldInstanceKeys": [
+        "vehicle:exo-51-lumberer-exosuit:exo-51-lumberer-exosuit-entity:rotation.turn_speed",
+        "vehicle:exo-51-lumberer-exosuit:exo-51-lumberer-exosuit-entity:rotation.acceleration",
+        "vehicle:exo-51-lumberer-exosuit:exo-51-lumberer-exosuit-entity:rotation.deceleration"
       ],
       "fieldInstanceKeys": [
         "vehicle:exo-51-lumberer-exosuit:exo-51-lumberer-exosuit-entity:entity.health",
@@ -6449,7 +6498,10 @@
         "vehicle:exo-51-lumberer-exosuit:exo-51-lumberer-exosuit-damage-zone-zone-7:zone.health",
         "vehicle:exo-51-lumberer-exosuit:exo-51-lumberer-exosuit-damage-zone-zone-7:zone.affects_main_health",
         "vehicle:exo-51-lumberer-exosuit:exo-51-lumberer-exosuit-mount-slot-0:mount.weapon",
-        "vehicle:exo-51-lumberer-exosuit:exo-51-lumberer-exosuit-mount-slot-1:mount.weapon"
+        "vehicle:exo-51-lumberer-exosuit:exo-51-lumberer-exosuit-mount-slot-1:mount.weapon",
+        "vehicle:exo-51-lumberer-exosuit:exo-51-lumberer-exosuit-entity:rotation.turn_speed",
+        "vehicle:exo-51-lumberer-exosuit:exo-51-lumberer-exosuit-entity:rotation.acceleration",
+        "vehicle:exo-51-lumberer-exosuit:exo-51-lumberer-exosuit-entity:rotation.deceleration"
       ]
     },
     {
@@ -7181,8 +7233,11 @@
         },
         {
           "field": "motion / collision / seats",
-          "reason": "Vehicle motion, collision damage, and seat components are not promoted."
+          "reason": "Only the steering response (VehicleMotion +364) and the exosuit body rotation are promoted; the drivetrain is not in the entity data, and the other motion, collision damage, and seat members have no established meaning (research/vehicle-mech-components-F5FEE03DCFDB.json)."
         }
+      ],
+      "tuningFieldInstanceKeys": [
+        "vehicle:frv-super-earth-variant:frv-super-earth-variant-entity:vehicle.steering_response_speed"
       ],
       "fieldInstanceKeys": [
         "vehicle:frv-super-earth-variant:frv-super-earth-variant-entity:entity.health",
@@ -7274,7 +7329,8 @@
         "vehicle:frv-super-earth-variant:frv-super-earth-variant-damage-zone-zone-28:zone.armor",
         "vehicle:frv-super-earth-variant:frv-super-earth-variant-damage-zone-zone-28:zone.health",
         "vehicle:frv-super-earth-variant:frv-super-earth-variant-damage-zone-zone-28:zone.affects_main_health",
-        "vehicle:frv-super-earth-variant:frv-super-earth-variant-mount-slot-0:mount.weapon"
+        "vehicle:frv-super-earth-variant:frv-super-earth-variant-mount-slot-0:mount.weapon",
+        "vehicle:frv-super-earth-variant:frv-super-earth-variant-entity:vehicle.steering_response_speed"
       ]
     },
     {
@@ -7607,8 +7663,11 @@
         },
         {
           "field": "motion / collision / seats",
-          "reason": "Vehicle motion, collision damage, and seat components are not promoted."
+          "reason": "Only the steering response (VehicleMotion +364) and the exosuit body rotation are promoted; the drivetrain is not in the entity data, and the other motion, collision damage, and seat members have no established meaning (research/vehicle-mech-components-F5FEE03DCFDB.json)."
         }
+      ],
+      "tuningFieldInstanceKeys": [
+        "vehicle:gater-oil-rig:gater-oil-rig-entity:vehicle.steering_response_speed"
       ],
       "fieldInstanceKeys": [
         "vehicle:gater-oil-rig:gater-oil-rig-entity:entity.health",
@@ -7643,7 +7702,8 @@
         "vehicle:gater-oil-rig:gater-oil-rig-damage-zone-zone-9:zone.armor",
         "vehicle:gater-oil-rig:gater-oil-rig-damage-zone-zone-9:zone.health",
         "vehicle:gater-oil-rig:gater-oil-rig-damage-zone-zone-9:zone.affects_main_health",
-        "vehicle:gater-oil-rig:gater-oil-rig-mount-slot-0:mount.weapon"
+        "vehicle:gater-oil-rig:gater-oil-rig-mount-slot-0:mount.weapon",
+        "vehicle:gater-oil-rig:gater-oil-rig-entity:vehicle.steering_response_speed"
       ]
     }
   ],
@@ -14971,6 +15031,69 @@
       "residencyWarning": "Package residency: when the replacement comes from another package that the catalog knows, Runtime loads it before writing (ASSET_UNAVAILABLE otherwise); vehicle-mount loading is proven offline, not yet live-tested. Mount compatibility is separate and unverified: FRVWeaponSwap verified the write live, but in-game firing and rendering of a swapped mount are unconfirmed."
     },
     {
+      "instanceKey": "vehicle:m-103-supply-frv:m-103-supply-frv-entity:vehicle.steering_response_speed",
+      "semanticFieldId": "vehicle.steering_response_speed",
+      "displayName": "Steering response speed",
+      "type": "number",
+      "unit": "input_units_per_second",
+      "currentDefault": 3.1,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "vehicle",
+        "vehicle": "M-103 Supply FRV",
+        "path": "entity"
+      },
+      "backingObjectId": "backing:7b6a5c216d803b12",
+      "operationGroup": "operation:0e6ff95044a78da7",
+      "planGroup": "plan:vehicle:m-103-supply-frv",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "vehicle": "M-103 Supply FRV"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:80b8f1c2c584842b",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "VehicleMotionComponentData",
+      "domain": "vehicle",
+      "apiFieldConstant": "hd2.fields.vehicle.steering_response_speed",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": "research/vehicle-mech-components-F5FEE03DCFDB.json",
+        "provenOn": [],
+        "sharedTypedSchema": false
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "min": 0.05,
+      "max": 50,
+      "rangeReason": "How fast the steering input (-1 to 1) follows the driver: 0.05 takes 20 s from centre to full lock, 50 is effectively instant (vanilla 0.5 to 10).",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles.",
+      "lifecycle": "Read from the VehicleMotion type record every frame (VehicleMotion has no per-instance copy): applies at once to every live vehicle of that type.",
+      "appliesWhen": "every_frame",
+      "order": null,
+      "effect": {
+        "activeSource": "ACTIVE_EVERY_FRAME",
+        "activeSourceProven": true,
+        "appliesWhen": "every_frame",
+        "instantiationOnly": false,
+        "lifecycle": "Read from the VehicleMotion type record every frame (VehicleMotion has no per-instance copy): applies at once to every live vehicle of that type."
+      },
+      "notices": [
+        {
+          "kind": "lifecycle",
+          "text": "Read from the VehicleMotion type record every frame (VehicleMotion has no per-instance copy): applies at once to every live vehicle of that type."
+        }
+      ]
+    },
+    {
       "instanceKey": "vehicle:td-110-maelstrom:td-110-maelstrom-entity:entity.health",
       "semanticFieldId": "entity.health",
       "displayName": "Main health",
@@ -19685,6 +19808,69 @@
       "residencyWarning": "Package residency: when the replacement comes from another package that the catalog knows, Runtime loads it before writing (ASSET_UNAVAILABLE otherwise); vehicle-mount loading is proven offline, not yet live-tested. Mount compatibility is separate and unverified: FRVWeaponSwap verified the write live, but in-game firing and rendering of a swapped mount are unconfirmed."
     },
     {
+      "instanceKey": "vehicle:td-110-maelstrom:td-110-maelstrom-entity:vehicle.steering_response_speed",
+      "semanticFieldId": "vehicle.steering_response_speed",
+      "displayName": "Steering response speed",
+      "type": "number",
+      "unit": "input_units_per_second",
+      "currentDefault": 2.25,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "vehicle",
+        "vehicle": "TD-110 Maelstrom",
+        "path": "entity"
+      },
+      "backingObjectId": "backing:fd88beadc0578a7e",
+      "operationGroup": "operation:e50a31fea87136cc",
+      "planGroup": "plan:vehicle:td-110-maelstrom",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "vehicle": "TD-110 Maelstrom"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:9ac4b8f0124d2c27",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "VehicleMotionComponentData",
+      "domain": "vehicle",
+      "apiFieldConstant": "hd2.fields.vehicle.steering_response_speed",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": "research/vehicle-mech-components-F5FEE03DCFDB.json",
+        "provenOn": [],
+        "sharedTypedSchema": false
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "min": 0.05,
+      "max": 50,
+      "rangeReason": "How fast the steering input (-1 to 1) follows the driver: 0.05 takes 20 s from centre to full lock, 50 is effectively instant (vanilla 0.5 to 10).",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles.",
+      "lifecycle": "Read from the VehicleMotion type record every frame (VehicleMotion has no per-instance copy): applies at once to every live vehicle of that type.",
+      "appliesWhen": "every_frame",
+      "order": null,
+      "effect": {
+        "activeSource": "ACTIVE_EVERY_FRAME",
+        "activeSourceProven": true,
+        "appliesWhen": "every_frame",
+        "instantiationOnly": false,
+        "lifecycle": "Read from the VehicleMotion type record every frame (VehicleMotion has no per-instance copy): applies at once to every live vehicle of that type."
+      },
+      "notices": [
+        {
+          "kind": "lifecycle",
+          "text": "Read from the VehicleMotion type record every frame (VehicleMotion has no per-instance copy): applies at once to every live vehicle of that type."
+        }
+      ]
+    },
+    {
       "instanceKey": "vehicle:m-104-incinerator-frv:m-104-incinerator-frv-entity:entity.health",
       "semanticFieldId": "entity.health",
       "displayName": "Main health",
@@ -23748,6 +23934,69 @@
       "residencyWarning": "Package residency: when the replacement comes from another package that the catalog knows, Runtime loads it before writing (ASSET_UNAVAILABLE otherwise); vehicle-mount loading is proven offline, not yet live-tested. Mount compatibility is separate and unverified: FRVWeaponSwap verified the write live, but in-game firing and rendering of a swapped mount are unconfirmed."
     },
     {
+      "instanceKey": "vehicle:m-104-incinerator-frv:m-104-incinerator-frv-entity:vehicle.steering_response_speed",
+      "semanticFieldId": "vehicle.steering_response_speed",
+      "displayName": "Steering response speed",
+      "type": "number",
+      "unit": "input_units_per_second",
+      "currentDefault": 3.1,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "vehicle",
+        "vehicle": "M-104 Incinerator FRV",
+        "path": "entity"
+      },
+      "backingObjectId": "backing:2a6a9c79f31086cb",
+      "operationGroup": "operation:26d11430bf3abbc7",
+      "planGroup": "plan:vehicle:m-104-incinerator-frv",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "vehicle": "M-104 Incinerator FRV"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:ffb302f255daf4e1",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "VehicleMotionComponentData",
+      "domain": "vehicle",
+      "apiFieldConstant": "hd2.fields.vehicle.steering_response_speed",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": "research/vehicle-mech-components-F5FEE03DCFDB.json",
+        "provenOn": [],
+        "sharedTypedSchema": false
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "min": 0.05,
+      "max": 50,
+      "rangeReason": "How fast the steering input (-1 to 1) follows the driver: 0.05 takes 20 s from centre to full lock, 50 is effectively instant (vanilla 0.5 to 10).",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles.",
+      "lifecycle": "Read from the VehicleMotion type record every frame (VehicleMotion has no per-instance copy): applies at once to every live vehicle of that type.",
+      "appliesWhen": "every_frame",
+      "order": null,
+      "effect": {
+        "activeSource": "ACTIVE_EVERY_FRAME",
+        "activeSourceProven": true,
+        "appliesWhen": "every_frame",
+        "instantiationOnly": false,
+        "lifecycle": "Read from the VehicleMotion type record every frame (VehicleMotion has no per-instance copy): applies at once to every live vehicle of that type."
+      },
+      "notices": [
+        {
+          "kind": "lifecycle",
+          "text": "Read from the VehicleMotion type record every frame (VehicleMotion has no per-instance copy): applies at once to every live vehicle of that type."
+        }
+      ]
+    },
+    {
       "instanceKey": "vehicle:exo-49-emancipator-exosuit:exo-49-emancipator-exosuit-entity:entity.health",
       "semanticFieldId": "entity.health",
       "displayName": "Main health",
@@ -25137,6 +25386,195 @@
       "residencyWarning": "Package residency: when the replacement comes from another package that the catalog knows, Runtime loads it before writing (ASSET_UNAVAILABLE otherwise); vehicle-mount loading is proven offline, not yet live-tested. Mount compatibility is separate and unverified: FRVWeaponSwap verified the write live, but in-game firing and rendering of a swapped mount are unconfirmed."
     },
     {
+      "instanceKey": "vehicle:exo-49-emancipator-exosuit:exo-49-emancipator-exosuit-entity:rotation.turn_speed",
+      "semanticFieldId": "rotation.turn_speed",
+      "displayName": "Body turn speed",
+      "type": "number",
+      "unit": "degrees_per_second",
+      "currentDefault": 65.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "vehicle",
+        "vehicle": "EXO-49 Emancipator Exosuit",
+        "path": "entity"
+      },
+      "backingObjectId": "backing:d98514318d1029bb",
+      "operationGroup": "operation:3afa45501db543e0",
+      "planGroup": "plan:vehicle:exo-49-emancipator-exosuit",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "vehicle": "EXO-49 Emancipator Exosuit"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:50ad043035834eda",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "RotationComponentData",
+      "domain": "rotation",
+      "apiFieldConstant": "hd2.fields.rotation.turn_speed",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": "research/vehicle-mech-components-F5FEE03DCFDB.json",
+        "provenOn": [],
+        "sharedTypedSchema": false
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "min": 1,
+      "max": 720,
+      "rangeReason": "Like turret turn speeds: 1 degree per second up to two turns per second (exosuits 65, Helldiver 200).",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles.",
+      "lifecycle": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values.",
+      "appliesWhen": "entity_spawn",
+      "order": null,
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "activeSourceProven": true,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": true,
+        "lifecycle": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values."
+      },
+      "notices": [
+        {
+          "kind": "lifecycle",
+          "text": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values."
+        }
+      ]
+    },
+    {
+      "instanceKey": "vehicle:exo-49-emancipator-exosuit:exo-49-emancipator-exosuit-entity:rotation.acceleration",
+      "semanticFieldId": "rotation.acceleration",
+      "displayName": "Body turn acceleration",
+      "type": "number",
+      "unit": "degrees_per_second_squared",
+      "currentDefault": 0.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "vehicle",
+        "vehicle": "EXO-49 Emancipator Exosuit",
+        "path": "entity"
+      },
+      "backingObjectId": "backing:d98514318d1029bb",
+      "operationGroup": "operation:3afa45501db543e0",
+      "planGroup": "plan:vehicle:exo-49-emancipator-exosuit",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "vehicle": "EXO-49 Emancipator Exosuit"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:50ad043035834eda",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "RotationComponentData",
+      "domain": "rotation",
+      "apiFieldConstant": "hd2.fields.rotation.acceleration",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": "research/vehicle-mech-components-F5FEE03DCFDB.json",
+        "provenOn": [],
+        "sharedTypedSchema": false
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "min": 0,
+      "max": 10000,
+      "rangeReason": "0 turns at the full rate at once (every exosuit); enemy walkers use 8 to 180 and the Helldiver 2000. 10000 is effectively instant.",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles.",
+      "lifecycle": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values.",
+      "appliesWhen": "entity_spawn",
+      "order": null,
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "activeSourceProven": true,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": true,
+        "lifecycle": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values."
+      },
+      "notices": [
+        {
+          "kind": "lifecycle",
+          "text": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values."
+        }
+      ]
+    },
+    {
+      "instanceKey": "vehicle:exo-49-emancipator-exosuit:exo-49-emancipator-exosuit-entity:rotation.deceleration",
+      "semanticFieldId": "rotation.deceleration",
+      "displayName": "Body turn deceleration",
+      "type": "number",
+      "unit": "degrees_per_second_squared",
+      "currentDefault": 0.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "vehicle",
+        "vehicle": "EXO-49 Emancipator Exosuit",
+        "path": "entity"
+      },
+      "backingObjectId": "backing:d98514318d1029bb",
+      "operationGroup": "operation:3afa45501db543e0",
+      "planGroup": "plan:vehicle:exo-49-emancipator-exosuit",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "vehicle": "EXO-49 Emancipator Exosuit"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:50ad043035834eda",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "RotationComponentData",
+      "domain": "rotation",
+      "apiFieldConstant": "hd2.fields.rotation.deceleration",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": "research/vehicle-mech-components-F5FEE03DCFDB.json",
+        "provenOn": [],
+        "sharedTypedSchema": false
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "min": 0,
+      "max": 10000,
+      "rangeReason": "0 uses the acceleration (every exosuit); enemy walkers use 180 to 300 and the Helldiver 2000. 10000 is effectively instant.",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles.",
+      "lifecycle": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values.",
+      "appliesWhen": "entity_spawn",
+      "order": null,
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "activeSourceProven": true,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": true,
+        "lifecycle": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values."
+      },
+      "notices": [
+        {
+          "kind": "lifecycle",
+          "text": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values."
+        }
+      ]
+    },
+    {
       "instanceKey": "vehicle:exo-45-patriot-exosuit:exo-45-patriot-exosuit-entity:entity.health",
       "semanticFieldId": "entity.health",
       "displayName": "Main health",
@@ -26524,6 +26962,195 @@
       "acknowledgement": "allow_unverified_reference",
       "valueKind": "mounted_weapon_semantic_id",
       "residencyWarning": "Package residency: when the replacement comes from another package that the catalog knows, Runtime loads it before writing (ASSET_UNAVAILABLE otherwise); vehicle-mount loading is proven offline, not yet live-tested. Mount compatibility is separate and unverified: FRVWeaponSwap verified the write live, but in-game firing and rendering of a swapped mount are unconfirmed."
+    },
+    {
+      "instanceKey": "vehicle:exo-45-patriot-exosuit:exo-45-patriot-exosuit-entity:rotation.turn_speed",
+      "semanticFieldId": "rotation.turn_speed",
+      "displayName": "Body turn speed",
+      "type": "number",
+      "unit": "degrees_per_second",
+      "currentDefault": 65.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "vehicle",
+        "vehicle": "EXO-45 Patriot Exosuit",
+        "path": "entity"
+      },
+      "backingObjectId": "backing:46bad16a980d29da",
+      "operationGroup": "operation:8a4779da92100175",
+      "planGroup": "plan:vehicle:exo-45-patriot-exosuit",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "vehicle": "EXO-45 Patriot Exosuit"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:db10d4b37083ff1e",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "RotationComponentData",
+      "domain": "rotation",
+      "apiFieldConstant": "hd2.fields.rotation.turn_speed",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": "research/vehicle-mech-components-F5FEE03DCFDB.json",
+        "provenOn": [],
+        "sharedTypedSchema": false
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "min": 1,
+      "max": 720,
+      "rangeReason": "Like turret turn speeds: 1 degree per second up to two turns per second (exosuits 65, Helldiver 200).",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles.",
+      "lifecycle": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values.",
+      "appliesWhen": "entity_spawn",
+      "order": null,
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "activeSourceProven": true,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": true,
+        "lifecycle": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values."
+      },
+      "notices": [
+        {
+          "kind": "lifecycle",
+          "text": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values."
+        }
+      ]
+    },
+    {
+      "instanceKey": "vehicle:exo-45-patriot-exosuit:exo-45-patriot-exosuit-entity:rotation.acceleration",
+      "semanticFieldId": "rotation.acceleration",
+      "displayName": "Body turn acceleration",
+      "type": "number",
+      "unit": "degrees_per_second_squared",
+      "currentDefault": 0.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "vehicle",
+        "vehicle": "EXO-45 Patriot Exosuit",
+        "path": "entity"
+      },
+      "backingObjectId": "backing:46bad16a980d29da",
+      "operationGroup": "operation:8a4779da92100175",
+      "planGroup": "plan:vehicle:exo-45-patriot-exosuit",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "vehicle": "EXO-45 Patriot Exosuit"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:db10d4b37083ff1e",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "RotationComponentData",
+      "domain": "rotation",
+      "apiFieldConstant": "hd2.fields.rotation.acceleration",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": "research/vehicle-mech-components-F5FEE03DCFDB.json",
+        "provenOn": [],
+        "sharedTypedSchema": false
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "min": 0,
+      "max": 10000,
+      "rangeReason": "0 turns at the full rate at once (every exosuit); enemy walkers use 8 to 180 and the Helldiver 2000. 10000 is effectively instant.",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles.",
+      "lifecycle": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values.",
+      "appliesWhen": "entity_spawn",
+      "order": null,
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "activeSourceProven": true,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": true,
+        "lifecycle": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values."
+      },
+      "notices": [
+        {
+          "kind": "lifecycle",
+          "text": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values."
+        }
+      ]
+    },
+    {
+      "instanceKey": "vehicle:exo-45-patriot-exosuit:exo-45-patriot-exosuit-entity:rotation.deceleration",
+      "semanticFieldId": "rotation.deceleration",
+      "displayName": "Body turn deceleration",
+      "type": "number",
+      "unit": "degrees_per_second_squared",
+      "currentDefault": 0.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "vehicle",
+        "vehicle": "EXO-45 Patriot Exosuit",
+        "path": "entity"
+      },
+      "backingObjectId": "backing:46bad16a980d29da",
+      "operationGroup": "operation:8a4779da92100175",
+      "planGroup": "plan:vehicle:exo-45-patriot-exosuit",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "vehicle": "EXO-45 Patriot Exosuit"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:db10d4b37083ff1e",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "RotationComponentData",
+      "domain": "rotation",
+      "apiFieldConstant": "hd2.fields.rotation.deceleration",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": "research/vehicle-mech-components-F5FEE03DCFDB.json",
+        "provenOn": [],
+        "sharedTypedSchema": false
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "min": 0,
+      "max": 10000,
+      "rangeReason": "0 uses the acceleration (every exosuit); enemy walkers use 180 to 300 and the Helldiver 2000. 10000 is effectively instant.",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles.",
+      "lifecycle": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values.",
+      "appliesWhen": "entity_spawn",
+      "order": null,
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "activeSourceProven": true,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": true,
+        "lifecycle": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values."
+      },
+      "notices": [
+        {
+          "kind": "lifecycle",
+          "text": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values."
+        }
+      ]
     },
     {
       "instanceKey": "vehicle:m-102-gunner-frv:m-102-gunner-frv-entity:entity.health",
@@ -30638,6 +31265,69 @@
       "acknowledgement": "allow_unverified_reference",
       "valueKind": "mounted_weapon_semantic_id",
       "residencyWarning": "Package residency: when the replacement comes from another package that the catalog knows, Runtime loads it before writing (ASSET_UNAVAILABLE otherwise); vehicle-mount loading is proven offline, not yet live-tested. Mount compatibility is separate and unverified: FRVWeaponSwap verified the write live, but in-game firing and rendering of a swapped mount are unconfirmed."
+    },
+    {
+      "instanceKey": "vehicle:m-102-gunner-frv:m-102-gunner-frv-entity:vehicle.steering_response_speed",
+      "semanticFieldId": "vehicle.steering_response_speed",
+      "displayName": "Steering response speed",
+      "type": "number",
+      "unit": "input_units_per_second",
+      "currentDefault": 3.1,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "vehicle",
+        "vehicle": "M-102 Gunner FRV",
+        "path": "entity"
+      },
+      "backingObjectId": "backing:7d783f2239d1712b",
+      "operationGroup": "operation:2624b9d708d126c6",
+      "planGroup": "plan:vehicle:m-102-gunner-frv",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "vehicle": "M-102 Gunner FRV"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:1e40970a2d89b5f8",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "VehicleMotionComponentData",
+      "domain": "vehicle",
+      "apiFieldConstant": "hd2.fields.vehicle.steering_response_speed",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": "research/vehicle-mech-components-F5FEE03DCFDB.json",
+        "provenOn": [],
+        "sharedTypedSchema": false
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "min": 0.05,
+      "max": 50,
+      "rangeReason": "How fast the steering input (-1 to 1) follows the driver: 0.05 takes 20 s from centre to full lock, 50 is effectively instant (vanilla 0.5 to 10).",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles.",
+      "lifecycle": "Read from the VehicleMotion type record every frame (VehicleMotion has no per-instance copy): applies at once to every live vehicle of that type.",
+      "appliesWhen": "every_frame",
+      "order": null,
+      "effect": {
+        "activeSource": "ACTIVE_EVERY_FRAME",
+        "activeSourceProven": true,
+        "appliesWhen": "every_frame",
+        "instantiationOnly": false,
+        "lifecycle": "Read from the VehicleMotion type record every frame (VehicleMotion has no per-instance copy): applies at once to every live vehicle of that type."
+      },
+      "notices": [
+        {
+          "kind": "lifecycle",
+          "text": "Read from the VehicleMotion type record every frame (VehicleMotion has no per-instance copy): applies at once to every live vehicle of that type."
+        }
+      ]
     },
     {
       "instanceKey": "vehicle:td-220-bastion-mk-xvi:td-220-bastion-mk-xvi-entity:entity.health",
@@ -35134,6 +35824,69 @@
       "residencyWarning": "Package residency: when the replacement comes from another package that the catalog knows, Runtime loads it before writing (ASSET_UNAVAILABLE otherwise); vehicle-mount loading is proven offline, not yet live-tested. Mount compatibility is separate and unverified: FRVWeaponSwap verified the write live, but in-game firing and rendering of a swapped mount are unconfirmed."
     },
     {
+      "instanceKey": "vehicle:td-220-bastion-mk-xvi:td-220-bastion-mk-xvi-entity:vehicle.steering_response_speed",
+      "semanticFieldId": "vehicle.steering_response_speed",
+      "displayName": "Steering response speed",
+      "type": "number",
+      "unit": "input_units_per_second",
+      "currentDefault": 2.25,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "vehicle",
+        "vehicle": "TD-220 Bastion MK XVI",
+        "path": "entity"
+      },
+      "backingObjectId": "backing:dcd5a9646698867f",
+      "operationGroup": "operation:7fbb68288b168ee9",
+      "planGroup": "plan:vehicle:td-220-bastion-mk-xvi",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "vehicle": "TD-220 Bastion MK XVI"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:9837110ae0175ab6",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "VehicleMotionComponentData",
+      "domain": "vehicle",
+      "apiFieldConstant": "hd2.fields.vehicle.steering_response_speed",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": "research/vehicle-mech-components-F5FEE03DCFDB.json",
+        "provenOn": [],
+        "sharedTypedSchema": false
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "min": 0.05,
+      "max": 50,
+      "rangeReason": "How fast the steering input (-1 to 1) follows the driver: 0.05 takes 20 s from centre to full lock, 50 is effectively instant (vanilla 0.5 to 10).",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles.",
+      "lifecycle": "Read from the VehicleMotion type record every frame (VehicleMotion has no per-instance copy): applies at once to every live vehicle of that type.",
+      "appliesWhen": "every_frame",
+      "order": null,
+      "effect": {
+        "activeSource": "ACTIVE_EVERY_FRAME",
+        "activeSourceProven": true,
+        "appliesWhen": "every_frame",
+        "instantiationOnly": false,
+        "lifecycle": "Read from the VehicleMotion type record every frame (VehicleMotion has no per-instance copy): applies at once to every live vehicle of that type."
+      },
+      "notices": [
+        {
+          "kind": "lifecycle",
+          "text": "Read from the VehicleMotion type record every frame (VehicleMotion has no per-instance copy): applies at once to every live vehicle of that type."
+        }
+      ]
+    },
+    {
       "instanceKey": "vehicle:exo-55-breakthrough-exosuit:exo-55-breakthrough-exosuit-entity:entity.health",
       "semanticFieldId": "entity.health",
       "displayName": "Main health",
@@ -36411,6 +37164,195 @@
       "acknowledgement": "allow_unverified_reference",
       "valueKind": "mounted_weapon_semantic_id",
       "residencyWarning": "Package residency: when the replacement comes from another package that the catalog knows, Runtime loads it before writing (ASSET_UNAVAILABLE otherwise); vehicle-mount loading is proven offline, not yet live-tested. Mount compatibility is separate and unverified: FRVWeaponSwap verified the write live, but in-game firing and rendering of a swapped mount are unconfirmed."
+    },
+    {
+      "instanceKey": "vehicle:exo-55-breakthrough-exosuit:exo-55-breakthrough-exosuit-entity:rotation.turn_speed",
+      "semanticFieldId": "rotation.turn_speed",
+      "displayName": "Body turn speed",
+      "type": "number",
+      "unit": "degrees_per_second",
+      "currentDefault": 65.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "vehicle",
+        "vehicle": "EXO-55 Breakthrough Exosuit",
+        "path": "entity"
+      },
+      "backingObjectId": "backing:61feb0551a907f32",
+      "operationGroup": "operation:ccd0fcfe20de7533",
+      "planGroup": "plan:vehicle:exo-55-breakthrough-exosuit",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "vehicle": "EXO-55 Breakthrough Exosuit"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:dcf8ec258b92eb7e",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "RotationComponentData",
+      "domain": "rotation",
+      "apiFieldConstant": "hd2.fields.rotation.turn_speed",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": "research/vehicle-mech-components-F5FEE03DCFDB.json",
+        "provenOn": [],
+        "sharedTypedSchema": false
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "min": 1,
+      "max": 720,
+      "rangeReason": "Like turret turn speeds: 1 degree per second up to two turns per second (exosuits 65, Helldiver 200).",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles.",
+      "lifecycle": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values.",
+      "appliesWhen": "entity_spawn",
+      "order": null,
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "activeSourceProven": true,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": true,
+        "lifecycle": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values."
+      },
+      "notices": [
+        {
+          "kind": "lifecycle",
+          "text": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values."
+        }
+      ]
+    },
+    {
+      "instanceKey": "vehicle:exo-55-breakthrough-exosuit:exo-55-breakthrough-exosuit-entity:rotation.acceleration",
+      "semanticFieldId": "rotation.acceleration",
+      "displayName": "Body turn acceleration",
+      "type": "number",
+      "unit": "degrees_per_second_squared",
+      "currentDefault": 0.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "vehicle",
+        "vehicle": "EXO-55 Breakthrough Exosuit",
+        "path": "entity"
+      },
+      "backingObjectId": "backing:61feb0551a907f32",
+      "operationGroup": "operation:ccd0fcfe20de7533",
+      "planGroup": "plan:vehicle:exo-55-breakthrough-exosuit",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "vehicle": "EXO-55 Breakthrough Exosuit"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:dcf8ec258b92eb7e",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "RotationComponentData",
+      "domain": "rotation",
+      "apiFieldConstant": "hd2.fields.rotation.acceleration",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": "research/vehicle-mech-components-F5FEE03DCFDB.json",
+        "provenOn": [],
+        "sharedTypedSchema": false
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "min": 0,
+      "max": 10000,
+      "rangeReason": "0 turns at the full rate at once (every exosuit); enemy walkers use 8 to 180 and the Helldiver 2000. 10000 is effectively instant.",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles.",
+      "lifecycle": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values.",
+      "appliesWhen": "entity_spawn",
+      "order": null,
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "activeSourceProven": true,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": true,
+        "lifecycle": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values."
+      },
+      "notices": [
+        {
+          "kind": "lifecycle",
+          "text": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values."
+        }
+      ]
+    },
+    {
+      "instanceKey": "vehicle:exo-55-breakthrough-exosuit:exo-55-breakthrough-exosuit-entity:rotation.deceleration",
+      "semanticFieldId": "rotation.deceleration",
+      "displayName": "Body turn deceleration",
+      "type": "number",
+      "unit": "degrees_per_second_squared",
+      "currentDefault": 0.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "vehicle",
+        "vehicle": "EXO-55 Breakthrough Exosuit",
+        "path": "entity"
+      },
+      "backingObjectId": "backing:61feb0551a907f32",
+      "operationGroup": "operation:ccd0fcfe20de7533",
+      "planGroup": "plan:vehicle:exo-55-breakthrough-exosuit",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "vehicle": "EXO-55 Breakthrough Exosuit"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:dcf8ec258b92eb7e",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "RotationComponentData",
+      "domain": "rotation",
+      "apiFieldConstant": "hd2.fields.rotation.deceleration",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": "research/vehicle-mech-components-F5FEE03DCFDB.json",
+        "provenOn": [],
+        "sharedTypedSchema": false
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "min": 0,
+      "max": 10000,
+      "rangeReason": "0 uses the acceleration (every exosuit); enemy walkers use 180 to 300 and the Helldiver 2000. 10000 is effectively instant.",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles.",
+      "lifecycle": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values.",
+      "appliesWhen": "entity_spawn",
+      "order": null,
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "activeSourceProven": true,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": true,
+        "lifecycle": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values."
+      },
+      "notices": [
+        {
+          "kind": "lifecycle",
+          "text": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values."
+        }
+      ]
     },
     {
       "instanceKey": "vehicle:exo-51-lumberer-exosuit:exo-51-lumberer-exosuit-entity:entity.health",
@@ -37749,6 +38691,195 @@
       "acknowledgement": "allow_unverified_reference",
       "valueKind": "mounted_weapon_semantic_id",
       "residencyWarning": "Package residency: when the replacement comes from another package that the catalog knows, Runtime loads it before writing (ASSET_UNAVAILABLE otherwise); vehicle-mount loading is proven offline, not yet live-tested. Mount compatibility is separate and unverified: FRVWeaponSwap verified the write live, but in-game firing and rendering of a swapped mount are unconfirmed."
+    },
+    {
+      "instanceKey": "vehicle:exo-51-lumberer-exosuit:exo-51-lumberer-exosuit-entity:rotation.turn_speed",
+      "semanticFieldId": "rotation.turn_speed",
+      "displayName": "Body turn speed",
+      "type": "number",
+      "unit": "degrees_per_second",
+      "currentDefault": 65.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "vehicle",
+        "vehicle": "EXO-51 Lumberer Exosuit",
+        "path": "entity"
+      },
+      "backingObjectId": "backing:82db2726cf6f0071",
+      "operationGroup": "operation:6a89156ea522ee5e",
+      "planGroup": "plan:vehicle:exo-51-lumberer-exosuit",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "vehicle": "EXO-51 Lumberer Exosuit"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:7051a36dd13d4487",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "RotationComponentData",
+      "domain": "rotation",
+      "apiFieldConstant": "hd2.fields.rotation.turn_speed",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": "research/vehicle-mech-components-F5FEE03DCFDB.json",
+        "provenOn": [],
+        "sharedTypedSchema": false
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "min": 1,
+      "max": 720,
+      "rangeReason": "Like turret turn speeds: 1 degree per second up to two turns per second (exosuits 65, Helldiver 200).",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles.",
+      "lifecycle": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values.",
+      "appliesWhen": "entity_spawn",
+      "order": null,
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "activeSourceProven": true,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": true,
+        "lifecycle": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values."
+      },
+      "notices": [
+        {
+          "kind": "lifecycle",
+          "text": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values."
+        }
+      ]
+    },
+    {
+      "instanceKey": "vehicle:exo-51-lumberer-exosuit:exo-51-lumberer-exosuit-entity:rotation.acceleration",
+      "semanticFieldId": "rotation.acceleration",
+      "displayName": "Body turn acceleration",
+      "type": "number",
+      "unit": "degrees_per_second_squared",
+      "currentDefault": 0.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "vehicle",
+        "vehicle": "EXO-51 Lumberer Exosuit",
+        "path": "entity"
+      },
+      "backingObjectId": "backing:82db2726cf6f0071",
+      "operationGroup": "operation:6a89156ea522ee5e",
+      "planGroup": "plan:vehicle:exo-51-lumberer-exosuit",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "vehicle": "EXO-51 Lumberer Exosuit"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:7051a36dd13d4487",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "RotationComponentData",
+      "domain": "rotation",
+      "apiFieldConstant": "hd2.fields.rotation.acceleration",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": "research/vehicle-mech-components-F5FEE03DCFDB.json",
+        "provenOn": [],
+        "sharedTypedSchema": false
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "min": 0,
+      "max": 10000,
+      "rangeReason": "0 turns at the full rate at once (every exosuit); enemy walkers use 8 to 180 and the Helldiver 2000. 10000 is effectively instant.",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles.",
+      "lifecycle": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values.",
+      "appliesWhen": "entity_spawn",
+      "order": null,
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "activeSourceProven": true,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": true,
+        "lifecycle": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values."
+      },
+      "notices": [
+        {
+          "kind": "lifecycle",
+          "text": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values."
+        }
+      ]
+    },
+    {
+      "instanceKey": "vehicle:exo-51-lumberer-exosuit:exo-51-lumberer-exosuit-entity:rotation.deceleration",
+      "semanticFieldId": "rotation.deceleration",
+      "displayName": "Body turn deceleration",
+      "type": "number",
+      "unit": "degrees_per_second_squared",
+      "currentDefault": 0.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "vehicle",
+        "vehicle": "EXO-51 Lumberer Exosuit",
+        "path": "entity"
+      },
+      "backingObjectId": "backing:82db2726cf6f0071",
+      "operationGroup": "operation:6a89156ea522ee5e",
+      "planGroup": "plan:vehicle:exo-51-lumberer-exosuit",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "vehicle": "EXO-51 Lumberer Exosuit"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:7051a36dd13d4487",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "RotationComponentData",
+      "domain": "rotation",
+      "apiFieldConstant": "hd2.fields.rotation.deceleration",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": "research/vehicle-mech-components-F5FEE03DCFDB.json",
+        "provenOn": [],
+        "sharedTypedSchema": false
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "min": 0,
+      "max": 10000,
+      "rangeReason": "0 uses the acceleration (every exosuit); enemy walkers use 180 to 300 and the Helldiver 2000. 10000 is effectively instant.",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles.",
+      "lifecycle": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values.",
+      "appliesWhen": "entity_spawn",
+      "order": null,
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "activeSourceProven": true,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": true,
+        "lifecycle": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values."
+      },
+      "notices": [
+        {
+          "kind": "lifecycle",
+          "text": "Copied (in radians) into the Rotation instance when the exosuit spawns: applies to exosuits called in after the write; one already in the world keeps its values."
+        }
+      ]
     },
     {
       "instanceKey": "vehicle:frv-super-earth-variant:frv-super-earth-variant-entity:entity.health",
@@ -41865,6 +42996,69 @@
       "residencyWarning": "Package residency: when the replacement comes from another package that the catalog knows, Runtime loads it before writing (ASSET_UNAVAILABLE otherwise); vehicle-mount loading is proven offline, not yet live-tested. Mount compatibility is separate and unverified: FRVWeaponSwap verified the write live, but in-game firing and rendering of a swapped mount are unconfirmed."
     },
     {
+      "instanceKey": "vehicle:frv-super-earth-variant:frv-super-earth-variant-entity:vehicle.steering_response_speed",
+      "semanticFieldId": "vehicle.steering_response_speed",
+      "displayName": "Steering response speed",
+      "type": "number",
+      "unit": "input_units_per_second",
+      "currentDefault": 3.1,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "vehicle",
+        "vehicle": "FRV (Super Earth variant)",
+        "path": "entity"
+      },
+      "backingObjectId": "backing:8690b884902d7897",
+      "operationGroup": "operation:098e6bd84271108f",
+      "planGroup": "plan:vehicle:frv-super-earth-variant",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "vehicle": "FRV (Super Earth variant)"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:549934cbf4132cb4",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "VehicleMotionComponentData",
+      "domain": "vehicle",
+      "apiFieldConstant": "hd2.fields.vehicle.steering_response_speed",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": "research/vehicle-mech-components-F5FEE03DCFDB.json",
+        "provenOn": [],
+        "sharedTypedSchema": false
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "min": 0.05,
+      "max": 50,
+      "rangeReason": "How fast the steering input (-1 to 1) follows the driver: 0.05 takes 20 s from centre to full lock, 50 is effectively instant (vanilla 0.5 to 10).",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles.",
+      "lifecycle": "Read from the VehicleMotion type record every frame (VehicleMotion has no per-instance copy): applies at once to every live vehicle of that type.",
+      "appliesWhen": "every_frame",
+      "order": null,
+      "effect": {
+        "activeSource": "ACTIVE_EVERY_FRAME",
+        "activeSourceProven": true,
+        "appliesWhen": "every_frame",
+        "instantiationOnly": false,
+        "lifecycle": "Read from the VehicleMotion type record every frame (VehicleMotion has no per-instance copy): applies at once to every live vehicle of that type."
+      },
+      "notices": [
+        {
+          "kind": "lifecycle",
+          "text": "Read from the VehicleMotion type record every frame (VehicleMotion has no per-instance copy): applies at once to every live vehicle of that type."
+        }
+      ]
+    },
+    {
       "instanceKey": "vehicle:gater-oil-rig:gater-oil-rig-entity:entity.health",
       "semanticFieldId": "entity.health",
       "displayName": "Main health",
@@ -43412,6 +44606,69 @@
       "acknowledgement": "allow_unverified_reference",
       "valueKind": "mounted_weapon_semantic_id",
       "residencyWarning": "Package residency: when the replacement comes from another package that the catalog knows, Runtime loads it before writing (ASSET_UNAVAILABLE otherwise); vehicle-mount loading is proven offline, not yet live-tested. Mount compatibility is separate and unverified: FRVWeaponSwap verified the write live, but in-game firing and rendering of a swapped mount are unconfirmed."
+    },
+    {
+      "instanceKey": "vehicle:gater-oil-rig:gater-oil-rig-entity:vehicle.steering_response_speed",
+      "semanticFieldId": "vehicle.steering_response_speed",
+      "displayName": "Steering response speed",
+      "type": "number",
+      "unit": "input_units_per_second",
+      "currentDefault": 1.5,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "vehicle",
+        "vehicle": "GATER Oil Rig",
+        "path": "entity"
+      },
+      "backingObjectId": "backing:9ff4a477d6e45418",
+      "operationGroup": "operation:f6b7b99a1b7b7b61",
+      "planGroup": "plan:vehicle:gater-oil-rig",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "vehicle": "GATER Oil Rig"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:e7e18fd412926dd5",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "VehicleMotionComponentData",
+      "domain": "vehicle",
+      "apiFieldConstant": "hd2.fields.vehicle.steering_response_speed",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": "research/vehicle-mech-components-F5FEE03DCFDB.json",
+        "provenOn": [],
+        "sharedTypedSchema": false
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "min": 0.05,
+      "max": 50,
+      "rangeReason": "How fast the steering input (-1 to 1) follows the driver: 0.05 takes 20 s from centre to full lock, 50 is effectively instant (vanilla 0.5 to 10).",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles.",
+      "lifecycle": "Read from the VehicleMotion type record every frame (VehicleMotion has no per-instance copy): applies at once to every live vehicle of that type.",
+      "appliesWhen": "every_frame",
+      "order": null,
+      "effect": {
+        "activeSource": "ACTIVE_EVERY_FRAME",
+        "activeSourceProven": true,
+        "appliesWhen": "every_frame",
+        "instantiationOnly": false,
+        "lifecycle": "Read from the VehicleMotion type record every frame (VehicleMotion has no per-instance copy): applies at once to every live vehicle of that type."
+      },
+      "notices": [
+        {
+          "kind": "lifecycle",
+          "text": "Read from the VehicleMotion type record every frame (VehicleMotion has no per-instance copy): applies at once to every live vehicle of that type."
+        }
+      ]
     }
   ],
   "backingObjects": [
@@ -43550,6 +44807,20 @@
       ]
     },
     {
+      "backingObjectId": "backing:7b6a5c216d803b12",
+      "kind": "VehicleMotionComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "vehicle": "M-103 Supply FRV"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:80b8f1c2c584842b",
+      "fieldInstances": [
+        "vehicle:m-103-supply-frv:m-103-supply-frv-entity:vehicle.steering_response_speed"
+      ]
+    },
+    {
       "backingObjectId": "backing:e4deb3c871bb1d0d",
       "kind": "HealthComponentData",
       "shared": false,
@@ -43675,6 +44946,20 @@
       ]
     },
     {
+      "backingObjectId": "backing:fd88beadc0578a7e",
+      "kind": "VehicleMotionComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "vehicle": "TD-110 Maelstrom"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:9ac4b8f0124d2c27",
+      "fieldInstances": [
+        "vehicle:td-110-maelstrom:td-110-maelstrom-entity:vehicle.steering_response_speed"
+      ]
+    },
+    {
       "backingObjectId": "backing:bdf409714e38686a",
       "kind": "HealthComponentData",
       "shared": false,
@@ -43791,6 +45076,20 @@
       ]
     },
     {
+      "backingObjectId": "backing:2a6a9c79f31086cb",
+      "kind": "VehicleMotionComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "vehicle": "M-104 Incinerator FRV"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:ffb302f255daf4e1",
+      "fieldInstances": [
+        "vehicle:m-104-incinerator-frv:m-104-incinerator-frv-entity:vehicle.steering_response_speed"
+      ]
+    },
+    {
       "backingObjectId": "backing:c06c50a37bd0d2b5",
       "kind": "HealthComponentData",
       "shared": false,
@@ -43845,6 +45144,22 @@
       ]
     },
     {
+      "backingObjectId": "backing:d98514318d1029bb",
+      "kind": "RotationComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "vehicle": "EXO-49 Emancipator Exosuit"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:50ad043035834eda",
+      "fieldInstances": [
+        "vehicle:exo-49-emancipator-exosuit:exo-49-emancipator-exosuit-entity:rotation.turn_speed",
+        "vehicle:exo-49-emancipator-exosuit:exo-49-emancipator-exosuit-entity:rotation.acceleration",
+        "vehicle:exo-49-emancipator-exosuit:exo-49-emancipator-exosuit-entity:rotation.deceleration"
+      ]
+    },
+    {
       "backingObjectId": "backing:e67a82475bd9a8d7",
       "kind": "HealthComponentData",
       "shared": false,
@@ -43896,6 +45211,22 @@
       "fieldInstances": [
         "vehicle:exo-45-patriot-exosuit:exo-45-patriot-exosuit-mount-slot-0:mount.weapon",
         "vehicle:exo-45-patriot-exosuit:exo-45-patriot-exosuit-mount-slot-1:mount.weapon"
+      ]
+    },
+    {
+      "backingObjectId": "backing:46bad16a980d29da",
+      "kind": "RotationComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "vehicle": "EXO-45 Patriot Exosuit"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:db10d4b37083ff1e",
+      "fieldInstances": [
+        "vehicle:exo-45-patriot-exosuit:exo-45-patriot-exosuit-entity:rotation.turn_speed",
+        "vehicle:exo-45-patriot-exosuit:exo-45-patriot-exosuit-entity:rotation.acceleration",
+        "vehicle:exo-45-patriot-exosuit:exo-45-patriot-exosuit-entity:rotation.deceleration"
       ]
     },
     {
@@ -44012,6 +45343,20 @@
       "sharedScopeKey": "shared-scope:1ca5fc536b50b71d",
       "fieldInstances": [
         "vehicle:m-102-gunner-frv:m-102-gunner-frv-mount-slot-0:mount.weapon"
+      ]
+    },
+    {
+      "backingObjectId": "backing:7d783f2239d1712b",
+      "kind": "VehicleMotionComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "vehicle": "M-102 Gunner FRV"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:1e40970a2d89b5f8",
+      "fieldInstances": [
+        "vehicle:m-102-gunner-frv:m-102-gunner-frv-entity:vehicle.steering_response_speed"
       ]
     },
     {
@@ -44138,6 +45483,20 @@
       ]
     },
     {
+      "backingObjectId": "backing:dcd5a9646698867f",
+      "kind": "VehicleMotionComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "vehicle": "TD-220 Bastion MK XVI"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:9837110ae0175ab6",
+      "fieldInstances": [
+        "vehicle:td-220-bastion-mk-xvi:td-220-bastion-mk-xvi-entity:vehicle.steering_response_speed"
+      ]
+    },
+    {
       "backingObjectId": "backing:78b3d1fea3d6d8f7",
       "kind": "HealthComponentData",
       "shared": false,
@@ -44188,6 +45547,22 @@
       "sharedScopeKey": "shared-scope:6e8de1ed76559e19",
       "fieldInstances": [
         "vehicle:exo-55-breakthrough-exosuit:exo-55-breakthrough-exosuit-mount-slot-1:mount.weapon"
+      ]
+    },
+    {
+      "backingObjectId": "backing:61feb0551a907f32",
+      "kind": "RotationComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "vehicle": "EXO-55 Breakthrough Exosuit"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:dcf8ec258b92eb7e",
+      "fieldInstances": [
+        "vehicle:exo-55-breakthrough-exosuit:exo-55-breakthrough-exosuit-entity:rotation.turn_speed",
+        "vehicle:exo-55-breakthrough-exosuit:exo-55-breakthrough-exosuit-entity:rotation.acceleration",
+        "vehicle:exo-55-breakthrough-exosuit:exo-55-breakthrough-exosuit-entity:rotation.deceleration"
       ]
     },
     {
@@ -44242,6 +45617,22 @@
       "fieldInstances": [
         "vehicle:exo-51-lumberer-exosuit:exo-51-lumberer-exosuit-mount-slot-0:mount.weapon",
         "vehicle:exo-51-lumberer-exosuit:exo-51-lumberer-exosuit-mount-slot-1:mount.weapon"
+      ]
+    },
+    {
+      "backingObjectId": "backing:82db2726cf6f0071",
+      "kind": "RotationComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "vehicle": "EXO-51 Lumberer Exosuit"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:7051a36dd13d4487",
+      "fieldInstances": [
+        "vehicle:exo-51-lumberer-exosuit:exo-51-lumberer-exosuit-entity:rotation.turn_speed",
+        "vehicle:exo-51-lumberer-exosuit:exo-51-lumberer-exosuit-entity:rotation.acceleration",
+        "vehicle:exo-51-lumberer-exosuit:exo-51-lumberer-exosuit-entity:rotation.deceleration"
       ]
     },
     {
@@ -44361,6 +45752,20 @@
       ]
     },
     {
+      "backingObjectId": "backing:8690b884902d7897",
+      "kind": "VehicleMotionComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "vehicle": "FRV (Super Earth variant)"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:549934cbf4132cb4",
+      "fieldInstances": [
+        "vehicle:frv-super-earth-variant:frv-super-earth-variant-entity:vehicle.steering_response_speed"
+      ]
+    },
+    {
       "backingObjectId": "backing:015c38b68c511525",
       "kind": "HealthComponentData",
       "shared": false,
@@ -44417,6 +45822,20 @@
       "sharedScopeKey": "shared-scope:3da063ffe5937f3b",
       "fieldInstances": [
         "vehicle:gater-oil-rig:gater-oil-rig-mount-slot-0:mount.weapon"
+      ]
+    },
+    {
+      "backingObjectId": "backing:9ff4a477d6e45418",
+      "kind": "VehicleMotionComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "vehicle": "GATER Oil Rig"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:e7e18fd412926dd5",
+      "fieldInstances": [
+        "vehicle:gater-oil-rig:gater-oil-rig-entity:vehicle.steering_response_speed"
       ]
     }
   ],
@@ -45047,6 +46466,20 @@
       "allowSharedRequired": false
     },
     {
+      "operationGroup": "operation:0e6ff95044a78da7",
+      "backingObjectId": "backing:7b6a5c216d803b12",
+      "target": {
+        "resource": "vehicle",
+        "vehicle": "M-103 Supply FRV",
+        "path": "entity"
+      },
+      "fieldInstances": [
+        "vehicle:m-103-supply-frv:m-103-supply-frv-entity:vehicle.steering_response_speed"
+      ],
+      "recommendedApi": "hd2.patch",
+      "allowSharedRequired": false
+    },
+    {
       "operationGroup": "operation:903be331de4ebbc3",
       "backingObjectId": "backing:e4deb3c871bb1d0d",
       "target": {
@@ -45649,6 +47082,20 @@
       "allowSharedRequired": false
     },
     {
+      "operationGroup": "operation:e50a31fea87136cc",
+      "backingObjectId": "backing:fd88beadc0578a7e",
+      "target": {
+        "resource": "vehicle",
+        "vehicle": "TD-110 Maelstrom",
+        "path": "entity"
+      },
+      "fieldInstances": [
+        "vehicle:td-110-maelstrom:td-110-maelstrom-entity:vehicle.steering_response_speed"
+      ],
+      "recommendedApi": "hd2.patch",
+      "allowSharedRequired": false
+    },
+    {
       "operationGroup": "operation:e3ada0f6efc51de9",
       "backingObjectId": "backing:bdf409714e38686a",
       "target": {
@@ -46172,6 +47619,20 @@
       "allowSharedRequired": false
     },
     {
+      "operationGroup": "operation:26d11430bf3abbc7",
+      "backingObjectId": "backing:2a6a9c79f31086cb",
+      "target": {
+        "resource": "vehicle",
+        "vehicle": "M-104 Incinerator FRV",
+        "path": "entity"
+      },
+      "fieldInstances": [
+        "vehicle:m-104-incinerator-frv:m-104-incinerator-frv-entity:vehicle.steering_response_speed"
+      ],
+      "recommendedApi": "hd2.patch",
+      "allowSharedRequired": false
+    },
+    {
       "operationGroup": "operation:6464bd51fec625c8",
       "backingObjectId": "backing:c06c50a37bd0d2b5",
       "target": {
@@ -46353,6 +47814,22 @@
       "allowSharedRequired": false
     },
     {
+      "operationGroup": "operation:3afa45501db543e0",
+      "backingObjectId": "backing:d98514318d1029bb",
+      "target": {
+        "resource": "vehicle",
+        "vehicle": "EXO-49 Emancipator Exosuit",
+        "path": "entity"
+      },
+      "fieldInstances": [
+        "vehicle:exo-49-emancipator-exosuit:exo-49-emancipator-exosuit-entity:rotation.turn_speed",
+        "vehicle:exo-49-emancipator-exosuit:exo-49-emancipator-exosuit-entity:rotation.acceleration",
+        "vehicle:exo-49-emancipator-exosuit:exo-49-emancipator-exosuit-entity:rotation.deceleration"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false
+    },
+    {
       "operationGroup": "operation:67ab8bc78fcc4c4d",
       "backingObjectId": "backing:e67a82475bd9a8d7",
       "target": {
@@ -46531,6 +48008,22 @@
         "vehicle:exo-45-patriot-exosuit:exo-45-patriot-exosuit-mount-slot-1:mount.weapon"
       ],
       "recommendedApi": "hd2.patch",
+      "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:8a4779da92100175",
+      "backingObjectId": "backing:46bad16a980d29da",
+      "target": {
+        "resource": "vehicle",
+        "vehicle": "EXO-45 Patriot Exosuit",
+        "path": "entity"
+      },
+      "fieldInstances": [
+        "vehicle:exo-45-patriot-exosuit:exo-45-patriot-exosuit-entity:rotation.turn_speed",
+        "vehicle:exo-45-patriot-exosuit:exo-45-patriot-exosuit-entity:rotation.acceleration",
+        "vehicle:exo-45-patriot-exosuit:exo-45-patriot-exosuit-entity:rotation.deceleration"
+      ],
+      "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false
     },
     {
@@ -47052,6 +48545,20 @@
       },
       "fieldInstances": [
         "vehicle:m-102-gunner-frv:m-102-gunner-frv-mount-slot-0:mount.weapon"
+      ],
+      "recommendedApi": "hd2.patch",
+      "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:2624b9d708d126c6",
+      "backingObjectId": "backing:7d783f2239d1712b",
+      "target": {
+        "resource": "vehicle",
+        "vehicle": "M-102 Gunner FRV",
+        "path": "entity"
+      },
+      "fieldInstances": [
+        "vehicle:m-102-gunner-frv:m-102-gunner-frv-entity:vehicle.steering_response_speed"
       ],
       "recommendedApi": "hd2.patch",
       "allowSharedRequired": false
@@ -47629,6 +49136,20 @@
       "allowSharedRequired": false
     },
     {
+      "operationGroup": "operation:7fbb68288b168ee9",
+      "backingObjectId": "backing:dcd5a9646698867f",
+      "target": {
+        "resource": "vehicle",
+        "vehicle": "TD-220 Bastion MK XVI",
+        "path": "entity"
+      },
+      "fieldInstances": [
+        "vehicle:td-220-bastion-mk-xvi:td-220-bastion-mk-xvi-entity:vehicle.steering_response_speed"
+      ],
+      "recommendedApi": "hd2.patch",
+      "allowSharedRequired": false
+    },
+    {
       "operationGroup": "operation:d4d8a230d44c3fe0",
       "backingObjectId": "backing:78b3d1fea3d6d8f7",
       "target": {
@@ -47792,6 +49313,22 @@
         "vehicle:exo-55-breakthrough-exosuit:exo-55-breakthrough-exosuit-mount-slot-1:mount.weapon"
       ],
       "recommendedApi": "hd2.patch",
+      "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:ccd0fcfe20de7533",
+      "backingObjectId": "backing:61feb0551a907f32",
+      "target": {
+        "resource": "vehicle",
+        "vehicle": "EXO-55 Breakthrough Exosuit",
+        "path": "entity"
+      },
+      "fieldInstances": [
+        "vehicle:exo-55-breakthrough-exosuit:exo-55-breakthrough-exosuit-entity:rotation.turn_speed",
+        "vehicle:exo-55-breakthrough-exosuit:exo-55-breakthrough-exosuit-entity:rotation.acceleration",
+        "vehicle:exo-55-breakthrough-exosuit:exo-55-breakthrough-exosuit-entity:rotation.deceleration"
+      ],
+      "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false
     },
     {
@@ -47973,6 +49510,22 @@
         "vehicle:exo-51-lumberer-exosuit:exo-51-lumberer-exosuit-mount-slot-1:mount.weapon"
       ],
       "recommendedApi": "hd2.patch",
+      "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:6a89156ea522ee5e",
+      "backingObjectId": "backing:82db2726cf6f0071",
+      "target": {
+        "resource": "vehicle",
+        "vehicle": "EXO-51 Lumberer Exosuit",
+        "path": "entity"
+      },
+      "fieldInstances": [
+        "vehicle:exo-51-lumberer-exosuit:exo-51-lumberer-exosuit-entity:rotation.turn_speed",
+        "vehicle:exo-51-lumberer-exosuit:exo-51-lumberer-exosuit-entity:rotation.acceleration",
+        "vehicle:exo-51-lumberer-exosuit:exo-51-lumberer-exosuit-entity:rotation.deceleration"
+      ],
+      "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false
     },
     {
@@ -48499,6 +50052,20 @@
       "allowSharedRequired": false
     },
     {
+      "operationGroup": "operation:098e6bd84271108f",
+      "backingObjectId": "backing:8690b884902d7897",
+      "target": {
+        "resource": "vehicle",
+        "vehicle": "FRV (Super Earth variant)",
+        "path": "entity"
+      },
+      "fieldInstances": [
+        "vehicle:frv-super-earth-variant:frv-super-earth-variant-entity:vehicle.steering_response_speed"
+      ],
+      "recommendedApi": "hd2.patch",
+      "allowSharedRequired": false
+    },
+    {
       "operationGroup": "operation:e21afa6d2ee481d8",
       "backingObjectId": "backing:015c38b68c511525",
       "target": {
@@ -48697,6 +50264,20 @@
       ],
       "recommendedApi": "hd2.patch",
       "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:f6b7b99a1b7b7b61",
+      "backingObjectId": "backing:9ff4a477d6e45418",
+      "target": {
+        "resource": "vehicle",
+        "vehicle": "GATER Oil Rig",
+        "path": "entity"
+      },
+      "fieldInstances": [
+        "vehicle:gater-oil-rig:gater-oil-rig-entity:vehicle.steering_response_speed"
+      ],
+      "recommendedApi": "hd2.patch",
+      "allowSharedRequired": false
     }
   ],
   "referenceContract": {
@@ -48718,6 +50299,7 @@
     "gameplay_proven_combined": "Written as part of a gameplay-confirmed edit; its individual effect is not isolated.",
     "schema_proven": "Same typed native member was gameplay-proven on another entity of this record type.",
     "native_correlated": "Typed native member whose meaning is proven offline: an exact published value (on every independent entity that publishes one), a differential across the record type and a consistent hidden-name length. Not yet shown in game; allow_unverified_effect is required.",
+    "native_consumer_proven": "Typed native member whose reader in the native code is traced and whose meaning is proven from that code (the research file is named in the field evidence). Not yet shown in game; allow_unverified_effect is required.",
     "live_write_verified": "Reference mod committed this write live; gameplay effect is unconfirmed.",
     "structural_reference": "Same typed mount reference mechanism as the live-verified swap; this slot and replacement have no reference-mod write."
   },
@@ -48725,8 +50307,8 @@
     "vehicles": 11,
     "stratagemVehicles": 9,
     "nativeOnlyVehicles": 2,
-    "fieldInstances": 718,
-    "writableFieldInstances": 718,
+    "fieldInstances": 737,
+    "writableFieldInstances": 737,
     "populatedZones": 226,
     "zoneFieldInstances": 678,
     "mountSlots": 22,
@@ -48743,6 +50325,7 @@
     "writableByTier": {
       "gameplay_proven": 64,
       "schema_proven": 636,
+      "native_consumer_proven": 19,
       "live_write_verified": 2,
       "structural_reference": 16
     },
@@ -48751,8 +50334,8 @@
     "fixtureFallback": "disabled"
   },
   "instanceAudit": {
-    "internalInstances": 718,
-    "publishedInstances": 718,
+    "internalInstances": 737,
+    "publishedInstances": 737,
     "missingInstances": 0,
     "unexpectedInstances": 0,
     "exactMatch": true

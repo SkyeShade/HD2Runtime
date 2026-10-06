@@ -1,0 +1,313 @@
+{
+  "callInNoOps": 94,
+  "fixtureFallback": "disabled",
+  "mode": "snapshot-overlay",
+  "orbitals": {
+    "Orbital 120mm HE Barrage": {
+      "fields": [
+        "orbital.salvo_interval",
+        "orbital.salvo_interval_random",
+        "orbital.salvo_scatter",
+        "orbital.salvos",
+        "orbital.scatter",
+        "orbital.shell_interval",
+        "orbital.shell_interval_random",
+        "orbital.shells_per_salvo"
+      ],
+      "shellTypes": [
+        194,
+        137,
+        137
+      ]
+    },
+    "Orbital 380mm HE Barrage": {
+      "fields": [
+        "orbital.salvo_interval",
+        "orbital.salvo_interval_random",
+        "orbital.salvo_scatter",
+        "orbital.salvos",
+        "orbital.scatter",
+        "orbital.shell_interval",
+        "orbital.shell_interval_random",
+        "orbital.shells_per_salvo"
+      ],
+      "shellTypes": [
+        80,
+        266,
+        266
+      ]
+    },
+    "Orbital Airburst Strike": {
+      "fields": [
+        "orbital.salvo_interval",
+        "orbital.salvo_interval_random",
+        "orbital.salvo_scatter",
+        "orbital.salvos",
+        "orbital.scatter",
+        "orbital.shell_interval",
+        "orbital.shell_interval_random",
+        "orbital.shells_per_salvo"
+      ],
+      "shellTypes": [
+        158
+      ]
+    },
+    "Orbital EMS Strike": {
+      "fields": [
+        "orbital.salvo_interval",
+        "orbital.salvo_interval_random",
+        "orbital.salvo_scatter",
+        "orbital.salvos",
+        "orbital.scatter",
+        "orbital.shell_interval",
+        "orbital.shell_interval_random",
+        "orbital.shells_per_salvo"
+      ],
+      "shellTypes": [
+        74
+      ]
+    },
+    "Orbital Gas Strike": {
+      "fields": [
+        "orbital.salvo_interval",
+        "orbital.salvo_interval_random",
+        "orbital.salvo_scatter",
+        "orbital.salvos",
+        "orbital.scatter",
+        "orbital.shell_interval",
+        "orbital.shell_interval_random",
+        "orbital.shells_per_salvo"
+      ],
+      "shellTypes": [
+        197
+      ]
+    },
+    "Orbital Gatling Barrage": {
+      "fields": [
+        "orbital.salvo_interval",
+        "orbital.salvo_interval_random",
+        "orbital.salvo_scatter",
+        "orbital.salvos",
+        "orbital.scatter",
+        "orbital.shell_interval",
+        "orbital.shell_interval_random",
+        "orbital.shells_per_salvo"
+      ],
+      "shellTypes": [
+        77,
+        42,
+        42,
+        42
+      ]
+    },
+    "Orbital Napalm Barrage": {
+      "fields": [
+        "orbital.salvo_interval",
+        "orbital.salvo_interval_random",
+        "orbital.salvo_scatter",
+        "orbital.salvos",
+        "orbital.scatter",
+        "orbital.shell_interval",
+        "orbital.shell_interval_random",
+        "orbital.shells_per_salvo"
+      ],
+      "shellTypes": [
+        234,
+        238,
+        238
+      ]
+    },
+    "Orbital Precision Strike": {
+      "fields": [
+        "orbital.salvo_interval",
+        "orbital.salvo_interval_random",
+        "orbital.salvo_scatter",
+        "orbital.salvos",
+        "orbital.scatter",
+        "orbital.shell_interval",
+        "orbital.shell_interval_random",
+        "orbital.shells_per_salvo"
+      ],
+      "shellTypes": [
+        100
+      ]
+    },
+    "Orbital Smoke Strike": {
+      "fields": [
+        "orbital.salvo_interval",
+        "orbital.salvo_interval_random",
+        "orbital.salvo_scatter",
+        "orbital.salvos",
+        "orbital.scatter",
+        "orbital.shell_interval",
+        "orbital.shell_interval_random",
+        "orbital.shells_per_salvo"
+      ],
+      "shellTypes": [
+        247
+      ]
+    },
+    "Orbital Walking Barrage": {
+      "fields": [
+        "orbital.salvo_interval",
+        "orbital.salvo_interval_random",
+        "orbital.salvo_scatter",
+        "orbital.salvos",
+        "orbital.scatter",
+        "orbital.shell_interval",
+        "orbital.shell_interval_random",
+        "orbital.shells_per_salvo"
+      ],
+      "shellTypes": [
+        80,
+        266,
+        266
+      ]
+    }
+  },
+  "patternNoOps": 80,
+  "protectionChanges": 28,
+  "rejections": {
+    "acknowledgement": 174,
+    "conflict": 1,
+    "recordProof": 1,
+    "value": 15
+  },
+  "roundTrips": [
+    {
+      "after": "05000000",
+      "before": "01000000",
+      "field": "orbital.salvos",
+      "from": 1,
+      "inverseRestored": true,
+      "offset": 24,
+      "otherBytesUnchanged": true,
+      "protectionRestored": true,
+      "stratagem": "Orbital EMS Strike",
+      "to": 5,
+      "writes": 1
+    },
+    {
+      "after": "03000000",
+      "before": "01000000",
+      "field": "orbital.shells_per_salvo",
+      "from": 1,
+      "inverseRestored": true,
+      "offset": 4,
+      "otherBytesUnchanged": true,
+      "protectionRestored": true,
+      "stratagem": "Orbital EMS Strike",
+      "to": 3,
+      "writes": 1
+    },
+    {
+      "after": "01000000",
+      "before": "05000000",
+      "field": "orbital.shells_per_salvo",
+      "from": 5,
+      "inverseRestored": true,
+      "offset": 4,
+      "otherBytesUnchanged": true,
+      "protectionRestored": true,
+      "stratagem": "Orbital Napalm Barrage",
+      "to": 1,
+      "writes": 1
+    },
+    {
+      "after": "0000803f",
+      "before": "0000c841",
+      "field": "orbital.scatter",
+      "from": 25,
+      "inverseRestored": true,
+      "offset": 36,
+      "otherBytesUnchanged": true,
+      "protectionRestored": true,
+      "stratagem": "Orbital Napalm Barrage",
+      "to": 1,
+      "writes": 1
+    },
+    {
+      "after": "9a99993e",
+      "before": "0000403f",
+      "field": "orbital.shell_interval",
+      "from": 0.75,
+      "inverseRestored": true,
+      "offset": 8,
+      "otherBytesUnchanged": true,
+      "protectionRestored": true,
+      "stratagem": "Orbital 120mm HE Barrage",
+      "to": 0.3,
+      "writes": 1
+    },
+    {
+      "after": "0000803f",
+      "before": "00000000",
+      "field": "orbital.salvo_interval",
+      "from": 0,
+      "inverseRestored": true,
+      "offset": 28,
+      "otherBytesUnchanged": true,
+      "protectionRestored": true,
+      "stratagem": "Orbital Gatling Barrage",
+      "to": 1,
+      "writes": 1
+    },
+    {
+      "after": "0000803f",
+      "before": "0000a040",
+      "field": "stratagem.call_in_time",
+      "from": 5,
+      "inverseRestored": true,
+      "offset": 84,
+      "otherBytesUnchanged": true,
+      "protectionRestored": true,
+      "stratagem": "Orbital 120mm HE Barrage",
+      "to": 1,
+      "writes": 1
+    },
+    {
+      "after": "00007041",
+      "before": "0000c040",
+      "field": "stratagem.call_in_time",
+      "from": 6,
+      "inverseRestored": true,
+      "offset": 84,
+      "otherBytesUnchanged": true,
+      "protectionRestored": true,
+      "stratagem": "Orbital 380mm HE Barrage",
+      "to": 15,
+      "writes": 1
+    },
+    {
+      "after": "00004040",
+      "before": "00000000",
+      "field": "stratagem.call_in_time",
+      "from": 0,
+      "inverseRestored": true,
+      "offset": 84,
+      "otherBytesUnchanged": true,
+      "protectionRestored": true,
+      "stratagem": "Eagle Airstrike",
+      "to": 3,
+      "writes": 1
+    }
+  ],
+  "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "status": "VALIDATED",
+  "transactions": [
+    {
+      "changes": 5,
+      "inverseRestored": true,
+      "shellTypesUnchanged": true,
+      "stratagem": "Orbital EMS Strike",
+      "writes": 5
+    },
+    {
+      "changes": 2,
+      "inverseRestored": true,
+      "stratagem": "Orbital 120mm HE Barrage",
+      "writes": 2
+    }
+  ],
+  "writes": 32
+}

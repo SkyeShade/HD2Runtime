@@ -1,0 +1,1 @@
+{"format":1,"name":"BeaconTimingProof","resource":"mods/skyeshade/hd2runtime_beacon_timing_proof","guid":"a014a2c8-7670-456e-b7d5-a35c6abe90f2","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.28.0","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../sdk","ide_library":"../../sdk/stubs"}

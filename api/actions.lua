@@ -35,7 +35,9 @@ local Action={};Action.__index=Action
 function Action:describe()
     return {kind=self.kind,owner=self.owner,status=self.status,code=self.code,reason=self.reason,
         explosion=self.explosion,projectile=self.projectile,effect=self.effect,type=self.type,
-        position=self.position and self.position:copy()or nil,mission=self.mission}
+        position=self.position and self.position:copy()or nil,mission=self.mission,limb=self.limb,zone=self.zone,
+        damage=self.damage,amount=self.amount,healed=self.healed,velocity=self.velocity and self.velocity:copy()or nil,
+        after=self.after and self.after:copy()or nil}
 end
 -- True once the game accepted the request (the explosion is queued for this frame).
 function Action:requested()return self.status=='requested'end
@@ -116,7 +118,16 @@ local function resolve(explosion)
         if not dependency then
             return nil,'ASSET_UNKNOWN','the package that holds the '..item.name..' explosion is not known'
         end
-        return {name=item.name,type=item.type,dependency=dependency}
+        -- An objective's explosion (the Cyborg Production Unit's): its sound ships in a second objective package.
+        local list={dependency}
+        if item.soundPackage then
+            list[2]=core_assets.dependency('explosion/'..item.name..'/sound')
+            if not list[2]then
+                return nil,'ASSET_UNKNOWN','the package that holds the '..item.name..' explosion\'s sound is not known'
+            end
+        end
+        return {name=item.name,type=item.type,dependency=dependency,dependencies=list,
+            objective=item.objective==true or nil}
     end
     if type(explosion)=='string'then
         local handle,why=explosions.of(explosion)
@@ -144,6 +155,17 @@ local function resolve(explosion)
     return {name=tostring(explosion.weapon),type=kind,dependency=dependency}
 end
 
+-- Whether every package of a resolved explosion target is resident now (read-only).
+function M.explosion_resident(runtime,target)
+    for _,dependency in ipairs(target.dependencies or{target.dependency})do
+        local ok,state=pcall(core_assets.state,runtime,dependency.package)
+        if not(ok and state=='resident')then return false end
+    end
+    return true
+end
+-- A named or catalogued explosion's target ({name, type, dependency, dependencies}) or nil, code, reason. Offline.
+function M.explosion_target(explosion)return resolve(explosion)end
+
 -- Every axis is checked by name (a missing one refuses; iterating {x, y, z} would stop at it).
 local function finite(v,limit)return type(v)=='number'and v==v and math.abs(v)<=limit end
 local function position_of(value)
@@ -168,8 +190,13 @@ local function authority(action)
     if state.host~=true then
         return nil,'HOST_ONLY','only the host changes enemy health; a client request would be local and overwritten'
     end
-    local avatar=handles.local_avatar(world)
-    if not avatar then return nil,'NO_LOCAL_AVATAR','the action is credited to the local player\'s avatar; there is none now'end
+    -- The local player's current avatar (the player list decides); in the moment it has just died it is still the one
+    -- credited, so a reaction to the local player's death works.
+    local avatar,why=handles.local_avatar(world,{include_dead=true})
+    if not avatar then
+        return nil,'NO_LOCAL_AVATAR','the action is credited to the local player\'s avatar; there is none now ('
+            ..tostring(why)..')'
+    end
     local lo,hi=world_module.local_peer(world)
     if not lo then return nil,'EXPLOSION_UNAVAILABLE','the local peer id is unreadable'end
     return {world=world,avatar=avatar.id,peer_lo=lo,peer_hi=hi}
@@ -221,12 +248,11 @@ function explosions.spawn(explosion,opts)
             ..M.EXPLOSION_REFILL..' per second per mod')
     end
     local runtime=allowed.world.runtime
-    local ok,state=pcall(core_assets.state,runtime,target.dependency.package)
-    if ok and state=='resident'then return fire(action,target)end
+    if M.explosion_resident(runtime,target)then return fire(action,target)end
     -- Load the explosion's assets first, through the same gate reference swaps use; then request.
     action.status='waiting_for_assets'
     local gate=core_assets.gate(runtime,{id='explosion-'..target.name:gsub('[^%w_%-]','_'),
-        asset_dependencies={target.dependency}},events.emit_log)
+        asset_dependencies=target.dependencies or{target.dependency}},events.emit_log)
     local elapsed=0
     local watch={status='waiting'}
     function watch.cancel()watch.status='cancelled'end
@@ -256,11 +282,10 @@ function explosions.prepare(explosion)
     action.explosion,action.type=target.name,target.type
     local world,why=world_module.open()
     if not world then return refuse(action,'EXPLOSION_UNAVAILABLE',tostring(why))end
-    local ok,state=pcall(core_assets.state,world.runtime,target.dependency.package)
-    if ok and state=='resident'then action.status='ready';return action end
+    if M.explosion_resident(world.runtime,target)then action.status='ready';return action end
     action.status='waiting_for_assets'
     local gate=core_assets.gate(world.runtime,{id='explosion-'..target.name:gsub('[^%w_%-]','_'),
-        asset_dependencies={target.dependency}},events.emit_log)
+        asset_dependencies=target.dependencies or{target.dependency}},events.emit_log)
     local watch={status='waiting'}
     function watch.cancel()watch.status='cancelled'end
     function watch.tick(dt)
@@ -272,13 +297,15 @@ function explosions.prepare(explosion)
     return action
 end
 
--- Every catalogued explosion: {name, weapon, type, source, assets_known}. Named explosions come first (source
--- 'behavior', weapon nil), then weapon explosions (source 'weapon', name = the weapon). Offline; no game reads.
+-- Every catalogued explosion: {name, weapon, type, source, assets_known, objective}. Named explosions come first
+-- (source 'behavior', weapon nil; objective = true when its effect and sound ship in objective packages, e.g. the
+-- Cyborg Production Unit's: two packages of about 300 MB), then weapon explosions (source 'weapon', name = the weapon).
+-- Offline; no game reads.
 function explosions.list()
     local result={}
     for _,item in ipairs(natives.explosion.named or{})do
         result[#result+1]={name=item.name,type=item.type,source='behavior',
-            assets_known=core_assets.dependency('explosion/'..item.name)~=nil}
+            assets_known=resolve(item.name)~=nil,objective=item.objective==true or nil}
     end
     for _,item in ipairs(natives.explosion.weapons)do
         local handle=explosions.of(item.weapon)
@@ -325,13 +352,19 @@ local function unit_direction(value)
     if length<1e-6 then return nil end
     return {x=x/length,y=y/length,z=z/length}
 end
--- Loads a target's package through the asset gate, then calls fire(action, target); 'waiting_for_assets' meanwhile.
+-- Loads a target's packages (target.dependencies, else target.dependency) through the asset gate, then calls
+-- fire(action, target); 'waiting_for_assets' meanwhile.
 local function after_assets(action,target,runtime,fire_now)
-    local ok,state=pcall(core_assets.state,runtime,target.dependency.package)
-    if ok and state=='resident'then return fire_now(action,target)end
+    local dependencies=target.dependencies or{target.dependency}
+    local resident=true
+    for _,dependency in ipairs(dependencies)do
+        local ok,state=pcall(core_assets.state,runtime,dependency.package)
+        if not(ok and state=='resident')then resident=false;break end
+    end
+    if resident then return fire_now(action,target)end
     action.status='waiting_for_assets'
     local gate=core_assets.gate(runtime,{id=action.kind..'-'..target.name:gsub('[^%w_%-]','_'),
-        asset_dependencies={target.dependency}},events.emit_log)
+        asset_dependencies=dependencies},events.emit_log)
     local elapsed=0
     local watch={status='waiting'}
     function watch.cancel()watch.status='cancelled'end
@@ -426,6 +459,201 @@ function projectiles.list()
     return result
 end
 M.projectiles=projectiles
+
+-------------------------------------------------------------------------------------------- custom projectiles --
+-- Runtime-owned custom projectile rows (docs/custom-projectile-rows.md). Infrastructure only: not exported by
+-- api/hd2.lua (a development proof calls it). A definition (runtime/custom_projectiles.lua) is fired like a catalogued
+-- projectile (host only, in a mission, fired and credited by the local player, its packages loaded first, the same
+-- rate limit) but through the game's SpawnProjectile with the definition's Runtime-owned row.
+local custom_projectiles=require('hd2runtime/runtime/custom_projectiles')
+local function fire_custom(action,target)
+    local allowed,code,reason=authority(action)
+    if not allowed then return refuse(action,code,reason)end
+    local definition=target.definition
+    local p,d=action.position,action.direction
+    local result,why,report=world_module.spawn_projectile_row(allowed.world,{row=definition.row.address,
+        base_type=definition.base.type,x=p.x,y=p.y,z=p.z,dx=d.x,dy=d.y,dz=d.z,source=allowed.avatar,
+        owner=allowed.avatar,peer_lo=allowed.peer_lo,peer_hi=allowed.peer_hi})
+    if not result then
+        local code_text=tostring(why):match('^([A-Z_]+):')or'CUSTOM_PROJECTILE_UNAVAILABLE'
+        action.report=report
+        return refuse(action,code_text,(tostring(why):gsub('^[A-Z_]+: ','')))
+    end
+    action.status='requested'
+    action.slot,action.report=result.slot,result.report
+    -- The vanilla base row is compared with the bytes read when the definition was built (Runtime never writes it).
+    action.base_unchanged=result.base==definition.base_row
+    metrics.count('actions.custom_projectiles')
+    events.emit_log(custom_projectiles.line(definition,result.report)..' native spawn result=slot '..tostring(result.slot)
+        ..' vanilla base row '..(action.base_unchanged and'unchanged'or'CHANGED since the definition')..' fired from '
+        ..tostring(p)..' by '..action.owner)
+    return action
+end
+-- Fires a custom projectile definition (its id or the definition): M.spawn_custom_projectile(id, {position = p,
+-- direction = d}). Returns an action handle; a refusal never raises (status 'refused', code, reason).
+function M.spawn_custom_projectile(id,opts)
+    opts=opts or{}
+    local explicit=opts.owner
+    local owner=events.owner(type(explicit)=='string'and explicit or nil,2)
+    local action=new_action('custom_projectile',owner)
+    local _,epoch=events.mission()
+    action.mission=epoch
+    local definition=type(id)=='table'and custom_projectiles.get(id.id)==id and id or custom_projectiles.get(id)
+    if not definition then
+        return refuse(action,'UNKNOWN_CUSTOM_PROJECTILE','no custom projectile definition '..tostring(type(id)=='table'
+            and id.id or id))
+    end
+    action.projectile,action.type=definition.id,definition.base.type
+    action.position=position_of(opts.position)
+    if not action.position then return refuse(action,'INVALID_POSITION','opts.position must be {x, y, z} world coordinates')end
+    action.direction=unit_direction(opts.direction)
+    if not action.direction then
+        return refuse(action,'INVALID_DIRECTION','opts.direction must be a non-zero {x, y, z} vector')
+    end
+    action.cause=events.action_cause(owner,'projectile')
+    if action.cause.depth>events.MAX_CAUSE_DEPTH then
+        return refuse(action,'CAUSE_DEPTH','refused to extend a chain of mod-caused actions')
+    end
+    local allowed,code,reason=authority(action)
+    if not allowed then return refuse(action,code,reason)end
+    if not take_token(owner,'projectile',M.PROJECTILE_BURST,M.PROJECTILE_REFILL)then
+        return refuse(action,'RATE_LIMITED','at most '..M.PROJECTILE_BURST..' projectiles at once and '
+            ..M.PROJECTILE_REFILL..' per second per mod')
+    end
+    return after_assets(action,{name=definition.id,definition=definition,dependencies=definition.dependencies},
+        allowed.world.runtime,fire_custom)
+end
+
+-------------------------------------------------------------------------------- weapon projectile replacement --
+-- Weapon projectile replacement (runtime/projectile_replacement.lua, docs/custom-projectile-rows.md#weapon-projectile-
+-- replacement). Not exported by api/hd2.lua (a development proof calls it). The mod swaps a weapon to fire a carrier
+-- through the ordinary guarded projectile swap; this binds the carrier to a custom projectile definition, so each
+-- carrier the local player fires is replaced by the definition. Host only; the definition's packages load first.
+local projectile_replacement=require('hd2runtime/runtime/projectile_replacement')
+local rows_domain=require('hd2runtime/domains/projectile_rows')
+local b=require('hd2runtime/core/bytes')
+local function bind_now(action,target)
+    local world,why=world_module.open()
+    if not world then return refuse(action,'REPLACEMENT_UNAVAILABLE',tostring(why))end
+    local state=world_module.game_state(world)
+    if not state or state.host~=true then
+        return refuse(action,'HOST_ONLY','a custom projectile only exists on the machine that spawns it; only the '
+            ..'host decides hits')
+    end
+    action.binding=projectile_replacement.bind({carrier=target.carrier,definition=target.definition,
+        weapon=target.weapon,unreplaced=target.unreplaced,detail_logs=target.detail_logs,sources=target.sources,
+        credit=target.credit,context=target.context,attribute=target.attribute,owner=action.owner,
+        runtime=world.runtime})
+    action.status='bound'
+    local observed=''
+    if target.unreplaced and target.unreplaced.role=='suppressed'then
+        observed=('; the native %s projectile (type %d) must not appear: every sighting is a suppression failure')
+            :format(target.unreplaced.name,target.unreplaced.type)
+    elseif target.unreplaced then
+        observed=('; %s (type %d) shots are counted and never replaced'):format(target.unreplaced.name,
+            target.unreplaced.type)
+    end
+    events.emit_log(('projectile replacement: %s (type %d) shots%s are replaced by %s, for %s%s%s'):format(
+        target.carrier.name,target.carrier.type,target.weapon and(' from the '..target.weapon)or target.context and
+        (' from '..target.context)or'',custom_projectiles.line(target.definition),action.owner,target.credit==
+        'local_or_none'and'; credited to the local peer or to no peer'or'',observed))
+    return action
+end
+-- Replaces each carrier shot the local player fires by a custom projectile definition (its id or the definition):
+-- M.replace_projectiles(id, {carrier = <projectile output id or weapon name>, weapon = <only shots from this
+-- catalogued weapon (optional)>, unreplaced = <the weapon's other projectile output, counted and logged as not
+-- replaced (optional)>, detail_logs = <shots of each kind logged in full (optional; math.huge for all)>, source =
+-- <a projectile output: only shots whose source entity is that output's owner (its catalogued entity type), for hosts
+-- without a catalogued weapon name such as mounted weapons (optional)>, suppressed = <the host's native projectile
+-- output, which the carrier swap replaces: every sighting from the source is logged as a suppression failure
+-- (optional; not with unreplaced)>, credit = 'local' (default) or 'local_or_none' (also shots credited to no peer),
+-- attribute = true (log each shot's creditor, owner, source and latency)}). The carrier must be a vanilla projectile
+-- without impact or expiry explosion. Returns an action handle: 'bound', 'waiting_for_assets' or 'refused' (code,
+-- reason); a refusal never raises.
+function M.replace_projectiles(id,opts)
+    opts=opts or{}
+    local explicit=opts.owner
+    local owner=events.owner(type(explicit)=='string'and explicit or nil,2)
+    local action=new_action('projectile_replacement',owner)
+    local definition=type(id)=='table'and custom_projectiles.get(id.id)==id and id or custom_projectiles.get(id)
+    if not definition then
+        return refuse(action,'UNKNOWN_CUSTOM_PROJECTILE','no custom projectile definition '..tostring(type(id)=='table'
+            and id.id or id))
+    end
+    action.projectile=definition.id
+    local carrier,code,reason=custom_projectiles.output(opts.carrier,false)
+    if not carrier then return refuse(action,code,reason)end
+    action.type=carrier.type
+    if opts.weapon~=nil and type(opts.weapon)~='string'then
+        return refuse(action,'INVALID_WEAPON','opts.weapon must be a catalogued weapon name')
+    end
+    local unreplaced
+    if opts.unreplaced~=nil then
+        local output
+        output,code,reason=custom_projectiles.output(opts.unreplaced,false)
+        if not output then return refuse(action,code,reason)end
+        if output.type==carrier.type then
+            return refuse(action,'INVALID_UNREPLACED','opts.unreplaced must be another projectile than the carrier')
+        end
+        unreplaced={type=output.type,name=output.weapon or output.output}
+    end
+    local detail_logs=opts.detail_logs
+    if detail_logs~=nil and(type(detail_logs)~='number'or detail_logs<0 or detail_logs~=detail_logs)then
+        return refuse(action,'INVALID_DETAIL_LOGS','opts.detail_logs must be a count (math.huge for every shot)')
+    end
+    if opts.suppressed~=nil then
+        if unreplaced then
+            return refuse(action,'INVALID_UNREPLACED','give opts.unreplaced or opts.suppressed, not both')
+        end
+        local output
+        output,code,reason=custom_projectiles.output(opts.suppressed,false)
+        if not output then return refuse(action,code,reason)end
+        if output.type==carrier.type then
+            return refuse(action,'INVALID_UNREPLACED','opts.suppressed must be another projectile than the carrier')
+        end
+        unreplaced={type=output.type,name=output.weapon or output.output,role='suppressed'}
+    end
+    -- The source identity: the owner entity type of a catalogued output (attack output resource).
+    local sources,context
+    if opts.source~=nil then
+        local host
+        host,code,reason=custom_projectiles.output(opts.source,false)
+        if not host then return refuse(action,code,reason)end
+        local resource=host.catalog.resource
+        if type(resource)~='string'or not resource:match('^0x%x+$')or#resource~=18 then
+            return refuse(action,'UNKNOWN_SOURCE',host.output..' has no catalogued owner entity type')
+        end
+        sources={[resource:sub(3):upper()]=host.weapon or host.output}
+        context=('%s (%s, native type %d)'):format(host.weapon or host.output,host.output,host.type)
+    end
+    if opts.credit~=nil and opts.credit~='local'and opts.credit~='local_or_none'then
+        return refuse(action,'INVALID_CREDIT','opts.credit must be "local" or "local_or_none"')
+    end
+    local world,why=world_module.open()
+    if not world then return refuse(action,'REPLACEMENT_UNAVAILABLE',tostring(why))end
+    local proven
+    proven,why=world_module.prove_projectile_pool(world)
+    if not proven then return refuse(action,'REPLACEMENT_UNAVAILABLE',why)end
+    -- A slot is skipped only while its previous projectile's explosion is pending: a carrier without explosions is
+    -- never skipped into, so every carrier slot read was spawned since the previous update.
+    local row=world_module.projectile_row(world,carrier.type)
+    if not row then return refuse(action,'UNKNOWN_PROJECTILE','the vanilla row of '..carrier.output..' does not resolve')end
+    for name,offset in pairs(rows_domain.pool.explosions)do
+        if b.u32(row,offset)~=0 then
+            return refuse(action,'CARRIER_HAS_EXPLOSION',carrier.output..' has an '..name..' explosion; a carrier must '
+                ..'have none')
+        end
+    end
+    return after_assets(action,{name=definition.id,definition=definition,dependencies=definition.dependencies,
+        carrier={type=carrier.type,name=carrier.weapon or carrier.output},weapon=opts.weapon,unreplaced=unreplaced,
+        detail_logs=detail_logs,sources=sources,context=context,credit=opts.credit,attribute=opts.attribute==true},
+        world.runtime,bind_now)
+end
+-- Ends the replacement of a carrier (a projectile output id or weapon name). true when it was bound.
+function M.stop_replacing_projectiles(carrier)
+    local output=custom_projectiles.output(carrier,false)
+    return output~=nil and projectile_replacement.unbind(output.type)
+end
 
 ---------------------------------------------------------------------------------------------- status effects --
 -- hd2.status: the game's own status request queue. Only statuses a player weapon already applies through its
@@ -531,12 +759,252 @@ function status_effects.list()
 end
 M.status_effects=status_effects
 
+------------------------------------------------------------------------------------------------------ injure --
+-- hd2.actions.injure(player, limb, damage): the game's own limb injury of the LOCAL player's avatar
+-- (research/player-injury-path-F5FEE03DCFDB.json). The damage is queued at the limb's physics actor through the game's
+-- damage request, with the template of the VG-70 Variable's own self-damage to its shooter's right arm; the game's
+-- drain applies it later in the frame like any hit on that limb: the limb zone loses that much health (an injured
+-- limb at 0) and main health loses the zone's share. Each machine injures only the avatar it owns; no host needed.
+-- Limbs: head, chest, l_hand, r_hand, l_knee, r_knee. damage: a whole number from 1 to the limb zone's health (head
+-- 85, chest 60, hands 35, knees 45).
+M.INJURE_BURST=12
+M.INJURE_REFILL=10
+function M.injure(player,limb,damage,opts)
+    opts=type(opts)=='table'and opts or{}
+    local explicit=opts.owner
+    local owner=events.owner(type(explicit)=='string'and#explicit>0 and#explicit<=128 and explicit or nil,2)
+    local action=new_action('injure',owner)
+    local _,epoch=events.mission()
+    action.mission,action.limb,action.damage=epoch,limb,damage
+    if explicit~=nil and(type(explicit)~='string'or#explicit==0 or#explicit>128)then
+        return refuse(action,'INVALID_OPTION','owner must be a mod id string')
+    end
+    for key in pairs(opts)do
+        if key~='owner'then return refuse(action,'INVALID_OPTION','unsupported option: '..tostring(key))end
+    end
+    if getmetatable(player)~=handles.Player then
+        return refuse(action,'INVALID_TARGET','the target must be a player handle (hd2.local_player())')
+    end
+    if not player.is_local then
+        return refuse(action,'NOT_LOCAL_PLAYER','only the local player can be injured (each machine injures the '
+            ..'avatar it owns)')
+    end
+    local item=world_module.injury_limb(limb)
+    if not item then
+        local names={}
+        for _,known in ipairs(world_module.injury_limbs())do names[#names+1]=known.name end
+        return refuse(action,'UNKNOWN_LIMB',tostring(limb)..' is not a limb; use '..table.concat(names,', '))
+    end
+    action.zone=item.zone
+    if type(damage)~='number'or damage~=damage or damage%1~=0 or damage<1 or damage>item.maxDamage then
+        return refuse(action,'INVALID_AMOUNT',item.name..' damage must be a whole number from 1 to '..item.maxDamage)
+    end
+    action.cause=events.action_cause(owner,'injure')
+    if action.cause.depth>events.MAX_CAUSE_DEPTH then
+        return refuse(action,'CAUSE_DEPTH','refused to extend a chain of mod-caused actions')
+    end
+    local world,why=world_module.open()
+    if not world then return refuse(action,'INJURY_UNAVAILABLE',tostring(why))end
+    local state=world_module.game_state(world)
+    if not(state and state.mission)then return refuse(action,'NOT_IN_MISSION','the game is not in a mission')end
+    local tracked,current=events.mission()
+    if tracked and action.mission and current~=action.mission then
+        return refuse(action,'NOT_IN_MISSION','the mission it was requested in has ended')
+    end
+    local avatar,reason=handles.local_avatar(world)
+    if not avatar then return refuse(action,'NO_LOCAL_AVATAR',tostring(reason))end
+    if not take_token(owner,'injure',M.INJURE_BURST,M.INJURE_REFILL)then
+        return refuse(action,'RATE_LIMITED','at most '..M.INJURE_BURST..' injuries at once and '..M.INJURE_REFILL
+            ..' per second per mod')
+    end
+    local result,failure=world_module.injure(world,{entity=avatar.id,limb=item.name,damage=damage})
+    if not result then
+        local code=tostring(failure):match('^([A-Z_]+):')or'INJURY_UNAVAILABLE'
+        return refuse(action,code,(tostring(failure):gsub('^[A-Z_]+: ','')))
+    end
+    action.status,action.target='requested',avatar.id
+    action.zone_health,action.injured_before=result.zone_health,result.injured_before
+    metrics.count('actions.injuries')
+    events.emit_log('injury '..item.name..' ('..item.zone..') '..damage..' requested on the local avatar '..avatar.id
+        ..' by '..owner)
+    return action
+end
+-- The common gate of the local-avatar actions (injure has its own, older copy): the action, the world and the local
+-- avatar, or the refused action. `check(action)` validates the arguments first and returns code, reason to refuse.
+local function avatar_action(kind,player,opts,check,burst,refill,depth_level)
+    opts=type(opts)=='table'and opts or{}
+    local explicit=opts.owner
+    local owner=events.owner(type(explicit)=='string'and#explicit>0 and#explicit<=128 and explicit or nil,
+        depth_level or 3)
+    local action=new_action(kind,owner)
+    local _,epoch=events.mission()
+    action.mission=epoch
+    if explicit~=nil and(type(explicit)~='string'or#explicit==0 or#explicit>128)then
+        return nil,refuse(action,'INVALID_OPTION','owner must be a mod id string')
+    end
+    for key in pairs(opts)do
+        if key~='owner'then return nil,refuse(action,'INVALID_OPTION','unsupported option: '..tostring(key))end
+    end
+    if getmetatable(player)~=handles.Player then
+        return nil,refuse(action,'INVALID_TARGET','the target must be a player handle (hd2.local_player())')
+    end
+    if not player.is_local then
+        return nil,refuse(action,'NOT_LOCAL_PLAYER','only the local player\'s own avatar (each machine acts on the '
+            ..'avatar it owns)')
+    end
+    local code,reason=check(action)
+    if code then return nil,refuse(action,code,reason)end
+    action.cause=events.action_cause(owner,kind)
+    if action.cause.depth>events.MAX_CAUSE_DEPTH then
+        return nil,refuse(action,'CAUSE_DEPTH','refused to extend a chain of mod-caused actions')
+    end
+    local world,why=world_module.open()
+    if not world then return nil,refuse(action,kind:upper()..'_UNAVAILABLE',tostring(why))end
+    local state=world_module.game_state(world)
+    if not(state and state.mission)then return nil,refuse(action,'NOT_IN_MISSION','the game is not in a mission')end
+    local tracked,current=events.mission()
+    if tracked and action.mission and current~=action.mission then
+        return nil,refuse(action,'NOT_IN_MISSION','the mission it was requested in has ended')
+    end
+    local avatar,why2=handles.local_avatar(world)
+    if not avatar then return nil,refuse(action,'NO_LOCAL_AVATAR',tostring(why2))end
+    if not take_token(owner,kind,burst,refill)then
+        return nil,refuse(action,'RATE_LIMITED','at most '..burst..' at once and '..refill..' per second per mod')
+    end
+    return action,world,avatar
+end
+local function refused_by(action,failure,default)
+    local code=tostring(failure):match('^([A-Z_]+):')or default
+    return refuse(action,code,(tostring(failure):gsub('^[A-Z_]+: ','')))
+end
+
+-- hd2.actions.heal_limb(player, limb[, amount]): the game's own one-zone restore (RestoreZone, research/player-avatar-
+-- actions-F5FEE03DCFDB.json) on the LOCAL player's avatar: the limb's zone returns to its full health and an injured
+-- limb is healed. Main health is not touched. The game has no partial one-zone heal: amount is 'full' (the default)
+-- or a whole number that covers what the limb is missing (anything smaller is refused, PARTIAL_UNSUPPORTED).
+M.LIMB_HEAL_BURST=6
+M.LIMB_HEAL_REFILL=2
+function M.heal_limb(player,limb,amount,opts)
+    local item
+    local action,world,avatar=avatar_action('heal_limb',player,opts,function(a)
+        a.limb,a.amount=limb,amount
+        item=world_module.injury_limb(limb)
+        if not item then return 'UNKNOWN_LIMB',tostring(limb)..' is not a limb; use head, chest, l_hand, r_hand, '
+            ..'l_knee, r_knee'end
+        a.zone=item.zone
+        if amount~=nil and amount~='full'and(type(amount)~='number'or amount~=amount or amount%1~=0 or amount<1
+                or amount>item.maxDamage)then
+            return 'INVALID_AMOUNT',item.name..' amount must be \'full\' or a whole number from 1 to '..item.maxDamage
+        end
+    end,M.LIMB_HEAL_BURST,M.LIMB_HEAL_REFILL)
+    if not action then return world end
+    if type(amount)=='number'then
+        local zone=world_module.limb_state(world,avatar.id,item.name)
+        if not zone then return refuse(action,'LIMB_HEAL_UNAVAILABLE','the limb is unreadable')end
+        local missing=math.max(0,zone.max-math.max(zone.health,0))
+        if amount<missing then
+            return refuse(action,'PARTIAL_UNSUPPORTED',item.name..' is missing '..missing..'; the game restores a limb '
+                ..'only to full (pass \'full\' or at least '..missing..')')
+        end
+    end
+    local result,failure=world_module.heal_limb(world,{entity=avatar.id,limb=item.name})
+    if not result then return refused_by(action,failure,'LIMB_HEAL_UNAVAILABLE')end
+    action.status,action.target='requested',avatar.id
+    action.zone_health,action.injured_before=result.zone_health,result.injured_before
+    metrics.count('actions.limb_heals')
+    events.emit_log('limb heal '..item.name..' ('..item.zone..') requested on the local avatar '..avatar.id..' by '
+        ..action.owner)
+    return action
+end
+-- hd2.actions.heal_limbs(player): heal_limb('full') for all six limbs, one request (one rate-limit token).
+function M.heal_limbs(player,opts)
+    local action,world,avatar=avatar_action('heal_limbs',player,opts,function()end,M.LIMB_HEAL_BURST,
+        M.LIMB_HEAL_REFILL)
+    if not action then return world end
+    action.healed={}
+    for _,item in ipairs(world_module.injury_limbs())do
+        local result,failure=world_module.heal_limb(world,{entity=avatar.id,limb=item.name})
+        if not result then return refused_by(action,failure,'LIMB_HEAL_UNAVAILABLE')end
+        action.healed[#action.healed+1]=item.name
+    end
+    action.status,action.target='requested',avatar.id
+    metrics.count('actions.limb_heals')
+    events.emit_log('limb heal (all limbs) requested on the local avatar '..avatar.id..' by '..action.owner)
+    return action
+end
+
+-- hd2.actions.add_velocity(player, {x, y, z}): the game's own MotionComponent velocity setter (SetVelocity,
+-- research/player-avatar-actions-F5FEE03DCFDB.json) on the LOCAL player's avatar: its current velocity plus the
+-- change, world space in m/s (+Z up). The change is at most MAX_VELOCITY_CHANGE (25 m/s, about four times the game's
+-- own avatar launch of 5.8 m/s forward and 3.3 m/s up) and the result at most MAX_SPEED (50 m/s). What ground
+-- locomotion does with it the next frame is not proven: an upward change that lifts the avatar is the reliable case.
+M.VELOCITY_BURST=4
+M.VELOCITY_REFILL=2
+M.MAX_VELOCITY_CHANGE=25
+M.MAX_SPEED=50
+function M.add_velocity(player,change,opts)
+    local delta
+    local action,world,avatar=avatar_action('add_velocity',player,opts,function(a)
+        if type(change)~='table'then return 'INVALID_VELOCITY','the change is a table {x, y, z} in m/s'end
+        local x,y,z=change.x,change.y,change.z
+        for _,v in ipairs({x or'',y or'',z or''})do
+            if type(v)~='number'or v~=v or math.abs(v)==math.huge then
+                return 'INVALID_VELOCITY','x, y and z must be finite numbers (m/s)'
+            end
+        end
+        local size=math.sqrt(x*x+y*y+z*z)
+        if size>M.MAX_VELOCITY_CHANGE then
+            return 'INVALID_VELOCITY',('the change is %.1f m/s; at most %g'):format(size,M.MAX_VELOCITY_CHANGE)
+        end
+        if size==0 then return 'INVALID_VELOCITY','the change is zero'end
+        delta={x=x,y=y,z=z}
+        a.velocity=handles.position(delta)
+    end,M.VELOCITY_BURST,M.VELOCITY_REFILL)
+    if not action then return world end
+    local result,failure=world_module.add_velocity(world,{entity=avatar.id,x=delta.x,y=delta.y,z=delta.z,
+        max_speed=M.MAX_SPEED})
+    if not result then return refused_by(action,failure,'VELOCITY_UNAVAILABLE')end
+    action.status,action.target='requested',avatar.id
+    action.before,action.after=handles.position(result.before),handles.position(result.after)
+    metrics.count('actions.velocity_changes')
+    events.emit_log(('velocity %s added to the local avatar %d (now %s) by %s'):format(tostring(action.velocity),
+        avatar.id,tostring(action.after),action.owner))
+    return action
+end
+
+-- Every limb hd2.actions.injure accepts: {name, zone, max_damage, affects_main_health}. Offline; no game reads.
+function M.limbs()
+    local result={}
+    for _,item in ipairs(world_module.injury_limbs())do
+        result[#result+1]={name=item.name,zone=item.zone,max_damage=item.maxDamage,
+            affects_main_health=item.affectsMainHealth}
+    end
+    return result
+end
+
 ------------------------------------------------------------------------------------------------------ status --
 -- What event scripts can make the game do in this Runtime, and why the rest is not offered.
 function M.status()
     return {
         heal={status='available',api='hd2.actions.heal(amount) / player:heal(amount)',
             limits='local player only; alive, not downed; clamped to maximum health'},
+        injure={status='available',api='hd2.actions.injure(player, limb, damage) / player:injure(limb, damage)',
+            limits='local player only (each machine injures the avatar it owns; no host needed); in a mission; '
+                ..'alive, not downed; limbs head, chest, l_hand, r_hand, l_knee, r_knee; damage a whole number up to '
+                ..'the limb zone health; '..M.INJURE_BURST..' at once and '..M.INJURE_REFILL..' per second per mod; '
+                ..'main health loses the zone share and can down or kill',
+            live='not live-tested: the queue, the zones and the VG-70 template are proven offline only'},
+        heal_limb={status='available',api='hd2.actions.heal_limb(player, limb[, \'full\']) / '
+                ..'hd2.actions.heal_limbs(player)',
+            limits='local player only (no host needed); in a mission; alive, not downed; the game restores one limb '
+                ..'to full (no partial limb heal exists); main health unchanged; '..M.LIMB_HEAL_BURST..' at once and '
+                ..M.LIMB_HEAL_REFILL..' per second per mod',
+            live='not live-tested'},
+        add_velocity={status='available',api='hd2.actions.add_velocity(player, {x, y, z})',
+            limits='local player only; in a mission; alive, not downed; change at most '..M.MAX_VELOCITY_CHANGE
+                ..' m/s, result at most '..M.MAX_SPEED..' m/s; '..M.VELOCITY_BURST..' at once and '
+                ..M.VELOCITY_REFILL..' per second per mod; what ground movement does with it is not proven',
+            live='not live-tested'},
         definition={status='available',api='mod:value(spec) bound to hd2.ensure',
             limits='changes a shared definition (every user of it), re-applied about half a second later'},
         explosion={status='available',api='hd2.explosions.spawn(name, weapon or handle, {position=...})',
@@ -557,8 +1025,9 @@ function M.status()
                 ..M.STATUS_BURST..' at once and '..M.STATUS_REFILL..' per second per mod, '
                 ..M.STATUS_PER_TARGET_BURST..' at once per target',
             live='live-proven on host for fire only; other statuses and what other players see are not live-tested'},
+        pelican=require('hd2runtime/api/pelican').status(),
         spawn_entity={status='blocked',reason='the generic spawn (game.dll 0xFDC140) takes spawn parameters and '
-            ..'network replication that are not proven'},
+            ..'network replication that are not proven; only the transport Pelican is spawned (hd2.pelican)'},
     }
 end
 function M.reset_for_tests()

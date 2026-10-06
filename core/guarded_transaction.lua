@@ -1,5 +1,6 @@
 -- Failure-atomic where guarded rollback succeeds. No yields or callbacks occur here.
 local metrics=require('hd2runtime/runtime/metrics')
+local protection=require('hd2runtime/core/page_protection')
 local M={}
 local PAGE=4096
 -- Hard ceiling on the guarded bytes one transaction may read. The allowance itself is derived from the plan's shape
@@ -51,8 +52,10 @@ local function hex(value)
     local high=math.floor(value/4294967296)
     return high>0 and('0x%X%08X'):format(high,value%4294967296)or('0x%X'):format(value)
 end
--- Which region conditions a query failed. The guard itself is unchanged; this only names the reason.
-local function failed_conditions(at,owner,r)
+-- Which region conditions a query failed. The guard itself is unchanged; this only names the reason. `accepted` is
+-- the protection set the caller needs: any readable page for a context or proof read, a writable target (READONLY or
+-- READWRITE) for a page that is opened and written.
+local function failed_conditions(at,owner,r,accepted)
     if not r then return {'query_failed'} end
     local failed={}
     if not(safe(r.base) and safe(r.size) and safe(r.base+r.size) and r.size>0)then failed[#failed+1]='extent'
@@ -60,7 +63,7 @@ local function failed_conditions(at,owner,r)
     if r.state~=0x1000 then failed[#failed+1]='state' end
     if r.allocation_base~=owner.base then failed[#failed+1]='allocation_base' end
     if r.type~=(owner.type or 0x20000)then failed[#failed+1]='type' end
-    if not(r.protect==2 or r.protect==4)then failed[#failed+1]='protection' end
+    if not accepted[r.protect]then failed[#failed+1]='protection' end
     return failed
 end
 function M.apply(runtime,plan)
@@ -75,11 +78,14 @@ function M.apply(runtime,plan)
     local contexts,pages,page_by_key,total={}, {}, {},0
     local queries,bytes_read,allowance=0,0,0
     local refused
-    local function region(at,owner)
+    -- Context and proof reads accept every readable protection (core/page_protection.lua): under Proton a read-only
+    -- proof range in game.dll is PAGE_WRITECOPY. Target pages pass WRITABLE_TARGET instead and stay READONLY or
+    -- READWRITE only, so a copy-on-write target is refused before any page is opened.
+    local function region(at,owner,accepted)
         assert(safe(at) and safe(owner.base) and safe(owner.size) and owner.size>0,'invalid owner extent')
         queries=queries+1;assert(queries<=16384,'transaction query budget exceeded')
         local r=runtime.query(at)
-        local failed=failed_conditions(at,owner,r)
+        local failed=failed_conditions(at,owner,r,accepted or protection.READABLE)
         if #failed>0 and not refused then
             -- The first refused query, as observed (diagnostics only; nothing is read or written here).
             refused={address=at,failed=failed,owner_base=owner.base,owner_size=owner.size,
@@ -107,7 +113,7 @@ function M.apply(runtime,plan)
         return table.concat(parts)
     end
     local function page_region(page)
-        local r=region(page.address,page.owner)
+        local r=region(page.address,page.owner,protection.WRITABLE_TARGET)
         assert(page.address>=page.owner.base and page.address+PAGE<=page.owner.base+page.owner.size
             and r.base<=page.address and r.base+r.size>=page.address+PAGE,
             'target page extent changed')

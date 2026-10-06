@@ -58,7 +58,14 @@ class AssetLoadingTests(unittest.TestCase):
             self.assertTrue(dependency['inBundleDatabase'], key)
         summary = self.research['summary']
         self.assertEqual(summary['known'] + summary['unknown'], summary['semanticObjects'])
-        self.assertEqual(summary['known'], summary['ownPackage'] + summary['holderPackage'] + summary['stratagemPackage'])
+        self.assertEqual(summary['known'], summary['ownPackage'] + summary['holderPackage'] + summary['stratagemPackage']
+            + summary['objectivePackage'])
+        # An objective's explosion (the Cyborg Production Unit's): its effect and its sound packages, by identity.
+        self.assertEqual(catalog['explosion/Cyborg Production Unit']['dependency']['via'], 'explosion_effect_package')
+        self.assertEqual(catalog['explosion/Cyborg Production Unit/sound']['dependency']['via'],
+            'explosion_sound_package')
+        self.assertTrue(all(catalog[k]['known'] for k in ('explosion/Cyborg Production Unit',
+            'explosion/Cyborg Production Unit/sound')))
         # Objects without a structural package owner stay unknown (never inferred).
         self.assertFalse(catalog['pickup/pickup/v1/ammo-box-pod/096e2d589f69f1ae']['known'])
         # The Supply Box is delivered by exactly one stratagem package (Resupply's, research/resupply-F5FEE03DCFDB.json),

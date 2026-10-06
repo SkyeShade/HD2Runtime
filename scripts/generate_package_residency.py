@@ -51,7 +51,11 @@ def outputs(research_path=RESEARCH):
             continue
         pid = dep['package']
         # Some packages are proven by identity but their name is not reversed; they get a display name only.
-        packages.setdefault(pid, {'name': name or 'unnamed loadout package of ' + item['label'],
+        unnamed = {'explosion_effect_package': 'unnamed objective package (effect) of the ',
+            'explosion_sound_package': 'unnamed objective package (sound) of the '}.get(dep['via'],
+            'unnamed loadout package of ')
+        packages.setdefault(pid, {'name': name or unnamed + item['label'].replace(' (sound)', '') + (
+            ' explosion' if dep['via'].startswith('explosion_') else ''),
             'named': bool(name), 'inBundleDatabase': dep['inBundleDatabase']})
         dependencies[key] = dict({'package': pid, 'via': dep['via'], 'label': item['label']},
             **({'live': True} if key in live_objects else {}))

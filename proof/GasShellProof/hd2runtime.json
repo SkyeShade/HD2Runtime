@@ -1,0 +1,1 @@
+{"format":1,"name":"GasShellProof","resource":"mods/skyeshade/hd2runtime_gas_shell_proof","guid":"7f4dcbab-c7b2-4331-80ff-3d4b7d4c4766","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.28.0","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../sdk","ide_library":"../../sdk/stubs"}

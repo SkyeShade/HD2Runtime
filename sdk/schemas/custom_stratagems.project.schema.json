@@ -1,0 +1,947 @@
+{
+ "$id": "https://hd2runtime/schemas/custom_stratagems.project.schema.json",
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "additionalProperties": false,
+ "description": "Compiled by hd2.py custom-stratagem compile into the mod's src/addon.lua; donors are checked against sdk/CustomStratagemSchema.json catalogs. Format hd2runtime-custom-stratagems/1.",
+ "properties": {
+  "format": {
+   "const": "hd2runtime-custom-stratagems/1"
+  },
+  "log": {
+   "description": "optional: one line the mod logs at load (e.g. a build banner)",
+   "maxLength": 160,
+   "minLength": 1,
+   "type": "string"
+  },
+  "stratagems": {
+   "items": {
+    "additionalProperties": false,
+    "properties": {
+     "assets": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array"
+     },
+     "carrier": {
+      "additionalProperties": false,
+      "anyOf": [
+       {
+        "required": [
+         "beacon"
+        ]
+       },
+       {
+        "required": [
+         "group"
+        ]
+       }
+      ],
+      "properties": {
+       "allow_families": {
+        "items": {
+         "enum": [
+          "backpack",
+          "eagle",
+          "emplacement",
+          "mine",
+          "mission",
+          "orbital",
+          "sentry",
+          "support",
+          "vehicle"
+         ]
+        },
+        "type": "array"
+       },
+       "beacon": {
+        "enum": [
+         "offensive",
+         "support",
+         "any"
+        ]
+       },
+       "exclude": {
+        "items": {
+         "type": "string"
+        },
+        "type": "array"
+       },
+       "group": {
+        "enum": [
+         "orbital",
+         "any_red",
+         "any",
+         "support",
+         "support_pod",
+         "expendable",
+         "weapon",
+         "sentry",
+         "emplacement",
+         "eagle"
+        ]
+       },
+       "prefer_families": {
+        "items": {
+         "enum": [
+          "backpack",
+          "eagle",
+          "emplacement",
+          "mine",
+          "mission",
+          "orbital",
+          "sentry",
+          "support",
+          "vehicle"
+         ]
+        },
+        "type": "array"
+       },
+       "slots": {
+        "maximum": 8,
+        "minimum": 1,
+        "type": "integer"
+       }
+      },
+      "type": "object"
+     },
+     "code": {
+      "items": {
+       "enum": [
+        "up",
+        "down",
+        "left",
+        "right"
+       ]
+      },
+      "maxItems": 8,
+      "minItems": 1,
+      "type": "array"
+     },
+     "cooldown": {
+      "exclusiveMinimum": 0,
+      "maximum": 600,
+      "type": "number"
+     },
+     "description": {
+      "maxLength": 400,
+      "minLength": 1,
+      "type": "string"
+     },
+     "icon": {
+      "additionalProperties": false,
+      "properties": {
+       "image": {
+        "pattern": "^[a-z0-9_]{1,64}$",
+        "type": "string"
+       },
+       "source": {
+        "description": "the editable PNG, images/<image>.png (the build compiles it into the mod)",
+        "pattern": "^images/[a-z0-9_]{1,64}\\.png$",
+        "type": "string"
+       }
+      },
+      "required": [
+       "image"
+      ],
+      "type": "object"
+     },
+     "id": {
+      "maxLength": 48,
+      "pattern": "^[a-z][a-z0-9_]*$",
+      "type": "string"
+     },
+     "name": {
+      "maxLength": 64,
+      "minLength": 1,
+      "type": "string"
+     },
+     "name_cased": {
+      "maxLength": 64,
+      "minLength": 1,
+      "type": "string"
+     },
+     "payload": {
+      "oneOf": [
+       {
+        "additionalProperties": false,
+        "properties": {
+         "family": {
+          "const": "support"
+         },
+         "items": {
+          "items": {
+           "additionalProperties": false,
+           "properties": {
+            "count": {
+             "type": "integer"
+            },
+            "donor": {
+             "type": "string"
+            },
+            "modify": {
+             "additionalProperties": false,
+             "properties": {
+              "ammo": {
+               "maximum": 2047,
+               "minimum": 1,
+               "type": "integer"
+              },
+              "impact_explosion": {
+               "type": "string"
+              },
+              "projectile": {
+               "type": "string"
+              },
+              "recoil": {
+               "enum": [
+                "zero"
+               ]
+              },
+              "rounds": {
+               "maximum": 64,
+               "minimum": 1,
+               "type": "integer"
+              },
+              "rpm": {
+               "maximum": 3000,
+               "minimum": 30,
+               "type": "number"
+              },
+              "spread": {
+               "exclusiveMinimum": 0,
+               "maximum": 100,
+               "type": "number"
+              }
+             },
+             "type": "object"
+            }
+           },
+           "required": [
+            "donor"
+           ],
+           "type": "object"
+          },
+          "maxItems": 1,
+          "minItems": 1,
+          "type": "array"
+         }
+        },
+        "required": [
+         "family",
+         "items"
+        ],
+        "type": "object"
+       },
+       {
+        "additionalProperties": false,
+        "properties": {
+         "family": {
+          "const": "expendable"
+         },
+         "level": {
+          "enum": [
+           "presentation",
+           "model",
+           "full"
+          ]
+         },
+         "modify": {
+          "additionalProperties": false,
+          "properties": {
+           "ammo": {
+            "maximum": 2047,
+            "minimum": 1,
+            "type": "integer"
+           },
+           "impact_explosion": {
+            "type": "string"
+           },
+           "recoil": {
+            "enum": [
+             "zero"
+            ]
+           },
+           "rounds": {
+            "maximum": 64,
+            "minimum": 1,
+            "type": "integer"
+           },
+           "rpm": {
+            "maximum": 3000,
+            "minimum": 30,
+            "type": "number"
+           },
+           "spread": {
+            "exclusiveMinimum": 0,
+            "maximum": 100,
+            "type": "number"
+           }
+          },
+          "type": "object"
+         },
+         "pod": {
+          "items": {
+           "additionalProperties": false,
+           "properties": {
+            "allow_unverified_effect": {
+             "type": "boolean"
+            },
+            "count": {
+             "maximum": 8,
+             "minimum": 1,
+             "type": "integer"
+            },
+            "item": {
+             "type": "string"
+            },
+            "modify": {
+             "additionalProperties": false,
+             "properties": {
+              "ammo": {
+               "maximum": 2047,
+               "minimum": 1,
+               "type": "integer"
+              },
+              "impact_explosion": {
+               "type": "string"
+              },
+              "projectile": {
+               "type": "string"
+              },
+              "recoil": {
+               "enum": [
+                "zero"
+               ]
+              },
+              "rounds": {
+               "maximum": 64,
+               "minimum": 1,
+               "type": "integer"
+              },
+              "rpm": {
+               "maximum": 3000,
+               "minimum": 30,
+               "type": "number"
+              },
+              "spread": {
+               "exclusiveMinimum": 0,
+               "maximum": 100,
+               "type": "number"
+              }
+             },
+             "type": "object"
+            }
+           },
+           "required": [
+            "item"
+           ],
+           "type": "object"
+          },
+          "maxItems": 8,
+          "minItems": 1,
+          "type": "array"
+         },
+         "presentation": {
+          "additionalProperties": false,
+          "properties": {
+           "icon": {
+            "type": "string"
+           },
+           "name": {
+            "type": "string"
+           }
+          },
+          "type": "object"
+         },
+         "round": {
+          "type": "string"
+         },
+         "weapon": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "family",
+         "weapon"
+        ],
+        "type": "object"
+       },
+       {
+        "additionalProperties": false,
+        "properties": {
+         "donor": {
+          "type": "string"
+         },
+         "family": {
+          "const": "sentry"
+         },
+         "weapon": {
+          "additionalProperties": false,
+          "properties": {
+           "ammo": {
+            "maximum": 2047,
+            "minimum": 1,
+            "type": "integer"
+           },
+           "projectile": {
+            "type": "string"
+           },
+           "recoil": {
+            "enum": [
+             "zero"
+            ]
+           },
+           "rpm": {
+            "maximum": 3000,
+            "minimum": 30,
+            "type": "number"
+           },
+           "spread": {
+            "exclusiveMinimum": 0,
+            "maximum": 100,
+            "type": "number"
+           }
+          },
+          "type": "object"
+         }
+        },
+        "required": [
+         "family",
+         "donor"
+        ],
+        "type": "object"
+       },
+       {
+        "additionalProperties": false,
+        "properties": {
+         "donor": {
+          "type": "string"
+         },
+         "family": {
+          "const": "eagle"
+         },
+         "payload": {
+          "additionalProperties": false,
+          "properties": {
+           "impact_explosion": {
+            "type": "string"
+           }
+          },
+          "type": "object"
+         },
+         "rearm_seconds": {
+          "maximum": 600,
+          "minimum": 1,
+          "type": "number"
+         },
+         "uses": {
+          "maximum": 20,
+          "minimum": 1,
+          "type": "integer"
+         }
+        },
+        "required": [
+         "family",
+         "donor"
+        ],
+        "type": "object"
+       },
+       {
+        "additionalProperties": false,
+        "properties": {
+         "family": {
+          "const": "orbital"
+         },
+         "impact_explosion": {
+          "type": "string"
+         },
+         "native": {
+          "type": "boolean"
+         },
+         "pattern": {
+          "type": "string"
+         },
+         "salvo_interval": {
+          "maximum": 30,
+          "minimum": 0,
+          "type": "number"
+         },
+         "salvo_scatter": {
+          "maximum": 100,
+          "minimum": 0,
+          "type": "number"
+         },
+         "salvos": {
+          "maximum": 16,
+          "minimum": 1,
+          "type": "integer"
+         },
+         "scatter": {
+          "maximum": 100,
+          "minimum": 0,
+          "type": "number"
+         },
+         "shell": {
+          "type": "string"
+         },
+         "shell_interval": {
+          "maximum": 10,
+          "minimum": 0,
+          "type": "number"
+         },
+         "shells_per_salvo": {
+          "maximum": 16,
+          "minimum": 1,
+          "type": "integer"
+         }
+        },
+        "required": [
+         "family"
+        ],
+        "type": "object"
+       },
+       {
+        "additionalProperties": false,
+        "properties": {
+         "approach": {
+          "additionalProperties": false,
+          "properties": {
+           "distance": {
+            "maximum": 1000,
+            "minimum": 0,
+            "type": "number"
+           },
+           "height": {
+            "maximum": 500,
+            "minimum": 0,
+            "type": "number"
+           }
+          },
+          "type": "object"
+         },
+         "family": {
+          "const": "pelican"
+         },
+         "gun": {
+          "additionalProperties": false,
+          "properties": {
+           "aim_height": {
+            "maximum": 3,
+            "minimum": 0,
+            "type": "number"
+           },
+           "behave_as": {
+            "enum": [
+             "gatling_sentry"
+            ]
+           },
+           "casing": {
+            "enum": [
+             "gatling",
+             "own"
+            ]
+           },
+           "face_target": {
+            "enum": [
+             true
+            ]
+           },
+           "impact_explosion": {
+            "type": "string"
+           },
+           "rate_multiplier": {
+            "enum": [
+             1,
+             1.5,
+             2
+            ]
+           },
+           "recoil": {
+            "enum": [
+             false
+            ]
+           },
+           "round": {
+            "enum": [
+             "ap4",
+             "native",
+             "standard",
+             "strafing_run",
+             "strafing_run_pattern"
+            ]
+           },
+           "rpm": {
+            "maximum": 3000,
+            "minimum": 30,
+            "type": "number"
+           },
+           "sound": {
+            "enum": [
+             "automaton/assault_walker",
+             "automaton/assaultwalker/1",
+             "automaton/big_walker_turret_cannon",
+             "automaton/conscript_cannon",
+             "automaton/conscript_handgun",
+             "automaton/conscript_lmg",
+             "automaton/conscript_smg",
+             "automaton/devastator/1",
+             "automaton/elite/1",
+             "automaton/elite/2",
+             "automaton/emplacement_hmg",
+             "automaton/emplacement_mg",
+             "automaton/fabricator/1",
+             "automaton/gunship/1",
+             "automaton/gunship/2",
+             "automaton/hulk/1",
+             "automaton/hulk/2",
+             "automaton/hulk/3",
+             "automaton/lieutenant_cannon",
+             "automaton/scoutwalker/1",
+             "automaton/scoutwalker/2",
+             "automaton/siege_engine",
+             "automaton/siegeengine/1",
+             "automaton/siegeengine/2",
+             "automaton/soldier_flamer",
+             "automaton/soldier_machinegun_flm",
+             "automaton/soldier_standard_rifle",
+             "automaton/tank/1",
+             "automaton/tank_hull_mg",
+             "automaton/tank_turret_autocannons",
+             "automaton/tank_turret_heavycannon",
+             "automaton/tank_turret_rocketlauncher",
+             "automaton/turret_autocannons",
+             "automaton/turret_base",
+             "automaton/turret_command_bunker_hmg",
+             "automaton/turret_mortar",
+             "backpack/guard_dog",
+             "eagle/cannon",
+             "emplacement/anti_tank",
+             "emplacement/hmg",
+             "illuminate/beamer_champion_gun",
+             "illuminate/beamer_champion_gun_direct",
+             "illuminate/exomech/1",
+             "illuminate/exomech/2",
+             "illuminate/jet_champion_rifle",
+             "illuminate/observer/1",
+             "illuminate/pathfinder_lightspear",
+             "objective/cy_destroy_command_bunker/1",
+             "objective/sam_site",
+             "other/passive_booster_ammorack_turret/1",
+             "other/revolver_pistol_long",
+             "other/wep_ac3_arc_thrower/1",
+             "other/wep_ar_risk/1",
+             "pelican/chin_autocannon",
+             "primary/ar11",
+             "primary/ar2",
+             "primary/ar23",
+             "primary/ar23a",
+             "primary/ar23c",
+             "primary/ar23p",
+             "primary/ar32",
+             "primary/ar59",
+             "primary/ar61",
+             "primary/argl21",
+             "primary/br14",
+             "primary/cb9",
+             "primary/dbs2",
+             "primary/gl15",
+             "primary/jar5",
+             "primary/las12",
+             "primary/las16",
+             "primary/las17",
+             "primary/m7s",
+             "primary/m90a",
+             "primary/ma5c",
+             "primary/mp98",
+             "primary/plas1",
+             "primary/plas101",
+             "primary/plas39",
+             "primary/r2",
+             "primary/r2124",
+             "primary/r36",
+             "primary/r4",
+             "primary/r40k",
+             "primary/r6",
+             "primary/r63",
+             "primary/r63cs",
+             "primary/r72",
+             "primary/sg20",
+             "primary/sg225",
+             "primary/sg225ie",
+             "primary/sg225sp",
+             "primary/sg451",
+             "primary/sg8",
+             "primary/sg8p",
+             "primary/sg8s",
+             "primary/sg97",
+             "primary/smg203",
+             "primary/smg32",
+             "primary/smg37",
+             "primary/smg37/seaf",
+             "primary/smg72",
+             "primary/smgflam34",
+             "primary/sta11",
+             "primary/sta52",
+             "primary/vg70",
+             "seaf/1",
+             "seaf/2",
+             "secondary/gp20",
+             "secondary/gp31",
+             "secondary/gp31/alt",
+             "secondary/las58",
+             "secondary/m6csocom",
+             "secondary/p11",
+             "secondary/p113",
+             "secondary/p19",
+             "secondary/p2",
+             "secondary/p33",
+             "secondary/p34",
+             "secondary/p35",
+             "secondary/p4",
+             "secondary/p40k",
+             "secondary/p69",
+             "secondary/p92",
+             "secondary/plas15",
+             "secondary/sg22",
+             "sentry/autocannon",
+             "sentry/ems_mortar",
+             "sentry/gas_mortar",
+             "sentry/gatling",
+             "sentry/machine_gun",
+             "sentry/mortar",
+             "sentry/rocket",
+             "support/ac8",
+             "support/apw1",
+             "support/eat17",
+             "support/eat17/seaf",
+             "support/eat411",
+             "support/eat700",
+             "support/faf14",
+             "support/gl21",
+             "support/gl28",
+             "support/gl52",
+             "support/gr8",
+             "support/las99",
+             "support/m1000",
+             "support/m105",
+             "support/mg206",
+             "support/mg43",
+             "support/mg43/seaf",
+             "support/mgx42",
+             "support/mls4x",
+             "support/plas45",
+             "support/rl77",
+             "support/rs422",
+             "support/s11",
+             "support/sg88",
+             "support/stax3",
+             "vehicle/bastion/cannon",
+             "vehicle/bastion/hmg",
+             "vehicle/breakthrough/flak_cannon",
+             "vehicle/emancipator/autocannons",
+             "vehicle/gunner_frv/hmg",
+             "vehicle/lumberer/cannon",
+             "vehicle/maelstrom/main_gun",
+             "vehicle/maelstrom/rockets",
+             "vehicle/maelstrom/slot_2",
+             "vehicle/oil_rig/turret",
+             "vehicle/patriot/minigun",
+             "vehicle/patriot/rockets",
+             "vehicle/supply_frv/gun"
+            ]
+           },
+           "spread": {
+            "exclusiveMinimum": 0,
+            "maximum": 100,
+            "type": "number"
+           },
+           "unlimited_ammo": {
+            "enum": [
+             true
+            ]
+           }
+          },
+          "type": "object"
+         },
+         "hover": {
+          "exclusiveMinimum": 0,
+          "maximum": 120,
+          "type": "number"
+         },
+         "orbit": {
+          "additionalProperties": false,
+          "properties": {
+           "altitude": {
+            "maximum": 150,
+            "minimum": 10,
+            "type": "number"
+           },
+           "duration": {
+            "maximum": 120,
+            "minimum": 1,
+            "type": "number"
+           },
+           "entry": {
+            "maximum": 60,
+            "minimum": 0,
+            "type": "number"
+           },
+           "period": {
+            "maximum": 600,
+            "minimum": 10,
+            "type": "number"
+           },
+           "radius": {
+            "maximum": 150,
+            "minimum": 5,
+            "type": "number"
+           }
+          },
+          "type": "object"
+         }
+        },
+        "required": [
+         "family",
+         "hover"
+        ],
+        "type": "object"
+       },
+       {
+        "additionalProperties": false,
+        "properties": {
+         "blast": {
+          "type": "string"
+         },
+         "donor": {
+          "type": "string"
+         },
+         "fallback": {
+          "type": "string"
+         },
+         "family": {
+          "const": "silo"
+         }
+        },
+        "required": [
+         "family",
+         "donor",
+         "blast"
+        ],
+        "type": "object"
+       },
+       {
+        "additionalProperties": false,
+        "properties": {
+         "family": {
+          "const": "pod"
+         },
+         "items": {
+          "items": {
+           "additionalProperties": false,
+           "properties": {
+            "allow_unverified_effect": {
+             "type": "boolean"
+            },
+            "count": {
+             "maximum": 8,
+             "minimum": 1,
+             "type": "integer"
+            },
+            "item": {
+             "type": "string"
+            },
+            "modify": {
+             "additionalProperties": false,
+             "properties": {
+              "ammo": {
+               "maximum": 2047,
+               "minimum": 1,
+               "type": "integer"
+              },
+              "impact_explosion": {
+               "type": "string"
+              },
+              "projectile": {
+               "type": "string"
+              },
+              "recoil": {
+               "enum": [
+                "zero"
+               ]
+              },
+              "rounds": {
+               "maximum": 64,
+               "minimum": 1,
+               "type": "integer"
+              },
+              "rpm": {
+               "maximum": 3000,
+               "minimum": 30,
+               "type": "number"
+              },
+              "spread": {
+               "exclusiveMinimum": 0,
+               "maximum": 100,
+               "type": "number"
+              }
+             },
+             "type": "object"
+            }
+           },
+           "required": [
+            "item"
+           ],
+           "type": "object"
+          },
+          "maxItems": 8,
+          "minItems": 1,
+          "type": "array"
+         }
+        },
+        "required": [
+         "family",
+         "items"
+        ],
+        "type": "object"
+       }
+      ]
+     },
+     "traits": {
+      "items": {
+       "maxLength": 32,
+       "minLength": 1,
+       "type": "string"
+      },
+      "maxItems": 4,
+      "type": "array"
+     },
+     "uses": {
+      "maximum": 100,
+      "minimum": 1,
+      "type": "integer"
+     }
+    },
+    "required": [
+     "id",
+     "name",
+     "description",
+     "icon",
+     "code",
+     "carrier",
+     "payload"
+    ],
+    "type": "object"
+   },
+   "maxItems": 16,
+   "minItems": 1,
+   "type": "array"
+  }
+ },
+ "required": [
+  "format",
+  "stratagems"
+ ],
+ "title": "HD2Runtime custom stratagem project (custom_stratagems.json)",
+ "type": "object"
+}

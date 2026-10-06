@@ -1,0 +1,49 @@
+{
+ "format": "hd2runtime-custom-stratagems/1",
+ "log": "PelicanCannonSupport 0.1.0 BUILD: select Pelican Cannon Support in the custom panel, then a mission; call it with LEFT DOWN LEFT UP LEFT UP.",
+ "stratagems": [
+  {
+   "id": "pelican_cannon_support",
+   "name": "PELICAN CANNON SUPPORT",
+   "name_cased": "Pelican Cannon Support",
+   "description": "Calls down a Pelican for close air support. Hovers around the beacon for 90 seconds and bombards nearby enemies with a heavy burst autocannon.",
+   "icon": {
+    "image": "pelican_cannon_support",
+    "source": "images/pelican_cannon_support.png"
+   },
+   "code": [
+    "left",
+    "down",
+    "left",
+    "up",
+    "left",
+    "up"
+   ],
+   "cooldown": 300,
+   "uses": 3,
+   "traits": [
+    "Pelican",
+    "Anti-Tank",
+    "Explosive"
+   ],
+   "carrier": {
+    "beacon": "offensive",
+    "prefer_families": [
+     "orbital"
+    ]
+   },
+   "payload": {
+    "family": "pelican",
+    "hover": 90,
+    "orbit": {
+     "radius": 40,
+     "altitude": 60,
+     "duration": 85
+    },
+    "gun": {
+     "round": "native"
+    }
+   }
+  }
+ ]
+}

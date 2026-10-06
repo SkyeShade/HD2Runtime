@@ -1,0 +1,451 @@
+{
+ "F5FEE03DCFDB-20260926T222226Z.hd2snap": {
+  "phase": "ship",
+  "passed": true,
+  "problems": [],
+  "report": {
+   "instances": 0,
+   "mission": false,
+   "model": {
+    "unit": "0x72CAFCBACFCD521A"
+   },
+   "native": true,
+   "pins": {
+    "proven": true,
+    "unit": true,
+    "unitCount": 23
+   },
+   "players": 1,
+   "presentation": {
+    "code": "NOT_IN_MISSION",
+    "reason": "a variant is converted in a mission only",
+    "status": "refused",
+    "writes": 0
+   },
+   "round": {
+    "packageState": "absent",
+    "type": 144
+   }
+  }
+ },
+ "F5FEE03DCFDB-20260927T155654Z.hd2snap": {
+  "phase": "ship",
+  "passed": true,
+  "problems": [],
+  "report": {
+   "instances": 0,
+   "mission": false,
+   "model": {
+    "unit": "0x72CAFCBACFCD521A"
+   },
+   "native": true,
+   "pins": {
+    "proven": true,
+    "unit": true,
+    "unitCount": 23
+   },
+   "players": 1,
+   "presentation": {
+    "code": "NOT_IN_MISSION",
+    "reason": "a variant is converted in a mission only",
+    "status": "refused",
+    "writes": 0
+   },
+   "round": {
+    "packageState": "absent",
+    "type": 144
+   }
+  }
+ },
+ "F5FEE03DCFDB-20260927T160033Z.hd2snap": {
+  "phase": "ship",
+  "passed": true,
+  "problems": [],
+  "report": {
+   "instances": 0,
+   "mission": false,
+   "model": {
+    "unit": "0x72CAFCBACFCD521A"
+   },
+   "native": true,
+   "pins": {
+    "proven": true,
+    "unit": true,
+    "unitCount": 23
+   },
+   "players": 1,
+   "presentation": {
+    "code": "NOT_IN_MISSION",
+    "reason": "a variant is converted in a mission only",
+    "status": "refused",
+    "writes": 0
+   },
+   "round": {
+    "packageState": "absent",
+    "type": 144
+   }
+  }
+ },
+ "F5FEE03DCFDB-20260929T172647Z-mission-host.hd2snap": {
+  "phase": "alive",
+  "passed": true,
+  "problems": [],
+  "report": {
+   "both": {
+    "identical": true,
+    "nativeAfter": true,
+    "otherBytesChanged": 0,
+    "outside": 0,
+    "protectionRestored": true,
+    "restore": {
+     "exact": true,
+     "status": "restored",
+     "writes": 2
+    },
+    "status": "applied",
+    "writes": 2
+   },
+   "conflict": {
+    "code": "CONFLICT",
+    "exact": true,
+    "status": "refused",
+    "thenRestored": "restored",
+    "writesWhileRefused": true
+   },
+   "instances": 0,
+   "mission": true,
+   "model": {
+    "asIs": {
+     "code": "MODEL_NO_BUILD_RECORD",
+     "status": "refused",
+     "writes": 0
+    },
+    "loaded": {
+     "identical": true,
+     "nativeAfter": true,
+     "otherBytesChanged": 0,
+     "outside": 0,
+     "protectionRestored": true,
+     "restore": {
+      "exact": true,
+      "status": "restored",
+      "writes": 1
+     },
+     "status": "applied",
+     "unitPath": "0x72CAFCBACFCD521A",
+     "writes": 1
+    },
+    "realTable": {
+     "status": "applied"
+    },
+    "unit": "0x72CAFCBACFCD521A"
+   },
+   "native": true,
+   "notNative": {
+    "code": "NOT_NATIVE",
+    "status": "refused",
+    "writes": 0
+   },
+   "pins": {
+    "proven": true,
+    "unit": true,
+    "unitCount": 23
+   },
+   "players": 1,
+   "present": {
+    "code": "CARRIER_PRESENT",
+    "status": "refused",
+    "writes": 0
+   },
+   "presentation": {
+    "identical": true,
+    "nativeAfter": true,
+    "otherBytesChanged": 0,
+    "outside": 0,
+    "protectionRestored": true,
+    "restore": {
+     "exact": true,
+     "status": "restored",
+     "writes": 0
+    },
+    "status": "applied",
+    "writes": 0
+   },
+   "round": {
+    "asIs": {
+     "code": "ROUND_NOT_RESIDENT",
+     "status": "refused",
+     "writes": 0
+    },
+    "packageState": "absent",
+    "resident": {
+     "identical": true,
+     "nativeAfter": true,
+     "otherBytesChanged": 0,
+     "outside": 0,
+     "projtype": 144,
+     "protectionRestored": true,
+     "restore": {
+      "exact": true,
+      "status": "restored",
+      "writes": 1
+     },
+     "status": "applied",
+     "writes": 1
+    },
+    "type": 144
+   }
+  }
+ },
+ "F5FEE03DCFDB-20260929T172918Z-mission-host-alive.hd2snap": {
+  "phase": "alive",
+  "passed": true,
+  "problems": [],
+  "report": {
+   "both": {
+    "identical": true,
+    "nativeAfter": true,
+    "otherBytesChanged": 0,
+    "outside": 0,
+    "protectionRestored": true,
+    "restore": {
+     "exact": true,
+     "status": "restored",
+     "writes": 2
+    },
+    "status": "applied",
+    "writes": 2
+   },
+   "conflict": {
+    "code": "CONFLICT",
+    "exact": true,
+    "status": "refused",
+    "thenRestored": "restored",
+    "writesWhileRefused": true
+   },
+   "instances": 0,
+   "mission": true,
+   "model": {
+    "asIs": {
+     "code": "MODEL_NO_BUILD_RECORD",
+     "status": "refused",
+     "writes": 0
+    },
+    "loaded": {
+     "identical": true,
+     "nativeAfter": true,
+     "otherBytesChanged": 0,
+     "outside": 0,
+     "protectionRestored": true,
+     "restore": {
+      "exact": true,
+      "status": "restored",
+      "writes": 1
+     },
+     "status": "applied",
+     "unitPath": "0x72CAFCBACFCD521A",
+     "writes": 1
+    },
+    "realTable": {
+     "status": "applied"
+    },
+    "unit": "0x72CAFCBACFCD521A"
+   },
+   "native": true,
+   "notNative": {
+    "code": "NOT_NATIVE",
+    "status": "refused",
+    "writes": 0
+   },
+   "pins": {
+    "proven": true,
+    "unit": true,
+    "unitCount": 23
+   },
+   "players": 1,
+   "present": {
+    "code": "CARRIER_PRESENT",
+    "status": "refused",
+    "writes": 0
+   },
+   "presentation": {
+    "identical": true,
+    "nativeAfter": true,
+    "otherBytesChanged": 0,
+    "outside": 0,
+    "protectionRestored": true,
+    "restore": {
+     "exact": true,
+     "status": "restored",
+     "writes": 0
+    },
+    "status": "applied",
+    "writes": 0
+   },
+   "round": {
+    "asIs": {
+     "code": "ROUND_NOT_RESIDENT",
+     "status": "refused",
+     "writes": 0
+    },
+    "packageState": "absent",
+    "resident": {
+     "identical": true,
+     "nativeAfter": true,
+     "otherBytesChanged": 0,
+     "outside": 0,
+     "projtype": 144,
+     "protectionRestored": true,
+     "restore": {
+      "exact": true,
+      "status": "restored",
+      "writes": 1
+     },
+     "status": "applied",
+     "writes": 1
+    },
+    "type": 144
+   }
+  }
+ },
+ "F5FEE03DCFDB-20260929T173206Z-mission-host-after-reinforce.hd2snap": {
+  "phase": "reinforced",
+  "passed": true,
+  "problems": [],
+  "report": {
+   "both": {
+    "identical": true,
+    "nativeAfter": true,
+    "otherBytesChanged": 0,
+    "outside": 0,
+    "protectionRestored": true,
+    "restore": {
+     "exact": true,
+     "status": "restored",
+     "writes": 2
+    },
+    "status": "applied",
+    "writes": 2
+   },
+   "conflict": {
+    "code": "CONFLICT",
+    "exact": true,
+    "status": "refused",
+    "thenRestored": "restored",
+    "writesWhileRefused": true
+   },
+   "instances": 0,
+   "mission": true,
+   "model": {
+    "asIs": {
+     "code": "MODEL_NO_BUILD_RECORD",
+     "status": "refused",
+     "writes": 0
+    },
+    "loaded": {
+     "identical": true,
+     "nativeAfter": true,
+     "otherBytesChanged": 0,
+     "outside": 0,
+     "protectionRestored": true,
+     "restore": {
+      "exact": true,
+      "status": "restored",
+      "writes": 1
+     },
+     "status": "applied",
+     "unitPath": "0x72CAFCBACFCD521A",
+     "writes": 1
+    },
+    "realTable": {
+     "status": "applied"
+    },
+    "unit": "0x72CAFCBACFCD521A"
+   },
+   "native": true,
+   "notNative": {
+    "code": "NOT_NATIVE",
+    "status": "refused",
+    "writes": 0
+   },
+   "pins": {
+    "proven": true,
+    "unit": true,
+    "unitCount": 23
+   },
+   "players": 1,
+   "present": {
+    "code": "CARRIER_PRESENT",
+    "status": "refused",
+    "writes": 0
+   },
+   "presentation": {
+    "identical": true,
+    "nativeAfter": true,
+    "otherBytesChanged": 0,
+    "outside": 0,
+    "protectionRestored": true,
+    "restore": {
+     "exact": true,
+     "status": "restored",
+     "writes": 0
+    },
+    "status": "applied",
+    "writes": 0
+   },
+   "round": {
+    "asIs": {
+     "code": "ROUND_NOT_RESIDENT",
+     "status": "refused",
+     "writes": 0
+    },
+    "packageState": "absent",
+    "resident": {
+     "identical": true,
+     "nativeAfter": true,
+     "otherBytesChanged": 0,
+     "outside": 0,
+     "projtype": 144,
+     "protectionRestored": true,
+     "restore": {
+      "exact": true,
+      "status": "restored",
+      "writes": 1
+     },
+     "status": "applied",
+     "writes": 1
+    },
+    "type": 144
+   }
+  }
+ },
+ "F5FEE03DCFDB-20260929T173443Z-mission-end-transition.hd2snap": {
+  "phase": "ended",
+  "passed": true,
+  "problems": [],
+  "report": {
+   "instances": 0,
+   "mission": false,
+   "model": {
+    "unit": "0x72CAFCBACFCD521A"
+   },
+   "native": true,
+   "pins": {
+    "proven": true,
+    "unit": true,
+    "unitCount": 23
+   },
+   "players": 1,
+   "presentation": {
+    "code": "NOT_IN_MISSION",
+    "reason": "a variant is converted in a mission only",
+    "status": "refused",
+    "writes": 0
+   },
+   "round": {
+    "packageState": "absent",
+    "type": 144
+   }
+  }
+ }
+}

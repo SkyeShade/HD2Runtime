@@ -78,7 +78,10 @@ local function changed_value(field)
   for _,candidate in ipairs(field.allowedValues)do if candidate~=value then return candidate end end
  end
  if field.type=='integer'then return value+1 end
- return value==0 and 1 or value*1.25
+ local changed=value==0 and 1 or value*1.25
+ -- A reviewed range (turret motion): stay inside it, and keep limit pairs ordered (x0.8 moves toward zero).
+ if field.max and changed>field.max or field.min and changed<field.min then changed=value*0.8 end
+ return changed
 end
 -- A third-party value that is neither the reviewed nor the desired bytes.
 local function third_party(field)

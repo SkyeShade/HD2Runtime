@@ -19,6 +19,7 @@ import weapon_mode_fields
 import presentation_fields
 import status_fields
 import equipment_fields
+import charge_fields
 import support_callin_linkage
 import live_evidence
 
@@ -311,6 +312,26 @@ def build(catalog_path=CATALOG):
     fire_mode_rows,_=fire_mode_fields.load()
     weapon_mode_rows,_=weapon_mode_fields.load()
     presentation_rows,presentation_research,trait_values,penetration_values=presentation_fields.load()
+    charge_research,charge_modes,charge_residency=charge_fields.load()
+    charge_donors=charge_fields.donors(charge_research,charge_modes,charge_residency,
+        {weapon['name']:weapon for weapon in source['weapons']})
+    # Charge-level shots and overcharge explosions (research/charge-explosions-F5FEE03DCFDB.json).
+    charge_levels=charge_fields.load_levels()
+    alias_rules=schema.get('alias_rules',[])
+
+    def apply_alias_rules(fields):
+        # schemas/player_weapon_fields.json alias_rules on support fields: a deprecated id that writes exactly the bytes
+        # of its canonical id on this weapon becomes its alias (same rule as player weapons). Where the canonical id is
+        # not offered (charge speed multipliers on arc and beam weapons) the legacy field stays a standalone field.
+        by_id={field['semanticFieldId']:field for field in fields}
+        for rule in alias_rules:
+            alias=by_id.get(rule['alias']);canonical=by_id.get(rule['canonical'])
+            if not alias or not canonical:continue
+            assert alias['backing']==canonical['backing'] or not rule.get('requires_identical_backing'),                'alias backing differs: '+rule['alias']
+            assert alias['semanticTarget']==canonical['semanticTarget'],'alias semantic target differs: '+rule['alias']
+            alias.update(aliasOf=canonical['semanticFieldId'],canonical=False,preferred=False,
+                deprecated=rule.get('deprecated',True),editable=False,acceptedForWrites=True)
+            canonical.update(canonical=True,preferred=True,deprecated=False,aliasOf=None)
     runtime_weapons={};public_weapons=[]
     # A duplicate group is resolved only by research-proven call-in delivery plus an
     # exact scraped fingerprint. The call-in rack becomes the identity root and the
@@ -338,6 +359,9 @@ def build(catalog_path=CATALOG):
                     {'kind':'delivered_weapon','resourceHash':root}],
                 attackGraph=[delivered_branch(branch)if branch.get('state')=='IDENTITY_AMBIGUOUS'else branch
                     for branch in weapon['attackGraph']])
+        # Charge-level branches (the full-charge shot, its explosion, the overcharge explosion) resolve on their own
+        # attack roles; the read-only mapper had matched them to the only runtime attack it knew.
+        weapon=charge_fields.resolve_branches(weapon,charge_levels)
         resolved_source.append(weapon)
     source=dict(source,weapons=resolved_source)
     for weapon in source['weapons']:
@@ -482,15 +506,10 @@ def build(catalog_path=CATALOG):
                     target,acknowledgement=None if exact else'allow_unverified_effect'))
                 fields.append(make_field('windup.wind_down_seconds',windup['windDownSeconds'],
                     dict(backing,offset=4),target,acknowledgement='allow_unverified_effect'))
-            charge=candidate.get('chargeCadence')
-            if charge and'WeaponChargeComponentData'in ownership:
-                for field_id,value,offset in (
-                    ('charge.level_1',charge['levels'][0],0),('charge.level_2',charge['levels'][1],24),
-                    ('charge.level_3',charge['levels'][2],48),
-                    ('charge.minimum_seconds',charge['minimumSeconds'],72),
-                    ('charge.maximum_seconds',charge['maximumSeconds'],76)):
-                    fields.append(make_field(field_id,value,
-                        component(candidate,'WeaponChargeComponentData',offset,'f32'),target))
+            # Charge (research/railgun-charge-F5FEE03DCFDB.json): only the members this weapon's code path reads.
+            fields+=charge_fields.build(weapon,candidate,make_field,component,blocked,charge_research,
+                charge_modes,charge_donors)
+            apply_alias_rules(fields)
             if 'WeaponHeatComponentData'in ownership:
                 for field_id,key,offset,storage in (
                     ('heat.capacity','heat_capacity',96,'f32'),('heat.heat_per_shot','heat_per_shot',116,'f32'),
@@ -514,22 +533,33 @@ def build(catalog_path=CATALOG):
 
             host_field=projectile_host_field(weapon,candidate,target)
             if host_field:fields.append(host_field)
-            for attack in candidate['attacks']:
+            # Charge-level roles: the existing attacks the charge record selects (their rows resolve live through the
+            # WeaponCharge record) and the new ones (full-charge shot, its explosion, the overcharge explosion).
+            levels_by_role=charge_fields.level_attacks(weapon['name'],charge_levels,candidate)
+            for attack in candidate['attacks']+[item for item in levels_by_role.values()if not item['existing']]:
                 role=attack['role'];kind=attack['kind']
                 if role not in resolved_roles:continue
+                level=levels_by_role.get(role)
+                level_extra=dict(level['backingExtra'])if level else{}
                 target_path={'Projectile':'projectile_reference','Explosion':'explosion'}.get(kind,'attack')
                 attack_target={'resource':'support_weapon','path':target_path,'weapon':weapon['name'],'attack':role}
                 attacks[role]={'role':role,'kind':kind,'parentRole':attack.get('parentRole'),
                     'targetPath':target_path}
+                if level:attacks[role]['chargeLevel']=level['chargeLevel']
                 if kind=='Projectile':
                     record=attack['projectileSettings'];values=attack['resolvedFields']
+                    linkage=level['linkage']if level else'projectile'
                     for suffix,key,offset,storage in (
                         ('velocity','projectile_velocity',32,'f32'),('mass','projectile_mass',36,'f32'),
                         ('drag','drag',40,'f32'),('gravity','gravity',44,'f32'),
                         ('pellet_count','pellet_count',28,'u32')):
                         fields.append(make_field('projectile.'+role+'.'+suffix,values.get(key),
-                            settings('projectile',record,offset,storage,role,'projectile'),attack_target))
+                            settings('projectile',record,offset,storage,role,linkage,**level_extra),attack_target))
                     row=coverage['projectileRows'].get(str(record['row']))if record['group']==0 else None
+                    if level and not level['existing']:
+                        # Lifetime (+52) and penetration slowdown (+64) of a row outside the 0.24 coverage set: the
+                        # research reads them from the row and matches the published branch exactly.
+                        row=dict(level['projectileRow'])
                     if row and row['recordType']==record['recordType']:
                         for suffix,key,offset in (('lifetime','lifetime',52),
                                 ('penetration_slowdown','penetrationSlowdown',64)):
@@ -540,12 +570,12 @@ def build(catalog_path=CATALOG):
                                     'Native lifetime is 0 (no explicit limit); only non-zero lifetimes are tunable.'})
                                 continue
                             fields.append(make_field('projectile.'+role+'.'+suffix,row[key],
-                                settings('projectile',record,offset,'f32',role,'projectile'),attack_target))
+                                settings('projectile',record,offset,'f32',role,linkage,**level_extra),attack_target))
                     else:
                         blocked.extend({'attack':role,'field':name,
                             'reason':'Projectile row outside the reviewed coverage set.'}
                             for name in ('projectile.lifetime','projectile.penetration_slowdown'))
-                    damage_fields(fields,candidate,attack,attack_target,role,'projectile_damage')
+                    damage_fields(fields,candidate,attack,attack_target,role,linkage+'_damage',level_extra or None)
                 elif kind in('Arc','Beam'):
                     settings_name=kind.lower();record=attack[settings_name+'Settings']
                     values=candidate['resolvedFields']if kind=='Beam'else attack['resolvedFields']
@@ -567,6 +597,12 @@ def build(catalog_path=CATALOG):
                     linkage='explosive_explosion'if standalone else'projectile_explosion'
                     extra={'selectorOffset':40 if role=='impact'and standalone else 36}if standalone else{
                         'parentRole':parent,'phase':'expiry'if role.endswith('expiry')else'impact'}
+                    if level:
+                        # Through the charge record: a charge-level shot's explosion (its parent's selector), or the
+                        # explosion the overcharge failure spawns (WeaponCharge +200, no parent projectile).
+                        linkage=level['linkage']
+                        extra=dict(level_extra,**({'parentRole':parent,'phase':'impact'}
+                            if linkage=='charge_projectile_explosion'else{}))
                     record=attack['explosionSettings'];values=attack['resolvedFields']
                     for suffix,key,offset in (('inner_radius','explosion_inner_radius',16),
                             ('outer_radius','explosion_outer_radius',20),
@@ -598,6 +634,12 @@ def build(catalog_path=CATALOG):
                             statusType=attack['statusType'],
                             parentLinkage=parent_linkage if parent and parent.get('damageInfo')else None,
                             **(status_extra if parent and parent.get('damageInfo')else{})),attack_target))
+            # Which charge level fires each row, when the game reads it, who shares it, and the acknowledgement.
+            charge_fields.annotate_levels(weapon['name'],fields,charge_levels)
+            if 'overcharge_explosion'in levels_by_role:
+                for field in fields:
+                    if field['semanticFieldId']=='charge.overcharge_explosion':
+                        field['charge']=dict(field['charge'],contents="attack('overcharge_explosion'):explosion()")
         fed=fed_backpacks.get(weapon['name'])
         if fed:
             blocked.append({'field':'weapon magazine','reason':
@@ -625,6 +667,11 @@ def build(catalog_path=CATALOG):
             'ownershipChain':weapon['ownershipChain'],'rootRack':weapon.get('rootRack'),
             'nonDeliveredRoots':weapon.get('nonDeliveredRoots'),
             'fields':fields,'attacks':attacks}
+        roles=charge_fields.branch_roles(weapon,charge_levels)
+        if roles:
+            # Catalog branch -> reviewed attack role, where the charge-level research re-resolved the branches the
+            # read-only mapper matched heuristically (api/target.lua resolves support:attack(name) through it).
+            runtime_weapons[weapon['name']]['branchRoles']=roles
         categorized=defaultdict(list)
         for field in fields:
             generic=definition(field['semanticFieldId'])['id'];categorized[generic.split('.')[0]].append(generic)
@@ -636,7 +683,9 @@ def build(catalog_path=CATALOG):
                 'parentAttack':branch.get('parentAttack'),'runtimeRole':runtime_role,
                 'state':branch['state'],'writable':unique and branch['state']=='RESOLVED'
                     and runtime_role in attacks,
-                'blockedReason':block if not unique else branch.get('unresolvedReason')})
+                'blockedReason':block if not unique else branch.get('unresolvedReason'),
+                **({'chargeLevel':branch['chargeLevel'],'resolvedBy':branch.get('resolvedBy')}
+                    if branch.get('chargeLevel')else{})})
         resolution_basis=None
         if weapon['resolution']=='DELIVERY_RESOLVED':
             confirmations=delivery[weapon['name']].get('confirmations')or['WIKI_MAGAZINE']
@@ -793,7 +842,7 @@ def build(catalog_path=CATALOG):
                         'damage','explosion_damage'):
                     return backing_object_key(candidate['backing'])
             return None
-        if linkage in('projectile_damage','projectile_explosion'):
+        if linkage in('projectile_damage','projectile_explosion','charge_projectile_damage','charge_projectile_explosion'):
             wanted='projectile'
             role=backing.get('parentRole')or role
         elif linkage in('arc_damage','beam_damage'):
@@ -801,6 +850,12 @@ def build(catalog_path=CATALOG):
             role=backing.get('parentRole')or role
         elif linkage.endswith('explosion_damage'):
             wanted='explosion'
+        elif linkage in('charge_projectile','charge_overcharge_explosion'):
+            # The weapon's own WeaponCharge record selects these rows.
+            for candidate in fields:
+                if candidate['backing'].get('component')=='WeaponChargeComponentData':
+                    return backing_object_key(candidate['backing'])
+            return None
         if not wanted:return None
         for candidate in fields:
             candidate_backing=candidate['backing']
@@ -931,6 +986,19 @@ def build(catalog_path=CATALOG):
                     'armorPenetrationState')if key in field}
             if field.get('effect'):
                 instance['effect']=field['effect']
+            if field.get('chargeLevel'):
+                # Charge-level shots and overcharge explosions (scripts/charge_fields.py annotate_levels).
+                instance['chargeLevel']=field['chargeLevel']
+            if field.get('charge'):
+                # Charge fields (scripts/charge_fields.py): meaning, reviewed range, alias / dormant notices and, for
+                # the overcharge explosion, the catalogued donors (semantic names only).
+                instance['charge']=dict(field['charge'],**{key:field.get(key) for key in ('min','max','rangeReason',
+                    'notices','aliasOf','deprecated','dormant','legacyContract')if field.get(key)is not None})
+                if field['type']=='overcharge_explosion_reference':
+                    instance['charge']['allowedValues']=field['allowedValues']
+                    instance['charge']['donors']={name:{'summary':item['summary'],'packageDependency':
+                        item['dependencyKey']}for name,item in field['explosionOptions'].items()}
+                    instance['value']['reference']['expectedSemanticReference']=weapon_name
             if field_id==reticle_fields.FIELD:
                 instance['reticle']={key:field.get(key) for key in
                     ('reticleState','nativeValue','nativeName','encoding','evidence')}

@@ -76,7 +76,8 @@ def main():
                        'DepositComponentData', 'TagComponentData', 'InteractableComponentData',
                        'ThrowableComponentData', 'StickyComponentData', 'MinefieldComponentData',
                        'TurretComponentData', 'SensorEyeComponentData', 'ThrowerComponentData',
-                       'LoadoutEntryComponentData', 'DisplacementComponentData', 'ShieldControllerComponentData']
+                       'LoadoutEntryComponentData', 'DisplacementComponentData', 'ShieldControllerComponentData',
+                       'GoreComponentData', 'RotationComponentData', 'VehicleMotionComponentData']
     mapper_auxiliary = {'LoadoutPackageComponentData', 'WeaponMagazineComponentData',
                         'WeaponRoundsComponentData', 'WeaponCustomizationComponentData',
                         'ArcWeaponComponentData', 'MeleeWeaponComponentData',

@@ -6,6 +6,7 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import struct
 import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -32,7 +33,77 @@ ZONE_BASE, ZONE_STRIDE = 520, 552
 ICON_RESEARCH = ROOT / 'research/stratagem-icons-F5FEE03DCFDB.json'
 RESUPPLY_RESEARCH = ROOT / 'research/resupply-F5FEE03DCFDB.json'
 SUPPORT_CATALOG = ROOT / 'data/wiki_support_weapons.json'
+CALLDOWN_RESEARCH = ROOT / 'research/stratagem-calldown-F5FEE03DCFDB.json'
 UNLIMITED = 4294967295
+CALLDOWN_DIRECTIONS = ['up', 'right', 'down', 'left']
+CALLDOWN_MAX = 9            # the longest native code; every caller buffer holds at least this many
+CALLDOWN_HUD = ("The HUD stratagem list draws a slot's arrows once. Whenever Runtime changes or restores the code, it "
+    "redraws only that stratagem's slot with the game's own arrow data once the slot exists (once per change, never "
+    "every frame). A refused redraw leaves the code applied and is retried.")
+CALLDOWN_EQUAL = ("A code equal to another stratagem's native code requires allow_unverified_effect: which stratagem the "
+    "game calls for two equal codes is not proven.")
+
+
+# Presentation (hd2.fields.stratagem.presentation_*): the four StratagemInfo members the loadout screen and the
+# mission menu read (research/stratagem-calldown-*.json presentation). A value is a catalogued stratagem's name: the
+# field takes that stratagem's own value, an existing vanilla resource. Raw localization ids and hashes are never
+# published or accepted.
+PRESENTATION_MEMBERS = {'stratagem.presentation.name': 'name', 'stratagem.presentation.name_cased': 'nameCased',
+    'stratagem.presentation.description': 'description', 'stratagem.presentation.icon': 'icon'}
+PRESENTATION_SOURCE = ("The name of a catalogued stratagem (listed in presentationSources.stratagems): the field takes "
+    "that stratagem's own value, an existing vanilla resource the game keeps loaded. The field's own stratagem name "
+    "is its native value; setting it back restores the original. Raw localization ids and image hashes are not "
+    "accepted.")
+# A mod's own icon (hd2.resources.image, docs/custom-images.md) is a presentation_icon value. A stratagem icon value
+# names a GUI material as well as its pixels, and the loadout grid draws it as the material with no fallback, so the SDK
+# ships every image as the complete family (texture and GUI icon material) and the write is guarded on that family
+# (research/stratagem-icon-family-F5FEE03DCFDB.json, research/stratagem-icon-consumers-F5FEE03DCFDB.json). Published
+# without any hash, texture name or archive detail.
+CUSTOM_IMAGES = {'supported': True, 'fields': ['stratagem.presentation.icon'], 'api': 'hd2.resources.image(id)',
+    'source': ('images/<id>.png in the mod project: a 256 x 256 non-interlaced PNG. The SDK build packs it into the '
+        "mod's own archive as a complete icon family under the mod's own name; it loads with the mod at startup."),
+    'guards': ['every game reader of the icon member and the material and texture lookups they use are the reviewed '
+        'code', "the image's texture and GUI icon material are loaded, the material is exactly the icon material of "
+        'its name and resolves to the texture, and no vanilla atlas sprite has its name'],
+    'refusal': ('Otherwise the operation is refused before anything is written (ASSET_UNAVAILABLE), for example when the '
+        "image is not in the mod's archive or the mod is not loaded."),
+    'liveEvidence': 'stratagem_presentation_custom_image (live_proven: Orbital 120mm HE Barrage)'}
+ICON_SOURCE = (PRESENTATION_SOURCE + " presentation_icon also takes the mod's own image, hd2.resources.image(id) "
+    '(presentationSources.customImages).')
+PRESENTATION_TIMING = ("Apply aboard the ship, before the mission. The loadout screen reads the row when it builds its "
+    "widgets (reopen it after a change). The mission HUD builds each slot's visual once per stratagem type: during a "
+    "mission the menu name follows at once, but the slot keeps its icon until the next mission.")
+
+
+def presentation_excluded(names, stratagems):
+    """{field id: [stratagem names]} that cannot be a source for that field (research unresolvedSources)."""
+    research = json.loads(CALLDOWN_RESEARCH.read_text())['presentation']
+    by_id = {stratagems[name]['root']['id']: name for name in names if name in stratagems}
+    by_member = {member: field for field, member in PRESENTATION_MEMBERS.items()}
+    out = {}
+    for entry in research.get('unresolvedSources', []):
+        for member in entry['members']:
+            if entry['id'] in by_id:
+                out.setdefault(by_member[member], []).append(by_id[entry['id']])
+    return {field: sorted(items) for field, items in sorted(out.items())}
+
+
+def presentation_rows():
+    """Every StratagemInfo row's reviewed presentation values by stable id, and the member layout."""
+    research = json.loads(CALLDOWN_RESEARCH.read_text())['presentation']
+    if any(research['pinnedBytesMismatchPerSnapshot'].values()) or set(research['fields']) != set(
+            PRESENTATION_MEMBERS.values()):
+        raise ValueError('the presentation research disagrees with the published fields')
+    return {row['id']: row for row in research['rows']}, research['fields']
+
+
+def calldown_codes():
+    """Every StratagemInfo row's native calldown code by stable id (scripts/research_stratagem_calldown.py)."""
+    research = json.loads(CALLDOWN_RESEARCH.read_text())
+    if research['maxLength'] != CALLDOWN_MAX or research['directions'] != {'1': 'up', '2': 'right', '3': 'down',
+            '4': 'left'}:
+        raise ValueError('the calldown research disagrees with the published code model')
+    return {row['id']: [CALLDOWN_DIRECTIONS[value - 1] for value in row['sequence']] for row in research['nativeRows']}
 
 
 def add_ui_icons(public_stratagems, internal):
@@ -148,6 +219,249 @@ USES_CAVEAT = ('Use counts are applied by the mission host; the HUD counter may 
     'mission (reference mod observation).')
 
 
+# Eagle component fields (hd2.fields.eagle.*, Phase A): members of the EagleComponentData record of each Eagle
+# stratagem's own jet (payload[0]), published from research/eagle-components-F5FEE03DCFDB.json "publication" (one
+# reviewed source: member, ranges with their justification, which attack kinds read it, the reader and when, and the
+# record's other consumers). Self-contained: add_eagle_component_fields and eagle_public_sections.
+EAGLE_RESEARCH = ROOT / 'research/eagle-components-F5FEE03DCFDB.json'
+EAGLE_EVIDENCE_FAMILY = 'eagle_component_fields'
+EAGLE_UNVERIFIED = ('EagleComponentData members of the stratagem\'s own jet are code-proven offline (the native reader, '
+    'the family differential and published values: research/eagle-components-F5FEE03DCFDB.json), but no live write '
+    'has confirmed the gameplay effect yet.')
+EAGLE_WRITE_SCOPE = ('A type-record write: the record of this Eagle\'s own jet, read by every call of THIS Eagle '
+    'stratagem on this machine (all players\' calls of it) until it is restored. It is not per call. No other '
+    'selectable Eagle reads it; a jet that other native consumers also read (sharedConsumers) requires allow_shared.')
+EAGLE_TIMING = {'live': ('read live by the strike: also changes a jet of this Eagle already in flight'),
+    'dispatch': ('read once per call when the jet is dispatched: applies from the next call')}
+EAGLE_PROVENANCE = ('EagleComponentData member of the stratagem\'s own jet (payload[0]); native reader {reader}; '
+    'offline confidence {confidence} (research/eagle-components-F5FEE03DCFDB.json)')
+
+
+def eagle_publication(source):
+    """The reviewed Phase A publication, cross-checked against the offensive research's payload ownership."""
+    research = json.loads(EAGLE_RESEARCH.read_text(encoding='utf-8'))
+    publication = research['publication']
+    if publication['contract'] != 'hd2runtime.research.eagle_fields.v1' or research['writes'] != 0:
+        raise ValueError('unexpected Eagle field publication')
+    for item in source['stratagems']:
+        if item['family'] != 'Eagle':
+            continue
+        eagle = publication['eagles'][item['name']]
+        if item['currentRoot']['payloads'][0] != eagle['jet']:
+            raise ValueError('Eagle jet identity disagrees with the research: ' + item['name'])
+        component = next(c for report in item['payloadReports'] if report['payload'] == eagle['jet']
+            for c in report['components'] if c['name'] == 'EagleComponentData')
+        if (component['recordIndex'], component['indexRow']) != (eagle['recordIndex'], eagle['indexRow']):
+            raise ValueError('Eagle record ownership disagrees with the research: ' + item['name'])
+    return publication
+
+
+def eagle_acknowledgement(field_id):
+    """Live-proven fields (schemas/live_evidence.json family eagle_component_fields) publish their evidence; every
+    other field keeps allow_unverified_effect."""
+    family = live_evidence.load()['families'].get(EAGLE_EVIDENCE_FAMILY)
+    evidence = live_evidence.proven(EAGLE_EVIDENCE_FAMILY) if family else None
+    if evidence and field_id in family['fields']:
+        return {'liveEvidence': evidence}
+    return {'acknowledgement': 'allow_unverified_effect', 'acknowledgementReason': EAGLE_UNVERIFIED}
+
+
+def eagle_consumers(name, eagle):
+    """The reviewed consumers of the jet's record: this stratagem, and each other proven reader (opaque)."""
+    scope = [{'stratagem': name, 'path': 'eagle_jet'}]
+    for other in eagle['otherConsumers']:
+        if other['kind'] == 'stratagem_row':
+            scope.append({'externalConsumer': opaque('stratagem-consumer', other['stableId']),
+                'path': 'stratagem_definition', 'semanticStatus': other['reason']})
+        elif other['kind'] == 'eagle_spawner':
+            scope.append({'externalConsumer': opaque('entity-consumer', other['owner']),
+                'path': 'eagle_spawner', 'semanticStatus': other['reason']})
+        else:
+            raise ValueError('unknown Eagle record consumer kind: ' + other['kind'])
+    return scope
+
+
+def add_eagle_component_fields(add_field, entry, name, publication):
+    """Every Phase A field on every Eagle (editable where the native code reads it for this Eagle's attack kind,
+    read-only with the reason elsewhere), plus the read-only attack kind and derived counts."""
+    eagle = publication['eagles'][name]
+    target = {'resource': 'stratagem', 'stratagem': name, 'path': 'stratagem'}
+    backing = {'kind': 'EagleComponentData', 'component': 'EagleComponentData', 'nativeIdentity': eagle['jet'],
+        'recordIndex': eagle['recordIndex'], 'indexRow': eagle['indexRow'], 'width': 4,
+        'ownerCount': eagle['ownerCount'], 'uniqueOwner': eagle['uniqueOwner'], 'recordSha256': eagle['recordSha256'],
+        'recordProofs': [{'offset': publication['recordProof']['offset'], 'storage': publication['recordProof']['storage'],
+            'value': eagle['payload'], 'member': publication['recordProof']['member']}],
+        'consumers': eagle_consumers(name, eagle)}
+    patterns = [{'value': p['value'], 'name': p['name'], 'bombs': p['bombs'], 'lengthMeters': p['lengthMeters'],
+        'lateralMeters': p['lateralMeters']} for p in publication['patterns']]
+    for local, policy in publication['fields'].items():
+        field_id = policy['id']
+        editable = eagle['payload'] in policy['editablePayloads']
+        provenance = EAGLE_PROVENANCE.format(reader=policy['reader'], confidence=policy['confidence'])
+        extra = {'writeScope': EAGLE_WRITE_SCOPE, 'readTiming': policy['timing'], 'nativeReader': policy['reader']}
+        if editable:
+            extra.update({'min': policy['min'], 'max': policy['max'], 'rangeJustification': policy['rangeJustification'],
+                'readTimingNote': EAGLE_TIMING[policy['timing']], **eagle_acknowledgement(field_id)})
+            if local == 'airstrike_pattern':
+                extra['allowedValues'] = patterns
+        add_field(entry, field_id, eagle['values'][local],
+            dict(backing, offset=policy['offset'], storage=policy['storage']), target, editable,
+            None if editable else policy['notRead'][str(eagle['payload'])], provenance=provenance, extra=extra)
+    add_field(entry, 'eagle.payload', eagle['payloadName'], dict(backing, offset=publication['recordProof']['offset'],
+        storage='i32'), target, False, provenance=EAGLE_PROVENANCE.format(reader='the strike and planner switches',
+            confidence='STRONG'), extra={'nativeValue': eagle['payload']})
+    derived = eagle['derived']
+    if derived['bombsPerStrike'] is not None:
+        add_field(entry, 'eagle.bombs_per_strike', derived['bombsPerStrike'],
+            dict(backing, offset=publication['fields']['airstrike_pattern']['offset'], storage='derived'), target, False,
+            provenance='derived: the native landing-pattern count of eagle.airstrike_pattern',
+            extra={'derivedFrom': ['eagle.airstrike_pattern'],
+                'extraBombStatDefault': publication['extraBombStatDefault']})
+    if derived['strafeRoundsPerRun'] is not None:
+        add_field(entry, 'eagle.strafe_rounds_per_run', derived['strafeRoundsPerRun'],
+            dict(backing, offset=publication['fields']['fire_duration']['offset'], storage='derived'), target, False,
+            provenance='derived: eagle.fire_duration x the jet gun rate / 60 (equal to the wiki\'s 100 rounds per use)',
+            extra={'derivedFrom': ['eagle.fire_duration'], 'gunRateRpm': derived['gunRate']})
+    entry['eagleJet'] = {'payload': eagle['payloadName'], 'shared': eagle['shared'],
+        'bombsPerStrike': derived['bombsPerStrike'], 'strafeRoundsPerRun': derived['strafeRoundsPerRun']}
+
+
+def eagle_public_sections(public_stratagems, internal, publication):
+    """Per-Eagle attack summary on the public stratagem items, and the landing-pattern enumeration."""
+    for item in public_stratagems:
+        entry = internal['stratagems'].get(item['name'])
+        if item['family'] != 'eagle' or not entry or 'eagleJet' not in entry:
+            continue
+        fields = [f for f in entry['fields'] if f['backing'].get('component') == 'EagleComponentData']
+        item['eagleAttack'] = dict(entry['eagleJet'],
+            writableFields={f['semanticFieldId']: api_constant(f['semanticFieldId']) for f in fields if f['editable']},
+            readOnlyFields=sorted(f['semanticFieldId'] for f in fields if not f['editable']),
+            allowSharedRequired=entry['eagleJet']['shared'], writeScope=EAGLE_WRITE_SCOPE,
+            sharedConsumers=next(f['sharedConsumers'] for f in fields))
+    return {'field': 'hd2.fields.eagle.airstrike_pattern', 'values': [{'value': p['value'], 'name': p['name'],
+        'bombs': p['bombs'], 'lengthMeters': p['lengthMeters'], 'lateralMeters': p['lateralMeters'],
+        'usedBy': p['usedBy']} for p in publication['patterns']],
+        'extraBombStatDefault': publication['extraBombStatDefault'],
+        'rule': ('The value selects one of the eight native landing patterns (game.dll table: bomb count and XY offsets '
+            'in metres, rotated to the attack heading around the target). Bombs per strike = the pattern\'s count plus '
+            'a per-jet extra-bomb stat (0 by default). Only 0..7 are accepted.')}
+
+
+# Sentry component fields (research/sentry-components-F5FEE03DCFDB.json "publication"): members of each sentry's own
+# deployed entity - WeaponData spread and recoil (the seven projectile sentries), the Gatling Sentry's wind-up, the
+# Laser Sentry's beam fire rate, the turret pitch/yaw coupling and the sensor side/rear ranges - plus the read timing
+# (spawn copy or live) of the existing turret and targeting fields. Every record has one owner; a shared record would be
+# published shared (allow_shared) through its consumers. Self-contained: sentry_publication, sentry_read_timing,
+# sentry_targeting_notes, add_sentry_component_fields, sentry_public_sections.
+SENTRY_RESEARCH = ROOT / 'research/sentry-components-F5FEE03DCFDB.json'
+SENTRY_EVIDENCE_FAMILY = 'sentry_component_fields'
+SENTRY_UNVERIFIED = ('Sentry component member code-proven offline (the native reader, the family differential and, for '
+    'spread and recoil, the wiki tables on every projectile sentry: research/sentry-components-F5FEE03DCFDB.json), but '
+    'no live write has confirmed the gameplay effect on a sentry yet.')
+SENTRY_WRITE_SCOPE = ('A type-record write: the record of this sentry\'s own deployed entity, read by every deployment of '
+    'THIS sentry on this machine until it is restored. It is not per deployment, and no other stratagem reads it.')
+SENTRY_PROVENANCE = ('{component} member of the sentry\'s own deployed entity; native reader: {reader} (offline '
+    'confidence {confidence}, research/sentry-components-F5FEE03DCFDB.json)')
+
+
+def sentry_publication():
+    """The reviewed sentry publication (record ownership re-proven against the defensive research by the caller)."""
+    research = json.loads(SENTRY_RESEARCH.read_text(encoding='utf-8'))
+    publication = research['publication']
+    if publication['contract'] != 'hd2runtime.research.sentry_fields.v1' or research['writes'] != 0:
+        raise ValueError('unexpected sentry field publication')
+    confidence = {(c['component'], c['offset']): c['confidence'] for c in research['candidates']}
+    for field_id, spec in publication['fields'].items():
+        spec['confidence'] = confidence[(spec['component'], spec['offset'])]
+        if spec['confidence'] not in ('CONFIRMED', 'STRONG'):
+            raise ValueError('sentry field below STRONG: ' + field_id)
+    return publication
+
+
+def sentry_read_timing(publication, field_id):
+    """When the game reads a sentry field: copied at spawn (next deployment) or read live (immediate)."""
+    timing = publication['existingTiming'].get(field_id) or publication['fields'][field_id]['readTiming']
+    return {'readTiming': timing, 'readTimingNote': publication['timingText'][timing]}
+
+
+def sentry_targeting_notes(publication, name):
+    """targeting.range of one sentry: the AI's hard-coded engagement cap and, on the mortars, the proximity sensor."""
+    engagement = publication['engagement'].get(name)
+    return {'engagementCap': engagement} if engagement else {}
+
+
+def sentry_acknowledgement(field_id):
+    """Live-proven fields (schemas/live_evidence.json family sentry_component_fields) publish their evidence; every
+    other field keeps allow_unverified_effect."""
+    family = live_evidence.load()['families'].get(SENTRY_EVIDENCE_FAMILY)
+    evidence = live_evidence.proven(SENTRY_EVIDENCE_FAMILY) if family else None
+    if evidence and field_id in family['fields']:
+        return {'liveEvidence': evidence}
+    return {'acknowledgement': 'allow_unverified_effect', 'acknowledgementReason': SENTRY_UNVERIFIED}
+
+
+def add_sentry_component_fields(add_field, defs, entry, item, components, entity, entity_target, consumers,
+                                publication):
+    """Every published sentry field this sentry's structure carries, with its research baseline; the reviewed
+    exclusions become blocked fields; the averaged recoil is published read-only."""
+    name = item['name']
+    sentry = publication['sentries'].get(name)
+    if not sentry:
+        return
+    paths = {'weapon': dict(entity_target, path='weapon', weapon='primary'),
+        'turret': dict(entity_target, path='turret'), 'targeting': dict(entity_target, path='targeting')}
+    backings = {}
+    for field_id, spec in publication['fields'].items():
+        if name not in spec['appliesTo']:
+            if name in spec['excluded']:
+                entry['blockedFields'].append({'field': field_id, 'reason': spec['excluded'][name]})
+            continue
+        component = components[spec['component']]
+        own = sentry['components'][spec['component']]
+        if (component['record_index'], component['ownerCount'], component['uniqueOwner']) != (
+                own['record'], own['owners'], own['unique']):
+            raise ValueError('sentry record ownership disagrees with the research: ' + name + ' ' + spec['component'])
+        backing = {'kind': spec['component'], 'component': spec['component'], 'nativeIdentity': entity['resource'],
+            'recordIndex': component['record_index'], 'indexRow': component['index_row'], 'offset': spec['offset'],
+            'storage': spec['storage'], 'width': 4, 'ownerCount': component['ownerCount'],
+            'uniqueOwner': component['uniqueOwner'], 'recordSha256': component.get('recordSha256'),
+            'consumers': consumers[(spec['component'], component['record_index'])]}
+        backings[spec['component']] = backing
+        extra = {'min': spec['min'], 'max': spec['max'], 'rangeJustification': spec['rangeJustification'],
+            'nativeReader': spec['nativeReader'], 'writeScope': SENTRY_WRITE_SCOPE,
+            **sentry_read_timing(publication, field_id), **sentry_acknowledgement(field_id)}
+        if spec['sentinelValues']:
+            extra['sentinelValues'] = [{'value': value, 'meaning': 'use targeting.range (the native value: '
+                '360-degree sensing)'} for value in spec['sentinelValues']]
+        add_field(entry, field_id, sentry['values'][field_id], backing, paths[spec['path']],
+            provenance=SENTRY_PROVENANCE.format(component=spec['component'], reader=spec['nativeReader'],
+                confidence=spec['confidence']), extra=extra)
+    sources = {'weapon.horizontal_recoil': ['weapon.recoil_drift_horizontal', 'weapon.recoil_climb_horizontal'],
+        'weapon.vertical_recoil': ['weapon.recoil_drift_vertical', 'weapon.recoil_climb_vertical']}
+    sources['weapon.recoil'] = sources['weapon.horizontal_recoil'] + sources['weapon.vertical_recoil']
+    for field_id, value in (sentry.get('derived') or {}).items():
+        add_field(entry, field_id, value, dict(backings['WeaponDataComponentData'],
+            offset=publication['fields'][sources[field_id][0]]['offset'], storage='derived'),
+            paths['weapon'], False, defs[field_id].get('reason'),
+            provenance='derived: ' + publication['derived'][field_id] + ' (the wiki\'s published recoil figures)',
+            extra={'derivedFrom': sources[field_id]})
+    entry['sentryFields'] = {'fields': sorted(f for f, spec in publication['fields'].items()
+            if name in spec['appliesTo']),
+        'excluded': {f: spec['excluded'][name] for f, spec in publication['fields'].items() if name in spec['excluded']},
+        'deferred': [d for d in publication['deferred'] if name in d['appliesTo']],
+        'engagement': publication['engagement'].get(name)}
+
+
+def sentry_public_sections(public_stratagems, internal):
+    """Per-sentry summary of the published component fields on the public stratagem items."""
+    for item in public_stratagems:
+        entry = internal['stratagems'].get(item['name'])
+        if not entry or 'sentryFields' not in entry:
+            continue
+        item['sentryFields'] = dict(entry['sentryFields'], writeScope=SENTRY_WRITE_SCOPE,
+            constants={f: api_constant(f) for f in entry['sentryFields']['fields']})
+
+
 def uses_state(root, family, name):
     """Native mission-use model for one StratagemInfo record."""
     if str(family).lower() == 'eagle':
@@ -167,6 +481,235 @@ def uses_state(root, family, name):
         'public': {'value': value, 'mode': mode, 'writable': True, 'field': 'hd2.fields.stratagem.max_uses',
             'range': list(USES_RANGE), 'transitions': transitions, 'gameplayProvenValues': proven,
             'acknowledgement': 'allow_unverified_effect', 'caveat': USES_CAVEAT}}
+
+
+# Orbital bombardment pattern (hd2.fields.orbital.salvos, shells_per_salvo, shell_interval, shell_interval_random,
+# salvo_interval, salvo_interval_random, scatter, salvo_scatter): members of each reviewed orbital's own
+# BombardmentComponentData record (research/bombardment-payload-F5FEE03DCFDB.json, whose readers
+# scripts/research_bombardment_payload.py pins). The barrage's creation (0x8547E0) copies the two counts into the
+# barrage; the per-frame update (0x852170) re-reads the record for every shell: the delays, the scatters and the shell
+# type. The shell types (+0x40, eight slots) are never written and are proven before every write: the barrage's start
+# (0x8518F0) counts the non-zero ones and every shell takes slot (idx + 1) mod that count (0x85259D), reset at every salvo
+# (0x853946), so any salvo or shell count cycles the listed shells and nothing is read past the list. In every snapshot
+# each record has one owner (one index slot) and one StratagemInfo row listing its payload. Self-contained:
+# orbital_pattern_publication, orbital_acknowledgement, add_orbital_pattern_fields.
+ORBITAL_RESEARCH = ROOT / 'research/bombardment-payload-F5FEE03DCFDB.json'
+ORBITAL_EVIDENCE_FAMILY = 'orbital_pattern_fields'
+ORBITAL_UNVERIFIED = ('The bombardment pattern members of the orbital\'s own record are code-proven offline (their native '
+    'readers: research/bombardment-payload-F5FEE03DCFDB.json; whole patterns were copied between records live by '
+    'GasBarragePayloadProof), but no live write of these fields has confirmed the gameplay effect yet.')
+ORBITAL_WRITE_SCOPE = ('A type-record write: this orbital\'s own bombardment record, read by every call of THIS orbital '
+    'stratagem on this machine (all players\' calls of it) until it is restored. It is not per call, and no other '
+    'stratagem reads the record. With several players every machine fires its own shells from its own record, so every '
+    'machine should run the same mod.')
+ORBITAL_TIMING = {
+    'creation': ('read once when the barrage is created: applies from the next call, never to a barrage already '
+        'firing'),
+    'live': 'read again for every shell (or salvo): also changes a barrage of this orbital already firing'}
+ORBITAL_RUNTIME_NOTE = ('Runtime custom stratagems read this record too: a custom orbital whose pattern is this orbital '
+    'refuses to start while the record is not exactly vanilla, and a native custom orbital (orbital.native) whose donor '
+    'is this orbital fires this edited pattern.')
+ORBITAL_SHELLS = ('The shells of one call are orbital.salvos x orbital.shells_per_salvo. Within a salvo the shells cycle '
+    'through the listed shell types (shellTypes, in order), starting again at every salvo.')
+ORBITAL_PROVENANCE = ('BombardmentComponentData member of the orbital\'s own record (payload[0]); native reader {reader} '
+    '(research/bombardment-payload-F5FEE03DCFDB.json)')
+SHELL_SLOTS = 8   # the shell types +0x40..+0x5C
+ORBITAL_FIELDS = (
+    # field id, offset, storage, minimum, maximum, read timing, native reader, range justification
+    ('orbital.salvos', 0x18, 'u32', 1, 16, 'creation', '0x854890 (barrage creation)',
+        'At least one salvo, at most 16 (the native maximum is 6; the Runtime bombardment executor uses the same '
+        'bound).'),
+    ('orbital.shells_per_salvo', 0x04, 'u32', 1, 64, 'creation', '0x854889 (barrage creation)',
+        'At least one shell, at most 64 (the Orbital Gatling Barrage\'s native 60 is the largest).'),
+    ('orbital.shell_interval', 0x08, 'f32', 0, 10, 'live', '0x85354B (the next shell\'s delay)',
+        '0 to 10 seconds (the native maximum is 1.5).'),
+    ('orbital.shell_interval_random', 0x0C, 'f32', 0, 10, 'live', '0x853545 (the next shell\'s delay)',
+        '0 to 10 seconds of random extra delay (every native value is 0).'),
+    ('orbital.salvo_interval', 0x1C, 'f32', 0, 30, 'live', '0x853940 (the next salvo\'s delay)',
+        '0 to 30 seconds (the native maximum is 4).'),
+    ('orbital.salvo_interval_random', 0x20, 'f32', 0, 30, 'live', '0x85393A (the next salvo\'s delay)',
+        '0 to 30 seconds of random extra delay (every native value is 0).'),
+    ('orbital.scatter', 0x24, 'f32', 0, 100, 'live', '0x8526AF (each shell\'s scatter)',
+        '0 to 100 record units (the native maximum is 36, the 380mm\'s).'),
+    ('orbital.salvo_scatter', 0x28, 'f32', 0, 100, 'live', '0x8538E7 (each salvo centre\'s scatter)',
+        '0 to 100 record units (the native maximum is 1).'),
+)
+
+
+def f32_value(value):
+    """A stored f32 as the shortest decimal that encodes back to the same bits (0.045, not 0.04500000178813934)."""
+    bits = struct.pack('<f', value)
+    for digits in range(1, 10):
+        candidate = round(value, digits)
+        if struct.pack('<f', candidate) == bits:
+            return candidate
+    return value
+
+
+def orbital_pattern_publication():
+    """The reviewed orbitals' bombardment records: identity, shell list and the pattern values, checked against the
+    research's layout, ranges and per-snapshot ownership."""
+    research = json.loads(ORBITAL_RESEARCH.read_text(encoding='utf-8'))
+    if research['writes'] != 0 or research['protectionChanges'] != 0 or research['component']['stride'] != 192:
+        raise ValueError('unexpected bombardment research')
+    layout = {item['offset']: item['type'] for item in research['pattern']}
+    for field_id, offset, storage, *_ in ORBITAL_FIELDS:
+        if layout.get(offset) != storage:
+            raise ValueError('the bombardment pattern layout disagrees with ' + field_id)
+    records = {}
+    for stable_id, record in research['records'].items():
+        raw = bytes.fromhex(record['vanilla'])
+        slots = [struct.unpack_from('<I', raw, 0x40 + 4 * k)[0] for k in range(SHELL_SLOTS)]
+        listed = [shell for shell in slots if shell]
+        if not listed or listed != record['shells'] or slots[:len(listed)] != listed:
+            raise ValueError('the shell list of %s is not the reviewed one' % record['name'])
+        for snapshot in research['snapshots']:
+            owner = snapshot['records'][record['name']]
+            if (owner['record'], owner['owners'], len(owner['rowsListing'])) != (record['record'], [record['indexRow']], 1):
+                raise ValueError('the bombardment record of %s is not uniquely owned in %s' % (record['name'],
+                    snapshot['snapshot']))
+        values = {}
+        for field_id, offset, storage, low, high, *_ in ORBITAL_FIELDS:
+            value = struct.unpack_from('<I' if storage == 'u32' else '<f', raw, offset)[0]
+            value = value if storage == 'u32' else f32_value(value)
+            if not low <= value <= high:
+                raise ValueError('the native %s of %s (%s) is outside its range' % (field_id, record['name'], value))
+            values[field_id] = value
+        records[record['name']] = {'stableId': int(stable_id), 'payload': record['payload'],
+            'recordIndex': record['record'], 'indexRow': record['indexRow'], 'shells': listed, 'slots': slots,
+            'values': values}
+    return records
+
+
+def orbital_acknowledgement(field_id):
+    """Live-proven fields (schemas/live_evidence.json family orbital_pattern_fields) publish their evidence; every other
+    field keeps allow_unverified_effect."""
+    family = live_evidence.load()['families'].get(ORBITAL_EVIDENCE_FAMILY)
+    evidence = live_evidence.proven(ORBITAL_EVIDENCE_FAMILY) if family else None
+    if evidence and field_id in family['fields']:
+        return {'liveEvidence': evidence}
+    return {'acknowledgement': 'allow_unverified_effect', 'acknowledgementReason': ORBITAL_UNVERIFIED}
+
+
+def add_orbital_pattern_fields(add_field, internal, public_stratagems, publication):
+    """The eight pattern fields on every reviewed orbital, and its public barrage summary."""
+    public = {item['name']: item for item in public_stratagems}
+    for name, record in publication.items():
+        entry = internal['stratagems'].get(name)
+        link = (entry or {}).get('rootLink') or {}
+        payload = link.get('payload')
+        payload = int(payload, 16) if isinstance(payload, str) else payload
+        if (link.get('component') != 'BombardmentComponentData' or entry['root']['id'] != record['stableId']
+                or (link['recordIndex'], link['indexRow']) != (record['recordIndex'], record['indexRow'])
+                or payload != int(record['payload'], 16)):
+            raise ValueError('the bombardment record of %s disagrees with the catalogue' % name)
+        target = {'resource': 'stratagem', 'stratagem': name, 'path': 'stratagem'}
+        backing = {'kind': 'BombardmentComponentData', 'component': 'BombardmentComponentData',
+            'nativeIdentity': record['payload'], 'recordIndex': record['recordIndex'], 'indexRow': record['indexRow'],
+            'width': 4, 'ownerCount': 1, 'uniqueOwner': True,
+            'recordProofs': [{'offset': 0x40 + 4 * k, 'storage': 'u32', 'value': shell, 'member': 'shell type %d' % k}
+                for k, shell in enumerate(record['slots'])],
+            'consumers': [{'stratagem': name, 'path': 'stratagem'}]}
+        for field_id, offset, storage, low, high, timing, reader, justification in ORBITAL_FIELDS:
+            extra = {'min': low, 'max': high, 'rangeJustification': justification, 'readTiming': timing,
+                'readTimingNote': ORBITAL_TIMING[timing], 'writeScope': ORBITAL_WRITE_SCOPE, 'nativeReader': reader,
+                'runtimeConsumers': ORBITAL_RUNTIME_NOTE, **orbital_acknowledgement(field_id)}
+            if field_id in ('orbital.salvos', 'orbital.shells_per_salvo'):
+                extra.update({'shellTypes': record['shells'], 'shellsPerCall': ORBITAL_SHELLS})
+            add_field(entry, field_id, record['values'][field_id], dict(backing, offset=offset, storage=storage), target,
+                provenance=ORBITAL_PROVENANCE.format(reader=reader), extra=extra)
+        values = record['values']
+        public[name]['barrageScheduling'] = {'writable': True,
+            'fields': {field_id: api_constant(field_id) for field_id, *_ in ORBITAL_FIELDS},
+            'values': dict(values), 'shellTypes': record['shells'],
+            'shellsPerCall': values['orbital.salvos'] * values['orbital.shells_per_salvo'],
+            'rule': ORBITAL_SHELLS, 'writeScope': ORBITAL_WRITE_SCOPE, 'runtimeConsumers': ORBITAL_RUNTIME_NOTE,
+            **orbital_acknowledgement('orbital.salvos')}
+
+
+# Call-in time (hd2.fields.stratagem.call_in_time): StratagemInfo +0x54 of the stratagem's own row, the row
+# stratagem.cooldown writes. research/beacon-redirect-F5FEE03DCFDB.json pins its reader: a beacon's initialization
+# (0x6AE7D5 -> 0x6A5B70) calls 0x879900, which adds the carrier type's row +0x54 (0x87997F), then the player's upgrade
+# modifiers (0xB5FBF0) and each active mission effect 0x8F, never below 0; the beacon's countdown is that call-in plus
+# the threshold (the orbital travel, the delivery time - a pod's fall, an aircraft's flight or the bombardment's
+# duration - and the linger). Computed once per beacon. Every catalogued row's value equals the research's
+# timing.byStratagem. Self-contained: call_in_baselines, call_in_acknowledgement, add_call_in_fields.
+CALL_IN_RESEARCH = ROOT / 'research/beacon-redirect-F5FEE03DCFDB.json'
+CALL_IN_EVIDENCE_FAMILY = 'stratagem_call_in_time'
+CALL_IN_OFFSET = 0x54
+CALL_IN_RANGE = (0, 60)
+CALL_IN_RANGE_NOTE = ('0 to 60 seconds (the longest native call-in is 6 s, the 380mm\'s; a beacon countdown above '
+    '120 s is never set).')
+CALL_IN_UNVERIFIED = ('StratagemInfo +0x54 is code-proven offline as the call-in the beacon countdown adds '
+    '(research/beacon-redirect-F5FEE03DCFDB.json timing), and every row\'s value equals the research, but no live write '
+    'has confirmed the gameplay effect yet.')
+CALL_IN_TIMING = ('read once when a beacon of this stratagem is created: applies to beacons thrown after the write; a '
+    'beacon already thrown keeps its countdown')
+CALL_IN_SCOPE = ('A type-record write: this stratagem\'s own StratagemInfo row, read by every beacon of it created on '
+    'this machine until it is restored. With several players the thrower\'s machine computes its beacon\'s countdown '
+    'from its own row (replicated at creation), so every thrower needs the mod.')
+CALL_IN_SEMANTICS = ('The call-in countdown before the delivery starts. The game\'s upgrades and active mission effects '
+    'apply on top (the native 120mm 5 s showed 4 s live with ship upgrades); the pod fall, the orbital travel and an '
+    'aircraft\'s flight come after it and are not part of it. Eagles are 0: their delay is the jet\'s flight.')
+CALL_IN_READER = '0x879900 (+0x54), called from the beacon initialization 0x6AE7D5 -> 0x6A5B70'
+CALL_IN_PROVENANCE = ('StratagemInfo +0x54 of the stratagem\'s own row; native reader ' + CALL_IN_READER
+    + ' (research/beacon-redirect-F5FEE03DCFDB.json)')
+
+
+def call_in_baselines(source, defensive_source, entity_research, resupply):
+    """Every catalogued row's call-in: the row's own +0x54 where the research captured it, else the beacon research's
+    per-stratagem value; both must agree wherever both exist."""
+    timing = json.loads(CALL_IN_RESEARCH.read_text(encoding='utf-8'))['timing']
+    if timing['row']['callIn'] != CALL_IN_OFFSET:
+        raise ValueError('the beacon research no longer names StratagemInfo +0x54 as the call-in')
+    researched = timing['byStratagem']
+    roots = [(item['name'], item['currentRoot']) for item in source['stratagems']]
+    roots += [(item['name'], item['currentRoot']) for item in source['supportRoots'] if item['resolution'] == 'UNIQUE']
+    roots += [(item['name'], item['currentRoot']) for item in (defensive_source or {}).get('stratagems', [])]
+    roots += [(resupply['stratagem']['name'], resupply['stratagem']['currentRoot'])]
+    roots += [(item['name'], item['stratagemRoot']) for item in entity_research['vehicles'] if item['stratagemRoot']]
+    roots += [(item['name'], item['stratagemRoot']) for item in entity_research['backpacks']]
+    baselines = {}
+    for name, root in roots:
+        native = root.get('spawn_time')
+        known = researched.get(name, {}).get('callIn')
+        if native is not None and known is not None and abs(native - known) > 1e-6:
+            raise ValueError('the call-in of %s disagrees with the beacon research (%s, %s)' % (name, native, known))
+        value = native if native is not None else known
+        if value is None:
+            raise ValueError('no call-in baseline for ' + name)
+        if not CALL_IN_RANGE[0] <= value <= CALL_IN_RANGE[1]:
+            raise ValueError('the native call-in of %s (%s) is outside its range' % (name, value))
+        baselines[name] = f32_value(float(value))
+    return baselines
+
+
+def call_in_acknowledgement():
+    """Live-proven rows (schemas/live_evidence.json family stratagem_call_in_time) publish their evidence; every other
+    row keeps allow_unverified_effect."""
+    family = live_evidence.load()['families'].get(CALL_IN_EVIDENCE_FAMILY)
+    evidence = live_evidence.proven(CALL_IN_EVIDENCE_FAMILY) if family else None
+    if evidence and 'stratagem.call_in_time' in family['fields']:
+        return {'liveEvidence': evidence}
+    return {'acknowledgement': 'allow_unverified_effect', 'acknowledgementReason': CALL_IN_UNVERIFIED}
+
+
+def add_call_in_fields(add_field, internal, public_stratagems, baselines):
+    """stratagem.call_in_time on every catalogued row, and its public summary."""
+    public = {item['name']: item for item in public_stratagems}
+    for name, entry in internal['stratagems'].items():
+        baseline = baselines[name]
+        extra = {'min': CALL_IN_RANGE[0], 'max': CALL_IN_RANGE[1], 'rangeJustification': CALL_IN_RANGE_NOTE,
+            'readTiming': 'beacon_creation', 'readTimingNote': CALL_IN_TIMING, 'writeScope': CALL_IN_SCOPE,
+            'nativeReader': CALL_IN_READER, 'semantics': CALL_IN_SEMANTICS, **call_in_acknowledgement()}
+        add_field(entry, 'stratagem.call_in_time', baseline,
+            {'kind': 'StratagemDefinition', 'nativeIdentity': entry['root']['id'], 'offset': CALL_IN_OFFSET,
+             'storage': 'f32', 'width': 4, 'consumers': [{'stratagem': name, 'path': 'stratagem'}]},
+            {'resource': 'stratagem', 'stratagem': name, 'path': 'stratagem'}, provenance=CALL_IN_PROVENANCE, extra=extra)
+        if name in public:
+            public[name]['callInTime'] = {'value': baseline, 'writable': True,
+                'field': api_constant('stratagem.call_in_time'), 'unit': 'seconds', 'range': list(CALL_IN_RANGE),
+                'readTiming': 'beacon_creation', 'semantics': CALL_IN_SEMANTICS, **call_in_acknowledgement()}
 
 
 def lua(value):
@@ -238,6 +781,8 @@ def build():
     attack_instances = []
     semantic_branches = []
     eagle_names = [x['name'] for x in source['stratagems'] if x['family'] == 'Eagle']
+    eagle_fields = eagle_publication(source)
+    sentry_fields = sentry_publication()
     linkage = support_callin_linkage.build(source['supportRoots'])
 
     def add_field(entry, field_id, baseline, backing, target, writable=True, reason=None,
@@ -288,6 +833,48 @@ def build():
             public.update(extra)
         field_instances.append(public)
 
+    native_codes = calldown_codes()
+    presentation_values, presentation_layout = presentation_rows()
+
+    def add_presentation(entry, root, name):
+        """The four presentation members of one StratagemInfo row; its native value is its own name."""
+        target = {'resource':'stratagem','stratagem':name,'path':'stratagem'}
+        for field_id, member in PRESENTATION_MEMBERS.items():
+            layout = presentation_layout[member]
+            backing = {'kind':'StratagemDefinition','nativeIdentity':root['id'],'offset':layout['offset'],
+                'storage':'presentation','width':layout['width'],'member':member,
+                'consumers':[{'stratagem':name,'path':'stratagem'}]}
+            if root['id'] not in presentation_values:
+                add_field(entry, field_id, None, backing, target, False,
+                    'No reviewed presentation for this StratagemInfo row.')
+                continue
+            extra = {'resourceType':defs[field_id]['resource_type'],'valueKind':'stratagem',
+                'valueSource':ICON_SOURCE if member == 'icon' else PRESENTATION_SOURCE,
+                'applyTiming':PRESENTATION_TIMING}
+            if member == 'icon':
+                extra['customValues'] = 'image'
+            evidence = live_evidence.proven_target('stratagem_presentation', name, field_id)
+            if evidence:
+                extra['liveEvidence'] = evidence
+            add_field(entry, field_id, name, backing, target, extra=extra)
+
+    def add_calldown(entry, root, name):
+        """The calldown code of one StratagemInfo row (runtime/calldown_codes.lua): its native code by stable id."""
+        target = {'resource':'stratagem','stratagem':name,'path':'stratagem'}
+        backing = {'kind':'StratagemDefinition','nativeIdentity':root['id'],'offset':64,'storage':'calldown',
+            'width':12,'consumers':[{'stratagem':name,'path':'stratagem'}]}
+        code = native_codes.get(root['id'])
+        if code is None:
+            add_field(entry, 'stratagem.calldown_code', None, backing, target, False,
+                'No researched calldown code for this StratagemInfo row.')
+            return
+        extra = {'minLength':1,'maxLength':CALLDOWN_MAX,'directions':CALLDOWN_DIRECTIONS,
+            'hudSynchronization':CALLDOWN_HUD,'acknowledgementRule':CALLDOWN_EQUAL}
+        evidence = live_evidence.proven_target('stratagem_calldown_code', name, 'stratagem.calldown_code')
+        if evidence:
+            extra['liveEvidence'] = evidence
+        add_field(entry, 'stratagem.calldown_code', code, backing, target, extra=extra)
+
     for item in source['stratagems']:
         root = item['currentRoot']; entry = {'name': item['name'], 'family': item['family'].lower(),
             'rootResolution': 'UNIQUE', 'root': {'id': root['id'], 'package': root['package'],
@@ -311,6 +898,8 @@ def build():
              'width':4,'consumers':root_scope},
             {'resource':'stratagem','stratagem':item['name'],'path':'stratagem'})
         max_value = None if root['use_count'] == 4294967295 else root['use_count']
+        add_calldown(entry, root, item['name'])
+        add_presentation(entry, root, item['name'])
         add_field(entry, 'stratagem.max_uses', uses_state(root, item['family'], item['name'])['value'],
             {'kind':'StratagemDefinition','nativeIdentity':root['id'],'offset':80,'storage':'u32',
              'width':4,'consumers':root_scope},
@@ -326,6 +915,7 @@ def build():
                 {'kind':'StratagemDefinition','nativeIdentity':rearm['id'],'offset':104,'storage':'f32',
                  'width':4,'consumers':rearm_scope},
                 {'resource':'stratagem','stratagem':item['name'],'path':'eagle_rearm'})
+            add_eagle_component_fields(add_field, entry, item['name'], eagle_fields)
 
         for index, node in enumerate(item['nativeGraph'], 1):
             role = slug(node['path'])
@@ -412,6 +1002,8 @@ def build():
             {'kind':'StratagemDefinition','nativeIdentity':root['id'],'offset':104,'storage':'f32',
              'width':4,'consumers':[{'stratagem':support['name'],'path':'stratagem'}]},
             {'resource':'stratagem','stratagem':support['name'],'path':'stratagem'})
+        add_calldown(entry, root, support['name'])
+        add_presentation(entry, root, support['name'])
         add_field(entry,'stratagem.max_uses', uses_state(root, 'support', support['name'])['value'],
             {'kind':'StratagemDefinition','nativeIdentity':root['id'],'offset':80,'storage':'u32',
              'width':4,'consumers':[{'stratagem':support['name'],'path':'stratagem'}]},
@@ -444,6 +1036,8 @@ def build():
              'width':4,'consumers':root_scope},
             {'resource':'stratagem','stratagem':name,'path':'stratagem'})
         max_value = None if root['use_count'] == 4294967295 else root['use_count']
+        add_calldown(entry, root, name)
+        add_presentation(entry, root, name)
         add_field(entry,'stratagem.max_uses', uses_state(root, family, name)['value'],
             {'kind':'StratagemDefinition','nativeIdentity':root['id'],'offset':80,'storage':'u32',
              'width':4,'consumers':root_scope},
@@ -474,6 +1068,8 @@ def build():
         {'kind':'StratagemDefinition','nativeIdentity':root['id'],'offset':104,'storage':'f32',
          'width':4,'consumers':root_scope},
         {'resource':'stratagem','stratagem':name,'path':'stratagem'})
+    add_calldown(entry, root, name)
+    add_presentation(entry, root, name)
     uses = uses_state(root, family, name)
     add_field(entry,'stratagem.max_uses',uses['value'],
         {'kind':'StratagemDefinition','nativeIdentity':root['id'],'offset':80,'storage':'u32',
@@ -567,13 +1163,15 @@ def build():
                         ('turret.pitch_min', 20, -90, 90), ('turret.pitch_max', 24, -90, 90)):
                     component_field('TurretComponentData', field_id, offset, target, proven,
                         {'min': low, 'max': high,
-                         **acknowledged(field_id, 'sentry_turret_turn_speed', TURRET_UNVERIFIED)})
+                         **acknowledged(field_id, 'sentry_turret_turn_speed', TURRET_UNVERIFIED),
+                         **sentry_read_timing(sentry_fields, field_id)})
                 for field_id, offset in (('turret.yaw_min', 28), ('turret.yaw_max', 32)):
                     component_field('TurretComponentData', field_id, offset, target,
                         'TurretComponent member paired with the proven vertical limits (same layout pattern, '
                         'constrained arcs on fixed enemy mounts); no published table',
                         {'min': -180, 'max': 180, 'acknowledgement': 'allow_unverified_effect',
-                         'acknowledgementReason': TURRET_LIMIT_UNVERIFIED})
+                         'acknowledgementReason': TURRET_LIMIT_UNVERIFIED,
+                         **sentry_read_timing(sentry_fields, field_id)})
                 entry['turret'] = {'proof': 'wiki detailed tables (Horizontal/Vertical Turn Speed, Vertical Limit)',
                     'native': turret_proof['native'], 'wikiChecks': turret_proof['wikiChecks']}
             sensor_proof = proofs.get('sensor')
@@ -584,7 +1182,8 @@ def build():
                     + (' (this sentry: "' + statement['text'] + '")' if statement else
                        ' (this sentry states no range of its own)'),
                     {'min': 1, 'max': 500, **acknowledged('targeting.range', 'sentry_targeting_range',
-                        RANGE_UNVERIFIED)})
+                        RANGE_UNVERIFIED), **sentry_read_timing(sentry_fields, 'targeting.range'),
+                     **sentry_targeting_notes(sentry_fields, item['name'])})
                 entry['targeting'] = {'range': sensor_proof['native'], 'statement': statement,
                     'note': None if statement else ('Engagement distance may be set by the weapon (spray reach, arc '
                         'range); the sensor range bounds target acquisition only.')}
@@ -691,6 +1290,8 @@ def build():
                  'storage':'f32','width':4,'consumers':root_scope},
                 {'resource':'stratagem','stratagem':item['name'],'path':'stratagem'})
             max_value = None if root['use_count'] == 4294967295 else root['use_count']
+            add_calldown(entry, root, item['name'])
+            add_presentation(entry, root, item['name'])
             add_field(entry, 'stratagem.max_uses', uses_state(root, item['family'], item['name'])['value'],
                 {'kind':'StratagemDefinition','nativeIdentity':root['id'],'offset':80,
                  'storage':'u32','width':4,'consumers':root_scope},
@@ -742,6 +1343,8 @@ def build():
                         'armor': zone['armor'], 'health': zone['health'],
                         'affectsMainHealth': zone['affectsMainHealth']})
             add_deployment_fields(entry, item, components, entity, entity_target)
+            add_sentry_component_fields(add_field, defs, entry, item, components, entity, entity_target,
+                defensive_consumers, sentry_fields)
             if item['name'] == 'FX-12 Shield Generator Relay':
                 relay = entity_research['shieldRelay']
                 if relay['resource'] != entity['resource']:
@@ -920,6 +1523,11 @@ def build():
         raise ValueError('stratagem semantic identities are not unique')
     icon_contract = add_ui_icons(public_stratagems, internal)
     add_catalog_equipment(public_stratagems, source, linkage)
+    eagle_patterns = eagle_public_sections(public_stratagems, internal, eagle_fields)
+    sentry_public_sections(public_stratagems, internal)
+    add_orbital_pattern_fields(add_field, internal, public_stratagems, orbital_pattern_publication())
+    add_call_in_fields(add_field, internal, public_stratagems,
+        call_in_baselines(source, defensive_source, entity_research, resupply))
     backing_objects = {}
     operation_groups = {}
     for field in field_instances:
@@ -960,6 +1568,38 @@ def build():
             'stratagem_definition_cooldown', item['name'], 'stratagem.definition_cooldown')
         if promoted:
             capability['liveEvidence'] = promoted
+    # The calldown code of every stratagem with a uniquely resolved root (hd2.fields.stratagem.calldown_code).
+    for item in public_stratagems:
+        entry = internal['stratagems'].get(item['name'])
+        field = next((f for f in (entry or {}).get('fields', []) if f['semanticFieldId'] == 'stratagem.calldown_code'),
+            None)
+        if field is None or item['rootResolution'] != 'UNIQUE':
+            item['calldownCapability'] = {'value':None,'writable':False,
+                'reason':item.get('blockedReason') or 'No uniquely resolved StratagemDefinition.'}
+            continue
+        item['calldownCapability'] = {'value':field['currentDefault'],'writable':field['editable'],
+            'field':'hd2.fields.stratagem.calldown_code','minLength':1,'maxLength':CALLDOWN_MAX,
+            'directions':CALLDOWN_DIRECTIONS,'hudSynchronization':'automatic'}
+        if field.get('liveEvidence'):
+            item['calldownCapability']['liveEvidence'] = field['liveEvidence']
+    # The presentation of every stratagem with a uniquely resolved root (hd2.fields.stratagem.presentation_*), and the
+    # stratagems whose presentation another stratagem may take.
+    presentation_sources = []
+    for item in public_stratagems:
+        entry = internal['stratagems'].get(item['name'])
+        fields = [f for f in (entry or {}).get('fields', []) if f['semanticFieldId'] in PRESENTATION_MEMBERS]
+        if len(fields) != 4 or item['rootResolution'] != 'UNIQUE' or not all(f['editable'] for f in fields):
+            item['presentationCapability'] = {'value':None,'writable':False,
+                'reason':item.get('blockedReason') or 'No uniquely resolved StratagemDefinition.'}
+            continue
+        presentation_sources.append(item['name'])
+        item['presentationCapability'] = {'value':item['name'],'writable':True,
+            'fields':{f['semanticFieldId']:api_constant(f['semanticFieldId']) for f in fields},
+            'resourceTypes':{f['semanticFieldId']:defs[f['semanticFieldId']]['resource_type'] for f in fields},
+            'applyTiming':'aboard_the_ship'}
+        evidence = [f['liveEvidence'] for f in fields if f.get('liveEvidence')]
+        if evidence:
+            item['presentationCapability']['liveEvidence'] = evidence[0]
     deployed_entities = []
     for item in public_stratagems:
         if item.get('deployedEntity'):
@@ -981,7 +1621,11 @@ def build():
         'operationGroups':list(operation_groups.values()),
         'supportCallInLinks':{key:linkage[key] for key in
             ('contract','schemaVersion','joinContract','relationships','audit')},
-        'uiIconContract':icon_contract}
+        'uiIconContract':icon_contract,
+        'eagleAirstrikePatterns':eagle_patterns,
+        'presentationSources':{'stratagems':sorted(presentation_sources),
+            'excluded':presentation_excluded(presentation_sources,internal['stratagems']),'rule':PRESENTATION_SOURCE,
+            'customImages':CUSTOM_IMAGES}}
     internal_instance_keys = [field['instanceKey'] for entry in internal['stratagems'].values()
         for field in entry['fields']]
     published_instance_keys = [field['instanceKey'] for field in field_instances]
@@ -1007,12 +1651,27 @@ def build():
     public['summary']={'offensiveRootsResolved':20,'orbitalRootsResolved':12,'eagleRootsResolved':8,
         'supportRootsResolved':sum(x['resolution']=='UNIQUE' for x in source['supportRoots']),
         'cooldownWritable':sum(x['semanticFieldId']=='stratagem.cooldown' and x['editable'] for x in field_instances),
+        'calldownWritable':sum(x['semanticFieldId']=='stratagem.calldown_code' and x['editable'] for x in field_instances),
+        'presentationWritable':sum(x['semanticFieldId']=='stratagem.presentation.icon' and x['editable']
+            for x in field_instances),
         'maxUsesWritable':sum(x['semanticFieldId']=='stratagem.max_uses' and x['editable'] for x in field_instances),
         'maxUsesByMode':dict(sorted(Counter(x.get('usesMode') or 'eagle_per_rearm' for x in field_instances
             if x['semanticFieldId']=='stratagem.max_uses').items())),
         'maxUsesGameplayProven':sum(bool(x.get('gameplayProvenValues')) for x in field_instances
             if x['semanticFieldId']=='stratagem.max_uses'),
         'eagleUsesPerRearmWritable':8,'eagleRearmTimeWritable':8,
+        'eagleComponentFieldsWritable':sum(x['backingObjectKind']=='EagleComponentData' and x['editable']
+            for x in field_instances),
+        'eagleComponentFieldsReadOnly':sum(x['backingObjectKind']=='EagleComponentData' and not x['editable']
+            for x in field_instances),
+        'sentryComponentFieldsWritable':sum(x.get('writeScope')==SENTRY_WRITE_SCOPE and x['editable']
+            for x in field_instances),
+        'sentryComponentFieldsDerived':sum(x.get('writeScope') is None and x['target']['path']=='weapon'
+            and x['semanticFieldId'] in ('weapon.recoil','weapon.horizontal_recoil','weapon.vertical_recoil')
+            for x in field_instances),
+        'sentryComponentFieldsDeferred':sorted({d['field'] for d in sentry_fields['deferred']}),
+        'eagleComponentSharedJets':sorted({x['target']['stratagem'] for x in field_instances
+            if x['backingObjectKind']=='EagleComponentData' and x['shared']}),
         'fieldInstances':len(field_instances),'writableFieldInstances':sum(x['editable'] for x in field_instances),
         'backingObjectCount':len({x['backingObjectId'] for x in field_instances}),
         'sharedBackingObjectCount':len({x['backingObjectId'] for x in field_instances if x['shared']}),

@@ -1,0 +1,258 @@
+{
+  "derivedReadOnly": 21,
+  "fixtureFallback": "disabled",
+  "mode": "snapshot-overlay",
+  "noOps": 72,
+  "protectionChanges": 32,
+  "rejections": {
+    "acknowledgement": 72,
+    "conflict": 2,
+    "notApplicable": 6,
+    "readOnly": 3,
+    "value": 19
+  },
+  "roundTrips": [
+    {
+      "after": "00009643",
+      "before": "00002041",
+      "component": "WeaponDataComponentData",
+      "field": "weapon.horizontal_spread",
+      "from": 10,
+      "inverseRestored": true,
+      "offset": 84,
+      "otherBytesUnchanged": true,
+      "otherSentriesChecked": 6,
+      "otherSentriesUnchanged": true,
+      "protectionRestored": true,
+      "stratagem": "A/MG-43 Machine Gun Sentry",
+      "to": 300,
+      "writes": 1
+    },
+    {
+      "after": "00000000",
+      "before": "00002041",
+      "component": "WeaponDataComponentData",
+      "field": "weapon.recoil_climb_vertical",
+      "from": 10,
+      "inverseRestored": true,
+      "offset": 32,
+      "otherBytesUnchanged": true,
+      "otherSentriesChecked": 6,
+      "otherSentriesUnchanged": true,
+      "protectionRestored": true,
+      "stratagem": "A/AC-8 Autocannon Sentry",
+      "to": 0,
+      "writes": 1
+    },
+    {
+      "after": "00002041",
+      "before": "0000803f",
+      "component": "TurretComponentData",
+      "field": "turret.pitch_yaw_coupling",
+      "from": 1,
+      "inverseRestored": true,
+      "offset": 16,
+      "otherBytesUnchanged": true,
+      "otherSentriesChecked": 8,
+      "otherSentriesUnchanged": true,
+      "protectionRestored": true,
+      "stratagem": "A/AC-8 Autocannon Sentry",
+      "to": 10,
+      "writes": 1
+    },
+    {
+      "after": "00000000",
+      "before": "00008040",
+      "component": "TurretComponentData",
+      "field": "turret.pitch_yaw_coupling",
+      "from": 4,
+      "inverseRestored": true,
+      "offset": 16,
+      "otherBytesUnchanged": true,
+      "otherSentriesChecked": 8,
+      "otherSentriesUnchanged": true,
+      "protectionRestored": true,
+      "stratagem": "A/M-12 Mortar Sentry",
+      "to": 0,
+      "writes": 1
+    },
+    {
+      "after": "00002041",
+      "before": "000080bf",
+      "component": "SensorEyeComponentData",
+      "field": "targeting.side_range",
+      "from": -1,
+      "inverseRestored": true,
+      "offset": 4,
+      "otherBytesUnchanged": true,
+      "otherSentriesChecked": 8,
+      "otherSentriesUnchanged": true,
+      "protectionRestored": true,
+      "stratagem": "A/MG-43 Machine Gun Sentry",
+      "to": 10,
+      "writes": 1
+    },
+    {
+      "after": "00004040",
+      "before": "000080bf",
+      "component": "SensorEyeComponentData",
+      "field": "targeting.rear_range",
+      "from": -1,
+      "inverseRestored": true,
+      "offset": 8,
+      "otherBytesUnchanged": true,
+      "otherSentriesChecked": 8,
+      "otherSentriesUnchanged": true,
+      "protectionRestored": true,
+      "stratagem": "A/MG-43 Machine Gun Sentry",
+      "to": 3,
+      "writes": 1
+    },
+    {
+      "after": "0000c040",
+      "before": "0000003f",
+      "component": "WeaponWindUpComponentData",
+      "field": "windup.wind_up_seconds",
+      "from": 0.5,
+      "inverseRestored": true,
+      "offset": 0,
+      "otherBytesUnchanged": true,
+      "otherSentriesChecked": 0,
+      "otherSentriesUnchanged": true,
+      "protectionRestored": true,
+      "stratagem": "A/G-16 Gatling Sentry",
+      "to": 6,
+      "writes": 1
+    },
+    {
+      "after": "78000000",
+      "before": "3c000000",
+      "component": "BeamWeaponComponentData",
+      "field": "beam.fire_rate",
+      "from": 60,
+      "inverseRestored": true,
+      "offset": 104,
+      "otherBytesUnchanged": true,
+      "otherSentriesChecked": 0,
+      "otherSentriesUnchanged": true,
+      "protectionRestored": true,
+      "stratagem": "A/LAS-98 Laser Sentry",
+      "to": 120,
+      "writes": 1
+    }
+  ],
+  "sentries": {
+    "A/AC-8 Autocannon Sentry": {
+      "fields": [
+        "targeting.rear_range",
+        "targeting.side_range",
+        "turret.pitch_yaw_coupling",
+        "weapon.horizontal_spread",
+        "weapon.recoil_climb_horizontal",
+        "weapon.recoil_climb_vertical",
+        "weapon.recoil_drift_horizontal",
+        "weapon.recoil_drift_vertical",
+        "weapon.vertical_spread"
+      ]
+    },
+    "A/FLAM-40 Flame Sentry": {
+      "fields": [
+        "targeting.rear_range",
+        "targeting.side_range",
+        "turret.pitch_yaw_coupling"
+      ]
+    },
+    "A/G-16 Gatling Sentry": {
+      "fields": [
+        "targeting.rear_range",
+        "targeting.side_range",
+        "turret.pitch_yaw_coupling",
+        "weapon.horizontal_spread",
+        "weapon.recoil_climb_horizontal",
+        "weapon.recoil_climb_vertical",
+        "weapon.recoil_drift_horizontal",
+        "weapon.recoil_drift_vertical",
+        "weapon.vertical_spread",
+        "windup.wind_down_seconds",
+        "windup.wind_up_seconds"
+      ]
+    },
+    "A/GM-17 Gas Mortar Sentry": {
+      "fields": [
+        "targeting.rear_range",
+        "targeting.side_range",
+        "turret.pitch_yaw_coupling",
+        "weapon.horizontal_spread",
+        "weapon.recoil_climb_horizontal",
+        "weapon.recoil_climb_vertical",
+        "weapon.recoil_drift_horizontal",
+        "weapon.recoil_drift_vertical",
+        "weapon.vertical_spread"
+      ]
+    },
+    "A/LAS-98 Laser Sentry": {
+      "fields": [
+        "beam.fire_rate",
+        "targeting.rear_range",
+        "targeting.side_range",
+        "turret.pitch_yaw_coupling"
+      ]
+    },
+    "A/M-12 Mortar Sentry": {
+      "fields": [
+        "targeting.rear_range",
+        "targeting.side_range",
+        "turret.pitch_yaw_coupling",
+        "weapon.horizontal_spread",
+        "weapon.recoil_climb_horizontal",
+        "weapon.recoil_climb_vertical",
+        "weapon.recoil_drift_horizontal",
+        "weapon.recoil_drift_vertical",
+        "weapon.vertical_spread"
+      ]
+    },
+    "A/M-23 EMS Mortar Sentry": {
+      "fields": [
+        "targeting.rear_range",
+        "targeting.side_range",
+        "turret.pitch_yaw_coupling",
+        "weapon.horizontal_spread",
+        "weapon.recoil_climb_horizontal",
+        "weapon.recoil_climb_vertical",
+        "weapon.recoil_drift_horizontal",
+        "weapon.recoil_drift_vertical",
+        "weapon.vertical_spread"
+      ]
+    },
+    "A/MG-43 Machine Gun Sentry": {
+      "fields": [
+        "targeting.rear_range",
+        "targeting.side_range",
+        "turret.pitch_yaw_coupling",
+        "weapon.horizontal_spread",
+        "weapon.recoil_climb_horizontal",
+        "weapon.recoil_climb_vertical",
+        "weapon.recoil_drift_horizontal",
+        "weapon.recoil_drift_vertical",
+        "weapon.vertical_spread"
+      ]
+    },
+    "A/MLS-4X Rocket Sentry": {
+      "fields": [
+        "targeting.rear_range",
+        "targeting.side_range",
+        "turret.pitch_yaw_coupling",
+        "weapon.horizontal_spread",
+        "weapon.recoil_climb_horizontal",
+        "weapon.recoil_climb_vertical",
+        "weapon.recoil_drift_horizontal",
+        "weapon.recoil_drift_vertical",
+        "weapon.vertical_spread"
+      ]
+    }
+  },
+  "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "status": "VALIDATED",
+  "withoutAllowShared": 72,
+  "writes": 16
+}

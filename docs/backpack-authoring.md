@@ -11,8 +11,8 @@ published in both catalogs.
 
 | Backpack | Writable | Tier |
 | --- | --- | --- |
-| LIFT-850 Jump Pack | `recharge.time`, `jump.vertical_launch_velocity` | gameplay_proven (JumpPackImprovements) |
-| LIFT-860 Hover Pack | `recharge.time`; `hover.duration`, `jump.vertical_launch_velocity` (`allow_unverified_effect`) | schema_proven; native_correlated |
+| LIFT-850 Jump Pack | `recharge.time`, `jump.vertical_launch_velocity`; launch, sustain, air control and take-off `jump.*` (`allow_unverified_effect`) | gameplay_proven (JumpPackImprovements); native_consumer_proven |
+| LIFT-860 Hover Pack | `recharge.time`; `hover.duration`, hover speed / climb / fuel `hover.*`, sustain and air control `jump.*`, `jump.vertical_launch_velocity` (dormant) (`allow_unverified_effect`) | schema_proven; native_correlated; native_consumer_proven |
 | LIFT-182 Warp Pack | `warp.*` distance, biases, heat and per-limb injury damage (`allow_unverified_effect`) | native_correlated |
 | SH-32 Shield Generator Pack | `shield.radius`, `shield.durability`; `shield.recharge_delay`, `shield.broken_recharge_delay`, `shield.recharge_rate` (`allow_unverified_effect`) | schema_proven; native_correlated |
 | SH-20 Ballistic Shield | `entity.health`; plate armor `zone.armor` on `:damage_zone('shield')` (`allow_unverified_effect`) | health schema_proven; plate armor offline-proven (see below) |
@@ -29,10 +29,10 @@ one) and an `effect` block (active source, lifecycle).
 Read-only:
 
 - **Supply Pack and Hellbomb deposits:** no published value proves what their charges do.
-- **Other launch members:** two further Jumppack launch scalars were only ever experiment profiles, and no
-  horizontal impulse member is identified.
-- **Hover Pack ascent, speed and fuel:** the Hover Pack-only vectors and scalars from +145 to +276 have no
-  published values. Their layout and hover/jump differential are published as unknown members.
+- **Jump / hover members not offered:** flight-model switches (+64, +144, +145, +152..+155), the alternate launch
+  window (+28: its replicated toggle is not identified), members whose meaning is not decoded (+4, +8, +20), the Hover
+  Pack's horizontal acceleration pair (+160/+164: blended over a zero-width speed range, a one-sided write divides by
+  zero) and the visual sway animation (+220..+276). See [Jump and hover movement](#jump-and-hover-movement).
 - **Warp Pack:** the maximum survivable unit size (a `UnitSize` enum: only "Medium" = 1 is correlated), the chest
   injury status (Fire), the arrival explosion (a shared ExplosionSettings row) and the remaining typed members.
 - **SH-32 +100** ("restart charge" in an external export only), the barrier radius (0: the directional barrier is
@@ -126,9 +126,62 @@ The Hover Pack and both jump packs share `JumppackComponent` (280 bytes, three r
 
 - `hover.duration` (+156) holds the published six seconds, and only the Hover Pack record sets it: both jump-pack
   records hold the -1 sentinel.
-- The launch uses the vertical launch member (+0, 40) that is gameplay-proven on the LIFT-850. Whether the Hover
-  Pack reads it is what `examples/projects/HoverPackTest` checks.
+- **The Hover Pack does not read the launch thrust** (`jump.vertical_launch_velocity`, +0). Its activation sets the
+  replicated hover-launch flag (+153 and +154 are set), and the flight code skips the launch thrust when that flag is
+  set (research/hoverpack-components-F5FEE03DCFDB.json). The Hover Pack instance stays writable for compatibility and
+  logs a one-time `DORMANT` notice; `examples/projects/HoverPackTest` "High launch" is expected to show no change.
 - The recharge (11.5 s) is the existing `recharge.time`. The wiki gives "at most 12 s", an upper bound.
+
+## Jump and hover movement
+
+The LIFT-850 Jump Pack and LIFT-860 Hover Pack movement is the pack's own `JumppackComponent` record (one owner
+each), read live every frame by the flight code: **a write takes effect on the next frame, including a pack already
+worn and mid-flight.** Research: `research/hoverpack-components-F5FEE03DCFDB.json`,
+[docs/research/hoverpack-components-F5FEE03DCFDB.md](research/hoverpack-components-F5FEE03DCFDB.md). Every field
+below needs `allow_unverified_effect` (evidence tier `native_consumer_proven`: the reading code is traced, the effect is
+not yet shown in game). Where every pack holds the same value, the meaning is proven from the code but the magnitude has
+no independent confirmation; the descriptor says so.
+
+How the flight works:
+
+- **Launch** (Jump Pack): for `jump.launch_duration` seconds the velocity gains `jump.vertical_launch_velocity` x
+  (1 - t^2) x dt (m/s^2; downward speed is cancelled first), `jump.launch_forward_ratio` of it along the travel
+  direction and the rest upward.
+- **Sustain** (both): once the launch has run `jump.sustain_start_delay` seconds (Jump Pack only) and the speed is at
+  least `jump.sustain_start_speed` with a clear path ahead, `jump.sustain_thrust` x (1 - t^2) pushes for
+  `jump.sustain_duration` seconds (`jump.sustain_forward_ratio` of it forward). The pack deactivates when the speed
+  falls below `jump.sustain_cutoff_speed`.
+- **Air control** (both): `jump.air_control_acceleration` along the movement input while the horizontal speed is
+  below `jump.air_control_max_speed` (Jump Pack) or `hover.max_horizontal_speed` (Hover Pack).
+- **Take-off hop** (Jump Pack): vertical speed = clamp(max(vz, 0) + `jump.takeoff_speed`, 0.75x, 1.1x that value)
+  (`jump.takeoff_speed_alternate_stance` in stance state 4 or above), plus `jump.takeoff_forward_speed` forward when
+  moving.
+- **Hover** (Hover Pack): the velocity approaches input x (`hover.max_horizontal_speed`, `hover.max_vertical_speed`)
+  with bounded acceleration; the vertical acceleration blends from `hover.vertical_acceleration_low_speed` to
+  `hover.vertical_acceleration_high_speed` over 0..`hover.vertical_speed_range_end` m/s. Hover fuel is the recharge
+  meter: every hovering second fills the cooldown by 1 + `hover.fuel_rate_low_speed`..`hover.fuel_rate_high_speed`
+  seconds (blended the same way), capped at `recharge.time`; the pack shuts off when it is full.
+
+| Field | Unit, range | Jump Pack | Hover Pack |
+| --- | --- | --- | --- |
+| `jump.vertical_launch_velocity` (launch thrust) | m/s^2 (Hover: 0..200) | 40 | dormant (40) |
+| `jump.launch_duration` | s, 0..5 | 0.5 | - |
+| `jump.launch_forward_ratio` | 0..1 | 0.4 | - |
+| `jump.sustain_thrust` / `jump.sustain_duration` | m/s^2 0..500 / s 0..10 | 60 / 1 | 60 / 1 |
+| `jump.sustain_forward_ratio` | 0..1 | 0.3 | 0.1 |
+| `jump.sustain_start_delay` | s, 0..10 | 1 | - |
+| `jump.sustain_start_speed` / `jump.sustain_cutoff_speed` | m/s, 0..100 | 3 / 1 | 3 / 1 |
+| `jump.air_control_acceleration` | m/s^2, 0..200 | 4 | 4 |
+| `jump.air_control_max_speed` | m/s, 0..100 | 25 | - |
+| `jump.takeoff_speed` / `_alternate_stance` / `jump.takeoff_forward_speed` | m/s, 0..50 | 2.8 / 1.5 / 0.5 | - |
+| `hover.max_horizontal_speed` / `hover.max_vertical_speed` | m/s, 0..50 | - | 3.5 / 10 |
+| `hover.vertical_acceleration_low_speed` / `_high_speed` | m/s^2, 0..200 | - | 9.8 / 0 |
+| `hover.vertical_speed_range_end` | m/s, 0.01..100 | - | 8 |
+| `hover.fuel_rate_low_speed` / `_high_speed` | s per s, -1..10 | - | 1.6 / 0 |
+
+`jump.vertical_launch_velocity` keeps its id; its unit is corrected to m/s^2 (a thrust, not a velocity). The Dark
+Fluid vessel backpack shares the component but is not a call-in backpack: not offered. Live test:
+`examples/projects/JumpHoverTest`.
 
 ## Guard Dogs
 

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "hd2RuntimeVersion": "0.28.0",
+  "hd2RuntimeVersion": "0.30.0-dev",
   "buildFingerprints": {
     "dll": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
     "exe": "F5FEE03DCFDB2E553A4752C283590950AC13316B376D8196AA556FF0400D5F06"
@@ -10,8 +10,8 @@
     "weapons": 80,
     "uniqueWeapons": 73,
     "duplicateWeapons": 7,
-    "semanticFieldDefinitions": 121,
-    "writableSemanticFieldDefinitions": 102,
+    "semanticFieldDefinitions": 135,
+    "writableSemanticFieldDefinitions": 116,
     "readOnlySemanticFieldDefinitions": 19,
     "derivedSemanticFieldDefinitions": 9,
     "fieldInstances": 4555,
@@ -19,7 +19,7 @@
     "weaponsWithWritableFields": 73,
     "weaponsWithProjectileDamageWrites": 71,
     "weaponsRestrictedToWeaponLevelWrites": 0,
-    "semanticAliasRules": 3,
+    "semanticAliasRules": 5,
     "semanticAliasInstances": 62,
     "familyCoverage": {
       "conventional_projectile": {
@@ -1090,9 +1090,9 @@
     },
     {
       "id": "charge.level_1",
-      "display_name": "Charge level 1",
+      "display_name": "Minimum charge time",
       "type": "number",
-      "unit": "multiplier",
+      "unit": "seconds",
       "derived": false,
       "writable": true,
       "component": "WeaponChargeComponentData",
@@ -1101,9 +1101,9 @@
     },
     {
       "id": "charge.level_2",
-      "display_name": "Charge level 2",
+      "display_name": "Full charge time",
       "type": "number",
-      "unit": "multiplier",
+      "unit": "seconds",
       "derived": false,
       "writable": true,
       "component": "WeaponChargeComponentData",
@@ -1112,9 +1112,9 @@
     },
     {
       "id": "charge.level_3",
-      "display_name": "Charge level 3",
+      "display_name": "Overcharge time",
       "type": "number",
-      "unit": "multiplier",
+      "unit": "seconds",
       "derived": false,
       "writable": true,
       "component": "WeaponChargeComponentData",
@@ -1156,24 +1156,184 @@
     },
     {
       "id": "charge.minimum_seconds",
-      "display_name": "Minimum charge time",
+      "display_name": "Projectile speed multiplier at minimum charge (deprecated id)",
       "type": "number",
-      "unit": "seconds",
+      "unit": "multiplier",
       "derived": false,
       "writable": true,
+      "semantic_target": "charge.speed_multiplier_min",
       "component": "WeaponChargeComponentData",
       "offset": 72,
       "storage": "f32"
     },
     {
       "id": "charge.maximum_seconds",
-      "display_name": "Maximum charge time",
+      "display_name": "Projectile speed multiplier at full overcharge (deprecated id)",
+      "type": "number",
+      "unit": "multiplier",
+      "derived": false,
+      "writable": true,
+      "semantic_target": "charge.speed_multiplier_overcharge",
+      "component": "WeaponChargeComponentData",
+      "offset": 76,
+      "storage": "f32"
+    },
+    {
+      "id": "charge.speed_multiplier_min",
+      "display_name": "Projectile speed multiplier at minimum charge",
+      "type": "number",
+      "unit": "multiplier",
+      "derived": false,
+      "writable": true,
+      "semantic_target": "charge.speed_multiplier_min",
+      "component": "WeaponChargeComponentData",
+      "offset": 72,
+      "storage": "f32"
+    },
+    {
+      "id": "charge.speed_multiplier_overcharge",
+      "display_name": "Projectile speed multiplier at full overcharge",
+      "type": "number",
+      "unit": "multiplier",
+      "derived": false,
+      "writable": true,
+      "semantic_target": "charge.speed_multiplier_overcharge",
+      "component": "WeaponChargeComponentData",
+      "offset": 76,
+      "storage": "f32"
+    },
+    {
+      "id": "charge.damage_multiplier_min",
+      "display_name": "Damage multiplier at minimum charge",
+      "type": "number",
+      "unit": "multiplier",
+      "derived": false,
+      "writable": true,
+      "component": "WeaponChargeComponentData",
+      "offset": 80,
+      "storage": "f32"
+    },
+    {
+      "id": "charge.damage_multiplier_overcharge",
+      "display_name": "Damage multiplier at full overcharge",
+      "type": "number",
+      "unit": "multiplier",
+      "derived": false,
+      "writable": true,
+      "component": "WeaponChargeComponentData",
+      "offset": 84,
+      "storage": "f32"
+    },
+    {
+      "id": "charge.penetration_multiplier_min",
+      "display_name": "Armor-penetration multiplier at minimum charge",
+      "type": "number",
+      "unit": "multiplier",
+      "derived": false,
+      "writable": true,
+      "component": "WeaponChargeComponentData",
+      "offset": 88,
+      "storage": "f32"
+    },
+    {
+      "id": "charge.penetration_multiplier_overcharge",
+      "display_name": "Armor-penetration multiplier at full overcharge",
+      "type": "number",
+      "unit": "multiplier",
+      "derived": false,
+      "writable": true,
+      "component": "WeaponChargeComponentData",
+      "offset": 92,
+      "storage": "f32"
+    },
+    {
+      "id": "charge.arc_distance_multiplier_min",
+      "display_name": "Arc distance multiplier at minimum charge",
+      "type": "number",
+      "unit": "multiplier",
+      "derived": false,
+      "writable": true,
+      "component": "WeaponChargeComponentData",
+      "offset": 96,
+      "storage": "f32"
+    },
+    {
+      "id": "charge.arc_distance_multiplier_overcharge",
+      "display_name": "Arc distance multiplier at full overcharge",
+      "type": "number",
+      "unit": "multiplier",
+      "derived": false,
+      "writable": true,
+      "component": "WeaponChargeComponentData",
+      "offset": 100,
+      "storage": "f32"
+    },
+    {
+      "id": "charge.auto_fire_at_full",
+      "display_name": "Fire automatically at full charge",
+      "type": "boolean",
+      "unit": null,
+      "derived": false,
+      "writable": true,
+      "component": "WeaponChargeComponentData",
+      "offset": 184,
+      "storage": "u8"
+    },
+    {
+      "id": "charge.explode_at_overcharge",
+      "display_name": "Explode when the overcharge time is reached",
+      "type": "boolean",
+      "unit": null,
+      "derived": false,
+      "writable": true,
+      "component": "WeaponChargeComponentData",
+      "offset": 185,
+      "storage": "u8"
+    },
+    {
+      "id": "charge.burst_shots",
+      "display_name": "Shots per charge",
+      "type": "integer",
+      "unit": "shots",
+      "derived": false,
+      "writable": true,
+      "component": "WeaponChargeComponentData",
+      "offset": 188,
+      "storage": "u32"
+    },
+    {
+      "id": "charge.burst_interval_seconds",
+      "display_name": "Delay between shots of one charge",
       "type": "number",
       "unit": "seconds",
       "derived": false,
       "writable": true,
       "component": "WeaponChargeComponentData",
-      "offset": 76,
+      "offset": 192,
+      "storage": "f32"
+    },
+    {
+      "id": "charge.overcharge_explosion",
+      "display_name": "Overcharge explosion",
+      "type": "overcharge_explosion_reference",
+      "unit": null,
+      "derived": false,
+      "writable": true,
+      "semantic_target": "overcharge_explosion_reference",
+      "component": "WeaponChargeComponentData",
+      "offset": 200,
+      "storage": "u32",
+      "reason": "Typed reference: the overcharge explosion of a catalogued charge weapon whose package is known."
+    },
+    {
+      "id": "charge.overcharge_limit_seconds",
+      "display_name": "Overcharge hold limit",
+      "type": "number",
+      "unit": "seconds",
+      "derived": false,
+      "writable": true,
+      "component": "WeaponChargeComponentData",
+      "offset": 208,
       "storage": "f32"
     },
     {
@@ -1491,6 +1651,24 @@
       "deprecated": true,
       "instanceCount": 15,
       "writeAcceptedInstanceCount": 14
+    },
+    {
+      "alias": "charge.minimum_seconds",
+      "canonical": "charge.speed_multiplier_min",
+      "requires_identical_backing": true,
+      "deprecated": true,
+      "reason": "Mislabelled id: WeaponChargeComponent +72 is the projectile speed multiplier at minimum charge, not a time (research/railgun-charge-F5FEE03DCFDB.json).",
+      "instanceCount": 0,
+      "writeAcceptedInstanceCount": 0
+    },
+    {
+      "alias": "charge.maximum_seconds",
+      "canonical": "charge.speed_multiplier_overcharge",
+      "requires_identical_backing": true,
+      "deprecated": true,
+      "reason": "Mislabelled id: WeaponChargeComponent +76 is the projectile speed multiplier at full overcharge, not a time (research/railgun-charge-F5FEE03DCFDB.json).",
+      "instanceCount": 0,
+      "writeAcceptedInstanceCount": 0
     }
   ],
   "backingCollisionAudit": {

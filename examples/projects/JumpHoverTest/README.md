@@ -1,0 +1,46 @@
+# JumpHoverTest
+
+Live test for the jump / hover movement fields (`hd2.fields.jump.*`, `hd2.fields.hover.*`,
+docs/backpack-authoring.md). Uses the MODS tab (page **Jump Hover Test**). The log starts with
+`JUMP HOVER 0.1.0 BUILD`; then one `APPLIED` line per option that is on.
+
+Each field is a member of the pack's own JumppackComponent record, read live by the flight code every frame. An
+APPLIED write takes effect at once, also on a pack you already wear. The Jump Pack and the Hover Pack run different
+code paths, so each field exists only on the pack that reads it (the Hover Pack, for example, never runs the launch
+thrust).
+
+| Option | Default | Pack | Field(s) | Vanilla -> test |
+| --- | --- | --- | --- | --- |
+| Jump: flat dash | on | LIFT-850 | jump.launch_forward_ratio | 0.4 -> 0.95 |
+| Jump: long launch | off | LIFT-850 | jump.launch_duration | 0.5 -> 2 s |
+| Jump: strong second boost | off | LIFT-850 | jump.sustain_thrust / sustain_duration | 60 / 1 s -> 120 / 4 s |
+| Jump: strong air control | off | LIFT-850 | jump.air_control_acceleration | 4 -> 40 |
+| Jump: big take-off hop | off | LIFT-850 | jump.takeoff_speed | 2.8 -> 12 m/s |
+| Hover: fast drift, slow climb | on | LIFT-860 | hover.max_horizontal_speed / max_vertical_speed | 3.5 / 10 -> 15 / 1 m/s |
+| Hover: frugal fuel | off | LIFT-860 | hover.fuel_rate_low_speed / fuel_rate_high_speed | 1.6 / 0 -> -0.9 / -0.9 |
+| Hover: snappy climb | off | LIFT-860 | hover.vertical_acceleration_low_speed | 9.8 -> 40 |
+
+## Checklist (host, in a mission)
+
+Jump Pack (LIFT-850):
+
+- [ ] Log shows `JUMP HOVER 0.1.0 BUILD` and `patch jump-flat-dash APPLIED`.
+- [ ] **Flat dash**: jump while running. The arc is very low and long (most of the thrust goes forward). Standing
+      still, the pack pushes you almost flat along your facing instead of up.
+- [ ] **Long launch** (flat dash off): the thrust lasts about 2 s instead of 0.5 s; you go roughly four times as high.
+- [ ] **Strong second boost**: keep moving after take-off; about 1 s in, a long second push carries you much further.
+- [ ] **Strong air control**: mid-air, steering with the movement keys turns you sharply (vanilla barely).
+- [ ] **Big take-off hop**: a visible hop straight up before the thrust starts.
+
+Hover Pack (LIFT-860):
+
+- [ ] Log shows `transaction hover-drift APPLIED`.
+- [ ] **Fast drift, slow climb**: while hovering you drift sideways fast (15 m/s, vanilla 3.5) but climb very slowly
+      (1 m/s, vanilla 10).
+- [ ] **Frugal fuel**: hover until the pack gives out: it lasts far longer than vanilla (the recharge meter fills at
+      0.1 s per second instead of 1 to 2.6).
+- [ ] **Snappy climb**: climb input reaches full climb speed almost instantly.
+- [ ] Turn every option off: vanilla behaviour again.
+
+Report each line (what you saw, and the APPLIED / REJECTED log lines). Also report whether the effect applied to a
+pack already on your back (expected: yes, next frame) and, if you can, whether other players' packs changed.

@@ -14,6 +14,8 @@ from support import ROOT, run
 FIXTURE = ROOT / 'tests/fixtures/user-reports/ayakamods-weaponry-rebalance'
 GENERATED = FIXTURE / 'generated'
 PURIFIER_DRAG = 'gui-object-64f6c65514d7e06d97274943'
+# The PLAS-45 Epoch plan: its partial-charge explosion radii and damage and its partial-charge projectile velocity.
+EPOCH_PLAN = 'support-plan-12bd9a610e6a4fe58e6abaa5'
 HALT_PRIMARY = 'gui-object-aba9f0c284c40c71aaf8f6ff'
 
 
@@ -94,10 +96,18 @@ class UserReportFixtureTests(unittest.TestCase):
         over_limit = set()
         for name, results in self.results.items():
             failed = {r['id']: r['error'] for r in results if not r['ok']}
-            # Refusals: the Purifier row its charge levels fire only when charged (AMBIGUOUS, so it now needs
-            # allow_unverified_effect, which ModBuilder emits once its SDK catalog carries the acknowledgement), and a
-            # Maxigun backpack capacity above the game's 1023 deposit limit (docs/backpack-ammo.md).
+            # Refusals under the current rule (these validate directly, with no declared SDK): the Purifier row its
+            # charge levels fire only when charged (AMBIGUOUS, so it needs allow_unverified_effect since SDK 0.28.0,
+            # which ModBuilder emits once the project is bound to that SDK), and a Maxigun backpack capacity above the
+            # game's 1023 deposit limit (docs/backpack-ammo.md). Registered through the export's SDK 0.27.0 wrapper,
+            # the Purifier edit applies as a legacy operation (docs/legacy-sdk-compatibility.md; the packaged
+            # user-report-full-project scenario and tests/test_legacy_sdk_compatibility.py).
             expected = {PURIFIER_DRAG} if any(r['id'] == PURIFIER_DRAG for r in results) else set()
+            # The PLAS-45 Epoch rows the plan edits are fired only by the partial charge (AMBIGUOUS like the
+            # Purifier's, research/charge-explosions-F5FEE03DCFDB.json), so they need allow_unverified_effect since
+            # SDK 0.30.0. Through the export's SDK 0.27.0 wrapper the plan applies as a legacy operation.
+            if any(r['id'] == EPOCH_PLAN for r in results):
+                expected.add(EPOCH_PLAN)
             for op, error in failed.items():
                 if 'deposit.capacity' in error:
                     self.assertIn('(1 to 1023): the live deposit amount is the engine network field', error)
@@ -105,6 +115,9 @@ class UserReportFixtureTests(unittest.TestCase):
                     over_limit.add(name)
                 else:
                     self.assertIn('allow_unverified_effect', error)
+                    if op == EPOCH_PLAN:
+                        self.assertIn('required since SDK 0.30.0', error)
+                        self.assertIn('partial-charge shot', error)
             self.assertEqual(set(failed), expected, name)
         # Exactly the variants that set the backpack to 1500 rounds.
         self.assertEqual(over_limit, {name for name in self.names if 'deposit.capacity,expect=1000,value=1500'
@@ -123,7 +136,9 @@ class UserReportFixtureTests(unittest.TestCase):
                 owners.setdefault(change['backing'], set()).add(index)
             self.assertLessEqual(len({c['weapon'] for c in row['changes']}), 1, row['id'])
         self.assertEqual(len(results), 133)
-        self.assertEqual(sum(len(r['changes']) for r in results), 407)   # 408 minus the refused Purifier row
+        # 408 minus the refused Purifier row and the seven Epoch partial-charge changes (validated directly, with no
+        # declared SDK, both need allow_unverified_effect; registered through the export, both apply as legacy).
+        self.assertEqual(sum(len(r['changes']) for r in results), 400)
         self.assertTrue(all(len(indices) == 1 for indices in owners.values()))
 
     def test_variants_do_not_reorder_shared_operations(self):
@@ -256,6 +271,12 @@ return table.concat(lines,'\n')
         self.assertEqual(packaged.EXTRAS['registration-isolation']['rejected'],
             {'isolation-invalid': 'field is not exposed for SG-20 Halt'})
         self.assertEqual(packaged.EXTRAS['user-report-full-project']['watches'], 133)
+        # The SDK 0.27.0 export's Purifier edit applies (as a legacy operation) instead of being refused.
+        self.assertNotIn('rejected', packaged.EXTRAS['user-report-full-project'])
+        self.assertEqual(packaged.EXTRAS['user-report-full-project']['legacy'], {PURIFIER_DRAG: ['projectile.drag'],
+            EPOCH_PLAN: ['explosion.primary_impact.damage.durable_damage', 'explosion.primary_impact.damage.standard_damage',
+                'explosion.primary_impact.inner_radius', 'explosion.primary_impact.outer_radius',
+                'projectile.primary.velocity']})
         for name in ('user-report-ma5c-capacity-only', 'user-report-ma5c-plus-stratagem', 'user-report-maxigun-weapon',
                 'user-report-maxigun-plus-backpack', 'user-report-halt-dual-feed', 'user-report-spray-and-pray-damage',
                 'user-report-sai-heat', 'user-report-sickle-heat', 'user-report-orbital-cooldown',

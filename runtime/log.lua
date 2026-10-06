@@ -1,5 +1,11 @@
 local M={}
 local sink,attempted
+-- The diagnostics switch (hd2.custom_stratagem.verbose): high-frequency development lines (per-shell conversions, the
+-- Pelican cadence samples, peer-state internals) are written only while it is on; lifecycle lines always are.
+M.debug=false
+function M.verbose(on)M.debug=on==true end
+-- Emits only with the diagnostics switch on.
+function M.detail(message)if M.debug then M.emit(message)end end
 function M.emit(message)
     require('hd2runtime/runtime/metrics').count('log.lines')
     pcall(print,message)

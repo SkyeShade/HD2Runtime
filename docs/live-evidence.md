@@ -41,6 +41,17 @@ Composition tests record four separate facts: the donor output works, the refere
 | `weapon_programmable_ammo_added` | live-proven | `function_ammo.projectile`, `weapon_function.left` | A ProgrammableAmmo selector added on the free left input with a donor function projectile, for exactly these pairs: S-11 Speargun with its spare twin (EMS expiry), and MG-206 Heavy Machine Gun with the R-4 Hyena, AR-32 Pacifier and P-35 Re-Educator bullets. Both modes stay selectable in the weapon-function menu; the HMG rate-of-fire selector keeps working. | removed `allow_unverified_effect and allow_unverified_reference for exactly these host / function projectile pairs and the programmable_ammo binding on these two weapons` |
 | `weapon_presentation_penetration_label` | live-proven | `presentation.armor_penetration` | The AR-23C Liberator Concussive's armory penetration label (a loadout-entry trait tag), independent of gameplay: HEAVY and MEDIUM shown while the bullets stayed AP 3; menus pick the label up when they are reopened. | removed `allow_unverified_effect (AR-23C Liberator Concussive: light, medium, heavy)` |
 | `weapon_presentation_traits` | pending | `presentation.traits` | The full armory trait list of a weapon loadout entry (localization string IDs), independent of gameplay. | unchanged |
+| `eagle_component_fields` | pending | `eagle.airstrike_pattern`, `eagle.drop_interval`, `eagle.fire_duration`, `eagle.attack_sweep_length`, `eagle.target_radius`, `eagle.attack_angle` | EagleComponentData members of each Eagle stratagem's own jet (type record: every call of that Eagle on this machine), code-proven offline in research/eagle-components-F5FEE03DCFDB.json. | unchanged |
+| `enemy_spawn_weights` | pending | `hd2.enemies.spawn_weight` | Each enemy type's ten per-difficulty weights in the game's static per-faction spawn rosters (game.dll .data), read by PickEnemy (0x953150) for every spawn that picks an enemy type: x 0 never picked, x k scales its share within the groups it shares; how many enemies a spawn makes is not changed. Code-proven offline in research/enemy-spawn-weights-F5FEE03DCFDB.json and validation/enemy-spawn-weights-snapshot.json; the host's rosters decide. | unchanged |
+| `projectile_more_donors` | pending | `attack.projectile`, `ammunition.projectile`, `function_ammo.projectile` | 32 more projectile-reference donors (docs/attack-outputs.md, More donors; research/projectile-donors-F5FEE03DCFDB.json): Eagle payloads, orbital shells and the orbital railcannon round, sentry and emplacement rounds and weapons' second projectiles, each held by one fixed member of one uniquely owned, profiled component record (re-proven live before every write) with its owner's package loaded first. Code-proven offline: every donor applied from the shipped archive on both retained snapshots (packaged scenario projectile-donors-all). | unchanged |
+| `custom_stratagem_native_panel` | live-partial | `custom stratagem panel (native renderer)`, `hd2runtime_fonts/fs_sinclair`, `hd2runtime_fonts/fs_sinclair_medium` | The native-style custom stratagem panel (runtime/custom_stratagem_panel.lua native_layout, draw_native, draw_native_focus): four columns of native-look cards, the title in the Runtime-owned FS Sinclair engine fonts, the details overlay over the native details panel (layers 940-944 above its 800-803). Draws only. Seen live with seven entries; the equipped look did not follow the picks (fixed offline in r28, not re-tested). | unchanged |
+| `custom_stratagem_weapon_variant` | live-proven | `hd2.custom_stratagem delivery.family weapon`, `hd2.resources.model` | A mission-scoped variant of the M-1000 Maxigun on its own type (runtime/weapon_clone.lua variant; research/weapon-variants-F5FEE03DCFDB.json), exactly as LaserMaxigunExample 0.1.1 ran it, solo host: its presentation, its round the LAS-58 Talon's 144 (a catalogued output of its own class), and its model (UnitPath := the mod's Runtime-owned unit derived at build time from the Maxigun's unit with the debug palette, shipped as a patch of the Maxigun's package archive beside the vanilla one), on its four exclusively owned records, the carrier's own pod delivering the gun and its backpack, restored exactly aboard the ship; model_use check writes no UnitPath. | unchanged |
+| `projectile_homing` | pending | `hd2.projectiles.homing` | The local player's own shots of a configured weapon, steered in flight by one guarded write of each shot's own velocity per update (turned by at most turn_rate x dt, speed kept), on this machine's pool only; code-proven offline in research/projectile-homing-F5FEE03DCFDB.json and validation/projectile-homing-snapshot.json. Multiplayer (multiplayer = true) is experimental. | unchanged |
+| `orbital_pattern_fields` | pending | `orbital.salvos`, `orbital.shells_per_salvo`, `orbital.shell_interval`, `orbital.shell_interval_random`, `orbital.salvo_interval`, `orbital.salvo_interval_random`, `orbital.scatter`, `orbital.salvo_scatter` | BombardmentComponentData pattern members of each reviewed orbital stratagem's own bombardment record (type record: every call of that orbital on this machine), code-proven offline in research/bombardment-payload-F5FEE03DCFDB.json; the shell types are never written. | unchanged |
+| `stratagem_call_in_time` | pending | `stratagem.call_in_time` | StratagemInfo +0x54 of each stratagem's own row (type record: every beacon of it created on this machine), the call-in the beacon countdown adds before the delivery; code-proven offline in research/beacon-redirect-F5FEE03DCFDB.json (timing). The game's upgrades and mission effects apply on top. | unchanged |
+| `support_charge_level_rows` | pending | `projectile.<role>.*`, `damage.<role>.*`, `explosion.<role>.*`, `explosion.<role>.damage.*` | PLAS-45 Epoch roles primary / primary_impact (the partial-charge shot, 1-2.5 s) and full_charge / full_charge_impact (the full-charge and overcharged shots, from 2.5 s): the rows its own WeaponCharge record selects per charge level, code-proven offline in research/charge-explosions-F5FEE03DCFDB.json. | unchanged |
+| `support_overcharge_explosion_rows` | pending | `explosion.overcharge_explosion.*`, `explosion.overcharge_explosion.damage.*` | The explosion the overcharge failure spawns at the weapon (in the wielder's hands): PLAS-45 Epoch (WeaponCharge +200; its damage row is shared with full_charge_impact) and RS-422 Railgun; code-proven offline in research/charge-explosions-F5FEE03DCFDB.json. | unchanged |
+| `sentry_component_fields` | pending | `weapon.horizontal_spread`, `weapon.vertical_spread`, `weapon.recoil_drift_horizontal`, `weapon.recoil_drift_vertical`, `weapon.recoil_climb_horizontal`, `weapon.recoil_climb_vertical`, `windup.wind_up_seconds`, `windup.wind_down_seconds`, `beam.fire_rate`, `turret.pitch_yaw_coupling`, `targeting.side_range`, `targeting.rear_range` | Members of each sentry stratagem's own deployed entity only (type record: every deployment of that sentry on this machine): WeaponData spread and recoil on the seven projectile sentries, the Gatling Sentry's wind-up, the Laser Sentry's beam fire rate, TurretComponent +16 on the nine turreted sentries and SensorEye +4/+8 on the nine type-1 sensors; code-proven offline in research/sentry-components-F5FEE03DCFDB.json. Player and support weapon fields with the same ids are not part of this family. | unchanged |
 | `support_projectile_reference` | live-proven | `attack.<role>.projectile` | Support component hosts replacing their fired projectile, for exactly two pairs: EAT-17 Expendable Anti-Tank fires the PLAS-1 Scorcher output, M-105 Stalwart fires the APW-1 Anti-Materiel Rifle output. | removed `allow_unverified_effect (these two host / donor pairs only)` |
 | `donor_row_slot_composition` | live-proven | `projectile.impact_explosion` | The explicit donor-row composition, for exactly one tuple: the LAS-58 Talon row with the GL-21 Grenade Launcher impact explosion, observed while the EXO-45 Patriot minigun fired that row. It takes two separate, explicit operations, and the slot write never follows the swap by itself. | removed `allow_unverified_effect (the LAS-58 Talon row with the GL-21 impact explosion only)` |
 | `vehicle_projectile_reference` | live-proven | `attack.<role>.projectile` | The EXO-45 Patriot Exosuit minigun (right_gun) replacing its fired projectile, for exactly three donor outputs: EAT-17 Expendable Anti-Tank, LAS-58 Talon and PLAS-1 Scorcher; and restoring its own projectile. The mount chain was re-proven on every write; the Exosuit moved, aimed and fired normally. | removed `allow_unverified_effect (these three donors on the Patriot minigun); allow_unverified_reference (the two cross-class donors, EAT-17 and PLAS-1 Scorcher)` |
@@ -48,6 +59,38 @@ Composition tests record four separate facts: the donor output works, the refere
 | `weapon_mode_presentation` | live-proven | `presentation.mode_label`, `presentation.mode_icon` | Weapon-function mode labels and icons shown in the menu for exactly these outputs and values: the Speargun spare twin STUN (stun icon), the S-11 Speargun GAS (plain round), and on the HMG test the R-4 Hyena INCENDIARY, AR-32 Pacifier STUN and P-35 Re-Educator GAS mode labels with their auto icons and the MG-206 STANDARD label (plain round). | removed `allow_unverified_effect (these output / value pairs only; allow_shared stays)` |
 | `event_damage_source_attribution` | live-proven | `player_damage_dealt.sources` | player_damage_dealt names the K-2 Throwing Knife as the source of the damage it deals, exactly: knife hits report under the knife, misses report nothing, other weapons report under their own source. | unchanged |
 | `event_action_heal` | live-proven | `hd2.actions.heal` | hd2.actions.heal(25) on the local player, requested from a player_damage_dealt handler: the player healed by 25. | unchanged |
+| `stratagem_calldown_code` | live-proven | `stratagem.calldown_code` | The Orbital 120mm HE Barrage's StratagemInfo calldown code (+0x40 pointer, +0x48 count) pointed at a Runtime-owned array, first by the development P0 proof and then through the public field and hd2.ensure: the native matcher accepted the new code, the old code no longer matched, the native call-in and barrage were unchanged, the restore wrote the original pointer and count back, and the HUD stratagem list showed the new code once the Runtime redrew that slot (and the original after the restore). The GR-8 Recoilless Rifle's code through the public field: the guarded write and the automatic HUD redraw of its slot, with the Runtime reporting the new code active. | unchanged |
+| `stratagem_presentation` | live-proven | `stratagem.presentation.name`, `stratagem.presentation.name_cased`, `stratagem.presentation.description`, `stratagem.presentation.icon` | The Orbital 120mm HE Barrage's StratagemInfo presentation members (name and cased name localization ids, description localization id, icon image hash) set to the Orbital Gas Strike's vanilla values while its type and stable id stayed the 120mm's: the ship loadout showed the borrowed presentation and still selected the 120mm, the mission HUD displayed it, the calldown code and the normal 120mm call-in were unaffected, and the original presentation was restored. Tested first through the development presentation module, then through the public presentation fields themselves (hd2.ensure). | unchanged |
+| `stratagem_presentation_custom_image` | live-proven | `stratagem.presentation.icon` | A mod's complete custom icon family (its texture and its GUI icon material, custom_icon_resource_family) as a stratagem's presentation_icon value, written aboard the ship first through the guarded development custom icon write, then through the public field with hd2.resources.image (hd2.ensure, CustomStratagemP0Proof 0.12.0): the loadout UI, including the loadout grid that draws the icon as a GUI material, rendered the custom icon while the carrier kept its identity, and the native icon was restored exactly. Vanilla values (catalogued stratagems) are the stratagem_presentation family. | unchanged |
+| `custom_icon_resource_family` | live-proven |  | A mod's custom icon resource family (its texture and its GUI icon material, scripts/hd2_image.py) shipped in the mod's own archive: the running game loads it at startup and resolves it like a vanilla icon's (material exact, slot -> the custom standalone texture). | unchanged |
+| `stratagem_presentation_custom_text` | live-proven |  | Runtime-owned custom text (runtime/text_resources.lua, docs/custom-text.md) on a carrier's name, cased name and description, through the development text path (runtime/stratagem_presentation.lua apply_text): one Runtime text table appended after the game's own text tables in spare registry capacity, the carrier's text members pointed at its ids; the ship loadout and the mission showed the custom text, the table was registered again after language changes, and the restore wrote the native ids back. The public presentation fields do not take custom text yet. | unchanged |
+| `stratagem_mission_slot_conversion` | live-proven |  | The development mission-time slot conversion (runtime/stratagem_slot_conversion.lua, docs/custom-stratagems.md): the later of two loadout entries of a token type in the local player's mission stratagem record changed to an owned, unselected vanilla carrier type by one guarded 4-byte write, after the carrier's call-in package was loaded; the vanilla HUD refreshed the slot from the type change and the slot was a normal carrier slot. Saved loadout, account, catalogue, inventory and StratagemInfo untouched. | unchanged |
+| `stratagem_selector_lifecycle` | live-proven |  | The development selector's read-only lifecycle (runtime/stratagem_selector.lua screen and watch): the loadout screen open (its UI object behind [game+0x347CE38]+0xB0) and the stratagem grid open for a slot (sub-state 10, the edited slot), detected from data reads only. | unchanged |
+| `stratagem_selector_rendering` | live-proven |  | The development selector's card drawn through the engine's Lua GUI API (runtime/engine_gui.lua) while the stratagem grid is open. | unchanged |
+| `stratagem_selector_grid_placement` | inconclusive |  | The development selector's card placed in the native stratagem grid (runtime/stratagem_selector.lua target and placement): its cell from the list layout, its screen place from the scroll offset and the native card geometry, drawn only inside the viewport and clear of the native cards. | unchanged |
+| `runtime_gui_render_order` | live-failed |  | A Runtime screen GUI (runtime/engine_gui.lua: World.create_screen_gui in Application.main_world) drawn over the native (Noesis) loadout UI. | unchanged |
+| `stratagem_custom_panel_icon` | live-proven |  | A Runtime custom image drawn as the icon of a custom panel tile (Gui.bitmap with the image's own GUI icon material). | unchanged |
+| `stratagem_custom_panel_lifecycle` | live-proven |  | The custom panel shown only while a native stratagem selector is open and gone the moment it closes. | unchanged |
+| `stratagem_custom_panel_rendering` | live-proven |  | The development Runtime-owned CUSTOM STRATAGEMS panel (runtime/custom_stratagem_panel.lua) drawn through the engine screen GUI in the empty area right of the loadout UI (x 0.67 W, top 0.16 H, inside 0.29 W x 0.15 H), clear of the native UI. | unchanged |
+| `stratagem_custom_panel_multiple_instances` | live-proven |  | Several loadout slots holding the same virtual stratagem (one shared definition, one virtual instance per slot), each selected from the custom panel. | unchanged |
+| `stratagem_custom_panel_selection` | live-proven |  | Selecting a virtual stratagem from the Runtime custom panel (runtime/custom_stratagem_panel.lua -> stratagem_selector.select): the guarded loadout-record write of the definition's vanilla token into the slot the native stratagem selector is open for, with the game's own repaint of the slots, aboard the ship, solo. | unchanged |
+| `stratagem_selector_advance` | live-proven |  | Moving the open native stratagem selector on to the next empty slot after a Runtime selection, visibly in the native UI (stratagem_selector.advance: one guarded write of the edited slot ui+0x281C). | unchanged |
+| `stratagem_slot_icon_borrowed` | live-proven |  | A virtual loadout slot showing a vanilla icon on the token's atlas page (Orbital Gas Strike's on an Orbital Precision Strike slot) by guarded writes to that slot's own icon element (runtime/stratagem_slot_icons.lua); no StratagemInfo write. | unchanged |
+| `stratagem_virtual_slot_reconstruction` | live-proven |  | Reconstructing the Runtime's virtual slots (several instances) from the saved loadout order (stratagem_selector.reconstruct); the save holds only vanilla tokens. | unchanged |
+| `stratagem_slot_focus` | live-proven |  | Moving the native loadout slot highlight (and optionally the edited slot) by guarded data writes that the game's own panel update consumes (runtime/stratagem_slot_focus.lua): the focus pair, the widgets' focused bits and frame-flash bytes; the game redraws both widgets. Aboard the ship, solo. | unchanged |
+| `stratagem_slot_overlay` | live-proven |  | A Runtime screen GUI opened in the Ui World (found by its position in the engine's world array) drawing a Runtime image over native loadout slot icons at layer 940, at each slot icon element's own quad, following its geometry (runtime/stratagem_slot_overlay.lua). The native slot is only read. Aboard the ship, loadout screen, solo. | unchanged |
+| `stratagem_virtual_carrier_conversion` | live-proven |  | The custom stratagem selector's mission conversion (stratagem_selector.convert_virtual -> stratagem_slot_conversion.convert_virtual): exactly the loadout slots the Runtime records as virtual instances of a definition, holding its vanilla token (Orbital Precision Strike), become a carrier discovered from what the account owns (stratagem_slot_conversion.discover_carriers: never in the loadout, never the token or the donor) in the local mission record, only while the mission loadout is the recorded order; the carrier presents as the custom stratagem (prepared aboard the ship) and calls in its own payload. Solo host. | unchanged |
+| `stratagem_carrier_bombardment_pattern` | live-proven |  | The carrier payload, stage B (runtime/bombardment_payload.lua; stratagem_selector.convert_with_payload): the converted carrier's own BombardmentComponentData takes the Orbital 120mm HE Barrage's pattern and shells (only the differing words, guarded, exact vanilla expectations), written in the tick of the conversion so the carrier is never callable without it, and restored exactly at the mission end. Solo host; the 120mm and the Gas Strike records are never written. | unchanged |
+| `stratagem_carrier_shell_redirect` | live-proven |  | The carrier payload, stage C (runtime/bombardment_payload.lua with spec.shells; stratagem_selector.convert_with_payload): on the 120mm pattern, the converted carrier's own BombardmentComponentData shell list points at the Orbital Gas Strike's reviewed shell 197 ([197, 197, 197]), written in the conversion's tick after the pattern, so the carrier is never callable without it; the Gas Strike's shell, explosion 82, damage 447, gas volume template 16 and statuses are only referenced, never written; restored exactly at the mission end. Solo host. | unchanged |
+| `stratagem_carrier_presentation_lifecycle` | live-proven |  | The carrier presentation lifecycle (runtime/carrier_presentation.lua; GasBarragePayloadProof 0.2.1): aboard the ship the carrier is native; at mission start it is verified native, its exact native bytes are captured and its Runtime text, custom icon and custom code are applied and verified before the conversion; they are kept for the mission and restored aboard the ship from the captured bytes once the mission HUD is torn down, only where the row still holds what was written. Solo host. | unchanged |
+| `custom_stratagem_expendable_clone` | live-proven |  | The expendable carrier weapon clone (runtime/weapon_clone.lua, EAT17GExample 0.1.0): the EAT-411 Leveller's own weapon type records made the EAT-17's at mission start, before any of it existed, at the presentation, model and full levels; its launchers showed the clone's model, animations, sound and rocket; restored exactly aboard the ship. Solo host. | unchanged |
+| `custom_stratagem_expendable_payload` | live-proven |  | The per-launcher impact conversion on the expendable clone's delivered launchers (runtime/projectile_impact.lua through the expendable delivery): each launcher's rocket requests the Orbital Gas Strike's explosion 82 (from 184, and from 376 at the full level). Solo host. | unchanged |
+| `custom_stratagem_expendable_availability` | live-proven |  | The expendable availability rule aboard the ship (runtime/custom_stratagems.lua availability_step): with every carrier weapon picked natively, the definition is UNAVAILABLE (its tile warns, picking is refused) and a picked slot unpicks itself to the plain token; available again when a candidate is free. Solo host. | unchanged |
+| `custom_stratagem_expendable_delivery` | live-partial |  | The expendable delivery of the 0.1.0 build: a separate support carrier's beacon redirected to the carrier weapon's own pod. The pod came with the vanilla rack's items: one launcher per call on the EAT-411 Leveller; two vanilla stratagems used. Superseded in design by the condensed expendable group and the carrier pod (not live-tested). | unchanged |
+| `custom_stratagem_uses` | pending | `hd2.custom_stratagem uses` | Calls per mission (runtime/slot_cooldown.lua spec.uses): each player's own calls counted from its own converted entry; the call that uses the last of them ends with the guarded cooldown write's maximum (3600 s, longer than any mission), so the slot stays unavailable. Code-proven offline (tests/test_slot_cooldown.py). | unchanged |
+| `custom_stratagem_sentry_multiplayer` | pending | `hd2.custom_stratagem sentry (several players)` | A client's own sentry call (the sentry client family) and the sentry's weapon on every machine (runtime/custom_weapons.lua roles): the machine that created it configures it whole, every other compatible Runtime mirrors its round, spread and recoil on its own copy, found by the caller's published network id. Code-proven offline (tests/test_custom_payloads.py, tests/test_custom_mp_mission.py). | unchanged |
+| `custom_stratagem_pelican_native_gun` | pending | `hd2.custom_stratagem pelican.gun.round native` | A Runtime Pelican with its own chin autocannon and its own burst AI (gun = {round = 'native'}: no Gatling AI, no other change), its kills credited to its caller. | unchanged |
+| `custom_stratagem_silo` | pending | `hd2.custom_stratagem silo` | The silo payload family (runtime/custom_silos.lua): the donor silo's own vanilla pod by the support redirect, its rack's missile and laser remote captured read-only (runtime/support_pods.lua), the missile's own detonation read from the explosion queue (its type 135 and its own entity as the source) or inferred from its removal after it left the silo, and the blast (a catalogued explosion) requested there by the session host; with several players the caller publishes its missile and the host watches its own copy. The Cyborg Production Unit's explosion (ExplosionType 293) and its two objective packages (effect and sound, about 300 MB) as mission-start assets. Code-proven offline (tests/test_custom_silo.py; the packaged scenario example-shredder-silo on the real snapshot). | unchanged |
 
 ## Notes
 
@@ -110,7 +153,7 @@ Composition tests record four separate facts: the donor output works, the refere
 - Not promoted (still need allow_unverified_reference): every other rack, slot or pickup combination, allow_shared stays required on the shared Resupply rack (a scope acknowledgement, not an unverified one).
 
 **`event_action_explosion_named`**
-- Not promoted (offline-proven only): the B-100 Portable Hellbomb (type 125), the 13 weapon explosions (same request, not tested), what other players see (no network send was found; propagation unproven), client requests (refused HOST_ONLY).
+- Not promoted (offline-proven only): the B-100 Portable Hellbomb (type 125), the Cyborg Production Unit (type 293, an objective ability's explosion; its effect and sound packages, about 300 MB, loaded first), the 13 weapon explosions (same request, not tested), what other players see (no network send was found; propagation unproven), client requests (refused HOST_ONLY).
 
 **`event_player_died_position`**
 - Not promoted (offline-proven only): other players' deaths.
@@ -144,6 +187,15 @@ Composition tests record four separate facts: the donor output works, the refere
 - Behaviour: Presentation only: the label is read when a menu builds its item view; reopening or changing the menu state is enough, no restart.
 - Not promoted (still need `allow_unverified_effect`): none, light_anti_tank and anti_tank on the Concussive, the label of every other weapon, presentation.traits (family weapon_presentation_traits).
 
+**`custom_stratagem_native_panel`**
+- Observation: r27 (2026-10-06): seven cards in two rows of four in the native look and the title in the game's font; the yellow equipped look stayed the last mission's picks and the new picks did not light up until a later visit (the panel computed it only when it opened).
+- Not promoted (still need `allow_unverified_effect`): the equipped look following the picks (r28 fix, not re-tested), scrolling past six rows (seven entries fit in two rows), the r27 overlay: the call-in code in arrows, CALL-IN TIME and the user's box layout (not reported).
+- Next tests: `r28: open the stratagem selector right after a mission: only the current picks are yellow; pick a custom stratagem: its card turns yellow at once; replace a custom slot with a vanilla stratagem: its card loses the yellow. Hover a card: the code in arrows, CALL-IN TIME first, the box titles inside the boxes.`.
+
+**`custom_stratagem_weapon_variant`**
+- Observation: LaserMaxigunExample 0.1.1 (2026-10-06): the Talon round (r26 and r27) and the debug model (r27, Model "Debug model") seen in play; RESTORED aboard the ship, every record its native bytes, after each mission.
+- Not promoted (still need `allow_unverified_effect`): multiplayer: other players seeing the variant (each machine applies its own; not tested), any other round or palette than the Talon round and the debug palette, the native block of the vanilla Maxigun while the variant is selected (logged, not reported as tried), a vanilla Maxigun called after the restore in the same session (not reported).
+
 **`support_projectile_reference`**
 - Not promoted (still need `allow_unverified_effect`): the other six support component hosts, other donors on the EAT-17 and Stalwart, cross-class donors on support hosts.
 
@@ -167,6 +219,145 @@ Composition tests record four separate facts: the donor output works, the refere
 
 **`event_action_heal`**
 - Not promoted (offline-proven only): other amounts, including a damage-proportional heal, healing other players.
+
+**`stratagem_calldown_code`**
+- Observation: A full UI rebuild (a text-language change and back) also drew the new code: the HUD's stored arrows are the only stale copy.
+- Observation: Writing the code before the Helldiver exists does not help: the HUD fills its slots about two frames after the mission starts, before a guarded write lands.
+- Observation: GasBarrageMissionProof 0.5.0: Up Up Down Down on a dynamically discovered carrier through the public field and hd2.ensure (native code read first as the expect); after the mission-time conversion the game's own HUD rebuild of the converted slot drew the custom code; the carrier's call-in executed with it (2026-10-02).
+- Not promoted (still need `allow_unverified_effect`): the GR-8 Recoilless Rifle's call-in and delivery with the new code: the reported log ended before it, the calldown code of every other stratagem: the same members and native readers, not individually tested, two available stratagems with equal codes (allow_unverified_effect) or one code extending another, multiplayer: code entry is local and only this machine's row changes.
+
+**`stratagem_presentation`**
+- Observation: Applied aboard the ship before the mission: the mission HUD builds each slot's visual once per stratagem type, so a presentation changed during a mission keeps the slot's icon until the next mission.
+- Not promoted (still need `allow_unverified_effect`): every other carrier and every other donor: the same members and readers, not individually tested, Runtime-owned custom localization: the stratagem_presentation_custom_text family, Runtime-owned custom images: the stratagem_presentation_custom_image family, multiplayer: presentation is local; other players see the carrier's own presentation.
+
+**`stratagem_presentation_custom_image`**
+- Observation: A presentation change is not hot-swapped into a mission HUD that is already built: the HUD builds each slot's visual once per mission, so apply aboard the ship before the mission. This is the documented behaviour.
+- Analysis: History: the first live test (0.9.0, 2026-10-01) wrote a texture-only image and crashed the game in the loadout grid. A stratagem icon value names a GUI material, an atlas sprite and a texture of one name; the loadout grid draws it as the GUI material, and that path has no fallback (a name without a material returns null and the engine reads through it). The SDK now ships every image as the complete family, and the write is refused unless the whole family is loaded and exact (research/stratagem-icon-consumers-F5FEE03DCFDB.json, research/stratagem-icon-family-F5FEE03DCFDB.json, docs/custom-images.md).
+- Not promoted (still need `allow_unverified_effect`): every other carrier: the same member and readers, not individually tested, a texture-only image: never produced by the SDK and always refused, multiplayer: presentation is local; other players see the carrier's own icon.
+
+**`custom_icon_resource_family`**
+- Observation: The vanilla control (the 120mm's icon material, package 007e093ca718ca1a) was not yet loaded at the first ship check and was at the recheck; the custom family (boot package patch) was loaded at both.
+- Not promoted (still need `allow_unverified_effect`): drawing a custom family is the stratagem_presentation_custom_image family.
+
+**`stratagem_presentation_custom_text`**
+- Observation: Proven on the Orbital 120mm HE Barrage with English text, together with the public custom icon and the public calldown code (Up Up Down Down), which still called in the normal 120mm barrage.
+- Not promoted (still need `allow_unverified_effect`): a public custom-text API (hd2.resources.text): not public yet, every other carrier: the same members and lookup, not individually tested, per-language texts other than the default, multiplayer: presentation is local; other players see the carrier's own text.
+
+**`stratagem_mission_slot_conversion`**
+- Observation: Token Orbital Precision Strike (type 118) -> carrier Orbital 120mm HE Barrage (type 136); the duplicate token was selected with the Stratagem MultiSelect mod.
+- Not promoted (still need `allow_unverified_effect`): any other token or carrier, a duplicate token without Stratagem MultiSelect, the mission_end / mission_reward events' content with a converted slot, multiplayer: the write is not synchronised; solo host only.
+
+**`stratagem_selector_lifecycle`**
+- Observation: 2026-10-02 (custom panel 0.1.0, research selectionLifecycle): the grid signal used here (sub-state 10) is a FOCUSED stratagem slot and outlives the open selector; the screen reader now also requires the selection-open byte ui+0x273990 and a slot 0-3 (offline-validated only).
+- Observation: Loadout screen opened, then the stratagem grid opened for slot 0, both logged at the right moments (0.1.0, again with 0.2.0).
+- Not promoted (still need `allow_unverified_effect`): the record, slot-widget and solo reads beyond the lifecycle, the selection write and the game's repaint, drawing, multiplayer.
+
+**`stratagem_selector_rendering`**
+- Observation: 0.1.0 refused before any engine call (its constructor type check was wrong); nothing was drawn or written.
+- Observation: 0.2.0: the engine accepted every creation call (screen GUI, rectangles, icon bitmap, two texts, each returning an id) without error, then the Runtime destroyed the card in the same frame over the focus frame's update_rect returning no value.
+- Observation: 0.3.0: rendered and visible in the real loadout screen: the screen GUI in the main world, the rectangle, the custom icon (the Runtime image's GUI material) and the Runtime name and description in the engine font; removed when the grid closed.
+- Not promoted (still need `allow_unverified_effect`): the optional focus frame (off in the tested build), the F8 drawing proof outside the loadout screen (not reported), placement among the native cards, selection, multiplayer.
+
+**`stratagem_selector_grid_placement`**
+- Observation: 0.4.0 hid the card by its own rule (it required the final native row to be realized); nothing was placed in the grid.
+- Observation: 0.5.0 logged the card as shown at x 550, y 248, 160 px (end cell, row 22, column 2) but it was not visible in the game.
+- Observation: 0.6.0: the coordinates are consistent (Runtime rectangles equal the native transforms in X and size; a constant 10 px Y difference between the pure model and the native transforms, to be corrected later). The card is hidden by the native UI drawn over it (runtime_gui_render_order), so the placement is not verified.
+- Not promoted (still need `allow_unverified_effect`): any placement in the grid, selection from the grid card, multiplayer.
+
+**`runtime_gui_render_order`**
+- Observation: 0.6.0: the screen GUI rendered, but its markers at layer 991 and the tile at layers 900-902 were not visible over the native stratagem grid; the 0.3.0 card was visible in an empty area. The render config draws the Noesis UI after the world GUIs (research renderConfig). RenderOrderProof 0.1.0 (layers 0-990 and opt-in 2000/10000, GUI creation order, an immediate GUI, an overlay-viewport script world) was built but no live result was recorded: the user closed the route on 2026-10-02 (custom UI is a separate Runtime-owned panel instead).
+- Not promoted (still need `allow_unverified_effect`): any Runtime GUI above the native UI, the overlay world, multiplayer.
+
+**`stratagem_custom_panel_icon`**
+- Observation: 0.1.0: gas_barrage (and its mask variant) did not visibly render at about 102 px at 4K; the mip chain is ruled out offline.
+- Observation: 0.2.0: orbital_gas_barrage's tile was blank too.
+- Observation: 0.3.0: Gui.bitmap accepted the custom GUI material (engine id 15) but drew no visible pixels. The cause is not identified; the icon material's shader (0x3461FF0D) is not in any shader library the data holds, so its needs cannot be read offline. 0.4.0's diagnostics compare it with vanilla controls.
+- Observation: 0.4.0 (F8): material and texture loaded, shader 0x3461FF0D, Gui.bitmap created the custom bitmap at every size; still no visible pixels. VirtualSelectorProof 0.3.0 drew a Runtime icon material of the identical format visibly through the same call (a red/green test pattern), so the format alone does not explain it.
+- Observation: 0.7.0: drawn in the Ui World with the slot overlay technique (the masked icon, the icon shader colours on the GUI's own material instance, an opaque plate): it rendered and matched the slot overlay (2026-10-02).
+- Not promoted (still need `allow_unverified_effect`): a full-colour picture (only the game's mask convention), drawing in main_world (the 0.1-0.6 path, which looked darker; not used), multiplayer.
+
+**`stratagem_custom_panel_lifecycle`**
+- Observation: 0.1.0 keyed on the sub-state 10 (a focused stratagem slot) and stayed visible too long.
+- Observation: 0.2.0 keys on the selection-open byte ui+0x273990 with sub-state 10 and slot 0-3: live-proven (2026-10-02).
+- Not promoted (still need `allow_unverified_effect`): the selection write from the panel, multiplayer.
+
+**`stratagem_custom_panel_rendering`**
+- Observation: 0.1.0 (the legacy renderer): rendered safely at 4K (x 2572, 1113 x 240 px, card 160 px).
+- Observation: 0.2.0 (the compact renderer): rendered (title, tiles, text), but too far left at x 2572.
+- Observation: 0.3.0: placed right of the native details panel read from the game's layout, clear of the list and the details panel; the 3 x 2 grid fits (live-proven).
+- Not promoted (still need `allow_unverified_effect`): the custom icon in the tile, mouse selection from the panel, multiplayer.
+
+**`stratagem_custom_panel_multiple_instances`**
+- Observation: 0.4.0: the second selection was refused by the Runtime itself (ALREADY_SELECTED, a single virtual selection); nothing was written. 0.5.0 keeps slot-indexed virtual slots and replaces occupied slots (offline-validated only).
+- Observation: 0.5.0: several slots held virtual Gas Barrage instances of one definition (live-proven, 2026-10-02).
+- Not promoted (still need `allow_unverified_effect`): multiplayer.
+
+**`stratagem_custom_panel_selection`**
+- Observation: 0.4.0: Orbital Gas Barrage selected into slot 0; the Orbital Precision Strike token written and repainted by the game (2026-10-02).
+- Not promoted (still need `allow_unverified_effect`): the native selection sound, closing the native selector when full, multiplayer.
+
+**`stratagem_selector_advance`**
+- Observation: 0.5.0: the edited slot moved for the Runtime but the native loadout slot highlight stayed: the two states diverged. Whether the next native pick landed in the new slot was not reported.
+- Observation: SlotHighlightProof 0.1.0 live-proved the highlight mechanism on its own; 0.6.0 of the panel uses it for the advance (offline-validated).
+- Observation: 0.6.0: the native highlight and the edited slot advanced together after each Runtime selection; the panel followed (live-proven, 2026-10-02).
+- Not promoted (still need `allow_unverified_effect`): closing the native selector when the loadout is full (not by data so far: Back closes it), multiplayer.
+
+**`stratagem_slot_icon_borrowed`**
+- Observation: 0.5.0: virtual slots showed Orbital Gas Strike's icon while non-virtual Precision Strike slots kept theirs.
+- Observation: 0.7.0: no longer used by default (the slot overlay replaces it); kept as a documented fallback.
+- Not promoted (still need `allow_unverified_effect`): any icon on another atlas page, a custom image in a native slot (blocked: the texture bind is an engine call), multiplayer.
+
+**`stratagem_virtual_slot_reconstruction`**
+- Observation: 0.5.0: reported working.
+- Not promoted (still need `allow_unverified_effect`): across a game restart (the Runtime's record is in memory).
+
+**`stratagem_slot_focus`**
+- Observation: SlotHighlightProof 0.1.0: forwards and backwards, with and without the edited slot; a native pick lands in the moved edited slot (2026-10-02).
+- Not promoted (still need `allow_unverified_effect`): the move combined with a Runtime selection (CustomStratagemPanelProof 0.6.0, offline-validated), multiplayer.
+
+**`stratagem_slot_overlay`**
+- Observation: SlotOverlayProof 0.1.0: above the native icons, aligned, all four slots, virtual / native / virtual / native, several at once, removed with the identity; the native icon showed through the custom icon's transparent parts (2026-10-02).
+- Observation: CustomStratagemPanelProof 0.7.0: driven by the real virtual slots over the untouched native slot, with the opaque plate; mixed virtual/native slots (2026-10-02).
+- Not promoted (still need `allow_unverified_effect`): the mission HUD overlay, multiplayer.
+
+**`stratagem_virtual_carrier_conversion`**
+- Observation: GasBarrageMissionProof 0.1.0: not tested as intended: the 120mm was in the loadout and the virtual identity was lost before the mission; the conversion refused (2026-10-02).
+- Observation: GasBarrageMissionProof 0.2.0 (runtime 4B9E80AD, build/test-artifacts/live-2026-10-02-gas-barrage-mission-0.2.0-120MM-CARRIER-REJECTED): the 120mm presentation is row-global, so the native 120mm card itself showed as Orbital Gas Barrage while the proof ran (expected from the implementation). The user rejected the 120mm as the carrier identity: the carrier becomes another vanilla type not otherwise in the mission, and the 120mm a donor of gameplay logic (2026-10-02).
+- Observation: GasBarrageMissionProof 0.4.0 (runtime 92950C4D, build/test-artifacts/live-2026-10-02-gas-barrage-mission-0.4.0-CARRIER-IDENTITY-VERIFIED): the discovery chose Orbital 380mm HE Barrage on the live account; only the virtual slot became the carrier; it presented as Gas Barrage; its own package loaded and its own normal call-in executed; Orbital Precision Strike and the 120mm stayed native (2026-10-02).
+- Observation: GasBarrageMissionProof 0.5.0 (runtime A2922CBF, build/test-artifacts/live-2026-10-02-gas-barrage-mission-0.5.0-CUSTOM-CALLDOWN-VERIFIED): the discovered carrier answered to Up Up Down Down (the public calldown_code field on the carrier only); the HUD drew the custom code from the type-change rebuild with no Runtime HUD write; the carrier's own call-in executed (2026-10-02).
+- Observation: GasBarragePayloadProof 0.2.1 (runtime 73125D59, build/test-artifacts/live-2026-10-03-gas-barrage-payload-0.2.1-LIFECYCLE-VERIFIED): a second mission in the same session, with the cached carrier (the 380mm) put in the loadout between missions, was refused at mission start (TEST REFUSED, nothing written) instead of discovering another carrier; the user asked for the cached carrier to be revalidated before every mission and replaced when invalid (2026-10-03).
+- Not promoted (still need `allow_unverified_effect`): other carriers (only the 380mm was discovered live), the mission-end discard and the reconstruction after it (not separately reported), multiplayer, a payload on the carrier.
+
+**`stratagem_carrier_bombardment_pattern`**
+- Observation: GasBarragePayloadProof 0.1.0 (runtime A62FCF62): the payload was refused (ALREADY_CALLED) right after the conversion because the guard expected a zero cooldown end; a fresh entry's cooldown end is the record's shared build time. The carrier fired its normal barrage; nothing was written (2026-10-03).
+- Observation: GasBarragePayloadProof 0.1.1 (runtime 37D41938, build/test-artifacts/live-2026-10-03-gas-barrage-payload-0.1.1-STAGE-B-VERIFIED): the conversion and the payload in one tick; exactly 6 pattern words on the carrier's own record (the 380mm); the shells 194, 137, 137; PAYLOAD: APPLIED before READY TO CALL; never callable without the payload; called with Up Up Down Down (2026-10-03).
+- Observation: GasBarragePayloadProof 0.2.0 (runtime 4A4A67E5): the pattern on the Orbital Napalm Barrage, and the mission-end restore aboard the ship exact (exact vanilla carrier record = true; the 120mm and the Gas Strike records vanilla) (2026-10-03).
+- Not promoted (still need `allow_unverified_effect`): the Orbital Walking Barrage (researched compatible, not run live), multiplayer.
+
+**`stratagem_carrier_shell_redirect`**
+- Observation: GasBarragePayloadProof 0.2.0 (runtime 4A4A67E5, build/test-artifacts/live-2026-10-03-gas-barrage-payload-0.2.0-STAGE-C-GAS-BARRAGE-VERIFIED): the carrier Orbital Napalm Barrage fired the Gas Barrage (the 120mm pattern, the Gas Strike shell, its gas, confusion and cloud chain); the 120mm and Gas Strike donor records unchanged; the restore exact (2026-10-03).
+- Observation: GasBarragePayloadProof 0.2.1 (runtime 73125D59, build/test-artifacts/live-2026-10-03-gas-barrage-payload-0.2.1-LIFECYCLE-VERIFIED): the Gas Barrage on a second carrier, the Orbital 380mm HE Barrage, with the mission-end restore exact (2026-10-03).
+- Not promoted (still need `allow_unverified_effect`): other carriers (the Walking Barrage: offline only), other shell donors, multiplayer.
+
+**`stratagem_carrier_presentation_lifecycle`**
+- Observation: GasBarragePayloadProof 0.2.1 (runtime 73125D59, build/test-artifacts/live-2026-10-03-gas-barrage-payload-0.2.1-LIFECYCLE-VERIFIED): carrier Orbital 380mm HE Barrage; native aboard the ship; applied at mission start (the HUD slot drew the Gas Barrage icon and UP UP DOWN DOWN); restored exactly on the return to the ship; the loadout screen and picker reopened native (2026-10-03).
+- Not promoted (still need `allow_unverified_effect`): the loadout-opening restore of a stale look (not exercised live: the ship-side restore ran first), a second mission's apply and restore (the second mission was refused by the cached carrier), other carriers, multiplayer.
+
+**`custom_stratagem_expendable_clone`**
+- Observation: EAT17GExample 0.1.0 (2026-10-05): presentation 4 writes, model 19, full 34 on the EAT-411; RESTORED every record native after the presentation and model missions; the log ends inside the full-level mission.
+- Not promoted (still need `allow_unverified_effect`): the EAT-700 Expendable Napalm as the carrier weapon (not exercised: it was in the loadout), the restore after a full-level mission (not in the log), several players.
+
+**`custom_stratagem_expendable_payload`**
+- Observation: EAT17GExample 0.1.0 (2026-10-05): projectile impact CONVERTED on every captured launcher's rocket.
+- Not promoted (still need `allow_unverified_effect`): several players (the r3 Gas EAT provenance is the multiplayer reference, a separate family).
+
+**`custom_stratagem_expendable_availability`**
+- Observation: EAT17GExample 0.1.0 (2026-10-05): EAT-700 and EAT-411 picked: UNAVAILABLE and UNPICKED loadout slot 3.
+- Not promoted (still need `allow_unverified_effect`): a teammate's picks taking the candidates (several players), the carrier-group availability of other groups (built later, not live-tested).
+
+**`custom_stratagem_expendable_delivery`**
+- Observation: EAT17GExample 0.1.0 (2026-10-05): beacon APPLIED M-105 Stalwart -> EAT-411 Leveller; support pod CAPTURED 1 item in slots 0, every call.
+- Not promoted (still need `allow_unverified_effect`): two launchers from one pod, one vanilla stratagem per custom stratagem.
 
 ## Session coverage-pass-2026-09-29
 
@@ -303,3 +494,387 @@ Runtime: HD2Runtime 0.27.0 Patriot test build (commit c19f44f, build/test-artifa
 | --- | --- | --- | --- | --- |
 | VehicleProjectileBuilderTest (Talon) | pass | EXO-45 Patriot Exosuit / right_gun: `attack.projectile` EXO-45 Patriot Exosuit / right_gun projectile → LAS-58 Talon output | yes / yes / yes / yes | Re-confirmed: the EXO-45 Patriot minigun fired the LAS-58 Talon projectile. |
 | VehicleProjectileBuilderTest | pass | LAS-58 Talon: `projectile.impact_explosion` none → GL-21 Grenade Launcher impact explosion |  | With the Patriot minigun swapped to the LAS-58 Talon output (a separate operation), the grenade-blast impact explosion written directly to the LAS-58 Talon row reached the minigun: its Talon bolts exploded where they hit. The explicit donor-row composition. The LAS-58 Talon sidearm, which fires the same row, was not reported. |
+
+## Session custom-stratagem-calldown-2026-10-01
+
+Runtime: HD2Runtime 0.28.0 custom stratagem P0 development builds (runtimes BCA96F7C, 6A007142, F3A44EB3; CustomStratagemP0Proof 0.2.0, 0.3.0, 0.4.0; build/test-artifacts/live-2026-10-01-custom-stratagem-p0*).
+
+Every operation logged: `P0 APPLIED`, `HUD refresh automatically applied`, `P0 restored`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| CustomStratagemP0Proof | pass | Orbital 120mm HE Barrage: `stratagem.calldown_code` Right Right Down Left Right Down → Up Up Down Down |  | The matcher accepted Up Up Down Down and the old code no longer called the 120mm; the call-in and the barrage stayed vanilla (18 shells over 19.2 s); the mission-end restore wrote the original pointer and count back. Solo host. |
+| CustomStratagemP0Proof | pass | Orbital 120mm HE Barrage: `stratagem.calldown_code` Right Right Down Left Right Down → Up Up Down Down |  | The HUD stratagem list kept the original arrows after the row changed. The direct redraw of only the 120mm's slot (29 guarded writes, non-target bytes unchanged, protection restored) made it show Up Up Down Down, and the original arrows after the restore (proof 0.3.0, Ctrl+F9). |
+| CustomStratagemP0Proof | pass | Orbital 120mm HE Barrage: `stratagem.calldown_code` Right Right Down Left Right Down → Up Up Down Down |  | The same redraw ran automatically once the slot existed after P0 applied, and again after the restore, without a key press (proof 0.4.0). |
+
+## Session public-calldown-field-2026-10-01
+
+Runtime: HD2Runtime 0.28.0 development build with the public field (runtime ADDF4716; CustomStratagemP0Proof 0.5.1 E4FEE2A8, build/test-artifacts).
+
+Every operation logged: `public calldown_code ensure registered`, `public calldown_code APPLIED`, `stratagem calldown`, `HUD slot`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| CustomStratagemP0Proof | pass | Orbital 120mm HE Barrage: `stratagem.calldown_code` Right Right Down Left Right Down → Up Up Down Down |  | Through the public hd2.fields.stratagem.calldown_code and hd2.ensure only (no private P0 code): the guarded native write applied, the Runtime's automatic HUD sync made the stratagem list show Up Up Down Down, the matcher accepted Up Up Down Down, and the normal 120mm call-in and vanilla barrage ran. |
+| CustomStratagemP0Proof | pass | GR-8 Recoilless Rifle: `stratagem.calldown_code` Down Left Right Right Left → Down Down Down Down |  | Through the public field and its own hd2.ensure: the guarded native write applied, the automatic HUD sync redrew HUD slot 5, and the Runtime reported the new code active. The reported log ends before the Recoilless call-in itself, so its delivery with the new code is not established. |
+
+## Session selectable-carrier-2026-10-01
+
+Runtime: HD2Runtime 0.28.0 development build (runtime B90B81CB; CustomStratagemP0Proof 0.6.0 52AF67D7, build/test-artifacts).
+
+Every operation logged: `saved ship loadout`, `mission record (local player)`, `HUD slot`, `public calldown_code APPLIED`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| CustomStratagemP0Proof | pass | Orbital 120mm HE Barrage: `stratagem.calldown_code` Right Right Down Left Right Down → Up Up Down Down |  | The 120mm was selected normally in the ship loadout screen. Read-only, the proof followed it from the saved ship loadout (by StratagemInfo stable id) to the mission player record and the HUD slot of the same index; then the public calldown_code ensure applied, the HUD refreshed automatically, the custom code was accepted and the normal 120mm call-in ran. No account item, inventory, catalogue, saved-loadout or stratagem-registry write was made: the 120mm is a proven selectable carrier. |
+
+## Session borrowed-presentation-2026-10-01
+
+Runtime: HD2Runtime 0.28.0 development build (runtime 72DE3C34; CustomStratagemP0Proof 0.7.0 48278B63, build/test-artifacts).
+
+Every operation logged: `presentation APPLIED`, `stratagem presentation APPLIED`, `presentation RESTORED`, `the 120mm row presents as borrowed`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| CustomStratagemP0Proof | pass | Orbital 120mm HE Barrage: `stratagem.presentation.name` Orbital 120mm HE Barrage → Orbital Gas Strike; Orbital 120mm HE Barrage: `stratagem.presentation.name_cased` Orbital 120mm HE Barrage → Orbital Gas Strike; Orbital 120mm HE Barrage: `stratagem.presentation.description` Orbital 120mm HE Barrage → Orbital Gas Strike; Orbital 120mm HE Barrage: `stratagem.presentation.icon` Orbital 120mm HE Barrage → Orbital Gas Strike |  | Aboard the ship the 120mm row's name, cased name, description and icon took the Orbital Gas Strike's vanilla values (development module runtime/stratagem_presentation.lua, 4 guarded writes) while its type (136) and stable id (1063322614) stayed the 120mm's. The ship loadout showed the borrowed presentation and still selected the 120mm normally; the mission record held the 120mm; the mission HUD displayed the borrowed presentation; the public calldown code still worked and the normal 120mm barrage ran; restoring the original presentation worked. |
+
+## Session public-presentation-2026-10-01
+
+Runtime: HD2Runtime 0.28.0 development build with the public presentation fields (runtime F9EEA767; CustomStratagemP0Proof 0.8.0 6AD54C89, build/test-artifacts).
+
+Every operation logged: `public presentation ensure registered`, `public presentation APPLIED`, `stratagem.presentation.icon`, `public presentation RESTORED`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| CustomStratagemP0Proof | pass | Orbital 120mm HE Barrage: `stratagem.presentation.name` Orbital 120mm HE Barrage → Orbital Gas Strike; Orbital 120mm HE Barrage: `stratagem.presentation.name_cased` Orbital 120mm HE Barrage → Orbital Gas Strike; Orbital 120mm HE Barrage: `stratagem.presentation.description` Orbital 120mm HE Barrage → Orbital Gas Strike; Orbital 120mm HE Barrage: `stratagem.presentation.icon` Orbital 120mm HE Barrage → Orbital Gas Strike |  | Through the public hd2.fields.stratagem.presentation_name / _name_cased / _description / _icon (values naming the Orbital Gas Strike) in one hd2.ensure: the 120mm stayed type 136 / stable id 1063322614, was selected normally in the ship loadout with the borrowed presentation, kept it in the mission, the public calldown_code worked at the same time and the normal 120mm barrage ran. |
+
+## Session custom-icon-2026-10-01
+
+Runtime: HD2Runtime 0.28.0 development build with custom images (runtime 66EEC763; CustomStratagemP0Proof 0.9.0 6BE7CF4B, build/test-artifacts/live-2026-10-01-custom-icon-CRASHED).
+
+Every operation logged: `custom icon residency`, `is loaded (the mod's own texture)`, `custom icon APPLIED`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| CustomStratagemP0Proof (superseded by custom-icon-write-2026-10-02) | fail | Orbital 120mm HE Barrage: `stratagem.presentation.icon` Orbital 120mm HE Barrage → custom image orbital_gas_barrage_icon |  | The custom texture was loaded and the guarded write applied (1 write, identity, name and description unchanged); about 45 s later the game crashed when a slot was opened in the loadout screen. Minidump: access violation reading 0x38 at helldivers2.exe+0x341D1A (cloning a GUI material from a null pointer), reached from the loadout grid entry that draws StratagemInfo +0xB0 as a GUI material (research/stratagem-icon-consumers-F5FEE03DCFDB.json). |
+
+## Session custom-icon-family-probe-2026-10-02
+
+Runtime: HD2Runtime 0.28.0 development build with the icon family reader (runtime 15BD3F50; CustomStratagemP0Proof 0.10.0 55DA5A06, build/test-artifacts); read-only, nothing written.
+
+Every operation logged: `family probe`, `FAMILY PROBE RESULT: PASS`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| CustomStratagemP0Proof | pass |  |  | Read-only: the running game had loaded the custom icon family from the mod's archive (custom texture loaded; custom GUI material loaded and exactly the icon material of its name; shader 0x3461FF0D; its texture slot resolving to the custom standalone texture, no atlas sprite), and the Orbital 120mm HE Barrage's vanilla icon read through the same lookup as its exact GUI material on the atlas sprite sheet. The first ship check reported the vanilla control unavailable; the recheck read it and produced the final PASS. The game stayed stable. Nothing was written. |
+
+## Session custom-icon-write-2026-10-02
+
+Runtime: HD2Runtime 0.28.0 development build with the guarded custom icon write (runtime 9762FFF6; CustomStratagemP0Proof 0.11.0 1B6D32DD, build/test-artifacts/live-2026-10-02-custom-icon-write-VERIFIED).
+
+Every operation logged: `family probe`, `stratagem presentation custom icon APPLIED`, `custom icon APPLIED aboard`, `RESTORED`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| CustomStratagemP0Proof | pass | Orbital 120mm HE Barrage: `stratagem.presentation.icon` Orbital 120mm HE Barrage → custom icon family orbital_gas_barrage_icon |  | The complete custom icon family (texture and GUI icon material) was loaded and its material resolved to the custom standalone texture; the guarded write set only the 120mm's icon member, aboard the ship. The loadout UI rendered the custom icon correctly, including the loadout grid that crashed with the texture-only 0.9.0 image. The 120mm stayed type 136 / stable id 1063322614 with its own name and description, the mission loadout stayed valid, the restore worked and the game did not crash. A presentation change is not hot-swapped into a mission HUD that is already built, which is the documented behaviour. |
+
+## Session custom-text-2026-10-02
+
+Runtime: HD2Runtime 0.28.0 development build with Runtime-owned custom text and the public custom icon (runtime 07FA093B; CustomStratagemP0Proof 0.12.0 E903A5A0, build/test-artifacts/live-2026-10-02-custom-text-VERIFIED).
+
+Every operation logged: `text probe`, `TEXT PROBE RESULT: PASS`, `stratagem presentation custom text APPLIED`, `custom icon and code (public ensure)`, `the game rebuilt its text registry`, `RESTORED`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| CustomStratagemP0Proof | pass | Orbital 120mm HE Barrage: `stratagem.presentation.name` Orbital 120mm HE Barrage → Runtime text ORBITAL GAS BARRAGE; Orbital 120mm HE Barrage: `stratagem.presentation.name_cased` Orbital 120mm HE Barrage → Runtime text Orbital Gas Barrage; Orbital 120mm HE Barrage: `stratagem.presentation.description` Orbital 120mm HE Barrage → Runtime text Calls down a barrage of gas shells. |  | Through the development text path: the Runtime text table was registered after the game's own tables and the 120mm's name, cased name and description showed the custom text in the ship loadout and the mission. The text was registered again after language changes. The 120mm, selected normally in the ship loadout and saved by stable id, stayed type 136 / stable id 1063322614; no account, inventory, catalogue or loadout identity was modified. |
+| CustomStratagemP0Proof | pass | Orbital 120mm HE Barrage: `stratagem.presentation.icon` Orbital 120mm HE Barrage → hd2.resources.image orbital_gas_barrage_icon |  | The public presentation_icon field with hd2.resources.image (hd2.ensure): the custom icon showed with the custom text. |
+| CustomStratagemP0Proof | pass | Orbital 120mm HE Barrage: `stratagem.calldown_code` right right down left right down → up up down down |  | The public calldown_code field in the same ensure as the icon: Up Up Down Down called in the normal 120mm barrage. |
+
+## Session virtual-slot-2026-10-02
+
+Runtime: HD2Runtime 0.28.0 development build with the mission-time slot conversion (runtime 5937BCD5; VirtualSlotProof 0.1.0 282A9660, build/test-artifacts/live-2026-10-02-virtual-slot-VERIFIED); Stratagem MultiSelect used only to select the duplicate on the ship.
+
+Every operation logged: `slot probe`, `stratagem slot CONVERTED`, `HUD slot`, `saved ship loadout`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| VirtualSlotProof | pass | local mission stratagem record: `entry type` Orbital Precision Strike (type 118) → Orbital 120mm HE Barrage (type 136) |  | Ship loadout: two Orbital Precision Strikes. At mission start the first stayed type 118 and the second record entry was converted to the 120mm (type 136): only the local mission-record slot type was written, the saved loadout stayed untouched, the vanilla HUD refreshed the slot automatically and it was a normal 120mm carrier slot. No account, catalogue or inventory write. Solo host. |
+
+## Session virtual-selector-2026-10-02
+
+Runtime: HD2Runtime 0.28.0 development build with the Runtime-owned stratagem selector (runtime 39D522B8; VirtualSelectorProof 0.1.0 156268C9, build/test-artifacts/live-2026-10-02-virtual-selector-NOT-RENDERED); aboard the ship, no mission.
+
+Every operation logged: `loadout screen opened`, `stratagem grid opened for slot`, `stratagem selector drawing disabled`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| VirtualSelectorProof | pass |  |  | The read-only lifecycle logged the loadout screen opening and the stratagem grid opening for slot 0 at the right moments. |
+| VirtualSelectorProof (superseded by virtual-selector-0.3.0-2026-10-02) | not tested |  |  | Refused by the Runtime itself before any engine call: "stratagem selector drawing disabled: stingray.Vector3/Color are unavailable". Its check required type(stingray.Vector3) == 'function', but the engine's Vector3 is a callable table. No card was drawn and nothing was written. Fixed in 0.2.0 (runtime/engine_gui.lua). |
+
+## Session virtual-selector-0.2.0-2026-10-02
+
+Runtime: HD2Runtime 0.28.0 development build with the Runtime-owned stratagem selector (runtime D0976F6D, not kept; VirtualSelectorProof 0.2.0 28460743, build/test-artifacts/live-2026-10-02-virtual-selector-0.2.0-FOCUS-FRAME-DESTROYED); aboard the ship, no mission.
+
+Every operation logged: `loadout screen opened`, `stratagem grid opened for slot`, `stratagem selector drawing disabled: the focus frame could not be updated`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| VirtualSelectorProof | pass |  |  | The loadout screen and the stratagem grid for slot 0 were detected again (0.2.0). |
+| VirtualSelectorProof (superseded by virtual-selector-0.3.0-2026-10-02) | not tested |  |  | The Runtime destroyed its own card in the frame it drew it: "drawing disabled: the focus frame could not be updated". Gui.update_rect returns no value (exe 0x3E1F90) and the Runtime took the nil return for a failure. Before that the engine accepted the screen GUI, the rectangles, the icon bitmap and both texts (each returned an id; no error), the GUI was destroyed cleanly and the game kept running normally. Visibility was not observed. Fixed in 0.3.0 (updates succeed without a value; the focus frame is optional and off). |
+
+## Session virtual-selector-0.3.0-2026-10-02
+
+Runtime: HD2Runtime 0.28.0 development build with the Runtime-owned stratagem selector (runtime EEA99813; VirtualSelectorProof 0.3.0 F67CA978, build/test-artifacts/live-2026-10-02-virtual-selector-0.3.0-RENDER-VERIFIED); aboard the ship, no mission, selection disabled.
+
+Every operation logged: `loadout screen opened`, `stratagem grid opened for slot`, `stratagem selector shown for slot`, `stratagem selector hidden (the grid closed)`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| VirtualSelectorProof | pass |  |  | Grid lifecycle detection worked: the card appeared while the stratagem grid was open and disappeared when it closed (0.3.0). |
+| VirtualSelectorProof | pass |  |  | In the real loadout screen, while the stratagem grid was open: the Runtime screen GUI rendered; the rectangle, the custom icon and the Runtime text in the engine font core/performance_hud/monaco were visible (the name Orbital Gas Barrage and the description Calls down a barrage of gas shells.); the card was removed when the grid closed. No focus frame (0.3.0 build); F7 selection disabled; nothing written. |
+
+## Session virtual-selector-0.4.0-2026-10-02
+
+Runtime: HD2Runtime 0.28.0 development build with the Runtime-owned stratagem selector (runtime 24BEDFAA; VirtualSelectorProof 0.4.0 CB03C012, build/test-artifacts/live-2026-10-02-virtual-selector-0.4.0-END-NOT-VISIBLE); aboard the ship, no mission.
+
+Every operation logged: `stratagem selector not shown`, `the end of the list is not visible`, `the card would leave the grid frame`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| VirtualSelectorProof (superseded by virtual-selector-0.5.0-2026-10-02) | not tested |  |  | The Runtime's own 0.4.0 placement rule hid the card: "not shown: the end of the list is not visible" and "the card would leave the grid frame". The stratagem list is a scrollable viewport and 0.4.0 required the final native row to be realized (and its text row below to fit). Not a rendering failure; nothing was drawn in the grid or selected. Replaced by the scroll-aware placement in 0.5.0. |
+
+## Session virtual-selector-0.5.0-2026-10-02
+
+Runtime: HD2Runtime 0.28.0 development build with the Runtime-owned stratagem selector (runtime 172FEB9D; VirtualSelectorProof 0.5.0 A9BACE2D, build/test-artifacts/live-2026-10-02-virtual-selector-0.5.0-PLACEMENT-NOT-VISIBLE); aboard the ship, no mission.
+
+Every operation logged: `stratagem selector shown for slot 0: 1 card (orbital_gas_barrage) in the grid: end cell, row 22, column 2 (x 550, y 248, 160 px)`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| VirtualSelectorProof (superseded by virtual-selector-0.6.0-2026-10-02) | inconclusive |  |  | The Runtime logged the card as shown in its computed cell ("in the grid: end cell, row 22, column 2 (x 550, y 248, 160 px)"), with no drawing error, but no custom card was visible in the native grid. The cause is not identified: the Runtime GUI's coordinate space may differ from the native transforms' (resolution, scale, origin, axis), or the card may be drawn under the native UI (layers 21-23). The scroll model being self-consistent offline is not evidence that it matches the screen. The 0.6.0 build measures this (calibration markers and stage logs). Nothing was selected or written. |
+
+## Session virtual-selector-0.6.0-2026-10-02
+
+Runtime: HD2Runtime 0.28.0 development build with the Runtime-owned stratagem selector (runtime 3665DE8A; VirtualSelectorProof 0.6.0 CE4C6937, build/test-artifacts/live-2026-10-02-virtual-selector-0.6.0-OCCLUDED-BY-NATIVE-UI); aboard the ship, no mission.
+
+Every operation logged: `calibration (slot 0): GUI resolution 3840 x 2160`, `frame 150.0, 208.0, 790.0 x 1056.0`, `card scale 2.0000 px/unit`, `scroll 1585.00 of limit 1585.00`, `calibration V`, `inside the viewport`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| VirtualSelectorProof | inconclusive |  |  | At the bottom of the list: GUI resolution 3840 x 2160, list frame 150, 208, 790 x 1056 px, card scale 2 px/unit, scroll 1585 of 1585; V content (200, 2088) units, pure model (550, 258) px, Runtime GUI (550, 248, 160 x 160) px, inside the viewport. The native calibration cards' Runtime GUI rectangles matched their native transforms in X and size, with a constant 10 px difference in Y between the pure model and the native transforms (to be corrected once the card is visible). The coordinate model is not the blocker. The V marker and the card were not visible over the native grid, so the placement itself is not verified. |
+| VirtualSelectorProof | fail |  |  | The Runtime diagnostic screen GUI (Application.main_world, World.create_screen_gui) rendered, but its V marker (layer 991) and the tile (layers 900-902) were not visible over the native stratagem grid. The 0.3.0 floating card (layers 21-22) was visible in an empty area outside the native loadout UI. The research then traced why: the game draws the Noesis UI after every world GUI in the same pass (docs/custom-stratagems.md, "Render order"). Next: RenderOrderProof 0.1.0. Nothing was selected or written. |
+
+## Session custom-panel-0.1.0-2026-10-02
+
+Runtime: HD2Runtime 0.28.0 development build with the Runtime-owned custom stratagems panel (runtime 0552B348; CustomStratagemPanelProof 0.1.0 D285E17F, build/test-artifacts/live-2026-10-02-custom-panel-0.1.0-VISIBLE-TOO-LARGE); aboard the ship, no mission.
+
+Every operation logged: `custom stratagem panel shown for slot`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| CustomStratagemPanelProof | pass |  |  | The Runtime-owned CUSTOM STRATAGEMS panel rendered safely in the empty screen area to the right of the loadout UI: at 4K x 2572, width 1113, height 240 px, the card 160 x 160. Too wide, too far toward the right edge, the card larger than necessary, and the permanent description area wasted space; redesigned as the compact grid in 0.2.0. |
+| CustomStratagemPanelProof (superseded by custom-panel-0.7.0-2026-10-02) | fail |  |  | The custom icon (gas_barrage, and its mask variant) did not visibly render in the panel's tile, although the panel drew (the image family was found loaded). The 0.3.0 card's icon (another Runtime image, drawn at about 237 px at 4K) was visible. Offline: the texture header is byte-identical to the vanilla 120mm icon texture and every mip level decodes consistently, so the mip chain is ruled out; the cause is not identified. 0.2.0 uses orbital_gas_barrage and adds an icon test (the same image at four sizes, drawn as the 0.3.0 card drew its icon). |
+| CustomStratagemPanelProof (superseded by custom-panel-0.2.0-2026-10-02) | fail |  |  | The panel stayed visible for too much of the loadout lifecycle, including a transient grid-open state with slot -1. Cause found in code: the sub-state ui+0x2818 = 10 the panel keyed on is recomputed every frame from the FOCUSED stratagem slot, not the open selector; the selection-open byte is ui+0x273990 (research selectionLifecycle). 0.2.0 requires that byte, sub-state 10 and an edited slot 0-3. |
+
+## Session custom-panel-0.2.0-2026-10-02
+
+Runtime: HD2Runtime 0.28.0 development build with the compact custom stratagems panel (runtime D9650879; CustomStratagemPanelProof 0.2.0 8F6D26A9, build/test-artifacts/live-2026-10-02-custom-panel-0.2.0-ICON-BLANK-TOO-FAR-LEFT); aboard the ship, no mission.
+
+Every operation logged: `custom stratagem panel shown: active selector slot`, `custom stratagem panel hidden: selector closed`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| CustomStratagemPanelProof | pass |  |  | The compact panel worked: the CUSTOM STRATAGEMS title, the tile geometry and the text rendered. At x 2572 (4K) it was too far left: the large native details panel occupies the centre and the panel belongs to its right. 0.3.0 places it right of the details panel read from the game's layout. |
+| CustomStratagemPanelProof | pass |  |  | The active-selector lifecycle is correct: the panel appears only while a native stratagem selector is open (the selection-open byte ui+0x273990, sub-state 10, a slot 0-3) and is gone when it closes. |
+| CustomStratagemPanelProof (superseded by custom-panel-0.7.0-2026-10-02) | fail |  |  | The Orbital Gas Barrage tile was blank: orbital_gas_barrage (the proof's own image, its GUI material drawn by name with Gui.bitmap) did not visibly render, while the tile geometry and the text did. Research: Gui.bitmap takes a MATERIAL resource (by name or IdString64), which the Runtime image provides and which was resident; 0.3.0 adds positive controls (the engine font material, the vanilla 120mm icon material, the custom material by name and by hash, over dark and light backgrounds) and logs each draw. |
+
+## Session custom-panel-0.3.0-2026-10-02
+
+Runtime: HD2Runtime 0.28.0 development build with the custom stratagems panel right of the details panel (runtime 2B60E721, overwritten before it was kept; CustomStratagemPanelProof 0.3.0 4DB7C888, build/test-artifacts/live-2026-10-02-custom-panel-0.3.0-PLACEMENT-VERIFIED-ICON-BLANK); aboard the ship, no mission.
+
+Every operation logged: `custom icon GUI bitmap draw attempted: Gui.bitmap("mods/skyeshade/hd2runtime_custom_stratagem_panel_proof/images/orbital_gas_barrage", 3140, 1290, 77 x 77, layer 15)`, `custom icon GUI bitmap draw succeeded`, `(engine id 15)`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| CustomStratagemPanelProof | pass |  |  | The panel sat immediately to the right of the native stratagem details panel (its rectangle read from the game's layout, ui+0x24B520), overlapping neither the native list nor the details panel; the compact 3 x 2 grid fitted. |
+| CustomStratagemPanelProof | pass |  |  | Again: the panel appeared when the stratagem selector opened, disappeared immediately when it closed, and did not persist through the rest of the loadout UI. |
+| CustomStratagemPanelProof (superseded by custom-panel-0.7.0-2026-10-02) | fail |  |  | The Orbital Gas Barrage tile was blank although Gui.bitmap with orbital_gas_barrage's GUI material by name was accepted (engine id 15) at 3140, 1290, 77 x 77 px: the call succeeded but produced no visible pixels. The image is not missing (its texture and GUI material were resident). The F8 diagnostics were not reported. |
+
+## Session custom-panel-0.4.0-2026-10-02
+
+Runtime: HD2Runtime 0.28.0 development build with selection from the custom stratagems panel (runtime 357BF4D8; CustomStratagemPanelProof 0.4.0 841DEDF6, build/test-artifacts/live-2026-10-02-custom-panel-0.4.0-SELECTED-SLOT0-SINGLETON-ICON-BLANK); aboard the ship, no mission.
+
+Every operation logged: `ALREADY_SELECTED: a virtual selection is already written`, `icon diagnostics`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| CustomStratagemPanelProof | pass | local loadout record (ship loadout screen): `slot 0 entry type` its previous entry (not reported) → Orbital Precision Strike (the token) |  | Orbital Gas Barrage was selected from the Runtime panel into slot 0: the guarded loadout-record write put the Orbital Precision Strike token in the slot and the native game repainted it. The user reported that the live interaction path works. |
+| CustomStratagemPanelProof (superseded by custom-panel-0.5.0-2026-10-02) | fail |  |  | Selecting Orbital Gas Barrage a second time was refused with nothing written: ALREADY_SELECTED: a virtual selection is already written. The 0.4.0 selector kept a single virtual selection; the product needs several instances of one virtual stratagem (0.5.0 replaces the singleton with slot-indexed virtual slots, offline-validated). |
+| CustomStratagemPanelProof (superseded by custom-panel-0.7.0-2026-10-02) | fail |  |  | F8 diagnostics: the custom material and its texture were loaded, the material's shader is 0x3461FF0D, and Gui.bitmap created the custom bitmap at several sizes, but the custom icon was not visible. The diagnostic rectangles were visible: that shows the GUI primitives were created, not that the icon material displays its texture. |
+
+## Session custom-panel-0.5.0-2026-10-02
+
+Runtime: HD2Runtime 0.28.0 development build with continuous selection and slot-local icons (runtime 4E12CA15; CustomStratagemPanelProof 0.5.0 AD019147, build/test-artifacts/live-2026-10-02-custom-panel-0.5.0-SELECTION-ICONS-WORK-HIGHLIGHT-STALE); aboard the ship, no mission.
+
+Every operation logged: `custom stratagem panel active selector slot 1`, `selector moved from slot 1 to slot 2`, `next empty slot: 2`, `The native slot highlight and the grid's greying are not moved (native calls only)`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| CustomStratagemPanelProof | pass | local loadout record (ship loadout screen): `slot entry type (several slots)` their previous entries (not reported) → Orbital Precision Strike (the token) |  | The virtual-selection write worked and several slots held virtual Orbital Gas Barrage instances of the one definition. |
+| CustomStratagemPanelProof | pass | virtual loadout slot icon element: `sprite rectangle, UV, dirty bits` Orbital Precision Strike's sprite → Orbital Gas Strike's sprite (same atlas page) |  | Virtual slots showed the Orbital Gas Strike icon; non-virtual Orbital Precision Strike slots kept their normal icon. |
+| CustomStratagemPanelProof | pass |  |  | The virtual slots were reconstructed from the saved loadout order (reported working). |
+| CustomStratagemPanelProof (superseded by custom-panel-0.6.0-2026-10-02) | fail | loadout screen: `edited slot (ui+0x281C)` slot 1 → slot 2 |  | After a selection the Runtime moved the edited slot (logged: selector moved from slot 1 to slot 2; next empty slot: 2) but the native loadout slot highlight did not move: the Runtime's edited slot and the native UI state diverged. |
+
+## Session slot-highlight-0.1.0-2026-10-02
+
+Runtime: HD2Runtime 0.28.0 development build with the slot-focus module (runtime 0A710373; SlotHighlightProof 0.1.0 663F33D8, build/test-artifacts/live-2026-10-02-slot-highlight-0.1.0-VERIFIED); aboard the ship, no mission.
+
+Every operation logged: `slot focus MOVED: the native highlight went from slot`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| SlotHighlightProof | pass | loadout panel: `focus, previous focus, widget focused bits, frame-flash bytes` slot N → slot N+1 (F7) / N-1 (F8) |  | F7 and F8 moved the native loadout highlight forwards and backwards; the game itself redrew it. The highlight-only move changed no loadout record, slot types, selection state or cached record pointer. No native call or OS input. |
+| SlotHighlightProof | pass | loadout panel and screen: `focus as above, plus the edited slot (ui+0x281C)` slot N → slot N+1 (Ctrl+F7) / N-1 (Ctrl+F8) |  | Ctrl+F7 and Ctrl+F8 moved the native highlight and the effective edited slot; a native stratagem selection afterwards landed in the moved slot. |
+
+## Session custom-panel-0.6.0-2026-10-02
+
+Runtime: HD2Runtime 0.28.0 development build with the integrated slot-focus advance (runtime F41025D9; CustomStratagemPanelProof 0.6.0 72CC4A6D, build/test-artifacts/live-2026-10-02-custom-panel-0.6.0-VIRTUAL-SELECTOR-VERIFIED); aboard the ship, no mission.
+
+Every operation logged: `SELECTED`, `ADVANCED`, `slot focus MOVED`, `SLOT ICON`, `saved ship loadout`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| CustomStratagemPanelProof | pass | loadout panel and screen: `focus, widget focused bits, frame-flash bytes, edited slot` the slot written → the next empty slot |  | After each selection from the custom panel the native highlight and the edited slot advanced together to the next empty slot and the custom panel followed the selector. |
+| CustomStratagemPanelProof | pass | local loadout record: `slot entry type` another stratagem → Orbital Precision Strike (the token) |  | An occupied slot was replaced by the token as a virtual Gas Barrage instance; several instances coexisted. |
+| CustomStratagemPanelProof | pass | local loadout record: `slot entry type` empty or another stratagem → Orbital Precision Strike (the token) |  | The custom card could be clicked and the Precision Strike token was written into the selected slot; saved-order reconstruction and the per-slot borrowed icon (native Precision Strike slots keep theirs) kept working. |
+
+## Session slot-overlay-0.1.0-2026-10-02
+
+Runtime: HD2Runtime 0.28.0 development build with the slot overlay module (runtime 1260E0F4; SlotOverlayProof 0.1.0 0658F3F0, build/test-artifacts/live-2026-10-02-slot-overlay-0.1.0-VERIFIED); aboard the ship, loadout screen, no mission.
+
+Every operation logged: `slot overlay OVERLAY:`, `overlays removed`, `fake virtual slots`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| SlotOverlayProof | pass |  |  | A Runtime screen GUI in the Ui World at layer 940 rendered above the native stratagem slot icon, aligned with it (screenshots). The masked Orbital Gas Barrage icon rendered recognisably. The native slot icon stayed untouched; no render-thread texture write was needed. The native icon remained visible through the transparent parts of the custom icon (no backing plate). |
+| SlotOverlayProof | pass |  |  | Each of the four slots could receive an overlay independently. |
+| SlotOverlayProof | pass |  |  | virtual / native / virtual / native worked; several overlays were shown at once. |
+| SlotOverlayProof | pass |  |  | Removing a fake virtual identity removed its overlay; the overlay followed the native slot geometry. |
+
+## Session custom-panel-0.7.0-2026-10-02
+
+Runtime: HD2Runtime 0.28.0 development build with the slot overlays driven by the virtual slots (runtime C5B9B61F; CustomStratagemPanelProof 0.7.0 1BE1566B, build/test-artifacts/live-2026-10-02-custom-panel-0.7.0-SLOT-OVERLAYS-VERIFIED); aboard the ship, no mission.
+
+Every operation logged: `slot overlay OVERLAY:`, `SELECTED`, `the native selector moved on`, `hidden: the loadout is full`, `saved ship loadout`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| CustomStratagemPanelProof | pass |  |  | The custom Gas Barrage icon was rendered by the Runtime Ui World overlay over the untouched native slot icon of each virtual slot (the native slot icon, material and texture untouched); mixed virtual/native slots worked; the overlays followed the real virtual slots. |
+| CustomStratagemPanelProof | pass |  |  | The custom panel and the native loadout slot used the same masked Gas Barrage icon rendering (the panel as a Ui World GUI with the slot overlay technique). |
+| CustomStratagemPanelProof | pass | local loadout record and loadout panel: `slot entry type; focus, widget focused bits, frame-flash bytes, edited slot` the slot's previous entry → Orbital Precision Strike (the token); the next empty slot |  | The panel appeared only while selecting a stratagem; Orbital Gas Barrage could be clicked; Precision Strike was written as the underlying vanilla token; several instances; occupied slots replaced; the native highlight and edited slot advanced together (redrawn by the game); per-slot virtual identity; saved-order reconstruction; the selector stayed open through empty slots and, when full, the panel hid and Back closed the native selector. No native calls, FFI, executable patches, render-thread writes or OS input. |
+
+## Session gas-barrage-mission-0.1.0-2026-10-02
+
+Runtime: HD2Runtime 0.28.0 development build with the identity conversion (runtime A3EB274A; GasBarrageMissionProof 0.1.0 62FDDF32, build/test-artifacts/live-2026-10-02-gas-barrage-mission-0.1.0-120MM-IN-LOADOUT-IDENTITY-LOST); solo mission.
+
+Every operation logged: `virtual slot`, `no longer holds its token`, `no virtual slot remains`, `conversion REFUSED`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| GasBarrageMissionProof (superseded by gas-barrage-mission-0.4.0-2026-10-02) | not tested |  |  | The intended architecture was not tested: the Orbital 120mm HE Barrage (the carrier, presented as Orbital Gas Barrage aboard the ship by this proof) was in the saved loadout and the mission record, and the Runtime's virtual identity was gone before the mission ("virtual slot ... no longer holds its token", "no virtual slot remains"). The conversion correctly refused. 0.2.0 refuses such a test before the mission and follows the identity only on a settled ship loadout before launch. |
+
+## Session gas-barrage-mission-0.3.0-2026-10-02
+
+Runtime: HD2Runtime 0.28.0 development build with the carrier catalogue (runtime 71EE66B2, overwritten before preservation; GasBarrageMissionProof 0.3.0 D8669B13, build/test-artifacts/live-2026-10-02-gas-barrage-mission-0.3.0-NO-CARRIER-CHOSEN); aboard the ship and a solo mission.
+
+Every operation logged: `CARRIER: none of the catalogue is eligible`, `CARRIER_NOT_OWNED`, `no carrier was chosen aboard the ship`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| GasBarrageMissionProof (superseded by gas-barrage-mission-0.4.0-2026-10-02) | not tested |  |  | Carrier conversion was not tested: all five fixed carrier candidates (Orbital Napalm Barrage, 380mm HE Barrage, Walking Barrage, Airburst Strike, Gatling Barrage) returned CARRIER_NOT_OWNED, so no carrier was chosen and the mission correctly refused (no carrier was chosen aboard the ship). The carrier architecture was not disproven. The retained snapshots of the same machine's account show all five owned; 0.3.0 read ownership once, at the first chance after load, and never again. |
+
+## Session gas-barrage-mission-0.4.0-2026-10-02
+
+Runtime: HD2Runtime 0.28.0 development build with carrier discovery (runtime 92950C4D; GasBarrageMissionProof 0.4.0 57B16182, build/test-artifacts/live-2026-10-02-gas-barrage-mission-0.4.0-CARRIER-IDENTITY-VERIFIED); aboard the ship and a solo host mission.
+
+Every operation logged: `CARRIER CANDIDATE:`, `CARRIER: Orbital 380mm HE Barrage`, `PRE-MISSION CHECK`, `MISSION START: conversion APPLIED`, `CALL-IN:`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| GasBarrageMissionProof | pass | local player's mission stratagem record: `the virtual slot's entry type` Orbital Precision Strike (the saved token) → the discovered carrier Orbital 380mm HE Barrage; Orbital 380mm HE Barrage StratagemInfo row (the carrier): `presentation: name, cased name, description, icon` the carrier's native presentation → the Runtime Orbital Gas Barrage text and icon |  | The saved virtual Gas Barrage (Orbital Precision Strike token) was converted at mission start to a carrier discovered from what the account owns: Orbital 380mm HE Barrage, not in the loadout. Only the virtual slot became the carrier; the carrier presented as Gas Barrage; its own package loaded and its own normal call-in executed. Orbital Precision Strike and the 120mm donor stayed native. Solo host; no payload change. |
+
+## Session gas-barrage-mission-0.5.0-2026-10-02
+
+Runtime: HD2Runtime 0.28.0 development build with the custom calldown on the carrier (runtime A2922CBF; GasBarrageMissionProof 0.5.0 01CAA5DB, build/test-artifacts/live-2026-10-02-gas-barrage-mission-0.5.0-CUSTOM-CALLDOWN-VERIFIED); aboard the ship and a solo host mission.
+
+Every operation logged: `CODE CHECK`, `CODE: the carrier`, `PRE-MISSION CHECK`, `MISSION START: conversion APPLIED`, `HUD:`, `CALL-IN:`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| GasBarrageMissionProof | pass | the discovered carrier's StratagemInfo row: `stratagem.calldown_code (public field, hd2.ensure)` the carrier's native code (read from its row first) → up up down down; local player's mission stratagem record: `the virtual slot's entry type` Orbital Precision Strike (the saved token) → the discovered carrier |  | The carrier received Up Up Down Down through the public calldown_code field; its native code was replaced only on the carrier; the HUD showed the custom code naturally after the conversion (the game's own type-change rebuild, no Runtime HUD write); the carrier's own native call-in executed with it. Only the virtual slot converted, the carrier package loaded, the carrier kept its own type and stable id, native Precision Strike slots stayed untouched; Precision Strike and the 120mm donor stayed completely vanilla. Solo host. |
+
+## Session gas-barrage-payload-0.1.0-2026-10-03
+
+Runtime: HD2Runtime 0.28.0 development build with the carrier payload (runtime A62FCF62; GasBarragePayloadProof 0.1.0 6BFB6071, build/test-artifacts/live-2026-10-03-gas-barrage-payload-0.1.0-PAYLOAD-REFUSED-NOT-TESTED); a solo host mission.
+
+Every operation logged: `conversion APPLIED`, `carrier payload refused: ALREADY_CALLED`, `the 120mm pattern is NOT applied (refused)`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| GasBarragePayloadProof (superseded by gas-barrage-payload-0.1.1-2026-10-03) | not tested |  |  | The 120mm pattern was not tested: right after the conversion (carrier Orbital 380mm HE Barrage), before any call-in, the payload write was refused (ALREADY_CALLED) and nothing was written; the carrier fired its normal 380mm barrage. The guard took a cooldown end of 0 as never called, but in a live mission every record entry holds one shared non-zero time from the record's build (110331400 on every never-called entry in all four mission snapshots); a call sets a new value. |
+
+## Session gas-barrage-payload-0.1.1-2026-10-03
+
+Runtime: HD2Runtime 0.28.0 development build with the atomic carrier payload (runtime 37D41938; GasBarragePayloadProof 0.1.1 5F7B5646, build/test-artifacts/live-2026-10-03-gas-barrage-payload-0.1.1-STAGE-B-VERIFIED); a solo host mission.
+
+Every operation logged: `NOT READY: carrier payload is still being applied`, `MISSION START: conversion APPLIED`, `PAYLOAD: APPLIED`, `READY TO CALL`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| GasBarragePayloadProof | pass | the carrier's own BombardmentComponentData (Orbital 380mm HE Barrage): `the 120mm pattern words: +0x08, +0x1C, +0x24 and the shell list +0x40..+0x48` 1.5, 3, 36, shells 80/266/266 → 0.75, 2, 27, shells 194/137/137; local player's mission stratagem record: `the virtual slot's entry type` Orbital Precision Strike (the saved token) → the discovered carrier |  | The carrier conversion succeeded; the carrier-local BombardmentComponentData was modified with exactly 6 pattern words; the shell list became 194, 137, 137; the 120mm timing and scatter pattern was applied; PAYLOAD: APPLIED came before READY TO CALL; the carrier was never callable without the payload; the carrier was called with Up Up Down Down. Solo host. |
+
+## Session gas-barrage-payload-0.2.0-2026-10-03
+
+Runtime: HD2Runtime 0.28.0 development build with the stage C carrier payload (runtime 4A4A67E5; GasBarragePayloadProof 0.2.0 9F5EA0BF, build/test-artifacts/live-2026-10-03-gas-barrage-payload-0.2.0-STAGE-C-GAS-BARRAGE-VERIFIED, with the live log); two solo host missions.
+
+Every operation logged: `CARRIER: Orbital Napalm Barrage`, `PAYLOAD: APPLIED`, `shell list = 197, 197, 197`, `READY TO CALL`, `PAYLOAD: RESTORED`, `exact vanilla carrier record = true`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| GasBarragePayloadProof | pass | the carrier's own BombardmentComponentData (Orbital Napalm Barrage): `the 120mm pattern words +0x04, +0x08, +0x24, then the shell list +0x40..+0x48` 5, 0.5, 25, shells 234/238/238 → 3, 0.75, 27, shells 197/197/197; local player's mission stratagem record: `the virtual slot's entry type` Orbital Precision Strike (the saved token) → the discovered carrier Orbital Napalm Barrage |  | The Gas Barrage fired: virtual Gas Barrage -> Precision Strike save token -> discovered carrier Orbital Napalm Barrage -> Gas Barrage presentation -> Up Up Down Down -> the carrier-local 120mm bombardment pattern -> the carrier-local shell list 197, 197, 197 -> the Orbital Gas Strike's gas, confusion and cloud chain. The carrier's own BombardmentComponentData was modified; the 120mm and Gas Strike donor records stayed unchanged. The first mission's restore aboard the ship was exact (exact vanilla carrier record = true; both donors unchanged). Solo host. |
+| GasBarragePayloadProof | pass |  |  | The 120mm pattern on a second carrier, the Orbital Napalm Barrage (its +0x04, +0x08, +0x24), under the stage C payload; the mission-end restore of the carrier's record was exact with the donors unchanged (the first mission; the second mission's log ended mid-mission). |
+
+## Session gas-barrage-payload-0.2.1-2026-10-03
+
+Runtime: HD2Runtime 0.28.0 development build with the carrier presentation lifecycle (runtime 73125D59; GasBarragePayloadProof 0.2.1 2AF452A8, build/test-artifacts/live-2026-10-03-gas-barrage-payload-0.2.1-LIFECYCLE-VERIFIED, with the live log); solo host.
+
+Every operation logged: `CARRIER: Orbital 380mm HE Barrage`, `MISSION START: carrier presentation APPLIED`, `icon element shows the Gas Barrage icon; its arrows draw up up down down`, `READY TO CALL`, `PAYLOAD: RESTORED`, `RETURN TO SHIP: carrier presentation RESTORED`, `exact = true`, `LOADOUT OPEN`, `LOADOUT PICKER OPEN`, `NATIVE: nothing to restore`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| GasBarragePayloadProof | pass | the discovered carrier's StratagemInfo row (Orbital 380mm HE Barrage): `name, cased name, description (Runtime text), icon (the masked custom image), calldown code` its native values (aboard the ship) → the Gas Barrage look and UP UP DOWN DOWN, at mission start only, restored on the return to the ship |  | Aboard the ship the carrier Orbital 380mm HE Barrage stayed native. At mission start its Gas Barrage look and code were applied before the conversion; the HUD built the converted slot with the Gas Barrage icon and UP UP DOWN DOWN. After the mission the look and code were restored aboard the ship from the captured bytes (RETURN TO SHIP: carrier presentation RESTORED, exact = true), and the loadout screen and the native picker, reopened several times, showed the carrier's native card. Solo host. |
+| GasBarragePayloadProof | pass | the carrier's own BombardmentComponentData (Orbital 380mm HE Barrage): `the 120mm pattern words, then the shell list +0x40..+0x48` the 380mm's vanilla words and shells → the 120mm pattern with shells 197/197/197 |  | The Gas Barrage fired with the Orbital 380mm HE Barrage as the carrier (the 120mm pattern, the Gas Strike shell 197); PAYLOAD: RESTORED exact (exact vanilla carrier record = true; the 120mm and Gas Strike records vanilla). Solo host. |
+
+## Session eat17g-clone-0.1.0-2026-10-05
+
+Runtime: HD2Runtime 0.30.0-dev expendable clone build (runtime 402D8D17...5D73; EAT17GExample 0.1.0 "EAT-17G CLONE BUILD", 5A093838...D4F7; build/test-artifacts/eat17g-clone-0.30.0-dev-r2, the example ZIP now renamed EAT17GExample-0.1.0-OLD-live-tested-one-launcher.zip; the user's HD2Runtime.log); solo host.
+
+Every operation logged: `CUSTOM CARRIER WEAPONS: eat17g_clone = EAT-411 Leveller`, `CUSTOM CARRIERS: EAT-17G Gas Expendable Anti-Tank = M-105 Stalwart`, `weapon clone APPLIED (eat17g_clone): EAT-411 Leveller is the EAT-17 Expendable Anti-Tank for this mission`, `beacon APPLIED: ... delivery M-105 Stalwart -> EAT-411 Leveller`, `support pod CAPTURED ...: 1 item ... in slots 0`, `projectile impact CONVERTED ...: impact explosion 184 -> 82 / 376 -> 82`, `weapon clone RESTORED: EAT-411 Leveller is its own weapon again`, `AVAILABILITY (eat17g_clone): UNAVAILABLE`, `SHIP (eat17g_clone): UNPICKED loadout slot 3`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| EAT17GExample | pass | the EAT-411 Leveller's own weapon type records (the carrier weapon; the EAT-700 was in the loadout): `presentation (4 writes), model (19), full (34) members` its native records → the EAT-17's reviewed values for the mission |  | The user: the clone's model, animations, sound and rocket swap correctly at the levels exercised. The log: three missions on the EAT-411 Leveller, at the presentation (4 writes), model (19) and full (34) levels; each applied with one owner per record and its exact native bytes; at the full level the launchers fired the EAT-17's rocket (132). Back aboard the ship after the presentation and model missions: weapon clone RESTORED, every record its native bytes true. The log ends inside the full-level mission (no restore line recorded for it). Solo host. |
+| EAT17GExample | pass | each delivered clone launcher's rocket (its own impact copy, pool slot 0 / 59 / 60 / 61): `impact explosion` 184 (EAT-411 rocket 34) / 376 (EAT-17 rocket 132 at the full level) → 82 (the Orbital Gas Strike's) |  | The user: the gas conversion works. The log: each captured launcher's rocket converted (projectile impact CONVERTED 184 -> 82 at the presentation and model levels, 376 -> 82 at the full level), read back true; the mod logged the impact request of explosion 82. Solo host. |
+| EAT17GExample | pass | this player's loadout record (the selector): `the virtual slot` eat17g_clone in slot 3 → dropped: the plain Orbital Precision Strike token (nothing written) |  | With the EAT-700 and the EAT-411 both in the loadout: AVAILABILITY UNAVAILABLE naming both picks, the tile dimmed and marked, the picked slot UNPICKED (plainly the token, nothing written). With one of them removed: AVAILABLE again and pickable. Solo host. |
+| EAT17GExample | partial | each call's beacon (the M-105 Stalwart, the separate beacon carrier): `delivery` M-105 Stalwart → EAT-411 Leveller (the carrier weapon's own pod) |  | Each call's beacon was redirected to the EAT-411 Leveller's own pod and the pod came, but it brought ONE launcher per call (support pod CAPTURED: 1 item in slots 0): the Leveller's rack holds one launcher and its slot 1 is empty. Two vanilla stratagems were used for one custom stratagem (the M-105 Stalwart threw the beacon, the EAT-411 was the carrier weapon). Recorded as reported; addressed by the condensed carrier group and the carrier pod (EAT17GExample 0.2.0, not live-tested). |
+
+## Session laser-maxigun-native-panel-r27-2026-10-06
+
+Runtime: HD2Runtime 0.30.0-dev r27 (HD2Runtime-0.30.0-dev-arrows-layout-r27.zip, 41EDB9BD...D9C3; the log does not name the ZIP), LaserMaxigunExample 0.1.1 "LASER MAXIGUN CODE FIX BUILD" (1DF6B750...B0B9) with the r20 custom stratagem mods, seven custom stratagems in all (build/test-artifacts/r27; the user's HD2Runtime.log and a loadout screenshot); solo host. The user's r26 report (the same example: "the ammo was surely swapped") is the same stage-A observation..
+
+Every operation logged: `MODEL READY: model 'laser_maxigun' ... (model_use check): nothing written to its UnitPath (check only)`, `weapon clone APPLIED (laser_maxigun): M-1000 Maxigun is its own VARIANT for this mission: 3 writes (presentation; round LAS-58 Talon (projectile 144, its package resident))`, `MODEL READY: model 'laser_maxigun' ... (model_use apply)`, `weapon clone APPLIED (laser_maxigun): ... 4 writes (presentation; round LAS-58 Talon ...; model model 'laser_maxigun' ... (unit 0xC689DFAE66394A62 ...`, `support pod CAPTURED (laser_maxigun#1): ... 2 items ... entity types 43A58CB89CFA197C, 056DE1C5E21E723E`, `weapon clone RESTORED: M-1000 Maxigun is its own weapon again: 4 writes; every record its native bytes: true`, `STRATAGEM BLOCKED (native): M-1000 Maxigun (0xCDFBF3C2): the last viable carrier of laser_maxigun`, `custom stratagem panel shown: active selector slot 0 (the selector opened; native renderer): ... tiles 155 px in 4 columns, 7 of 7 entries in view`, `stratagem selector virtual slot 0 (pelican_close_air_support) no longer holds its token ... no virtual slot remains (after the panel was shown)`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| LaserMaxigunExample | pass | the M-1000 Maxigun's own type records (the variant host; condensed: its own beacon and pod): `presentation, round (ProjectileWeaponComponentData +0), model (UnitComponentData UnitPath)` its native records (projectile 306, unit 0x43A58CB89CFA197C) → the LAS-1000 Laser Maxigun presentation, the LAS-58 Talon's projectile 144, the mod's unit 0xC689DFAE66394A62 (the debug palette) |  | The user: the Maxigun model swap works ("seems maxigun model swapping works though!!"), and the called gun fired Talon rounds (r26: "the ammo was surely swapped"). The log, two missions: mission 1 with Model "Check only": MODEL READY, nothing written to its UnitPath, APPLIED 3 writes (presentation and the Talon round); mission 2 with Model "Debug model": MODEL READY (model_use apply), APPLIED 4 writes (presentation, the round and the model), each record one owner and its exact native bytes. Each call delivered the carrier's own pod with the gun and its backpack (2 items). Back aboard the ship after each mission: weapon clone RESTORED, every record its native bytes true. While the Laser Maxigun was selected the vanilla Maxigun was blocked natively (logged; not reported as tried). Solo host. |
+| HD2Runtime custom stratagem panel | partial | the loadout screen (Ui World GUIs only): `the native-style panel and its details overlay` nothing drawn → seven cards in four columns, the title and the overlay (draws only; nothing written) |  | The screenshot: the panel right of the native details panel, seven cards in two rows of four in the native card look, the title CUSTOM STRATAGEMS in the game's font; the log: the native renderer, 7 of 7 entries in view, the details overlay drawn on focus. Not holding: the yellow equipped look was stale. The panel opened while the selector still held the last mission's four picks; the selector dropped them a moment later (no virtual slot remains), but the cards stayed yellow, and the new picks (the Laser Maxigun and the Pelican) did not light up until a later visit. Cause: the panel computed the equipped look only when it opened. Fixed offline in r28 (it redraws when the picks change); not re-tested. The r27 overlay (arrows, call-in time, the user's layout) was not reported. |

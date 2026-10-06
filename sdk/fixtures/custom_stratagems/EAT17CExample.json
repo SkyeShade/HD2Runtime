@@ -1,0 +1,44 @@
+{
+ "format": "hd2runtime-custom-stratagems/1",
+ "log": "EAT77ExpendableCluster 0.3.0 BUILD: select EAT-77 Expendable Cluster in the custom panel, then a mission; call it with DOWN DOWN LEFT DOWN LEFT.",
+ "stratagems": [
+  {
+   "id": "eat_cluster",
+   "name": "EAT-77 EXPENDABLE CLUSTER",
+   "name_cased": "EAT-77 Expendable Cluster",
+   "description": "A single-use weapon that comes down in pairs. Explodes into a cluster of lesser explosions upon impact.",
+   "icon": {
+    "image": "eat_cluster",
+    "source": "images/eat_cluster.png"
+   },
+   "code": [
+    "down",
+    "down",
+    "left",
+    "down",
+    "left"
+   ],
+   "cooldown": 70,
+   "traits": [
+    "Support Weapon",
+    "Medium Armor Penetrating",
+    "Anti-Tank",
+    "Expendable"
+   ],
+   "carrier": {
+    "group": "expendable"
+   },
+   "payload": {
+    "family": "expendable",
+    "weapon": "EAT-17 Expendable Anti-Tank",
+    "round": "RL-77 Airburst Rocket Launcher",
+    "pod": [
+     {
+      "item": "clone",
+      "count": 2
+     }
+    ]
+   }
+  }
+ ]
+}

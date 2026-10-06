@@ -1,0 +1,1950 @@
+{
+ "build": "F5FEE03DCFDB",
+ "gameWrites": 0,
+ "passed": true,
+ "schemaVersion": 1,
+ "snapshots": {
+  "F5FEE03DCFDB-20260926T222226Z.hd2snap": {
+   "passed": true,
+   "phase": "ship",
+   "problems": [],
+   "report": {
+    "carriers": {
+     "EAT-411 Leveller": {
+      "conflict": {
+       "code": "NOT_IN_MISSION",
+       "reason": "a carrier weapon is converted in a mission only",
+       "status": "refused"
+      },
+      "instances": 0,
+      "levels": {
+       "full": {
+        "code": "NOT_IN_MISSION",
+        "expected": 33,
+        "reason": "a carrier weapon is converted in a mission only",
+        "status": "refused",
+        "writes": 0
+       },
+       "model": {
+        "code": "NOT_IN_MISSION",
+        "expected": 18,
+        "reason": "a carrier weapon is converted in a mission only",
+        "status": "refused",
+        "writes": 0
+       },
+       "presentation": {
+        "code": "NOT_IN_MISSION",
+        "expected": 3,
+        "reason": "a carrier weapon is converted in a mission only",
+        "status": "refused",
+        "writes": 0
+       }
+      },
+      "native": true,
+      "notNative": {
+       "code": "NOT_IN_MISSION",
+       "status": "refused",
+       "writes": 0
+      },
+      "present": {
+       "code": "NOT_IN_MISSION",
+       "counted": 1,
+       "status": "refused",
+       "writes": 0
+      },
+      "records": {
+       "EncyclopediaEntryComponentData": {
+        "offset": 856012,
+        "size": 56
+       },
+       "EquipmentComponentData": {
+        "offset": 26100716,
+        "size": 232
+       },
+       "ProjectileWeaponComponentData": {
+        "offset": 46564460,
+        "size": 616
+       },
+       "SpottableComponentData": {
+        "offset": 5993028,
+        "size": 72
+       },
+       "UnitComponentData": {
+        "offset": 1186388,
+        "size": 136
+       },
+       "WeaponCustomizationComponentData": {
+        "offset": 28300564,
+        "size": 4872
+       },
+       "WeaponDataComponentData": {
+        "offset": 26573620,
+        "size": 1232
+       },
+       "WieldableComponentData": {
+        "offset": 5736604,
+        "size": 32
+       }
+      }
+     },
+     "EAT-700 Expendable Napalm": {
+      "conflict": {
+       "code": "NOT_IN_MISSION",
+       "reason": "a carrier weapon is converted in a mission only",
+       "status": "refused"
+      },
+      "instances": 0,
+      "levels": {
+       "full": {
+        "code": "NOT_IN_MISSION",
+        "expected": 22,
+        "reason": "a carrier weapon is converted in a mission only",
+        "status": "refused",
+        "writes": 0
+       },
+       "model": {
+        "code": "NOT_IN_MISSION",
+        "expected": 14,
+        "reason": "a carrier weapon is converted in a mission only",
+        "status": "refused",
+        "writes": 0
+       },
+       "presentation": {
+        "code": "NOT_IN_MISSION",
+        "expected": 3,
+        "reason": "a carrier weapon is converted in a mission only",
+        "status": "refused",
+        "writes": 0
+       }
+      },
+      "native": true,
+      "notNative": {
+       "code": "NOT_IN_MISSION",
+       "status": "refused",
+       "writes": 0
+      },
+      "present": {
+       "code": "NOT_IN_MISSION",
+       "counted": 1,
+       "status": "refused",
+       "writes": 0
+      },
+      "records": {
+       "EncyclopediaEntryComponentData": {
+        "offset": 856068,
+        "size": 56
+       },
+       "EquipmentComponentData": {
+        "offset": 26100948,
+        "size": 232
+       },
+       "ProjectileWeaponComponentData": {
+        "offset": 46565076,
+        "size": 616
+       },
+       "SpottableComponentData": {
+        "offset": 5993100,
+        "size": 72
+       },
+       "UnitComponentData": {
+        "offset": 1186524,
+        "size": 136
+       },
+       "WeaponCustomizationComponentData": {
+        "offset": 28305436,
+        "size": 4872
+       },
+       "WeaponDataComponentData": {
+        "offset": 26574852,
+        "size": 1232
+       },
+       "WieldableComponentData": {
+        "offset": 5736636,
+        "size": 32
+       }
+      }
+     }
+    },
+    "iconNotLoaded": {
+     "code": "NOT_IN_MISSION",
+     "status": "refused"
+    },
+    "mission": false,
+    "pins": {
+     "count": 51,
+     "proven": true
+    },
+    "players": 1,
+    "region": {
+     "protect": 2,
+     "size": 46616576,
+     "type": 131072
+    },
+    "rounds": {
+     "carriers": {},
+     "missionPackage": "absent",
+     "unitPackage": "absent"
+    },
+    "tablesInRegion": {
+     "EncyclopediaEntryComponentData": true,
+     "EquipmentComponentData": true,
+     "ProjectileWeaponComponentData": true,
+     "SpottableComponentData": true,
+     "UnitComponentData": true,
+     "WeaponCustomizationComponentData": true,
+     "WeaponDataComponentData": true,
+     "WieldableComponentData": true
+    }
+   }
+  },
+  "F5FEE03DCFDB-20260927T155654Z.hd2snap": {
+   "passed": true,
+   "phase": "ship",
+   "problems": [],
+   "report": {
+    "carriers": {
+     "EAT-411 Leveller": {
+      "conflict": {
+       "code": "NOT_IN_MISSION",
+       "reason": "a carrier weapon is converted in a mission only",
+       "status": "refused"
+      },
+      "instances": 0,
+      "levels": {
+       "full": {
+        "code": "NOT_IN_MISSION",
+        "expected": 33,
+        "reason": "a carrier weapon is converted in a mission only",
+        "status": "refused",
+        "writes": 0
+       },
+       "model": {
+        "code": "NOT_IN_MISSION",
+        "expected": 18,
+        "reason": "a carrier weapon is converted in a mission only",
+        "status": "refused",
+        "writes": 0
+       },
+       "presentation": {
+        "code": "NOT_IN_MISSION",
+        "expected": 3,
+        "reason": "a carrier weapon is converted in a mission only",
+        "status": "refused",
+        "writes": 0
+       }
+      },
+      "native": true,
+      "notNative": {
+       "code": "NOT_IN_MISSION",
+       "status": "refused",
+       "writes": 0
+      },
+      "present": {
+       "code": "NOT_IN_MISSION",
+       "counted": 1,
+       "status": "refused",
+       "writes": 0
+      },
+      "records": {
+       "EncyclopediaEntryComponentData": {
+        "offset": 856012,
+        "size": 56
+       },
+       "EquipmentComponentData": {
+        "offset": 26100716,
+        "size": 232
+       },
+       "ProjectileWeaponComponentData": {
+        "offset": 46564460,
+        "size": 616
+       },
+       "SpottableComponentData": {
+        "offset": 5993028,
+        "size": 72
+       },
+       "UnitComponentData": {
+        "offset": 1186388,
+        "size": 136
+       },
+       "WeaponCustomizationComponentData": {
+        "offset": 28300564,
+        "size": 4872
+       },
+       "WeaponDataComponentData": {
+        "offset": 26573620,
+        "size": 1232
+       },
+       "WieldableComponentData": {
+        "offset": 5736604,
+        "size": 32
+       }
+      }
+     },
+     "EAT-700 Expendable Napalm": {
+      "conflict": {
+       "code": "NOT_IN_MISSION",
+       "reason": "a carrier weapon is converted in a mission only",
+       "status": "refused"
+      },
+      "instances": 0,
+      "levels": {
+       "full": {
+        "code": "NOT_IN_MISSION",
+        "expected": 22,
+        "reason": "a carrier weapon is converted in a mission only",
+        "status": "refused",
+        "writes": 0
+       },
+       "model": {
+        "code": "NOT_IN_MISSION",
+        "expected": 14,
+        "reason": "a carrier weapon is converted in a mission only",
+        "status": "refused",
+        "writes": 0
+       },
+       "presentation": {
+        "code": "NOT_IN_MISSION",
+        "expected": 3,
+        "reason": "a carrier weapon is converted in a mission only",
+        "status": "refused",
+        "writes": 0
+       }
+      },
+      "native": true,
+      "notNative": {
+       "code": "NOT_IN_MISSION",
+       "status": "refused",
+       "writes": 0
+      },
+      "present": {
+       "code": "NOT_IN_MISSION",
+       "counted": 1,
+       "status": "refused",
+       "writes": 0
+      },
+      "records": {
+       "EncyclopediaEntryComponentData": {
+        "offset": 856068,
+        "size": 56
+       },
+       "EquipmentComponentData": {
+        "offset": 26100948,
+        "size": 232
+       },
+       "ProjectileWeaponComponentData": {
+        "offset": 46565076,
+        "size": 616
+       },
+       "SpottableComponentData": {
+        "offset": 5993100,
+        "size": 72
+       },
+       "UnitComponentData": {
+        "offset": 1186524,
+        "size": 136
+       },
+       "WeaponCustomizationComponentData": {
+        "offset": 28305436,
+        "size": 4872
+       },
+       "WeaponDataComponentData": {
+        "offset": 26574852,
+        "size": 1232
+       },
+       "WieldableComponentData": {
+        "offset": 5736636,
+        "size": 32
+       }
+      }
+     }
+    },
+    "iconNotLoaded": {
+     "code": "NOT_IN_MISSION",
+     "status": "refused"
+    },
+    "mission": false,
+    "pins": {
+     "count": 51,
+     "proven": true
+    },
+    "players": 1,
+    "region": {
+     "protect": 2,
+     "size": 46616576,
+     "type": 131072
+    },
+    "rounds": {
+     "carriers": {},
+     "missionPackage": "absent",
+     "unitPackage": "absent"
+    },
+    "tablesInRegion": {
+     "EncyclopediaEntryComponentData": true,
+     "EquipmentComponentData": true,
+     "ProjectileWeaponComponentData": true,
+     "SpottableComponentData": true,
+     "UnitComponentData": true,
+     "WeaponCustomizationComponentData": true,
+     "WeaponDataComponentData": true,
+     "WieldableComponentData": true
+    }
+   }
+  },
+  "F5FEE03DCFDB-20260927T160033Z.hd2snap": {
+   "passed": true,
+   "phase": "ship",
+   "problems": [],
+   "report": {
+    "carriers": {
+     "EAT-411 Leveller": {
+      "conflict": {
+       "code": "NOT_IN_MISSION",
+       "reason": "a carrier weapon is converted in a mission only",
+       "status": "refused"
+      },
+      "instances": 0,
+      "levels": {
+       "full": {
+        "code": "NOT_IN_MISSION",
+        "expected": 33,
+        "reason": "a carrier weapon is converted in a mission only",
+        "status": "refused",
+        "writes": 0
+       },
+       "model": {
+        "code": "NOT_IN_MISSION",
+        "expected": 18,
+        "reason": "a carrier weapon is converted in a mission only",
+        "status": "refused",
+        "writes": 0
+       },
+       "presentation": {
+        "code": "NOT_IN_MISSION",
+        "expected": 3,
+        "reason": "a carrier weapon is converted in a mission only",
+        "status": "refused",
+        "writes": 0
+       }
+      },
+      "native": true,
+      "notNative": {
+       "code": "NOT_IN_MISSION",
+       "status": "refused",
+       "writes": 0
+      },
+      "present": {
+       "code": "NOT_IN_MISSION",
+       "counted": 1,
+       "status": "refused",
+       "writes": 0
+      },
+      "records": {
+       "EncyclopediaEntryComponentData": {
+        "offset": 856012,
+        "size": 56
+       },
+       "EquipmentComponentData": {
+        "offset": 26100716,
+        "size": 232
+       },
+       "ProjectileWeaponComponentData": {
+        "offset": 46564460,
+        "size": 616
+       },
+       "SpottableComponentData": {
+        "offset": 5993028,
+        "size": 72
+       },
+       "UnitComponentData": {
+        "offset": 1186388,
+        "size": 136
+       },
+       "WeaponCustomizationComponentData": {
+        "offset": 28300564,
+        "size": 4872
+       },
+       "WeaponDataComponentData": {
+        "offset": 26573620,
+        "size": 1232
+       },
+       "WieldableComponentData": {
+        "offset": 5736604,
+        "size": 32
+       }
+      }
+     },
+     "EAT-700 Expendable Napalm": {
+      "conflict": {
+       "code": "NOT_IN_MISSION",
+       "reason": "a carrier weapon is converted in a mission only",
+       "status": "refused"
+      },
+      "instances": 0,
+      "levels": {
+       "full": {
+        "code": "NOT_IN_MISSION",
+        "expected": 22,
+        "reason": "a carrier weapon is converted in a mission only",
+        "status": "refused",
+        "writes": 0
+       },
+       "model": {
+        "code": "NOT_IN_MISSION",
+        "expected": 14,
+        "reason": "a carrier weapon is converted in a mission only",
+        "status": "refused",
+        "writes": 0
+       },
+       "presentation": {
+        "code": "NOT_IN_MISSION",
+        "expected": 3,
+        "reason": "a carrier weapon is converted in a mission only",
+        "status": "refused",
+        "writes": 0
+       }
+      },
+      "native": true,
+      "notNative": {
+       "code": "NOT_IN_MISSION",
+       "status": "refused",
+       "writes": 0
+      },
+      "present": {
+       "code": "NOT_IN_MISSION",
+       "counted": 1,
+       "status": "refused",
+       "writes": 0
+      },
+      "records": {
+       "EncyclopediaEntryComponentData": {
+        "offset": 856068,
+        "size": 56
+       },
+       "EquipmentComponentData": {
+        "offset": 26100948,
+        "size": 232
+       },
+       "ProjectileWeaponComponentData": {
+        "offset": 46565076,
+        "size": 616
+       },
+       "SpottableComponentData": {
+        "offset": 5993100,
+        "size": 72
+       },
+       "UnitComponentData": {
+        "offset": 1186524,
+        "size": 136
+       },
+       "WeaponCustomizationComponentData": {
+        "offset": 28305436,
+        "size": 4872
+       },
+       "WeaponDataComponentData": {
+        "offset": 26574852,
+        "size": 1232
+       },
+       "WieldableComponentData": {
+        "offset": 5736636,
+        "size": 32
+       }
+      }
+     }
+    },
+    "iconNotLoaded": {
+     "code": "NOT_IN_MISSION",
+     "status": "refused"
+    },
+    "mission": false,
+    "pins": {
+     "count": 51,
+     "proven": true
+    },
+    "players": 1,
+    "region": {
+     "protect": 2,
+     "size": 46616576,
+     "type": 131072
+    },
+    "rounds": {
+     "carriers": {},
+     "missionPackage": "absent",
+     "unitPackage": "absent"
+    },
+    "tablesInRegion": {
+     "EncyclopediaEntryComponentData": true,
+     "EquipmentComponentData": true,
+     "ProjectileWeaponComponentData": true,
+     "SpottableComponentData": true,
+     "UnitComponentData": true,
+     "WeaponCustomizationComponentData": true,
+     "WeaponDataComponentData": true,
+     "WieldableComponentData": true
+    }
+   }
+  },
+  "F5FEE03DCFDB-20260929T172647Z-mission-host.hd2snap": {
+   "passed": true,
+   "phase": "alive",
+   "problems": [],
+   "report": {
+    "carriers": {
+     "EAT-411 Leveller": {
+      "conflict": {
+       "code": "CONFLICT",
+       "exact": true,
+       "status": "refused",
+       "thenRestored": "restored",
+       "writesWhileRefused": true
+      },
+      "instances": 0,
+      "levels": {
+       "full": {
+        "borrowedIcon": true,
+        "borrowedName": true,
+        "expected": 33,
+        "identical": true,
+        "markerKind": 2,
+        "nativeAfter": true,
+        "otherBytesChanged": 0,
+        "outside": 0,
+        "protectionRestored": true,
+        "restore": {
+         "exact": true,
+         "status": "restored",
+         "writes": 34
+        },
+        "status": "applied",
+        "writes": 34
+       },
+       "model": {
+        "borrowedIcon": true,
+        "borrowedName": true,
+        "expected": 18,
+        "identical": true,
+        "markerKind": 2,
+        "nativeAfter": true,
+        "otherBytesChanged": 0,
+        "outside": 0,
+        "protectionRestored": true,
+        "restore": {
+         "exact": true,
+         "status": "restored",
+         "writes": 19
+        },
+        "status": "applied",
+        "writes": 19
+       },
+       "presentation": {
+        "borrowedIcon": true,
+        "borrowedName": true,
+        "expected": 3,
+        "identical": true,
+        "markerKind": 2,
+        "nativeAfter": true,
+        "otherBytesChanged": 0,
+        "outside": 0,
+        "protectionRestored": true,
+        "restore": {
+         "exact": true,
+         "status": "restored",
+         "writes": 4
+        },
+        "status": "applied",
+        "writes": 4
+       }
+      },
+      "native": true,
+      "notNative": {
+       "code": "NOT_NATIVE",
+       "status": "refused",
+       "writes": 0
+      },
+      "present": {
+       "code": "CARRIER_PRESENT",
+       "counted": 1,
+       "status": "refused",
+       "writes": 0
+      },
+      "records": {
+       "EncyclopediaEntryComponentData": {
+        "offset": 856012,
+        "size": 56
+       },
+       "EquipmentComponentData": {
+        "offset": 26100716,
+        "size": 232
+       },
+       "ProjectileWeaponComponentData": {
+        "offset": 46564460,
+        "size": 616
+       },
+       "SpottableComponentData": {
+        "offset": 5993028,
+        "size": 72
+       },
+       "UnitComponentData": {
+        "offset": 1186388,
+        "size": 136
+       },
+       "WeaponCustomizationComponentData": {
+        "offset": 28300564,
+        "size": 4872
+       },
+       "WeaponDataComponentData": {
+        "offset": 26573620,
+        "size": 1232
+       },
+       "WieldableComponentData": {
+        "offset": 5736604,
+        "size": 32
+       }
+      }
+     },
+     "EAT-700 Expendable Napalm": {
+      "conflict": {
+       "code": "CONFLICT",
+       "exact": true,
+       "status": "refused",
+       "thenRestored": "restored",
+       "writesWhileRefused": true
+      },
+      "instances": 0,
+      "levels": {
+       "full": {
+        "borrowedIcon": true,
+        "borrowedName": true,
+        "expected": 22,
+        "identical": true,
+        "markerKind": 2,
+        "nativeAfter": true,
+        "otherBytesChanged": 0,
+        "outside": 0,
+        "protectionRestored": true,
+        "restore": {
+         "exact": true,
+         "status": "restored",
+         "writes": 22
+        },
+        "status": "applied",
+        "writes": 22
+       },
+       "model": {
+        "borrowedIcon": true,
+        "borrowedName": true,
+        "expected": 14,
+        "identical": true,
+        "markerKind": 2,
+        "nativeAfter": true,
+        "otherBytesChanged": 0,
+        "outside": 0,
+        "protectionRestored": true,
+        "restore": {
+         "exact": true,
+         "status": "restored",
+         "writes": 14
+        },
+        "status": "applied",
+        "writes": 14
+       },
+       "presentation": {
+        "borrowedIcon": true,
+        "borrowedName": true,
+        "expected": 3,
+        "identical": true,
+        "markerKind": 2,
+        "nativeAfter": true,
+        "otherBytesChanged": 0,
+        "outside": 0,
+        "protectionRestored": true,
+        "restore": {
+         "exact": true,
+         "status": "restored",
+         "writes": 3
+        },
+        "status": "applied",
+        "writes": 3
+       }
+      },
+      "native": true,
+      "notNative": {
+       "code": "NOT_NATIVE",
+       "status": "refused",
+       "writes": 0
+      },
+      "present": {
+       "code": "CARRIER_PRESENT",
+       "counted": 1,
+       "status": "refused",
+       "writes": 0
+      },
+      "records": {
+       "EncyclopediaEntryComponentData": {
+        "offset": 856068,
+        "size": 56
+       },
+       "EquipmentComponentData": {
+        "offset": 26100948,
+        "size": 232
+       },
+       "ProjectileWeaponComponentData": {
+        "offset": 46565076,
+        "size": 616
+       },
+       "SpottableComponentData": {
+        "offset": 5993100,
+        "size": 72
+       },
+       "UnitComponentData": {
+        "offset": 1186524,
+        "size": 136
+       },
+       "WeaponCustomizationComponentData": {
+        "offset": 28305436,
+        "size": 4872
+       },
+       "WeaponDataComponentData": {
+        "offset": 26574852,
+        "size": 1232
+       },
+       "WieldableComponentData": {
+        "offset": 5736636,
+        "size": 32
+       }
+      }
+     }
+    },
+    "iconNotLoaded": {
+     "borrowedIcon": "the Runtime icon is not ready (FAMILY_INCOMPLETE: material: not in the game's materials): the EAT-17 Expendable Anti-Tank's marker icon is borrowed",
+     "status": "applied"
+    },
+    "mission": true,
+    "pins": {
+     "count": 51,
+     "proven": true
+    },
+    "players": 1,
+    "region": {
+     "protect": 2,
+     "size": 46616576,
+     "type": 131072
+    },
+    "rounds": {
+     "asIs": {
+      "code": "ROUND_NOT_RESIDENT",
+      "reason": "the RL-77 Airburst Rocket Launcher round's unit package packages/generated/loadout/airburst_rocket_launcher is absent: nothing written",
+      "status": "refused",
+      "writes": 0
+     },
+     "carriers": {
+      "EAT-411 Leveller": {
+       "changed": {
+        "code": "ROUND_CHANGED",
+        "status": "refused",
+        "writes": 0
+       },
+       "levels": {
+        "full": {
+         "expected": 33,
+         "identical": true,
+         "nativeAfter": true,
+         "otherBytesChanged": 0,
+         "outside": 0,
+         "projtype": 312,
+         "protectionRestored": true,
+         "restore": {
+          "exact": true,
+          "status": "restored",
+          "writes": 34
+         },
+         "status": "applied",
+         "writes": 34
+        },
+        "model": {
+         "expected": 19,
+         "identical": true,
+         "nativeAfter": true,
+         "otherBytesChanged": 0,
+         "outside": 0,
+         "projtype": 312,
+         "protectionRestored": true,
+         "restore": {
+          "exact": true,
+          "status": "restored",
+          "writes": 20
+         },
+         "status": "applied",
+         "writes": 20
+        },
+        "presentation": {
+         "expected": 4,
+         "identical": true,
+         "nativeAfter": true,
+         "otherBytesChanged": 0,
+         "outside": 0,
+         "projtype": 312,
+         "protectionRestored": true,
+         "restore": {
+          "exact": true,
+          "status": "restored",
+          "writes": 5
+         },
+         "status": "applied",
+         "writes": 5
+        }
+       },
+       "notResident": {
+        "code": "ROUND_NOT_RESIDENT",
+        "status": "refused",
+        "writes": 0
+       }
+      },
+      "EAT-700 Expendable Napalm": {
+       "changed": {
+        "code": "ROUND_CHANGED",
+        "status": "refused",
+        "writes": 0
+       },
+       "levels": {
+        "full": {
+         "expected": 22,
+         "identical": true,
+         "nativeAfter": true,
+         "otherBytesChanged": 0,
+         "outside": 0,
+         "projtype": 312,
+         "protectionRestored": true,
+         "restore": {
+          "exact": true,
+          "status": "restored",
+          "writes": 22
+         },
+         "status": "applied",
+         "writes": 22
+        },
+        "model": {
+         "expected": 15,
+         "identical": true,
+         "nativeAfter": true,
+         "otherBytesChanged": 0,
+         "outside": 0,
+         "projtype": 312,
+         "protectionRestored": true,
+         "restore": {
+          "exact": true,
+          "status": "restored",
+          "writes": 15
+         },
+         "status": "applied",
+         "writes": 15
+        },
+        "presentation": {
+         "expected": 4,
+         "identical": true,
+         "nativeAfter": true,
+         "otherBytesChanged": 0,
+         "outside": 0,
+         "projtype": 312,
+         "protectionRestored": true,
+         "restore": {
+          "exact": true,
+          "status": "restored",
+          "writes": 4
+         },
+         "status": "applied",
+         "writes": 4
+        }
+       },
+       "notResident": {
+        "code": "ROUND_NOT_RESIDENT",
+        "status": "refused",
+        "writes": 0
+       }
+      }
+     },
+     "missionPackage": "resident",
+     "unitPackage": "absent"
+    },
+    "tablesInRegion": {
+     "EncyclopediaEntryComponentData": true,
+     "EquipmentComponentData": true,
+     "ProjectileWeaponComponentData": true,
+     "SpottableComponentData": true,
+     "UnitComponentData": true,
+     "WeaponCustomizationComponentData": true,
+     "WeaponDataComponentData": true,
+     "WieldableComponentData": true
+    }
+   }
+  },
+  "F5FEE03DCFDB-20260929T172918Z-mission-host-alive.hd2snap": {
+   "passed": true,
+   "phase": "alive",
+   "problems": [],
+   "report": {
+    "carriers": {
+     "EAT-411 Leveller": {
+      "conflict": {
+       "code": "CONFLICT",
+       "exact": true,
+       "status": "refused",
+       "thenRestored": "restored",
+       "writesWhileRefused": true
+      },
+      "instances": 0,
+      "levels": {
+       "full": {
+        "borrowedIcon": true,
+        "borrowedName": true,
+        "expected": 33,
+        "identical": true,
+        "markerKind": 2,
+        "nativeAfter": true,
+        "otherBytesChanged": 0,
+        "outside": 0,
+        "protectionRestored": true,
+        "restore": {
+         "exact": true,
+         "status": "restored",
+         "writes": 34
+        },
+        "status": "applied",
+        "writes": 34
+       },
+       "model": {
+        "borrowedIcon": true,
+        "borrowedName": true,
+        "expected": 18,
+        "identical": true,
+        "markerKind": 2,
+        "nativeAfter": true,
+        "otherBytesChanged": 0,
+        "outside": 0,
+        "protectionRestored": true,
+        "restore": {
+         "exact": true,
+         "status": "restored",
+         "writes": 19
+        },
+        "status": "applied",
+        "writes": 19
+       },
+       "presentation": {
+        "borrowedIcon": true,
+        "borrowedName": true,
+        "expected": 3,
+        "identical": true,
+        "markerKind": 2,
+        "nativeAfter": true,
+        "otherBytesChanged": 0,
+        "outside": 0,
+        "protectionRestored": true,
+        "restore": {
+         "exact": true,
+         "status": "restored",
+         "writes": 4
+        },
+        "status": "applied",
+        "writes": 4
+       }
+      },
+      "native": true,
+      "notNative": {
+       "code": "NOT_NATIVE",
+       "status": "refused",
+       "writes": 0
+      },
+      "present": {
+       "code": "CARRIER_PRESENT",
+       "counted": 1,
+       "status": "refused",
+       "writes": 0
+      },
+      "records": {
+       "EncyclopediaEntryComponentData": {
+        "offset": 856012,
+        "size": 56
+       },
+       "EquipmentComponentData": {
+        "offset": 26100716,
+        "size": 232
+       },
+       "ProjectileWeaponComponentData": {
+        "offset": 46564460,
+        "size": 616
+       },
+       "SpottableComponentData": {
+        "offset": 5993028,
+        "size": 72
+       },
+       "UnitComponentData": {
+        "offset": 1186388,
+        "size": 136
+       },
+       "WeaponCustomizationComponentData": {
+        "offset": 28300564,
+        "size": 4872
+       },
+       "WeaponDataComponentData": {
+        "offset": 26573620,
+        "size": 1232
+       },
+       "WieldableComponentData": {
+        "offset": 5736604,
+        "size": 32
+       }
+      }
+     },
+     "EAT-700 Expendable Napalm": {
+      "conflict": {
+       "code": "CONFLICT",
+       "exact": true,
+       "status": "refused",
+       "thenRestored": "restored",
+       "writesWhileRefused": true
+      },
+      "instances": 0,
+      "levels": {
+       "full": {
+        "borrowedIcon": true,
+        "borrowedName": true,
+        "expected": 22,
+        "identical": true,
+        "markerKind": 2,
+        "nativeAfter": true,
+        "otherBytesChanged": 0,
+        "outside": 0,
+        "protectionRestored": true,
+        "restore": {
+         "exact": true,
+         "status": "restored",
+         "writes": 22
+        },
+        "status": "applied",
+        "writes": 22
+       },
+       "model": {
+        "borrowedIcon": true,
+        "borrowedName": true,
+        "expected": 14,
+        "identical": true,
+        "markerKind": 2,
+        "nativeAfter": true,
+        "otherBytesChanged": 0,
+        "outside": 0,
+        "protectionRestored": true,
+        "restore": {
+         "exact": true,
+         "status": "restored",
+         "writes": 14
+        },
+        "status": "applied",
+        "writes": 14
+       },
+       "presentation": {
+        "borrowedIcon": true,
+        "borrowedName": true,
+        "expected": 3,
+        "identical": true,
+        "markerKind": 2,
+        "nativeAfter": true,
+        "otherBytesChanged": 0,
+        "outside": 0,
+        "protectionRestored": true,
+        "restore": {
+         "exact": true,
+         "status": "restored",
+         "writes": 3
+        },
+        "status": "applied",
+        "writes": 3
+       }
+      },
+      "native": true,
+      "notNative": {
+       "code": "NOT_NATIVE",
+       "status": "refused",
+       "writes": 0
+      },
+      "present": {
+       "code": "CARRIER_PRESENT",
+       "counted": 1,
+       "status": "refused",
+       "writes": 0
+      },
+      "records": {
+       "EncyclopediaEntryComponentData": {
+        "offset": 856068,
+        "size": 56
+       },
+       "EquipmentComponentData": {
+        "offset": 26100948,
+        "size": 232
+       },
+       "ProjectileWeaponComponentData": {
+        "offset": 46565076,
+        "size": 616
+       },
+       "SpottableComponentData": {
+        "offset": 5993100,
+        "size": 72
+       },
+       "UnitComponentData": {
+        "offset": 1186524,
+        "size": 136
+       },
+       "WeaponCustomizationComponentData": {
+        "offset": 28305436,
+        "size": 4872
+       },
+       "WeaponDataComponentData": {
+        "offset": 26574852,
+        "size": 1232
+       },
+       "WieldableComponentData": {
+        "offset": 5736636,
+        "size": 32
+       }
+      }
+     }
+    },
+    "iconNotLoaded": {
+     "borrowedIcon": "the Runtime icon is not ready (FAMILY_INCOMPLETE: material: not in the game's materials): the EAT-17 Expendable Anti-Tank's marker icon is borrowed",
+     "status": "applied"
+    },
+    "mission": true,
+    "pins": {
+     "count": 51,
+     "proven": true
+    },
+    "players": 1,
+    "region": {
+     "protect": 2,
+     "size": 46616576,
+     "type": 131072
+    },
+    "rounds": {
+     "asIs": {
+      "code": "ROUND_NOT_RESIDENT",
+      "reason": "the RL-77 Airburst Rocket Launcher round's unit package packages/generated/loadout/airburst_rocket_launcher is absent: nothing written",
+      "status": "refused",
+      "writes": 0
+     },
+     "carriers": {
+      "EAT-411 Leveller": {
+       "changed": {
+        "code": "ROUND_CHANGED",
+        "status": "refused",
+        "writes": 0
+       },
+       "levels": {
+        "full": {
+         "expected": 33,
+         "identical": true,
+         "nativeAfter": true,
+         "otherBytesChanged": 0,
+         "outside": 0,
+         "projtype": 312,
+         "protectionRestored": true,
+         "restore": {
+          "exact": true,
+          "status": "restored",
+          "writes": 34
+         },
+         "status": "applied",
+         "writes": 34
+        },
+        "model": {
+         "expected": 19,
+         "identical": true,
+         "nativeAfter": true,
+         "otherBytesChanged": 0,
+         "outside": 0,
+         "projtype": 312,
+         "protectionRestored": true,
+         "restore": {
+          "exact": true,
+          "status": "restored",
+          "writes": 20
+         },
+         "status": "applied",
+         "writes": 20
+        },
+        "presentation": {
+         "expected": 4,
+         "identical": true,
+         "nativeAfter": true,
+         "otherBytesChanged": 0,
+         "outside": 0,
+         "projtype": 312,
+         "protectionRestored": true,
+         "restore": {
+          "exact": true,
+          "status": "restored",
+          "writes": 5
+         },
+         "status": "applied",
+         "writes": 5
+        }
+       },
+       "notResident": {
+        "code": "ROUND_NOT_RESIDENT",
+        "status": "refused",
+        "writes": 0
+       }
+      },
+      "EAT-700 Expendable Napalm": {
+       "changed": {
+        "code": "ROUND_CHANGED",
+        "status": "refused",
+        "writes": 0
+       },
+       "levels": {
+        "full": {
+         "expected": 22,
+         "identical": true,
+         "nativeAfter": true,
+         "otherBytesChanged": 0,
+         "outside": 0,
+         "projtype": 312,
+         "protectionRestored": true,
+         "restore": {
+          "exact": true,
+          "status": "restored",
+          "writes": 22
+         },
+         "status": "applied",
+         "writes": 22
+        },
+        "model": {
+         "expected": 15,
+         "identical": true,
+         "nativeAfter": true,
+         "otherBytesChanged": 0,
+         "outside": 0,
+         "projtype": 312,
+         "protectionRestored": true,
+         "restore": {
+          "exact": true,
+          "status": "restored",
+          "writes": 15
+         },
+         "status": "applied",
+         "writes": 15
+        },
+        "presentation": {
+         "expected": 4,
+         "identical": true,
+         "nativeAfter": true,
+         "otherBytesChanged": 0,
+         "outside": 0,
+         "projtype": 312,
+         "protectionRestored": true,
+         "restore": {
+          "exact": true,
+          "status": "restored",
+          "writes": 4
+         },
+         "status": "applied",
+         "writes": 4
+        }
+       },
+       "notResident": {
+        "code": "ROUND_NOT_RESIDENT",
+        "status": "refused",
+        "writes": 0
+       }
+      }
+     },
+     "missionPackage": "resident",
+     "unitPackage": "absent"
+    },
+    "tablesInRegion": {
+     "EncyclopediaEntryComponentData": true,
+     "EquipmentComponentData": true,
+     "ProjectileWeaponComponentData": true,
+     "SpottableComponentData": true,
+     "UnitComponentData": true,
+     "WeaponCustomizationComponentData": true,
+     "WeaponDataComponentData": true,
+     "WieldableComponentData": true
+    }
+   }
+  },
+  "F5FEE03DCFDB-20260929T173206Z-mission-host-after-reinforce.hd2snap": {
+   "passed": true,
+   "phase": "reinforced",
+   "problems": [],
+   "report": {
+    "carriers": {
+     "EAT-411 Leveller": {
+      "conflict": {
+       "code": "CONFLICT",
+       "exact": true,
+       "status": "refused",
+       "thenRestored": "restored",
+       "writesWhileRefused": true
+      },
+      "instances": 0,
+      "levels": {
+       "full": {
+        "borrowedIcon": true,
+        "borrowedName": true,
+        "expected": 33,
+        "identical": true,
+        "markerKind": 2,
+        "nativeAfter": true,
+        "otherBytesChanged": 0,
+        "outside": 0,
+        "protectionRestored": true,
+        "restore": {
+         "exact": true,
+         "status": "restored",
+         "writes": 34
+        },
+        "status": "applied",
+        "writes": 34
+       },
+       "model": {
+        "borrowedIcon": true,
+        "borrowedName": true,
+        "expected": 18,
+        "identical": true,
+        "markerKind": 2,
+        "nativeAfter": true,
+        "otherBytesChanged": 0,
+        "outside": 0,
+        "protectionRestored": true,
+        "restore": {
+         "exact": true,
+         "status": "restored",
+         "writes": 19
+        },
+        "status": "applied",
+        "writes": 19
+       },
+       "presentation": {
+        "borrowedIcon": true,
+        "borrowedName": true,
+        "expected": 3,
+        "identical": true,
+        "markerKind": 2,
+        "nativeAfter": true,
+        "otherBytesChanged": 0,
+        "outside": 0,
+        "protectionRestored": true,
+        "restore": {
+         "exact": true,
+         "status": "restored",
+         "writes": 4
+        },
+        "status": "applied",
+        "writes": 4
+       }
+      },
+      "native": true,
+      "notNative": {
+       "code": "NOT_NATIVE",
+       "status": "refused",
+       "writes": 0
+      },
+      "present": {
+       "code": "CARRIER_PRESENT",
+       "counted": 1,
+       "status": "refused",
+       "writes": 0
+      },
+      "records": {
+       "EncyclopediaEntryComponentData": {
+        "offset": 856012,
+        "size": 56
+       },
+       "EquipmentComponentData": {
+        "offset": 26100716,
+        "size": 232
+       },
+       "ProjectileWeaponComponentData": {
+        "offset": 46564460,
+        "size": 616
+       },
+       "SpottableComponentData": {
+        "offset": 5993028,
+        "size": 72
+       },
+       "UnitComponentData": {
+        "offset": 1186388,
+        "size": 136
+       },
+       "WeaponCustomizationComponentData": {
+        "offset": 28300564,
+        "size": 4872
+       },
+       "WeaponDataComponentData": {
+        "offset": 26573620,
+        "size": 1232
+       },
+       "WieldableComponentData": {
+        "offset": 5736604,
+        "size": 32
+       }
+      }
+     },
+     "EAT-700 Expendable Napalm": {
+      "conflict": {
+       "code": "CONFLICT",
+       "exact": true,
+       "status": "refused",
+       "thenRestored": "restored",
+       "writesWhileRefused": true
+      },
+      "instances": 0,
+      "levels": {
+       "full": {
+        "borrowedIcon": true,
+        "borrowedName": true,
+        "expected": 22,
+        "identical": true,
+        "markerKind": 2,
+        "nativeAfter": true,
+        "otherBytesChanged": 0,
+        "outside": 0,
+        "protectionRestored": true,
+        "restore": {
+         "exact": true,
+         "status": "restored",
+         "writes": 22
+        },
+        "status": "applied",
+        "writes": 22
+       },
+       "model": {
+        "borrowedIcon": true,
+        "borrowedName": true,
+        "expected": 14,
+        "identical": true,
+        "markerKind": 2,
+        "nativeAfter": true,
+        "otherBytesChanged": 0,
+        "outside": 0,
+        "protectionRestored": true,
+        "restore": {
+         "exact": true,
+         "status": "restored",
+         "writes": 14
+        },
+        "status": "applied",
+        "writes": 14
+       },
+       "presentation": {
+        "borrowedIcon": true,
+        "borrowedName": true,
+        "expected": 3,
+        "identical": true,
+        "markerKind": 2,
+        "nativeAfter": true,
+        "otherBytesChanged": 0,
+        "outside": 0,
+        "protectionRestored": true,
+        "restore": {
+         "exact": true,
+         "status": "restored",
+         "writes": 3
+        },
+        "status": "applied",
+        "writes": 3
+       }
+      },
+      "native": true,
+      "notNative": {
+       "code": "NOT_NATIVE",
+       "status": "refused",
+       "writes": 0
+      },
+      "present": {
+       "code": "CARRIER_PRESENT",
+       "counted": 1,
+       "status": "refused",
+       "writes": 0
+      },
+      "records": {
+       "EncyclopediaEntryComponentData": {
+        "offset": 856068,
+        "size": 56
+       },
+       "EquipmentComponentData": {
+        "offset": 26100948,
+        "size": 232
+       },
+       "ProjectileWeaponComponentData": {
+        "offset": 46565076,
+        "size": 616
+       },
+       "SpottableComponentData": {
+        "offset": 5993100,
+        "size": 72
+       },
+       "UnitComponentData": {
+        "offset": 1186524,
+        "size": 136
+       },
+       "WeaponCustomizationComponentData": {
+        "offset": 28305436,
+        "size": 4872
+       },
+       "WeaponDataComponentData": {
+        "offset": 26574852,
+        "size": 1232
+       },
+       "WieldableComponentData": {
+        "offset": 5736636,
+        "size": 32
+       }
+      }
+     }
+    },
+    "iconNotLoaded": {
+     "borrowedIcon": "the Runtime icon is not ready (FAMILY_INCOMPLETE: material: not in the game's materials): the EAT-17 Expendable Anti-Tank's marker icon is borrowed",
+     "status": "applied"
+    },
+    "mission": true,
+    "pins": {
+     "count": 51,
+     "proven": true
+    },
+    "players": 1,
+    "region": {
+     "protect": 2,
+     "size": 46616576,
+     "type": 131072
+    },
+    "rounds": {
+     "asIs": {
+      "code": "ROUND_NOT_RESIDENT",
+      "reason": "the RL-77 Airburst Rocket Launcher round's unit package packages/generated/loadout/airburst_rocket_launcher is absent: nothing written",
+      "status": "refused",
+      "writes": 0
+     },
+     "carriers": {
+      "EAT-411 Leveller": {
+       "changed": {
+        "code": "ROUND_CHANGED",
+        "status": "refused",
+        "writes": 0
+       },
+       "levels": {
+        "full": {
+         "expected": 33,
+         "identical": true,
+         "nativeAfter": true,
+         "otherBytesChanged": 0,
+         "outside": 0,
+         "projtype": 312,
+         "protectionRestored": true,
+         "restore": {
+          "exact": true,
+          "status": "restored",
+          "writes": 34
+         },
+         "status": "applied",
+         "writes": 34
+        },
+        "model": {
+         "expected": 19,
+         "identical": true,
+         "nativeAfter": true,
+         "otherBytesChanged": 0,
+         "outside": 0,
+         "projtype": 312,
+         "protectionRestored": true,
+         "restore": {
+          "exact": true,
+          "status": "restored",
+          "writes": 20
+         },
+         "status": "applied",
+         "writes": 20
+        },
+        "presentation": {
+         "expected": 4,
+         "identical": true,
+         "nativeAfter": true,
+         "otherBytesChanged": 0,
+         "outside": 0,
+         "projtype": 312,
+         "protectionRestored": true,
+         "restore": {
+          "exact": true,
+          "status": "restored",
+          "writes": 5
+         },
+         "status": "applied",
+         "writes": 5
+        }
+       },
+       "notResident": {
+        "code": "ROUND_NOT_RESIDENT",
+        "status": "refused",
+        "writes": 0
+       }
+      },
+      "EAT-700 Expendable Napalm": {
+       "changed": {
+        "code": "ROUND_CHANGED",
+        "status": "refused",
+        "writes": 0
+       },
+       "levels": {
+        "full": {
+         "expected": 22,
+         "identical": true,
+         "nativeAfter": true,
+         "otherBytesChanged": 0,
+         "outside": 0,
+         "projtype": 312,
+         "protectionRestored": true,
+         "restore": {
+          "exact": true,
+          "status": "restored",
+          "writes": 22
+         },
+         "status": "applied",
+         "writes": 22
+        },
+        "model": {
+         "expected": 15,
+         "identical": true,
+         "nativeAfter": true,
+         "otherBytesChanged": 0,
+         "outside": 0,
+         "projtype": 312,
+         "protectionRestored": true,
+         "restore": {
+          "exact": true,
+          "status": "restored",
+          "writes": 15
+         },
+         "status": "applied",
+         "writes": 15
+        },
+        "presentation": {
+         "expected": 4,
+         "identical": true,
+         "nativeAfter": true,
+         "otherBytesChanged": 0,
+         "outside": 0,
+         "projtype": 312,
+         "protectionRestored": true,
+         "restore": {
+          "exact": true,
+          "status": "restored",
+          "writes": 4
+         },
+         "status": "applied",
+         "writes": 4
+        }
+       },
+       "notResident": {
+        "code": "ROUND_NOT_RESIDENT",
+        "status": "refused",
+        "writes": 0
+       }
+      }
+     },
+     "missionPackage": "resident",
+     "unitPackage": "absent"
+    },
+    "tablesInRegion": {
+     "EncyclopediaEntryComponentData": true,
+     "EquipmentComponentData": true,
+     "ProjectileWeaponComponentData": true,
+     "SpottableComponentData": true,
+     "UnitComponentData": true,
+     "WeaponCustomizationComponentData": true,
+     "WeaponDataComponentData": true,
+     "WieldableComponentData": true
+    }
+   }
+  },
+  "F5FEE03DCFDB-20260929T173443Z-mission-end-transition.hd2snap": {
+   "passed": true,
+   "phase": "ended",
+   "problems": [],
+   "report": {
+    "carriers": {
+     "EAT-411 Leveller": {
+      "conflict": {
+       "code": "NOT_IN_MISSION",
+       "reason": "a carrier weapon is converted in a mission only",
+       "status": "refused"
+      },
+      "instances": 0,
+      "levels": {
+       "full": {
+        "code": "NOT_IN_MISSION",
+        "expected": 33,
+        "reason": "a carrier weapon is converted in a mission only",
+        "status": "refused",
+        "writes": 0
+       },
+       "model": {
+        "code": "NOT_IN_MISSION",
+        "expected": 18,
+        "reason": "a carrier weapon is converted in a mission only",
+        "status": "refused",
+        "writes": 0
+       },
+       "presentation": {
+        "code": "NOT_IN_MISSION",
+        "expected": 3,
+        "reason": "a carrier weapon is converted in a mission only",
+        "status": "refused",
+        "writes": 0
+       }
+      },
+      "native": true,
+      "notNative": {
+       "code": "NOT_IN_MISSION",
+       "status": "refused",
+       "writes": 0
+      },
+      "records": {
+       "EncyclopediaEntryComponentData": {
+        "offset": 856012,
+        "size": 56
+       },
+       "EquipmentComponentData": {
+        "offset": 26100716,
+        "size": 232
+       },
+       "ProjectileWeaponComponentData": {
+        "offset": 46564460,
+        "size": 616
+       },
+       "SpottableComponentData": {
+        "offset": 5993028,
+        "size": 72
+       },
+       "UnitComponentData": {
+        "offset": 1186388,
+        "size": 136
+       },
+       "WeaponCustomizationComponentData": {
+        "offset": 28300564,
+        "size": 4872
+       },
+       "WeaponDataComponentData": {
+        "offset": 26573620,
+        "size": 1232
+       },
+       "WieldableComponentData": {
+        "offset": 5736604,
+        "size": 32
+       }
+      }
+     },
+     "EAT-700 Expendable Napalm": {
+      "conflict": {
+       "code": "NOT_IN_MISSION",
+       "reason": "a carrier weapon is converted in a mission only",
+       "status": "refused"
+      },
+      "instances": 0,
+      "levels": {
+       "full": {
+        "code": "NOT_IN_MISSION",
+        "expected": 22,
+        "reason": "a carrier weapon is converted in a mission only",
+        "status": "refused",
+        "writes": 0
+       },
+       "model": {
+        "code": "NOT_IN_MISSION",
+        "expected": 14,
+        "reason": "a carrier weapon is converted in a mission only",
+        "status": "refused",
+        "writes": 0
+       },
+       "presentation": {
+        "code": "NOT_IN_MISSION",
+        "expected": 3,
+        "reason": "a carrier weapon is converted in a mission only",
+        "status": "refused",
+        "writes": 0
+       }
+      },
+      "native": true,
+      "notNative": {
+       "code": "NOT_IN_MISSION",
+       "status": "refused",
+       "writes": 0
+      },
+      "records": {
+       "EncyclopediaEntryComponentData": {
+        "offset": 856068,
+        "size": 56
+       },
+       "EquipmentComponentData": {
+        "offset": 26100948,
+        "size": 232
+       },
+       "ProjectileWeaponComponentData": {
+        "offset": 46565076,
+        "size": 616
+       },
+       "SpottableComponentData": {
+        "offset": 5993100,
+        "size": 72
+       },
+       "UnitComponentData": {
+        "offset": 1186524,
+        "size": 136
+       },
+       "WeaponCustomizationComponentData": {
+        "offset": 28305436,
+        "size": 4872
+       },
+       "WeaponDataComponentData": {
+        "offset": 26574852,
+        "size": 1232
+       },
+       "WieldableComponentData": {
+        "offset": 5736636,
+        "size": 32
+       }
+      }
+     }
+    },
+    "iconNotLoaded": {
+     "code": "NOT_IN_MISSION",
+     "status": "refused"
+    },
+    "mission": false,
+    "pins": {
+     "count": 51,
+     "proven": true
+    },
+    "players": 1,
+    "region": {
+     "protect": 2,
+     "size": 46616576,
+     "type": 131072
+    },
+    "rounds": {
+     "carriers": {},
+     "missionPackage": "loading",
+     "unitPackage": "absent"
+    },
+    "tablesInRegion": {
+     "EncyclopediaEntryComponentData": true,
+     "EquipmentComponentData": true,
+     "ProjectileWeaponComponentData": true,
+     "SpottableComponentData": true,
+     "UnitComponentData": true,
+     "WeaponCustomizationComponentData": true,
+     "WeaponDataComponentData": true,
+     "WieldableComponentData": true
+    }
+   }
+  }
+ }
+}

@@ -2,7 +2,10 @@
 -- Health and damage zones: its HealthComponent record identity (record, index row, owner count) is re-proven before
 -- every write. Attacks: the DamageInfo row a mounted weapon reaches; the whole chain (class MountComponent slot ->
 -- weapon entity -> its weapon component -> projectile / explosion settings -> DamageInfo) is re-proven live before
--- every write. Field descriptors are built from the compact generated database (domains/enemy_authoring.lua).
+-- every write. Whole-body gib threshold (gore.whole_body_gib_damage): the class's own GoreComponent record (unique
+-- owner) and its first whole-body gore group: the record identity, the group's actor list and flags (+866 set) and
+-- every earlier group's cleared +866 are re-proven before every write, so it never lands on a limb group.
+-- Field descriptors are built from the compact generated database (domains/enemy_authoring.lua).
 local ownership=require('hd2runtime/core/ownership')
 local b=require('hd2runtime/core/bytes')
 local discover=require('hd2runtime/runtime/discover')
@@ -11,7 +14,7 @@ local profile=require('hd2runtime/schemas/current')
 local database=require('hd2runtime/domains/enemy_authoring')
 local M={}
 local component_names={'HealthComponentData','MountComponentData','ProjectileWeaponComponentData',
-    'SprayWeaponComponentData'}
+    'SprayWeaponComponentData','GoreComponentData'}
 
 local function equal(a,c,storage)
     if storage=='f32'then return type(a)=='number'and type(c)=='number'
@@ -59,7 +62,8 @@ function M.descriptor(entry,field)
     for key,value in pairs(field.backing)do backing[key]=value end
     local attack=field.attack and M.attack(entry,field.attack)
     local acknowledgement=schema.acknowledgement
-    local reason=schema.acknowledgement and(attack and ATTACK_UNVERIFIED or HEALTH_UNVERIFIED)or nil
+    local reason=schema.acknowledgement and(schema.acknowledgementReason
+        or(attack and ATTACK_UNVERIFIED or HEALTH_UNVERIFIED))or nil
     -- Structure health: offline-proven only until a structure live test passes (sdk/LiveEvidenceCatalog.json).
     local gate=database.structureAcknowledgement
     if entry.kind=='structure'and not acknowledgement and gate then
@@ -71,6 +75,7 @@ function M.descriptor(entry,field)
         reason=field.reason,target={resource='enemy',enemy=entry.name,path=field.path,zone=field.zone,
             attack=field.attack},
         backing=backing,shared=schema.shared==true or backing.uniqueOwner==false,min=schema.min,max=schema.max,
+        disabledValue=schema.disabledValue,
         acknowledgement=acknowledgement,
         sharedWithClasses=attack and attack.reviewedClassesReachingRow or nil,
         acknowledgementReason=reason,
@@ -107,8 +112,15 @@ local function validate_change(entry,target,item,request)
         assert(expected%1==0 and desired%1==0,'integer enemy field requires integer values')
     end
     assert(equal(expected,field.currentDefault,storage),'expect differs from reviewed current value for '..item.field)
-    assert(desired>=field.min and desired<=field.max,
-        'value outside the reviewed range for '..item.field..' ('..field.min..' to '..field.max..')')
+    if field.disabledValue~=nil then
+        -- A disable sentinel (-1 for the whole-body gib threshold) or a positive value up to the reviewed maximum.
+        assert(desired==field.disabledValue or(desired>0 and desired<=field.max),
+            'value outside the reviewed range for '..item.field..' ('..field.disabledValue..' to disable, or above 0 '
+            ..'up to '..field.max..')')
+    else
+        assert(desired>=field.min and desired<=field.max,
+            'value outside the reviewed range for '..item.field..' ('..field.min..' to '..field.max..')')
+    end
     return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
         expected=b.encode(expected,storage),desired=b.encode(desired,storage),expect=expected,value=desired}
 end
@@ -201,10 +213,24 @@ function M.prepare(resolved,reader,spec)
             record,owner=settings_record(resolved.roots,backing.settings,backing.recordType,backing.group,backing.row)
         else
             record=resolved.catalog.record(resolved.candidate,backing.component)
+            local label=backing.component=='GoreComponentData'and'gore'or'health'
             assert(record.identity.recordIndex==backing.recordIndex
-                and record.identity.indexRow==backing.indexRow,'enemy health record ownership changed')
+                and record.identity.indexRow==backing.indexRow,'enemy '..label..' record ownership changed')
             assert(record.identity.ownerCount==backing.ownerCount
-                and record.identity.uniqueOwner==backing.uniqueOwner,'enemy health record consumer scope changed')
+                and record.identity.uniqueOwner==backing.uniqueOwner,'enemy '..label..' record consumer scope changed')
+            if backing.goreGroup~=nil then
+                -- The whole-body group: its index, actor list, flags (+866 set) and every earlier group's cleared
+                -- +866 are re-read live; the target is that group's threshold (+0).
+                assert(backing.uniqueOwner==true and backing.offset==backing.goreGroup*872,
+                    'gore threshold is not a whole-body group threshold')
+                assert(#(backing.guards or{})>=2,'gore group identity guards missing')
+            end
+            for _,guard in ipairs(backing.guards or{})do
+                local expected=b.unhex(guard.hex)
+                assert(record.bytes:sub(guard.offset+1,guard.offset+#expected)==expected,
+                    'enemy '..tostring(backing.component)..' identity changed ('..change.field..' guard at +'
+                    ..guard.offset..')')
+            end
             owner=record.owner
         end
         assert(backing.offset+backing.width<=#record.bytes,'field outside reviewed record')

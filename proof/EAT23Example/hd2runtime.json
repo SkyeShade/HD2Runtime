@@ -1,0 +1,1 @@
+{"format":1,"name":"EAT23ExpendableEMS","resource":"mods/skyeshade/hd2runtime_eat23_example","guid":"7f06a0f1-3862-5196-bbc7-255f9e15d5f9","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.30.0-dev","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../sdk","ide_library":"../../sdk/stubs"}

@@ -1,0 +1,1 @@
+{"format":1,"name":"PodProbe","resource":"mods/skyeshade/hd2runtime_pod_probe","guid":"79db004f-39f8-4458-9c4f-89ac7ba25561","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.28.0","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../sdk","ide_library":"../../sdk/stubs"}

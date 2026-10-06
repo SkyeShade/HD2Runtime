@@ -1,0 +1,1 @@
+{"format":1,"name":"ExtractionPelicanProbe","resource":"mods/skyeshade/hd2runtime_extraction_pelican_probe","guid":"e97c04cb-f5e1-4b5a-be23-a3628a65741f","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.28.0","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../sdk","ide_library":"../../sdk/stubs"}

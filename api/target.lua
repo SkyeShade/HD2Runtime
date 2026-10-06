@@ -725,6 +725,15 @@ function M.new(describe)
     local support_catalog=require('hd2runtime/domains/support_weapon_catalog')
     local support_authoring=require('hd2runtime/domains/support_weapon_authoring')
     local support_attack
+    -- The reviewed attack role of a catalog branch: the authoring catalogue's own where it re-resolved a branch the
+    -- read-only mapper matched heuristically (branchRoles: the PLAS-45 Epoch charge levels, the overcharge explosions;
+    -- research/charge-explosions-F5FEE03DCFDB.json), else the mapper's runtime match.
+    local function support_role(name,attack)
+        local authoring=support_authoring.weapons[name]
+        local roles=authoring and authoring.branchRoles
+        if roles and roles[attack.name]~=nil then return roles[attack.name]end
+        return attack.runtimeMatch and attack.runtimeMatch.runtimeAttackRole
+    end
     -- The active projectile source of a support attack, like attack:projectile_source() on a player weapon: the same
     -- host rule (research/projectile-builder supportHosts), writable where the weapon is a component host.
     local function support_projectile_source(name,role)
@@ -740,7 +749,7 @@ function M.new(describe)
             if field.semanticFieldId=='attack.'..tostring(role)..'.projectile'and field.editable then
                 local weapon=support_catalog.weapons[name]
                 for index,item in ipairs(weapon.attackGraph)do
-                    if item.runtimeMatch and item.runtimeMatch.runtimeAttackRole==role then
+                    if support_role(name,item)==role then
                         local target=support_attack(name,index)
                         result.writable=true;result.target=target;result.field='attack.projectile'
                         result.expect=target:projectile();result.acknowledgements={'allow_unverified_effect'}
@@ -754,7 +763,7 @@ function M.new(describe)
     support_attack=function(name,index)
         local weapon=assert(support_catalog.weapons[name],'unknown reviewed support weapon')
         local attack=assert(weapon.attackGraph[index],'unknown support weapon attack index')
-        local role=attack.runtimeMatch and attack.runtimeMatch.runtimeAttackRole
+        local role=support_role(name,attack)
         local authoring=support_authoring.weapons[name]
         local writable=role and authoring and authoring.attacks[role]
         local methods={}
@@ -821,8 +830,7 @@ function M.new(describe)
         function methods.attack(_,identity)
             if type(identity)=='number'then return support_attack(name,identity)end
             for index,item in ipairs(weapon.attackGraph)do
-                if item.name==identity or item.runtimeMatch
-                    and item.runtimeMatch.runtimeAttackRole==identity then return support_attack(name,index)end
+                if item.name==identity or support_role(name,item)==identity then return support_attack(name,index)end
             end
             error('unknown reviewed support attack: '..tostring(identity))
         end

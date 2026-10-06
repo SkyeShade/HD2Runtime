@@ -33,8 +33,9 @@ return hd2.ensure({
 
 `ARC-3 Arc Thrower` exposes `arc.*`, `damage.*`, `status.*`, and `charge.*`. Its native fire-rate
 value is the `-1` charge-controlled sentinel, so `weapon.fire_rate` is intentionally absent.
-`RS-422 Railgun` exposes the resolved primary projectile and charge component; the catalog's
-intentional Max Charge unknown branch remains unresolved. Spray and melee attacks expose their
+`RS-422 Railgun` exposes the resolved primary projectile, its overcharge explosion and charge component (see
+[Charge](#charge) and [Charge-level shots and explosions](#charge-level-shots-and-explosions)); the catalog's Max Charge
+branch stays unresolved (it is the primary shot at the overcharge damage multiplier, not a row of its own). Spray and melee attacks expose their
 owned DamageInfo fields, and resolved status branches expose strength and duration.
 
 C4 resolves through `ExplosiveComponentData` to its detonation `ExplosionSettings`. Solo Silo
@@ -51,6 +52,149 @@ backpack-dependent weapons keep backpack storage read-only.
 LAS-98 uses the 0.18 `WeaponHeatComponentData` layout in the retained snapshot, including heat
 capacity, generation, cooling, and heatsinks. Its runtime roots are still unresolved (see below),
 so both heat and beam writes remain blocked.
+
+## Charge
+
+The four charge weapons (RS-422 Railgun, PLAS-45 Epoch, ARC-3 Arc Thrower, 40-K Meltagun) expose their own
+`WeaponChargeComponent` record (one owner each). The native charge code reads it live every frame and on every
+shot; no customization and no per-instance copy exists. **A write takes effect on the next frame, including a weapon
+already in hand.** Research: `research/railgun-charge-F5FEE03DCFDB.json`,
+[docs/research/railgun-charge-F5FEE03DCFDB.md](research/railgun-charge-F5FEE03DCFDB.md).
+
+How charging works: while the trigger is held the charge grows by the frame time. Outside fire mode 6 it stops at the
+full charge time (Railgun **Safe**); in fire mode 6 it keeps growing (Railgun **Unsafe**, the Epoch always). Releasing
+at or above the minimum charge time fires; below it cancels. The shot's multipliers go linearly from their minimum
+value (at the minimum charge time) to 1.0 (at the full charge time), then to their overcharge value (at the overcharge
+time). The charge meter, sounds and reticle shake follow the charge; they never feed back into firing.
+
+| Field | Meaning | Unit, range | Weapons |
+| --- | --- | --- | --- |
+| `charge.level_1` / `level_2` / `level_3` | minimum / full / overcharge charge time | seconds; 0..60 / 0.01..60 / 0.01..60 (keep minimum < full < overcharge: see below) | all four |
+| `charge.speed_multiplier_min` / `_overcharge` | projectile launch speed multiplier | 0..10 | projectile weapons (Railgun, Epoch) |
+| `charge.damage_multiplier_min` / `_overcharge` | hit damage multiplier (projectiles) or arc damage multiplier | 0..10 | Railgun, Epoch, ARC-3 |
+| `charge.penetration_multiplier_min` / `_overcharge` | armor-penetration multiplier: each of the four AP values, rounded | 0..10 | Railgun, Epoch, ARC-3 |
+| `charge.arc_distance_multiplier_min` / `_overcharge` | arc distance multiplier | 0..10 | ARC-3 |
+| `charge.auto_fire_at_full` | outside fire mode 6, fire as soon as the charge is full | boolean | Railgun, ARC-3, Meltagun (not the Epoch: always mode 6) |
+| `charge.explode_at_overcharge` | in fire mode 6, reaching the overcharge time fires, destroys the weapon and spawns the overcharge explosion | boolean (hazard) | Railgun, Epoch |
+| `charge.overcharge_limit_seconds` | in the overcharged state, the weapon is destroyed and explodes **without** firing once held this long | seconds, 0..60 (0 = off; hazard) | Railgun, Epoch |
+| `charge.overcharge_explosion` | the explosion the overcharge failure spawns (which one; its radii and damage are `attack('overcharge_explosion')`, see [Charge-level shots and explosions](#charge-level-shots-and-explosions)) | name of a charge weapon whose explosion to use: `'RS-422 Railgun'` or `'PLAS-45 Epoch'` | Railgun, Epoch |
+| `charge.burst_shots` | shots per charge (0 and 1 = one shot) | integer 0..10 | Railgun, Epoch, ARC-3 |
+| `charge.burst_interval_seconds` | delay before each further shot of one charge (0 = no further shot) | seconds, 0..10 | Railgun, Epoch, ARC-3 |
+
+A field is offered only on the weapons whose code path reads it: a beam (the Meltagun) reads no multiplier and refuses
+to fire at all with a burst count, and only weapons that can be in fire mode 6 can overcharge. Every new field needs
+`allow_unverified_effect` (the meanings are proven from the native code, not yet in game); an explosion of **another**
+weapon also needs `allow_unverified_reference` and loads that weapon's package first. Explosions whose package is not
+catalogued are refused (`UNKNOWN_EXPLOSION_PACKAGE`). The overcharge limit's charge state (+204, "overcharged" on every
+record) stays read-only.
+
+**Charge-time order.** The times are meant to stay minimum < full < overcharge, but these ids are older than that rule,
+so a write that breaks it is **accepted**; its registration logs a one-time `CHARGE ORDER` notice (per operation) with
+the resulting times and what the game will do. A time the operation does not write is taken at its reviewed value. In
+game:
+
+- **full <= minimum** (for example a "fast Railgun" lowering only `level_2` below the 0.45 s minimum): the meter shows
+  full first; outside fire mode 6 (Railgun Safe) the charge stops at the full time, so a release never reaches the
+  minimum and **fires nothing** unless `charge.auto_fire_at_full` is on; in fire mode 6 a release fires only from the
+  minimum time. Lower `level_1` in the same transaction.
+- **overcharge <= full**: in fire mode 6 the overcharge is reached at the overcharge time (with
+  `charge.explode_at_overcharge` the weapon fires and is destroyed, even before a full charge) and the shot multipliers
+  jump to their overcharge values.
+
+Write related times together in one transaction to keep them ordered. The per-field ranges still apply.
+
+```lua
+local rail=hd2.support_weapon('RS-422 Railgun')
+hd2.ensure({transaction={id='slow-rail',target=rail,changes={
+    {field=hd2.fields.charge.level_2,expect=0.5,value=2},
+    {field=hd2.fields.charge.level_3,expect=3,value=8}}}})
+hd2.ensure({patch={id='no-boom',target=rail,allow_unverified_effect=true,
+    field=hd2.fields.charge.explode_at_overcharge,expect=true,value=false}})
+```
+
+**Corrected ids.** `charge.level_1` / `level_2` / `level_3` were published as "Charge level" multipliers; they are the
+three charge **times** in seconds (same offsets, same values). `charge.minimum_seconds` and `charge.maximum_seconds`
+were published as times; they are the projectile **speed multipliers** at the minimum charge and at full overcharge
+(+72 / +76). Both keep writing exactly the same bytes with exactly their old contract (no acknowledgement, no range),
+but they are deprecated:
+
+- on projectile weapons they are aliases of `charge.speed_multiplier_min` / `charge.speed_multiplier_overcharge`
+  (`schemas/player_weapon_fields.json` `alias_rules`); a registration that uses them logs a one-time
+  `DEPRECATED` notice naming the real meaning;
+- on arc and beam weapons (ARC-3, Meltagun) nothing reads +72 / +76, so the canonical ids are not offered there. The
+  legacy ids stay writable and also log a one-time `DORMANT` notice: the write has no effect.
+
+Live test: `examples/projects/RailgunChargeTest`.
+
+## Charge-level shots and explosions
+
+A charge weapon's own charge record also decides **which projectile a release fires** and **which explosion the
+overcharge failure spawns** (research: `research/charge-explosions-F5FEE03DCFDB.json`,
+[docs/research/charge-explosions-F5FEE03DCFDB.md](research/charge-explosions-F5FEE03DCFDB.md)). When the trigger is
+released, the native fire code picks the projectile of the charge level reached; the overcharge failure destroys the
+weapon and spawns its explosion at the weapon. Each of those rows is its own attack role:
+
+| Weapon | Role | What it is | Fired / spawned when | Vanilla |
+| --- | --- | --- | --- | --- |
+| PLAS-45 Epoch | `primary` | the **partial-charge** shot (projectile and its direct-hit damage) | released at or after 1 s and before 2.5 s | 250 m/s, 400 / 200 damage, AP 4 |
+| PLAS-45 Epoch | `primary_impact` | its explosion, at impact and when the projectile expires | with that shot | 2.3 / 3 / 4 m, 500 damage |
+| PLAS-45 Epoch | `full_charge` | the **full-charge** shot | released at 2.5 s or later, also past the overcharge time (2.6 s) | 250 m/s, 400 / 200 damage, AP 5 |
+| PLAS-45 Epoch | `full_charge_impact` | its explosion, at impact and when the projectile expires | with that shot | 3 / 4 / 5 m, 800 damage |
+| PLAS-45 Epoch | `overcharge_explosion` | the **overcharge** explosion | held overcharged for 3.25 s: the Epoch is destroyed **without firing** and the explosion spawns in the wielder's hands | 3 / 4 / 5 m, 800 damage |
+| RS-422 Railgun | `overcharge_explosion` | the overcharge explosion | Unsafe mode, at the overcharge time (3 s): the shot leaves, then the Railgun is destroyed and the explosion spawns in the wielder's hands | 0.4 / 2 / 3 m, 300 damage |
+
+The fields are the normal ones: `projectile.*` and `damage.*` on `support:attack(role):projectile()`, `explosion.*`
+and `explosion.damage_*` on `support:attack(role):explosion()`. The catalog branches resolve on these roles too
+(`attack('P3')` is `full_charge`, `attack('P3 IE')` is `full_charge_impact`, `attack('PLAS-45 EPOCH Overcharge E')` and
+`attack('RS-422 RAILGUN Overcharge E')` are `overcharge_explosion`). Every Railgun shot is its own projectile
+(`primary`); the catalog's "Railgun Max Charge" is that shot at `charge.damage_multiplier_overcharge`, not a row of its
+own.
+
+```lua
+local epoch=hd2.support_weapon('PLAS-45 Epoch')
+hd2.ensure({transaction={id='epoch-harmless-overcharge',target=epoch:attack('overcharge_explosion'):explosion(),
+    allow_shared=true,allow_unverified_effect=true,changes={
+    {field=hd2.fields.explosion.damage_standard_damage,expect=800,value=1},
+    {field=hd2.fields.explosion.damage_durable_damage,expect=800,value=1}}}})
+hd2.ensure({patch={id='epoch-slow-full-charge',target=epoch:attack('full_charge'):projectile(),
+    allow_shared=true,allow_unverified_effect=true,field=hd2.fields.projectile.velocity,expect=250,value=60}})
+```
+
+- **Acknowledgements.** Every field of these roles needs `allow_shared=true` (settings rows are shared definitions)
+  and `allow_unverified_effect=true`: which level fires which row, and what the failure spawns, are proven from the
+  native code, not yet in game. A row only one charge level fires is `AMBIGUOUS` for the weapon, the same rule as the
+  PLAS-101 Purifier's player-weapon rows.
+- **The Epoch's partial-charge fields gained `allow_unverified_effect` in 0.30.0.** Until 0.28.x, `primary` and
+  `primary_impact` were presented as "the Epoch's" projectile and explosion; they are only the partial-charge shot, so
+  an edit never changed full-charge or overcharged shots. Their ids and instance keys are unchanged. A mod
+  that declares an older SDK keeps writing them without the acknowledgement, as a logged legacy operation
+  ([legacy SDK compatibility](legacy-sdk-compatibility.md)); a mod that declares 0.30.0 or later needs it.
+- **Self-damage.** The overcharge explosion spawns at the weapon, in the wielder's hands: its damage hits the wielder.
+  Lower its damage (and push force) before testing a bigger blast.
+- **One damage row for two explosions.** The Epoch's full-charge explosion and its overcharge explosion name the same
+  damage row: `explosion.damage_*` on `full_charge_impact` and on `overcharge_explosion` write the same bytes, so a write
+  through one changes both (two operations on it conflict, as any two writes of the same bytes). Their radii are
+  separate rows.
+- **Who else changes.** Rows of the Epoch shots have no other consumer. The Epoch overcharge explosion is also named by
+  the 40-K Meltagun's charge record, which never reaches its failure (always fire mode 1). The Railgun overcharge
+  explosion is also named by the PLAS-39 Accelerator Rifle (always fire mode 2, never fails), and its damage row is also
+  the overcharge explosion of the PLAS-101 Purifier, PLAS-15 Loyalist, ARC-3 Arc Thrower, an enemy Watcher weapon and
+  three unidentified charge records (`chargeLevel.sharedConsumers` in the catalog). A charge weapon whose
+  `charge.overcharge_explosion` a mod sets to `'PLAS-45 Epoch'` (or `'RS-422 Railgun'`) spawns that explosion too, so an
+  edit of its contents reaches that weapon.
+- **Swapped references refuse.** Each role resolves its row live through the weapon's own charge record (the level's
+  projectile selector, or the overcharge explosion reference). If another operation changed it (for example
+  `charge.overcharge_explosion` set to another weapon's explosion), the write is refused instead of editing a different
+  row.
+- **When it applies.** An explosion row and its damage row are read when the explosion happens: a write changes the
+  next explosion, also one released by a projectile already in flight. A projectile row is copied into a shot when it
+  is fired: a write changes the next shot.
+- **Multiplayer.** A write changes this machine's copy of the shared row. The charge update and the failure run where
+  the weapon is simulated (its owner); what other players see is not tested.
+
+Each field instance in `sdk/SupportWeaponAuthoringCapabilities.json` carries `chargeLevel` (level, when it fires,
+phases, read timing, shared consumers, self-damage, multiplayer) and `effect`. Live test:
+`examples/projects/EpochExplosionsTest` (harmless overcharge explosions by default).
 
 ## Projectile swaps (support hosts)
 

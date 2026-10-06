@@ -30,8 +30,9 @@ class SentryTests(unittest.TestCase):
             self.assertTrue(proof['exact'], name)
             self.assertEqual(set(proof['wikiChecks']), {'horizontalTurnSpeed', 'verticalTurnSpeed', 'verticalLimit'})
             fields = self.fields(name, 'turret')
+            # turret.pitch_yaw_coupling (TurretComponent +16): the sentry component fields, tests/test_sentry_fields.py.
             self.assertEqual(set(fields), {'turret.yaw_speed', 'turret.pitch_speed', 'turret.pitch_min',
-                'turret.pitch_max', 'turret.yaw_min', 'turret.yaw_max'})
+                'turret.pitch_max', 'turret.yaw_min', 'turret.yaw_max', 'turret.pitch_yaw_coupling'})
             table = self.research[name]['deploymentProofs']['wikiTable']
             self.assertEqual(fields['turret.yaw_speed']['currentDefault'], table['horizontalTurnSpeed'])
             self.assertEqual(fields['turret.pitch_speed']['currentDefault'], table['verticalTurnSpeed'])
@@ -85,7 +86,7 @@ local patches=require('hd2runtime/domains/patches')
 local transactions=require('hd2runtime/domains/transactions')
 local entity=hd2.stratagem('A/AC-8 Autocannon Sentry'):deployed_entity()
 local turret=entity:turret()
-assert(turret.path=='turret' and #turret:describe().fields==6 and turret:describe().turret)
+assert(turret.path=='turret' and #turret:describe().fields==7 and turret:describe().turret)
 transactions.validate{id='turn',target=turret,changes={
  {field=hd2.fields.turret.yaw_speed,expect=20,value=120},{field=hd2.fields.turret.pitch_speed,expect=20,value=90}}}
 local ok,why=pcall(patches.validate,{id='turn',target=turret,field=hd2.fields.turret.pitch_min,expect=-60,value=-30})
@@ -391,7 +392,7 @@ class EnemyTests(unittest.TestCase):
         self.assertTrue(all(f['acknowledgement'] == 'allow_unverified_effect' for k, f in fields.items()
             if k not in PROVEN))
         instances = self.catalog['fieldInstances']
-        self.assertEqual(len(instances), 10425)          # 9,300 health / zone + 1,125 attack fields
+        self.assertEqual(len(instances), 10448)          # 9,300 health / zone + 1,125 attack + 23 whole-body gib
         for item in instances:
             low, high = fields[item['semanticFieldId']]['range']
             if item['editable']:
@@ -399,12 +400,12 @@ class EnemyTests(unittest.TestCase):
             else:
                 self.assertTrue(item['currentDefault'] is None or item['currentDefault'] == -1, item['instanceKey'])
                 self.assertTrue(item['reason'])
-        self.assertEqual(sum(1 for i in instances if i['editable']), 9106)
+        self.assertEqual(sum(1 for i in instances if i['editable']), 9129)
 
     def test_snapshot_validation_record(self):
         record = json.loads((ROOT / 'validation/coverage-pass-snapshot.json').read_text())['enemies']
         self.assertEqual((record['classes'], record['fields'], record['readOnly'], record['attackFields']),
-            (177, 9106, 1319, 1125))
+            (177, 9129, 1319, 1125))
         self.assertEqual(set(record['roundTrips']), {'charger_health', 'charger_head_armor', 'fabricator_health',
             'warrior_head_health', 'gunship_rocket_damage', 'bile_bombard_explosion_damage', 'bile_bombard_velocity',
             'gunship_rocket_blast_radius'})
@@ -560,7 +561,9 @@ class CoverageAuditTests(unittest.TestCase):
         report = json.loads(audit.JSON_OUTPUT.read_text())
         self.assertEqual(report['writes'], 0)
         self.assertEqual(report['enemies']['attackRowsByKind'], {'damage': 85, 'explosion': 30, 'projectile': 54})
-        self.assertEqual(report['stratagems']['statCoverage']['salvos']['covered'], 4)
+        # The four minefields (minefield.salvos) and the ten reviewed orbitals (orbital.salvos).
+        self.assertEqual(report['stratagems']['statCoverage']['salvos']['covered'], 14)
+        self.assertEqual(report['stratagems']['statCoverage']['callInTimeSeconds']['covered'], 61)
 
 
 if __name__ == '__main__':

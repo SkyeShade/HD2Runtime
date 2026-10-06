@@ -41,6 +41,7 @@ KIND_FIELD_FLOORS = {('stratagem', 'stratagem.max_uses'): '0.26.0'}
 # fields below), plus members 0.27.0 published but not writable: status slots on player-weapon projectiles. Every
 # example these floors mark was also checked to fail validation against the v0.27.0 runtime.
 RELEASE_0_28_0 = '0.28.0'
+RELEASE_0_28_1 = '0.28.1'   # hd2.diagnostics.operations()
 FIELDS_0_28_0 = {'weapon.stationary_while_firing', 'weapon.recoil_multiplier_horizontal',
     'weapon.recoil_multiplier_vertical', 'beam.fire_rate',
     # Equipment coverage (research/equipment-coverage-F5FEE03DCFDB.json).
@@ -78,7 +79,44 @@ STRATAGEM_WEAPONS_0_28_0 = {'mine'}   # a mine deployer's launcher owns its mine
 # Features not in any published release yet need the release that ships them, i.e. the version being built. Empty
 # right after a release; the next release pins them like the 0.28.0 sets above.
 UNRELEASED = (ROOT / 'VERSION').read_text().strip()
-UNRELEASED_FIELDS = set()
+UNRELEASED_FIELDS = {'stratagem.calldown_code',   # docs/stratagem-calldown-code.md
+    'stratagem.presentation.name', 'stratagem.presentation.name_cased', 'stratagem.presentation.description',
+    'stratagem.presentation.icon',                  # docs/stratagem-presentation.md
+    'gore.whole_body_gib_damage'}                   # docs/enemy-authoring.md (whole-body gib threshold)
+# Charge (docs/support-weapon-api.md "Charge") and jump / hover movement (docs/backpack-authoring.md).
+UNRELEASED_FIELDS |= {'charge.speed_multiplier_min', 'charge.speed_multiplier_overcharge', 'charge.damage_multiplier_min',
+    'charge.damage_multiplier_overcharge', 'charge.penetration_multiplier_min', 'charge.penetration_multiplier_overcharge',
+    'charge.arc_distance_multiplier_min', 'charge.arc_distance_multiplier_overcharge', 'charge.auto_fire_at_full',
+    'charge.explode_at_overcharge', 'charge.overcharge_explosion', 'charge.overcharge_limit_seconds', 'charge.burst_shots',
+    'charge.burst_interval_seconds', 'jump.launch_duration', 'jump.launch_forward_ratio', 'jump.sustain_thrust',
+    'jump.sustain_duration', 'jump.sustain_forward_ratio', 'jump.sustain_start_delay', 'jump.sustain_start_speed',
+    'jump.sustain_cutoff_speed', 'jump.air_control_acceleration', 'jump.air_control_max_speed', 'jump.takeoff_forward_speed',
+    'jump.takeoff_speed', 'jump.takeoff_speed_alternate_stance', 'hover.max_horizontal_speed', 'hover.max_vertical_speed',
+    'hover.vertical_acceleration_low_speed', 'hover.vertical_acceleration_high_speed', 'hover.vertical_speed_range_end',
+    'hover.fuel_rate_low_speed', 'hover.fuel_rate_high_speed'}
+# Vehicle tuning (docs/vehicle-authoring.md, docs/vehicle-weapons.md): Exosuit body rotation and steering are new ids;
+# the turret ids already shipped for sentries (0.28.0) but are new on mounted weapons.
+UNRELEASED_FIELDS |= {'rotation.turn_speed', 'rotation.acceleration', 'rotation.deceleration',
+    'vehicle.steering_response_speed'}
+KIND_FIELD_FLOORS.update({('vehicle_weapon', 'turret.' + name): UNRELEASED for name in ('yaw_speed', 'pitch_speed',
+    'pitch_min', 'pitch_max', 'yaw_min', 'yaw_max')})
+# Sentry component fields (docs/stratagem-authoring.md "Sentry turret motion, targeting and weapon handling"): three new
+# ids, and player/support weapon ids that are new on a sentry's deployed entity.
+UNRELEASED_FIELDS |= {'turret.pitch_yaw_coupling', 'targeting.side_range', 'targeting.rear_range'}
+# Orbital bombardment pattern and call-in time (docs/stratagem-authoring.md "Orbital bombardment pattern", "Call-in time").
+UNRELEASED_FIELDS |= {'orbital.salvos', 'orbital.shells_per_salvo', 'orbital.shell_interval',
+    'orbital.shell_interval_random', 'orbital.salvo_interval', 'orbital.salvo_interval_random', 'orbital.scatter',
+    'orbital.salvo_scatter', 'stratagem.call_in_time'}
+# Support attack roles new in this line (docs/support-weapon-api.md, research/charge-explosions-F5FEE03DCFDB.json): the
+# PLAS-45 Epoch's full-charge shot and its explosion, and the Epoch's and the RS-422 Railgun's overcharge explosions.
+SUPPORT_ROLES_UNRELEASED = {'full_charge', 'full_charge_impact', 'overcharge_explosion'}
+# Eagle attack fields, Phase A (docs/stratagem-authoring.md "Eagle attack fields"): new in this line.
+UNRELEASED_FIELDS |= {'eagle.airstrike_pattern', 'eagle.drop_interval', 'eagle.fire_duration',
+    'eagle.attack_sweep_length', 'eagle.target_radius', 'eagle.attack_angle'}
+KIND_FIELD_FLOORS.update({('stratagem', field): UNRELEASED for field in ('weapon.horizontal_spread',
+    'weapon.vertical_spread', 'weapon.recoil_drift_horizontal', 'weapon.recoil_drift_vertical',
+    'weapon.recoil_climb_horizontal', 'weapon.recoil_climb_vertical', 'windup.wind_up_seconds',
+    'windup.wind_down_seconds', 'beam.fire_rate')})
 OPTIONS_FLOOR = '0.25.1'
 LEGACY_PATTERNS = {
     r'fields\.damage\.armor_penetration': 'legacy JAR-5 armor_penetration; use damage.ap_direct/ap_slight/ap_large/ap_extreme',
@@ -91,7 +129,12 @@ LEGACY_PATTERNS = {
 
 
 def version_key(value):
-    return tuple(int(part) for part in value.split('.'))
+    """SemVer precedence: MAJOR.MINOR.PATCH, then a prerelease (e.g. 0.30.0-dev) below its release; +build ignored."""
+    core, _, pre = value.split('+')[0].partition('-')
+    major, minor, patch = (int(part) for part in core.split('.'))
+    if not pre:
+        return (major, minor, patch, 1, ())
+    return (major, minor, patch, 0, tuple((0, int(p), '') if p.isdigit() else (1, 0, p) for p in pre.split('.')))
 
 
 def examples():
@@ -134,6 +177,10 @@ local function materialize(value,depth)
 end
 local function run_example(body,name)
  local report={operations={},usesOptions=false,calls={}}
+ report.usesOperationList=body:find('diagnostics%.operations')~=nil
+ report.usesHoming=body:find('projectiles%.homing')~=nil
+ report.usesSpawnWeights=body:find('enemies%.spawn_')~=nil
+ report.usesMoreDonors=body:find('%(projectile %d+%)')~=nil
  report.usesEvents=body:find('hd2%.events')~=nil or body:find('hd2%.mod%(')~=nil or body:find('hd2%.after')~=nil
   or body:find('hd2%.every')~=nil or body:find('hd2%.input')~=nil
  local function record(kind,request)
@@ -171,9 +218,10 @@ local function run_example(body,name)
    local target=operation.target or{}
    local acks={};for key in pairs(ACK)do if operation[key]then acks[#acks+1]=key end end;table.sort(acks)
    local weapon=rawget(target,'weapon')
+   local attack=rawget(target,'attack')
    report.operations[#report.operations+1]={id=operation.id,resource=rawget(target,'resource'),
     path=rawget(target,'path'),weapon=type(weapon)=='string'and weapon or nil,acknowledgements=acks,
-    mode=operation.changes and'transaction'or'patch',callKind=kind}
+    attack=type(attack)=='string'and attack or nil,mode=operation.changes and'transaction'or'patch',callKind=kind}
   end
   report.phases=report.phases or{}
   for _,phase in ipairs(phases)do report.phases[#report.phases+1]=phase end
@@ -252,6 +300,14 @@ def required_version(report):
         reasons.append('typed writes -> ' + TYPED_WRITES)
     if report.get('usesOptions'):
         bump(OPTIONS_FLOOR, 'in-game options')
+    if report.get('usesOperationList'):
+        bump(RELEASE_0_28_1, 'hd2.diagnostics.operations()')
+    if report.get('usesHoming'):
+        bump(UNRELEASED, 'hd2.projectiles.homing')
+    if report.get('usesSpawnWeights'):
+        bump(UNRELEASED, 'hd2.enemies spawn weights')
+    if report.get('usesMoreDonors'):
+        bump(UNRELEASED, 'more projectile donors (docs/attack-outputs.md)')
     if report.get('usesEvents'):
         bump(RELEASE_0_28_0, 'gameplay scripting (hd2.events, hd2.mod, timers, keybinds)')
     for operation in report.get('operations', []):
@@ -270,6 +326,8 @@ def required_version(report):
             bump(RELEASE_0_28_0, operation['weapon'] + ' (structurally delivery-resolved)')
         if resource == 'stratagem' and operation.get('weapon') in STRATAGEM_WEAPONS_0_28_0:
             bump(RELEASE_0_28_0, 'stratagem mine explosion')
+        if resource == 'support_weapon' and operation.get('attack') in SUPPORT_ROLES_UNRELEASED:
+            bump(UNRELEASED, 'support attack role ' + operation['attack'])
     for phase in report.get('phases', []):
         for spec in phase:
             for index, field in enumerate(spec['fields']):

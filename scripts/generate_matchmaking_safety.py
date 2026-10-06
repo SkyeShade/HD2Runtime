@@ -1,0 +1,95 @@
+"""Generate domains/matchmaking_safety.lua: the lobby privacy setting, the host's advertised privacy and SOS Beacon keys,
+the matchmaker's Quickplay flags and the game's own privacy setter and Quickplay stop, as runtime/matchmaking_safety.lua
+reaches them, with the pinned code it re-proves first, from research/matchmaking-safety-F5FEE03DCFDB.json
+(docs/research/matchmaking-safety-F5FEE03DCFDB.md).
+"""
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'scripts'))
+from reference_format import lua  # noqa: E402
+
+RESEARCH = ROOT / 'research/matchmaking-safety-F5FEE03DCFDB.json'
+OUTPUT = ROOT / 'domains/matchmaking_safety.lua'
+
+
+def build() -> dict:
+    research = json.loads(RESEARCH.read_text(encoding='utf-8'))
+    if research['writes'] or research['protectionChanges'] or research['nativeCalls']:
+        raise ValueError('matchmaking safety research must be read-only')
+    if any(research['pinnedBytesMismatchPerSnapshot'].values()):
+        raise ValueError('a pinned instruction differs between retained snapshots')
+    profile = (ROOT / 'schemas/current.lua').read_text(encoding='utf-8')
+    if research['gameDll']['sha256'] not in profile:
+        raise ValueError('the matchmaking safety research covers another build than schemas/current.lua')
+    if not all(s['privacyDescriptor'] for s in research['snapshots']):
+        raise ValueError('a retained snapshot has no privacy setting descriptor')
+    pins = [{'module': 'game', 'rva': pin['rva'], 'hex': pin['bytes'], 'label': pin['role'] or pin['asm']}
+        for rows in research['pins'].values() for pin in rows]
+    pins += [{'module': 'game', 'rva': pin['rva'], 'hex': pin['bytes'], 'label': pin['role']}
+        for pin in research['dataPins']]
+    pins.sort(key=lambda pin: pin['rva'])
+    setter, lookup, stop = research['setter'], research['setter']['lookup'], research['stopQuickplay']
+    return {'source': {'research': RESEARCH.name, 'build': research['build'],
+            'gameDllSha256': research['gameDll']['sha256']},
+        # [game + global] = the Game object; + state its game state (ship = 3); + settings the live settings object.
+        'game': {'global': int(research['game']['global'], 16), 'state': research['game']['state'],
+            'ship': research['game']['ship'], 'settings': research['game']['settings']},
+        # settings + privacy: the privacy setting (u32), one of privacy.names (0-based).
+        'settings': {'privacy': research['settings']['privacy']},
+        'privacy': {'names': research['privacy']['names'], 'open': research['privacy']['open'],
+            'friendsOnly': research['privacy']['friendsOnly'], 'inviteOnly': research['privacy']['inviteOnly'],
+            'friendsAndClan': research['privacy']['friendsAndClan']},
+        # [game + global] = the network context: + localPeer / + hostPeer (u64), + wrapper the lobby wrapper,
+        # + singleplayer the byte that makes the host refuse every join.
+        'context': {'global': int(research['context']['global'], 16), 'localPeer': research['context']['localPeer'],
+            'hostPeer': research['context']['hostPeer'], 'wrapper': research['context']['wrapper'],
+            'singleplayer': research['context']['singleplayer']},
+        # The wrapper: + engineLobby, + platformLobby (pointers), + active (byte), the key cache: key k's decimal text at
+        # + keys + k * keyStride (at most keyLength bytes).
+        'wrapper': {k: research['wrapper'][k] for k in ('engineLobby', 'platformLobby', 'active', 'keys', 'keyStride',
+            'keyLength')},
+        'playfab': research['playfab'],
+        'lobbyKeys': {'sosBeacons': research['lobbyKeys']['sosBeacons'],
+            'privacyMode': research['lobbyKeys']['privacyMode']},
+        # [game + global] = the matchmaker: + quickplay (byte, Quickplay running), + joining (byte, a found lobby is
+        # being joined).
+        'matchmaker': {'global': int(research['matchmaker']['global'], 16),
+            'quickplay': research['matchmaker']['quickplay'], 'joining': research['matchmaker']['joining']},
+        # The game's privacy setter set_setting(settings, id, &value) and its descriptor lookup (12 groups: array
+        # pointer [game + table + 8k], count [game + counts + countStride * k], entries stride apart, first u32 the id).
+        'setter': {'rva': int(setter['rva'], 16), 'privacyId': setter['privacyId'],
+            'lookup': {'table': int(lookup['table'], 16), 'counts': int(lookup['counts'], 16),
+                'countStride': lookup['countStride'], 'groups': lookup['groups'], 'stride': lookup['stride']}},
+        # The game's Quickplay stop set_quickplay(matchmaker, 0, -1, 0x7FFFFFFF, 0, 0, 0, 0).
+        'stopQuickplay': {'rva': int(stop['rva'], 16), 'arguments': stop['stopArguments']},
+        'pins': pins}
+
+
+def outputs() -> dict[str, str]:
+    return {'domains/matchmaking_safety.lua': '-- Generated by scripts/generate_matchmaking_safety.py; do not edit.\n'
+        'return ' + lua(build()) + '\n'}
+
+
+def generate(check=False):
+    stale = []
+    for name, body in outputs().items():
+        path = ROOT / name
+        if not path.exists() or path.read_text(encoding='utf-8') != body:
+            stale.append(name)
+            if not check:
+                path.write_text(body, encoding='utf-8', newline='\n')
+    if check and stale:
+        raise RuntimeError('Stale matchmaking safety domain: ' + ', '.join(stale))
+    return stale
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--check', action='store_true')
+    print(', '.join(generate(parser.parse_args().check)) or 'up to date')

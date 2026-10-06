@@ -1,0 +1,1 @@
+{"format":1,"name":"CustomStratagemPanelProof","resource":"mods/skyeshade/hd2runtime_custom_stratagem_panel_proof","guid":"7dd3a29b-b383-49a6-94f0-fb75ee2fc4b8","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.28.0","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../sdk","ide_library":"../../sdk/stubs"}

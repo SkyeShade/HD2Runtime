@@ -37,12 +37,18 @@ class SupportWeaponCoverageTests(unittest.TestCase):
 
     def test_unverified_fields_require_acknowledgement(self):
         acknowledged = {}
+        charge_level = set()
         for item in self.capabilities['fieldInstances']:
+            if item.get('chargeLevel'):
+                # A charge-level row (research/charge-explosions): only one charge level fires it (AMBIGUOUS).
+                charge_level.add(item['operation']['acknowledgement'])
+                continue
             acknowledged.setdefault(item['semanticFieldId'], set()).add(item['operation']['acknowledgement'])
         self.assertEqual(acknowledged['reload.duration'], {'allow_unverified_effect'})
         self.assertEqual(acknowledged['windup.wind_down_seconds'], {'allow_unverified_effect'})
         self.assertEqual(acknowledged['windup.wind_up_seconds'], {None})
         self.assertEqual(acknowledged['projectile.lifetime'], {None})
+        self.assertEqual(charge_level, {'allow_unverified_effect'})
         self.assertEqual(len([i for i in self.capabilities['fieldInstances']
             if i['semanticFieldId'] == 'reload.duration']), 15)
 

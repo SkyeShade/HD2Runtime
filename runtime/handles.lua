@@ -159,6 +159,30 @@ function Player:heal(amount,opts)
     if applied and applied>0 then M.expect_heal(avatar.id,applied,cause)end
     return applied,reason
 end
+-- Injure one limb of the local player's avatar through the game's own damage request (hd2.actions.injure; limbs head,
+-- chest, l_hand, r_hand, l_knee, r_knee). Returns the action handle ('requested' or 'refused' with a code); the game
+-- applies the damage in its own drain later in the frame.
+function Player:injure(limb,damage,opts)
+    local forwarded={}
+    for key,value in pairs(type(opts)=='table'and opts or{})do forwarded[key]=value end
+    if forwarded.owner==nil then forwarded.owner=events.owner(nil,2)end
+    return require('hd2runtime/api/actions').injure(self,limb,damage,forwarded)
+end
+-- hd2.actions.heal_limb / heal_limbs / add_velocity for this player (local player only), owned by the calling mod.
+local function forward(name,count)
+    return function(self,...)
+        local args={...}
+        local opts=args[count+1]
+        local forwarded={}
+        for key,value in pairs(type(opts)=='table'and opts or{})do forwarded[key]=value end
+        if forwarded.owner==nil then forwarded.owner=events.owner(nil,2)end
+        args[count+1]=forwarded
+        return require('hd2runtime/api/actions')[name](self,unpack(args,1,count+1))
+    end
+end
+Player.heal_limb=forward('heal_limb',2)
+Player.heal_limbs=forward('heal_limbs',0)
+Player.add_velocity=forward('add_velocity',1)
 -- What the local player holds now: {name, type, entity_id, slot, slot_proven, selection} or nil (nothing in hand,
 -- dead, or not spawned), and the reason. name is the catalogued weapon, throwable or stratagem item (nil when the
 -- held entity is not catalogued); slot is 'primary' or 'secondary' (proven), or 'support', 'held_item' or 'unknown'
@@ -197,21 +221,66 @@ function M.local_player()
     return nil
 end
 
--- The locally owned Helldiver avatar: {id, type, descriptor_pointer} or nil. Owned records are the first
--- `owned` indices of the health manager (its owned partition).
-function M.local_avatar(world)
+-- An avatar entity that can act for this machine: still current (engine generation), with a health record naming it,
+-- a Helldiver avatar type, owned by this machine and not dead (a downed Helldiver still counts; include_dead accepts a
+-- dead one too). The avatar handle fields, or nil and the reason.
+local function usable_avatar(world,entity,include_dead)
+    if world_module.entity_exists(world,entity)~=true then
+        return nil,'the local avatar entity '..tostring(entity)..' no longer exists'
+    end
+    local state=world_module.entity_state(world,entity)
+    if not state then return nil,'the local avatar entity '..entity..' has no health record'end
+    local info=world_module.type_info(state.descriptor.type)
+    if not(info and info.avatar)then return nil,'entity '..entity..' is not a Helldiver avatar'end
+    if not state.descriptor.owned then return nil,'the local avatar entity '..entity..' is not owned by this machine'end
+    if state.life>=2 and not include_dead then return nil,'the local avatar entity '..entity..' is dead'end
+    return {id=entity,type=state.descriptor.type,descriptor_pointer=state.descriptor.pointer,unit=state.descriptor.unit,
+        dead=state.life>=2}
+end
+-- The locally owned, living Helldiver avatar: {id, type, descriptor_pointer, unit, route}, or nil and the reason.
+--
+-- The player list decides first, exactly as hd2.local_player():avatar() resolves it (the local player's avatar
+-- network id -> entity through the game's network-id map): it has no record limit, and it names the new entity as soon
+-- as a reinforcement or a new mission replaces the avatar. When the list has the local player, its answer is final:
+-- no avatar there means none now (dead and waiting, or between missions), never an older record left in the health
+-- manager. route = 'player_list'.
+--
+-- Only when the list has no local player (it is unreadable) does the health manager's owned partition decide: every
+-- live record, the one owned, living Helldiver avatar; two candidates are ambiguous and refused. route =
+-- 'owned_records'.
+--
+-- opts.include_dead also accepts the list's current avatar in the moment it is dead but still exists (player_died is
+-- reported then, before the game removes the avatar from the list): the action layer credits a reaction to the local
+-- player's death to the avatar that died, as it always has (DeathHellbombTest, live-proven). It never reaches an older
+-- dead record, and the fallback stays living-only.
+function M.local_avatar(world,opts)
+    local include_dead=type(opts)=='table'and opts.include_dead==true
+    for _,player in ipairs(world_module.players(world,true))do
+        if player['local']then
+            if not player.avatar then return nil,'the local player has no avatar now'end
+            local avatar,why=usable_avatar(world,player.avatar,include_dead)
+            if not avatar then return nil,why end
+            avatar.route='player_list'
+            return avatar
+        end
+    end
     local header=world_module.health_header(world,world.view.slot())
-    if not header then return nil end
-    for index=0,math.min(header.live,64)-1 do
+    if not header then return nil,'no local player in the player list, and the health records are unreadable'end
+    local found
+    for index=0,header.live-1 do
         local descriptor=world_module.descriptor(world,header,index)
-        if descriptor and descriptor.owned then
-            local info=world_module.type_info(descriptor.type)
-            if info and info.avatar then
-                return {id=descriptor.entity,type=descriptor.type,descriptor_pointer=descriptor.pointer}
+        local info=descriptor and descriptor.owned and world_module.type_info(descriptor.type)
+        if info and info.avatar then
+            local avatar=usable_avatar(world,descriptor.entity)
+            if avatar then
+                if found then return nil,'more than one owned, living Helldiver avatar'end
+                found=avatar
             end
         end
     end
-    return nil
+    if not found then return nil,'no local player in the player list, and no owned, living Helldiver avatar'end
+    found.route='owned_records'
+    return found
 end
 
 -- Causes: a heal Runtime performed is matched to the health increase the next polls observe.

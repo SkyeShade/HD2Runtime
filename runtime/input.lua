@@ -46,15 +46,29 @@ local function win32_backend()
     local window_process=proc(user32,'GetWindowThreadProcessId','uint32_t (*)(void *, uint32_t *)')
     local process_id=proc(kernel.GetModuleHandleA('kernel32.dll'),'GetCurrentProcessId','uint32_t (*)(void)')()
     local owner=ffi.new('uint32_t[1]')
+    local cursor_pos=proc(user32,'GetCursorPos','int (*)(int32_t *)')
+    local screen_to_client=proc(user32,'ScreenToClient','int (*)(void *, int32_t *)')
+    local client_rect=proc(user32,'GetClientRect','int (*)(void *, int32_t *)')
+    local point,rect=ffi.new('int32_t[2]'),ffi.new('int32_t[4]')
+    local function focused()
+        local window=foreground()
+        if window==nil then return nil end
+        owner[0]=0
+        window_process(window,owner)
+        if owner[0]~=process_id then return nil end
+        return window
+    end
     return {
-        focused=function()
-            local window=foreground()
-            if window==nil then return false end
-            owner[0]=0
-            window_process(window,owner)
-            return owner[0]==process_id
-        end,
-        down=function(code)return key_state(code)<0 end}
+        focused=function()return focused()~=nil end,
+        down=function(code)return key_state(code)<0 end,
+        -- The cursor in the focused game window's client area: x, y (pixels from its top-left corner), the client
+        -- width and height; nil when the game window does not have the focus or a call fails. Read-only.
+        mouse=function()
+            local window=focused()
+            if window==nil then return nil end
+            if cursor_pos(point)==0 or screen_to_client(window,point)==0 or client_rect(window,rect)==0 then return nil end
+            return point[0],point[1],rect[2]-rect[0],rect[3]-rect[1]
+        end}
 end
 local backend
 function M.set_backend(value)backend=value end   -- tests
@@ -67,6 +81,21 @@ local function get_backend()
         end
     end
     return backend or nil
+end
+
+-- The mouse, read-only, for Runtime-owned UI (the development custom stratagems panel): {x, y (client pixels from the
+-- top-left corner), w, h (the client size), left (the left button is down)} while the game window has the focus; else
+-- nil and the reason. The OS cursor and button state (GetCursorPos, ScreenToClient, GetClientRect, GetAsyncKeyState):
+-- the native UI capturing the mouse does not hide them. Nothing is consumed: the game still receives every click.
+M.LBUTTON=0x01
+function M.mouse()
+    local b=get_backend()
+    if not b then return nil,'input unavailable'end
+    if not b.mouse then return nil,'no mouse in this input backend'end
+    local x,y,w,h=b.mouse()
+    if x==nil then return nil,'the game window does not have the focus'end
+    if not(w and h and w>0 and h>0)then return nil,'the game window has no client area'end
+    return {x=x,y=y,w=w,h=h,left=b.down(M.LBUTTON)==true}
 end
 
 -- 'Ctrl+Shift+F6' -> {code=0x75, ctrl=true, shift=true, alt=false, text='Ctrl+Shift+F6'}

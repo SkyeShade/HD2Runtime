@@ -199,7 +199,8 @@ package.preload['ffi']=function()error('native access on load')end
 CowboyBingusModLoader={api=1,version=16}
 local a=require('mods/skyeshade/hd2runtime')
 local b=assert(loadstring(sources['mods/skyeshade/hd2runtime']))()
-assert(a==b and a.version=='0.28.0' and update==nil)
+assert(a==b and a.version_label=='''+lua((ROOT/'VERSION').read_text().strip())+'''
+    and a.version=='''+lua((ROOT/'VERSION').read_text().strip().split('-')[0])+''' and update==nil)
 return 'ok'
 ''').encode())
 
@@ -287,7 +288,8 @@ return 'ok'
                         '-NoLogo','-NoProfile','-ExecutionPolicy','Bypass','-File',str(project/'build.ps1')]
                 else:
                     invocation=[str(windows/'System32/cmd.exe'),'/d','/c',str(project/'build.cmd')]
-                result=subprocess.run(invocation,cwd=project,env=environment,capture_output=True,text=True)
+                result=subprocess.run(invocation,cwd=project,env=environment,capture_output=True,text=True,
+                    stdin=subprocess.DEVNULL)
                 self.assertEqual(result.returncode,0,result.stdout+'\n'+result.stderr)
                 output=project/'build/Starter-Test-0.1.0.zip'
                 self.assertTrue(output.is_file())

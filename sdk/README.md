@@ -1,6 +1,6 @@
 # HD2Runtime SDK and shared runtime
 
-For a first mod, use `HD2Runtime-ModTemplate-0.28.0.zip`. It is a standalone
+For a first mod, use `HD2Runtime-ModTemplate-0.30.0-dev.zip` (the 0.30.0 development line). It is a standalone
 open-folder Rider project with bundled stubs and a Windows builder; Python is not
 required. The CLI workflow below remains available for advanced authors and
 automated project generation. New authors should start with
@@ -23,6 +23,11 @@ see `docs/support-weapon-api.md`.
 `StratagemAuthoringCapabilities.json` is the canonical per-instance contract for
 offensive, support-call-in, sentry, emplacement, and deferred mine authoring; see
 `docs/stratagem-authoring.md`.
+`WeaponSoundCatalogue.json` (0.30.0-dev) lists the weapon firing sounds `hd2.sounds` names (a Pelican gun's
+`sound`): each sound's name, label, kind (shot or loop), family, the stratagem whose package provides it or
+resident-only, its designed rate and a heuristic range. No Wwise event, bank or package id; see `docs/weapon-sounds.md`.
+`hd2.projectiles.homing(weapon, opts)` (0.30.0-dev, not live-tested) makes the local player's own shots of a weapon
+home on enemies or other players in flight; see `docs/projectile-homing.md`.
 
 Attachment preset research is split into `AttachmentPresetGraph.json`,
 `AttachmentSelectionCapabilities.json`, and `AttachmentEffectOwnership.json`.
@@ -32,6 +37,11 @@ ammo values are writable on the magazine attachment definitions themselves, with
 `allow_shared` and `allow_unverified_effect`; `MagazineAttachmentCapabilities.json`
 supersedes the older ammo-owner fields in `AttachmentOptionCapabilities.json`. See
 `docs/magazine-attachments.md` and `docs/attachment-preset-research.md`.
+
+0.28.1 keeps SDK 0.27-era mods working: a field that gained `allow_unverified_effect` in 0.28.0 is accepted without
+it, as a logged legacy operation, from a mod that declares an older SDK (`docs/legacy-sdk-compatibility.md`).
+Mods that declare 0.28.0 or later keep the rule. `hd2.diagnostics.operations()` lists every registered operation
+(`docs/diagnostics.md`). See `docs/releases/0.28.1.md`.
 
 0.28.0 adds event-driven gameplay scripting (`EventCatalog.json`; `docs/event-scripting.md`, `docs/events.md`) and one
 projectile system (`AttackOutputCapabilities.json`: hosts, donors, projectile builder slots and live-proven values;
@@ -86,7 +96,7 @@ New in 0.26.0 (see `docs/releases/0.26.0.md`):
   replacement pickup catalog, and package-risk metadata (`docs/pod-payloads.md`).
 
 Install Bingus Shared Loader v15+ / API 1, then import the separate
-`HD2Runtime-0.28.0-runtime.zip` into your mod manager and enable it once. Each
+`HD2Runtime-0.30.0-dev-runtime.zip` into your mod manager and enable it once. Each
 gameplay mod is its own package. The runtime contains no enabled gameplay preset,
 report addon or timer on load. It loads its guarded adapters only when requested.
 
@@ -137,6 +147,23 @@ resources only during startup, so a first `require` from inside a callback that
 runs later fails with "module not found".
 The builder adds a small dependency check and duplicate-initialization guard.
 Keep the source entry free of discovery headers; the builder adds the correct one.
+Every build also writes `build/build-report.json` beside the ZIP: the artifact's name and SHA-256, and each
+image's source digest and build status.
+
+### Custom stratagems as data (development, 0.30.0-dev)
+
+A project may describe its custom stratagems in `custom_stratagems.json` instead of Lua
+(`docs/custom-stratagem-builder.md`). `py hd2.py build` validates it and compiles it into `src/addon.lua`. A
+hand-written `src/addon.lua` is never overwritten.
+
+```powershell
+python C:/HD2Tools/HD2RuntimeSDK/hd2.py custom-stratagem validate MyMod
+python C:/HD2Tools/HD2RuntimeSDK/hd2.py custom-stratagem compile MyMod
+```
+
+- `CustomStratagemSchema.json`: every field, its range and default, and the donor catalogues.
+- `schemas/custom_stratagems.project.schema.json`: the JSON Schema of the project file.
+- `fixtures/custom_stratagems/`: the example mods as project files.
 
 ## Inspect mapped fields
 
@@ -219,7 +246,9 @@ directory and selects LuaJIT. The stub uses LuaLS/LuaCATS `@meta`, `@class`,
 EmmyLua-style subset for domain declarations. `HD2Weapon:projectile()` returns
 `HD2Projectile`, whose `:damage()` returns `HD2DamageProfile`. `hd2.fields`,
 `hd2.enums` and `hd2.resources` provide discoverable constants. Existing string
-descriptors remain valid.
+descriptors remain valid. `hd2.resources.image(id)` names the mod's own image
+(`images/<id>.png`, packed by `py hd2.py build`), a value for
+`hd2.fields.stratagem.presentation_icon` (docs/custom-images.md).
 
 In Rider, enable Lua language tooling and configure it to index the shared
 stub directory. LuaLS integrations read `.luarc.json`; an EmmyLua plugin that

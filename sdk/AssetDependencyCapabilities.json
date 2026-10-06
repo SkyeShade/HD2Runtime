@@ -135,14 +135,15 @@
     "refcountFillLimit": 0.75
   },
   "summary": {
-    "semanticObjects": 334,
-    "known": 264,
-    "ownPackage": 254,
+    "semanticObjects": 362,
+    "known": 289,
+    "ownPackage": 277,
     "holderPackage": 7,
     "stratagemPackage": 3,
-    "unknown": 70,
-    "packages": 176,
-    "unnamedPackages": 21,
+    "objectivePackage": 2,
+    "unknown": 73,
+    "packages": 199,
+    "unnamedPackages": 23,
     "liveTestedObjects": 3,
     "liveLoadedPackages": 3,
     "liveProvenFamilies": [
@@ -401,6 +402,36 @@
         "derivation": "delivering_stratagem_package",
         "package": "hellbomb_backpack",
         "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/Cyborg Production Unit",
+      "label": "Cyborg Production Unit",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_effect_package",
+        "package": null,
+        "packageNamed": false,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/Cyborg Production Unit/sound",
+      "label": "Cyborg Production Unit (sound)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_sound_package",
+        "package": null,
+        "packageNamed": false,
         "liveTested": false,
         "packageLiveLoaded": false,
         "blocker": null
@@ -2642,6 +2673,21 @@
       }
     },
     {
+      "key": "player_weapon/AR-11 Arbitrator / underbarrel",
+      "label": "AR-11 Arbitrator / underbarrel",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "packageNamed": null,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
       "key": "player_weapon/AR-2 Coyote",
       "label": "AR-2 Coyote",
       "kind": "player_weapon",
@@ -2774,6 +2820,21 @@
         "liveTested": false,
         "packageLiveLoaded": false,
         "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/AR/GL-21 One-Two / underbarrel",
+      "label": "AR/GL-21 One-Two / underbarrel",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "packageNamed": null,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
       }
     },
     {
@@ -3887,6 +3948,21 @@
       }
     },
     {
+      "key": "player_weapon/SMG/FLAM-34 Stoker / underbarrel",
+      "label": "SMG/FLAM-34 Stoker / underbarrel",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "packageNamed": null,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
       "key": "player_weapon/StA-11 SMG",
       "label": "StA-11 SMG",
       "kind": "player_weapon",
@@ -3926,6 +4002,351 @@
         "derivation": "own_loadout_package",
         "package": "volley_gun",
         "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "projectile_donor/A/GM-17 Gas Mortar Sentry (projectile 342)",
+      "label": "A/GM-17 Gas Mortar Sentry (projectile 342)",
+      "kind": "projectile_donor",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "mortar_turret_gas",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "projectile_donor/A/M-12 Mortar Sentry (projectile 346)",
+      "label": "A/M-12 Mortar Sentry (projectile 346)",
+      "kind": "projectile_donor",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "mortar_turret",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "projectile_donor/A/MLS-4X Rocket Sentry (projectile 320)",
+      "label": "A/MLS-4X Rocket Sentry (projectile 320)",
+      "kind": "projectile_donor",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "rocket_turret",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "projectile_donor/E/MG-101 HMG Emplacement (projectile 83)",
+      "label": "E/MG-101 HMG Emplacement (projectile 83)",
+      "kind": "projectile_donor",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "manned_turret",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "projectile_donor/Eagle 110mm Rocket Pods (projectile 82)",
+      "label": "Eagle 110mm Rocket Pods (projectile 82)",
+      "kind": "projectile_donor",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "eagle_rocket",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "projectile_donor/Eagle 500kg Bomb (projectile 239)",
+      "label": "Eagle 500kg Bomb (projectile 239)",
+      "kind": "projectile_donor",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "eagle_bomb",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "projectile_donor/Eagle Airstrike (projectile 170)",
+      "label": "Eagle Airstrike (projectile 170)",
+      "kind": "projectile_donor",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "eagle_airstrike",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "projectile_donor/Eagle Cluster Bomb (projectile 286)",
+      "label": "Eagle Cluster Bomb (projectile 286)",
+      "kind": "projectile_donor",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "eagle_clusterbombs",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "projectile_donor/Eagle Gas Airstrike (projectile 188)",
+      "label": "Eagle Gas Airstrike (projectile 188)",
+      "kind": "projectile_donor",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "eagle_gas",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "projectile_donor/Eagle Napalm Airstrike (projectile 141)",
+      "label": "Eagle Napalm Airstrike (projectile 141)",
+      "kind": "projectile_donor",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "eagle_napalm",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "projectile_donor/Eagle Smoke Strike (projectile 130)",
+      "label": "Eagle Smoke Strike (projectile 130)",
+      "kind": "projectile_donor",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "eagle_airstrike_smoke",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "projectile_donor/Eagle Smoke Strike (projectile 16)",
+      "label": "Eagle Smoke Strike (projectile 16)",
+      "kind": "projectile_donor",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "eagle_airstrike_smoke",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "projectile_donor/Orbital 120mm HE Barrage (projectile 194)",
+      "label": "Orbital 120mm HE Barrage (projectile 194)",
+      "kind": "projectile_donor",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "orbital_strike",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "projectile_donor/Orbital Airburst Strike (projectile 158)",
+      "label": "Orbital Airburst Strike (projectile 158)",
+      "kind": "projectile_donor",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "orbital_shot",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "projectile_donor/Orbital EMS Strike (projectile 74)",
+      "label": "Orbital EMS Strike (projectile 74)",
+      "kind": "projectile_donor",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "orbital_stun",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "projectile_donor/Orbital Gas Strike (projectile 197)",
+      "label": "Orbital Gas Strike (projectile 197)",
+      "kind": "projectile_donor",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "orbital_gas",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "projectile_donor/Orbital Gatling Barrage (projectile 77)",
+      "label": "Orbital Gatling Barrage (projectile 77)",
+      "kind": "projectile_donor",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "orbital_gatling_barrage",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "projectile_donor/Orbital Napalm Barrage (projectile 234)",
+      "label": "Orbital Napalm Barrage (projectile 234)",
+      "kind": "projectile_donor",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "orbital_napalm_barrage",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "projectile_donor/Orbital Precision Strike (projectile 100)",
+      "label": "Orbital Precision Strike (projectile 100)",
+      "kind": "projectile_donor",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "orbital_shell",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "projectile_donor/Orbital Railcannon Strike (projectile 277)",
+      "label": "Orbital Railcannon Strike (projectile 277)",
+      "kind": "projectile_donor",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "orbital_railcannon",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "projectile_donor/Orbital Smoke Strike (projectile 247)",
+      "label": "Orbital Smoke Strike (projectile 247)",
+      "kind": "projectile_donor",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "orbital_smoke",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "projectile_donor/Orbital Walking Barrage (projectile 80)",
+      "label": "Orbital Walking Barrage (projectile 80)",
+      "kind": "projectile_donor",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "orbital_walking_barrage",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "projectile_donor/TD-220 Bastion MK XVI (projectile 36)",
+      "label": "TD-220 Bastion MK XVI (projectile 36)",
+      "kind": "projectile_donor",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "packageNamed": false,
         "liveTested": false,
         "packageLiveLoaded": false,
         "blocker": null

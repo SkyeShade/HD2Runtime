@@ -347,6 +347,15 @@ def build():
         for donor in json.loads(donors_path.read_text(encoding='utf-8'))['donors']:
             add('stratagem_weapon/' + donor['name'], donor['name'], int(donor['resource'], 16),
                 kind='stratagem_weapon')
+    # More projectile donors (research/projectile-donors-F5FEE03DCFDB.json): a stratagem's Eagle payload, orbital shell,
+    # orbital projectile or entity weapon; the owner entity's package (its own loadout package, a holder's, or the
+    # delivering stratagem's). Weapon-owned donors resolve through their weapon's entry above.
+    more_path = ROOT / 'research/projectile-donors-F5FEE03DCFDB.json'
+    if more_path.is_file():
+        for donor in json.loads(more_path.read_text(encoding='utf-8'))['donors']:
+            if donor['ownerKind'] == 'stratagem':
+                add('projectile_donor/' + donor['name'], donor['name'], int(donor['resource'], 16),
+                    kind='projectile_donor')
     # Projectiles: a projectile reference swap needs the source weapon's package (the projectile's unit and
     # effects are generated into it); the source is the weapon the reference is copied from.
     composition = json.loads((ROOT / 'schemas/player_weapon_composition_catalog.json').read_text())
@@ -362,10 +371,19 @@ def build():
     # Named explosions (research/event-actions-F5FEE03DCFDB.json): the requested type is a code literal of an entity
     # behavior, so the explosion's effects ship with that entity; the stratagem that delivers the entity names the
     # package the game loads for it (the NUX-223 Hellbomb's is its generated loadout package).
+    # An explosion an objective's ability requests (the Cyborg Production Unit's) ships its effect and its sound in
+    # objective packages: 'explosion/<name>' is the package holding its particle effect, 'explosion/<name>/sound' the
+    # one holding its sound bank (research event-actions, assets).
     actions = json.loads((ROOT / 'research/event-actions-F5FEE03DCFDB.json').read_text())
     for item in actions.get('namedExplosions', []):
-        pid = int(item['stratagemPackage'], 16)
-        dep = package(pid, 'delivering_stratagem_package')
+        assets = item.get('assets')
+        if item['stratagemPackage']:
+            dep = package(int(item['stratagemPackage'], 16), 'delivering_stratagem_package')
+        else:
+            dep = package(int(assets['effectPackage'], 16), 'explosion_effect_package')
+            sound = package(int(assets['soundPackage'], 16), 'explosion_sound_package')
+            catalog['explosion/' + item['name'] + '/sound'] = {'label': item['name'] + ' (sound)', 'kind': 'explosion',
+                'resource': item['entity'], 'path': item['path'], 'dependency': sound, 'known': sound['inBundleDatabase']}
         catalog['explosion/' + item['name']] = {'label': item['name'], 'kind': 'explosion', 'resource': item['entity'],
             'path': item['path'], 'dependency': dep, 'known': dep['inBundleDatabase']}
     catalog = dict(sorted(catalog.items()))
@@ -379,6 +397,8 @@ def build():
                 for v in catalog.values()),
             'stratagemPackage': sum((v['dependency'] or {}).get('via') == 'delivering_stratagem_package'
                 for v in catalog.values()),
+            'objectivePackage': sum((v['dependency'] or {}).get('via') in ('explosion_effect_package',
+                'explosion_sound_package') for v in catalog.values()),
             'unknown': sum(not v['known'] for v in catalog.values())}}
 
 

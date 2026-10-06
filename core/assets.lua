@@ -7,8 +7,9 @@
 -- lets the write proceed.
 --
 -- Safety:
--- * Package identities come only from the generated catalog (domains/package_residency.lua), keyed by semantic
---   object; callers never supply package or resource IDs.
+-- * Package identities come only from the generated catalogs, keyed by semantic object: domains/package_residency.lua,
+--   and a stratagem's call-in package by its stable id (domains/stratagem_slots.lua: the root package the game holds
+--   for every type in a mission stratagem record). Callers never supply package or resource IDs.
 -- * Before any native call the build fingerprint and the exact code bytes of the request function, the engine
 --   has_loaded function and its package lookup are re-proven; the RefcountedPackageSystem instance and its map
 --   are validated; the map must have headroom.
@@ -18,6 +19,9 @@
 --   releases natively (it cannot prove no live object depends on the package).
 local b=require('hd2runtime/core/bytes')
 local database=require('hd2runtime/domains/package_residency')
+local slots_domain=require('hd2runtime/domains/stratagem_slots')
+local stratagem_packages=slots_domain.packages
+local call_in_packages=slots_domain.callInPackages or{}
 local metrics=require('hd2runtime/runtime/metrics')
 local M={}
 local loader=database.loader
@@ -141,9 +145,52 @@ function M.dependency_for_resource(resource,label)
     return {key='resource/'..resource,package=id,label=label,name=database.packages[id].name,via='resource'}
 end
 
+-- A stratagem's call-in package, by the StratagemInfo stable id (domains/stratagem_slots.lua), or nil (never guessed).
+-- This is the row's own root package (+0xA8) only; a support weapon's comes from its weapon (+0xF8): use
+-- dependencies_for_stratagem for everything the mission loader requests.
+local stratagem_ids={}
+for id,package in pairs(stratagem_packages)do stratagem_ids[package]=tonumber(id)end
+for id,list in pairs(call_in_packages)do
+    for _,item in ipairs(list)do stratagem_ids[item.package]=stratagem_ids[item.package]or tonumber(id)end
+end
+function M.dependency_for_stratagem(stable_id,label)
+    local package=stratagem_packages[tostring(stable_id)]
+    if not package then return nil end
+    return {key='stratagem/'..tostring(stable_id),package=package,label=label or tostring(stable_id),
+        name='call-in package of '..(label or tostring(stable_id)),via='stratagem_call_in_package'}
+end
+-- EVERY call-in package of a stratagem, as the game's mission loader requests them for a record entry (0x1753080,
+-- research "callInPackages"): the row's +0xA8 package and its +0xF8 weapon's package (a support weapon has only the
+-- latter). A list of dependencies (distinct packages, the loader's order), or nil when none is known (never guessed).
+function M.dependencies_for_stratagem(stable_id,label)
+    local list=call_in_packages[tostring(stable_id)]
+    if not list then
+        local one=M.dependency_for_stratagem(stable_id,label)
+        return one and{one}or nil
+    end
+    local out,seen={},{}
+    local text=label or tostring(stable_id)
+    for _,item in ipairs(list)do
+        if not seen[item.package]then
+            seen[item.package]=true
+            local n=#out+1
+            out[n]={key='stratagem/'..tostring(stable_id)..(n>1 and('/'..n)or''),package=item.package,label=text,
+                name=(n>1 and'call-in package '..n..' of 'or'call-in package of ')..text,
+                via='stratagem_call_in_package_'..string.lower(item.via)}
+        end
+    end
+    return #out>0 and out or nil
+end
+-- Whether every package of a stratagem's call-in is known (no level- or entity-dependent part this build's research
+-- leaves out). By catalogue name.
+local incomplete={}
+for _,name in ipairs(slots_domain.callInIncomplete or{})do incomplete[name]=true end
+function M.call_in_complete(name)return not incomplete[name]end
+
 -- Takes (once per session) Runtime's own reference on a catalog package through the native system.
 function M.request(runtime,dependency,owner)
-    assert(type(dependency)=='table'and database.packages[dependency.package],'package is not in the catalog')
+    assert(type(dependency)=='table'and(database.packages[dependency.package]or stratagem_ids[dependency.package]),
+        'package is not in the catalog')
     local entry=held[dependency.package]
     if entry then entry.holders[owner]=true;return entry end
     assert(held_count<policy.maxHeldPackages,'ASSET_UNAVAILABLE: Runtime package budget reached ('
@@ -195,6 +242,9 @@ end
 function M.gate(runtime,spec,emit)
     local dependencies=M.collect(spec)
     local gate={dependencies=dependencies,state=#dependencies==0 and'ready'or'waiting'}
+    if gate.state=='waiting'then
+        pcall(function()require('hd2runtime/runtime/init_progress').track('assets',gate)end)
+    end
     local elapsed,next_poll,requested=0,0,false
     local function log(message)if emit then pcall(emit,'[HD2Runtime] '..message)end end
     function gate.tick(dt)

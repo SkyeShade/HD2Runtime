@@ -31,6 +31,7 @@ ROOT = Path(__file__).resolve().parents[1]
 RESEARCH = ROOT / 'research/attack-outputs-F5FEE03DCFDB.json'
 ACTIVE = ROOT / 'research/active-projectile-sources-F5FEE03DCFDB.json'
 DONORS = ROOT / 'research/stun-field-donors-F5FEE03DCFDB.json'
+MORE_DONORS = ROOT / 'research/projectile-donors-F5FEE03DCFDB.json'
 PRESENTATION = ROOT / 'research/weapon-presentation-F5FEE03DCFDB.json'
 MODE_UNVERIFIED = ('The label and icon are the fired projectile\'s own ProjectileInfo members, which every native '
     'weapon-function mode reads as; the menu reader is not traced and an edited mode label or icon has not been '
@@ -458,6 +459,54 @@ def outputs():
             'presentation': public_presentation(runtime_outputs[semantic]),
             'slots': public_slots(runtime_outputs[semantic]),
             'liveProof': output_live_proof(donor['name'])})
+    # More projectile donors (research/projectile-donors-F5FEE03DCFDB.json): named projectile types held by one fixed
+    # member of one uniquely owned, profiled component record (a stratagem's Eagle payload, orbital shell or entity
+    # weapon; a weapon's second projectile; a vehicle gun). Selectable as a projectile reference only (no row fields
+    # of their own here); not yet live-tested, so every use needs allow_unverified_reference and
+    # allow_unverified_effect, whatever the class.
+    for donor in json.loads(MORE_DONORS.read_text(encoding='utf-8'))['donors']:
+        semantic = 'output/v1/projectile/' + slug(donor['name'])
+        owner = {'kind': donor['ownerKind'], 'name': donor['owner']}
+        settings = donor['settings']
+        entry = {'id': semantic, 'family': 'projectile', 'owner': owner,
+            'resource': donor['resource'], 'entityRow': donor['entityRow'],
+            'backing': {'kind': 'component', 'component': donor['component'], 'offset': donor['member'],
+                'storage': 'u32', 'width': 4, **donor['componentIdentity']},
+            'currentDefault': donor['projectileType'], 'editable': True, 'unverifiedDonor': True,
+            'referenceSettings': {'group': settings['group'], 'row': settings['row'],
+                'recordType': settings['recordType'], 'settingsType': settings['settingsType']},
+            'compatibilityClass': donor['compatibilityClass'], 'role': donor['role']}
+        if donor['ownerKind'] == 'stratagem':
+            key = 'projectile_donor/' + donor['name']
+            package = assets.get(key) or {}
+            if not package.get('autoLoadSupported'):
+                raise ValueError(donor['name'] + ': a stratagem donor needs a loadable package (' + key + ')')
+            entry['dependencyKey'] = key
+        else:
+            package = {'package': None}
+        runtime_outputs[semantic] = entry
+        for alias in donor['aliases']:
+            if alias in aliases:
+                raise ValueError('duplicate attack output alias ' + alias)
+            aliases[alias] = semantic
+        impact, expiry = donor.get('impact'), donor.get('expiry')
+        public.append({'semanticId': semantic, 'family': 'projectile', 'kind': 'projectile_donor', 'owner': owner,
+            'role': donor['role'], 'names': list(donor['aliases']), 'projectileType': donor['projectileType'],
+            'emitter': donor['component'].replace('ComponentData', ''), 'member': donor['member'],
+            'compatibilityClass': donor['compatibilityClass'],
+            'selectableAsProjectileReference': True, 'compatibleHostFamilies': ['projectile'],
+            'requiredCoordinatedReferences': [], 'blockedReason': None,
+            'chain': {'impactExplosion': bool(impact), 'expiryExplosion': bool(expiry),
+                'submunition': bool(impact and impact.get('shrapnel')), 'arcOnImpact': bool(impact and impact.get('arc'))},
+            'flight': {'velocity': round(donor['velocity'], 3), 'mass': round(donor['mass'], 3),
+                'unitDriven': bool(donor['properties'].get('unit'))},
+            'ownerFireResource': [],
+            'package': {'name': package.get('package'), 'known': True, 'autoLoad': True,
+                'via': 'owner weapon' if donor['ownerKind'] != 'stratagem' else 'owner entity loadout package'},
+            'acknowledgements': {'sameClass': ['allow_unverified_reference', 'allow_unverified_effect'],
+                'crossClass': ['allow_unverified_reference', 'allow_unverified_effect']},
+            'ownerFiresThisProjectile': 'fires_reference',
+            'liveProof': None})
     # Native spare twins (research/projectile-builder): a row no typed data member references that is byte-identical
     # to a catalogued output's row except its references. The same flight, visuals and audio as its twin (whose
     # package covers its assets), with an identity no other consumer uses: composing it changes nothing else.
@@ -671,7 +720,7 @@ def outputs():
             'examples': ['SpeargunProjectileBuilderTest', 'HMGSpecialAmmoTest', 'UnifiedProjectileSwapTest']},
         'summary': {'outputs': len(public), 'byFamily': {family: sum(1 for o in public if o['family'] == family)
                 for family in research['summary']['byFamily']},
-            'stratagemDonors': sorted(o['owner']['name'] for o in public if o['owner']['kind'] == 'stratagem'),
+            'stratagemDonors': sorted({o['owner']['name'] for o in public if o['owner']['kind'] == 'stratagem'}),
             'selectable': sum(1 for o in public if o['selectableAsProjectileReference']),
             'projectileHosts': len(hosts),
             'componentHosts': sum(1 for h in hosts.values() if h['mechanism'] == 'component'),

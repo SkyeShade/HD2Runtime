@@ -1,0 +1,1 @@
+{"format":1,"name":"PelicanGasSupport","resource":"mods/skyeshade/hd2runtime_pelican_gas_example","guid":"c09a7481-07e9-4513-9da5-3c7562530f5f","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.30.0-dev","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../sdk","ide_library":"../../sdk/stubs"}

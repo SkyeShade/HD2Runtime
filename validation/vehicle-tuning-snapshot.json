@@ -1,0 +1,437 @@
+{
+  "fixtureFallback": "disabled",
+  "instances": 49,
+  "mode": "snapshot-overlay",
+  "mounts": 5,
+  "noops": [
+    {
+      "baseline": 65,
+      "component": "RotationComponentData",
+      "field": "rotation.turn_speed",
+      "target": "EXO-45 Patriot Exosuit"
+    },
+    {
+      "baseline": 0,
+      "component": "RotationComponentData",
+      "field": "rotation.acceleration",
+      "target": "EXO-45 Patriot Exosuit"
+    },
+    {
+      "baseline": 0,
+      "component": "RotationComponentData",
+      "field": "rotation.deceleration",
+      "target": "EXO-45 Patriot Exosuit"
+    },
+    {
+      "baseline": 65,
+      "component": "RotationComponentData",
+      "field": "rotation.turn_speed",
+      "target": "EXO-49 Emancipator Exosuit"
+    },
+    {
+      "baseline": 0,
+      "component": "RotationComponentData",
+      "field": "rotation.acceleration",
+      "target": "EXO-49 Emancipator Exosuit"
+    },
+    {
+      "baseline": 0,
+      "component": "RotationComponentData",
+      "field": "rotation.deceleration",
+      "target": "EXO-49 Emancipator Exosuit"
+    },
+    {
+      "baseline": 65,
+      "component": "RotationComponentData",
+      "field": "rotation.turn_speed",
+      "target": "EXO-51 Lumberer Exosuit"
+    },
+    {
+      "baseline": 0,
+      "component": "RotationComponentData",
+      "field": "rotation.acceleration",
+      "target": "EXO-51 Lumberer Exosuit"
+    },
+    {
+      "baseline": 0,
+      "component": "RotationComponentData",
+      "field": "rotation.deceleration",
+      "target": "EXO-51 Lumberer Exosuit"
+    },
+    {
+      "baseline": 65,
+      "component": "RotationComponentData",
+      "field": "rotation.turn_speed",
+      "target": "EXO-55 Breakthrough Exosuit"
+    },
+    {
+      "baseline": 0,
+      "component": "RotationComponentData",
+      "field": "rotation.acceleration",
+      "target": "EXO-55 Breakthrough Exosuit"
+    },
+    {
+      "baseline": 0,
+      "component": "RotationComponentData",
+      "field": "rotation.deceleration",
+      "target": "EXO-55 Breakthrough Exosuit"
+    },
+    {
+      "baseline": 3.1,
+      "component": "VehicleMotionComponentData",
+      "field": "vehicle.steering_response_speed",
+      "target": "FRV (Super Earth variant)"
+    },
+    {
+      "baseline": 1.5,
+      "component": "VehicleMotionComponentData",
+      "field": "vehicle.steering_response_speed",
+      "target": "GATER Oil Rig"
+    },
+    {
+      "baseline": 3.1,
+      "component": "VehicleMotionComponentData",
+      "field": "vehicle.steering_response_speed",
+      "target": "M-102 Gunner FRV"
+    },
+    {
+      "baseline": 3.1,
+      "component": "VehicleMotionComponentData",
+      "field": "vehicle.steering_response_speed",
+      "target": "M-103 Supply FRV"
+    },
+    {
+      "baseline": 3.1,
+      "component": "VehicleMotionComponentData",
+      "field": "vehicle.steering_response_speed",
+      "target": "M-104 Incinerator FRV"
+    },
+    {
+      "baseline": 2.25,
+      "component": "VehicleMotionComponentData",
+      "field": "vehicle.steering_response_speed",
+      "target": "TD-110 Maelstrom"
+    },
+    {
+      "baseline": 2.25,
+      "component": "VehicleMotionComponentData",
+      "field": "vehicle.steering_response_speed",
+      "target": "TD-220 Bastion MK XVI"
+    },
+    {
+      "baseline": 60,
+      "component": "TurretComponentData",
+      "field": "turret.yaw_speed",
+      "target": "GATER Oil Rig / turret"
+    },
+    {
+      "baseline": 20,
+      "component": "TurretComponentData",
+      "field": "turret.pitch_speed",
+      "target": "GATER Oil Rig / turret"
+    },
+    {
+      "baseline": -13,
+      "component": "TurretComponentData",
+      "field": "turret.pitch_min",
+      "target": "GATER Oil Rig / turret"
+    },
+    {
+      "baseline": 60,
+      "component": "TurretComponentData",
+      "field": "turret.pitch_max",
+      "target": "GATER Oil Rig / turret"
+    },
+    {
+      "baseline": -180,
+      "component": "TurretComponentData",
+      "field": "turret.yaw_min",
+      "target": "GATER Oil Rig / turret"
+    },
+    {
+      "baseline": 180,
+      "component": "TurretComponentData",
+      "field": "turret.yaw_max",
+      "target": "GATER Oil Rig / turret"
+    },
+    {
+      "baseline": 130,
+      "component": "TurretComponentData",
+      "field": "turret.yaw_speed",
+      "target": "M-103 Supply FRV / gun"
+    },
+    {
+      "baseline": 90,
+      "component": "TurretComponentData",
+      "field": "turret.pitch_speed",
+      "target": "M-103 Supply FRV / gun"
+    },
+    {
+      "baseline": -60,
+      "component": "TurretComponentData",
+      "field": "turret.pitch_min",
+      "target": "M-103 Supply FRV / gun"
+    },
+    {
+      "baseline": 90,
+      "component": "TurretComponentData",
+      "field": "turret.pitch_max",
+      "target": "M-103 Supply FRV / gun"
+    },
+    {
+      "baseline": -180,
+      "component": "TurretComponentData",
+      "field": "turret.yaw_min",
+      "target": "M-103 Supply FRV / gun"
+    },
+    {
+      "baseline": 180,
+      "component": "TurretComponentData",
+      "field": "turret.yaw_max",
+      "target": "M-103 Supply FRV / gun"
+    },
+    {
+      "baseline": 35,
+      "component": "TurretComponentData",
+      "field": "turret.yaw_speed",
+      "target": "TD-110 Maelstrom / attach_tank_gun"
+    },
+    {
+      "baseline": 25,
+      "component": "TurretComponentData",
+      "field": "turret.pitch_speed",
+      "target": "TD-110 Maelstrom / attach_tank_gun"
+    },
+    {
+      "baseline": -3,
+      "component": "TurretComponentData",
+      "field": "turret.pitch_min",
+      "target": "TD-110 Maelstrom / attach_tank_gun"
+    },
+    {
+      "baseline": 25,
+      "component": "TurretComponentData",
+      "field": "turret.pitch_max",
+      "target": "TD-110 Maelstrom / attach_tank_gun"
+    },
+    {
+      "baseline": -20,
+      "component": "TurretComponentData",
+      "field": "turret.yaw_min",
+      "target": "TD-110 Maelstrom / attach_tank_gun"
+    },
+    {
+      "baseline": 20,
+      "component": "TurretComponentData",
+      "field": "turret.yaw_max",
+      "target": "TD-110 Maelstrom / attach_tank_gun"
+    },
+    {
+      "baseline": 35,
+      "component": "TurretComponentData",
+      "field": "turret.yaw_speed",
+      "target": "TD-220 Bastion MK XVI / attach_tank_gun"
+    },
+    {
+      "baseline": 25,
+      "component": "TurretComponentData",
+      "field": "turret.pitch_speed",
+      "target": "TD-220 Bastion MK XVI / attach_tank_gun"
+    },
+    {
+      "baseline": -3,
+      "component": "TurretComponentData",
+      "field": "turret.pitch_min",
+      "target": "TD-220 Bastion MK XVI / attach_tank_gun"
+    },
+    {
+      "baseline": 25,
+      "component": "TurretComponentData",
+      "field": "turret.pitch_max",
+      "target": "TD-220 Bastion MK XVI / attach_tank_gun"
+    },
+    {
+      "baseline": -20,
+      "component": "TurretComponentData",
+      "field": "turret.yaw_min",
+      "target": "TD-220 Bastion MK XVI / attach_tank_gun"
+    },
+    {
+      "baseline": 20,
+      "component": "TurretComponentData",
+      "field": "turret.yaw_max",
+      "target": "TD-220 Bastion MK XVI / attach_tank_gun"
+    },
+    {
+      "baseline": 35,
+      "component": "TurretComponentData",
+      "field": "turret.yaw_speed",
+      "target": "TD-220 Bastion MK XVI / attach_tank_gun_mg"
+    },
+    {
+      "baseline": 25,
+      "component": "TurretComponentData",
+      "field": "turret.pitch_speed",
+      "target": "TD-220 Bastion MK XVI / attach_tank_gun_mg"
+    },
+    {
+      "baseline": -3,
+      "component": "TurretComponentData",
+      "field": "turret.pitch_min",
+      "target": "TD-220 Bastion MK XVI / attach_tank_gun_mg"
+    },
+    {
+      "baseline": 25,
+      "component": "TurretComponentData",
+      "field": "turret.pitch_max",
+      "target": "TD-220 Bastion MK XVI / attach_tank_gun_mg"
+    },
+    {
+      "baseline": -20,
+      "component": "TurretComponentData",
+      "field": "turret.yaw_min",
+      "target": "TD-220 Bastion MK XVI / attach_tank_gun_mg"
+    },
+    {
+      "baseline": 20,
+      "component": "TurretComponentData",
+      "field": "turret.yaw_max",
+      "target": "TD-220 Bastion MK XVI / attach_tank_gun_mg"
+    }
+  ],
+  "protectionChanges": 16,
+  "rejections": {
+    "acceleration -1": "value outside the reviewed range for rotation.acceleration (0 to 10000): 0 turns at the full rate at once (every exosuit); enemy walkers use 8 to 180 and the Helldiver 2000. 10000 ",
+    "crossing yaw limits": "TURRET_LIMIT_ORDER: TD-220 Bastion MK XVI / attach_tank_gun turret.yaw_min must stay below turret.yaw_max; this operation would leave 30 / 20 degrees (a limit it does not write kee",
+    "deceleration 10001": "value outside the reviewed range for rotation.deceleration (0 to 10000): 0 uses the acceleration (every exosuit); enemy walkers use 180 to 300 and the Helldiver 2000. 10000 is effe",
+    "not applicable: EXO-45 Patriot Exosuit / left_gun": "field is not exposed for EXO-45 Patriot Exosuit / left_gun: turret.yaw_speed",
+    "not applicable: EXO-49 Emancipator Exosuit / right_gun": "field is not exposed for EXO-49 Emancipator Exosuit / right_gun: turret.yaw_speed",
+    "not applicable: Exosuit steering": "field is not exposed for EXO-45 Patriot Exosuit: vehicle.steering_response_speed",
+    "not applicable: FRV body rotation": "field is not exposed for M-102 Gunner FRV: rotation.turn_speed",
+    "not applicable: M-102 Gunner FRV / gun": "field is not exposed for M-102 Gunner FRV / gun: turret.yaw_speed",
+    "not applicable: M-104 Incinerator FRV / gun": "field is not exposed for M-104 Incinerator FRV / gun: turret.yaw_speed",
+    "pitch 91": "value is above the reviewed maximum 90 for turret.pitch_max: A vertical angle (straight down to straight up); it must stay above turret.pitch_min.",
+    "rotation missing acknowledgement": "field requires allow_unverified_effect=true: rotation.turn_speed (Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinn",
+    "rotation: index row moved": "entity component ownership changed",
+    "rotation: third-party value": "CONFLICT: rotation.turn_speed is neither expected nor desired (target vehicle EXO-45 Patriot Exosuit rotation.turn_speed; expected 65 (65); desired 20 (20); observed 123.5; no HD2R",
+    "stale expect": "expect differs from reviewed current value for turret.yaw_speed: declared=100 reviewed=130 resolved=turret.yaw_speed",
+    "steering 0.01": "value outside the reviewed range for vehicle.steering_response_speed (0.05 to 50): How fast the steering input (-1 to 1) follows the driver: 0.05 takes 20 s from centre to full loc",
+    "steering NaN": "value must be a finite number",
+    "steering missing acknowledgement": "field requires allow_unverified_effect=true: vehicle.steering_response_speed (Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its un",
+    "steering: index row moved": "entity component ownership changed",
+    "steering: third-party value": "CONFLICT: vehicle.steering_response_speed is neither expected nor desired (target vehicle M-102 Gunner FRV vehicle.steering_response_speed; expected 3.1 (3.0999999); desired 0.5 (0",
+    "turn 0.5": "value outside the reviewed range for rotation.turn_speed (1 to 720): Like turret turn speeds: 1 degree per second up to two turns per second (exosuits 65, Helldiver 200).",
+    "turret missing acknowledgement": "field requires allow_unverified_effect=true: turret.yaw_speed (Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned)",
+    "turret: index row moved": "component ownership identity changed",
+    "turret: third-party value": "CONFLICT: turret.yaw_speed is neither expected nor desired (target vehicle_weapon M-103 Supply FRV / gun; expected 130 (130); desired 30 (30); observed 123.5; scope weapon_local; n",
+    "value 0": "value is below the reviewed minimum 1 for turret.yaw_speed: The sentry turret-speed range: 1 degree per second up to two full turns per second (vanilla vehicle mounts use 20 to 130",
+    "value 721": "value is above the reviewed maximum 720 for turret.yaw_speed: The sentry turret-speed range: 1 degree per second up to two full turns per second (vanilla vehicle mounts use 20 to 1",
+    "value NaN": "value must be finite number",
+    "value inf": "value must be finite number"
+  },
+  "roundTrips": {
+    "bastion_cannon_yaw_limits": {
+      "contextBytes": 262116,
+      "otherRecordsUnchanged": 73,
+      "protectionChanges": 2,
+      "protectionRestored": true,
+      "readAllowance": 2621224,
+      "readCeiling": 67108864,
+      "readerBytes": 524288,
+      "recordStride": 76,
+      "restored": true,
+      "tableBytesChanged": 2,
+      "tableBytesCompared": 7960,
+      "tableIndexBytes": 2336,
+      "tableIndexContextBytes": 2336,
+      "tableRecordBytes": 5624,
+      "tableRecordContextBytes": 76,
+      "targetOffsetsInRecord": [
+        28,
+        32
+      ],
+      "writes": 2,
+      "written": [
+        -5,
+        5
+      ]
+    },
+    "frv_steering_response_speed": {
+      "contextBytes": 240744,
+      "otherRecordsUnchanged": 13,
+      "protectionChanges": 2,
+      "protectionRestored": true,
+      "readAllowance": 1925984,
+      "readCeiling": 67108864,
+      "readerBytes": 481544,
+      "recordStride": 456,
+      "restored": true,
+      "tableBytesChanged": 4,
+      "tableBytesCompared": 6832,
+      "tableIndexBytes": 448,
+      "tableIndexContextBytes": 448,
+      "tableRecordBytes": 6384,
+      "tableRecordContextBytes": 456,
+      "targetOffsetsInRecord": [
+        364
+      ],
+      "writes": 1,
+      "written": [
+        0.5
+      ]
+    },
+    "m103_turret_yaw_speed": {
+      "contextBytes": 262116,
+      "otherRecordsUnchanged": 73,
+      "protectionChanges": 2,
+      "protectionRestored": true,
+      "readAllowance": 2096960,
+      "readCeiling": 67108864,
+      "readerBytes": 524288,
+      "recordStride": 76,
+      "restored": true,
+      "tableBytesChanged": 2,
+      "tableBytesCompared": 7960,
+      "tableIndexBytes": 2336,
+      "tableIndexContextBytes": 2336,
+      "tableRecordBytes": 5624,
+      "tableRecordContextBytes": 76,
+      "targetOffsetsInRecord": [
+        12
+      ],
+      "writes": 1,
+      "written": [
+        30
+      ]
+    },
+    "patriot_turn_speed": {
+      "contextBytes": 247320,
+      "otherRecordsUnchanged": 224,
+      "protectionChanges": 2,
+      "protectionRestored": true,
+      "readAllowance": 1978592,
+      "readCeiling": 67108864,
+      "readerBytes": 494696,
+      "recordStride": 312,
+      "restored": true,
+      "tableBytesChanged": 2,
+      "tableBytesCompared": 77368,
+      "tableIndexBytes": 7168,
+      "tableIndexContextBytes": 7168,
+      "tableRecordBytes": 70200,
+      "tableRecordContextBytes": 312,
+      "targetOffsetsInRecord": [
+        0
+      ],
+      "writes": 1,
+      "written": [
+        20
+      ]
+    }
+  },
+  "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "status": "VALIDATED",
+  "unrelatedWritesCaptureTuningTables": false,
+  "vehicles": 11,
+  "writes": 10
+}

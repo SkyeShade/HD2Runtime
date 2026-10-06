@@ -56,6 +56,16 @@ function M.locate(runtime,reader,profile,needed)
     assert(page==4096 and finish>65536 and finish<=9007199254740991,'unsupported address space')
     local matches={entity={},entity_deltas={}}
     for key in pairs(profile.settings)do matches[key]={}end
+    local map_header=b.unhex(profile.map_header)
+    local deltas=profile.entity_deltas
+    local deltas_header=deltas and b.unhex(deltas.header)
+    local groups,keys={},{}
+    for key,d in pairs(profile.settings)do groups[key]=b.unhex(d.groups[1].header);keys[#keys+1]=key end
+    table.sort(keys)
+    -- A settings key this operation does not need is still proven (for sharing only) when every region in its size
+    -- window had its header read for a needed key; one region whose header was not read leaves it unproven.
+    local proven={}
+    for _,key in ipairs(keys)do if not needed[key]then proven[key]=true end end
     local cursor=65536
     while cursor<finish do
         local r=reader.query(cursor);cursor=r.base+r.size
@@ -63,25 +73,35 @@ function M.locate(runtime,reader,profile,needed)
         if (r.capture_status==nil or r.capture_status==1)
             and r.base==r.allocation_base and r.state==0x1000 and r.type==0x20000
             and (r.protect==2 or r.protect==4) then
-            if r.size==profile.entity_region_size then
-                local h=reader.read(r,0,28)
-                if h==b.unhex(profile.map_header) then matches.entity[#matches.entity+1]=r end
+            -- One 28-byte header read per region serves every check below (each read re-proves the region's
+            -- ownership and protection, exactly as one read per check did). The entity map and the entity delta table
+            -- (one candidate region each) are always checked; a settings window only when its key is needed.
+            local entity_size=r.size==profile.entity_region_size
+            local in_deltas=deltas and r.protect==2 and r.size>=deltas.size and r.size<=deltas.size+65536
+            local wanted=entity_size or in_deltas
+            if not wanted then
+                for _,key in ipairs(keys)do
+                    local d=profile.settings[key]
+                    if needed[key] and r.size>=d.size and r.size<=d.size+65536 then wanted=true;break end
+                end
             end
-            local deltas=profile.entity_deltas
-            if needed.entity_deltas and deltas and r.protect==2
-                and r.size>=deltas.size and r.size<=deltas.size+65536 then
-                local h=reader.read(r,0,28)
-                if h==b.unhex(deltas.header)then matches.entity_deltas[#matches.entity_deltas+1]=r end
-            end
-            for key,d in pairs(profile.settings)do
-                if needed[key] and r.size>=d.size and r.size<=d.size+65536 then
-                    local h=reader.read(r,0,28)
-                    if b.u32(h,0)==#d.groups and h:sub(5,28)==b.unhex(d.groups[1].header) then
-                        local bytes=reader.read(r,0,d.size,true)
-                        reader.stage='core/settings:'..key
-                        local records=settings.parse(bytes,r.base,d)
-                        reader.stage='runtime/discover:allocation_map'
-                        matches[key][#matches[key]+1]={owner=r,records=records}
+            local h=wanted and reader.read(r,0,28)or nil
+            if entity_size and h==map_header then matches.entity[#matches.entity+1]=r end
+            if in_deltas and h==deltas_header then matches.entity_deltas[#matches.entity_deltas+1]=r end
+            for _,key in ipairs(keys)do
+                local d=profile.settings[key]
+                if r.size>=d.size and r.size<=d.size+65536 then
+                    if not h then proven[key]=false
+                    elseif b.u32(h,0)==#d.groups and h:sub(5,28)==groups[key] then
+                        if needed[key]then
+                            local bytes=reader.read(r,0,d.size,true)
+                            reader.stage='core/settings:'..key
+                            local records=settings.parse(bytes,r.base,d)
+                            reader.stage='runtime/discover:allocation_map'
+                            matches[key][#matches[key]+1]={owner=r,records=records}
+                        else
+                            matches[key][#matches[key]+1]={owner=r}
+                        end
                     end
                 end
             end
@@ -98,12 +118,14 @@ function M.locate(runtime,reader,profile,needed)
         end
     end
     if now then
-        -- Record only allocations whose uniqueness this walk just proved.
+        -- Record only allocations whose uniqueness this walk just proved: every key it needed, the entity map and the
+        -- entity delta table (always checked), and the settings keys whose whole size window it read.
         local regions={}
-        for key in pairs(needed)do
-            local item=result[key]
-            local r=item and(item.owner or item)
-            if r then regions[key]={base=r.base,size=r.size}end
+        for key,list in pairs(matches)do
+            if #list==1 and(needed[key]or key=='entity'or key=='entity_deltas'or proven[key]==true)then
+                local r=list[1].owner or list[1]
+                regions[key]={base=r.base,size=r.size}
+            end
         end
         shared={profile=profile,expires=now+SHARE_SECONDS,regions=regions}
     end

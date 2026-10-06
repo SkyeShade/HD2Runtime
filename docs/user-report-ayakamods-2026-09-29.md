@@ -56,6 +56,12 @@ With the fixes, the exact project registers 133 operations and applies 132. The 
 drag edit: its charge levels fire projectile 129 uncharged and 296 charged, so the edited row 296 only affects charged
 shots. It is now marked AMBIGUOUS and needs `allow_unverified_effect`. ModBuilder emits that flag when its SDK catalog asks for it, so a re-export adds it once ModBuilder uses an SDK that carries this change; with the published 0.27.0 SDK the edit stays refused (and logged).
 
+**0.28.1 update.** Published 0.28.0 refused this edit, as described above. From 0.28.1, Runtime reads the SDK version
+the export's wrapper declares (0.27.0). A field that gained `allow_unverified_effect` in 0.28.0 is applied without it
+for such a mod, and logged as a legacy SDK operation. The exact project now applies all 133 operations (408 writes) in
+the packaged `user-report-full-project` scenario. A project bound to SDK 0.28.0 still needs the acknowledgement. See
+`docs/legacy-sdk-compatibility.md`.
+
 | Reported | In the published 0.27.0 run | With this pass |
 | --- | --- | --- |
 | SG-20 Halt | never registered (operation 42 raised) | registers and applies; feed fields resolve |

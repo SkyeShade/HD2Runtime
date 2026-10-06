@@ -109,17 +109,196 @@ Still read-only or unavailable:
   entity of its own.
 - **Lifetime and chain reaction.** No owner was found.
 
-Targeting fields, deployed lifetime, projectile lifetime and penetration slowdown remain blocked because
-no shared schema-labelled native fields are proven.
+Projectile lifetime and penetration slowdown on mounted weapons remain blocked: no shared schema-labelled native
+field is proven. Sentry turret, targeting and weapon-handling fields are described in
+[their own section](#sentry-turret-motion-targeting-and-weapon-handling).
 
 Eagle definitions keep three separate concepts: ordinary stratagem cooldown,
 per-stratagem uses before rearm, and the shared Eagle rearm definition. Editing
 `eagle.rearm_time` requires `allow_shared = true` and affects all eight reviewed
 Eagle offensive stratagems.
 
+### Eagle attack fields
+
+Since 0.30.0-dev, each Eagle stratagem also exposes how its jet attacks. The fields live on the stratagem itself
+(`hd2.stratagem(name)`), next to `eagle.uses_per_rearm`:
+
+```lua
+local airstrike = hd2.stratagem("Eagle Airstrike")
+
+hd2.patch({
+    id = "airstrike_pattern",
+    target = airstrike,
+    allow_unverified_effect = true,
+    field = hd2.fields.eagle.airstrike_pattern,
+    expect = 0,
+    value = 2,  -- 8 bombs in a tight zigzag instead of 6
+})
+```
+
+**What a write changes.** Each field is a member of the attack record of that Eagle's **own jet**.
+
+- Runtime reaches the record through the stratagem's payload, and proves it again before every write: the jet, the
+  record's owner, and the jet's attack kind.
+- The record is **type data**. A write applies to every call of that Eagle on this machine, by any player, until it
+  is restored. It is **not per call**.
+- No other selectable Eagle reads the record, so the other Eagles are never affected.
+- A field the strike reads live also changes a jet that is already in flight. A field read at dispatch applies from
+  the next call.
+
+| Field | Unit | Range | Editable on | Read |
+| --- | --- | --- | --- | --- |
+| `eagle.airstrike_pattern` | pattern | 0..7 (enumerated) | the six bomb Eagles | live, at every bomb release |
+| `eagle.drop_interval` | seconds | 0.02..1.0 | the six bomb Eagles | live, at every bomb release |
+| `eagle.fire_duration` | seconds | 0.1..6.0 | Strafing Run, 110mm Rocket Pods | live, during the attack |
+| `eagle.attack_sweep_length` | meters | 0..200 | Strafing Run | live, during the strafe |
+| `eagle.target_radius` | meters | 1..300 | Strafing Run, 110mm Rocket Pods | at dispatch |
+| `eagle.attack_angle` | degrees | 0..360 | all eight | at dispatch |
+
+What each field does:
+
+- **`eagle.airstrike_pattern`** picks one of the eight native landing patterns. Each pattern is a bomb count plus the
+  points the bombs land on, rotated to the attack heading. `eagleAirstrikePatterns` in the catalog lists them.
+
+  | Pattern | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+  | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+  | Bombs | 6 | 6 | 8 | 8 | 4 | 5 | 1 | 3 |
+
+  The vanilla patterns are: Airstrike 0, Cluster Bomb and Smoke Strike 3, Napalm 4, 500kg 6, Gas 7. Any other value
+  is refused.
+- **`eagle.drop_interval`** is the time between bomb releases. Each bomb is still aimed at its own landing point.
+- **`eagle.fire_duration`** is how long the Strafing Run fires (1.5 s, which is 100 rounds), or the 110mm salvo
+  window that is split between its targets.
+- **`eagle.attack_sweep_length`** is how far the strafe's aim walks forward during the burst.
+- **`eagle.target_radius`** is how far around the beacon the call looks for targets. It keeps the best 8.
+- **`eagle.attack_angle`** is the approach heading relative to the throw direction: 90 flies across the throw, 180
+  flies along it. If that heading is blocked, the jet takes the nearest clear heading.
+
+**Fields that are read-only on an Eagle.** Every Eagle publishes all six fields with their native values. A field
+that the Eagle's attack never reads is read-only on that Eagle, and its `reason` says why. For example, the Strafing
+Run has no bomb pattern, and bomb Eagles skip the target search.
+
+There are also three descriptive read-only fields:
+
+- `eagle.payload`: the attack kind (`strafe`, `rocket` or `airstrike`).
+- `eagle.bombs_per_strike`: the pattern's bomb count.
+- `eagle.strafe_rounds_per_run`: 100 for the Strafing Run.
+
+**Acknowledgements.** Every field needs `allow_unverified_effect = true` until a live test passes (EagleFieldsTest).
+Three jets have other proven readers, so their fields also need `allow_shared = true`. Each descriptor lists those
+readers in `sharedConsumers`:
+
+- Strafing Run: an unused DSS strafing row and the DSS Eagle Storm.
+- Napalm Airstrike: the DSS Eagle Storm.
+- Gas Airstrike: the DSS Eagle Storm.
+
+Values outside the range, non-finite numbers and non-integer patterns are refused. The research and the
+justification for each range are in [Eagle components](research/eagle-components-F5FEE03DCFDB.md).
+
 `stratagem.max_uses` edits the mission use count of every non-Eagle stratagem, including
-unlimited <-> finite transitions; see [Stratagem mission uses](stratagem-uses.md). Barrage delivery arrays are preserved as delivery
-structure; the SDK does not invent scalar shell or volley counts from them.
+unlimited <-> finite transitions; see [Stratagem mission uses](stratagem-uses.md). The orbital salvo and shell counts are the
+bombardment record's own members (see [Orbital bombardment pattern](#orbital-bombardment-pattern)); its shell list is
+never written.
+
+`stratagem.calldown_code` sets the arrow code of every stratagem whose cooldown is writable (a list of 1 to 9 of
+`'up'`, `'right'`, `'down'`, `'left'`); the mission HUD's stratagem list is redrawn to match. See
+[Stratagem calldown codes](stratagem-calldown-code.md).
+
+`stratagem.presentation.*` (`hd2.fields.stratagem.presentation_name`, `presentation_name_cased`,
+`presentation_description`, `presentation_icon`) sets how a stratagem looks, using another stratagem's vanilla name,
+description or icon, while it stays itself. See [Stratagem presentation](stratagem-presentation.md).
+`presentation_icon` also takes a mod's own icon, `hd2.resources.image(id)`: see [Custom images](custom-images.md).
+
+### Orbital bombardment pattern
+
+`hd2.stratagem(name)` exposes the pattern of the ten orbitals that fire a barrage from a bombardment record: the
+120mm, 380mm, Walking, Napalm and Gatling barrages, and the Airburst, EMS, Gas, Precision and Smoke strikes. Each field is
+a member of the orbital's **own** `BombardmentComponentData` record (its payload[0]). In every snapshot each record has
+one owner, and one stratagem row lists it, so no `allow_shared` is needed.
+
+| Field | Unit | Range | Read |
+| --- | --- | --- | --- |
+| `orbital.salvos` | count | 1..16 | once, when the barrage is created |
+| `orbital.shells_per_salvo` | count | 1..64 | once, when the barrage is created |
+| `orbital.shell_interval` | seconds | 0..10 | for every shell |
+| `orbital.shell_interval_random` | seconds | 0..10 | for every shell |
+| `orbital.salvo_interval` | seconds | 0..30 | at every salvo |
+| `orbital.salvo_interval_random` | seconds | 0..30 | at every salvo |
+| `orbital.scatter` | record units | 0..100 | for every shell |
+| `orbital.salvo_scatter` | record units | 0..100 | at every salvo |
+
+Vanilla patterns (salvos x shells per salvo, delay between shells / salvos, scatter):
+
+| Orbital | Pattern | Delays (s) | Scatter |
+| --- | --- | --- | --- |
+| 120mm HE Barrage | 5 x 3 | 0.75 / 2 | 27 |
+| 380mm HE Barrage | 5 x 3 | 1.5 / 3 | 36 |
+| Walking Barrage | 5 x 3 | 1.5 / 3 | 25 |
+| Napalm Barrage | 5 x 5 | 0.5 / 2 | 25 |
+| Gatling Barrage | 4 x 60 | 0.045 / 0 | 7 |
+| Airburst Strike | 4 x 1 | 0 / 4 | 2 |
+| Smoke Strike | 6 x 1 | 0 / 0 | 15 |
+| EMS, Gas, Precision Strike | 1 x 1 | 0.35-0.5 / 1-3 | 1 |
+
+- **The shells.** A call fires `salvos x shells_per_salvo` shells. Within a salvo they cycle through the record's listed
+  shell types in order (`shellTypes`; the 120mm's are 194, 137, 137), starting again at every salvo. The game counts the
+  listed types when the barrage starts and picks each shell modulo that count, so any count is safe: the shell list
+  itself is never written, and Runtime proves it unchanged before every write. An EMS Strike set to 5 salvos of 3 fires
+  15 EMS shells.
+- **The delays.** A delay is its fixed part plus a random fraction of the random part (every vanilla random part is 0).
+- **When it applies.** The two counts are copied when a barrage is created: they apply from the next call, never to a
+  barrage already firing. The delays and the scatters are re-read for every shell, so they also change a barrage of
+  that orbital in progress.
+- **Scope.** A type-record write: every call of that orbital on this machine (by any player) uses it, until it is
+  restored. It is not per call. With several players every machine fires its own shells from its own record, so every
+  machine must run the same mod.
+- **Runtime custom stratagems.** A custom orbital whose `pattern` is this orbital refuses to start while the record is
+  not exactly vanilla. A native custom orbital (`orbital={native=true}`) whose donor is this orbital fires the edited
+  pattern, because it is that orbital's own barrage.
+- **Not mapped.** The aim walk (+0x10/+0x14) and the barrage drift (+0x60, the Walking Barrage's walk) have code-proven
+  readers but no proven unit; they stay unpublished. The Orbital Laser and Railcannon have no bombardment record.
+
+Every field needs `allow_unverified_effect = true` until a live test passes (OrbitalStrikeFieldsTest). Values outside the
+range, non-finite numbers and non-integer counts are refused. Evidence: `research/bombardment-payload-F5FEE03DCFDB.json`
+(readers pinned by `scripts/research_bombardment_payload.py`); write scenario: `validation/orbital-fields-snapshot.json`.
+
+```lua
+-- The Orbital EMS Strike as an EMS barrage: 5 salvos of 3 shells, 1.5 s apart, spread wide.
+hd2.transaction({id='ems-barrage',target=hd2.stratagem('Orbital EMS Strike'),allow_unverified_effect=true,changes={
+    {field=hd2.fields.orbital.salvos,expect=1,value=5},
+    {field=hd2.fields.orbital.shells_per_salvo,expect=1,value=3},
+    {field=hd2.fields.orbital.salvo_interval,expect=2,value=1.5},
+    {field=hd2.fields.orbital.scatter,expect=1,value=20}}})
+```
+
+### Call-in time
+
+`hd2.fields.stratagem.call_in_time` is the call-in countdown of every catalogued stratagem (94 rows): StratagemInfo
++0x54, in the same row as `stratagem.cooldown`. When a beacon is created, the game reads the carrier type's call-in,
+applies the player's upgrades and any active mission effect, and never lets it drop below 0. The beacon then activates
+that long after it lands. The vanilla values:
+
+| Stratagems | Call-in |
+| --- | --- |
+| 380mm HE Barrage | 6 s |
+| 120mm HE Barrage, Napalm Barrage; every backpack (Portable Hellbomb included) | 5 s |
+| Walking Barrage; sentries, emplacements, minefields and support weapons | 3 s |
+| The other orbitals; the EAT-17, EAT-700 and EAT-411 | 2 s |
+| Orbital Railcannon Strike | 1 s |
+| Resupply | 7.5 s |
+| Eagles, vehicles and Exosuits, the A/MLS-4X Rocket Sentry, the FX-12 Shield Generator Relay | 0 s |
+
+- **What it is not.** The delivery comes after it and is not part of it: a pod's fall, an orbital's travel and an
+  aircraft's flight. An Eagle's call-in is 0 (its delay is the jet's flight), so a raised value delays the jet's
+  dispatch. Ship upgrades shorten the countdown in game (the native 120mm 5 s showed 4 s live).
+- **When it applies.** Read once per beacon: a write applies to beacons thrown after it; a beacon already thrown keeps
+  its countdown.
+- **Scope.** A type-record write: every beacon of that stratagem created on this machine. With several players the
+  thrower's machine computes its own beacon's countdown (and replicates it), so every thrower needs the mod.
+- **Range.** 0 to 60 seconds. The CQC-72 Entrenchment Tool and the SG-88 Break-Action Shotgun have no call-in stratagem.
+
+The field needs `allow_unverified_effect = true` until a live test passes. It can share a transaction with the cooldown
+(one StratagemInfo row). Evidence: `research/beacon-redirect-F5FEE03DCFDB.json` (timing).
 
 ## Support call-in linkage
 
@@ -185,56 +364,144 @@ Every deployed entity also exposes its populated damage zones through `damage_zo
 `damage_zone(id)`, using the shared `HealthComponent` zone schema described in
 [vehicle authoring](vehicle-authoring.md).
 
-## Sentry turret motion, targeting range and lifetime
+## Sentry turret motion, targeting and weapon handling
 
-Every turreted sentry (MG-43, G-16, AC-8, M-12, MLS-4X, M-23, LAS-98, FLAM-40, GM-17) exposes its turret motion
-through `hd2.stratagem(name):deployed_entity():turret()`:
+A sentry's tunable members belong to its own deployed entity. Each sentry owns every one of these records alone, so no
+write needs `allow_shared`. A write is a type-record write: it affects every deployment of that sentry on this machine
+until it is restored. It is not per deployment.
 
-| Field | Native member | Proof |
+**When a write takes effect.** Each descriptor publishes `readTiming`:
+
+| `readTiming` | Fields | Effect of a write |
 | --- | --- | --- |
-| `turret.yaw_speed` | TurretComponent +12 | equals the wiki's "Horizontal Turn Speed" on all nine sentries |
-| `turret.pitch_speed` | TurretComponent +8 | equals "Vertical Turn Speed" on all nine |
-| `turret.pitch_min` / `turret.pitch_max` | TurretComponent +20 / +24 | equal "Vertical Limit" on all nine |
-| `turret.yaw_min` / `turret.yaw_max` | TurretComponent +28 / +32 | same layout pattern as the vertical limits; see below |
+| `spawn` | `turret.yaw_speed`, `turret.pitch_speed`, `targeting.range`, `targeting.side_range`, `targeting.rear_range`, `weapon.horizontal_spread`, `weapon.vertical_spread`, `weapon.recoil_*` | Copied into the sentry when it spawns: applies to sentries deployed **after** the write. A sentry already standing keeps its copy. |
+| `live` | `turret.pitch_min/max`, `turret.yaw_min/max`, `turret.pitch_yaw_coupling`, `windup.wind_up_seconds`, `windup.wind_down_seconds` | Read every update: also changes sentries already deployed. |
+| `unverified` | `beam.fire_rate` (Laser Sentry) | When the game reads it is not established: write it before calling the sentry in. |
 
-- Speeds are degrees per second; limits are degrees.
-- The values differ enough to prove the members: the Autocannon Sentry is 20/20 with limits −60…70; the
-  mortars are 55/55 with 35…89; the Flame Sentry is 140/140.
-- Each hidden member-name length equals the length of the wiki label in snake case.
-- The horizontal limits are −180/180 on every sentry. Fixed enemy turret mounts (bunker HMG ±30, siege engine
-  ±140) use narrower arcs in the same member, but no published table names them.
+The turn speeds are copied together with a per-sentry speed factor (1 by default; ship modules can raise it). The
+targeting ranges are copied times a per-sentry sensor scale.
 
-`hd2.stratagem(name):deployed_entity():targeting()` exposes `targeting.range` (SensorEyeComponent +0, metres), the
-distance at which the sentry acquires targets.
-- It equals the targeting range the wiki states for seven sentries (MG-43 and G-16: 75 m; AC-8 and MLS-4X: 100 m;
-  M-23 and GM-17: 125 m; LAS-98: 50 m).
-- The Flame Sentry (50) and Tesla Tower (25) expose the same member, but their engagement distance is also bounded
-  by their weapon's reach.
+### Turret motion
 
-**Live-proven (2026-09-29; see [live evidence](live-evidence.md)).**
+Every turreted sentry (MG-43, G-16, AC-8, M-12, MLS-4X, M-23, LAS-98, FLAM-40, GM-17) exposes its turret through
+`hd2.stratagem(name):deployed_entity():turret()`:
+
+| Field | Native member | Range | Proof |
+| --- | --- | --- | --- |
+| `turret.yaw_speed` | TurretComponent +12 | 1–720 °/s | wiki "Horizontal Turn Speed" on all nine; live-proven |
+| `turret.pitch_speed` | TurretComponent +8 | 1–720 °/s | wiki "Vertical Turn Speed" on all nine; live-proven |
+| `turret.pitch_min` / `turret.pitch_max` | TurretComponent +20 / +24 | −90…90 ° | wiki "Vertical Limit" on all nine; native clamp read every frame |
+| `turret.yaw_min` / `turret.yaw_max` | TurretComponent +28 / +32 | −180…180 ° | native clamp read every frame; no published table |
+| `turret.pitch_yaw_coupling` | TurretComponent +16 | 0–10 | native read every frame; new in 0.30.0-dev |
+
+- The values differ enough to prove the members: the Autocannon Sentry turns 20/20 with limits −60…70, the mortars
+  55/55 with 35…89 and the Flame Sentry 140/140.
+- **Yaw limits.** They are −180/180 on every sentry, which keeps the turret free to turn all the way round. A span
+  narrower than 359.94° makes the turret clamp at the limits instead of wrapping.
+- **`turret.pitch_yaw_coupling`.** Each frame the pitch step is multiplied by min(1, e^−value), where e is the yaw
+  error in degrees left after the frame's yaw step:
+  - 0 lets pitch and yaw move independently (most enemy turrets);
+  - 1 is the direct-fire sentries;
+  - 4 is the mortars, whose barrel barely elevates until the sentry faces its target.
+- **Speed ramp.** The yaw also slows linearly inside the last 5° of error. That ramp is hard-coded.
+
+### Targeting
+
+`hd2.stratagem(name):deployed_entity():targeting()`:
+
+| Field | Native member | Range | Sentries |
+| --- | --- | --- | --- |
+| `targeting.range` | SensorEyeComponent +0 | 1–500 m | all ten; live-proven |
+| `targeting.side_range` | SensorEyeComponent +4 | 0–500 m, or −1 | the nine turreted sentries |
+| `targeting.rear_range` | SensorEyeComponent +8 | 0–500 m, or −1 | the nine turreted sentries |
+
+- **`targeting.range`** equals the targeting range the wiki states for seven sentries: MG-43 and G-16 75 m, AC-8 and
+  MLS-4X 100 m, M-23 and GM-17 125 m, LAS-98 50 m.
+- **Side and rear ranges.**
+  - A sentry's sensor sits on its turret head. The range in a direction at angle a from where it points is
+    |cos a| × (the range ahead, or `targeting.rear_range` behind) + (1 − |cos a|) × `targeting.side_range`.
+  - Every native sentry has −1/−1, meaning "use `targeting.range`", which is why sentries see all around them. −1 is
+    the only accepted value below 0.
+  - A smaller rear range makes a sentry ignore enemies behind its barrel until they come close.
+  - The Tesla Tower's sensor is a different type whose test reads only the main range, so it has neither field.
+- **The AI caps the useful range.** Target selection scores candidates on a hard-coded distance curve that reaches 0
+  at:
+  - 100 m on the MG-43, G-16, AC-8 and LAS-98;
+  - 50 m on the FLAM-40;
+  - 125 m on the mortars.
+
+  A `targeting.range` above that cap does not extend engagement; lowering it does work. The accepted range stays
+  1–500 m for compatibility. Each descriptor publishes its cap as `engagementCap`.
+- **Mortars also acquire through a second sensor.** The M-12, M-23 and GM-17 own a SensorProximity component
+  (125 m) that marks every enemy within its radius as perceived, with no line-of-sight check. Lowering
+  `targeting.range` alone therefore does not shrink a mortar's acquisition.
+  - The proximity radius (`targeting.proximity_range`) is researched but deferred: it is not writable yet.
+  - The mortars also never target enemies closer than 25 m (M-12) or 14 m (EMS and gas mortars). That minimum is
+    hard-coded as well.
+
+### Weapon handling
+
+`hd2.stratagem(name):deployed_entity():weapon("primary")` exposes the same WeaponData members as the player and
+support weapons, with the same field constants:
+
+| Field | Native member | Range | Sentries |
+| --- | --- | --- | --- |
+| `weapon.horizontal_spread` / `weapon.vertical_spread` | WeaponData +84 / +88 | 0–500 mrad (full width) | the seven projectile sentries |
+| `weapon.recoil_drift_horizontal` / `_vertical` | WeaponData +0 / +4 | 0–100 | the seven projectile sentries |
+| `weapon.recoil_climb_horizontal` / `_vertical` | WeaponData +28 / +32 | 0–100 | the seven projectile sentries |
+| `weapon.recoil`, `weapon.horizontal_recoil`, `weapon.vertical_recoil` | derived means | read-only | the seven projectile sentries |
+| `windup.wind_up_seconds` / `windup.wind_down_seconds` | WeaponWindUp +0 / +4 | 0–30 s | G-16 Gatling Sentry |
+| `beam.fire_rate` | BeamWeapon +104 | 1–3000 rpm | LAS-98 Laser Sentry |
+
+- **The seven projectile sentries** are the MG-43, G-16, AC-8, M-12, MLS-4X, M-23 and GM-17.
+- **Spread and recoil:**
+  - Their values equal the wiki's detailed tables on every one of the seven. For example the mortar's spread is
+    50 × 100 mrad, and the MG-43's recoil is 10 / 1 / 5.5, which are the means of drift and climb.
+  - The game copies them into the weapon when the sentry spawns. Every shot then turns by up to half the spread
+    each way, and kicks the turret's own aim by the recoil. So zero recoil tightens a sentry's grouping.
+- **Excluded sentries.** The Laser, Flame and Tesla sentries carry the same WeaponData members and their published
+  values match. However, no read of them on a beam, spray or arc attack is shown, so they are excluded and the
+  reason is listed in `blockedFields`.
+- **`windup.*`.** Read by the wind-up routine every update. Whether the Gatling waits for full spin before firing is
+  not established; the effect may be the barrel spin only.
+
+### Live evidence
+
+**Live-proven (2026-09-29; see [live evidence](live-evidence.md)):**
+
 - `SentryTurnSpeed` made the AC-8 turn dramatically faster.
 - `SentryDetectionRange` made the MG-43 hold fire until enemies were very close.
 
-`turret.yaw_speed`, `turret.pitch_speed` and `targeting.range` no longer need `allow_unverified_effect` on any sentry.
-Their fields carry a `liveEvidence` reference. The aim limits (`turret.pitch_min/max`, `turret.yaw_min/max`) were not
-tested and still need `allow_unverified_effect=true`. Values are range-checked (turn speed 1–720, pitch −90…90, yaw
-−180…180, range 1–500 m).
+`turret.yaw_speed`, `turret.pitch_speed` and `targeting.range` need no acknowledgement and carry a `liveEvidence`
+reference. Every other field above needs `allow_unverified_effect=true`. The new 0.30.0-dev fields belong to the
+pending family `sentry_component_fields`. Their live test is `examples/projects/SentryTuningTest`.
 
 `payload.lifetime` is published on every sentry and the Tesla Tower. It is the HellpodPayload member
 ShieldRelayImprovements proved in gameplay; the sentry values equal the wiki's lifetime (150 s, or 180 s for the
 mortars and laser sentry).
 
-**Not mapped (candidates only):**
-- TurretComponent +16 (1 on most sentries, 4 on the mortars).
-- TurretComponent +36/+40 (0.1 everywhere).
-- TargetingComponent timers (0.5 / 0.5 / 5 s on every sentry).
-- SensorEye +12/+16 (20/20, but 360/360 on the Autocannon Sentry).
+### What stays unmapped
 
-These are consistent with search intervals and aim tolerances, but no table or other independent evidence names
-them. Sentry search, retarget and retention intervals therefore stay unmapped.
+Most of a sentry's engagement logic is compiled AI code, not data, so no write can change it:
 
-Live tests: `SentryTurnSpeed` (Autocannon Sentry 20 → 120/90 °/s) and `SentryDetectionRange` (MG-43 75 → 25 m), both
-passed. No sentry timing member has independent evidence, so no search-interval or retarget-delay test exists yet.
+- the distance score curves and caps above;
+- the fire cones: the sentry fires only within 3° of its aim on the MG-43 and G-16, 2° on the AC-8 and 10° on the
+  FLAM-40 and LAS-98;
+- the re-pick, initial-wait and alert timings;
+- the mortar minimum distances.
+
+Data members that stay unmapped:
+
+- **TargetingComponent +4/+8/+12.** These were previously listed as "timers (0.5 / 0.5 / 5 s)". That was wrong:
+  - +8 and +12 are the damping and stiffness of the aim-direction spring, and +16 and +20 are its speed cap and gate
+    angle;
+  - they are the same on every sentry;
+  - whether the turret follows that spring is not shown;
+  - no reader of +4 was found.
+- **TurretComponent +36/+40 (0.1).** The debounce of the rotation sound and animation events; presentation only.
+- **SensorEye +12/+16 (20/20, 360/360 on the AC-8).** Cone half-angles used only by a sensor type no sentry has.
+
+Details: [sentry component research](research/sentry-components-F5FEE03DCFDB.md).
 
 ## Vehicle and backpack call-in definitions
 

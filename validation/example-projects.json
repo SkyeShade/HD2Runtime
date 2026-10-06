@@ -1,5 +1,5 @@
 {
-  "examples": 103,
+  "examples": 117,
   "failed": [],
   "mode": "snapshot",
   "results": {
@@ -58,6 +58,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "primary",
           "callKind": "plan",
           "id": "projectile",
           "mode": "patch",
@@ -69,6 +70,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "primary_impact",
           "callKind": "plan",
           "id": "explosion",
           "mode": "patch",
@@ -96,6 +98,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "primary",
           "callKind": "ensure",
           "id": "arc-thrower-proof",
           "mode": "patch",
@@ -213,6 +216,7 @@
       "operations": [
         {
           "acknowledgements": {},
+          "attack": "primary",
           "callKind": "ensure",
           "id": "asset-test-reprimand-talon",
           "mode": "patch",
@@ -266,6 +270,32 @@
         "payload.spawn_count -> 0.26.0",
         "pod_rack target -> 0.26.0",
         "typed writes -> 0.23.2"
+      ]
+    },
+    "AutoSupplyPackTest": {
+      "baselineChanges": null,
+      "calls": [],
+      "minVersion": "0.30.0-dev",
+      "operations": {},
+      "problems": [],
+      "requiredMinVersion": "0.28.0",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0"
+      ]
+    },
+    "AvatarActionsTest": {
+      "baselineChanges": null,
+      "calls": [],
+      "minVersion": "0.30.0-dev",
+      "operations": {},
+      "problems": [],
+      "requiredMinVersion": "0.28.0",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0"
       ]
     },
     "BallisticShieldArmorTest": {
@@ -797,6 +827,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "detonation",
           "callKind": "ensure",
           "id": "radius",
           "mode": "patch",
@@ -808,6 +839,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "detonation",
           "callKind": "ensure",
           "id": "damage",
           "mode": "patch",
@@ -888,6 +920,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "primary",
           "callKind": "ensure",
           "id": "damage",
           "mode": "transaction",
@@ -899,6 +932,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "primary",
           "callKind": "ensure",
           "id": "impact",
           "mode": "patch",
@@ -910,6 +944,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "primary",
           "callKind": "ensure",
           "id": "expiry",
           "mode": "patch",
@@ -990,6 +1025,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "primary_damage",
           "callKind": "plan",
           "id": "damage",
           "mode": "patch",
@@ -1017,6 +1053,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "primary",
           "callKind": "ensure",
           "id": "spray",
           "mode": "transaction",
@@ -1150,6 +1187,70 @@
         "typed writes -> 0.23.2"
       ]
     },
+    "EagleFieldsTest": {
+      "baselineChanges": 4,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.30.0-dev",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "eagle-airstrike-pattern",
+          "mode": "patch",
+          "path": "stratagem",
+          "resource": "stratagem"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared",
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "eagle-napalm-interval",
+          "mode": "patch",
+          "path": "stratagem",
+          "resource": "stratagem"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared",
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "eagle-strafe-duration",
+          "mode": "patch",
+          "path": "stratagem",
+          "resource": "stratagem"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "eagle-rocket-radius",
+          "mode": "patch",
+          "path": "stratagem",
+          "resource": "stratagem"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.30.0-dev",
+      "status": "VALIDATED",
+      "usesOptions": true,
+      "versionReasons": [
+        "eagle.airstrike_pattern -> 0.30.0-dev",
+        "eagle.drop_interval -> 0.30.0-dev",
+        "eagle.fire_duration -> 0.30.0-dev",
+        "eagle.target_radius -> 0.30.0-dev",
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0",
+        "in-game options -> 0.25.1",
+        "typed writes -> 0.23.2"
+      ]
+    },
     "EagleProof": {
       "baselineChanges": 4,
       "calls": [
@@ -1179,6 +1280,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "delivery_1_projectile_impact",
           "callKind": "plan",
           "id": "payload",
           "mode": "patch",
@@ -1205,6 +1307,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "primary",
           "callKind": "ensure",
           "id": "direct",
           "mode": "transaction",
@@ -1216,6 +1319,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "primary_impact",
           "callKind": "ensure",
           "id": "blast",
           "mode": "patch",
@@ -1305,6 +1409,7 @@
             "allow_shared",
             "allow_unverified_effect"
           ],
+          "attack": "slot_1",
           "callKind": "ensure",
           "id": "shell",
           "mode": "transaction",
@@ -1316,6 +1421,7 @@
             "allow_shared",
             "allow_unverified_effect"
           ],
+          "attack": "slot_1_impact",
           "callKind": "ensure",
           "id": "splash",
           "mode": "transaction",
@@ -1357,6 +1463,120 @@
         "typed writes -> 0.23.2"
       ]
     },
+    "EnemySpawnMixTest": {
+      "baselineChanges": null,
+      "calls": [],
+      "minVersion": "0.30.0-dev",
+      "operations": {},
+      "problems": [],
+      "requiredMinVersion": "0.30.0-dev",
+      "status": "VALIDATED",
+      "usesOptions": true,
+      "versionReasons": [
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0",
+        "hd2.enemies spawn weights -> 0.30.0-dev",
+        "in-game options -> 0.25.1"
+      ]
+    },
+    "EpochExplosionsTest": {
+      "baselineChanges": 16,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.30.0-dev",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_shared",
+            "allow_unverified_effect"
+          ],
+          "attack": "overcharge_explosion",
+          "callKind": "ensure",
+          "id": "epoch-harmless-overcharge",
+          "mode": "transaction",
+          "path": "explosion",
+          "resource": "support_weapon",
+          "weapon": "PLAS-45 Epoch"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared",
+            "allow_unverified_effect"
+          ],
+          "attack": "overcharge_explosion",
+          "callKind": "ensure",
+          "id": "epoch-wide-overcharge",
+          "mode": "transaction",
+          "path": "explosion",
+          "resource": "support_weapon",
+          "weapon": "PLAS-45 Epoch"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared",
+            "allow_unverified_effect"
+          ],
+          "attack": "primary_impact",
+          "callKind": "ensure",
+          "id": "epoch-big-partial-blast",
+          "mode": "transaction",
+          "path": "explosion",
+          "resource": "support_weapon",
+          "weapon": "PLAS-45 Epoch"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared",
+            "allow_unverified_effect"
+          ],
+          "attack": "full_charge_impact",
+          "callKind": "ensure",
+          "id": "epoch-big-full-charge-blast",
+          "mode": "transaction",
+          "path": "explosion",
+          "resource": "support_weapon",
+          "weapon": "PLAS-45 Epoch"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared",
+            "allow_unverified_effect"
+          ],
+          "attack": "full_charge",
+          "callKind": "ensure",
+          "id": "epoch-slow-full-charge",
+          "mode": "patch",
+          "path": "projectile_reference",
+          "resource": "support_weapon",
+          "weapon": "PLAS-45 Epoch"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared",
+            "allow_unverified_effect"
+          ],
+          "attack": "overcharge_explosion",
+          "callKind": "ensure",
+          "id": "railgun-gentle-overcharge",
+          "mode": "transaction",
+          "path": "explosion",
+          "resource": "support_weapon",
+          "weapon": "RS-422 Railgun"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.30.0-dev",
+      "status": "VALIDATED",
+      "usesOptions": true,
+      "versionReasons": [
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0",
+        "in-game options -> 0.25.1",
+        "support attack role full_charge -> 0.30.0-dev",
+        "support attack role full_charge_impact -> 0.30.0-dev",
+        "support attack role overcharge_explosion -> 0.30.0-dev",
+        "typed writes -> 0.23.2"
+      ]
+    },
     "EquippedWeaponEventTest": {
       "baselineChanges": null,
       "calls": [],
@@ -1379,6 +1599,7 @@
       "operations": [
         {
           "acknowledgements": {},
+          "attack": "primary",
           "callKind": "ensure",
           "id": "eruptor-radius-5m",
           "mode": "patch",
@@ -1466,6 +1687,7 @@
       "operations": [
         {
           "acknowledgements": {},
+          "attack": "primary",
           "callKind": "ensure",
           "id": "scorcher-crossbow-projectile",
           "mode": "patch",
@@ -1501,6 +1723,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "primary_impact",
           "callKind": "plan",
           "id": "radius",
           "mode": "patch",
@@ -1512,6 +1735,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "primary_impact_damage",
           "callKind": "plan",
           "id": "damage",
           "mode": "patch",
@@ -1724,6 +1948,256 @@
         "typed writes -> 0.23.2"
       ]
     },
+    "GibThresholdTest": {
+      "baselineChanges": 23,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.30.0-dev",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "gib-threshold-scavenger-base",
+          "mode": "patch",
+          "path": "entity",
+          "resource": "enemy"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "gib-threshold-scavenger-gloom",
+          "mode": "patch",
+          "path": "entity",
+          "resource": "enemy"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "gib-threshold-scavenger-predator",
+          "mode": "patch",
+          "path": "entity",
+          "resource": "enemy"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "gib-threshold-scavenger-spitter",
+          "mode": "patch",
+          "path": "entity",
+          "resource": "enemy"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "gib-threshold-scavenger-tier-1",
+          "mode": "patch",
+          "path": "entity",
+          "resource": "enemy"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "gib-threshold-scavenger-tier-1-captive",
+          "mode": "patch",
+          "path": "entity",
+          "resource": "enemy"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "gib-threshold-scavenger-tier-2",
+          "mode": "patch",
+          "path": "entity",
+          "resource": "enemy"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "gib-threshold-hunter-base",
+          "mode": "patch",
+          "path": "entity",
+          "resource": "enemy"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "gib-threshold-spore-burst-hunter",
+          "mode": "patch",
+          "path": "entity",
+          "resource": "enemy"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "gib-threshold-hunter-tier-1",
+          "mode": "patch",
+          "path": "entity",
+          "resource": "enemy"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "gib-threshold-hunter-tier-2",
+          "mode": "patch",
+          "path": "entity",
+          "resource": "enemy"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "gib-threshold-predator-hunter",
+          "mode": "patch",
+          "path": "entity",
+          "resource": "enemy"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "gib-threshold-warrior-base",
+          "mode": "patch",
+          "path": "entity",
+          "resource": "enemy"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "gib-threshold-warrior-acid",
+          "mode": "patch",
+          "path": "entity",
+          "resource": "enemy"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "gib-threshold-warrior-big",
+          "mode": "patch",
+          "path": "entity",
+          "resource": "enemy"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "gib-threshold-warrior-big-tier2",
+          "mode": "patch",
+          "path": "entity",
+          "resource": "enemy"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "gib-threshold-warrior-burrower",
+          "mode": "patch",
+          "path": "entity",
+          "resource": "enemy"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "gib-threshold-spore-burst-warrior",
+          "mode": "patch",
+          "path": "entity",
+          "resource": "enemy"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "gib-threshold-warrior-tier-1",
+          "mode": "patch",
+          "path": "entity",
+          "resource": "enemy"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "gib-threshold-warrior-tier-1-captive",
+          "mode": "patch",
+          "path": "entity",
+          "resource": "enemy"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "gib-threshold-warrior-tier-2",
+          "mode": "patch",
+          "path": "entity",
+          "resource": "enemy"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "gib-threshold-warrior-tier-2-guard",
+          "mode": "patch",
+          "path": "entity",
+          "resource": "enemy"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "gib-threshold-hive-guard",
+          "mode": "patch",
+          "path": "entity",
+          "resource": "enemy"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.30.0-dev",
+      "status": "VALIDATED",
+      "usesOptions": true,
+      "versionReasons": [
+        "enemy target -> 0.28.0",
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0",
+        "gore.whole_body_gib_damage -> 0.30.0-dev",
+        "in-game options -> 0.25.1",
+        "typed writes -> 0.23.2"
+      ]
+    },
     "GuardDogTest": {
       "baselineChanges": 9,
       "calls": [
@@ -1799,6 +2273,7 @@
             "allow_shared",
             "allow_unverified_effect"
           ],
+          "attack": "primary",
           "callKind": "ensure",
           "id": "k9-arc",
           "mode": "transaction",
@@ -1834,6 +2309,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "primary",
           "callKind": "ensure",
           "id": "options-test-liberator-damage",
           "mode": "patch",
@@ -1954,6 +2430,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "feed_primary",
           "callKind": "ensure",
           "id": "halt-flechettes-burn",
           "mode": "transaction",
@@ -2151,6 +2628,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "primary",
           "callKind": "ensure",
           "id": "jar5-ap4",
           "mode": "transaction",
@@ -2164,6 +2642,115 @@
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "JumpHoverTest": {
+      "baselineChanges": 11,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.30.0-dev",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "jump-flat-dash",
+          "mode": "patch",
+          "path": "backpack",
+          "resource": "backpack"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "jump-long-launch",
+          "mode": "patch",
+          "path": "backpack",
+          "resource": "backpack"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "jump-second-boost",
+          "mode": "transaction",
+          "path": "backpack",
+          "resource": "backpack"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "jump-air-steer",
+          "mode": "patch",
+          "path": "backpack",
+          "resource": "backpack"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "jump-big-hop",
+          "mode": "patch",
+          "path": "backpack",
+          "resource": "backpack"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "hover-drift",
+          "mode": "transaction",
+          "path": "backpack",
+          "resource": "backpack"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "hover-fuel",
+          "mode": "transaction",
+          "path": "backpack",
+          "resource": "backpack"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "hover-climb",
+          "mode": "patch",
+          "path": "backpack",
+          "resource": "backpack"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.30.0-dev",
+      "status": "VALIDATED",
+      "usesOptions": true,
+      "versionReasons": [
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0",
+        "hover.fuel_rate_high_speed -> 0.30.0-dev",
+        "hover.fuel_rate_low_speed -> 0.30.0-dev",
+        "hover.max_horizontal_speed -> 0.30.0-dev",
+        "hover.max_vertical_speed -> 0.30.0-dev",
+        "hover.vertical_acceleration_low_speed -> 0.30.0-dev",
+        "in-game options -> 0.25.1",
+        "jump.air_control_acceleration -> 0.30.0-dev",
+        "jump.launch_duration -> 0.30.0-dev",
+        "jump.launch_forward_ratio -> 0.30.0-dev",
+        "jump.sustain_duration -> 0.30.0-dev",
+        "jump.sustain_thrust -> 0.30.0-dev",
+        "jump.takeoff_speed -> 0.30.0-dev",
         "typed writes -> 0.23.2"
       ]
     },
@@ -2223,6 +2810,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "primary",
           "callKind": "ensure",
           "id": "kill-stack-liberator-damage",
           "mode": "patch",
@@ -2313,6 +2901,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "primary",
           "callKind": "ensure",
           "id": "liberator-damage",
           "mode": "patch",
@@ -2341,6 +2930,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "primary",
           "callKind": "ensure",
           "id": "liberator-damage",
           "mode": "transaction",
@@ -2368,6 +2958,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "primary",
           "callKind": "ensure",
           "id": "fire",
           "mode": "transaction",
@@ -2384,6 +2975,19 @@
         "player_weapon damage.status_1_strength -> 0.28.0",
         "player_weapon damage.status_1_type -> 0.28.0",
         "typed writes -> 0.23.2"
+      ]
+    },
+    "LimbInjuryTest": {
+      "baselineChanges": null,
+      "calls": [],
+      "minVersion": "0.30.0-dev",
+      "operations": {},
+      "problems": [],
+      "requiredMinVersion": "0.28.0",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0"
       ]
     },
     "LumbererAmmo": {
@@ -2556,6 +3160,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "primary",
           "callKind": "ensure",
           "id": "stun",
           "mode": "transaction",
@@ -2610,6 +3215,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "mine",
           "callKind": "ensure",
           "id": "radius",
           "mode": "patch",
@@ -2621,6 +3227,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "mine_damage",
           "callKind": "ensure",
           "id": "damage",
           "mode": "transaction",
@@ -2714,6 +3321,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "delivery_1_projectile_impact",
           "callKind": "plan",
           "id": "radius",
           "mode": "patch",
@@ -2724,6 +3332,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "delivery_1_projectile_impact_damage",
           "callKind": "plan",
           "id": "damage",
           "mode": "patch",
@@ -2750,6 +3359,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "beam_damage",
           "callKind": "patch",
           "id": "orbital-laser-proof",
           "mode": "patch",
@@ -2784,6 +3394,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "delivery_1_projectile_impact",
           "callKind": "plan",
           "id": "radius",
           "mode": "patch",
@@ -2796,6 +3407,90 @@
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "OrbitalStrikeFieldsTest": {
+      "baselineChanges": 12,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.30.0-dev",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "ems-barrage",
+          "mode": "transaction",
+          "path": "stratagem",
+          "resource": "stratagem"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "precise-napalm",
+          "mode": "transaction",
+          "path": "stratagem",
+          "resource": "stratagem"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "fast-120mm",
+          "mode": "patch",
+          "path": "stratagem",
+          "resource": "stratagem"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "slow-380mm",
+          "mode": "patch",
+          "path": "stratagem",
+          "resource": "stratagem"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "gatling-pauses",
+          "mode": "patch",
+          "path": "stratagem",
+          "resource": "stratagem"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "eagle-delay",
+          "mode": "patch",
+          "path": "stratagem",
+          "resource": "stratagem"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.30.0-dev",
+      "status": "VALIDATED",
+      "usesOptions": true,
+      "versionReasons": [
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0",
+        "in-game options -> 0.25.1",
+        "orbital.salvo_interval -> 0.30.0-dev",
+        "orbital.salvos -> 0.30.0-dev",
+        "orbital.scatter -> 0.30.0-dev",
+        "orbital.shell_interval -> 0.30.0-dev",
+        "orbital.shells_per_salvo -> 0.30.0-dev",
+        "stratagem.call_in_time -> 0.30.0-dev",
         "typed writes -> 0.23.2"
       ]
     },
@@ -2927,6 +3622,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "primary",
           "callKind": "ensure",
           "id": "missile-damage",
           "mode": "transaction",
@@ -2938,6 +3634,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "primary",
           "callKind": "ensure",
           "id": "hmg-damage",
           "mode": "transaction",
@@ -2989,6 +3686,120 @@
         "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0"
       ]
     },
+    "ProjectileDonorTest": {
+      "baselineChanges": 6,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.30.0-dev",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "attack": "primary",
+          "callKind": "ensure",
+          "id": "reprimand-500kg",
+          "mode": "transaction",
+          "path": "attack",
+          "resource": "player_weapon",
+          "weapon": "SMG-32 Reprimand"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "attack": "primary",
+          "callKind": "ensure",
+          "id": "stalwart-precision",
+          "mode": "transaction",
+          "path": "attack",
+          "resource": "support_weapon",
+          "weapon": "M-105 Stalwart"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "attack": "primary",
+          "callKind": "ensure",
+          "id": "arbitrator-hmg",
+          "mode": "transaction",
+          "path": "attack",
+          "resource": "player_weapon",
+          "weapon": "AR-11 Arbitrator"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "attack": "primary",
+          "callKind": "ensure",
+          "id": "apw-flak",
+          "mode": "transaction",
+          "path": "attack",
+          "resource": "support_weapon",
+          "weapon": "APW-1 Anti-Materiel Rifle"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "attack": "primary",
+          "callKind": "ensure",
+          "id": "hmg-gatling",
+          "mode": "transaction",
+          "path": "attack",
+          "resource": "support_weapon",
+          "weapon": "MG-206 Heavy Machine Gun"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "attack": "primary",
+          "callKind": "ensure",
+          "id": "amendment-railcannon",
+          "mode": "transaction",
+          "path": "attack",
+          "resource": "player_weapon",
+          "weapon": "R-2 Amendment"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.30.0-dev",
+      "status": "VALIDATED",
+      "usesOptions": true,
+      "versionReasons": [
+        "M-105 Stalwart -> 0.24.0",
+        "MG-206 Heavy Machine Gun -> 0.24.0",
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0",
+        "in-game options -> 0.25.1",
+        "more projectile donors (docs/attack-outputs.md) -> 0.30.0-dev",
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "ProjectileHomingTest": {
+      "baselineChanges": null,
+      "calls": [],
+      "minVersion": "0.30.0-dev",
+      "operations": {},
+      "problems": [],
+      "requiredMinVersion": "0.30.0-dev",
+      "status": "VALIDATED",
+      "usesOptions": true,
+      "versionReasons": [
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0",
+        "hd2.projectiles.homing -> 0.30.0-dev",
+        "in-game options -> 0.25.1"
+      ]
+    },
     "ProjectileSlotTest": {
       "baselineChanges": 2,
       "calls": [
@@ -3027,6 +3838,131 @@
         "typed writes -> 0.23.2"
       ]
     },
+    "RailgunChargeTest": {
+      "baselineChanges": 12,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.30.0-dev",
+      "operations": [
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "railgun-charge-times",
+          "mode": "transaction",
+          "path": "weapon",
+          "resource": "support_weapon",
+          "weapon": "RS-422 Railgun"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "railgun-no-explode",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "support_weapon",
+          "weapon": "RS-422 Railgun"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "railgun-hold-limit",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "support_weapon",
+          "weapon": "RS-422 Railgun"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "railgun-auto-fire",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "support_weapon",
+          "weapon": "RS-422 Railgun"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "railgun-crawl-shot",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "support_weapon",
+          "weapon": "RS-422 Railgun"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "railgun-weak-ap",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "support_weapon",
+          "weapon": "RS-422 Railgun"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "railgun-huge-damage",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "support_weapon",
+          "weapon": "RS-422 Railgun"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "callKind": "ensure",
+          "id": "railgun-epoch-blast",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "support_weapon",
+          "weapon": "RS-422 Railgun"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "arc-burst",
+          "mode": "transaction",
+          "path": "weapon",
+          "resource": "support_weapon",
+          "weapon": "ARC-3 Arc Thrower"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.30.0-dev",
+      "status": "VALIDATED",
+      "usesOptions": true,
+      "versionReasons": [
+        "charge.auto_fire_at_full -> 0.30.0-dev",
+        "charge.burst_interval_seconds -> 0.30.0-dev",
+        "charge.burst_shots -> 0.30.0-dev",
+        "charge.damage_multiplier_overcharge -> 0.30.0-dev",
+        "charge.explode_at_overcharge -> 0.30.0-dev",
+        "charge.overcharge_explosion -> 0.30.0-dev",
+        "charge.overcharge_limit_seconds -> 0.30.0-dev",
+        "charge.penetration_multiplier_overcharge -> 0.30.0-dev",
+        "charge.speed_multiplier_min -> 0.30.0-dev",
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0",
+        "in-game options -> 0.25.1",
+        "typed writes -> 0.23.2"
+      ]
+    },
     "RecoillessProof": {
       "baselineChanges": 3,
       "calls": [
@@ -3038,6 +3974,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "primary",
           "callKind": "ensure",
           "id": "velocity",
           "mode": "patch",
@@ -3049,6 +3986,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "primary_impact",
           "callKind": "ensure",
           "id": "radius",
           "mode": "patch",
@@ -3060,6 +3998,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "primary_impact",
           "callKind": "ensure",
           "id": "damage",
           "mode": "patch",
@@ -3194,6 +4133,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "feed_primary",
           "callKind": "ensure",
           "id": "diag-halt-damage",
           "mode": "patch",
@@ -3214,6 +4154,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "primary",
           "callKind": "ensure",
           "id": "diag-maxigun-damage",
           "mode": "patch",
@@ -3266,7 +4207,7 @@
     "RuntimeVersionWarningTest": {
       "baselineChanges": null,
       "calls": [],
-      "minVersion": "0.29.0",
+      "minVersion": "0.31.0",
       "operations": {},
       "problems": [],
       "requiredMinVersion": "0.1.0",
@@ -3297,6 +4238,117 @@
       "versionReasons": [
         "stratagem targeting.range -> 0.28.0",
         "typed writes -> 0.23.2"
+      ]
+    },
+    "SentryTuningTest": {
+      "baselineChanges": 12,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.30.0-dev",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "sentry-mg43-spread",
+          "mode": "transaction",
+          "path": "weapon",
+          "resource": "stratagem",
+          "weapon": "primary"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "sentry-ac8-recoil",
+          "mode": "transaction",
+          "path": "weapon",
+          "resource": "stratagem",
+          "weapon": "primary"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "sentry-ac8-coupling",
+          "mode": "patch",
+          "path": "turret",
+          "resource": "stratagem"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "sentry-m12-coupling",
+          "mode": "patch",
+          "path": "turret",
+          "resource": "stratagem"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "sentry-g16-windup",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "stratagem",
+          "weapon": "primary"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "sentry-mg43-blind-spots",
+          "mode": "transaction",
+          "path": "targeting",
+          "resource": "stratagem"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "sentry-mg43-yaw-limits",
+          "mode": "transaction",
+          "path": "turret",
+          "resource": "stratagem"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "sentry-mg43-range-control",
+          "mode": "patch",
+          "path": "targeting",
+          "resource": "stratagem"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.30.0-dev",
+      "status": "VALIDATED",
+      "usesOptions": true,
+      "versionReasons": [
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0",
+        "in-game options -> 0.25.1",
+        "stratagem targeting.range -> 0.28.0",
+        "stratagem turret.yaw_max -> 0.28.0",
+        "stratagem turret.yaw_min -> 0.28.0",
+        "stratagem weapon.horizontal_spread -> 0.30.0-dev",
+        "stratagem weapon.recoil_climb_vertical -> 0.30.0-dev",
+        "stratagem weapon.recoil_drift_vertical -> 0.30.0-dev",
+        "stratagem weapon.vertical_spread -> 0.30.0-dev",
+        "stratagem windup.wind_up_seconds -> 0.30.0-dev",
+        "targeting.rear_range -> 0.30.0-dev",
+        "targeting.side_range -> 0.30.0-dev",
+        "turret.pitch_yaw_coupling -> 0.30.0-dev",
+        "typed writes -> 0.23.2",
+        "windup.wind_up_seconds -> 0.24.0"
       ]
     },
     "SentryTurnSpeed": {
@@ -3657,6 +4709,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "primary",
           "callKind": "ensure",
           "id": "velocity",
           "mode": "patch",
@@ -3668,6 +4721,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "primary",
           "callKind": "ensure",
           "id": "damage",
           "mode": "patch",
@@ -3757,6 +4811,7 @@
       "operations": [
         {
           "acknowledgements": {},
+          "attack": "primary",
           "callKind": "ensure",
           "id": "crossbow-remove-impact-explosion",
           "mode": "patch",
@@ -3782,6 +4837,7 @@
       "operations": [
         {
           "acknowledgements": {},
+          "attack": "primary",
           "callKind": "ensure",
           "id": "crossbow-purifier-impact",
           "mode": "patch",
@@ -3847,6 +4903,7 @@
           "acknowledgements": [
             "allow_unverified_effect"
           ],
+          "attack": "primary",
           "callKind": "ensure",
           "id": "eat-scorcher",
           "mode": "transaction",
@@ -3859,6 +4916,7 @@
             "allow_unverified_effect",
             "allow_unverified_reference"
           ],
+          "attack": "primary",
           "callKind": "ensure",
           "id": "reprimand-napalm",
           "mode": "transaction",
@@ -3881,6 +4939,7 @@
           "acknowledgements": [
             "allow_unverified_effect"
           ],
+          "attack": "primary",
           "callKind": "ensure",
           "id": "stalwart-amr",
           "mode": "transaction",
@@ -3921,6 +4980,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "primary",
           "callKind": "plan",
           "id": "beam",
           "mode": "patch",
@@ -3971,6 +5031,7 @@
             "allow_unverified_effect",
             "allow_unverified_reference"
           ],
+          "attack": "primary",
           "callKind": "ensure",
           "id": "patriot-minigun-projectile",
           "mode": "transaction",
@@ -4009,6 +5070,89 @@
         "typed writes -> 0.23.2",
         "vehicle_weapon attack.primary.projectile -> 0.28.0",
         "vehicle_weapon target -> 0.26.0"
+      ]
+    },
+    "VehicleTuningTest": {
+      "baselineChanges": 8,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.30.0-dev",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "m103-traverse",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "vehicle_weapon",
+          "weapon": "M-103 Supply FRV / gun"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "bastion-traverse",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "vehicle_weapon",
+          "weapon": "TD-220 Bastion MK XVI / attach_tank_gun"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "bastion-cannon-limits",
+          "mode": "transaction",
+          "path": "weapon",
+          "resource": "vehicle_weapon",
+          "weapon": "TD-220 Bastion MK XVI / attach_tank_gun"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "patriot-rotation",
+          "mode": "transaction",
+          "path": "entity",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "frv-steering",
+          "mode": "patch",
+          "path": "entity",
+          "resource": "vehicle"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.30.0-dev",
+      "status": "VALIDATED",
+      "usesOptions": true,
+      "versionReasons": [
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0",
+        "in-game options -> 0.25.1",
+        "rotation.acceleration -> 0.30.0-dev",
+        "rotation.turn_speed -> 0.30.0-dev",
+        "typed writes -> 0.23.2",
+        "vehicle.steering_response_speed -> 0.30.0-dev",
+        "vehicle_weapon target -> 0.26.0",
+        "vehicle_weapon turret.pitch_max -> 0.28.0",
+        "vehicle_weapon turret.pitch_max -> 0.30.0-dev",
+        "vehicle_weapon turret.yaw_max -> 0.28.0",
+        "vehicle_weapon turret.yaw_max -> 0.30.0-dev",
+        "vehicle_weapon turret.yaw_min -> 0.28.0",
+        "vehicle_weapon turret.yaw_min -> 0.30.0-dev",
+        "vehicle_weapon turret.yaw_speed -> 0.28.0",
+        "vehicle_weapon turret.yaw_speed -> 0.30.0-dev"
       ]
     },
     "WarpPackTest": {
@@ -4076,6 +5220,7 @@
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "primary",
           "callKind": "ensure",
           "id": "concussive-gameplay-ap",
           "mode": "transaction",
@@ -4108,7 +5253,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.28.0",
+      "minVersion": "0.30.0-dev",
       "operations": [
         {
           "acknowledgements": {},
@@ -4133,12 +5278,13 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.28.0",
+      "minVersion": "0.30.0-dev",
       "operations": [
         {
           "acknowledgements": [
             "allow_shared"
           ],
+          "attack": "primary",
           "callKind": "ensure",
           "id": "liberator-damage",
           "mode": "transaction",

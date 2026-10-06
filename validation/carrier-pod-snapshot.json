@@ -1,0 +1,947 @@
+{
+ "build": "F5FEE03DCFDB",
+ "gameWrites": 0,
+ "passed": true,
+ "schemaVersion": 1,
+ "snapshots": {
+  "F5FEE03DCFDB-20260926T222226Z.hd2snap": {
+   "passed": true,
+   "phase": "ship",
+   "problems": [],
+   "report": {
+    "cases": [
+     {
+      "apply": {
+       "code": "NOT_IN_MISSION",
+       "reason": "a carrier pod is written in a mission only",
+       "status": "refused",
+       "writes": 0
+      },
+      "carrier": "EAT-411 Leveller",
+      "inspect": {
+       "native": true
+      },
+      "plan": {
+       "expected": 1,
+       "ok": true,
+       "writes": 1
+      }
+     },
+     {
+      "apply": {
+       "code": "NOT_IN_MISSION",
+       "reason": "a carrier pod is written in a mission only",
+       "status": "refused",
+       "writes": 0
+      },
+      "carrier": "EAT-700 Expendable Napalm",
+      "inspect": {
+       "native": true
+      },
+      "plan": {
+       "expected": 0,
+       "ok": true,
+       "writes": 0
+      }
+     },
+     {
+      "apply": {
+       "code": "NOT_IN_MISSION",
+       "reason": "a carrier pod is written in a mission only",
+       "status": "refused",
+       "writes": 0
+      },
+      "carrier": "AC-8 Autocannon",
+      "inspect": {
+       "native": true
+      },
+      "plan": {
+       "expected": 4,
+       "ok": true,
+       "writes": 4
+      }
+     },
+     {
+      "apply": {
+       "code": "NOT_IN_MISSION",
+       "reason": "a carrier pod is written in a mission only",
+       "status": "refused",
+       "writes": 0
+      },
+      "carrier": "RL-77 Airburst Rocket Launcher",
+      "inspect": {
+       "native": true
+      },
+      "plan": {
+       "expected": 4,
+       "ok": true,
+       "writes": 4
+      }
+     }
+    ],
+    "mission": false,
+    "planRefusals": {
+     "capacity": "CAPACITY",
+     "role": "ROLE",
+     "shared": "NO_EXCLUSIVE_RACK"
+    },
+    "players": 1
+   }
+  },
+  "F5FEE03DCFDB-20260927T155654Z.hd2snap": {
+   "passed": true,
+   "phase": "ship",
+   "problems": [],
+   "report": {
+    "cases": [
+     {
+      "apply": {
+       "code": "NOT_IN_MISSION",
+       "reason": "a carrier pod is written in a mission only",
+       "status": "refused",
+       "writes": 0
+      },
+      "carrier": "EAT-411 Leveller",
+      "inspect": {
+       "native": true
+      },
+      "plan": {
+       "expected": 1,
+       "ok": true,
+       "writes": 1
+      }
+     },
+     {
+      "apply": {
+       "code": "NOT_IN_MISSION",
+       "reason": "a carrier pod is written in a mission only",
+       "status": "refused",
+       "writes": 0
+      },
+      "carrier": "EAT-700 Expendable Napalm",
+      "inspect": {
+       "native": true
+      },
+      "plan": {
+       "expected": 0,
+       "ok": true,
+       "writes": 0
+      }
+     },
+     {
+      "apply": {
+       "code": "NOT_IN_MISSION",
+       "reason": "a carrier pod is written in a mission only",
+       "status": "refused",
+       "writes": 0
+      },
+      "carrier": "AC-8 Autocannon",
+      "inspect": {
+       "native": true
+      },
+      "plan": {
+       "expected": 4,
+       "ok": true,
+       "writes": 4
+      }
+     },
+     {
+      "apply": {
+       "code": "NOT_IN_MISSION",
+       "reason": "a carrier pod is written in a mission only",
+       "status": "refused",
+       "writes": 0
+      },
+      "carrier": "RL-77 Airburst Rocket Launcher",
+      "inspect": {
+       "native": true
+      },
+      "plan": {
+       "expected": 4,
+       "ok": true,
+       "writes": 4
+      }
+     }
+    ],
+    "mission": false,
+    "planRefusals": {
+     "capacity": "CAPACITY",
+     "role": "ROLE",
+     "shared": "NO_EXCLUSIVE_RACK"
+    },
+    "players": 1
+   }
+  },
+  "F5FEE03DCFDB-20260927T160033Z.hd2snap": {
+   "passed": true,
+   "phase": "ship",
+   "problems": [],
+   "report": {
+    "cases": [
+     {
+      "apply": {
+       "code": "NOT_IN_MISSION",
+       "reason": "a carrier pod is written in a mission only",
+       "status": "refused",
+       "writes": 0
+      },
+      "carrier": "EAT-411 Leveller",
+      "inspect": {
+       "native": true
+      },
+      "plan": {
+       "expected": 1,
+       "ok": true,
+       "writes": 1
+      }
+     },
+     {
+      "apply": {
+       "code": "NOT_IN_MISSION",
+       "reason": "a carrier pod is written in a mission only",
+       "status": "refused",
+       "writes": 0
+      },
+      "carrier": "EAT-700 Expendable Napalm",
+      "inspect": {
+       "native": true
+      },
+      "plan": {
+       "expected": 0,
+       "ok": true,
+       "writes": 0
+      }
+     },
+     {
+      "apply": {
+       "code": "NOT_IN_MISSION",
+       "reason": "a carrier pod is written in a mission only",
+       "status": "refused",
+       "writes": 0
+      },
+      "carrier": "AC-8 Autocannon",
+      "inspect": {
+       "native": true
+      },
+      "plan": {
+       "expected": 4,
+       "ok": true,
+       "writes": 4
+      }
+     },
+     {
+      "apply": {
+       "code": "NOT_IN_MISSION",
+       "reason": "a carrier pod is written in a mission only",
+       "status": "refused",
+       "writes": 0
+      },
+      "carrier": "RL-77 Airburst Rocket Launcher",
+      "inspect": {
+       "native": true
+      },
+      "plan": {
+       "expected": 4,
+       "ok": true,
+       "writes": 4
+      }
+     }
+    ],
+    "mission": false,
+    "planRefusals": {
+     "capacity": "CAPACITY",
+     "role": "ROLE",
+     "shared": "NO_EXCLUSIVE_RACK"
+    },
+    "players": 1
+   }
+  },
+  "F5FEE03DCFDB-20260929T172647Z-mission-host.hd2snap": {
+   "passed": true,
+   "phase": "alive",
+   "problems": [],
+   "report": {
+    "cases": [
+     {
+      "apply": {
+       "exact": true,
+       "otherBytesChanged": 0,
+       "outside": 0,
+       "protectionRestored": true,
+       "slots": 1,
+       "status": "applied",
+       "writes": 2
+      },
+      "assets": {
+       "code": "ASSET_UNAVAILABLE",
+       "status": "refused",
+       "writes": 0
+      },
+      "called": {
+       "code": "CARRIER_CALLED",
+       "status": "refused",
+       "writes": 0
+      },
+      "carrier": "EAT-411 Leveller",
+      "conflict": {
+       "code": "CONFLICT",
+       "exact": true,
+       "status": "refused",
+       "thenRestored": "restored",
+       "writesWhileRefused": true
+      },
+      "inspect": {
+       "native": true
+      },
+      "notNative": {
+       "code": "NOT_NATIVE",
+       "status": "refused",
+       "writes": 0
+      },
+      "plan": {
+       "expected": 1,
+       "ok": true,
+       "writes": 1
+      },
+      "restore": {
+       "exact": true,
+       "identical": true,
+       "status": "restored",
+       "writes": 2
+      }
+     },
+     {
+      "apply": {
+       "exact": true,
+       "otherBytesChanged": 0,
+       "outside": 0,
+       "protectionRestored": true,
+       "slots": 0,
+       "status": "applied",
+       "writes": 0
+      },
+      "assets": {
+       "code": "ASSET_UNAVAILABLE",
+       "status": "refused",
+       "writes": 0
+      },
+      "called": {
+       "code": "CARRIER_CALLED",
+       "status": "refused",
+       "writes": 0
+      },
+      "carrier": "EAT-700 Expendable Napalm",
+      "inspect": {
+       "native": true
+      },
+      "notNative": {
+       "code": "NOT_NATIVE",
+       "status": "refused",
+       "writes": 0
+      },
+      "plan": {
+       "expected": 0,
+       "ok": true,
+       "writes": 0
+      },
+      "restore": {
+       "exact": true,
+       "identical": true,
+       "status": "restored",
+       "writes": 0
+      }
+     },
+     {
+      "apply": {
+       "exact": true,
+       "otherBytesChanged": 0,
+       "outside": 0,
+       "protectionRestored": true,
+       "slots": 4,
+       "status": "applied",
+       "writes": 8
+      },
+      "assets": {
+       "code": "ASSET_UNAVAILABLE",
+       "status": "refused",
+       "writes": 0
+      },
+      "called": {
+       "code": "CARRIER_CALLED",
+       "status": "refused",
+       "writes": 0
+      },
+      "carrier": "AC-8 Autocannon",
+      "conflict": {
+       "code": "CONFLICT",
+       "exact": true,
+       "status": "refused",
+       "thenRestored": "restored",
+       "writesWhileRefused": true
+      },
+      "inspect": {
+       "native": true
+      },
+      "notNative": {
+       "code": "NOT_NATIVE",
+       "status": "refused",
+       "writes": 0
+      },
+      "plan": {
+       "expected": 4,
+       "ok": true,
+       "writes": 4
+      },
+      "restore": {
+       "exact": true,
+       "identical": true,
+       "status": "restored",
+       "writes": 8
+      }
+     },
+     {
+      "apply": {
+       "exact": true,
+       "otherBytesChanged": 0,
+       "outside": 0,
+       "protectionRestored": true,
+       "slots": 4,
+       "status": "applied",
+       "writes": 8
+      },
+      "assets": {
+       "code": "ASSET_UNAVAILABLE",
+       "status": "refused",
+       "writes": 0
+      },
+      "called": {
+       "code": "CARRIER_CALLED",
+       "status": "refused",
+       "writes": 0
+      },
+      "carrier": "RL-77 Airburst Rocket Launcher",
+      "conflict": {
+       "code": "CONFLICT",
+       "exact": true,
+       "status": "refused",
+       "thenRestored": "restored",
+       "writesWhileRefused": true
+      },
+      "inspect": {
+       "native": true
+      },
+      "notNative": {
+       "code": "NOT_NATIVE",
+       "status": "refused",
+       "writes": 0
+      },
+      "plan": {
+       "expected": 4,
+       "ok": true,
+       "writes": 4
+      },
+      "restore": {
+       "exact": true,
+       "identical": true,
+       "status": "restored",
+       "writes": 8
+      }
+     }
+    ],
+    "mission": true,
+    "planRefusals": {
+     "capacity": "CAPACITY",
+     "role": "ROLE",
+     "shared": "NO_EXCLUSIVE_RACK"
+    },
+    "players": 1
+   }
+  },
+  "F5FEE03DCFDB-20260929T172918Z-mission-host-alive.hd2snap": {
+   "passed": true,
+   "phase": "alive",
+   "problems": [],
+   "report": {
+    "cases": [
+     {
+      "apply": {
+       "exact": true,
+       "otherBytesChanged": 0,
+       "outside": 0,
+       "protectionRestored": true,
+       "slots": 1,
+       "status": "applied",
+       "writes": 2
+      },
+      "assets": {
+       "code": "ASSET_UNAVAILABLE",
+       "status": "refused",
+       "writes": 0
+      },
+      "called": {
+       "code": "CARRIER_CALLED",
+       "status": "refused",
+       "writes": 0
+      },
+      "carrier": "EAT-411 Leveller",
+      "conflict": {
+       "code": "CONFLICT",
+       "exact": true,
+       "status": "refused",
+       "thenRestored": "restored",
+       "writesWhileRefused": true
+      },
+      "inspect": {
+       "native": true
+      },
+      "notNative": {
+       "code": "NOT_NATIVE",
+       "status": "refused",
+       "writes": 0
+      },
+      "plan": {
+       "expected": 1,
+       "ok": true,
+       "writes": 1
+      },
+      "restore": {
+       "exact": true,
+       "identical": true,
+       "status": "restored",
+       "writes": 2
+      }
+     },
+     {
+      "apply": {
+       "exact": true,
+       "otherBytesChanged": 0,
+       "outside": 0,
+       "protectionRestored": true,
+       "slots": 0,
+       "status": "applied",
+       "writes": 0
+      },
+      "assets": {
+       "code": "ASSET_UNAVAILABLE",
+       "status": "refused",
+       "writes": 0
+      },
+      "called": {
+       "code": "CARRIER_CALLED",
+       "status": "refused",
+       "writes": 0
+      },
+      "carrier": "EAT-700 Expendable Napalm",
+      "inspect": {
+       "native": true
+      },
+      "notNative": {
+       "code": "NOT_NATIVE",
+       "status": "refused",
+       "writes": 0
+      },
+      "plan": {
+       "expected": 0,
+       "ok": true,
+       "writes": 0
+      },
+      "restore": {
+       "exact": true,
+       "identical": true,
+       "status": "restored",
+       "writes": 0
+      }
+     },
+     {
+      "apply": {
+       "exact": true,
+       "otherBytesChanged": 0,
+       "outside": 0,
+       "protectionRestored": true,
+       "slots": 4,
+       "status": "applied",
+       "writes": 8
+      },
+      "assets": {
+       "code": "ASSET_UNAVAILABLE",
+       "status": "refused",
+       "writes": 0
+      },
+      "called": {
+       "code": "CARRIER_CALLED",
+       "status": "refused",
+       "writes": 0
+      },
+      "carrier": "AC-8 Autocannon",
+      "conflict": {
+       "code": "CONFLICT",
+       "exact": true,
+       "status": "refused",
+       "thenRestored": "restored",
+       "writesWhileRefused": true
+      },
+      "inspect": {
+       "native": true
+      },
+      "notNative": {
+       "code": "NOT_NATIVE",
+       "status": "refused",
+       "writes": 0
+      },
+      "plan": {
+       "expected": 4,
+       "ok": true,
+       "writes": 4
+      },
+      "restore": {
+       "exact": true,
+       "identical": true,
+       "status": "restored",
+       "writes": 8
+      }
+     },
+     {
+      "apply": {
+       "exact": true,
+       "otherBytesChanged": 0,
+       "outside": 0,
+       "protectionRestored": true,
+       "slots": 4,
+       "status": "applied",
+       "writes": 8
+      },
+      "assets": {
+       "code": "ASSET_UNAVAILABLE",
+       "status": "refused",
+       "writes": 0
+      },
+      "called": {
+       "code": "CARRIER_CALLED",
+       "status": "refused",
+       "writes": 0
+      },
+      "carrier": "RL-77 Airburst Rocket Launcher",
+      "conflict": {
+       "code": "CONFLICT",
+       "exact": true,
+       "status": "refused",
+       "thenRestored": "restored",
+       "writesWhileRefused": true
+      },
+      "inspect": {
+       "native": true
+      },
+      "notNative": {
+       "code": "NOT_NATIVE",
+       "status": "refused",
+       "writes": 0
+      },
+      "plan": {
+       "expected": 4,
+       "ok": true,
+       "writes": 4
+      },
+      "restore": {
+       "exact": true,
+       "identical": true,
+       "status": "restored",
+       "writes": 8
+      }
+     }
+    ],
+    "mission": true,
+    "planRefusals": {
+     "capacity": "CAPACITY",
+     "role": "ROLE",
+     "shared": "NO_EXCLUSIVE_RACK"
+    },
+    "players": 1
+   }
+  },
+  "F5FEE03DCFDB-20260929T173206Z-mission-host-after-reinforce.hd2snap": {
+   "passed": true,
+   "phase": "reinforced",
+   "problems": [],
+   "report": {
+    "cases": [
+     {
+      "apply": {
+       "exact": true,
+       "otherBytesChanged": 0,
+       "outside": 0,
+       "protectionRestored": true,
+       "slots": 1,
+       "status": "applied",
+       "writes": 2
+      },
+      "assets": {
+       "code": "ASSET_UNAVAILABLE",
+       "status": "refused",
+       "writes": 0
+      },
+      "called": {
+       "code": "CARRIER_CALLED",
+       "status": "refused",
+       "writes": 0
+      },
+      "carrier": "EAT-411 Leveller",
+      "conflict": {
+       "code": "CONFLICT",
+       "exact": true,
+       "status": "refused",
+       "thenRestored": "restored",
+       "writesWhileRefused": true
+      },
+      "inspect": {
+       "native": true
+      },
+      "notNative": {
+       "code": "NOT_NATIVE",
+       "status": "refused",
+       "writes": 0
+      },
+      "plan": {
+       "expected": 1,
+       "ok": true,
+       "writes": 1
+      },
+      "restore": {
+       "exact": true,
+       "identical": true,
+       "status": "restored",
+       "writes": 2
+      }
+     },
+     {
+      "apply": {
+       "exact": true,
+       "otherBytesChanged": 0,
+       "outside": 0,
+       "protectionRestored": true,
+       "slots": 0,
+       "status": "applied",
+       "writes": 0
+      },
+      "assets": {
+       "code": "ASSET_UNAVAILABLE",
+       "status": "refused",
+       "writes": 0
+      },
+      "called": {
+       "code": "CARRIER_CALLED",
+       "status": "refused",
+       "writes": 0
+      },
+      "carrier": "EAT-700 Expendable Napalm",
+      "inspect": {
+       "native": true
+      },
+      "notNative": {
+       "code": "NOT_NATIVE",
+       "status": "refused",
+       "writes": 0
+      },
+      "plan": {
+       "expected": 0,
+       "ok": true,
+       "writes": 0
+      },
+      "restore": {
+       "exact": true,
+       "identical": true,
+       "status": "restored",
+       "writes": 0
+      }
+     },
+     {
+      "apply": {
+       "exact": true,
+       "otherBytesChanged": 0,
+       "outside": 0,
+       "protectionRestored": true,
+       "slots": 4,
+       "status": "applied",
+       "writes": 8
+      },
+      "assets": {
+       "code": "ASSET_UNAVAILABLE",
+       "status": "refused",
+       "writes": 0
+      },
+      "called": {
+       "code": "CARRIER_CALLED",
+       "status": "refused",
+       "writes": 0
+      },
+      "carrier": "AC-8 Autocannon",
+      "conflict": {
+       "code": "CONFLICT",
+       "exact": true,
+       "status": "refused",
+       "thenRestored": "restored",
+       "writesWhileRefused": true
+      },
+      "inspect": {
+       "native": true
+      },
+      "notNative": {
+       "code": "NOT_NATIVE",
+       "status": "refused",
+       "writes": 0
+      },
+      "plan": {
+       "expected": 4,
+       "ok": true,
+       "writes": 4
+      },
+      "restore": {
+       "exact": true,
+       "identical": true,
+       "status": "restored",
+       "writes": 8
+      }
+     },
+     {
+      "apply": {
+       "exact": true,
+       "otherBytesChanged": 0,
+       "outside": 0,
+       "protectionRestored": true,
+       "slots": 4,
+       "status": "applied",
+       "writes": 8
+      },
+      "assets": {
+       "code": "ASSET_UNAVAILABLE",
+       "status": "refused",
+       "writes": 0
+      },
+      "called": {
+       "code": "CARRIER_CALLED",
+       "status": "refused",
+       "writes": 0
+      },
+      "carrier": "RL-77 Airburst Rocket Launcher",
+      "conflict": {
+       "code": "CONFLICT",
+       "exact": true,
+       "status": "refused",
+       "thenRestored": "restored",
+       "writesWhileRefused": true
+      },
+      "inspect": {
+       "native": true
+      },
+      "notNative": {
+       "code": "NOT_NATIVE",
+       "status": "refused",
+       "writes": 0
+      },
+      "plan": {
+       "expected": 4,
+       "ok": true,
+       "writes": 4
+      },
+      "restore": {
+       "exact": true,
+       "identical": true,
+       "status": "restored",
+       "writes": 8
+      }
+     }
+    ],
+    "mission": true,
+    "planRefusals": {
+     "capacity": "CAPACITY",
+     "role": "ROLE",
+     "shared": "NO_EXCLUSIVE_RACK"
+    },
+    "players": 1
+   }
+  },
+  "F5FEE03DCFDB-20260929T173443Z-mission-end-transition.hd2snap": {
+   "passed": true,
+   "phase": "ended",
+   "problems": [],
+   "report": {
+    "cases": [
+     {
+      "apply": {
+       "code": "NOT_IN_MISSION",
+       "reason": "a carrier pod is written in a mission only",
+       "status": "refused",
+       "writes": 0
+      },
+      "carrier": "EAT-411 Leveller",
+      "inspect": {
+       "native": true
+      },
+      "plan": {
+       "expected": 1,
+       "ok": true,
+       "writes": 1
+      }
+     },
+     {
+      "apply": {
+       "code": "NOT_IN_MISSION",
+       "reason": "a carrier pod is written in a mission only",
+       "status": "refused",
+       "writes": 0
+      },
+      "carrier": "EAT-700 Expendable Napalm",
+      "inspect": {
+       "native": true
+      },
+      "plan": {
+       "expected": 0,
+       "ok": true,
+       "writes": 0
+      }
+     },
+     {
+      "apply": {
+       "code": "NOT_IN_MISSION",
+       "reason": "a carrier pod is written in a mission only",
+       "status": "refused",
+       "writes": 0
+      },
+      "carrier": "AC-8 Autocannon",
+      "inspect": {
+       "native": true
+      },
+      "plan": {
+       "expected": 4,
+       "ok": true,
+       "writes": 4
+      }
+     },
+     {
+      "apply": {
+       "code": "NOT_IN_MISSION",
+       "reason": "a carrier pod is written in a mission only",
+       "status": "refused",
+       "writes": 0
+      },
+      "carrier": "RL-77 Airburst Rocket Launcher",
+      "inspect": {
+       "native": true
+      },
+      "plan": {
+       "expected": 4,
+       "ok": true,
+       "writes": 4
+      }
+     }
+    ],
+    "mission": false,
+    "planRefusals": {
+     "capacity": "CAPACITY",
+     "role": "ROLE",
+     "shared": "NO_EXCLUSIVE_RACK"
+    },
+    "players": 1
+   }
+  }
+ }
+}

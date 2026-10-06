@@ -29,6 +29,7 @@
     {"id":"projectile.pellet_count","display_name":"Pellet count","type":"integer","unit":"projectiles_per_shot","writable":true,"storage":"u32","settings":"projectile","offset":28},
     {"id":"explosion.inner_radius","display_name":"Explosion inner radius","type":"number","unit":"meters","writable":true,"storage":"f32","settings":"explosion","offset":16},
     {"id":"explosion.outer_radius","display_name":"Explosion outer radius","type":"number","unit":"meters","writable":true,"storage":"f32","settings":"explosion","offset":20},
-    {"id":"explosion.shockwave_radius","display_name":"Explosion shockwave radius","type":"number","unit":"meters","writable":true,"storage":"f32","settings":"explosion","offset":24}
+    {"id":"explosion.shockwave_radius","display_name":"Explosion shockwave radius","type":"number","unit":"meters","writable":true,"storage":"f32","settings":"explosion","offset":24},
+    {"id":"gore.whole_body_gib_damage","display_name":"Whole-body gib (burst) damage threshold","type":"number","unit":"damage","writable":true,"storage":"f32","component":"GoreComponentData","groupOffset":0}
   ]
 }

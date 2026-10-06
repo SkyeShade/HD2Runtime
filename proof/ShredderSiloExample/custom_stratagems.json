@@ -1,0 +1,41 @@
+{
+ "format": "hd2runtime-custom-stratagems/1",
+ "log": "ShredderSilo 0.1.0 BUILD: select MS-N223 Shredder Silo in the custom panel, then a mission; call it with DOWN UP RIGHT UP DOWN DOWN RIGHT.",
+ "stratagems": [
+  {
+   "id": "shredder_silo",
+   "name": "MS-N223 SHREDDER SILO",
+   "name_cased": "MS-N223 Shredder Silo",
+   "description": "A silo that fits one single, tactical nuclear missile. Possible side effects include shell shock, mutation, and/or death. A laser targetting remote is provided.",
+   "icon": {
+    "image": "shredder_silo",
+    "source": "images/shredder_silo.png"
+   },
+   "code": [
+    "down",
+    "up",
+    "right",
+    "up",
+    "down",
+    "down",
+    "right"
+   ],
+   "cooldown": 180,
+   "traits": [
+    "Support Weapon",
+    "Explosive",
+    "Anti-Tank",
+    "Expendable"
+   ],
+   "carrier": {
+    "group": "support"
+   },
+   "payload": {
+    "family": "silo",
+    "donor": "MS-11 Solo Silo",
+    "blast": "Cyborg Production Unit",
+    "fallback": "NUX-223 Hellbomb"
+   }
+  }
+ ]
+}

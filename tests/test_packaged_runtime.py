@@ -105,6 +105,20 @@ return (ran_early and 'early' or 'lazy')..' '..captured
 
 
 @unittest.skipUnless(packaged.SNAPSHOT.is_file(), 'retained current-build snapshot not available')
+class PackagedRuntimeManifestTests(unittest.TestCase):
+    def test_the_runtime_zip_carries_the_logo_for_the_mod_manager(self):
+        import zipfile
+        with tempfile.TemporaryDirectory() as folder:
+            with zipfile.ZipFile(build_release.build_runtime(VERSION, folder=folder)) as z:
+                manifest = json.loads(z.read('manifest.json'))
+                thumbnail = z.read('thumbnail.png')
+        self.assertEqual(manifest['IconPath'], 'thumbnail.png')
+        self.assertEqual([o['Image'] for o in manifest['Options']], ['thumbnail.png'])
+        self.assertEqual(thumbnail, (ROOT / 'packaging/thumbnail.png').read_bytes())
+        self.assertEqual(thumbnail[:8], b'\x89PNG\r\n\x1a\n')
+        self.assertEqual(int.from_bytes(thumbnail[16:20], 'big'), 512)
+
+
 class PackagedRuntimeSnapshotTests(unittest.TestCase):
     def test_built_artifact_applies_every_domain_with_late_lookups_closed(self):
         with tempfile.TemporaryDirectory(dir=ROOT/'build') as folder:
@@ -116,8 +130,49 @@ class PackagedRuntimeSnapshotTests(unittest.TestCase):
             self.assertLessEqual(item['moduleHashes'], 2, name)
             if packaged.EXTRAS.get(name, {}).get('readOnly'):
                 self.assertEqual(item['overlayWrites'], 0, name)   # event-only mods observe, never write
+            elif packaged.EXTRAS.get(name, {}).get('missionOnly'):
+                self.assertEqual(item['overlayWrites'], 0, name)   # aboard the ship: nothing applies (see below)
             else:
                 self.assertGreater(item['overlayWrites'], 0, name)
+
+    def test_mission_only_scenarios_write_on_a_retained_mission_snapshot(self):
+        import build_profile
+        mission = build_profile.snapshot_directory() / 'F5FEE03DCFDB-20260929T172918Z-mission-host-alive.hd2snap'
+        if not mission.is_file():
+            self.skipTest('no retained mission snapshot')
+        names = sorted(name for name, extra in packaged.EXTRAS.items() if extra.get('missionOnly'))
+        self.assertIn('client-write-proof', names)
+        with tempfile.TemporaryDirectory(dir=ROOT/'build') as folder:
+            result = packaged.validate(build_release.build_runtime(VERSION, folder=folder), mission, names)
+        for name in names:
+            item = result['scenarios'][name]
+            self.assertTrue(item['passed'], name)
+            self.assertGreater(item['overlayWrites'], 0, name)       # the expected writes happened
+
+    def test_a_refused_or_skipped_write_fails_its_scenario_from_the_built_artifact(self):
+        # One operation applies; another is refused at registration and the addon keeps no handle for it; a third is
+        # refused only when it applies (its expect is stale). The resulting state holds the one good write, which is
+        # what the validator used to look at; now each refused operation fails the scenario by name.
+        addon = r'''local hd2=require('mods/skyeshade/hd2runtime')
+hd2.ensure({patch={id='silently-refused',target=hd2.weapon('PLAS-101 Purifier'):attack('primary'):projectile(),
+    allow_shared=true,field=hd2.fields.projectile.drag,expect=1.5,value=0.8}})
+hd2.patch({id='stale-expect',target=hd2.weapon('AR-23 Liberator'),field=hd2.fields.weapon.fire_rate,expect=1,
+    value=2})
+return hd2.patch({id='concussive-fire-rate',target=hd2.weapon('AR-23C Liberator Concussive'),
+    field=hd2.fields.weapon.fire_rate,expect=400,value=1100})
+'''
+        packaged.SCENARIOS['silent-refusal'] = lambda: addon
+        try:
+            with tempfile.TemporaryDirectory(dir=ROOT/'build') as folder:
+                with self.assertRaises(AssertionError) as caught:
+                    packaged.validate(build_release.build_runtime(VERSION, folder=folder), scenarios=['silent-refusal'])
+        finally:
+            del packaged.SCENARIOS['silent-refusal']
+        message = str(caught.exception)
+        self.assertIn('silent-refusal: silently-refused: rejected unexpectedly', message)
+        self.assertIn('required since SDK 0.28.0', message)   # a bare addon declares no SDK: the current rule
+        self.assertIn('silent-refusal: stale-expect: rejected unexpectedly', message)
+        self.assertNotIn('concussive-fire-rate:', message)
 
     def test_validator_reproduces_the_uncaptured_entry_failure(self):
         resources = build_release.runtime_resources()

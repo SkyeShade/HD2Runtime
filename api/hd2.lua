@@ -7,6 +7,16 @@ local M={}
 -- packaged copy of VERSION (domains/metadata.lua, generated from schemas/sdk.json and checked against VERSION); the
 -- global flag keeps it to one line per Lua state even if this module is required again after package.loaded changes.
 do
+    -- The startup progress display measures the catalogue's load from here (it starts nothing until work exists).
+    pcall(require,'hd2runtime/runtime/init_progress')
+    -- Public-matchmaking safety (runtime/matchmaking_safety.lua): starts at load so a Public privacy setting is
+    -- corrected before the first lobby is created. Only in the game (its engine Lua API is present); the watch ends
+    -- itself on anything but the live process, and it calls nothing unless every pin proves.
+    if type(rawget(_G,'stingray'))=='table'then
+        pcall(function()require('hd2runtime/runtime/matchmaking_safety').start()end)
+        -- The build label in the bottom-left corner aboard the ship (runtime/version_label.lua).
+        pcall(function()require('hd2runtime/runtime/version_label').start()end)
+    end
     local metadata=require('hd2runtime/domains/metadata')
     if not rawget(_G,'HD2RuntimeStartupLogged')then
         rawset(_G,'HD2RuntimeStartupLogged',metadata.version)
@@ -48,13 +58,35 @@ end
 -- Export every typed builder (legacy resources plus support_weapon, backpack, and other
 -- catalog-backed builders), not only the legacy metadata builder list.
 for name in pairs(require('hd2runtime/api/target').new(metadata.describe))do M[name]=metadata[name]end
-M.fields=metadata.fields;M.enums=metadata.enums;M.resources=metadata.resources
-M.version=metadata.version;M.api_version=metadata.api_version
+M.fields=metadata.fields;M.enums=metadata.enums
+-- hd2.resources: the builder resource constants, and a mod's own custom resources.
+local images=require('hd2runtime/runtime/image_resources')
+local resources={}
+for key,value in pairs(metadata.resources)do resources[key]=value end
+-- The calling mod's own image: images/<id>.png in its project, which the SDK build packs into the mod's archive as a
+-- complete icon family (docs/custom-images.md). A value for hd2.fields.stratagem.presentation_icon. The handle names
+-- the image only; whether it is loaded is checked before each write.
+function resources.image(id)return images.handle(id,require('hd2runtime/runtime/events').owner())end
+-- The calling mod's own model: models/<id>.json in its project, which the SDK build derives from its base weapon's unit
+-- and packs beside the vanilla resources (docs/custom-models.md). A value for a weapon delivery's model
+-- (hd2.custom_stratagem: delivery.family 'weapon'). The handle names the model only; whether it is loaded and exact is
+-- checked before it is used.
+function resources.model(id)
+    return require('hd2runtime/runtime/model_resources').handle(id,require('hd2runtime/runtime/events').owner())
+end
+M.resources=resources
+-- hd2.version is the compatibility version, exactly MAJOR.MINOR.PATCH: SDK wrappers before 0.28 parse nothing else
+-- (a prerelease suffix would make every mod they built refuse to start). hd2.version_label is the full version of
+-- this build (e.g. 0.30.0-dev, the development line of 0.30.0), as the startup line and the artifact name show it.
+M.version=tostring(metadata.version):match('^(%d+%.%d+%.%d+)')or metadata.version
+M.version_label=metadata.version;M.api_version=metadata.api_version
 -- Process-wide work counters and worst durations for performance audits.
 function M.metrics()return require('hd2runtime/runtime/metrics').snapshot()end
 -- Write-conflict counts per ensure (always on) and opt-in sampled timing (docs/diagnostics.md).
 local diagnostics=require('hd2runtime/runtime/diagnostics')
 M.diagnostics={telemetry=diagnostics.telemetry,write_conflicts=diagnostics.write_conflicts}
+-- Per-mod CPU time (runtime/perf_watch.lua; docs/runtime-performance.md "Which mod is slow").
+M.diagnostics.performance=require('hd2runtime/runtime/perf_watch').snapshot
 -- In-game options (Mod Options Menu). Required at startup with the rest of the API.
 local options=require('hd2runtime/api/options')
 function M.options(spec)return options.page(spec)end
@@ -89,6 +121,7 @@ end
 -- before its operation applied keeps the old value until it is rebuilt. Once every operation registered in one
 -- burst has settled (applied, rejected, unavailable or failed), one line reports the counts and the elapsed time.
 local burst
+local SLOW_SETTLE_SECONDS=10   -- a burst at least this slow also logs its slowest operations and their states
 local function settled(handle)
     if handle.status=='rejected'or handle.status=='unavailable'or handle.status=='cancelled'
         or handle.status=='complete'or handle.status=='disabled'then return true end
@@ -96,13 +129,24 @@ local function settled(handle)
 end
 local function track(handle)
     if not burst then
-        burst={handles={},elapsed=0}
+        burst={handles={},elapsed=0,waits={},settled_at={}}
         local current=burst
-        local watcher={status='waiting'}
+        local watcher={status='waiting',perf_label='startup: tracking registered operations'}
         function watcher.cancel()watcher.status='cancelled'end
         function watcher.tick(dt)
             current.elapsed=current.elapsed+dt
-            for _,h in ipairs(current.handles)do if not settled(h)then return end end
+            -- Per operation: the time spent in each state until it settled (logged when the burst was slow).
+            local open=false
+            for _,h in ipairs(current.handles)do
+                if not settled(h)then
+                    open=true
+                    local w=current.waits[h]
+                    if not w then w={};current.waits[h]=w end
+                    local state=tostring(h.status)
+                    w[state]=(w[state]or 0)+dt
+                elseif not current.settled_at[h]then current.settled_at[h]=current.elapsed end
+            end
+            if open then return end
             local counts={applied=0,rejected=0,other=0}
             for _,h in ipairs(current.handles)do
                 local result=h.result and h.result.status
@@ -113,12 +157,20 @@ local function track(handle)
             log.emit(string.format('[HD2Runtime] %d registered operations settled in %.0f s: %d applied, '
                 ..'%d rejected, %d other (see earlier lines)',#current.handles,current.elapsed,counts.applied,
                 counts.rejected,counts.other))
+            if current.elapsed>=SLOW_SETTLE_SECONDS then
+                log.emit(require('hd2runtime/runtime/perf_watch').slowest_operations(current))
+            end
             if burst==current then burst=nil end
             watcher.status='complete'
         end
         require('hd2runtime/runtime/scheduler').attach(watcher)
     end
     burst.handles[#burst.handles+1]=handle
+    -- runtime/perf_watch.lua: the operation's updates are its mod's (the registering scope), labelled by id.
+    handle.perf_owner=handle.perf_owner or require('hd2runtime/runtime/events').owner()
+    handle.perf_label=handle.perf_label or(tostring(handle.kind or'operation')..' '..tostring(handle.id))
+    -- The startup progress display (runtime/init_progress.lua) counts the same settled() state.
+    pcall(function()require('hd2runtime/runtime/init_progress').track('plans',handle,settled)end)
     return handle
 end
 -- Operation ids name operations in the log and in diagnostics (drift, write conflicts). The same id registered twice
@@ -138,19 +190,58 @@ local function warn_duplicate(kind,request)
         require('hd2runtime/runtime/metrics').count('api.duplicate_operation_ids')
     end
 end
+-- Every registration this session, rejected ones included, for hd2.diagnostics.operations(): a validator or a mod can
+-- see an operation that was refused or never applied even when the addon kept no handle. The oldest entries are
+-- dropped past REGISTRY_LIMIT.
+local sdk_compatibility=require('hd2runtime/core/sdk_compatibility')
+local REGISTRY_LIMIT=4096
+local registry,registry_dropped={},0
+local function remember(kind,request,origin,handle)
+    if type(handle)~='table'then return handle end
+    if #registry>=REGISTRY_LIMIT then table.remove(registry,1);registry_dropped=registry_dropped+1 end
+    registry[#registry+1]={kind=kind,id=operation_id(kind,request),origin=origin,handle=handle}
+    return handle
+end
 local function register(kind,module,request,check)
     warn_duplicate(kind,request)
+    -- The registering mod and the SDK it declares (core/sdk_compatibility.lua): read once, here, while its wrapper is
+    -- on the call stack; every validation of this operation, now and on a later option change, runs as it.
+    local origin=sdk_compatibility.origin()
+    local function refuse(why)
+        sdk_compatibility.discard(origin)
+        return remember(kind,request,origin,track(rejected(kind,request,why)))
+    end
     if check then
-        local valid,why=pcall(check,request)
-        if not valid then return track(rejected(kind,request,why))end
+        local valid,why=pcall(sdk_compatibility.with_origin,origin,check,request)
+        if not valid then return refuse(why)end
     end
     local ok,adapter=pcall(require,'hd2runtime/runtime/windows_write')
     if not ok then return disabled()end
-    local started,watch=pcall(function()
+    pcall(function()require('hd2runtime/runtime/init_progress').start()end)
+    local started,watch=pcall(sdk_compatibility.with_origin,origin,function()
         return require(module).start(adapter.create(),log.emit,request)
     end)
-    if not started then return track(rejected(kind,request,watch))end
-    return track(require('hd2runtime/runtime/scheduler').attach(watch))
+    if not started then return refuse(watch)end
+    sdk_compatibility.flush(origin,kind,operation_id(kind,request))
+    return remember(kind,request,origin,track(require('hd2runtime/runtime/scheduler').attach(watch)))
+end
+-- A plain copy of every registration: kind, id, mod, the SDK it declares and how that was read, the handle's status,
+-- result, code and error, its runs (ensure), and the fields it wrote as a legacy SDK operation.
+local function operations()
+    local out={}
+    for index,item in ipairs(registry)do
+        local h,origin=item.handle,item.origin or{}
+        local result=type(h.result)=='table'and h.result or{}
+        local legacy={}
+        for _,use in ipairs(origin.legacy or{})do
+            legacy[#legacy+1]={target=use.target,field=use.field:match('([^|]*)$'),acknowledgement=use.acknowledgement,
+                since=use.since}
+        end
+        out[index]={kind=item.kind,id=item.id,mod=origin.mod,sdk=origin.sdk,sdk_source=origin.source,
+            status=h.status,result=result.status,code=result.code,error=h.error or result.reason,runs=h.runs,
+            legacy=legacy}
+    end
+    return out,{dropped=registry_dropped}
 end
 function M.patch(request)return register('patch','hd2runtime/api/patch',request,one_shot)end
 function M.transaction(request)return register('transaction','hd2runtime/api/transaction',request,one_shot)end
@@ -165,6 +256,8 @@ end
 -- Offline: is this target's package dependency known and auto-loadable? (no IDs)
 function M.asset_dependency(target)return require('hd2runtime/api/assets').describe(target)end
 function M.ensure(request)return register('ensure','hd2runtime/api/ensure',request)end
+-- Every registered operation and how it ended so far, legacy SDK operations included (docs/diagnostics.md).
+M.diagnostics.operations=operations
 -- Gameplay scripting (docs/events.md): events, timers, keybinds and per-mod contexts. Required at startup with the
 -- rest of the API; nothing polls until a mod subscribes, starts a timer or binds a key.
 local scripting=require('hd2runtime/api/events')
@@ -180,10 +273,41 @@ M.entities=scripting.entities
 -- Gameplay actions an event script can perform (api/actions.lua): exported without wrappers so the calling mod is
 -- their owner.
 local actions=require('hd2runtime/api/actions')
-M.actions={heal=actions.heal,status=actions.status}
+M.actions={heal=actions.heal,injure=actions.injure,limbs=actions.limbs,status=actions.status,
+    heal_limb=actions.heal_limb,heal_limbs=actions.heal_limbs,add_velocity=actions.add_velocity}
+-- What the local player holds and wears (player:loadout(), :held_weapon(), :backpack(), :ammo()) and the Supply
+-- Pack's own self-use (runtime/player_equipment.lua, api/player_equipment.lua; docs/player-equipment.md).
+require('hd2runtime/runtime/player_equipment').install(require('hd2runtime/runtime/handles').Player)
+M.actions.resupply_from_pack=require('hd2runtime/api/player_equipment').resupply_from_pack
 M.explosions=actions.explosions
 M.projectiles=actions.projectiles
+-- Homing shots (api/homing.lua; docs/projectile-homing.md): the local player's own shots of a weapon turn toward
+-- enemies or other players in flight.
+local homing=require('hd2runtime/api/homing')
+M.projectiles.homing=homing.homing
+M.projectiles.homing_list=homing.list
+M.projectiles.homing_status=homing.status
+-- How often each enemy type spawns (api/enemy_spawns.lua; docs/enemy-spawns.md): its weight in the game's spawn rosters.
+-- hd2.enemies stays callable: hd2.enemies(filter) lists the reviewed enemy / structure names as before.
+local enemy_spawns=require('hd2runtime/api/enemy_spawns')
+local list_enemies=assert(M.enemies,'the enemy name list builder is missing')
+M.enemies=setmetatable({spawn_weight=enemy_spawns.spawn_weight,spawn_list=enemy_spawns.spawn_list,
+    spawn_status=enemy_spawns.spawn_status},{__call=function(_,filter)return list_enemies(filter)end})
 M.status=actions.status_effects
+-- The game's own transport Pelican, summoned empty at a position and held per instance (api/pelican.lua).
+local pelican=require('hd2runtime/api/pelican')
+M.pelican={spawn=pelican.spawn,active=pelican.active,status=pelican.status}
+-- The weapon firing-sound catalogue, read-only (api/sounds.lua; docs/weapon-sounds.md): names for a Pelican gun's sound.
+local sounds=require('hd2runtime/api/sounds')
+M.sounds={list=sounds.list,describe=sounds.describe}
+-- Selectable custom stratagems and their spawned instances (development API, solo host; api/custom_stratagem.lua).
+local custom_stratagem=require('hd2runtime/api/custom_stratagem')
+M.custom_stratagem={register=custom_stratagem.register,status=custom_stratagem.status,
+    describe=custom_stratagem.describe,groups=custom_stratagem.groups,
+    instance_of=custom_stratagem.instance_of,verbose=custom_stratagem.verbose,focus_next=custom_stratagem.focus_next,
+    select_focused=custom_stratagem.select_focused,undo=custom_stratagem.undo}
+-- Who an associated autonomous entity's kills credit (development API, solo host; api/ownership.lua).
+M.ownership={credit_to_player=require('hd2runtime/api/ownership').credit_to_player}
 -- Mods needing a newer HD2Runtime (api/compatibility.lua): their SDK wrapper reports here before failing closed.
 local compatibility=require('hd2runtime/api/compatibility')
 M.compatibility={require_runtime=compatibility.require_runtime,compare=compatibility.compare,

@@ -1,7 +1,7 @@
 {
   "contract": "hd2runtime.vehicle_weapon.v1",
   "schemaVersion": 1,
-  "hd2RuntimeVersion": "0.28.0",
+  "hd2RuntimeVersion": "0.30.0-dev",
   "ownershipModel": [
     "vehicle MountComponentData slot path (Guard Dog: the drone the backpack deploys, through its DepositComponent +24)",
     "mounted weapon entity (own component records: weapon-local)",
@@ -37,6 +37,12 @@
                 "vehicle-field/v1/m-103-supply-frv-gun/magazine-starting-magazines/754a1bbcbbfe8285",
                 "vehicle-field/v1/m-103-supply-frv-gun/magazine-magazines-from-supply/d952d443f10d1bcb",
                 "vehicle-field/v1/m-103-supply-frv-gun/magazine-spare-magazines/eb7365f8f46f9c8b",
+                "vehicle-field/v1/m-103-supply-frv-gun/turret-yaw-speed/8c5335d7baabab5c",
+                "vehicle-field/v1/m-103-supply-frv-gun/turret-pitch-speed/c2fed0e04f328f65",
+                "vehicle-field/v1/m-103-supply-frv-gun/turret-pitch-min/237c10d17e8f3134",
+                "vehicle-field/v1/m-103-supply-frv-gun/turret-pitch-max/debe29bde989adb9",
+                "vehicle-field/v1/m-103-supply-frv-gun/turret-yaw-min/7ea96b3afcb65b77",
+                "vehicle-field/v1/m-103-supply-frv-gun/turret-yaw-max/2c14a5ea4e13acc3",
                 "vehicle-field/v1/m-103-supply-frv-gun/attack-primary-projectile/175465abfbc497d0"
               ],
               "projectile": [
@@ -135,7 +141,13 @@
                 "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/magazine-spare-magazines/9e7c4d81efa312e7",
                 "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/reload-duration/b0452652244b77e6",
                 "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/entity-health/ab0598b2e54fe719",
-                "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/entity-armor/8edf1f6ab6c34965"
+                "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/entity-armor/8edf1f6ab6c34965",
+                "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/turret-yaw-speed/16e1373c1089c5ab",
+                "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/turret-pitch-speed/9588f8bf1b90856a",
+                "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/turret-pitch-min/5ae05e4c5b5f5e0f",
+                "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/turret-pitch-max/6437b8b3bb86d4d5",
+                "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/turret-yaw-min/e1cb497d571b38db",
+                "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/turret-yaw-max/acc64393e7d61eb5"
               ],
               "projectile": [
                 "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/projectile-primary-velocity/0864ad559d567791",
@@ -279,6 +291,10 @@
                 "reason": "ProjectileWeaponComponent +128 and +136 are per-weapon damage/armor-penetration addends. The pinned type library names +128 damage_addends and +136 ap_addends, but the M-103 turret reference mod reports the opposite in game; the assignment stays read-only until one in-game test separates them."
               },
               {
+                "field": "turret.*",
+                "reason": "The mount owns no TurretComponent (it aims through its vehicle, seat or Exosuit arm), so there is no turret record to tune."
+              },
+              {
                 "attack": "primary",
                 "field": "projectile.lifetime",
                 "reason": "Native lifetime is 0 (no explicit limit); only non-zero lifetimes are tunable."
@@ -390,6 +406,10 @@
                 "reason": "ProjectileWeaponComponent +128 and +136 are per-weapon damage/armor-penetration addends. The pinned type library names +128 damage_addends and +136 ap_addends, but the M-103 turret reference mod reports the opposite in game; the assignment stays read-only until one in-game test separates them."
               },
               {
+                "field": "turret.*",
+                "reason": "The mount owns no TurretComponent (it aims through its vehicle, seat or Exosuit arm), so there is no turret record to tune."
+              },
+              {
                 "attack": "primary",
                 "field": "attack.projectile",
                 "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile)."
@@ -491,6 +511,10 @@
                 "reason": "ProjectileWeaponComponent +128 and +136 are per-weapon damage/armor-penetration addends. The pinned type library names +128 damage_addends and +136 ap_addends, but the M-103 turret reference mod reports the opposite in game; the assignment stays read-only until one in-game test separates them."
               },
               {
+                "field": "turret.*",
+                "reason": "The mount owns no TurretComponent (it aims through its vehicle, seat or Exosuit arm), so there is no turret record to tune."
+              },
+              {
                 "attack": "primary",
                 "field": "attack.projectile",
                 "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile)."
@@ -563,7 +587,12 @@
               "sharedProjectileConsumers": 0,
               "sharedDamageConsumers": null
             },
-            "blocked": []
+            "blocked": [
+              {
+                "field": "turret.*",
+                "reason": "The mount owns no TurretComponent (it aims through its vehicle, seat or Exosuit arm), so there is no turret record to tune."
+              }
+            ]
           }
         },
         {
@@ -671,6 +700,10 @@
                 "reason": "ProjectileWeaponComponent +128 and +136 are per-weapon damage/armor-penetration addends. The pinned type library names +128 damage_addends and +136 ap_addends, but the M-103 turret reference mod reports the opposite in game; the assignment stays read-only until one in-game test separates them."
               },
               {
+                "field": "turret.*",
+                "reason": "The mount owns no TurretComponent (it aims through its vehicle, seat or Exosuit arm), so there is no turret record to tune."
+              },
+              {
                 "attack": "primary",
                 "field": "projectile.lifetime",
                 "reason": "Native lifetime is 0 (no explicit limit); only non-zero lifetimes are tunable."
@@ -770,6 +803,10 @@
               {
                 "field": "weapon damage/armor-penetration addends",
                 "reason": "ProjectileWeaponComponent +128 and +136 are per-weapon damage/armor-penetration addends. The pinned type library names +128 damage_addends and +136 ap_addends, but the M-103 turret reference mod reports the opposite in game; the assignment stays read-only until one in-game test separates them."
+              },
+              {
+                "field": "turret.*",
+                "reason": "The mount owns no TurretComponent (it aims through its vehicle, seat or Exosuit arm), so there is no turret record to tune."
               },
               {
                 "attack": "primary",
@@ -878,6 +915,10 @@
                 "reason": "ProjectileWeaponComponent +128 and +136 are per-weapon damage/armor-penetration addends. The pinned type library names +128 damage_addends and +136 ap_addends, but the M-103 turret reference mod reports the opposite in game; the assignment stays read-only until one in-game test separates them."
               },
               {
+                "field": "turret.*",
+                "reason": "The mount owns no TurretComponent (it aims through its vehicle, seat or Exosuit arm), so there is no turret record to tune."
+              },
+              {
                 "attack": "primary",
                 "field": "attack.projectile",
                 "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile)."
@@ -961,6 +1002,10 @@
               {
                 "field": "weapon damage/armor-penetration addends",
                 "reason": "ProjectileWeaponComponent +128 and +136 are per-weapon damage/armor-penetration addends. The pinned type library names +128 damage_addends and +136 ap_addends, but the M-103 turret reference mod reports the opposite in game; the assignment stays read-only until one in-game test separates them."
+              },
+              {
+                "field": "turret.*",
+                "reason": "The mount owns no TurretComponent (it aims through its vehicle, seat or Exosuit arm), so there is no turret record to tune."
               },
               {
                 "attack": "primary",
@@ -1051,6 +1096,10 @@
                 "reason": "ProjectileWeaponComponent +128 and +136 are per-weapon damage/armor-penetration addends. The pinned type library names +128 damage_addends and +136 ap_addends, but the M-103 turret reference mod reports the opposite in game; the assignment stays read-only until one in-game test separates them."
               },
               {
+                "field": "turret.*",
+                "reason": "The mount owns no TurretComponent (it aims through its vehicle, seat or Exosuit arm), so there is no turret record to tune."
+              },
+              {
                 "attack": "primary",
                 "field": "projectile.lifetime",
                 "reason": "Native lifetime is 0 (no explicit limit); only non-zero lifetimes are tunable."
@@ -1083,7 +1132,13 @@
                 "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/magazine-spare-magazines/860a7cd024a33c14",
                 "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/reload-duration/de840ca0feb842eb",
                 "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/entity-health/af189ab275bde1c4",
-                "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/entity-armor/75b8d776aa89930c"
+                "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/entity-armor/75b8d776aa89930c",
+                "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/turret-yaw-speed/43adf78bbd87d064",
+                "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/turret-pitch-speed/9b8e258e17c01d47",
+                "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/turret-pitch-min/6704ab570cc6bfe7",
+                "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/turret-pitch-max/a3740945078251ea",
+                "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/turret-yaw-min/303a2fc1dd1902e6",
+                "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/turret-yaw-max/5ff397f3b13649b7"
               ],
               "projectile": [
                 "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/projectile-primary-velocity/abb7958b321d1a58",
@@ -1186,7 +1241,13 @@
                 "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/weapon-capacity/848c365140a9218f",
                 "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/magazine-starting-magazines/88f5c6c8870ce2ee",
                 "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/magazine-magazines-from-supply/5223d083cf0d23c3",
-                "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/magazine-spare-magazines/0674344df83f486b"
+                "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/magazine-spare-magazines/0674344df83f486b",
+                "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/turret-yaw-speed/6f3752abb19aa6db",
+                "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/turret-pitch-speed/7934e68cb830d0c3",
+                "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/turret-pitch-min/e5bb714faa14a18d",
+                "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/turret-pitch-max/9f4e82bdad5b20cb",
+                "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/turret-yaw-min/b171c0a1d1c34379",
+                "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/turret-yaw-max/ce6d6bc0675d3fdb"
               ],
               "projectile": [
                 "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/projectile-primary-velocity/388fe8d95a06331e",
@@ -1333,6 +1394,10 @@
                 "reason": "ProjectileWeaponComponent +128 and +136 are per-weapon damage/armor-penetration addends. The pinned type library names +128 damage_addends and +136 ap_addends, but the M-103 turret reference mod reports the opposite in game; the assignment stays read-only until one in-game test separates them."
               },
               {
+                "field": "turret.*",
+                "reason": "The mount owns no TurretComponent (it aims through its vehicle, seat or Exosuit arm), so there is no turret record to tune."
+              },
+              {
                 "attack": "primary",
                 "field": "projectile.lifetime",
                 "reason": "Native lifetime is 0 (no explicit limit); only non-zero lifetimes are tunable."
@@ -1414,7 +1479,12 @@
               "sharedProjectileConsumers": 0,
               "sharedDamageConsumers": null
             },
-            "blocked": []
+            "blocked": [
+              {
+                "field": "turret.*",
+                "reason": "The mount owns no TurretComponent (it aims through its vehicle, seat or Exosuit arm), so there is no turret record to tune."
+              }
+            ]
           }
         },
         {
@@ -1511,6 +1581,10 @@
                 "reason": "ProjectileWeaponComponent +128 and +136 are per-weapon damage/armor-penetration addends. The pinned type library names +128 damage_addends and +136 ap_addends, but the M-103 turret reference mod reports the opposite in game; the assignment stays read-only until one in-game test separates them."
               },
               {
+                "field": "turret.*",
+                "reason": "The mount owns no TurretComponent (it aims through its vehicle, seat or Exosuit arm), so there is no turret record to tune."
+              },
+              {
                 "attack": "primary",
                 "field": "projectile.lifetime",
                 "reason": "Native lifetime is 0 (no explicit limit); only non-zero lifetimes are tunable."
@@ -1599,6 +1673,10 @@
                 "reason": "ProjectileWeaponComponent +128 and +136 are per-weapon damage/armor-penetration addends. The pinned type library names +128 damage_addends and +136 ap_addends, but the M-103 turret reference mod reports the opposite in game; the assignment stays read-only until one in-game test separates them."
               },
               {
+                "field": "turret.*",
+                "reason": "The mount owns no TurretComponent (it aims through its vehicle, seat or Exosuit arm), so there is no turret record to tune."
+              },
+              {
                 "attack": "primary",
                 "field": "projectile.lifetime",
                 "reason": "Native lifetime is 0 (no explicit limit); only non-zero lifetimes are tunable."
@@ -1632,6 +1710,12 @@
                 "vehicle-field/v1/gater-oil-rig-turret/reload-duration/bbf7c67edec14040",
                 "vehicle-field/v1/gater-oil-rig-turret/entity-health/2d5a8d5881a18de4",
                 "vehicle-field/v1/gater-oil-rig-turret/entity-armor/a70684bdbe33efc7",
+                "vehicle-field/v1/gater-oil-rig-turret/turret-yaw-speed/038d08278db83473",
+                "vehicle-field/v1/gater-oil-rig-turret/turret-pitch-speed/f81d2905934884cf",
+                "vehicle-field/v1/gater-oil-rig-turret/turret-pitch-min/78a09fc1e9cad57e",
+                "vehicle-field/v1/gater-oil-rig-turret/turret-pitch-max/51b222bd6fb5f2e0",
+                "vehicle-field/v1/gater-oil-rig-turret/turret-yaw-min/74491f16276f01ad",
+                "vehicle-field/v1/gater-oil-rig-turret/turret-yaw-max/8a468e20e5011b4c",
                 "vehicle-field/v1/gater-oil-rig-turret/attack-primary-projectile/cb6079a6c9706ee9"
               ],
               "projectile": [
@@ -1798,6 +1882,10 @@
                 "reason": "ProjectileWeaponComponent +128 and +136 are per-weapon damage/armor-penetration addends. The pinned type library names +128 damage_addends and +136 ap_addends, but the M-103 turret reference mod reports the opposite in game; the assignment stays read-only until one in-game test separates them."
               },
               {
+                "field": "turret.*",
+                "reason": "The mount owns no TurretComponent (it aims through its vehicle, seat or Exosuit arm), so there is no turret record to tune."
+              },
+              {
                 "attack": "primary",
                 "field": "projectile.lifetime",
                 "reason": "Native lifetime is 0 (no explicit limit); only non-zero lifetimes are tunable."
@@ -1874,7 +1962,12 @@
               "sharedProjectileConsumers": 0,
               "sharedDamageConsumers": null
             },
-            "blocked": []
+            "blocked": [
+              {
+                "field": "turret.*",
+                "reason": "The mount owns no TurretComponent (it aims through its vehicle, seat or Exosuit arm), so there is no turret record to tune."
+              }
+            ]
           }
         }
       ],
@@ -1956,6 +2049,10 @@
               {
                 "field": "reload.duration",
                 "reason": "Native reload duration is 0 (use the default reload ability); a non-zero value would add a timing rather than tune one."
+              },
+              {
+                "field": "turret.*",
+                "reason": "The mount owns no TurretComponent (it aims through its vehicle, seat or Exosuit arm), so there is no turret record to tune."
               }
             ]
           }
@@ -2044,6 +2141,10 @@
               {
                 "field": "reload.duration",
                 "reason": "Native reload duration is 0 (use the default reload ability); a non-zero value would add a timing rather than tune one."
+              },
+              {
+                "field": "turret.*",
+                "reason": "The mount owns no TurretComponent (it aims through its vehicle, seat or Exosuit arm), so there is no turret record to tune."
               }
             ]
           }
@@ -2126,6 +2227,10 @@
               {
                 "field": "reload.duration",
                 "reason": "Native reload duration is 0 (use the default reload ability); a non-zero value would add a timing rather than tune one."
+              },
+              {
+                "field": "turret.*",
+                "reason": "The mount owns no TurretComponent (it aims through its vehicle, seat or Exosuit arm), so there is no turret record to tune."
               }
             ]
           }
@@ -2258,6 +2363,198 @@
       "acknowledgement": "allow_unverified_effect",
       "gameplayEvidence": null,
       "backingComponent": "WeaponMagazineComponentData"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/m-103-supply-frv-gun/turret-yaw-speed/8c5335d7baabab5c",
+      "weapon": "M-103 Supply FRV / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/m-103-supply-frv/gun/18a6239872b90606",
+      "semanticFieldId": "turret.yaw_speed",
+      "apiFieldConstant": "hd2.fields.turret.yaw_speed",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "M-103 Supply FRV / gun"
+      },
+      "displayName": "Horizontal turn speed",
+      "unit": "degrees_per_second",
+      "type": "number",
+      "baseline": 130.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "TurretComponentData",
+      "min": 1,
+      "max": 720,
+      "rangeReason": "The sentry turret-speed range: 1 degree per second up to two full turns per second (vanilla vehicle mounts use 20 to 130).",
+      "order": null,
+      "lifecycle": "Copied into the turret instance (and its network creation field) when the mount is created: applies to vehicles called in after the write; a vehicle already in the world keeps its rate.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/m-103-supply-frv-gun/turret-pitch-speed/c2fed0e04f328f65",
+      "weapon": "M-103 Supply FRV / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/m-103-supply-frv/gun/18a6239872b90606",
+      "semanticFieldId": "turret.pitch_speed",
+      "apiFieldConstant": "hd2.fields.turret.pitch_speed",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "M-103 Supply FRV / gun"
+      },
+      "displayName": "Vertical turn speed",
+      "unit": "degrees_per_second",
+      "type": "number",
+      "baseline": 90.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "TurretComponentData",
+      "min": 1,
+      "max": 720,
+      "rangeReason": "The sentry turret-speed range: 1 degree per second up to two full turns per second (vanilla vehicle mounts use 20 to 130).",
+      "order": null,
+      "lifecycle": "Copied into the turret instance (and its network creation field) when the mount is created: applies to vehicles called in after the write; a vehicle already in the world keeps its rate.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/m-103-supply-frv-gun/turret-pitch-min/237c10d17e8f3134",
+      "weapon": "M-103 Supply FRV / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/m-103-supply-frv/gun/18a6239872b90606",
+      "semanticFieldId": "turret.pitch_min",
+      "apiFieldConstant": "hd2.fields.turret.pitch_min",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "M-103 Supply FRV / gun"
+      },
+      "displayName": "Lowest aim angle",
+      "unit": "degrees",
+      "type": "number",
+      "baseline": -60.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "TurretComponentData",
+      "min": -90,
+      "max": 90,
+      "rangeReason": "A vertical angle (straight down to straight up); it must stay below turret.pitch_max.",
+      "order": [
+        "turret.pitch_min",
+        "turret.pitch_max"
+      ],
+      "lifecycle": "Re-read from the type record on every turret update: applies at once to every live mount of that weapon.",
+      "appliesWhen": "every_update",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/m-103-supply-frv-gun/turret-pitch-max/debe29bde989adb9",
+      "weapon": "M-103 Supply FRV / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/m-103-supply-frv/gun/18a6239872b90606",
+      "semanticFieldId": "turret.pitch_max",
+      "apiFieldConstant": "hd2.fields.turret.pitch_max",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "M-103 Supply FRV / gun"
+      },
+      "displayName": "Highest aim angle",
+      "unit": "degrees",
+      "type": "number",
+      "baseline": 90.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "TurretComponentData",
+      "min": -90,
+      "max": 90,
+      "rangeReason": "A vertical angle (straight down to straight up); it must stay above turret.pitch_min.",
+      "order": [
+        "turret.pitch_min",
+        "turret.pitch_max"
+      ],
+      "lifecycle": "Re-read from the type record on every turret update: applies at once to every live mount of that weapon.",
+      "appliesWhen": "every_update",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/m-103-supply-frv-gun/turret-yaw-min/7ea96b3afcb65b77",
+      "weapon": "M-103 Supply FRV / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/m-103-supply-frv/gun/18a6239872b90606",
+      "semanticFieldId": "turret.yaw_min",
+      "apiFieldConstant": "hd2.fields.turret.yaw_min",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "M-103 Supply FRV / gun"
+      },
+      "displayName": "Left traverse limit",
+      "unit": "degrees",
+      "type": "number",
+      "baseline": -180.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "TurretComponentData",
+      "min": -180,
+      "max": 180,
+      "rangeReason": "A horizontal angle; it must stay below turret.yaw_max. A range of 360 degrees (-180 to 180) turns freely.",
+      "order": [
+        "turret.yaw_min",
+        "turret.yaw_max"
+      ],
+      "lifecycle": "Re-read from the type record on every turret update: applies at once to every live mount of that weapon.",
+      "appliesWhen": "every_update",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/m-103-supply-frv-gun/turret-yaw-max/2c14a5ea4e13acc3",
+      "weapon": "M-103 Supply FRV / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/m-103-supply-frv/gun/18a6239872b90606",
+      "semanticFieldId": "turret.yaw_max",
+      "apiFieldConstant": "hd2.fields.turret.yaw_max",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "M-103 Supply FRV / gun"
+      },
+      "displayName": "Right traverse limit",
+      "unit": "degrees",
+      "type": "number",
+      "baseline": 180.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "TurretComponentData",
+      "min": -180,
+      "max": 180,
+      "rangeReason": "A horizontal angle; it must stay above turret.yaw_min. A range of 360 degrees (-180 to 180) turns freely.",
+      "order": [
+        "turret.yaw_min",
+        "turret.yaw_max"
+      ],
+      "lifecycle": "Re-read from the type record on every turret update: applies at once to every live mount of that weapon.",
+      "appliesWhen": "every_update",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles."
     },
     {
       "instanceKey": "vehicle-field/v1/m-103-supply-frv-gun/projectile-primary-velocity/580326f28353ea35",
@@ -2973,6 +3270,198 @@
       "acknowledgement": "allow_unverified_effect",
       "gameplayEvidence": null,
       "backingComponent": "HealthComponentData"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/turret-yaw-speed/16e1373c1089c5ab",
+      "weapon": "TD-110 Maelstrom / attach_tank_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/td-110-maelstrom/attach-tank-gun/32ca1423838ffc4f",
+      "semanticFieldId": "turret.yaw_speed",
+      "apiFieldConstant": "hd2.fields.turret.yaw_speed",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "TD-110 Maelstrom / attach_tank_gun"
+      },
+      "displayName": "Horizontal turn speed",
+      "unit": "degrees_per_second",
+      "type": "number",
+      "baseline": 35.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "TurretComponentData",
+      "min": 1,
+      "max": 720,
+      "rangeReason": "The sentry turret-speed range: 1 degree per second up to two full turns per second (vanilla vehicle mounts use 20 to 130).",
+      "order": null,
+      "lifecycle": "Copied into the turret instance (and its network creation field) when the mount is created: applies to vehicles called in after the write; a vehicle already in the world keeps its rate.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/turret-pitch-speed/9588f8bf1b90856a",
+      "weapon": "TD-110 Maelstrom / attach_tank_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/td-110-maelstrom/attach-tank-gun/32ca1423838ffc4f",
+      "semanticFieldId": "turret.pitch_speed",
+      "apiFieldConstant": "hd2.fields.turret.pitch_speed",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "TD-110 Maelstrom / attach_tank_gun"
+      },
+      "displayName": "Vertical turn speed",
+      "unit": "degrees_per_second",
+      "type": "number",
+      "baseline": 25.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "TurretComponentData",
+      "min": 1,
+      "max": 720,
+      "rangeReason": "The sentry turret-speed range: 1 degree per second up to two full turns per second (vanilla vehicle mounts use 20 to 130).",
+      "order": null,
+      "lifecycle": "Copied into the turret instance (and its network creation field) when the mount is created: applies to vehicles called in after the write; a vehicle already in the world keeps its rate.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/turret-pitch-min/5ae05e4c5b5f5e0f",
+      "weapon": "TD-110 Maelstrom / attach_tank_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/td-110-maelstrom/attach-tank-gun/32ca1423838ffc4f",
+      "semanticFieldId": "turret.pitch_min",
+      "apiFieldConstant": "hd2.fields.turret.pitch_min",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "TD-110 Maelstrom / attach_tank_gun"
+      },
+      "displayName": "Lowest aim angle",
+      "unit": "degrees",
+      "type": "number",
+      "baseline": -3.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "TurretComponentData",
+      "min": -90,
+      "max": 90,
+      "rangeReason": "A vertical angle (straight down to straight up); it must stay below turret.pitch_max.",
+      "order": [
+        "turret.pitch_min",
+        "turret.pitch_max"
+      ],
+      "lifecycle": "Re-read from the type record on every turret update: applies at once to every live mount of that weapon.",
+      "appliesWhen": "every_update",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/turret-pitch-max/6437b8b3bb86d4d5",
+      "weapon": "TD-110 Maelstrom / attach_tank_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/td-110-maelstrom/attach-tank-gun/32ca1423838ffc4f",
+      "semanticFieldId": "turret.pitch_max",
+      "apiFieldConstant": "hd2.fields.turret.pitch_max",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "TD-110 Maelstrom / attach_tank_gun"
+      },
+      "displayName": "Highest aim angle",
+      "unit": "degrees",
+      "type": "number",
+      "baseline": 25.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "TurretComponentData",
+      "min": -90,
+      "max": 90,
+      "rangeReason": "A vertical angle (straight down to straight up); it must stay above turret.pitch_min.",
+      "order": [
+        "turret.pitch_min",
+        "turret.pitch_max"
+      ],
+      "lifecycle": "Re-read from the type record on every turret update: applies at once to every live mount of that weapon.",
+      "appliesWhen": "every_update",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/turret-yaw-min/e1cb497d571b38db",
+      "weapon": "TD-110 Maelstrom / attach_tank_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/td-110-maelstrom/attach-tank-gun/32ca1423838ffc4f",
+      "semanticFieldId": "turret.yaw_min",
+      "apiFieldConstant": "hd2.fields.turret.yaw_min",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "TD-110 Maelstrom / attach_tank_gun"
+      },
+      "displayName": "Left traverse limit",
+      "unit": "degrees",
+      "type": "number",
+      "baseline": -20.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "TurretComponentData",
+      "min": -180,
+      "max": 180,
+      "rangeReason": "A horizontal angle; it must stay below turret.yaw_max. A range of 360 degrees (-180 to 180) turns freely.",
+      "order": [
+        "turret.yaw_min",
+        "turret.yaw_max"
+      ],
+      "lifecycle": "Re-read from the type record on every turret update: applies at once to every live mount of that weapon.",
+      "appliesWhen": "every_update",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/turret-yaw-max/acc64393e7d61eb5",
+      "weapon": "TD-110 Maelstrom / attach_tank_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/td-110-maelstrom/attach-tank-gun/32ca1423838ffc4f",
+      "semanticFieldId": "turret.yaw_max",
+      "apiFieldConstant": "hd2.fields.turret.yaw_max",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "TD-110 Maelstrom / attach_tank_gun"
+      },
+      "displayName": "Right traverse limit",
+      "unit": "degrees",
+      "type": "number",
+      "baseline": 20.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "TurretComponentData",
+      "min": -180,
+      "max": 180,
+      "rangeReason": "A horizontal angle; it must stay above turret.yaw_min. A range of 360 degrees (-180 to 180) turns freely.",
+      "order": [
+        "turret.yaw_min",
+        "turret.yaw_max"
+      ],
+      "lifecycle": "Re-read from the type record on every turret update: applies at once to every live mount of that weapon.",
+      "appliesWhen": "every_update",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles."
     },
     {
       "instanceKey": "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/projectile-primary-velocity/0864ad559d567791",
@@ -11378,6 +11867,198 @@
       "backingComponent": "HealthComponentData"
     },
     {
+      "instanceKey": "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/turret-yaw-speed/43adf78bbd87d064",
+      "weapon": "TD-220 Bastion MK XVI / attach_tank_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/td-220-bastion-mk-xvi/attach-tank-gun/0af7a2aac4fb4231",
+      "semanticFieldId": "turret.yaw_speed",
+      "apiFieldConstant": "hd2.fields.turret.yaw_speed",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "TD-220 Bastion MK XVI / attach_tank_gun"
+      },
+      "displayName": "Horizontal turn speed",
+      "unit": "degrees_per_second",
+      "type": "number",
+      "baseline": 35.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "TurretComponentData",
+      "min": 1,
+      "max": 720,
+      "rangeReason": "The sentry turret-speed range: 1 degree per second up to two full turns per second (vanilla vehicle mounts use 20 to 130).",
+      "order": null,
+      "lifecycle": "Copied into the turret instance (and its network creation field) when the mount is created: applies to vehicles called in after the write; a vehicle already in the world keeps its rate.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/turret-pitch-speed/9b8e258e17c01d47",
+      "weapon": "TD-220 Bastion MK XVI / attach_tank_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/td-220-bastion-mk-xvi/attach-tank-gun/0af7a2aac4fb4231",
+      "semanticFieldId": "turret.pitch_speed",
+      "apiFieldConstant": "hd2.fields.turret.pitch_speed",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "TD-220 Bastion MK XVI / attach_tank_gun"
+      },
+      "displayName": "Vertical turn speed",
+      "unit": "degrees_per_second",
+      "type": "number",
+      "baseline": 25.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "TurretComponentData",
+      "min": 1,
+      "max": 720,
+      "rangeReason": "The sentry turret-speed range: 1 degree per second up to two full turns per second (vanilla vehicle mounts use 20 to 130).",
+      "order": null,
+      "lifecycle": "Copied into the turret instance (and its network creation field) when the mount is created: applies to vehicles called in after the write; a vehicle already in the world keeps its rate.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/turret-pitch-min/6704ab570cc6bfe7",
+      "weapon": "TD-220 Bastion MK XVI / attach_tank_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/td-220-bastion-mk-xvi/attach-tank-gun/0af7a2aac4fb4231",
+      "semanticFieldId": "turret.pitch_min",
+      "apiFieldConstant": "hd2.fields.turret.pitch_min",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "TD-220 Bastion MK XVI / attach_tank_gun"
+      },
+      "displayName": "Lowest aim angle",
+      "unit": "degrees",
+      "type": "number",
+      "baseline": -3.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "TurretComponentData",
+      "min": -90,
+      "max": 90,
+      "rangeReason": "A vertical angle (straight down to straight up); it must stay below turret.pitch_max.",
+      "order": [
+        "turret.pitch_min",
+        "turret.pitch_max"
+      ],
+      "lifecycle": "Re-read from the type record on every turret update: applies at once to every live mount of that weapon.",
+      "appliesWhen": "every_update",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/turret-pitch-max/a3740945078251ea",
+      "weapon": "TD-220 Bastion MK XVI / attach_tank_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/td-220-bastion-mk-xvi/attach-tank-gun/0af7a2aac4fb4231",
+      "semanticFieldId": "turret.pitch_max",
+      "apiFieldConstant": "hd2.fields.turret.pitch_max",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "TD-220 Bastion MK XVI / attach_tank_gun"
+      },
+      "displayName": "Highest aim angle",
+      "unit": "degrees",
+      "type": "number",
+      "baseline": 25.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "TurretComponentData",
+      "min": -90,
+      "max": 90,
+      "rangeReason": "A vertical angle (straight down to straight up); it must stay above turret.pitch_min.",
+      "order": [
+        "turret.pitch_min",
+        "turret.pitch_max"
+      ],
+      "lifecycle": "Re-read from the type record on every turret update: applies at once to every live mount of that weapon.",
+      "appliesWhen": "every_update",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/turret-yaw-min/303a2fc1dd1902e6",
+      "weapon": "TD-220 Bastion MK XVI / attach_tank_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/td-220-bastion-mk-xvi/attach-tank-gun/0af7a2aac4fb4231",
+      "semanticFieldId": "turret.yaw_min",
+      "apiFieldConstant": "hd2.fields.turret.yaw_min",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "TD-220 Bastion MK XVI / attach_tank_gun"
+      },
+      "displayName": "Left traverse limit",
+      "unit": "degrees",
+      "type": "number",
+      "baseline": -20.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "TurretComponentData",
+      "min": -180,
+      "max": 180,
+      "rangeReason": "A horizontal angle; it must stay below turret.yaw_max. A range of 360 degrees (-180 to 180) turns freely.",
+      "order": [
+        "turret.yaw_min",
+        "turret.yaw_max"
+      ],
+      "lifecycle": "Re-read from the type record on every turret update: applies at once to every live mount of that weapon.",
+      "appliesWhen": "every_update",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/turret-yaw-max/5ff397f3b13649b7",
+      "weapon": "TD-220 Bastion MK XVI / attach_tank_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/td-220-bastion-mk-xvi/attach-tank-gun/0af7a2aac4fb4231",
+      "semanticFieldId": "turret.yaw_max",
+      "apiFieldConstant": "hd2.fields.turret.yaw_max",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "TD-220 Bastion MK XVI / attach_tank_gun"
+      },
+      "displayName": "Right traverse limit",
+      "unit": "degrees",
+      "type": "number",
+      "baseline": 20.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "TurretComponentData",
+      "min": -180,
+      "max": 180,
+      "rangeReason": "A horizontal angle; it must stay above turret.yaw_min. A range of 360 degrees (-180 to 180) turns freely.",
+      "order": [
+        "turret.yaw_min",
+        "turret.yaw_max"
+      ],
+      "lifecycle": "Re-read from the type record on every turret update: applies at once to every live mount of that weapon.",
+      "appliesWhen": "every_update",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles."
+    },
+    {
       "instanceKey": "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/projectile-primary-velocity/abb7958b321d1a58",
       "weapon": "TD-220 Bastion MK XVI / attach_tank_gun",
       "weaponSemanticId": "vehicle-weapon/v1/td-220-bastion-mk-xvi/attach-tank-gun/0af7a2aac4fb4231",
@@ -12235,6 +12916,198 @@
       "acknowledgement": "allow_unverified_effect",
       "gameplayEvidence": null,
       "backingComponent": "WeaponMagazineComponentData"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/turret-yaw-speed/6f3752abb19aa6db",
+      "weapon": "TD-220 Bastion MK XVI / attach_tank_gun_mg",
+      "weaponSemanticId": "vehicle-weapon/v1/td-220-bastion-mk-xvi/attach-tank-gun-mg/60cb0b945b402189",
+      "semanticFieldId": "turret.yaw_speed",
+      "apiFieldConstant": "hd2.fields.turret.yaw_speed",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "TD-220 Bastion MK XVI / attach_tank_gun_mg"
+      },
+      "displayName": "Horizontal turn speed",
+      "unit": "degrees_per_second",
+      "type": "number",
+      "baseline": 35.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "TurretComponentData",
+      "min": 1,
+      "max": 720,
+      "rangeReason": "The sentry turret-speed range: 1 degree per second up to two full turns per second (vanilla vehicle mounts use 20 to 130).",
+      "order": null,
+      "lifecycle": "Copied into the turret instance (and its network creation field) when the mount is created: applies to vehicles called in after the write; a vehicle already in the world keeps its rate.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/turret-pitch-speed/7934e68cb830d0c3",
+      "weapon": "TD-220 Bastion MK XVI / attach_tank_gun_mg",
+      "weaponSemanticId": "vehicle-weapon/v1/td-220-bastion-mk-xvi/attach-tank-gun-mg/60cb0b945b402189",
+      "semanticFieldId": "turret.pitch_speed",
+      "apiFieldConstant": "hd2.fields.turret.pitch_speed",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "TD-220 Bastion MK XVI / attach_tank_gun_mg"
+      },
+      "displayName": "Vertical turn speed",
+      "unit": "degrees_per_second",
+      "type": "number",
+      "baseline": 25.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "TurretComponentData",
+      "min": 1,
+      "max": 720,
+      "rangeReason": "The sentry turret-speed range: 1 degree per second up to two full turns per second (vanilla vehicle mounts use 20 to 130).",
+      "order": null,
+      "lifecycle": "Copied into the turret instance (and its network creation field) when the mount is created: applies to vehicles called in after the write; a vehicle already in the world keeps its rate.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/turret-pitch-min/e5bb714faa14a18d",
+      "weapon": "TD-220 Bastion MK XVI / attach_tank_gun_mg",
+      "weaponSemanticId": "vehicle-weapon/v1/td-220-bastion-mk-xvi/attach-tank-gun-mg/60cb0b945b402189",
+      "semanticFieldId": "turret.pitch_min",
+      "apiFieldConstant": "hd2.fields.turret.pitch_min",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "TD-220 Bastion MK XVI / attach_tank_gun_mg"
+      },
+      "displayName": "Lowest aim angle",
+      "unit": "degrees",
+      "type": "number",
+      "baseline": -3.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "TurretComponentData",
+      "min": -90,
+      "max": 90,
+      "rangeReason": "A vertical angle (straight down to straight up); it must stay below turret.pitch_max.",
+      "order": [
+        "turret.pitch_min",
+        "turret.pitch_max"
+      ],
+      "lifecycle": "Re-read from the type record on every turret update: applies at once to every live mount of that weapon.",
+      "appliesWhen": "every_update",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/turret-pitch-max/9f4e82bdad5b20cb",
+      "weapon": "TD-220 Bastion MK XVI / attach_tank_gun_mg",
+      "weaponSemanticId": "vehicle-weapon/v1/td-220-bastion-mk-xvi/attach-tank-gun-mg/60cb0b945b402189",
+      "semanticFieldId": "turret.pitch_max",
+      "apiFieldConstant": "hd2.fields.turret.pitch_max",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "TD-220 Bastion MK XVI / attach_tank_gun_mg"
+      },
+      "displayName": "Highest aim angle",
+      "unit": "degrees",
+      "type": "number",
+      "baseline": 25.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "TurretComponentData",
+      "min": -90,
+      "max": 90,
+      "rangeReason": "A vertical angle (straight down to straight up); it must stay above turret.pitch_min.",
+      "order": [
+        "turret.pitch_min",
+        "turret.pitch_max"
+      ],
+      "lifecycle": "Re-read from the type record on every turret update: applies at once to every live mount of that weapon.",
+      "appliesWhen": "every_update",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/turret-yaw-min/b171c0a1d1c34379",
+      "weapon": "TD-220 Bastion MK XVI / attach_tank_gun_mg",
+      "weaponSemanticId": "vehicle-weapon/v1/td-220-bastion-mk-xvi/attach-tank-gun-mg/60cb0b945b402189",
+      "semanticFieldId": "turret.yaw_min",
+      "apiFieldConstant": "hd2.fields.turret.yaw_min",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "TD-220 Bastion MK XVI / attach_tank_gun_mg"
+      },
+      "displayName": "Left traverse limit",
+      "unit": "degrees",
+      "type": "number",
+      "baseline": -20.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "TurretComponentData",
+      "min": -180,
+      "max": 180,
+      "rangeReason": "A horizontal angle; it must stay below turret.yaw_max. A range of 360 degrees (-180 to 180) turns freely.",
+      "order": [
+        "turret.yaw_min",
+        "turret.yaw_max"
+      ],
+      "lifecycle": "Re-read from the type record on every turret update: applies at once to every live mount of that weapon.",
+      "appliesWhen": "every_update",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/turret-yaw-max/ce6d6bc0675d3fdb",
+      "weapon": "TD-220 Bastion MK XVI / attach_tank_gun_mg",
+      "weaponSemanticId": "vehicle-weapon/v1/td-220-bastion-mk-xvi/attach-tank-gun-mg/60cb0b945b402189",
+      "semanticFieldId": "turret.yaw_max",
+      "apiFieldConstant": "hd2.fields.turret.yaw_max",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "TD-220 Bastion MK XVI / attach_tank_gun_mg"
+      },
+      "displayName": "Right traverse limit",
+      "unit": "degrees",
+      "type": "number",
+      "baseline": 20.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "TurretComponentData",
+      "min": -180,
+      "max": 180,
+      "rangeReason": "A horizontal angle; it must stay above turret.yaw_min. A range of 360 degrees (-180 to 180) turns freely.",
+      "order": [
+        "turret.yaw_min",
+        "turret.yaw_max"
+      ],
+      "lifecycle": "Re-read from the type record on every turret update: applies at once to every live mount of that weapon.",
+      "appliesWhen": "every_update",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles."
     },
     {
       "instanceKey": "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/projectile-primary-velocity/388fe8d95a06331e",
@@ -15770,6 +16643,198 @@
       "backingComponent": "HealthComponentData"
     },
     {
+      "instanceKey": "vehicle-field/v1/gater-oil-rig-turret/turret-yaw-speed/038d08278db83473",
+      "weapon": "GATER Oil Rig / turret",
+      "weaponSemanticId": "vehicle-weapon/v1/gater-oil-rig/turret/b8db0fabca90376d",
+      "semanticFieldId": "turret.yaw_speed",
+      "apiFieldConstant": "hd2.fields.turret.yaw_speed",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "GATER Oil Rig / turret"
+      },
+      "displayName": "Horizontal turn speed",
+      "unit": "degrees_per_second",
+      "type": "number",
+      "baseline": 60.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "TurretComponentData",
+      "min": 1,
+      "max": 720,
+      "rangeReason": "The sentry turret-speed range: 1 degree per second up to two full turns per second (vanilla vehicle mounts use 20 to 130).",
+      "order": null,
+      "lifecycle": "Copied into the turret instance (and its network creation field) when the mount is created: applies to vehicles called in after the write; a vehicle already in the world keeps its rate.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/gater-oil-rig-turret/turret-pitch-speed/f81d2905934884cf",
+      "weapon": "GATER Oil Rig / turret",
+      "weaponSemanticId": "vehicle-weapon/v1/gater-oil-rig/turret/b8db0fabca90376d",
+      "semanticFieldId": "turret.pitch_speed",
+      "apiFieldConstant": "hd2.fields.turret.pitch_speed",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "GATER Oil Rig / turret"
+      },
+      "displayName": "Vertical turn speed",
+      "unit": "degrees_per_second",
+      "type": "number",
+      "baseline": 20.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "TurretComponentData",
+      "min": 1,
+      "max": 720,
+      "rangeReason": "The sentry turret-speed range: 1 degree per second up to two full turns per second (vanilla vehicle mounts use 20 to 130).",
+      "order": null,
+      "lifecycle": "Copied into the turret instance (and its network creation field) when the mount is created: applies to vehicles called in after the write; a vehicle already in the world keeps its rate.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/gater-oil-rig-turret/turret-pitch-min/78a09fc1e9cad57e",
+      "weapon": "GATER Oil Rig / turret",
+      "weaponSemanticId": "vehicle-weapon/v1/gater-oil-rig/turret/b8db0fabca90376d",
+      "semanticFieldId": "turret.pitch_min",
+      "apiFieldConstant": "hd2.fields.turret.pitch_min",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "GATER Oil Rig / turret"
+      },
+      "displayName": "Lowest aim angle",
+      "unit": "degrees",
+      "type": "number",
+      "baseline": -13.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "TurretComponentData",
+      "min": -90,
+      "max": 90,
+      "rangeReason": "A vertical angle (straight down to straight up); it must stay below turret.pitch_max.",
+      "order": [
+        "turret.pitch_min",
+        "turret.pitch_max"
+      ],
+      "lifecycle": "Re-read from the type record on every turret update: applies at once to every live mount of that weapon.",
+      "appliesWhen": "every_update",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/gater-oil-rig-turret/turret-pitch-max/51b222bd6fb5f2e0",
+      "weapon": "GATER Oil Rig / turret",
+      "weaponSemanticId": "vehicle-weapon/v1/gater-oil-rig/turret/b8db0fabca90376d",
+      "semanticFieldId": "turret.pitch_max",
+      "apiFieldConstant": "hd2.fields.turret.pitch_max",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "GATER Oil Rig / turret"
+      },
+      "displayName": "Highest aim angle",
+      "unit": "degrees",
+      "type": "number",
+      "baseline": 60.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "TurretComponentData",
+      "min": -90,
+      "max": 90,
+      "rangeReason": "A vertical angle (straight down to straight up); it must stay above turret.pitch_min.",
+      "order": [
+        "turret.pitch_min",
+        "turret.pitch_max"
+      ],
+      "lifecycle": "Re-read from the type record on every turret update: applies at once to every live mount of that weapon.",
+      "appliesWhen": "every_update",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/gater-oil-rig-turret/turret-yaw-min/74491f16276f01ad",
+      "weapon": "GATER Oil Rig / turret",
+      "weaponSemanticId": "vehicle-weapon/v1/gater-oil-rig/turret/b8db0fabca90376d",
+      "semanticFieldId": "turret.yaw_min",
+      "apiFieldConstant": "hd2.fields.turret.yaw_min",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "GATER Oil Rig / turret"
+      },
+      "displayName": "Left traverse limit",
+      "unit": "degrees",
+      "type": "number",
+      "baseline": -180.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "TurretComponentData",
+      "min": -180,
+      "max": 180,
+      "rangeReason": "A horizontal angle; it must stay below turret.yaw_max. A range of 360 degrees (-180 to 180) turns freely.",
+      "order": [
+        "turret.yaw_min",
+        "turret.yaw_max"
+      ],
+      "lifecycle": "Re-read from the type record on every turret update: applies at once to every live mount of that weapon.",
+      "appliesWhen": "every_update",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/gater-oil-rig-turret/turret-yaw-max/8a468e20e5011b4c",
+      "weapon": "GATER Oil Rig / turret",
+      "weaponSemanticId": "vehicle-weapon/v1/gater-oil-rig/turret/b8db0fabca90376d",
+      "semanticFieldId": "turret.yaw_max",
+      "apiFieldConstant": "hd2.fields.turret.yaw_max",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "GATER Oil Rig / turret"
+      },
+      "displayName": "Right traverse limit",
+      "unit": "degrees",
+      "type": "number",
+      "baseline": 180.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "TurretComponentData",
+      "min": -180,
+      "max": 180,
+      "rangeReason": "A horizontal angle; it must stay above turret.yaw_min. A range of 360 degrees (-180 to 180) turns freely.",
+      "order": [
+        "turret.yaw_min",
+        "turret.yaw_max"
+      ],
+      "lifecycle": "Re-read from the type record on every turret update: applies at once to every live mount of that weapon.",
+      "appliesWhen": "every_update",
+      "acknowledgementReason": "Native-code proven (research/vehicle-mech-components-F5FEE03DCFDB.json: the reading routine and its units are pinned), but not yet shown in game on a vehicle. Sentry live evidence for the same turret ids does not apply to vehicles."
+    },
+    {
       "instanceKey": "vehicle-field/v1/gater-oil-rig-turret/projectile-primary-velocity/9c38de638ec8db1b",
       "weapon": "GATER Oil Rig / turret",
       "weaponSemanticId": "vehicle-weapon/v1/gater-oil-rig/turret/b8db0fabca90376d",
@@ -18938,13 +20003,13 @@
   "summary": {
     "vehicles": 16,
     "weaponMounts": 23,
-    "fieldInstances": 632,
-    "writableFieldInstances": 632,
-    "weaponLocalFields": 124,
+    "fieldInstances": 662,
+    "writableFieldInstances": 662,
+    "weaponLocalFields": 154,
     "sharedMountedWeaponFields": 28,
     "sharedFields": 508,
     "gameplayProvenFields": 27,
-    "unverifiedEffectFields": 605,
+    "unverifiedEffectFields": 635,
     "byField": {
       "arc.primary.chain_count": 1,
       "arc.primary.distance_at_max_spread": 1,
@@ -19003,6 +20068,12 @@
       "projectile.primary.penetration_slowdown": 17,
       "projectile.primary.velocity": 17,
       "reload.duration": 10,
+      "turret.pitch_max": 5,
+      "turret.pitch_min": 5,
+      "turret.pitch_speed": 5,
+      "turret.yaw_max": 5,
+      "turret.yaw_min": 5,
+      "turret.yaw_speed": 5,
       "weapon.capacity": 21,
       "weapon.fire_rate": 17,
       "zone.armor": 7,
