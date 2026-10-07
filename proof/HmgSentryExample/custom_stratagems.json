@@ -1,6 +1,6 @@
 {
  "format": "hd2runtime-custom-stratagems/1",
- "log": "HeavyMgSentry 0.3.0 BUILD: select A/MG-101 Heavy MG Sentry in the custom panel, then a mission; call it with DOWN UP RIGHT RIGHT RIGHT LEFT.",
+ "log": "HeavyMgSentry 0.3.1 BUILD: select A/MG-101 Heavy MG Sentry in the custom panel, then a mission; call it with DOWN UP RIGHT RIGHT RIGHT LEFT.",
  "stratagems": [
   {
    "id": "hmg_sentry",

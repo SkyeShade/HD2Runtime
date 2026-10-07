@@ -3988,7 +3988,7 @@ for _name, _id, _banner, _beacon, _families, _colour_set in (
             'offensive', "{'orbital','eagle','sentry','emplacement','mine','support','backpack'}", 0),
         ('example-gas-eat', 'eat17_gas', 'GasEatExample 0.1.7 MULTIPLAYER PROVENANCE BUILD', 'support',
             "{'support','backpack'}", 2),
-        ('example-hmg-sentry', 'hmg_sentry', 'HeavyMgSentry 0.3.0 BUILD', 'support', "{'sentry'}", 3),
+        ('example-hmg-sentry', 'hmg_sentry', 'HeavyMgSentry 0.3.1 BUILD', 'support', "{'sentry'}", 3),
         ('example-eagle-stun-rocket-pods', 'eagle_stun_rocket_pods',
             'EagleStunRocketPodsExample 0.3.1 DEV LINE BUILD', 'offensive', "{'eagle'}", 0)):
     EXTRAS[_name] = {'after': EXAMPLE_CUSTOM_STRATAGEM % {'id': _id, 'banner': _banner,
