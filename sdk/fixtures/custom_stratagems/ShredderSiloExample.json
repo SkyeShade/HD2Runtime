@@ -1,6 +1,6 @@
 {
  "format": "hd2runtime-custom-stratagems/1",
- "log": "ShredderSilo 0.1.0 BUILD: select MS-N223 Shredder Silo in the custom panel, then a mission; call it with DOWN UP RIGHT UP DOWN DOWN RIGHT.",
+ "log": "ShredderSilo 0.2.0 BUILD: one MS-N223 Shredder Silo per player, one use per mission; call it with DOWN UP RIGHT UP DOWN DOWN RIGHT.",
  "stratagems": [
   {
    "id": "shredder_silo",
@@ -21,6 +21,8 @@
     "right"
    ],
    "cooldown": 180,
+   "uses": 1,
+   "max_per_player": 1,
    "traits": [
     "Support Weapon",
     "Explosive",

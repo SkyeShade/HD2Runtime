@@ -120,6 +120,20 @@ it cooling. The log says `USES: n of N` at each call and `SPENT for this mission
 - **Several players.** Each player's Runtime counts its own calls: every player has their own uses.
 - **Not for an Eagle.** Its `eagle.uses` are per rearm.
 
+### `max_per_player`: loadout slots per player (r45)
+
+At most this many of each player's loadout slots hold the custom stratagem (1 to 4; default no limit). The Shredder
+Silo 0.2.0 uses 1, with `uses = 1`: one silo per player, one call per mission.
+
+- **The pick:** while that many OTHER slots hold it, its tile is unavailable and a pick is refused with the reason
+  (`LIMIT: at most 1 per player: loadout slot 0 already holds it`); nothing is written. Picking it again into a slot
+  that already holds it is no new slot and is allowed.
+- **Aboard the ship:** a loadout holding more (picked before a mod update added the limit) loses its extra slots, the
+  highest first (`SHIP (<id>): loadout slot N UNPICKED: at most 1 per player`); each stays a plain native entry of the
+  loadout, to be picked again.
+- **Several players:** each player's own limit, on their own machine. Not part of the registry hash.
+- Offline only (r45).
+
 ### `traits`: the panel's ITEM TRAITS
 
 Up to four labels of 1 to 32 characters, shown in upper case after the automatic `CUSTOM STRATAGEM` (a repeat of it, or

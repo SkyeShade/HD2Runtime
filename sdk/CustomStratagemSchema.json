@@ -6262,6 +6262,15 @@
    "required": true,
    "type": "string"
   },
+  "max_per_player": {
+   "default": "no limit",
+   "doc": "at most this many of each player's loadout slots hold it: a further pick is refused (its tile unavailable); a loadout holding more aboard the ship loses the extra slots",
+   "max": 4,
+   "min": 1,
+   "optional": true,
+   "type": "integer",
+   "unit": "loadout slots per player"
+  },
   "name": {
    "doc": "the HUD name",
    "maxLength": 64,

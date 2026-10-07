@@ -247,6 +247,11 @@ def _runtime(mutate):
 
 CASES = [
     ('HmgSentryExample', 'cooldown 600', _set('cooldown', 600), True),
+    ('ShredderSiloExample', 'max_per_player 1', _set('max_per_player', 1), True),
+    ('ShredderSiloExample', 'max_per_player 4', _set('max_per_player', 4), True),
+    ('ShredderSiloExample', 'max_per_player 5', _set('max_per_player', 5), False),
+    ('ShredderSiloExample', 'max_per_player 0', _set('max_per_player', 0), False),
+    ('ShredderSiloExample', 'max_per_player 1.5', _set('max_per_player', 1.5), False),
     ('HmgSentryExample', 'cooldown 600.5', _set('cooldown', 600.5), False),
     ('HmgSentryExample', 'cooldown 0', _set('cooldown', 0), False),
     ('HmgSentryExample', 'rpm 3000', _set('payload.weapon.rpm', 3000), True),

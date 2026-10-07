@@ -1,10 +1,12 @@
-# ShredderSilo 0.1.0: MS-N223 Shredder Silo
+# ShredderSilo 0.2.0: MS-N223 Shredder Silo
 
-One custom stratagem, defined as data in `custom_stratagems.json` (the format a builder writes; `hd2.py build` compiles it into `src/addon.lua`). Needs the HD2Runtime 0.30.0-dev r29 build or later. Not live-tested in this form.
+One custom stratagem, defined as data in `custom_stratagems.json` (the format a builder writes; `hd2.py build` compiles it into `src/addon.lua`). Needs the HD2Runtime 0.30.0-dev r45 build or later (`max_per_player`). Not live-tested in this form.
 
 | Stratagem | Code | Cooldown | Uses |
 |---|---|---|---|
-| MS-N223 Shredder Silo | ↓↑→↑↓↓→ (DOWN UP RIGHT UP DOWN DOWN RIGHT) | 180 s | unlimited |
+| MS-N223 Shredder Silo | ↓↑→↑↓↓→ (DOWN UP RIGHT UP DOWN DOWN RIGHT) | 180 s | 1 per mission |
+
+Each player may pick it into at most ONE loadout slot (`max_per_player = 1`): a second pick is refused and its tile shows why. One call per mission (`uses = 1`): the game's own use counter on its slot shows 1, then 0.
 
 > A silo that fits one single, tactical nuclear missile. Possible side effects include shell shock, mutation, and/or death. A laser targetting remote is provided.
 
@@ -12,7 +14,9 @@ Item traits: CUSTOM STRATAGEM, SUPPORT WEAPON, EXPLOSIVE, ANTI-TANK, EXPENDABLE.
 
 The MS-11 Solo Silo from its own pod, with its laser remote. Where exactly this call's missile detonates, the Runtime also requests the Cyborg Production Unit's self-destruct explosion (the Halt Cyborg Production objective's blast: 10,000 damage, demolition 60, a 50 m inner and 100 m outer radius; the missile's own blast still goes off). Its effect and sound ship only in two Automaton objective packages (about 300 MB together), loaded at mission start before the stratagem can be called. If they are not resident on the host at the detonation, the NUX-223 Hellbomb's explosion is requested instead. Stay more than 100 m away: the blast kills Helldivers too. No launch countdown: the launch timing is the game's code, not data.
 
-The log names this build: `ShredderSilo 0.1.0 BUILD`.
+The log names this build: `ShredderSilo 0.2.0 BUILD`.
+
+**0.2.0:** at most one per player, one use per mission (0.1.0: unlimited uses, any number of slots).
 
 ## What to look for in a live test
 

@@ -151,6 +151,11 @@
       "pattern": "^[a-z][a-z0-9_]*$",
       "type": "string"
      },
+     "max_per_player": {
+      "maximum": 4,
+      "minimum": 1,
+      "type": "integer"
+     },
      "name": {
       "maxLength": 64,
       "minLength": 1,

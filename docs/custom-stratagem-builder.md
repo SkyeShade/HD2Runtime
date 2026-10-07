@@ -67,6 +67,7 @@ donors are accepted) and `doc`.
 | `code` | list of directions | 1 to 8 of `up`, `down`, `left`, `right`; never equal to, the start of, or started by another custom stratagem's code; never equal to any native code (`nativeCodes`), nor the start of, or started by, a catalogued one | required |
 | `cooldown` | number, seconds from the call-in's arrival | above 0, at most 600 (refused for an Eagle) | the carrier's own |
 | `uses` | integer, calls per mission | 1 to 100, each player's own: the game's own per-slot use counter (refused for an Eagle, whose uses are per rearm) | unlimited |
+| `max_per_player` | integer, loadout slots per player | 1 to 4: a further pick is refused (its tile unavailable); a loadout holding more aboard the ship loses the extra slots (r45) | no limit |
 | `traits` | list of strings | at most 4 labels of 1 to 32 printable characters, after the automatic CUSTOM STRATAGEM | the family's |
 | `assets` | list of stratagem names | the `stratagems` catalogue | none (a payload's own donors are added) |
 | `carrier.group` | enum | a `carrierGroups` name: `orbital`, `any_red`, `any`, `support`, `support_pod`, `expendable`, `sentry`, `emplacement`, `eagle`; refused when it cannot carry the payload | the payload family's default group |

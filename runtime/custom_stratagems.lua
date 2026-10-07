@@ -264,7 +264,7 @@ end
 local CALLBACKS={'on_called','on_beacon_created','on_beacon_landed','on_activate','on_delivered'}
 local SPEC_KEYS={id=true,name=true,name_cased=true,description=true,icon=true,code=true,cooldown=true,carrier=true,
     assets=true,delivery=true,sentry=true,eagle=true,orbital=true,pelican=true,silo=true,uses=true,traits=true,
-    selection=true}
+    selection=true,max_per_player=true}
 
 ----------------------------------------------------------------------------------- the payload families (data) --
 -- A donor reference: a catalogued name, or a typed handle (hd2.support_weapon(name), hd2.backpack(name), or a table
@@ -1001,6 +1001,10 @@ function M.register(spec,owner)
     assert(spec.selection==nil or spec.selection=='token'or spec.selection=='carrier',
         "selection must be 'carrier' (the default: the slot holds the carrier itself) or 'token' (development)")
     assert(spec.uses==nil or spec.eagle==nil,'uses counts calls per mission; an Eagle\'s uses are per rearm (eagle.uses)')
+    -- r45: at most this many of a player's loadout slots hold it (each player's own; picks beyond it are refused).
+    local mpp=spec.max_per_player
+    assert(mpp==nil or(type(mpp)=='number'and mpp%1==0 and mpp>=1 and mpp<=M.MAX_PER_PLAYER),
+        'max_per_player must be a whole number of loadout slots from 1 to '..M.MAX_PER_PLAYER)
     local ok,why=allocator.check_policy(spec.carrier)
     assert(ok,tostring(why))
     -- The policy the payload and the allocation read: the carrier spec, with a requested GROUP's beacon and families
@@ -1103,6 +1107,7 @@ function M.register(spec,owner)
         -- The loadout slot holds the carrier itself (the default since r44); 'token' (development, Lua only): the
         -- Orbital Precision Strike token, converted at mission start.
         selection=(spec.selection or M.default_selection)=='carrier'and'carrier'or nil,
+        max_per_player=spec.max_per_player,
         policy=spec.carrier,assets=assets,delivery=delivery,
         exclude=exclude,callbacks={},kind=kind,sentry=sentry,eagle=eagle,orbital=orbital,pelican=pelican,
         group=group,group_source=group_source,alloc_policy=policy,
@@ -1214,6 +1219,9 @@ function M.register(spec,owner)
             orbital.pattern,orbital.total,orbital.impact and('; each explodes as '..orbital.impact..'\'s')or'')
     else
         payload_text='by the mod (the carrier\'s own is neutralized)'
+    end
+    if definition.max_per_player then
+        payload_text=payload_text..('; at most %d per player'):format(definition.max_per_player)
     end
     if definition.selection~='carrier'then
         payload_text=payload_text..'; SELECTION token (development): its loadout slot holds the Orbital Precision '
@@ -1436,6 +1444,56 @@ end
 -- Runtime's own fallback) set 'token' through M.set_default_selection_for_tests; reset_for_tests restores it.
 M.default_selection='carrier'
 function M.set_default_selection_for_tests(s)M.default_selection=s end
+-- max_per_player (r45): at most that many of this player's loadout slots hold a definition.
+M.MAX_PER_PLAYER=4
+do
+    -- This player's virtual slots holding `id`, the slot being edited excluded (picking it again there is no new slot).
+    local function holders(id,except)
+        local out={}
+        local V=selector.virtual_slots()
+        for slot,e in pairs(V and V.slots or{})do
+            if e.definition==id and slot~=except then out[#out+1]=slot end
+        end
+        table.sort(out)
+        return out
+    end
+    -- Why a pick of `id` into the slot being edited is refused by its limit, or nil.
+    function M.limit_reason(id)
+        local d=defs[id]
+        local max=d and d.max_per_player
+        if not max then return nil end
+        local edited
+        local world=world_module.open()
+        if world then
+            local ok,view=pcall(selector.screen,world)
+            if ok and view and view.open then edited=view.editedSlot end
+        end
+        local held=holders(id,edited)
+        if#held<max then return nil end
+        return('LIMIT: at most %d per player: loadout slot%s %s already hold%s it'):format(max,#held==1 and''or's',
+            table.concat(held,', '),#held==1 and's'or'')
+    end
+    -- Aboard the ship: a loadout holding more than the limit (picked before it applied) loses its extra slots, the
+    -- highest first; each is then a plain native entry of the loadout (nothing written).
+    function M.limit_step()
+        for _,d in ipairs(order)do
+            local max=d.max_per_player
+            if max then
+                local held=holders(d.id)
+                if#held>max then
+                    for k=#held,max+1,-1 do
+                        local dropped=selector.drop_virtual_slot(held[k],('at most %d per player'):format(max))
+                        if dropped then
+                            ship.key=nil
+                            log(('SHIP (%s): loadout slot %d UNPICKED: at most %d per player (slots %s held it); pick '
+                                ..'another stratagem there'):format(d.id,held[k],max,table.concat(held,', ')))
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
 -- The carrier-in-slot probe's pins: {[definition id] = the stable id all its carrier slots hold} (none when they differ).
 function M.probe_pins()
     local out={}
@@ -5240,7 +5298,8 @@ local function tick(dt)
     end
     if not in_mission then
         if game then
-            ship_step(world,v);M.probe_move_step(world);availability_step(world,v);reservations_step(world,v)
+            M.limit_step();ship_step(world,v);M.probe_move_step(world);availability_step(world,v)
+            reservations_step(world,v)
             mp_ship_step(world)
         end
         return
@@ -5359,7 +5418,7 @@ function M.start()
     end
     panel=panel_module.panel({renderer='native',placeholders=0,focus=true,selection=true,mouse=true,
         -- An expendable custom stratagem without a free carrier weapon: its tile warns and it cannot be picked.
-        availability=function(id)return avail.state[id]end,
+        availability=function(id)return avail.state[id]or M.limit_reason(id)end,
         -- A focused card's details, drawn over the native details panel.
         details=function(id)return M.panel_details(id)end,
         -- The carrier-in-slot probe: the carrier a definition's pick writes (nil: the token).

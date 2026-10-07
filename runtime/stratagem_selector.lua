@@ -1322,6 +1322,17 @@ function M.drop_virtual(id,reason)
         or'they are',slots_text(virtual_slots)))
     return dropped
 end
+-- One virtual slot let go (r45: a custom stratagem's max_per_player): it stays whatever the loadout holds there (its
+-- token or its carrier, now a plain native entry); nothing written. Returns true when it was virtual.
+function M.drop_virtual_slot(slot,reason)
+    if not(virtual_slots and virtual_slots.slots[slot])then return false end
+    local e=virtual_slots.slots[slot]
+    virtual_slots.slots[slot]=nil
+    if next(virtual_slots.slots)==nil then virtual_slots=nil end
+    log(('virtual slot %d (%s) UNPICKED: %s; it is a plain native entry now (nothing written); virtual slots: %s')
+        :format(slot,tostring(e.definition),tostring(reason),slots_text(virtual_slots)))
+    return true
+end
 M.identity=M.virtual_slots
 M.slots_text=slots_text
 -- A copy of the virtual slots (the ship-scoped loadout state freezes it at the mission entry), or nil.

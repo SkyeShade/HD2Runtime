@@ -315,7 +315,7 @@ def validate(project: dict, schema: dict) -> list[str]:
     for index, s in enumerate(items):
         where = 'stratagems[%d]' % index
         if not _only_keys(problems, where, s, {'id', 'name', 'name_cased', 'description', 'icon', 'code', 'cooldown',
-                'uses', 'traits', 'assets', 'carrier', 'payload'}):
+                'uses', 'max_per_player', 'traits', 'assets', 'carrier', 'payload'}):
             continue
         sid = s.get('id')
         if not (isinstance(sid, str) and re.fullmatch(M['id']['pattern'].strip('^$'), sid) and len(sid) <= M['id']['maxLength']):
@@ -362,6 +362,7 @@ def validate(project: dict, schema: dict) -> list[str]:
                         'refused in every mission where it can be picked'))
         _number(problems, where + '.cooldown', s.get('cooldown'), M['cooldown'])
         _number(problems, where + '.uses', s.get('uses'), M['uses'])
+        _number(problems, where + '.max_per_player', s.get('max_per_player'), M['max_per_player'])
         if 'traits' in s:
             traits = s['traits']
             if not (isinstance(traits, list) and len(traits) <= M['traits']['max'] and all(isinstance(t, str)
@@ -675,6 +676,8 @@ def compile_lua(project: dict, source_sha256: str = '') -> str:
             lines.append('    cooldown=%s,' % _lua_value(s['cooldown']))
         if s.get('uses') is not None:
             lines.append('    uses=%s,' % _lua_value(s['uses']))
+        if s.get('max_per_player') is not None:
+            lines.append('    max_per_player=%s,' % _lua_value(s['max_per_player']))
         if s.get('traits'):
             lines.append('    traits=%s,' % _lua_value(s['traits']))
         carrier = s['carrier']

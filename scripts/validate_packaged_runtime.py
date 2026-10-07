@@ -4236,7 +4236,7 @@ end
 
 
 def _silo_scenario():
-    text = EXAMPLE_CUSTOM_STRATAGEM % {'id': 'shredder_silo', 'banner': 'ShredderSilo 0.1.0 BUILD', 'beacon': 'support',
+    text = EXAMPLE_CUSTOM_STRATAGEM % {'id': 'shredder_silo', 'banner': 'ShredderSilo 0.2.0 BUILD', 'beacon': 'support',
         'families': "{'support','backpack'}", 'colour_set': 2}
     for old, new in (("policy=d.policy,", "policy=d.alloc_policy or d.policy,"),
             (" return results\nend\n", SILO_STEPS)):

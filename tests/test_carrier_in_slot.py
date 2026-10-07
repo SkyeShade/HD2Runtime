@@ -593,6 +593,42 @@ assert(count('no carrier is allocated yet')==0)
 return 'ok'
 ''')
 
+    def test_max_per_player_refuses_a_second_slot_and_unpicks_extras_aboard_the_ship(self):
+        # r45 (the user: a Shredder Silo each player may pick at most once): max_per_player = 1.
+        self.flow(r'''
+rawset(_G,'ModOptionsMenu',MENU)
+local limited=GAS_ADDON:gsub("    selection='carrier',\n","    selection='carrier',\n    max_per_player=1,\n")
+assert(loadstring(limited,'@'..GAS_RESOURCE))()
+local d=custom.get('orbital_gas_barrage')
+assert(d.max_per_player==1)
+assert(count('at most 1 per player')==1,lines('REGISTERED'))
+tick(40)
+ship({})
+tick(4)
+select_into(0)
+local selector=require('hd2runtime/runtime/stratagem_selector')
+local V=selector.virtual_slots()
+assert(V.slots[0]and V.slots[0].definition=='orbital_gas_barrage',lines('SELECTED'))
+-- Slot 0 holds it: picking it again there is fine (no new slot); another slot is refused, nothing written.
+SCREEN.set('editedSlot',0)
+assert(custom.limit_reason('orbital_gas_barrage')==nil,'the edited slot 0 itself')
+SCREEN.set('editedSlot',1)
+assert(custom.limit_reason('orbital_gas_barrage'),'another slot')
+native_append(22)
+select_into(1)
+V=selector.virtual_slots()
+assert(V.slots[1]==nil,'a second slot is refused: '..selector.slots_text(V))
+assert(count('LIMIT: at most 1 per player: loadout slot 0 already holds it')>=1,lines('LIMIT'))
+-- A loadout holding two (picked before the limit): the extra one is unpicked aboard the ship.
+selector.set_virtual_slots_for_tests({slots={[0]=V.slots[0],[1]={definition='orbital_gas_barrage',token=V.slots[0].token,
+    type=V.slots[0].type,carrier=true}},pairs=V.pairs})
+custom.limit_step()
+V=selector.virtual_slots()
+assert(V.slots[0]and V.slots[1]==nil,selector.slots_text(V))
+assert(count('SHIP (orbital_gas_barrage): loadout slot 1 UNPICKED: at most 1 per player')==1,lines('UNPICKED'))
+return 'ok'
+''')
+
     def test_anyone_else_picking_its_carrier_moves_the_slot_before_the_mission(self):
         self.flow(r'''
 rawset(_G,'ModOptionsMenu',MENU)

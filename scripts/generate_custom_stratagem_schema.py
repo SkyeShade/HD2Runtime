@@ -250,6 +250,7 @@ for _,name in ipairs(WCL.variants())do
 end
 out.variantDonors=json.array(variant_list)
 out.uses={min=1,max=custom.MAX_USES}
+out.maxPerPlayer=custom.MAX_PER_PLAYER
 out.traits={max=custom.MAX_TRAITS,length=custom.TRAIT_LENGTH}
 return json.encode(out)
 '''
@@ -592,6 +593,10 @@ def build(facts: dict | None = None) -> dict:
                 optional=True, default='unlimited',
                 doc='each player\'s own calls: the game\'s own per-slot uses (its HUD counter, its depleted look, its '
                     'refusal at 0) on the slot that holds the carrier; refused for an Eagle, whose uses are per rearm'),
+            'max_per_player': dict(rng(1, facts['maxPerPlayer'], integer=True, unit='loadout slots per player'),
+                optional=True, default='no limit',
+                doc='at most this many of each player\'s loadout slots hold it: a further pick is refused (its tile '
+                    'unavailable); a loadout holding more aboard the ship loses the extra slots'),
             'traits': {'type': 'list', 'item': {'type': 'string', 'minLength': 1, 'maxLength': facts['traits']['length']},
                 'max': facts['traits']['max'], 'optional': True, 'default': 'the payload family\'s',
                 'doc': 'the ITEM TRAITS the custom panel shows after the automatic CUSTOM STRATAGEM (upper case)'},
@@ -721,6 +726,7 @@ def project_schema(schema: dict) -> dict:
             'items': {'enum': schema['catalogs']['directions']}},
         'cooldown': number(M['cooldown']),
         'uses': number(M['uses']),
+        'max_per_player': number(M['max_per_player']),
         'traits': {'type': 'array', 'maxItems': M['traits']['max'], 'items': {'type': 'string', 'minLength': 1,
             'maxLength': M['traits']['item']['maxLength']}},
         'assets': {'type': 'array', 'items': {'type': 'string'}},
