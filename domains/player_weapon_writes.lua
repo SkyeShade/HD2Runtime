@@ -127,6 +127,11 @@ local function branch_field(weapon,domain,role,rest)
         end
     end
 end
+-- A field the catalog publishes as refused on this weapon (fieldRefusals) names its reason.
+local function not_exposed(weapon,id)
+    local reason=weapon.fieldRefusals and weapon.fieldRefusals[id]
+    error('field is not exposed for '..weapon.name..': '..tostring(id)..(reason and(' ('..reason..')')or''),0)
+end
 local function field_for(weapon,id,role,path,phase)
     local resolved=id
     if path=='ammunition'then
@@ -152,7 +157,7 @@ local function field_for(weapon,id,role,path,phase)
             resolved=domain..'.'..role..'.'..id:sub(#domain+2)
         end
         for _,field in ipairs(weapon.fields)do if field.semanticFieldId==resolved then return field end end
-        error('field is not exposed for '..weapon.name..': '..tostring(id),0)
+        not_exposed(weapon,id)
     end
     if id=='attack.projectile'then
         assert(type(role)=='string','attack.projectile requires weapon:attack(role) target')
@@ -170,7 +175,7 @@ local function field_for(weapon,id,role,path,phase)
         resolved=branch_field(weapon,'explosion',role,rest)or('explosion.'..role..'.'..rest)
     end
     for _,field in ipairs(weapon.fields)do if field.semanticFieldId==resolved then return field end end
-    error('field is not exposed for '..weapon.name..': '..tostring(id),0)
+    not_exposed(weapon,id)
 end
 local function identical_backing(a,c)
     if type(a)~='table'or type(c)~='table'or a.kind~=c.kind
@@ -212,7 +217,9 @@ end
 -- Native slot lists written slot by slot: every slot is conflict-checked, only changed slots are written, and no
 -- write crosses a slot. fire_mode_set: four FireMode slots; fire_rate_set: the three rate-of-fire slots X/Y/Z;
 -- trait_set and armor_penetration_label: the five LoadoutEntry trait tags.
-local SLOT_SETS={fire_mode_set=4,fire_rate_set=3,trait_set=5,armor_penetration_label=5}
+-- weapon_sound: the loop start / loop stop / per-shot event slots (+252/+256/+260; its +237 MIDI flag is one more
+-- 1-byte change).
+local SLOT_SETS={fire_mode_set=4,fire_rate_set=3,trait_set=5,armor_penetration_label=5,weapon_sound=3}
 -- Rate-of-fire modes: the three native slots in the order the weapon menu lists them (X, Y, Z). The middle slot (Y) is
 -- the default a weapon is built on; 0 is an empty slot, which the menu and the selector skip. The selector visits the
 -- slots Y -> Z -> X.
@@ -332,6 +339,58 @@ local function explosion_selector(value,label)
     return {weapon=value.weapon,attack=value.attack,phase=value.phase,
         is_null=value.path=='no_explosion'}
 end
+-- The firing-sound catalogue (runtime/weapon_sounds.lua; docs/weapon-sounds.md).
+local function weapon_sounds()return require('hd2runtime/runtime/weapon_sounds')end
+-- weapon.sound: the weapon type's firing sound as a catalogue sound name, written exactly as a catalogue entry's
+-- chin-copy writes are, relative to this weapon's own record: a shot sets the per-shot event (+260) and the MIDI flag
+-- (+237) and clears the loop (+252/+256); a loop sets its start and stop and clears the per-shot event and MIDI. The
+-- 13 bytes are the 12-byte block +252..+263 followed by the +237 flag. The weapon's own sound restores its reviewed
+-- bytes exactly; any other sound loads its bank's package before the write (asset_dependencies); a resident-only one
+-- (no package Runtime can load) is refused.
+local function sound_change(weapon,item,field)
+    local sounds=weapon_sounds()
+    local own=assert(field.nativeSound,'reviewed firing sound missing for '..weapon.name)
+    local declared=type(item.expect)=='string'and sounds.resolve(item.expect)or nil
+    assert(declared==field.currentDefault,'expect differs from the reviewed firing sound for '..item.field..' on '
+        ..weapon.name..': declared='..tostring(item.expect)..' reviewed='..tostring(field.currentDefault))
+    if type(item.value)~='string'then
+        error('value must be a catalogued sound name: '..sounds.hint(),0)
+    end
+    local name,entry=sounds.resolve(item.value)
+    if not name then error('UNKNOWN_SOUND: no firing sound '..item.value..'; use '..sounds.hint(),0)end
+    local expected=b.unhex(own.block)..b.encode(own.midi,'u8')
+    local change={field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
+        semantic_aliases={item.field},expect=item.expect,value=item.value,expected=expected,sound=name}
+    if name==field.currentDefault then change.desired=expected;return change end
+    if entry.kind~='shot'and entry.kind~='loop'then
+        error('UNSUPPORTED_SOUND: '..name..' is neither a shot nor a loop',0)
+    end
+    if entry.residentOnly or entry.own or not entry.stratagem then
+        error('RESIDENT_ONLY_SOUND: the '..name..' sound is resident-only (no stratagem package Runtime can load '
+            ..'provides its bank), so its bank cannot be made resident before the write; choose a sound with a '
+            ..'stratagem (hd2.sounds.list({stratagem=true}))',0)
+    end
+    local dependencies,why=require('hd2runtime/api/assets').sound_dependencies(name)
+    if not dependencies or#dependencies==0 then error('ASSET_UNAVAILABLE: '..tostring(why or name),0)end
+    local zero=b.encode(0,'u32')
+    if entry.kind=='loop'then
+        change.desired=b.encode(tonumber(entry.start,16),'u32')..b.encode(tonumber(entry.stop,16),'u32')..zero
+            ..b.encode(0,'u8')
+    else
+        change.desired=zero..zero..b.encode(tonumber(entry.event,16),'u32')..b.encode(entry.midi==1 and 1 or 0,'u8')
+    end
+    change.asset_dependencies=dependencies
+    return change
+end
+-- Every asset dependency of a validated operation's changes (one reference, or a sound's bank packages).
+local function change_dependencies(changes)
+    local out={}
+    for _,change in ipairs(changes)do
+        if change.asset_dependency then out[#out+1]=change.asset_dependency end
+        for _,dependency in ipairs(change.asset_dependencies or{})do out[#out+1]=dependency end
+    end
+    return out
+end
 -- Fields of the original fixed JAR-5 resource. Typed weapon targets use per-angle AP and the
 -- player_* damage constants; say so instead of a generic rejection.
 local LEGACY_DAMAGE={armor_penetration='hd2.fields.damage.ap_direct, ap_slight, ap_large and ap_extreme '
@@ -403,6 +462,9 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
     if field.type=='projectile_reference'and type(item.value)=='table'and item.value.path=='projectile_reference'
         and item.value.weapon==weapon.name and item.value.attack==role
         and item.value.resource==host_resource(weapon)then live_value=true end
+    -- Restoring a weapon's own catalogued firing sound writes its reviewed baseline bytes.
+    if field.type=='weapon_sound'and type(item.value)=='string'
+        and weapon_sounds().resolve(item.value)==field.currentDefault then live_value=true end
     -- A field that gained the acknowledgement after the SDK the registering mod declares keeps its earlier rule (the
     -- contract the request is checked against: a deprecated alias keeps its own, which never carried one).
     local legacy,legacy_detail
@@ -565,6 +627,9 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
         return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
             semantic_aliases={item.field},expect=item.expect,value=item.value,
             expected=b.encode(expected,'u32'),desired=b.encode(desired,'u32'),status_type=desired}
+    end
+    if field.type=='weapon_sound'then
+        return sound_change(weapon,item,field)
     end
     if field.type=='fire_rate_set'then
         -- The three native rate slots in weapon-menu order {X, Y, Z}; expect is the reviewed list, and its bytes are
@@ -827,7 +892,7 @@ function M.validate_patch(request)
         attack=role,target_path=path,phase=phase,
         diagnostic=request.diagnostic==true,allow_shared=request.allow_shared==true,
         field=request.field,expect=request.expect,value=request.value,changes={change},
-        asset_dependencies={change.asset_dependency}}
+        asset_dependencies=change_dependencies({change})}
 end
 function M.validate_transaction(request)
     assert(type(request)=='table','transaction requires a descriptor')
@@ -880,10 +945,7 @@ function M.validate_transaction(request)
     check_selector_pairs(weapon,result.changes)
     check_charge_order(weapon,result.changes)
     check_turret_order(weapon,result.changes)
-    result.asset_dependencies={}
-    for _,change in ipairs(result.changes)do
-        if change.asset_dependency then result.asset_dependencies[#result.asset_dependencies+1]=change.asset_dependency end
-    end
+    result.asset_dependencies=change_dependencies(result.changes)
     return result
 end
 
@@ -1272,6 +1334,11 @@ function M.prepare(resolved,reader,spec)
         end
         assert(backing.offset+backing.width<=#record.bytes,'field outside reviewed record')
         local current=record.bytes:sub(backing.offset+1,backing.offset+backing.width)
+        if change.descriptor.type=='weapon_sound'then
+            -- The firing-sound block and its MIDI flag are checked (and owned) as one value.
+            local at=assert(change.descriptor.midiOffset,'MIDI flag offset missing')
+            current=current..record.bytes:sub(at+1,at+1)
+        end
         if backing.statusSlot then
             -- Status slots stay packed from slot 1: the slots before this one are still used, and a slot is
             -- cleared only when every later slot is empty.
@@ -1506,6 +1573,16 @@ function M.prepare(resolved,reader,spec)
                         semantic_aliases=change.semantic_aliases,owner=owner,offset=offset+slot*4,
                         field_offset=backing.offset+slot*4,expected=expected:sub(at,at+3),
                         desired=change.desired:sub(at,at+3),before=current:sub(at,at+3),
+                        identity=identity,chain={identity},expect=change.expect,value=change.value}
+                    part.already_desired=part.before==part.desired
+                    plan.changes[#plan.changes+1]=part
+                end
+                if change.descriptor.type=='weapon_sound'then
+                    -- The MIDI flag (+237): one byte, checked and written with the event slots.
+                    local at=change.descriptor.midiOffset
+                    local part={label=change.field..'.midi',canonical_field=change.canonical_field..'.midi',
+                        semantic_aliases=change.semantic_aliases,owner=owner,offset=record.offset+at,field_offset=at,
+                        expected=expected:sub(13,13),desired=change.desired:sub(13,13),before=current:sub(13,13),
                         identity=identity,chain={identity},expect=change.expect,value=change.value}
                     part.already_desired=part.before==part.desired
                     plan.changes[#plan.changes+1]=part

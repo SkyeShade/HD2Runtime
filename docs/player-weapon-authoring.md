@@ -148,6 +148,18 @@ Displayed recoil and rounds-feed total capacity are derived read-only values. Ed
 
 The seven ambiguous identities are CQC-42 Machete, CQC-73 Entrenchment Tool, GP-31 Grenade Pistol, LAS-5 Scythe, LAS-7 Dagger, P-72 Crisper, and SMG-37 Defender. Their catalog entries remain visible to tools, but ordinary `hd2.weapon(name)` writes are blocked until runtime ownership can select one resource without guessing.
 
+## Firing sound (`weapon.sound`, offline only)
+
+`hd2.fields.weapon.sound` sets a weapon's firing sound to a catalogue sound name, on its type's ProjectileWeapon
+record (instantiation only: weapons built after the write). `expect` is the weapon's own catalogued sound; any other
+sound needs `allow_unverified_effect` and loads its bank's package first; resident-only sounds (every primary and
+secondary weapon's own) are refused. Not live-tested. See [weapon firing sounds](weapon-sounds.md#a-weapons-own-firing-sound-weaponsound-offline-only).
+
+```lua
+hd2.patch({id = 'liberator-maelstrom', target = hd2.weapon('AR-23 Liberator'), field = hd2.fields.weapon.sound,
+    expect = 'primary/ar23', value = 'vehicle/maelstrom/main_gun', allow_unverified_effect = true})
+```
+
 ## LAS-17 Double-Edge Sickle heat levels
 
 The LAS-17 `WeaponHeatComponent` carries three typed `HeatLevelSetting` entries (stride 24). Each entry names the

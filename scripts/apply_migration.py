@@ -113,7 +113,7 @@ def field_patch(key, decision, tables, target_build):
     return {'key': key, 'path': locator['path'], 'guard': guard, 'set': values}
 
 
-SEMANTIC_DEFAULT_TYPES = {'weapon_function', 'armor_penetration_label', 'trait_set', 'fire_rate_set',
+SEMANTIC_DEFAULT_TYPES = {'weapon_function', 'armor_penetration_label', 'trait_set', 'fire_rate_set', 'weapon_sound',
     'function_projectile_reference'}
 
 

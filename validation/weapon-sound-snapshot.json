@@ -1,0 +1,118 @@
+{
+  "acknowledgementRejections": 74,
+  "adversarialRejections": 9,
+  "assetGate": {
+    "dependencies": 1,
+    "refused": "ASSET_UNAVAILABLE"
+  },
+  "checked": {
+    "player": 53,
+    "support": 21
+  },
+  "conflictRejections": 2,
+  "fixtureFallback": "disabled",
+  "mode": "snapshot-overlay",
+  "noops": 74,
+  "ownedTransition": true,
+  "pins": {
+    "gl15_maelstrom": {
+      "after": {
+        "+237": "01",
+        "+252": "00000000",
+        "+256": "00000000",
+        "+260": "4519cae5"
+      },
+      "before": {
+        "+237": "00",
+        "+252": "00000000",
+        "+256": "00000000",
+        "+260": "613fe6ef"
+      },
+      "changedParts": 2,
+      "from": "primary/gl15",
+      "kind": "shot",
+      "packages": [
+        "call-in package of TD-110 Maelstrom"
+      ],
+      "record": 120,
+      "stratagem": "TD-110 Maelstrom",
+      "to": "vehicle/maelstrom/main_gun",
+      "weapon": "GL-15 Evictor"
+    },
+    "maxigun_mg206": {
+      "after": {
+        "+237": "01",
+        "+252": "00000000",
+        "+256": "00000000",
+        "+260": "11675e82"
+      },
+      "before": {
+        "+237": "00",
+        "+252": "4f1cd622",
+        "+256": "d5c01660",
+        "+260": "00000000"
+      },
+      "changedParts": 4,
+      "from": "support/m1000",
+      "kind": "shot",
+      "packages": [
+        "call-in package of E/MG-101 HMG Emplacement"
+      ],
+      "record": 257,
+      "stratagem": "E/MG-101 HMG Emplacement",
+      "to": "support/mg206",
+      "weapon": "M-1000 Maxigun"
+    },
+    "mg43_gatling": {
+      "after": {
+        "+237": "00",
+        "+252": "8b8df198",
+        "+256": "29a55c0c",
+        "+260": "00000000"
+      },
+      "before": {
+        "+237": "01",
+        "+252": "00000000",
+        "+256": "00000000",
+        "+260": "d0136483"
+      },
+      "changedParts": 4,
+      "from": "support/mg43",
+      "kind": "loop",
+      "packages": [
+        "call-in package of A/G-16 Gatling Sentry"
+      ],
+      "record": 256,
+      "stratagem": "A/G-16 Gatling Sentry",
+      "to": "sentry/gatling",
+      "weapon": "MG-43 Machine Gun"
+    },
+    "mg43_mg206": {
+      "after": {
+        "+237": "01",
+        "+252": "00000000",
+        "+256": "00000000",
+        "+260": "11675e82"
+      },
+      "before": {
+        "+237": "01",
+        "+252": "00000000",
+        "+256": "00000000",
+        "+260": "d0136483"
+      },
+      "changedParts": 1,
+      "from": "support/mg43",
+      "kind": "shot",
+      "packages": [
+        "call-in package of E/MG-101 HMG Emplacement"
+      ],
+      "record": 256,
+      "stratagem": "E/MG-101 HMG Emplacement",
+      "to": "support/mg206",
+      "weapon": "MG-43 Machine Gun"
+    }
+  },
+  "rollbacks": 4,
+  "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "status": "VALIDATED"
+}

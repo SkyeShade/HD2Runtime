@@ -66,7 +66,8 @@ class PlayerWeaponAuthoringTests(unittest.TestCase):
             if field['editable']:
                 self.assertIn('backing',field)
                 # Native slot lists span their slots: four FireMode slots, three rate slots, five trait tags.
-                widths={'fire_mode_set':(16,),'fire_rate_set':(12,),'trait_set':(20,),'armor_penetration_label':(20,)}
+                widths={'fire_mode_set':(16,),'fire_rate_set':(12,),'trait_set':(20,),'armor_penetration_label':(20,),
+                    'weapon_sound':(12,)}
                 self.assertIn(field['backing']['width'],widths.get(field['type'],(1,4)))
 
     def test_ammo_capability_matrix_covers_all_player_weapons(self):

@@ -294,12 +294,12 @@ class EffectModelTests(unittest.TestCase):
 
     def test_ownership_audit(self):
         summary = self.ownership['summary']
-        self.assertEqual(summary['byStatus'], {'ACTIVE_AT_INSTANTIATION': 1856, 'AMBIGUOUS': 30, 'OVERRIDDEN': 42})
-        self.assertEqual(summary['editableByStatus'], {'ACTIVE_AT_INSTANTIATION': 1226, 'AMBIGUOUS': 21})
+        self.assertEqual(summary['byStatus'], {'ACTIVE_AT_INSTANTIATION': 2356, 'AMBIGUOUS': 33, 'OVERRIDDEN': 42})
+        self.assertEqual(summary['editableByStatus'], {'ACTIVE_AT_INSTANTIATION': 1581, 'AMBIGUOUS': 24})
         self.assertEqual(summary['editableOverriddenByField'], {})
 
     def test_published_effects(self):
-        self.assertEqual(self.summary['editableFieldInstances'], {'ACTIVE_AT_INSTANTIATION': 1385,
+        self.assertEqual(self.summary['editableFieldInstances'], {'ACTIVE_AT_INSTANTIATION': 1438,
             'ACTIVE_DIRECT': 1473, 'AMBIGUOUS': 138, 'DORMANT_OR_METADATA': 51})
         self.assertNotIn('OVERRIDDEN', self.summary['editableFieldInstances'])
         magazine = self.fields[('MA5C Assault Rifle', 'magazine.capacity')]['effect']

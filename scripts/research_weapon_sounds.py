@@ -516,6 +516,8 @@ def main():
             'projectile': t['projectile'], 'secondary': t['secondary'], 'silenced': {k: t[k] for k in
                 ('silenced', 'silencedLoopStart', 'silencedLoopStop', 'silencedSingle', 'secondarySilenced')},
             'networkedFireEvents': t['networkedFireEvents'],
+            # The type's own firing-sound fields as stored (the reviewed baseline a weapon.sound write starts from).
+            'record': {k: t[k] for k in ('midi', 'loopStart', 'loopStop', 'single', 'singleMode4', 'singleMode7')},
             'overrideEvents': [e for e in (t['overrideEvents'] or []) if e != '00000000'],
             'banks': [{'resource': '%016X' % b, 'name': bank_index.name(b)} for b in bank_list],
             'packages': ['0x%016X' % p for p in listed_by],

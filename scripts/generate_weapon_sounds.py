@@ -133,6 +133,16 @@ def bank_unit(bank: str):
 
 
 def build() -> dict:
+    return catalogue()[0]
+
+
+def names_by_resource() -> dict[str, str]:
+    """Every sounding ProjectileWeapon type (by resource) -> the catalogue name of its sound (a folded type's is the
+    entry it was folded into): the sound a weapon type makes as built, for the weapon.sound field."""
+    return catalogue()[1]
+
+
+def catalogue():
     research = json.loads(RESEARCH.read_text(encoding='utf-8'))
     if research['writes'] or research['protectionChanges']:
         raise ValueError('the weapon sound research must be read-only')
@@ -290,6 +300,7 @@ def build() -> dict:
         for pin in group:
             unique.setdefault(pin['rva'], {'label': pin['role'], 'rva': pin['rva'], 'hex': pin['bytes']})
     folded = sum(len(r['folded']) for r in rows if r['into'] is None)
+    by_resource = {r['e']['resource']: (r['into'] or r)['name'] for r in rows}
     return {'source': {'research': RESEARCH.name, 'build': research['build'],
             'gameDllSha256': research['gameDll']['sha256']},
         'chin': research['chin'], 'record': {k: research['record'][k] for k in ('stride', 'blocks', 'span')},
@@ -297,7 +308,7 @@ def build() -> dict:
         'counts': {'types': research['counts']['types'], 'sounding': research['counts']['sounding'],
             'entries': len(sounds), 'folded': folded, 'notCatalogued': research['counts']['notCatalogued']},
         'aliases': ALIASES, 'sounds': dict(sorted(sounds.items())),
-        'pins': sorted(unique.values(), key=lambda pin: pin['rva'])}
+        'pins': sorted(unique.values(), key=lambda pin: pin['rva'])}, by_resource
 
 
 def chin_block(research, writes) -> str:

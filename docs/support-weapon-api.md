@@ -53,6 +53,19 @@ LAS-98 uses the 0.18 `WeaponHeatComponentData` layout in the retained snapshot, 
 capacity, generation, cooling, and heatsinks. Its runtime roots are still unresolved (see below),
 so both heat and beam writes remain blocked.
 
+## Firing sound (`weapon.sound`, offline only)
+
+The 21 support weapons with a ProjectileWeapon record that fire one catalogued sound take `hd2.fields.weapon.sound`
+(a catalogue sound name; [weapon firing sounds](weapon-sounds.md#a-weapons-own-firing-sound-weaponsound-offline-only)).
+It writes the delivered weapon type's record, so a weapon called in after the write fires with the new sound. The
+MGX-42 Bullet Storm and SG-88 Break-Action Shotgun (fire mode 4/7) and the beam, arc, spray, melee and placed weapons
+are blocked declarations, refused with their reason. Not live-tested.
+
+```lua
+hd2.patch({id = 'maxigun-gatling', target = hd2.support_weapon('M-1000 Maxigun'), field = hd2.fields.weapon.sound,
+    expect = 'support/m1000', value = 'sentry/gatling', allow_unverified_effect = true})
+```
+
 ## Charge
 
 The four charge weapons (RS-422 Railgun, PLAS-45 Epoch, ARC-3 Arc Thrower, 40-K Meltagun) expose their own

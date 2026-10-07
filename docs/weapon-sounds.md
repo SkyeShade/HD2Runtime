@@ -1,6 +1,7 @@
 # Weapon firing sounds (`hd2.sounds`)
 
-HD2Runtime names the firing sounds of the game's weapons so a mod can use them, today on a Runtime Pelican's chin gun.
+HD2Runtime names the firing sounds of the game's weapons so a mod can use them: on a Runtime Pelican's chin gun, a
+custom stratagem's sentry, and (offline only) as a player or support weapon's own firing sound (`weapon.sound`).
 The catalogue is read-only: it lists what exists, and a name is what a mod passes. No Wwise event, bank or package id
 is ever returned or accepted.
 
@@ -111,13 +112,65 @@ fields as the Pelican gun's, written from exactly its type's own catalogued soun
 0.3.2 fires `support/mg206` (the MG-206's per-shot MIDI event; its bank is in the MG-206's own package, which its round
 already loads). NOT live-tested.
 
+## A weapon's own firing sound (`weapon.sound`, offline only)
+
+`hd2.fields.weapon.sound` changes the firing sound of a player weapon (`hd2.weapon(name)`) or a support weapon
+(`hd2.support_weapon(name)`) through `hd2.patch`, `hd2.transaction` and `hd2.ensure`. The value is a catalogue sound
+name (`'support/mg206'`, `'sentry/gatling'`), never an id. **Offline only / not live-tested.**
+
+```lua
+hd2.patch({
+    id = 'mg43-hmg-sound',
+    target = hd2.support_weapon('MG-43 Machine Gun'),
+    field = hd2.fields.weapon.sound,
+    expect = 'support/mg43',          -- the weapon's own catalogued sound
+    value = 'support/mg206',          -- a MIDI shot: the MG-206's per-shot event
+    allow_unverified_effect = true,   -- required: a template sound write is not live-tested
+})
+```
+
+- **What it writes.** The weapon type's ProjectileWeapon record (the template a weapon is built from), exactly as a
+  catalogue entry's writes on a Pelican chin copy, relative to the weapon's own record: a **shot** sets the per-shot
+  event (+260) and the MIDI flag (+237) to the sound's and clears the loop start and stop (+252, +256); a **loop** sets
+  the loop start and stop and clears the per-shot event and the MIDI flag. The three event slots and the MIDI byte are
+  one guarded transaction, conflict-checked as one value. Nothing else of the record changes (its secondary events,
+  silenced events and MIDI timing stay the weapon's).
+- **Instantiation only.** Like `weapon.fire_rate`, the game copies the record when it builds a weapon: weapons built
+  after the write (a new call-in, redeploy, reinforce, re-equip) post the new sound; one already built keeps its copy.
+  Only this game hears it: every machine reads the events from its own copy of the record.
+- **`expect`** is the weapon's own catalogued sound (`currentDefault` of `weapon.sound` in
+  `sdk/PlayerWeaponAuthoringCapabilities.json` / `sdk/SupportWeaponAuthoringCapabilities.json`, or
+  `weapon:describe()`): every weapon's own sound has its own name, by designation (`primary/ar23`, `support/mg43`).
+  Restoring it (`value = expect`) writes the reviewed bytes back and needs no acknowledgement; every other sound
+  requires `allow_unverified_effect`.
+- **Its package.** Before the write the operation loads the sound's bank through its stratagem's call-in package (the
+  same `asset_dependencies` gate a projectile swap uses; `ASSET_UNAVAILABLE` when it cannot be loaded). A
+  `resident_only` sound (every primary and secondary weapon's, the enemies') and `'pelican/chin_autocannon'` are refused
+  (`RESIDENT_ONLY_SOUND`): no package Runtime can load provides their bank. Choose from
+  `hd2.sounds.list({stratagem = true})`.
+- **Refused weapons**, each with its reason: no ProjectileWeapon record (beam, arc, spray, melee, thrown and placed
+  weapons); fire mode 4 or 7 among its modes (those modes post another per-shot event, +268 / +272: VG-70
+  Variable, DBS-2 Double Freedom, SG-22 Bushwhacker, MGX-42 Bullet Storm, SG-88 Break-Action Shotgun); suppressed or
+  silenced-switched (they post the silenced events: AR-59 Suppressor, M6C/SOCOM Pistol, M7S SMG, R-72 Censor); a set
+  WeaponData event-override table (+1040, unmapped: SG-20 Halt, SG-8 Punisher, SG-8S Slugger, SG-97 Sweeper, R-6
+  Deadeye, M90A Shotgun); and the ambiguous identities every ordinary write refuses. A record more than one weapon
+  builds from needs `allow_shared` (none of this build's).
+- **Coverage.** 53 player weapons and 21 support weapons (`validation/weapon-sound-snapshot.json`: each one's
+  reviewed baseline equals its record in the retained snapshot; a MIDI shot, a plain shot and a loop are written,
+  read back and rolled back byte for byte on a copy-on-write overlay).
+
+What is proven: the members the fire path reads (game.dll, the research above), the chin-copy writes (offline), the
+weapon clone's copy of +260 (live). What is not: hearing any of it in game on a player or support weapon, a loop on a
+semi-automatic weapon, and a MIDI shot at a rate its sound was not designed for.
+
 ## Status
 
-Offline-tested only: the catalogue, the writes on the gun's own copy (host and other machines), the package gate and
-the API. Not live-tested yet:
+Offline-tested only: the catalogue, the writes on the gun's own copy (host and other machines), the package gate, the
+`weapon.sound` template writes (snapshot overlay) and the API. Not live-tested yet:
 
 - how each sound sounds from the chin gun (its audio source sits at the turret's node; at the CAS rate a MIDI sound gets
   more notes than its own weapon would);
 - a loop's start and stop on the host and on a client;
 - that a resident package means the bank is loaded into the sound engine;
-- the ranges (heuristic).
+- the ranges (heuristic);
+- any `weapon.sound` write on a player or support weapon.

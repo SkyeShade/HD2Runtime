@@ -100,9 +100,10 @@ for _,weapon in ipairs(audit)do
      target=batch.target,changes=batch.changes}
     local reader=Reader.new(source);local resolved=domain.capture(source,reader,spec)
     local plan=domain.prepare(resolved,reader,spec);reader.verify()
-    -- Native slot lists prepare as their slots: four FireMode slots, three rate slots, five tags.
+    -- Native slot lists prepare as their slots: four FireMode slots, three rate slots, five tags; the firing sound
+    -- as its three event slots and its MIDI flag.
     local SLOTS={['fire_mode.modes']=3,['fire_rate.modes']=2,['presentation.traits']=4,
-     ['presentation.armor_penetration']=4}
+     ['presentation.armor_penetration']=4,['weapon.sound']=3}
     local expected=#batch.changes
     for _,change in ipairs(batch.changes)do expected=expected+(SLOTS[change.field]or 0)end
     assert(#plan.changes==expected,'physical support field count changed')

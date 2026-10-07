@@ -20,7 +20,7 @@
       "CQC-72 Entrenchment Tool"
     ],
     "writableSupportWeapons": 34,
-    "writableFieldInstances": 1451,
+    "writableFieldInstances": 1472,
     "fieldInstancesByDomain": {
       "arc": 6,
       "attack": 8,
@@ -39,7 +39,7 @@
       "reload": 15,
       "rounds": 15,
       "status": 20,
-      "weapon": 345,
+      "weapon": 366,
       "weapon_function": 18,
       "windup": 2
     },
@@ -108,12 +108,12 @@
       ]
     },
     "sharedFieldInstances": 807,
-    "internalSupportAuthoringInstances": 1451,
-    "publishedSupportFieldInstances": 1451,
-    "legacyFlattenedFieldEntries": 1340,
+    "internalSupportAuthoringInstances": 1472,
+    "publishedSupportFieldInstances": 1472,
+    "legacyFlattenedFieldEntries": 1361,
     "branchSpecificFieldInstances": 815,
-    "backingObjectCount": 232,
-    "operationGroupingCount": 269,
+    "backingObjectCount": 234,
+    "operationGroupingCount": 272,
     "sharedBackingObjectCount": 102,
     "sharedConsumerScopeCount": 102,
     "duplicateSemanticFieldGroups": 50,
@@ -121,7 +121,7 @@
     "deduplicationLossPrevented": 111,
     "referenceFieldInstances": 95,
     "readOnlyFieldInstances": 0,
-    "blockedFieldDeclarations": 204,
+    "blockedFieldDeclarations": 217,
     "intentionallyOmittedInstances": 0,
     "safety": {
       "writes": 0,
@@ -235,6 +235,10 @@
         {
           "field": "fire_mode.burst_rounds",
           "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through beam, charge."
+        },
+        {
+          "field": "weapon.sound",
+          "reason": "The weapon has no ProjectileWeapon record (a beam, arc, spray, melee, thrown or placed weapon): its firing sound is not a ProjectileWeapon event this field can write."
         },
         {
           "field": "weapon.third_person_reticle",
@@ -468,6 +472,7 @@
           "weapon.recoil_climb_vertical",
           "weapon.recoil_drift_horizontal",
           "weapon.recoil_drift_vertical",
+          "weapon.sound",
           "weapon.stationary_while_firing",
           "weapon.sway",
           "weapon.vertical_spread"
@@ -557,7 +562,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 50,
+      "writableFieldCount": 51,
       "fieldInstanceKeys": [
         "support-field/v1/ac-8-autocannon/weapon/root/weapon-ergonomics/052a99dec95f896c",
         "support-field/v1/ac-8-autocannon/weapon/root/weapon-sway/c04fd345b6113c00",
@@ -569,6 +574,7 @@
         "support-field/v1/ac-8-autocannon/weapon/root/weapon-recoil-climb-vertical/d4d1f826e20cb234",
         "support-field/v1/ac-8-autocannon/weapon/root/weapon-stationary-while-firing/c8d4e093d3873701",
         "support-field/v1/ac-8-autocannon/weapon/root/function-ammo-projectile/e32f79b410b4b49b",
+        "support-field/v1/ac-8-autocannon/weapon/root/weapon-sound/e2116af8644bc58d",
         "support-field/v1/ac-8-autocannon/weapon/root/presentation-traits/9e77aa42f52dc0e5",
         "support-field/v1/ac-8-autocannon/weapon/root/presentation-armor-penetration/9732f194776f0d02",
         "support-field/v1/ac-8-autocannon/weapon/root/weapon-fire-rate/17a1e59a22057cb6",
@@ -687,6 +693,7 @@
           "weapon.recoil_climb_vertical",
           "weapon.recoil_drift_horizontal",
           "weapon.recoil_drift_vertical",
+          "weapon.sound",
           "weapon.stationary_while_firing",
           "weapon.sway",
           "weapon.third_person_reticle",
@@ -743,7 +750,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 42,
+      "writableFieldCount": 43,
       "fieldInstanceKeys": [
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-ergonomics/7f27bb228f8a6b8c",
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-sway/b2301dc06e747fa6",
@@ -760,6 +767,7 @@
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-function-left/0b7a462a9004d15f",
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-function-right/a05f0f6d01540223",
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/function-ammo-projectile/d657ab56787a8b08",
+        "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-sound/4c99f995d9ad0b85",
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/presentation-traits/b3dacca37742923b",
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/presentation-armor-penetration/02f24e1e3c1776a0",
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-third-person-reticle/e92c3918d1c3d8cf",
@@ -891,6 +899,10 @@
         {
           "field": "fire_mode.burst_rounds",
           "reason": "The weapon uses a charge or safety fire mode (5, 6); only Automatic, Single and Burst are proven."
+        },
+        {
+          "field": "weapon.sound",
+          "reason": "The weapon has no ProjectileWeapon record (a beam, arc, spray, melee, thrown or placed weapon): its firing sound is not a ProjectileWeapon event this field can write."
         },
         {
           "field": "weapon.fire_rate",
@@ -1109,6 +1121,10 @@
           "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through spray."
         },
         {
+          "field": "weapon.sound",
+          "reason": "The weapon has no ProjectileWeapon record (a beam, arc, spray, melee, thrown or placed weapon): its firing sound is not a ProjectileWeapon event this field can write."
+        },
+        {
           "field": "weapon.third_person_reticle",
           "reason": "The weapon roots disagree on crosshair_type."
         },
@@ -1268,6 +1284,10 @@
       ],
       "blockedFields": [
         {
+          "field": "weapon.sound",
+          "reason": "The weapon has no ProjectileWeapon record (a beam, arc, spray, melee, thrown or placed weapon): its firing sound is not a ProjectileWeapon event this field can write."
+        },
+        {
           "field": "backpack storage",
           "reason": "Backpack entity/package storage ownership is unresolved; weapon-side fields remain independent."
         },
@@ -1393,6 +1413,10 @@
         {
           "field": "fire_mode.burst_rounds",
           "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee."
+        },
+        {
+          "field": "weapon.sound",
+          "reason": "The weapon has no ProjectileWeapon record (a beam, arc, spray, melee, thrown or placed weapon): its firing sound is not a ProjectileWeapon event this field can write."
         }
       ],
       "backpackDependency": false,
@@ -1545,6 +1569,10 @@
         {
           "field": "fire_mode.burst_rounds",
           "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee."
+        },
+        {
+          "field": "weapon.sound",
+          "reason": "The weapon has no ProjectileWeapon record (a beam, arc, spray, melee, thrown or placed weapon): its firing sound is not a ProjectileWeapon event this field can write."
         },
         {
           "field": "presentation.traits",
@@ -1771,6 +1799,10 @@
         {
           "field": "fire_mode.burst_rounds",
           "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee."
+        },
+        {
+          "field": "weapon.sound",
+          "reason": "The weapon has no ProjectileWeapon record (a beam, arc, spray, melee, thrown or placed weapon): its firing sound is not a ProjectileWeapon event this field can write."
         }
       ],
       "backpackDependency": false,
@@ -1955,6 +1987,7 @@
           "weapon.recoil_climb_vertical",
           "weapon.recoil_drift_horizontal",
           "weapon.recoil_drift_vertical",
+          "weapon.sound",
           "weapon.stationary_while_firing",
           "weapon.sway",
           "weapon.vertical_spread"
@@ -2028,7 +2061,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 54,
+      "writableFieldCount": 55,
       "fieldInstanceKeys": [
         "support-field/v1/eat-17-expendable-anti-tank/weapon/root/weapon-ergonomics/98d58c0d4a1751f2",
         "support-field/v1/eat-17-expendable-anti-tank/weapon/root/weapon-sway/6f592b5db25e2715",
@@ -2045,6 +2078,7 @@
         "support-field/v1/eat-17-expendable-anti-tank/weapon/root/weapon-function-left/02cb04cc82e48f94",
         "support-field/v1/eat-17-expendable-anti-tank/weapon/root/weapon-function-right/8b7e279e954d5182",
         "support-field/v1/eat-17-expendable-anti-tank/weapon/root/function-ammo-projectile/133a756bb488640c",
+        "support-field/v1/eat-17-expendable-anti-tank/weapon/root/weapon-sound/004a3998d5eaf1e0",
         "support-field/v1/eat-17-expendable-anti-tank/weapon/root/presentation-traits/495e4bdfa257614c",
         "support-field/v1/eat-17-expendable-anti-tank/weapon/root/presentation-armor-penetration/608eae4814ac1cf0",
         "support-field/v1/eat-17-expendable-anti-tank/weapon/root/weapon-fire-rate/529bd444e828fc2f",
@@ -2188,6 +2222,7 @@
           "weapon.recoil_climb_vertical",
           "weapon.recoil_drift_horizontal",
           "weapon.recoil_drift_vertical",
+          "weapon.sound",
           "weapon.stationary_while_firing",
           "weapon.sway",
           "weapon.vertical_spread"
@@ -2261,7 +2296,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 52,
+      "writableFieldCount": 53,
       "fieldInstanceKeys": [
         "support-field/v1/eat-411-leveller/weapon/root/weapon-ergonomics/e622b28f61a1f746",
         "support-field/v1/eat-411-leveller/weapon/root/weapon-sway/0184438576493568",
@@ -2278,6 +2313,7 @@
         "support-field/v1/eat-411-leveller/weapon/root/weapon-function-left/9b1899e5e43be1ae",
         "support-field/v1/eat-411-leveller/weapon/root/weapon-function-right/1d4b11d0b2de49d5",
         "support-field/v1/eat-411-leveller/weapon/root/function-ammo-projectile/2da5de80294d3181",
+        "support-field/v1/eat-411-leveller/weapon/root/weapon-sound/f4732076c6b273f6",
         "support-field/v1/eat-411-leveller/weapon/root/weapon-fire-rate/11ee84a8d8f6a792",
         "support-field/v1/eat-411-leveller/weapon/root/weapon-capacity/9a83055f5849371c",
         "support-field/v1/eat-411-leveller/weapon/root/magazine-starting-magazines/c0d4f3e6b3675c77",
@@ -2460,6 +2496,7 @@
           "weapon.recoil_climb_vertical",
           "weapon.recoil_drift_horizontal",
           "weapon.recoil_drift_vertical",
+          "weapon.sound",
           "weapon.stationary_while_firing",
           "weapon.sway",
           "weapon.vertical_spread"
@@ -2542,7 +2579,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 57,
+      "writableFieldCount": 58,
       "fieldInstanceKeys": [
         "support-field/v1/eat-700-expendable-napalm/weapon/root/weapon-ergonomics/f072a3aab6d8e324",
         "support-field/v1/eat-700-expendable-napalm/weapon/root/weapon-sway/73f0758c035b2937",
@@ -2559,6 +2596,7 @@
         "support-field/v1/eat-700-expendable-napalm/weapon/root/weapon-function-left/b717e07d13cf87d7",
         "support-field/v1/eat-700-expendable-napalm/weapon/root/weapon-function-right/63dc1cbd012bb176",
         "support-field/v1/eat-700-expendable-napalm/weapon/root/function-ammo-projectile/7510d8486b6dd873",
+        "support-field/v1/eat-700-expendable-napalm/weapon/root/weapon-sound/e05377823db89268",
         "support-field/v1/eat-700-expendable-napalm/weapon/root/weapon-fire-rate/7e773944ca00d465",
         "support-field/v1/eat-700-expendable-napalm/weapon/root/weapon-capacity/fbb7cefacea294e8",
         "support-field/v1/eat-700-expendable-napalm/weapon/root/magazine-starting-magazines/0aaa9f7a0ef8d862",
@@ -2680,6 +2718,7 @@
           "weapon.recoil_climb_vertical",
           "weapon.recoil_drift_horizontal",
           "weapon.recoil_drift_vertical",
+          "weapon.sound",
           "weapon.stationary_while_firing",
           "weapon.sway",
           "weapon.third_person_reticle",
@@ -2743,7 +2782,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 37,
+      "writableFieldCount": 38,
       "fieldInstanceKeys": [
         "support-field/v1/faf-14-spear/weapon/root/weapon-ergonomics/8937dce52fbef345",
         "support-field/v1/faf-14-spear/weapon/root/weapon-sway/4cabd17310c7bd7a",
@@ -2759,6 +2798,7 @@
         "support-field/v1/faf-14-spear/weapon/root/fire-rate-modes/6c1cb9149d299783",
         "support-field/v1/faf-14-spear/weapon/root/weapon-function-left/34fb2502168b5201",
         "support-field/v1/faf-14-spear/weapon/root/weapon-function-right/d6dde921c77a984f",
+        "support-field/v1/faf-14-spear/weapon/root/weapon-sound/6b11eb564e361951",
         "support-field/v1/faf-14-spear/weapon/root/presentation-traits/59143d3368127445",
         "support-field/v1/faf-14-spear/weapon/root/presentation-armor-penetration/6505f44902317680",
         "support-field/v1/faf-14-spear/weapon/root/weapon-third-person-reticle/022a72b4925d3799",
@@ -2884,6 +2924,10 @@
         {
           "field": "fire_mode.burst_rounds",
           "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through spray."
+        },
+        {
+          "field": "weapon.sound",
+          "reason": "The weapon has no ProjectileWeapon record (a beam, arc, spray, melee, thrown or placed weapon): its firing sound is not a ProjectileWeapon event this field can write."
         },
         {
           "field": "weapon.third_person_reticle",
@@ -3072,6 +3116,7 @@
           "weapon.recoil_climb_vertical",
           "weapon.recoil_drift_horizontal",
           "weapon.recoil_drift_vertical",
+          "weapon.sound",
           "weapon.stationary_while_firing",
           "weapon.sway",
           "weapon.vertical_spread"
@@ -3136,7 +3181,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 54,
+      "writableFieldCount": 55,
       "fieldInstanceKeys": [
         "support-field/v1/gl-21-grenade-launcher/weapon/root/weapon-ergonomics/5617bbc106d35682",
         "support-field/v1/gl-21-grenade-launcher/weapon/root/weapon-sway/2e069825ee5ae87d",
@@ -3152,6 +3197,7 @@
         "support-field/v1/gl-21-grenade-launcher/weapon/root/fire-rate-modes/c81b2681df4e21d3",
         "support-field/v1/gl-21-grenade-launcher/weapon/root/weapon-function-left/82597e2aa3e0a140",
         "support-field/v1/gl-21-grenade-launcher/weapon/root/function-ammo-projectile/a6d75d25f426f012",
+        "support-field/v1/gl-21-grenade-launcher/weapon/root/weapon-sound/483d7ce8cad6020f",
         "support-field/v1/gl-21-grenade-launcher/weapon/root/presentation-traits/576bb0faf9e1be00",
         "support-field/v1/gl-21-grenade-launcher/weapon/root/presentation-armor-penetration/2904b471912d0b5b",
         "support-field/v1/gl-21-grenade-launcher/weapon/root/weapon-fire-rate/655c48edb5d8f9f9",
@@ -3281,6 +3327,7 @@
           "weapon.recoil_climb_vertical",
           "weapon.recoil_drift_horizontal",
           "weapon.recoil_drift_vertical",
+          "weapon.sound",
           "weapon.stationary_while_firing",
           "weapon.sway",
           "weapon.third_person_reticle",
@@ -3371,7 +3418,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 48,
+      "writableFieldCount": 49,
       "fieldInstanceKeys": [
         "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-ergonomics/98f2f176d23eefd6",
         "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-sway/d5e697cbfe5ad432",
@@ -3386,6 +3433,7 @@
         "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/fire-mode-burst-rounds/1935d626dd2526d4",
         "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-function-left/491b2dd3aa5ab686",
         "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/function-ammo-projectile/3f05845300b1a2be",
+        "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-sound/4aa40c2acded00bf",
         "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/presentation-traits/b21d82edcdfb8404",
         "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/presentation-armor-penetration/39be27a170cc3839",
         "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-third-person-reticle/73b8ce1c9920ff79",
@@ -3538,6 +3586,7 @@
           "weapon.recoil_climb_vertical",
           "weapon.recoil_drift_horizontal",
           "weapon.recoil_drift_vertical",
+          "weapon.sound",
           "weapon.stationary_while_firing",
           "weapon.sway",
           "weapon.vertical_spread"
@@ -3614,7 +3663,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 53,
+      "writableFieldCount": 54,
       "fieldInstanceKeys": [
         "support-field/v1/gl-52-de-escalator/weapon/root/weapon-ergonomics/1bdd7f7e7e6d89fb",
         "support-field/v1/gl-52-de-escalator/weapon/root/weapon-sway/afac4ab0d3813330",
@@ -3629,6 +3678,7 @@
         "support-field/v1/gl-52-de-escalator/weapon/root/fire-mode-burst-rounds/486d052f091ad0c1",
         "support-field/v1/gl-52-de-escalator/weapon/root/fire-rate-modes/f889f1448d259c12",
         "support-field/v1/gl-52-de-escalator/weapon/root/weapon-function-left/493434bca713bb22",
+        "support-field/v1/gl-52-de-escalator/weapon/root/weapon-sound/53ceb02fe2fe7df6",
         "support-field/v1/gl-52-de-escalator/weapon/root/presentation-traits/7014e9a2d236c2ac",
         "support-field/v1/gl-52-de-escalator/weapon/root/presentation-armor-penetration/08de6a109554a4d9",
         "support-field/v1/gl-52-de-escalator/weapon/root/weapon-fire-rate/28e20145bda63c99",
@@ -3788,6 +3838,7 @@
           "weapon.recoil_climb_vertical",
           "weapon.recoil_drift_horizontal",
           "weapon.recoil_drift_vertical",
+          "weapon.sound",
           "weapon.stationary_while_firing",
           "weapon.sway",
           "weapon.vertical_spread"
@@ -3881,7 +3932,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 49,
+      "writableFieldCount": 50,
       "fieldInstanceKeys": [
         "support-field/v1/gr-8-recoilless-rifle/weapon/root/weapon-ergonomics/bb63784131cda971",
         "support-field/v1/gr-8-recoilless-rifle/weapon/root/weapon-sway/407badcb49c227eb",
@@ -3893,6 +3944,7 @@
         "support-field/v1/gr-8-recoilless-rifle/weapon/root/weapon-recoil-climb-vertical/18a46a5ed4b0f4c9",
         "support-field/v1/gr-8-recoilless-rifle/weapon/root/weapon-stationary-while-firing/cd618aaae6f00611",
         "support-field/v1/gr-8-recoilless-rifle/weapon/root/function-ammo-projectile/96658e27ad0029a5",
+        "support-field/v1/gr-8-recoilless-rifle/weapon/root/weapon-sound/34d7160c4e8ff617",
         "support-field/v1/gr-8-recoilless-rifle/weapon/root/presentation-traits/4237d3db3613633f",
         "support-field/v1/gr-8-recoilless-rifle/weapon/root/presentation-armor-penetration/ae36ebf58cbe8bcd",
         "support-field/v1/gr-8-recoilless-rifle/weapon/root/weapon-fire-rate/7c1a592498ecb8d5",
@@ -4043,6 +4095,10 @@
         {
           "field": "fire_mode.burst_rounds",
           "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through beam."
+        },
+        {
+          "field": "weapon.sound",
+          "reason": "The weapon has no ProjectileWeapon record (a beam, arc, spray, melee, thrown or placed weapon): its firing sound is not a ProjectileWeapon event this field can write."
         },
         {
           "field": "weapon.third_person_reticle",
@@ -4229,6 +4285,7 @@
           "weapon.recoil_climb_vertical",
           "weapon.recoil_drift_horizontal",
           "weapon.recoil_drift_vertical",
+          "weapon.sound",
           "weapon.stationary_while_firing",
           "weapon.sway",
           "weapon.third_person_reticle",
@@ -4286,7 +4343,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 57,
+      "writableFieldCount": 58,
       "fieldInstanceKeys": [
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-ergonomics/e76385bed42a009f",
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-sway/258e397d3054ee09",
@@ -4302,6 +4359,7 @@
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-function-left/7eb8e60f56627c03",
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-function-right/2dd93064a8ee606c",
         "support-field/v1/las-99-quasar-cannon/weapon/root/function-ammo-projectile/4b4e4c00a1533ec8",
+        "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-sound/ea91c913f88e544e",
         "support-field/v1/las-99-quasar-cannon/weapon/root/presentation-traits/7cbca2e95ad7c756",
         "support-field/v1/las-99-quasar-cannon/weapon/root/presentation-armor-penetration/84797fa45608418b",
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-third-person-reticle/d94d88a6280c955c",
@@ -4406,6 +4464,7 @@
           "weapon.recoil_drift_vertical",
           "weapon.recoil_multiplier_horizontal",
           "weapon.recoil_multiplier_vertical",
+          "weapon.sound",
           "weapon.stationary_while_firing",
           "weapon.sway",
           "weapon.third_person_reticle",
@@ -4507,7 +4566,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 35,
+      "writableFieldCount": 36,
       "fieldInstanceKeys": [
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-ergonomics/167edc58b5e7a64b",
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-sway/6f16603015ec52f5",
@@ -4518,6 +4577,7 @@
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-recoil-climb-horizontal/d3055793a75dc396",
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-recoil-climb-vertical/5ce19108e2225372",
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-stationary-while-firing/0e42bfeb0cc3db53",
+        "support-field/v1/m-1000-maxigun/weapon/root/weapon-sound/f25bdd792567b968",
         "support-field/v1/m-1000-maxigun/weapon/root/presentation-traits/897a834ac8a35871",
         "support-field/v1/m-1000-maxigun/weapon/root/presentation-armor-penetration/c0868c3e6de2fdfd",
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-third-person-reticle/494f3c4a3bb34c03",
@@ -4632,6 +4692,7 @@
           "weapon.recoil_climb_vertical",
           "weapon.recoil_drift_horizontal",
           "weapon.recoil_drift_vertical",
+          "weapon.sound",
           "weapon.stationary_while_firing",
           "weapon.sway",
           "weapon.vertical_spread"
@@ -4702,7 +4763,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 39,
+      "writableFieldCount": 40,
       "fieldInstanceKeys": [
         "support-field/v1/m-105-stalwart/weapon/root/weapon-ergonomics/0eb2bad3111c2878",
         "support-field/v1/m-105-stalwart/weapon/root/weapon-sway/ebabce5587299ed5",
@@ -4718,6 +4779,7 @@
         "support-field/v1/m-105-stalwart/weapon/root/fire-rate-modes/a61a814391d5c0a1",
         "support-field/v1/m-105-stalwart/weapon/root/weapon-function-left/dcda5cbae74c4c0e",
         "support-field/v1/m-105-stalwart/weapon/root/function-ammo-projectile/2a1cb249f2878749",
+        "support-field/v1/m-105-stalwart/weapon/root/weapon-sound/bfb23024748b5448",
         "support-field/v1/m-105-stalwart/weapon/root/presentation-traits/c2c9df3a40418d42",
         "support-field/v1/m-105-stalwart/weapon/root/presentation-armor-penetration/db0370ab49f74c82",
         "support-field/v1/m-105-stalwart/weapon/root/weapon-fire-rate/7175d73e569cd545",
@@ -4836,6 +4898,7 @@
           "weapon.recoil_climb_vertical",
           "weapon.recoil_drift_horizontal",
           "weapon.recoil_drift_vertical",
+          "weapon.sound",
           "weapon.stationary_while_firing",
           "weapon.sway",
           "weapon.third_person_reticle",
@@ -4899,7 +4962,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 41,
+      "writableFieldCount": 42,
       "fieldInstanceKeys": [
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-ergonomics/9615e56e6b38b605",
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-sway/630d9cfe2b6f3ec6",
@@ -4915,6 +4978,7 @@
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/fire-rate-modes/64a6d0dc9599555a",
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-function-left/c82ece66e1d29794",
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/function-ammo-projectile/d1fa82b43898f6c6",
+        "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-sound/1483cb4e4ca8c552",
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/presentation-traits/8143a1d8a9d34b7a",
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/presentation-armor-penetration/58a0f2622efc549a",
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-third-person-reticle/9cf856bd27f6ca0d",
@@ -5029,6 +5093,7 @@
           "weapon.recoil_climb_vertical",
           "weapon.recoil_drift_horizontal",
           "weapon.recoil_drift_vertical",
+          "weapon.sound",
           "weapon.stationary_while_firing",
           "weapon.sway",
           "weapon.third_person_reticle",
@@ -5097,7 +5162,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 38,
+      "writableFieldCount": 39,
       "fieldInstanceKeys": [
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-ergonomics/e4ff055e07d55a7e",
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-sway/6f10e56a3f8acf3a",
@@ -5111,6 +5176,7 @@
         "support-field/v1/mg-43-machine-gun/weapon/root/fire-mode-modes/272867d435eafb9e",
         "support-field/v1/mg-43-machine-gun/weapon/root/fire-mode-burst-rounds/a2efdad197e6f2e8",
         "support-field/v1/mg-43-machine-gun/weapon/root/fire-rate-modes/02e67883b2cb97cc",
+        "support-field/v1/mg-43-machine-gun/weapon/root/weapon-sound/6714af795c64d42b",
         "support-field/v1/mg-43-machine-gun/weapon/root/presentation-traits/b1d2b6963f03e59a",
         "support-field/v1/mg-43-machine-gun/weapon/root/presentation-armor-penetration/2458f96fe727f3a4",
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-third-person-reticle/ca8ba87642351532",
@@ -5232,6 +5298,10 @@
         {
           "field": "function_ammo.projectile",
           "reason": "The weapon uses a charge or safety fire mode (Safety_Off, 7); only Automatic, Single and Burst are proven."
+        },
+        {
+          "field": "weapon.sound",
+          "reason": "Fire mode 4 / 7 selects another per-shot event (ProjectileWeapon +268 in mode 4, +272 in mode 7 when set) that this field does not write."
         },
         {
           "field": "weapon.third_person_reticle",
@@ -5391,6 +5461,7 @@
           "weapon.recoil_climb_vertical",
           "weapon.recoil_drift_horizontal",
           "weapon.recoil_drift_vertical",
+          "weapon.sound",
           "weapon.stationary_while_firing",
           "weapon.sway",
           "weapon.vertical_spread"
@@ -5469,7 +5540,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 30,
+      "writableFieldCount": 31,
       "fieldInstanceKeys": [
         "support-field/v1/mls-4x-commando/weapon/root/weapon-ergonomics/f39d3124145433fe",
         "support-field/v1/mls-4x-commando/weapon/root/weapon-sway/b5a6d775e0710bb9",
@@ -5480,6 +5551,7 @@
         "support-field/v1/mls-4x-commando/weapon/root/weapon-recoil-climb-horizontal/e54b54ebcbfd1ec2",
         "support-field/v1/mls-4x-commando/weapon/root/weapon-recoil-climb-vertical/97663debb6b4820d",
         "support-field/v1/mls-4x-commando/weapon/root/weapon-stationary-while-firing/1b476e7d5455bc28",
+        "support-field/v1/mls-4x-commando/weapon/root/weapon-sound/063061d15113980f",
         "support-field/v1/mls-4x-commando/weapon/root/presentation-traits/e01a7863bfe26af6",
         "support-field/v1/mls-4x-commando/weapon/root/presentation-armor-penetration/4b21b03c55951e30",
         "support-field/v1/mls-4x-commando/weapon/root/weapon-fire-rate/6dad81a13553f06d",
@@ -5557,6 +5629,10 @@
         "shared_explosion_damage"
       ],
       "blockedFields": [
+        {
+          "field": "weapon.sound",
+          "reason": "The weapon has no ProjectileWeapon record (a beam, arc, spray, melee, thrown or placed weapon): its firing sound is not a ProjectileWeapon event this field can write."
+        },
         {
           "field": "linked stratagem scalars",
           "reason": "Cooldown and uses are owned by the linked stratagem view (linkedStratagem.semanticId); call-in scalar ownership through the support weapon is not reviewed."
@@ -5768,6 +5844,7 @@
           "weapon.recoil_climb_vertical",
           "weapon.recoil_drift_horizontal",
           "weapon.recoil_drift_vertical",
+          "weapon.sound",
           "weapon.stationary_while_firing",
           "weapon.sway",
           "weapon.vertical_spread"
@@ -5866,7 +5943,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 109,
+      "writableFieldCount": 110,
       "fieldInstanceKeys": [
         "support-field/v1/plas-45-epoch/weapon/root/weapon-ergonomics/050a994a2a44d3c4",
         "support-field/v1/plas-45-epoch/weapon/root/weapon-sway/379dbc021a18adc8",
@@ -5877,6 +5954,7 @@
         "support-field/v1/plas-45-epoch/weapon/root/weapon-recoil-climb-horizontal/78e741b39256fb0a",
         "support-field/v1/plas-45-epoch/weapon/root/weapon-recoil-climb-vertical/5036e845441f8281",
         "support-field/v1/plas-45-epoch/weapon/root/weapon-stationary-while-firing/9c26d206d9d54143",
+        "support-field/v1/plas-45-epoch/weapon/root/weapon-sound/5451de6fd1a72172",
         "support-field/v1/plas-45-epoch/weapon/root/presentation-traits/2adba00765ec84a4",
         "support-field/v1/plas-45-epoch/weapon/root/presentation-armor-penetration/04b0010126101a94",
         "support-field/v1/plas-45-epoch/weapon/root/weapon-capacity/b6060468b883dafd",
@@ -6124,6 +6202,7 @@
           "weapon.recoil_climb_vertical",
           "weapon.recoil_drift_horizontal",
           "weapon.recoil_drift_vertical",
+          "weapon.sound",
           "weapon.stationary_while_firing",
           "weapon.sway",
           "weapon.vertical_spread"
@@ -6212,7 +6291,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 50,
+      "writableFieldCount": 51,
       "fieldInstanceKeys": [
         "support-field/v1/rl-77-airburst-rocket-launcher/weapon/root/weapon-ergonomics/366afefea691e572",
         "support-field/v1/rl-77-airburst-rocket-launcher/weapon/root/weapon-sway/eeea8c52deb47292",
@@ -6224,6 +6303,7 @@
         "support-field/v1/rl-77-airburst-rocket-launcher/weapon/root/weapon-recoil-climb-vertical/9d24430ab68afaf5",
         "support-field/v1/rl-77-airburst-rocket-launcher/weapon/root/weapon-stationary-while-firing/7d4df6ac97de94ca",
         "support-field/v1/rl-77-airburst-rocket-launcher/weapon/root/function-ammo-projectile/7e3eefe006a5cbab",
+        "support-field/v1/rl-77-airburst-rocket-launcher/weapon/root/weapon-sound/050eb0baaf55361d",
         "support-field/v1/rl-77-airburst-rocket-launcher/weapon/root/presentation-traits/e0c8868912951daf",
         "support-field/v1/rl-77-airburst-rocket-launcher/weapon/root/presentation-armor-penetration/ef6a5f7144f538ef",
         "support-field/v1/rl-77-airburst-rocket-launcher/weapon/root/weapon-fire-rate/7f4c76eb5c22ae72",
@@ -6383,6 +6463,7 @@
           "weapon.recoil_climb_vertical",
           "weapon.recoil_drift_horizontal",
           "weapon.recoil_drift_vertical",
+          "weapon.sound",
           "weapon.stationary_while_firing",
           "weapon.sway",
           "weapon.third_person_reticle",
@@ -6476,7 +6557,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 66,
+      "writableFieldCount": 67,
       "fieldInstanceKeys": [
         "support-field/v1/rs-422-railgun/weapon/root/weapon-ergonomics/1944d4cf5c3d32eb",
         "support-field/v1/rs-422-railgun/weapon/root/weapon-sway/eebbe6027773f28e",
@@ -6487,6 +6568,7 @@
         "support-field/v1/rs-422-railgun/weapon/root/weapon-recoil-climb-horizontal/3070c4de78f13e5b",
         "support-field/v1/rs-422-railgun/weapon/root/weapon-recoil-climb-vertical/6f54d10a5791b73b",
         "support-field/v1/rs-422-railgun/weapon/root/weapon-stationary-while-firing/16efe3855cf9a4ef",
+        "support-field/v1/rs-422-railgun/weapon/root/weapon-sound/7b18b25230ecd040",
         "support-field/v1/rs-422-railgun/weapon/root/presentation-traits/c7853e49207681b7",
         "support-field/v1/rs-422-railgun/weapon/root/presentation-armor-penetration/3361541db02c3129",
         "support-field/v1/rs-422-railgun/weapon/root/weapon-third-person-reticle/1966bd6f2b656e85",
@@ -6670,6 +6752,7 @@
           "weapon.recoil_climb_vertical",
           "weapon.recoil_drift_horizontal",
           "weapon.recoil_drift_vertical",
+          "weapon.sound",
           "weapon.stationary_while_firing",
           "weapon.sway",
           "weapon.vertical_spread"
@@ -6730,7 +6813,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 63,
+      "writableFieldCount": 64,
       "fieldInstanceKeys": [
         "support-field/v1/s-11-speargun/weapon/root/weapon-ergonomics/b39e2f8134105e69",
         "support-field/v1/s-11-speargun/weapon/root/weapon-sway/ac768d0416c97b58",
@@ -6746,6 +6829,7 @@
         "support-field/v1/s-11-speargun/weapon/root/fire-rate-modes/f91a8b669c9bfd34",
         "support-field/v1/s-11-speargun/weapon/root/weapon-function-left/5e69fa45178569f1",
         "support-field/v1/s-11-speargun/weapon/root/function-ammo-projectile/73348fd4b4593770",
+        "support-field/v1/s-11-speargun/weapon/root/weapon-sound/1a60c008718ab8c5",
         "support-field/v1/s-11-speargun/weapon/root/presentation-traits/6b8b4c083f97162f",
         "support-field/v1/s-11-speargun/weapon/root/presentation-armor-penetration/154bfc1e7d3fbce3",
         "support-field/v1/s-11-speargun/weapon/root/weapon-fire-rate/6dc25c29c68a2096",
@@ -6895,6 +6979,10 @@
         {
           "field": "function_ammo.projectile",
           "reason": "The weapon uses a charge or safety fire mode (Safety_Off); only Automatic, Single and Burst are proven."
+        },
+        {
+          "field": "weapon.sound",
+          "reason": "Fire mode 4 selects another per-shot event (ProjectileWeapon +268 in mode 4, +272 in mode 7 when set) that this field does not write."
         },
         {
           "attack": "feed_primary",
@@ -7073,6 +7161,7 @@
           "weapon.recoil_climb_vertical",
           "weapon.recoil_drift_horizontal",
           "weapon.recoil_drift_vertical",
+          "weapon.sound",
           "weapon.stationary_while_firing",
           "weapon.sway",
           "weapon.third_person_reticle",
@@ -7160,7 +7249,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 31,
+      "writableFieldCount": 32,
       "fieldInstanceKeys": [
         "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/weapon-ergonomics/daf068f76c50b86c",
         "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/weapon-sway/e892cb6e72869aa2",
@@ -7171,6 +7260,7 @@
         "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/weapon-recoil-climb-horizontal/10a897491d0c85cc",
         "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/weapon-recoil-climb-vertical/7ca4b7d242c3e405",
         "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/weapon-stationary-while-firing/9652106106f46faf",
+        "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/weapon-sound/d2fcd470c5026a66",
         "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/presentation-traits/ea9f888fed1222d9",
         "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/presentation-armor-penetration/c90c485852c75784",
         "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/weapon-third-person-reticle/32a6e0d8fa020277",
@@ -7286,6 +7376,10 @@
         {
           "field": "fire_mode.burst_rounds",
           "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through spray."
+        },
+        {
+          "field": "weapon.sound",
+          "reason": "The weapon has no ProjectileWeapon record (a beam, arc, spray, melee, thrown or placed weapon): its firing sound is not a ProjectileWeapon event this field can write."
         },
         {
           "field": "weapon.third_person_reticle",
@@ -13299,6 +13393,120 @@
         "instantiationOnly": true,
         "activeSourceProven": true,
         "reason": "Read at every shot from the weapon resolved ProjectileWeapon data (a per-weapon copy when the weapon has one, otherwise the entity-table record): a new weapon uses it; an already built one may pick it up at once.",
+        "writeVerifiedOnApply": true,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/ac-8-autocannon/weapon/root/weapon-sound/e2116af8644bc58d",
+      "supportWeapon": "AC-8 Autocannon",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/ac-8-autocannon/902ed559c079bf20",
+        "name": "AC-8 Autocannon",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.sound",
+      "qualifiedSemanticFieldId": "weapon.sound",
+      "apiFieldConstant": "hd2.fields.weapon.sound",
+      "display": {
+        "name": "Firing sound",
+        "domain": "weapon",
+        "group": "ProjectileWeaponComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "weapon_sound",
+        "baseline": "support/ac8",
+        "expected": "support/ac8",
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/projectileweaponcomponentdata/e9529fd82f467457c74f",
+        "kind": "component",
+        "semanticType": "ProjectileWeaponComponentData",
+        "domain": "ProjectileWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/a4e24cd06bbc79fc3473",
+        "runtimeBackingScope": "component:ProjectileWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/66257c7dcf2f47d30063",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "AC-8 Autocannon",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/ac-8-autocannon/weapon/root/f5685e85666c4982"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/a4e24cd06bbc79fc3473",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/ac-8-autocannon/902ed559c079",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "ProjectileWeapon +237 (MIDI), +252/+256 (loop start/stop) and +260 (per-shot event) are the members the weapon fire path reads its firing sound from (game.dll, research/weapon-sounds); taking a catalogue sound on a per-entity copy is offline-proven (Pelican chin turret) and copying +260 is live-proven by the weapon clone, but a template sound write on a player or support weapon has not been live-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": true,
+        "reason": "A component member the game copies into the weapon when it builds it: weapons built after the write post the new sound; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip, a new call-in). Only this game plays it: every machine reads the events from its own copy of the record.",
         "writeVerifiedOnApply": true,
         "gameplayEffectProven": false,
         "unverifiedEffect": true
@@ -20571,6 +20779,142 @@
         "instantiationOnly": true,
         "activeSourceProven": true,
         "reason": "Read at every shot from the weapon resolved ProjectileWeapon data (a per-weapon copy when the weapon has one, otherwise the entity-table record): a new weapon uses it; an already built one may pick it up at once.",
+        "writeVerifiedOnApply": true,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-sound/4c99f995d9ad0b85",
+      "supportWeapon": "APW-1 Anti-Materiel Rifle",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/apw-1-anti-materiel-rifle/9c567b76648af95b",
+        "name": "APW-1 Anti-Materiel Rifle",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.sound",
+      "qualifiedSemanticFieldId": "weapon.sound",
+      "apiFieldConstant": "hd2.fields.weapon.sound",
+      "display": {
+        "name": "Firing sound",
+        "domain": "weapon",
+        "group": "ProjectileWeaponComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "weapon_sound",
+        "baseline": "support/apw1",
+        "expected": "support/apw1",
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/projectileweaponcomponentdata/692b5ec7bb9e263a8e5b",
+        "kind": "component",
+        "semanticType": "ProjectileWeaponComponentData",
+        "domain": "ProjectileWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/d71d46c8928b05bcb06e",
+        "runtimeBackingScope": "component:ProjectileWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/088572511b9929a388b3",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 2,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "APW-1 Anti-Materiel Rifle",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "APW-1 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "APW-1 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/apw-1-anti-materiel-rifle/attack/primary/eedf83bd416ec41c"
+          },
+          {
+            "weapon": "APW-1 Anti-Materiel Rifle",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/apw-1-anti-materiel-rifle/weapon/root/938c9960eb7e8811"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/d71d46c8928b05bcb06e",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/apw-1-anti-materiel-rifle/9c567b76648a",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "ProjectileWeapon +237 (MIDI), +252/+256 (loop start/stop) and +260 (per-shot event) are the members the weapon fire path reads its firing sound from (game.dll, research/weapon-sounds); taking a catalogue sound on a per-entity copy is offline-proven (Pelican chin turret) and copying +260 is live-proven by the weapon clone, but a template sound write on a player or support weapon has not been live-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": true,
+        "reason": "A component member the game copies into the weapon when it builds it: weapons built after the write post the new sound; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip, a new call-in). Only this game plays it: every machine reads the events from its own copy of the record.",
         "writeVerifiedOnApply": true,
         "gameplayEffectProven": false,
         "unverifiedEffect": true
@@ -46342,6 +46686,144 @@
       }
     },
     {
+      "instanceKey": "support-field/v1/eat-17-expendable-anti-tank/weapon/root/weapon-sound/004a3998d5eaf1e0",
+      "supportWeapon": "EAT-17 Expendable Anti-Tank",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/eat-17-expendable-anti-tank/e4ba6571169b08a8",
+        "name": "EAT-17 Expendable Anti-Tank",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.sound",
+      "qualifiedSemanticFieldId": "weapon.sound",
+      "apiFieldConstant": "hd2.fields.weapon.sound",
+      "display": {
+        "name": "Firing sound",
+        "domain": "weapon",
+        "group": "ProjectileWeaponComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "weapon_sound",
+        "baseline": "support/eat17",
+        "expected": "support/eat17",
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/projectileweaponcomponentdata/9975226c73ea690cb494",
+        "kind": "component",
+        "semanticType": "ProjectileWeaponComponentData",
+        "domain": "ProjectileWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/c51c3736e276eacd924a",
+        "runtimeBackingScope": "component:ProjectileWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/3fa3d3d726ecb1c94767",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 2,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "EAT-17 Expendable Anti-Tank",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "EAT-17 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "EAT-17 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/eat-17-expendable-anti-tank/attack/primary/9315387ed770080a"
+          },
+          {
+            "weapon": "EAT-17 Expendable Anti-Tank",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/eat-17-expendable-anti-tank/weapon/root/857871ad2ae15065"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/c51c3736e276eacd924a",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/eat-17-expendable-anti-tank/e4ba6571169b",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "ProjectileWeapon +237 (MIDI), +252/+256 (loop start/stop) and +260 (per-shot event) are the members the weapon fire path reads its firing sound from (game.dll, research/weapon-sounds); taking a catalogue sound on a per-entity copy is offline-proven (Pelican chin turret) and copying +260 is live-proven by the weapon clone, but a template sound write on a player or support weapon has not been live-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": true,
+        "reason": "A component member the game copies into the weapon when it builds it: weapons built after the write post the new sound; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip, a new call-in). Only this game plays it: every machine reads the events from its own copy of the record.",
+        "writeVerifiedOnApply": true,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true
+      }
+    },
+    {
       "instanceKey": "support-field/v1/eat-17-expendable-anti-tank/weapon/root/presentation-traits/495e4bdfa257614c",
       "supportWeapon": "EAT-17 Expendable Anti-Tank",
       "supportWeaponIdentity": {
@@ -53363,6 +53845,142 @@
       }
     },
     {
+      "instanceKey": "support-field/v1/eat-411-leveller/weapon/root/weapon-sound/f4732076c6b273f6",
+      "supportWeapon": "EAT-411 Leveller",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/eat-411-leveller/77b0b0e293adb90a",
+        "name": "EAT-411 Leveller",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.sound",
+      "qualifiedSemanticFieldId": "weapon.sound",
+      "apiFieldConstant": "hd2.fields.weapon.sound",
+      "display": {
+        "name": "Firing sound",
+        "domain": "weapon",
+        "group": "ProjectileWeaponComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "weapon_sound",
+        "baseline": "support/eat411",
+        "expected": "support/eat411",
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/projectileweaponcomponentdata/d0dfb1122dfc08d37211",
+        "kind": "component",
+        "semanticType": "ProjectileWeaponComponentData",
+        "domain": "ProjectileWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/4f05d245f7e14628e6d5",
+        "runtimeBackingScope": "component:ProjectileWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/3385cafed6b14d9efce5",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 2,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "EAT-411 Leveller",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "EAT-411 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "EAT-411 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/eat-411-leveller/attack/primary/a5916de79f1ca85a"
+          },
+          {
+            "weapon": "EAT-411 Leveller",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/eat-411-leveller/weapon/root/baaef546e7448c9e"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/4f05d245f7e14628e6d5",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/eat-411-leveller/77b0b0e293ad",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "ProjectileWeapon +237 (MIDI), +252/+256 (loop start/stop) and +260 (per-shot event) are the members the weapon fire path reads its firing sound from (game.dll, research/weapon-sounds); taking a catalogue sound on a per-entity copy is offline-proven (Pelican chin turret) and copying +260 is live-proven by the weapon clone, but a template sound write on a player or support weapon has not been live-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": true,
+        "reason": "A component member the game copies into the weapon when it builds it: weapons built after the write post the new sound; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip, a new call-in). Only this game plays it: every machine reads the events from its own copy of the record.",
+        "writeVerifiedOnApply": true,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true
+      }
+    },
+    {
       "instanceKey": "support-field/v1/eat-411-leveller/weapon/root/weapon-fire-rate/11ee84a8d8f6a792",
       "supportWeapon": "EAT-411 Leveller",
       "supportWeaponIdentity": {
@@ -60036,6 +60654,147 @@
         "instantiationOnly": true,
         "activeSourceProven": true,
         "reason": "Read at every shot from the weapon resolved ProjectileWeapon data (a per-weapon copy when the weapon has one, otherwise the entity-table record): a new weapon uses it; an already built one may pick it up at once.",
+        "writeVerifiedOnApply": true,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/eat-700-expendable-napalm/weapon/root/weapon-sound/e05377823db89268",
+      "supportWeapon": "EAT-700 Expendable Napalm",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/eat-700-expendable-napalm/287dc53d1723acd9",
+        "name": "EAT-700 Expendable Napalm",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.sound",
+      "qualifiedSemanticFieldId": "weapon.sound",
+      "apiFieldConstant": "hd2.fields.weapon.sound",
+      "display": {
+        "name": "Firing sound",
+        "domain": "weapon",
+        "group": "ProjectileWeaponComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "weapon_sound",
+        "baseline": "support/eat700",
+        "expected": "support/eat700",
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/projectileweaponcomponentdata/29e2e29ccd133309e7aa",
+        "kind": "component",
+        "semanticType": "ProjectileWeaponComponentData",
+        "domain": "ProjectileWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/e247b70e76e9f734d7ea",
+        "runtimeBackingScope": "component:ProjectileWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/6eb8bfb833f57776bfca",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 2,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "EAT-700 Expendable Napalm",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "EAT-700 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              },
+              {
+                "name": "EAT-700 P1",
+                "kind": "Projectile",
+                "state": "PARTIAL"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "EAT-700 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/eat-700-expendable-napalm/attack/primary/3fcce982bf936515"
+          },
+          {
+            "weapon": "EAT-700 Expendable Napalm",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/eat-700-expendable-napalm/weapon/root/3e211edf9ebb2b2c"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/e247b70e76e9f734d7ea",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/eat-700-expendable-napalm/287dc53d1723",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "ProjectileWeapon +237 (MIDI), +252/+256 (loop start/stop) and +260 (per-shot event) are the members the weapon fire path reads its firing sound from (game.dll, research/weapon-sounds); taking a catalogue sound on a per-entity copy is offline-proven (Pelican chin turret) and copying +260 is live-proven by the weapon clone, but a template sound write on a player or support weapon has not been live-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": true,
+        "reason": "A component member the game copies into the weapon when it builds it: weapons built after the write post the new sound; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip, a new call-in). Only this game plays it: every machine reads the events from its own copy of the record.",
         "writeVerifiedOnApply": true,
         "gameplayEffectProven": false,
         "unverifiedEffect": true
@@ -67903,6 +68662,120 @@
         "instantiationOnly": true,
         "activeSourceProven": true,
         "reason": "A component member the game copies into the weapon when it builds it (the projectile_weapon ROF record and the weapon_data bindings): weapons built after the write use it; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip).",
+        "writeVerifiedOnApply": true,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/faf-14-spear/weapon/root/weapon-sound/6b11eb564e361951",
+      "supportWeapon": "FAF-14 Spear",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/faf-14-spear/0b5ea028958b920a",
+        "name": "FAF-14 Spear",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.sound",
+      "qualifiedSemanticFieldId": "weapon.sound",
+      "apiFieldConstant": "hd2.fields.weapon.sound",
+      "display": {
+        "name": "Firing sound",
+        "domain": "weapon",
+        "group": "ProjectileWeaponComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "weapon_sound",
+        "baseline": "support/faf14",
+        "expected": "support/faf14",
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/projectileweaponcomponentdata/993f1cd9b45e2c0d641e",
+        "kind": "component",
+        "semanticType": "ProjectileWeaponComponentData",
+        "domain": "ProjectileWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/9a12e614f986d0c2a163",
+        "runtimeBackingScope": "component:ProjectileWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/7db09dd6de3eacfcbdb9",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "FAF-14 Spear",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/faf-14-spear/weapon/root/4d482aafa900556f"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/9a12e614f986d0c2a163",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/faf-14-spear/0b5ea028958b",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "ProjectileWeapon +237 (MIDI), +252/+256 (loop start/stop) and +260 (per-shot event) are the members the weapon fire path reads its firing sound from (game.dll, research/weapon-sounds); taking a catalogue sound on a per-entity copy is offline-proven (Pelican chin turret) and copying +260 is live-proven by the weapon clone, but a template sound write on a player or support weapon has not been live-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": true,
+        "reason": "A component member the game copies into the weapon when it builds it: weapons built after the write post the new sound; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip, a new call-in). Only this game plays it: every machine reads the events from its own copy of the record.",
         "writeVerifiedOnApply": true,
         "gameplayEffectProven": false,
         "unverifiedEffect": true
@@ -76632,6 +77505,142 @@
       }
     },
     {
+      "instanceKey": "support-field/v1/gl-21-grenade-launcher/weapon/root/weapon-sound/483d7ce8cad6020f",
+      "supportWeapon": "GL-21 Grenade Launcher",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/gl-21-grenade-launcher/8ab581c0aebb49f9",
+        "name": "GL-21 Grenade Launcher",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.sound",
+      "qualifiedSemanticFieldId": "weapon.sound",
+      "apiFieldConstant": "hd2.fields.weapon.sound",
+      "display": {
+        "name": "Firing sound",
+        "domain": "weapon",
+        "group": "ProjectileWeaponComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "weapon_sound",
+        "baseline": "support/gl21",
+        "expected": "support/gl21",
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/projectileweaponcomponentdata/255b161c6deaab0de401",
+        "kind": "component",
+        "semanticType": "ProjectileWeaponComponentData",
+        "domain": "ProjectileWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/d9d252bb85a46ceb6b26",
+        "runtimeBackingScope": "component:ProjectileWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/3043679feecbf8dbb442",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 2,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "GL-21 Grenade Launcher",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "GL-21 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "GL-21 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/gl-21-grenade-launcher/attack/primary/7701b7075dcea970"
+          },
+          {
+            "weapon": "GL-21 Grenade Launcher",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/gl-21-grenade-launcher/weapon/root/10ce2289d513863e"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/d9d252bb85a46ceb6b26",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/gl-21-grenade-launcher/8ab581c0aebb",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "ProjectileWeapon +237 (MIDI), +252/+256 (loop start/stop) and +260 (per-shot event) are the members the weapon fire path reads its firing sound from (game.dll, research/weapon-sounds); taking a catalogue sound on a per-entity copy is offline-proven (Pelican chin turret) and copying +260 is live-proven by the weapon clone, but a template sound write on a player or support weapon has not been live-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": true,
+        "reason": "A component member the game copies into the weapon when it builds it: weapons built after the write post the new sound; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip, a new call-in). Only this game plays it: every machine reads the events from its own copy of the record.",
+        "writeVerifiedOnApply": true,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true
+      }
+    },
+    {
       "instanceKey": "support-field/v1/gl-21-grenade-launcher/weapon/root/presentation-traits/576bb0faf9e1be00",
       "supportWeapon": "GL-21 Grenade Launcher",
       "supportWeaponIdentity": {
@@ -83446,6 +84455,120 @@
       }
     },
     {
+      "instanceKey": "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-sound/4aa40c2acded00bf",
+      "supportWeapon": "GL-28 Belt-Fed Grenade Launcher",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/gl-28-belt-fed-grenade-launcher/d20d8fc730eace35",
+        "name": "GL-28 Belt-Fed Grenade Launcher",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.sound",
+      "qualifiedSemanticFieldId": "weapon.sound",
+      "apiFieldConstant": "hd2.fields.weapon.sound",
+      "display": {
+        "name": "Firing sound",
+        "domain": "weapon",
+        "group": "ProjectileWeaponComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "weapon_sound",
+        "baseline": "support/gl28",
+        "expected": "support/gl28",
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/projectileweaponcomponentdata/a9e7d4c8103045df9f07",
+        "kind": "component",
+        "semanticType": "ProjectileWeaponComponentData",
+        "domain": "ProjectileWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/33f4d31a75bd354205af",
+        "runtimeBackingScope": "component:ProjectileWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/21bf43249087455bd508",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "GL-28 Belt-Fed Grenade Launcher",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/gl-28-belt-fed-grenade-launcher/weapon/root/de45ccb8a387eed8"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/33f4d31a75bd354205af",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/gl-28-belt-fed-grenade-launcher/d20d8fc730ea",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "ProjectileWeapon +237 (MIDI), +252/+256 (loop start/stop) and +260 (per-shot event) are the members the weapon fire path reads its firing sound from (game.dll, research/weapon-sounds); taking a catalogue sound on a per-entity copy is offline-proven (Pelican chin turret) and copying +260 is live-proven by the weapon clone, but a template sound write on a player or support weapon has not been live-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": true,
+        "reason": "A component member the game copies into the weapon when it builds it: weapons built after the write post the new sound; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip, a new call-in). Only this game plays it: every machine reads the events from its own copy of the record.",
+        "writeVerifiedOnApply": true,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true
+      }
+    },
+    {
       "instanceKey": "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/presentation-traits/b21d82edcdfb8404",
       "supportWeapon": "GL-28 Belt-Fed Grenade Launcher",
       "supportWeaponIdentity": {
@@ -89421,6 +90544,120 @@
         "instantiationOnly": true,
         "activeSourceProven": true,
         "reason": "A component member the game copies into the weapon when it builds it (the projectile_weapon ROF record and the weapon_data bindings): weapons built after the write use it; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip).",
+        "writeVerifiedOnApply": true,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/gl-52-de-escalator/weapon/root/weapon-sound/53ceb02fe2fe7df6",
+      "supportWeapon": "GL-52 De-Escalator",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/gl-52-de-escalator/5bcc344828cda19f",
+        "name": "GL-52 De-Escalator",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.sound",
+      "qualifiedSemanticFieldId": "weapon.sound",
+      "apiFieldConstant": "hd2.fields.weapon.sound",
+      "display": {
+        "name": "Firing sound",
+        "domain": "weapon",
+        "group": "ProjectileWeaponComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "weapon_sound",
+        "baseline": "support/gl52",
+        "expected": "support/gl52",
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/projectileweaponcomponentdata/d960b8930e3880ee5c27",
+        "kind": "component",
+        "semanticType": "ProjectileWeaponComponentData",
+        "domain": "ProjectileWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/e52f58c6956b6525c061",
+        "runtimeBackingScope": "component:ProjectileWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/9a924d54ab572ca20006",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "GL-52 De-Escalator",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/gl-52-de-escalator/weapon/root/bb1a9113a814d4f7"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/e52f58c6956b6525c061",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/gl-52-de-escalator/5bcc344828cd",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "ProjectileWeapon +237 (MIDI), +252/+256 (loop start/stop) and +260 (per-shot event) are the members the weapon fire path reads its firing sound from (game.dll, research/weapon-sounds); taking a catalogue sound on a per-entity copy is offline-proven (Pelican chin turret) and copying +260 is live-proven by the weapon clone, but a template sound write on a player or support weapon has not been live-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": true,
+        "reason": "A component member the game copies into the weapon when it builds it: weapons built after the write post the new sound; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip, a new call-in). Only this game plays it: every machine reads the events from its own copy of the record.",
         "writeVerifiedOnApply": true,
         "gameplayEffectProven": false,
         "unverifiedEffect": true
@@ -95766,6 +97003,120 @@
         "instantiationOnly": true,
         "activeSourceProven": true,
         "reason": "Read at every shot from the weapon resolved ProjectileWeapon data (a per-weapon copy when the weapon has one, otherwise the entity-table record): a new weapon uses it; an already built one may pick it up at once.",
+        "writeVerifiedOnApply": true,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/gr-8-recoilless-rifle/weapon/root/weapon-sound/34d7160c4e8ff617",
+      "supportWeapon": "GR-8 Recoilless Rifle",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/gr-8-recoilless-rifle/0c0cddff45ad97f6",
+        "name": "GR-8 Recoilless Rifle",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.sound",
+      "qualifiedSemanticFieldId": "weapon.sound",
+      "apiFieldConstant": "hd2.fields.weapon.sound",
+      "display": {
+        "name": "Firing sound",
+        "domain": "weapon",
+        "group": "ProjectileWeaponComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "weapon_sound",
+        "baseline": "support/gr8",
+        "expected": "support/gr8",
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/projectileweaponcomponentdata/cff9300931155c769f07",
+        "kind": "component",
+        "semanticType": "ProjectileWeaponComponentData",
+        "domain": "ProjectileWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/106f99723f300e3baef5",
+        "runtimeBackingScope": "component:ProjectileWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/4ee0dd321fea490373b4",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "GR-8 Recoilless Rifle",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/gr-8-recoilless-rifle/weapon/root/23072e62ae6e7a8b"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/106f99723f300e3baef5",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/gr-8-recoilless-rifle/0c0cddff45ad",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "ProjectileWeapon +237 (MIDI), +252/+256 (loop start/stop) and +260 (per-shot event) are the members the weapon fire path reads its firing sound from (game.dll, research/weapon-sounds); taking a catalogue sound on a per-entity copy is offline-proven (Pelican chin turret) and copying +260 is live-proven by the weapon clone, but a template sound write on a player or support weapon has not been live-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": true,
+        "reason": "A component member the game copies into the weapon when it builds it: weapons built after the write post the new sound; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip, a new call-in). Only this game plays it: every machine reads the events from its own copy of the record.",
         "writeVerifiedOnApply": true,
         "gameplayEffectProven": false,
         "unverifiedEffect": true
@@ -107359,6 +108710,120 @@
       }
     },
     {
+      "instanceKey": "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-sound/ea91c913f88e544e",
+      "supportWeapon": "LAS-99 Quasar Cannon",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/las-99-quasar-cannon/c4a24078efd3219b",
+        "name": "LAS-99 Quasar Cannon",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.sound",
+      "qualifiedSemanticFieldId": "weapon.sound",
+      "apiFieldConstant": "hd2.fields.weapon.sound",
+      "display": {
+        "name": "Firing sound",
+        "domain": "weapon",
+        "group": "ProjectileWeaponComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "weapon_sound",
+        "baseline": "support/las99",
+        "expected": "support/las99",
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/projectileweaponcomponentdata/5585af4d590e6c85c384",
+        "kind": "component",
+        "semanticType": "ProjectileWeaponComponentData",
+        "domain": "ProjectileWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/56e5976f49d77eaa5aab",
+        "runtimeBackingScope": "component:ProjectileWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/aa72c5eac969446c936b",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "LAS-99 Quasar Cannon",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/las-99-quasar-cannon/weapon/root/0925e3034cd3e06f"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/56e5976f49d77eaa5aab",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/las-99-quasar-cannon/c4a24078efd3",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "ProjectileWeapon +237 (MIDI), +252/+256 (loop start/stop) and +260 (per-shot event) are the members the weapon fire path reads its firing sound from (game.dll, research/weapon-sounds); taking a catalogue sound on a per-entity copy is offline-proven (Pelican chin turret) and copying +260 is live-proven by the weapon clone, but a template sound write on a player or support weapon has not been live-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": true,
+        "reason": "A component member the game copies into the weapon when it builds it: weapons built after the write post the new sound; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip, a new call-in). Only this game plays it: every machine reads the events from its own copy of the record.",
+        "writeVerifiedOnApply": true,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true
+      }
+    },
+    {
       "instanceKey": "support-field/v1/las-99-quasar-cannon/weapon/root/presentation-traits/7cbca2e95ad7c756",
       "supportWeapon": "LAS-99 Quasar Cannon",
       "supportWeaponIdentity": {
@@ -113684,6 +115149,120 @@
       }
     },
     {
+      "instanceKey": "support-field/v1/m-1000-maxigun/weapon/root/weapon-sound/f25bdd792567b968",
+      "supportWeapon": "M-1000 Maxigun",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/m-1000-maxigun/95638dbb80d59593",
+        "name": "M-1000 Maxigun",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.sound",
+      "qualifiedSemanticFieldId": "weapon.sound",
+      "apiFieldConstant": "hd2.fields.weapon.sound",
+      "display": {
+        "name": "Firing sound",
+        "domain": "weapon",
+        "group": "ProjectileWeaponComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "weapon_sound",
+        "baseline": "support/m1000",
+        "expected": "support/m1000",
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/projectileweaponcomponentdata/46314a12d607c791cc72",
+        "kind": "component",
+        "semanticType": "ProjectileWeaponComponentData",
+        "domain": "ProjectileWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/00b4aea54faeeb025915",
+        "runtimeBackingScope": "component:ProjectileWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/836770cfdecf40c4e984",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "M-1000 Maxigun",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/m-1000-maxigun/weapon/root/859009eb9b9999d2"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/00b4aea54faeeb025915",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/m-1000-maxigun/95638dbb80d5",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "ProjectileWeapon +237 (MIDI), +252/+256 (loop start/stop) and +260 (per-shot event) are the members the weapon fire path reads its firing sound from (game.dll, research/weapon-sounds); taking a catalogue sound on a per-entity copy is offline-proven (Pelican chin turret) and copying +260 is live-proven by the weapon clone, but a template sound write on a player or support weapon has not been live-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": true,
+        "reason": "A component member the game copies into the weapon when it builds it: weapons built after the write post the new sound; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip, a new call-in). Only this game plays it: every machine reads the events from its own copy of the record.",
+        "writeVerifiedOnApply": true,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true
+      }
+    },
+    {
       "instanceKey": "support-field/v1/m-1000-maxigun/weapon/root/presentation-traits/897a834ac8a35871",
       "supportWeapon": "M-1000 Maxigun",
       "supportWeaponIdentity": {
@@ -118574,6 +120153,144 @@
         "instantiationOnly": true,
         "activeSourceProven": true,
         "reason": "Read at every shot from the weapon resolved ProjectileWeapon data (a per-weapon copy when the weapon has one, otherwise the entity-table record): a new weapon uses it; an already built one may pick it up at once.",
+        "writeVerifiedOnApply": true,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/m-105-stalwart/weapon/root/weapon-sound/bfb23024748b5448",
+      "supportWeapon": "M-105 Stalwart",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/m-105-stalwart/5af15aa5bcc38509",
+        "name": "M-105 Stalwart",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.sound",
+      "qualifiedSemanticFieldId": "weapon.sound",
+      "apiFieldConstant": "hd2.fields.weapon.sound",
+      "display": {
+        "name": "Firing sound",
+        "domain": "weapon",
+        "group": "ProjectileWeaponComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "weapon_sound",
+        "baseline": "support/m105",
+        "expected": "support/m105",
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/projectileweaponcomponentdata/c3a6a29d73843697d423",
+        "kind": "component",
+        "semanticType": "ProjectileWeaponComponentData",
+        "domain": "ProjectileWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/9ebb937c7a4b3d457bcb",
+        "runtimeBackingScope": "component:ProjectileWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/1db5ddca9099d49e1cac",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 2,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "M-105 Stalwart",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "AR-23 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "AR-23 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/m-105-stalwart/attack/primary/4da4883b53907116"
+          },
+          {
+            "weapon": "M-105 Stalwart",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/m-105-stalwart/weapon/root/7bab28c9dc1373b2"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/9ebb937c7a4b3d457bcb",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/m-105-stalwart/5af15aa5bcc3",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "ProjectileWeapon +237 (MIDI), +252/+256 (loop start/stop) and +260 (per-shot event) are the members the weapon fire path reads its firing sound from (game.dll, research/weapon-sounds); taking a catalogue sound on a per-entity copy is offline-proven (Pelican chin turret) and copying +260 is live-proven by the weapon clone, but a template sound write on a player or support weapon has not been live-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": true,
+        "reason": "A component member the game copies into the weapon when it builds it: weapons built after the write post the new sound; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip, a new call-in). Only this game plays it: every machine reads the events from its own copy of the record.",
         "writeVerifiedOnApply": true,
         "gameplayEffectProven": false,
         "unverifiedEffect": true
@@ -123541,6 +125258,144 @@
       }
     },
     {
+      "instanceKey": "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-sound/1483cb4e4ca8c552",
+      "supportWeapon": "MG-206 Heavy Machine Gun",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/mg-206-heavy-machine-gun/ea93be78d91ad0c7",
+        "name": "MG-206 Heavy Machine Gun",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.sound",
+      "qualifiedSemanticFieldId": "weapon.sound",
+      "apiFieldConstant": "hd2.fields.weapon.sound",
+      "display": {
+        "name": "Firing sound",
+        "domain": "weapon",
+        "group": "ProjectileWeaponComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "weapon_sound",
+        "baseline": "support/mg206",
+        "expected": "support/mg206",
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/projectileweaponcomponentdata/b594c4bd87d88fc5d00c",
+        "kind": "component",
+        "semanticType": "ProjectileWeaponComponentData",
+        "domain": "ProjectileWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/22b971e8bf7f78b515fc",
+        "runtimeBackingScope": "component:ProjectileWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/0079cc120b0efe89c698",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 2,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "MG-206 Heavy Machine Gun",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "MG-206 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "MG-206 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/mg-206-heavy-machine-gun/attack/primary/c8babda4a4693007"
+          },
+          {
+            "weapon": "MG-206 Heavy Machine Gun",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/mg-206-heavy-machine-gun/weapon/root/822a547f405e678e"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/22b971e8bf7f78b515fc",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/mg-206-heavy-machine-gun/ea93be78d91a",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "ProjectileWeapon +237 (MIDI), +252/+256 (loop start/stop) and +260 (per-shot event) are the members the weapon fire path reads its firing sound from (game.dll, research/weapon-sounds); taking a catalogue sound on a per-entity copy is offline-proven (Pelican chin turret) and copying +260 is live-proven by the weapon clone, but a template sound write on a player or support weapon has not been live-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": true,
+        "reason": "A component member the game copies into the weapon when it builds it: weapons built after the write post the new sound; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip, a new call-in). Only this game plays it: every machine reads the events from its own copy of the record.",
+        "writeVerifiedOnApply": true,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true
+      }
+    },
+    {
       "instanceKey": "support-field/v1/mg-206-heavy-machine-gun/weapon/root/presentation-traits/8143a1d8a9d34b7a",
       "supportWeapon": "MG-206 Heavy Machine Gun",
       "supportWeaponIdentity": {
@@ -128380,6 +130235,122 @@
         "instantiationOnly": true,
         "activeSourceProven": true,
         "reason": "A component member the game copies into the weapon when it builds it (the projectile_weapon ROF record and the weapon_data bindings): weapons built after the write use it; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip).",
+        "writeVerifiedOnApply": true,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/mg-43-machine-gun/weapon/root/weapon-sound/6714af795c64d42b",
+      "supportWeapon": "MG-43 Machine Gun",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/mg-43-machine-gun/3583ca5f516c038f",
+        "name": "MG-43 Machine Gun",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.sound",
+      "qualifiedSemanticFieldId": "weapon.sound",
+      "apiFieldConstant": "hd2.fields.weapon.sound",
+      "display": {
+        "name": "Firing sound",
+        "domain": "weapon",
+        "group": "ProjectileWeaponComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "weapon_sound",
+        "baseline": "support/mg43",
+        "expected": "support/mg43",
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/projectileweaponcomponentdata/fc0f8598b07e2fd17e0d",
+        "kind": "component",
+        "semanticType": "ProjectileWeaponComponentData",
+        "domain": "ProjectileWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/9d3427882e82e3d1b7e4",
+        "runtimeBackingScope": "component:ProjectileWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/69e8c2a53bdd5a8b9f1b",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "MG-43 Machine Gun",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/mg-43-machine-gun/weapon/root/3e82e1d7fcd9e90a"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/9d3427882e82e3d1b7e4",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/mg-43-machine-gun/3583ca5f516c",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "ProjectileWeapon +237 (MIDI), +252/+256 (loop start/stop) and +260 (per-shot event) are the members the weapon fire path reads its firing sound from (game.dll, research/weapon-sounds); taking a catalogue sound on a per-entity copy is offline-proven (Pelican chin turret) and copying +260 is live-proven by the weapon clone, but a template sound write on a player or support weapon has not been live-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": true,
+        "reason": "A component member the game copies into the weapon when it builds it: weapons built after the write post the new sound; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip, a new call-in). Only this game plays it: every machine reads the events from its own copy of the record.",
         "writeVerifiedOnApply": true,
         "gameplayEffectProven": false,
         "unverifiedEffect": true
@@ -136553,6 +138524,120 @@
       }
     },
     {
+      "instanceKey": "support-field/v1/mls-4x-commando/weapon/root/weapon-sound/063061d15113980f",
+      "supportWeapon": "MLS-4X Commando",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/mls-4x-commando/fbd50e50e043315f",
+        "name": "MLS-4X Commando",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.sound",
+      "qualifiedSemanticFieldId": "weapon.sound",
+      "apiFieldConstant": "hd2.fields.weapon.sound",
+      "display": {
+        "name": "Firing sound",
+        "domain": "weapon",
+        "group": "ProjectileWeaponComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "weapon_sound",
+        "baseline": "support/mls4x",
+        "expected": "support/mls4x",
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/projectileweaponcomponentdata/1e5db935823b8be4bc82",
+        "kind": "component",
+        "semanticType": "ProjectileWeaponComponentData",
+        "domain": "ProjectileWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/e078df9c54dcbd924d59",
+        "runtimeBackingScope": "component:ProjectileWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/683898ea7a12aa3c53d9",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "MLS-4X Commando",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/mls-4x-commando/weapon/root/93155a1b0a13051c"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/e078df9c54dcbd924d59",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/mls-4x-commando/fbd50e50e043",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "ProjectileWeapon +237 (MIDI), +252/+256 (loop start/stop) and +260 (per-shot event) are the members the weapon fire path reads its firing sound from (game.dll, research/weapon-sounds); taking a catalogue sound on a per-entity copy is offline-proven (Pelican chin turret) and copying +260 is live-proven by the weapon clone, but a template sound write on a player or support weapon has not been live-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": true,
+        "reason": "A component member the game copies into the weapon when it builds it: weapons built after the write post the new sound; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip, a new call-in). Only this game plays it: every machine reads the events from its own copy of the record.",
+        "writeVerifiedOnApply": true,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true
+      }
+    },
+    {
       "instanceKey": "support-field/v1/mls-4x-commando/weapon/root/presentation-traits/e01a7863bfe26af6",
       "supportWeapon": "MLS-4X Commando",
       "supportWeaponIdentity": {
@@ -143938,6 +146023,120 @@
         "baseline": "exact retained-snapshot value",
         "validation": "production resolver guarded ALREADY_DESIRED no-op",
         "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/plas-45-epoch/weapon/root/weapon-sound/5451de6fd1a72172",
+      "supportWeapon": "PLAS-45 Epoch",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/plas-45-epoch/7e4bd15bc8e5a9c4",
+        "name": "PLAS-45 Epoch",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.sound",
+      "qualifiedSemanticFieldId": "weapon.sound",
+      "apiFieldConstant": "hd2.fields.weapon.sound",
+      "display": {
+        "name": "Firing sound",
+        "domain": "weapon",
+        "group": "ProjectileWeaponComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "weapon_sound",
+        "baseline": "support/plas45",
+        "expected": "support/plas45",
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/projectileweaponcomponentdata/d2e688fb3f40e180fa00",
+        "kind": "component",
+        "semanticType": "ProjectileWeaponComponentData",
+        "domain": "ProjectileWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/5d4d14e726eeb9d3d39a",
+        "runtimeBackingScope": "component:ProjectileWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/463dad2838a99e4b9b52",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "PLAS-45 Epoch",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/plas-45-epoch/weapon/root/b5dde36d3d4f3f22"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/5d4d14e726eeb9d3d39a",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/plas-45-epoch/7e4bd15bc8e5",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "ProjectileWeapon +237 (MIDI), +252/+256 (loop start/stop) and +260 (per-shot event) are the members the weapon fire path reads its firing sound from (game.dll, research/weapon-sounds); taking a catalogue sound on a per-entity copy is offline-proven (Pelican chin turret) and copying +260 is live-proven by the weapon clone, but a template sound write on a player or support weapon has not been live-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": true,
+        "reason": "A component member the game copies into the weapon when it builds it: weapons built after the write post the new sound; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip, a new call-in). Only this game plays it: every machine reads the events from its own copy of the record.",
+        "writeVerifiedOnApply": true,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true
       }
     },
     {
@@ -160545,6 +162744,120 @@
       }
     },
     {
+      "instanceKey": "support-field/v1/rl-77-airburst-rocket-launcher/weapon/root/weapon-sound/050eb0baaf55361d",
+      "supportWeapon": "RL-77 Airburst Rocket Launcher",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/rl-77-airburst-rocket-launcher/bc2a49adbc0a3057",
+        "name": "RL-77 Airburst Rocket Launcher",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.sound",
+      "qualifiedSemanticFieldId": "weapon.sound",
+      "apiFieldConstant": "hd2.fields.weapon.sound",
+      "display": {
+        "name": "Firing sound",
+        "domain": "weapon",
+        "group": "ProjectileWeaponComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "weapon_sound",
+        "baseline": "support/rl77",
+        "expected": "support/rl77",
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/projectileweaponcomponentdata/1ce5a599b2d32bcbd6e2",
+        "kind": "component",
+        "semanticType": "ProjectileWeaponComponentData",
+        "domain": "ProjectileWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/b135d1656fb97960cac7",
+        "runtimeBackingScope": "component:ProjectileWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/87cfa1b56b9e2d1c57bc",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "RL-77 Airburst Rocket Launcher",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/rl-77-airburst-rocket-launcher/weapon/root/3c72ac720777a757"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/b135d1656fb97960cac7",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/rl-77-airburst-rocket-launcher/bc2a49adbc0a",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "ProjectileWeapon +237 (MIDI), +252/+256 (loop start/stop) and +260 (per-shot event) are the members the weapon fire path reads its firing sound from (game.dll, research/weapon-sounds); taking a catalogue sound on a per-entity copy is offline-proven (Pelican chin turret) and copying +260 is live-proven by the weapon clone, but a template sound write on a player or support weapon has not been live-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": true,
+        "reason": "A component member the game copies into the weapon when it builds it: weapons built after the write post the new sound; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip, a new call-in). Only this game plays it: every machine reads the events from its own copy of the record.",
+        "writeVerifiedOnApply": true,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true
+      }
+    },
+    {
       "instanceKey": "support-field/v1/rl-77-airburst-rocket-launcher/weapon/root/presentation-traits/e0c8868912951daf",
       "supportWeapon": "RL-77 Airburst Rocket Launcher",
       "supportWeaponIdentity": {
@@ -167829,6 +170142,120 @@
         "baseline": "exact retained-snapshot value",
         "validation": "production resolver guarded ALREADY_DESIRED no-op",
         "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/rs-422-railgun/weapon/root/weapon-sound/7b18b25230ecd040",
+      "supportWeapon": "RS-422 Railgun",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/rs-422-railgun/eb024301e3c28200",
+        "name": "RS-422 Railgun",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.sound",
+      "qualifiedSemanticFieldId": "weapon.sound",
+      "apiFieldConstant": "hd2.fields.weapon.sound",
+      "display": {
+        "name": "Firing sound",
+        "domain": "weapon",
+        "group": "ProjectileWeaponComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "weapon_sound",
+        "baseline": "support/rs422",
+        "expected": "support/rs422",
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/projectileweaponcomponentdata/2c6f876a4c4776f304a4",
+        "kind": "component",
+        "semanticType": "ProjectileWeaponComponentData",
+        "domain": "ProjectileWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/bce1ed99769a2938b2fe",
+        "runtimeBackingScope": "component:ProjectileWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/4c85d1765bda66074b3c",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "RS-422 Railgun",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/rs-422-railgun/weapon/root/4866aee933130728"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/bce1ed99769a2938b2fe",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/rs-422-railgun/eb024301e3c2",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "ProjectileWeapon +237 (MIDI), +252/+256 (loop start/stop) and +260 (per-shot event) are the members the weapon fire path reads its firing sound from (game.dll, research/weapon-sounds); taking a catalogue sound on a per-entity copy is offline-proven (Pelican chin turret) and copying +260 is live-proven by the weapon clone, but a template sound write on a player or support weapon has not been live-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": true,
+        "reason": "A component member the game copies into the weapon when it builds it: weapons built after the write post the new sound; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip, a new call-in). Only this game plays it: every machine reads the events from its own copy of the record.",
+        "writeVerifiedOnApply": true,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true
       }
     },
     {
@@ -177336,6 +179763,142 @@
         "reason": "Read at every shot from the weapon resolved ProjectileWeapon data (a per-weapon copy when the weapon has one, otherwise the entity-table record): a new weapon uses it; an already built one may pick it up at once.",
         "writeVerifiedOnApply": true,
         "gameplayEffectProven": true,
+        "unverifiedEffect": true
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/s-11-speargun/weapon/root/weapon-sound/1a60c008718ab8c5",
+      "supportWeapon": "S-11 Speargun",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/s-11-speargun/12230537964a8c26",
+        "name": "S-11 Speargun",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.sound",
+      "qualifiedSemanticFieldId": "weapon.sound",
+      "apiFieldConstant": "hd2.fields.weapon.sound",
+      "display": {
+        "name": "Firing sound",
+        "domain": "weapon",
+        "group": "ProjectileWeaponComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "weapon_sound",
+        "baseline": "support/s11",
+        "expected": "support/s11",
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/projectileweaponcomponentdata/5b41542ee9c52f666b22",
+        "kind": "component",
+        "semanticType": "ProjectileWeaponComponentData",
+        "domain": "ProjectileWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/7736c083bf691ddbe624",
+        "runtimeBackingScope": "component:ProjectileWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/8924222cdbf860fbdd1a",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 2,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "S-11 Speargun",
+            "targetPath": "attack",
+            "attackRole": "primary",
+            "attackKind": "Projectile",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "S-11 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "S-11 P",
+                "kind": "Projectile",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/s-11-speargun/attack/primary/e6a0c93c81428064"
+          },
+          {
+            "weapon": "S-11 Speargun",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/s-11-speargun/weapon/root/b519ed0541359b5e"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/7736c083bf691ddbe624",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/s-11-speargun/12230537964a",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "ProjectileWeapon +237 (MIDI), +252/+256 (loop start/stop) and +260 (per-shot event) are the members the weapon fire path reads its firing sound from (game.dll, research/weapon-sounds); taking a catalogue sound on a per-entity copy is offline-proven (Pelican chin turret) and copying +260 is live-proven by the weapon clone, but a template sound write on a player or support weapon has not been live-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": true,
+        "reason": "A component member the game copies into the weapon when it builds it: weapons built after the write post the new sound; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip, a new call-in). Only this game plays it: every machine reads the events from its own copy of the record.",
+        "writeVerifiedOnApply": true,
+        "gameplayEffectProven": false,
         "unverifiedEffect": true
       }
     },
@@ -189567,6 +192130,120 @@
         "baseline": "exact retained-snapshot value",
         "validation": "production resolver guarded ALREADY_DESIRED no-op",
         "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/weapon-sound/d2fcd470c5026a66",
+      "supportWeapon": "StA-X3 W.A.S.P. Launcher",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/sta-x3-w-a-s-p-launcher/ea60c8ba13527fff",
+        "name": "StA-X3 W.A.S.P. Launcher",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.sound",
+      "qualifiedSemanticFieldId": "weapon.sound",
+      "apiFieldConstant": "hd2.fields.weapon.sound",
+      "display": {
+        "name": "Firing sound",
+        "domain": "weapon",
+        "group": "ProjectileWeaponComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "weapon_sound",
+        "baseline": "support/stax3",
+        "expected": "support/stax3",
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/projectileweaponcomponentdata/3de23b1bcdc7b1950f2b",
+        "kind": "component",
+        "semanticType": "ProjectileWeaponComponentData",
+        "domain": "ProjectileWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/9ed2425089d1a7d5eb02",
+        "runtimeBackingScope": "component:ProjectileWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/8ca3a0e3e62856b82e31",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "StA-X3 W.A.S.P. Launcher",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/sta-x3-w-a-s-p-launcher/weapon/root/00fc4c6461e7eac9"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/9ed2425089d1a7d5eb02",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/sta-x3-w-a-s-p-launcher/ea60c8ba1352",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "ProjectileWeapon +237 (MIDI), +252/+256 (loop start/stop) and +260 (per-shot event) are the members the weapon fire path reads its firing sound from (game.dll, research/weapon-sounds); taking a catalogue sound on a per-entity copy is offline-proven (Pelican chin turret) and copying +260 is live-proven by the weapon clone, but a template sound write on a player or support weapon has not been live-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": true,
+        "reason": "A component member the game copies into the weapon when it builds it: weapons built after the write post the new sound; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip, a new call-in). Only this game plays it: every machine reads the events from its own copy of the record.",
+        "writeVerifiedOnApply": true,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true
       }
     },
     {
@@ -202943,6 +205620,7 @@
       "dynamicConsumersPossible": false,
       "fieldInstanceKeys": [
         "support-field/v1/rl-77-airburst-rocket-launcher/weapon/root/function-ammo-projectile/7e3eefe006a5cbab",
+        "support-field/v1/rl-77-airburst-rocket-launcher/weapon/root/weapon-sound/050eb0baaf55361d",
         "support-field/v1/rl-77-airburst-rocket-launcher/weapon/root/weapon-fire-rate/7f4c76eb5c22ae72"
       ]
     },
@@ -202972,6 +205650,7 @@
       "reviewedScopeComplete": true,
       "dynamicConsumersPossible": false,
       "fieldInstanceKeys": [
+        "support-field/v1/mls-4x-commando/weapon/root/weapon-sound/063061d15113980f",
         "support-field/v1/mls-4x-commando/weapon/root/weapon-fire-rate/6dad81a13553f06d"
       ]
     },
@@ -203028,6 +205707,7 @@
       "fieldInstanceKeys": [
         "support-field/v1/gl-21-grenade-launcher/weapon/root/fire-rate-modes/c81b2681df4e21d3",
         "support-field/v1/gl-21-grenade-launcher/weapon/root/function-ammo-projectile/a6d75d25f426f012",
+        "support-field/v1/gl-21-grenade-launcher/weapon/root/weapon-sound/483d7ce8cad6020f",
         "support-field/v1/gl-21-grenade-launcher/weapon/root/weapon-fire-rate/655c48edb5d8f9f9",
         "support-field/v1/gl-21-grenade-launcher/attack/primary/attack-projectile/32eb6cda3d57cd9f"
       ]
@@ -203090,8 +205770,38 @@
       "fieldInstanceKeys": [
         "support-field/v1/eat-700-expendable-napalm/weapon/root/fire-rate-modes/f33b1e6042bb57b7",
         "support-field/v1/eat-700-expendable-napalm/weapon/root/function-ammo-projectile/7510d8486b6dd873",
+        "support-field/v1/eat-700-expendable-napalm/weapon/root/weapon-sound/e05377823db89268",
         "support-field/v1/eat-700-expendable-napalm/weapon/root/weapon-fire-rate/7e773944ca00d465",
         "support-field/v1/eat-700-expendable-napalm/attack/primary/attack-projectile/448f03f473329d3a"
+      ]
+    },
+    {
+      "objectKey": "support-object/v1/projectileweaponcomponentdata/2c6f876a4c4776f304a4",
+      "kind": "component",
+      "semanticType": "ProjectileWeaponComponentData",
+      "domains": [
+        "weapon"
+      ],
+      "shared": false,
+      "requiresSharedAcknowledgement": false,
+      "sharedScopeKey": "support-scope/v1/4c85d1765bda66074b3c",
+      "reviewedConsumerCount": 1,
+      "affectedSemanticConsumers": [
+        {
+          "weapon": "RS-422 Railgun",
+          "targetPath": "weapon",
+          "attackRole": null,
+          "attackKind": null,
+          "parentAttackRole": null,
+          "catalogBranches": [],
+          "writableCatalogBranches": [],
+          "consumerKey": "support-consumer/v1/rs-422-railgun/weapon/root/4866aee933130728"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "fieldInstanceKeys": [
+        "support-field/v1/rs-422-railgun/weapon/root/weapon-sound/7b18b25230ecd040"
       ]
     },
     {
@@ -203120,6 +205830,7 @@
       "reviewedScopeComplete": true,
       "dynamicConsumersPossible": false,
       "fieldInstanceKeys": [
+        "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/weapon-sound/d2fcd470c5026a66",
         "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/weapon-fire-rate/973afd05fbaaba3b"
       ]
     },
@@ -203149,6 +205860,7 @@
       "reviewedScopeComplete": true,
       "dynamicConsumersPossible": false,
       "fieldInstanceKeys": [
+        "support-field/v1/m-1000-maxigun/weapon/root/weapon-sound/f25bdd792567b968",
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-fire-rate/363e4cf5c0f11493"
       ]
     },
@@ -203180,6 +205892,7 @@
       "dynamicConsumersPossible": false,
       "fieldInstanceKeys": [
         "support-field/v1/las-99-quasar-cannon/weapon/root/function-ammo-projectile/4b4e4c00a1533ec8",
+        "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-sound/ea91c913f88e544e",
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-fire-rate/9360ebacf49eaab2"
       ]
     },
@@ -203236,6 +205949,7 @@
       "fieldInstanceKeys": [
         "support-field/v1/s-11-speargun/weapon/root/fire-rate-modes/f91a8b669c9bfd34",
         "support-field/v1/s-11-speargun/weapon/root/function-ammo-projectile/73348fd4b4593770",
+        "support-field/v1/s-11-speargun/weapon/root/weapon-sound/1a60c008718ab8c5",
         "support-field/v1/s-11-speargun/weapon/root/weapon-fire-rate/6dc25c29c68a2096",
         "support-field/v1/s-11-speargun/attack/primary/attack-projectile/0ace99d4f028b7a9"
       ]
@@ -203293,6 +206007,7 @@
       "fieldInstanceKeys": [
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/fire-rate-modes/54f8c8f4d7c98ef7",
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/function-ammo-projectile/d657ab56787a8b08",
+        "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-sound/4c99f995d9ad0b85",
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-fire-rate/a0a6deb21a24717f",
         "support-field/v1/apw-1-anti-materiel-rifle/attack/primary/attack-projectile/293f57412d634c6c"
       ]
@@ -203325,6 +206040,7 @@
       "dynamicConsumersPossible": false,
       "fieldInstanceKeys": [
         "support-field/v1/faf-14-spear/weapon/root/fire-rate-modes/6c1cb9149d299783",
+        "support-field/v1/faf-14-spear/weapon/root/weapon-sound/6b11eb564e361951",
         "support-field/v1/faf-14-spear/weapon/root/weapon-fire-rate/d91fbdb6b422afcf"
       ]
     },
@@ -203381,6 +206097,7 @@
       "fieldInstanceKeys": [
         "support-field/v1/eat-17-expendable-anti-tank/weapon/root/fire-rate-modes/e5b543efe12eb39e",
         "support-field/v1/eat-17-expendable-anti-tank/weapon/root/function-ammo-projectile/133a756bb488640c",
+        "support-field/v1/eat-17-expendable-anti-tank/weapon/root/weapon-sound/004a3998d5eaf1e0",
         "support-field/v1/eat-17-expendable-anti-tank/weapon/root/weapon-fire-rate/529bd444e828fc2f",
         "support-field/v1/eat-17-expendable-anti-tank/attack/primary/attack-projectile/c59c8647522235b4"
       ]
@@ -203390,7 +206107,8 @@
       "kind": "component",
       "semanticType": "ProjectileWeaponComponentData",
       "domains": [
-        "function_ammo"
+        "function_ammo",
+        "weapon"
       ],
       "shared": false,
       "requiresSharedAcknowledgement": false,
@@ -203411,7 +206129,8 @@
       "reviewedScopeComplete": true,
       "dynamicConsumersPossible": false,
       "fieldInstanceKeys": [
-        "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/function-ammo-projectile/3f05845300b1a2be"
+        "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/function-ammo-projectile/3f05845300b1a2be",
+        "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-sound/4aa40c2acded00bf"
       ]
     },
     {
@@ -203467,6 +206186,7 @@
       "fieldInstanceKeys": [
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/fire-rate-modes/64a6d0dc9599555a",
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/function-ammo-projectile/d1fa82b43898f6c6",
+        "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-sound/1483cb4e4ca8c552",
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-fire-rate/d8d7dc36af282b07",
         "support-field/v1/mg-206-heavy-machine-gun/attack/primary/attack-projectile/6f6a23c23d7b2b1d"
       ]
@@ -203524,6 +206244,7 @@
       "fieldInstanceKeys": [
         "support-field/v1/m-105-stalwart/weapon/root/fire-rate-modes/a61a814391d5c0a1",
         "support-field/v1/m-105-stalwart/weapon/root/function-ammo-projectile/2a1cb249f2878749",
+        "support-field/v1/m-105-stalwart/weapon/root/weapon-sound/bfb23024748b5448",
         "support-field/v1/m-105-stalwart/weapon/root/weapon-fire-rate/7175d73e569cd545",
         "support-field/v1/m-105-stalwart/attack/primary/attack-projectile/af75cf75f773fc37"
       ]
@@ -203556,6 +206277,7 @@
       "dynamicConsumersPossible": false,
       "fieldInstanceKeys": [
         "support-field/v1/gr-8-recoilless-rifle/weapon/root/function-ammo-projectile/96658e27ad0029a5",
+        "support-field/v1/gr-8-recoilless-rifle/weapon/root/weapon-sound/34d7160c4e8ff617",
         "support-field/v1/gr-8-recoilless-rifle/weapon/root/weapon-fire-rate/7c1a592498ecb8d5"
       ]
     },
@@ -203612,8 +206334,38 @@
       "fieldInstanceKeys": [
         "support-field/v1/eat-411-leveller/weapon/root/fire-rate-modes/230bf94e306cc75f",
         "support-field/v1/eat-411-leveller/weapon/root/function-ammo-projectile/2da5de80294d3181",
+        "support-field/v1/eat-411-leveller/weapon/root/weapon-sound/f4732076c6b273f6",
         "support-field/v1/eat-411-leveller/weapon/root/weapon-fire-rate/11ee84a8d8f6a792",
         "support-field/v1/eat-411-leveller/attack/primary/attack-projectile/6ce5002fb56fddfd"
+      ]
+    },
+    {
+      "objectKey": "support-object/v1/projectileweaponcomponentdata/d2e688fb3f40e180fa00",
+      "kind": "component",
+      "semanticType": "ProjectileWeaponComponentData",
+      "domains": [
+        "weapon"
+      ],
+      "shared": false,
+      "requiresSharedAcknowledgement": false,
+      "sharedScopeKey": "support-scope/v1/463dad2838a99e4b9b52",
+      "reviewedConsumerCount": 1,
+      "affectedSemanticConsumers": [
+        {
+          "weapon": "PLAS-45 Epoch",
+          "targetPath": "weapon",
+          "attackRole": null,
+          "attackKind": null,
+          "parentAttackRole": null,
+          "catalogBranches": [],
+          "writableCatalogBranches": [],
+          "consumerKey": "support-consumer/v1/plas-45-epoch/weapon/root/b5dde36d3d4f3f22"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "fieldInstanceKeys": [
+        "support-field/v1/plas-45-epoch/weapon/root/weapon-sound/5451de6fd1a72172"
       ]
     },
     {
@@ -203644,6 +206396,7 @@
       "dynamicConsumersPossible": false,
       "fieldInstanceKeys": [
         "support-field/v1/gl-52-de-escalator/weapon/root/fire-rate-modes/f889f1448d259c12",
+        "support-field/v1/gl-52-de-escalator/weapon/root/weapon-sound/53ceb02fe2fe7df6",
         "support-field/v1/gl-52-de-escalator/weapon/root/weapon-fire-rate/28e20145bda63c99"
       ]
     },
@@ -203675,6 +206428,7 @@
       "dynamicConsumersPossible": false,
       "fieldInstanceKeys": [
         "support-field/v1/ac-8-autocannon/weapon/root/function-ammo-projectile/e32f79b410b4b49b",
+        "support-field/v1/ac-8-autocannon/weapon/root/weapon-sound/e2116af8644bc58d",
         "support-field/v1/ac-8-autocannon/weapon/root/weapon-fire-rate/17a1e59a22057cb6"
       ]
     },
@@ -203764,6 +206518,7 @@
       "dynamicConsumersPossible": false,
       "fieldInstanceKeys": [
         "support-field/v1/mg-43-machine-gun/weapon/root/fire-rate-modes/02e67883b2cb97cc",
+        "support-field/v1/mg-43-machine-gun/weapon/root/weapon-sound/6714af795c64d42b",
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-fire-rate/c56edd011708d9b9"
       ]
     },
@@ -207019,9 +209774,10 @@
         "writableCatalogBranches": []
       },
       "fieldInstanceKeys": [
+        "support-field/v1/m-1000-maxigun/weapon/root/weapon-sound/f25bdd792567b968",
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-fire-rate/363e4cf5c0f11493"
       ],
-      "recommendedApi": "hd2.patch",
+      "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
       "planGroupingKey": "support-plan/v1/m-1000-maxigun/95638dbb80d5",
       "phase": 1,
@@ -207582,9 +210338,10 @@
         "writableCatalogBranches": []
       },
       "fieldInstanceKeys": [
+        "support-field/v1/gr-8-recoilless-rifle/weapon/root/weapon-sound/34d7160c4e8ff617",
         "support-field/v1/gr-8-recoilless-rifle/weapon/root/weapon-fire-rate/7c1a592498ecb8d5"
       ],
-      "recommendedApi": "hd2.patch",
+      "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
       "planGroupingKey": "support-plan/v1/gr-8-recoilless-rifle/0c0cddff45ad",
       "phase": 1,
@@ -208404,9 +211161,10 @@
         "writableCatalogBranches": []
       },
       "fieldInstanceKeys": [
+        "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-sound/1483cb4e4ca8c552",
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-fire-rate/d8d7dc36af282b07"
       ],
-      "recommendedApi": "hd2.patch",
+      "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
       "planGroupingKey": "support-plan/v1/mg-206-heavy-machine-gun/ea93be78d91a",
       "phase": 1,
@@ -209066,6 +211824,31 @@
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
       "planGroupingKey": "support-plan/v1/mls-4x-commando/fbd50e50e043",
+      "phase": 1,
+      "dependencies": []
+    },
+    {
+      "operationGroupingKey": "support-operation/v1/33f4d31a75bd354205af",
+      "backingObjectKey": "support-object/v1/projectileweaponcomponentdata/a9e7d4c8103045df9f07",
+      "runtimeBackingScope": "component:ProjectileWeaponComponentData",
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "fieldInstanceKeys": [
+        "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-sound/4aa40c2acded00bf"
+      ],
+      "recommendedApi": "hd2.patch",
+      "allowSharedRequired": false,
+      "planGroupingKey": "support-plan/v1/gl-28-belt-fed-grenade-launcher/d20d8fc730ea",
       "phase": 1,
       "dependencies": []
     },
@@ -209808,9 +212591,10 @@
         "writableCatalogBranches": []
       },
       "fieldInstanceKeys": [
+        "support-field/v1/eat-411-leveller/weapon/root/weapon-sound/f4732076c6b273f6",
         "support-field/v1/eat-411-leveller/weapon/root/weapon-fire-rate/11ee84a8d8f6a792"
       ],
-      "recommendedApi": "hd2.patch",
+      "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
       "planGroupingKey": "support-plan/v1/eat-411-leveller/77b0b0e293ad",
       "phase": 1,
@@ -210234,9 +213018,10 @@
         "writableCatalogBranches": []
       },
       "fieldInstanceKeys": [
+        "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-sound/ea91c913f88e544e",
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-fire-rate/9360ebacf49eaab2"
       ],
-      "recommendedApi": "hd2.patch",
+      "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
       "planGroupingKey": "support-plan/v1/las-99-quasar-cannon/c4a24078efd3",
       "phase": 1,
@@ -210393,6 +213178,31 @@
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
       "planGroupingKey": "support-plan/v1/ac-8-autocannon/902ed559c079",
+      "phase": 1,
+      "dependencies": []
+    },
+    {
+      "operationGroupingKey": "support-operation/v1/5d4d14e726eeb9d3d39a",
+      "backingObjectKey": "support-object/v1/projectileweaponcomponentdata/d2e688fb3f40e180fa00",
+      "runtimeBackingScope": "component:ProjectileWeaponComponentData",
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "fieldInstanceKeys": [
+        "support-field/v1/plas-45-epoch/weapon/root/weapon-sound/5451de6fd1a72172"
+      ],
+      "recommendedApi": "hd2.patch",
+      "allowSharedRequired": false,
+      "planGroupingKey": "support-plan/v1/plas-45-epoch/7e4bd15bc8e5",
       "phase": 1,
       "dependencies": []
     },
@@ -211338,9 +214148,10 @@
         "writableCatalogBranches": []
       },
       "fieldInstanceKeys": [
+        "support-field/v1/s-11-speargun/weapon/root/weapon-sound/1a60c008718ab8c5",
         "support-field/v1/s-11-speargun/weapon/root/weapon-fire-rate/6dc25c29c68a2096"
       ],
-      "recommendedApi": "hd2.patch",
+      "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
       "planGroupingKey": "support-plan/v1/s-11-speargun/12230537964a",
       "phase": 1,
@@ -212834,9 +215645,10 @@
         "writableCatalogBranches": []
       },
       "fieldInstanceKeys": [
+        "support-field/v1/faf-14-spear/weapon/root/weapon-sound/6b11eb564e361951",
         "support-field/v1/faf-14-spear/weapon/root/weapon-fire-rate/d91fbdb6b422afcf"
       ],
-      "recommendedApi": "hd2.patch",
+      "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
       "planGroupingKey": "support-plan/v1/faf-14-spear/0b5ea028958b",
       "phase": 1,
@@ -213046,9 +215858,10 @@
         "writableCatalogBranches": []
       },
       "fieldInstanceKeys": [
+        "support-field/v1/mg-43-machine-gun/weapon/root/weapon-sound/6714af795c64d42b",
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-fire-rate/c56edd011708d9b9"
       ],
-      "recommendedApi": "hd2.patch",
+      "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
       "planGroupingKey": "support-plan/v1/mg-43-machine-gun/3583ca5f516c",
       "phase": 1,
@@ -213116,9 +215929,10 @@
         "writableCatalogBranches": []
       },
       "fieldInstanceKeys": [
+        "support-field/v1/m-105-stalwart/weapon/root/weapon-sound/bfb23024748b5448",
         "support-field/v1/m-105-stalwart/weapon/root/weapon-fire-rate/7175d73e569cd545"
       ],
-      "recommendedApi": "hd2.patch",
+      "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
       "planGroupingKey": "support-plan/v1/m-105-stalwart/5af15aa5bcc3",
       "phase": 1,
@@ -213141,9 +215955,10 @@
         "writableCatalogBranches": []
       },
       "fieldInstanceKeys": [
+        "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/weapon-sound/d2fcd470c5026a66",
         "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/weapon-fire-rate/973afd05fbaaba3b"
       ],
-      "recommendedApi": "hd2.patch",
+      "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
       "planGroupingKey": "support-plan/v1/sta-x3-w-a-s-p-launcher/ea60c8ba1352",
       "phase": 1,
@@ -213346,9 +216161,10 @@
         "writableCatalogBranches": []
       },
       "fieldInstanceKeys": [
+        "support-field/v1/ac-8-autocannon/weapon/root/weapon-sound/e2116af8644bc58d",
         "support-field/v1/ac-8-autocannon/weapon/root/weapon-fire-rate/17a1e59a22057cb6"
       ],
-      "recommendedApi": "hd2.patch",
+      "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
       "planGroupingKey": "support-plan/v1/ac-8-autocannon/902ed559c079",
       "phase": 1,
@@ -213927,9 +216743,10 @@
         "writableCatalogBranches": []
       },
       "fieldInstanceKeys": [
+        "support-field/v1/rl-77-airburst-rocket-launcher/weapon/root/weapon-sound/050eb0baaf55361d",
         "support-field/v1/rl-77-airburst-rocket-launcher/weapon/root/weapon-fire-rate/7f4c76eb5c22ae72"
       ],
-      "recommendedApi": "hd2.patch",
+      "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
       "planGroupingKey": "support-plan/v1/rl-77-airburst-rocket-launcher/bc2a49adbc0a",
       "phase": 1,
@@ -214131,6 +216948,31 @@
       "recommendedApi": "hd2.patch",
       "allowSharedRequired": false,
       "planGroupingKey": "support-plan/v1/las-98-laser-cannon/7d66ab30f219",
+      "phase": 1,
+      "dependencies": []
+    },
+    {
+      "operationGroupingKey": "support-operation/v1/bce1ed99769a2938b2fe",
+      "backingObjectKey": "support-object/v1/projectileweaponcomponentdata/2c6f876a4c4776f304a4",
+      "runtimeBackingScope": "component:ProjectileWeaponComponentData",
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "fieldInstanceKeys": [
+        "support-field/v1/rs-422-railgun/weapon/root/weapon-sound/7b18b25230ecd040"
+      ],
+      "recommendedApi": "hd2.patch",
+      "allowSharedRequired": false,
+      "planGroupingKey": "support-plan/v1/rs-422-railgun/eb024301e3c2",
       "phase": 1,
       "dependencies": []
     },
@@ -214640,9 +217482,10 @@
         "writableCatalogBranches": []
       },
       "fieldInstanceKeys": [
+        "support-field/v1/eat-17-expendable-anti-tank/weapon/root/weapon-sound/004a3998d5eaf1e0",
         "support-field/v1/eat-17-expendable-anti-tank/weapon/root/weapon-fire-rate/529bd444e828fc2f"
       ],
-      "recommendedApi": "hd2.patch",
+      "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
       "planGroupingKey": "support-plan/v1/eat-17-expendable-anti-tank/e4ba6571169b",
       "phase": 1,
@@ -215398,9 +218241,10 @@
         "writableCatalogBranches": []
       },
       "fieldInstanceKeys": [
+        "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-sound/4c99f995d9ad0b85",
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-fire-rate/a0a6deb21a24717f"
       ],
-      "recommendedApi": "hd2.patch",
+      "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
       "planGroupingKey": "support-plan/v1/apw-1-anti-materiel-rifle/9c567b76648a",
       "phase": 1,
@@ -215451,9 +218295,10 @@
         "writableCatalogBranches": []
       },
       "fieldInstanceKeys": [
+        "support-field/v1/gl-21-grenade-launcher/weapon/root/weapon-sound/483d7ce8cad6020f",
         "support-field/v1/gl-21-grenade-launcher/weapon/root/weapon-fire-rate/655c48edb5d8f9f9"
       ],
-      "recommendedApi": "hd2.patch",
+      "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
       "planGroupingKey": "support-plan/v1/gl-21-grenade-launcher/8ab581c0aebb",
       "phase": 1,
@@ -215602,9 +218447,10 @@
         "writableCatalogBranches": []
       },
       "fieldInstanceKeys": [
+        "support-field/v1/mls-4x-commando/weapon/root/weapon-sound/063061d15113980f",
         "support-field/v1/mls-4x-commando/weapon/root/weapon-fire-rate/6dad81a13553f06d"
       ],
-      "recommendedApi": "hd2.patch",
+      "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
       "planGroupingKey": "support-plan/v1/mls-4x-commando/fbd50e50e043",
       "phase": 1,
@@ -215665,9 +218511,10 @@
         "writableCatalogBranches": []
       },
       "fieldInstanceKeys": [
+        "support-field/v1/eat-700-expendable-napalm/weapon/root/weapon-sound/e05377823db89268",
         "support-field/v1/eat-700-expendable-napalm/weapon/root/weapon-fire-rate/7e773944ca00d465"
       ],
-      "recommendedApi": "hd2.patch",
+      "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
       "planGroupingKey": "support-plan/v1/eat-700-expendable-napalm/287dc53d1723",
       "phase": 1,
@@ -215794,9 +218641,10 @@
         "writableCatalogBranches": []
       },
       "fieldInstanceKeys": [
+        "support-field/v1/gl-52-de-escalator/weapon/root/weapon-sound/53ceb02fe2fe7df6",
         "support-field/v1/gl-52-de-escalator/weapon/root/weapon-fire-rate/28e20145bda63c99"
       ],
-      "recommendedApi": "hd2.patch",
+      "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
       "planGroupingKey": "support-plan/v1/gl-52-de-escalator/5bcc344828cd",
       "phase": 1,
@@ -221022,8 +223870,8 @@
     "fixtureFallback": "disabled"
   },
   "instanceAudit": {
-    "internalInstances": 1451,
-    "publishedInstances": 1451,
+    "internalInstances": 1472,
+    "publishedInstances": 1472,
     "missingInstances": 0,
     "unexpectedInstances": 0,
     "identityCoverage": "exact"

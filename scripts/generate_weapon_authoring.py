@@ -16,6 +16,7 @@ import reticle_fields
 import weapon_movement_fields
 import fire_mode_fields
 import weapon_mode_fields
+import weapon_sound_fields
 import presentation_fields
 import status_fields
 import equipment_fields
@@ -233,6 +234,7 @@ def build(catalog_path=CATALOG):
     movement_rows=weapon_movement_fields.load()
     fire_mode_rows,_=fire_mode_fields.load()
     weapon_mode_rows,_=weapon_mode_fields.load()
+    sound_data=weapon_sound_fields.load()
     presentation_rows,presentation_research,trait_values,penetration_values=presentation_fields.load()
     # Duplicate identities whose second root is proven to be another weapon's underbarrel: a precise reason (the
     # weapon stays fail-closed until it is re-mapped on its own root).
@@ -303,6 +305,16 @@ def build(catalog_path=CATALOG):
             fields.append(weapon_mode_fields.apply_function_projectile(make_field(
                 weapon_mode_fields.FUNCTION_PROJECTILE_FIELD,None,component_backend(candidate,
                     'ProjectileWeaponComponentData',weapon_mode_fields.FUNCTION_PROJECTILE_OFFSET,'u32')),modes,unique))
+        # The firing sound: the type's ProjectileWeapon sound events (research/weapon-sounds-F5FEE03DCFDB.json).
+        if 'ProjectileWeaponComponentData' in ownership:
+            fields.append(weapon_sound_fields.apply(make_field(weapon_sound_fields.FIELD,None,
+                component_backend(candidate,'ProjectileWeaponComponentData',weapon_sound_fields.OFFSET,
+                    weapon_sound_fields.STORAGE),unique,blocked),sound_data,'player',name,
+                identity['bestCandidate']['resourceHash'],fire_mode_rows.get(('player',name)),
+                bool(resolved.get('is_suppressed'))))
+        else:
+            fields.append(make_field(weapon_sound_fields.FIELD,None,None,editable=False,
+                reason=weapon_sound_fields.NO_RECORD))
         # Armory presentation: the weapon's own LoadoutEntry trait tags (research/weapon-presentation-F5FEE03DCFDB.json).
         presentation=presentation_rows.get(('player',name))
         presentation_backing=presentation and presentation['state']!='absent' and presentation_fields.backing(
@@ -734,7 +746,8 @@ def settings_row_sources(value):
 OWN_EFFECT_FIELDS={'heat.level_1_threshold','heat.level_2_threshold','heat.level_3_threshold',
     'heat.level_1_self_status','heat.level_2_self_status','heat.level_3_self_status','heat.overheat_lock',
     weapon_mode_fields.RATES_FIELD,*weapon_mode_fields.INPUT_FIELDS.values(),
-    weapon_mode_fields.FUNCTION_PROJECTILE_FIELD,presentation_fields.TRAITS_FIELD,presentation_fields.PENETRATION_FIELD}
+    weapon_mode_fields.FUNCTION_PROJECTILE_FIELD,presentation_fields.TRAITS_FIELD,presentation_fields.PENETRATION_FIELD,
+    weapon_sound_fields.FIELD}
 
 
 def annotate_effects(value,rows):

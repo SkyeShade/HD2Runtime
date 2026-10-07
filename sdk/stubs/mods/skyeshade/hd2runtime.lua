@@ -1296,6 +1296,7 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@field recoil_multiplier_horizontal "weapon.recoil_multiplier_horizontal"
 ---@field recoil_multiplier_vertical "weapon.recoil_multiplier_vertical"
 ---@field slot "weapon.slot"
+---@field sound "weapon.sound"
 ---@field stationary_while_firing "weapon.stationary_while_firing"
 ---@field suppressed "weapon.suppressed"
 ---@field sway "weapon.sway"

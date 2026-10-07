@@ -115,7 +115,8 @@
     "stratagem_call_in_time",
     "support_charge_level_rows",
     "support_overcharge_explosion_rows",
-    "weapon_presentation_traits"
+    "weapon_presentation_traits",
+    "weapon_sound_template"
    ]
   }
  },
@@ -827,6 +828,19 @@
    "acknowledgementRemoved": null,
    "nextTests": [
     "a trait-list test: add, replace and remove traits on one weapon and check the armory after reopening the menu"
+   ]
+  },
+  "weapon_sound_template": {
+   "status": "pending",
+   "domain": "player_weapon, support_weapon",
+   "fields": [
+    "weapon.sound"
+   ],
+   "scope": "A player or support weapon type's own ProjectileWeapon firing-sound members (+252 loop start, +256 loop stop, +260 per-shot event, +237 MIDI) set to a catalogue sound's, on the type record (weapons built after the write); offline-proven in validation/weapon-sound-snapshot.json. The chin-copy writes are offline-proven and the weapon clone's +260 copy is live-proven, but no template sound write.",
+   "tests": [],
+   "acknowledgementRemoved": null,
+   "nextTests": [
+    "a weapon-sound test, solo: the MG-43 Machine Gun called in after weapon.sound = 'support/mg206' fires with the MG-206's MIDI sound; the M-1000 Maxigun with 'sentry/gatling' loops while firing and stops with the trigger; the AR-23 Liberator with 'vehicle/maelstrom/main_gun' after a redeploy; restoring each own sound brings the vanilla sound back on the next build"
    ]
   },
   "eagle_component_fields": {

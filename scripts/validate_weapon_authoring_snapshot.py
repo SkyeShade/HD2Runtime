@@ -146,9 +146,10 @@ for _,weapon in ipairs(audit)do
                             'fire mode plan count='..#plan.changes..' already='..tostring(plan.changes[1].already_desired)
                             ..' labels='..table.concat(labels,','))
                     else
-                        -- Native slot lists prepare as their slots: four FireMode slots, three rate slots, five tags.
+                        -- Native slot lists prepare as their slots: four FireMode slots, three rate slots, five tags;
+                        -- the firing sound as its three event slots and its MIDI flag.
                         local SLOTS={['fire_mode.modes']=3,['fire_rate.modes']=2,['presentation.traits']=4,
-                            ['presentation.armor_penetration']=4}
+                            ['presentation.armor_penetration']=4,['weapon.sound']=3}
                         local expected=#changes
                         for _,change in ipairs(changes)do expected=expected+(SLOTS[change.field]or 0)end
                         assert(#plan.changes==expected)

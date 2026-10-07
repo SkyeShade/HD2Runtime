@@ -16,6 +16,7 @@ import reticle_fields
 import weapon_movement_fields
 import fire_mode_fields
 import weapon_mode_fields
+import weapon_sound_fields
 import presentation_fields
 import status_fields
 import equipment_fields
@@ -311,6 +312,7 @@ def build(catalog_path=CATALOG):
     movement_rows=weapon_movement_fields.load()
     fire_mode_rows,_=fire_mode_fields.load()
     weapon_mode_rows,_=weapon_mode_fields.load()
+    sound_data=weapon_sound_fields.load()
     presentation_rows,presentation_research,trait_values,penetration_values=presentation_fields.load()
     charge_research,charge_modes,charge_residency=charge_fields.load()
     charge_donors=charge_fields.donors(charge_research,charge_modes,charge_residency,
@@ -440,6 +442,16 @@ def build(catalog_path=CATALOG):
                 mode_fields.append(weapon_mode_fields.apply_function_projectile(make_field(
                     weapon_mode_fields.FUNCTION_PROJECTILE_FIELD,None,component(candidate,'ProjectileWeaponComponentData',
                         weapon_mode_fields.FUNCTION_PROJECTILE_OFFSET,'u32'),target),modes,True))
+            # The firing sound: the delivered weapon type's ProjectileWeapon sound events
+            # (research/weapon-sounds-F5FEE03DCFDB.json).
+            if'ProjectileWeaponComponentData'in ownership:
+                mode_fields.append(weapon_sound_fields.apply(make_field(weapon_sound_fields.FIELD,None,
+                    component(candidate,'ProjectileWeaponComponentData',weapon_sound_fields.OFFSET,
+                        weapon_sound_fields.STORAGE),target,acknowledgement='allow_unverified_effect'),sound_data,
+                    'support',weapon['name'],candidate['resourceHash'],fire_mode_rows.get(('support',weapon['name'])),
+                    bool(resolved.get('is_suppressed'))))
+            else:
+                blocked.append({'field':weapon_sound_fields.FIELD,'reason':weapon_sound_fields.NO_RECORD})
             # Armory presentation: the delivered weapon's own LoadoutEntry trait tags.
             presentation=presentation_rows.get(('support',weapon['name']))
             presentation_backing=presentation and presentation['state']!='absent'and presentation_fields.backing(
@@ -667,6 +679,9 @@ def build(catalog_path=CATALOG):
             'ownershipChain':weapon['ownershipChain'],'rootRack':weapon.get('rootRack'),
             'nonDeliveredRoots':weapon.get('nonDeliveredRoots'),
             'fields':fields,'attacks':attacks}
+        # A refused firing-sound field names its reason at write time (blocked declarations are public metadata only).
+        refusals={item['field']:item['reason'] for item in blocked if item['field']==weapon_sound_fields.FIELD}
+        if refusals:runtime_weapons[weapon['name']]['fieldRefusals']=refusals
         roles=charge_fields.branch_roles(weapon,charge_levels)
         if roles:
             # Catalog branch -> reviewed attack role, where the charge-level research re-resolved the branches the

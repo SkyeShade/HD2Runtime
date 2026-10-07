@@ -94,9 +94,10 @@ def defaults_of(native, resource, by_id):
 
 def overlapping(field, entries):
     b = field['backing']
-    start, end = b['offset'], b['offset'] + b['width']
+    # A field that writes companion members besides its backing (weapon.sound: the +237 MIDI flag) checks them too.
+    ranges = [(b['offset'], b['offset'] + b['width'])] + [(o, o + s) for o, s in field.get('companionMembers') or []]
     return [(component, offset, size, raw) for component, offset, size, raw in entries
-        if component == b['component'] and offset < end and offset + size > start]
+        if component == b['component'] and any(offset < end and offset + size > start for start, end in ranges)]
 
 
 def value_in(field, component_patches):
