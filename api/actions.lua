@@ -344,7 +344,7 @@ function explosions.spawn(explosion,opts)
     -- Load the explosion's assets first, through the same gate reference swaps use; then request.
     action.status='waiting_for_assets'
     local gate=core_assets.gate(runtime,{id='explosion-'..target.name:gsub('[^%w_%-]','_'),
-        asset_dependencies=target.dependencies or{target.dependency}},events.emit_log)
+        asset_dependencies=target.dependencies or{target.dependency},shared=true},events.emit_log)
     local elapsed=0
     local watch={status='waiting'}
     function watch.cancel()watch.status='cancelled'end
@@ -378,7 +378,7 @@ function explosions.prepare(explosion,opts)
     if target.mission then return refuse(action,'ASSET_UNAVAILABLE',MISSION_PACKAGE_REASON)end
     action.status='waiting_for_assets'
     local gate=core_assets.gate(world.runtime,{id='explosion-'..target.name:gsub('[^%w_%-]','_'),
-        asset_dependencies=target.dependencies or{target.dependency}},events.emit_log)
+        asset_dependencies=target.dependencies or{target.dependency},shared=true},events.emit_log)
     local watch={status='waiting'}
     function watch.cancel()watch.status='cancelled'end
     function watch.tick(dt)
@@ -469,7 +469,7 @@ local function after_assets(action,target,runtime,fire_now)
     if resident then return fire_now(action,target)end
     action.status='waiting_for_assets'
     local gate=core_assets.gate(runtime,{id=action.kind..'-'..target.name:gsub('[^%w_%-]','_'),
-        asset_dependencies=dependencies},events.emit_log)
+        asset_dependencies=dependencies,shared=true},events.emit_log)
     local elapsed=0
     local watch={status='waiting'}
     function watch.cancel()watch.status='cancelled'end

@@ -16,6 +16,9 @@ do
         pcall(function()require('hd2runtime/runtime/matchmaking_safety').start()end)
         -- The build label in the bottom-left corner aboard the ship (runtime/version_label.lua).
         pcall(function()require('hd2runtime/runtime/version_label').start()end)
+        -- Synced asset loading (runtime/asset_sync.lua, development): publishes the packages this machine's mods load
+        -- and loads the ones a compatible lobby member's mods load. Reads only (one timer) outside a joined lobby.
+        pcall(function()require('hd2runtime/runtime/asset_sync').start()end)
     end
     local metadata=require('hd2runtime/domains/metadata')
     if not rawget(_G,'HD2RuntimeStartupLogged')then

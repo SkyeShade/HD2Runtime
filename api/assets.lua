@@ -138,7 +138,8 @@ function M.start(runtime,emit,request)
         and not request.id:find('[^%w_%-]'),'require_assets needs a valid id')
     for key in pairs(request)do assert(key=='id'or key=='target'or key=='targets',
         'unsupported require_assets option: '..tostring(key))end
-    local spec={id=request.id,asset_dependencies=dependencies_for(request)}
+    -- shared: a mod's request; its packages are synced to the lobby's compatible Runtimes (runtime/asset_sync.lua).
+    local spec={id=request.id,asset_dependencies=dependencies_for(request),shared=true}
     local gate=assets.gate(runtime,spec,emit)
     local watch={status='waiting_for_assets',asset_dependencies=spec.asset_dependencies}
     function watch.cancel()

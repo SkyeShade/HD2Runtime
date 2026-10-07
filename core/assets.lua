@@ -187,6 +187,30 @@ local incomplete={}
 for _,name in ipairs(slots_domain.callInIncomplete or{})do incomplete[name]=true end
 function M.call_in_complete(name)return not incomplete[name]end
 
+-- The identity rule of M.request: a package id this build's catalog knows (domains/package_residency.lua, or a
+-- stratagem call-in package). runtime/asset_sync.lua refuses every other id a peer names.
+function M.known(package)
+    return type(package)=='string'and(database.packages[package]~=nil or stratagem_ids[package]~=nil)
+end
+-- Every id M.known accepts, sorted (the synced asset catalog hash is computed from it).
+function M.catalog_ids()
+    local out,seen={},{}
+    for id in pairs(database.packages)do if not seen[id]then seen[id]=true;out[#out+1]=id end end
+    for id in pairs(stratagem_ids)do if not seen[id]then seen[id]=true;out[#out+1]=id end end
+    table.sort(out)
+    return out
+end
+-- A known package as a dependency (its catalog name, or the stratagem whose call-in it is), or nil.
+function M.dependency_for_package(package,label)
+    if not M.known(package)then return nil end
+    local entry=database.packages[package]
+    local name=entry and entry.name or('call-in package of stratagem '..tostring(stratagem_ids[package]))
+    return {key='package/'..package,package=package,label=label or name,name=name,via='synced'}
+end
+-- Whether Runtime already holds its reference on a package, and how many it holds (policy.maxHeldPackages).
+function M.held(package)return held[package]~=nil end
+function M.held_count()return held_count end
+
 -- Takes (once per session) Runtime's own reference on a catalog package through the native system.
 function M.request(runtime,dependency,owner)
     assert(type(dependency)=='table'and(database.packages[dependency.package]or stratagem_ids[dependency.package]),
@@ -238,7 +262,15 @@ function M.collect(spec)
     return found
 end
 
+-- A shared gate's requested package goes to the synced asset set (runtime/asset_sync.lua). Never fatal to the gate.
+local function share(dependency,owner)
+    pcall(function()require('hd2runtime/runtime/asset_sync').note(dependency,owner)end)
+end
+
 -- Scheduler gate: 'ready' | 'waiting' | 'failed', reason. Requests on the first tick, then polls.
+-- spec.shared: a mod's own request (hd2.require_assets, patch, plan, transaction, explosion/spawn actions): every
+-- package it requests is published to the lobby's compatible Runtimes (runtime/asset_sync.lua), which load it too.
+-- Runtime-internal gates never set it (custom stratagems sync their own assets).
 function M.gate(runtime,spec,emit)
     local dependencies=M.collect(spec)
     local gate={dependencies=dependencies,state=#dependencies==0 and'ready'or'waiting'}
@@ -254,7 +286,10 @@ function M.gate(runtime,spec,emit)
         next_poll=elapsed+policy.pollSeconds
         local ok,why=pcall(function()
             if not requested then
-                for _,dependency in ipairs(dependencies)do M.request(runtime,dependency,spec.id)end
+                for _,dependency in ipairs(dependencies)do
+                    M.request(runtime,dependency,spec.id)
+                    if spec.shared then share(dependency,spec.id)end
+                end
                 requested=true
                 log('assets for '..spec.id..' requested: '..#dependencies..' package(s)')
             end

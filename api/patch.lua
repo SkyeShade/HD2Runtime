@@ -15,7 +15,9 @@ function M.start_spec(runtime,emit,spec,startup_delay)
     local attempts,retry_at,attempt_time=0,0,0
     watch.attempts=0;watch.max_attempts=retry.MAX_ATTEMPTS
     -- Reference swaps into items nobody carries wait here until their assets are resident.
-    local assets=require('hd2runtime/core/assets').gate(runtime,spec,emit)
+    -- shared: a mod's request; its packages are synced to the lobby's compatible Runtimes (runtime/asset_sync.lua).
+    local core_assets=require('hd2runtime/core/assets')
+    local assets=core_assets.gate(runtime,{id=spec.id,asset_dependencies=core_assets.collect(spec),shared=true},emit)
     watch.asset_dependencies=assets.dependencies
     local function log(message)pcall(emit,'[HD2Runtime] '..message)end
     -- Readable log values: typed handles by identity, plain lists element by element.
