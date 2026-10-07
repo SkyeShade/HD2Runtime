@@ -1,0 +1,129 @@
+-- Generated from custom_stratagems.json by the HD2Runtime SDK (hd2.py custom-stratagem compile; format hd2runtime-custom-stratagems/1).
+-- Edit custom_stratagems.json, not this file: the build compiles it again. Source SHA-256 811bc2ec01938b802289eff0200e35804d7f2685f31dadb6ccca98486414a7ca.
+local hd2=require('mods/skyeshade/hd2runtime')
+local mod=hd2.mod()
+mod:log('CustomStratagemPack 0.1.0 BUILD: 4 Pelican supports, the heavy MG sentry, the gas and EMS barrages, 3 expendable EATs.')
+hd2.custom_stratagem.register({
+    id='pelican_close_air_support',
+    name='PELICAN GATLING SUPPORT',
+    name_cased='Pelican Gatling Support',
+    description='Calls down a Pelican for close air support. Hovers around the beacon for 90 seconds and bombards nearby enemies with its high fire rate machine gun.',
+    icon=hd2.resources.image('pelican_close_air_support'),
+    code={'left','down','left','left','up','up'},
+    cooldown=300,
+    uses=4,
+    traits={'Pelican','Heavy Armor Penetrating'},
+    carrier={beacon='offensive',prefer_families={'orbital'}},
+    pelican={hover=90,orbit={radius=40,altitude=60,duration=85},gun={behave_as='gatling_sentry',rate_multiplier=1,round='ap4',spread=15,recoil=false,unlimited_ammo=true,face_target=true,sound='vehicle/bastion/hmg',aim_height=0.7}},
+})
+hd2.custom_stratagem.register({
+    id='pelican_cannon_support',
+    name='PELICAN CANNON SUPPORT',
+    name_cased='Pelican Cannon Support',
+    description='Calls down a Pelican for close air support. Hovers around the beacon for 90 seconds and bombards nearby enemies with a heavy burst autocannon.',
+    icon=hd2.resources.image('pelican_cannon_support'),
+    code={'left','down','left','up','left','up'},
+    cooldown=300,
+    uses=3,
+    traits={'Pelican','Anti-Tank','Explosive'},
+    carrier={beacon='offensive',prefer_families={'orbital'}},
+    pelican={hover=90,orbit={radius=40,altitude=60,duration=85},gun={round='native'}},
+})
+hd2.custom_stratagem.register({
+    id='pelican_ems_support',
+    name='PELICAN EMS SUPPORT',
+    name_cased='Pelican EMS Support',
+    description='Calls down a Pelican for close air support. Hovers around the beacon for 90 seconds and assists Helldivers with EMS shells to modify enemy behaviour. Stunning enemies around the impact of each shell.',
+    icon=hd2.resources.image('pelican_ems_support'),
+    code={'left','down','left','right','left','down'},
+    cooldown=300,
+    uses=4,
+    traits={'Pelican','Stun'},
+    carrier={beacon='offensive',prefer_families={'orbital'}},
+    pelican={hover=90,orbit={radius=40,altitude=60,duration=85},gun={behave_as='gatling_sentry',rpm=30,round='native',casing='own',spread=15,recoil=false,unlimited_ammo=true,face_target=true,sound='sentry/ems_mortar',impact_explosion='EMS mortar field',aim_height=0.7}},
+})
+hd2.custom_stratagem.register({
+    id='pelican_gas_support',
+    name='PELICAN GAS SUPPORT',
+    name_cased='Pelican Gas Support',
+    description='Calls down a Pelican for close air support. Hovers around the beacon for 90 seconds and assists Helldivers with a gas bombardment, causing confusion and blindness in hit enemies.',
+    icon=hd2.resources.image('pelican_gas_support'),
+    code={'left','down','left','right','down','right'},
+    cooldown=300,
+    uses=4,
+    traits={'Pelican','Caustic'},
+    carrier={beacon='offensive',prefer_families={'orbital'}},
+    pelican={hover=90,orbit={radius=40,altitude=60,duration=85},gun={behave_as='gatling_sentry',rpm=60,round='native',casing='own',spread=15,recoil=false,unlimited_ammo=true,face_target=true,sound='sentry/gas_mortar',impact_explosion='Gas grenade cloud',aim_height=0.7}},
+})
+hd2.custom_stratagem.register({
+    id='hmg_sentry',
+    name='A/MG-101 HEAVY MG SENTRY',
+    name_cased='A/MG-101 Heavy MG Sentry',
+    description='An automated sentry turret firing with the prowess of an heavy machine gun. More sluggish than lighter variants. Hazardous to Helldivers in the crossfire.',
+    icon=hd2.resources.image('hmg_sentry'),
+    code={'down','up','right','right','right','left'},
+    cooldown=150,
+    traits={'Sentry','Heavy Armor Penetrating'},
+    carrier={beacon='support',prefer_families={'sentry'},allow_families={'sentry'}},
+    sentry={donor='A/MG-43 Machine Gun Sentry',weapon={projectile='MG-206 Heavy Machine Gun',rpm=400,spread=5,ammo=300,sound='support/mg206'}},
+})
+hd2.custom_stratagem.register({
+    id='orbital_gas_barrage',
+    name='ORBITAL GAS BARRAGE',
+    name_cased='Orbital Gas Barrage',
+    description='A prolonged caustic barrage, spreading corrosive gas over a large area. Causes confusion and blindness on those affected. Breathing it in is not advised.',
+    icon=hd2.resources.image('orbital_gas_barrage'),
+    code={'right','right','down','left','down','left'},
+    cooldown=60,
+    traits={'Orbital','Anti-Tank','Caustic'},
+    carrier={beacon='offensive',prefer_families={'orbital'}},
+    orbital={native=true,pattern='Orbital 120mm HE Barrage',impact_explosion='Orbital Gas Strike'},
+})
+hd2.custom_stratagem.register({
+    id='orbital_ems_barrage',
+    name='ORBITAL EMS BARRAGE',
+    name_cased='Orbital EMS Barrage',
+    description='A prolonged "compliance barrage" to modify enemy behavior in a wide area. Stuns enemies in a large area.',
+    icon=hd2.resources.image('orbital_ems_barrage'),
+    code={'right','down','up','right','left','down'},
+    cooldown=60,
+    traits={'Orbital','Anti-Tank','Stun'},
+    carrier={beacon='offensive',prefer_families={'orbital'}},
+    orbital={native=true,pattern='Orbital 120mm HE Barrage',impact_explosion='Orbital EMS Strike'},
+})
+hd2.custom_stratagem.register({
+    id='eat_cluster',
+    name='EAT-77 EXPENDABLE CLUSTER',
+    name_cased='EAT-77 Expendable Cluster',
+    description='A single-use weapon that comes down in pairs. Explodes into a cluster of lesser explosions upon impact.',
+    icon=hd2.resources.image('eat_cluster'),
+    code={'down','down','left','down','left'},
+    cooldown=70,
+    traits={'Support Weapon','Medium Armor Penetrating','Anti-Tank','Expendable'},
+    carrier={group='expendable'},
+    delivery={family='expendable',weapon='EAT-17 Expendable Anti-Tank',round='RL-77 Airburst Rocket Launcher',pod={{item='clone',count=2}}},
+})
+hd2.custom_stratagem.register({
+    id='eat17g_clone',
+    name='EAT-40 EXPENDABLE GAS',
+    name_cased='EAT-40 Expendable Gas',
+    description='A single-use weapon that comes down in pairs. Outfitted with a caustic warhead that causes confusion and blindness in those affected.',
+    icon=hd2.resources.image('eat17g'),
+    code={'down','down','left','down','right'},
+    cooldown=70,
+    traits={'Support Weapon','Anti-Tank','Caustic','Expendable'},
+    carrier={group='expendable'},
+    delivery={family='expendable',weapon='EAT-17 Expendable Anti-Tank',modify={impact_explosion='Orbital Gas Strike'},pod={{item='clone',count=2}}},
+})
+hd2.custom_stratagem.register({
+    id='eat23_ems',
+    name='EAT-23 EXPENDABLE EMS',
+    name_cased='EAT-23 Expendable EMS',
+    description='A single-use "compliance weapon" that comes down in pairs and modifies enemy behaviour. The EMS warhead stuns targets within the impact radius.',
+    icon=hd2.resources.image('eat23_ems'),
+    code={'down','down','left','right','right'},
+    cooldown=70,
+    traits={'Support Weapon','Anti-Tank','Stun','Expendable'},
+    carrier={group='expendable'},
+    delivery={family='expendable',weapon='EAT-17 Expendable Anti-Tank',modify={impact_explosion='Orbital EMS Strike'},pod={{item='clone',count=2}}},
+})

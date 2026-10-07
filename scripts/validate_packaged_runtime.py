@@ -4198,6 +4198,38 @@ def _eat23_scenario():
 EXTRAS['example-eat23'] = {'after': _eat23_scenario(), 'readOnly': True}
 
 
+# The combined CustomStratagemPack (proof/CustomStratagemPack 0.1.0): ten of the examples' stratagems in one mod, each
+# copied unchanged. It loads from the archive, every stratagem registers (one REGISTERED line each, the kind its own
+# example registers) and none is refused; nothing is written.
+PACK_IDS = {'pelican_close_air_support': 'pelican', 'pelican_cannon_support': 'pelican', 'pelican_ems_support': 'pelican',
+    'pelican_gas_support': 'pelican', 'hmg_sentry': None, 'orbital_gas_barrage': None, 'orbital_ems_barrage': None,
+    'eat_cluster': 'expendable', 'eat17g_clone': 'expendable', 'eat23_ems': 'expendable'}
+PACK_CUSTOM_STRATAGEMS = r'''
+return function(frame,watches,counts,lines)
+ local results={}
+ local function step(name,ok,detail)results[#results+1]={name=name,passed=ok==true,detail=detail}end
+ local function count(text)local n=0;for _,line in ipairs(lines)do if line:find(text,1,true)then n=n+1 end end;return n end
+ for _=1,120 do frame()end
+ local custom=require('hd2runtime/runtime/custom_stratagems')
+ local IDS=%s
+ local missing={}
+ for id,kind in pairs(IDS)do
+  local d=custom.get(id)
+  if not(d and count('custom stratagem REGISTERED '..id..' ')==1 and(kind==false or d.kind==kind))then
+   missing[#missing+1]=id..'='..tostring(d and d.kind)
+  end
+ end
+ table.sort(missing)
+ step('the pack loads from the archive and registers all ten stratagems, each as its own example does; nothing is '
+  ..'written',count('CustomStratagemPack 0.1.0 BUILD')==1 and#missing==0 and counts.writes==0,table.concat(missing,', '))
+ step('no stratagem of the pack is refused',count('custom stratagem REFUSED')==0 and count('rejected')==0,
+  tostring(count('custom stratagem REFUSED')))
+ return results
+end
+''' % ('{' + ','.join('[%r]=%s' % (k, repr(v) if v else 'false') for k, v in PACK_IDS.items()) + '}')
+EXTRAS['pack-custom-stratagems'] = {'after': PACK_CUSTOM_STRATAGEMS, 'readOnly': True}
+
+
 # The MS-N223 Shredder Silo (proof/ShredderSiloExample 0.1.0; runtime/custom_silos.lua; research/silo-payload,
 # research/event-actions "Cyborg Production Unit"): the custom stratagem checks of the other examples (its group's resolved
 # policy: a blue support carrier, the Solo Silo's blue colour set), then on the real game.dll and memory: the silo
@@ -4721,6 +4753,7 @@ SCENARIOS = {
     'example-pelican-cannon': lambda: proof('PelicanCannonExample'),
     'example-orbital-ems-barrage': lambda: proof('OrbitalEmsBarrageExample'),
     'example-eat23': lambda: proof('EAT23Example'),
+    'pack-custom-stratagems': lambda: proof('CustomStratagemPack'),
     'example-shredder-silo': lambda: proof('ShredderSiloExample'),
     'proof-carrier-slot-probe': lambda: proof('CarrierSlotProbe'),
     'example-hmg-sentry': lambda: proof('HmgSentryExample'),

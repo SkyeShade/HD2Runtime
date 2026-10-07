@@ -129,3 +129,45 @@ class StarterBuildCmdTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class ProjectThumbnailTests(unittest.TestCase):
+    """hd2runtime.json "thumbnail": the mod manager logo (HD2 Arsenal) beside the manifest, as the runtime ZIP ships its
+    own: the manifest's IconPath and the option's Image; refused outside the project, in images/ or not a PNG."""
+
+    def test_the_thumbnail_becomes_the_manifest_logo(self):
+        import importlib.util
+        import zipfile
+        loader = importlib.util.spec_from_file_location('hd2_sdk_cli', ROOT / 'sdk/hd2.py')
+        sdk = importlib.util.module_from_spec(loader)
+        loader.loader.exec_module(sdk)
+        logo = (ROOT / 'proof/CustomStratagemPack/thumbnail.png').read_bytes()
+        with tempfile.TemporaryDirectory() as temp:
+            project = Path(temp) / 'LogoMod'
+            (project / 'src').mkdir(parents=True)
+            (project / 'src/addon.lua').write_text('return true\n', encoding='utf-8')
+            (project / 'VERSION').write_text('0.1.0\n')
+            (project / 'README.md').write_text('logo test\n')
+            (project / 'logo.png').write_bytes(logo)
+            spec = {'format': 1, 'name': 'LogoMod', 'resource': 'mods/test/logo_mod',
+                'guid': '3e686447-3622-5619-bd50-e59e276bfe8e', 'thumbnail': 'logo.png',
+                'requires': {'bingus': {'min_release': 15, 'api': 1}, 'hd2runtime': {'min_version': '0.30.0',
+                    'api': 1, 'module': 'mods/skyeshade/hd2runtime'}}}
+            (project / 'hd2runtime.json').write_text(json.dumps(spec))
+            with zipfile.ZipFile(sdk.build_project(project)) as z:
+                manifest = json.loads(z.read('manifest.json'))
+                self.assertEqual(z.read('thumbnail.png'), logo)
+            self.assertEqual((manifest['IconPath'], manifest['Options'][0]['Image']), ('thumbnail.png', 'thumbnail.png'))
+            for bad in ('../logo.png', 'images/x.png', 'README.md', 'missing.png'):
+                (project / 'images').mkdir(exist_ok=True)
+                if bad == 'images/x.png':
+                    (project / 'images/x.png').write_bytes(logo)
+                spec['thumbnail'] = bad
+                (project / 'hd2runtime.json').write_text(json.dumps(spec))
+                with self.assertRaises(ValueError, msg=bad):
+                    sdk.project_thumbnail(project, spec)
+            shutil.rmtree(project / 'images')
+
+    def test_the_pack_ships_its_logo(self):
+        spec = json.loads((ROOT / 'proof/CustomStratagemPack/hd2runtime.json').read_text(encoding='utf-8'))
+        self.assertEqual(spec['thumbnail'], 'thumbnail.png')

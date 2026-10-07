@@ -393,6 +393,28 @@ def project_model_resources(project,spec):
     return archives,records,status
 
 
+THUMBNAIL='thumbnail.png'
+
+
+def project_thumbnail(project,spec):
+    """The mod manager logo (HD2 Arsenal): hd2runtime.json "thumbnail", a PNG inside the project (not in images/, which
+    holds stratagem icons), or None. It ships as thumbnail.png beside the manifest (the manifest's IconPath and the
+    option's Image, as the HD2Runtime ZIP ships its own); the game never reads it."""
+    relative=spec.get('thumbnail')
+    if relative is None:return None
+    if not isinstance(relative,str) or not relative.lower().endswith('.png'):raise ValueError('thumbnail must be a .png path')
+    path=(project/relative)
+    if path.is_symlink() or not path.resolve().is_relative_to(project) or not path.is_file():
+        raise ValueError('thumbnail must be a PNG file inside the project: '+relative)
+    if path.resolve().parent==(project/'images').resolve():
+        raise ValueError('thumbnail must not be in images/ (that folder holds stratagem icons)')
+    data=path.read_bytes()
+    from tools.hd2_image import read_png
+    width,height,_=read_png(data)
+    if not(64<=width<=2048 and 64<=height<=2048):raise ValueError('thumbnail must be 64 to 2048 pixels on a side')
+    return data
+
+
 def build_project(project):
     from tools.hd2_archive import ARCHIVE_NAME, LUA_TYPE, make_archive, make_resource_archive, resource_hash, lua_resource
     project=Path(project).resolve();spec=json.loads((project/'hd2runtime.json').read_text())
@@ -458,6 +480,9 @@ def build_project(project):
     if optional:description+=OPTIONS_NOTE
     manifest={'Version':1,'Guid':str(uuid.UUID(spec['guid'])),'Name':spec['name']+' '+version,'Description':description,
               'Options':[{'Name':spec['name'],'Description':description,'Include':['mod']}]}
+    thumbnail=project_thumbnail(project,spec)
+    if thumbnail is not None:
+        manifest['Options'][0]['Image']=THUMBNAIL;manifest['IconPath']=THUMBNAIL
     report={'resources':sorted(sources),'runtime_bundled':False,'sdk_stubs_bundled':False,
             'requires':required,'optional':optional,'deployed':False,'game_launched':False}
     if images:report['images']=sorted(images);report['image_sources']=image_sources
@@ -479,6 +504,7 @@ def build_project(project):
         files['mod/'+archive_name+'.patch_0.gpu_resources']=patch_gpu
     for model_id in project_models_ids(project):files['models/'+model_id+'.json']=(project/'models'/(model_id+'.json')).read_bytes()
     if custom:files[CUSTOM_STRATAGEMS]=(project/CUSTOM_STRATAGEMS).read_bytes()
+    if thumbnail is not None:files[THUMBNAIL]=thumbnail
     path=project/'build'/(project.name+'-'+version+'.zip');zip_files(path,files)
     # The same report beside the ZIP, with the artifact's name and digest: what a builder reads after a rebuild.
     import hashlib
