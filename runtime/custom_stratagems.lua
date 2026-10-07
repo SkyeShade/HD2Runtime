@@ -5390,6 +5390,9 @@ local function tick(dt)
             end
         end
     end
+    -- The Ongoing probe (runtime/ongoing_probe.lua, read-only): what drives the HUD's "Ongoing" countdown of a call.
+    local okp,why=pcall(function()require('hd2runtime/runtime/ongoing_probe').step(world,M.STEP)end)
+    if not okp and not mission.ongoing_failed then mission.ongoing_failed=true;log('ONGOING PROBE failed: '..tostring(why))end
     if mission.clock<mission.populated+M.SETTLE then return end
     if not mission.started then start_mission(world)end
     if mission.mp and(mission.mp.state=='records'or mission.mp.state=='agreement')then mp_step(world)end
