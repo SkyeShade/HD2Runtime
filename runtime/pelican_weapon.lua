@@ -1215,6 +1215,115 @@ function M.restore_ai(world,turret,label)
     return {turret=turret,before=a.id,after=after.id}
 end
 M.DEATH_STAGE=11
+
+-- THE CHIN TURRET'S OWN INVINCIBLE BYTE (r44, defence in depth; docs/research/chin-turret-invulnerability-F5FEE03DCFDB.md).
+-- The turret's HealthComponent ext entry (manager game+0x3326688, ext array +0x1060, 0x1C bytes per entity) holds the
+-- game's per-entity `invincible` byte at +0x18 (network field 0x95417727; the game sets it per entity itself, from some
+-- AIs and seats). ApplyDamage returns before any health, state, life or kill work when it is set (0x92388C), and the
+-- health update skips the entity, so its replicated state never becomes its life (0x920486): the death the Gatling AI
+-- cannot survive on a chin turret never comes. One guarded byte 0 -> 1 on the turret's own entry only (never the game's
+-- setter 0x91DE20: it would also heal it and publish the field); both gates are re-proven on the real code first.
+-- Only on the Runtime Pelican's own chin turret (its type), alive (life 0, state 0), the byte 0 (a byte the game set is
+-- never touched). Cleared only when this machine set it, the Gatling AI is off it and it is alive; a turret that died
+-- anyway (a remote death report: state 2) keeps it (clearing it would run the death). Not live-tested.
+do
+local HN=require('hd2runtime/domains/event_natives').health
+local INV={byte=0x18,state=0x0C,gates={{rva=0x92388C,bytes='44386C08180F859A240000'},
+    {rva=0x920486,bytes='807C1F18000F857B0B0000'}}}
+M.INVINCIBLE=INV
+local invincible={}      -- turret -> true: this machine set its byte
+function M.invincible_state(world,turret)
+    local st=world_module.entity_state(world,turret)
+    if not(st and st.header and st.header.ext)then return nil end
+    local entry=st.header.ext+st.index*HN.extStride
+    local raw=world.view.read(entry,HN.extStride)
+    if not raw then return nil end
+    return {at=entry+INV.byte,byte=raw:byte(INV.byte+1),state=b.u32(raw,INV.state),life=st.life,health=st.health,
+        type=st.descriptor.type,owned=st.descriptor.owned,index=st.index,mine=invincible[turret]==true}
+end
+local function inv_text(s)
+    return s and('invincible %d, state %d, life %d, health %d'):format(s.byte,s.state,s.life,s.health)or'(gone)'
+end
+local function inv_write(world,turret,s,from,to,label)
+    local owner=pelicans.owner_of(world,s.at,1)
+    if not owner then return nil,'UNAVAILABLE','its health entry is not in private read-write memory'end
+    local identity={component='HealthComponent',component_type='native',unique_owner=true,owner_count=1}
+    local plan={snapshots={{owner=owner,offset=s.at-owner.base,bytes=string.char(from)}},
+        changes={{label='turret.'..turret..'.invincible',owner=owner,offset=s.at-owner.base,expected=string.char(from),
+            desired=string.char(to),before=string.char(from),already_desired=false,identity=identity,chain={}}}}
+    local report=transaction.apply(world.runtime,plan)
+    metrics.count('pelican_weapon.transactions')
+    if report.status~='APPLIED'then return nil,'GUARD_REJECTED',tostring(report.reason)end
+    local after=M.invincible_state(world,turret)
+    local exact=after~=nil and after.at==s.at and after.byte==to and after.state==s.state and after.life==s.life
+        and after.health==s.health
+    return {before=s,after=after,verified=exact,writes=report.writes}
+end
+function M.make_invincible(world,turret,label)
+    label=tostring(label or'?')
+    local function refuse(code,reason)
+        log(('INVINCIBLE REFUSED (%s): chin turret %s: %s: %s'):format(label,tostring(turret),code,reason))
+        return nil,code,reason
+    end
+    if invincible[turret]then return {already=true}end
+    if not scheduler.in_update()then return refuse('NOT_GAME_THREAD','only inside the Runtime\'s own update')end
+    for _,g in ipairs(INV.gates)do
+        if not world.view.proves(world.game+g.rva,g.bytes)then
+            return refuse('UNSUPPORTED_BUILD',('the invincible check changed (game+%X)'):format(g.rva))
+        end
+    end
+    local s=M.invincible_state(world,turret)
+    if not s then return refuse('UNAVAILABLE','its health entry is unreadable')end
+    if s.type~=CHIN then return refuse('TURRET_UNEXPECTED','its type is '..tostring(s.type)..', not the chin turret')end
+    if s.byte~=0 then return refuse('GAME_SET','the game set its invincible byte ('..s.byte..'): left alone')end
+    if s.life~=0 or s.state~=0 then return refuse('NOT_ALIVE',inv_text(s))end
+    local r,code,reason=inv_write(world,turret,s,0,1,label)
+    if not r then return refuse(code,reason)end
+    if not r.verified then
+        log(('INVINCIBLE NOT VERIFIED (%s): chin turret %d: %s after the write'):format(label,turret,inv_text(r.after)))
+        return nil,'NOT_VERIFIED',inv_text(r.after)
+    end
+    invincible[turret]=true
+    log(('INVINCIBLE (%s): chin turret %d: its own health entry\'s invincible byte 0 -> 1 (no damage, no death sync; '
+        ..'%s machine\'s copy); %d write; read back: %s'):format(label,turret,s.owned and'this owning'or'this',r.writes,
+        inv_text(r.after)))
+    return r
+end
+-- Every step while the Gatling AI is on it: true while it is still invincible and alive here; false and why otherwise.
+function M.invincible_check(world,turret)
+    if not invincible[turret]then return false,'never made invincible here'end
+    local s=M.invincible_state(world,turret)
+    if not s then return false,'its health entry is gone'end
+    if s.byte~=1 then return false,'its invincible byte was cleared ('..inv_text(s)..')'end
+    if s.state>=2 or s.life>=2 then return false,'it is reported dead ('..inv_text(s)..')'end
+    return true
+end
+function M.release_invincible(world,turret,label)
+    label=tostring(label or'?')
+    if not invincible[turret]then return nil,'NOT_MINE'end
+    local s=M.invincible_state(world,turret)
+    if not s then invincible[turret]=nil;return {gone=true}end
+    if switched[turret]then return nil,'STILL_SWITCHED'end
+    if not scheduler.in_update()then return nil,'NOT_GAME_THREAD'end
+    if s.byte~=1 then invincible[turret]=nil;return {cleared_by_game=true}end
+    if s.state>=2 or s.life>=2 then
+        invincible[turret]=nil
+        log(('INVINCIBLE KEPT (%s): chin turret %d: %s: clearing it would run its death; it goes with the entity')
+            :format(label,turret,inv_text(s)))
+        return {kept=true}
+    end
+    local r,code,reason=inv_write(world,turret,s,1,0,label)
+    if not r then
+        log(('INVINCIBLE NOT CLEARED (%s): chin turret %d: %s: %s'):format(label,turret,tostring(code),tostring(reason)))
+        return nil,code,reason
+    end
+    invincible[turret]=nil
+    log(('INVINCIBLE CLEARED (%s): chin turret %d: 1 -> 0 (its own AI back); read back: %s'):format(label,turret,
+        inv_text(r.after)))
+    return r
+end
+function M.reset_invincible_for_tests()invincible={}end
+end
 -- Whether a turret lives: its HealthComponent record's life below 2 (what the Behavior update's death check reads,
 -- 0x9270F2). nil when it has no readable health record (gone).
 function M.alive(world,turret)

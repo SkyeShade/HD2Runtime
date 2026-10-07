@@ -745,7 +745,9 @@ silo={donor='MS-11 Solo Silo',blast='Cyborg Production Unit',fallback='NUX-223 H
 - **A Pelican near the blast** (r44): before the blast is requested, every Runtime Pelican within 200 m whose chin gun
   runs the Gatling Sentry's AI gets its own AI back (`AI RESTORED`), and the Gatling AI again 5 s later if the turret
   lives. Two live host crashes (2026-10-07): the blast killed the chin turret, and the Gatling AI's death stage crashes
-  the game on an entity that is not a sentry (docs/research/pelican-cas-F5FEE03DCFDB.md section 33). Offline only.
+  the game on an entity that is not a sentry (docs/research/pelican-cas-F5FEE03DCFDB.md section 33). Also (r44) a
+  Gatling-AI chin turret is made invincible on every machine (`INVINCIBLE`, its own health entry's byte), so nothing
+  kills it. Offline only.
 
 ### Weapon modifications
 

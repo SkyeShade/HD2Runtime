@@ -234,6 +234,8 @@ function M.mirror(spec)
                 h.configured=r
                 log(('REMOTE CUSTOM PELICAN: %s: chin gun MIRRORED on this machine\'s own copy: projectile %d, verified %s'):format(
                     spec.label,r.projectile,tostring(r.verified)))
+                -- r44: on the Gatling AI, its copy here invincible too, so this machine never predicts its death.
+                if gun.behave_as=='gatling_sentry'then h.invincible=weapon.make_invincible(world,spec.turret,spec.label)~=nil end
                 -- Explosive rounds once the blast's package is resident here (explosion_donors.assets).
                 if gun.impact_explosion~=nil then h.explosive_wait={projectile=r.projectile,since=h.seconds}end
             elseif code=='UNAVAILABLE'or code=='NOT_ATTACHED'then

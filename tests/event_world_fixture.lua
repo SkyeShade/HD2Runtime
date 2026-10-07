@@ -83,7 +83,7 @@ local HASH=256
 while HASH<CAPACITY*2 do HASH=HASH*2 end
 local buckets=alloc(HASH*8)
 local records=alloc(CAPACITY*H.stride)
-local ext=alloc(CAPACITY*H.extStride)
+local ext=alloc(math.max(CAPACITY*H.extStride,0x1000))   -- at least a page (a guarded write checks its page)
 local pointers=alloc(CAPACITY*8)
 write(health+H.capacity,u32(1024));write(health+H.hashCapacity,u32(HASH));write(health+H.hashEmpty,u32(0))
 write(health+H.hashMultiplier,u32(2));write(health+H.buckets,u64(buckets));write(health+H.records,u64(records))

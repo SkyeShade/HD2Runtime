@@ -206,6 +206,58 @@ assert(g.switched==false and g.ai_done==true and g.ai_hold_until~=nil)
 return 'ok'
 """)
 
+    def test_the_chin_turret_made_invincible_its_checks_and_its_release(self):
+        # r44 (docs/research/chin-turret-invulnerability-F5FEE03DCFDB.md): its own health entry's invincible byte 0 -> 1
+        # (the gates re-proven), checked every step, cleared only when this machine set it and it is alive.
+        self.check(r"""
+pworld()
+BOMB.set_clock(T0)
+tcount(0)
+scene()
+local world=world_module.open()
+weapon.reset_invincible_for_tests()
+local INV=weapon.INVINCIBLE
+local CHIN='8365609B35EF6672'
+W.add{entity=8102,type=CHIN,health=2500,owned=true}
+local function make()return in_update(function()return weapon.make_invincible(world,8102,'test')end)end
+-- The gates not proven (another build): refused, nothing written.
+assert(select(2,make())=='UNSUPPORTED_BUILD')
+for _,g in ipairs(INV.gates)do W.write(W.GAME+g.rva,b.unhex(g.bytes))end
+assert(select(2,weapon.make_invincible(world,8102,'test'))=='NOT_GAME_THREAD')
+local before=weapon.invincible_state(world,8102)
+assert(before and before.byte==0 and before.state==0 and before.life==0 and before.health==2500)
+local r,code,reason=make()
+assert(r and r.verified,tostring(code)..' '..tostring(reason))
+local s=weapon.invincible_state(world,8102)
+assert(s.byte==1 and s.health==2500 and s.state==0 and s.life==0 and s.mine)
+assert(W.read(s.at+1,3)=='\0\0\0','the padding after it untouched')
+assert(n('INVINCIBLE (test): chin turret 8102: its own health entry\'s invincible byte 0 -> 1')==1)
+assert(weapon.invincible_check(world,8102)==true)
+assert(make().already)
+-- A remote death report (state 2): the check fails; the release keeps the byte (clearing it would run the death).
+W.write(s.at-INV.byte+INV.state,W.u32(2))
+local ok,why=weapon.invincible_check(world,8102)
+assert(ok==false and why:find('reported dead',1,true),tostring(why))
+local k=in_update(function()return weapon.release_invincible(world,8102,'test')end)
+assert(k and k.kept and weapon.invincible_state(world,8102).byte==1)
+-- Alive again (a fresh turret): set, then released while the Gatling AI is off it: 1 -> 0.
+W.remove(8102);W.add{entity=8102,type=CHIN,health=2500,owned=true}
+local fresh=weapon.invincible_state(world,8102)
+W.write(fresh.at,'\0');W.write(fresh.at-INV.byte+INV.state,W.u32(0))   -- as the game's add-instance initialises it
+weapon.reset_invincible_for_tests()
+assert(make())
+local rel=in_update(function()return weapon.release_invincible(world,8102,'test')end)
+assert(rel and rel.verified and weapon.invincible_state(world,8102).byte==0)
+assert(n('INVINCIBLE CLEARED (test): chin turret 8102: 1 -> 0')==1)
+-- A byte the game set: never touched; another entity type: refused.
+local e=weapon.invincible_state(world,8102)
+W.write(e.at,'\1')
+assert(select(2,make())=='GAME_SET'and weapon.invincible_state(world,8102).byte==1)
+W.add{entity=8200,type='73F8498BFFDCF415',health=500}
+assert(select(2,in_update(function()return weapon.make_invincible(world,8200,'test')end))=='TURRET_UNEXPECTED')
+return 'ok'
+""")
+
     def test_from_stage_1_and_not_while_aiming_or_firing(self):
         self.check(r"""
 pworld()

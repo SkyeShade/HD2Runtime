@@ -497,6 +497,10 @@ local function finish(g,world,reason)
     if g.impact_binding and g.impact_binding.status=='active'then g.impact_binding.cancel()end
     -- The aim override released while the turret still exists (the Runtime's own only; the game's aim resumes).
     close_spell(g)
+    if g.invincible and world and g.turret then
+        if g.switched then pcall(weapon.restore_ai,world,g.turret,g.label)end
+        pcall(weapon.release_invincible,world,g.turret,g.label)
+    end
     local L=g.lowered
     if L.on and world and g.turret and world_module.entity_exists(world,g.turret)~=false then
         pcall(weapon.aim_release,world,g.turret,g.label)
@@ -562,12 +566,17 @@ local function step(g,world)
     -- r44: given its own AI back for a blast (M.protect): the Gatling AI again after M.BLAST_HOLD s, only while it lives.
     if g.ai_hold_until and clock>=g.ai_hold_until then
         g.ai_hold_until=nil
-        if g.turret and weapon.alive(world,g.turret)==true then g.ai_done=false
+        if g.turret and weapon.alive(world,g.turret)==true and not g.ai_dead then g.ai_done=false
         else log(('%s: AI: chin turret %s did not survive the blast: it keeps its own AI'):format(g.label,tostring(g.turret)))end
     end
     -- 3. The Gatling AI, while its own AI is quiet (never on a turret that is dead: r44).
     if g.config and g.gun.behave_as=='gatling_sentry'and not g.ai_done and not g.ai_hold_until
         and weapon.alive(world,g.turret)~=false then
+        -- r44: invincible first (defence in depth; the silo guard stays): the Gatling AI must never see it die.
+        if not g.invincible_tried then
+            g.invincible_tried=true
+            g.invincible=weapon.make_invincible(world,g.turret,g.label)~=nil
+        end
         local r,code,reason=weapon.switch_ai(world,g.pelican,g.label)
         if r then
             g.ai_done,g.switched=true,true
@@ -575,6 +584,16 @@ local function step(g,world)
         elseif code~='NOT_QUIET'then
             g.ai_done=true
             emit(g,{kind='refused',stage='ai',code=code,reason=reason})
+        end
+    end
+    -- r44: while the Gatling AI is on it, it must still be invincible and alive here; otherwise its own AI back now.
+    if g.switched and g.invincible and g.turret then
+        local ok,why=weapon.invincible_check(world,g.turret)
+        if not ok then
+            log(('%s: AI: chin turret %d: %s: its own AI back now (the Gatling AI must never see it die)'):format(g.label,
+                g.turret,why))
+            if weapon.restore_ai(world,g.turret,g.label)then g.switched,g.ai_done,g.ai_dead=false,true,true end
+            g.invincible=false
         end
     end
     -- 4. The orbit, once it holds over its anchor (pelicans.orbit waits for that itself).
