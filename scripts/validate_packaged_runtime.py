@@ -4238,6 +4238,15 @@ return function(frame,watches,counts,lines)
   #changed==0,table.concat(changed,', '))
  step('no stratagem of the pack is refused',count('custom stratagem REFUSED')==0 and count('rejected')==0,
   tostring(count('custom stratagem REFUSED')))
+ -- 2026-10-07 (r48 live): the Orbital Railcannon Strike's beacon activates at once (threshold 0), so it is never a
+ -- carrier: the discovery rejects it with instant_beacon on the snapshot's real rows.
+ local world=require('hd2runtime/runtime/event_world').open()
+ local found=require('hd2runtime/runtime/stratagem_slot_conversion').discover_carriers(world,'Orbital Precision Strike',{})
+ local rail
+ for _,c in ipairs(found.candidates or{})do if c.name=='Orbital Railcannon Strike'then rail=c end end
+ local codes=rail and table.concat(rail.codes or{},',')or'none'
+ step('the Orbital Railcannon Strike is never a carrier (instant_beacon)',rail~=nil and not rail.eligible
+  and codes:find('instant_beacon',1,true)~=nil,tostring(found.reason)..' '..codes)
  return results
 end
 ''' % ('{' + ','.join('[%r]=%s' % (k, repr(v) if v else 'false') for k, v in PACK_IDS.items()) + '}')
@@ -4488,7 +4497,7 @@ return function(frame,watches,counts,lines)
 end
 """
 EXTRAS['proof-peer-hello'] = {'after': PROOF_PEER_HELLO, 'readOnly': True}
-# The per-shot modification live test (proof/LiberatorShotProbe 0.1.0; runtime/projectile_shots.lua): it loads from the
+# The per-shot modification live test (proof/LiberatorShotProbe 0.2.0; runtime/projectile_shots.lua): it loads from the
 # archive, its configuration is active in VANILLA mode (nothing to write), and the packaged module proves every one of the
 # research's 178 pins (and the pool's) on the snapshot's real game.dll; nothing is written.
 PROOF_LIBERATOR_SHOTS = r"""
@@ -4498,7 +4507,7 @@ return function(frame,watches,counts,lines)
  local function count(text)local n=0;for _,line in ipairs(lines)do if line:find(text,1,true)then n=n+1 end end;return n end
  for _=1,60 do frame()end
  step('the probe loads from the archive and its configuration is active',
-  count('LiberatorShotProbe 0.1.0 LIBERATOR SHOT PROBE BUILD')==1 and count('MODE VANILLA: AR-23 Liberator shots x1')==1
+  count('LiberatorShotProbe 0.2.0 PER-WEAPON STATS BUILD')==1 and count('MODE VANILLA: AR-23 Liberator shots x1')==1
   and count('REFUSED')==0,tostring(count('MODE VANILLA')))
  local world=require('hd2runtime/runtime/event_world').open()
  local ok,why=require('hd2runtime/runtime/projectile_shots').prove(world)

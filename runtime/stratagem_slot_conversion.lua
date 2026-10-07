@@ -455,6 +455,15 @@ end
 -- be filled yet.
 local CLASS={orbital={BombardmentComponentData=1,OrbitalAbilityComponentData=2},sentry=3,emplacement=3,mine=3,support=4,
     backpack=4}
+-- Carriers whose beacon the game creates with an activation threshold of 0 (an instant strike: no life after its
+-- activation). Every custom stratagem changes its carrier's beacon (runtime/beacons.lua: its delivery, its timing), and
+-- that change is refused on a threshold that is not positive (TIMING_UNEXPECTED), so the carrier's own call would run:
+-- never a carrier. Live evidence: the r48 log of 2026-10-07 (Pelican Gas Support on the Orbital Railcannon Strike:
+-- "beacon 728 NOT CHANGED: TIMING_UNEXPECTED: its threshold 0 is not positive"; the Railcannon struck). Another
+-- carrier joins this list only on such evidence (its beacon's threshold read 0).
+local INSTANT_BEACON={['Orbital Railcannon Strike']='its beacon activates at once (threshold 0): its delivery '
+    ..'cannot be changed, so its own strike would run'}
+M.INSTANT_BEACON=INSTANT_BEACON
 local SPECIAL_FAMILY={mission='a mission/objective stratagem',vehicle='a vehicle or exosuit (not proven safe)',
     eagle='an eagle (limited uses, rearm)'}
 -- opts.eagle (a custom Eagle: its slot gets its own uses per rearm, a fleet member): ONLY Eagles are candidates, their
@@ -533,6 +542,7 @@ local function evaluate(world,name,entry,ctx)
     if not c.package then no('package_unavailable','no known call-in package')end
     if not c.presentation then no('no_reviewed_presentation','no reviewed presentation')end
     if not c.code then no('no_native_code','no native calldown code')end
+    if INSTANT_BEACON[name]then no('instant_beacon',INSTANT_BEACON[name])end
     if ctx.payload then
         local fits,why=payload.compatible(name,ctx.payload.donor)
         c.payloadCompatible=fits
