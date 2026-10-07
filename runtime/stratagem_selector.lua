@@ -1655,6 +1655,27 @@ function M.adopt_virtual(id,callback,carrier,opts)
     return slot_conversion.adopt_virtual({definition=id,slots=slots,order=order,carrier=carrier,
         uses=opts and opts.uses or nil},callback)
 end
+-- The carrier-in-slot probe's launch fallback (0.3.0): the virtual CARRIER slots of `id`, picked with a carrier that is
+-- no longer its carrier, converted in the mission record from that old carrier (the slots' own, as the token) to
+-- `carrier`: stratagem_slot_conversion.convert_virtual's every guard (the recorded order, each slot exactly the old
+-- carrier with unlimited uses, the new carrier in no entry, its package, no call-in in flight; solo host). opts:
+-- multiplayer, client (as convert_virtual's).
+function M.reconvert_virtual(id,callback,carrier,opts)
+    local slots,from={},nil
+    for _,slot in ipairs(slot_list(virtual_slots))do
+        local entry=virtual_slots.slots[slot]
+        if entry.definition==id and entry.carrier then
+            if from==nil then from=entry.token end
+            if entry.token==from then slots[#slots+1]=slot end
+        end
+    end
+    local order={}
+    for k,stable in ipairs(virtual_slots and virtual_slots.pairs or{})do order[k]=stable end
+    local spec=#slots>0 and{definition=id,token=stratagem_name(from),carrier=carrier,slots=slots,order=order,
+        multiplayer=opts and opts.multiplayer or nil,client=opts and opts.client or nil}
+        or{definition=tostring(id),reason='no carrier slot holds '..tostring(id)}
+    return slot_conversion.convert_virtual(spec,callback)
+end
 function M.convert_virtual(id,callback,carrier,opts)
     local spec,why=M.conversion_spec(id,carrier)
     if spec and opts and opts.uses then spec.uses=opts.uses end

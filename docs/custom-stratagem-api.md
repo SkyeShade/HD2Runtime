@@ -126,7 +126,7 @@ Up to four labels of 1 to 32 characters, shown in upper case after the automatic
 of another label, is dropped). Without `traits`, the panel shows the payload family's (`SUPPORT WEAPON`, `ORBITAL`, the
 custom model, the round, ...). Presentation only: not part of the registry hash.
 
-### `selection = 'carrier'` (probe; development, solo host; r34 log evidence only)
+### `selection = 'carrier'` (probe; development, solo host; r34/r35 log evidence only)
 
 The carrier-in-slot probe (2026-10-07; runtime/carrier_in_slot.lua; proof/CarrierSlotProbe). The pick writes the
 custom stratagem's CARRIER itself into the loadout slot instead of the Orbital Precision Strike token: the same guarded
@@ -157,8 +157,7 @@ everywhere else.
   record for every mission, so nothing carries over.
 - **No lockout; the move** (0.2.1, the user's rule): a carrier slot never blocks its carrier in the native picker (the
   0.2.0 block is removed). Only the regular rule blocks a carrier: the last viable carrier of a selected custom
-  stratagem. The game itself greys a stratagem that is already in the player's own loadout ("already in this
-  loadout"), the carrier included. When anyone else picks the carrier natively (or it becomes another custom
+  stratagem. When anyone else picks the carrier natively (or it becomes another custom
   stratagem's), the slot MOVES to the carrier the allocation now gives it, aboard the ship before the launch
   (`stratagem selector MOVED (carrier-in-slot probe)`, `SHIP (<id>): loadout slot N MOVED from A to B (why)`). This is
   the pick's own guarded loadout write at the slot's own index, with the stratagem grid open or closed. The
@@ -167,17 +166,34 @@ everywhere else.
   launched, the slots on screen mirror the record, the slot still reads exactly its carrier with unlimited uses, and
   the new carrier is in no slot of the loadout (`CARRIER_IN_LOADOUT`). Only that entry's type changes; a native pick
   is never written.
-- **A slot that could not move** (the player was ready, or the screen closed): at mission start its carrier is not its
-  carrier, so the definition is refused and its own entry locked (by position, its own carrier type checked: never
-  another slot holding the same stratagem). The early presentation goes only on a carrier that is the definition's
-  own and no real pick (`NOT presented early (it is also a native pick)`); the native uses are refused
-  (`CARRIER_ELSEWHERE`).
+- **The doubles** (0.3.0): the game greys every stratagem already in the player's own loadout ("already in this
+  loadout": the card's enabled byte; both select paths refuse it), the carrier included. While the native grid edits
+  another slot, the Runtime lifts that grey for exactly the carrier its own carrier slot holds
+  (`STRATAGEM PICKABLE (native, the carrier-in-slot probe)`), so the player can pick it there too; the slot then moves
+  as above. The same UI-local byte Stratagem MultiSelect re-enables with the game's card-enable call (a research lead:
+  docs/research/multi-stratagem-select-F5FEE03DCFDB.md), written by the Runtime's guarded transaction, no native
+  call; re-applied after every pick (the game re-greys); greyed back when it leaves the set while the record holds
+  it. Never while the grid edits the custom slot itself (a pick there could not be told apart), never on a blocked
+  card. The game launches a loadout holding a stratagem twice (live: duplicate tokens with MultiSelect; r35).
+- **The launch fallback** (0.3.0): a slot that could not move before the launch (the player readied at once) holds a
+  carrier that is no longer its carrier. At mission start the definition is not refused: its own entry is swapped,
+  old carrier -> its carrier, by the proven slot conversion (`LAUNCH FALLBACK`, `CONVERTED`; the recorded order,
+  that entry by loadout position, exactly the old carrier, the new carrier in no entry, its package), while the
+  early lock holds it; then released and ready like an adopted slot, its uses counted by the Runtime (no native
+  uses). The early presentation goes only on a carrier that is the definition's own and no real pick
+  (`NOT presented early (...)`). A native pick the Runtime never recorded (made while ready) changes the mission
+  loadout from the recorded order: the fallback is refused (`IDENTITY_CHANGED`), nothing written, the slot stays
+  locked all mission. Refusals of other kinds lock the slot's own entry with its own carrier type
+  (`CUSTOM STRATAGEM LOCKED: ... its carrier X itself`).
 - **Refused in a mission** (the slot locked, never called): with several players; when its slots mix the token and the
-  carrier; when the slot's carrier is no longer its carrier (it could not move before the launch).
+  carrier; when the launch fallback is refused.
 - **Evidence:** r34 solo log (2026-10-07), two missions: `LOCKED`, `NATIVE USES` (-1 -> 3, read back true),
   `ADOPTED`, `RELEASED`, `READY TO CALL`, three calls landed, presentation applied during PrepareMission before the
-  HUD was populated. Not yet reported: the HUD counter, the depleted look, an early call, and whether the HUD showed
-  the custom look from its first frame. The move (0.2.1) is offline only.
+  HUD was populated. r35 solo log: the carrier picked natively into another slot (the game took the duplicate: the
+  grid had not re-greyed after the custom pick), the slot MOVED Airburst -> 380mm with the stratagem grid closed (the
+  game repainted: true), and the mission ran on the 380mm (`NATIVE USES` 3, `READY TO CALL`). Not yet reported: the
+  HUD counter, the depleted look, and whether the HUD showed the custom look from its first frame. The doubles and
+  the launch fallback (0.3.0) are offline only.
 - **With several players** the pick writes the token, as before.
 
 ### `code`

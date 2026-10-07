@@ -20,6 +20,11 @@
 --     holds it (the allocator's pin), and when anyone else picks it the slot MOVES to its next carrier aboard the ship
 --     (stratagem_selector.move_carrier, custom_stratagems' probe_move_step). The early presentation goes only on a
 --     carrier that is the definition's own and no real pick (ctx.consistent);
+--   * the doubles (0.3.0): the carrier a carrier slot holds stays pickable natively in the player's other slots (the
+--     game's "already in this loadout" grey lifted: stratagem_blocking.enable); picking it moves the custom slot;
+--   * the launch fallback (0.3.0): a slot that could not move before the launch holds a carrier that is no longer its
+--     carrier; the mission swaps it (old carrier -> its carrier, stratagem_selector.reconvert_virtual) while locked,
+--     then releases it as an adopted slot (Runtime-counted uses);
 --   * the mission: nothing converts; the slots are verified and adopted (stratagem_slot_conversion.adopt_virtual),
 --     their native per-slot uses written when the definition has `uses` (0.2.0), and the cooldown, code, beacon and
 --     payload work as for a converted slot;
@@ -198,6 +203,12 @@ function M.release(world,id)
     l.entries=nil
     l.released=true
     return all
+end
+-- The launch fallback (0.3.0): a definition's locked entries now hold `kind` (the conversion swapped their type; their
+-- locked cooldown end is untouched), so the release checks that type.
+function M.retype(id,kind)
+    local l=state.locks[id]
+    for _,e in ipairs(l and l.entries or{})do e.token=kind end
 end
 -- Whether a definition's lock is held (or failed: {failed}). For tests and diagnostics.
 function M.lock_state(id)return state.locks[id]end

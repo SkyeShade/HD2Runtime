@@ -91,6 +91,58 @@ def lua(body):
     return run(WORLD + SETUP + body)
 
 
+class DoublesTests(unittest.TestCase):
+    def test_the_carrier_a_custom_slot_holds_stays_pickable(self):
+        # The carrier-in-slot probe 0.3.0: the game greys a type the edited record holds (the enabled byte 0); the
+        # Runtime lifts it for the carrier its own carrier slot holds, never while the grid edits that slot, never on a
+        # blocked card; re-applied after the game re-greys; greyed back when it leaves the set (the record holds it).
+        self.assertEqual(lua(r'''
+local function enabled(i)return byte_at(LIST+GR.enabled+i)end
+-- The grid for slot 1 with the record holding the 120mm (BIG, type 136) in slot 0: the game greys it.
+build()
+local I=index_of(BIG)
+local function grey()W.write(LIST+GR.enabled+I,'\0')end
+grey()
+local SET={[BIG]={definition='carrier_slot_probe',slots={0}}}
+local before,state0=#W.runtime.writes,list_state()
+local r=blocking.enable(world,SET)
+assert(r.status=='applied'and r.wrote==1 and enabled(I)==1,tostring(r.status)..' '..tostring(r.reason))
+-- Only that byte (and the one-shot realize request).
+for i=0,#ORDER-1 do if i~=I then assert(enabled(i)==1 and blocked(i)==0)end end
+local w=writes_from(before)
+assert(#w==2,'the enabled byte and the realize request')
+frame();assert(realizes>=2)
+assert(count('STRATAGEM PICKABLE (native, the carrier-in-slot probe): Orbital 120mm HE Barrage')==1)
+assert(count('stratagem doubles: native grid (slot 1): pickable 1 card (Orbital 120mm HE Barrage)')==1)
+-- Idempotent.
+before=#W.runtime.writes
+assert(blocking.enable(world,SET).wrote==0 and#W.runtime.writes==before)
+-- The game re-greys after a pick: lifted again.
+grey()
+assert(blocking.enable(world,SET).wrote==1 and enabled(I)==1)
+-- The grid edits the custom slot itself: greyed back (the record holds it), and never lifted there.
+SCREEN.set('editedSlot',0)
+local g=blocking.enable(world,SET)
+assert(g.greyed==1 and enabled(I)==0,'greyed back while the custom slot is edited')
+assert(blocking.enable(world,SET).wrote==0 and enabled(I)==0)
+SCREEN.set('editedSlot',1)
+assert(blocking.enable(world,SET).wrote==1 and enabled(I)==1)
+-- Leaving the set: greyed back (the record still holds it).
+assert(blocking.enable(world,{}).greyed==1 and enabled(I)==0)
+-- A blocked card (Arrowhead's switch) is never lifted.
+server_disable(BIG,true);build();grey()
+before=#W.runtime.writes
+assert(blocking.enable(world,SET).wrote==0 and enabled(I)==0 and#W.runtime.writes==before)
+server_disable(BIG,false);build();grey()
+-- Closed: idle, nothing written.
+SCREEN.set('selecting',false)
+assert(blocking.enable(world,SET).status=='idle')
+-- No StratagemInfo or catalogue write at any point.
+assert(W.read(settings.base,settings.size)==SETTINGS and W.read(cat,CAT.index+0x200)==CATALOGUE)
+return 'ok'
+'''), b'ok')
+
+
 class StratagemBlockingResearchTests(unittest.TestCase):
     def test_the_research_and_its_domain(self):
         self.assertEqual((RESEARCH['writes'], RESEARCH['protectionChanges']), (0, 0))
@@ -115,8 +167,11 @@ class StratagemBlockingResearchTests(unittest.TestCase):
         mechanisms = {m['id']: m for m in RESEARCH['mechanisms']}
         self.assertTrue(mechanisms['card-blocked-byte']['implemented'])
         self.assertTrue(mechanisms['card-blocked-byte']['nativeRefusal'])
-        for name in ('catalogue-disabled-flag', 'row-enabled-selectable', 'details-panel-notice', 'card-enabled-byte'):
+        for name in ('catalogue-disabled-flag', 'row-enabled-selectable', 'details-panel-notice'):
             self.assertFalse(mechanisms[name]['implemented'], name)
+        # The enabled byte: never a block; only the grey lifted (the carrier-in-slot probe's doubles, 0.3.0).
+        self.assertTrue(mechanisms['card-enabled-byte']['implemented'])
+        self.assertIn('0 -> 1', mechanisms['card-enabled-byte']['safety'])
         self.assertTrue(mechanisms['catalogue-disabled-flag']['safety'].startswith('NOT ALLOWED'))
         self.assertTrue(mechanisms['row-enabled-selectable']['safety'].startswith('NOT ALLOWED'))
         import sys

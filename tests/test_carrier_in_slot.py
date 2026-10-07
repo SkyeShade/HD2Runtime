@@ -13,7 +13,11 @@ picked into its loadout slot as its CARRIER itself, not the Orbital Precision St
     several players, mixed slots, or a slot carrier that is no longer its carrier;
   * no lockout (0.2.1): a carrier slot never blocks its carrier natively; when anyone else picks it, the slot moves to
     its next carrier aboard the ship (the pick's guarded write at the slot's own index; refused with nothing written
-    unless the slot still reads its carrier and the new one is in no slot), the native pick untouched."""
+    unless the slot still reads its carrier and the new one is in no slot), the native pick untouched;
+  * the doubles (0.3.0): its carrier stays pickable natively in the other slots (the doubles set handed to the grid);
+  * the launch fallback (0.3.0): a recorded native pick of its carrier whose slot could not move is swapped in the
+    mission record (its own entry, while locked), the native pick untouched; an unrecorded one is refused with nothing
+    written and the slot locked all mission."""
 import unittest
 
 from support import run
@@ -440,6 +444,12 @@ require('hd2runtime/runtime/stratagem_blocking').apply=function(world,set)
     for id,b in pairs(set or{})do blocked_seen[id]=b end
     return {status='applied'}
 end
+-- The doubles set (0.3.0), as the orchestrator hands it over every ship update.
+local enable_seen={}
+require('hd2runtime/runtime/stratagem_blocking').enable=function(world,set)
+    for id,e in pairs(set or{})do enable_seen[id]=e end
+    return {status='applied'}
+end
 assert(loadstring(GAS_ADDON,'@'..GAS_RESOURCE))()
 local d=custom.get('orbital_gas_barrage')
 assert(d and d.selection=='carrier')
@@ -460,6 +470,9 @@ assert(kind~=118 and cid~=PRECISION_ID,'the carrier itself, not the token')
 -- regular rule: the last viable carrier of a selected custom stratagem).
 tick(4)
 assert(not(blocked_seen[cid]and blocked_seen[cid].reason:find('held by your custom stratagem',1,true)),'no lockout')
+-- 0.3.0: its carrier stays pickable natively in the other slots (the doubles), named with its custom slot.
+assert(enable_seen[cid]and enable_seen[cid].definition=='orbital_gas_barrage'and enable_seen[cid].slots[1]==0
+    and#enable_seen[cid].slots==1,'the doubles set holds its carrier')
 assert(count('the CARRIER itself: the carrier-in-slot probe')==1,lines('SELECTED'))
 -- Aboard the ship its own carrier is never invalidated as a native pick.
 W.saved_loadout({{id=cid},{id=ID22},{id=1298599997}})
@@ -554,7 +567,9 @@ assert(to_name and lines('applying the presentation on its carrier '):find('its 
 return 'ok'
 ''')
 
-    def test_a_slot_that_cannot_move_never_touches_the_native_pick(self):
+    def test_a_slot_that_could_not_move_is_swapped_at_launch(self):
+        # 0.3.0, the launch fallback: the native pick of its carrier is recorded aboard the ship, but the slot does not
+        # move before the launch (held here: the move's settle never elapses, as when the player readies at once).
         self.flow(r'''
 rawset(_G,'ModOptionsMenu',MENU)
 assert(loadstring(GAS_ADDON,'@'..GAS_RESOURCE))()
@@ -567,10 +582,60 @@ SCREEN.set('selecting',false);tick(8)
 local selector=require('hd2runtime/runtime/stratagem_selector')
 local V=selector.virtual_slots()
 local kind,cid=V.slots[0].type,V.slots[0].token
+local old_name=lines('stratagem selector SELECTED'):match('holds (.-) %(type')
 tick(80)
--- Its carrier picked natively into slot 3 while the slot cannot move (the player is ready), then the launch.
+custom.PROBE_MOVE_SETTLE=1e9
 native_append(kind)
+tick(120)
+assert(count('stratagem selector MOVED')==0)
+assert(table.concat(selector.virtual_slots().pairs,',')==table.concat({cid,ID22,1298599997,cid},','),
+    'the native pick is recorded')
+SCREEN.set('ready',true);tick(4)
+W.saved_loadout({{id=cid},{id=ID22},{id=1298599997},{id=cid}})
+SCREEN.close();tick(80)
+mission({host=true})
+local record,hud=mission_record({kind,22,130,kind})
+local h=W.stratagem_hud({peer=LOCAL,slots=hud,record=record})
+live_cooldowns(h,#record)
+CT.player(0,0,0)
+local native_before=W.read(h.record+0x38+0x188+5*0x30,0x30)
+tick(200)
+-- Swapped in its own entry (2), old carrier -> its carrier, while locked; then released and ready.
+assert(count('LAUNCH FALLBACK (the carrier-in-slot probe): its slot holds the carrier '..old_name)==1,lines('MISSION'))
+assert(count('CONVERTED: virtual orbital_gas_barrage: loadout slot 0 = record entry 2: '..old_name)==1,
+    lines('CONVERTED')..' | '..lines('REFUSED'))
+local now=b.u32(W.read(h.record+0x38+0x188+2*0x30,4),0)
+assert(now~=kind and now~=118,'entry 2 holds its new carrier')
+assert(count('orbital_gas_barrage: LOCKED record entry 2')==1 and count('orbital_gas_barrage: RELEASED record entry 2')==1,
+    lines('LOCKED')..' | '..lines('RELEASED'))
+assert(count('MISSION (orbital_gas_barrage): READY TO CALL: loadout slot 0 = ')==1,lines('MISSION'))
+-- The native pick's entry (5) never written; no presentation, no native uses on the old carrier.
+assert(W.read(h.record+0x38+0x188+5*0x30,0x30)==native_before,'the native pick\'s record entry is untouched')
+assert(not lines('custom text APPLIED'):find(old_name,1,true),lines('custom text APPLIED'))
+assert(count('orbital_gas_barrage NOT presented early (')==1,lines('TIMING'))
+assert(count('NATIVE USES (carrier-in-slot probe)')==0,lines('NATIVE'))
+return 'ok'
+''')
+
+    def test_an_unrecorded_native_pick_refuses_with_nothing_written(self):
+        # The native pick of its carrier made while the player is ready is never recorded (the loadout is the game's
+        # then): the mission loadout differs from the recorded order, so the fallback's identity guard refuses.
+        self.flow(r'''
+rawset(_G,'ModOptionsMenu',MENU)
+assert(loadstring(GAS_ADDON,'@'..GAS_RESOURCE))()
+tick(40)
+ship({})
+tick(4)
+select_into(0)
+native_append(22);native_append(130)
+SCREEN.set('selecting',false);tick(8)
+local selector=require('hd2runtime/runtime/stratagem_selector')
+local V=selector.virtual_slots()
+local kind,cid=V.slots[0].type,V.slots[0].token
+local old_name=lines('stratagem selector SELECTED'):match('holds (.-) %(type')
+tick(80)
 SCREEN.set('ready',true)
+native_append(kind)
 tick(120)
 assert(count('stratagem selector MOVED')==0)
 W.saved_loadout({{id=cid},{id=ID22},{id=1298599997},{id=cid}})
@@ -580,24 +645,22 @@ local record,hud=mission_record({kind,22,130,kind})
 local h=W.stratagem_hud({peer=LOCAL,slots=hud,record=record})
 live_cooldowns(h,#record)
 CT.player(0,0,0)
-local native_before=W.read(h.record+0x38+0x188+5*0x30,0x30)
-tick(160)
--- Never ready; no presentation on that carrier (it is a real pick too); the native pick's entry never written.
+local before=W.read(h.record+0x38+0x188,7*0x30)
+tick(200)
 assert(count('MISSION (orbital_gas_barrage): READY TO CALL')==0,lines('MISSION'))
-assert(count('applying the presentation on its carrier')==0,lines('CARRIER-IN-SLOT'))
-assert(count('stratagem presentation custom text APPLIED')==0 and count('carrier presentation APPLIED')==0,
-    lines('APPLIED'))
+assert(count('the slot conversion was refused: IDENTITY_CHANGED')>=1,lines('REFUSED'))
+-- Nothing written but its own lock (entry 2's cooldown end): every type and every other entry unchanged.
+local now=W.read(h.record+0x38+0x188,7*0x30)
+for i=0,6 do
+    local a,c=before:sub(i*0x30+1,i*0x30+0x30),now:sub(i*0x30+1,i*0x30+0x30)
+    if i~=2 then assert(a==c,'entry '..i..' untouched')else assert(a:sub(1,8)==c:sub(1,8),'entry 2 type and uses')end
+end
+assert(count('orbital_gas_barrage: LOCKED record entry 2')==1 and count('RELEASED record entry')==0,
+    'locked all mission: never the carrier\'s own call')
+assert(not lines('custom text APPLIED'):find(old_name,1,true),lines('custom text APPLIED'))
 assert(count('NATIVE USES (carrier-in-slot probe)')==0,lines('NATIVE'))
-assert(W.read(h.record+0x38+0x188+5*0x30,0x30)==native_before,'the native pick\'s record entry is untouched')
--- Refused and locked on its own entry (2) with its own carrier, the reason named; never 'LOCK FAILED'.
-assert(count('REFUSED (the carrier-in-slot probe): its slot holds the carrier ')>=1
-    and count('(anyone else picked it, and the slot could not move aboard the ship before the launch)')>=1,lines('REFUSED'))
-assert(count('CUSTOM STRATAGEM LOCKED: loadout slot 0 (orbital_gas_barrage): its carrier ')==1
-    and count('(record entry 2) is unavailable for this mission')==1 and count('LOCK FAILED')==0,lines('LOCK'))
-assert(count('NOT presented early (it is also a native pick)')==1,lines('TIMING'))
 return 'ok'
 ''')
-
 
 if __name__ == '__main__':
     unittest.main()

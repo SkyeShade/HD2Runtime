@@ -2056,9 +2056,25 @@ function M.probe_refusal(d,a,players)
     if x.id~=a.stable_id then
         return('its slot%s hold%s the carrier %s, but its carrier now is %s (anyone else picked it, and the slot could not '
             ..'move aboard the ship before the launch)'):format(#x.slots==1 and''or's',#x.slots==1 and's'or'',name,
-            tostring(a.carrier)),name
+            tostring(a.carrier)),name,'moved'
     end
     return nil
+end
+-- Whether the probe refuses a definition at mission start (every probe_refusal but the moved carrier, which the launch
+-- fallback swaps: M.probe_reconvert).
+function M.probe_blocks(d,a,players)
+    local text,_,kind=M.probe_refusal(d,a,players)
+    return text~=nil and kind~='moved'
+end
+-- The launch fallback (0.3.0): a definition whose carrier slots hold a carrier that is no longer its carrier (the slot
+-- could not move aboard the ship before the launch) is swapped in this mission's record, old carrier -> its carrier,
+-- by the proven slot conversion (its own entries only, by loadout position; the slots locked until ready). Returns
+-- {from (stable id), from_name} or nil.
+function M.probe_reconvert(d,a,players)
+    local text,name,kind=M.probe_refusal(d,a,players)
+    if not(text and kind=='moved')then return nil end
+    local x=require('hd2runtime/runtime/carrier_in_slot').slots_by_definition(selector.virtual_slots())[d.id]
+    return {from=x.id,from_name=name,text=text}
 end
 -- The carrier-in-slot probe (runtime/carrier_in_slot.lua): the carrier a definition's pick writes into the slot now,
 -- {id (stable id), name}, or nil (its pick writes the token: another selection mode, several players, or no carrier
@@ -2289,6 +2305,15 @@ do
             reservations.failed=why
             log('CARRIER BLOCKING NOT APPLIED (the native picker keeps every card as it is): '..why)
         elseif not why then reservations.failed=nil end
+        -- The carrier-in-slot probe's doubles (0.3.0): the carriers this player's carrier slots hold stay pickable.
+        if blocking.enable then
+            local eok,er=pcall(blocking.enable,world,reservations.enable or{},dt)
+            local ewhy=not eok and tostring(er)or nil
+            if ewhy and reservations.enable_failed~=ewhy then
+                reservations.enable_failed=ewhy
+                log('CARRIER DOUBLES NOT APPLIED (the game\'s grey stays): '..ewhy)
+            elseif not ewhy then reservations.enable_failed=nil end
+        end
     end
     -- Every ship step: the blocks recomputed when the allocation or its inputs changed (each change logged once).
     function reservations_step(world,v)
@@ -2330,7 +2355,18 @@ do
         end
         -- The carrier-in-slot probe adds no block of its own (the user's rule, 2026-10-07): a carrier slot's carrier is
         -- blocked only as above (the last viable carrier); when anyone else picks it, the slot moves to its next carrier
-        -- aboard the ship (probe_move_step).
+        -- aboard the ship (probe_move_step). 0.3.0: it stays pickable natively in this player's other slots (the
+        -- doubles: the game's own "already in this loadout" grey lifted), unless the rule above blocks it.
+        local enable={}
+        local vs=selector.virtual_slots()
+        for slot,e in pairs(vs and vs.slots or{})do
+            if e.carrier and not blocked[e.token]then
+                enable[e.token]=enable[e.token]or{definition=e.definition,slots={}}
+                table.insert(enable[e.token].slots,slot)
+            end
+        end
+        for _,spec in pairs(enable)do table.sort(spec.slots)end
+        reservations.enable=enable
         reservations.blocked=blocked
     end
 end
@@ -3675,7 +3711,7 @@ end
 function M.probe_ready(item,h)
     local d=item.definition
     require('hd2runtime/runtime/carrier_in_slot').release(world_module.open(),d.id)
-    if d.cooldown then
+    if d.cooldown or(d.uses and not h.native_uses)then
         local armed,why=cooldowns.arm({definition=d.id,seconds=d.cooldown,uses=not h.native_uses and d.uses or nil,
             from='arrival',carrier=item.assignment.carrier,multiplayer=true,client=item.client==true},cooldown_event(item))
         if not armed then log(('MISSION (%s): cooldown not armed (the carrier\'s own applies): %s'):format(d.id,
@@ -3800,19 +3836,23 @@ local function advance(world,item)
     if item.state=='arming'then
         -- The carrier-in-slot probe: its slots already hold the carrier: verified and adopted, nothing written but its
         -- native uses; its cooldown is armed after the adoption and the release of its early lock (M.probe_ready).
-        local adopt=d.selection=='carrier'
+        local reconvert=item.reconvert
+        local adopt=d.selection=='carrier'and not reconvert
             and require('hd2runtime/runtime/carrier_in_slot').slots_by_definition(selector.virtual_slots())[d.id]~=nil
-        if(d.cooldown or d.uses)and not adopt then
+        if(d.cooldown or d.uses)and not adopt and not reconvert then
             local armed,why=cooldowns.arm({definition=d.id,seconds=d.cooldown,uses=d.uses,from='arrival',carrier=a.carrier,
                 multiplayer=true,client=item.client==true},cooldown_event(item))
             if not armed then log(('MISSION (%s): cooldown not armed (the carrier\'s own applies): %s'):format(d.id,
                 tostring(why)))end
         end
         item.state='converting'
-        local convert=adopt and selector.adopt_virtual or selector.convert_virtual
+        local convert=adopt and selector.adopt_virtual or reconvert and selector.reconvert_virtual
+            or selector.convert_virtual
         convert(d.id,function(h)
             if h.status=='converted'then
-                if adopt then M.probe_ready(item,h)end
+                -- The fallback's lock follows the swapped type (its end is untouched by the conversion).
+                if reconvert then require('hd2runtime/runtime/carrier_in_slot').retype(d.id,h.carrier)end
+                if adopt or reconvert then M.probe_ready(item,h)end
                 item.state='ready'
                 item.indices=h.indices
                 if item.client then
@@ -3842,8 +3882,8 @@ local function advance(world,item)
             else
                 refuse_definition(item,'the slot conversion was refused: '..tostring(h.code)..': '..tostring(h.reason))
             end
-        end,a.carrier,adopt and{uses=d.uses}or{uses=d.eagle and d.eagle.uses or nil,multiplayer=true,
-            client=item.client==true})
+        end,a.carrier,adopt and{uses=d.uses}or reconvert and{multiplayer=true,client=item.client==true}
+            or{uses=d.eagle and d.eagle.uses or nil,multiplayer=true,client=item.client==true})
         return
     end
 end
@@ -4662,7 +4702,7 @@ local function start_mission(world)
                 ..'(every lobby member a compatible Runtime converting the same carrier weapon); it is %s'):format(id,
                 v and v.status or'unknown'))
             setup_refused('custom multiplayer is not enabled',{[id]=by[id]})
-        elseif assignment and M.probe_refusal(d,assignment,#players)then
+        elseif assignment and M.probe_blocks(d,assignment,#players)then
             local text,carrier=M.probe_refusal(d,assignment,#players)
             log(('MISSION (%s): REFUSED (the carrier-in-slot probe): %s'):format(id,text))
             if carrier and carrier_presentation.applied(carrier)then
@@ -4670,7 +4710,14 @@ local function start_mission(world)
             end
             setup_refused(text,{[id]=by[id]})
         elseif assignment then
-            mission.queue[#mission.queue+1]={definition=d,assignment=assignment,state='checks',slots=by[id]}
+            local reconvert=M.probe_reconvert(d,assignment,#players)
+            if reconvert then
+                log(('MISSION (%s): LAUNCH FALLBACK (the carrier-in-slot probe): %s: its slot is swapped to %s in this '
+                    ..'mission\'s record (its own entry by loadout position; locked until it is ready)'):format(id,
+                    reconvert.text,assignment.carrier))
+            end
+            mission.queue[#mission.queue+1]={definition=d,assignment=assignment,state='checks',slots=by[id],
+                reconvert=reconvert}
             -- No carrier weapon conversion for a definition whose code the slot checks will refuse anyway (its type
             -- would stay converted for nothing).
             local clash=d.kind=='expendable'and native_conflicts(world,d,assignment.stable_id)or{}

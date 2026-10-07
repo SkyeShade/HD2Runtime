@@ -1,49 +1,54 @@
-# CarrierSlotProbe 0.2.1: the carrier-in-slot probe
+# CarrierSlotProbe 0.3.0: the carrier-in-slot probe
 
-Probe 1 of the carrier-in-slot proposal (2026-10-07), with the native slot uses (0.2.0) and no lockout (0.2.1). One
-custom stratagem, Carrier Slot Probe: an Orbital Gas Barrage (the 120mm's own barrage, its shells bursting into the Gas
-Strike's cloud), 3 uses per mission, 45 s cooldown, code UP DOWN UP DOWN LEFT RIGHT LEFT. Its loadout slot holds its
-**carrier itself**, not the Orbital Precision Strike token. Needs HD2Runtime 0.30.0-dev r35 or later. **Solo only**:
-with several players its pick writes the token as before, and a carrier slot picked solo is refused and locked in a
-multiplayer mission.
+Probe 1 of the carrier-in-slot proposal (2026-10-07), with the native slot uses (0.2.0), no lockout (0.2.1) and the
+doubles and launch fallback (0.3.0). One custom stratagem, Carrier Slot Probe: an Orbital Gas Barrage (the 120mm's own
+barrage, its shells bursting into the Gas Strike's cloud), 3 uses per mission, 45 s cooldown, code UP DOWN UP DOWN
+LEFT RIGHT LEFT. Its loadout slot holds its **carrier itself**, not the Orbital Precision Strike token. Needs HD2Runtime
+0.30.0-dev r36 or later. **Solo only**: with several players its pick writes the token as before, and a carrier slot
+picked solo is refused and locked in a multiplayer mission.
 
-The log names this build: `CarrierSlotProbe 0.2.1 CARRIER SLOT NO LOCKOUT PROBE BUILD`.
+The log names this build: `CarrierSlotProbe 0.3.0 CARRIER SLOT DOUBLES PROBE BUILD`.
 
-New in 0.2.1 (runtime r35):
+New in 0.3.0 (runtime r36):
 
-- **No lockout.** The Runtime no longer blocks the slot's carrier in the native picker (0.2.0's red "held by your
-  custom stratagem ... unpick it first" card is gone). Only the regular rule still blocks a carrier: the last viable
-  carrier of a selected custom stratagem. The game itself greys any stratagem already in your own loadout ("already in
-  this loadout"), so the carrier shows greyed for you, as every stratagem in your loadout does.
-- **The slot keeps its carrier** while nobody else holds it, even when another carrier would now rank higher.
-- **The move.** When anyone else picks the carrier, the slot moves to its next carrier aboard the ship, before the
-  launch, with one guarded write of that slot. A real pick is never written. Solo you cannot trigger this (the game
-  greys the carrier for you), so it is tested offline only. If the slot cannot move (you were ready), the mission
-  refuses the probe, locks its own slot, and never presents or writes the other pick.
-
-From 0.2.0, unchanged: the native uses (3, the game's own counter), the lock until READY TO CALL, the early
-presentation. The r34 log showed that sequence running; what the HUD showed is still unreported.
+- **Doubles.** The game greys every stratagem already in your loadout ("already in this loadout"), including the
+  carrier in your custom slot. The Runtime now lifts that grey for exactly that carrier while you edit another slot,
+  so you can pick it there too (as Stratagem MultiSelect allows for any stratagem). Picking it moves the custom slot
+  to its next carrier (0.2.1's move). While you edit the custom slot itself, the carrier stays greyed.
+- **Launch fallback.** If the slot could not move before the launch (you readied right after the pick), the mission
+  swaps your own slot to its new carrier while it is still locked, then makes it ready. Your real pick of that
+  stratagem is never written. If the Runtime never saw your pick (made while ready), the probe is refused for that
+  mission and its slot stays locked.
+- **The only lockout left** is the regular one: the last carrier available for a custom stratagem you selected.
 
 ## What to do
 
-1. Install the r35 HD2Runtime and CarrierSlotProbe 0.2.1 (remove 0.2.0). Solo.
-2. Open the loadout screen and pick Carrier Slot Probe from the custom panel.
-3. Open the native stratagem picker for another slot and look at the carrier the probe's slot holds (a red orbital,
-   named in the log's `SELECTED` line).
-4. Pick and unpick a few native red orbitals in your other slots, then leave the loadout screen and come back.
-5. Start a mission. Watch the HUD from its first frame.
-6. Call it three times (45 s cooldown between calls), then try a fourth.
-7. Send the log, and say what you saw in steps 3, 5 and 6.
+1. Install the r36 HD2Runtime and CarrierSlotProbe 0.3.0 (remove 0.2.1). Solo.
+2. Pick Carrier Slot Probe from the custom panel into slot 1. The log's `SELECTED` line names its carrier (C).
+3. Close the stratagem picker. Open it again for another slot.
+4. Find C in the grid: it should be pickable (not greyed). Pick it.
+5. Within a couple of seconds the custom slot moves to another carrier. The custom icon stays on its slot, and your
+   other slot shows C as a normal stratagem.
+6. Open the picker on the custom slot itself and look at its new carrier: greyed there (by design).
+7. Start a mission. Watch the HUD from its first frame, then call the probe three times and try a fourth. Also call
+   C from your other slot.
+8. Optional, the fallback: back aboard, pick the probe's current carrier into another slot and press ready right
+   away. You will see either a normal move (you were slower than the move), a `LAUNCH FALLBACK`, or an
+   `IDENTITY_CHANGED` refusal (the Runtime never saw the pick). All three are safe outcomes.
+9. Send the log, and say what you saw in steps 4, 5, 7 and 8.
 
 ## What to look for
 
-1. Step 3: the carrier card is greyed like any stratagem in your loadout, **not** the red blocked card. The log has no
-   `STRATAGEM BLOCKED (native): ... held by your custom stratagem`.
-2. Step 4: the probe's slot keeps its carrier: no `stratagem selector MOVED` line, and `PRE-MISSION
-   (carrier_slot_probe): READY: carrier X` keeps the same X.
-3. Step 5: the HUD shows Carrier Slot Probe's icon and name from its first frame (never Orbital Precision Strike or
-   the carrier's own icon), and the slot shows **3** uses.
-4. Step 6: the counter goes 3 -> 2 -> 1 -> 0; then the game's own depleted look, and the fourth call is refused.
-5. The log, in order: `LOCKED record entry`, `NATIVE USES ... uses -1 -> 3 ... read back true`, `ADOPTED ... with 3
-   native uses each`, `RELEASED record entry`, `MISSION (carrier_slot_probe): NATIVE USES: 3 per slot`, `READY TO
-   CALL`; and none of `NOT LOCKED`, `NOT RELEASED`, `REFUSED`, `LOCK FAILED`, `stratagem slot CONVERTED`.
+1. Step 4: `STRATAGEM PICKABLE (native, the carrier-in-slot probe): C` and `stratagem doubles: native grid (slot N):
+   pickable 1 card (C)`. The card is not greyed, and the pick is accepted.
+2. Step 5: `stratagem selector MOVED (carrier-in-slot probe): virtual slot 0 ...: its carrier C ... -> D`, then
+   `SHIP (carrier_slot_probe): loadout slot 0 MOVED from C to D (you picked it natively into loadout slot N)`.
+3. Step 7: the probe's slot shows Carrier Slot Probe's icon and name from the first frame, and 3 uses that count down
+   3 -> 2 -> 1 -> 0. The fourth call is refused. C in your other slot is plain vanilla: its own name, icon and code,
+   unlimited uses, and its own strike.
+4. The mission log: `LOCKED`, `NATIVE USES ... -> 3 ... read back true`, `ADOPTED`, `RELEASED`, `READY TO CALL`.
+   None of `NOT LOCKED`, `NOT RELEASED`, `LOCK FAILED`, `stratagem slot CONVERTED` (unless you hit the fallback in
+   step 8).
+5. Step 8 with the fallback: `LAUNCH FALLBACK (the carrier-in-slot probe)`, `CONVERTED: virtual carrier_slot_probe:
+   loadout slot N = record entry E: C ... -> D`, `RELEASED record entry E`, `READY TO CALL`; C in your other slot
+   stays vanilla.

@@ -89,7 +89,8 @@ local function qword(world,at)
     return s and b.u32(s,0)+b.u32(s,4)*4294967296
 end
 -- The native grid as the game holds it: {open = false} without an open stratagem grid; otherwise {open = true, ui, list,
--- edited, mode, count, keys = {[i] = key}, blocked = {[i] = 0|1|...}, shown, request, scrollbar}; or nil and why.
+-- edited, mode, count, keys = {[i] = key}, blocked = {[i] = 0|1|...}, enabled = {[i] = 0|1|...}, shown, request,
+-- scrollbar}; or nil and why.
 function M.grid(world)
     local owner=world.view.pointer(world.game+L.ownerGlobal)
     local ui=owner and qword(world,owner+L.root)
@@ -105,12 +106,16 @@ function M.grid(world)
     local flags=world.view.read(list+G.scrollMoved,G.requestContext)
     local shown=byte(world,ui+L.screen+G.shown)
     if not(mode and count and flags and shown)or count>G.maxCards then return nil,'the card list is unreadable'end
-    local out={open=true,ui=ui,list=list,edited=edited,mode=mode,count=count,keys={},blocked={},shown=shown~=0,
-        request=flags:byte(G.realizeRequest-G.scrollMoved+1),scrollbar=flags:byte(G.scrollbarActive-G.scrollMoved+1)}
+    local out={open=true,ui=ui,list=list,edited=edited,mode=mode,count=count,keys={},blocked={},enabled={},
+        shown=shown~=0,request=flags:byte(G.realizeRequest-G.scrollMoved+1),
+        scrollbar=flags:byte(G.scrollbarActive-G.scrollMoved+1)}
     if count>0 then
         local keys,bytes=world.view.read(list+G.keys,count*4),world.view.read(list+G.blocked,count)
-        if not(keys and bytes)then return nil,'the card list is unreadable'end
-        for i=0,count-1 do out.keys[i],out.blocked[i]=b.u32(keys,i*4),bytes:byte(i+1)end
+        local enabled=world.view.read(list+G.enabled,count)
+        if not(keys and bytes and enabled)then return nil,'the card list is unreadable'end
+        for i=0,count-1 do
+            out.keys[i],out.blocked[i],out.enabled[i]=b.u32(keys,i*4),bytes:byte(i+1),enabled:byte(i+1)
+        end
     end
     return out
 end
@@ -179,9 +184,11 @@ local function names_of(list)
     return table.concat(out,', ')
 end
 
--- The guarded transaction over the blocked bytes of the given entries ({index, from, to}): the list's mode and count,
--- the keys and the blocked bytes from the first to the last target as context.
-local function write_cards(world,g,owner,entries)
+-- The guarded transaction over the blocked bytes (or, field = 'enabled', the enabled bytes) of the given entries
+-- ({index, from, to}): the list's mode and count, the keys and those bytes from the first to the last target as context.
+local function write_cards(world,g,owner,entries,field)
+    local array=field=='enabled'and G.enabled or G.blocked
+    local name=field=='enabled'and'enabled'or'blocked'
     local first,last=math.huge,-1
     for _,e in ipairs(entries)do first=math.min(first,e.index);last=math.max(last,e.index)end
     local function snap(at,n)
@@ -189,13 +196,13 @@ local function write_cards(world,g,owner,entries)
         return bytes and{owner=owner,offset=at-owner.base,bytes=bytes}or nil
     end
     local mode,count=snap(g.list+G.mode,4),snap(g.list+G.count,4)
-    local keys,bytes=snap(g.list+G.keys+first*4,(last-first+1)*4),snap(g.list+G.blocked+first,last-first+1)
+    local keys,bytes=snap(g.list+G.keys+first*4,(last-first+1)*4),snap(g.list+array+first,last-first+1)
     if not(mode and count and keys and bytes)then return nil,'the card list is unreadable'end
     local changes={}
     for _,e in ipairs(entries)do
         local from,to=string.char(e.from),string.char(e.to)
-        changes[#changes+1]={label=('stratagem_grid.card%d.blocked'):format(e.index),owner=owner,
-            offset=g.list+G.blocked+e.index-owner.base,expected=from,desired=to,before=from,already_desired=false,
+        changes[#changes+1]={label=('stratagem_grid.card%d.%s'):format(e.index,name),owner=owner,
+            offset=g.list+array+e.index-owner.base,expected=from,desired=to,before=from,already_desired=false,
             identity={component='StratagemGridCard',component_type='native',unique_owner=true,owner_count=1},chain={}}
     end
     local report=transaction.apply(world.runtime,{snapshots={mode,count,keys,bytes},changes=changes})
@@ -396,6 +403,129 @@ end
 -- Unblocks every card this module blocked (restored exactly) and forgets the set: apply with nothing blocked.
 function M.release(world,dt)return M.apply(world,{},dt)end
 
+-------------------------------------------------------------------------------------------------- the doubles --
+-- THE CARRIER-IN-SLOT PROBE'S DOUBLES (0.3.0; the user's rule of 2026-10-07: a custom carrier slot never locks its
+-- carrier out). The game greys every type the edited record already holds: the card's ENABLED byte (card list +
+-- 0x92DC2 + i), 0 from the grid build and from the grey refresh after every pick; both select paths refuse a greyed card
+-- exactly as a blocked one. Stratagem MultiSelect (a research lead only, docs/research/multi-stratagem-select-
+-- F5FEE03DCFDB.md) re-enables greyed cards with the game's card-enable call and the game then puts the same stratagem in
+-- several slots. The Runtime writes that UI-local byte itself (no native call), 0 -> 1, for exactly the carriers in
+-- `enable` = {[stable id] = {definition, slots = {loadout slots holding it as a custom carrier}}}, while the grid is open:
+--   * never while the grid edits one of those slots (a native pick of it there could not be told apart from the custom
+--     one); never a card blocked (this module's block or the game's), never one whose catalogue flag is set;
+--   * re-applied every update (the game re-greys after each pick); a card leaving the set gets its grey back (1 -> 0)
+--     only while the edited record still holds its type (the game's own state otherwise: left as it is);
+--   * the same guarded transaction as the block (the list's mode, count, keys and bytes as context), then the one-shot
+--     realize request.
+-- A native pick of it then doubles the stratagem; custom_stratagems moves the custom slot to its next carrier aboard
+-- the ship (probe_move_step). Logs: "STRATAGEM PICKABLE (native)" once per id entering the set.
+local doubles={owned=nil,wanted={},refused=nil}
+local function record_types(world,ui)
+    local ok,screen=pcall(function()return require('hd2runtime/runtime/stratagem_selector').screen(world)end)
+    local types={}
+    if ok and screen and screen.open and screen.ui==ui and screen.record then
+        for _,e in ipairs(screen.record.entries)do if e.type then types[e.type]=true end end
+        return types
+    end
+    return nil
+end
+function M.enable(world,enable,dt)
+    enable=enable or{}
+    local ok,why=M.prove(world)
+    if not ok then return {status='refused',code='UNPROVEN',reason=why}end
+    for _,id in ipairs(sorted_ids(enable))do
+        if not doubles.wanted[id]then
+            local spec=enable[id]
+            log(('STRATAGEM PICKABLE (native, the carrier-in-slot probe): %s: held by your custom stratagem %s itself '
+                ..'(loadout slot%s %s); it stays pickable in your other slots (the game\'s "already in this loadout" grey '
+                ..'lifted while the grid edits another slot); picking it moves the custom slot to its next carrier'):format(
+                label(id),tostring(spec.definition),#(spec.slots or{})==1 and''or's',table.concat(spec.slots or{},', ')))
+        end
+    end
+    doubles.wanted=enable
+    local g,gwhy=M.grid(world)
+    if not g then return {status='refused',code='UNREADABLE',reason=gwhy}end
+    local own=doubles.owned
+    if own and not(g.open and g.ui==own.ui and g.list==own.list)then own=nil end
+    if not g.open then doubles.owned=nil;return {status='idle',grid=false,enabled=0}end
+    if g.mode~=G.stratagemMode then doubles.owned=nil;return {status='idle',grid=true,enabled=0}end
+    own=own or{ui=g.ui,list=g.list,entries={}}
+    for index,e in pairs(own.entries)do
+        if index>=g.count or g.keys[index]~=e.key or g.enabled[index]~=1 then own.entries[index]=nil end
+    end
+    local by_key={}
+    for i=0,g.count-1 do
+        local k=g.keys[i]
+        if k and k~=0 then by_key[k]=by_key[k]or{};by_key[k][#by_key[k]+1]=i end
+    end
+    local open_up,grey={},{}
+    for _,id in ipairs(sorted_ids(enable))do
+        local spec=enable[id]
+        local editing=false
+        for _,slot in ipairs(spec.slots or{})do if slot==g.edited then editing=true end end
+        local card=M.card_of(world,id)
+        if card and card.disabled==0 and by_key[card.key]and not editing then
+            for _,i in ipairs(by_key[card.key])do
+                if not own.entries[i]and g.enabled[i]==0 and g.blocked[i]==0 then
+                    open_up[#open_up+1]={index=i,id=id,key=card.key,from=0,to=1}
+                end
+            end
+        end
+    end
+    local types
+    for index,e in pairs(own.entries)do
+        local spec=enable[e.id]
+        local editing=false
+        for _,slot in ipairs(spec and spec.slots or{})do if slot==g.edited then editing=true end end
+        if not spec or editing then
+            types=types or record_types(world,g.ui)
+            local kind=require('hd2runtime/runtime/stratagem_loadout').type_of(world,e.id)
+            if types and kind and types[kind]then grey[#grey+1]={index=index,id=e.id,key=e.key,from=1,to=0}
+            else own.entries[index]=nil end
+        end
+    end
+    table.sort(open_up,function(x,y)return x.index<y.index end)
+    table.sort(grey,function(x,y)return x.index<y.index end)
+    local result={status='applied',grid=true,wrote=0,greyed=0}
+    if #open_up+#grey>0 then
+        local owner=owner_of(world,g.ui,g.list)
+        local entries={}
+        for _,e in ipairs(open_up)do entries[#entries+1]=e end
+        for _,e in ipairs(grey)do entries[#entries+1]=e end
+        local report,wwhy
+        if owner then report,wwhy=write_cards(world,g,owner,entries,'enabled')
+        else wwhy='the loadout UI is not in committed private read-write memory'end
+        if not report then
+            doubles.owned=next(own.entries)and own or nil
+            if doubles.refused~=wwhy then
+                doubles.refused=wwhy
+                log('stratagem doubles REFUSED (nothing written; the game\'s grey stays): '..tostring(wwhy))
+            end
+            return {status='refused',code='GUARD_REJECTED',reason=wwhy}
+        end
+        doubles.refused=nil
+        for _,e in ipairs(open_up)do own.entries[e.index]={id=e.id,key=e.key}end
+        for _,e in ipairs(grey)do own.entries[e.index]=nil end
+        result.wrote,result.greyed=#open_up,#grey
+        local fresh=M.grid(world)
+        result.realize=fresh and fresh.open and request_realize(world,fresh,owner)or'skipped (the grid changed)'
+        local parts={}
+        if #open_up>0 then parts[#parts+1]=('pickable %d card%s (%s)'):format(#open_up,#open_up==1 and''or's',
+            names_of(open_up))end
+        if #grey>0 then parts[#parts+1]=('greyed again %d card%s (%s)'):format(#grey,#grey==1 and''or's',
+            names_of(grey))end
+        log(('stratagem doubles: native grid (slot %d): %s; enabled byte card list+0x%X (guarded, %d write%s, non-target '
+            ..'bytes unchanged %s, protection restored %s); realize %s'):format(g.edited,table.concat(parts,'; '),
+            G.enabled,report.writes,report.writes==1 and''or's',tostring(report.non_target_bytes_unchanged),
+            tostring(report.protection_restored),result.realize))
+    end
+    doubles.owned=next(own.entries)and own or nil
+    local n=0
+    for _ in pairs(own.entries)do n=n+1 end
+    result.enabled=n
+    return result
+end
+
 -- The ref count: reservations = {{carrier = stable id, holder = text, reason = text}} (one per custom stratagem
 -- instance / slot / teammate reserving a carrier). Returns the blocked set for apply(): {[stable id] = {reason (the
 -- first given), holders = {distinct holder texts, sorted}}}; a carrier stays blocked while any holder remains.
@@ -426,6 +556,7 @@ end
 
 function M.reset_for_tests()
     wanted,leaving,owned,request,refused,game_seen,first_consumed,proven,names={},{},nil,nil,{},{},false,{},nil
+    doubles={owned=nil,wanted={},refused=nil}
 end
 
 return M
