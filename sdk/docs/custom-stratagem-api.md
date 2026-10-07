@@ -198,8 +198,10 @@ everywhere else.
   game repainted: true), and the mission ran on the 380mm (`NATIVE USES` 3, `READY TO CALL`). Not yet reported: the
   HUD counter, the depleted look, and whether the HUD showed the custom look from its first frame. r36 solo log: the
   carrier was pickable from a freshly opened grid and the slot moved (Airburst -> Gatling), but the card was still
-  drawn grey (the byte write and the consumed realize request did not redraw it): fixed in 0.3.1 through the game's
-  helper, offline only. The launch fallback (0.3.0) is offline only.
+  drawn grey (the byte write and the consumed realize request did not redraw it). r37 solo (the user, 2026-10-07: "it
+  worked well"): the game's helper lifted the grey on every grid open (`by the game's per-card grey helper ... 1
+  call`), the card looked pickable, the pick moved the slot (Airburst -> Gatling). The launch fallback (0.3.0) is
+  offline only.
 - **With several players** the pick writes the token, as before.
 
 ### `code`
