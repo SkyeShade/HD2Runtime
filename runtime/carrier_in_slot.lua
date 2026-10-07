@@ -107,7 +107,10 @@ function M.step(ctx)
         local parts={}
         for id,x in pairs(state.early)do
             parts[#parts+1]=x.skipped and('%s NOT presented early (%s)'):format(id,x.skipped)
-                or('%s presented at %.2f s during %s'):format(id,x.at,x.during)
+                or x.applied and('%s presented at %.2f s during %s'):format(id,x.at,x.during)
+                or x.pending and('%s still being presented (started at %.2f s during %s)'):format(id,x.at,x.during)
+                or('%s NOT presented early (refused: %s; the mission steps apply it after the HUD)'):format(id,
+                tostring(x.why))
         end
         table.sort(parts)
         log(('TIMING: the mission HUD is populated at %.2f s; %s'):format(ctx.clock,#parts>0 and table.concat(parts,'; ')
@@ -124,7 +127,11 @@ function M.step(ctx)
     end
     -- The early presentation: entering the mission (the loading screen) or the mission before the HUD is populated.
     local entering=game and(game.name=='PrepareMission'or(game.mission and not populated))
-    if not entering then return end
+    if not entering then
+        -- r43: too late for a retry: the mission's own presenting step applies it.
+        for _,e in pairs(state.early)do e.retry=nil end
+        return
+    end
     local cp=require('hd2runtime/runtime/carrier_presentation')
     for id,x in pairs(by)do
         local d=ctx.definitions[id]
@@ -136,20 +143,34 @@ function M.step(ctx)
             log(('%s: NO early presentation on %s: %s (never on a carrier that is not its own)'):format(id,name,
                 tostring(why)))
         end
+        -- r43: refused for a transient reason (another write in between; nothing left written): tried again.
+        local e=state.early[id]
+        if e and e.retry and e.carrier==name then state.early[id]=nil end
         if d and name and not state.early[id]and not x.mixed and not cp.applied(name)then
-            state.early[id]={carrier=name,at=ctx.clock,during=game.name,pending=true}
-            log(('%s: applying the presentation on its carrier %s during %s at %.2f s (loadout slot%s %s)'):format(id,name,
-                game.name,ctx.clock,#x.slots==1 and''or's',table.concat(x.slots,', ')))
+            local attempt=(e and e.retry and e.attempt or 0)+1
+            state.early[id]={carrier=name,at=ctx.clock,during=game.name,pending=true,attempt=attempt}
+            log(('%s: applying the presentation on its carrier %s during %s at %.2f s (loadout slot%s %s)%s'):format(id,
+                name,game.name,ctx.clock,#x.slots==1 and''or's',table.concat(x.slots,', '),attempt>1 and(', attempt '
+                ..attempt)or''))
             cp.apply({carrier=name,text=d.texts,icon=d.icon,code=d.code},function(h)
-                local e=state.early[id]
-                if not e then return end
-                e.pending=false
-                e.applied=h.status=='applied'
-                log(('%s: presentation on %s %s at %.2f s%s'):format(id,name,e.applied and'APPLIED'or'REFUSED',state.clock,
-                    e.applied and''or(': '..tostring(h.code)..': '..tostring(h.reason))))
+                local now=state.early[id]
+                if not now then return end
+                now.pending=false
+                now.applied=h.status=='applied'
+                now.why=not now.applied and(tostring(h.code)..': '..tostring(h.reason))or nil
+                now.retry=not now.applied and now.attempt<M.EARLY_ATTEMPTS and M.transient(h)or nil
+                log(('%s: presentation on %s %s at %.2f s%s'):format(id,name,now.applied and'APPLIED'or'REFUSED',state.clock,
+                    now.applied and''or(': '..now.why..(now.retry and'; tried again'or''))))
             end)
         end
     end
+end
+-- An early presentation refused for one of these is tried again (at most M.EARLY_ATTEMPTS in all) while the game is
+-- still entering the mission: another write landed between its reads and its transaction; nothing of it stays written.
+M.EARLY_ATTEMPTS=3
+function M.transient(h)
+    if h.code=='GUARD_REJECTED'or h.code=='TARGET_UNSTABLE'then return true end
+    return require('hd2runtime/runtime/retry').transient(h.reason)~=nil
 end
 -- Whether the early presentation is applied for a definition on that carrier (the mission step then skips its own).
 function M.early(id,carrier)
@@ -225,7 +246,7 @@ function M.lock_state(id)return state.locks[id]end
 -- Whether a definition's early presentation is still being applied (the mission step waits for it).
 function M.waiting(id)
     local e=state.early[id]
-    return e~=nil and e.pending==true
+    return e~=nil and(e.pending==true or e.retry==true)
 end
 -- Whether an early presentation is applied or pending (the ship-side restore waits while the game enters the mission).
 function M.entering()

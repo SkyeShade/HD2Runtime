@@ -2072,6 +2072,10 @@ do
         if not(records and#records>1)then return end
         local present,custom=sync.native_present(records,v.table,function(kind)return loadout.id_of(world,kind)end)
         local token=loadout.type_of(world,stratagem_id(M.TOKEN))
+        -- r43: this machine's own slots of an id, in either mode (a token slot's own steps present it with its code).
+        local mine={}
+        local V=selector.virtual_slots()
+        for _,e in pairs(V and V.slots or{})do if e.definition then mine[e.definition]=true end end
         local claims={}
         for _,c in ipairs(custom)do
             local d=defs[c.id]
@@ -2079,8 +2083,8 @@ do
                 local cl=claims[c.type]or{id=c.id,where={},own=false}
                 claims[c.type]=cl
                 if cl.id~=c.id then cl.conflict=true end
-                if c.peer==v.local_peer then cl.own=true
-                else cl.where[#cl.where+1]=('peer %s slot %d'):format(c.peer,c.slot)end
+                if c.peer==v.local_peer or mine[c.id]then cl.own=true end
+                if c.peer~=v.local_peer then cl.where[#cl.where+1]=('peer %s slot %d'):format(c.peer,c.slot)end
             end
         end
         for kind,cl in pairs(claims)do
@@ -2145,7 +2149,7 @@ end
 -- aboard the ship; each transition logged once; never in a mission (the mission start freezes it: an unavailable
 -- definition is simply not converted).
 M.AVAILABILITY_EVERY=1
-local avail={state={},text={},at=-math.huge}
+local avail={state={},text={},at=-math.huge,carrier={}}
 -- The native picks this machine reads, and who made each: present {[stable id] = true}, who {[stable id] = {tags}},
 -- and this player's virtual slots ({[slot] = id}).
 local function lobby_picks(world,ids)
@@ -2405,6 +2409,8 @@ function M.probe_carrier(id)
     -- The ship preview's own assignment first (r41: with several players it holds the pins, so a pick of an id another
     -- player already holds takes that player's carrier), then the selection's cache, then the availability view.
     local a=(ship.alloc and ship.alloc.assignments[id])or cache[id]or(group_view.a and group_view.a.assignments[id])
+        -- r43: an expendable's condensed carrier (its carrier weapon's own stratagem), from the availability step.
+        or(d.kind=='expendable'and avail.carrier[id])or nil
     if not(a and a.stable_id and a.carrier)then
         require('hd2runtime/runtime/carrier_in_slot').log(id..': no carrier is allocated yet: its pick writes the token')
         return nil
@@ -2459,6 +2465,7 @@ local function availability_step(world,v)
             else reason,weapon=weapon_carriers.unavailable(d.id,d.delivery.donor,present,claims,{who=who,slots=d.slots,
                 fallback=d.delivery.fallback~=nil})end
             local mode
+            avail.carrier[d.id]=nil
             if not reason and weapon.donor_self then
                 -- The donor itself: its beacon always a separate support carrier.
                 local mine=ship.alloc and ship.alloc.assignments[d.id]
@@ -2477,6 +2484,7 @@ local function availability_step(world,v)
                 local c,second=condensed_carrier(world,weapon.weapon,present,players>1)
                 if c then
                     mode=('condensed: %s is also its beacon carrier and its pod'):format(weapon.weapon)
+                    avail.carrier[d.id]={stable_id=c.id,carrier=c.name}
                 else
                     local mine=ship.alloc and ship.alloc.assignments[d.id]
                     local carrier_why=ship.alloc and not mine and ship.alloc.refused[d.id]
@@ -5598,7 +5606,7 @@ function M.reset_for_tests()
     defs,order,cache,ship,life,clock={},{},{},{key=nil,at=-1,line=nil,status={}},{busy={},due=nil,refused={},retry_at=0},0
     verbose=false;eagles.verbose=false
     mp_ship.at=-math.huge
-    avail={state={},text={},at=-math.huge}
+    avail={state={},text={},at=-math.huge,carrier={}}
     group_view={key=nil,at=-math.huge}
     if loop then loop.cancel();loop=nil end
     if landing then landing.cancel();landing=nil end

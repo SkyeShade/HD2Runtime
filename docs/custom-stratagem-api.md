@@ -267,6 +267,22 @@ work in that mode. The test mod `proof/CarrierModeEverywhere` calls it with `tru
   carrier mode puts it there at the pick instead. What can differ per kind is the pick's guards (`TOKEN_LIMITED`,
   `TOKEN_VEHICLE`, `TOKEN_NOT_SELECTABLE` on the carrier itself) and the native uses (`SPECIAL_USES`, `USES_DIFFER`,
   `SHARED_COOLDOWN`).
+- r42 two-player test (Shredder Silo, Pelican Gatling, Orbital Gas Barrage, EAT-40 Expendable Gas; logs only):
+  - every call landed as its custom stratagem, and the remote barrages and EATs were converted;
+  - but the HUD and TAB menu showed the carriers' own looks, except the two early presentations that applied (the
+    client's silo and EAT). Every machine started all its early presentations in one frame; their icon-and-code
+    transactions interleaved and refused each other (`unstable ownership/data snapshot`, `GUARD_REJECTED`). The mission
+    steps then applied them after the HUD was built.
+  - the host's EAT pick wrote the token (solo, an expendable's carrier was not known before its pick; then several
+    players before custom multiplayer was enabled). In the mission its presentation was refused (`ALREADY_APPLIED`):
+    the client's carrier slot of it had been presented there first, without the code.
+- Fixed in r43 (offline only):
+  - the carrier presentations (applies and restores) run one at a time;
+  - an early presentation refused for a transient reason is tried again (at most 3 attempts) while the game still
+    enters the mission;
+  - a teammate's carrier slot of an id this machine holds in any slot (a token slot too) is left to this machine's
+    own steps, which present it with its code;
+  - an expendable's pick takes its condensed carrier (its carrier weapon's own stratagem) from the availability step.
 
 ### `code`
 

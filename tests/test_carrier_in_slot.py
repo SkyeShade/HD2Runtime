@@ -631,6 +631,79 @@ assert(d.selection=='carrier'and count('(orbital_gas_barrage): REFUSED')==0 and 
 return 'ok'
 ''')
 
+    def test_several_early_presentations_entering_together_all_apply(self):
+        # r43 (the r42 whole-set test): every carrier slot's early presentation started in the same frame; their icon
+        # and code transactions interleaved and refused each other, so the HUD showed the carriers' own looks.
+        self.flow(r'''
+rawset(_G,'ModOptionsMenu',MENU)
+custom.reset_carrier_mode_for_tests()
+custom.set_carrier_mode_all(true,'test')
+assert(loadstring(GAS_ADDON,'@'..GAS_RESOURCE))()
+assert(loadstring(ADDON,'@'..RESOURCE))()
+assert(custom.get('pelican_close_air_support').selection=='carrier')
+tick(40)
+ship({})
+tick(4)
+local function pick(slot,skips)
+    SCREEN.set('selecting',false);tick(2)
+    SCREEN.set('editedSlot',slot);SCREEN.set('selecting',true);tick(6)
+    press('F7');for _=1,skips do press('F6')end;press('F7')
+    tick(30)
+end
+pick(0,0)
+pick(1,1)
+native_append(130)
+SCREEN.set('selecting',false);tick(8)
+local V=require('hd2runtime/runtime/stratagem_selector').virtual_slots()
+assert(V.slots[0]and V.slots[1]and V.slots[0].carrier and V.slots[1].carrier,
+    require('hd2runtime/runtime/stratagem_selector').slots_text(V)..' | '..lines('SELECTED'))
+assert(V.slots[0].definition~=V.slots[1].definition)
+W.saved_loadout({{id=V.slots[0].token},{id=V.slots[1].token},{id=1298599997}})
+SCREEN.close();tick(80)
+W.state(6);tick(120)
+assert(count('applying the presentation on its carrier')==2,lines('CARRIER-IN-SLOT'))
+assert(count(': presentation on ')==2 and count('REFUSED at')==0,lines('CARRIER-IN-SLOT'))
+local cp=require('hd2runtime/runtime/carrier_presentation')
+local n1,n2=custom.probe_carrier(V.slots[0].definition).name,custom.probe_carrier(V.slots[1].definition).name
+assert(cp.applied(n1)and cp.applied(n2))
+-- One at a time: the first one's whole presentation (text, icon and code) before the second one's text (the offline
+-- world never changes data in between, so the r42 refusal itself cannot be reproduced; its cause can).
+local all=lines('APPLIED')
+local function at(t)return all:find(t,1,true)or math.huge end
+assert(at('carrier presentation APPLIED: '..n1)<at('custom text APPLIED: '..n2)
+    or at('carrier presentation APPLIED: '..n2)<at('custom text APPLIED: '..n1),all)
+return 'ok'
+''')
+
+    def test_an_expendables_pick_writes_its_condensed_carrier(self):
+        # r43 (the r42 whole-set test): solo, an expendable's pick wrote the token ('no carrier is allocated yet'): its
+        # carrier comes from the availability step (its carrier weapon's own stratagem, condensed), not the allocation.
+        # (The offline world has no row for EAT-700: its condensed verdict is stubbed; the pick is the generic one.)
+        from support import lua as lua_literal
+        from test_custom_mp_mission import example_addon
+        g, g_addon = example_addon('EAT17GExample')
+        self.flow('local G_ADDON=' + lua_literal(g_addon) + '\nlocal G_RESOURCE=' + lua_literal(g) + r'''
+rawset(_G,'ModOptionsMenu',MENU)
+custom.reset_carrier_mode_for_tests()
+custom.set_carrier_mode_all(true,'test')
+assert(loadstring(G_ADDON,'@'..G_RESOURCE))()
+local id='eat17g_clone'
+assert(custom.get(id).kind=='expendable'and custom.get(id).selection=='carrier')
+local conv=require('hd2runtime/runtime/stratagem_slot_conversion')
+conv.validate_carrier=function(world,token,weapon,opts)
+    return {ready=true,valid=true,candidate={id=1813634375,name=weapon,beaconCategory='support'}}
+end
+tick(40)
+ship({})
+tick(40)
+assert(count('AVAILABILITY ('..id..'): AVAILABLE: its carrier weapon is EAT-700 Expendable Napalm when it is picked '
+    ..'(condensed: ')==1,lines('AVAILABILITY'))
+local c=custom.probe_carrier(id)
+assert(c and c.id==1813634375 and c.name=='EAT-700 Expendable Napalm',lines('CARRIER-IN-SLOT'))
+assert(count('no carrier is allocated yet')==0)
+return 'ok'
+''')
+
     def test_anyone_else_picking_its_carrier_moves_the_slot_before_the_mission(self):
         self.flow(r'''
 rawset(_G,'ModOptionsMenu',MENU)
@@ -975,6 +1048,34 @@ assert(#calls==1 and count("presented here by this machine's own slot of it")==1
 assert(not custom.presented_here(136,'carrier_slot_probe'),'not until its own presentation is applied')
 applied['Orbital 120mm HE Barrage']=true
 assert(custom.presented_here(136,'carrier_slot_probe'))
+'''), b'ok')
+
+    def test_a_teammates_carrier_slot_of_an_id_held_here_as_a_token_is_left_to_the_own_steps(self):
+        # r43 (the r42 whole-set test): the host's slot of an id held the token (its pick fell back to it), the client's
+        # held the carrier. The host presented the client's slot first (name and icon, no code), then its own token
+        # slot's mission presentation on that same carrier was refused (ALREADY_APPLIED): the host's call was refused.
+        self.assertEqual(mp_lua(r'''
+local cp=require('hd2runtime/runtime/carrier_presentation')
+local applied,calls={},{}
+cp.applied=function(name)return applied[name]==true end
+cp.apply=function(spec,cb)calls[#calls+1]=spec;applied[spec.carrier]=true;cb({status='applied'});return {status='applied'}end
+local selector=require('hd2runtime/runtime/stratagem_selector')
+selector.set_virtual_slots_for_tests({slots={[0]={definition='carrier_slot_probe',token=PRECISION,type=118}},
+    pairs={PRECISION}})
+V.table[ME][0]='carrier_slot_probe'
+V.table[THEM][0]='carrier_slot_probe'
+RECORDS[1]=rec(ME,{118,22,130})
+RECORDS[2]=rec(THEM,{136,41,130})
+require('hd2runtime/runtime/stratagem_slot_conversion').records=function()return RECORDS end
+local world=world_module.open()
+W.state(6)
+custom.probe_remote_step(world)
+W.state(4,{host=false})
+custom.probe_remote_step(world)
+assert(#calls==0,'never presented by the remote step: its own steps present it, with its code')
+assert(count("peer "..THEM.." slot 0 holds Orbital 120mm HE Barrage for carrier_slot_probe: presented here by this "
+    .."machine's own slot of it")==1,'not left to its own steps')
+selector.set_virtual_slots_for_tests(nil)
 '''), b'ok')
 
     def test_other_players_custom_slots_are_never_native_picks(self):

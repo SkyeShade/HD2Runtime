@@ -49,6 +49,10 @@ local states={}
 local latest
 local sentinel
 local restoring={}        -- by carrier: the restore job in flight (restore_now supersedes it)
+-- The apply or restore job holding the presentation writes (r43): one at a time. Their transactions read and verify
+-- shared ownership data across reader yields, so two in flight refused each other ('unstable ownership/data snapshot',
+-- GUARD_REJECTED: r42, four early presentations started in one frame). Free once its job is no longer pending.
+local busy
 local function held(s)return s~=nil and s.applied and not s.restored end
 -- A carrier's state; with no carrier, the latest one applied.
 local function pick(carrier)
@@ -95,8 +99,16 @@ local function run(body,now)
     return nil,'FAILED','the operation did not finish'
 end
 
-local function job(body,callback)
+local function job(body,callback,exclusive)
     local handle={status='pending'}
+    local inner=body
+    if exclusive then
+        body=function()
+            while busy and busy~=handle and busy.status=='pending'and busy.watch.status=='active'do coroutine.yield()end
+            busy=handle
+            return inner()
+        end
+    end
     local co=coroutine.create(body)
     local watch={status='active'}
     function watch.cancel()watch.status='cancelled'end
@@ -389,7 +401,7 @@ function M.apply(spec,callback)
             tostring(verify.code),tostring(verify.others)))
         return {status='applied',carrier=spec.carrier,type=state.type,id=id,writes=writes_n,verify=verify,
             native=native.code}
-    end,callback)
+    end,callback,true)
 end
 
 -- The restore (inside a coroutine; now=true: from restore_now or the finalizer). Returns a result table, or nil and
@@ -440,7 +452,7 @@ end
 -- latest one applied).
 function M.restore(callback,carrier)
     local key=carrier or(latest and latest.carrier)or'?'
-    restoring[key]=job(function()return restore_body(false,carrier)end,callback)
+    restoring[key]=job(function()return restore_body(false,carrier)end,callback,true)
     return restoring[key]
 end
 -- Restores within this tick (the loadout-screen boundary): a result table, or nil and code, reason. Idempotent:
@@ -474,5 +486,6 @@ end
 -- {applied, restored, carrier, id, type, native, text, definition} or nil.
 function M.state(carrier)return pick(carrier)end
 function M.finalize_for_tests()finalize()end
-function M.reset_for_tests()states,latest,restoring={},nil,{};disarm()end
+function M.busy()return busy~=nil and busy.status=='pending'and busy.watch.status=='active'end
+function M.reset_for_tests()states,latest,restoring,busy={},nil,{},nil;disarm()end
 return M
