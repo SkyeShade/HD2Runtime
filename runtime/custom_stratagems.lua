@@ -996,9 +996,10 @@ function M.register(spec,owner)
     -- cooldown longer than any mission).
     assert(spec.uses==nil or(type(spec.uses)=='number'and spec.uses%1==0 and spec.uses>=1 and spec.uses<=M.MAX_USES),
         'uses must be a whole number of calls per mission from 1 to '..M.MAX_USES)
-    -- The carrier-in-slot probe (runtime/carrier_in_slot.lua, development, solo host): the slot holds the carrier itself.
+    -- The loadout slot holds the carrier itself (runtime/carrier_in_slot.lua; the default since r44); 'token' is a
+    -- development option (the Orbital Precision Strike token, the Runtime's own fallback path).
     assert(spec.selection==nil or spec.selection=='token'or spec.selection=='carrier',
-        "selection must be 'token' (the default) or 'carrier' (the carrier-in-slot probe)")
+        "selection must be 'carrier' (the default: the slot holds the carrier itself) or 'token' (development)")
     assert(spec.uses==nil or spec.eagle==nil,'uses counts calls per mission; an Eagle\'s uses are per rearm (eagle.uses)')
     local ok,why=allocator.check_policy(spec.carrier)
     assert(ok,tostring(why))

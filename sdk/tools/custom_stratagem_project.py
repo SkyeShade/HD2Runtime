@@ -112,7 +112,8 @@ def _families(schema):
     # Every payload family a project may use: the families list, the carrier pod family (podFamily) and each family's
     # options (familyOptions: the expendable family's pod), merged into its fields.
     out = {}
-    for f in schema['families'] + ([schema['podFamily']] if schema.get('podFamily') else []):
+    for f in schema['families'] + ([schema['podFamily']] if schema.get('podFamily') else []) \
+            + ([schema['variantFamily']] if schema.get('variantFamily') else []):
         f = dict(f)
         options = schema.get('familyOptions', {}).get(f['family'], {})
         if options:
@@ -158,7 +159,7 @@ def _weapon(problems, where, value, schema, family):
 
 
 PAYLOAD_KEYS = {'support': 'support', 'pod': 'pod', 'expendable': 'expendable', 'sentry': 'sentry', 'eagle': 'eagle',
-    'silo': 'silo'}
+    'silo': 'silo', 'weapon': 'weapon'}
 
 
 def _payload_key(payload):
@@ -449,6 +450,34 @@ def validate(project: dict, schema: dict) -> list[str]:
                         payload.get('weapon'), ', '.join(rounds) or 'none'))
                 elif isinstance(payload.get('modify'), dict) and 'impact_explosion' in payload['modify']:
                     problems.add(pw + '.round', 'not with modify.impact_explosion: the round has its own explosions')
+        elif fam['family'] == 'weapon':
+            hosts = _names(schema, 'variantDonors')
+            host = hosts.get(payload.get('weapon'))
+            if not host:
+                problems.add(pw + '.weapon', 'must be a reviewed variant weapon: ' + ', '.join(sorted(hosts)))
+            if 'round' in payload and host is not None:
+                outputs = [r['output'] for r in host.get('rounds', [])]
+                if payload['round'] not in outputs:
+                    problems.add(pw + '.round', 'must be a round of the %s\'s own compatibility class: %s' % (
+                        host['name'], ', '.join(outputs) or 'none'))
+            pres = payload.get('presentation')
+            if pres is not None and _only_keys(problems, pw + '.presentation', pres, set(fields['presentation']['fields'])):
+                name = pres.get('name')
+                if name is not None and not (isinstance(name, str) and 1 <= len(name) <= M['name']['maxLength']
+                        and not re.search(r'[\x00-\x1f\x7f]', name)):
+                    problems.add(pw + '.presentation.name', 'must be a string of 1 to %d characters'
+                        % M['name']['maxLength'])
+                icon_id = pres.get('icon')
+                if icon_id is not None and not (isinstance(icon_id, str) and re.fullmatch(r'[a-z0-9_]{1,64}', icon_id)):
+                    problems.add(pw + '.presentation.icon', 'must be an image id (images/<id>.png)')
+            model = payload.get('model')
+            if model is not None and not (isinstance(model, str) and re.fullmatch(r'[a-z0-9_]{1,64}', model)):
+                problems.add(pw + '.model', 'must be a model id (models/<id>.json)')
+            if 'model_use' in payload:
+                if model is None:
+                    problems.add(pw + '.model_use', 'needs model')
+                elif payload['model_use'] not in fields['model_use']['values']:
+                    problems.add(pw + '.model_use', 'must be ' + ' or '.join(fields['model_use']['values']))
         elif fam['family'] == 'sentry':
             if payload.get('donor') not in _names(schema, 'sentryDonors', lambda d: d['supported']):
                 problems.add(pw + '.donor', 'must be a catalogued sentry')
@@ -595,6 +624,13 @@ def _payload_lua(payload: dict) -> tuple[str, str]:
             body['pod'] = _pod_lua(body['pod'])
         return 'delivery', _lua_value((('family', 'expendable'),) + _ordered(body, ('weapon', 'presentation', 'modify',
             'round', 'level', 'pod')))
+    if family == 'weapon':
+        if isinstance(body.get('presentation'), dict):
+            body['presentation'] = _ordered(body['presentation'], ('name', 'icon'))
+        if 'round' in body:
+            body['round'] = _Expr('hd2.attack_output(%s)' % _lua_string(body['round']))
+        return 'delivery', _lua_value((('family', 'weapon'),) + _ordered(body, ('weapon', 'presentation', 'round',
+            'model', 'model_use')))
     if family == 'pelican':
         for key, order in (('orbit', ('radius', 'altitude', 'duration', 'period', 'entry')),
                 ('approach', ('distance', 'height')), ('gun', PELICAN_GUN_ORDER)):

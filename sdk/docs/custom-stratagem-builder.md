@@ -4,8 +4,15 @@ This page is for tools that create custom stratagems, such as a future ModBuilde
 The API itself is [custom-stratagem-api.md](custom-stratagem-api.md).
 
 **Status: development.** Everything here describes the same `hd2.custom_stratagem.register` the examples call. With
-several players (experimental) a client runs its support, expendable and sentry deliveries and native orbitals, and
-the host spawns its Pelican.
+several players (custom multiplayer: every player runs the same Runtime and mods) a client runs its support,
+expendable, sentry and silo deliveries and native orbitals, and the host spawns its Pelican and requests its silo
+blast. How far each payload family is live-tested: `familyEvidence` (below).
+
+**The loadout slot (since r44):** a custom stratagem's pick writes its CARRIER itself into the slot, so the slot shows
+the custom name, icon, cooldown and use counter natively on every machine. A project has no field for it. The Runtime
+falls back to the Orbital Precision Strike token (converted at mission start) on its own: several players without
+custom multiplayer, a pick while custom multiplayer is still WAITING, or no carrier known yet. `selection` in the
+schema describes this for a builder's help text.
 
 The ten custom stratagem examples of 2026-10-06 are custom_stratagems.json projects (each `proof/<name>/
 custom_stratagems.json`, copied to `sdk/fixtures/custom_stratagems/<name>.json`): every family a builder needs has a
@@ -30,11 +37,14 @@ entity number appears in either file. Donors are named, because a donor's packag
 | Key | Contents |
 |---|---|
 | `schemaVersion`, `hd2RuntimeVersion`, `format` | `1`, the Runtime version it was generated from, and the project format id (`hd2runtime-custom-stratagems/1`). |
-| `status` | The support status (development, solo host). |
+| `status` | The support status (development; several players through custom multiplayer). |
 | `metadata` | `id`, `name`, `name_cased`, `description`, `icon`, `code`, `cooldown`, `uses`, `traits`, `assets`. |
 | `carrier` | `group`, `slots`, `beacon`, `prefer_families`, `allow_families`, `exclude`. |
 | `families` | Each payload family: its fields, its carrier rules (`beacon`, `allowFamilies`) and notes. `builder: false` marks `script`, the Lua-only family. |
 | `podFamily` | The carrier pod payload family (`pod`), beside `families` (whose list is unchanged for tools that read it). |
+| `variantFamily` | The weapon variant payload family (`weapon`, r44), beside `families` like `podFamily`. |
+| `familyEvidence` | Per payload family (r44): `status` (`live`, `partial`, `offline`), `multiplayer`, `doc`, and the `evidence` ids of docs/live-evidence.md: a builder's badges. |
+| `selection` | What a pick writes into the loadout slot (r44): informational, `field: null` (no project field). |
 | `familyOptions` | Options added to a family since: `expendable.pod` (what its carrier weapon's own pod holds) and its carrier group. |
 | `unsupported` | Fields that are refused, with the reason (all shared definitions). |
 | `limits` | At most 16 custom stratagems; at most 64 orbital shells per call. |
@@ -56,7 +66,7 @@ donors are accepted) and `doc`.
 | `icon` | image | `{"image": "<id>", "source": "images/<id>.png"}` | required |
 | `code` | list of directions | 1 to 8 of `up`, `down`, `left`, `right`; never equal to, the start of, or started by another custom stratagem's code; never equal to any native code (`nativeCodes`), nor the start of, or started by, a catalogued one | required |
 | `cooldown` | number, seconds from the call-in's arrival | above 0, at most 600 (refused for an Eagle) | the carrier's own |
-| `uses` | integer, calls per mission | 1 to 100, each player's own; the last call's cooldown outlasts the mission (refused for an Eagle) | unlimited |
+| `uses` | integer, calls per mission | 1 to 100, each player's own: the game's own per-slot use counter (refused for an Eagle, whose uses are per rearm) | unlimited |
 | `traits` | list of strings | at most 4 labels of 1 to 32 printable characters, after the automatic CUSTOM STRATAGEM | the family's |
 | `assets` | list of stratagem names | the `stratagems` catalogue | none (a payload's own donors are added) |
 | `carrier.group` | enum | a `carrierGroups` name: `orbital`, `any_red`, `any`, `support`, `support_pod`, `expendable`, `sentry`, `emplacement`, `eagle`; refused when it cannot carry the payload | the payload family's default group |
@@ -77,6 +87,7 @@ donors are accepted) and `doc`.
 | `orbital` | any beacon | `shell` (an `orbitals` entry; its first shell is fired), `pattern` (an `orbitals` entry; default Orbital 120mm HE Barrage), `salvos` (1..16), `shells_per_salvo` (1..16; at most 64 shells in all), `shell_interval` (0..10 s), `salvo_interval` (0..30 s), `scatter` and `salvo_scatter` (0..100, the pattern record's units), `impact_explosion`. Explicit intervals are exact (no random part). |
 | `pelican` | any beacon (the examples: `offensive`, prefer `orbital`) | `hover` (seconds over the beacon, required), `orbit` (`radius`, `altitude`, `duration`, `period`, `entry`), `approach` (`distance`, `height`) and `gun`, its chin turret on its own copies: `round` (`native`: its own autocannon round; `standard`, `ap4`, `strafing_run`, `strafing_run_pattern`), `behave_as` (`gatling_sentry`: the Gatling AI; without it its own burst AI), `rate_multiplier` (1, 1.5, 2) or `rpm` (30..3000, with the Gatling AI), `casing` (`gatling`, `own`), `spread`, `recoil` (`false`), `unlimited_ammo`, `face_target`, `sound` (`pelicanSounds`), `impact_explosion` (`pelicanExplosionDonors`: a slow donor needs `rpm` at most its `maxRpm`), `aim_height` (0..3 m, with the Gatling AI). `gun = {"round": "native"}` alone is the vanilla autocannon (Pelican Cannon Support): its chin turret is left exactly as the game spawned it on every machine, only its kills are credited to the caller. |
 | `silo` | `support` beacon (group `support`) | `donor` (a `siloDonors` entry: `MS-11 Solo Silo`), `blast` (required; a `blastExplosions` name, requested where the call's missile detonates), `fallback` (a `blastExplosions` name, requested instead when the blast's packages are not resident on the host). An `objective` blast (the Cyborg Production Unit's) loads about 300 MB of objective packages at mission start. Compiles to `silo = {...}`. Several players: the host requests the blast for every caller. |
+| `weapon` (`variantFamily`) | group `weapon` (the host's own stratagem: a `support` beacon) | `weapon` (a `variantDonors` entry: the M-1000 Maxigun), `round` (a `variantDonors[].rounds[].output` of that host: another round of its own compatibility class; compiles to `hd2.attack_output(output)`), `presentation` (`name`, `icon`), `model` (the id of the mod's `models/<id>.json`, docs/custom-models.md; a builder without a model pipeline leaves it out), `model_use` (`apply` or `check`; needs `model`). A mission-scoped variant on the weapon's own type; while a lobby member brings the host natively the variant is unavailable. Compiles to `delivery = {family = 'weapon', ...}`. Live solo (the Laser Maxigun). |
 | `script` | any | Not representable: the mod delivers in Lua callbacks (`on_activate`, `ctx:barrage`, `hd2.pelican.spawn`, ...). |
 
 The weapon fields (support `modify`, sentry `weapon`), each on the call's own entity only:
@@ -198,3 +209,27 @@ These are refused with the reason in `unsupported`; they are shared definitions:
 - raw numbers.
 
 Anything procedural (a Pelican, a barrage aimed in a callback, a reaction to a kill) stays Lua.
+
+## For ModBuilder (the stratagem builder tab; 2026-10-07)
+
+ModBuilder never runs SDK scripts: it reads `sdk/CustomStratagemSchema.json` and writes the `register` calls itself
+(HD2RuntimeGUI `Runtime030DevTarget`). What it can rely on:
+
+- **One contract file.** Every field, range, default, unit, catalogue and refusal is in `CustomStratagemSchema.json`,
+  generated from the Runtime's own code. A builder that validates against it produces what the Runtime registers;
+  the Runtime re-checks everything at load and refuses with a message naming the field.
+- **Additive changes keep `schemaVersion` 1.** New families and keys are added beside the existing ones
+  (`podFamily`, `variantFamily`, `familyEvidence`, `selection`, `familyOptions`); an existing key is never renamed or
+  repurposed without a new `schemaVersion` and a new `format`. Read unknown keys leniently.
+- **Every family a builder needs:** `support`, `pod`, `expendable`, `weapon`, `sentry`, `eagle`, `orbital`, `pelican`,
+  `silo`. `script` is Lua only. The compiled examples (`sdk/fixtures/custom_stratagems`) cover every family but
+  `weapon` (whose test project is in tests/test_custom_stratagem_project.py).
+- **Badges:** `familyEvidence[family].status` (`live`, `partial`, `offline`) and `.multiplayer`; the `unsupported`
+  list for what to grey out with its reason.
+- **What a fix after a live test changes.** The Eagle pods, the sentries and the other families still to be live-tested
+  with the carrier in the slot run through the same fields: a fix there is inside the Runtime (how the carrier, the
+  slot and the presentation are handled), not a new field. Should a field ever have to change, it is listed here and in
+  `unsupported` first.
+- **Not a builder's concern:** the carrier (allocated by the Runtime from the policy and group), the slot write, the
+  token fallback, the presentation lifecycle, multiplayer sync (every player needs the same mods: the registry hash).
+

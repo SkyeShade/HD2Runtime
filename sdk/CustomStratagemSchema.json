@@ -4772,6 +4772,225 @@
     "rateSelector": false,
     "reason": "TX-41 Sterilizer's rack has no active item"
    }
+  ],
+  "variantDonors": [
+   {
+    "compatibilityClass": "conventional_plain",
+    "name": "M-1000 Maxigun",
+    "packageKnown": true,
+    "projectile": 306,
+    "rounds": [
+     {
+      "label": "APW-1 Anti-Materiel Rifle",
+      "output": "output/v1/projectile/apw-1-anti-materiel-rifle"
+     },
+     {
+      "label": "AR-11 Arbitrator",
+      "output": "output/v1/projectile/ar-11-arbitrator"
+     },
+     {
+      "label": "AR-2 Coyote",
+      "output": "output/v1/projectile/ar-2-coyote"
+     },
+     {
+      "label": "AR-23 Liberator",
+      "output": "output/v1/projectile/ar-23-liberator"
+     },
+     {
+      "label": "AR-23A Liberator Carbine",
+      "output": "output/v1/projectile/ar-23a-liberator-carbine"
+     },
+     {
+      "label": "AR-23C Liberator Concussive",
+      "output": "output/v1/projectile/ar-23c-liberator-concussive"
+     },
+     {
+      "label": "AR-23P Liberator Penetrator",
+      "output": "output/v1/projectile/ar-23p-liberator-penetrator"
+     },
+     {
+      "label": "AR-32 Pacifier",
+      "output": "output/v1/projectile/ar-32-pacifier"
+     },
+     {
+      "label": "AR-59 Suppressor",
+      "output": "output/v1/projectile/ar-59-suppressor"
+     },
+     {
+      "label": "AR-61 Tenderizer",
+      "output": "output/v1/projectile/ar-61-tenderizer"
+     },
+     {
+      "label": "AR/GL-21 One-Two",
+      "output": "output/v1/projectile/ar-gl-21-one-two"
+     },
+     {
+      "label": "BR-14 Adjudicator",
+      "output": "output/v1/projectile/br-14-adjudicator"
+     },
+     {
+      "label": "EXO-45 Patriot Exosuit / right_gun",
+      "output": "output/v1/projectile/exo-45-patriot-exosuit-right-gun"
+     },
+     {
+      "label": "EXO-55 Breakthrough Exosuit / right_gun",
+      "output": "output/v1/projectile/exo-55-breakthrough-exosuit-right-gun"
+     },
+     {
+      "label": "FRV (Super Earth variant) / gun",
+      "output": "output/v1/projectile/frv-super-earth-variant-gun"
+     },
+     {
+      "label": "JAR-5 Dominator",
+      "output": "output/v1/projectile/jar-5-dominator"
+     },
+     {
+      "label": "LAS-12 Sai",
+      "output": "output/v1/projectile/las-12-sai"
+     },
+     {
+      "label": "LAS-16 Sickle",
+      "output": "output/v1/projectile/las-16-sickle"
+     },
+     {
+      "label": "LAS-58 Talon",
+      "output": "output/v1/projectile/las-58-talon"
+     },
+     {
+      "label": "M-102 Gunner FRV / gun",
+      "output": "output/v1/projectile/m-102-gunner-frv-gun"
+     },
+     {
+      "label": "M-103 Supply FRV / gun",
+      "output": "output/v1/projectile/m-103-supply-frv-gun"
+     },
+     {
+      "label": "M-105 Stalwart",
+      "output": "output/v1/projectile/m-105-stalwart"
+     },
+     {
+      "label": "M6C/SOCOM Pistol",
+      "output": "output/v1/projectile/m6c-socom-pistol"
+     },
+     {
+      "label": "M7S SMG",
+      "output": "output/v1/projectile/m7s-smg"
+     },
+     {
+      "label": "M90A Shotgun",
+      "output": "output/v1/projectile/m90a-shotgun"
+     },
+     {
+      "label": "MA5C Assault Rifle",
+      "output": "output/v1/projectile/ma5c-assault-rifle"
+     },
+     {
+      "label": "MG-206 Heavy Machine Gun",
+      "output": "output/v1/projectile/mg-206-heavy-machine-gun"
+     },
+     {
+      "label": "MP-98 Knight",
+      "output": "output/v1/projectile/mp-98-knight"
+     },
+     {
+      "label": "P-11 Stim Pistol",
+      "output": "output/v1/projectile/p-11-stim-pistol"
+     },
+     {
+      "label": "P-113 Verdict",
+      "output": "output/v1/projectile/p-113-verdict"
+     },
+     {
+      "label": "P-35 Re-Educator",
+      "output": "output/v1/projectile/p-35-re-educator"
+     },
+     {
+      "label": "P-69 Veto",
+      "output": "output/v1/projectile/p-69-veto"
+     },
+     {
+      "label": "R-2 Amendment",
+      "output": "output/v1/projectile/r-2-amendment"
+     },
+     {
+      "label": "R-4 Hyena",
+      "output": "output/v1/projectile/r-4-hyena"
+     },
+     {
+      "label": "R/40-K Hot-Shot Marksman Rifle",
+      "output": "output/v1/projectile/r-40-k-hot-shot-marksman-rifle"
+     },
+     {
+      "label": "R-6 Deadeye",
+      "output": "output/v1/projectile/r-6-deadeye"
+     },
+     {
+      "label": "R-63 Diligence",
+      "output": "output/v1/projectile/r-63-diligence"
+     },
+     {
+      "label": "R-63CS Diligence Counter Sniper",
+      "output": "output/v1/projectile/r-63cs-diligence-counter-sniper"
+     },
+     {
+      "label": "R-72 Censor",
+      "output": "output/v1/projectile/r-72-censor"
+     },
+     {
+      "label": "RS-422 Railgun",
+      "output": "output/v1/projectile/rs-422-railgun"
+     },
+     {
+      "label": "SG-225 Breaker",
+      "output": "output/v1/projectile/sg-225-breaker"
+     },
+     {
+      "label": "SG-225IE Breaker Incendiary",
+      "output": "output/v1/projectile/sg-225ie-breaker-incendiary"
+     },
+     {
+      "label": "SG-225SP Breaker Spray&Pray",
+      "output": "output/v1/projectile/sg-225sp-breaker-spray-pray"
+     },
+     {
+      "label": "SG-97 Sweeper",
+      "output": "output/v1/projectile/sg-97-sweeper"
+     },
+     {
+      "label": "SMG-203 Gallant",
+      "output": "output/v1/projectile/smg-203-gallant"
+     },
+     {
+      "label": "SMG-32 Reprimand",
+      "output": "output/v1/projectile/smg-32-reprimand"
+     },
+     {
+      "label": "SMG-72 Pummeler",
+      "output": "output/v1/projectile/smg-72-pummeler"
+     },
+     {
+      "label": "SMG/FLAM-34 Stoker",
+      "output": "output/v1/projectile/smg-flam-34-stoker"
+     },
+     {
+      "label": "StA-11 SMG",
+      "output": "output/v1/projectile/sta-11-smg"
+     },
+     {
+      "label": "StA-52 Assault Rifle",
+      "output": "output/v1/projectile/sta-52-assault-rifle"
+     },
+     {
+      "label": "TD-110 Maelstrom / slot_2",
+      "output": "output/v1/projectile/td-110-maelstrom-slot-2"
+     },
+     {
+      "label": "VG-70 Variable",
+      "output": "output/v1/projectile/vg-70-variable"
+     }
+    ],
+    "stableId": 3455841218
+   }
   ]
  },
  "families": [
@@ -5809,6 +6028,79 @@
    ]
   }
  ],
+ "familyEvidence": {
+  "eagle": {
+   "doc": "the Eagle Stun Rocket Pods, solo; not yet tried with the carrier in the slot (the r44 default)",
+   "multiplayer": "host only",
+   "status": "live"
+  },
+  "expendable": {
+   "doc": "the EAT-40 Expendable Gas clone; two players r43",
+   "evidence": [
+    "custom_stratagem_expendable_clone",
+    "custom_stratagem_expendable_payload",
+    "custom_stratagem_expendable_availability"
+   ],
+   "multiplayer": "live",
+   "status": "live"
+  },
+  "orbital": {
+   "doc": "native barrages (the Orbital Gas Barrage) solo and with two players; the Runtime bombardment (shell) solo, host only",
+   "evidence": [
+    "stratagem_carrier_bombardment_pattern",
+    "stratagem_carrier_shell_redirect"
+   ],
+   "multiplayer": "live",
+   "status": "live"
+  },
+  "pelican": {
+   "doc": "the Gatling Pelican (round, rate, aim, kill credit) solo and with two players; explosive rounds and the slow payload guns (EMS, gas) offline only",
+   "evidence": [
+    "custom_stratagem_pelican_native_gun"
+   ],
+   "multiplayer": "live",
+   "status": "live"
+  },
+  "pod": {
+   "doc": "a carrier pod: solo host only, not live-tested",
+   "multiplayer": "unsupported",
+   "status": "offline"
+  },
+  "script": {
+   "doc": "delivery = 'runtime': the mod's own Lua",
+   "multiplayer": "per mod",
+   "status": "live"
+  },
+  "sentry": {
+   "doc": "the HMG sentry used live; its several-player mirror and firing sound not confirmed",
+   "evidence": [
+    "custom_stratagem_sentry_multiplayer"
+   ],
+   "multiplayer": "pending",
+   "status": "partial"
+  },
+  "silo": {
+   "doc": "the Shredder Silo with two players (r43); the blast near a Gatling Pelican crashed the host (fixed offline in r44)",
+   "evidence": [
+    "custom_stratagem_silo"
+   ],
+   "multiplayer": "live",
+   "status": "partial"
+  },
+  "support": {
+   "doc": "the Gas EAT example (a support pod, its launchers converted), solo and with two players",
+   "multiplayer": "live",
+   "status": "live"
+  },
+  "weapon": {
+   "doc": "the Laser Maxigun, solo",
+   "evidence": [
+    "custom_stratagem_weapon_variant"
+   ],
+   "multiplayer": "untested",
+   "status": "live"
+  }
+ },
  "familyOptions": {
   "expendable": {
    "carrier": {
@@ -5999,7 +6291,7 @@
   },
   "uses": {
    "default": "unlimited",
-   "doc": "each player's own calls; the call that uses the last of them ends with a cooldown longer than any mission (refused for an Eagle, whose uses are per rearm)",
+   "doc": "each player's own calls: the game's own per-slot uses (its HUD counter, its depleted look, its refusal at 0) on the slot that holds the carrier; refused for an Eagle, whose uses are per rearm",
    "max": 100,
    "min": 1,
    "optional": true,
@@ -6120,7 +6412,15 @@
   ]
  },
  "schemaVersion": 1,
- "status": "development (0.30.0-dev): every payload family runs on the host; with several players (EXPERIMENTAL) a client runs its support, expendable, sentry and silo deliveries and native orbitals, and the host spawns its Pelican and requests its silo blast; Eagles and the Runtime bombardment stay host-only (docs/custom-stratagem-api.md, \"Several players\")",
+ "selection": {
+  "doc": "what a pick writes into the loadout slot. Since r44 every custom stratagem's CARRIER itself (no option in a project): the slot shows the custom name and icon on the loading screen and in the mission, with the game's own cooldown and use counter, on every machine. The Runtime falls back to the Orbital Precision Strike token, converted at mission start, when several players are in the lobby without custom multiplayer, while custom multiplayer is still WAITING (a player joining: pick again once it is ENABLED), or when no carrier is known yet. A Lua mod may pass selection = 'token' (development)",
+  "evidence": [
+   "custom_stratagem_carrier_in_slot"
+  ],
+  "field": null,
+  "status": "live (two players, r43); the r44 default not re-tested"
+ },
+ "status": "development (0.30.0-dev): every payload family runs on the host; with several players (custom multiplayer: every player runs the same Runtime and mods) a client runs its support, expendable, sentry and silo deliveries and native orbitals, and the host spawns its Pelican and requests its silo blast; Eagles and the Runtime bombardment stay host-only (docs/custom-stratagem-api.md, \"Several players\"). Per family: familyEvidence",
  "unsupported": [
   {
    "field": "orbital.explosion_scale",
@@ -6182,5 +6482,73 @@
    "field": "a carrier pod with several players",
    "reason": "solo host only in this build"
   }
- ]
+ ],
+ "variantFamily": {
+  "apiField": "delivery",
+  "builder": true,
+  "carrier": {
+   "beacon": [
+    "support"
+   ],
+   "groups": [
+    "weapon"
+   ]
+  },
+  "doc": "a mission-scoped VARIANT of a support weapon on its OWN type (no clone carrier): its presentation, its round (another output of its own compatibility class) and optionally the mod's own model change for the mission and are restored aboard the ship. Its own vanilla pod delivers it with its own items (the Maxigun's backpack too). A host no other type can carry has no fallback: while a lobby member brings it natively the variant is unavailable, and a selected variant blocks it in the native picker",
+  "family": "weapon",
+  "fields": {
+   "model": {
+    "doc": "the id of one of the mod's models (models/<id>.json, a Runtime-owned unit beside the vanilla one: docs/custom-models.md); a builder without a model pipeline leaves it out",
+    "optional": true,
+    "type": "model"
+   },
+   "model_use": {
+    "default": "apply",
+    "doc": "apply: the weapon shows the model; check: only checks at mission start that the model is loaded and exact (the vanilla model stays). Needs model. (A Lua mod may pass a Mod Options choice of these.)",
+    "optional": true,
+    "type": "enum",
+    "values": [
+     "apply",
+     "check"
+    ]
+   },
+   "presentation": {
+    "doc": "what the weapon shows for the mission (pickup prompt, map label, weapon panel)",
+    "fields": {
+     "icon": {
+      "default": "the custom stratagem's icon",
+      "doc": "an image id (images/<id>.png)",
+      "optional": true,
+      "type": "string"
+     },
+     "name": {
+      "default": "the custom stratagem's name",
+      "maxLength": 64,
+      "minLength": 1,
+      "optional": true,
+      "type": "string"
+     }
+    },
+    "optional": true,
+    "type": "object"
+   },
+   "round": {
+    "catalog": "variantDonors",
+    "doc": "a variantDonors[].rounds[].output of that host (compiled to hd2.attack_output(output)); its package loads first; without it the host's own round",
+    "optional": true,
+    "type": "attack_output"
+   },
+   "weapon": {
+    "catalog": "variantDonors",
+    "doc": "a reviewed variant host (variantDonors[].name)",
+    "required": true,
+    "reviewedDonor": true,
+    "type": "variant_donor"
+   }
+  },
+  "notes": [
+   "compiles to delivery = {family = 'weapon', ...}",
+   "live-proven solo (the LAS-1000 Laser Maxigun: the LAS-58 Talon's round and a debug model on the M-1000 Maxigun); not tried with several players"
+  ]
+ }
 }

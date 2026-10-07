@@ -221,6 +221,34 @@ for _,e in ipairs(require('hd2runtime/api/actions').explosions.list())do
     if e.assets_known then blasts[#blasts+1]={name=e.name,source=e.source,type=e.type,objective=e.objective}end
 end
 out.blastExplosions=json.array(blasts)
+-- Weapon variants (delivery.family = 'weapon'; runtime/weapon_clone.lua variant, domains/weapon_variants.lua): each
+-- host and the rounds it may fire: catalogued, live-tested projectile outputs of its own compatibility class whose
+-- package is known (exactly what variant_spec accepts), by output id (hd2.attack_output takes it).
+local WCL=require('hd2runtime/runtime/weapon_clone')
+local AO=require('hd2runtime/domains/attack_outputs')
+local variant_list={}
+for _,name in ipairs(WCL.variants())do
+    local host=WCL.variant(name)
+    local own
+    for _,o in pairs(AO.outputs)do
+        if o.family=='projectile'and o.owner and o.owner.name==name and not o.unverifiedDonor
+            and o.currentDefault==host.projectile then own=o end
+    end
+    local rounds={}
+    if own then
+        for id,o in pairs(AO.outputs)do
+            if id~=own.id and o.family=='projectile'and o.editable and type(o.currentDefault)=='number'
+                and not o.unverifiedDonor and o.compatibilityClass==own.compatibilityClass and o.dependencyKey
+                and core_assets.dependency(o.dependencyKey)then
+                rounds[#rounds+1]={output=id,label=o.owner and o.owner.name or id}
+            end
+        end
+    end
+    table.sort(rounds,function(a,c)return a.output<c.output end)
+    variant_list[#variant_list+1]={name=name,stableId=catalog.stratagems[name].root.id,projectile=host.projectile,
+        compatibilityClass=own and own.compatibilityClass or nil,rounds=json.array(rounds),packageKnown=package_known(name)}
+end
+out.variantDonors=json.array(variant_list)
 out.uses={min=1,max=custom.MAX_USES}
 out.traits={max=custom.MAX_TRAITS,length=custom.TRAIT_LENGTH}
 return json.encode(out)
@@ -464,15 +492,84 @@ def build(facts: dict | None = None) -> dict:
                  'doc': 'each item once (give it a count); at most 8 items in all; the carrier\'s capacity decides'}},
          'notes': ['compiles to delivery = {family = \'support\', items = {{item = ...}}}',
                    'a weapon item goes in a weapon slot, a backpack in a backpack slot (the rack\'s own roles)']})
+    # 0.30.0-dev (r44): the weapon variant family, beside the families list like the pod family.
+    VD = facts['variantDonors']
+    variant_family = {
+        'family': 'weapon', 'apiField': 'delivery', 'builder': True,
+        'doc': 'a mission-scoped VARIANT of a support weapon on its OWN type (no clone carrier): its presentation, its '
+               'round (another output of its own compatibility class) and optionally the mod\'s own model change for '
+               'the mission and are restored aboard the ship. Its own vanilla pod delivers it with its own items (the '
+               'Maxigun\'s backpack too). A host no other type can carry has no fallback: while a lobby member brings it '
+               'natively the variant is unavailable, and a selected variant blocks it in the native picker',
+        'carrier': {'beacon': ['support'], 'groups': ['weapon']},
+        'fields': {
+            'weapon': {'type': 'variant_donor', 'catalog': 'variantDonors', 'reviewedDonor': True, 'required': True,
+                'doc': 'a reviewed variant host (variantDonors[].name)'},
+            'round': {'type': 'attack_output', 'catalog': 'variantDonors', 'optional': True,
+                'doc': 'a variantDonors[].rounds[].output of that host (compiled to hd2.attack_output(output)); its '
+                       'package loads first; without it the host\'s own round'},
+            'presentation': {'type': 'object', 'optional': True, 'fields': {
+                'name': {'type': 'string', 'minLength': 1, 'maxLength': L['text'], 'optional': True,
+                    'default': 'the custom stratagem\'s name'},
+                'icon': {'type': 'string', 'optional': True, 'default': 'the custom stratagem\'s icon',
+                    'doc': 'an image id (images/<id>.png)'}},
+                'doc': 'what the weapon shows for the mission (pickup prompt, map label, weapon panel)'},
+            'model': {'type': 'model', 'optional': True,
+                'doc': 'the id of one of the mod\'s models (models/<id>.json, a Runtime-owned unit beside the vanilla '
+                       'one: docs/custom-models.md); a builder without a model pipeline leaves it out'},
+            'model_use': {'type': 'enum', 'values': ['apply', 'check'], 'optional': True, 'default': 'apply',
+                'doc': 'apply: the weapon shows the model; check: only checks at mission start that the model is '
+                       'loaded and exact (the vanilla model stays). Needs model. (A Lua mod may pass a Mod Options '
+                       'choice of these.)'}},
+        'notes': ['compiles to delivery = {family = \'weapon\', ...}', 'live-proven solo (the LAS-1000 Laser Maxigun: '
+                  'the LAS-58 Talon\'s round and a debug model on the M-1000 Maxigun); not tried with several players']}
+    # How far each payload family is live-tested (a builder's badges; docs/live-evidence.md and
+    # docs/custom-stratagem-api.md hold the detail). live: used in real missions; partial: some of it; offline: built and
+    # tested offline only.
+    family_evidence = {
+        'support': {'status': 'live', 'multiplayer': 'live', 'doc': 'the Gas EAT example (a support pod, its launchers '
+            'converted), solo and with two players'},
+        'expendable': {'status': 'live', 'multiplayer': 'live', 'evidence': ['custom_stratagem_expendable_clone',
+            'custom_stratagem_expendable_payload', 'custom_stratagem_expendable_availability'],
+            'doc': 'the EAT-40 Expendable Gas clone; two players r43'},
+        'weapon': {'status': 'live', 'multiplayer': 'untested', 'evidence': ['custom_stratagem_weapon_variant'],
+            'doc': 'the Laser Maxigun, solo'},
+        'sentry': {'status': 'partial', 'multiplayer': 'pending', 'evidence': ['custom_stratagem_sentry_multiplayer'],
+            'doc': 'the HMG sentry used live; its several-player mirror and firing sound not confirmed'},
+        'eagle': {'status': 'live', 'multiplayer': 'host only', 'doc': 'the Eagle Stun Rocket Pods, solo; not yet tried '
+            'with the carrier in the slot (the r44 default)'},
+        'orbital': {'status': 'live', 'multiplayer': 'live', 'evidence': ['stratagem_carrier_bombardment_pattern',
+            'stratagem_carrier_shell_redirect'], 'doc': 'native barrages (the Orbital Gas Barrage) solo and with two '
+            'players; the Runtime bombardment (shell) solo, host only'},
+        'pelican': {'status': 'live', 'multiplayer': 'live', 'evidence': ['custom_stratagem_pelican_native_gun'],
+            'doc': 'the Gatling Pelican (round, rate, aim, kill credit) solo and with two players; explosive rounds and '
+            'the slow payload guns (EMS, gas) offline only'},
+        'silo': {'status': 'partial', 'multiplayer': 'live', 'evidence': ['custom_stratagem_silo'],
+            'doc': 'the Shredder Silo with two players (r43); the blast near a Gatling Pelican crashed the host (fixed '
+            'offline in r44)'},
+        'pod': {'status': 'offline', 'multiplayer': 'unsupported', 'doc': 'a carrier pod: solo host only, not '
+            'live-tested'},
+        'script': {'status': 'live', 'multiplayer': 'per mod', 'doc': 'delivery = \'runtime\': the mod\'s own Lua'},
+    }
+    selection = {
+        'field': None,
+        'doc': 'what a pick writes into the loadout slot. Since r44 every custom stratagem\'s CARRIER itself (no option '
+               'in a project): the slot shows the custom name and icon on the loading screen and in the mission, with '
+               'the game\'s own cooldown and use counter, on every machine. The Runtime falls back to the Orbital '
+               'Precision Strike token, converted at mission start, when several players are in the lobby without '
+               'custom multiplayer, while custom multiplayer is still WAITING (a player joining: pick again once it is '
+               'ENABLED), or when no carrier is known yet. A Lua mod may pass selection = \'token\' (development)',
+        'evidence': ['custom_stratagem_carrier_in_slot'],
+        'status': 'live (two players, r43); the r44 default not re-tested'}
     schema = {
         'schemaVersion': 1,
         'hd2RuntimeVersion': version,
         'format': FORMAT,
-        'status': 'development (0.30.0-dev): every payload family runs on the host; with several players (EXPERIMENTAL) '
-                  'a client runs its support, expendable, sentry and silo deliveries and native orbitals, and the host '
-                  'spawns its Pelican and requests its silo blast; Eagles and the Runtime bombardment stay host-only '
-                  '(docs/custom-stratagem-api.md, '
-                  '"Several players")',
+        'status': 'development (0.30.0-dev): every payload family runs on the host; with several players (custom '
+                  'multiplayer: every player runs the same Runtime and mods) a client runs its support, expendable, '
+                  'sentry and silo deliveries and native orbitals, and the host spawns its Pelican and requests its silo '
+                  'blast; Eagles and the Runtime bombardment stay host-only (docs/custom-stratagem-api.md, "Several '
+                  'players"). Per family: familyEvidence',
         'api': 'hd2.custom_stratagem.register',
         'metadata': {
             'id': {'type': 'string', 'pattern': L['id']['pattern'], 'maxLength': L['id']['max'], 'required': True,
@@ -493,8 +590,8 @@ def build(facts: dict | None = None) -> dict:
                 'doc': 'extra call-in packages the payload needs; a payload\'s own donors are added automatically'},
             'uses': dict(rng(facts['uses']['min'], facts['uses']['max'], integer=True, unit='calls per mission'),
                 optional=True, default='unlimited',
-                doc='each player\'s own calls; the call that uses the last of them ends with a cooldown longer than '
-                    'any mission (refused for an Eagle, whose uses are per rearm)'),
+                doc='each player\'s own calls: the game\'s own per-slot uses (its HUD counter, its depleted look, its '
+                    'refusal at 0) on the slot that holds the carrier; refused for an Eagle, whose uses are per rearm'),
             'traits': {'type': 'list', 'item': {'type': 'string', 'minLength': 1, 'maxLength': facts['traits']['length']},
                 'max': facts['traits']['max'], 'optional': True, 'default': 'the payload family\'s',
                 'doc': 'the ITEM TRAITS the custom panel shows after the automatic CUSTOM STRATAGEM (upper case)'},
@@ -516,6 +613,9 @@ def build(facts: dict | None = None) -> dict:
         },
         'families': families,
         'podFamily': pod_family,
+        'variantFamily': variant_family,
+        'familyEvidence': family_evidence,
+        'selection': selection,
         'familyOptions': {'expendable': {
             'pod': {'type': 'list', 'min': PL['items'][0], 'max': PL['items'][1], 'optional': True, 'item': pod_item,
                 'default': 'the carrier weapon\'s vanilla rack',
@@ -553,7 +653,7 @@ def build(facts: dict | None = None) -> dict:
             'eagleDonors',
             'orbitals', 'explosionDonors', 'carrierFamilies', 'carrierGroups', 'podItems', 'podCarriers', 'beacons',
             'directions', 'stratagems', 'pelicanSounds', 'pelicanExplosionDonors', 'nativeCodes', 'siloDonors',
-            'blastExplosions')},
+            'blastExplosions', 'variantDonors')},
     }
     return schema
 
@@ -596,7 +696,7 @@ def project_schema(schema: dict) -> dict:
         return out
 
     payloads = []
-    for fam in schema['families'] + [schema['podFamily']]:
+    for fam in schema['families'] + [schema['podFamily'], schema['variantFamily']]:
         if not fam['builder']:
             continue
         fields = dict(fam['fields'])

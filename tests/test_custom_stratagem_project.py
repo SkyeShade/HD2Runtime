@@ -318,6 +318,77 @@ CASES = [
 
 
 class ValidatorTests(unittest.TestCase):
+    def test_a_weapon_variant_project_registers_as_the_laser_maxigun_does(self):
+        # r44: the weapon variant family (delivery.family = 'weapon') in a project: what LaserMaxigunExample registers
+        # by hand (its model_use there is a Mod Options choice; here the fixed value 'check').
+        schema = P.load_schema()
+        project = {'format': P.FORMAT, 'stratagems': [{
+            'id': 'laser_maxigun', 'name': 'LAS-1000 LASER MAXIGUN', 'name_cased': 'LAS-1000 Laser Maxigun',
+            'description': 'A Maxigun refitted to fire the LAS-58 Talon\'s laser bolts.',
+            'icon': {'image': 'laser_maxigun', 'source': 'images/laser_maxigun.png'},
+            'code': ['down', 'up', 'up', 'down', 'down', 'left'], 'carrier': {'group': 'weapon'},
+            'payload': {'family': 'weapon', 'weapon': 'M-1000 Maxigun', 'round': 'output/v1/projectile/las-58-talon',
+                'model': 'laser_maxigun', 'model_use': 'check'}}]}
+        self.assertEqual(P.validate(project, schema), [])
+        project_schema = json.loads((ROOT / 'sdk/schemas/custom_stratagems.project.schema.json').read_text(
+            encoding='utf-8'))
+        self.assertEqual(json_schema_errors(project, project_schema), [])
+        text = P.compile_lua(project)
+        self.assertIn("delivery={family='weapon',weapon='M-1000 Maxigun',"
+            "round=hd2.attack_output('output/v1/projectile/las-58-talon'),model='laser_maxigun',model_use='check'}", text)
+        # What the validator refuses: another class's round, an unknown host, model_use without a model.
+        bad = copy.deepcopy(project)
+        bad['stratagems'][0]['payload'].update(weapon='MG-43 Machine Gun', round='output/v1/projectile/nope')
+        del bad['stratagems'][0]['payload']['model']
+        problems = P.validate(bad, schema)
+        self.assertTrue(any('.weapon: must be a reviewed variant weapon' in x for x in problems)
+            and any('.model_use: needs model' in x for x in problems), problems)
+        bad = copy.deepcopy(project)
+        bad['stratagems'][0]['payload']['round'] = 'output/v1/projectile/nope'
+        self.assertTrue(any('.round: must be a round of the M-1000 Maxigun' in x for x in P.validate(bad, schema)))
+        bad = copy.deepcopy(project)
+        bad['stratagems'][0]['carrier'] = {'group': 'expendable'}
+        self.assertTrue(any('carrier.group' in x for x in P.validate(bad, schema)))
+        # The compiled project registers the same variant as the hand-written example.
+        example = (ROOT / 'proof/LaserMaxigunExample/src/addon.lua').read_text(encoding='utf-8')
+        resource, a = wrapped('LaserMaxigunExample', example)
+        _, b = wrapped('LaserMaxigunExample', text)
+        self.assertEqual(run(WORLD + 'local A=' + lua_literal(a) + '\nlocal B=' + lua_literal(b) + '\nlocal R='
+            + lua_literal(resource) + r"""
+local custom=require('hd2runtime/runtime/custom_stratagems')
+local function load(text)
+    custom.reset_for_tests()
+    require('hd2runtime/runtime/virtual_stratagems').reset_for_tests()
+    require('hd2runtime/runtime/text_resources').reset_for_tests()
+    rawset(_G,'HD2RuntimeMod:'..R,nil)
+    assert(loadstring(text,'@'..R))()
+    return custom.get('laser_maxigun')
+end
+local e,c=load(A),load(B)
+for _,d in ipairs({e,c})do
+    assert(d.kind=='expendable'and d.delivery.variant==true and d.delivery.stratagem=='M-1000 Maxigun')
+    assert(d.delivery.round and d.delivery.round.output=='output/v1/projectile/las-58-talon')
+    assert(d.delivery.model~=nil and d.selection=='carrier')
+end
+assert(c.delivery.model_use=='check')
+return 'ok'
+"""), b'ok')
+
+    def test_the_schema_describes_the_r44_additions(self):
+        schema = P.load_schema()
+        self.assertEqual(schema['schemaVersion'], 1)
+        self.assertEqual(schema['variantFamily']['family'], 'weapon')
+        self.assertEqual(schema['catalogs']['variantDonors'][0]['name'], 'M-1000 Maxigun')
+        # Every payload family a project may use has its live-test record (a builder's badges).
+        families = {f['family'] for f in schema['families']} | {schema['podFamily']['family'],
+            schema['variantFamily']['family']}
+        self.assertEqual(families, set(schema['familyEvidence']))
+        for f in schema['familyEvidence'].values():
+            self.assertIn(f['status'], ('live', 'partial', 'offline'))
+        # The slot holds the carrier itself: no project field (the Runtime's own default and fallback).
+        self.assertIsNone(schema['selection']['field'])
+        self.assertNotIn('selection', json.dumps(schema['metadata']))
+
     def test_the_validator_refuses_exactly_what_the_runtime_refuses(self):
         schema = P.load_schema()
         verdicts, chunks = [], []

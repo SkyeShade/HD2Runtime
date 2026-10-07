@@ -398,7 +398,7 @@ for _,l in ipairs(lines)do if l:find('REGISTERED probe_gas',1,true)then reg=l en
 assert(reg and not reg:find('SELECTION',1,true),tostring(reg))
 local ok,why=pcall(custom.register,spec({id='probe_bad',code={'down','down','down','down','up','up'},selection='slot'}),
     'mods/test/probe')
-assert(not ok and tostring(why):find("selection must be 'token'",1,true),tostring(why))
+assert(not ok and tostring(why):find("selection must be 'carrier' (the default",1,true),tostring(why))
 assert(custom.register(spec({id='probe_token',code={'down','down','down','down','up','left'},selection='token'}),
     'mods/test/probe').selection==nil)
 for _,l in ipairs(lines)do if l:find('REGISTERED probe_token',1,true)then reg=l end end
