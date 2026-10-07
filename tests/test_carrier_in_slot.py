@@ -574,6 +574,57 @@ assert(to_name and lines('applying the presentation on its carrier '):find('its 
 return 'ok'
 ''')
 
+    def test_with_custom_multiplayer_another_players_carrier_slot_is_never_a_native_pick(self):
+        # r40 (the r38 test, session 2): the other player already holds a carrier-mode custom stratagem in its slot 0,
+        # its slot (and its stratagem record here) holding the lobby's carrier for it. This player then picks the same
+        # custom stratagem: the ship preview counted the other player's custom slot as a native pick, so this pick got
+        # another carrier (at mission start: CUSTOM MP DESYNC, refused). Now only real native picks count: the same one.
+        self.flow(r'''
+rawset(_G,'ModOptionsMenu',MENU)
+local channel=require('hd2runtime/runtime/peer_channel');channel.reset_for_tests()
+local sync=require('hd2runtime/runtime/custom_mp_sync');sync.reset_for_tests()
+local VERSION=require('hd2runtime/domains/metadata').version
+assert(loadstring(GAS_ADDON,'@'..GAS_RESOURCE))()
+local ME,THEM='1111222233334444','5555666677778888'
+local function remote(seq,slots)
+    W.lobby_values[THEM]=('hd2rt/1;%s;%s;%d;%s'):format(VERSION,custom.registry_hash(),seq,slots)
+end
+W.players({{peer=ME,avatar=100},{peer=THEM}},ME)
+W.lobby({members={ME,THEM},host=ME})
+remote(1,'-,-,-,-')
+tick(40)
+ship({})
+tick(120)
+assert(count('custom multiplayer ENABLED')>=1,lines('CUSTOM MP'))
+-- The other player picks it: the lobby's carrier for it (every machine computes the same).
+remote(2,'orbital_gas_barrage,-,-,-')
+tick(120)
+local name,stable=lines('CUSTOM MP CARRIERS (aboard the ship, preview'):match('orbital_gas_barrage = (.-) %(stable id (%d+)%)')
+stable=tonumber(stable)
+assert(name and stable,lines('CUSTOM MP CARRIERS'))
+local kind=require('hd2runtime/runtime/stratagem_loadout').type_of(world_module.open(),stable)
+-- Its stratagem record here: its slot 0 holds that carrier itself (its custom slot), 130 natively.
+local h=W.stratagem_hud({peer=LOCAL,slots={{type=22,code={}}},record={{type=124,granted=1},{type=22,granted=0}}})
+local R=require('hd2runtime/domains/stratagem_slots').record
+local other=h.record+R.stride
+W.write(other,W.u32(0x77778888)..W.u32(0x55556666))
+for k,e in ipairs({{124,1},{kind,0},{130,0}})do
+    local at=other+R.state+R.entries+(k-1)*R.entryStride
+    W.write(at,W.u32(e[1]));W.write(at+4,W.u32(4294967295));W.write(at+9,string.char(e[2]))
+end
+W.write(other+R.state+R.entryCount,W.u32(3))
+W.write(h.record+R.count,W.u32(2))
+tick(200)
+-- This player picks the same custom stratagem: the same carrier.
+select_into(0)
+SCREEN.set('selecting',false);tick(8)
+local V=require('hd2runtime/runtime/stratagem_selector').virtual_slots()
+assert(V and V.slots[0]and V.slots[0].carrier and V.slots[0].token==stable,
+    'the same carrier as the other player\'s: '..name..' | '..lines('SELECTED')..' | '..lines('CUSTOM MP CARRIERS'))
+assert(count('CUSTOM MP NATIVE PICKS (aboard the ship, read-only; the carrier-in-slot probe)')>=1,lines('NATIVE PICKS'))
+return 'ok'
+''')
+
     def test_a_slot_that_could_not_move_is_swapped_at_launch(self):
         # 0.3.0, the launch fallback: the native pick of its carrier is recorded aboard the ship, but the slot does not
         # move before the launch (held here: the move's settle never elapses, as when the player readies at once).
@@ -694,6 +745,11 @@ RECORDS[2]=rec(THEM,{136,41,130})
 local world=world_module.open()
 custom.probe_remote_step(world)
 assert(#calls==0,'aboard the ship: nothing')
+-- r40: from the loading screen (PrepareMission), from the live records (the mission's first-seen ones do not exist yet).
+require('hd2runtime/runtime/stratagem_slot_conversion').records=function()return RECORDS end
+W.state(6)
+custom.probe_remote_step(world)
+assert(#calls==1,'presented from the loading screen')
 W.state(4,{host=false})
 custom.probe_remote_step(world)
 assert(#calls==1 and calls[1].carrier=='Orbital 120mm HE Barrage'and calls[1].code==nil and calls[1].text

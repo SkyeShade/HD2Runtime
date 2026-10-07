@@ -1822,21 +1822,28 @@ local function ship_step(world,v)
         local carrier_mode=false
         for _,id in ipairs(table_ids or{})do if defs[id]and defs[id].selection=='carrier'then carrier_mode=true end end
         if carrier_mode then
+            -- r40: ONLY real native picks, so every machine computes the same carrier for an id: this player's own saved
+            -- loadout (its own carrier slots are discounted below) and the other players' CURRENT picks from the
+            -- loadout screen, every slot the synced table names as custom excluded; with the screen closed, their
+            -- records with their custom slots excluded (M.peer_ids). Never their stale records' custom slots (r38:
+            -- another player's carrier slot counted as a native pick, and the two previews gave one id two carriers).
             local extra,skey=M.screen_natives(world,v)
-            if extra then
-                local merged={}
-                for k in pairs(present)do merged[k]=true end
-                for k in pairs(extra)do merged[k]=true end
-                present,screen_key=merged,skey
-                if ship.screen_said~=skey then
-                    ship.screen_said=skey
-                    log('CUSTOM MP SCREEN NATIVES (aboard the ship, read-only; the carrier-in-slot probe): the other '
-                        ..'players\' native picks the loadout screen shows: '..(skey~=''and skey or'none'))
-                end
-            elseif ship.screen_said~=skey then
-                ship.screen_said=skey
-                log('CUSTOM MP SCREEN NATIVES not used (the other players\' native picks count from the mission start): '
-                    ..tostring(skey))
+            local merged,source={},'the loadout screen'
+            for k in pairs(saved or{})do merged[k]=true end
+            if not extra then extra,source=M.peer_ids(world),'their stratagem records (the loadout screen is closed)'end
+            for k in pairs(extra)do merged[k]=true end
+            -- This player's own carrier slots are no native pick (as above).
+            local probe=require('hd2runtime/runtime/carrier_in_slot')
+            present=probe.discount(merged,probe.own_carriers(ids,selector.virtual_slots(),M.peer_ids(world)))
+            local parts={}
+            for k in pairs(extra)do parts[#parts+1]=tostring(k)end
+            table.sort(parts)
+            screen_key=source..':'..table.concat(parts,',')
+            if ship.screen_said~=screen_key then
+                ship.screen_said=screen_key
+                log(('CUSTOM MP NATIVE PICKS (aboard the ship, read-only; the carrier-in-slot probe): the other players\' '
+                    ..'native picks from %s: %s; every custom slot excluded'):format(source,#parts>0 and
+                    table.concat(parts,', ')or'none'))
             end
         end
     end
@@ -1991,7 +1998,9 @@ end
 -- player's carrier slot is presented as its custom stratagem on THIS machine too: the custom name and icon on that
 -- carrier's row (no code: this machine never calls it), as an expendable's clone already is on every machine
 -- (add_clone). From the first mission update (before the HUD), so this machine's teammate panel shows that slot as the
--- custom stratagem natively, and the teammate HUD overlay stands down for it (M.presented_here). The authority is the
+-- custom stratagem natively, and the teammate HUD overlay stands down for it (M.presented_here). r40: from the loading
+-- screen (PrepareMission: every player's record is built at the launch), so what reads the names while the mission
+-- loads (the TAB menu showed the carrier's own name at r38) already reads the custom stratagem's. The authority is the
 -- synced lobby table (that player's slot names a carrier-mode custom id) and that player's record entry (the type it
 -- holds); never presented when that type is also a native pick anywhere (this machine's own included) or two custom
 -- ids claim it. This machine's own carrier slots are presented by their own steps. Restored with every presentation
@@ -2001,13 +2010,13 @@ do
     local remote={done={},names={},ids={}}
     function M.probe_remote_step(world)
         local game=world_module.game_state(world)
-        if not(game and game.mission)then
+        if not(game and(game.mission or game.name=='PrepareMission'))then
             if next(remote.done)or next(remote.ids)then remote={done={},names={},ids={}}end
             return
         end
         local v=sync.view()
         if not(v and v.status=='enabled'and v.table)then return end
-        local records=cmp.first_records()
+        local records=game.mission and cmp.first_records()or nil
         if not(records and#records>1)then records=slots.records(world)end
         if not(records and#records>1)then return end
         local present,custom=sync.native_present(records,v.table,function(kind)return loadout.id_of(world,kind)end)

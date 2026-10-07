@@ -197,25 +197,35 @@ everywhere else.
   HUD was populated. r35 solo log: the carrier picked natively into another slot (the game took the duplicate: the
   grid had not re-greyed after the custom pick), the slot MOVED Airburst -> 380mm with the stratagem grid closed (the
   game repainted: true), and the mission ran on the 380mm (`NATIVE USES` 3, `READY TO CALL`). Not yet reported: the
-  HUD counter, the depleted look, and whether the HUD showed the custom look from its first frame. r36 solo log: the
+  HUD counter, the depleted look, and whether the HUD showed the custom look from its first frame. r38 two players
+  (2026-10-07), session 1 (the host's probe): the slot moved twice before the launch, the host's mission ran it
+  (`NATIVE USES` 3, `READY TO CALL`, a call); the client presented the host's carrier as Carrier Slot Probe
+  (`REMOTE CARRIER PRESENTED`, `TEAMMATE HUD NATIVE`: its CTRL card shown natively) and converted the barrage's 18
+  shells; the user: it worked, but the client's TAB menu named it Orbital Gatling Barrage (fixed in r40, offline).
+  Session 2 (both picked it): the two slots held two carriers; the host's was refused (`CUSTOM MP DESYNC`, locked), the
+  client's ran and the host presented it natively (fixed in r40, offline). r36 solo log: the
   carrier was pickable from a freshly opened grid and the slot moved (Airburst -> Gatling), but the card was still
   drawn grey (the byte write and the consumed realize request did not redraw it). r37 solo (the user, 2026-10-07: "it
   worked well"): the game's helper lifted the grey on every grid open (`by the game's per-card grey helper ... 1
   call`), the card looked pickable, the pick moved the slot (Airburst -> Gatling). The launch fallback (0.3.0) is
   offline only.
-- **With several players** (r38, EXPERIMENTAL, NOT live-tested): only with custom multiplayer (every lobby member a
+- **With several players** (r38, EXPERIMENTAL; r38 live log, two players, 2026-10-07: see *Evidence*): only with custom
+  multiplayer (every lobby member a
   compatible Runtime with the same custom stratagem registry); without it the pick writes the token, as before.
   - The pick writes the carrier the lobby gives that custom id (one carrier per id, whoever selects it).
-  - Aboard the ship the other players' native picks are read from the loadout screen (`CUSTOM MP SCREEN NATIVES`,
-    read-only; only while a carrier-mode custom stratagem is selected in the lobby, and only when every other loadout
-    record's owner is a peer of the synced lobby table), so a slot whose carrier another player picks moves before the
-    launch. Every player's custom slot (token or carrier) is never counted as a native pick, aboard the ship
-    (`peer_ids`) and at mission start (the synced table).
+  - Aboard the ship, while a carrier-mode custom stratagem is selected in the lobby, the preview counts ONLY real
+    native picks (r40; `CUSTOM MP NATIVE PICKS`): this player's own loadout and the other players' current picks from
+    the loadout screen (read-only; only when every other loadout record's owner is a peer of the synced lobby table),
+    their records only while the screen is closed, every slot the table names as custom excluded. So every machine
+    computes the same carrier for an id, and a slot whose carrier another player picks moves before the launch.
+    (r38 counted the other players' stratagem records, custom slots and stale picks included: the two players' slots
+    of one id held two carriers, and one was refused at mission start as `CUSTOM MP DESYNC`.)
   - In the mission the early lock is marked as a multiplayer lockout write (this machine's own entry) and the native
     uses go through the client-write proof (the session host, or a client inside it).
   - Every machine presents every OTHER player's carrier slot as its custom stratagem (`REMOTE CARRIER PRESENTED`: its
     name and icon on that carrier's row, no code, as an expendable's clone already is on every machine), from the
-    first mission update, before the HUD. Never when that type is also a native pick on that machine or two custom ids
+    loading screen (r40; r38 did it at the first mission update, and the TAB menu still showed the carrier's own
+    name). Never when that type is also a native pick on that machine or two custom ids
     claim it. Restored with every presentation at the mission's end.
   - The teammate HUD overlay stands down for a card whose carrier is presented on that machine as that custom
     stratagem (`TEAMMATE HUD NATIVE`): the game's own card shows it, with its own cooldown band. It still draws over a
