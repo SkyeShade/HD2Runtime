@@ -141,6 +141,9 @@ end
 -- The blast of a detonation: the definition's explosion (or its fallback when the blast's packages are not resident
 -- here) requested at the position, by the session host only. d: the definition (its delivery a silo spec); owner: the
 -- requesting mod (rate limit and log). Returns the explosion action (hd2.explosions.spawn's handle), or nil and why.
+-- r44: how far from a silo blast a Runtime Pelican's chin turret on the Gatling AI is given its own AI first (metres;
+-- generous: the Pelican orbits 40 m around its anchor, 60 m up, and the blasts are objective-sized).
+M.PELICAN_GUARD=200
 function M.blast(d,position,label,origin)
     local s=d.delivery
     local actions=require('hd2runtime/api/actions')
@@ -158,6 +161,10 @@ function M.blast(d,position,label,origin)
             s.fallback))
         name=s.fallback
     end
+    -- r44: a Runtime Pelican's chin turret on the Gatling AI near it gets its own AI back first (a blast killing it on the
+    -- Gatling AI crashed the game: pelican_gunship.protect).
+    local ok,err=pcall(require('hd2runtime/runtime/pelican_gunship').protect,world,position,M.PELICAN_GUARD,label)
+    if not ok then log(('%s: the Pelican guard failed: %s'):format(label,tostring(err)))end
     local requested,code,reason=actions.mirror_explosion(name,position,origin)
     if not requested then return nil,tostring(code)..': '..tostring(reason)end
     return {status='requested'},requested

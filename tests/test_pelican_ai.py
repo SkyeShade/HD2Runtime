@@ -117,7 +117,7 @@ class PelicanAITests(unittest.TestCase):
     def test_the_adapter_is_narrow(self):
         source = (ROOT / 'runtime/windows_write.lua').read_text(encoding='utf-8')
         self.assertIn('function runtime.native_set_behaviour(', source)
-        self.assertIn("behaviour==213,'unsupported behaviour call'", source)
+        self.assertIn("(behaviour==213 or behaviour==645),\n            'unsupported behaviour call')", source)
 
     def test_set_behaviour_from_stage_4(self):
         self.check(r"""
@@ -136,6 +136,73 @@ assert(behaviour_id()==213 and #W.runtime.writes==writes)       -- the game's ro
 assert(n('behaviour BEFORE = 645 (the field at +0x0')==1
     and n('behaviour BEFORE = 645, behaviour AFTER = 213 (read back from the field)')==1)
 assert(select(2,in_update(function()return weapon.switch_ai(world,9501,'test')end))=='ALREADY_SWITCHED')
+return 'ok'
+""")
+
+    def test_its_own_ai_back_never_in_the_death_stage(self):
+        # r44 (two live host crashes, 2026-10-07): a blast killed a chin turret on the Gatling AI; 213's death stage (11)
+        # plays an ability through a manager the chin turret is not in. restore_ai gives it its own AI (645) back.
+        self.check(r"""
+pworld()
+BOMB.set_clock(T0)
+tcount(0)
+scene()
+local world=world_module.open()
+assert(select(2,in_update(function()return weapon.restore_ai(world,8102,'test')end))=='NOT_SWITCHED')
+ai(4)
+assert(in_update(function()return weapon.switch_ai(world,9501,'test')end))
+-- Firing (213 stage 12): restored; the same routine, with 645; read back; no longer switched.
+W.write(record(1)+AI.stage,W.u32(12))
+assert(select(2,weapon.restore_ai(world,8102,'test'))=='NOT_GAME_THREAD')
+local r,code,reason=in_update(function()return weapon.restore_ai(world,8102,'test')end)
+assert(r and r.before==213 and r.after==645,tostring(code)..' '..tostring(reason))
+local c=GX.calls[#GX.calls]
+assert(c[1]=='set_behaviour'and c[2]==W.GAME+SB.rva and c[3]==BCOMP and c[4]==8102 and c[5]==645)
+assert(behaviour_id()==645 and weapon.switched(8102)==nil)
+assert(n('AI RESTORED (test): chin turret 8102: behaviour BEFORE = 213, behaviour AFTER = 645')==1)
+-- Switched again; in its death stage already, or mid-transition: refused, nothing called.
+ai(4)
+assert(in_update(function()return weapon.switch_ai(world,9501,'test')end))
+local calls=#GX.calls
+W.write(record(1)+AI.stage,W.u32(11))
+assert(select(2,in_update(function()return weapon.restore_ai(world,8102,'test')end))=='DEAD'and #GX.calls==calls)
+W.write(record(1)+AI.stage,W.u32(12));W.write(record(1)+AI.transitioning,W.u32(4))
+assert(select(2,in_update(function()return weapon.restore_ai(world,8102,'test')end))=='NOT_QUIET'and #GX.calls==calls)
+return 'ok'
+""")
+
+    def test_a_blast_near_a_gatling_ai_pelican_gives_it_its_own_ai_first(self):
+        # r44: custom_silos.blast -> pelican_gunship.protect before the explosion request; far Pelicans keep theirs.
+        self.check(r"""
+pworld()
+BOMB.set_clock(T0)
+tcount(0)
+scene()
+local world=world_module.open()
+ai(4)
+assert(in_update(function()return weapon.switch_ai(world,9501,'test')end))
+local gunship=require('hd2runtime/runtime/pelican_gunship');gunship.reset_for_tests()
+local g=assert(gunship.arm(9501,{gun={behave_as='gatling_sentry'},label='cas#1'}))
+g.turret,g.switched,g.ai_done,g.config=8102,true,true,{}
+local pelicans=require('hd2runtime/runtime/pelicans')
+local at=pelicans.position(world,9501)
+assert(at,'the scene Pelican has a position')
+-- Far away: kept.
+local done,refused=in_update(function()return gunship.protect(world,{x=at.x+500,y=at.y,z=at.z},200,'a blast')end)
+assert(done==0 and refused==0 and behaviour_id()==213)
+-- The silo blast nearby: its own AI first, then the explosion.
+local order={}
+local actions=require('hd2runtime/api/actions')
+actions.explosion_target=function(name)return {name=name}end
+actions.explosion_resident=function()return true end
+actions.mirror_explosion=function(name,position)
+    order[#order+1]='explosion:'..tostring(behaviour_id());return {name=name}end
+local silos=require('hd2runtime/runtime/custom_silos')
+local r=in_update(function()return silos.blast({delivery={blast='Cyborg Production Unit'}},{x=at.x+20,y=at.y,z=at.z-60},
+    'shredder_silo#1')end)
+assert(r and r.status=='requested'and order[1]=='explosion:645',tostring(order[1]))
+assert(n('cas#1: AI: chin turret 8102 given its own AI back before shredder_silo#1 63 m away')==1)
+assert(g.switched==false and g.ai_done==true and g.ai_hold_until~=nil)
 return 'ok'
 """)
 

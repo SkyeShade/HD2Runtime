@@ -322,7 +322,9 @@ function M.create()
     -- Sentry's AI): the game's own behaviour change (it exits the old behaviour through its own transition, writes and
     -- replicates the id, and enters the new one at stage 1).
     function runtime.native_set_behaviour(entry,manager,entity,behaviour)
-        assert(address(entry)and address(manager)and entity_id(entity)and behaviour==213,'unsupported behaviour call')
+        -- 213: the Gatling AI; 645: the chin turret's own AI back (r44: never let 213 die on a chin turret).
+        assert(address(entry)and address(manager)and entity_id(entity)and(behaviour==213 or behaviour==645),
+            'unsupported behaviour call')
         local set=ffi.cast('void (*)(void *, uint32_t, uint32_t)',entry)
         set(ffi.cast('void *',manager),entity,behaviour)
         return true

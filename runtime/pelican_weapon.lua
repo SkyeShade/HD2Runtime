@@ -1166,6 +1166,63 @@ function M.switch_ai(world,pelican,label)
     return {turret=t,record=a.record,before=a.id,after=after.id,stage_after=after.stage}
 end
 
+-- The chin turret's OWN AI back (r44). The Gatling AI must never see the chin turret die: 213 has a death stage (11;
+-- 0x495BC0) that the Behavior update enters when the entity's HealthComponent life reaches 2 (0x8433F1..0x84349B,
+-- 0x927050), and its entry (0x285F2A) plays ability 0x9DF on it, which looks the entity up in a manager
+-- (game+0x3326570, 0x1121140 -> 0x8ABB20) with no not-found path: a chin turret is not in it, so the game crashed (two
+-- live host crashes, 2026-10-07: a Shredder Silo blast killing a Pelican's chin turret). 645 has no death stage. Through
+-- the same SetBehaviour: 213 leaves through its own transition to stage 0, which runs no stage entry (0x285894: stage
+-- 0 - 1 > 11), releasing the trigger if it was firing (0x285861); 645 enters at its stage 1. Only a turret this
+-- machine switched, still 213 and not in its death stage, nothing transitioning. Read back: exactly 645 after.
+-- Returns {turret, before, after} or nil, code, reason.
+function M.restore_ai(world,turret,label)
+    label=tostring(label or'?')
+    local function refuse(code,reason)
+        log(('AI RESTORE REFUSED (%s): chin turret %s: %s: %s'):format(label,tostring(turret),code,reason))
+        return nil,code,reason
+    end
+    if not switched[turret]then return refuse('NOT_SWITCHED','the Runtime did not give this turret the Gatling AI')end
+    if not scheduler.in_update()then return refuse('NOT_GAME_THREAD','only inside the Runtime\'s own update')end
+    if not world.runtime.native_set_behaviour then
+        return refuse('UNAVAILABLE','this Runtime adapter cannot call game functions')
+    end
+    if not world.view.proves(world.game+SB.rva,SB.prologue)then
+        return refuse('UNSUPPORTED_BUILD','the game\'s SetBehaviour changed')
+    end
+    for name,expected in pairs({entry645=645,entry213=213})do
+        if not world.view.proves(world.game+AI.table+4*(expected-1),AI[name])then
+            return refuse('UNSUPPORTED_BUILD','the behaviour jump table changed')
+        end
+    end
+    local manager=world.view.pointer(world.game+SB.manager)
+    if not manager or manager==0 then return refuse('UNAVAILABLE','the Behavior manager is unreadable')end
+    local a=M.ai_state(world,turret)
+    if not a then return refuse('UNAVAILABLE','the chin turret\'s Behavior record is unreadable')end
+    if a.id~=AI.gatling then return refuse('TURRET_UNEXPECTED','the behaviour field reads '..a.id..', not 213')end
+    if a.stage==M.DEATH_STAGE then return refuse('DEAD','the Gatling AI is in its death stage already')end
+    if a.transitioning~=-1 then return refuse('NOT_QUIET','a transition is running: '..M.ai_text(a))end
+    metrics.count('pelican_weapon.native_calls')
+    world.runtime.native_set_behaviour(world.game+SB.rva,manager,turret,AI.chin)
+    local after=M.ai_state(world,turret)
+    if not(after and after.id==AI.chin)then
+        log(('AI RESTORE FAILED (%s): chin turret %d: behaviour AFTER = %s (read back), not 645'):format(label,turret,
+            tostring(after and after.id)))
+        return nil,'NOT_APPLIED','behaviour AFTER = '..tostring(after and after.id)
+    end
+    switched[turret]=nil
+    log(('AI RESTORED (%s): chin turret %d: behaviour BEFORE = %d, behaviour AFTER = %d (its own AI: no death stage); %s')
+        :format(label,turret,a.id,after.id,M.ai_text(after)))
+    return {turret=turret,before=a.id,after=after.id}
+end
+M.DEATH_STAGE=11
+-- Whether a turret lives: its HealthComponent record's life below 2 (what the Behavior update's death check reads,
+-- 0x9270F2). nil when it has no readable health record (gone).
+function M.alive(world,turret)
+    local st=world_module.entity_state(world,turret)
+    if not st then return nil end
+    return st.life<2
+end
+
 ----------------------------------------------------------------------------------------------------- the aim --
 -- Where the bullets go (research "aim", docs section 20b), read-only: the targeting system's aim point T (the target's
 -- aim node nearest the turret), the weapon's own aim after the turret (WeaponData +0: the turret's achieved pointing,

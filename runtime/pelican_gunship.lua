@@ -559,8 +559,15 @@ local function step(g,world)
         emit(g,{kind='refused',stage='configure',code='ASSET_UNAVAILABLE',reason=tostring(gatling_state.reason)})
         log(g.label..': REFUSED: ASSET_UNAVAILABLE: '..tostring(gatling_state.reason))
     end
-    -- 3. The Gatling AI, while its own AI is quiet.
-    if g.config and g.gun.behave_as=='gatling_sentry'and not g.ai_done then
+    -- r44: given its own AI back for a blast (M.protect): the Gatling AI again after M.BLAST_HOLD s, only while it lives.
+    if g.ai_hold_until and clock>=g.ai_hold_until then
+        g.ai_hold_until=nil
+        if g.turret and weapon.alive(world,g.turret)==true then g.ai_done=false
+        else log(('%s: AI: chin turret %s did not survive the blast: it keeps its own AI'):format(g.label,tostring(g.turret)))end
+    end
+    -- 3. The Gatling AI, while its own AI is quiet (never on a turret that is dead: r44).
+    if g.config and g.gun.behave_as=='gatling_sentry'and not g.ai_done and not g.ai_hold_until
+        and weapon.alive(world,g.turret)~=false then
         local r,code,reason=weapon.switch_ai(world,g.pelican,g.label)
         if r then
             g.ai_done,g.switched=true,true
@@ -856,6 +863,31 @@ function M.arm(pelican,spec,callback)
     return g
 end
 function M.of(pelican)return active[pelican]end
+-- Before the Runtime requests a big blast at `position` (custom_silos.blast): every Runtime Pelican whose chin turret
+-- runs the Gatling AI, within `radius` m (or where unreadable), gets its own AI back first (weapon.restore_ai), so the
+-- blast killing the turret never reaches the Gatling AI's death stage (r44: two host crashes). The Gatling AI again
+-- M.BLAST_HOLD s later if it lives. Returns the number given their own AI and the number refused.
+M.BLAST_HOLD=5
+function M.protect(world,position,radius,label)
+    local done,refused=0,0
+    for pelican,g in pairs(active)do
+        if g.status=='active'and g.switched and g.turret then
+            local p=pelicans.position(world,pelican)
+            local d=p and position and math.sqrt((p.x-position.x)^2+(p.y-position.y)^2+(p.z-position.z)^2)
+            if not d or d<=radius then
+                local r=weapon.restore_ai(world,g.turret,g.label)
+                if r then
+                    done=done+1
+                    g.switched,g.ai_done,g.ai_hold_until=false,true,clock+M.BLAST_HOLD
+                    log(('%s: AI: chin turret %d given its own AI back before %s %s m away (the Gatling AI has a death '
+                        ..'stage the chin turret cannot run); the Gatling AI again in %d s if it lives'):format(g.label,
+                        g.turret,tostring(label),d and('%.0f'):format(d)or'?',M.BLAST_HOLD))
+                else refused=refused+1 end
+            end
+        end
+    end
+    return done,refused
+end
 function M.reset_for_tests()
     active,ap_state,gatling_state,strafing_state,sound_state,donor_state,clock,next_step={},{},{},{},{},{},0,0
     if watch then watch.cancel();watch=nil end
