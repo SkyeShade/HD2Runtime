@@ -1481,6 +1481,12 @@
       "tests": [], "acknowledgementRemoved": null,
       "nextTests": ["a trait-list test: add, replace and remove traits on one weapon and check the armory after reopening the menu"]
     },
+    "weapon_fire_rate_wind_up": {
+      "status": "pending", "domain": "support_weapon", "fields": ["fire_rate.modes", "weapon_function.left", "weapon_function.right"],
+      "scope": "The rate-of-fire modes and the rate_of_fire binding on a wind-up projectile weapon (the M-1000 Maxigun), always behind allow_unverified_effect: the rate slots and the ROF selector record are proven, but not that the wind-up trigger path fires at the selected slot.",
+      "tests": [], "acknowledgementRemoved": null,
+      "nextTests": ["a Maxigun rate-menu test, solo: fire_rate.modes {750, 1500, 2500} with weapon_function.left = 'rate_of_fire' on a freshly called-in Maxigun; holding Reload shows the menu, each mode fires at its rate after the spin-up, the selector cycles Y -> Z -> X; disabling restores 1500/1500/1500 without the menu"]
+    },
     "weapon_sound_template": {
       "status": "pending", "domain": "player_weapon, support_weapon", "fields": ["weapon.sound"],
       "scope": "A player or support weapon type's own ProjectileWeapon firing-sound members (+252 loop start, +256 loop stop, +260 per-shot event, +237 MIDI) set to a catalogue sound's, on the type record (weapons built after the write); offline-proven in validation/weapon-sound-snapshot.json. The chin-copy writes are offline-proven and the weapon clone's +260 copy is live-proven, but no template sound write.",

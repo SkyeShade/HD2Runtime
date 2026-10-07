@@ -1,7 +1,7 @@
 {
-  "acknowledgementRejections": 215,
-  "adversarialRejections": 1550,
-  "blockedRejections": 6,
+  "acknowledgementRejections": 218,
+  "adversarialRejections": 1562,
+  "blockedRejections": 9,
   "concussive": {
     "record": 104,
     "written": [
@@ -12,7 +12,7 @@
       }
     ]
   },
-  "conflictRejections": 240,
+  "conflictRejections": 241,
   "fixtureFallback": "disabled",
   "functions": {
     "checked": 52,
@@ -34,6 +34,14 @@
       "ProjectileWeaponComponentData+4=00806d44",
       "ProjectileWeaponComponentData+8=0000e143",
       "WeaponDataComponentData+184=02000000"
+    ]
+  },
+  "maxigun": {
+    "acknowledgementRequired": true,
+    "menu": [
+      750,
+      1500,
+      2500
     ]
   },
   "mode": "snapshot-overlay",
@@ -62,16 +70,19 @@
     "traits": 103
   },
   "rates": {
-    "added": 56,
-    "checked": 60,
-    "edited": 60,
+    "added": 57,
+    "checked": 61,
+    "edited": 61,
     "liveProven": [
       "AR-23 Liberator",
       "MG-206 Heavy Machine Gun"
     ],
-    "noops": 60
+    "noops": 61,
+    "windUp": [
+      "M-1000 Maxigun"
+    ]
   },
-  "rollbacks": 532,
+  "rollbacks": 534,
   "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
   "speargun": {
     "assetDependency": {
@@ -660,6 +671,7 @@
     {
       "armorPenetration": "none",
       "kind": "support_weapon",
+      "rates": "addable",
       "weapon": "M-1000 Maxigun"
     },
     {

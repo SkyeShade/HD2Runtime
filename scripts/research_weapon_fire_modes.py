@@ -158,33 +158,39 @@ def main():
             snapshotPrimaryMatches=None if snapshot_primary is None else snapshot_primary == slots[0])
         if row['snapshotPrimaryMatches'] is False:
             raise ValueError(name + ': pinned primary fire mode differs from the snapshot catalog')
-        if not modes or not packed:
-            state, reason = 'blocked', 'The mode slots are empty or not packed.'
-        elif any(value not in MODE_NAMES for value in modes):
-            state, reason = 'blocked', ('The weapon uses a charge or safety fire mode ('
-                + ', '.join(str(fire_names.get(v) or v) for v in modes if v not in MODE_NAMES)
-                + '); only Automatic, Single and Burst are proven.')
-        elif not families & CONVENTIONAL or families & SPECIAL_TRIGGERS:
-            state, reason = 'blocked', ('Fire modes are authored only for conventional projectile weapons; this weapon '
-                'fires through ' + (', '.join(sorted(families)) or 'no projectile trigger') + '.')
-        elif item['special']:
-            state, reason = 'blocked', 'The weapon carries a special fire-control structure (+160) whose semantics are unknown.'
-        elif not {item['selector']['leftValue'], item['selector']['rightValue']} <= ORDINARY_FUNCTIONS:
-            special = [str(item['selector'][side]) for side in ('left', 'right')
-                if item['selector'][side + 'Value'] not in ORDINARY_FUNCTIONS]
-            state, reason = 'blocked', ('The weapon binds ' + ', '.join(special) + ', which changes how its trigger '
-                'fires; fire modes are not authored on such weapons.')
-        elif item['functionTable']:
-            state, reason = 'blocked', 'The weapon has weapon-function fire-mode entries whose semantics are unknown.'
-        elif not row['ownerUnique']:
-            state, reason = 'blocked', 'The WeaponDataComponentData record is shared.'
-        elif selector:
-            state, reason = 'selectable', None
-        elif len(modes) == 1:
-            state, reason = 'single_mode', None
-        else:
-            state, reason = 'blocked', 'Several modes but no fire-mode selector is bound; the switching path is unknown.'
+        def classify(families):
+            if not modes or not packed:
+                return 'blocked', 'The mode slots are empty or not packed.'
+            if any(value not in MODE_NAMES for value in modes):
+                return 'blocked', ('The weapon uses a charge or safety fire mode ('
+                    + ', '.join(str(fire_names.get(v) or v) for v in modes if v not in MODE_NAMES)
+                    + '); only Automatic, Single and Burst are proven.')
+            if not families & CONVENTIONAL or families & SPECIAL_TRIGGERS:
+                return 'blocked', ('Fire modes are authored only for conventional projectile weapons; this weapon '
+                    'fires through ' + (', '.join(sorted(families)) or 'no projectile trigger') + '.')
+            if item['special']:
+                return 'blocked', 'The weapon carries a special fire-control structure (+160) whose semantics are unknown.'
+            if not {item['selector']['leftValue'], item['selector']['rightValue']} <= ORDINARY_FUNCTIONS:
+                special = [str(item['selector'][side]) for side in ('left', 'right')
+                    if item['selector'][side + 'Value'] not in ORDINARY_FUNCTIONS]
+                return 'blocked', ('The weapon binds ' + ', '.join(special) + ', which changes how its trigger '
+                    'fires; fire modes are not authored on such weapons.')
+            if item['functionTable']:
+                return 'blocked', 'The weapon has weapon-function fire-mode entries whose semantics are unknown.'
+            if not row['ownerUnique']:
+                return 'blocked', 'The WeaponDataComponentData record is shared.'
+            if selector:
+                return 'selectable', None
+            if len(modes) == 1:
+                return 'single_mode', None
+            return 'blocked', 'Several modes but no fire-mode selector is bound; the switching path is unknown.'
+        state, reason = classify(families)
         row.update(state=state, reason=reason, maxModes=4 if state == 'selectable' else 1 if state == 'single_mode' else None)
+        # A conventional projectile weapon whose only special trigger is a wind-up (WeaponWindUpComponentData, the
+        # M-1000 Maxigun): the state its trigger would have without the wind-up. Fire modes stay blocked; the rate of
+        # fire research (research_weapon_functions.py) opens its rate slots behind allow_unverified_effect.
+        if families & SPECIAL_TRIGGERS == {'wind_up'} and families & CONVENTIONAL:
+            row['windUp'] = {'stateWithoutWindUp': classify(families - {'wind_up'})[0]}
         result.append(row)
     report = {'schemaVersion': 1, 'typelibSha256': entity_research.TYPELIB_SHA256,
         'layout': {str(k): v[0] for k, v in LAYOUT.items()},

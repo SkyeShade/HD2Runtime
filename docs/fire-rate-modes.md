@@ -107,21 +107,60 @@ AR-61 Tenderizer (0/600/850: two modes, left input) and VG-70 Variable (read-onl
 | State | Player | Support |
 | --- | ---: | ---: |
 | `selectable` | 1 (AR-61) | 3 (MG-206, MG-43, M-105) |
-| `addable` | 48 | 8 |
-| `blocked` | 19 | 12 |
+| `addable` | 48 | 9 (the M-1000 Maxigun among them: see [Wind-up weapons](#wind-up-weapons-the-m-1000-maxigun)) |
+| `blocked` | 19 | 11 |
 | `absent` | 12 | 12 |
 
-60 weapons are writable (`sdk/WeaponFireRateCapabilities.json`). The GL-28 has a bound selector (160/240/320) but
+61 weapons are writable (`sdk/WeaponFireRateCapabilities.json`). The GL-28 has a bound selector (160/240/320) but
 stays read-only, like its `weapon.fire_rate`: the support catalog treats its rate as a diagnostic selector. Blocked weapons are those the fire-mode research
-blocks (charge, wind-up, beam, arc, spray and melee triggers, charge or safety modes, special trigger functions such
-as Magazine or ProgrammableAmmo on the other input, special fire-control structures) and ambiguous identities.
+blocks (charge, beam, arc, spray and melee triggers, charge or safety modes, special trigger functions such
+as Magazine or ProgrammableAmmo on the other input, special fire-control structures) and ambiguous identities. A
+wind-up trigger alone no longer blocks the rate (below); its fire modes and function projectile stay blocked.
+
+## Wind-up weapons (the M-1000 Maxigun)
+
+A conventional projectile weapon whose only special trigger is a wind-up (`WeaponWindUpComponentData`: of the player
+and support weapons, only the M-1000 Maxigun) gets the same rate-of-fire modes and `rate_of_fire` binding as every
+other weapon, **always behind `allow_unverified_effect`**. Offline only / not live-tested.
+
+```lua
+local maxigun = hd2.support_weapon('M-1000 Maxigun')
+local rates = maxigun:fire_rate_modes()   -- state 'addable', expect {1500, 1500, 1500}, binding weapon_function.left
+hd2.transaction({
+    id = 'maxigun-rate-menu',
+    target = maxigun,
+    allow_unverified_effect = true,       -- required: the wind-up trigger path is not proven to fire the selected slot
+    changes = {
+        {field = hd2.fields.fire_rate.modes, expect = {1500, 1500, 1500}, value = {750, 1500, 2500}},
+        {field = hd2.fields.weapon_function.left, expect = 'none', value = 'rate_of_fire'},
+    },
+})
+```
+
+- **Dormant slots.** The Maxigun stores its rate in all three slots (1500/1500/1500) with no selector bound, so no menu
+  lists X or Z (`fire_rate_modes()` shows Y only and marks X and Z `dormant`). A write sets X and Z explicitly with the
+  binding (as above), or clears them (`{0, 1200, 0}` changes the rate alone); writing the reviewed `{1500, 1500, 1500}`
+  back is accepted without a binding. Rates in X or Z without the binding are refused (`SELECTOR_REQUIRED`), as on
+  every weapon. Other weapons with dormant slots (LAS-99 Quasar Cannon) stay read-only.
+- **What is proven offline.** The three rate slots and the ROF selector record (the projectile_weapon manager keeps one
+  record per built projectile weapon, seeded from the settings' three slots; the selector and the weapon-function value
+  reader are data-driven over it), and the wind-up routine (0x78A420, research/sentry-components) reads only its own
+  settings: +0 wind-up time, +4 wind-down time, +12 barrel-spin multiplier.
+- **What is not.** That the wind-up trigger path fires at the selected slot's rate once spun up: no built wind-up weapon
+  is in a retained mission snapshot, and the research shows no reader of the current rate on that path. A third-party
+  mod that writes the Maxigun's rate menu is reported to work in game; that is a lead, not proof. Hence the
+  acknowledgement on `fire_rate.modes` and on the binding, whatever the values.
+- **Unchanged.** Charge, beam, arc, spray and melee weapons stay blocked; the Maxigun's fire modes
+  (`fire_mode.modes`) and function projectile are not authored. `weapon.fire_rate` (slot Y) is as before.
 
 ## Validation
 
 - `scripts/validate_weapon_modes_snapshot.py` (`validation/weapon-modes-snapshot.json`) exercises every writable
   weapon on a copy-on-write overlay of the retained snapshot: guarded no-op, one mode edited alone (one slot written),
   two added rates with the binding (three writes), exact read-back and rollback, CONFLICT on a third-party slot value,
-  and the acknowledgement (or, on a live-proven weapon, the write without it). Adversarial: lists that are not three
+  and the acknowledgement (or, on a live-proven weapon, the write without it). The Maxigun (wind-up) is exercised
+  like the others, with its dormant X and Z: its reviewed slots are a no-op without a binding, its rates without the
+  acknowledgement are refused. Adversarial: lists that are not three
   slots, an empty default, negative, non-finite and out-of-range rates, rates without their selector and a selector
   without rates are refused; blocked weapons refuse writes; `fire_rate.modes` and `weapon.fire_rate` never share a
   plan. It pins the MG-206 edit (`{450, 600, 750} -> {1400, 200, 700}`, 12 bytes) and the Liberator's added modes

@@ -130,7 +130,7 @@ class WeaponModeCatalogTests(unittest.TestCase):
             text = (ROOT / path).read_text(encoding='utf-8')
             self.assertNotIn('0x', text, path)
         rates = load('sdk/WeaponFireRateCapabilities.json')
-        self.assertEqual(rates['summary']['writable'], 60)
+        self.assertEqual(rates['summary']['writable'], 61)   # the wind-up Maxigun included
         self.assertEqual(rates['maxSlots'], 3)
         feeds = load('sdk/WeaponFeedCapabilities.json')['summary']
         self.assertEqual(feeds['roundsDualFeeds'], ['SG-20 Halt'])
@@ -275,7 +275,7 @@ return 'ok'
     def test_validation_and_scenarios(self):
         result = load('validation/weapon-modes-snapshot.json')
         self.assertEqual(result['status'], 'VALIDATED')
-        self.assertEqual((result['rates']['checked'], result['rates']['added']), (60, 56))
+        self.assertEqual((result['rates']['checked'], result['rates']['added']), (61, 57))
         self.assertEqual((result['functions']['checked'], result['functions']['native']), (52, 3))
         self.assertEqual((result['presentation']['checked'], result['presentation']['traits']), (100, 103))
         self.assertEqual(result['hmg']['slots'], ['0000e143>0000af44', '00001644>00004843', '00803b44>00002f44'])
@@ -300,6 +300,103 @@ return 'ok'
         self.assertEqual((ems['label'], ems['icon']), ('d937037c', '0e42b97f9068922d'))
         # 66 weapon outputs, the EMS shell, the Speargun spare twin and 12 mounted-weapon outputs.
         self.assertEqual(result['presentation']['outputs'], 80)
+
+
+
+class WindUpRateTests(unittest.TestCase):
+    """Rate-of-fire modes on a wind-up projectile weapon (the M-1000 Maxigun; docs/fire-rate-modes.md "Wind-up
+    weapons"): authorable like any other weapon, but only with allow_unverified_effect, whose reason names the unproven
+    wind-up trigger path. Other special triggers stay blocked. Offline only."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.fire_modes = {(r['kind'], r['weapon']): r for r in load('research/weapon-fire-modes-F5FEE03DCFDB.json')[
+            'weapons']}
+        cls.functions = {(r['kind'], r['weapon']): r for r in load('research/weapon-functions-F5FEE03DCFDB.json')[
+            'weapons']}
+        cls.rates = {(r['kind'], r['weapon']): r for r in load('sdk/WeaponFireRateCapabilities.json')['weapons']}
+
+    def test_research(self):
+        # The fire-mode research keeps the Maxigun's fire modes blocked and records its trigger without the wind-up.
+        maxigun = self.fire_modes[('support', 'M-1000 Maxigun')]
+        self.assertEqual((maxigun['state'], maxigun['windUp']), ('blocked', {'stateWithoutWindUp': 'single_mode'}))
+        self.assertEqual([key for key, row in self.fire_modes.items() if 'windUp' in row],
+            [('support', 'M-1000 Maxigun')])
+        rate = self.functions[('support', 'M-1000 Maxigun')]['fireRate']
+        self.assertEqual((rate['state'], rate['maxModes'], rate['bindableInputs'], rate['dormantSlots']),
+            ('addable', 3, ['left', 'right'], ['x', 'z']))
+        self.assertIn('wind-up trigger path fires at the selected rate slot is not', rate['windUp']['reason'])
+        self.assertEqual(self.functions[('support', 'M-1000 Maxigun')]['functionAmmo']['state'], 'blocked')
+        # Every other special trigger stays blocked or absent, and no other weapon is flagged wind-up.
+        for key, row in self.functions.items():
+            if set(row['families']) & {'charge', 'beam', 'arc', 'spray', 'melee'}:
+                self.assertIn((row.get('fireRate') or {}).get('state'), ('blocked', 'absent'), key)
+            if key != ('support', 'M-1000 Maxigun'):
+                self.assertNotIn('windUp', row.get('fireRate') or {}, key)
+
+    def test_published_capability(self):
+        maxigun = self.rates[('support', 'M-1000 Maxigun')]
+        self.assertEqual((maxigun['state'], maxigun['writable'], maxigun['acknowledgements']),
+            ('addable', True, ['allow_unverified_effect']))
+        self.assertEqual(maxigun['expect'], [1500.0, 1500.0, 1500.0])
+        self.assertEqual([m['slot'] for m in maxigun['modes']], ['y'])   # X and Z are dormant: no menu lists them
+        self.assertEqual(maxigun['windUp']['dormantSlots'], ['x', 'z'])
+        self.assertIsNone(maxigun['liveEvidence'])
+        # Other dormant-slot or special-trigger weapons are unchanged.
+        for key in (('support', 'LAS-99 Quasar Cannon'), ('support', 'MGX-42 Bullet Storm'),
+                ('player', 'PLAS-39 Accelerator Rifle'), ('support', 'RS-422 Railgun'), ('player', 'PLAS-101 Purifier')):
+            self.assertFalse(self.rates[key]['writable'], key)
+            self.assertNotIn('windUp', self.rates[key], key)
+
+    def test_lua(self):
+        self.assertEqual(run(r'''
+local hd2=require('hd2runtime/api/hd2')
+local w=require('hd2runtime/domains/player_weapon_writes')
+local F=hd2.fields
+local function rejected(fn,needle)
+ local ok,why=pcall(fn);assert(not ok,'accepted');assert(tostring(why):find(needle,1,true),tostring(why))
+end
+local maxigun=hd2.support_weapon('M-1000 Maxigun')
+local view=maxigun:fire_rate_modes()
+assert(view.state=='addable'and view.writable and#view.modes==1 and view.modes[1].slot=='y')
+assert(view.slots[1].dormant and view.slots[3].dormant and not view.slots[1].enabled)
+assert(view.binding.field=='weapon_function.left'and view.acknowledgements[1]=='allow_unverified_effect')
+assert(view.windUp and view.windUp.reason:find('wind-up trigger path',1,true))
+local menu={{field=F.fire_rate.modes,expect={1500,1500,1500},value={750,1500,2500}},
+ {field=F.weapon_function.left,expect='none',value='rate_of_fire'}}
+-- Authorable with the acknowledgement, refused without it (the reason names the wind-up path).
+local spec=w.validate_transaction({id='m',target=maxigun,changes=menu,allow_unverified_effect=true})
+assert(#spec.changes==2)
+rejected(function()w.validate_transaction({id='m',target=maxigun,changes=menu})end,'wind-up trigger path')
+rejected(function()w.validate_patch({id='m',target=maxigun,field=F.weapon_function.left,expect='none',
+ value='rate_of_fire'})end,'allow_unverified_effect')
+-- Dormant X and Z: the rate alone clears them; rates in X or Z need the binding; the reviewed slots are a no-op.
+w.validate_patch({id='m',target=maxigun,field=F.fire_rate.modes,expect={1500,1500,1500},value={0,1200,0},
+ allow_unverified_effect=true})
+rejected(function()w.validate_patch({id='m',target=maxigun,field=F.fire_rate.modes,expect={1500,1500,1500},
+ value={1500,1200,1500},allow_unverified_effect=true})end,'SELECTOR_REQUIRED')
+w.validate_patch({id='m',target=maxigun,field=F.fire_rate.modes,expect={1500,1500,1500},value={1500,1500,1500},
+ allow_unverified_effect=true})
+rejected(function()w.validate_patch({id='m',target=maxigun,field=F.weapon_function.left,expect='none',
+ value='rate_of_fire',allow_unverified_effect=true})end,'SELECTOR_REQUIRED')
+-- Its fire modes and function projectile stay unauthored.
+rejected(function()w.validate_patch({id='m',target=maxigun,field=F.function_ammo.projectile,expect='none',
+ value='none',allow_unverified_effect=true})end,'not exposed')
+-- Other special triggers stay blocked (charge), as do other dormant-slot weapons (the Quasar).
+for _,item in ipairs({{hd2.weapon('PLAS-39 Accelerator Rifle'),{0,550,0}},{hd2.support_weapon('RS-422 Railgun'),
+  {0,60,0}},{hd2.support_weapon('LAS-99 Quasar Cannon'),{0,10,10}}})do
+ local ok=pcall(w.validate_patch,{id='b',target=item[1],field=F.fire_rate.modes,expect=item[2],value=item[2],
+  allow_unverified_effect=true})
+ assert(not ok)
+end
+return 'ok'
+'''), b'ok')
+
+    def test_snapshot_validation(self):
+        result = load('validation/weapon-modes-snapshot.json')
+        self.assertEqual(result['rates']['windUp'], ['M-1000 Maxigun'])
+        self.assertEqual(result['maxigun'], {'acknowledgementRequired': True, 'menu': [750, 1500, 2500]})
+        self.assertEqual(result['blockedRejections'], 9)
 
 
 if __name__ == '__main__':

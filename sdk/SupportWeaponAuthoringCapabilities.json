@@ -20,7 +20,7 @@
       "CQC-72 Entrenchment Tool"
     ],
     "writableSupportWeapons": 34,
-    "writableFieldInstances": 1472,
+    "writableFieldInstances": 1475,
     "fieldInstancesByDomain": {
       "arc": 6,
       "attack": 8,
@@ -29,7 +29,7 @@
       "damage": 347,
       "explosion": 298,
       "fire_mode": 26,
-      "fire_rate": 11,
+      "fire_rate": 12,
       "function_ammo": 13,
       "heat": 8,
       "heatsink": 6,
@@ -40,7 +40,7 @@
       "rounds": 15,
       "status": 20,
       "weapon": 366,
-      "weapon_function": 18,
+      "weapon_function": 20,
       "windup": 2
     },
     "weaponsWithDomain": {
@@ -51,7 +51,7 @@
       "damage": 34,
       "explosion": 18,
       "fire_mode": 13,
-      "fire_rate": 11,
+      "fire_rate": 12,
       "function_ammo": 13,
       "heat": 2,
       "heatsink": 2,
@@ -62,7 +62,7 @@
       "rounds": 3,
       "status": 8,
       "weapon": 32,
-      "weapon_function": 12,
+      "weapon_function": 13,
       "windup": 1
     },
     "writableProjectileBranches": 21,
@@ -108,12 +108,12 @@
       ]
     },
     "sharedFieldInstances": 807,
-    "internalSupportAuthoringInstances": 1472,
-    "publishedSupportFieldInstances": 1472,
-    "legacyFlattenedFieldEntries": 1361,
+    "internalSupportAuthoringInstances": 1475,
+    "publishedSupportFieldInstances": 1475,
+    "legacyFlattenedFieldEntries": 1364,
     "branchSpecificFieldInstances": 815,
     "backingObjectCount": 234,
-    "operationGroupingCount": 272,
+    "operationGroupingCount": 273,
     "sharedBackingObjectCount": 102,
     "sharedConsumerScopeCount": 102,
     "duplicateSemanticFieldGroups": 50,
@@ -121,7 +121,7 @@
     "deduplicationLossPrevented": 111,
     "referenceFieldInstances": 95,
     "readOnlyFieldInstances": 0,
-    "blockedFieldDeclarations": 217,
+    "blockedFieldDeclarations": 214,
     "intentionallyOmittedInstances": 0,
     "safety": {
       "writes": 0,
@@ -4439,6 +4439,9 @@
           "damage.status_strength",
           "damage.status_type"
         ],
+        "fire_rate": [
+          "fire_rate.modes"
+        ],
         "presentation": [
           "presentation.armor_penetration",
           "presentation.traits"
@@ -4470,6 +4473,10 @@
           "weapon.third_person_reticle",
           "weapon.vertical_spread"
         ],
+        "weapon_function": [
+          "weapon_function.left",
+          "weapon_function.right"
+        ],
         "windup": [
           "windup.wind_down_seconds",
           "windup.wind_up_seconds"
@@ -4487,18 +4494,6 @@
         {
           "field": "fire_mode.burst_rounds",
           "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through conventional_projectile, wind_up."
-        },
-        {
-          "field": "fire_rate.modes",
-          "reason": "Dormant rate slots (x, z) hold values a bound selector would visit."
-        },
-        {
-          "field": "weapon_function.left",
-          "reason": "No selector this weapon can host is unbound: fire_rate and function_ammo are not addable here (see the weapon fire_rate_modes() and feeds())."
-        },
-        {
-          "field": "weapon_function.right",
-          "reason": "No selector this weapon can host is unbound: fire_rate and function_ammo are not addable here (see the weapon fire_rate_modes() and feeds())."
         },
         {
           "field": "function_ammo.projectile",
@@ -4566,7 +4561,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 36,
+      "writableFieldCount": 39,
       "fieldInstanceKeys": [
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-ergonomics/167edc58b5e7a64b",
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-sway/6f16603015ec52f5",
@@ -4577,6 +4572,9 @@
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-recoil-climb-horizontal/d3055793a75dc396",
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-recoil-climb-vertical/5ce19108e2225372",
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-stationary-while-firing/0e42bfeb0cc3db53",
+        "support-field/v1/m-1000-maxigun/weapon/root/fire-rate-modes/98831b4557373111",
+        "support-field/v1/m-1000-maxigun/weapon/root/weapon-function-left/d94da2e25a12e1db",
+        "support-field/v1/m-1000-maxigun/weapon/root/weapon-function-right/fc74ce737b9dece5",
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-sound/f25bdd792567b968",
         "support-field/v1/m-1000-maxigun/weapon/root/presentation-traits/897a834ac8a35871",
         "support-field/v1/m-1000-maxigun/weapon/root/presentation-armor-penetration/c0868c3e6de2fdfd",
@@ -115149,6 +115147,404 @@
       }
     },
     {
+      "instanceKey": "support-field/v1/m-1000-maxigun/weapon/root/fire-rate-modes/98831b4557373111",
+      "supportWeapon": "M-1000 Maxigun",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/m-1000-maxigun/95638dbb80d59593",
+        "name": "M-1000 Maxigun",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "fire_rate.modes",
+      "qualifiedSemanticFieldId": "fire_rate.modes",
+      "apiFieldConstant": "hd2.fields.fire_rate.modes",
+      "display": {
+        "name": "Rate-of-fire modes",
+        "domain": "fire_rate",
+        "group": "ProjectileWeaponComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "fire_rate_set",
+        "baseline": [
+          1500.0,
+          1500.0,
+          1500.0
+        ],
+        "expected": [
+          1500.0,
+          1500.0,
+          1500.0
+        ],
+        "unit": "rpm",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/projectileweaponcomponentdata/46314a12d607c791cc72",
+        "kind": "component",
+        "semanticType": "ProjectileWeaponComponentData",
+        "domain": "ProjectileWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/7cc2fb4b31eee5a73739",
+        "runtimeBackingScope": "component:ProjectileWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/836770cfdecf40c4e984",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "M-1000 Maxigun",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/m-1000-maxigun/weapon/root/859009eb9b9999d2"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/7cc2fb4b31eee5a73739",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/m-1000-maxigun/95638dbb80d5",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Wind-up weapon: the three rate slots, the ROF selector record (generic over every built projectile weapon) and the wind-up routine (its own +0/+4/+12 only) are proven, but that the wind-up trigger path fires at the selected rate slot is not, and editing, adding or selecting rates on a wind-up weapon has not been gameplay-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "fireRate": {
+        "fireRateState": "addable",
+        "nativeSlots": [
+          1500.0,
+          1500.0,
+          1500.0
+        ],
+        "slotNames": [
+          "x",
+          "y",
+          "z"
+        ],
+        "defaultSlot": "y",
+        "selectorOrder": [
+          "y",
+          "z",
+          "x"
+        ],
+        "maxModes": 3,
+        "selectorBound": false,
+        "selectorInput": null,
+        "bindableInputs": [
+          "left",
+          "right"
+        ],
+        "min": 1,
+        "max": 3000,
+        "overriddenWhenEquipped": [],
+        "windUp": true,
+        "dormantSlots": [
+          "x",
+          "z"
+        ]
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": true,
+        "reason": "A component member the game copies into the weapon when it builds it (the projectile_weapon ROF record and the weapon_data bindings): weapons built after the write use it; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip).",
+        "writeVerifiedOnApply": true,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/m-1000-maxigun/weapon/root/weapon-function-left/d94da2e25a12e1db",
+      "supportWeapon": "M-1000 Maxigun",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/m-1000-maxigun/95638dbb80d59593",
+        "name": "M-1000 Maxigun",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon_function.left",
+      "qualifiedSemanticFieldId": "weapon_function.left",
+      "apiFieldConstant": "hd2.fields.weapon_function.left",
+      "display": {
+        "name": "Left weapon function",
+        "domain": "weapon_function",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "weapon_function",
+        "baseline": "none",
+        "expected": "none",
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/4a5a5509bab57900fd72",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/7cc2fb4b31eee5a73739",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/4cd140fcb459e294a8bd",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "M-1000 Maxigun",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/m-1000-maxigun/weapon/root/859009eb9b9999d2"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/7cc2fb4b31eee5a73739",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/m-1000-maxigun/95638dbb80d5",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The weapon-function input binding (WeaponDataComponent function_info +184/+188) and the function readers are proven, but binding a selector this weapon does not have natively has not been gameplay-tested. Wind-up weapon: the three rate slots, the ROF selector record (generic over every built projectile weapon) and the wind-up routine (its own +0/+4/+12 only) are proven, but that the wind-up trigger path fires at the selected rate slot is not, and editing, adding or selecting rates on a wind-up weapon has not been gameplay-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "weaponFunction": {
+        "input": "left",
+        "allowedValues": [
+          "none",
+          "rate_of_fire"
+        ]
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": true,
+        "reason": "A component member the game copies into the weapon when it builds it (the projectile_weapon ROF record and the weapon_data bindings): weapons built after the write use it; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip).",
+        "writeVerifiedOnApply": true,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/m-1000-maxigun/weapon/root/weapon-function-right/fc74ce737b9dece5",
+      "supportWeapon": "M-1000 Maxigun",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/m-1000-maxigun/95638dbb80d59593",
+        "name": "M-1000 Maxigun",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon_function.right",
+      "qualifiedSemanticFieldId": "weapon_function.right",
+      "apiFieldConstant": "hd2.fields.weapon_function.right",
+      "display": {
+        "name": "Right weapon function",
+        "domain": "weapon_function",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "weapon_function",
+        "baseline": "none",
+        "expected": "none",
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/4a5a5509bab57900fd72",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/7cc2fb4b31eee5a73739",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/4cd140fcb459e294a8bd",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "M-1000 Maxigun",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/m-1000-maxigun/weapon/root/859009eb9b9999d2"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/7cc2fb4b31eee5a73739",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/m-1000-maxigun/95638dbb80d5",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The weapon-function input binding (WeaponDataComponent function_info +184/+188) and the function readers are proven, but binding a selector this weapon does not have natively has not been gameplay-tested. Wind-up weapon: the three rate slots, the ROF selector record (generic over every built projectile weapon) and the wind-up routine (its own +0/+4/+12 only) are proven, but that the wind-up trigger path fires at the selected rate slot is not, and editing, adding or selecting rates on a wind-up weapon has not been gameplay-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "weaponFunction": {
+        "input": "right",
+        "allowedValues": [
+          "none",
+          "rate_of_fire"
+        ]
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": true,
+        "reason": "A component member the game copies into the weapon when it builds it (the projectile_weapon ROF record and the weapon_data bindings): weapons built after the write use it; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip).",
+        "writeVerifiedOnApply": true,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true
+      }
+    },
+    {
       "instanceKey": "support-field/v1/m-1000-maxigun/weapon/root/weapon-sound/f25bdd792567b968",
       "supportWeapon": "M-1000 Maxigun",
       "supportWeaponIdentity": {
@@ -205839,6 +206235,7 @@
       "kind": "component",
       "semanticType": "ProjectileWeaponComponentData",
       "domains": [
+        "fire_rate",
         "weapon"
       ],
       "shared": false,
@@ -205860,6 +206257,7 @@
       "reviewedScopeComplete": true,
       "dynamicConsumersPossible": false,
       "fieldInstanceKeys": [
+        "support-field/v1/m-1000-maxigun/weapon/root/fire-rate-modes/98831b4557373111",
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-sound/f25bdd792567b968",
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-fire-rate/363e4cf5c0f11493"
       ]
@@ -207561,7 +207959,8 @@
       "kind": "component",
       "semanticType": "WeaponDataComponentData",
       "domains": [
-        "weapon"
+        "weapon",
+        "weapon_function"
       ],
       "shared": false,
       "requiresSharedAcknowledgement": false,
@@ -207591,6 +207990,8 @@
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-recoil-climb-horizontal/d3055793a75dc396",
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-recoil-climb-vertical/5ce19108e2225372",
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-stationary-while-firing/0e42bfeb0cc3db53",
+        "support-field/v1/m-1000-maxigun/weapon/root/weapon-function-left/d94da2e25a12e1db",
+        "support-field/v1/m-1000-maxigun/weapon/root/weapon-function-right/fc74ce737b9dece5",
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-third-person-reticle/494f3c4a3bb34c03",
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-recoil-multiplier-horizontal/c0bcff57fab5054a",
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-recoil-multiplier-vertical/c08a69b4bcb00d62"
@@ -214412,6 +214813,33 @@
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
       "planGroupingKey": "support-plan/v1/b-md-c4-pack/67a19fb797b9",
+      "phase": 1,
+      "dependencies": []
+    },
+    {
+      "operationGroupingKey": "support-operation/v1/7cc2fb4b31eee5a73739",
+      "backingObjectKey": "support-object/v1/projectileweaponcomponentdata/46314a12d607c791cc72",
+      "runtimeBackingScope": "component:ProjectileWeaponComponentData",
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "fieldInstanceKeys": [
+        "support-field/v1/m-1000-maxigun/weapon/root/fire-rate-modes/98831b4557373111",
+        "support-field/v1/m-1000-maxigun/weapon/root/weapon-function-left/d94da2e25a12e1db",
+        "support-field/v1/m-1000-maxigun/weapon/root/weapon-function-right/fc74ce737b9dece5"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false,
+      "planGroupingKey": "support-plan/v1/m-1000-maxigun/95638dbb80d5",
       "phase": 1,
       "dependencies": []
     },
@@ -223870,8 +224298,8 @@
     "fixtureFallback": "disabled"
   },
   "instanceAudit": {
-    "internalInstances": 1472,
-    "publishedInstances": 1472,
+    "internalInstances": 1475,
+    "publishedInstances": 1475,
     "missingInstances": 0,
     "unexpectedInstances": 0,
     "identityCoverage": "exact"

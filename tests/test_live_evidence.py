@@ -91,7 +91,8 @@ class LiveEvidenceTests(unittest.TestCase):
                 'eagle_component_fields',
                 'enemy_spawn_weights',
                 'orbital_pattern_fields', 'projectile_homing', 'projectile_more_donors', 'sentry_component_fields', 'stratagem_call_in_time', 'support_charge_level_rows',
-                'support_overcharge_explosion_rows', 'weapon_presentation_traits', 'weapon_sound_template']})
+                'support_overcharge_explosion_rows', 'weapon_fire_rate_wind_up', 'weapon_presentation_traits',
+                'weapon_sound_template']})
         self.assertEqual((catalog['summary']['tests'], catalog['summary']['passed']), (123, 96))
         for name, entry in self.registry['families'].items():
             if entry['status'] == 'live_proven':

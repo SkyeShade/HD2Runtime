@@ -58,7 +58,7 @@ local function field_of(weapon,id)
  for _,item in ipairs(weapon.fields or{})do if item.semanticFieldId==id and item.editable then return item end end
 end
 local function handle(id)return setmetatable({resource='attack_output',output=id},{})end
-local result={status='VALIDATED',rates={checked=0,edited=0,added=0,noops=0,liveProven={}},functions={checked=0,native=0},
+local result={status='VALIDATED',rates={checked=0,edited=0,added=0,noops=0,liveProven={},windUp={}},functions={checked=0,native=0},
  presentation={checked=0,replaced=0,added=0,removed=0,traits=0},rollbacks=0,conflictRejections=0,
  acknowledgementRejections=0,adversarialRejections=0,blockedRejections=0,neighbourChecks=0,weapons={},
  fixtureFallback='disabled',mode='snapshot-overlay',snapshot=SNAPSHOT_NAME}
@@ -117,7 +117,13 @@ local worker=coroutine.create(function()
      noop(patch(RATES,current,current),name..' rates')
      result.rates.noops=result.rates.noops+1
      local edited={current[1],current[2]+10,current[3]}   -- the default (Y) edited alone: only its slot is written
-     local plan=write_and_restore(patch(RATES,current,edited),name..' rate edit',1)
+     local parts=1
+     if rates.windUp and not rates.selectorBound then
+      -- A wind-up weapon's dormant X and Z (the Maxigun's 1500/1500/1500) are cleared with the default edit.
+      edited={0,current[2]+10,0};parts=1+(current[1]~=0 and 1 or 0)+(current[3]~=0 and 1 or 0)
+      result.rates.windUp[#result.rates.windUp+1]=name
+     end
+     local plan=write_and_restore(patch(RATES,current,edited),name..' rate edit',parts)
      result.rates.edited=result.rates.edited+1
      poke(first_written(plan).owner.base+first_written(plan).offset,b.encode(1234.5,'f32'))
      rejects(function()resolve(patch(RATES,current,edited))end,'CONFLICT','rate conflict')
@@ -483,9 +489,28 @@ local worker=coroutine.create(function()
  rejects(function()resolve(label)end,'ownership identity changed','stale LoadoutEntry index')
  result.adversarialRejections=result.adversarialRejections+1
  reset()
- -- Blocked weapons never accept these writes.
+ -- The wind-up Maxigun: its rate menu (rates and the rate_of_fire binding) only with allow_unverified_effect, and the
+ -- reason names the unproven wind-up path; its fire modes and function projectile stay unauthored.
+ local maxigun={resource='support_weapon',path='weapon',weapon='M-1000 Maxigun'}
+ local menu={{field=RATES,expect={1500,1500,1500},value={750,1500,2500}},
+  {field=LEFT,expect='none',value='rate_of_fire'}}
+ domain.validate_transaction({id='maxigun',target=maxigun,changes=menu,allow_unverified_effect=true})
+ rejects(function()domain.validate_transaction({id='maxigun',target=maxigun,changes=menu})end,'wind-up trigger path',
+  'Maxigun rate menu without the acknowledgement')
+ rejects(function()domain.validate_patch({id='maxigun',target=maxigun,field=RATES,expect={1500,1500,1500},
+  value={0,1200,0}})end,'allow_unverified_effect','Maxigun rate without the acknowledgement')
+ for _,field in ipairs({'fire_mode.modes',FUNCTION})do
+  rejects(function()domain.validate_patch({id='maxigun',target=maxigun,field=field,expect='none',value='none',
+   allow_unverified_effect=true})end,'not exposed','Maxigun '..field)
+ end
+ result.maxigun={acknowledgementRequired=true,menu={750,1500,2500}}
+ result.acknowledgementRejections=result.acknowledgementRejections+2
+ -- Blocked weapons never accept these writes (other special triggers: charge, beam; charge or safety fire modes).
  for _,item in ipairs({{'player_weapon','SG-20 Halt',RATES,{0,80,0},{0,90,0}},{'player_weapon','VG-70 Variable',
-   RATES,{300,550,750},{0,550,0}},{'support_weapon','M-1000 Maxigun',RATES,{0,1500,0},{0,1400,0}},
+   RATES,{300,550,750},{0,550,0}},{'player_weapon','PLAS-39 Accelerator Rifle',RATES,{0,550,0},{0,600,0}},
+   {'player_weapon','PLAS-101 Purifier',RATES,{0,1000,0},{0,900,0}},
+   {'support_weapon','RS-422 Railgun',RATES,{0,60,0},{0,70,0}},
+   {'support_weapon','LAS-99 Quasar Cannon',RATES,{0,10,10},{0,10,0}},
    {'player_weapon','AR-61 Tenderizer',LEFT,'rate_of_fire','none'},{'player_weapon','SG-20 Halt',PENETRATION,'light',
    'heavy'},{'player_weapon','LAS-5 Scythe',FUNCTION,'none','none'}})do
   local ok=pcall(domain.validate_patch,{id='blocked',target={resource=item[1],path='weapon',weapon=item[2]},

@@ -979,6 +979,9 @@ def build(catalog_path=CATALOG):
                 instance['fireRate']={key:field.get(key) for key in ('fireRateState','nativeSlots','slotNames',
                     'defaultSlot','selectorOrder','maxModes','selectorBound','selectorInput','bindableInputs','min','max',
                     'overriddenWhenEquipped')}
+                if field.get('windUp'):
+                    # A wind-up weapon (the Maxigun): its X and Z hold its rate with no selector bound (dormant).
+                    instance['fireRate'].update(windUp=True,dormantSlots=field['dormantSlots'])
             if field_id in weapon_mode_fields.INPUT_FIELDS.values():
                 instance['weaponFunction']={key:field.get(key) for key in ('input','allowedValues')}
             if field['type']=='projectile_reference':

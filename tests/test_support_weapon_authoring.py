@@ -29,9 +29,9 @@ class SupportWeaponAuthoringTests(unittest.TestCase):
         # +33 charge instances (scripts/charge_fields.py: speed/damage/penetration/arc multipliers, auto fire, overcharge
         # explosion, limit and burst on the RS-422, PLAS-45, ARC-3 and 40-K); +60 charge-level instances (the Epoch
         # full-charge shot 18, its explosion 14 and its overcharge explosion 14, the RS-422 overcharge explosion 14).
-        self.assertEqual(self.capabilities['summary']['internalSupportAuthoringInstances'],1472)
-        self.assertEqual(self.capabilities['summary']['publishedSupportFieldInstances'],1472)
-        self.assertEqual(self.capabilities['summary']['legacyFlattenedFieldEntries'],1361)
+        self.assertEqual(self.capabilities['summary']['internalSupportAuthoringInstances'],1475)
+        self.assertEqual(self.capabilities['summary']['publishedSupportFieldInstances'],1475)
+        self.assertEqual(self.capabilities['summary']['legacyFlattenedFieldEntries'],1364)
         self.assertEqual(self.capabilities['summary']['deduplicationLossPrevented'],111)
         self.assertEqual(self.capabilities['summary']['duplicateSemanticFieldGroups'],50)
         self.assertEqual(self.capabilities['summary']['duplicateSemanticFieldInstances'],114)
@@ -56,11 +56,11 @@ class SupportWeaponAuthoringTests(unittest.TestCase):
     def test_canonical_instances_exactly_cover_internal_descriptors(self):
         runtime,generated=generate_support_weapon_authoring.build()
         audit=generate_support_weapon_authoring.audit_instance_coverage(runtime,generated)
-        self.assertEqual(audit,{'internalInstances':1472,'publishedInstances':1472,
+        self.assertEqual(audit,{'internalInstances':1475,'publishedInstances':1475,
             'missingInstances':0,'unexpectedInstances':0,'identityCoverage':'exact'})
         instances=self.capabilities['fieldInstances']
-        self.assertEqual(len(instances),1472)
-        self.assertEqual(len({item['instanceKey'] for item in instances}),1472)
+        self.assertEqual(len(instances),1475)
+        self.assertEqual(len({item['instanceKey'] for item in instances}),1475)
         objects={item['objectKey']:item for item in self.capabilities['backingObjects']}
         operations={item['operationGroupingKey']:item
             for item in self.capabilities['operationGroups']}
@@ -68,7 +68,7 @@ class SupportWeaponAuthoringTests(unittest.TestCase):
         # damage, its explosion, the overcharge explosion and their shared damage row; the RS-422 overcharge explosion
         # and its damage row).
         self.assertEqual(len(objects),234)
-        self.assertEqual(len(operations),272)
+        self.assertEqual(len(operations),273)
         required={'instanceKey','supportWeapon','supportWeaponIdentity','target','semanticFieldId',
             'qualifiedSemanticFieldId','apiFieldConstant','display','value','writable',
             'readOnly','blockedReason','backing','sharedScope','operation','resolution',
@@ -83,7 +83,7 @@ class SupportWeaponAuthoringTests(unittest.TestCase):
             self.assertEqual(instance['operation']['phase'],1)
             self.assertEqual(instance['target']['accessor'][0],'support_weapon')
         self.assertEqual(sum(len(weapon['fieldInstanceKeys'])
-            for weapon in self.capabilities['weapons']),1472)
+            for weapon in self.capabilities['weapons']),1475)
 
     def test_gui_can_group_recoilless_instances_without_native_layout_knowledge(self):
         instances=[item for item in self.capabilities['fieldInstances']

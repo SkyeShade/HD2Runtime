@@ -41,6 +41,10 @@ RATE_STATES = {'selectable': 'The rate-of-fire selector is bound: every rate can
         'weapon_function binding of "rate_of_fire" (one transaction).',
     'single_rate': 'Both inputs are bound: only the default rate (slot Y) can be edited; X and Z stay 0.',
     'blocked': 'Read-only; see reason.', 'absent': 'The weapon has no rate-of-fire slots.'}
+WIND_UP = ('A wind-up weapon (the M-1000 Maxigun): addable like any other weapon, but every rate write and the '
+        'rate_of_fire binding require allow_unverified_effect (the wind-up trigger path consuming the selected slot is '
+        'unproven); its X and Z hold its rate with no selector bound (dormant), so a write sets them explicitly '
+        'with the binding, or clears them (0).')
 FEED_MECHANISMS = {'projectile': 'The weapon normal projectile (see attack:projectile_source() for where it lives).',
     'rounds_magazine': 'One of the two WeaponRounds magazines (primary +64, alternate +68), switched with the Magazine '
         'weapon function. Both are built into every weapon; their projectiles are set by its default ammunition '
@@ -180,10 +184,13 @@ def build():
         rate_field = fields.get(weapon_mode_fields.RATES_FIELD) or {}
         writable = bool(rate_field.get('editable'))
         slots = rate.get('slots')
+        wind_up = rate.get('windUp')
+        # A wind-up weapon without a selector: X and Z hold its rate but no menu lists them (dormant); the menu is Y.
+        menu = {**slots, 'x': 0.0, 'z': 0.0} if wind_up and slots and not rate.get('selectorBound') else slots
         rates_public.append({'kind': kind, 'weapon': name, 'state': rate.get('state') if writable or rate.get('state') in
-                ('blocked', 'absent') else 'blocked', 'modes': menu_modes(slots), 'defaultRpm': rate.get('defaultRpm'),
+                ('blocked', 'absent') else 'blocked', 'modes': menu_modes(menu), 'defaultRpm': rate.get('defaultRpm'),
             'slots': slots, 'expect': [slots[name] for name in weapon_mode_fields.SLOT_NAMES] if slots else None,
-            'selectorOrder': [name for name in weapon_mode_fields.SELECTOR_ORDER if slots[name]] if slots else None,
+            'selectorOrder': [name for name in weapon_mode_fields.SELECTOR_ORDER if menu[name]] if slots else None,
             'maxModes': rate.get('maxModes') if writable else None,
             'selector': {'bound': rate.get('selectorBound'), 'input': rate.get('selectorInput'),
                 'bindableInputs': rate.get('bindableInputs') or []} if slots else None,
@@ -193,7 +200,9 @@ def build():
                 'binding': [weapon_mode_fields.INPUT_FIELDS[side] for side in rate.get('bindableInputs') or []]}
                 if writable else None,
             'acknowledgements': rate_acknowledgements(rate_field, fields, rate) if writable else None,
-            'liveEvidence': rate_field.get('liveEvidence')})
+            'liveEvidence': rate_field.get('liveEvidence'),
+            **({'windUp': {'dormantSlots': rate.get('dormantSlots') or [], 'acknowledgement': 'allow_unverified_effect',
+                'reason': wind_up['reason']}} if wind_up else {})})
         feeds = feed_list(kind, row, fields, mode)
         if feeds:
             feeds_public.append({'kind': kind, 'weapon': name, 'feeds': feeds, 'selectableNatively': any(f['native']
@@ -205,7 +214,7 @@ def build():
         'nativeSelectors': sorted(w['weapon'] for w in rates_public if (w['selector'] or {}).get('bound')),
         'addableSelectors': sum(1 for w in rates_public if w['state'] == 'addable')}
     rates = {'contract': 'hd2runtime.weapon.fire_rates.v1', 'schemaVersion': 1, 'hd2RuntimeVersion': VERSION,
-        'nativeModel': research['model']['rateOfFire'], 'states': RATE_STATES,
+        'nativeModel': research['model']['rateOfFire'], 'states': RATE_STATES, 'windUp': WIND_UP,
         'maxSlots': 3, 'slotNames': list(weapon_mode_fields.SLOT_NAMES), 'menuOrder': list(weapon_mode_fields.SLOT_NAMES),
         'defaultSlot': 'y', 'selectorOrder': list(weapon_mode_fields.SELECTOR_ORDER),
         'order': 'The weapon menu lists the filled slots in storage order X, Y, Z (inferred from the MG-206 and '

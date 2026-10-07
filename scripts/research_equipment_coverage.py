@@ -708,13 +708,15 @@ def maxigun_section(native):
     claims = [
         {'claim': 'fire rate selector low/medium/high 1000/2000/3000 (ProjectileWeapon +4/+8/+12)',
          'located': 'ProjectileWeaponComponent record of the Maxigun: +8 is the live rate, +4/+12 the X/Z slots',
-         'classification': 'already_mapped (+8: weapon.fire_rate) / dormant (+4/+12)',
+         'classification': 'already_mapped (+8: weapon.fire_rate; +4/+8/+12: fire_rate.modes) / dormant (+4/+12)',
          'reason': 'The Maxigun binds no fire-rate selector, so the X/Z slots are never read; Reimagined binds one '
-            'through the weapon-function members below. Selectors are not authored on wind-up weapons.'},
+            'through the weapon-function members below. fire_rate.modes authors them on wind-up weapons behind '
+            'allow_unverified_effect (docs/fire-rate-modes.md).'},
         {'claim': 'function_left 0, function_mode 2 (its +176/+180)', 'located': 'WeaponDataComponent +184/+188 '
             '(Reimagined addresses the record from +8)',
-         'classification': 'already_mapped, blocked by policy (weapon_function.left/right)',
-         'reason': 'Binding a selector on the wind-up Maxigun is unproven; Runtime blocks it with a reason.'},
+         'classification': 'already_mapped (weapon_function.left/right = "rate_of_fire", allow_unverified_effect)',
+         'reason': 'Binding the rate-of-fire selector on the wind-up Maxigun is authored behind allow_unverified_effect: '
+            'the wind-up trigger path consuming the selected slot is unproven and not live-tested.'},
         {'claim': 'recoil_h 0.5 / recoil_v 5.0 "internal multipliers" (its +52/+56)',
          'located': 'WeaponDataComponent +60/+64: members of the typed struct RecoilModifiers (member name '
             'recoil_modifiers), six f32 with name lengths 21/19/27/25/27/25',

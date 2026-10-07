@@ -70,6 +70,16 @@ FUNCTION_NAMES = {0: 'none', 1: 'zeroing', 2: 'rate_of_fire', 3: 'fire_mode', 4:
 NATIVE_FUNCTION_NAMES = {0: 'None', 1: 'Zeroing', 2: 'ROF', 3: 'Firemode', 4: 'Magazine', 5: 'LightMode',
     6: 'LaserGuide', 7: 'MuzzleVelocity', 8: 'ProgrammableAmmo'}
 ROF, PROGRAMMABLE = 2, 8
+# The rate slots of a wind-up weapon (WeaponWindUpComponentData). Proven: the ROF selector record and the ROF value
+# reader are generic over every built projectile weapon (one projectile_weapon manager record each, seeded from the
+# settings' three slots), and the wind-up routine (0x78A420, research/sentry-components) reads only its own wind-up
+# settings (+0 wind-up time, +4 wind-down time, +12 barrel-spin multiplier). Not proven: that the wind-up trigger path
+# fires at the selected rate slot once spun up (no built wind-up weapon is in a mission snapshot), and nothing is
+# live-tested.
+WIND_UP_UNVERIFIED = ('Wind-up weapon: the three rate slots, the ROF selector record (generic over every built '
+    'projectile weapon) and the wind-up routine (its own +0/+4/+12 only) are proven, but that the wind-up trigger path '
+    'fires at the selected rate slot is not, and editing, adding or selecting rates on a wind-up weapon has not been '
+    'gameplay-tested.')
 INPUTS = {'left': 184, 'right': 188}
 SLOT_NAMES = ('x', 'y', 'z')
 # The order the selector visits slots from the default (index 1): Y, Z, X.
@@ -387,6 +397,11 @@ def main():
             if int(o['addPath'], 16) in rpm_patches and not any(d['addPath'] == '0x%016X' % int(o['addPath'], 16)
                 for d in default_rpm)})
         writable_trigger = fire.get('state') in ('selectable', 'single_mode')
+        # A wind-up projectile weapon (the M-1000 Maxigun): its trigger is ordinary apart from the wind-up, so its rate
+        # slots are authored like any other weapon's, flagged windUp (allow_unverified_effect, WIND_UP_UNVERIFIED).
+        # Its fire modes and function projectile stay blocked.
+        wind_up = fire.get('state') == 'blocked' and (fire.get('windUp') or {}).get('stateWithoutWindUp') in (
+            'selectable', 'single_mode')
         visited = [rpm[i] for i in SELECTOR_ORDER if rpm[i] != 0] if rof_bound else [rpm[1]]
         fire_rate = {'slots': dict(zip(SLOT_NAMES, rpm)), 'selectorBound': rof_bound,
             'selectorInput': next((side for side in ('left', 'right') if inputs[side + 'Value'] == ROF), None),
@@ -394,10 +409,12 @@ def main():
                 [SLOT_NAMES[i] for i in (0, 2) if rpm[i] != 0],
             'overriddenByDefault': [d['item'] for d in default_rpm], 'overriddenWhenEquipped': equippable_rpm,
             'uniqueOwner': unique}
+        if wind_up:
+            fire_rate['windUp'] = {'reason': WIND_UP_UNVERIFIED}
         if default_rpm:
             fire_rate.update(state='blocked', reason='A default customization (' + ', '.join(d['item'] for d in default_rpm)
                 + ') overwrites the rate slots at every build.')
-        elif not writable_trigger:
+        elif not writable_trigger and not wind_up:
             fire_rate.update(state='blocked', reason=fire.get('reason') or 'The trigger is not an ordinary projectile trigger.')
         elif not unique:
             fire_rate.update(state='blocked', reason='A rate or binding record is shared.')

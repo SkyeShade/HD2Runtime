@@ -45,6 +45,8 @@ class FireModeTests(unittest.TestCase):
             row = self.weapons[key]
             self.assertFalse(row['writable'], key)
             self.assertIn(needle, row['reason'], key)
+        # The wind-up Maxigun's fire modes stay blocked (only its rate of fire is authored: docs/fire-rate-modes.md).
+        self.assertFalse(self.weapons[('support', 'M-1000 Maxigun')]['writable'])
         for row in self.catalog['weapons']:
             if row['writable']:
                 self.assertTrue(set(row['modes']) <= {'automatic', 'single', 'burst'}, row['weapon'])

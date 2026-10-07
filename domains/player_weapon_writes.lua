@@ -851,7 +851,10 @@ local function check_selector_pairs(weapon,changes)
         if kind=='fire_rate_set'then rates=change end
         if kind=='function_projectile_reference'then projectile=change end
     end
-    if rates and rates.rates>1 and not rates.descriptor.selectorBound then
+    -- A wind-up weapon's X and Z hold its rate natively with no selector bound (dormant, the Maxigun's 1500/1500/1500):
+    -- writing exactly those reviewed slots back writes nothing a selector would newly visit.
+    local dormant_baseline=rates and rates.descriptor.windUp==true and same_list(rates.value,rates.descriptor.currentDefault)
+    if rates and rates.rates>1 and not rates.descriptor.selectorBound and not dormant_baseline then
         assert(binds.rate_of_fire,'SELECTOR_REQUIRED: fire_rate.modes fills '..rates.rates..' rate slots, but '..weapon.name
             ..' has no rate-of-fire selector; bind it in the same transaction (hd2.fields.weapon_function.'
             ..table.concat(rates.descriptor.bindableInputs or{'left'},' or ')..' = "rate_of_fire")')

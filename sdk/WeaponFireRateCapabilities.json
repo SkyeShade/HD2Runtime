@@ -10,6 +10,7 @@
     "blocked": "Read-only; see reason.",
     "absent": "The weapon has no rate-of-fire slots."
   },
+  "windUp": "A wind-up weapon (the M-1000 Maxigun): addable like any other weapon, but every rate write and the rate_of_fire binding require allow_unverified_effect (the wind-up trigger path consuming the selected slot is unproven); its X and Z hold its rate with no selector bound (dormant), so a write sets them explicitly with the binding, or clears them (0).",
   "maxSlots": 3,
   "slotNames": [
     "x",
@@ -4288,28 +4289,14 @@
     {
       "kind": "support",
       "weapon": "M-1000 Maxigun",
-      "state": "blocked",
+      "state": "addable",
       "modes": [
         {
-          "slot": "x",
-          "menu": 1,
-          "rpm": 1500.0,
-          "default": false,
-          "presses": 2
-        },
-        {
           "slot": "y",
-          "menu": 2,
+          "menu": 1,
           "rpm": 1500.0,
           "default": true,
           "presses": 0
-        },
-        {
-          "slot": "z",
-          "menu": 3,
-          "rpm": 1500.0,
-          "default": false,
-          "presses": 1
         }
       ],
       "defaultRpm": 1500.0,
@@ -4324,22 +4311,40 @@
         1500.0
       ],
       "selectorOrder": [
-        "y",
-        "z",
-        "x"
+        "y"
       ],
-      "maxModes": null,
+      "maxModes": 3,
       "selector": {
         "bound": false,
         "input": null,
-        "bindableInputs": []
+        "bindableInputs": [
+          "left",
+          "right"
+        ]
       },
       "overriddenWhenEquipped": [],
-      "writable": false,
-      "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through conventional_projectile, wind_up.",
-      "fields": null,
-      "acknowledgements": null,
-      "liveEvidence": null
+      "writable": true,
+      "reason": null,
+      "fields": {
+        "modes": "fire_rate.modes",
+        "default": "weapon.fire_rate",
+        "binding": [
+          "weapon_function.left",
+          "weapon_function.right"
+        ]
+      },
+      "acknowledgements": [
+        "allow_unverified_effect"
+      ],
+      "liveEvidence": null,
+      "windUp": {
+        "dormantSlots": [
+          "x",
+          "z"
+        ],
+        "acknowledgement": "allow_unverified_effect",
+        "reason": "Wind-up weapon: the three rate slots, the ROF selector record (generic over every built projectile weapon) and the wind-up routine (its own +0/+4/+12 only) are proven, but that the wind-up trigger path fires at the selected rate slot is not, and editing, adding or selecting rates on a wind-up weapon has not been gameplay-tested."
+      }
     },
     {
       "kind": "support",
@@ -4941,11 +4946,11 @@
       "player:blocked": 19,
       "player:selectable": 1,
       "support:absent": 12,
-      "support:addable": 8,
-      "support:blocked": 12,
+      "support:addable": 9,
+      "support:blocked": 11,
       "support:selectable": 3
     },
-    "writable": 60,
+    "writable": 61,
     "nativeSelectors": [
       "AR-61 Tenderizer",
       "GL-28 Belt-Fed Grenade Launcher",
@@ -4954,6 +4959,6 @@
       "MG-43 Machine Gun",
       "VG-70 Variable"
     ],
-    "addableSelectors": 56
+    "addableSelectors": 57
   }
 }

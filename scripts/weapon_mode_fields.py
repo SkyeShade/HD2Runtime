@@ -51,7 +51,10 @@ def load():
 
 def rates_writable(row):
     rate = (row or {}).get('fireRate') or {}
-    return rate.get('state') in ('selectable', 'addable', 'single_rate') and not rate.get('dormantSlots')
+    # A wind-up weapon's X and Z hold its rate natively (the Maxigun's 1500/1500/1500) with no selector bound: they are
+    # written explicitly with the binding, or cleared; every other weapon with dormant slots stays read-only.
+    return rate.get('state') in ('selectable', 'addable', 'single_rate') and (not rate.get('dormantSlots')
+        or bool(rate.get('windUp')))
 
 
 def function_writable(row):
@@ -86,6 +89,11 @@ def apply_rates(field, row, identity_ok):
     field['reason'] = None if ok else reason or field.get('reason')
     field['acknowledgement'] = 'allow_unverified_effect'
     field['acknowledgementReason'] = RATES_UNVERIFIED
+    if rate.get('windUp'):
+        # A wind-up weapon (WeaponWindUpComponentData): always behind the acknowledgement, with the unproven part named.
+        field['windUp'] = True
+        field['dormantSlots'] = list(rate.get('dormantSlots') or [])
+        field['acknowledgementReason'] = rate['windUp']['reason']
     field['operationGroup'] = OPERATION_GROUP
     field['evidence'] = dict(EVIDENCE, nativeOwner='ProjectileWeaponComponent rounds_per_minute (three f32 slots)',
         selector='the ROF cycle and weapon-function value readers (research proofs)')
@@ -125,6 +133,8 @@ def apply_input(field, row, side, identity_ok):
         field['reason'] = None
     field['acknowledgement'] = 'allow_unverified_effect'
     field['acknowledgementReason'] = BINDING_UNVERIFIED
+    if rate.get('windUp') and 'rate_of_fire' in allowed:
+        field['acknowledgementReason'] = BINDING_UNVERIFIED + ' ' + rate['windUp']['reason']
     field['operationGroup'] = OPERATION_GROUP
     field['evidence'] = dict(EVIDENCE, nativeOwner='WeaponDataComponent function_info.' + side + ' (WeaponFunctionType)')
     field['effect'] = effect(BUILD_EFFECT)

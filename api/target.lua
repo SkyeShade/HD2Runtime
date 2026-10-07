@@ -429,9 +429,12 @@ function M.new(describe)
         -- slots: all three, in storage order. modes: the filled ones in the order the weapon menu lists them, each
         -- with its slot and the selector presses that reach it from the default.
         local slots,modes,by_slot,selector_order={},{},{},{}
+        -- A wind-up weapon without a selector (the Maxigun) holds its rate in X and Z too, but no menu lists them.
+        local dormant=field.windUp==true and not field.selectorBound
         for index,slot_name in ipairs(SLOT_NAMES)do
             local rpm=(field.currentDefault or{})[index]or 0
-            slots[index]={slot=slot_name,index=index,rpm=rpm,enabled=rpm~=0,default=slot_name=='y'}
+            slots[index]={slot=slot_name,index=index,rpm=rpm,enabled=rpm~=0 and(not dormant or slot_name=='y'),
+                default=slot_name=='y',dormant=dormant and rpm~=0 and slot_name~='y'or nil}
             by_slot[slot_name]=slots[index]
         end
         for _,slot_name in ipairs(SELECTOR_ORDER)do
@@ -462,7 +465,8 @@ function M.new(describe)
             nativeSlots=copy(field.nativeSlots),field='fire_rate.modes',expect=copy(field.currentDefault),
             writable=field.editable==true,reason=field.reason,range={min=field.min,max=field.max},
             binding=binding,acknowledgements=acknowledgements,liveProven=live_of(field),
-            overriddenWhenEquipped=copy(field.overriddenWhenEquipped)}
+            overriddenWhenEquipped=copy(field.overriddenWhenEquipped),
+            windUp=field.windUp and{dormantSlots=copy(field.dormantSlots),reason=field.acknowledgementReason}or nil}
     end
     -- A mode by its menu position (1 = the top of the weapon menu) or by its slot ('x', 'y', 'z').
     local function rate_mode(entry,kind,name,index)
