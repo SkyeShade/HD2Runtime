@@ -279,6 +279,70 @@ assert(#W.runtime.writes==n)
 return 'ok'
 """)
 
+    def test_the_hmg_sentry_fires_the_mg206_sound_from_its_own_copy(self):
+        # sentry.weapon.sound (2026-10-07, HeavyMgSentry 0.3.2): the call's own MG-43 Sentry's own weapon copy fires
+        # the MG-206's per-shot MIDI sound instead of the MG-43 Sentry's loop; the vanilla MG-43 Sentry beside it keeps
+        # its loop; no shared record changes; each refusal writes nothing.
+        self.check(r"""
+pworld()
+BOMB.set_clock(T0)
+local world=world_module.open()
+local WSD=require('hd2runtime/domains/weapon_sounds')
+local SDX=require('hd2runtime/domains/pelican').sound
+for _,pin in ipairs(WSD.pins)do W.write(W.GAME+pin.rva,b.unhex(pin.hex))end
+local function put_sound(at,hex)
+    local raw,cursor=b.unhex(hex),0
+    for _,blk in ipairs(SDX.record.blocks)do W.write(at+blk[1],raw:sub(cursor+1,cursor+blk[2]));cursor=cursor+blk[2]end
+end
+local BASE,HMG=WSD.sounds['sentry/machine_gun'],WSD.sounds['support/mg206']
+put_sound(MGS.pw,BASE.blockBytes)
+-- The HMG bank's packages: resident unless listed absent.
+local previous=W.runtime.package_state
+local absent={}
+W.runtime.package_state=function(hex)
+    if absent[hex]then return'absent'end
+    for _,pk in ipairs(HMG.packages)do if hex==pk.package then return'resident'end end
+    return previous(hex)
+end
+MGS.sentry(1,9801)        -- the HMG Sentry call's own MG-43 Sentry
+MGS.sentry(2,9803)        -- a vanilla MG-43 Machine Gun Sentry
+MGS.sentry(3,9804)        -- another call's sentry, for the refusals
+-- The weapons' instance records in a page-backed allocation (the game's heap is).
+local inst=W.alloc(0x1000);W.write(inst,W.read(PINST,0x800));W.write(PCOMP+PW.instances,W.u64(inst))
+assert(instances.associate(9801,CALL,'sentry'))
+assert(instances.associate(9804,CALL,'sentry'))
+local shared=types()
+local pwm=require('hd2runtime/runtime/pelican_weapon')
+local r,code,reason=in_update(function()return weapons.configure(world,9801,{projectile=275,rpm=400,spread=5,ammo=300,
+    sound='support/mg206'},'test')end)
+local function vtext(x)local o={};for k,v in pairs(x and x.verify or{})do o[#o+1]=k..'='..tostring(v)end;return table.concat(o,',')end
+assert(r and r.verified and r.verify.sound==true,tostring(code)..' '..tostring(reason)..' '..vtext(r)..' | '..table.concat(logged,' | '))
+-- Its own copy: the MG-206's per-shot event as MIDI notes, no loop; its instance's MIDI source 1.
+local st=pwm.sound_state(world,9801,MGS.hex)
+assert(st.from=='copy'and st.block==b.unhex(HMG.blockBytes)and st.instance.midi==1)
+assert(st.event==HMG.event and st.loop_start=='00000000'and st.loop_stop=='00000000',st.event)
+-- The vanilla MG-43 Sentry keeps its own loop; no shared record changed.
+local v=pwm.sound_state(world,9803,MGS.hex)
+assert(v.from=='type'and v.block==b.unhex(BASE.blockBytes)and v.instance.midi==0)
+assert(types()==shared,'a shared record changed')
+assert(count('its firing sound sentry/machine_gun -> support/mg206 (event 825E6711 as MIDI notes; bank '
+    ..'content/audio/wep_heavy_machinegun')==1,table.concat(logged,' | '))
+-- Refusals, nothing written: its bank not resident; an unknown sound; firing.
+local n=#W.runtime.writes
+for _,pk in ipairs(HMG.packages)do absent[pk.package]=true end
+assert(select(2,in_update(function()return weapons.configure(world,9804,{sound='support/mg206'},'t')end))
+    =='ASSET_UNAVAILABLE')
+absent={}
+assert(select(2,in_update(function()return weapons.configure(world,9804,{sound='no/such_sound'},'t')end))=='INVALID')
+W.write(inst+3*PW.instanceStride+SDX.instance.trigger,'\1')
+assert(select(2,in_update(function()return weapons.configure(world,9804,{sound='support/mg206'},'t')end))=='NOT_QUIET')
+W.write(inst+3*PW.instanceStride+SDX.instance.trigger,'\0')
+assert(#W.runtime.writes==n,'a refusal writes nothing')
+-- Quiet again: applied.
+assert(in_update(function()return weapons.configure(world,9804,{sound='support/mg206'},'t')end).verify.sound==true)
+return 'ok'
+""")
+
     def test_with_several_players_the_creator_configures_and_every_other_machine_mirrors(self):
         # The roles of runtime/custom_weapons.lua configure (2026-10-06, the user's request that every example work with
         # several players; NOT live-tested). A client's own call's sentry, created on that client: configured whole

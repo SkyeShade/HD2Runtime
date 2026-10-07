@@ -103,6 +103,14 @@ Machines without the Runtime hear the Pelican's own sound.
 | `pelican/chin_autocannon` (its own) | shot, 300 RPM design, about 650 m | `vehicle_shuttle` | none (nothing is written) |
 | `vehicle/bastion/hmg` (the TD-220 Bastion's HMG) | shot, MIDI, 600 RPM design, about 650 m | `wep_heavy_machinegun` | the E/MG-101 HMG Emplacement's (`manned_turret`, 7.4 MB; it holds the same bank as the Bastion's 49.5 MB package) |
 
+## A sentry's sound (`sentry.weapon.sound`, 2026-10-07)
+
+A custom stratagem's sentry takes a catalogue sound on its own weapon copy too (runtime/custom_weapons.lua): the same
+fields as the Pelican gun's, written from exactly its type's own catalogued sound (the A/MG-43 Machine Gun Sentry's
+`sentry/machine_gun` loop) to the chosen sound's, while it is quiet, in the same transaction as its round. HeavyMgSentry
+0.3.2 fires `support/mg206` (the MG-206's per-shot MIDI event; its bank is in the MG-206's own package, which its round
+already loads). NOT live-tested.
+
 ## Status
 
 Offline-tested only: the catalogue, the writes on the gun's own copy (host and other machines), the package gate and

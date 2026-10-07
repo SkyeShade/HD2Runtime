@@ -694,6 +694,7 @@ own copy routines make that entity a private ProjectileWeapon record and magazin
 | `spread` | Over 0, at most 100 mrad. | its own WeaponData instance |
 | `ammo` | 1..2047 rounds per magazine (an 11-bit network field). | its own magazine copy (the tracer pattern off) |
 | `recoil` | `'zero'`. | its own WeaponData instance |
+| `sound` | A sentry's weapon only (`sentry.weapon`): its firing sound, any name of the weapon sound catalogue (`hd2.sounds.list()`, docs/weapon-sounds.md), a per-shot sound (`'support/mg206'`) or a loop (`'sentry/gatling'`). The stratagem that provides the sound's bank becomes an asset. NOT live-tested (2026-10-07). | its own ProjectileWeapon copy's firing-sound fields and its own instance record's MIDI source, from exactly its type's own catalogued sound to that sound's, in the same transaction as the round, while it is quiet; every compatible machine on its own copy |
 
 Each one is guarded (the solo host, the mission, the entity associated with this call and alive, its values still the
 type's) and verified after the write, including that the type's own records are unchanged. A refusal leaves the

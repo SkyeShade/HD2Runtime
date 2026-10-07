@@ -149,6 +149,10 @@ def _weapon(problems, where, value, schema, family):
         elif key == 'recoil':
             if v not in f['values']:
                 problems.add(where + '.recoil', "must be 'zero'")
+        elif key == 'sound':
+            if v not in f['values']:
+                problems.add(where + '.sound', 'must be a firing sound of the catalogue (CustomStratagemSchema '
+                    'catalogs.pelicanSounds; docs/weapon-sounds.md)')
         else:
             _number(problems, where + '.' + key, v, f)
 
@@ -540,7 +544,7 @@ def _ordered(table: dict, order) -> tuple:
         if k not in order)
 
 
-WEAPON_ORDER = ('projectile', 'rpm', 'spread', 'ammo', 'recoil', 'impact_explosion', 'rounds')
+WEAPON_ORDER = ('projectile', 'rpm', 'spread', 'ammo', 'recoil', 'sound', 'impact_explosion', 'rounds')
 PELICAN_GUN_ORDER = ('behave_as', 'rate_multiplier', 'rpm', 'round', 'casing', 'spread', 'recoil', 'unlimited_ammo',
     'face_target', 'sound', 'impact_explosion', 'aim_height')
 

@@ -18,7 +18,13 @@
 --   * spread: its own WeaponData instance record's widths (+0x58, +0x5C: milliradians), its distribution word kept;
 --   * ammo: its own magazine copy's capacity (+0x88) and both round counts, filled as the game fills a magazine
 --     (capacity - 1 and one chambered); the rounds are an 11-bit network field, so at most 2047;
---   * recoil = 'zero': its own WeaponData instance's aim recoil (block B) to 0 sideways and 0 up a shot.
+--   * recoil = 'zero': its own WeaponData instance's aim recoil (block B) to 0 sideways and 0 up a shot;
+--   * sound (a sentry's weapon only; 2026-10-07): a weapon firing-sound catalogue name (runtime/weapon_sounds.lua). Its
+--     own ProjectileWeapon copy's firing-sound block (+0xED, +0xF0.., +0x210.., +0x22C) and its own instance record's
+--     MIDI source (+0x38) from exactly its type's own catalogued sound to that sound's: the values the game derives
+--     for a weapon whose record names that sound (research pelican-maelstrom-sound, weapon-sounds; the mechanism the
+--     Pelican gun's sound uses), in the same transaction as the round, while it is quiet; the sound's pins proven and
+--     its bank resident (a package that lists it). Every compatible machine applies it to its own copy.
 -- Every write is one guarded transaction on that entity's own records, read back; the entity's type records
 -- (ProjectileWeapon, magazine, WeaponData) are compared whole before and after. Refused, with nothing called or
 -- written, unless: the adapter can call the copy routines; inside the Runtime's own update; the pins and both routines'
@@ -44,7 +50,9 @@ local WD,SPD=D.aim.weaponData,D.spread
 M.AMMO_MAX=D.ammo.roundsMax
 M.RPM={30,3000}
 M.SPREAD_MAX=100
-M.KEYS={projectile=true,rpm=true,spread=true,ammo=true,recoil=true}
+M.KEYS={projectile=true,rpm=true,spread=true,ammo=true,recoil=true,sound=true}
+local WS=require('hd2runtime/runtime/weapon_sounds')
+local SD=D.sound
 
 local function log(text)log_module.emit('[HD2Runtime] custom weapon '..text)end
 local function u32(n)return b.encode(n%4294967296,'u32')end
@@ -73,6 +81,11 @@ function M.check(spec)
         return('ammo must be 1..%d rounds (an 11-bit network field)'):format(M.AMMO_MAX)
     end
     if spec.recoil~=nil and spec.recoil~='zero'then return"recoil must be 'zero'"end
+    if spec.sound~=nil then
+        local _,e=WS.resolve(spec.sound)
+        if not e then return'sound must be a firing sound of the catalogue ('..WS.hint()..')'end
+        if e.own then return'sound '..tostring(spec.sound)..' is the Pelican chin gun\'s own'end
+    end
     return nil
 end
 
@@ -206,7 +219,7 @@ function M.configure(world,entity,spec,label,opts)
     if invalid then return refuse('INVALID',invalid)end
     if next(spec)==nil then return refuse('INVALID','nothing to modify')end
     local runtime=world.runtime
-    if(spec.projectile~=nil or spec.rpm~=nil)and not runtime.native_weapon_copy then
+    if(spec.projectile~=nil or spec.rpm~=nil or spec.sound~=nil)and not runtime.native_weapon_copy then
         return refuse('UNAVAILABLE','this Runtime adapter cannot call game functions')
     end
     if not scheduler.in_update()then return refuse('NOT_GAME_THREAD','only inside the Runtime\'s own update')end
@@ -252,13 +265,40 @@ function M.configure(world,entity,spec,label,opts)
     local mirror=role~='own'and not created_here
     if mirror then
         local kept={}
-        for _,key in ipairs({'projectile','spread','recoil'})do kept[key]=spec[key]end
+        for _,key in ipairs({'projectile','spread','recoil','sound'})do kept[key]=spec[key]end
         if next(kept)==nil then
             return refuse('NOT_CREATED_HERE','its rate and magazine are its creator\'s (replicated): nothing to mirror here')
         end
         spec=kept
     end
-    local needs_pw=spec.projectile~=nil or spec.rpm~=nil
+    -- The firing sound: its type's own catalogued sound (the writes' source), the sound's pins, its bank resident.
+    local sound
+    if spec.sound~=nil then
+        local canonical,target=WS.resolve(spec.sound)
+        local base_name,base
+        for name,e in pairs(WS.SOUNDS)do
+            if e.resource==before.resource and not e.own and(not base_name or name<base_name)then base_name,base=name,e end
+        end
+        if not base then return refuse('SOUND_UNEXPECTED','its weapon type has no catalogued firing sound')end
+        for _,pin in ipairs(WS.PINS)do
+            if not world.view.proves(world.game+pin.rva,pin.hex)then
+                return refuse('UNSUPPORTED_BUILD',('game+%X changed (%s)'):format(pin.rva,pin.label))
+            end
+        end
+        local pwm=require('hd2runtime/runtime/pelican_weapon')
+        local package,acode,areason=pwm.sound_resident(world,canonical)
+        if not package then return refuse(acode,areason)end
+        local st=pwm.sound_state(world,entity,before.resource)
+        if not st then return refuse('UNAVAILABLE','its firing sound is unreadable')end
+        if st.block~=b.unhex(base.blockBytes)or st.instance.midi~=base.midi then
+            return refuse('SOUND_UNEXPECTED',('its firing sound is not its type\'s own (%s)'):format(base_name))
+        end
+        if not st.instance.quiet then return refuse('NOT_QUIET','it is firing (its trigger, fire state or MIDI notes)')end
+        if canonical~=base_name then
+            sound={name=canonical,target=target,base=base,base_name=base_name,package=package}
+        end
+    end
+    local needs_pw=spec.projectile~=nil or spec.rpm~=nil or sound~=nil
     -- The rate: the factor the game applied at creation (current RPM over its type's Y slot), 1 or the seed factor.
     local factor
     if spec.rpm then
@@ -363,6 +403,38 @@ function M.configure(world,entity,spec,label,opts)
         end
         local plan={snapshots={{owner=copy_owner,offset=copy_at-copy_owner.base,bytes=copy},
             {owner=entry_owner,offset=entry_at-entry_owner.base,bytes=entry}},changes=changes}
+        if sound then
+            -- Its own copy still holds its type's own sound, and it is quiet; then block by block, base -> target.
+            local pwm=require('hd2runtime/runtime/pelican_weapon')
+            local st=pwm.sound_state(world,entity,before.resource)
+            local base_block,target_block=b.unhex(sound.base.blockBytes),b.unhex(sound.target.blockBytes)
+            if not(st and st.from=='copy'and st.copy_at==copy_at and st.block==base_block)then
+                return refuse('SOUND_UNEXPECTED','its own copy does not hold its type\'s own firing sound')
+            end
+            if not st.instance.quiet then return refuse('NOT_QUIET','it is firing (its trigger, fire state or MIDI notes)')end
+            -- Field by field (a byte, or 4-byte words within a block), only where the two sounds differ.
+            local cursor=0
+            for _,blk in ipairs(SD.record.blocks)do
+                local off,len=blk[1],blk[2]
+                local step=len==1 and 1 or 4
+                if len%step~=0 then return refuse('SOUND_UNEXPECTED','a firing-sound block is not whole words')end
+                for k=0,len-step,step do
+                    local to=target_block:sub(cursor+k+1,cursor+k+step)
+                    if base_block:sub(cursor+k+1,cursor+k+step)~=to then
+                        change(changes,('weapon.%d.sound_%X'):format(entity,off+k),copy_owner,copy_at,copy,off+k,to)
+                    end
+                end
+                cursor=cursor+len
+            end
+            if sound.base.midi~=sound.target.midi then
+                local inst=st.instance
+                local inst_owner=pelicans.owner_of(world,inst.at,PW.instanceStride)
+                if not inst_owner then return refuse('NOT_PRIVATE','its instance record is not in private read-write memory')end
+                plan.snapshots[#plan.snapshots+1]={owner=inst_owner,offset=inst.at-inst_owner.base,bytes=inst.raw}
+                change(changes,'weapon.'..entity..'.instance.sound_midi',inst_owner,inst.at,inst.raw,SD.instance.midi,
+                    string.char(sound.target.midi))
+            end
+        end
         local report=transaction.apply(runtime,plan)
         metrics.count('custom_weapons.transactions')
         if report.status~='APPLIED'then return refuse('GUARD_REJECTED','the weapon writes were refused: '..tostring(report.reason))end
@@ -454,6 +526,11 @@ function M.configure(world,entity,spec,label,opts)
         verify.spread=after~=nil and after.spread~=nil and after.spread.x==single(spec.spread)and after.spread.y==single(spec.spread)
     end
     if spec.recoil~=nil then verify.recoil=after~=nil and after.recoil~=nil and after.recoil.x==0 and after.recoil.y==0 end
+    if sound then
+        local st=require('hd2runtime/runtime/pelican_weapon').sound_state(world,entity,before.resource)
+        verify.sound=st~=nil and st.from=='copy'and st.block==b.unhex(sound.target.blockBytes)
+            and st.instance.midi==sound.target.midi
+    end
     local now_types={pw=gatling.type_record(world,G.pwTypes,before.resource),
         magazine=gatling.type_record(world,G.magazineTypes,before.resource),
         weapon_data=gatling.type_record(world,WD.types,before.resource)}
@@ -463,8 +540,13 @@ function M.configure(world,entity,spec,label,opts)
     for _,v in pairs(verify)do if v~=true then verified=false end end
     configured[entity]={spec=spec,label=label}
     local parts={}
-    for _,key in ipairs({'projectile','rpm','spread','ammo','recoil'})do
+    for _,key in ipairs({'projectile','rpm','spread','ammo','recoil','sound'})do
         if spec[key]~=nil then parts[#parts+1]=key..' '..tostring(spec[key])..(verify[key]==false and' (NOT read back)'or'')end
+    end
+    if sound then
+        parts[#parts+1]=('its firing sound %s -> %s (%s; bank %s, resident through %s)'):format(sound.base_name,sound.name,
+            require('hd2runtime/runtime/pelican_weapon').sound_events(sound.target),sound.target.bank.name,
+            sound.package.label)
     end
     log(('%s (%s): entity %d (%s): %s; %d writes on its own records; verified %s; its type records unchanged %s; '
         ..'every other %s stays vanilla. AFTER: %s'):format(mirror and'MIRRORED (another machine created it: the round, '

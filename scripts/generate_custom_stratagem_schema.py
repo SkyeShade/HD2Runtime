@@ -259,6 +259,10 @@ def build(facts: dict | None = None) -> dict:
             doc='its own magazine copy (an 11-bit network field: at most 2047)'),
         'recoil': {'type': 'enum', 'values': ['zero'], 'optional': True, 'doc': 'zero aim recoil (its own instance)'},
     }
+    sentry_weapon_fields = dict(weapon_fields)
+    sentry_weapon_fields['sound'] = {'type': 'enum', 'values': facts['pelicanSounds'], 'catalog': 'pelicanSounds',
+        'optional': True, 'doc': 'its firing sound: a name of the weapon sound catalogue (docs/weapon-sounds.md), on its '
+        'own weapon copy; the stratagem that provides the sound\'s bank becomes an asset'}
     support_modify = dict(weapon_fields)
     support_modify['impact_explosion'] = {'type': 'explosion_donor', 'catalog': 'explosionDonors', 'reviewedDonor': True,
         'optional': True, 'doc': 'each converted projectile requests the donor explosion on impact (its own copy)'}
@@ -360,7 +364,7 @@ def build(facts: dict | None = None) -> dict:
          'carrier': {'beacon': ['support'], 'allowFamilies': ['sentry']},
          'fields': {
              'donor': {'type': 'sentry_donor', 'catalog': 'sentryDonors', 'reviewedDonor': True, 'required': True},
-             'weapon': {'type': 'object', 'optional': True, 'fields': weapon_fields}}},
+             'weapon': {'type': 'object', 'optional': True, 'fields': sentry_weapon_fields}}},
         {'family': 'eagle', 'apiField': 'eagle', 'builder': True,
          'doc': 'the donor Eagle\'s own strike from an Eagle carrier; the slot is an Eagle fleet member with its own uses; '
                 'the call\'s rockets are those of its jet\'s mounted pods (live-proven)',

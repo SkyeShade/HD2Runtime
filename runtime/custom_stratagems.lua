@@ -279,11 +279,14 @@ M.donor_name=donor_name
 -- The reviewed round a support weapon fires (a weapon modification's `projectile`), or nil.
 function M.weapon_round(name)return weapon_projectile(name)end
 local function family_of(name)local e=catalog.stratagems[name];return e and e.family end
-local WEAPON_KEYS={projectile=true,rpm=true,spread=true,ammo=true,recoil=true,impact_explosion=true,rounds=true}
+local WEAPON_KEYS={projectile=true,rpm=true,spread=true,ammo=true,recoil=true,impact_explosion=true,rounds=true,
+    sound=true}
 -- A weapon modification table (a mod's data) -> {weapon = custom_weapons spec, impact = donor, rounds, assets}; errors.
 -- projectile: the round a support weapon fires (its name or hd2.support_weapon(name)); its call-in package becomes an
 -- asset. impact_explosion: a reviewed explosion donor (runtime/explosion_donors.lua); its package becomes an asset.
-local function weapon_modify(value,where,allow_impact,weapon_name)
+-- sound (allow_sound: a sentry's weapon): a firing sound of the catalogue (runtime/weapon_sounds.lua); the stratagem
+-- that provides its bank becomes an asset.
+local function weapon_modify(value,where,allow_impact,weapon_name,allow_sound)
     assert(type(value)=='table',where..' must be a table')
     -- (The delivery would refuse it: the selector rebuilds the rate from the type's three slots.)
     assert(value.rpm==nil or not weapons.binds_rate_selector(weapon_name),('%s.rpm: the %s binds the rate-of-fire '
@@ -292,7 +295,8 @@ local function weapon_modify(value,where,allow_impact,weapon_name)
     local out={weapon={},assets={}}
     for key,v in pairs(value)do
         assert(WEAPON_KEYS[key],where..': unsupported weapon modification '..tostring(key)..' (supported: projectile, '
-            ..'rpm, spread, ammo, recoil'..(allow_impact and', impact_explosion, rounds'or'')..')')
+            ..'rpm, spread, ammo, recoil'..(allow_impact and', impact_explosion, rounds'or'')..(allow_sound and', sound'
+            or'')..')')
         if key=='projectile'then
             local name=donor_name(v)
             local kind=name and weapon_projectile(name)
@@ -308,6 +312,14 @@ local function weapon_modify(value,where,allow_impact,weapon_name)
             assert(name,where..'.impact_explosion must be a reviewed explosion donor: '..table.concat(donors.names(),', '))
             out.impact=name
             out.assets[#out.assets+1]=name
+        elseif key=='sound'then
+            assert(allow_sound,where..'.sound is supported on a sentry\'s weapon only')
+            local WSN=require('hd2runtime/runtime/weapon_sounds')
+            local canonical,entry=WSN.resolve(v)
+            assert(entry and not entry.own,where..'.sound must be a firing sound of the catalogue (hd2.sounds.list(), '
+                ..'docs/weapon-sounds.md): '..WSN.hint())
+            out.weapon.sound=canonical
+            if entry.stratagem then out.assets[#out.assets+1]=entry.stratagem end
         elseif key=='rounds'then
             local R=M.LIMITS.rounds
             assert(type(v)=='number'and v>=R[1]and v<=R[2]and v%1==0,('%s.rounds must be %d..%d'):format(where,R[1],R[2]))
@@ -772,7 +784,7 @@ local function sentry_spec(value,policy)
     assert(policy.beacon=='support','a sentry needs a support (blue beacon) carrier')
     require_families(policy,'sentry','a sentry')
     local mod={weapon={},assets={}}
-    if value.weapon~=nil then mod=weapon_modify(value.weapon,'sentry.weapon',false)end
+    if value.weapon~=nil then mod=weapon_modify(value.weapon,'sentry.weapon',false,nil,true)end
     return {kind='sentry',stratagem=name,id=entry.root.id,content_type=hex_of(entry.deployedEntity.resource),
         weapon=mod.weapon},mod.assets
 end
