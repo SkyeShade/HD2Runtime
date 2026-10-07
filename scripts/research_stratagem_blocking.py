@@ -35,6 +35,12 @@ Proves:
    +0x928FA is set (it then copies the scrollbar's drag byte +0x92902 into it); the game sets that flag itself to ask for
    a realize on the next frame (0x18D1BE2, 0x18D1FC0), and the list clear zeroes it (0x18D293F).
 
+6. The per-card grey helper 0x18D1440(card list, key, enabled) (2026-10-07): the game greys and un-greys a card through
+   it. It finds the card with that key (every row's keys), writes its enabled byte, and when that card's row is
+   realized flips its widget's grey bit 2 (+0x2B5A) and redraws it (0x18CA560); nothing else. The post-pick refresh
+   0x18D1890 un-greys every visible widget, sets every enabled byte, then calls it with 0 for each type of the edited
+   record (0x18D1A24). Stratagem MultiSelect (a research lead) calls it with 1. Its whole body is pinned.
+
 Output: research/stratagem-blocking-F5FEE03DCFDB.json (read by scripts/generate_stratagem_blocking.py).
 """
 from __future__ import annotations
@@ -69,6 +75,7 @@ CAT = {'rangeFirst': 0xD1D0C, 'rangeLast': 0xD1D10, 'index': 0xD1D48, 'records':
 DISABLED_TEXT = 0x6CEF24E3
 OVERLAY_MATERIAL = 0x61C5699658BEC440
 CONSTANTS = {'blockedFrame': 0x23C8700, 'normalFrame': 0x23C9AC0, 'dimmed': 0x23C6AD0, 'full': 0x23C6D70}
+CARD_ENABLE, CARD_ENABLE_END = 0x18D1440, 0x18D154B   # the per-card grey helper (through its ret)
 
 GAME = {
     'loadoutUi': [
@@ -237,6 +244,41 @@ def disabled_text():
     return {'id': '0x%08X' % DISABLED_TEXT, 'us': None}
 
 
+def card_enable(game):
+    """The per-card grey helper's whole body: its instructions, its only memory writes and its only call, identical in
+    every retained snapshot."""
+    import capstone
+    md = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_64)
+    body = bytes(game.data[CARD_ENABLE:CARD_ENABLE_END])
+    asm = ['0x%X: %s %s' % (i.address, i.mnemonic, i.op_str) for i in md.disasm(body, CARD_ENABLE)]
+    if sum(len(i.bytes) for i in md.disasm(body, CARD_ENABLE)) != len(body) or not asm[-1].endswith('ret '):
+        raise ValueError('the card helper does not decode to one function ending in ret')
+    writes = [a for a in asm if a.split(': ', 1)[1].startswith('mov ') and '[' in a.split(', ')[0]
+        and '[rsp' not in a.split(', ')[0]]
+    calls = [a for a in asm if a.split(': ', 1)[1].startswith('call ')]
+    if [w.split(': ', 1)[1] for w in writes] != ['mov byte ptr [r9 + rcx + 0x92dc2], sil',
+            'mov word ptr [rcx + 0x2b5a], dx']:
+        raise ValueError('the card helper writes something else: %r' % writes)
+    if [c.split(': ', 1)[1] for c in calls] != ['call 0x18ca560']:
+        raise ValueError('the card helper calls something else: %r' % calls)
+    pin = {'rva': CARD_ENABLE, 'bytes': body.hex()}
+    mismatched = [name for name in SNAPSHOTS if base.verify_pins_live(name, [pin], [])]
+    if mismatched:
+        raise ValueError('the card helper differs in %r' % mismatched)
+    return {'rva': CARD_ENABLE, 'end': CARD_ENABLE_END, 'size': len(body), 'bytes': body.hex(),
+        'sameInEverySnapshot': True, 'asm': asm, 'memoryWrites': writes, 'calls': calls,
+        'arguments': 'rcx = the card list (ui + 0xD2F20), edx = the card key (catalogue record +4), r8b = enabled (0|1)',
+        'effects': [
+            'finds the card with that key in every row of the list (+0x91F14 rows, +0x92318 cards per row, keys '
+            '+0x92990); none: returns, nothing written',
+            'writes that card\'s enabled byte (+0x92DC2 + index) = r8b',
+            'when the card\'s row is realized (+0x928D8 first realized row, +0x91F0C realized rows) and the card is one '
+            'of its widgets (+0xB9B4 count): the widget\'s grey bit 2 (+0x2B5A) set for 0, cleared for 1, and the '
+            'native redraw 0x18CA560 of that widget, only when the bit changes'],
+        'callers': ['0x18D1A24: the post-pick refresh 0x18D1890 (r8b 0, every type of the edited record, after it '
+            'un-greyed every realized widget and set every enabled byte)']}
+
+
 def snapshot_facts(name):
     """One retained snapshot: no loadout UI; the server-disabled list and every catalogue flag; the stratagem range."""
     mem = base.Mem(name)
@@ -294,6 +336,8 @@ MECHANISMS = [
         'scope': 'UI-LOCAL, transient (consumed next frame; zeroed by every list clear)',
         'rebuilt': 'consumed by the game the next frame; zeroed by the clear',
         'nativeVisual': 'makes the blocked byte visible at once (the realize refills the visible cards)',
+        'observedLive': ('r36 (2026-10-07): after the Runtime lifted a greyed card\'s enabled byte (0 -> 1) and the game '
+            'consumed the request, the card was still drawn grey (and pickable); cause not investigated'),
         'nativeRefusal': False, 'nativeDetailsNotice': False,
         'safety': 'ALLOWED with guards: written 0 -> 1 only, while the scrollbar is idle; never owned (the game consumes it)',
         'implemented': True},
@@ -305,15 +349,33 @@ MECHANISMS = [
         'rebuilt': 'rebuilt at every grid open AND rewritten for every card by the post-pick refresh (0x18D1890)',
         'nativeVisual': 'the greyed "selected" look, not the blocked look', 'nativeRefusal': True,
         'nativeDetailsNotice': False,
-        'safety': 'possible but wrong semantics (it says "already selected") and re-written after every pick; not used',
-        'implemented': False},
+        'safety': ('wrong semantics as a BLOCK (it says "already selected"); used only the other way (2026-10-07, the '
+            'carrier-in-slot probe): the grey lifted for the carrier a custom carrier slot holds, its game meaning, '
+            'through the game\'s own per-card helper (card-enable-helper); without it a guarded 0 -> 1 byte write '
+            '(pickable, its look stays grey); re-applied after every pick, greyed back only while the record holds the '
+            'type'),
+        'implemented': True},
     {'id': 'card-widget-flags', 'status': 'PROVEN',
         'what': 'The realized card widget\'s flag word (+0x2B5A: bit 2 greyed, bit 0x100 blocked).',
         'where': 'card list + 0xB00 + row * 0xAED0 + 0x110 + card * 0x2B68 + 0x2B5A',
         'scope': 'UI-LOCAL, per visible card (a pooled widget)',
         'rebuilt': 'rewritten by every realize from the list bytes; drawn only by the native redraw 0x18CA560',
         'nativeVisual': 'only after a native redraw', 'nativeRefusal': False, 'nativeDetailsNotice': False,
-        'safety': 'not needed (the list byte plus the realize request covers it); not used', 'implemented': False},
+        'safety': ('never written directly: the game\'s own code writes it (the realize, the post-pick refresh, the '
+            'per-card helper the Runtime calls: card-enable-helper)'), 'implemented': False},
+    {'id': 'card-enable-helper', 'status': 'PROVEN (code: cardEnable)',
+        'what': ('The game\'s per-card grey helper 0x18D1440(card list, key, enabled): the card\'s enabled byte, and for a '
+            'realized card its widget\'s grey bit and the native redraw. The game\'s own grey refresh calls it with 0; '
+            'Stratagem MultiSelect with 1.'),
+        'where': 'game.dll + 0x18D1440; rcx = ui + 0xD2F20, edx = the card key, r8b = 0 | 1',
+        'scope': 'UI-LOCAL: the card list and one pooled card widget',
+        'rebuilt': 'n/a (a call; the game greys the card again after every pick)',
+        'nativeVisual': True, 'nativeRefusal': 'through the enabled byte (both select paths)', 'nativeDetailsNotice': False,
+        'safety': ('ALLOWED with guards (the user\'s request of 2026-10-07: the carrier must also LOOK pickable): its '
+            'whole body pinned (identical in every retained snapshot; its only writes the enabled byte and the widget '
+            'flag word, its only call the redraw); called only inside the Runtime\'s update, with the open grid\'s own '
+            'card list, a key with exactly one card, 0 or 1; nothing else'),
+        'implemented': True},
     {'id': 'row-enabled-selectable', 'status': 'PROVEN',
         'what': 'StratagemInfo row +0xC0 bit 0 (enabled) and +0x80 bit 1 (selectable), and catalogue ownership.',
         'where': 'StratagemInfo table game+0x37CB600; catalogue definition +0x14',
@@ -354,11 +416,12 @@ def main():
     if game.data[0x18CA05C:0x18CA064] != struct.pack('<Q', OVERLAY_MATERIAL):
         raise ValueError('the overlay material changed')
     snapshots = {name: snapshot_facts(name) for name in SNAPSHOTS}
+    helper = card_enable(game)
     text = disabled_text()
     result = {'build': 'F5FEE03DCFDB', 'gameDllSha256': base.PROFILE_DLL_SHA, 'exeSha256': base.PROFILE_EXE_SHA,
         'writes': 0, 'protectionChanges': 0, 'pins': pins, 'pinnedBytesMismatchPerSnapshot': relocation,
         'access': access, 'constants': constants(game), 'disabledText': text, 'snapshots': snapshots,
-        'mechanisms': MECHANISMS,
+        'mechanisms': MECHANISMS, 'cardEnable': helper,
         'layout': {
             'loadout': {'ownerGlobal': G_LOADOUT_UI_OWNER, 'root': UI_ROOT, 'selectionOpen': SELECTION_OPEN,
                 'subState': SUB_STATE, 'gridSubState': 10, 'editedSlot': EDITED_SLOT, 'maxLoadoutEntries': 4,
@@ -385,6 +448,9 @@ def main():
                 '"realize next frame") makes that the next frame.'),
             'detailsPanel': ('Not reproducible UI-locally: its "DISABLED" notice and button lock read the catalogue '
                 'flag of the focused key; a blocked carrier\'s details show its normal name and description.'),
+            'cardGrey': ('The game greys and un-greys a card through its per-card helper 0x18D1440 (cardEnable): the '
+                'enabled byte plus, for a realized card, its widget\'s grey bit and the native redraw. A byte write alone '
+                'is refused or accepted by the pick paths at once but was still drawn grey live (r36).'),
             'noSnapshotPicker': ('No retained snapshot holds a loadout UI ([[game+0x347CE38]+0xB0] == 0), and none has a '
                 'server-disabled item (the override list is empty, no catalogue flag is set): the per-card path is '
                 'proven in code only and needs a live test.')},

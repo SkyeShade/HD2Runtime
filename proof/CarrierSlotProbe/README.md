@@ -1,13 +1,18 @@
-# CarrierSlotProbe 0.3.0: the carrier-in-slot probe
+# CarrierSlotProbe 0.3.1: the carrier-in-slot probe
 
-Probe 1 of the carrier-in-slot proposal (2026-10-07), with the native slot uses (0.2.0), no lockout (0.2.1) and the
-doubles and launch fallback (0.3.0). One custom stratagem, Carrier Slot Probe: an Orbital Gas Barrage (the 120mm's own
-barrage, its shells bursting into the Gas Strike's cloud), 3 uses per mission, 45 s cooldown, code UP DOWN UP DOWN
-LEFT RIGHT LEFT. Its loadout slot holds its **carrier itself**, not the Orbital Precision Strike token. Needs HD2Runtime
-0.30.0-dev r36 or later. **Solo only**: with several players its pick writes the token as before, and a carrier slot
+Probe 1 of the carrier-in-slot proposal (2026-10-07), with the native slot uses (0.2.0), no lockout (0.2.1), the
+doubles and launch fallback (0.3.0) and the doubles' look (0.3.1). One custom stratagem, Carrier Slot Probe: an Orbital
+Gas Barrage (the 120mm's own barrage, its shells bursting into the Gas Strike's cloud), 3 uses per mission, 45 s
+cooldown, code UP DOWN UP DOWN LEFT RIGHT LEFT. Its loadout slot holds its **carrier itself**, not the Orbital Precision Strike token. Needs HD2Runtime
+0.30.0-dev r37 or later. **Solo only**: with several players its pick writes the token as before, and a carrier slot
 picked solo is refused and locked in a multiplayer mission.
 
-The log names this build: `CarrierSlotProbe 0.3.0 CARRIER SLOT DOUBLES PROBE BUILD`.
+The log names this build: `CarrierSlotProbe 0.3.1 CARRIER SLOT DOUBLES LOOK PROBE BUILD`.
+
+New in 0.3.1 (runtime r37): the carrier also LOOKS pickable. In r36 it could be picked but was still drawn grey. The
+Runtime now lifts the grey through the game's own per-card helper, the call the game itself makes to grey or un-grey a
+card (Stratagem MultiSelect makes the same call). Its code is checked byte for byte before every call. If that check
+fails, the old way stays: pickable, drawn grey.
 
 New in 0.3.0 (runtime r36):
 
@@ -23,10 +28,10 @@ New in 0.3.0 (runtime r36):
 
 ## What to do
 
-1. Install the r36 HD2Runtime and CarrierSlotProbe 0.3.0 (remove 0.2.1). Solo.
+1. Install the r37 HD2Runtime and CarrierSlotProbe 0.3.1 (remove 0.3.0). Solo.
 2. Pick Carrier Slot Probe from the custom panel into slot 1. The log's `SELECTED` line names its carrier (C).
 3. Close the stratagem picker. Open it again for another slot.
-4. Find C in the grid: it should be pickable (not greyed). Pick it.
+4. Find C in the grid: it should look normal (not greyed) and be pickable. Pick it.
 5. Within a couple of seconds the custom slot moves to another carrier. The custom icon stays on its slot, and your
    other slot shows C as a normal stratagem.
 6. Open the picker on the custom slot itself and look at its new carrier: greyed there (by design).
@@ -40,7 +45,8 @@ New in 0.3.0 (runtime r36):
 ## What to look for
 
 1. Step 4: `STRATAGEM PICKABLE (native, the carrier-in-slot probe): C` and `stratagem doubles: native grid (slot N):
-   pickable 1 card (C)`. The card is not greyed, and the pick is accepted.
+   pickable 1 card (C), by the game's per-card grey helper (game+18D1440, re-proved; 1 call ...)`. The card looks
+   normal, and the pick is accepted. If the log says `the game's per-card grey helper is not used`, send that line.
 2. Step 5: `stratagem selector MOVED (carrier-in-slot probe): virtual slot 0 ...: its carrier C ... -> D`, then
    `SHIP (carrier_slot_probe): loadout slot 0 MOVED from C to D (you picked it natively into loadout slot N)`.
 3. Step 7: the probe's slot shows Carrier Slot Probe's icon and name from the first frame, and 3 uses that count down

@@ -2307,7 +2307,8 @@ do
         elseif not why then reservations.failed=nil end
         -- The carrier-in-slot probe's doubles (0.3.0): the carriers this player's carrier slots hold stay pickable.
         if blocking.enable then
-            local eok,er=pcall(blocking.enable,world,reservations.enable or{},dt)
+            local eok,er=pcall(blocking.enable,world,reservations.enable or{},dt,
+                {helper=require('hd2runtime/runtime/stratagem_card_enable')})
             local ewhy=not eok and tostring(er)or nil
             if ewhy and reservations.enable_failed~=ewhy then
                 reservations.enable_failed=ewhy

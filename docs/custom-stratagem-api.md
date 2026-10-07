@@ -170,11 +170,15 @@ everywhere else.
   loadout": the card's enabled byte; both select paths refuse it), the carrier included. While the native grid edits
   another slot, the Runtime lifts that grey for exactly the carrier its own carrier slot holds
   (`STRATAGEM PICKABLE (native, the carrier-in-slot probe)`), so the player can pick it there too; the slot then moves
-  as above. The same UI-local byte Stratagem MultiSelect re-enables with the game's card-enable call (a research lead:
-  docs/research/multi-stratagem-select-F5FEE03DCFDB.md), written by the Runtime's guarded transaction, no native
-  call; re-applied after every pick (the game re-greys); greyed back when it leaves the set while the record holds
-  it. Never while the grid edits the custom slot itself (a pick there could not be told apart), never on a blocked
-  card. The game launches a loadout holding a stratagem twice (live: duplicate tokens with MultiSelect; r35).
+  as above. 0.3.1: through the game's own per-card grey helper (game+0x18D1440, research cardEnable: the card's
+  enabled byte, and for a drawn card its grey bit and the game's redraw; what the game's post-pick refresh calls with
+  0 and Stratagem MultiSelect, a research lead, with 1), so the card also LOOKS pickable. Its whole body is pinned and
+  re-proved before every call; it is called only inside the Runtime's update, with the open grid's own card list and a
+  key exactly one card carries (runtime/stratagem_card_enable.lua). Without it (another build, an adapter that cannot
+  call) the byte is written by a guarded transaction instead: pickable, but drawn grey (live r36). Re-applied after
+  every pick (the game re-greys); greyed back when it leaves the set while the record holds it. Never while the grid
+  edits the custom slot itself (a pick there could not be told apart), never on a blocked card. The game launches a
+  loadout holding a stratagem twice (live: duplicate tokens with MultiSelect; r35).
 - **The launch fallback** (0.3.0): a slot that could not move before the launch (the player readied at once) holds a
   carrier that is no longer its carrier. At mission start the definition is not refused: its own entry is swapped,
   old carrier -> its carrier, by the proven slot conversion (`LAUNCH FALLBACK`, `CONVERTED`; the recorded order,
@@ -192,8 +196,10 @@ everywhere else.
   HUD was populated. r35 solo log: the carrier picked natively into another slot (the game took the duplicate: the
   grid had not re-greyed after the custom pick), the slot MOVED Airburst -> 380mm with the stratagem grid closed (the
   game repainted: true), and the mission ran on the 380mm (`NATIVE USES` 3, `READY TO CALL`). Not yet reported: the
-  HUD counter, the depleted look, and whether the HUD showed the custom look from its first frame. The doubles and
-  the launch fallback (0.3.0) are offline only.
+  HUD counter, the depleted look, and whether the HUD showed the custom look from its first frame. r36 solo log: the
+  carrier was pickable from a freshly opened grid and the slot moved (Airburst -> Gatling), but the card was still
+  drawn grey (the byte write and the consumed realize request did not redraw it): fixed in 0.3.1 through the game's
+  helper, offline only. The launch fallback (0.3.0) is offline only.
 - **With several players** the pick writes the token, as before.
 
 ### `code`

@@ -143,6 +143,65 @@ return 'ok'
 '''), b'ok')
 
 
+    def test_the_grey_is_lifted_by_the_games_own_per_card_helper(self):
+        # 0.3.1: the game's per-card grey helper (cardEnable: its whole body re-proved) lifts the grey AND redraws the
+        # card; only inside the Runtime's update; the guarded byte write when it cannot be called; never a changed body.
+        self.assertEqual(lua(r'''
+local function enabled(i)return byte_at(LIST+GR.enabled+i)end
+local function in_update(fn)
+    local out
+    local w={status='active'};function w.cancel()w.status='cancelled'end
+    function w.tick()out={fn()};w.status='complete'end
+    scheduler.attach(w);tick()
+    return unpack(out)
+end
+local H=B.cardEnable
+assert(H and H.rva==0x18D1440 and#H.code==2*267)
+W.write(W.GAME+H.rva,unhex(H.code))
+-- The adapter as the game's helper does it: that card's enabled byte (and, realized, its grey bit and redraw).
+local calls={}
+W.runtime.native_card_enable=function(entry,list,key,value)
+    assert(entry==W.GAME+H.rva and list==LIST and(value==0 or value==1))
+    calls[#calls+1]={key=key,value=value}
+    for i=0,#ORDER-1 do
+        if W.read(LIST+GR.keys+i*4,4)==W.u32(key)then W.write(LIST+GR.enabled+i,string.char(value))end
+    end
+    return true
+end
+build()
+local I=index_of(BIG)
+W.write(LIST+GR.enabled+I,'\0')
+local SET={[BIG]={definition='carrier_slot_probe',slots={0}}}
+local before=#W.runtime.writes
+local HELPER={helper=require('hd2runtime/runtime/stratagem_card_enable')}
+local r=in_update(function()return blocking.enable(world,SET,nil,HELPER)end)
+assert(r.status=='applied'and r.helper and r.wrote==1 and enabled(I)==1,tostring(r.reason))
+assert(#calls==1 and calls[1].key==KEY[BIG]and calls[1].value==1)
+assert(#W.runtime.writes==before,'no Runtime byte write and no realize request: the game\'s helper did it')
+assert(count("stratagem doubles: native grid (slot 1): pickable 1 card (Orbital 120mm HE Barrage), by the game's "
+    ..'per-card grey helper (game+18D1440, re-proved; 1 call')==1)
+-- Editing the custom slot: greyed back by the helper with 0 (the game's own grey).
+SCREEN.set('editedSlot',0)
+local g=in_update(function()return blocking.enable(world,SET,nil,HELPER)end)
+assert(g.helper and g.greyed==1 and#calls==2 and calls[2].value==0 and enabled(I)==0)
+SCREEN.set('editedSlot',1)
+-- Outside the Runtime's update: never called; the guarded byte write (pickable, drawn grey), the reason logged once.
+local f=blocking.enable(world,SET,nil,HELPER)
+assert(f.wrote==1 and not f.helper and enabled(I)==1 and#calls==2)
+assert(count("the game's per-card grey helper is not used (the card is pickable but drawn grey until the game "
+    ..'redraws it): not inside the Runtime')==1)
+-- A changed body (one byte): never called.
+blocking.enable(world,{})
+W.write(LIST+GR.enabled+I,'\0')
+W.write(W.GAME+H.rva+0x50,'\0')
+local c=in_update(function()return blocking.enable(world,SET,nil,HELPER)end)
+assert(c.wrote==1 and not c.helper and#calls==2,'a changed helper is never called')
+assert(count("is not used (the card is pickable but drawn grey until the game redraws it): the game's per-card grey "
+    ..'helper changed (game+18D1440)')==1)
+return 'ok'
+'''), b'ok')
+
+
 class StratagemBlockingResearchTests(unittest.TestCase):
     def test_the_research_and_its_domain(self):
         self.assertEqual((RESEARCH['writes'], RESEARCH['protectionChanges']), (0, 0))
@@ -191,6 +250,18 @@ class StratagemBlockingResearchTests(unittest.TestCase):
         callers = sorted(p.name for p in (ROOT / 'runtime').glob('*.lua')
             if "require('hd2runtime/runtime/stratagem_blocking')" in p.read_text(encoding='utf-8'))
         self.assertEqual(callers, [])                                            # not wired: the owner decides
+
+    def test_the_card_helper_module_makes_exactly_the_one_reviewed_call(self):
+        source = (ROOT / 'runtime/stratagem_card_enable.lua').read_text(encoding='utf-8')
+        code = '\n'.join(line.split('--')[0] for line in source.splitlines())
+        for forbidden in ('ffi', 'runtime.write(', 'transaction', 'protect('):
+            self.assertNotIn(forbidden, code, forbidden)
+        self.assertEqual(code.count('runtime.native'), 2)                       # the check and the one call
+        self.assertEqual(code.count('runtime.native_card_enable('), 1)
+        self.assertIn('world.view.proves(world.game+H.rva,H.code)', code)       # the whole body, every call
+        self.assertIn('scheduler.in_update()', code)
+        adapter = (ROOT / 'runtime/windows_write.lua').read_text(encoding='utf-8')
+        self.assertIn("and(enabled==0 or enabled==1),'unsupported card enable call')", adapter)
 
 
 class StratagemBlockingTests(unittest.TestCase):

@@ -35,6 +35,11 @@ def build() -> dict:
     by_id = {m['id']: m for m in research['mechanisms']}
     if not (by_id['card-blocked-byte']['implemented'] and not by_id['catalogue-disabled-flag']['implemented']):
         raise ValueError('only the UI-local card byte may be implemented')
+    helper = research['cardEnable']
+    if not (helper['sameInEverySnapshot'] and [w.split(': ', 1)[1] for w in helper['memoryWrites']] == [
+            'mov byte ptr [r9 + rcx + 0x92dc2], sil', 'mov word ptr [rcx + 0x2b5a], dx']
+            and [c.split(': ', 1)[1] for c in helper['calls']] == ['call 0x18ca560']):
+        raise ValueError('the per-card grey helper is not the reviewed one')
     layout = research['layout']
     pins = []
     for rows in research['pins'].values():
@@ -56,6 +61,8 @@ def build() -> dict:
         'catalogue': layout['catalogue'],
         # What the game draws from the blocked byte (documentation; nothing here is written).
         'treatment': layout['treatment'],
+        # The game's per-card grey helper (list, key, 0|1): its whole body, re-proved before every call.
+        'cardEnable': {'rva': helper['rva'], 'code': helper['bytes']},
         'pins': sorted(unique.values(), key=lambda pin: pin['rva'])}
 
 

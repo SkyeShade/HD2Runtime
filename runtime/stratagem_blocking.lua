@@ -409,17 +409,22 @@ function M.release(world,dt)return M.apply(world,{},dt)end
 -- 0x92DC2 + i), 0 from the grid build and from the grey refresh after every pick; both select paths refuse a greyed card
 -- exactly as a blocked one. Stratagem MultiSelect (a research lead only, docs/research/multi-stratagem-select-
 -- F5FEE03DCFDB.md) re-enables greyed cards with the game's card-enable call and the game then puts the same stratagem in
--- several slots. The Runtime writes that UI-local byte itself (no native call), 0 -> 1, for exactly the carriers in
--- `enable` = {[stable id] = {definition, slots = {loadout slots holding it as a custom carrier}}}, while the grid is open:
+-- several slots. 0.3.1: through that same call, the game's per-card grey helper (research cardEnable: the enabled byte,
+-- and for a realized card its grey bit and native redraw), so the card also LOOKS pickable (live r36: the byte alone,
+-- with the realize request, stayed drawn grey). This module makes no native call: its owner hands it the helper
+-- (opts.helper = runtime/stratagem_card_enable.lua, which re-proves the helper's whole body); without it, or when it
+-- cannot be called, the byte is written here (a guarded transaction: pickable, drawn grey). For exactly the carriers
+-- in `enable` = {[stable id] = {definition, slots = {loadout slots holding it as a custom carrier}}}, while the grid is
+-- open:
 --   * never while the grid edits one of those slots (a native pick of it there could not be told apart from the custom
 --     one); never a card blocked (this module's block or the game's), never one whose catalogue flag is set;
 --   * re-applied every update (the game re-greys after each pick); a card leaving the set gets its grey back (1 -> 0)
 --     only while the edited record still holds its type (the game's own state otherwise: left as it is);
---   * the same guarded transaction as the block (the list's mode, count, keys and bytes as context), then the one-shot
---     realize request.
+--   * the helper per card (key with exactly one card, verified: the byte reads back), else the same guarded transaction
+--     as the block (the list's mode, count, keys and bytes as context) and the one-shot realize request.
 -- A native pick of it then doubles the stratagem; custom_stratagems moves the custom slot to its next carrier aboard
 -- the ship (probe_move_step). Logs: "STRATAGEM PICKABLE (native)" once per id entering the set.
-local doubles={owned=nil,wanted={},refused=nil}
+local doubles={owned=nil,wanted={},refused=nil,helper_said=nil}
 local function record_types(world,ui)
     local ok,screen=pcall(function()return require('hd2runtime/runtime/stratagem_selector').screen(world)end)
     local types={}
@@ -429,8 +434,9 @@ local function record_types(world,ui)
     end
     return nil
 end
-function M.enable(world,enable,dt)
+function M.enable(world,enable,dt,opts)
     enable=enable or{}
+    local helper=opts and opts.helper
     local ok,why=M.prove(world)
     if not ok then return {status='refused',code='UNPROVEN',reason=why}end
     for _,id in ipairs(sorted_ids(enable))do
@@ -493,8 +499,30 @@ function M.enable(world,enable,dt)
         for _,e in ipairs(open_up)do entries[#entries+1]=e end
         for _,e in ipairs(grey)do entries[#entries+1]=e end
         local report,wwhy
-        if owner then report,wwhy=write_cards(world,g,owner,entries,'enabled')
-        else wwhy='the loadout UI is not in committed private read-write memory'end
+        -- The game's own helper first (the look too); the guarded byte write when it cannot be called.
+        local unavailable=owner and(not helper and'none was given'or helper.unavailable(world))or nil
+        if owner and not unavailable then
+            local done,hwhy=helper.call(world,g,entries)
+            if done then
+                report={writes=done,helper=true}
+            else
+                unavailable='the helper was refused: '..tostring(hwhy)
+                -- What it did before the refusal reads back as written: the byte write sees the current bytes.
+                g=M.grid(world)or g
+                local rest={}
+                for _,e in ipairs(entries)do if g.enabled[e.index]~=e.to then rest[#rest+1]=e end end
+                entries=rest
+            end
+        end
+        if unavailable and doubles.helper_said~=unavailable then
+            doubles.helper_said=unavailable
+            log('stratagem doubles: the game\'s per-card grey helper is not used (the card is pickable but drawn grey '
+                ..'until the game redraws it): '..unavailable)
+        end
+        if report then
+        elseif not owner then wwhy='the loadout UI is not in committed private read-write memory'
+        elseif #entries==0 then report={writes=0,non_target_bytes_unchanged=true,protection_restored=true}
+        else report,wwhy=write_cards(world,g,owner,entries,'enabled')end
         if not report then
             doubles.owned=next(own.entries)and own or nil
             if doubles.refused~=wwhy then
@@ -507,17 +535,25 @@ function M.enable(world,enable,dt)
         for _,e in ipairs(open_up)do own.entries[e.index]={id=e.id,key=e.key}end
         for _,e in ipairs(grey)do own.entries[e.index]=nil end
         result.wrote,result.greyed=#open_up,#grey
+        result.helper=report.helper==true
         local fresh=M.grid(world)
-        result.realize=fresh and fresh.open and request_realize(world,fresh,owner)or'skipped (the grid changed)'
+        result.realize=report.helper and'not needed (the helper redrew the card)'
+            or fresh and fresh.open and request_realize(world,fresh,owner)or'skipped (the grid changed)'
         local parts={}
         if #open_up>0 then parts[#parts+1]=('pickable %d card%s (%s)'):format(#open_up,#open_up==1 and''or's',
             names_of(open_up))end
         if #grey>0 then parts[#parts+1]=('greyed again %d card%s (%s)'):format(#grey,#grey==1 and''or's',
             names_of(grey))end
-        log(('stratagem doubles: native grid (slot %d): %s; enabled byte card list+0x%X (guarded, %d write%s, non-target '
-            ..'bytes unchanged %s, protection restored %s); realize %s'):format(g.edited,table.concat(parts,'; '),
-            G.enabled,report.writes,report.writes==1 and''or's',tostring(report.non_target_bytes_unchanged),
-            tostring(report.protection_restored),result.realize))
+        if report.helper then
+            log(('stratagem doubles: native grid (slot %d): %s, by the game\'s per-card grey helper (game+%X, re-proved; '
+                ..'%d call%s: the enabled byte read back, the card redrawn by the game)'):format(g.edited,
+                table.concat(parts,'; '),D.cardEnable.rva,report.writes,report.writes==1 and''or's'))
+        else
+            log(('stratagem doubles: native grid (slot %d): %s; enabled byte card list+0x%X (guarded, %d write%s, '
+                ..'non-target bytes unchanged %s, protection restored %s); realize %s'):format(g.edited,
+                table.concat(parts,'; '),G.enabled,report.writes,report.writes==1 and''or's',
+                tostring(report.non_target_bytes_unchanged),tostring(report.protection_restored),result.realize))
+        end
     end
     doubles.owned=next(own.entries)and own or nil
     local n=0
@@ -556,7 +592,7 @@ end
 
 function M.reset_for_tests()
     wanted,leaving,owned,request,refused,game_seen,first_consumed,proven,names={},{},nil,nil,{},{},false,{},nil
-    doubles={owned=nil,wanted={},refused=nil}
+    doubles={owned=nil,wanted={},refused=nil,helper_said=nil}
 end
 
 return M

@@ -4249,7 +4249,7 @@ def _silo_scenario():
 EXTRAS['example-shredder-silo'] = {'after': _silo_scenario(), 'readOnly': True}
 
 
-# The carrier-in-slot probe (proof/CarrierSlotProbe 0.3.0; runtime/carrier_in_slot.lua): the custom stratagem checks of
+# The carrier-in-slot probe (proof/CarrierSlotProbe 0.3.1; runtime/carrier_in_slot.lua): the custom stratagem checks of
 # the other examples (a red orbital carrier, the token's colour set), then: registered with selection 'carrier', the
 # probe module loaded at startup with its early lock and its release, its 3 uses, its pick's carrier read from the real
 # allocation (read-only), nothing written.
@@ -4265,13 +4265,22 @@ PROBE_STEPS = r'''
   and type(require('hd2runtime/runtime/stratagem_blocking').enable)=='function'
   and type(require('hd2runtime/runtime/stratagem_selector').reconvert_virtual)=='function'
   and(c==nil or(type(c.id)=='number'and type(c.name)=='string'))and counts.writes==0,tostring(c and c.name))
+ -- 0.3.1: the game's per-card grey helper, its whole body pinned, proves on the real game.dll (nothing called).
+ local world=assert(require('hd2runtime/runtime/event_world').open())
+ local BD=require('hd2runtime/domains/stratagem_blocking')
+ local helper=require('hd2runtime/runtime/stratagem_card_enable')
+ step('the per-card grey helper (game+18D1440, 267 bytes) proves on the real game.dll; the grid pins too; never called '
+  ..'outside the Runtime update',BD.cardEnable.rva==0x18D1440 and#BD.cardEnable.code==534
+  and world.view.proves(world.game+BD.cardEnable.rva,BD.cardEnable.code)==true
+  and require('hd2runtime/runtime/stratagem_blocking').prove(world)==true
+  and helper.unavailable(world)~=nil and counts.writes==0,tostring(helper.unavailable(world)))
  return results
 end
 '''
 
 
 def _probe_scenario():
-    text = EXAMPLE_CUSTOM_STRATAGEM % {'id': 'carrier_slot_probe', 'banner': 'CarrierSlotProbe 0.3.0 CARRIER SLOT DOUBLES PROBE BUILD',
+    text = EXAMPLE_CUSTOM_STRATAGEM % {'id': 'carrier_slot_probe', 'banner': 'CarrierSlotProbe 0.3.1 CARRIER SLOT DOUBLES LOOK PROBE BUILD',
         'beacon': 'offensive', 'families': "{'orbital','eagle','sentry','emplacement','mine','support','backpack'}",
         'colour_set': 0}
     old = " return results\nend\n"

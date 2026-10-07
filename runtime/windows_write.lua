@@ -351,6 +351,17 @@ function M.create()
         close(ffi.cast('void *',ui))
         return true
     end
+    -- The game's own per-card grey helper(card list, card key, enabled) (research cardEnable), used only by
+    -- runtime/stratagem_blocking.lua (the carrier-in-slot probe's doubles) after it re-proved the helper's whole body,
+    -- that the stratagem grid is open on this list and that exactly one card has that key: what the game's own post-pick
+    -- refresh calls with 0. It writes that card's enabled byte and, for a realized card, its grey bit and redraw.
+    function runtime.native_card_enable(entry,list,key,enabled)
+        assert(address(entry)and address(list)and type(key)=='number'and key>=0 and key<4294967296 and key%1==0
+            and(enabled==0 or enabled==1),'unsupported card enable call')
+        local set=ffi.cast('void (*)(void *, uint32_t, uint8_t)',entry)
+        set(ffi.cast('void *',list),key,enabled)
+        return true
+    end
     -- The game's own per-instance magazine copy routine(manager, the entity's world record, a delta entry), used only by
     -- runtime/pelican_weapon.lua (one Runtime Pelican's chin turret) and runtime/custom_weapons.lua (one entity a custom
     -- stratagem call delivered and associated): with the entry {kind 0, first patch 0, count 0} it reads no patch, so
