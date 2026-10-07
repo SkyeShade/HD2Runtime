@@ -557,10 +557,17 @@ W.GAME=GAME;W.EXE=EXE
 -- host (the session host's peer hex; default the local peer)}. Calling it again updates the same objects. The service is
 -- W.lobby_values ({[peer hex] = value}): runtime.native_lobby_publish sets the local peer's value (recorded in
 -- runtime.lobby_posts; W.LOBBY_RESULT is the HRESULT it returns), and runtime.native_lobby_read returns the address of
--- a fixture copy of a member's value (nil for no value or a non-member), as the engine does.
+-- a fixture copy of a member's value (nil for no value or a non-member), as the engine does. Values are keyed:
+-- W.lobby_values is the 'hd2rt' key's store; every other key's is W.lobby_keyed[key] ({[peer hex] = value}).
 local PM=require('hd2runtime/domains/peer_messaging')
 local function hex_of(bytes)return(bytes:reverse():gsub('.',function(c)return string.format('%02X',c:byte())end))end
 W.lobby_values={}
+W.lobby_keyed={}
+local function lobby_store(key)
+    if key=='hd2rt'then return W.lobby_values end
+    W.lobby_keyed[key]=W.lobby_keyed[key]or{}
+    return W.lobby_keyed[key]
+end
 runtime.lobby_posts,runtime.lobby_reads={},{}
 local lobby_objects
 function W.lobby(spec)
@@ -593,7 +600,7 @@ function runtime.native_lobby_publish(entry,lobby,key,value)
         'a member property published through the wrong function or lobby')
     runtime.lobby_posts[#runtime.lobby_posts+1]={key=key,value=value}
     local result=W.LOBBY_RESULT or 0
-    if result==0 then W.lobby_values[hex_of(read(session+P.localPeer,8))]=value end
+    if result==0 then lobby_store(key)[hex_of(read(session+P.localPeer,8))]=value end
     return result
 end
 function runtime.native_lobby_read(entry,lobby,peer_lo,peer_hi,key)
@@ -603,7 +610,7 @@ function runtime.native_lobby_read(entry,lobby,peer_lo,peer_hi,key)
     runtime.lobby_reads[#runtime.lobby_reads+1]={peer=hex,key=key}
     local member=false
     for _,p in ipairs(lobby_objects.members)do member=member or p==hex end
-    local value=member and W.lobby_values[hex]
+    local value=member and lobby_store(key)[hex]
     if not value then return nil end
     local at=alloc(4096)                     -- a heap page: readable past the string, as the SDK's are
     write(at,value..'\0')
