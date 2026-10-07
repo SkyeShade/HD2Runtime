@@ -361,6 +361,9 @@
   ],
   "cloneDonors": [
    {
+    "directDamage": [
+     500
+    ],
     "name": "EAT-17 Expendable Anti-Tank",
     "packageKnown": true,
     "pool": [
@@ -5136,6 +5139,14 @@
        "optional": true,
        "type": "integer",
        "unit": "rounds per magazine"
+      },
+      "direct_damage": {
+       "doc": "the damage of each round's direct hit: a reviewed override of the donor's own round (cloneDonors[].directDamage; the EAT-17's 500 = 500 / 500), written per round with impact_explosion (required with it); not with round. Not live-proven",
+       "optional": true,
+       "type": "enum",
+       "values": [
+        500
+       ]
       },
       "impact_explosion": {
        "catalog": "explosionDonors",

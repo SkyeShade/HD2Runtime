@@ -280,13 +280,17 @@ M.donor_name=donor_name
 function M.weapon_round(name)return weapon_projectile(name)end
 local function family_of(name)local e=catalog.stratagems[name];return e and e.family end
 local WEAPON_KEYS={projectile=true,rpm=true,spread=true,ammo=true,recoil=true,impact_explosion=true,rounds=true,
+    direct_damage=true,
     sound=true}
 -- A weapon modification table (a mod's data) -> {weapon = custom_weapons spec, impact = donor, rounds, assets}; errors.
 -- projectile: the round a support weapon fires (its name or hd2.support_weapon(name)); its call-in package becomes an
 -- asset. impact_explosion: a reviewed explosion donor (runtime/explosion_donors.lua); its package becomes an asset.
 -- sound (allow_sound: a sentry's weapon): a firing sound of the catalogue (runtime/weapon_sounds.lua); the stratagem
 -- that provides its bank becomes an asset.
-local function weapon_modify(value,where,allow_impact,weapon_name,allow_sound)
+-- direct_damage (allow_damage: an expendable delivery's modify): the damage of each fired round's direct hit, a reviewed
+-- override of the weapon's round (runtime/projectile_impact.lua DIRECT DAMAGE; domains/direct_damage.lua: the EAT-17's
+-- 500), written per round with its impact_explosion (required with it).
+local function weapon_modify(value,where,allow_impact,weapon_name,allow_sound,allow_damage)
     assert(type(value)=='table',where..' must be a table')
     -- (The delivery would refuse it: the selector rebuilds the rate from the type's three slots.)
     assert(value.rpm==nil or not weapons.binds_rate_selector(weapon_name),('%s.rpm: the %s binds the rate-of-fire '
@@ -295,8 +299,8 @@ local function weapon_modify(value,where,allow_impact,weapon_name,allow_sound)
     local out={weapon={},assets={}}
     for key,v in pairs(value)do
         assert(WEAPON_KEYS[key],where..': unsupported weapon modification '..tostring(key)..' (supported: projectile, '
-            ..'rpm, spread, ammo, recoil'..(allow_impact and', impact_explosion, rounds'or'')..(allow_sound and', sound'
-            or'')..')')
+            ..'rpm, spread, ammo, recoil'..(allow_impact and', impact_explosion, rounds'or'')..(allow_damage and
+            ', direct_damage'or'')..(allow_sound and', sound'or'')..')')
         if key=='projectile'then
             local name=donor_name(v)
             local kind=name and weapon_projectile(name)
@@ -320,6 +324,12 @@ local function weapon_modify(value,where,allow_impact,weapon_name,allow_sound)
                 ..'docs/weapon-sounds.md): '..WSN.hint())
             out.weapon.sound=canonical
             if entry.stratagem then out.assets[#out.assets+1]=entry.stratagem end
+        elseif key=='direct_damage'then
+            assert(allow_damage,where..'.direct_damage is supported on an expendable delivery\'s modify only')
+            local kind=weapon_name and weapon_projectile(weapon_name)
+            local o,_,why=impacts.damage_override(kind or 0,v)
+            assert(type(v)=='number'and o,where..'.direct_damage: '..tostring(why))
+            out.damage=v
         elseif key=='rounds'then
             local R=M.LIMITS.rounds
             assert(type(v)=='number'and v>=R[1]and v<=R[2]and v%1==0,('%s.rounds must be %d..%d'):format(where,R[1],R[2]))
@@ -330,6 +340,8 @@ local function weapon_modify(value,where,allow_impact,weapon_name,allow_sound)
     end
     local invalid=weapons.check(out.weapon)
     assert(not invalid,where..': '..tostring(invalid))
+    assert(out.damage==nil or out.impact,where..'.direct_damage needs '..where..'.impact_explosion (it is written with each '
+        ..'round\'s impact explosion)')
     return out
 end
 -- A CARRIER POD's item entries (docs/custom-stratagem-api.md "pod"): the support carrier pod's delivery.items, an
@@ -435,7 +447,7 @@ local function pod_items(p,carrier,carrier_entity,clone)
         if e.clone then
             t=hex_of(carrier_entity)
             items[t]={kind='weapon',projectile=clone.projectile,modify=clone.modify,impact=clone.impact,
-                rounds=clone.rounds,label='the clone'}
+                rounds=clone.rounds,damage=clone.damage,label='the clone'}
         else
             t=hex_of(e.resource)
             items[t]={kind=e.role=='backpack'and'backpack'or'weapon',projectile=e.projectile,
@@ -604,7 +616,7 @@ local function expendable_spec(value,policy)
         assert(type(value.modify)=='table','delivery.modify must be a table')
         assert(value.modify.projectile==nil,'delivery.modify.projectile is not supported: the clone fires its donor\'s '
             ..'own round (that is the clone)')
-        mod=weapon_modify(value.modify,'delivery.modify',true,donor)
+        mod=weapon_modify(value.modify,'delivery.modify',true,donor,nil,true)
     end
     local deliveries,assets,pool={},{},weapon_clone.pool(donor)
     for _,name in ipairs(pool)do
@@ -626,6 +638,8 @@ local function expendable_spec(value,policy)
             ..'(hd2.support_weapon(name)): '..(#reviewed>0 and table.concat(reviewed,', ')or'none'))
         assert(mod.impact==nil,'delivery.round with delivery.modify.impact_explosion: the '..rname..'\'s round has its '
             ..'own explosions (an expiry burst), which a per-projectile impact conversion refuses')
+        assert(mod.damage==nil,'delivery.round with delivery.modify.direct_damage: the override is reviewed for the '
+            ..donor..'\'s own round only')
         round={name=rname,type=r.type}
         assets[#assets+1]=rname
     end
@@ -664,13 +678,15 @@ local function expendable_spec(value,policy)
         local impact=mod.impact
         if round then impact=donors.resolve(round.name,{internal=true})end
         if native and others==0 and clones<=native.count and(not round or impact)then
-            fallback={stratagem=donor,id=native.id,delivery=native,impact=impact,rounds=mod.rounds}
+            fallback={stratagem=donor,id=native.id,delivery=native,impact=impact,rounds=mod.rounds,
+                damage=not round and mod.damage or nil}
         end
     end
     local entry=catalog.stratagems[donor]
     return {kind='expendable',stratagem=donor,id=entry.root.id,donor=donor,pool=pool,deliveries=deliveries,level=level,
-        presentation=presentation,modify=mod.weapon,impact=mod.impact,rounds=mod.rounds,family='support',
-        projectile=weapon_clone.donor(donor).projectile,round=round,pod=pod,fits=fits,fallback=fallback},assets
+        presentation=presentation,modify=mod.weapon,impact=mod.impact,rounds=mod.rounds,damage=mod.damage,
+        family='support',projectile=weapon_clone.donor(donor).projectile,round=round,pod=pod,fits=fits,
+        fallback=fallback},assets
 end
 
 -- delivery = {family = 'weapon', weapon = a variant host (hd2.support_weapon(name)), round = hd2.attack_output(name),
@@ -1647,6 +1663,7 @@ do
                 ..tostring(d.delivery.impact)..',rounds='..tostring(d.delivery.rounds)
                 ..(d.delivery.pod and(',pod='..pod_text(d.delivery.pod))or'')
                 ..(d.delivery.round and(',round='..d.delivery.round.type)or'')
+                ..(d.delivery.damage and(',damage='..d.delivery.damage)or'')
         elseif d.kind=='pod'then
             return 'pod='..pod_text(d.delivery.pod)
         elseif d.kind=='sentry'and d.sentry then
@@ -2946,6 +2963,7 @@ function Weapon:set_impact_explosion(donor,opts)
         return nil,'UNREVIEWED_DONOR','no reviewed impact explosion donor '..tostring(donor)
     end
     local binding,code,reason=impacts.bind({sources={self.entity},projectile=self.projectile,donor=donor,
+        direct_damage=opts.damage,
         rounds=opts.rounds or 1,entity_type=self.entity_type,label=self.call.call_id..' weapon '..self.entity,
         multiplayer=self.call.multiplayer==true,client=self.call.client==true,provenance=true},
         function(e)
@@ -2979,9 +2997,11 @@ function Weapon:set_impact_explosion(donor,opts)
             ..'machine converts its rockets (declare delivery.items[].modify.impact_explosion to have every compatible '
             ..'Runtime convert its own copy)'):format(self.entity))
     end
-    self.call:log(('weapon %d: its projectiles (type %d) explode as %s\'s on impact (explosion %d instead of %d), %d '
+    local dd=binding.damage and binding.damage[self.projectile]
+    self.call:log(('weapon %d: its projectiles (type %d) explode as %s\'s on impact (explosion %d instead of %d)%s, %d '
         ..'round%s; every other weapon stays vanilla'):format(self.entity,self.projectile,donor,binding.to,binding.from,
-        opts.rounds or 1,(opts.rounds or 1)==1 and''or's'))
+        dd and(', their direct hit %d / %d (DamageInfo %d instead of %d, each round\'s own copy; not live-proven)')
+        :format(dd.standard,dd.durable,dd.to,dd.from)or'',opts.rounds or 1,(opts.rounds or 1)==1 and''or's'))
     return true
 end
 
@@ -3089,7 +3109,7 @@ local function expendable_delivery(d,weapon,level)
         end
         return {kind='expendable',stratagem=f.stratagem,id=f.id,items=items,item_types=types,count=f.delivery.count,
             item=legacy and legacy.item,projectile=legacy and legacy.projectile,modify=d.delivery.modify,impact=f.impact,
-            rounds=f.rounds,family='support',donor=d.delivery.donor,donor_self=true}
+            rounds=f.rounds,damage=f.damage,family='support',donor=d.delivery.donor,donor_self=true}
     end
     local base=weapon and d.delivery.deliveries[weapon.weapon]
     if not base then return nil end
@@ -3100,12 +3120,12 @@ local function expendable_delivery(d,weapon,level)
         for t,i in pairs(base.items)do if i.kind=='weapon'then own=own or i.projectile end end
         local projectile=d.delivery.round and d.delivery.round.type or(level=='full'and d.delivery.projectile or own)
         local items,types,layout,plan=pod_items(d.delivery.pod,weapon.weapon,c.entity,{projectile=projectile,
-            modify=d.delivery.modify,impact=d.delivery.impact,rounds=d.delivery.rounds})
+            modify=d.delivery.modify,impact=d.delivery.impact,rounds=d.delivery.rounds,damage=d.delivery.damage})
         if not plan then return nil end
         local legacy=hex_of(c.entity)
         return {kind='expendable',stratagem=base.stratagem,id=base.id,items=items,item_types=types,
             count=d.delivery.pod.total,item=legacy,projectile=projectile,modify=d.delivery.modify,impact=d.delivery.impact,
-            rounds=d.delivery.rounds,family='support',donor=d.delivery.donor,layout=layout,
+            rounds=d.delivery.rounds,damage=d.delivery.damage,family='support',donor=d.delivery.donor,layout=layout,
             units=pod_units(d.delivery.pod,c.entity),plan=plan}
     end
     local items,types,legacy={},{},nil
@@ -3118,7 +3138,8 @@ local function expendable_delivery(d,weapon,level)
     end
     return {kind='expendable',stratagem=base.stratagem,id=base.id,items=items,item_types=types,count=base.count,
         item=legacy and legacy.item,projectile=legacy and legacy.projectile,modify=d.delivery.modify,
-        impact=d.delivery.impact,rounds=d.delivery.rounds,family='support',donor=d.delivery.donor}
+        impact=d.delivery.impact,rounds=d.delivery.rounds,damage=d.delivery.damage,family='support',
+        donor=d.delivery.donor}
 end
 M.expendable_delivery=expendable_delivery
 -- This mission's delivery of a definition: its own (support, sentry, Eagle, native orbital), or an expendable one's
@@ -3430,8 +3451,9 @@ local function start_capture(ctx,d)
                 local modify=it and it.modify or dl.modify
                 local impact=it and it.impact or dl.impact
                 local rounds=it and it.rounds or dl.rounds
+                local damage=it and it.damage or dl.damage
                 if modify and next(modify)then obj:configure(modify)end
-                if impact and obj:set_impact_explosion(impact,{rounds=rounds,data=true})
+                if impact and obj:set_impact_explosion(impact,{rounds=rounds,data=true,damage=damage})
                     and obj.network then
                     mirrored.nets[#mirrored.nets+1]=obj.network
                     mirrored.entities[#mirrored.entities+1]=obj.entity
@@ -4720,7 +4742,8 @@ do
         local it=dl.items and dl.items[kind]or{kind='weapon',projectile=dl.projectile}
         if not(it.kind=='weapon'and it.projectile)then return nil end
         -- Its payload this mission (a donor-self fallback's is the mission delivery's, not the definition's).
-        return {kind=it.kind,projectile=it.projectile,impact=it.impact or dl.impact,rounds=it.rounds or dl.rounds}
+        return {kind=it.kind,projectile=it.projectile,impact=it.impact or dl.impact,rounds=it.rounds or dl.rounds,
+            damage=it.damage or dl.damage}
     end
     -- A Gas EAT launcher: its rocket's own copy (live-proven r3).
     remote_handlers.launcher={kind='launcher',title='REMOTE CUSTOM ITEM',
@@ -4743,7 +4766,8 @@ do
                     spec.id,spec.network,spec.entity,text))
             end
             return impacts.bind({sources={spec.entity},projectile=spec.info.projectile,
-                donor=spec.info.impact or d.delivery.impact,rounds=spec.info.rounds or d.delivery.rounds or 1,entity_type=spec.entity_type,label=('remote %s %s launcher %d'):format(spec.peer,
+                donor=spec.info.impact or d.delivery.impact,direct_damage=spec.info.damage,
+                rounds=spec.info.rounds or d.delivery.rounds or 1,entity_type=spec.entity_type,label=('remote %s %s launcher %d'):format(spec.peer,
                 spec.id,spec.network),multiplayer=true,client=mission.client==true,provenance=true},function(e)
                     if e.kind=='converted'then
                         if log_module.sample('mp.remote_item.converted',3)then line(('CONVERTED its projectile in pool slot %d: impact explosion copy %d -> %d on this machine (fired '

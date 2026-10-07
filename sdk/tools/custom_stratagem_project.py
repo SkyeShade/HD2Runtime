@@ -147,6 +147,13 @@ def _weapon(problems, where, value, schema, family):
             if v not in explosions:
                 problems.add(where + '.impact_explosion', 'must be a reviewed explosion donor: '
                     + ', '.join(sorted(explosions)))
+        elif key == 'direct_damage':
+            if v not in f['values'] or isinstance(v, bool):
+                problems.add(where + '.direct_damage', 'must be a reviewed direct damage override: '
+                    + ', '.join(str(x) for x in f['values']))
+            elif 'impact_explosion' not in value:
+                problems.add(where + '.direct_damage', 'needs impact_explosion (written with each round\'s impact '
+                    'explosion)')
         elif key == 'recoil':
             if v not in f['values']:
                 problems.add(where + '.recoil', "must be 'zero'")
@@ -451,6 +458,13 @@ def validate(project: dict, schema: dict) -> list[str]:
                         payload.get('weapon'), ', '.join(rounds) or 'none'))
                 elif isinstance(payload.get('modify'), dict) and 'impact_explosion' in payload['modify']:
                     problems.add(pw + '.round', 'not with modify.impact_explosion: the round has its own explosions')
+                elif isinstance(payload.get('modify'), dict) and 'direct_damage' in payload['modify']:
+                    problems.add(pw + '.round', 'not with modify.direct_damage: it is reviewed for the donor\'s own round')
+            clone = _names(schema, 'cloneDonors').get(payload.get('weapon'))
+            dd = payload.get('modify', {}).get('direct_damage') if isinstance(payload.get('modify'), dict) else None
+            if dd is not None and clone is not None and dd not in clone.get('directDamage', []):
+                problems.add(pw + '.modify.direct_damage', 'is not reviewed for the %s\'s round: %s' % (
+                    payload.get('weapon'), ', '.join(str(x) for x in clone.get('directDamage', [])) or 'none'))
         elif fam['family'] == 'weapon':
             hosts = _names(schema, 'variantDonors')
             host = hosts.get(payload.get('weapon'))
@@ -574,7 +588,7 @@ def _ordered(table: dict, order) -> tuple:
         if k not in order)
 
 
-WEAPON_ORDER = ('projectile', 'rpm', 'spread', 'ammo', 'recoil', 'sound', 'impact_explosion', 'rounds')
+WEAPON_ORDER = ('projectile', 'rpm', 'spread', 'ammo', 'recoil', 'sound', 'impact_explosion', 'direct_damage', 'rounds')
 PELICAN_GUN_ORDER = ('behave_as', 'rate_multiplier', 'rpm', 'round', 'casing', 'spread', 'recoil', 'unlimited_ammo',
     'face_target', 'sound', 'impact_explosion', 'aim_height')
 

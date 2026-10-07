@@ -52,6 +52,15 @@
 -- A source may have one impact binding and one credit binding (M.bind_credit) at once: they write different members of
 -- the same round (+0x7C, +0x00), each in its own transaction over the hit record read then.
 --
+-- DIRECT DAMAGE (spec.direct_damage, the user's choice of 2026-10-07 for the custom Gas and EMS EATs; research/direct-
+-- damage-F5FEE03DCFDB.json, domains/direct_damage.lua): SpawnProjectile also copies the row's DamageInfo id (+0x3C) into
+-- the projectile's own hit record (+0x0C), and the row's +0x3C is never read again through the stored type; a round
+-- reviewed for it may then hit with a reviewed override DamageInfo: a second 4-byte change of its own +0x0C, in the same
+-- transaction as its impact explosion, from the row's id to the override's. Its penetration copy (+0x18) is untouched;
+-- both DamageInfo rows must be exactly as reviewed (read now, every round) and the spawn-copy code pins proven. Neither
+-- DamageInfo row nor the projectile's row is written: they are only named. NOT LIVE-PROVEN as a per-round write (a
+-- Runtime-owned row naming another damage hit harder live: docs/custom-projectile-rows.md F5, OBSERVED).
+--
 -- Logging: every write (CONVERTED); a refusal once per binding and reason (the event carries first = true), the rest
 -- counted in one line when the binding ends. A binding ends once every source has fired its rounds and nothing it
 -- converted still flies (unless a rule may still add a source), once every source with rounds left is gone, at the
@@ -70,6 +79,7 @@ M.MAX_SOURCES=8
 M.MAX_READS=64            -- new slots examined per update at most (the newest are kept)
 M.FOLLOW_SECONDS=30       -- a written projectile is followed this long for its impact
 local H,S,F=PO.hit,PO.source,PO.flags
+local PO_DAMAGE=0x3C      -- ProjectileInfo +0x3C: its direct hit's DamageInfo id (domains/projectile_rows.lua direct_damage)
 local COUNTER_RANGE=4294967296
 
 -- The reviewed donor explosions (runtime/explosion_donors.lua): a donor stratagem, the explosion its own shell requests
@@ -78,6 +88,7 @@ local donors=require('hd2runtime/runtime/explosion_donors')
 M.DONORS=donors.DONORS
 M.SLOW_GAP=0.8            -- a slow donor's binding: the shortest gap between two conversions, in its interval
 local CARRIERS=require('hd2runtime/domains/custom_payloads').impactCarriers
+local DD=require('hd2runtime/domains/direct_damage')
 
 -- An explosion-less carrier's row, read now (see the header): its type, no impact or expiry explosion, and exactly the
 -- reviewed flags of the live-verified base. true, or nil, reason.
@@ -92,6 +103,32 @@ local function carrier_intact(world,row,kind)
             or world.view.u32(row+PO.explosions.expiry)~=0 or f~=c.flags or f~=CARRIERS.baseFlags then
         return nil,('projectile %d\'s row is not the reviewed explosion-less carrier (flags +0x%X: %s, reviewed %d)')
             :format(kind,CARRIERS.flagsOffset,tostring(f),c.flags)
+    end
+    return true
+end
+
+-- A direct damage override of a round (DD.rounds): {from, to, label, standard, durable, ap, rows = the two DamageInfo
+-- rows as reviewed}, or nil, code, reason. label: the override's damage (500).
+local function damage_override(kind,label)
+    local r=DD.rounds[tostring(kind)]
+    local o=r and r.overrides[tostring(label)]
+    if not o then
+        local have={}
+        for l in pairs(r and r.overrides or{})do have[#have+1]=l end
+        table.sort(have)
+        return nil,'UNREVIEWED_DAMAGE',('projectile %s has no reviewed direct damage override %s (reviewed: %s)'):format(
+            tostring(kind),tostring(label),#have>0 and table.concat(have,', ')or'none')
+    end
+    return {from=r.from,to=o.damage,label=label,standard=o.standard,durable=o.durable,ap=o.armorPenetration,
+        rows={{kind='damage',id=r.from,table=DD.table,stride=DD.stride,reviewed=r.fromReviewed},
+            {kind='damage',id=o.damage,table=DD.table,stride=DD.stride,reviewed=o.reviewed}}}
+end
+M.damage_override=damage_override
+local function damage_pins(world)
+    for _,pin in ipairs(DD.pins)do
+        if not world.view.proves(world.game+pin.rva,pin.hex)then
+            return nil,('the spawn copy changed (%s at game+%X)'):format(pin.label,pin.rva)
+        end
     end
     return true
 end
@@ -208,18 +245,39 @@ local function convert(world,system,binding,source,slot,kind)
             and owner_of(world,flags_address,F.stride))then
         return refuse('NOT_PRIVATE','the projectile pool is not in private read-write memory')
     end
+    -- Its direct damage (binding.damage: the type's reviewed override): its own +0x0C must still be the row's id.
+    local damage=binding.damage and binding.damage[kind]
+    if damage then
+        local copied=b.u32(hit,DD.hit.directDamage)
+        if copied~=damage.from then
+            return refuse('UNEXPECTED_DAMAGE',('its direct damage copy is %d, not %d'):format(copied,damage.from))
+        end
+        local intact,dwhy=donors.rows_intact(world,damage.rows)
+        if not intact then return refuse('DAMAGE_CHANGED',dwhy)end
+    end
     local function context(address,bytes)return {owner=owner,offset=address-owner.base,bytes=bytes}end
+    local identity={component='ProjectileSystem',component_type='native',record_type='projectile hit record',
+        unique_owner=true,owner_count=1}
     local plan={snapshots={context(hit_address,hit),context(source_address,source_record),context(type_address,type_bytes),
             context(flags_address,flags)},
         changes={{label='projectile.pool.slot'..slot..'.impactExplosion',owner=owner,
             offset=hit_address+H.impactExplosion-owner.base,expected=u32(from),desired=u32(binding.to),
-            before=u32(from),already_desired=false,
-            identity={component='ProjectileSystem',component_type='native',record_type='projectile hit record',
-                unique_owner=true,owner_count=1},chain={}}}}
+            before=u32(from),already_desired=false,identity=identity,chain={}}}}
+    if damage then
+        plan.changes[2]={label='projectile.pool.slot'..slot..'.directDamage',owner=owner,
+            offset=hit_address+DD.hit.directDamage-owner.base,expected=u32(damage.from),desired=u32(damage.to),
+            before=u32(damage.from),already_desired=false,identity=identity,chain={}}
+    end
     local report=transaction.apply(world.runtime,plan)
     metrics.count('projectile_impact.transactions')
     if report.status~='APPLIED'then return refuse('GUARD_REJECTED',tostring(report.reason))end
     local after=world.view.u32(hit_address+H.impactExplosion)
+    if damage then
+        event.damage_from,event.damage_to=damage.from,damage.to
+        event.damage_read_back=world.view.u32(hit_address+DD.hit.directDamage)==damage.to
+        event.ap_kept=world.view.read(hit_address+DD.hit.armorPenetration,2)==hit:sub(DD.hit.armorPenetration+1,
+            DD.hit.armorPenetration+2)
+    end
     s.rounds=s.rounds-1
     binding.converted=binding.converted+1
     binding.last_at=clock
@@ -227,7 +285,8 @@ local function convert(world,system,binding,source,slot,kind)
     event.kind='converted'
     event.from,event.to=from,binding.to
     event.writes=report.writes
-    event.verify={readBack=after==binding.to,nonTarget=report.non_target_bytes_unchanged==true,
+    event.verify={readBack=after==binding.to and(not damage or event.damage_read_back==true),
+        nonTarget=report.non_target_bytes_unchanged==true,
         protection=report.protection_restored==true}
     event.creditor=world_module.peer_hex(clo,chi)
     event.local_creditor=local_creditor
@@ -398,10 +457,13 @@ local function step(dt)
                             -- owner logs its own count at its end).
                             local emit=binding.converted<=1 and log or function(text)
                                 log_module.detail('[HD2Runtime] projectile impact '..text)end
-                            emit(('CONVERTED (%s): projectile %d in pool slot %d from source %d: impact explosion %d -> %d '
-                                ..'(%d write; read back %s; non-target bytes unchanged %s; protection restored %s); '
+                            emit(('CONVERTED (%s): projectile %d in pool slot %d from source %d: impact explosion %d -> %d'
+                                ..'%s (%d write%s; read back %s; non-target bytes unchanged %s; protection restored %s); '
                                 ..'creditor %s, owner %d%s'):format(binding.label,item.type,item.slot,source,event.from,
-                                event.to,event.writes,tostring(event.verify.readBack),tostring(event.verify.nonTarget),
+                                event.to,event.damage_to and(', direct damage %d -> %d (its own +0x0C; penetration copy '
+                                ..'kept %s)'):format(event.damage_from,event.damage_to,tostring(event.ap_kept))or'',
+                                event.writes,event.writes==1 and''or's',tostring(event.verify.readBack),
+                                tostring(event.verify.nonTarget),
                                 tostring(event.verify.protection),event.creditor,event.owner,event.local_creditor and''
                                 or' (another player fired it: the payload follows its exact source; the credit is the '
                                 ..'game\'s own)'))
@@ -544,6 +606,28 @@ function M.bind(spec,callback)
         types[t]=f
         from=from or f
     end
+    -- direct_damage: the override's damage (a label of the reviewed overrides, e.g. 500), reviewed for every type, each
+    -- row naming its reviewed `from` now; the spawn-copy pins proven.
+    local damage
+    if spec.direct_damage~=nil then
+        if continuous then return nil,'INVALID','direct_damage is for launchers and rockets (not a continuous binding)'end
+        local pins,pwhy2=damage_pins(world)
+        if not pins then return nil,'UNSUPPORTED_BUILD',pwhy2 end
+        damage={}
+        for _,t in ipairs(list)do
+            local o,dcode,dwhy=damage_override(t,spec.direct_damage)
+            if not o then return nil,dcode,dwhy end
+            local _,row=world_module.projectile_row(world,t)
+            local named=world.view.u32(row+PO_DAMAGE)
+            if named~=o.from then
+                return nil,'DAMAGE_CHANGED',('projectile %d\'s row names DamageInfo %s, not the reviewed %d'):format(t,
+                    tostring(named),o.from)
+            end
+            local intact,iwhy=donors.rows_intact(world,o.rows)
+            if not intact then return nil,'DAMAGE_CHANGED',iwhy end
+            damage[t]=o
+        end
+    end
     local sources,entity_type={},nil
     for k,source in ipairs(spec.sources)do
         if world_module.entity_exists(world,source)~=true then return nil,'SOURCE_GONE','source '..k..' does not exist'end
@@ -564,7 +648,7 @@ function M.bind(spec,callback)
         flying={},
         converted=0,impacts=0,refused=0,entity_type=spec.entity_type,rounds=rounds,accept=spec.accept,refusals={},
         suppressed=0,multiplayer=spec.multiplayer==true,client=spec.client==true,provenance=spec.provenance==true,
-        max_sources=max_sources,continuous=continuous,carrier_rows=carrier_rows,
+        max_sources=max_sources,continuous=continuous,carrier_rows=carrier_rows,damage=damage,
         max_rpm=donor.slow and donor.max_rpm or nil,min_gap=donor.slow and M.SLOW_GAP*60/donor.max_rpm or nil}
     function binding.cancel()finish(binding,'cancelled')end
     -- One more exact source the caller established as its own: it must exist now, be the binding's entity type (or

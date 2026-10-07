@@ -94,13 +94,22 @@ out.projectileDonors=json.array(rounds)
 -- Clone donors (the expendable family): a support weapon with a reviewed expendable clone class, and its carrier weapon
 -- pool in order (runtime/weapon_clone.lua; the first one no lobby member brings and no other custom stratagem holds).
 local WC=require('hd2runtime/runtime/weapon_carriers')
+-- The reviewed direct damage overrides of a round (domains/direct_damage.lua): its labels, ascending.
+local function direct_damage_of(projectile)
+    local r=require('hd2runtime/domains/direct_damage').rounds[tostring(projectile)]
+    local out={}
+    for label in pairs(r and r.overrides or{})do out[#out+1]=tonumber(label)end
+    table.sort(out)
+    return out
+end
 local clones={}
 for _,name in ipairs(custom.clone_donors())do
     local pool={}
     for k,c in ipairs(WC.pool(name))do pool[k]={name=c.name,stableId=c.stable_id}end
     clones[#clones+1]={name=name,stableId=catalog.stratagems[name].root.id,
         projectile=require('hd2runtime/runtime/weapon_clone').donor(name).projectile,pool=json.array(pool),
-        rounds=json.array(require('hd2runtime/runtime/weapon_clone').rounds(name)),packageKnown=package_known(name)}
+        rounds=json.array(require('hd2runtime/runtime/weapon_clone').rounds(name)),packageKnown=package_known(name),
+        directDamage=json.array(direct_damage_of(require('hd2runtime/runtime/weapon_clone').donor(name).projectile))}
 end
 out.cloneDonors=json.array(clones)
 -- Sentries: the chassis a sentry payload deploys.
@@ -301,6 +310,11 @@ def build(facts: dict | None = None) -> dict:
     support_modify['rounds'] = dict(rng(L['rounds'][0], L['rounds'][1], integer=True, unit='projectiles per weapon'),
         optional=True, default=1, doc='how many of each weapon\'s projectiles convert (with impact_explosion)')
     expendable_modify = {k: v for k, v in support_modify.items() if k != 'projectile'}
+    damage_values = sorted({v for c in facts['cloneDonors'] for v in c.get('directDamage', [])})
+    expendable_modify['direct_damage'] = {'type': 'enum', 'values': damage_values, 'optional': True,
+        'doc': 'the damage of each round\'s direct hit: a reviewed override of the donor\'s own round '
+        '(cloneDonors[].directDamage; the EAT-17\'s 500 = 500 / 500), written per round with impact_explosion (required '
+        'with it); not with round. Not live-proven'}
     PL = L['pod']
     pod_item = {
         'item': {'type': 'pod_item', 'catalog': 'podItems', 'reviewedDonor': True, 'required': True,

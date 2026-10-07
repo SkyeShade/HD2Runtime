@@ -296,6 +296,38 @@ assert(#applied==1 and applied[1].round==RL77 and applied[1].carrier==EAT411,tos
 return 'ok'
 ''')
 
+    def test_a_direct_damage_override(self):
+        # delivery.modify.direct_damage (2026-10-07, the custom Gas and EMS EATs: 500 instead of 2000): a reviewed
+        # override of the donor's own round, carried with the impact explosion by every delivery of it (the clone's, its
+        # pod items', the donor fallback's), part of the hash; refused without an impact, with a round, unreviewed.
+        self.lua(r'''
+local function dd(modify,over)
+    local delivery={family='expendable',weapon={weapon=EAT17},modify=modify}
+    for k,v in pairs(over or{})do delivery[k]=v end
+    return {delivery=delivery}
+end
+refused(dd({impact_explosion='Orbital Gas Strike',direct_damage=400}),'delivery.modify.direct_damage: projectile 132 '
+    ..'has no reviewed direct damage override 400 (reviewed: 500)')
+refused(dd({direct_damage=500}),'delivery.modify.direct_damage needs delivery.modify.impact_explosion')
+refused(dd({impact_explosion='Orbital Gas Strike',direct_damage=500},{round={weapon='RL-77 Airburst Rocket Launcher'}}),
+    'delivery.round with delivery.modify.impact_explosion')
+local d=custom.register(spec('eat17g',dd({impact_explosion='Orbital Gas Strike',direct_damage=500},
+    {pod={{item='clone',count=2}}})),'mods/test/one')
+assert(d.delivery.damage==500 and d.delivery.impact=='Orbital Gas Strike')
+local dl=custom.expendable_delivery(d,{weapon=EAT700},'full')
+assert(dl.damage==500,'the delivery carries it')
+for _,item in pairs(dl.items)do if item.kind=='weapon'then assert(item.damage==500,'its clone item carries it')end end
+assert(d.delivery.fallback and d.delivery.fallback.damage==500,'the donor fallback carries it')
+local self_dl=custom.expendable_delivery(d,{weapon={donor_self=true},donor_self=true},'full')
+assert(self_dl==nil or self_dl.damage==500)
+local hash=custom.registry_hash()
+custom.reset_for_tests();images.reset_for_tests();texts.reset_for_tests()
+require('hd2runtime/runtime/virtual_stratagems').reset_for_tests()
+custom.register(spec('eat17g',dd({impact_explosion='Orbital Gas Strike'},{pod={{item='clone',count=2}}})),'mods/test/one')
+assert(custom.registry_hash()~=hash,'the direct damage is part of the registry hash')
+return 'ok'
+''')
+
     def test_the_donor_fallback_mission(self):
         # Every carrier weapon taken (the user's rule of 2026-10-06): the regular EAT-17 from its own pod. No clone, no
         # rack or presentation write; only the call's own launchers change, per projectile (the EAT-17G's gas; the

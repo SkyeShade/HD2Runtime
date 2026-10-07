@@ -413,5 +413,64 @@ assert(count('launcher network id 4442: it names entity 5003 of type '..EAT_TYPE
 """)
 
 
+    def test_another_players_launchers_hit_with_their_direct_damage_on_this_machines_copy(self):
+        # 2026-10-07: delivery.modify.direct_damage is mirrored with the impact: each machine's own copy of the rocket.
+        self.lua(r"""
+local catalog=require('hd2runtime/domains/stratagem_authoring')
+local EAT17,EAT411='EAT-17 Expendable Anti-Tank','EAT-411 Leveller'
+local ID411=catalog.stratagems[EAT411].root.id
+local d=custom.register({id='eat17g',name='EAT-17G GAS',name_cased='EAT-17G Gas',description='Two launchers.',
+    icon='eat17g',code={'down','down','up','up','left','right'},cooldown=70,
+    carrier={beacon='support',prefer_families={'support','backpack'}},
+    delivery={family='expendable',weapon={weapon=EAT17},modify={impact_explosion='Orbital Gas Strike',direct_damage=500}}},'mods/test/eat17g')
+assert(custom.mirrored(d)and custom.remote_handler(d)~=nil,'an expendable payload is mirrored by the launcher handler')
+local world,M=machine(P1,true)
+local DD=require('hd2runtime/domains/direct_damage')
+for _,pin in ipairs(DD.pins)do W.write(W.GAME+pin.rva,b.unhex(pin.hex))end
+local R=DD.rounds['132']
+for id,hex in pairs({[R.from]=R.fromReviewed,[R.overrides['500'].damage]=R.overrides['500'].reviewed})do
+    local at=W.alloc(DD.stride);W.write(at,b.unhex(hex))
+    W.write(W.GAME+tonumber(DD.table:sub(3),16)+id*8,W.u64(at))
+end
+W.write(rocket+0x3C,W.u32(227))
+local function damage_of(hit)return b.u32(W.read(hit+DD.hit.directDamage,4),0)end
+local function dfire(source,opts)local slot,hit=fire(source,opts);W.write(hit+DD.hit.directDamage,W.u32(227));return slot,hit end
+-- This machine clones the same carrier weapon for the synced id (every machine does: runtime/custom_stratagems.lua
+-- mp_queue), here EAT-411 Leveller (condensed).
+local clone=require('hd2runtime/runtime/weapon_clone')
+local cp=require('hd2runtime/runtime/carrier_presentation')
+clone.apply=function(s,cb)cb({status='applied'});return {status='applied'}end
+cp.apply=function(s,cb)cb({status='applied'});return {status='applied'}end
+assets.gate=function()return {tick=function()return'ready'end}end
+I.add_clone(d,{weapon={weapon=EAT411,stable_id=ID411},condensed=true})
+for _=1,3 do I.clone_step(world)end
+assert(M.clones.eat17g.state=='ready',tostring(M.clones.eat17g.state))
+-- The frozen carrier map names the EAT-411's own stratagem (condensed) as eat17g's carrier; P2 selects it in slot 1.
+M.carrier_types[16]='eat17g'
+V.table[P2][1]='eat17g'
+M.remote_assets.eat17g={state='ready'}
+-- P2 calls it: its beacon (the EAT-411's own beam), its pod's two launchers (the EAT-411 type: the clone).
+remote_call(8301,4337,P2,16,1)
+local LEV='7617642765AC38C7'
+for k,e in ipairs({6301,6302})do
+    W.add{entity=e,type=LEV,unit=0,health=1};W.register_entity(e,LEV);W.network_id(4338+k,e,50+k)
+end
+V.peers[P2].items={{id='eat17g',beacon=4337,items={4339,4340}}}
+I.items_step(world)
+assert(count('REMOTE CUSTOM ITEM: peer '..P2..', custom eat17g, launcher network id 4339 (entity 6301 on this machine), '
+    ..'call beacon network id 4337: its rockets explode as Orbital Gas Strike\'s (explosion 82 instead of 376) on this '
+    ..'machine\'s own copy, whoever fires it')==1,table.concat(logged,' | '))
+tick()
+local writes=#W.runtime.writes
+-- P2's own shot and this player's (who picked the second launcher up): gas on this copy; a vanilla EAT-17: vanilla.
+local _,r1=dfire(6301,{creditor=P2});local _,r2=dfire(6302,{creditor=P1});local _,v=dfire(5003,{creditor=P1})
+tick()
+assert(impact_of(r1)==82 and impact_of(r2)==82 and impact_of(v)==376,('%d %d %d'):format(impact_of(r1),impact_of(r2),
+    impact_of(v)))
+assert(damage_of(r1)==238 and damage_of(r2)==238 and damage_of(v)==227,('%d %d %d'):format(damage_of(r1),
+    damage_of(r2),damage_of(v)))
+""")
+
+
 if __name__ == '__main__':
     unittest.main()

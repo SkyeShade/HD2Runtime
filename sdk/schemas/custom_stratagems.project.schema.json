@@ -259,6 +259,11 @@
             "minimum": 1,
             "type": "integer"
            },
+           "direct_damage": {
+            "enum": [
+             500
+            ]
+           },
            "impact_explosion": {
             "type": "string"
            },

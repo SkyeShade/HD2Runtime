@@ -328,6 +328,67 @@ assert(ctx.carrier.condensed==true and ctx.carrier.group=='expendable')
 return 'ok'
 ''')
 
+    def test_the_condensed_mission_glue_carries_a_direct_damage(self):
+        # 2026-10-07: delivery.modify.direct_damage reaches each captured launcher's impact binding.
+        self.lua(r'''
+local e=custom.register(eat17g('eat17g',{delivery={family='expendable',weapon=SW(EAT17),pod={{item='clone',count=2}},
+    modify={impact_explosion='Orbital Gas Strike',direct_damage=500}}}),'mods/test/one')
+local I=custom.internals_for_tests()
+local core_assets=require('hd2runtime/core/assets')
+core_assets.gate=function()return {tick=function()return'ready'end}end
+local cp=require('hd2runtime/runtime/carrier_presentation')
+local applied,racked,presented={},{},{}
+clone.apply=function(s,cb)applied[#applied+1]=s;cb({status='applied'});return {status='applied'}end
+pod.apply=function(s,cb)racked[#racked+1]=s;cb({status='applied',slots=1,layout={}});return {status='applied'}end
+cp.apply=function(s,cb)presented[#presented+1]=s;cb({status='applied'});return {status='applied'}end
+local assignment={label=e.label,carrier=EAT411,stable_id=ID411,type=16,condensed=true,group='expendable',
+    weapon={weapon=EAT411,stable_id=ID411,entity='0x7617642765AC38C7'}}
+local M=I.mission()
+M.queue[1]={definition=e,assignment=assignment,state='clone',slots={3}}
+I.add_clone(e,assignment)
+assert(count('CONDENSED: EAT-411 Leveller is also its beacon carrier and its pod (one vanilla stratagem); its pod: clone x2')
+    ==1,said('MISSION (eat17g)'))
+for _=1,5 do I.clone_step({runtime={}})end
+local c=M.clones.eat17g
+assert(c.state=='ready'and#applied==1 and#racked==1 and#presented==0,c.state..' '..#racked..' '..#presented)
+-- The rack: two clone launchers (the EAT-411's own entity) in its two usable slots.
+local r=racked[1]
+assert(r.carrier==EAT411 and#r.items==2 and r.items[1].resource=='0x7617642765AC38C7'and r.items[2].role=='weapon'
+    and r.multiplayer==true)
+local dl=custom.delivery_of(e)
+assert(dl.count==2 and dl.layout[0]=='7617642765AC38C7'and dl.layout[1]=='7617642765AC38C7'
+    and dl.items['7617642765AC38C7'].projectile==132 and dl.items['7617642765AC38C7'].impact=='Orbital Gas Strike'and dl.items['7617642765AC38C7'].damage==500
+    and dl.stratagem==EAT411,J(dl.layout))
+-- Its beacon: nothing to change (the weapon's own stratagem); the call is its own delivery.
+M.by_type[16]={definition=e,assignment=assignment}
+assert(I.decide({type=16})==nil)
+-- Fallback (not condensed): the redirect to the weapon's own pod, as before.
+M.by_type[13]={definition=e,assignment={carrier='M-105 Stalwart',type=13,weapon=assignment.weapon}}
+assert(I.decide({type=13}).delivery==EAT411)
+-- The capture: the planned layout checked, each launcher's own payload.
+local pods=require('hd2runtime/runtime/support_pods')
+local G=catalog.stratagems[EAT411].root
+settings=W.stratagem_settings({{type=16,id=G.id,package=G.package,payloads=G.payloads,sequence={3,3,2,1,3},
+    group=G.group,row=G.row,cooldown=70}})
+local bound={}
+local impacts=require('hd2runtime/runtime/projectile_impact')
+impacts.bind=function(spec,cb)bound[#bound+1]=spec;return {status='active',from=376,to=82}end
+pods.capture=function(spec,cb)
+    assert(spec.type==16 and spec.item_types['7617642765AC38C7'])
+    cb({kind='pod',pod=501})
+    cb({kind='captured',pod=501,rack=6000,items={6001,6002},types={'7617642765AC38C7','7617642765AC38C7'},slots={0,1}})
+    return {status='complete'}
+end
+local ctx=I.new_call(e,assignment,3)
+ctx.beacon={entity=7006,network=802}
+I.start_capture(ctx,e)
+assert(#ctx.weapons==2 and#bound==2 and bound[1].donor=='Orbital Gas Strike'and bound[1].projectile==132)
+assert(bound[1].direct_damage==500 and bound[2].direct_damage==500,tostring(bound[1].direct_damage))
+assert(count('eat17g#1: POD: 2 items, each in its planned slot (2 planned)')==1,said('POD'))
+assert(ctx.carrier.condensed==true and ctx.carrier.group=='expendable')
+return 'ok'
+''')
+
     def test_a_carrier_pod_mission_and_describe(self):
         self.lua(r'''
 local d=custom.register(kit('support_kit'),'mods/test/one')

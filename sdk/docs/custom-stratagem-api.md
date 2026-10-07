@@ -530,6 +530,14 @@ the weapon's TYPE records, so one call's EAT-17 cannot look different from anoth
   weapon's own stratagem. With `pod` its rack holds the pod's items (written at mission start, after the clone and before
   the presentation). The capture and `modify` are a support delivery's: exactly that rack's launchers, each configured on
   its own records; `impact_explosion` converts each launcher's own rockets.
+- **`modify.direct_damage`** (2026-10-07, development; **not live-proven**): the damage of each rocket's direct hit, a
+  reviewed override of the donor's own round (`domains/direct_damage.lua`, from `scripts/research_direct_damage.py`).
+  The EAT-17's round (2000 / 2000, DamageInfo 227) has one: `500` = 500 / 500 (DamageInfo 238, AP 6/5/4/0, no status).
+  Each converted rocket's own DamageInfo copy (its hit record +0x0C) is changed in the same transaction as its impact
+  explosion; its penetration copy (+0x18) is kept, and neither DamageInfo row nor the rocket's row is ever written.
+  Requires `impact_explosion`; refused with `round`; carried by the clone, its pod items and the donor fallback, and
+  mirrored by every compatible Runtime on its own copy. Part of the registry hash. Example:
+  `modify={impact_explosion='Orbital Gas Strike',direct_damage=500}`.
 - **`presentation`:** what the carrier weapon shows on its pickup prompt, map label and weapon panel. Default: the
   custom stratagem's `name` and `icon`. `'donor'` keeps the donor's own. A Runtime text the game cannot show, or an icon
   family that is not loaded and exact, is never written: the donor's own is borrowed and the log says so.
