@@ -1099,7 +1099,9 @@ function M.register(spec,owner)
     if delivery~='runtime'then exclude[#exclude+1]=delivery.stratagem end
     local definition={id=id,owner=owner,label=name_cased,texts=t,icon=icon,code=spec.code,code_values=values,
         code_text=calldown.text(values),cooldown=cooldown,uses=spec.uses,traits=M.traits_of(spec.traits),
-        selection=spec.selection=='carrier'and'carrier'or nil,
+        selection=(spec.selection=='carrier'or spec.selection==nil and M.carrier_mode_all and M.carrier_mode_all())
+            and'carrier'or nil,
+        selection_given=spec.selection,
         policy=spec.carrier,assets=assets,delivery=delivery,
         exclude=exclude,callbacks={},kind=kind,sentry=sentry,eagle=eagle,orbital=orbital,pelican=pelican,
         group=group,group_source=group_source,alloc_policy=policy,
@@ -1429,6 +1431,50 @@ local function expendable_pass(world,present,list,ids,who,lobby)
     return out
 end
 -- quiet: a feasibility probe (nothing logged, nothing of the ship's log state changed).
+-- THE CARRIER-MODE SWITCH (development, 2026-10-07: the user's request to test every custom stratagem in the
+-- carrier-in-slot mode at once; the CarrierModeEverywhere test mod calls hd2.custom_stratagem.carrier_mode_all(true)).
+-- On: every custom stratagem that does not name its selection takes selection = 'carrier' (one naming 'token' keeps
+-- the token); off: back to the token. Applied aboard the ship only (a change during a mission waits for the ship: its
+-- slots' mode must not change under it); new registrations follow it. Part of the registry hash, so a lobby whose
+-- players differ is reported (custom stratagems disabled on every machine, the existing rule). Slots picked in the
+-- other mode stay in it until re-picked (a carrier slot whose definition is back to the token is refused, locked).
+do
+    local switch={on=false,wanted=false}
+    function M.carrier_mode_all()return switch.on end
+    local function apply()
+        local n=0
+        for _,d in ipairs(order)do
+            if d.selection_given==nil then
+                d.selection=switch.on and'carrier'or nil
+                n=n+1
+            end
+        end
+        return n
+    end
+    function M.set_carrier_mode_all(on,why)
+        switch.wanted=on==true
+        if switch.wanted==switch.on then return true end
+        local world=world_module.open()
+        local game=world and world_module.game_state(world)
+        if game and(game.mission or game.name=='PrepareMission'or game.name=='Mission')then
+            log(('CARRIER MODE FOR EVERY CUSTOM STRATAGEM: %s requested (%s): applied back aboard the ship'):format(
+                switch.wanted and'ON'or'OFF',tostring(why)))
+            return false
+        end
+        switch.on=switch.wanted
+        local n=apply()
+        log(('CARRIER MODE FOR EVERY CUSTOM STRATAGEM: %s (development; %s): %d custom stratagem%s registered so far, '
+            ..'and every one registered later, %s; one naming its selection keeps it. Re-pick your custom slots: a slot '
+            ..'picked in the other mode stays in it'):format(switch.on and'ON'or'OFF',tostring(why),n,n==1 and''or's',
+            switch.on and'pick their CARRIER itself into the slot (the carrier-in-slot mode)'or'pick the token again'))
+        return true
+    end
+    -- Every ship step: a change requested during a mission, applied aboard the ship.
+    function M.carrier_mode_step()
+        if switch.wanted~=switch.on then M.set_carrier_mode_all(switch.wanted,'requested earlier')end
+    end
+    function M.reset_carrier_mode_for_tests()switch={on=false,wanted=false}end
+end
 -- The carrier-in-slot probe's pins: {[definition id] = the stable id all its carrier slots hold} (none when they differ).
 function M.probe_pins()
     local out={}
@@ -1594,7 +1640,7 @@ do
     -- What can change the registry hash after registration: the Mod Options level of an expendable definition (none for
     -- every other definition, so their hash is computed exactly as before).
     local function dynamic_stamp()
-        local parts={#order}
+        local parts={#order,'carrier_mode_all='..tostring(M.carrier_mode_all and M.carrier_mode_all())}
         for _,d in ipairs(order)do
             if d.kind=='expendable'and type(d.delivery.level)~='string'then parts[#parts+1]=d.id..'='..level_value(d.delivery.level)end
             if d.kind=='expendable'and d.delivery.model and type(d.delivery.model_use)~='string'then
@@ -1618,14 +1664,15 @@ do
             local exclude={}
             for _,name in ipairs(d.exclude or{})do exclude[#exclude+1]=name end
             table.sort(exclude)
-            -- A requested carrier group (and its slots) only when given: a definition without one keeps its line.
+            -- A requested carrier group (and its slots) only when given: a definition without one keeps its line. The
+            -- same for the carrier-in-slot selection (named, or the development switch): a token definition keeps it.
             local group=policy.group~=nil and('|group='..tostring(policy.group)..(policy.slots and(',slots='
                 ..tostring(policy.slots))or''))or''
             list[#list+1]={id=d.id,policy=table.concat({tostring(policy.beacon),table.concat(policy.prefer_families or{},'/'),
                 table.concat(policy.allow_families or{},'/'),table.concat(policy.exclude or{},'/'),d.eagle and'eagle'or''},'|')
                 ..group,
                 family=table.concat({d.kind,d.delivery~='runtime'and d.delivery.stratagem or'',table.concat(exclude,'/'),
-                    payload_signature(d)},'|')}
+                    payload_signature(d)},'|')..(d.selection=='carrier'and'|selection=carrier'or'')}
         end
         mpstate.registry,mpstate.registry_stamp=protocol.registry_hash(list),stamp
         return mpstate.registry
@@ -5224,7 +5271,8 @@ local function tick(dt)
     end
     if not in_mission then
         if game then
-            ship_step(world,v);M.probe_move_step(world);availability_step(world,v);reservations_step(world,v)
+            M.carrier_mode_step();ship_step(world,v);M.probe_move_step(world);availability_step(world,v)
+            reservations_step(world,v)
             mp_ship_step(world)
         end
         return

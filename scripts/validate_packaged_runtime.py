@@ -4292,6 +4292,28 @@ def _probe_scenario():
 
 
 EXTRAS['proof-carrier-slot-probe'] = {'after': _probe_scenario(), 'readOnly': True}
+# CarrierModeEverywhere 0.1.0 (the carrier-mode switch, r42): it loads from the archive and turns the switch on aboard the
+# ship (in a mission it waits for the ship); nothing written.
+PROOF_CARRIER_MODE_EVERYWHERE = r"""
+return function(frame,watches,counts,lines)
+ local results={}
+ local function step(name,ok,detail)results[#results+1]={name=name,passed=ok==true,detail=detail}end
+ local function count(text)local n=0;for _,line in ipairs(lines)do if line:find(text,1,true)then n=n+1 end end;return n end
+ for _=1,60 do frame()end
+ local custom=require('hd2runtime/runtime/custom_stratagems')
+ local world=assert(require('hd2runtime/runtime/event_world').open())
+ local state=require('hd2runtime/runtime/event_world').game_state(world)
+ local waits=state and(state.mission or state.name=='PrepareMission'or state.name=='Mission')
+ step('the test mod loads from the archive and turns the carrier-mode switch on (in a mission: requested, applied back '
+  ..'aboard the ship); nothing written',count('CarrierModeEverywhere 0.1.0 CARRIER MODE EVERYWHERE TEST BUILD')==1
+  and type(require('hd2runtime/api/hd2').custom_stratagem.carrier_mode_all)=='function'
+  and(waits and custom.carrier_mode_all()==false and count('CARRIER MODE FOR EVERY CUSTOM STRATAGEM: ON requested')==1
+  or not waits and custom.carrier_mode_all()==true and count('CARRIER MODE FOR EVERY CUSTOM STRATAGEM: ON (development')==1)
+  and counts.writes==0,table.concat(lines,' | '):sub(-400))
+ return results
+end
+"""
+EXTRAS['proof-carrier-mode-everywhere'] = {'after': PROOF_CARRIER_MODE_EVERYWHERE, 'readOnly': True}
 # Pelican CAS 0.7.1 (proof/PelicanCasExplosive: the aim point, the 15 mrad spread and the explosive rounds in Mod Options;
 # the same resource as proof/PelicanCasExample) and the two Pelican support stratagems split out of ExtraStratagems 0.1.1
 # (proof/PelicanEmsExample, proof/PelicanGasExample): the same custom stratagem checks as the other examples.
@@ -4719,6 +4741,7 @@ SCENARIOS = {
     'example-eat23': lambda: proof('EAT23Example'),
     'example-shredder-silo': lambda: proof('ShredderSiloExample'),
     'proof-carrier-slot-probe': lambda: proof('CarrierSlotProbe'),
+    'proof-carrier-mode-everywhere': lambda: proof('CarrierModeEverywhere'),
     'example-hmg-sentry': lambda: proof('HmgSentryExample'),
     'example-eagle-stun-rocket-pods': lambda: proof('EagleStunRocketPodsExample'),
     'custom-stratagem-multiplayer': lambda: proof('HmgSentryExample'),

@@ -64,6 +64,13 @@ local function panel_call(name)
     return p[name]()
 end
 function M.focus_next()return panel_call('focus_next')end
+-- Development (2026-10-07; the CarrierModeEverywhere test mod): every custom stratagem that does not name its selection
+-- takes the carrier-in-slot mode (true) or the token again (false). Applied aboard the ship; part of the registry hash
+-- (every player of a lobby needs the same). Returns true when applied now, false when it waits for the ship.
+function M.carrier_mode_all(on)
+    assert(type(on)=='boolean','carrier_mode_all takes true or false')
+    return custom.set_carrier_mode_all(on,'hd2.custom_stratagem.carrier_mode_all')
+end
 function M.select_focused()return panel_call('press')end
 function M.undo()return panel_call('cancel')end
 return M

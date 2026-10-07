@@ -247,6 +247,27 @@ everywhere else.
     stratagem (`TEAMMATE HUD NATIVE`): the game's own card shows it, with its own cooldown band. It still draws over a
     token card and over a carrier that is not presented there.
 
+#### The carrier-mode switch (development; r42, offline only)
+
+`hd2.custom_stratagem.carrier_mode_all(true|false)` puts every custom stratagem that does not name its `selection`
+in the carrier-in-slot mode (`true`) or back to the token (`false`), so one session shows which custom stratagems
+work in that mode. The test mod `proof/CarrierModeEverywhere` calls it with `true` while it is installed.
+
+- A definition naming `selection = 'token'` keeps the token. One naming `'carrier'` keeps the carrier. Definitions
+  registered after the call follow it.
+- It is applied aboard the ship only. A call during a mission returns `false` and is applied back aboard the ship
+  (`CARRIER MODE FOR EVERY CUSTOM STRATAGEM`), so a mission's slots never change mode under it.
+- A slot picked in the other mode stays in it until it is picked again. A carrier slot whose definition is back to
+  the token is refused in the mission (locked, never called).
+- It is part of the registry hash: a definition in the carrier mode adds `|selection=carrier` to its line; a token
+  definition's line is unchanged. With several players, every player needs the same switch state, or custom
+  multiplayer reports the mismatch.
+- Nothing else changes per kind. The token mode already converts the slot to the carrier at mission start, so the
+  payload paths (the redirect, the conversions, the clones) have always run on a slot that holds the carrier. The
+  carrier mode puts it there at the pick instead. What can differ per kind is the pick's guards (`TOKEN_LIMITED`,
+  `TOKEN_VEHICLE`, `TOKEN_NOT_SELECTABLE` on the carrier itself) and the native uses (`SPECIAL_USES`, `USES_DIFFER`,
+  `SHARED_COOLDOWN`).
+
 ### `code`
 
 A code **equal** to a vanilla stratagem's own code is refused at registration, naming that stratagem: the game would

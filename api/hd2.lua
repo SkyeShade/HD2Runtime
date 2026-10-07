@@ -305,7 +305,8 @@ local custom_stratagem=require('hd2runtime/api/custom_stratagem')
 M.custom_stratagem={register=custom_stratagem.register,status=custom_stratagem.status,
     describe=custom_stratagem.describe,groups=custom_stratagem.groups,
     instance_of=custom_stratagem.instance_of,verbose=custom_stratagem.verbose,focus_next=custom_stratagem.focus_next,
-    select_focused=custom_stratagem.select_focused,undo=custom_stratagem.undo}
+    select_focused=custom_stratagem.select_focused,undo=custom_stratagem.undo,
+    carrier_mode_all=custom_stratagem.carrier_mode_all}
 -- Who an associated autonomous entity's kills credit (development API, solo host; api/ownership.lua).
 M.ownership={credit_to_player=require('hd2runtime/api/ownership').credit_to_player}
 -- Mods needing a newer HD2Runtime (api/compatibility.lua): their SDK wrapper reports here before failing closed.
