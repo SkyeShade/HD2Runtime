@@ -89,7 +89,7 @@ class LiveEvidenceTests(unittest.TestCase):
             'pending': ['backpack_shield_zone_armor',
                 'custom_stratagem_sentry_multiplayer', 'custom_stratagem_uses',
                 'eagle_component_fields',
-                'enemy_spawn_weights',
+                'enemy_spawn_weights', 'event_explosion',
                 'orbital_pattern_fields', 'projectile_homing', 'projectile_more_donors', 'sentry_component_fields', 'stratagem_call_in_time', 'support_charge_level_rows',
                 'support_overcharge_explosion_rows', 'weapon_fire_rate_wind_up', 'weapon_presentation_traits',
                 'weapon_sound_template']})

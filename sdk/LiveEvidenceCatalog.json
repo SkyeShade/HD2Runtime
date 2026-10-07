@@ -108,6 +108,7 @@
     "custom_stratagem_uses",
     "eagle_component_fields",
     "enemy_spawn_weights",
+    "event_explosion",
     "orbital_pattern_fields",
     "projectile_homing",
     "projectile_more_donors",
@@ -643,6 +644,24 @@
     "the inferred slot labels support, held_item and unknown (slot_proven stays false)",
     "death and reinforce transitions (not reported)",
     "remote players (not read; unproven)"
+   ]
+  },
+  "event_explosion": {
+   "status": "pending",
+   "domain": "events",
+   "fields": [
+    "explosion"
+   ],
+   "scope": "The explosion event (runtime/event_sources.lua explosions): this machine's explosion queue read once per tick, each request queued after the frame's kick reported once with its catalogued name, position, source, owner and credited player, and Runtime's own requests reported from the request with their cause. Code-proven offline (research/event-explosions-F5FEE03DCFDB.json: kick min(count, 8) and gather pinned; the seven snapshots hold a drained queue; tests/test_event_sources.py, tests/test_event_scripting.py).",
+   "tests": [],
+   "acknowledgementRemoved": null,
+   "notPromoted": [
+    "explosions the game requests and detonates before the frame's kick (engine callbacks; when the network impact handlers run is not traced)",
+    "other players' explosions on a client, and what each machine's queue holds in multiplayer"
+   ],
+   "nextTests": [
+    "an explosion event test, solo: a mod logging every explosion event (name, observed, source_name, local_player, position) while the player fires the R-36 Eruptor, throws a grenade, calls an Eagle 500kg and dies near a Hellbomb; each shot logs one explosion named R-36 Eruptor with local_player true at the impact, the grenade and the 500kg log once each (name nil until catalogued), and hd2.explosions.spawn('Hellbomb') logs once with observed = request and the mod's cause",
+    "the same test with two players: what the client's log shows for the host's Eruptor shots and the host's for the client's"
    ]
   },
   "weapon_fire_rate_modes_native": {

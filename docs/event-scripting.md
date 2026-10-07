@@ -48,6 +48,7 @@ and returns a handle with `state = 'rejected'`; it never aborts your mod.
 | `entity_spawned` / `entity_died` / `entity_killed` | Anything with health appears or dies; `entity_killed` when the game credits a player. |
 | `entity_damaged` / `player_damaged` / `player_healed` | Health changes (summed per tick). |
 | `player_fired` / `player_kill_credited` | The local player's shots or credited kills grew, per weapon source. |
+| `explosion` | An explosion is about to detonate on this machine (`name`, `position`, who it credits). Not live-tested. |
 | `key_down` / `key_up` | A mod keybind. |
 
 ## 2. How long an event payload lives
@@ -191,6 +192,25 @@ a callback still runs in the same mission.
 
 Every action belongs to the calling mod, carries a cause (the event it reacted to), and is refused past four
 mod-caused links. A refusal never raises: the returned handle has `status = 'refused'`, a `code` and a `reason`.
+
+### Watching explosions
+
+```lua
+hd2.events.on('explosion', function(event)
+    if event.cause.mod == mod.id then return end             -- not the ones this mod requested
+    if event.name == 'R-36 Eruptor' and event.local_player then
+        mod:log('my Eruptor shell detonates at ' .. tostring(event.position))
+    end
+end)
+```
+
+- `name` names the explosion type (a weapon's own explosion is named by its weapon), or is `nil` when uncatalogued.
+  `source_name` names what requested it when the catalogue knows the entity (the R-36 Eruptor for its shell), and
+  `player` / `local_player` the player the game credits.
+- `observed = 'queue'`: read from the game's explosion queue (the game detonates it in its next update);
+  `'request'`: requested by Runtime, with the requesting mod as `cause`.
+- Explosions the game requests and detonates within one update before Runtime looks are not seen (see
+  [events.md](events.md#explosions)). Not live-tested.
 
 ### Explosions
 
