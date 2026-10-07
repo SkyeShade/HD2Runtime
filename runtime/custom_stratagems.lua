@@ -2163,12 +2163,13 @@ end
 -- natively by any lobby member (this player's saved loadout, every stratagem record this machine reads) and not the
 -- carrier weapon of another expendable custom stratagem the lobby selects (the synced picks; solo: this player's own).
 -- Unavailable: its panel tile warns (who took the candidates), it cannot be picked, and when it is picked it UNPICKS
--- ITSELF (runtime/stratagem_selector.lua drop_virtual: the slot is plainly the token again; nothing written). Its
+-- ITSELF (runtime/stratagem_selector.lua drop_virtual: the slot is plainly the token again; nothing written), unless
+-- its slot holds its carrier itself (the carrier-in-slot probe): that slot stays selected (moved or locked). Its
 -- carrier stratagem refused by the ship allocation makes it unavailable too. Re-evaluated every M.AVAILABILITY_EVERY s
 -- aboard the ship; each transition logged once; never in a mission (the mission start freezes it: an unavailable
 -- definition is simply not converted).
 M.AVAILABILITY_EVERY=1
-local avail={state={},text={},at=-math.huge,carrier={}}
+local avail={state={},text={},at=-math.huge,carrier={},kept={}}
 -- The native picks this machine reads, and who made each: present {[stable id] = true}, who {[stable id] = {tags}},
 -- and this player's virtual slots ({[slot] = id}).
 local function lobby_picks(world,ids)
@@ -2184,9 +2185,18 @@ local function lobby_picks(world,ids)
     -- The semantic picks (a custom slot's lagging saved entry is never a native pick of this player).
     local set=virtual_picks(world)
     for k,id in ipairs(ids)do if set[k-1]==nil then add(id,'your loadout')end end
-    for _,r in ipairs(slots.records(world)or{})do
-        if not r['local']then
-            for _,e in ipairs(r.entries or{})do add(loadout.id_of(world,e.type),'peer '..tostring(r.peer))end
+    local v=sync.view()
+    if v and v.status=='enabled'and v.table then
+        -- With custom multiplayer, another player's slot the synced table names as custom is its custom slot (its token,
+        -- or with the carrier-in-slot probe its carrier), never a native pick: the ship allocation's own set
+        -- (M.other_natives). (The 2026-10-07 report: the host's Pelican carriers counted as its native picks here, so
+        -- this view took the client's own carrier for another tile and unpicked the client's Pelican.)
+        M.other_natives(world,v,function(peer,id)add(id,'peer '..peer)end)
+    else
+        for _,r in ipairs(slots.records(world)or{})do
+            if not r['local']then
+                for _,e in ipairs(r.entries or{})do add(loadout.id_of(world,e.type),'peer '..tostring(r.peer))end
+            end
         end
     end
     return present,who,set
@@ -2270,7 +2280,8 @@ do
     end
     -- The other players' NATIVE picks aboard the ship with custom multiplayer (r41): per player (other_loadouts), every slot
     -- the synced lobby table names as that player's custom slot excluded. Returns the set of stable ids, a key, the sources.
-    function M.other_natives(world,v)
+    -- on_pick(peer, stable id), optional: called for each native pick (who made it).
+    function M.other_natives(world,v,on_pick)
         local out,parts,sources={},{},{}
         if not(v and v.status=='enabled'and v.table)then return out,'',''end
         local seen,peers=other_loadouts(world,v)
@@ -2279,7 +2290,10 @@ do
             sources[#sources+1]=peer..' from '..(l and l.source or'nowhere (nothing seen yet)')
             for k,kind in ipairs(l and l.types or{})do
                 local id=not picks[k-1]and loadout.id_of(world,kind)or nil
-                if id then out[id]=true;parts[#parts+1]=peer..':'..id end
+                if id then
+                    out[id]=true;parts[#parts+1]=peer..':'..id
+                    if on_pick then on_pick(peer,id)end
+                end
             end
         end
         table.sort(parts)
@@ -2350,19 +2364,24 @@ local function taken_by(a,id,who)
     return out
 end
 -- A quiet policy allocation of every registered definition that takes a policy carrier (the ship's group view; no
--- line logged), cached for M.REVALIDATE_EVERY s per native-pick set.
+-- line logged), cached for M.REVALIDATE_EVERY s per native-pick set and pins. pins: {[definition id] = stable id}, the
+-- carriers the carrier-in-slot probe's slots hold (as the ship allocation's: a held carrier is never given to a tile
+-- nobody picked).
 local group_view={key=nil,at=-math.huge}
-local function group_allocation(world,present,players)
-    local keys={}
+local function group_allocation(world,present,players,pins)
+    pins=pins or{}
+    local keys,pin_keys={},{}
     for id in pairs(present)do keys[#keys+1]=tostring(id)end
     table.sort(keys)
-    local key=table.concat(keys,',')..'|'..players
+    for id,stable in pairs(pins)do pin_keys[#pin_keys+1]=id..'='..tostring(stable)end
+    table.sort(pin_keys)
+    local key=table.concat(keys,',')..'|'..players..'|'..table.concat(pin_keys,',')
     if group_view.key==key and clock<group_view.at+M.REVALIDATE_EVERY then return group_view.a end
     local definitions={}
     for _,d in ipairs(order)do
         if d.kind~='expendable'then
             definitions[#definitions+1]={id=d.id,label=d.label,token=M.TOKEN,policy=d.alloc_policy or d.policy,
-                eagle=d.eagle~=nil,filter=d.filter}
+                eagle=d.eagle~=nil,filter=d.filter,pin=pins[d.id]}
         end
     end
     local ok,a=pcall(allocator.allocate_lobby,world,definitions,{present=present,players=players},global_exclude())
@@ -2461,6 +2480,8 @@ local function availability_step(world,v)
     local present,who,set=lobby_picks(world,ids)
     local selected={}
     for _,id in pairs(set)do selected[id]=true end
+    -- The carriers held in carrier slots (the ship allocation's pins: with custom multiplayer every player's).
+    local pins=(v and v.status=='enabled'and v.table)and M.ship_pins(world,v)or M.probe_pins()
     local source={}
     if v and v.status=='enabled'then source=sync.table_ids(v.table)
     else for id in pairs(selected)do source[#source+1]=id end;table.sort(source)end
@@ -2522,7 +2543,12 @@ local function availability_step(world,v)
             text=reason or(('AVAILABLE: its carrier weapon is %s%s (%s)'):format(weapon.weapon,alloc.assignments[d.id]
                 and''or' when it is picked',mode))
         else
-            local a=group_allocation(world,present,players)
+            -- A selected definition: the ship allocation's own verdict when it has one (the allocation its slot follows:
+            -- the synced table's ids with every player's pins); a tile nobody picked: the view of every registered one.
+            local a=ship.alloc
+            if not(selected[d.id]and a and(a.assignments[d.id]or a.refused[d.id]))then
+                a=group_allocation(world,present,players,pins)
+            end
             local x=a and a.assignments[d.id]
             if x then
                 text=('AVAILABLE: its carrier is %s (group %s%s)'):format(x.carrier,tostring(d.group),d.slots and
@@ -2535,11 +2561,30 @@ local function availability_step(world,v)
             end
         end
         avail.state[d.id]=reason
+        if not reason then avail.kept[d.id]=nil end
         if text and avail.text[d.id]~=text then
             avail.text[d.id]=text
             log(('AVAILABILITY (%s): %s'):format(d.id,text))
         end
+        -- A carrier slot is never unpicked: unpicking leaves the carrier itself in the slot, a plain native pick that
+        -- calls as the carrier's own (the 2026-10-07 report: a client's Gas Pelican called as its Orbital Smoke Strike).
+        -- It stays selected: it moves once its allocation gives it a carrier again (probe_move_step), else the mission
+        -- locks it (carrier_in_slot: never ready, never called).
+        local held={}
         if reason and selected[d.id]then
+            local V=selector.virtual_slots()
+            for slot,e in pairs(V and V.slots or{})do if e.definition==d.id and e.carrier then held[#held+1]=slot end end
+            table.sort(held)
+        end
+        if#held>0 then
+            if avail.kept[d.id]~=reason then
+                avail.kept[d.id]=reason
+                log(('SHIP (%s): KEPT loadout slot%s %s (not unpicked): %s. The slot%s its carrier itself: unpicked it '
+                    ..'would be that carrier\'s own call; it moves once a carrier is free for it, else it is LOCKED in the '
+                    ..'mission (never called)'):format(d.id,#held==1 and''or's',table.concat(held,', '),reason,
+                    #held==1 and' holds'or's hold'))
+            end
+        elseif reason and selected[d.id]then
             local dropped=selector.drop_virtual(d.id,reason)
             if#dropped>0 then
                 ship.key=nil
@@ -5626,7 +5671,7 @@ function M.reset_for_tests()
     defs,order,cache,ship,life,clock={},{},{},{key=nil,at=-1,line=nil,status={}},{busy={},due=nil,refused={},retry_at=0},0
     verbose=false;eagles.verbose=false
     mp_ship.at=-math.huge
-    avail={state={},text={},at=-math.huge,carrier={}}
+    avail={state={},text={},at=-math.huge,carrier={},kept={}}
     group_view={key=nil,at=-math.huge}
     if loop then loop.cancel();loop=nil end
     if landing then landing.cancel();landing=nil end

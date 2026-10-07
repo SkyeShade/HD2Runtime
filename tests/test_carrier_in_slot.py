@@ -822,6 +822,84 @@ assert(count('the other players\' native picks ('..THEM..' from the loadout scre
 return 'ok'
 ''')
 
+    # The two players of the 2026-10-07 report (the client's Gas Pelican became its Orbital Smoke Strike): custom
+    # multiplayer, the other player's stratagem record here.
+    MP_SETUP = r'''
+rawset(_G,'ModOptionsMenu',MENU)
+local channel=require('hd2runtime/runtime/peer_channel');channel.reset_for_tests()
+local sync=require('hd2runtime/runtime/custom_mp_sync');sync.reset_for_tests()
+local VERSION=require('hd2runtime/domains/metadata').version
+assert(loadstring(GAS_ADDON,'@'..GAS_RESOURCE))()
+local ME,THEM='1111222233334444','5555666677778888'
+local function remote(seq,slots)
+    W.lobby_values[THEM]=('hd2rt/1;%s;%s;%d;%s'):format(VERSION,custom.registry_hash(),seq,slots)
+end
+W.players({{peer=ME,avatar=100},{peer=THEM}},ME)
+W.lobby({members={ME,THEM},host=ME})
+remote(1,'-,-,-,-')
+tick(40)
+ship({})
+tick(120)
+assert(count('custom multiplayer ENABLED')>=1,lines('CUSTOM MP'))
+-- The other player's stratagem record here: entries (type, granted) after its granted one.
+local function their_record(list)
+    local h=W.stratagem_hud({peer=LOCAL,slots={{type=22,code={}}},record={{type=124,granted=1},{type=22,granted=0}}})
+    local R=require('hd2runtime/domains/stratagem_slots').record
+    local other=h.record+R.stride
+    W.write(other,W.u32(0x77778888)..W.u32(0x55556666))
+    table.insert(list,1,{124,1})
+    for k,e in ipairs(list)do
+        local at=other+R.state+R.entries+(k-1)*R.entryStride
+        W.write(at,W.u32(e[1]));W.write(at+4,W.u32(4294967295));W.write(at+9,string.char(e[2]))
+    end
+    W.write(other+R.state+R.entryCount,W.u32(#list))
+    W.write(h.record+R.count,W.u32(2))
+end
+'''
+
+    def test_another_players_custom_carrier_slot_is_never_a_native_pick_for_the_availability(self):
+        # The report: the host's custom slots held their carriers (its Pelicans' orbitals); the availability view read
+        # them as the host's native picks, so it gave the client's own carrier to another tile and unpicked the client's
+        # Pelican. Now it reads the ship allocation's set: the other player's custom slot is never a native pick.
+        self.flow(self.MP_SETUP + r'''
+remote(2,'orbital_gas_barrage,-,-,-')
+tick(120)
+local name,stable=lines('CUSTOM MP CARRIERS (aboard the ship, preview'):match('orbital_gas_barrage = (.-) %(stable id (%d+)%)')
+assert(name and stable,lines('CUSTOM MP CARRIERS'))
+local kind=require('hd2runtime/runtime/stratagem_loadout').type_of(world_module.open(),tonumber(stable))
+their_record({{kind,0},{130,0}})
+tick(200)
+assert(count('AVAILABILITY (orbital_gas_barrage): AVAILABLE: its carrier is '..name..' (group any_red)')==1
+    and count('AVAILABILITY (orbital_gas_barrage)')==1,lines('AVAILABILITY'))
+assert(count('picked natively: peer '..THEM)==0,lines('picked natively'))
+return 'ok'
+''')
+
+    def test_a_carrier_slot_with_no_carrier_left_is_kept_selected_never_left_a_native_carrier(self):
+        # Every red carrier of its group picked natively by the other player, its own carrier included: unavailable. A
+        # token slot unpicks itself (the plain token); a carrier slot would be left its carrier itself, callable as that
+        # carrier's own (the report's Orbital Smoke Strike): it stays selected (moved or, in the mission, locked).
+        self.flow(self.MP_SETUP + r'''
+select_into(0)
+SCREEN.set('selecting',false);tick(8)
+local selector=require('hd2runtime/runtime/stratagem_selector')
+local V=selector.virtual_slots()
+assert(V and V.slots[0]and V.slots[0].carrier,lines('SELECTED'))
+local cid=V.slots[0].token
+their_record({{125,0},{109,0},{106,0},{127,0}})
+tick(200)
+assert(count('AVAILABILITY (orbital_gas_barrage): UNAVAILABLE: no free member of its carrier group any_red')==1,
+    lines('AVAILABILITY'))
+assert(count('UNPICKED')==0,lines('UNPICKED'))
+assert(count('SHIP (orbital_gas_barrage): KEPT loadout slot 0 (not unpicked): UNAVAILABLE')==1,lines('SHIP'))
+V=selector.virtual_slots()
+assert(V and V.slots[0]and V.slots[0].carrier and V.slots[0].token==cid and V.slots[0].definition=='orbital_gas_barrage')
+assert(count('stratagem selector MOVED')==0,lines('MOVED'))
+tick(200)
+assert(count('KEPT loadout slot')==1,'logged once')
+return 'ok'
+''')
+
     def test_a_slot_that_could_not_move_is_swapped_at_launch(self):
         # 0.3.0, the launch fallback: the native pick of its carrier is recorded aboard the ship, but the slot does not
         # move before the launch (held here: the move's settle never elapses, as when the player readies at once).
