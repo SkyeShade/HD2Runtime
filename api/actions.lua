@@ -240,7 +240,7 @@ local function fire(action,target)
     if not allowed then return refuse(action,code,reason)end
     local p=action.position
     local ok,why=world_module.explode(allowed.world,{type=target.type,x=p.x,y=p.y,z=p.z,source=allowed.avatar,
-        owner=allowed.avatar,peer_lo=allowed.peer_lo,peer_hi=allowed.peer_hi})
+        owner=allowed.avatar,peer_lo=allowed.peer_lo,peer_hi=allowed.peer_hi,cause=action.cause})
     if not ok then
         local code_text=tostring(why):match('^([A-Z_]+):')or'EXPLOSION_UNAVAILABLE'
         return refuse(action,code_text,tostring(why):gsub('^[A-Z_]+: ',''))

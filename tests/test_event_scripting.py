@@ -439,8 +439,11 @@ assert(#W.runtime.explosions==1 and #seen==0)
 tick()                                   -- the next poll reports the request, then finds it queued: not twice
 assert(#seen==1,#seen)
 local e=seen[1]
-assert(e.observed=='request'and e.name=='R-36 Eruptor'and e.position.x==5 and e.local_player and e.owner_id==100)
+assert(e.observed=='request'and e.name=='weapon/r36_eruptor/impact'and e.position.x==5 and e.local_player
+    and e.owner_id==100,tostring(e.name))
 assert(e.cause.source=='mod'and e.cause.mod=='mods/t/boom'and e.cause.kind=='explosion'and e.cause.depth==1)
+assert(type(e.cause.action)=='string','the spawn passes its action cause: '..tostring(e.cause.action))
+assert(hd2.explosions.describe(e.name),'the event name is a catalogue name')
 assert(e.cause.parent.event=='entity_died'and e.cause.parent.cause.source=='native')
 tick();W.explosion_update();tick()
 assert(#seen==1,'the queued copy of a Runtime request is never reported')

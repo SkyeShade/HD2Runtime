@@ -410,7 +410,7 @@ tick()
 assert(#seen==1,#seen)
 local e=seen[1]
 assert(e.event=='explosion'and e.observed=='queue'and e.cause.source=='native')
-assert(e.name=='R-36 Eruptor','the catalogued explosion type 158: '..tostring(e.name))
+assert(e.name=='weapon/r36_eruptor/impact','the catalogued explosion type 158: '..tostring(e.name))
 assert(e.position.x==1 and e.position.y==2 and e.position.z==0.5)
 assert(e.source_id==900 and e.source_type==ERUPTOR and e.source_name=='R-36 Eruptor',tostring(e.source_name))
 assert(e.owner_id==901 and e.owner_type==AVATAR_TYPE)
@@ -421,7 +421,7 @@ tick();assert(#seen==1)
 -- The game update processes it; nothing new.
 W.explosion_update();tick();assert(#seen==1)
 -- Another player's credited explosion of an uncatalogued type.
-W.request_explosion(boom(2,50,OTHER));tick()
+W.request_explosion(boom(2,12,OTHER));tick()
 assert(#seen==2 and seen[2].name==nil and not seen[2].local_player and seen[2].creditor_peer==OTHER)
 assert(seen[2].player and seen[2].player.peer==OTHER)
 W.explosion_update()
@@ -453,17 +453,20 @@ return 'ok'
     def test_explosion_names_come_from_a_pluggable_lookup(self):
         self.lua(r"""
 local names=require('hd2runtime/runtime/explosion_names')
-assert(names.name(158)=='R-36 Eruptor'and names.name(242)=='NUX-223 Hellbomb'and names.name(293)=='Cyborg Production Unit')
-assert(names.name(50)==nil and names.name('158')==nil)
-names.set_resolver(function(kind)if kind==50 then return 'Test Blast'end;if kind==51 then return {name='Table Blast'}end end)
-assert(names.name(50)=='Test Blast'and names.name(51)=='Table Blast')
-assert(names.name(158)=='R-36 Eruptor','a type the resolver does not name keeps its default')
+assert(names.name(158)=='weapon/r36_eruptor/impact'and names.name(242)=='stratagem/nux223_hellbomb/behavior'
+    and names.name(293)=='entity/cyborg_production_unit/ability',tostring(names.name(242)))
+assert(names.name(12)==nil and names.name('158')==nil)
+-- Every catalogue entry names its own type, so the event's name is what hd2.explosions.describe takes.
+for id,entry in pairs(require('hd2runtime/domains/explosion_catalogue').explosions)do assert(names.name(entry.type)==id,id)end
+names.set_resolver(function(kind)if kind==12 then return 'Test Blast'end;if kind==13 then return {name='Table Blast'}end end)
+assert(names.name(12)=='Test Blast'and names.name(13)=='Table Blast')
+assert(names.name(158)=='weapon/r36_eruptor/impact','a type the resolver does not name keeps its default')
 names.set_resolver(function()error('broken')end)
-assert(names.name(158)=='R-36 Eruptor'and names.name(50)==nil)
+assert(names.name(158)=='weapon/r36_eruptor/impact'and names.name(12)==nil)
 assert(count('explosion name resolver failed')==1)
 names.name(158);assert(count('explosion name resolver failed')==1,'logged once')
 names.set_resolver(nil)
-assert(names.name(50)==nil)
+assert(names.name(12)==nil)
 return 'ok'
 """)
 

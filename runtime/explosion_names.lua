@@ -1,9 +1,10 @@
 -- Explosion type -> name for event payloads (the `explosion` event, runtime/event_sources.lua). Internal: mods see the
 -- name, never the raw ExplosionType.
 --
--- The default lookup names the explosion types domains/event_natives.lua catalogues: each weapon's own explosion
--- (explosion.weapons: the type the weapon's shell requests, named by its weapon) and the named explosions
--- (explosion.named: the Hellbombs, the Cyborg Production Unit). A name names the explosion TYPE: another requester of
+-- The default lookup names every type of the explosion catalogue (domains/explosion_catalogue.lua, docs/explosions.md)
+-- by its catalogue name, the name hd2.explosions.describe / spawn and hd2.explosion take ('weapon/r36_eruptor/impact',
+-- 'stratagem/nux223_hellbomb/behavior'); each type has one entry. Types the catalogue leaves out fall back to the names
+-- domains/event_natives.lua gives (explosion.weapons by weapon, explosion.named). A name names the explosion TYPE: another requester of
 -- the same type (a mission objective requesting 242, a Runtime custom projectile using a donor's explosion) gets the
 -- same name; who requested it is the event's source, owner and creditor.
 --
@@ -11,6 +12,7 @@
 -- {name = ...}, or nil (the catalogue does not name it: the default answers). set_resolver(nil) restores the default.
 -- A resolver that raises or returns anything else is logged once and the default answers instead.
 local natives=require('hd2runtime/domains/event_natives')
+local catalogue=require('hd2runtime/domains/explosion_catalogue')
 local M={}
 
 local defaults
@@ -22,6 +24,9 @@ local function default_names()
         if defaults[item.type]==nil then defaults[item.type]=item.weapon end
     end
     for _,item in ipairs(X.named or{})do defaults[item.type]=item.name end
+    for id,entry in pairs(catalogue.explosions)do
+        if type(entry.type)=='number'then defaults[entry.type]=id end
+    end
     return defaults
 end
 function M.default(kind)return default_names()[kind]end

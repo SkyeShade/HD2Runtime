@@ -198,17 +198,20 @@ mod-caused links. A refusal never raises: the returned handle has `status = 'ref
 ```lua
 hd2.events.on('explosion', function(event)
     if event.cause.mod == mod.id then return end             -- not the ones this mod requested
-    if event.name == 'R-36 Eruptor' and event.local_player then
+    if event.name == 'weapon/r36_eruptor/impact' and event.local_player then
         mod:log('my Eruptor shell detonates at ' .. tostring(event.position))
     end
 end)
 ```
 
-- `name` names the explosion type (a weapon's own explosion is named by its weapon), or is `nil` when uncatalogued.
+- `name` is the explosion type's name in the explosion catalogue ([explosions.md](explosions.md)), the same name
+  `hd2.explosions.describe`, `hd2.explosions.spawn` and `hd2.explosion` take; `nil` for the types the catalogue leaves
+  unnamed.
   `source_name` names what requested it when the catalogue knows the entity (the R-36 Eruptor for its shell), and
   `player` / `local_player` the player the game credits.
 - `observed = 'queue'`: read from the game's explosion queue (the game detonates it in its next update);
-  `'request'`: requested by Runtime, with the requesting mod as `cause`.
+  `'request'`: requested by Runtime, with the requesting mod's action as `cause` (`cause.action` is the spawn's own
+  action id).
 - Explosions the game requests and detonates within one update before Runtime looks are not seen (see
   [events.md](events.md#explosions)). Not live-tested.
 

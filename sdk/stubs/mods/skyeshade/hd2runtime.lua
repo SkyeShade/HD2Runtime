@@ -3276,7 +3276,7 @@ local HD2Event_weapon_changed = {}
 
 ---An explosion this machine's game will detonate: a request seen in the game's explosion queue (the game processes it in its next update), or one Runtime requested (hd2.explosions.spawn). Requests the game queues and processes within one update before Runtime's next look are not seen: see docs/events.md#explosions. Not live-tested.
 ---@class HD2Event_explosion : HD2Event
----@field name string|nil The explosion type's catalogued name (a weapon's own explosion is named by its weapon: 'R-36 Eruptor'; 'NUX-223 Hellbomb'), or nil when uncatalogued. It names the explosion, not who caused it.
+---@field name string|nil The explosion type's name in the explosion catalogue (docs/explosions.md), the name hd2.explosions.describe / spawn and hd2.explosion take: 'weapon/r36_eruptor/impact', 'stratagem/nux223_hellbomb/behavior'; nil when uncatalogued. It names the explosion, not who caused it.
 ---@field position HD2Position Where it detonates (a read-only snapshot).
 ---@field observed "queue"|"request" 'queue': read from the game's explosion queue. 'request': requested by Runtime (its cause names the mod), reported from the request.
 ---@field source_id integer|nil The source entity the request names (a weapon for its shell, an explosive for itself), or nil.

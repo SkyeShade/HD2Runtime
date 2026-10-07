@@ -1009,7 +1009,7 @@
     {
      "name": "name",
      "type": "string|nil",
-     "doc": "The explosion type's catalogued name (a weapon's own explosion is named by its weapon: 'R-36 Eruptor'; 'NUX-223 Hellbomb'), or nil when uncatalogued. It names the explosion, not who caused it."
+     "doc": "The explosion type's name in the explosion catalogue (docs/explosions.md), the name hd2.explosions.describe / spawn and hd2.explosion take: 'weapon/r36_eruptor/impact', 'stratagem/nux223_hellbomb/behavior'; nil when uncatalogued. It names the explosion, not who caused it."
     },
     {
      "name": "position",
