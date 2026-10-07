@@ -392,6 +392,80 @@ return 'ok'
 ''')
 
 
+    def test_explosions_are_reported_once_each_from_the_queue(self):
+        self.lua(r"""
+local seen={}
+local sub=api.events.on('explosion',function(e)seen[#seen+1]=e end,{owner='mods/t/boom'})
+assert(sub.state=='active')
+W.players({{peer=LOCAL},{peer=OTHER}},LOCAL)
+W.state(4);tick()
+local ERUPTOR,AVATAR_TYPE='B6AFF2195568767F','4D1C334D294DFA97'
+W.register_entity(900,ERUPTOR);W.register_entity(901,AVATAR_TYPE)
+local function boom(i,kind,creditor)
+    return {type=kind or 158,position={x=i,y=2*i,z=0.5},source=900,owner=901,creditor=creditor or LOCAL}
+end
+tick();assert(#seen==0,'an empty queue reports nothing')
+W.request_explosion(boom(1))
+tick()
+assert(#seen==1,#seen)
+local e=seen[1]
+assert(e.event=='explosion'and e.observed=='queue'and e.cause.source=='native')
+assert(e.name=='R-36 Eruptor','the catalogued explosion type 158: '..tostring(e.name))
+assert(e.position.x==1 and e.position.y==2 and e.position.z==0.5)
+assert(e.source_id==900 and e.source_type==ERUPTOR and e.source_name=='R-36 Eruptor',tostring(e.source_name))
+assert(e.owner_id==901 and e.owner_type==AVATAR_TYPE)
+assert(e.creditor_peer==LOCAL and e.local_player==true and e.player:is_local_player())
+assert(e.explosion_type==nil and e.type==nil,'the raw type stays internal')
+-- Still queued at the next poll (no game update ran): not reported again.
+tick();assert(#seen==1)
+-- The game update processes it; nothing new.
+W.explosion_update();tick();assert(#seen==1)
+-- Another player's credited explosion of an uncatalogued type.
+W.request_explosion(boom(2,50,OTHER));tick()
+assert(#seen==2 and seen[2].name==nil and not seen[2].local_player and seen[2].creditor_peer==OTHER)
+assert(seen[2].player and seen[2].player.peer==OTHER)
+W.explosion_update()
+-- More than 8 queued: the update processes 8 and moves the rest to the front; every request is reported once, a
+-- request made after the kick too, whatever number of updates ran between two polls.
+for i=10,21 do W.request_explosion(boom(i))end
+tick();assert(#seen==14,#seen)
+W.explosion_update({boom(30)})        -- 4 left (22..) plus one requested after the kick
+tick();assert(#seen==15 and seen[15].position.x==30,#seen)
+W.explosion_update();tick();assert(#seen==15)
+for i=40,51 do W.request_explosion(boom(i))end
+tick();assert(#seen==27)
+W.explosion_update();W.explosion_update();tick();assert(#seen==27,'two updates between polls')
+-- A source entity the map no longer resolves (an explosive gone at its detonation) has no type.
+W.request_explosion({type=158,position={x=7,y=7,z=7},source=777,owner=901,creditor=LOCAL})
+tick();assert(#seen==28 and seen[28].source_id==777 and seen[28].source_type==nil and seen[28].source_name==nil)
+-- Nothing is read for the queue's entries while it is empty: an idle tick costs two reads.
+W.explosion_update()
+api.events.on('mission_started',function()end,{owner='mods/t/boom'})   -- keeps the game state source running
+local view=world_module.open().view
+tick();local before=view.reads;tick()
+local with_source=view.reads-before
+sub:unsubscribe()
+tick();before=view.reads;tick()
+assert(with_source-(view.reads-before)==2,'idle reads '..with_source..' vs '..(view.reads-before))
+return 'ok'
+""")
+
+    def test_explosion_names_come_from_a_pluggable_lookup(self):
+        self.lua(r"""
+local names=require('hd2runtime/runtime/explosion_names')
+assert(names.name(158)=='R-36 Eruptor'and names.name(242)=='NUX-223 Hellbomb'and names.name(293)=='Cyborg Production Unit')
+assert(names.name(50)==nil and names.name('158')==nil)
+names.set_resolver(function(kind)if kind==50 then return 'Test Blast'end;if kind==51 then return {name='Table Blast'}end end)
+assert(names.name(50)=='Test Blast'and names.name(51)=='Table Blast')
+assert(names.name(158)=='R-36 Eruptor','a type the resolver does not name keeps its default')
+names.set_resolver(function()error('broken')end)
+assert(names.name(158)=='R-36 Eruptor'and names.name(50)==nil)
+assert(count('explosion name resolver failed')==1)
+names.name(158);assert(count('explosion name resolver failed')==1,'logged once')
+names.set_resolver(nil)
+assert(names.name(50)==nil)
+return 'ok'
+""")
 
 class EventWorldSnapshotReportTests(unittest.TestCase):
     def test_the_snapshot_validation_is_current_and_passed(self):

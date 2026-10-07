@@ -14,6 +14,15 @@
    "equippedRaw": {
     "selection": 0
    },
+   "explosionEvent": {
+    "observed": 0,
+    "status": "active"
+   },
+   "explosionPending": {
+    "count": 0,
+    "kicked": 0,
+    "n": 0
+   },
    "explosionQueue": 0,
    "explosions": [
     {
@@ -125,7 +134,7 @@
      "type": 293
     }
    ],
-   "pins": 256,
+   "pins": 272,
    "players": [
     {
      "avatar": 249,
@@ -137,7 +146,7 @@
    ],
    "projectileSystemActive": 0,
    "queueEntries": {},
-   "reads": 449,
+   "reads": 471,
    "sources": {},
    "stats": {
     "dealt_damage": 0,
@@ -163,6 +172,15 @@
    },
    "equippedRaw": {
     "selection": 0
+   },
+   "explosionEvent": {
+    "observed": 0,
+    "status": "active"
+   },
+   "explosionPending": {
+    "count": 0,
+    "kicked": 0,
+    "n": 0
    },
    "explosionQueue": 0,
    "explosions": [
@@ -275,7 +293,7 @@
      "type": 293
     }
    ],
-   "pins": 256,
+   "pins": 272,
    "players": [
     {
      "avatar": 249,
@@ -287,7 +305,7 @@
    ],
    "projectileSystemActive": 0,
    "queueEntries": {},
-   "reads": 449,
+   "reads": 471,
    "sources": {},
    "stats": {
     "dealt_damage": 0,
@@ -313,6 +331,15 @@
    },
    "equippedRaw": {
     "selection": 0
+   },
+   "explosionEvent": {
+    "observed": 0,
+    "status": "active"
+   },
+   "explosionPending": {
+    "count": 0,
+    "kicked": 0,
+    "n": 0
    },
    "explosionQueue": 0,
    "explosions": [
@@ -425,7 +452,7 @@
      "type": 293
     }
    ],
-   "pins": 256,
+   "pins": 272,
    "players": [
     {
      "avatar": 249,
@@ -437,7 +464,7 @@
    ],
    "projectileSystemActive": 0,
    "queueEntries": {},
-   "reads": 449,
+   "reads": 471,
    "sources": {},
    "stats": {
     "dealt_damage": 0,
@@ -470,6 +497,15 @@
     "entity": 605,
     "selection": 1,
     "slot": "primary"
+   },
+   "explosionEvent": {
+    "observed": 0,
+    "status": "active"
+   },
+   "explosionPending": {
+    "count": 0,
+    "kicked": 0,
+    "n": 0
    },
    "explosionQueue": 0,
    "explosions": [
@@ -581,7 +617,7 @@
      "type": 293
     }
    ],
-   "pins": 256,
+   "pins": 272,
    "players": [
     {
      "avatar": 602,
@@ -600,7 +636,7 @@
      "type": 113
     }
    ],
-   "reads": 490,
+   "reads": 518,
    "sources": {},
    "stats": {
     "dealt_damage": 0,
@@ -633,6 +669,15 @@
     "entity": 605,
     "selection": 1,
     "slot": "primary"
+   },
+   "explosionEvent": {
+    "observed": 0,
+    "status": "active"
+   },
+   "explosionPending": {
+    "count": 0,
+    "kicked": 0,
+    "n": 0
    },
    "explosionQueue": 0,
    "explosions": [
@@ -744,7 +789,7 @@
      "type": 293
     }
    ],
-   "pins": 256,
+   "pins": 272,
    "players": [
     {
      "avatar": 602,
@@ -763,7 +808,7 @@
      "type": 50
     }
    ],
-   "reads": 490,
+   "reads": 518,
    "sources": [
     {
      "damage": 17272,
@@ -805,6 +850,15 @@
    "equippedRaw": {
     "selection": 5,
     "slot": "held_item"
+   },
+   "explosionEvent": {
+    "observed": 0,
+    "status": "active"
+   },
+   "explosionPending": {
+    "count": 0,
+    "kicked": 0,
+    "n": 0
    },
    "explosionQueue": 0,
    "explosions": [
@@ -917,7 +971,7 @@
      "type": 293
     }
    ],
-   "pins": 256,
+   "pins": 272,
    "players": [
     {
      "avatar": 852,
@@ -948,7 +1002,7 @@
      "type": 50
     }
    ],
-   "reads": 471,
+   "reads": 499,
    "sources": [
     {
      "damage": 1721,
@@ -994,6 +1048,15 @@
    },
    "equipped": {
     "reason": "the player has no avatar now"
+   },
+   "explosionEvent": {
+    "observed": 0,
+    "status": "active"
+   },
+   "explosionPending": {
+    "count": 0,
+    "kicked": 0,
+    "n": 0
    },
    "explosionQueue": 0,
    "explosions": [
@@ -1091,7 +1154,7 @@
      "type": 293
     }
    ],
-   "pins": 256,
+   "pins": 272,
    "players": [
     {
      "entity": 5,
@@ -1121,7 +1184,7 @@
      "type": 50
     }
    ],
-   "reads": 383,
+   "reads": 405,
    "sources": [
     {
      "damage": 7360,

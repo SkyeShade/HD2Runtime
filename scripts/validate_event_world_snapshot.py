@@ -11,8 +11,9 @@ the corpse that replaced the first avatar (origin 602 -> corpse 851 on the same 
 (weapon names from the catalog) and the mission-end teardown (PrepareShip, no avatar, stats kept).
 
 Every snapshot also checks: the Hellbomb explosions' settings records, the local player's equipped weapon (the R-36
-Eruptor in hand before the death, nothing aboard the ship), the projectile system gate (active only in a mission)
-and the status request queue.
+Eruptor in hand before the death, nothing aboard the ship), the projectile system gate (active only in a mission),
+the status request queue, and the explosion event: the queue read as the `explosion` source reads it (drained: count
+and kicked 0, so no event; research/event-explosions-F5FEE03DCFDB.json) and one poll of the production source.
 """
 from __future__ import annotations
 
@@ -102,6 +103,19 @@ for _,q in ipairs(entries or{})do
  if q.type~=0 then out.queueEntries[#out.queueEntries+1]={type=q.type,source=q.source,owner=q.owner,
   peer=wm_peer(q.peer_lo,q.peer_hi)}end
 end
+-- The explosion event's read of the queue, and one poll of the production source (a drained queue: no event).
+local pending=world_module.explosion_pending(world,64)
+out.explosionPending=pending and{count=pending.count,kicked=pending.kicked,n=pending.n}or false
+require('hd2runtime/runtime/log').emit=function()end   -- no game log offline
+local events=require('hd2runtime/runtime/events')
+local sources=require('hd2runtime/runtime/event_sources')
+events.reset_for_tests()
+local observed=0
+local sub=events.subscribe('explosion',function()observed=observed+1 end,{owner='validation'})
+events.tick(0.016)
+out.explosionEvent={status=sources.explosions.status,observed=observed}
+sub:unsubscribe()
+events.reset_for_tests()
 -- What the local player holds (wielder slot 0 + inventory selection), through the production reader.
 local me=handles.local_player()
 local weapon,weapon_why
@@ -201,6 +215,9 @@ def validate(snapshots=SNAPSHOTS):
             problems.append('explosion queue entries differ from the research')
         if report['statusQueue'] is None:
             problems.append('status queue unreadable')
+        if report['explosionPending'] != {'count': 0, 'kicked': 0, 'n': 0} or report['explosionEvent'] != {
+                'status': 'active', 'observed': 0}:
+            problems.append('the explosion event did not read the drained queue')
         if phase == 'alive':
             if (report['equipped'].get('name'), report['equipped'].get('slot'), report['equipped'].get('slotProven')) != (
                     'R-36 Eruptor', 'primary', True) or report['projectileSystemActive'] != 1:

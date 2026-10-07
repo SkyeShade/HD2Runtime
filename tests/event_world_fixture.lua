@@ -242,6 +242,31 @@ for _,list in ipairs({X.weapons,X.named or{}})do
     end
 end
 function W.queue_count(n)write(explosion_queue+X.count,u32(n))end
+-- The queue as the game keeps it (research/event-explosions-F5FEE03DCFDB.json): a request appends at index count; one
+-- world update (W.explosion_update) kicks min(count, 8), processes exactly those and moves the rest to the front.
+-- Entries are never cleared. spec: {type, position = {x, y, z}, source, owner, creditor (16 hex digits), argument7}.
+local function queued()return le32(read(explosion_queue+X.count,4))end
+function W.request_explosion(spec)
+    local index=queued()
+    local p=spec.position or{x=0,y=0,z=0}
+    local entry=f32(p.x)..f32(p.y)..f32(p.z)..u32(spec.type)..u32(spec.source or 0)..u32(spec.owner or 0)
+        ..peer(spec.creditor)..u32(spec.argument7 or 0)
+    write(explosion_queue+X.entry+index*X.stride,entry..string.rep('\0',X.stride-#entry))
+    write(explosion_queue+X.count,u32(index+1))
+    return index
+end
+function W.explosion_update(requests_after_kick)
+    local count=queued()
+    local kicked=math.min(count,X.perFrame)
+    write(explosion_queue+X.kicked,u32(kicked))
+    for _,spec in ipairs(requests_after_kick or{})do W.request_explosion(spec)end
+    count=queued()
+    local rest=count-kicked
+    if rest>0 then
+        write(explosion_queue+X.entry,read(explosion_queue+X.entry+kicked*X.stride,rest*X.stride))
+    end
+    write(explosion_queue+X.count,u32(rest)..u32(0))
+end
 
 -- The projectile system (active in a mission) and its settings table; the status queue, manager and settings table.
 local PJ,ST=natives.projectile,natives.status
@@ -346,8 +371,14 @@ function runtime.native_explosion(entry,queue,x,y,z,kind,source,owner,peer_lo,pe
     assert(entry==GAME+X.rva and queue==explosion_queue,'explosion requested through the wrong function or queue')
     runtime.explosions[#runtime.explosions+1]={x=x,y=y,z=z,type=kind,source=source,owner=owner,
         peer=string.format('%08X%08X',peer_hi,peer_lo)}
+    -- W.queue_requests(true): the request lands in the queue like the game's (appended at count).
+    if runtime.queue_requests then
+        W.request_explosion({type=kind,position={x=x,y=y,z=z},source=source,owner=owner,
+            creditor=string.format('%08X%08X',peer_hi,peer_lo)})
+    end
     return true
 end
+function W.queue_requests(on)runtime.queue_requests=on end
 -- Package residency as the asset gate reads it (core/assets.lua offline hook): 'resident' unless a test says otherwise.
 runtime.packages={}
 function runtime.package_state(package)return runtime.packages[package]or'resident'end

@@ -25,6 +25,7 @@ WIELDER = ROOT / 'research/event-wielder-F5FEE03DCFDB.json'
 MISSION = ROOT / 'research/event-mission-F5FEE03DCFDB.json'
 INJURY = ROOT / 'research/player-injury-path-F5FEE03DCFDB.json'
 AVATAR = ROOT / 'research/player-avatar-actions-F5FEE03DCFDB.json'
+EXPLOSIONS = ROOT / 'research/event-explosions-F5FEE03DCFDB.json'
 OUTPUT = ROOT / 'domains/event_natives.lua'
 
 
@@ -32,11 +33,12 @@ class Pins:
     """Pinned instructions from the research outputs, per module ('game' = game.dll, 'exe' = the executable)."""
 
     def __init__(self, combat: dict, state: dict, mission: dict, actions: dict, wielder: dict,
-            injury: dict | None = None, avatar: dict | None = None):
+            injury: dict | None = None, avatar: dict | None = None, explosions: dict | None = None):
         self.by_rva = {'game': {}, 'exe': {}}
         for group in (list(mission['proofs'].values()) + list(actions['proofs'].values())
                 + list(wielder['proofs'].values()) + list((injury or {}).get('proofs', {}).values())
-                + list((avatar or {}).get('proofs', {}).values())):
+                + list((avatar or {}).get('proofs', {}).values())
+                + list((explosions or {}).get('proofs', {}).values())):
             for pin in group:
                 self.by_rva['game'].setdefault(pin['rva'], pin)
         for group in (injury or {}).get('exeProofs', {}).values():
@@ -237,8 +239,9 @@ def corpses_section(pins: Pins, mission: dict) -> dict:
         'maxRecords': layout['capacity']}
 
 
-def explosion_section(pins: Pins, actions: dict) -> dict:
-    """The game's explosion request (research/event-actions-F5FEE03DCFDB.json): the queue, the call and its bounds."""
+def explosion_section(pins: Pins, actions: dict, explosions: dict) -> dict:
+    """The game's explosion request (research/event-actions-F5FEE03DCFDB.json): the queue, the call and its bounds;
+    and when a poll sees a request queued (research/event-explosions-F5FEE03DCFDB.json, the `explosion` event)."""
     research = actions['explosion']
     pins.rip(0x8CB18B, 'mov rcx, qword ptr [rip + 0x2ba23c6]', 'explosion queue global (a caller)', research['queueGlobal'])
     pins.use(0x13C0A86, 'mov eax, dword ptr [rcx + 0x20]', 'explosion queue count')
@@ -302,9 +305,32 @@ def explosion_section(pins: Pins, actions: dict) -> dict:
     pins.use(0x8CB1D1, 'mov rax, qword ptr [r12 + r13 + 0x30]', 'an explosive detonation: creditor = its instance +0x30')
     pins.use(0x8CB17F, 'mov r9d, dword ptr [r14 + 8]', 'an explosive detonation: source = the explosive entity')
     pins.use(0x8CB187, 'mov r8d, dword ptr [r15 + 0x24]', 'an explosive detonation: type = its record +0x24')
+    # The explosion event: the world update kicks min(count, 8) requests, later gathers exactly those in order and
+    # moves the rest to the front (first in, first out); requests made after the kick stay queued past the update.
+    frame = explosions['queue']
+    if (frame['global'], frame['count'], frame['entry'], frame['stride'], frame['perFrame']) != (
+            research['queueGlobal'], 0x20, research['entry'], research['stride'], 8) or frame['kicked'] != 0x24:
+        raise ValueError('the explosion event research describes another queue')
+    pins.use(0xAB55AF, 'call 0x13f73f0', 'world update: the kick wrapper first')
+    pins.use(0x13F7641, 'lea rcx, [rdi + 0xc798d8]', 'kick wrapper: the explosion system')
+    pins.use(0x13F7648, 'call 0x13c5420', 'explosion kick')
+    pins.use(0x13F7682, 'jmp 0x13ab0e0', 'then the projectile kick (impacts queue after the explosion kick)')
+    pins.use(0xAB5FB8, 'lea rcx, [r14 + 0x1c9daf8]', 'world update: the same explosion system')
+    pins.use(0xAB5FBF, 'call 0x13c6180', 'explosion gather, later in the world update')
+    pins.use(0x13C548D, 'mov edx, 8', 'explosion kick: at most 8 requests a frame')
+    pins.use(0x13C54AB, 'mov eax, dword ptr [rcx + 0x20]', 'explosion kick: the queued count')
+    pins.use(0x13C54B0, 'cmovb edx, eax', 'explosion kick: kicked = min(count, 8)')
+    pins.use(0x13C54BD, 'mov dword ptr [rcx + 0x24], edx', 'explosion kick: kicked count +0x24')
+    pins.use(0x13C61B5, 'mov ecx, dword ptr [rcx + 0x24]', 'explosion gather: the kicked requests')
+    pins.use(0x13C662D, 'cmp r14d, ecx', 'explosion gather: entries 0 .. kicked - 1, in order')
+    pins.use(0x13C67C7, 'sub ebx, ecx', 'explosion gather: remaining = count - processed')
+    pins.use(0x13C67E9, 'call 0x20988f0', 'explosion gather: the rest moves to the front')
+    pins.use(0x13C67F4, 'mov dword ptr [rsi + 0x20], ebx', 'explosion gather: count = remaining')
+    pins.use(0x13C6801, 'mov dword ptr [rsi + 0x24], r12d', 'explosion gather: kicked = 0')
     return {'rva': research['request'], 'prologue': research['prologue'], 'queue': research['queueGlobal'],
         'count': 0x20, 'capacity': research['queueCapacity'], 'entry': research['entry'], 'stride': research['stride'],
         'entryType': 0x0C, 'entrySource': 0x10, 'entryOwner': 0x14, 'entryCreditor': 0x18,
+        'kicked': frame['kicked'], 'perFrame': frame['perFrame'],
         'settingsTable': research['settingsTable'],
         'typeBound': research['typeBound'], 'signature': research['signature'],
         # Catalogued weapon explosions whose settings-table entry the research matched in every mission snapshot.
@@ -573,29 +599,31 @@ def build() -> dict:
     wielder = json.loads(WIELDER.read_text(encoding='utf-8'))
     injury = json.loads(INJURY.read_text(encoding='utf-8'))
     avatar = json.loads(AVATAR.read_text(encoding='utf-8'))
-    for research in (combat, state, mission, actions, wielder, injury, avatar):
+    explosions = json.loads(EXPLOSIONS.read_text(encoding='utf-8'))
+    for research in (combat, state, mission, actions, wielder, injury, avatar, explosions):
         if research['writes'] or research['protectionChanges']:
             raise ValueError('event research must be read-only')
     if state['gameDll']['sha256'] != combat['gameDll']['sha256']:
         raise ValueError('event research covers different game.dll builds')
     if not (state['gameDll']['sha256'] == mission['gameDll']['sha256'] == actions['gameDll']['sha256']
-            == wielder['gameDll']['sha256'] == injury['gameDll']['sha256'] == avatar['gameDll']['sha256']):
+            == wielder['gameDll']['sha256'] == injury['gameDll']['sha256'] == avatar['gameDll']['sha256']
+            == explosions['gameDll']['sha256']):
         raise ValueError('event research covers different game.dll builds')
     if injury['exe']['sha256'] != state['exe']['sha256'] or injury['exe']['imageSize'] != state['exe']['imageSize']:
         raise ValueError('the injury research covers another executable')
     if any(any(r['pinnedBytesMismatchPerSnapshot'].values()) for r in (state, mission, actions, wielder, injury,
-            avatar)):
+            avatar, explosions)):
         raise ValueError('a pinned instruction differs between retained snapshots')
-    pins = Pins(combat, state, mission, actions, wielder, injury, avatar)
+    pins = Pins(combat, state, mission, actions, wielder, injury, avatar, explosions)
     value = {'source': {'research': [COMBAT.name, STATE.name, MISSION.name, ACTIONS.name, WIELDER.name, INJURY.name,
-            AVATAR.name],
+            AVATAR.name, EXPLOSIONS.name],
             'gameDllSha256': combat['gameDll']['sha256'],
             'imageSize': combat['gameDll']['imageSize'], 'exeImageSize': state['exe']['imageSize']},
         'health': health_section(pins, combat), 'players': players_section(pins, combat),
         'playerAvatars': player_avatars_section(pins, state), 'state': state_section(pins, state),
         'engine': engine_section(pins, state), 'stats': stats_section(pins, state),
         'corpses': corpses_section(pins, mission), 'heal': heal_section(pins, combat),
-        'explosion': explosion_section(pins, actions), 'projectile': projectile_section(pins, actions),
+        'explosion': explosion_section(pins, actions, explosions), 'projectile': projectile_section(pins, actions),
         'status': status_section(pins, actions), 'wielder': wielder_section(pins, wielder),
         'injury': injury_section(pins, injury), 'limbHeal': limb_heal_section(pins, avatar),
         'velocity': velocity_section(pins, avatar)}

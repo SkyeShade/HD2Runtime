@@ -3,12 +3,13 @@
  "schemaVersion": 1,
  "hd2RuntimeVersion": "0.30.0-dev",
  "summary": {
-  "events": 20,
+  "events": 21,
   "available": [
    "entity_damaged",
    "entity_died",
    "entity_killed",
    "entity_spawned",
+   "explosion",
    "key_down",
    "key_up",
    "mission_ended",
@@ -33,7 +34,7 @@
   "dispatch": "Events are observed by polling proven game state once per update tick (no code patches). Everything observed in one tick is dispatched after all sources are polled, in source order, then by subscriber priority (higher first) and subscription order.",
   "isolation": "Every callback runs isolated. A failure is logged with the mod, the event and the error; the other subscribers still run. max_failures consecutive failures (default 25, 0 = never) disable that subscription.",
   "phases": "post: the game already applied it; the payload is a snapshot and mutating it changes nothing. pre: delivered before the game applies it and may be mutated (none are available). state: a state transition.",
-  "causes": "cause.source is 'native' for gameplay, or 'mod' for an action a mod performed through Runtime (cause.mod, cause.action, cause.depth). Runtime refuses actions deeper than 4 mod-caused links.",
+  "causes": "cause.source is 'native' for gameplay, 'mod' for an action a mod performed through Runtime (cause.mod, cause.action, cause.depth), or 'runtime' for a request Runtime made itself outside any mod callback (a custom stratagem's explosion). Runtime refuses actions deeper than 4 mod-caused links.",
   "mission": "mission_started / mission_ended bracket a mission. Mission-scoped subscriptions, timers and mod.mission state end with the mission, after mission_ended is dispatched, and every handle from that mission becomes invalid."
  },
  "sources": {
@@ -42,7 +43,8 @@
   "players": "The game's player list: peer ids, lifecycle state, and each avatar entity (through the network id map).",
   "health": "One bulk scan per tick of the health manager: every entity with a HealthComponent, its health, life state (alive, downed, dead) and last-hit creditor. When a tracked record disappears, the corpse manager is read once: the game replaces a dead entity by a corpse entity that takes over its unit and names the dead entity, so a death that happened between two polls is still reported.",
   "stats": "The local player's mission stats as the game keeps them: the main table plus one block per source type (the weapon, throwable or stratagem payload the game recorded the stat under), checked 10 times per second.",
-  "weapons": "What the local player's avatar holds: its wielder slot 0 (the entity in hand) and the inventory selection the game's weapon switch writes in the same call, checked 10 times per second."
+  "weapons": "What the local player's avatar holds: its wielder slot 0 (the entity in hand) and the inventory selection the game's weapon switch writes in the same call, checked 10 times per second.",
+  "explosions": "This machine's explosion queue, read once per tick: the requests queued now (the game processes at most 8 a frame, first in first out, and a request made after the frame's processing started stays queued until the next frame), and the explosions Runtime itself requested since the last tick."
  },
  "events": [
   {
@@ -1022,6 +1024,76 @@
      "name": "current",
      "type": "HD2EquippedWeapon|nil",
      "doc": "What is in hand now."
+    }
+   ]
+  },
+  {
+   "name": "explosion",
+   "status": "available",
+   "source": "explosions",
+   "phase": "post",
+   "hot": true,
+   "summary": "An explosion this machine's game will detonate: a request seen in the game's explosion queue (the game processes it in its next update), or one Runtime requested (hd2.explosions.spawn). Requests the game queues and processes within one update before Runtime's next look are not seen: see docs/events.md#explosions. Not live-tested.",
+   "payload": [
+    {
+     "name": "name",
+     "type": "string|nil",
+     "doc": "The explosion type's catalogued name (a weapon's own explosion is named by its weapon: 'R-36 Eruptor'; 'NUX-223 Hellbomb'), or nil when uncatalogued. It names the explosion, not who caused it."
+    },
+    {
+     "name": "position",
+     "type": "HD2Position",
+     "doc": "Where it detonates (a read-only snapshot)."
+    },
+    {
+     "name": "observed",
+     "type": "\"queue\"|\"request\"",
+     "doc": "'queue': read from the game's explosion queue. 'request': requested by Runtime (its cause names the mod), reported from the request."
+    },
+    {
+     "name": "source_id",
+     "type": "integer|nil",
+     "doc": "The source entity the request names (a weapon for its shell, an explosive for itself), or nil."
+    },
+    {
+     "name": "source_type",
+     "type": "string|nil",
+     "doc": "The source entity's type (16 hex digits), read when observed; nil when it no longer resolves (an explosive is usually gone by then)."
+    },
+    {
+     "name": "source_name",
+     "type": "string|nil",
+     "doc": "The source type's catalogued name (a weapon, throwable or stratagem payload), or nil."
+    },
+    {
+     "name": "owner_id",
+     "type": "integer|nil",
+     "doc": "The owner entity the request names (often a player avatar)."
+    },
+    {
+     "name": "owner_type",
+     "type": "string|nil",
+     "doc": "The owner entity's type (16 hex digits), or nil."
+    },
+    {
+     "name": "owner_name",
+     "type": "string|nil",
+     "doc": "The owner type's catalogued name, or nil."
+    },
+    {
+     "name": "creditor_peer",
+     "type": "string|nil",
+     "doc": "The peer id (16 hex digits) the request credits (kills and damage go to that player), or nil."
+    },
+    {
+     "name": "player",
+     "type": "HD2PlayerHandle|nil",
+     "doc": "The credited player when that peer is in the player list."
+    },
+    {
+     "name": "local_player",
+     "type": "boolean",
+     "doc": "The local player is credited."
     }
    ]
   },

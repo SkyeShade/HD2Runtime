@@ -18,6 +18,7 @@ local PJ,ST=natives.projectile,natives.status
 local WI=natives.wielder
 local IMAGE_SIZE,EXE_IMAGE_SIZE=natives.source.imageSize,natives.source.exeImageSize
 local opened,adapter_override,created
+local request_observers={}   -- observers of Runtime's own explosion requests (explode)
 
 -- Tests and the packaged harness supply their own adapter; in game it is the write-capable adapter (heal calls).
 function M.set_runtime(runtime)adapter_override=runtime;opened=nil end
@@ -448,8 +449,15 @@ function M.explode(world,spec)
     runtime.native_explosion(world.game+X.rva,queue,spec.x,spec.y,spec.z,spec.type,spec.source,spec.owner,
         spec.peer_lo,spec.peer_hi)
     metrics.count('events.native_explosions')
+    -- The explosion event reports a Runtime request from here: the next frame's kick takes it before any poll could
+    -- see it queued (research/event-explosions-F5FEE03DCFDB.json). spec.cause, when the requester passes its action's
+    -- cause, names the mod action.
+    for _,observer in pairs(request_observers)do pcall(observer,spec)end
     return true
 end
+-- Observers of the explosions Runtime requests through explode(): observer(spec) after each request, by key (nil
+-- removes it). Read-only bookkeeping (the explosion event source).
+function M.observe_explosion_requests(key,observer)request_observers[key]=observer end
 -- The explosion queue's first `slots` entries as they are now, read-only: {{x, y, z, type, source, owner, peer_lo,
 -- peer_hi}, ...}, or nil when unreadable. The game drains the queue every frame (its count back to 0) without clearing
 -- an entry, so an entry stays readable until a later request reuses its slot: this frame's requests, then stale ones of
@@ -469,6 +477,33 @@ function M.explosion_queue(world,slots)
     end
     metrics.count('events.explosion_queue_reads')
     return out
+end
+
+-- The requests queued now, for the explosion event (research/event-explosions-F5FEE03DCFDB.json): the world update's
+-- kick takes min(count, 8) of them, its gather processes exactly those in order and moves the rest to the front, so
+-- the queue is first in, first out and a request leaves it only when processed. Returns {count, kicked, n, raw} with
+-- the first n = min(count, limit) entries as one string of n * 0x98 bytes (read only when count > 0: an idle tick
+-- costs two reads), or nil when unreadable.
+function M.explosion_pending(world,limit)
+    local queue=world.view.pointer(world.game+X.queue)
+    local header=queue and world.view.read(queue+X.count,8)
+    if not header then return nil end
+    local count,kicked=b.u32(header,0),b.u32(header,4)
+    if count>X.capacity or kicked>X.perFrame then return nil end
+    local n=math.min(count,limit or X.capacity)
+    local raw=''
+    if n>0 then
+        raw=world.view.read(queue+X.entry,n*X.stride)
+        if not raw then return nil end
+    end
+    return {count=count,kicked=kicked,n=n,raw=raw}
+end
+-- One queued request decoded from an entry's bytes: {x, y, z, type, source, owner, peer_lo, peer_hi}.
+function M.explosion_entry(raw,index)
+    local at=index*X.stride
+    return {x=b.value(raw,at,'f32'),y=b.value(raw,at+4,'f32'),z=b.value(raw,at+8,'f32'),type=b.u32(raw,at+X.entryType),
+        source=b.u32(raw,at+X.entrySource),owner=b.u32(raw,at+X.entryOwner),peer_lo=b.u32(raw,at+X.entryCreditor),
+        peer_hi=b.u32(raw,at+X.entryCreditor+4)}
 end
 
 ------------------------------------------------------------------------------------------------------ heal --

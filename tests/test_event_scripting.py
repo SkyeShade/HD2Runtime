@@ -424,6 +424,41 @@ assert(refused==nil and reason:find('only the local player',1,true),tostring(rea
 return 'ok'
 ''')
 
+    def test_runtime_requested_explosions_are_reported_once_with_their_cause(self):
+        self.lua(r"""
+mission({host=true})
+W.queue_requests(true)                -- a request lands in the queue, as in the game
+local seen={}
+hd2.events.run_as('mods/t/watch',function()hd2.events.on('explosion',function(e)seen[#seen+1]=e end)end)
+hd2.events.run_as('mods/t/boom',function()
+    hd2.events.on('entity_died',function()hd2.explosions.spawn('R-36 Eruptor',{position={x=5,y=6,z=7}})end)
+end)
+W.add{entity=500,type=MARAUDER,unit=9000,health=100};tick()
+W.set(500,{life=2,health=0});tick()     -- the death is dispatched; the mod requests an explosion after the poll
+assert(#W.runtime.explosions==1 and #seen==0)
+tick()                                   -- the next poll reports the request, then finds it queued: not twice
+assert(#seen==1,#seen)
+local e=seen[1]
+assert(e.observed=='request'and e.name=='R-36 Eruptor'and e.position.x==5 and e.local_player and e.owner_id==100)
+assert(e.cause.source=='mod'and e.cause.mod=='mods/t/boom'and e.cause.kind=='explosion'and e.cause.depth==1)
+assert(e.cause.parent.event=='entity_died'and e.cause.parent.cause.source=='native')
+tick();W.explosion_update();tick()
+assert(#seen==1,'the queued copy of a Runtime request is never reported')
+-- Requested by Runtime itself, outside any mod callback (a custom stratagem's blast): cause runtime. A requester that
+-- passes its action's cause is reported with it.
+local world=world_module.open()
+local lo,hi=world_module.local_peer(world)
+assert(world_module.explode(world,{type=158,x=1,y=1,z=1,source=100,owner=100,peer_lo=lo,peer_hi=hi}))
+local cause={source='mod',mod='mods/t/explicit',action='explosion#99',kind='explosion',depth=1}
+assert(world_module.explode(world,{type=158,x=2,y=2,z=2,source=100,owner=100,peer_lo=lo,peer_hi=hi,cause=cause}))
+tick()
+assert(#seen==3 and seen[2].cause.source=='runtime'and seen[3].cause==cause,#seen)
+-- A native request queued after them is reported from the queue.
+W.request_explosion({type=158,position={x=9,y=9,z=9},source=100,owner=100,creditor=LOCAL})
+tick();assert(#seen==4 and seen[4].observed=='queue'and seen[4].cause.source=='native')
+return 'ok'
+""")
+
     def test_an_explosion_waits_for_its_assets_and_fails_closed_when_they_cannot_load(self):
         self.lua(r'''
 mission({host=true})

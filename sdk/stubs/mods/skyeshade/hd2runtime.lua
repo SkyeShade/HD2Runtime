@@ -1883,7 +1883,7 @@ function HD2Resources.image(id) end
 ---@return HD2Model
 function HD2Resources.model(id) end
 
----@alias HD2EventName "mission_started"|"mission_ended"|"player_spawned"|"player_died"|"entity_spawned"|"entity_died"|"entity_killed"|"entity_damaged"|"player_damaged"|"player_healed"|"player_fired"|"player_kill_credited"|"player_hit"|"player_damage_dealt"|"weapon_equipped"|"weapon_unequipped"|"weapon_changed"|"entity_damage_pre"|"key_down"|"key_up"
+---@alias HD2EventName "mission_started"|"mission_ended"|"player_spawned"|"player_died"|"entity_spawned"|"entity_died"|"entity_killed"|"entity_damaged"|"player_damaged"|"player_healed"|"player_fired"|"player_kill_credited"|"player_hit"|"player_damage_dealt"|"weapon_equipped"|"weapon_unequipped"|"weapon_changed"|"explosion"|"entity_damage_pre"|"key_down"|"key_up"
 
 ---A world position snapshot (metres).
 ---@class HD2Vector3
@@ -3135,6 +3135,22 @@ local HD2Event_weapon_unequipped = {}
 ---@field current HD2EquippedWeapon|nil What is in hand now.
 local HD2Event_weapon_changed = {}
 
+---An explosion this machine's game will detonate: a request seen in the game's explosion queue (the game processes it in its next update), or one Runtime requested (hd2.explosions.spawn). Requests the game queues and processes within one update before Runtime's next look are not seen: see docs/events.md#explosions. Not live-tested.
+---@class HD2Event_explosion : HD2Event
+---@field name string|nil The explosion type's catalogued name (a weapon's own explosion is named by its weapon: 'R-36 Eruptor'; 'NUX-223 Hellbomb'), or nil when uncatalogued. It names the explosion, not who caused it.
+---@field position HD2Position Where it detonates (a read-only snapshot).
+---@field observed "queue"|"request" 'queue': read from the game's explosion queue. 'request': requested by Runtime (its cause names the mod), reported from the request.
+---@field source_id integer|nil The source entity the request names (a weapon for its shell, an explosive for itself), or nil.
+---@field source_type string|nil The source entity's type (16 hex digits), read when observed; nil when it no longer resolves (an explosive is usually gone by then).
+---@field source_name string|nil The source type's catalogued name (a weapon, throwable or stratagem payload), or nil.
+---@field owner_id integer|nil The owner entity the request names (often a player avatar).
+---@field owner_type string|nil The owner entity's type (16 hex digits), or nil.
+---@field owner_name string|nil The owner type's catalogued name, or nil.
+---@field creditor_peer string|nil The peer id (16 hex digits) the request credits (kills and damage go to that player), or nil.
+---@field player HD2PlayerHandle|nil The credited player when that peer is in the player list.
+---@field local_player boolean The local player is credited.
+local HD2Event_explosion = {}
+
 ---Blocked: A pre-damage callback would have to run inside the native damage path before it applies (game.dll 0x9235F0). Runtime patches no game code, and nothing read at damage time can scale one attacker's or one weapon's damage: every multiplier there is global (Vitality, the relation table, mission modifiers) or belongs to the target (research/event-combat-F5FEE03DCFDB.json). Observe damage with entity_damaged.
 ---@class HD2Event_entity_damage_pre : HD2Event
 local HD2Event_entity_damage_pre = {}
@@ -3169,6 +3185,7 @@ local HD2Event_key_up = {}
 ---@alias HD2WeaponEquippedEvent HD2Event_weapon_equipped
 ---@alias HD2WeaponUnequippedEvent HD2Event_weapon_unequipped
 ---@alias HD2WeaponChangedEvent HD2Event_weapon_changed
+---@alias HD2ExplosionEvent HD2Event_explosion
 ---@alias HD2EntityDamagePreEvent HD2Event_entity_damage_pre
 ---@alias HD2KeyDownEvent HD2Event_key_down
 ---@alias HD2KeyUpEvent HD2Event_key_up
@@ -3224,6 +3241,7 @@ function HD2Events.mission_id() end
 ---@overload fun(name: "weapon_equipped", callback: fun(event: HD2Event_weapon_equipped), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(name: "weapon_unequipped", callback: fun(event: HD2Event_weapon_unequipped), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(name: "weapon_changed", callback: fun(event: HD2Event_weapon_changed), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(name: "explosion", callback: fun(event: HD2Event_explosion), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(name: "key_down", callback: fun(event: HD2Event_key_down), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(name: "key_up", callback: fun(event: HD2Event_key_up), opts?: HD2SubscribeOptions): HD2Subscription
 ---@param name HD2EventName
@@ -3249,6 +3267,7 @@ function HD2Events.on(name, callback, opts) end
 ---@overload fun(name: "weapon_equipped", callback: fun(event: HD2Event_weapon_equipped), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(name: "weapon_unequipped", callback: fun(event: HD2Event_weapon_unequipped), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(name: "weapon_changed", callback: fun(event: HD2Event_weapon_changed), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(name: "explosion", callback: fun(event: HD2Event_explosion), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(name: "key_down", callback: fun(event: HD2Event_key_down), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(name: "key_up", callback: fun(event: HD2Event_key_up), opts?: HD2SubscribeOptions): HD2Subscription
 ---@param name HD2EventName
@@ -3321,6 +3340,7 @@ function HD2ModContext:store() end
 ---@overload fun(self: HD2ModContext, name: "weapon_equipped", callback: fun(event: HD2Event_weapon_equipped), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(self: HD2ModContext, name: "weapon_unequipped", callback: fun(event: HD2Event_weapon_unequipped), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(self: HD2ModContext, name: "weapon_changed", callback: fun(event: HD2Event_weapon_changed), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(self: HD2ModContext, name: "explosion", callback: fun(event: HD2Event_explosion), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(self: HD2ModContext, name: "key_down", callback: fun(event: HD2Event_key_down), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(self: HD2ModContext, name: "key_up", callback: fun(event: HD2Event_key_up), opts?: HD2SubscribeOptions): HD2Subscription
 ---@param name HD2EventName
@@ -3346,6 +3366,7 @@ function HD2ModContext:on(name, callback, opts) end
 ---@overload fun(self: HD2ModContext, name: "weapon_equipped", callback: fun(event: HD2Event_weapon_equipped), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(self: HD2ModContext, name: "weapon_unequipped", callback: fun(event: HD2Event_weapon_unequipped), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(self: HD2ModContext, name: "weapon_changed", callback: fun(event: HD2Event_weapon_changed), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(self: HD2ModContext, name: "explosion", callback: fun(event: HD2Event_explosion), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(self: HD2ModContext, name: "key_down", callback: fun(event: HD2Event_key_down), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(self: HD2ModContext, name: "key_up", callback: fun(event: HD2Event_key_up), opts?: HD2SubscribeOptions): HD2Subscription
 ---@param name HD2EventName

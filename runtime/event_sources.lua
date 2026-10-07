@@ -414,7 +414,137 @@ function weapons.poll(source)
 end
 M.weapons=events.register_source(weapons)
 
+--------------------------------------------------------------------------------------------------- explosions --
+-- explosion: a request in this machine's explosion queue (research/event-explosions-F5FEE03DCFDB.json). The world
+-- update kicks min(count, 8) requests and later gathers exactly those, in order, moving the rest to the front: first
+-- in, first out, and a request leaves the queue only when a gather processes it. A request made after the frame's
+-- kick (projectile impacts, explosives, a blast's chained explosions) is still queued at the next poll, so one read of
+-- the queue per tick sees it. Each poll reports the entries the previous poll did not hold: the previous entries still
+-- queued are a prefix of this poll's (the longest suffix of the previous window equal, byte for byte, to a prefix of
+-- this one), whatever number of game updates ran in between.
+-- Runtime's own requests (event_world.explode) are made in the Lua update, after the poll, and the next frame's kick
+-- takes them first: they are reported from the request (observed = 'request', the requester's cause) at the next
+-- poll, and a queued entry equal to one of them is not reported again. An idle tick costs two reads.
+local explosions={name='explosions',events={'explosion'},depends={'game_state'}}
+explosions.WINDOW=64         -- entries read per poll at most (later ones are reported once the queue moves them up)
+explosions.REQUEST_SECONDS=2 -- a Runtime request is matched to a queued entry this long
+local explosion_names=require('hd2runtime/runtime/explosion_names')
+local STRIDE=natives.explosion.stride
+-- The cause of a Runtime request reported from the request: the requester's own (spec.cause), else the mod whose
+-- callback, timer or startup scope is running (its reaction to the current event), else Runtime itself.
+local function request_cause(spec)
+    if type(spec.cause)=='table'then return spec.cause end
+    local state=events.state
+    local owner=state.current and state.current.owner
+    if not owner or owner=='unknown'then owner=state.scopes[#state.scopes]end
+    if not owner or owner=='unknown'then return {source='runtime',kind='explosion'}end
+    local event=state.current_event
+    local parent=event and event.cause
+    return {source='mod',mod=owner,kind='explosion',depth=((parent and parent.depth)or 0)+1,
+        parent=event and{event=event.event,cause=parent}or nil}
+end
+function explosions.start(source)
+    local ok,why=open(source)
+    if not ok then return nil,why end
+    source.window={};source.requests={};source.types={};source.epoch=events.state.epoch
+    world_module.observe_explosion_requests('explosion_event',function(spec)
+        local list=source.requests
+        if list and#list<64 then
+            list[#list+1]={type=spec.type,x=spec.x,y=spec.y,z=spec.z,source=spec.source,owner=spec.owner,
+                peer_lo=spec.peer_lo or 0,peer_hi=spec.peer_hi or 0,cause=request_cause(spec),time=events.state.now}
+        end
+    end)
+    return true
+end
+function explosions.stop(source)
+    world_module.observe_explosion_requests('explosion_event',nil)
+    source.world=nil;source.window=nil;source.requests=nil;source.types=nil
+end
+-- An entity's type through the game's entity map, remembered per mission (an id names one entity: a destroyed
+-- entity's id comes back with another generation). nil when it does not resolve (an explosive is often gone already).
+local function type_of(source,id)
+    if id==0 then return nil end
+    if source.epoch~=events.state.epoch then source.types={};source.epoch=events.state.epoch end
+    local known=source.types[id]
+    if known==nil then
+        known=world_module.entity_type(source.world,id)or false
+        if known then source.types[id]=known end
+    end
+    return known or nil
+end
+local function explosion_payload(source,entry,observed,cause)
+    local source_type,owner_type=type_of(source,entry.source),type_of(source,entry.owner)
+    local payload={name=explosion_names.name(entry.type),position=position(entry),observed=observed,cause=cause,
+        source_id=entry.source~=0 and entry.source or nil,source_type=source_type,
+        source_name=source_type and world_module.source_name(source_type)or nil,
+        owner_id=entry.owner~=0 and entry.owner or nil,owner_type=owner_type,
+        owner_name=owner_type and world_module.source_name(owner_type)or nil,local_player=false}
+    if entry.peer_lo~=0 or entry.peer_hi~=0 then
+        payload.creditor_peer=world_module.peer_hex(entry.peer_lo,entry.peer_hi)
+        for _,item in ipairs(world_module.players(source.world,false))do
+            if item.peer==payload.creditor_peer then
+                payload.player=handles.player(item);payload.local_player=item['local']==true
+            end
+        end
+    end
+    return payload
+end
+-- A queued entry equal to a reported Runtime request (the same type, entities, creditor and position; the queue keeps
+-- the position as f32): claimed once.
+local function near(a,b)return math.abs(a-b)<=1e-3+math.abs(a)*1e-6 end
+local function claim_request(source,entry)
+    for index,r in ipairs(source.requests)do
+        if r.reported and r.type==entry.type and r.source==entry.source and r.owner==entry.owner
+            and r.peer_lo==entry.peer_lo and r.peer_hi==entry.peer_hi and near(r.x,entry.x) and near(r.y,entry.y)
+            and near(r.z,entry.z)then
+            table.remove(source.requests,index)
+            return true
+        end
+    end
+    return false
+end
+function explosions.poll(source)
+    local world=source.world
+    local now=events.state.now
+    -- Runtime's own requests since the last poll, in request order; kept a while to recognise them queued.
+    local requests=source.requests
+    for index=#requests,1,-1 do
+        if now-requests[index].time>explosions.REQUEST_SECONDS then table.remove(requests,index)end
+    end
+    for _,r in ipairs(requests)do
+        if not r.reported then
+            r.reported=true
+            events.queue('explosion',explosion_payload(source,r,'request',r.cause))
+        end
+    end
+    local pending=world_module.explosion_pending(world,explosions.WINDOW)
+    if not pending then return end
+    local previous,current=source.window,{}
+    for index=0,pending.n-1 do current[index+1]=pending.raw:sub(index*STRIDE+1,(index+1)*STRIDE)end
+    source.window=current
+    -- The previous entries still queued: the longest suffix of the previous window that is a prefix of this one.
+    local carried=0
+    for shift=0,#previous-1 do
+        local length=#previous-shift
+        if length<=#current then
+            local same=true
+            for i=1,length do if previous[shift+i]~=current[i]then same=false;break end end
+            if same then carried=length;break end
+        end
+    end
+    if carried==#current then return end
+    metrics.count('events.explosions_observed',#current-carried)
+    for index=carried,#current-1 do
+        local entry=world_module.explosion_entry(pending.raw,index)
+        if not claim_request(source,entry)then events.queue('explosion',explosion_payload(source,entry,'queue'))end
+    end
+end
+M.explosions=events.register_source(explosions)
+
 function M.reset_for_tests()
-    for _,source in ipairs({M.game_state,M.players,M.health,M.stats,M.weapons})do source.world=nil;source.known=nil end
+    for _,source in ipairs({M.game_state,M.players,M.health,M.stats,M.weapons,M.explosions})do
+        source.world=nil;source.known=nil
+    end
+    world_module.observe_explosion_requests('explosion_event',nil)
 end
 return M
