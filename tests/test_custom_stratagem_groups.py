@@ -441,6 +441,38 @@ assert(api.describe('eat17g').carrier.name==EAT411 and#api.groups()==10)
 return 'ok'
 ''')
 
+    def test_tuning_cooldown_and_uses_after_registration(self):
+        # r51, for in-game editors: each player's own cooldown and uses, from the next call; the registry is unchanged.
+        self.lua(r'''
+custom.register(kit('kit'),'mods/test/one')
+local hash=custom.registry_hash()
+local d=custom.describe('kit')
+assert(d.cooldown==90 and d.uses==nil and not d.tuned and d.label=='Support Kit'and d.code,'describe: '..J(d))
+assert(custom.tune('kit',{cooldown=30,uses=4},'mods/t/editor')==true,'tuned')
+d=custom.describe('kit')
+assert(d.cooldown==30 and d.uses==4 and d.tuned and d.registered.cooldown==90 and d.registered.uses==nil,'tuned describe '..J(d))
+assert(custom.get('kit').cooldown==30,'the next call arms the tuned cooldown')
+assert(custom.registry_hash()==hash,'the lobby registry hash is unchanged')
+assert(count('TUNED kit by mods/t/editor')==1,said('TUNED'))
+-- refused like register; unknown fields and ids
+local function no(id,v,text)local ok,why=custom.tune(id,v);assert(not ok and tostring(why):find(text,1,true),tostring(why))end
+no('kit',{cooldown=0},'cooldown must be')
+no('kit',{cooldown=601},'cooldown must be')
+no('kit',{uses=1.5},'uses must be')
+no('kit',{code={'up'}},'only cooldown and uses')
+no('nope',{cooldown=5},'no custom stratagem')
+-- a second tune keeps the registered values; untune restores them
+custom.tune('kit',{cooldown=45})
+assert(custom.describe('kit').registered.cooldown==90,'kept')
+assert(custom.untune('kit')==true,'untune')
+d=custom.describe('kit')
+assert(d.cooldown==90 and d.uses==nil and not d.tuned,'restored')
+-- the public table
+local hd2=require('hd2runtime/api/hd2')
+assert(type(hd2.custom_stratagem.tune)=='function'and type(hd2.custom_stratagem.untune)=='function','public')
+return 'ok'
+''')
+
     def test_registry_hash_stability(self):
         self.lua(r'''
 -- An expendable definition without the new options (the 0.1.0 example's shape) keeps its line exactly, naming its

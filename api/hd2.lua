@@ -261,6 +261,8 @@ function M.asset_dependency(target)return require('hd2runtime/api/assets').descr
 function M.ensure(request)return register('ensure','hd2runtime/api/ensure',request)end
 -- Every registered operation and how it ended so far, legacy SDK operations included (docs/diagnostics.md).
 M.diagnostics.operations=operations
+-- Every mod's options pages and script values with their current values and the ensures they drive (r51).
+M.diagnostics.options=function()return options.list()end
 -- Gameplay scripting (docs/events.md): events, timers, keybinds and per-mod contexts. Required at startup with the
 -- rest of the API; nothing polls until a mod subscribes, starts a timer or binds a key.
 local scripting=require('hd2runtime/api/events')
@@ -325,7 +327,8 @@ local custom_stratagem=require('hd2runtime/api/custom_stratagem')
 M.custom_stratagem={register=custom_stratagem.register,status=custom_stratagem.status,
     describe=custom_stratagem.describe,groups=custom_stratagem.groups,
     instance_of=custom_stratagem.instance_of,verbose=custom_stratagem.verbose,focus_next=custom_stratagem.focus_next,
-    select_focused=custom_stratagem.select_focused,undo=custom_stratagem.undo}
+    select_focused=custom_stratagem.select_focused,undo=custom_stratagem.undo,tune=custom_stratagem.tune,
+    untune=custom_stratagem.untune}
 -- Who an associated autonomous entity's kills credit (development API, solo host; api/ownership.lua).
 M.ownership={credit_to_player=require('hd2runtime/api/ownership').credit_to_player}
 -- Mods needing a newer HD2Runtime (api/compatibility.lua): their SDK wrapper reports here before failing closed.

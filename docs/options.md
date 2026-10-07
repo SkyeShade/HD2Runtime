@@ -332,4 +332,33 @@ field `value` of an `hd2.ensure`.
   which were all read as the same value, so a choice between two of them was skipped as a no-op.
 - `mod:choice` with an id already used by a script value raises; the same id returns the same choice.
 
+### Following choices (r51)
+
+```lua
+local liberator = hd2.weapon('AR-23 Liberator')
+local info = liberator:fire_rate_modes()                -- state 'addable': no rate selector bound yet
+local rates = mod:choice({id = 'rates', values = {info.expect, {450, 640, 950}}})
+local binding = mod:choice({id = 'binding', values = {info.binding.expect, info.binding.value}, follow = rates})
+hd2.ensure({transaction = {id = 'liberator-rates', target = liberator, allow_unverified_effect = true, changes = {
+    {field = hd2.fields.fire_rate.modes, expect = info.expect, value = rates},
+    {field = info.binding.field, expect = info.binding.expect, value = binding}}}})
+rates:set({450, 640, 950})                              -- the binding moves with it, in one owned transition
+```
+
+Two fields that must change together, such as rates that fill an empty slot and the rate-of-fire selector binding
+they need, cannot be two independent choices: the bind-time proof checks each choice's values with the other at its
+current value, so "three rates, no binding" is refused (`SELECTOR_REQUIRED`).
+
+- `follow = choice` declares a choice that always selects the same index as the choice it follows. It has exactly as
+  many values, may repeat values (it is selected by index), cannot be `set` or `select`ed itself, and must belong to
+  the same mod. A leader moves its followers before any listener runs, so a bound ensure never sees a mixed pair.
+- **Bind-time proof**: a choice and the followers bound in the same request are proved together, index by index.
+
+## Every mod's options (`hd2.diagnostics.options`, r51)
+
+`hd2.diagnostics.options()` lists every options page and every mod's script values declared this session, read-only,
+for in-game editors: `{id, title, owner (the declaring mod), kind = 'menu' | 'script', fallback, options =
+{Handle:describe()...}, operations = {ensure ids bound to the page}}`. A following choice names its leader
+(`follows`). Values are read when it is called; nothing can be set through it (menu options follow Mod Options Menu).
+
 Tests: `tests/test_editor_services.py`.

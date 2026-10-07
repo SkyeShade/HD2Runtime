@@ -47,6 +47,11 @@ function M.status()return custom.status()end
 -- its carrier weapon, its pod (the rack, its capacity, its items and their planned slots), whether it is available and
 -- why not, and its state. nil for an unknown id. docs/custom-stratagem-api.md "describe".
 function M.describe(id)return custom.describe(id)end
+-- Tune a registered custom stratagem's cooldown and uses on this machine (r51; any mod, for in-game editors): values =
+-- {cooldown = seconds, uses = calls per mission}. Each player's own, from their next call; the lobby registry is
+-- unchanged. Returns true, or nil and why. untune(id) restores the registered values.
+function M.tune(id,values)return custom.tune(id,values,events.owner(nil,2))end
+function M.untune(id)return custom.untune(id)end
 -- The carrier groups: {{name, beacon, families, pod, weapon, eagle, doc, payloads}} (docs/custom-stratagem-api.md
 -- "Carrier groups").
 function M.groups()return custom.groups()end

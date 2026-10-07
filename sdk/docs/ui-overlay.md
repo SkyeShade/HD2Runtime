@@ -144,12 +144,17 @@ did not move. The editor's scroll lists read it once per frame.
 
 - `GetAsyncKeyState` cannot see the wheel, and the engine's `stingray.Mouse` `wheel` axis read nothing while the
   overlay held the mouse focus (live test of r50). Two sources are sampled once per tick while someone queries:
-  the engine axis, and a `WH_GETMESSAGE` hook on the game window's own thread counting `WM_MOUSEWHEEL` and the wheel
+  the engine axis, and a `WH_GETMESSAGE` hook on the game window's thread counting `WM_MOUSEWHEEL` and the wheel
   of `WM_INPUT` raw mouse input (`runtime/mouse_wheel.lua`).
-- The hook is installed only when the game window's thread is the thread running Lua, so it runs inside the engine's
-  own message pump and never while Lua runs. It only observes: `CallNextHookEx` is always called, raw input is read
-  with `GetRawInputData` (read-only) and nothing is consumed, so the game still scrolls its own menus.
-- It is removed one second after the last query; any error turns it off for the session (logged once).
+- **The hook procedure is native code, not Lua.** The game pumps its window messages on another thread than the one
+  running Lua (live r51: window thread 65780, Lua thread 51232), so a Lua callback there would run Lua on a foreign
+  thread. `M.hook_code` assembles about 200 bytes of x64 into a page the Runtime allocates once and never frees: it
+  adds `WM_MOUSEWHEEL` deltas to one counter and raw-input wheel deltas to another (`GetRawInputData` on the
+  message's own handle, read-only), and always returns `CallNextHookEx`. Lua reads the counters once per tick (raw
+  input wins when both saw the same turn). Nothing is consumed, so the game still scrolls its own menus.
+- It is removed one second after the last query (the pages stay); a failed install is retried at most every two
+  seconds (r51 retried every frame and filled LuaJIT's ctype table: `table overflow`); any error turns it off for the
+  session (logged once).
   `hd2.input.wheel_status()` reports `{hooked, disabled, source, engine}`; the first source that delivers a notch is
   logged (`wheel: first wheel input from ...`), so a live test tells which one works.
 

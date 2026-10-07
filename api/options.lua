@@ -96,6 +96,17 @@ function Handle:assign(value,source)
     if self[key]==normalized then metrics.count('options.noop_changes');self.source=source;return false end
     self[key]=normalized;self.source=source
     metrics.count('options.changes')
+    -- followers (mod:choice{follow = this}) take the same index first, so every listener sees a consistent set
+    local moved={}
+    for _,follower in ipairs(self.followers or{})do
+        if follower.selected~=normalized then follower.selected=normalized;follower.source=source;moved[#moved+1]=follower end
+    end
+    for _,follower in ipairs(moved)do
+        for _,listener in ipairs(follower.listeners)do
+            local ok,why=pcall(listener,follower)
+            if not ok then emit('option '..follower.id..' listener failed: '..tostring(why))end
+        end
+    end
     for _,listener in ipairs(self.listeners)do
         local ok,why=pcall(listener,self)
         if not ok then emit('option '..self.id..' listener failed: '..tostring(why))end
@@ -350,8 +361,9 @@ function M.page(spec)
         assert(existing.fallback==fallback,'options page already declared with another fallback: '..spec.id)
         return existing
     end
+    local ok,owner=pcall(function()return require('hd2runtime/core/shared_records').current_mod()end)
     local page=setmetatable({id=spec.id,title=spec.title,fallback=fallback,count=0,order={},unavailable={},
-        warned=0,operations={}},Page)
+        warned=0,operations={},owner=ok and owner or'unknown'},Page)
     pages[spec.id]=page
     return page
 end
@@ -439,6 +451,8 @@ M.value_label=value_label
 -- to `value` (false when it is not one of its values). True when it changed.
 function Handle:set(value)
     assert(self.script,'only script values can be set from code; menu options follow the menu')
+    assert(not self.leader,'choice '..tostring(self.option)..' follows '..tostring(self.leader and self.leader.option)
+        ..'; set that choice instead')
     if self.kind=='choice'then
         for index,candidate in ipairs(self.values)do
             if same(candidate,value)then return self:assign(index,'script')end
@@ -451,6 +465,8 @@ end
 -- Select a script choice by its 1-based index. True when it changed.
 function Handle:select(index)
     assert(self.script and self.kind=='choice','select() is for script choices')
+    assert(not self.leader,'choice '..tostring(self.option)..' follows '..tostring(self.leader and self.leader.option)
+        ..'; select on that choice instead')
     return self:assign(index,'script')
 end
 
@@ -460,7 +476,11 @@ end
 -- hd2.attack_output(...), terminal_action(...):explosion()) and plain tables of those (a calldown code {'up','right'},
 -- :no_explosion()). Plain tables are copied when declared and on every get, so a value proved at bind time cannot
 -- change afterwards. The bound ensure validates every value when it is declared.
--- spec: {id, values = {...} (1..64, no two the same), default = index (1), labels = {...} (optional, for describe)}.
+-- spec: {id, values = {...} (1..64, no two the same), default = index (1), labels = {...} (optional, for describe),
+-- follow = another script choice of the same mod (r51)}. A following choice always selects the same index as the
+-- choice it follows (it cannot be set itself), may repeat values, and has exactly as many values: a second field that
+-- must change together with the first, such as the rate-of-fire selector binding that a fire_rate.modes list with
+-- more than one rate needs. A bound ensure proves a choice and its followers together, index by index.
 local function valid_choice_value(value,depth)
     local t=type(value)
     if t=='boolean'then return true end
@@ -474,7 +494,7 @@ end
 function M.choice(spec,owner)
     assert(type(spec)=='table','choice requires a descriptor')
     for key in pairs(spec)do
-        assert(key=='id'or key=='values'or key=='default'or key=='labels'or key=='owner',
+        assert(key=='id'or key=='values'or key=='default'or key=='labels'or key=='owner'or key=='follow',
             'unsupported choice option: '..tostring(key))
     end
     assert(type(spec.id)=='string'and spec.id:match('^[%w_%-]+$')and#spec.id<=40,
@@ -492,12 +512,20 @@ function M.choice(spec,owner)
     end
     local values=spec.values
     assert(type(values)=='table'and#values>=1 and#values<=64,'choice needs 1 to 64 values')
+    local leader=spec.follow
+    if leader~=nil then
+        assert(getmetatable(leader)==Handle and leader.kind=='choice'and leader.script and not leader.leader,
+            'follow must be a script choice that follows no other choice')
+        assert(leader.page==page,'a choice can only follow a choice of the same mod')
+        assert(#values==#leader.values,'a following choice needs exactly as many values as the choice it follows ('
+            ..#leader.values..')')
+    end
     local copies,labels={},{}
     for index,value in ipairs(values)do
         assert(valid_choice_value(value),'choice value '..index..' must be a number, boolean, string, reference '
             ..'handle or a plain table of those')
         for earlier=1,index-1 do
-            assert(not same(copies[earlier],value),'choice values '..earlier..' and '..index..' are the same')
+            assert(leader or not same(copies[earlier],value),'choice values '..earlier..' and '..index..' are the same')
         end
         copies[index]=copy_value(value)
         local label=spec.labels and spec.labels[index]
@@ -509,8 +537,45 @@ function M.choice(spec,owner)
     local handle=setmetatable({id=id,option=spec.id,page=page,kind='choice',script=true,label=spec.id,listeners={},
         state_listeners={},state='ready',registered=false,source='default',choices=labels,values=copies,
         default=default,selected=default},Handle)
+    if leader then
+        handle.leader,handle.default,handle.selected=leader,leader.selected,leader.selected
+        leader.followers=leader.followers or{}
+        leader.followers[#leader.followers+1]=handle
+    end
     handles[id]=handle
     return handle
+end
+
+-- Every options page and script value set declared this session, for in-game editors and diagnostics
+-- (hd2.diagnostics.options, r51). Read-only copies: {id, title, owner, kind = 'menu' | 'script', fallback,
+-- options = {Handle:describe()...}, operations = {ensure ids bound to the page's options}}.
+function M.list()
+    local out={}
+    local function add(page,kind,owner)
+        local item={id=page.id,title=page.title,owner=owner,kind=kind,fallback=page.fallback,options={},operations={}}
+        local list=kind=='menu'and page.order or{}
+        if kind=='script'then
+            for _,handle in pairs(handles)do if handle.page==page then list[#list+1]=handle end end
+            table.sort(list,function(a,b)return a.id<b.id end)
+        end
+        for _,handle in ipairs(list)do
+            local d=handle:describe()
+            d.follows=handle.leader and handle.leader.option or nil
+            item.options[#item.options+1]=d
+        end
+        for id in pairs(page.operations or{})do item.operations[#item.operations+1]=id end
+        table.sort(item.operations)
+        out[#out+1]=item
+    end
+    local ids={}
+    for id in pairs(pages)do ids[#ids+1]=id end
+    table.sort(ids)
+    for _,id in ipairs(ids)do add(pages[id],'menu',pages[id].owner or'unknown')end
+    local owners={}
+    for owner in pairs(script_pages)do owners[#owners+1]=owner end
+    table.sort(owners)
+    for _,owner in ipairs(owners)do add(script_pages[owner],'script',owner)end
+    return out
 end
 
 -- Test/audit hook: forget every declaration.

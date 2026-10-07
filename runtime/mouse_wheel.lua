@@ -4,25 +4,28 @@
 -- the live test of 2026-10-08 (the overlay frees the mouse focus while it is open). Two sources, sampled once per
 -- update tick while some mod asks for the wheel:
 --   * the engine axis, read as the custom stratagem panel reads it;
---   * a thread message hook (SetWindowsHookExW WH_GETMESSAGE) on the game window's own thread, installed only when
---     that thread is the one running Lua (the hook then runs inside the engine's own message pump, never while Lua
---     runs). It counts WM_MOUSEWHEEL and the wheel of WM_INPUT raw mouse input (GetRawInputData on the message's own
---     handle: read-only, the game still reads it). Messages are only observed: CallNextHookEx is always called and
---     nothing is consumed.
--- The hook is removed one second after the last query, on any error (logged once; the hook is then off for the
--- session) and is never installed outside Windows. The first source that delivers a notch is logged, so a live test
--- tells which one works.
+--   * a thread message hook (SetWindowsHookExW WH_GETMESSAGE) on the game window's thread. The game pumps its window
+--     messages on another thread than the one running Lua (live r51 log: window thread 65780, Lua thread 51232), so
+--     the hook procedure is NATIVE code, not a Lua callback: about 200 bytes of x64 built by M.hook_code below, in
+--     pages the Runtime's write adapter allocates once and never frees (windows_write.lua native_procedure). It only adds: WM_MOUSEWHEEL deltas to one counter, the wheel
+--     of WM_INPUT raw mouse records to another (GetRawInputData on the message's own handle, read-only: the game
+--     still reads it), and always returns CallNextHookEx. Lua reads the counters once per tick; nothing is consumed
+--     and no Lua ever runs on the window thread.
+-- The hook is removed one second after the last query (the code and counter pages stay, so a message already inside
+-- the procedure finishes safely). Any error turns the hook off for the session (logged once). It is never installed
+-- outside the game on Windows x64. The first source that delivers a notch is logged, so a live test tells which works.
 local events=require('hd2runtime/runtime/events')
-local KEY='HD2RuntimeMouseWheelV1'
+local KEY='HD2RuntimeMouseWheelV2'
 local existing=rawget(_G,KEY)
 if existing then return existing end
 local M={}
 rawset(_G,KEY,M)
 
 local IDLE_SECONDS=1
+local RETRY_SECONDS=2
 local WHEEL_DELTA=120
-local state={hook=nil,callback=nil,pending=0,value=0,frame=-1,last_query=nil,clock=0,disabled=nil,logged={},
-    source=nil,engine_ok=true}
+local state={hook=nil,value=0,frame=-1,last_query=nil,disabled=nil,logged={},source=nil,engine_ok=true,
+    next_try=0,seen={legacy=0,raw=0}}
 M.state=state
 
 local function log(message)
@@ -51,69 +54,139 @@ local function engine_axis()
     return 0
 end
 
--------------------------------------------------------------------------------------------------- message hook --
-M.hooks={}
-function M.hooks.install(on_wheel)
+-------------------------------------------------------------------------------------------------- hook code --
+local function u32(n)return string.char(n%256,math.floor(n/256)%256,math.floor(n/65536)%256,math.floor(n/16777216)%256)end
+local function u64(n)
+    assert(type(n)=='number'and n>=0 and n<2^53 and n%1==0,'address out of range')
+    return u32(n%4294967296)..u32(math.floor(n/4294967296))
+end
+-- The x64 hook procedure LRESULT CALLBACK proc(int code, WPARAM wParam, LPARAM lParam /* MSG * */). counters is the
+-- address of three int32: [0] the WM_MOUSEWHEEL delta sum, [4] the raw-input wheel delta sum, [8] wheel messages
+-- seen. raw_data and next_hook are GetRawInputData and CallNextHookEx. Win64 ABI: 16-byte aligned calls, 32 bytes of
+-- shadow space, rbx/rsi/rdi callee-saved. Every branch ends in CallNextHookEx(NULL, code, wParam, lParam).
+function M.hook_code(counters,raw_data,next_hook)
+    local parts={}
+    local function emit(s)parts[#parts+1]=s end
+    local function hex(s)emit((s:gsub(' ',''):gsub('%x%x',function(b)return string.char(tonumber(b,16))end)))end
+    local labels,fixups={},{}
+    local function size()local n=0 for _,p in ipairs(parts)do n=n+#p end return n end
+    -- near branches (rel32): Jcc is 0F 8x, JMP is E9
+    local NEAR={['78']='0F 88',['75']='0F 85',['72']='0F 82',['77']='0F 87',['74']='0F 84',EB='E9'}
+    local function jump(op,label)hex(NEAR[op]);fixups[#fixups+1]={at=size(),label=label};emit('\0\0\0\0')end
+    local function label(name)labels[name]=size()end
+    hex('53 56 57')                      -- push rbx; push rsi; push rdi
+    hex('48 83 EC 70')                   -- sub rsp, 0x70
+    hex('89 CB')                         -- mov ebx, ecx         (code)
+    hex('48 89 D6')                      -- mov rsi, rdx         (wParam: PM_REMOVE?)
+    hex('4C 89 C7')                      -- mov rdi, r8          (MSG *)
+    hex('85 DB');jump('78','next')       -- test ebx, ebx; js next          (code < 0: pass on)
+    hex('48 83 FE 01');jump('75','next') -- cmp rsi, 1; jne next            (only messages being removed: once)
+    hex('8B 47 08')                      -- mov eax, [rdi+8]     (MSG.message)
+    hex('3D 0A 02 00 00');jump('75','input') -- cmp eax, WM_MOUSEWHEEL; jne input
+    hex('48 8B 47 10')                   -- mov rax, [rdi+16]    (MSG.wParam)
+    hex('C1 F8 10')                      -- sar eax, 16          (signed HIWORD: the delta)
+    hex('48 B9');emit(u64(counters))     -- mov rcx, counters
+    hex('F0 01 01')                      -- lock add [rcx], eax
+    hex('F0 FF 41 08')                   -- lock inc dword [rcx+8]
+    jump('EB','next')
+    label('input')
+    hex('3D FF 00 00 00');jump('75','next')  -- cmp eax, WM_INPUT; jne next
+    hex('C7 44 24 28 40 00 00 00')       -- mov dword [rsp+0x28], 64     (pcbSize)
+    hex('48 8B 4F 18')                   -- mov rcx, [rdi+24]    (MSG.lParam: HRAWINPUT)
+    hex('BA 03 00 00 10')                -- mov edx, RID_INPUT
+    hex('4C 8D 44 24 30')                -- lea r8, [rsp+0x30]   (64-byte buffer)
+    hex('4C 8D 4C 24 28')                -- lea r9, [rsp+0x28]
+    hex('C7 44 24 20 18 00 00 00')       -- mov dword [rsp+0x20], 24     (sizeof(RAWINPUTHEADER))
+    hex('48 B8');emit(u64(raw_data))     -- mov rax, GetRawInputData
+    hex('FF D0')                         -- call rax
+    hex('83 F8 20');jump('72','next')    -- cmp eax, 32; jb next          (too short)
+    hex('83 F8 40');jump('77','next')    -- cmp eax, 64; ja next          (error: (UINT)-1)
+    hex('83 7C 24 30 00');jump('75','next')  -- cmp dword [rsp+0x30], 0; jne next   (RIM_TYPEMOUSE)
+    hex('0F B7 44 24 4C')                -- movzx eax, word [rsp+0x4C]   (usButtonFlags)
+    hex('A9 00 04 00 00');jump('74','next')  -- test eax, RI_MOUSE_WHEEL; jz next
+    hex('0F BF 44 24 4E')                -- movsx eax, word [rsp+0x4E]   (usButtonData: the delta)
+    hex('48 B9');emit(u64(counters))     -- mov rcx, counters
+    hex('F0 01 41 04')                   -- lock add [rcx+4], eax
+    hex('F0 FF 41 08')                   -- lock inc dword [rcx+8]
+    label('next')
+    hex('31 C9')                         -- xor ecx, ecx         (hhk: ignored)
+    hex('89 DA')                         -- mov edx, ebx
+    hex('49 89 F0')                      -- mov r8, rsi
+    hex('49 89 F9')                      -- mov r9, rdi
+    hex('48 B8');emit(u64(next_hook))    -- mov rax, CallNextHookEx
+    hex('FF D0')                         -- call rax
+    hex('48 83 C4 70')                   -- add rsp, 0x70
+    hex('5F 5E 5B C3')                   -- pop rdi; pop rsi; pop rbx; ret
+    local code=table.concat(parts)
+    local bytes={code:byte(1,-1)}
+    for _,f in ipairs(fixups)do
+        local delta=(labels[f.label]-(f.at+4))%4294967296
+        for i=1,4 do bytes[f.at+i]=delta%256;delta=math.floor(delta/256)end
+    end
+    local out={}
+    for i,b in ipairs(bytes)do out[i]=string.char(b)end
+    return table.concat(out)
+end
+
+-------------------------------------------------------------------------------------------------- the hook --
+-- Every FFI type and export is made ONCE: a per-call ffi.cast of a function type string creates a new ctype each time,
+-- and retrying that every frame filled LuaJIT's ctype table ('table overflow', live r51).
+local win32
+local function bindings()
+    if win32 then return win32 end
     local win=require('hd2runtime/runtime/windows_ffi')
     local ffi,kernel=win.ffi,win.kernel
     local user32=kernel.GetModuleHandleA('user32.dll')
     assert(user32~=nil,'user32.dll is not loaded')
     local kernel32=kernel.GetModuleHandleA('kernel32.dll')
-    local function proc(module,name,signature)
+    local function export(module,name)
         local address=kernel.GetProcAddress(module,name)
         assert(address~=nil,name..' export unavailable')
-        return ffi.cast(signature,address)
+        return address
     end
-    local foreground=proc(user32,'GetForegroundWindow','void *(*)(void)')
-    local window_thread=proc(user32,'GetWindowThreadProcessId','uint32_t (*)(void *, uint32_t *)')
-    local current_thread=proc(kernel32,'GetCurrentThreadId','uint32_t (*)(void)')
-    local current_process=proc(kernel32,'GetCurrentProcessId','uint32_t (*)(void)')
-    local set_hook=proc(user32,'SetWindowsHookExW','void *(*)(int, void *, void *, uint32_t)')
-    local next_hook=proc(user32,'CallNextHookEx','intptr_t (*)(void *, int, uintptr_t, intptr_t)')
-    local unhook=proc(user32,'UnhookWindowsHookEx','int (*)(void *)')
-    local raw_data=proc(user32,'GetRawInputData','uint32_t (*)(void *, uint32_t, void *, uint32_t *, uint32_t)')
-    local window=foreground()
+    local function typed(module,name,signature)return ffi.cast(signature,export(module,name))end
+    win32={ffi=ffi,kernel=kernel,
+        foreground=typed(user32,'GetForegroundWindow','void *(*)(void)'),
+        window_thread=typed(user32,'GetWindowThreadProcessId','uint32_t (*)(void *, uint32_t *)'),
+        current_process=typed(kernel32,'GetCurrentProcessId','uint32_t (*)(void)'),
+        set_hook=typed(user32,'SetWindowsHookExW','void *(*)(int, void *, void *, uint32_t)'),
+        unhook=typed(user32,'UnhookWindowsHookEx','int (*)(void *)'),
+        raw_data=tonumber(ffi.cast('uintptr_t',export(user32,'GetRawInputData'))),
+        next_hook=tonumber(ffi.cast('uintptr_t',export(user32,'CallNextHookEx'))),
+        pid=ffi.new('uint32_t[1]')}
+    return win32
+end
+
+-- The procedure and its counters: built once per process by the write-capable adapter
+-- (runtime/windows_write.lua native_procedure: pages never freed, the code execute-read). Kept in _G so a reloaded
+-- module reuses them.
+local PAGES_KEY='HD2RuntimeMouseWheelPagesV1'
+function M.pages(w)
+    w=w or bindings()
+    local pages=rawget(_G,PAGES_KEY)
+    if pages then return pages end
+    local adapter=require('hd2runtime/runtime/windows_write').create()
+    assert(adapter.native_procedure,'this Runtime adapter cannot build a native procedure')
+    local code,counters=adapter.native_procedure(function(counters)return M.hook_code(counters,w.raw_data,w.next_hook)end)
+    pages={code=w.ffi.cast('void *',code),counters=w.ffi.cast('volatile int32_t *',counters)}
+    rawset(_G,PAGES_KEY,pages)
+    return pages
+end
+
+M.hooks={}
+-- Installs the native hook on the game window's thread: a handle {remove, thread, read} or nil and why.
+function M.hooks.install()
+    local w=bindings()
+    local window=w.foreground()
     if window==nil then return nil,'the game window does not have the focus'end
-    local pid=ffi.new('uint32_t[1]')
-    local thread=window_thread(window,pid)
-    if pid[0]~=current_process()then return nil,'the foreground window is not the game\'s'end
-    if thread~=current_thread()then
-        return nil,'the game window belongs to thread '..thread..', Lua runs on thread '..current_thread()
-    end
-    local buffer=ffi.new('uint8_t[64]')
-    local size=ffi.new('uint32_t[1]')
-    local handle
-    local function on_message(code,wparam,lparam)
-        if code>=0 and wparam==1 then   -- HC_ACTION, PM_REMOVE: the message is being taken off the queue (once)
-            local ok,why=pcall(function()
-                local msg=ffi.cast('uint8_t *',lparam)
-                local message=ffi.cast('uint32_t *',msg+8)[0]
-                if message==0x020A then                     -- WM_MOUSEWHEEL: HIWORD(wParam) is the signed delta
-                    local w=tonumber(ffi.cast('uint64_t *',msg+16)[0]%4294967296)
-                    local hi=math.floor(w/65536)%65536
-                    if hi>=32768 then hi=hi-65536 end
-                    on_wheel(hi/WHEEL_DELTA,'WM_MOUSEWHEEL')
-                elseif message==0x00FF then                 -- WM_INPUT: read the raw mouse record (read-only)
-                    local raw=ffi.cast('void **',msg+24)[0]
-                    size[0]=64
-                    local n=raw_data(raw,0x10000003,buffer,size,24)  -- RID_INPUT, sizeof(RAWINPUTHEADER)
-                    if n~=0xFFFFFFFF and n>=32 and ffi.cast('uint32_t *',buffer)[0]==0 then   -- RIM_TYPEMOUSE
-                        local flags=ffi.cast('uint16_t *',buffer+28)[0]
-                        if bit.band(flags,0x0400)~=0 then         -- RI_MOUSE_WHEEL
-                            local data=ffi.cast('int16_t *',buffer+30)[0]
-                            on_wheel(data/WHEEL_DELTA,'WM_INPUT')
-                        end
-                    end
-                end
-            end)
-            if not ok then on_wheel(nil,why)end
-        end
-        return next_hook(handle,code,wparam,lparam)
-    end
-    local callback=ffi.cast('intptr_t (*)(int, uintptr_t, intptr_t)',on_message)
-    handle=set_hook(3,ffi.cast('void *',callback),nil,thread)   -- WH_GETMESSAGE on the window's own thread
-    if handle==nil then callback:free();return nil,'SetWindowsHookExW failed'end
-    return {remove=function()unhook(handle);callback:free()end,thread=thread}
+    local thread=w.window_thread(window,w.pid)
+    if w.pid[0]~=w.current_process()then return nil,'the foreground window is not the game\'s'end
+    local pages=M.pages(w)
+    local handle=w.set_hook(3,pages.code,nil,thread)             -- WH_GETMESSAGE on the window's own thread
+    if handle==nil then return nil,'SetWindowsHookExW failed ('..tostring(w.kernel.GetLastError())..')'end
+    local c=pages.counters
+    return {thread=thread,remove=function()w.unhook(handle)end,
+        read=function()return c[0],c[1],c[2]end}
 end
 
 local function remove()
@@ -124,23 +197,41 @@ local function remove()
     end
 end
 local function disable(why)
-    state.disabled=why
+    state.disabled=tostring(why)
     remove()
     log('the message hook is off for this session: '..tostring(why))
 end
-local function on_wheel(notches,source)
-    if notches==nil then return disable(source)end
-    state.pending=state.pending+notches
-    if not state.source then state.source=source;log('first wheel input from '..source)end
-end
+local function now()return events.state.now or 0 end
 local function ensure_hook()
-    if state.hook or state.disabled then return end
+    if state.hook or state.disabled or now()<state.next_try then return end
     if type(rawget(_G,'stingray'))~='table'then return end   -- only in the game
-    local ok,hook,why=pcall(M.hooks.install,on_wheel)
+    state.next_try=now()+RETRY_SECONDS                        -- at most one attempt per RETRY_SECONDS
+    local ok,hook,why=pcall(M.hooks.install)
     if not ok then return disable(hook)end
     if not hook then log('no message hook yet: '..tostring(why));return end
     state.hook=hook
-    log('message hook installed on thread '..tostring(hook.thread))
+    local ok_read,legacy,raw=pcall(hook.read)
+    state.seen={legacy=ok_read and legacy or 0,raw=ok_read and raw or 0}
+    log('native message hook installed on the window thread '..tostring(hook.thread))
+end
+
+-- The hook's notches since the last read: raw input when it moved, else the legacy messages (both report the same
+-- turn when the game receives both).
+local function hooked()
+    if not state.hook then return 0 end
+    local ok,legacy,raw=pcall(state.hook.read)
+    if not ok then disable(legacy);return 0 end
+    local dl,dr=legacy-state.seen.legacy,raw-state.seen.raw
+    state.seen.legacy,state.seen.raw=legacy,raw
+    if dr~=0 then
+        if not state.source then state.source='WM_INPUT';log('first wheel input from WM_INPUT (raw input)')end
+        return dr/WHEEL_DELTA
+    end
+    if dl~=0 then
+        if not state.source then state.source='WM_MOUSEWHEEL';log('first wheel input from WM_MOUSEWHEEL')end
+        return dl/WHEEL_DELTA
+    end
+    return 0
 end
 
 -- Once per update tick while someone asks: the tick's wheel, and the hook's idle removal.
@@ -148,15 +239,14 @@ local function sample()
     local frame=events.state.frame
     if state.frame==frame then return end
     state.frame=frame
-    local hooked=state.pending
-    state.pending=0
+    local h=hooked()
     local engine=engine_axis()
-    if hooked~=0 then state.value=hooked
+    if h~=0 then state.value=h
     else
         state.value=engine
         if engine~=0 and not state.source then state.source='engine';log('first wheel input from the engine axis')end
     end
-    if state.last_query and events.state.now and events.state.now-state.last_query>IDLE_SECONDS then
+    if state.last_query and now()-state.last_query>IDLE_SECONDS then
         remove()
         state.last_query=nil
         events.set_poller('wheel',nil)
@@ -165,19 +255,21 @@ end
 
 -- The wheel this update tick in notches (+ up, - down; fractions for smooth wheels), 0 when it did not move.
 function M.read()
-    state.last_query=events.state.now or 0
+    state.last_query=now()
     if not state.hook then ensure_hook()end
     events.set_poller('wheel',sample)
     sample()
     return state.value
 end
 function M.status()
-    return {hooked=state.hook~=nil,disabled=state.disabled,source=state.source,engine=state.engine_ok}
+    return {hooked=state.hook~=nil,disabled=state.disabled,source=state.source,engine=state.engine_ok,
+        thread=state.hook and state.hook.thread or nil}
 end
 function M.reset_for_tests()
     remove()
-    state.pending,state.value,state.frame,state.last_query,state.disabled,state.source,state.logged,state.engine_ok=
-        0,0,-1,nil,nil,nil,{},true
+    state.value,state.frame,state.last_query,state.disabled,state.source,state.logged,state.engine_ok,state.next_try=
+        0,-1,nil,nil,nil,{},true,0
+    state.seen={legacy=0,raw=0}
     events.set_poller('wheel',nil)
 end
 return M

@@ -122,6 +122,12 @@ end
 The list is a copy; the entries are read when it is called. At most 4096 registrations are kept (the oldest are
 dropped first; the second return value is `{dropped = n}`).
 
+## Every mod's options (r51)
+
+`hd2.diagnostics.options()` returns every options page (`kind = 'menu'`) and every mod's script values
+(`kind = 'script'`) with their owner, their options' current values and the ensures bound to them
+(docs/options.md "Every mod's options").
+
 ## Which mod is slow (always on, quiet; 0.30.0-dev)
 
 `hd2.diagnostics.performance()` returns the CPU time of every mod, plus the Runtime's own work, the most time first.

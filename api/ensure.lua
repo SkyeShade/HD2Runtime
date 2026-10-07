@@ -86,6 +86,7 @@ local function materialize(value,key,found,override,baseline,in_value)
         assert(key=='value'or in_value,'an option may only bind a field value, not '..tostring(key))
         if found then found[#found+1]=value end
         if override and override.handle==value then return override.value end
+        if override and override.values and override.values[value]~=nil then return override.values[value]end
         return value:get()
     end
     if type(value)~='table'or getmetatable(value)~=nil then return value end
@@ -150,11 +151,33 @@ local function start_bound(runtime,emit,request,kind,validate,module,interval,st
     local conflict=diagnostics.watch(id,diagnostics.describe(kind,body),interval,function(line)pcall(emit,line)end)
     -- Bind-time proof: the whole option domain passes the normal guarded validation
     -- (acknowledgements, reviewed ranges, integer storage, known values), and so does restore.
+    -- A script choice and the choices following it (mod:choice{follow}) are proved together, index by index.
+    local in_request={}
+    for _,handle in ipairs(bound)do in_request[handle]=true end
     for _,handle in ipairs(bound)do
-        for _,sample in ipairs(handle:samples())do
-            local ok,why=pcall(build,{handle=handle,value=sample})
-            if not ok then error('option '..handle.id..' value '..options.value_label(sample)
-                ..' is not accepted by '..id..': '..tostring(why),0)end
+        if handle.leader and in_request[handle.leader]then
+            -- proved with its leader below
+        elseif handle.followers then
+            local samples=handle:samples()
+            for index,sample in ipairs(samples)do
+                local values={[handle]=sample}
+                local labels={options.value_label(sample)}
+                for _,follower in ipairs(handle.followers)do
+                    if in_request[follower]then
+                        local v=follower:samples()[index]
+                        values[follower]=v;labels[#labels+1]=options.value_label(v)
+                    end
+                end
+                local ok,why=pcall(build,{values=values})
+                if not ok then error('option '..handle.id..' value '..table.concat(labels,' + ')
+                    ..' is not accepted by '..id..': '..tostring(why),0)end
+            end
+        else
+            for _,sample in ipairs(handle:samples())do
+                local ok,why=pcall(build,{handle=handle,value=sample})
+                if not ok then error('option '..handle.id..' value '..options.value_label(sample)
+                    ..' is not accepted by '..id..': '..tostring(why),0)end
+            end
         end
     end
     local restore=build(nil,true)

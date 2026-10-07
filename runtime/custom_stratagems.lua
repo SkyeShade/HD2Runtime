@@ -1257,6 +1257,47 @@ function M.register(spec,owner)
 end
 function M.get(id)return defs[id]end
 function M.list()local out={};for k,d in ipairs(order)do out[k]=d end;return out end
+-- Tuning after registration (r51, for in-game editors): a definition's cooldown (seconds) and uses (calls per mission)
+-- only. Both are each player's own (armed on this machine when a call lands; not in the lobby registry hash), so a
+-- tuned value changes this player's next call and never what other machines agree on. The same checks as register;
+-- values = {cooldown, uses} (nil leaves a field as it is). The registered values are kept: untune restores them.
+-- Returns true, or nil and why.
+function M.tune(id,values,by)
+    local d=defs[id]
+    if not d then return nil,'no custom stratagem '..tostring(id)end
+    if type(values)~='table'then return nil,'tune needs {cooldown, uses}'end
+    for key in pairs(values)do
+        if key~='cooldown'and key~='uses'then return nil,'only cooldown and uses can be tuned, not '..tostring(key)end
+    end
+    local cooldown,uses=values.cooldown,values.uses
+    if cooldown~=nil and not(type(cooldown)=='number'and cooldown>0 and cooldown<=M.MAX_COOLDOWN)then
+        return nil,'cooldown must be seconds above 0 and at most '..M.MAX_COOLDOWN
+    end
+    if uses~=nil then
+        if d.eagle then return nil,'an Eagle\'s uses are per rearm (eagle.uses) and cannot be tuned'end
+        if not(type(uses)=='number'and uses%1==0 and uses>=1 and uses<=M.MAX_USES)then
+            return nil,'uses must be a whole number of calls per mission from 1 to '..M.MAX_USES
+        end
+    end
+    d.registered_values=d.registered_values or{cooldown=d.cooldown,uses=d.uses}
+    if cooldown~=nil then d.cooldown=cooldown end
+    if uses~=nil then d.uses=uses end
+    d.tuned_by=by
+    log(('TUNED %s by %s: cooldown %s, uses %s (registered: %s, %s); from its next call')
+        :format(id,tostring(by or'unknown'),tostring(d.cooldown),tostring(d.uses or'unlimited'),
+        tostring(d.registered_values.cooldown),tostring(d.registered_values.uses or'unlimited')))
+    return true
+end
+function M.untune(id)
+    local d=defs[id]
+    if not d then return nil,'no custom stratagem '..tostring(id)end
+    if d.registered_values then
+        d.cooldown,d.uses=d.registered_values.cooldown,d.registered_values.uses
+        d.registered_values,d.tuned_by=nil,nil
+        log('UNTUNED '..id..': back to its registered cooldown and uses')
+    end
+    return true
+end
 
 ------------------------------------------------------------------------------------------------ helpers --
 -- Every global exclusion: no custom stratagem's carrier is another's asset or delivery.
@@ -5560,7 +5601,11 @@ function M.describe(id)
     elseif ship.alloc and ship.alloc.assignments[id]then a,where=ship.alloc.assignments[id],'ship'end
     local refused=(mission.allocation and mission.allocation.refused[id])or(ship.alloc and ship.alloc.refused[id])
     local out={id=id,owner=d.owner,kind=d.kind,group=d.group,group_source=d.group_source,allocated=where,
-        slots=d.slots}
+        slots=d.slots,label=d.label,code=d.code_text,code_values=d.code_values and{unpack(d.code_values)}or nil,
+        cooldown=d.cooldown,uses=d.uses,eagle_uses=d.eagle and d.eagle.uses or nil,icon=d.icon,
+        tuned=d.registered_values~=nil,registered=d.registered_values and{cooldown=d.registered_values.cooldown,
+            uses=d.registered_values.uses}or{cooldown=d.cooldown,uses=d.uses},
+        limits={cooldown={0,M.MAX_COOLDOWN},uses={1,M.MAX_USES}}}
     if a then
         out.carrier={name=a.carrier,stable_id=a.stable_id,type=a.type,family=a.family,beacon=a.beacon,beam=a.beam,
             condensed=a.condensed==true,fallback=a.fallback,local_refused=a.local_refused}

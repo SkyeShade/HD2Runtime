@@ -4528,6 +4528,32 @@
       "params": [],
       "returns": "string",
       "doc": "Returns the last selected slot."
+     },
+     {
+      "name": "tune",
+      "params": [
+       [
+        "id",
+        "string"
+       ],
+       [
+        "values",
+        "table"
+       ]
+      ],
+      "returns": "boolean|nil, string|nil",
+      "doc": "r51, for in-game editors: a registered custom stratagem's cooldown (seconds) and uses (calls per mission) on this machine, values = {cooldown, uses}. Each player's own, from their next call; the lobby registry is unchanged. The same checks as register. True, or nil and why."
+     },
+     {
+      "name": "untune",
+      "params": [
+       [
+        "id",
+        "string"
+       ]
+      ],
+      "returns": "boolean|nil, string|nil",
+      "doc": "Back to the registered cooldown and uses."
      }
     ]
    },
@@ -5257,7 +5283,7 @@
      [
       "values",
       "any[]",
-      "1-64 values, no two the same; every one is validated when an ensure binds the choice."
+      "1-64 values, no two the same (a following choice may repeat); every one is validated when an ensure binds the choice."
      ],
      [
       "default",
@@ -5268,6 +5294,11 @@
       "labels",
       "string[]|nil",
       "Readable names, for describe() and logs."
+     ],
+     [
+      "follow",
+      "HD2ScriptChoice|nil",
+      "r51: another script choice of the same mod this one follows: it always selects the same index (it cannot be set itself), may repeat values and has exactly as many; a bound ensure proves the two together, index by index (e.g. the rate-of-fire selector binding that a fire_rate.modes list with two or more rates needs)."
      ]
     ],
     "methods": []

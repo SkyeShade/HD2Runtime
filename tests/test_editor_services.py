@@ -62,6 +62,74 @@ assert(not pcall(mod.choice,mod,{id='fn',values={function()end}}),'functions are
 return 'ok'
 ''')
 
+    def test_a_following_choice_changes_with_its_leader_and_is_proved_with_it(self):
+        self.lua(r'''
+local mod=hd2.mod('mods/t/editor')
+-- the Liberator's empty rate slots: filling them needs the rate-of-fire selector bound in the same transaction
+local liberator=hd2.weapon('AR-23 Liberator')
+local info=liberator:fire_rate_modes()
+assert(info.state=='addable'and info.binding,'the Liberator can take a selector')
+local three={450,700,950}
+local rates=mod:choice({id='rates',values={info.expect,three}})
+local binding=mod:choice({id='binding',values={info.binding.expect,info.binding.value},follow=rates})
+assert(binding:get()==info.binding.expect,'starts with its leader')
+-- the follower cannot be set itself; the leader moves it, before any listener runs
+assert(not pcall(binding.set,binding,info.binding.value))
+assert(not pcall(binding.select,binding,2))
+local seen
+binding:subscribe(function()seen=rates:index()end)
+assert(rates:set(three)==true and binding:get()==info.binding.value and seen==2,'moved with its leader')
+assert(rates:select(1)==true and binding:get()==info.binding.expect)
+-- values may repeat in a follower (selected by index); counts must match; only a script choice of the same mod
+local again=mod:choice({id='again',values={'none','none'},follow=rates})
+assert(again:get()=='none')
+assert(not pcall(mod.choice,mod,{id='short',values={'none'},follow=rates}),'count')
+assert(not pcall(hd2.mod('mods/t/other').choice,hd2.mod('mods/t/other'),{id='x',values={1,2},follow=rates}),'other mod')
+-- proved together: rates with three slots and the binding pass as a pair
+local acks={}
+for _,a in ipairs(info.acknowledgements or{})do acks[a]=true end
+local function request(id,b)
+    local t={id=id,target=liberator,changes={
+        {field=hd2.fields.fire_rate.modes,expect=info.expect,value=rates},
+        {field=info.binding.field,expect=info.binding.expect,value=b}}}
+    for a in pairs(acks)do t[a]=true end
+    return {transaction=t,startup_delay=0}
+end
+local watch=bind(request('paired',binding))
+assert(watch.status=='waiting_for_options'or watch.status=='waiting','bound: '..tostring(watch.status))
+-- an independent binding choice is proved value by value and refused (three rates with no binding)
+local loose=mod:choice({id='loose',values={info.binding.expect,info.binding.value}})
+local ok,why=pcall(bind,request('loose',loose))
+assert(not ok and tostring(why):find('SELECTOR_REQUIRED'),'independent choices fail: '..tostring(why))
+return 'ok'
+''')
+
+    def test_every_mods_options_are_listed_with_values_and_operations(self):
+        self.lua(r'''
+local page=events.run_as('mods/t/menu',function()return hd2.options({id='menu_mod',title='Menu Mod'})end)
+local speed=page:slider({id='speed',label='Speed',min=1,max=10,step=1,default=4})
+page:toggle({id='on',label='On',default=true})
+local mod=hd2.mod('mods/t/editor')
+local c=mod:choice({id='c1',values={1,2}})
+mod:choice({id='f1',values={'a','b'},follow=c})
+local list=hd2.diagnostics.options()
+local menu,script
+for _,p in ipairs(list)do
+    if p.id=='menu_mod'then menu=p end
+    if p.kind=='script'and p.owner=='mods/t/editor'then script=p end
+end
+assert(menu and menu.kind=='menu'and menu.owner=='mods/t/menu'and menu.title=='Menu Mod','menu page: '..tostring(menu and menu.owner))
+assert(#menu.options==2 and menu.options[1].option=='speed'and menu.options[1].value==4 and menu.options[1].max==10)
+assert(script and#script.options==2 and script.options[2].follows=='c1','script values and followers')
+-- an ensure bound to the page is listed with it
+local bound=events.run_as('mods/t/menu',function()return bind({patch={id='speedy',target=hd2.weapon('AR-23 Liberator'),
+    field='weapon.fire_rate',expect=640,value=speed},startup_delay=0})end)
+local again
+for _,p in ipairs(hd2.diagnostics.options())do if p.id=='menu_mod'then again=p end end
+assert(again.operations[1]=='speedy','operations: '..tostring(again.operations[1]))
+return 'ok'
+''')
+
     def test_a_value_the_field_refuses_fails_the_bind_with_a_readable_value(self):
         self.lua(r'''
 local mod=hd2.mod('mods/t/editor')
@@ -147,30 +215,121 @@ local wheel=require('hd2runtime/runtime/mouse_wheel')
 wheel.reset_for_tests()
 local axis=0
 rawset(_G,'stingray',{Mouse={axis=function()return {y=axis}end,axis_index=function(name)assert(name=='wheel')return 1 end}})
-local deliver,removed
-wheel.hooks.install=function(on_wheel)deliver=on_wheel;return {remove=function()removed=true end,thread=7}end
+-- the native hook's counters, as the procedure accumulates them: legacy delta, raw delta, messages
+local legacy,raw,count,installs,removed=0,0,0,0,false
+wheel.hooks.install=function()
+    installs=installs+1
+    return {remove=function()removed=true end,thread=7,read=function()return legacy,raw,count end}
+end
 local function tick(dt)events.tick(dt or 1/60)end
 assert(hd2.input.wheel()==0,'still')
-assert(deliver,'the hook is installed on the first query')
-deliver(1,'WM_MOUSEWHEEL')
+assert(installs==1,'the hook is installed on the first query')
+legacy=120
 tick()
-assert(hd2.input.wheel()==1,'a notch from the hook')
+assert(hd2.input.wheel()==1,'a notch from WM_MOUSEWHEEL')
 tick()
 assert(hd2.input.wheel()==0,'one tick only')
 axis=-1
 tick()
 assert(hd2.input.wheel()==-1,'the engine axis when the hook saw nothing')
 axis=0
-deliver(-2,'WM_INPUT');tick()
-assert(hd2.input.wheel()==-2,'raw input wheel')
+-- the same turn seen as raw input and as legacy messages counts once (raw wins)
+legacy,raw=legacy-240,-240;tick()
+assert(hd2.input.wheel()==-2,'raw input wheel, not doubled')
 assert(hd2.input.wheel_status().source=='WM_MOUSEWHEEL','the first source is kept')
 for _=1,90 do tick()end
 assert(removed,'removed after a second without queries')
--- an error inside the hook turns it off for the session
+-- a failing install is retried at most every two seconds (never every frame), and an error disables it
 wheel.reset_for_tests()
+local attempts=0
+wheel.hooks.install=function()attempts=attempts+1;return nil,'the game window does not have the focus'end
+for _=1,60 do hd2.input.wheel();tick()end
+assert(attempts==1,'one attempt in a second, got '..attempts)
+for _=1,90 do hd2.input.wheel();tick()end
+assert(attempts==2,'retried after two seconds, got '..attempts)
+wheel.reset_for_tests()
+wheel.hooks.install=function()error('boom')end
 hd2.input.wheel()
-deliver(nil,'boom')
-assert(wheel.status().disabled=='boom'and removed,'disabled')
+assert(wheel.status().disabled:find('boom'),'disabled')
+return 'ok'
+'''), b'ok')
+
+    def test_the_native_hook_procedure_counts_wheel_messages_and_always_passes_on(self):
+        # The real x64 procedure, executed: GetRawInputData and CallNextHookEx are Lua callbacks on this thread.
+        self.assertEqual(run(HARNESS + r'''
+local ffi=require('ffi')
+local wheel=require('hd2runtime/runtime/mouse_wheel')
+local kernel=ffi.load('kernel32')
+local alloc=ffi.cast('void *(*)(void *, size_t, uint32_t, uint32_t)',
+    require('hd2runtime/runtime/windows_ffi').kernel.GetProcAddress(
+    require('hd2runtime/runtime/windows_ffi').kernel.GetModuleHandleA('kernel32.dll'),'VirtualAlloc'))
+local counters=ffi.cast('int32_t *',alloc(nil,4096,0x3000,0x04))
+local raw_record=nil
+local raw_calls,next_calls=0,{}
+local raw_cb=ffi.cast('uint32_t (*)(void *, uint32_t, void *, uint32_t *, uint32_t)',function(h,command,data,size,header)
+    raw_calls=raw_calls+1
+    assert(command==0x10000003 and header==24 and size[0]==64,'GetRawInputData arguments')
+    assert(tonumber(ffi.cast('uintptr_t',h))==0xABCD,'the message handle')
+    if not raw_record then return 0xFFFFFFFF end
+    ffi.copy(data,raw_record,#raw_record)
+    return #raw_record
+end)
+local next_cb=ffi.cast('intptr_t (*)(void *, int, uintptr_t, intptr_t)',function(hook,code,wparam,lparam)
+    next_calls[#next_calls+1]={hook==nil,code,tonumber(wparam)}
+    return 77
+end)
+local code=wheel.hook_code(tonumber(ffi.cast('uintptr_t',counters)),tonumber(ffi.cast('uintptr_t',raw_cb)),
+    tonumber(ffi.cast('uintptr_t',next_cb)))
+local page=alloc(nil,4096,0x3000,0x40)                       -- PAGE_EXECUTE_READWRITE (test only)
+ffi.copy(page,code,#code)
+local proc=ffi.cast('intptr_t (*)(int, uintptr_t, intptr_t)',page)
+local msg=ffi.new('uint8_t[48]')
+local function send(code_,remove,message,wparam,lparam)
+    ffi.cast('uint32_t *',msg+8)[0]=message
+    ffi.cast('uint64_t *',msg+16)[0]=wparam
+    ffi.cast('uint64_t *',msg+24)[0]=lparam or 0
+    return tonumber(proc(code_,remove,tonumber(ffi.cast('intptr_t',msg))))
+end
+-- WM_MOUSEWHEEL: HIWORD(wParam) is the signed delta
+assert(send(0,1,0x020A,0x00780000)==77,'CallNextHookEx result returned')
+assert(send(0,1,0x020A,0xFF880000)==77)
+assert(counters[0]==0 and counters[2]==2,'+120 then -120: '..counters[0]..' '..counters[2])
+assert(send(0,1,0x020A,0xFE200000)==77)
+assert(counters[0]==-480,'delta -480: '..counters[0])
+-- not removed (PM_NOREMOVE) or code < 0: not counted, still passed on
+send(0,0,0x020A,0x00780000);send(-1,1,0x020A,0x00780000)
+assert(counters[0]==-480 and #next_calls==5,'only removed messages count')
+assert(next_calls[5][1]==true and next_calls[5][2]==-1 and next_calls[5][3]==1,'arguments passed on')
+-- WM_INPUT: a raw mouse record with RI_MOUSE_WHEEL and delta -240
+local record=ffi.new('uint8_t[48]')
+ffi.cast('uint32_t *',record)[0]=0                           -- RIM_TYPEMOUSE
+ffi.cast('uint16_t *',record+28)[0]=0x0400
+ffi.cast('int16_t *',record+30)[0]=-240
+raw_record=ffi.string(record,48)
+send(0,1,0x00FF,0,0xABCD)
+assert(counters[1]==-240 and counters[2]==4,'raw delta: '..counters[1])
+-- a keyboard record, a mouse record without the wheel flag, and an error are ignored
+ffi.cast('uint32_t *',record)[0]=1;raw_record=ffi.string(record,48);send(0,1,0x00FF,0,0xABCD)
+ffi.cast('uint32_t *',record)[0]=0;ffi.cast('uint16_t *',record+28)[0]=0x0001;raw_record=ffi.string(record,48)
+send(0,1,0x00FF,0,0xABCD)
+raw_record=nil;send(0,1,0x00FF,0,0xABCD)
+assert(counters[1]==-240 and counters[2]==4 and raw_calls==4,'ignored records')
+-- other messages never call GetRawInputData
+send(0,1,0x0200,0,0xABCD)
+assert(raw_calls==4 and #next_calls==10,'other messages pass straight on')
+-- the shipped pages: real GetRawInputData and CallNextHookEx, an execute-read code page, called directly
+local pages=wheel.pages()
+assert(wheel.pages()==pages,'allocated once')
+local real=ffi.cast('intptr_t (*)(int, uintptr_t, intptr_t)',pages.code)
+ffi.cast('uint32_t *',msg+8)[0]=0x020A
+ffi.cast('uint64_t *',msg+16)[0]=0x00F00000
+local before=pages.counters[0]
+real(0,1,tonumber(ffi.cast('intptr_t',msg)))
+assert(pages.counters[0]-before==240,'the shipped procedure counts')
+ffi.cast('uint32_t *',msg+8)[0]=0x00FF
+ffi.cast('uint64_t *',msg+24)[0]=0                           -- invalid HRAWINPUT: GetRawInputData fails, ignored
+real(0,1,tonumber(ffi.cast('intptr_t',msg)))
+assert(pages.counters[1]==0,'a failed raw read is ignored')
 return 'ok'
 '''), b'ok')
 

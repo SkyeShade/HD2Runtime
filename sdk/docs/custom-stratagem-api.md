@@ -120,6 +120,21 @@ it cooling. The log says `USES: n of N` at each call and `SPENT for this mission
 - **Several players.** Each player's Runtime counts its own calls: every player has their own uses.
 - **Not for an Eagle.** Its `eagle.uses` are per rearm.
 
+### Tuning after registration (`tune`, r51)
+
+```lua
+hd2.custom_stratagem.tune('pelican_gas_support', {cooldown = 120, uses = 4})   -- true, or nil and why
+hd2.custom_stratagem.untune('pelican_gas_support')                              -- the registered values again
+```
+
+For in-game editors: any mod may tune a registered custom stratagem's `cooldown` (seconds, above 0 and at most 600)
+and `uses` (1 to 100; not for an Eagle, whose uses are per rearm) on this machine. Both are each player's own, armed
+when a call lands, and neither is in the lobby registry hash, so tuning changes this player's next call and nothing
+other machines agree on. Nothing else can change after registration (the code, texts and icon are fixed; payload
+fields would change the registry). `describe(id)` also reports `label`, `code`, `code_values`, `cooldown`, `uses`,
+`eagle_uses`, `icon`, `tuned`, `registered = {cooldown, uses}` and `limits`. Each tune is logged
+(`custom stratagem TUNED <id> by <mod>`).
+
 ### `max_per_player`: loadout slots per player (r45)
 
 At most this many of each player's loadout slots hold the custom stratagem (1 to 4; default no limit). The Shredder

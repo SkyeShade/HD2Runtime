@@ -2756,6 +2756,15 @@ function HD2CustomStratagems.select_focused() end
 ---Returns the last selected slot.
 ---@return string
 function HD2CustomStratagems.undo() end
+---r51, for in-game editors: a registered custom stratagem's cooldown (seconds) and uses (calls per mission) on this machine, values = {cooldown, uses}. Each player's own, from their next call; the lobby registry is unchanged. The same checks as register. True, or nil and why.
+---@param id string
+---@param values table
+---@return boolean|nil, string|nil
+function HD2CustomStratagems.tune(id, values) end
+---Back to the registered cooldown and uses.
+---@param id string
+---@return boolean|nil, string|nil
+function HD2CustomStratagems.untune(id) end
 
 ---hd2.ownership: whom an associated autonomous entity's kills credit (development, solo host).
 ---@class HD2Ownership
@@ -2996,9 +3005,10 @@ local HD2OverlayImageOptions = {}
 ---mod:choice declaration.
 ---@class HD2ChoiceSpec
 ---@field id string 1-40 letters, digits, _ or -.
----@field values any[] 1-64 values, no two the same; every one is validated when an ensure binds the choice.
+---@field values any[] 1-64 values, no two the same (a following choice may repeat); every one is validated when an ensure binds the choice.
 ---@field default integer|nil 1-based index (default 1).
 ---@field labels string[]|nil Readable names, for describe() and logs.
+---@field follow HD2ScriptChoice|nil r51: another script choice of the same mod this one follows: it always selects the same index (it cannot be set itself), may repeat values and has exactly as many; a bound ensure proves the two together, index by index (e.g. the rate-of-fire selector binding that a fire_rate.modes list with two or more rates needs).
 local HD2ChoiceSpec = {}
 
 ---A script choice (mod:choice).

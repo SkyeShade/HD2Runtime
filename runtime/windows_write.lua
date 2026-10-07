@@ -134,6 +134,34 @@ function M.create()
         assert(ffi.string(block,#bytes)==bytes,'the permanent block did not read back as written')
         return address
     end
+    -- One Runtime-owned native procedure (r52, used only by runtime/mouse_wheel.lua's read-only message hook): two
+    -- committed pages from VirtualAlloc that are NEVER freed (the window thread may still be inside the procedure when
+    -- its hook is removed, or when this Lua state closes): page 1 stays read-write and zeroed (the procedure's counters),
+    -- page 0 holds the code `build(counters address)` returns (at most 4096 bytes) and is then execute-read only.
+    -- Returns the code address and the counters address.
+    local native_alloc,native_flush
+    function runtime.native_procedure(build)
+        assert(type(build)=='function','native_procedure needs a code builder')
+        if not native_alloc then
+            local k32=kernel.GetModuleHandleA('kernel32.dll')
+            local alloc=kernel.GetProcAddress(k32,'VirtualAlloc')
+            local flush=kernel.GetProcAddress(k32,'FlushInstructionCache')
+            assert(alloc~=nil and flush~=nil,'VirtualAlloc / FlushInstructionCache exports unavailable')
+            native_alloc=ffi.cast('void *(__stdcall *)(void *, size_t, uint32_t, uint32_t)',alloc)
+            native_flush=ffi.cast('int (__stdcall *)(void *, const void *, size_t)',flush)
+        end
+        local block=native_alloc(nil,8192,0x3000,4)                 -- MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE
+        assert(block~=nil,'VirtualAlloc failed: '..tostring(kernel.GetLastError()))
+        local base=tonumber(ffi.cast('uintptr_t',block))
+        local code=build(base+4096)
+        assert(type(code)=='string'and#code>0 and#code<=4096,'a native procedure is 1 to 4096 bytes')
+        ffi.copy(block,code,#code)
+        local old=ffi.new('uint32_t[1]')
+        assert(kernel.VirtualProtect(block,4096,0x20,old)~=0,'the procedure page could not be made execute-read')
+        native_flush(kernel.GetCurrentProcess(),block,#code)
+        assert(ffi.string(block,#code)==code,'the procedure did not read back as written')
+        return base,base+4096
+    end
     -- One native call, used only by runtime/event_world.lua after it re-proved SpawnProjectile's exact prologue bytes
     -- and the projectile row pins, that the projectile system is active and that the Runtime-owned row is a VALID
     -- hybrid of its live vanilla base row: the game's own SpawnProjectile(system, descriptor, extra) with the
