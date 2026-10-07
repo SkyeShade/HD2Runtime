@@ -206,7 +206,11 @@ everywhere else.
   client's ran and the host presented it natively (fixed in r40, offline). r40 two players: the host's slot moved
   back and forth between two carriers aboard the ship (a stale native pick in the other player's record; fixed in
   r41); when only the client brought it, it ran but both players saw the carrier's own look (the ship-side restore on
-  the loading screen and in the first mission frames; fixed in r41). r36 solo log: the
+  the loading screen and in the first mission frames; fixed in r41). r41 two players (the user, 2026-10-07: "everything
+  worked" except the use counts shown in the TAB area): on both machines every mission READY TO CALL, the other
+  player's carrier slot presented natively (`REMOTE CARRIER PRESENTED`, `TEAMMATE HUD NATIVE`), the barrages mirrored
+  (`REMOTE CUSTOM BARRAGE CONFIRMED`), no desync, no restore before the mission's end. Open: the native uses counter as
+  other players see it (TAB). r36 solo log: the
   carrier was pickable from a freshly opened grid and the slot moved (Airburst -> Gatling), but the card was still
   drawn grey (the byte write and the consumed realize request did not redraw it). r37 solo (the user, 2026-10-07: "it
   worked well"): the game's helper lifted the grey on every grid open (`by the game's per-card grey helper ... 1
