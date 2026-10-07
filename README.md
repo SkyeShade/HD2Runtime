@@ -216,3 +216,10 @@ Weapon-local values such as fire rate are on the weapon itself (`hd2.weapon('AR-
 `hd2.fields.weapon.fire_rate`). Armor penetration is four per-angle fields, and baselines differ
 between weapons: always take `expect` from the SDK for the exact weapon. See `docs/getting-started.md`
 and the `LiberatorDamageTransaction` example project.
+
+## License and credit
+
+HD2Runtime is free to use for building mods; see [LICENSE](LICENSE) for the full terms. Copying its
+code or research findings (offsets, field names, identities, catalogues) into another project is
+allowed only with visible credit to [HD2Runtime by SkyeShade](https://github.com/SkyeShade/HD2Runtime).
+Redistributing HD2Runtime itself needs permission.

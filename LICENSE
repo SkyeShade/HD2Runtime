@@ -1,0 +1,39 @@
+HD2Runtime License
+
+Copyright (c) 2026 SkyeShade (https://github.com/SkyeShade/HD2Runtime)
+All rights reserved, except as granted below.
+
+"HD2Runtime" means everything in this repository and in its releases: the
+runtime, the SDK, the tools, the schemas, the documentation and every finding
+they contain, including native offsets, addresses, field names, identities,
+catalogues and other reverse-engineering results ("Findings").
+
+1. Building mods. You may download, install and use HD2Runtime, and you may
+   create, publish and distribute mods that use it through its public API and
+   SDK, free of charge, without asking for permission. Mods that only call
+   HD2Runtime do not need to credit it, although credit is appreciated.
+
+2. Copying with credit. You may copy, adapt or reuse parts of HD2Runtime's
+   code or Findings in another project only if that project gives clear,
+   visible credit where its users will see it (for example on its mod page,
+   README or release notes), in a form such as:
+
+       Uses code / research from HD2Runtime by SkyeShade
+       https://github.com/SkyeShade/HD2Runtime
+
+   Removing, hiding or replacing that credit ends your permission under this
+   section.
+
+3. Redistribution. You may not redistribute HD2Runtime itself, in whole or
+   in large part, as or inside another release, mod pack or tool without
+   prior written permission from SkyeShade. Linking to the official releases
+   is always allowed.
+
+4. No other rights. Anything not expressly permitted above is reserved.
+   Third-party material is covered by its own terms; see THIRD_PARTY.md.
+
+5. No warranty. HD2Runtime is provided "as is", without warranty of any kind.
+   In no event shall the author be liable for any claim, damages or other
+   liability arising from its use. HD2Runtime is an unofficial fan project
+   and is not affiliated with or endorsed by Arrowhead Game Studios or Sony
+   Interactive Entertainment.
