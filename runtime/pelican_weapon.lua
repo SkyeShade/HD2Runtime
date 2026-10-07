@@ -1832,8 +1832,8 @@ end
 -- `entity` a candidate the AI could attack (M.candidates). The target is read back: {target (P+0x10 after), requested,
 -- installed (target == requested)} or nil, code, reason.
 local SET=TS.setter
-M.SET_LOG_FIRST=10
-M.SET_LOG_EVERY=25
+M.SET_LOG_FIRST=3
+M.SET_LOG_EVERY=100
 function M.set_target(world,turret,entity,label)
     label=tostring(label or'?')
     local function refuse(code,reason)

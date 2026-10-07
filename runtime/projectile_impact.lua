@@ -636,7 +636,7 @@ function M.convert_slot(spec)
         to=donor.explosion,sources={[spec.source]={rounds=1,entity_type=kind}},flying={},converted=0,impacts=0,refused=0,
         multiplayer=spec.multiplayer==true,client=spec.client==true}
     local result=convert(world,system,binding,spec.source,spec.slot,spec.projectile)
-    if result.kind=='converted'then
+    if result.kind=='converted'and log_module.sample('impact.item.converted',3)then
         log(('CONVERTED (%s): projectile %d in pool slot %d from source %d: impact explosion %d -> %d (%d write; read '
             ..'back %s); creditor %s'):format(binding.label,spec.projectile,spec.slot,spec.source,result.from,result.to,
             result.writes,tostring(result.verify.readBack),result.creditor))

@@ -51,11 +51,11 @@ M.AIM_MOVE=0.05           -- metres the point must move before it is written aga
 -- The aim diagnostic (read-only; runtime/pelican_weapon.lua aim_state / aim_error, research section 20b): sampled every
 -- AIM_EVERY s while the gun fires at a target; the first AIM_LOG samples logged, the rest with the diagnostics switch;
 -- the means in the summary.
-M.AIM_EVERY,M.AIM_LOG=1,3
+M.AIM_EVERY,M.AIM_LOG=1,1
 -- The activity diagnostic (read-only): the time its AI spends in each stage, every spell of at least IDLE_SECONDS without
 -- firing (the first IDLE_LOG logged, the rest with the diagnostics switch) with the enemies it could attack meanwhile
 -- (pelican_weapon.candidates, sampled every IDLE_SAMPLE s), and why each lock was released; all of it in the summary.
-M.IDLE_SECONDS,M.IDLE_LOG,M.IDLE_SAMPLE=2,3,0.5
+M.IDLE_SECONDS,M.IDLE_LOG,M.IDLE_SAMPLE=2,1,0.5
 M.STAGE_NAMES={[1]='spawned',[2]='search',[3]='alert',[4]='leaving fire',[5]='aiming',[10]='weapon unusable',[11]='dead',
     [12]='firing',[-1]='other AI'}
 M.ORBIT_DEFAULTS={radius=40,altitude=60,duration=55,interval=0.25,period=30,entry=15,mode='sweep'}

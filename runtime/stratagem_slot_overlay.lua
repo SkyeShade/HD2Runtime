@@ -619,7 +619,10 @@ function M.remote_slots(source)
         local list,_,rejected,map=M.remote_panels(world)
         if not list then map_line=nil;drawn={};return out end   -- the screen is closed (or its code changed)
         local line=M.panel_map_text(map)
-        if line~=map_line then map_line=line;log('REMOTE OVERLAY MAP: '..line)end
+        if line~=map_line then
+            map_line=line
+            if log_module.sample('overlay.remote_map',4)then log('REMOTE OVERLAY MAP: '..line)end
+        end
         local by_peer,bad={},{}
         for _,p in ipairs(list)do by_peer[p.peer]=p end
         for _,r in ipairs(rejected or{})do bad[r.peer]=r end

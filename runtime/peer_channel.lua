@@ -213,8 +213,11 @@ local function flush(world)
     local result=world.runtime.native_lobby_publish(s.set,lobby.engine,M.KEY,value)
     if result==0 then
         posted,failures={value=value,at=clock,lobby=lobby.id},0
-        log(('PEER CHANNEL POSTED: %s = "%s" (%d bytes; lobby %s, %d members; the game\'s set_member_data, '
-            ..'exe+%X)'):format(M.KEY,value,#value,lobby.id,#lobby.members,D.api.setMemberDataRva))
+        -- Every change is posted; CUSTOM MP PUBLISH names each (r44: the first few here, then every 25th).
+        if log_module.sample('peer_channel.posted',3,25)then
+            log(('PEER CHANNEL POSTED: %s = "%s" (%d bytes; lobby %s, %d members; the game\'s set_member_data, '
+                ..'exe+%X)'):format(M.KEY,value,#value,lobby.id,#lobby.members,D.api.setMemberDataRva))
+        end
         return {status='posted',value=value,lobby=lobby.id}
     end
     failures=failures+1

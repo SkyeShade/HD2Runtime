@@ -145,7 +145,7 @@ M.LIMITS={
     slots={1,8},                                 -- carrier.slots: the pod capacity a definition asks its group for
     groups=groups.ORDER,                          -- carrier.group (runtime/carrier_groups.lua)
 }
-M.KILL_LOGS=5            -- kill lines per call (then counted)
+M.KILL_LOGS=3            -- kill lines per call (then counted)
 -- The vanilla support deliveries whose delivered items the Runtime can capture: every catalogued support weapon or
 -- backpack whose pod rack is reviewed (domains/pod_payload_authoring.lua racks: the rack's active slots and their
 -- entity types; the support weapon catalogue: the round a weapon fires). M.support_delivery(name) -> {stratagem, id,
@@ -2887,7 +2887,7 @@ function Weapon:set_impact_explosion(donor,opts)
         function(e)
             if e.kind=='converted'then
                 self.call.converted=(self.call.converted or 0)+1
-                if(mission.players or 1)>1 then
+                if(mission.players or 1)>1 and log_module.sample('call.projectile_converted',3)then
                     self.call:log(('PROJECTILE CONVERTED: launcher %d (network id %s): its projectile in pool slot %d, '
                         ..'impact explosion copy %d -> %d on this machine (%s; fired by %s; creditor %s, the game\'s own)')
                         :format(self.entity,tostring(self.network),e.slot,e.from,e.to,self.call.client and'a client'
@@ -3855,8 +3855,8 @@ local function beacon_event(e)
         local world0=world_module.open()
         local it0=world0 and(beacon_reader.beacons(world0)or{})[e.beacon.entity]
         if(it0 and it0.mode==nil)or e.beacon.landed==false then
-            log(('BEACON %d of the carrier %s is another machine\'s (no state here): another player\'s call, not this '
-                ..'player\'s; ignored'):format(e.beacon.entity,a.carrier))
+            if log_module.sample('mp.remote_beacon',3)then log(('BEACON %d of the carrier %s is another machine\'s (no state here): another player\'s call, not this '
+                ..'player\'s; ignored'):format(e.beacon.entity,a.carrier))end
             return
         end
         -- The call this beacon is: one already seen from the record (on_called), else a new one.
@@ -4510,9 +4510,9 @@ do
             slot=t.slot,source='ball'},clock)
         mp_items.thrower(network,t.peer)
         if e and not(known and known.peer==t.peer)then
-            log(('CUSTOM MP EVIDENCE: beacon network id %d: peer %s\'s thrown ball (record entry %d, loadout slot %s), carrier '
+            if log_module.sample('mp.evidence',3)then log(('CUSTOM MP EVIDENCE: beacon network id %d: peer %s\'s thrown ball (record entry %d, loadout slot %s), carrier '
                 ..'%s -> custom %s by the frozen carrier map; kept %d s as this machine\'s own evidence of that call'):format(
-                network,t.peer,t.entry,tostring(t.slot),cmp.name_of(world,t.type),tostring(id),evidence.KEEP))
+                network,t.peer,t.entry,tostring(t.slot),cmp.name_of(world,t.type),tostring(id),evidence.KEEP))end
         end
         return e
     end
@@ -4568,9 +4568,9 @@ do
         if r.network then t,why=ball_thrower(world,r.network)else why='its beacon\'s network id is not resolved yet'end
         if t then
             ball_evidence(world,r.network,r.id,t)
-            log(('CUSTOM MP CALL: peer %s (the thrown ball\'s owner), custom %s, slot %s (its record entry %d), beacon %d '
+            if log_module.sample('mp.remote_call',3)then log(('CUSTOM MP CALL: peer %s (the thrown ball\'s owner), custom %s, slot %s (its record entry %d), beacon %d '
                 ..'(network id %s), carrier %s: another machine\'s call; its thrower\'s Runtime runs it; this machine only '
-                ..'observes'):format(t.peer,r.id,tostring(t.slot),t.entry,r.entity,tostring(r.network),r.carrier))
+                ..'observes'):format(t.peer,r.id,tostring(t.slot),t.entry,r.entity,tostring(r.network),r.carrier))end
             return true
         end
         -- The ball scan may have cached it already.
@@ -4682,9 +4682,9 @@ do
                 donor=spec.info.impact or d.delivery.impact,rounds=spec.info.rounds or d.delivery.rounds or 1,entity_type=spec.entity_type,label=('remote %s %s launcher %d'):format(spec.peer,
                 spec.id,spec.network),multiplayer=true,client=mission.client==true,provenance=true},function(e)
                     if e.kind=='converted'then
-                        line(('CONVERTED its projectile in pool slot %d: impact explosion copy %d -> %d on this machine (fired '
+                        if log_module.sample('mp.remote_item.converted',3)then line(('CONVERTED its projectile in pool slot %d: impact explosion copy %d -> %d on this machine (fired '
                             ..'by %s; creditor %s, the game\'s own)'):format(e.slot,e.from,e.to,e.local_creditor and
-                            ('this machine\'s player, who picked it up')or tostring(e.creditor),tostring(e.creditor)))
+                            ('this machine\'s player, who picked it up')or tostring(e.creditor),tostring(e.creditor)))end
                     elseif e.kind=='impact'then
                         line(('its projectile (pool slot %d) requested explosion %d on impact here'):format(e.slot,e.explosion))
                     elseif e.kind=='refused'and e.first then
