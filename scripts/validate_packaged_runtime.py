@@ -4198,12 +4198,12 @@ def _eat23_scenario():
 EXTRAS['example-eat23'] = {'after': _eat23_scenario(), 'readOnly': True}
 
 
-# The combined CustomStratagemPack (proof/CustomStratagemPack 0.1.0): ten of the examples' stratagems in one mod, each
+# The combined CustomStratagemPack (proof/CustomStratagemPack 0.2.0): eleven of the examples' stratagems in one mod, each
 # copied unchanged. It loads from the archive, every stratagem registers (one REGISTERED line each, the kind its own
 # example registers) and none is refused; nothing is written.
 PACK_IDS = {'pelican_close_air_support': 'pelican', 'pelican_cannon_support': 'pelican', 'pelican_ems_support': 'pelican',
     'pelican_gas_support': 'pelican', 'hmg_sentry': None, 'orbital_gas_barrage': None, 'orbital_ems_barrage': None,
-    'eat_cluster': 'expendable', 'eat17g_clone': 'expendable', 'eat23_ems': 'expendable'}
+    'eat_cluster': 'expendable', 'eat17g_clone': 'expendable', 'eat23_ems': 'expendable', 'shredder_silo': 'silo'}
 PACK_CUSTOM_STRATAGEMS = r'''
 return function(frame,watches,counts,lines)
  local results={}
@@ -4220,8 +4220,8 @@ return function(frame,watches,counts,lines)
   end
  end
  table.sort(missing)
- step('the pack loads from the archive and registers all ten stratagems, each as its own example does; nothing is '
-  ..'written',count('CustomStratagemPack 0.1.0 BUILD')==1 and#missing==0 and counts.writes==0,table.concat(missing,', '))
+ step('the pack loads from the archive and registers all eleven stratagems, each as its own example does; nothing is '
+  ..'written',count('CustomStratagemPack 0.2.0 BUILD')==1 and#missing==0 and counts.writes==0,table.concat(missing,', '))
  step('no stratagem of the pack is refused',count('custom stratagem REFUSED')==0 and count('rejected')==0,
   tostring(count('custom stratagem REFUSED')))
  return results

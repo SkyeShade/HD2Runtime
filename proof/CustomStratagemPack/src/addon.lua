@@ -1,8 +1,8 @@
 -- Generated from custom_stratagems.json by the HD2Runtime SDK (hd2.py custom-stratagem compile; format hd2runtime-custom-stratagems/1).
--- Edit custom_stratagems.json, not this file: the build compiles it again. Source SHA-256 811bc2ec01938b802289eff0200e35804d7f2685f31dadb6ccca98486414a7ca.
+-- Edit custom_stratagems.json, not this file: the build compiles it again. Source SHA-256 f35e9a3d825903c86d324db33a92bf1c1cb6cabda4978dc6c7876d3d0c5dc68c.
 local hd2=require('mods/skyeshade/hd2runtime')
 local mod=hd2.mod()
-mod:log('CustomStratagemPack 0.1.0 BUILD: 4 Pelican supports, the heavy MG sentry, the gas and EMS barrages, 3 expendable EATs.')
+mod:log('CustomStratagemPack 0.2.0 BUILD: 4 Pelican supports, HMG sentry, gas and EMS barrages, 3 EATs, the Shredder Silo.')
 hd2.custom_stratagem.register({
     id='pelican_close_air_support',
     name='PELICAN GATLING SUPPORT',
@@ -126,4 +126,18 @@ hd2.custom_stratagem.register({
     traits={'Support Weapon','Anti-Tank','Stun','Expendable'},
     carrier={group='expendable'},
     delivery={family='expendable',weapon='EAT-17 Expendable Anti-Tank',modify={impact_explosion='Orbital EMS Strike'},pod={{item='clone',count=2}}},
+})
+hd2.custom_stratagem.register({
+    id='shredder_silo',
+    name='MS-N223 SHREDDER SILO',
+    name_cased='MS-N223 Shredder Silo',
+    description='A silo that fits one single, tactical nuclear missile. Possible side effects include shell shock, mutation, and/or death. A laser targetting remote is provided.',
+    icon=hd2.resources.image('shredder_silo'),
+    code={'down','up','right','up','down','down','right'},
+    cooldown=180,
+    uses=1,
+    max_per_player=1,
+    traits={'Support Weapon','Explosive','Anti-Tank','Expendable'},
+    carrier={group='support'},
+    silo={donor='MS-11 Solo Silo',blast='Cyborg Production Unit',fallback='NUX-223 Hellbomb'},
 })

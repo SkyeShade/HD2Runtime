@@ -1,6 +1,6 @@
 {
  "format": "hd2runtime-custom-stratagems/1",
- "log": "CustomStratagemPack 0.1.0 BUILD: 4 Pelican supports, the heavy MG sentry, the gas and EMS barrages, 3 expendable EATs.",
+ "log": "CustomStratagemPack 0.2.0 BUILD: 4 Pelican supports, HMG sentry, gas and EMS barrages, 3 EATs, the Shredder Silo.",
  "stratagems": [
   {
    "id": "pelican_close_air_support",
@@ -430,6 +430,43 @@
       "count": 2
      }
     ]
+   }
+  },
+  {
+   "id": "shredder_silo",
+   "name": "MS-N223 SHREDDER SILO",
+   "name_cased": "MS-N223 Shredder Silo",
+   "description": "A silo that fits one single, tactical nuclear missile. Possible side effects include shell shock, mutation, and/or death. A laser targetting remote is provided.",
+   "icon": {
+    "image": "shredder_silo",
+    "source": "images/shredder_silo.png"
+   },
+   "code": [
+    "down",
+    "up",
+    "right",
+    "up",
+    "down",
+    "down",
+    "right"
+   ],
+   "cooldown": 180,
+   "uses": 1,
+   "max_per_player": 1,
+   "traits": [
+    "Support Weapon",
+    "Explosive",
+    "Anti-Tank",
+    "Expendable"
+   ],
+   "carrier": {
+    "group": "support"
+   },
+   "payload": {
+    "family": "silo",
+    "donor": "MS-11 Solo Silo",
+    "blast": "Cyborg Production Unit",
+    "fallback": "NUX-223 Hellbomb"
    }
   }
  ]
