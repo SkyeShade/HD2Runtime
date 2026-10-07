@@ -2451,27 +2451,76 @@ local HD2PelicanOrbit = {}
 ---@field pelican_default boolean The Pelican chin gun's own sound (taking it changes nothing).
 local HD2WeaponSound = {}
 
----A filter of hd2.sounds.list.
+---One sound event of the full catalogue (hd2.sounds.list{catalogue = 'events'}; docs/sounds.md): every Wwise event of the build, named <family>/<bank>/<event> from evidence (the event's own Wwise name where the game's code or data names it, else its id as eight hex digits).
+---@class HD2SoundEvent
+---@field name string Its catalogue name (what play, describe and asset take).
+---@field catalogue "events" Which catalogue it is from (weapon firing sounds have no such field).
+---@field family string weapons, throwables, melee, explosions (its sounds play on the game's explosion bus), stratagems, vehicles, enemies, seaf, objectives, hazards, ambience, foley, gore, voice, ui, music, cinematics, system or other: from its bank's content path.
+---@field bank string Its bank (content/audio/<bank>).
+---@field banks string[] Every bank that defines it.
+---@field faction "automaton"|"terminid"|"illuminate"|nil The faction its bank is named for.
+---@field kind "one_shot"|"loop"|"unknown"|"control" The game's own metadata: one shot, a loop (infinite, stop it), unknown (unsupported); control: it plays nothing (stops, states, switches).
+---@field range_m number|nil Its maximum attenuation distance in metres (the game's metadata); nil for a 2D or unattenuated sound.
+---@field duration_s number|nil A one-shot's longest duration in seconds (the game's metadata).
+---@field positional boolean|nil A 3D sound (true) or 2D (false).
+---@field bus string|nil The named path of the mixer bus its sounds play on.
+---@field global_effect "persistent"|"transient"|nil persistent: it would leave the sound engine changed (a state, a global game parameter or mix change or pause it does not undo): play refuses it. transient: a global stop of an element.
+---@field effects string[] state, parameter, mix, pause, stop.
+---@field wwise_name string|nil Its own Wwise name, where the game's code or data names it.
+---@field weapons string[] The weapon firing sounds (hd2.sounds.list()) that post it.
+---@field stratagem string|nil The stratagem whose call-in package provides its bank.
+---@field item string|nil The loadout item whose package provides its bank (when no stratagem does).
+---@field resident_only boolean No package Runtime can load provides its bank: usable only while the game has one resident.
+---@field parameters string[] The game parameters (RTPCs) its sounds react to ('0x<id>' when unnamed).
+---@field volume_parameters string[] Those of them that drive its volume: what handle:set_parameter can turn on its own source (a lead: the curve's direction is not read).
+---@field switch_groups string[] The switch groups its sounds react to.
+---@field state_groups string[] The state groups its sounds react to.
+local HD2SoundEvent = {}
+
+---A game parameter (RTPC) of the sound engine (hd2.sounds.parameters()).
+---@class HD2SoundParameter
+---@field name string Its name, or '0x<id>' when the game names it nowhere.
+---@field named boolean
+---@field default number|nil Its default value.
+---@field events integer How many catalogued events react to it.
+local HD2SoundParameter = {}
+
+---A switch or state group of the sound engine (hd2.sounds.switch_groups() / state_groups()).
+---@class HD2SoundGroup
+---@field name string Its name, or '0x<id>'.
+---@field named boolean
+---@field values string[] Its switches or states (names, or '0x<id>').
+---@field parameter string|nil A switch group driven by a game parameter: that parameter.
+local HD2SoundGroup = {}
+
+---A filter of hd2.sounds.list. Without catalogue: the weapon firing sounds (family, kind shot/loop, stratagem, resident_only, text). catalogue = 'events': the full event catalogue (every key below); 'all': both, each with the keys it supports.
 ---@class HD2SoundFilter
----@field family string|nil Only this family (sentry, vehicle, support, ...).
----@field kind "shot"|"loop"|nil Only this kind.
+---@field catalogue "weapons"|"events"|"all"|nil Which catalogue (default weapons).
+---@field family string|nil Only this family (weapons: sentry, vehicle, support, ...; events: weapons, explosions, stratagems, enemies, ui, voice, ambience, music, ...).
+---@field kind string|nil Only this kind (weapons: shot, loop; events: one_shot, loop, unknown, control).
 ---@field stratagem true|string|nil true: only sounds a stratagem provides; a name: only that stratagem's.
----@field resident_only boolean|nil Only resident-only sounds (true) or only those a stratagem provides (false).
----@field text string|nil A part of the name or label (any case).
+---@field resident_only boolean|nil Only resident-only sounds (true) or only those a package provides (false).
+---@field text string|nil A part of the name (or label) (any case).
+---@field bank string|nil Events: only those a bank defines.
+---@field faction string|nil Events: automaton, terminid or illuminate.
+---@field bus string|nil Events: a part of the bus path ('explosion').
+---@field named boolean|nil Events: only those with (or without) their own Wwise name.
+---@field weapon true|string|nil Events: only those a weapon firing sound posts (or that one's).
+---@field global boolean|nil Events: only those with (or without) a global effect.
 local HD2SoundFilter = {}
 
----hd2.sounds: the weapon firing-sound catalogue (docs/weapon-sounds.md) and playing game sound events (docs/sounds.md).
+---hd2.sounds: the weapon firing-sound catalogue (docs/weapon-sounds.md), the full sound-event catalogue and playing game sound events (docs/sounds.md).
 ---@class HD2Sounds
 local HD2Sounds = {}
----Every catalogued firing sound (sorted by name), or those the filter keeps (a family name or a table). An invalid filter raises an error.
+---Every catalogued firing sound (sorted by name), or those the filter keeps (a family name or a table); {catalogue = 'events'} lists the full event catalogue, {catalogue = 'all'} both. An invalid filter raises an error.
 ---@param filter? HD2SoundFilter|string
----@return HD2WeaponSound[]
+---@return (HD2WeaponSound|HD2SoundEvent)[]
 function HD2Sounds.list(filter) end
----One sound by its name (or an older alias such as 'maelstrom_main_gun'), or nil.
+---One sound by its name (or an older alias such as 'maelstrom_main_gun'), else a sound event by its catalogue name or its own Wwise name, or nil.
 ---@param name string
----@return HD2WeaponSound|nil
+---@return HD2WeaponSound|HD2SoundEvent|nil
 function HD2Sounds.describe(name) end
----Post a game sound event now: a catalogue name ('sentry/gatling' starts its loop), 'ui/<key>' (ui/stratagem_pick, ui/picker_close, ui/slot_select, ui/generic_select, ui/item_hover_select), any Wwise event name, or {id = <32-bit event id>}. Its bank must be loaded. Rate-limited per mod. nil, code, reason when refused.
+---Post a game sound event now: a firing-sound name ('sentry/gatling' starts its loop), a sound event's catalogue name, 'ui/<key>' (ui/stratagem_pick, ui/picker_close, ui/slot_select, ui/generic_select, ui/item_hover_select), any Wwise event name, or {id = <32-bit event id>}. Its bank must be loaded. An event that would leave the sound engine changed is refused (GLOBAL_EVENT). Rate-limited per mod. nil, code, reason when refused.
 ---@param event string|{id: integer}
 ---@param opts? HD2SoundPlayOptions
 ---@return HD2SoundHandle|nil, string|nil, string|nil
@@ -2480,14 +2529,23 @@ function HD2Sounds.play(event, opts) end
 ---@param event string|{id: integer}
 ---@return boolean|nil, string|nil
 function HD2Sounds.available(event) end
----A catalogue sound as a hd2.require_assets / hd2.asset_dependency target (its bank's package). Raises on an unknown name.
+---A catalogue sound (a firing sound or a sound event) as a hd2.require_assets / hd2.asset_dependency target (its bank's package: a stratagem's call-in or a loadout item's). Raises on an unknown name.
 ---@param name string
 ---@return table
 function HD2Sounds.asset(name) end
----A name the sound engine maps to a 32-bit event id (what play({id = id}) posts). About 40 ms on the first call for an id; cached.
+---A name the sound engine maps to a 32-bit id (what play({id = id}) posts). Every catalogued id has one generated at build time; any other is searched for about 40 ms once, then cached.
 ---@param id integer
 ---@return string|nil
 function HD2Sounds.name_for(id) end
+---The sound engine's game parameters (RTPCs), sorted by name.
+---@return HD2SoundParameter[]
+function HD2Sounds.parameters() end
+---The sound engine's switch groups and their switches.
+---@return HD2SoundGroup[]
+function HD2Sounds.switch_groups() end
+---The sound engine's state groups and their states (read-only: states are engine-wide and never set by Runtime).
+---@return HD2SoundGroup[]
+function HD2Sounds.state_groups() end
 
 ---Which vanilla carrier a custom stratagem borrows: its carrier group (a structural pool), or the older policy fields; owned, selectable, enabled, unlimited, not in any lobby pick, never another custom stratagem's carrier, asset or delivery.
 ---@class HD2CustomStratagemCarrier
@@ -2653,24 +2711,53 @@ function HD2Store:save() end
 function HD2Store:describe() end
 
 ---@class HD2SoundPlayOptions
----@field position HD2Vector3|number[]|nil A world position: a 3D sound there. Without it the sound plays on the game world's own 2D source.
+---@field position HD2Vector3|number[]|nil A world position: a 3D sound there, on a source of its own. Without position or unit the sound plays on the game world's own 2D source.
+---@field rotation number[]|nil With a position: the source's orientation, a quaternion {x, y, z, w}.
+---@field unit userdata|nil An engine Unit: the sound plays on the unit's own source and follows it.
 ---@field owner string|nil
 local HD2SoundPlayOptions = {}
 
 ---A posted sound.
 ---@class HD2SoundHandle
 ---@field state "playing"|"stopped"
----@field playing integer The sound engine's playing id.
+---@field playing integer The plugin's playing id.
 ---@field event string
 ---@field name string The name posted.
----@field kind string shot, loop, ui or event.
+---@field kind string shot, loop, ui, event, or a sound event's kind.
 ---@field owner string
 local HD2SoundHandle = {}
 ---Stop this playing instance.
 ---@return boolean|nil, string|nil
 function HD2SoundHandle:stop() end
+---{state, event, name, kind, playing, owner, source (world, position or unit), own_source, controls (pause/resume/is_playing/elapsed available), controls_reason}.
 ---@return table
 function HD2SoundHandle:describe() end
+---Pause this instance.
+---@return boolean|nil, string|nil, string|nil
+function HD2SoundHandle:pause() end
+---Resume this instance.
+---@return boolean|nil, string|nil, string|nil
+function HD2SoundHandle:resume() end
+---Whether the sound engine still plays it (false up to one update after it ends).
+---@return boolean|nil, string|nil, string|nil
+function HD2SoundHandle:is_playing() end
+---Seconds it has played (the engine's play position).
+---@return number|nil, string|nil, string|nil
+function HD2SoundHandle:elapsed() end
+---Set a game parameter (RTPC) on this sound's own source (a position post only).
+---@param parameter string|{id: integer}
+---@param value number
+---@return boolean|nil, string|nil, string|nil
+function HD2SoundHandle:set_parameter(parameter, value) end
+---Set a switch on this sound's own source (a position post only).
+---@param group string|{id: integer}
+---@param switch string|{id: integer}
+---@return boolean|nil, string|nil, string|nil
+function HD2SoundHandle:set_switch(group, switch) end
+---Post a trigger on this sound's own source (a position post only).
+---@param trigger string|{id: integer}
+---@return boolean|nil, string|nil, string|nil
+function HD2SoundHandle:post_trigger(trigger) end
 
 ---hd2.ui: mod screen overlays (docs/ui-overlay.md).
 ---@class HD2UI

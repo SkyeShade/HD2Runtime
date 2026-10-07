@@ -3545,18 +3545,188 @@
      ]
     ]
    },
-   "HD2SoundFilter": {
-    "doc": "A filter of hd2.sounds.list.",
+   "HD2SoundEvent": {
+    "doc": "One sound event of the full catalogue (hd2.sounds.list{catalogue = 'events'}; docs/sounds.md): every Wwise event of the build, named <family>/<bank>/<event> from evidence (the event's own Wwise name where the game's code or data names it, else its id as eight hex digits).",
     "fields": [
      [
+      "name",
+      "string",
+      "Its catalogue name (what play, describe and asset take)."
+     ],
+     [
+      "catalogue",
+      "\"events\"",
+      "Which catalogue it is from (weapon firing sounds have no such field)."
+     ],
+     [
       "family",
-      "string|nil",
-      "Only this family (sentry, vehicle, support, ...)."
+      "string",
+      "weapons, throwables, melee, explosions (its sounds play on the game's explosion bus), stratagems, vehicles, enemies, seaf, objectives, hazards, ambience, foley, gore, voice, ui, music, cinematics, system or other: from its bank's content path."
+     ],
+     [
+      "bank",
+      "string",
+      "Its bank (content/audio/<bank>)."
+     ],
+     [
+      "banks",
+      "string[]",
+      "Every bank that defines it."
+     ],
+     [
+      "faction",
+      "\"automaton\"|\"terminid\"|\"illuminate\"|nil",
+      "The faction its bank is named for."
      ],
      [
       "kind",
-      "\"shot\"|\"loop\"|nil",
-      "Only this kind."
+      "\"one_shot\"|\"loop\"|\"unknown\"|\"control\"",
+      "The game's own metadata: one shot, a loop (infinite, stop it), unknown (unsupported); control: it plays nothing (stops, states, switches)."
+     ],
+     [
+      "range_m",
+      "number|nil",
+      "Its maximum attenuation distance in metres (the game's metadata); nil for a 2D or unattenuated sound."
+     ],
+     [
+      "duration_s",
+      "number|nil",
+      "A one-shot's longest duration in seconds (the game's metadata)."
+     ],
+     [
+      "positional",
+      "boolean|nil",
+      "A 3D sound (true) or 2D (false)."
+     ],
+     [
+      "bus",
+      "string|nil",
+      "The named path of the mixer bus its sounds play on."
+     ],
+     [
+      "global_effect",
+      "\"persistent\"|\"transient\"|nil",
+      "persistent: it would leave the sound engine changed (a state, a global game parameter or mix change or pause it does not undo): play refuses it. transient: a global stop of an element."
+     ],
+     [
+      "effects",
+      "string[]",
+      "state, parameter, mix, pause, stop."
+     ],
+     [
+      "wwise_name",
+      "string|nil",
+      "Its own Wwise name, where the game's code or data names it."
+     ],
+     [
+      "weapons",
+      "string[]",
+      "The weapon firing sounds (hd2.sounds.list()) that post it."
+     ],
+     [
+      "stratagem",
+      "string|nil",
+      "The stratagem whose call-in package provides its bank."
+     ],
+     [
+      "item",
+      "string|nil",
+      "The loadout item whose package provides its bank (when no stratagem does)."
+     ],
+     [
+      "resident_only",
+      "boolean",
+      "No package Runtime can load provides its bank: usable only while the game has one resident."
+     ],
+     [
+      "parameters",
+      "string[]",
+      "The game parameters (RTPCs) its sounds react to ('0x<id>' when unnamed)."
+     ],
+     [
+      "volume_parameters",
+      "string[]",
+      "Those of them that drive its volume: what handle:set_parameter can turn on its own source (a lead: the curve's direction is not read)."
+     ],
+     [
+      "switch_groups",
+      "string[]",
+      "The switch groups its sounds react to."
+     ],
+     [
+      "state_groups",
+      "string[]",
+      "The state groups its sounds react to."
+     ]
+    ]
+   },
+   "HD2SoundParameter": {
+    "doc": "A game parameter (RTPC) of the sound engine (hd2.sounds.parameters()).",
+    "fields": [
+     [
+      "name",
+      "string",
+      "Its name, or '0x<id>' when the game names it nowhere."
+     ],
+     [
+      "named",
+      "boolean",
+      ""
+     ],
+     [
+      "default",
+      "number|nil",
+      "Its default value."
+     ],
+     [
+      "events",
+      "integer",
+      "How many catalogued events react to it."
+     ]
+    ]
+   },
+   "HD2SoundGroup": {
+    "doc": "A switch or state group of the sound engine (hd2.sounds.switch_groups() / state_groups()).",
+    "fields": [
+     [
+      "name",
+      "string",
+      "Its name, or '0x<id>'."
+     ],
+     [
+      "named",
+      "boolean",
+      ""
+     ],
+     [
+      "values",
+      "string[]",
+      "Its switches or states (names, or '0x<id>')."
+     ],
+     [
+      "parameter",
+      "string|nil",
+      "A switch group driven by a game parameter: that parameter."
+     ]
+    ]
+   },
+   "HD2SoundFilter": {
+    "doc": "A filter of hd2.sounds.list. Without catalogue: the weapon firing sounds (family, kind shot/loop, stratagem, resident_only, text). catalogue = 'events': the full event catalogue (every key below); 'all': both, each with the keys it supports.",
+    "fields": [
+     [
+      "catalogue",
+      "\"weapons\"|\"events\"|\"all\"|nil",
+      "Which catalogue (default weapons)."
+     ],
+     [
+      "family",
+      "string|nil",
+      "Only this family (weapons: sentry, vehicle, support, ...; events: weapons, explosions, stratagems, enemies, ui, voice, ambience, music, ...)."
+     ],
+     [
+      "kind",
+      "string|nil",
+      "Only this kind (weapons: shot, loop; events: one_shot, loop, unknown, control)."
      ],
      [
       "stratagem",
@@ -3566,17 +3736,47 @@
      [
       "resident_only",
       "boolean|nil",
-      "Only resident-only sounds (true) or only those a stratagem provides (false)."
+      "Only resident-only sounds (true) or only those a package provides (false)."
      ],
      [
       "text",
       "string|nil",
-      "A part of the name or label (any case)."
+      "A part of the name (or label) (any case)."
+     ],
+     [
+      "bank",
+      "string|nil",
+      "Events: only those a bank defines."
+     ],
+     [
+      "faction",
+      "string|nil",
+      "Events: automaton, terminid or illuminate."
+     ],
+     [
+      "bus",
+      "string|nil",
+      "Events: a part of the bus path ('explosion')."
+     ],
+     [
+      "named",
+      "boolean|nil",
+      "Events: only those with (or without) their own Wwise name."
+     ],
+     [
+      "weapon",
+      "true|string|nil",
+      "Events: only those a weapon firing sound posts (or that one's)."
+     ],
+     [
+      "global",
+      "boolean|nil",
+      "Events: only those with (or without) a global effect."
      ]
     ]
    },
    "HD2Sounds": {
-    "doc": "hd2.sounds: the weapon firing-sound catalogue (docs/weapon-sounds.md) and playing game sound events (docs/sounds.md).",
+    "doc": "hd2.sounds: the weapon firing-sound catalogue (docs/weapon-sounds.md), the full sound-event catalogue and playing game sound events (docs/sounds.md).",
     "methods": [
      {
       "name": "list",
@@ -3586,8 +3786,8 @@
         "HD2SoundFilter|string|nil"
        ]
       ],
-      "returns": "HD2WeaponSound[]",
-      "doc": "Every catalogued firing sound (sorted by name), or those the filter keeps (a family name or a table). An invalid filter raises an error."
+      "returns": "(HD2WeaponSound|HD2SoundEvent)[]",
+      "doc": "Every catalogued firing sound (sorted by name), or those the filter keeps (a family name or a table); {catalogue = 'events'} lists the full event catalogue, {catalogue = 'all'} both. An invalid filter raises an error."
      },
      {
       "name": "describe",
@@ -3597,8 +3797,8 @@
         "string"
        ]
       ],
-      "returns": "HD2WeaponSound|nil",
-      "doc": "One sound by its name (or an older alias such as 'maelstrom_main_gun'), or nil."
+      "returns": "HD2WeaponSound|HD2SoundEvent|nil",
+      "doc": "One sound by its name (or an older alias such as 'maelstrom_main_gun'), else a sound event by its catalogue name or its own Wwise name, or nil."
      },
      {
       "name": "play",
@@ -3613,7 +3813,7 @@
        ]
       ],
       "returns": "HD2SoundHandle|nil, string|nil, string|nil",
-      "doc": "Post a game sound event now: a catalogue name ('sentry/gatling' starts its loop), 'ui/<key>' (ui/stratagem_pick, ui/picker_close, ui/slot_select, ui/generic_select, ui/item_hover_select), any Wwise event name, or {id = <32-bit event id>}. Its bank must be loaded. Rate-limited per mod. nil, code, reason when refused."
+      "doc": "Post a game sound event now: a firing-sound name ('sentry/gatling' starts its loop), a sound event's catalogue name, 'ui/<key>' (ui/stratagem_pick, ui/picker_close, ui/slot_select, ui/generic_select, ui/item_hover_select), any Wwise event name, or {id = <32-bit event id>}. Its bank must be loaded. An event that would leave the sound engine changed is refused (GLOBAL_EVENT). Rate-limited per mod. nil, code, reason when refused."
      },
      {
       "name": "available",
@@ -3635,7 +3835,7 @@
        ]
       ],
       "returns": "table",
-      "doc": "A catalogue sound as a hd2.require_assets / hd2.asset_dependency target (its bank's package). Raises on an unknown name."
+      "doc": "A catalogue sound (a firing sound or a sound event) as a hd2.require_assets / hd2.asset_dependency target (its bank's package: a stratagem's call-in or a loadout item's). Raises on an unknown name."
      },
      {
       "name": "name_for",
@@ -3646,7 +3846,25 @@
        ]
       ],
       "returns": "string|nil",
-      "doc": "A name the sound engine maps to a 32-bit event id (what play({id = id}) posts). About 40 ms on the first call for an id; cached."
+      "doc": "A name the sound engine maps to a 32-bit id (what play({id = id}) posts). Every catalogued id has one generated at build time; any other is searched for about 40 ms once, then cached."
+     },
+     {
+      "name": "parameters",
+      "params": [],
+      "returns": "HD2SoundParameter[]",
+      "doc": "The sound engine's game parameters (RTPCs), sorted by name."
+     },
+     {
+      "name": "switch_groups",
+      "params": [],
+      "returns": "HD2SoundGroup[]",
+      "doc": "The sound engine's switch groups and their switches."
+     },
+     {
+      "name": "state_groups",
+      "params": [],
+      "returns": "HD2SoundGroup[]",
+      "doc": "The sound engine's state groups and their states (read-only: states are engine-wide and never set by Runtime)."
      }
     ]
    },
@@ -4149,7 +4367,17 @@
      [
       "position",
       "HD2Vector3|number[]|nil",
-      "A world position: a 3D sound there. Without it the sound plays on the game world's own 2D source."
+      "A world position: a 3D sound there, on a source of its own. Without position or unit the sound plays on the game world's own 2D source."
+     ],
+     [
+      "rotation",
+      "number[]|nil",
+      "With a position: the source's orientation, a quaternion {x, y, z, w}."
+     ],
+     [
+      "unit",
+      "userdata|nil",
+      "An engine Unit: the sound plays on the unit's own source and follows it."
      ],
      [
       "owner",
@@ -4169,7 +4397,7 @@
      [
       "playing",
       "integer",
-      "The sound engine's playing id."
+      "The plugin's playing id."
      ],
      [
       "event",
@@ -4184,7 +4412,7 @@
      [
       "kind",
       "string",
-      "shot, loop, ui or event."
+      "shot, loop, ui, event, or a sound event's kind."
      ],
      [
       "owner",
@@ -4203,7 +4431,72 @@
       "name": "describe",
       "params": [],
       "returns": "table",
-      "doc": ""
+      "doc": "{state, event, name, kind, playing, owner, source (world, position or unit), own_source, controls (pause/resume/is_playing/elapsed available), controls_reason}."
+     },
+     {
+      "name": "pause",
+      "params": [],
+      "returns": "boolean|nil, string|nil, string|nil",
+      "doc": "Pause this instance."
+     },
+     {
+      "name": "resume",
+      "params": [],
+      "returns": "boolean|nil, string|nil, string|nil",
+      "doc": "Resume this instance."
+     },
+     {
+      "name": "is_playing",
+      "params": [],
+      "returns": "boolean|nil, string|nil, string|nil",
+      "doc": "Whether the sound engine still plays it (false up to one update after it ends)."
+     },
+     {
+      "name": "elapsed",
+      "params": [],
+      "returns": "number|nil, string|nil, string|nil",
+      "doc": "Seconds it has played (the engine's play position)."
+     },
+     {
+      "name": "set_parameter",
+      "params": [
+       [
+        "parameter",
+        "string|{id: integer}"
+       ],
+       [
+        "value",
+        "number"
+       ]
+      ],
+      "returns": "boolean|nil, string|nil, string|nil",
+      "doc": "Set a game parameter (RTPC) on this sound's own source (a position post only)."
+     },
+     {
+      "name": "set_switch",
+      "params": [
+       [
+        "group",
+        "string|{id: integer}"
+       ],
+       [
+        "switch",
+        "string|{id: integer}"
+       ]
+      ],
+      "returns": "boolean|nil, string|nil, string|nil",
+      "doc": "Set a switch on this sound's own source (a position post only)."
+     },
+     {
+      "name": "post_trigger",
+      "params": [
+       [
+        "trigger",
+        "string|{id: integer}"
+       ]
+      ],
+      "returns": "boolean|nil, string|nil, string|nil",
+      "doc": "Post a trigger on this sound's own source (a position post only)."
      }
     ]
    },

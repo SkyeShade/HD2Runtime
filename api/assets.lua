@@ -1,7 +1,7 @@
 -- Semantic asset requirements: hd2.require_assets(target) / hd2.asset_dependency(target).
 -- Targets are the typed handles Runtime already hands out (hd2.pickup, hd2.weapon, hd2.support_weapon,
--- hd2.throwable, hd2.vehicle, hd2.backpack, mounted-weapon candidates, projectile handles, and a firing sound's bank
--- through hd2.sounds.asset(name)). Package IDs never appear in requests or results.
+-- hd2.throwable, hd2.vehicle, hd2.backpack, mounted-weapon candidates, projectile handles, and a sound's bank through
+-- hd2.sounds.asset(name): a firing sound or a sound event of the full catalogue). Package IDs never appear in requests or results.
 local assets=require('hd2runtime/core/assets')
 local database=require('hd2runtime/domains/package_residency')
 local weapon_sounds=require('hd2runtime/runtime/weapon_sounds')
@@ -35,8 +35,8 @@ function M.describe(target)
     if key:match('^sound/')then
         local list,swhy=M.sound_dependencies(target.sound)
         if not list then return {key=key,known=false,autoLoadSupported=false,liveTested=false,blocker=swhy}end
-        return {key=key,known=true,autoLoadSupported=true,derivation='sound_bank_stratagem_call_in',liveTested=false,
-            packages=#list,retain=database.policy.retain}
+        return {key=key,known=true,autoLoadSupported=true,derivation=list[1]and list[1].via or'sound_bank_stratagem_call_in',
+            liveTested=false,packages=#list,retain=database.policy.retain}
     end
     local item=database.dependencies[key]
     if not item then
@@ -48,11 +48,43 @@ function M.describe(target)
         package=package.named and package.name:match('[^/]+$')or nil,retain=database.policy.retain}
 end
 
+-- A sound event's bank (runtime/sound_catalogue.lua): its stratagem's call-in packages that list the bank, or the
+-- loadout item's own package that lists it; nil and why for a resident-only bank.
+local function event_dependencies(name)
+    local catalogue=require('hd2runtime/runtime/sound_catalogue')
+    local canonical,e=catalogue.resolve(name)
+    if not e then return nil,'no sound '..tostring(name)end
+    local p=catalogue.provider(e)
+    if not p then
+        return nil,'the '..canonical..' sound is resident-only: no stratagem or loadout package Runtime can load lists its bank'
+    end
+    local out={}
+    if p.stratagem then
+        for _,dep in ipairs(assets.dependencies_for_stratagem(p.stratagemId,p.stratagem)or{})do
+            for _,package in ipairs(p.packages or{})do
+                if dep.package==package then
+                    out[#out+1]={key='sound/'..canonical..(#out>0 and('/'..(#out+1))or''),package=dep.package,
+                        label=canonical..' sound',name=dep.name,via='sound_bank_stratagem_call_in'}
+                end
+            end
+        end
+    elseif p.item then
+        local dep=assets.dependency(p.item)
+        if dep then
+            out[1]={key='sound/'..canonical,package=dep.package,label=canonical..' sound',name=dep.name,
+                via='sound_bank_loadout_item'}
+        end
+    end
+    if#out==0 then return nil,'no package is known for the '..canonical..' sound'end
+    return out
+end
+
 -- A catalogue sound's bank: its stratagem's call-in packages that list the bank (the packages a Pelican gun or a
--- sentry taking that sound requests; runtime/weapon_sounds.lua), or nil and why.
+-- sentry taking that sound requests; runtime/weapon_sounds.lua), or nil and why. A sound event of the full catalogue
+-- (runtime/sound_catalogue.lua): the package of the stratagem or loadout item that provides its bank.
 function M.sound_dependencies(name)
     local canonical,s=weapon_sounds.resolve(name)
-    if not s then return nil,'no firing sound '..tostring(name)end
+    if not s then return event_dependencies(name)end
     if s.own then return {}end
     if not(s.stratagemId and s.stratagem)then
         return nil,'the '..canonical..' sound is resident-only: no stratagem package provides its bank'

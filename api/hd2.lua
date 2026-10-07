@@ -300,11 +300,12 @@ M.status=actions.status_effects
 -- The game's own transport Pelican, summoned empty at a position and held per instance (api/pelican.lua).
 local pelican=require('hd2runtime/api/pelican')
 M.pelican={spawn=pelican.spawn,active=pelican.active,status=pelican.status}
--- The weapon firing-sound catalogue (api/sounds.lua; docs/weapon-sounds.md) and playing game sound events
--- (docs/sounds.md).
+-- The weapon firing-sound catalogue (api/sounds.lua; docs/weapon-sounds.md), the full sound-event catalogue and
+-- playing game sound events (docs/sounds.md).
 local sounds=require('hd2runtime/api/sounds')
 M.sounds={list=sounds.list,describe=sounds.describe,play=sounds.play,available=sounds.available,
-    asset=sounds.asset,name_for=sounds.name_for}
+    asset=sounds.asset,name_for=sounds.name_for,parameters=sounds.parameters,switch_groups=sounds.switch_groups,
+    state_groups=sounds.state_groups}
 -- Mod screen overlays: rectangles and text drawn over the game in the Ui World (api/ui.lua; docs/ui-overlay.md).
 local ui=require('hd2runtime/api/ui')
 M.ui={overlay=ui.overlay,overlays=ui.overlays,colour=ui.colour,color=ui.color,MAX_LAYER=ui.MAX_LAYER,
