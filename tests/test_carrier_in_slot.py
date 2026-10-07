@@ -625,6 +625,92 @@ assert(count('CUSTOM MP NATIVE PICKS (aboard the ship, read-only; the carrier-in
 return 'ok'
 ''')
 
+    def test_the_early_presentation_survives_the_loading_screen_and_the_first_mission_frames(self):
+        # r41 (the r40 test): the ship-side restore ran on the loading screen when only a teammate's slot was presented,
+        # and in the mission's first frames (state Mission, its mode not set yet): the HUD then showed the carrier.
+        self.flow(r'''
+rawset(_G,'ModOptionsMenu',MENU)
+assert(loadstring(GAS_ADDON,'@'..GAS_RESOURCE))()
+tick(40)
+ship({})
+tick(4)
+select_into(0)
+native_append(22);native_append(130)
+SCREEN.set('selecting',false);tick(8)
+local V=require('hd2runtime/runtime/stratagem_selector').virtual_slots()
+local kind,cid=V.slots[0].type,V.slots[0].token
+W.saved_loadout({{id=cid},{id=ID22},{id=1298599997}})
+SCREEN.close();tick(80)
+local cp=require('hd2runtime/runtime/carrier_presentation')
+local name=lines('stratagem selector SELECTED'):match('holds (.-) %(type')
+-- The loading screen: presented early.
+W.state(6);tick(30)
+assert(count('applying the presentation on its carrier '..name..' during PrepareMission')==1,lines('CARRIER-IN-SLOT'))
+assert(cp.applied(name),'applied on the loading screen')
+-- The mission's first frames, its mode not set yet: never restored.
+W.state(4,{mode=false});tick(30)
+assert(count('RETURN TO SHIP')==0 and cp.applied(name),lines('RETURN TO SHIP'))
+-- The mission: kept, ready.
+mission({host=true})
+local record,hud=mission_record({kind,22,130})
+local h=W.stratagem_hud({peer=LOCAL,slots=hud,record=record})
+live_cooldowns(h,#record)
+CT.player(0,0,0)
+tick(120)
+assert(count('RETURN TO SHIP')==0 and cp.applied(name),lines('RETURN TO SHIP'))
+assert(count('was applied early (the carrier-in-slot probe): kept')==1,lines('MISSION'))
+assert(count('MISSION (orbital_gas_barrage): READY TO CALL')==1,lines('MISSION'))
+return 'ok'
+''')
+
+    def test_a_stale_native_pick_in_another_players_record_never_moves_a_carrier_slot(self):
+        # r41 (the r40 test): the other player's stratagem record (its previous loadout) held this slot's carrier as a
+        # native pick while its loadout screen record (its current loadout) did not. r40's preview read the screen and its
+        # own-carrier discount read the record: the slot moved to another carrier and straight back, over and over.
+        self.flow(r'''
+rawset(_G,'ModOptionsMenu',MENU)
+local channel=require('hd2runtime/runtime/peer_channel');channel.reset_for_tests()
+local sync=require('hd2runtime/runtime/custom_mp_sync');sync.reset_for_tests()
+local VERSION=require('hd2runtime/domains/metadata').version
+assert(loadstring(GAS_ADDON,'@'..GAS_RESOURCE))()
+local ME,THEM='1111222233334444','5555666677778888'
+W.players({{peer=ME,avatar=100},{peer=THEM}},ME)
+W.lobby({members={ME,THEM},host=ME})
+W.lobby_values[THEM]=('hd2rt/1;%s;%s;%d;%s'):format(VERSION,custom.registry_hash(),1,'-,-,-,-')
+tick(40)
+ship({})
+tick(120)
+assert(count('custom multiplayer ENABLED')>=1,lines('CUSTOM MP'))
+select_into(0)
+native_append(22)
+SCREEN.set('selecting',false);tick(8)
+local V=require('hd2runtime/runtime/stratagem_selector').virtual_slots()
+local kind,cid=V.slots[0].type,V.slots[0].token
+-- The other player's loadout on the loadout screen (its current one): 130 only.
+local LO=require('hd2runtime/domains/stratagem_selector').loadout
+local theirs=SCREEN.ui+LO.records+1*LO.recordStride
+W.write(theirs+LO.owner,W.u32(0x77778888)..W.u32(0x55556666))
+W.write(theirs+LO.entries+LO.entryType,W.u32(130));W.write(theirs+LO.entries+LO.entryUses,W.u32(4294967295))
+W.write(theirs+LO.count,W.u32(1))
+-- Its stratagem record here (its previous loadout): this slot's carrier as a native pick.
+local h=W.stratagem_hud({peer=LOCAL,slots={{type=kind,code={}},{type=22,code={}}},
+    record={{type=124,granted=1},{type=kind,granted=0},{type=22,granted=0}}})
+local R=require('hd2runtime/domains/stratagem_slots').record
+local other=h.record+R.stride
+W.write(other,W.u32(0x77778888)..W.u32(0x55556666))
+for k,e in ipairs({{124,1},{kind,0},{41,0}})do
+    local at=other+R.state+R.entries+(k-1)*R.entryStride
+    W.write(at,W.u32(e[1]));W.write(at+4,W.u32(4294967295));W.write(at+9,string.char(e[2]))
+end
+W.write(other+R.state+R.entryCount,W.u32(3))
+W.write(h.record+R.count,W.u32(2))
+tick(400)
+assert(count('stratagem selector MOVED')==0,'it stays: '..lines('stratagem selector MOVED')..' | '..lines('NATIVE PICKS'))
+assert(V.slots[0].token==cid)
+assert(count('the other players\' native picks ('..THEM..' from the loadout screen): 1298599997')>=1,lines('NATIVE PICKS'))
+return 'ok'
+''')
+
     def test_a_slot_that_could_not_move_is_swapped_at_launch(self):
         # 0.3.0, the launch fallback: the native pick of its carrier is recorded aboard the ship, but the slot does not
         # move before the launch (held here: the move's settle never elapses, as when the player readies at once).

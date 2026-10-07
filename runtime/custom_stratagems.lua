@@ -1437,7 +1437,7 @@ function M.probe_pins()
     end
     return out
 end
-local function allocate(world,present,list,where,ids,who,quiet)
+local function allocate(world,present,list,where,ids,who,quiet,pins_given)
     local definitions,report={},{}
     -- ids (custom multiplayer): only the custom stratagems the synced lobby table selects, one carrier each.
     local only
@@ -1448,7 +1448,8 @@ local function allocate(world,present,list,where,ids,who,quiet)
     local ex=expendable_pass(world,present,list,ids,who,#players>1)
     -- The carrier-in-slot probe: a definition whose loadout slots hold its carrier keeps it while nobody else holds it
     -- (the allocator's pin); never with the synced lobby table (every peer must allocate alike).
-    local pins=not ids and M.probe_pins()or{}
+    -- With several players the caller gives them (M.ship_pins aboard the ship; the first-seen records at mission start).
+    local pins=pins_given or(not ids and M.probe_pins()or{})
     for _,d in ipairs(order)do
         if(not only or only[d.id])and(d.kind~='expendable'or ex.fallback[d.id])then
             definitions[#definitions+1]={id=d.id,label=d.label,token=M.TOKEN,policy=d.alloc_policy or d.policy,
@@ -1818,32 +1819,35 @@ local function ship_step(world,v)
     end
     local table_ids=mp_on and sync.table_ids(v.table)or nil
     local screen_key='-'
+    local mp_pins
     if mp_on then
         local carrier_mode=false
         for _,id in ipairs(table_ids or{})do if defs[id]and defs[id].selection=='carrier'then carrier_mode=true end end
         if carrier_mode then
-            -- r40: ONLY real native picks, so every machine computes the same carrier for an id: this player's own saved
-            -- loadout (its own carrier slots are discounted below) and the other players' CURRENT picks from the
-            -- loadout screen, every slot the synced table names as custom excluded; with the screen closed, their
-            -- records with their custom slots excluded (M.peer_ids). Never their stale records' custom slots (r38:
-            -- another player's carrier slot counted as a native pick, and the two previews gave one id two carriers).
-            local extra,skey=M.screen_natives(world,v)
-            local merged,source={},'the loadout screen'
+            -- ONLY real native picks, so every machine computes the same carrier for an id (r40): this player's own
+            -- loadout (its own carrier slots discounted) and each other player's (M.other_natives: the loadout screen's
+            -- record of that player when it holds one, else its stratagem record), every slot the synced table names as
+            -- custom excluded. r41: the own-carrier discount reads that same set (r40 read the stratagem records for it
+            -- while the preview read the screen: a stale native pick there moved the slot back and forth). And the pins
+            -- (M.ship_pins): a carrier-mode id keeps the carrier its slots hold, the lowest peer's holder's.
+            local extra,okey,sources=M.other_natives(world,v)
+            local merged={}
             for k in pairs(saved or{})do merged[k]=true end
-            if not extra then extra,source=M.peer_ids(world),'their stratagem records (the loadout screen is closed)'end
             for k in pairs(extra)do merged[k]=true end
-            -- This player's own carrier slots are no native pick (as above).
             local probe=require('hd2runtime/runtime/carrier_in_slot')
-            present=probe.discount(merged,probe.own_carriers(ids,selector.virtual_slots(),M.peer_ids(world)))
-            local parts={}
+            present=probe.discount(merged,probe.own_carriers(ids,selector.virtual_slots(),extra))
+            mp_pins=M.ship_pins(world,v)
+            local parts,pin_text={},{}
             for k in pairs(extra)do parts[#parts+1]=tostring(k)end
             table.sort(parts)
-            screen_key=source..':'..table.concat(parts,',')
+            for id,stable in pairs(mp_pins)do pin_text[#pin_text+1]=id..'='..stable end
+            table.sort(pin_text)
+            screen_key=okey..'|'..table.concat(pin_text,',')
             if ship.screen_said~=screen_key then
                 ship.screen_said=screen_key
                 log(('CUSTOM MP NATIVE PICKS (aboard the ship, read-only; the carrier-in-slot probe): the other players\' '
-                    ..'native picks from %s: %s; every custom slot excluded'):format(source,#parts>0 and
-                    table.concat(parts,', ')or'none'))
+                    ..'native picks (%s): %s; every custom slot excluded; pins %s'):format(sources~=''and sources or'none',
+                    #parts>0 and table.concat(parts,', ')or'none',#pin_text>0 and table.concat(pin_text,', ')or'none'))
             end
         end
     end
@@ -1856,14 +1860,14 @@ local function ship_step(world,v)
     ship.key,ship.at=key,clock
     local a,why=allocate(world,present,list,mp_on and'aboard the ship, a PREVIEW from the synced lobby table (every '
         ..'player\'s native picks are final only at mission start)'or'aboard the ship, against the saved loadout',
-        table_ids)
+        table_ids,nil,nil,mp_pins)
     if not a then
         if ship.waiting~=why then ship.waiting=why;log('carriers: waiting: '..tostring(why))end
         return
     end
     ship.waiting=nil
     ship.alloc=a
-    ship.inputs={present=present,list=list,ids=table_ids}
+    ship.inputs={present=present,list=list,ids=table_ids,pins=mp_pins}
     -- Several players (EXPERIMENTAL): what this machine sees of the lobby, and the id -> carrier map every peer with
     -- the same mod set computes (runtime/custom_multiplayer.lua; read-only).
     local n=#(world_module.players(world)or{})
@@ -2036,6 +2040,14 @@ do
             local stable=loadout.id_of(world,kind)
             local name=stable and names_by_id[stable]
             local key=kind..'='..cl.id
+            -- Found restored (it is never restored before the ship, r41; but if so): applied again, at most 3 times.
+            if remote.done[key]=='applied'and name and not carrier_presentation.applied(name)then
+                remote.again=(remote.again or 0)+1
+                if remote.again<=3 then
+                    remote.done[key]=nil
+                    log(('MISSION: REMOTE CARRIER found restored (%s for %s): applied again'):format(name,cl.id))
+                end
+            end
             if not remote.done[key]then
                 local why
                 if cl.conflict then why='two custom stratagems claim it'
@@ -2161,6 +2173,93 @@ function M.screen_natives(world,v)
     table.sort(parts)
     return out,table.concat(parts,',')
 end
+do
+    -- r41: each other player's loadout as this machine sees it aboard the ship: {[peer] = {types in slot order},
+    -- source}: the loadout screen's record of that player when it holds one (owner = peer), else its stratagem record here.
+    local function other_loadouts(world,v)
+        local screen,out={},{}
+        local ok,list=pcall(selector.lobby_records,world)
+        for _,r in ipairs(ok and list or{})do
+            if not r['local']and#(r.types or{})>0 then screen[r.owner]=r.types end
+        end
+        for _,r in ipairs(slots.records(world)or{})do
+            if not r['local']then
+                local entries={}
+                for _,e in ipairs(r.entries or{})do if e.granted==0 then entries[#entries+1]=e end end
+                table.sort(entries,function(a,c)return a.index<c.index end)
+                local types={}
+                for k,e in ipairs(entries)do types[k]=e.type end
+                out[r.peer]={types=types,source='its stratagem record'}
+            end
+        end
+        for peer,types in pairs(screen)do out[peer]={types=types,source='the loadout screen'}end
+        local peers={}
+        for peer in pairs(v.table or{})do if peer~=v.local_peer then peers[#peers+1]=peer end end
+        table.sort(peers)
+        return out,peers
+    end
+    -- The other players' NATIVE picks aboard the ship with custom multiplayer (r41): per player (other_loadouts), every slot
+    -- the synced lobby table names as that player's custom slot excluded. Returns the set of stable ids, a key, the sources.
+    function M.other_natives(world,v)
+        local out,parts,sources={},{},{}
+        if not(v and v.status=='enabled'and v.table)then return out,'',''end
+        local seen,peers=other_loadouts(world,v)
+        for _,peer in ipairs(peers)do
+            local picks,l=v.table[peer]or{},seen[peer]
+            sources[#sources+1]=peer..' from '..(l and l.source or'nowhere (nothing seen yet)')
+            for k,kind in ipairs(l and l.types or{})do
+                local id=not picks[k-1]and loadout.id_of(world,kind)or nil
+                if id then out[id]=true;parts[#parts+1]=peer..':'..id end
+            end
+        end
+        table.sort(parts)
+        return out,table.concat(parts,','),table.concat(sources,'; ')
+    end
+    -- The pins with several players (r41): every carrier-mode custom id the synced table selects keeps the carrier its
+    -- slots hold: of every player holding it (this player's own carrier slots, the others' slots as other_loadouts sees
+    -- them), the holder with the lowest peer id gives it. Deterministic for the same observations, so two players holding
+    -- one id converge on one carrier; the allocator honours a pin only while that carrier is eligible (no native pick).
+    -- Returns {[definition id] = stable id}.
+    function M.ship_pins(world,v)
+        local holders={}
+        local token=stratagem_id(M.TOKEN)
+        local function add(peer,id,stable)
+            local d=id and defs[id]
+            if not(d and d.selection=='carrier'and stable and stable~=token)then return end
+            local h=holders[id]
+            if not h or peer<h.peer then holders[id]={peer=peer,stable=stable}end
+        end
+        if not(v and v.status=='enabled'and v.table)then return {}end
+        local set=selector.virtual_slots()
+        for _,e in pairs(set and set.slots or{})do if e.carrier then add(v.local_peer,e.definition,e.token)end end
+        local seen,peers=other_loadouts(world,v)
+        for _,peer in ipairs(peers)do
+            local picks,l=v.table[peer]or{},seen[peer]
+            for k,kind in ipairs(l and l.types or{})do
+                if picks[k-1]then add(peer,picks[k-1],loadout.id_of(world,kind))end
+            end
+        end
+        local pins={}
+        for id,h in pairs(holders)do pins[id]=h.stable end
+        return pins
+    end
+    -- The pins at mission start with several players (r41): the same rule from every player's first-seen record (`custom`:
+    -- sync.native_present's custom slots), identical on every machine. Returns {[definition id] = stable id}.
+    function M.mission_pins(world,custom,token_type)
+        local holders={}
+        for _,c in ipairs(custom or{})do
+            local d=defs[c.id]
+            local stable=c.type~=token_type and loadout.id_of(world,c.type)or nil
+            if d and d.selection=='carrier'and stable then
+                local h=holders[c.id]
+                if not h or c.peer<h.peer then holders[c.id]={peer=c.peer,stable=stable}end
+            end
+        end
+        local pins={}
+        for id,h in pairs(holders)do pins[id]=h.stable end
+        return pins
+    end
+end
 -- Definitions that follow the availability rule: every expendable one, every carrier pod, and every definition that
 -- requested a carrier GROUP. (A legacy policy-only definition keeps its PRE-MISSION refusal, unchanged.)
 -- r6: every definition with a carrier group, requested or default (the user's rule: both directions for every custom
@@ -2256,7 +2355,9 @@ function M.probe_carrier(id)
         require('hd2runtime/runtime/carrier_in_slot').log(id..': several players (custom multiplayer, EXPERIMENTAL r38): '
             ..'its pick writes the carrier the lobby gives it')
     end
-    local a=cache[id]or(group_view.a and group_view.a.assignments[id])
+    -- The ship preview's own assignment first (r41: with several players it holds the pins, so a pick of an id another
+    -- player already holds takes that player's carrier), then the selection's cache, then the availability view.
+    local a=(ship.alloc and ship.alloc.assignments[id])or cache[id]or(group_view.a and group_view.a.assignments[id])
     if not(a and a.stable_id and a.carrier)then
         require('hd2runtime/runtime/carrier_in_slot').log(id..': no carrier is allocated yet: its pick writes the token')
         return nil
@@ -2450,7 +2551,7 @@ do
                     local present={}
                     for k in pairs(inputs.present)do present[k]=true end
                     present[c.id]=true
-                    local ok,b=pcall(allocate,world,present,inputs.list,'feasibility',inputs.ids,nil,true)
+                    local ok,b=pcall(allocate,world,present,inputs.list,'feasibility',inputs.ids,nil,true,inputs.pins)
                     local lost={}
                     for _,other in ipairs(base)do
                         if not(ok and b and satisfied(b,other))then lost[#lost+1]=other end
@@ -4274,8 +4375,12 @@ local function mp_step(world)
                 end
             end
         end
+        -- r41: a carrier-mode id keeps the carrier its slots hold (the lowest peer's holder's): every machine reads the
+        -- same first-seen records, so the map follows the slots, and only a real conflict (that carrier a native pick)
+        -- maps it elsewhere.
+        local mpins=M.mission_pins(world,custom,mission.token_type)
         local a,why=allocate(world,present,m.list,'at mission start, custom multiplayer: the synced lobby table and every '
-            ..'player\'s record as first seen',ids,who)
+            ..'player\'s record as first seen',ids,who,nil,mpins)
         if not a then return mp_refuse('the carriers cannot be allocated: '..tostring(why))end
         mission.allocation=a
         freeze_carriers(a,'custom multiplayer, mission start')
@@ -5099,10 +5204,11 @@ local function tick(dt)
         sync.mission_ended(clock)
         loadout_state.leave()
     end
-    -- (Entering a mission with the carrier-in-slot probe's early presentation: no ship-side restore on the loading screen.)
+    -- The ship-side restore runs back aboard the ship only: never on the loading screen or in the mission's first frames
+    -- (its mode not set yet), where the carrier-in-slot probe's early and remote presentations stand (r41: r40 restored
+    -- them there, and the HUD then showed the carrier).
     if game then
-        lifecycle_step(world,in_mission or(game.name=='PrepareMission'
-            and require('hd2runtime/runtime/carrier_in_slot').entering()))
+        lifecycle_step(world,in_mission or game.name=='PrepareMission'or game.name=='Mission')
     end
     -- Back aboard the ship: the ship loadout state reconciled before anything is published.
     if game and not in_mission then loadout_state.step(world)end

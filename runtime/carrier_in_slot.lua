@@ -154,7 +154,9 @@ end
 -- Whether the early presentation is applied for a definition on that carrier (the mission step then skips its own).
 function M.early(id,carrier)
     local e=state.early[id]
+    -- r41: and still applied (if anything restored it, the mission's own presenting step applies it again).
     return e~=nil and e.applied==true and e.carrier==carrier
+        and require('hd2runtime/runtime/carrier_presentation').applied(carrier)==true
 end
 -- Locks each of a definition's carrier slots (x = M.slots_by_definition(set)[id]) in this mission's own record.
 function M.lock(world,id,x,client)

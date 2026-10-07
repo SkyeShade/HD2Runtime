@@ -203,7 +203,10 @@ everywhere else.
   (`REMOTE CARRIER PRESENTED`, `TEAMMATE HUD NATIVE`: its CTRL card shown natively) and converted the barrage's 18
   shells; the user: it worked, but the client's TAB menu named it Orbital Gatling Barrage (fixed in r40, offline).
   Session 2 (both picked it): the two slots held two carriers; the host's was refused (`CUSTOM MP DESYNC`, locked), the
-  client's ran and the host presented it natively (fixed in r40, offline). r36 solo log: the
+  client's ran and the host presented it natively (fixed in r40, offline). r40 two players: the host's slot moved
+  back and forth between two carriers aboard the ship (a stale native pick in the other player's record; fixed in
+  r41); when only the client brought it, it ran but both players saw the carrier's own look (the ship-side restore on
+  the loading screen and in the first mission frames; fixed in r41). r36 solo log: the
   carrier was pickable from a freshly opened grid and the slot moved (Airburst -> Gatling), but the card was still
   drawn grey (the byte write and the consumed realize request did not redraw it). r37 solo (the user, 2026-10-07: "it
   worked well"): the game's helper lifted the grey on every grid open (`by the game's per-card grey helper ... 1
@@ -214,10 +217,17 @@ everywhere else.
   compatible Runtime with the same custom stratagem registry); without it the pick writes the token, as before.
   - The pick writes the carrier the lobby gives that custom id (one carrier per id, whoever selects it).
   - Aboard the ship, while a carrier-mode custom stratagem is selected in the lobby, the preview counts ONLY real
-    native picks (r40; `CUSTOM MP NATIVE PICKS`): this player's own loadout and the other players' current picks from
-    the loadout screen (read-only; only when every other loadout record's owner is a peer of the synced lobby table),
-    their records only while the screen is closed, every slot the table names as custom excluded. So every machine
-    computes the same carrier for an id, and a slot whose carrier another player picks moves before the launch.
+    native picks (r40; `CUSTOM MP NATIVE PICKS`): this player's own loadout and each other player's, as the loadout
+    screen shows that player (when it holds a record of that player) or else as that player's stratagem record here
+    (r41: per player), every slot the synced table names as custom excluded. This player's own carrier slots are
+    discounted against that same set (r41: r40 read the records for it while the preview read the screen, and a stale
+    native pick there moved the slot back and forth). So every machine computes the same carrier for an id, and a slot
+    whose carrier another player picks moves before the launch.
+  - Pins with several players (r41): a carrier-mode id keeps the carrier its slots hold, the lowest peer's holder's
+    (this player's own carrier slots and the others' as seen above), so it moves only on a real conflict (that carrier
+    a native pick) and two players holding one id converge on one carrier; a pick of an id another player holds takes
+    that carrier. At mission start the same rule reads every player's first-seen record (identical on every machine),
+    so the map follows the slots.
     (r38 counted the other players' stratagem records, custom slots and stale picks included: the two players' slots
     of one id held two carriers, and one was refused at mission start as `CUSTOM MP DESYNC`.)
   - In the mission the early lock is marked as a multiplayer lockout write (this machine's own entry) and the native
@@ -225,7 +235,9 @@ everywhere else.
   - Every machine presents every OTHER player's carrier slot as its custom stratagem (`REMOTE CARRIER PRESENTED`: its
     name and icon on that carrier's row, no code, as an expendable's clone already is on every machine), from the
     loading screen (r40; r38 did it at the first mission update, and the TAB menu still showed the carrier's own
-    name). Never when that type is also a native pick on that machine or two custom ids
+    name). The ship-side restore runs back aboard the ship only (r41: r40 ran it on the loading screen and in the
+    mission's first, mode-less frames, restoring the early and the remote presentations, so both players saw the
+    carrier); an early or remote presentation found restored is applied again. Never when that type is also a native pick on that machine or two custom ids
     claim it. Restored with every presentation at the mission's end.
   - The teammate HUD overlay stands down for a card whose carrier is presented on that machine as that custom
     stratagem (`TEAMMATE HUD NATIVE`): the game's own card shows it, with its own cooldown band. It still draws over a

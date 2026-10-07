@@ -1,4 +1,4 @@
--- CarrierSlotProbe 0.4.1: the carrier-in-slot probe (development; docs/custom-stratagem-api.md, "selection =
+-- CarrierSlotProbe 0.4.2: the carrier-in-slot probe (development; docs/custom-stratagem-api.md, "selection =
 -- 'carrier' (probe)"). One custom stratagem, an Orbital Gas Barrage, whose loadout slot holds its CARRIER itself
 -- instead of the Orbital Precision Strike token. Solo, and with several players through custom multiplayer (0.4.0,
 -- EXPERIMENTAL). What it answers: the slot holds the carrier from the
@@ -10,7 +10,7 @@
 -- of it as Carrier Slot Probe natively (the teammate panel too).
 local hd2=require('mods/skyeshade/hd2runtime')
 local mod=hd2.mod()
-local BUILD='0.4.1 CARRIER SLOT MULTIPLAYER PROBE BUILD'
+local BUILD='0.4.2 CARRIER SLOT MULTIPLAYER PROBE BUILD'
 mod:log('CarrierSlotProbe '..BUILD..': select Carrier Slot Probe in the custom panel (solo, or with friends who run the '
     ..'same Runtime and mods), then a mission; call it with UP DOWN UP DOWN LEFT RIGHT LEFT. The log lines '
     ..'CARRIER-IN-SLOT PROBE show the timing.')
