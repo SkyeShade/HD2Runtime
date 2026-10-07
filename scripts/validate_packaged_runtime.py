@@ -4488,6 +4488,29 @@ return function(frame,watches,counts,lines)
 end
 """
 EXTRAS['proof-peer-hello'] = {'after': PROOF_PEER_HELLO, 'readOnly': True}
+# The per-shot modification live test (proof/LiberatorShotProbe 0.1.0; runtime/projectile_shots.lua): it loads from the
+# archive, its configuration is active in VANILLA mode (nothing to write), and the packaged module proves every one of the
+# research's 178 pins (and the pool's) on the snapshot's real game.dll; nothing is written.
+PROOF_LIBERATOR_SHOTS = r"""
+return function(frame,watches,counts,lines)
+ local results={}
+ local function step(name,ok,detail)results[#results+1]={name=name,passed=ok==true,detail=detail}end
+ local function count(text)local n=0;for _,line in ipairs(lines)do if line:find(text,1,true)then n=n+1 end end;return n end
+ for _=1,60 do frame()end
+ step('the probe loads from the archive and its configuration is active',
+  count('LiberatorShotProbe 0.1.0 LIBERATOR SHOT PROBE BUILD')==1 and count('MODE VANILLA: AR-23 Liberator shots x1')==1
+  and count('REFUSED')==0,tostring(count('MODE VANILLA')))
+ local world=require('hd2runtime/runtime/event_world').open()
+ local ok,why=require('hd2runtime/runtime/projectile_shots').prove(world)
+ step('the packaged per-shot module proves every research pin on the snapshot\'s game.dll',ok==true,tostring(why))
+ local api=require('hd2runtime/api/hd2')
+ step('hd2.projectiles.modify_shots is exported',type(api.projectiles.modify_shots)=='function'
+  and#api.projectiles.modify_shots_status()==1,'')
+ step('nothing is written',counts.writes==0,tostring(counts.writes))
+ return results
+end
+"""
+EXTRAS['proof-liberator-shots'] = {'after': PROOF_LIBERATOR_SHOTS, 'readOnly': True}
 # The client-write proof (runtime/multiplayer.lua host_guard; research/docs/runtime-peer-messaging-F5FEE03DCFDB.md
 # section 10), with the Gas EAT example, on the shipped artifact and a real MISSION snapshot whose host condition is
 # overlaid as absent (seed_client: the game mode's authority bit cleared) and whose first unlimited loadout entry is the
@@ -4774,6 +4797,7 @@ SCENARIOS = {
     'example-eagle-stun-rocket-pods': lambda: proof('EagleStunRocketPodsExample'),
     'custom-stratagem-multiplayer': lambda: proof('HmgSentryExample'),
     'proof-peer-hello': lambda: proof('RuntimePeerHelloProof'),
+    'proof-liberator-shots': lambda: proof('LiberatorShotProbe'),
     'client-write-proof': lambda: proof('GasEatExample'),
     'proof-text-write-refused': lambda: proof('CustomStratagemP0Proof'),
     'backpack-ammo-maxigun': lambda: example('MaxigunBackpackAmmo'),

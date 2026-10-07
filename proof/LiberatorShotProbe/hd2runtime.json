@@ -1,0 +1,1 @@
+{"format":1,"name":"LiberatorShotProbe","resource":"mods/skyeshade/hd2runtime_liberator_shot_probe","guid":"aef6802e-d2c0-5e74-870d-473cde3da6ba","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.30.0-dev","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../sdk","ide_library":"../../sdk/stubs"}
