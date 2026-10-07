@@ -23,6 +23,7 @@ local U=require('hd2runtime/runtime/ui_sound')
 S.reset_for_tests()
 local NOW=0
 S.hooks.game_world=function()return 'GAMEWORLD'end
+S.hooks.playing_entry=function(counter)return {state=0,id=counter+1000}end
 S.hooks.now=function()return NOW end
 local hd2=require('hd2runtime/api/hd2')
 '''
@@ -53,15 +54,19 @@ return 'ok'
         spec = importlib.util.spec_from_file_location('gen_names', ROOT / 'scripts/generate_sound_event_names.py')
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
-        self.assertEqual(module.output(), (ROOT / 'domains/sound_event_names.lua').read_text(encoding='utf-8'),
-            'stale: run py scripts/generate_sound_event_names.py')
+        # The id set, every name's hash and form, and a sample searched again (scripts/generate_sound_event_names.py).
+        self.assertEqual(module.check(), [], 'stale: run py scripts/generate_sound_event_names.py')
+        count = len(module.catalogue_ids())
         self.lua(r'''
 local names=require('hd2runtime/domains/sound_event_names')
 local W=require('hd2runtime/runtime/wwise_names')
 local D=require('hd2runtime/domains/weapon_sounds')
+local E=require('hd2runtime/domains/sound_events')
 local n=0
 for id,name in pairs(names)do assert(W.id(name)==id and U.fnv1(name)==id,name);n=n+1 end
-assert(n==182,'the catalogue holds 182 events: '..n)
+assert(n==%d,'the catalogues hold %d ids: '..n)
+-- Every event of the full catalogue has a name (its own Wwise name or a generated one).
+for name,e in pairs(E.events)do assert(e.wwise or names[tonumber(e.id,16)],name)end
 -- Every catalogue sound resolves without a search (the search is never called).
 local search=W.search;W.search=function()error('searched at runtime')end
 for name in pairs(D.sounds)do
@@ -70,7 +75,7 @@ for name in pairs(D.sounds)do
 end
 W.search=search
 return 'ok'
-''')
+''' % (count, count))
 
     def test_play_by_catalogue_name_ui_key_wwise_name_and_id(self):
         self.lua(r'''

@@ -42,6 +42,8 @@ import generate_slot_cooldown
 import generate_beacon_redirect
 import generate_pelican
 import generate_weapon_sounds
+import generate_sound_events
+import generate_wwise_plugin
 import generate_stratagem_selector
 import generate_stratagem_blocking
 import generate_event_entities
@@ -227,6 +229,8 @@ def main():
     generate_beacon_redirect.generate(check=True)
     generate_pelican.generate(check=True)
     generate_weapon_sounds.generate(check=True)
+    generate_sound_events.generate(check=True)
+    generate_wwise_plugin.generate(check=True)
     generate_stratagem_selector.generate(check=True)
     generate_stratagem_blocking.generate(check=True)
     generate_event_entities.generate(check=True)
