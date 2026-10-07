@@ -240,7 +240,7 @@ def outputs():
         '---@field path "attachment_option"','---@field weapon HD2WeaponName',
         '---@field category string','---@field option string','local HD2AttachmentOption = {}',
         '---@return table','function HD2AttachmentOption:describe() end','',
-        '---@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2StratagemAttack|HD2EagleRearm|HD2PlayerAttack|HD2WeaponAmmunition|HD2ProjectileReference|HD2TerminalAction|HD2Explosion|HD2SupportWeapon|HD2SupportAttack|HD2SupportProjectile|HD2SupportExplosion|HD2DeployedEntity|HD2DeployedShield|HD2DeployedZone|HD2MountedWeapon|HD2VehicleEntity|HD2VehicleZone|HD2VehicleMount|HD2VehicleWeapon|HD2VehicleWeaponAttack|HD2Backpack|HD2BackpackZone|HD2BackpackLinked|HD2BackpackLinkedZone|HD2BoosterTarget|HD2WeaponAttachment|HD2PodRack|HD2PodSlot','',
+        '---@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2StratagemAttack|HD2EagleRearm|HD2PlayerAttack|HD2WeaponAmmunition|HD2ProjectileReference|HD2TerminalAction|HD2Explosion|HD2SupportWeapon|HD2SupportAttack|HD2SupportProjectile|HD2SupportExplosion|HD2DeployedEntity|HD2DeployedShield|HD2DeployedZone|HD2MountedWeapon|HD2VehicleEntity|HD2VehicleZone|HD2VehicleMount|HD2VehicleWeapon|HD2VehicleWeaponAttack|HD2Backpack|HD2BackpackZone|HD2BackpackLinked|HD2BackpackLinkedZone|HD2BoosterTarget|HD2WeaponAttachment|HD2PodRack|HD2PodSlot|HD2CatalogueExplosion','',
         '---@param role HD2AttackRole','---@return HD2PlayerAttack',
         'function HD2Weapon:attack(role) end',
         '---The default ammunition that owns this weapon\'s fired projectile (its delta patches ProjectileWeapon +0',
@@ -655,6 +655,10 @@ def outputs():
         '---@field slot "directDamage"|"impactExplosion"|"expiryExplosion"','local HD2AttackOutputSlot = {}',
         '---{output, slot, field, present, allowNone, shared}.','---@return table',
         'function HD2AttackOutputSlot:describe() end']
+    # The explosion catalogue (sdk/ExplosionCatalogue.json; docs/explosions.md): semantic ids only. The class
+    # HD2CatalogueExplosion itself comes from schemas/events.json (api classes).
+    explosion_catalogue=json.loads((ROOT/'sdk/ExplosionCatalogue.json').read_text(encoding='utf-8'))
+    alias('HD2CatalogueExplosionName',[item['name'] for item in explosion_catalogue['explosions']])
     # Event actions: the named explosions (Hellbombs) and the statuses hd2.status offers (domains/event_natives.lua).
     event_actions = json.loads((ROOT/'research/event-actions-F5FEE03DCFDB.json').read_text(encoding='utf-8'))
     alias('HD2ExplosionName',[item['name'] for item in event_actions['namedExplosions']]
@@ -748,6 +752,9 @@ def outputs():
         'hd2.enemies = {}',
         '---A catalogued attack output by semantic ID or owner weapon name (see docs/attack-outputs.md).',
         '---@param identity HD2AttackOutputId','---@return HD2AttackOutput','function hd2.attack_output(identity) end',
+        '---A catalogued explosion by semantic id or label (docs/explosions.md, sdk/ExplosionCatalogue.json): the target',
+        '---of the explosion.* fields, a payload value and a spawn argument.',
+        '---@param name HD2CatalogueExplosionName|string','---@return HD2CatalogueExplosion','function hd2.explosion(name) end',
         '---Mods that need a newer HD2Runtime (HD2Runtime 0.28.0+). The SDK wrapper of every mod reports here before its',
         '---own version check fails closed; HD2Runtime logs each mod and shows one update warning per session on the ship.',
         'hd2.compatibility = {}',
@@ -831,6 +838,7 @@ def outputs():
             'sdk/docs/booster-authoring.md':(ROOT/'docs/booster-authoring.md').read_text(encoding='utf-8'),
             'sdk/docs/throwable-authoring.md':(ROOT/'docs/throwable-authoring.md').read_text(encoding='utf-8'),
             'sdk/docs/asset-loading.md':(ROOT/'docs/asset-loading.md').read_text(encoding='utf-8'),
+            'sdk/docs/explosions.md':(ROOT/'docs/explosions.md').read_text(encoding='utf-8'),
             'sdk/docs/weapon-movement.md':(ROOT/'docs/weapon-movement.md').read_text(encoding='utf-8'),
             'sdk/docs/status-effects.md':(ROOT/'docs/status-effects.md').read_text(encoding='utf-8'),
             'sdk/docs/enemy-authoring.md':(ROOT/'docs/enemy-authoring.md').read_text(encoding='utf-8'),

@@ -34,6 +34,12 @@ successful observed swap evidence.
 Terminal explosion slots accept typed explosion handles or `terminal:no_explosion()`. Native zero
 is never accepted as a raw public reference.
 
+They also accept any catalogued explosion whose package is known, `hd2.explosion(name)` (docs/explosions.md;
+0.30.0-dev, not live-tested): with `allow_unverified_reference` and `allow_unverified_effect`, its package loaded
+before the write (none for the mission effects package), its live ExplosionSettings row re-proven, and a donor whose
+shrapnel chain would release the written projectile again refused (`RECURSIVE_COMPOSITION`). Weapon explosion handles
+keep their rules unchanged.
+
 A reference replacement and scalar edits are intentionally separate operations. The existing
 transaction model has one semantic target and cannot prove an atomic identity transition between
 two objects. An attempted combined attack transaction is rejected with `COMPOSITION_TARGET_CHANGED`;

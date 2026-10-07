@@ -143,6 +143,10 @@ result as before.
 
 - **Re-proven donor values.** Damage and impact-explosion values are re-proven against the donor's catalogued slot
   (`DONOR_CHANGED` otherwise).
+- **Catalogued explosions (0.30.0-dev; not live-tested).** `impact_explosion` also takes a catalogued explosion
+  (`hd2.explosion(name)` or its name; docs/explosions.md) with a known package: its type is written at +0x90 after its
+  live settings record proves the reviewed type, damage link and radii, and its package (unless it is the mission
+  effects package) joins the definition's dependencies.
 - **Packages.** They are gathered only for components with assets, deduplicated, and loaded through the asset gate
   before a spawn.
 - **Unassigned members.** +0x70 and +0x78 are copied at spawn but belong to no component, because their meaning is

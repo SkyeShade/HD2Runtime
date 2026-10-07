@@ -220,13 +220,20 @@ if action.status == 'refused' then mod:log(action.code .. ': ' .. action.reason)
 ```
 
 - The explosion is the game's own: `hd2.explosions.spawn` calls the game's explosion request with the same arguments
-  its own callers pass, for an explosion type proven against the game's settings table. `hd2.explosions.list()`
-  names the 16 catalogued explosions:
+  its own callers pass, for an explosion type proven against the game's settings table. The reviewed spawn set
+  (`hd2.explosions.reviewed()`) needs no acknowledgement:
   - three named explosions, `'Hellbomb'` (the NUX-223 Hellbomb detonation), `'B-100 Portable Hellbomb'` and
     `'Cyborg Production Unit'` (the Halt Cyborg Production objective's self-destruct);
   - the 13 weapon explosions, selected by a weapon name or `hd2.explosions.of(weapon)`.
 
-  Raw ids, unknown names and weapons without a catalogued explosion are refused (`UNKNOWN_EXPLOSION`).
+  Every other explosion of the catalogue (`hd2.explosions.list()`, docs/explosions.md: 241 explosions named from their
+  owners, 141 of them with a known package) is requested by its name or `hd2.explosion(name)` with
+  `opts.allow_unverified_effect = true` (`UNVERIFIED_EXPLOSION` without it); the reviewed ones also resolve by their
+  catalogue names, unchanged. Raw ids, unknown names and weapons without a catalogued explosion are refused
+  (`UNKNOWN_EXPLOSION`). An explosion whose effect ships in the mission effects package is requested only while that
+  package is resident (it always is in a mission; the Runtime never loads it).
+- `hd2.explosions.list(filter)` lists the catalogue (no raw ids; in 0.29 it listed the reviewed set, now
+  `hd2.explosions.reviewed()`), `hd2.explosions.describe(name)` describes one explosion.
 - Its assets are loaded first when they are not resident (through the game's own package system, the same way
   reference swaps load them). A weapon explosion needs the weapon's package; a Hellbomb needs its stratagem's
   package. The handle then reads `waiting_for_assets`, then `requested`. A package Runtime cannot identify is refused

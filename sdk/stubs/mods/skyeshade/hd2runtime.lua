@@ -493,7 +493,7 @@ local HD2AttachmentOption = {}
 ---@return table
 function HD2AttachmentOption:describe() end
 
----@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2StratagemAttack|HD2EagleRearm|HD2PlayerAttack|HD2WeaponAmmunition|HD2ProjectileReference|HD2TerminalAction|HD2Explosion|HD2SupportWeapon|HD2SupportAttack|HD2SupportProjectile|HD2SupportExplosion|HD2DeployedEntity|HD2DeployedShield|HD2DeployedZone|HD2MountedWeapon|HD2VehicleEntity|HD2VehicleZone|HD2VehicleMount|HD2VehicleWeapon|HD2VehicleWeaponAttack|HD2Backpack|HD2BackpackZone|HD2BackpackLinked|HD2BackpackLinkedZone|HD2BoosterTarget|HD2WeaponAttachment|HD2PodRack|HD2PodSlot
+---@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2StratagemAttack|HD2EagleRearm|HD2PlayerAttack|HD2WeaponAmmunition|HD2ProjectileReference|HD2TerminalAction|HD2Explosion|HD2SupportWeapon|HD2SupportAttack|HD2SupportProjectile|HD2SupportExplosion|HD2DeployedEntity|HD2DeployedShield|HD2DeployedZone|HD2MountedWeapon|HD2VehicleEntity|HD2VehicleZone|HD2VehicleMount|HD2VehicleWeapon|HD2VehicleWeaponAttack|HD2Backpack|HD2BackpackZone|HD2BackpackLinked|HD2BackpackLinkedZone|HD2BoosterTarget|HD2WeaponAttachment|HD2PodRack|HD2PodSlot|HD2CatalogueExplosion
 
 ---@param role HD2AttackRole
 ---@return HD2PlayerAttack
@@ -1257,6 +1257,7 @@ local HD2AttackOutputSlot = {}
 ---{output, slot, field, present, allowNone, shared}.
 ---@return table
 function HD2AttackOutputSlot:describe() end
+---@alias HD2CatalogueExplosionName "backpack/b100_portable_hellbomb/behavior"|"backpack/lift182_warp_pack/displacement"|"enemy/assault_walker/impact"|"enemy/assault_walker/impact_2"|"enemy/assault_walker/inventory_detonation"|"enemy/big_walker_turret_cannon/impact"|"enemy/bile_titan/ability"|"enemy/bile_titan/ragdoll_crash"|"enemy/bile_titan/spray_impact"|"enemy/boomer/ability"|"enemy/boomer/impact"|"enemy/bug_larva_container_backpack/behavior"|"enemy/canister/detonation"|"enemy/conscript_backpack_lmg/detonation"|"enemy/conscript_jumppack/detonation"|"enemy/conscript_shotgun/detonation"|"enemy/crusher/ability"|"enemy/cyborg_elite/impact"|"enemy/cyborg_elite_female/inventory_detonation"|"enemy/cyborg_elite_rusher/inventory_detonation"|"enemy/dropship/behavior"|"enemy/dropship/vehicle_crash"|"enemy/dropship/vehicle_crash_2"|"enemy/gatekeeper/impact"|"enemy/gatekeeper/impact_2"|"enemy/gazer/behavior"|"enemy/gunship/behavior"|"enemy/gunship/behavior_2"|"enemy/gunship/vehicle_crash"|"enemy/gunship/vehicle_crash_2"|"enemy/hive_lord/ability"|"enemy/hive_lord/ability/shrapnel_impact"|"enemy/hive_lord/ability_10"|"enemy/hive_lord/ability_2"|"enemy/hive_lord/ability_3"|"enemy/hive_lord/ability_4"|"enemy/hive_lord/ability_5"|"enemy/hive_lord/ability_6"|"enemy/hive_lord/ability_7"|"enemy/hive_lord/ability_8"|"enemy/hive_lord/ability_9"|"enemy/hive_lord/impact"|"enemy/illuminate_attack_ship/impact"|"enemy/illuminate_attack_ship/vehicle_crash"|"enemy/illuminate_attack_ship/vehicle_crash_2"|"enemy/illuminate_war_machine/ragdoll_crash"|"enemy/illuminate_war_machine/ragdoll_crash_2"|"enemy/illuminate_warmachine_bombball/detonation"|"enemy/impaler_tentacle/ability"|"enemy/impaler_tentacle/ability_2"|"enemy/jet_champion/behavior"|"enemy/lieutenant_artillery/behavior"|"enemy/lieutenant_ivory_legion/impact"|"enemy/lieutenant_jetpack/detonation"|"enemy/obj_asset_hijack_tech_hub_nexus_machine/ability"|"enemy/power_generator/behavior"|"enemy/rupture_charger/ability"|"enemy/rupture_charger/ability_2"|"enemy/rupture_charger/ability_3"|"enemy/rupture_charger/ability_4"|"enemy/rupture_charger/ability_5"|"enemy/rupture_charger/ability_6"|"enemy/rupture_spewer/inventory_detonation"|"enemy/scavenger_gloom/behavior"|"enemy/scavenger_spitter/behavior"|"enemy/siege_engine/ability"|"enemy/siege_engine/ability_2"|"enemy/siege_engine/ability_3"|"enemy/siege_engine/ability_4"|"enemy/siege_engine/ability_5"|"enemy/siege_engine/impact"|"enemy/siege_engine/impact_2"|"enemy/soldier_rpg/behavior"|"enemy/soldier_rpg/impact"|"enemy/spawner/ragdoll_crash"|"enemy/spore_burst_bile_titan/behavior"|"enemy/spore_burst_bile_titan/spray_impact"|"enemy/spore_burst_hunter/behavior"|"enemy/spore_burst_warrior/behavior"|"enemy/tank_rocketlauncher/behavior"|"enemy/tank_turret_base/impact"|"enemy/tank_turret_rocketlauncher/backblast"|"enemy/tank_turret_rocketlauncher/impact"|"enemy/turret_autocannons/ability"|"enemy/turret_autocannons/ability_2"|"enemy/turret_autocannons/ability_3"|"enemy/turret_autocannons/ability_4"|"enemy/turret_autocannons/ability_5"|"enemy/turret_autocannons/ability_6"|"enemy/turret_autocannons/ability_7"|"enemy/turret_autocannons/behavior"|"enemy/turret_autocannons/behavior_2"|"enemy/turret_mortar/impact"|"enemy/warrior_acid/behavior"|"enemy/watcher/ability"|"enemy/watcher/vehicle_crash"|"entity/avatar_helldiver/behavior"|"entity/beamer_champion_gun/impact"|"entity/beamer_champion_gun_direct/impact"|"entity/caltrops_grenade/detonation"|"entity/caltrops_mine/detonation"|"entity/cha_battlefront_seaf_medic/inventory_detonation"|"entity/cha_hive_lord_back_shell/gib"|"entity/conscript_grenade_incendiary/detonation"|"entity/cyborg_production_unit/ability"|"entity/cyborg_siege_engine_sarcophagus/gib"|"entity/cyborg_siege_engine_sarcophagus_left_door/gib"|"entity/eagle_missile/missile_impact"|"entity/explosive_gas_chimney/ability"|"entity/habs_barrel_fuel/detonation"|"entity/helldiver_dummy/behavior"|"entity/idle_sam_site/impact"|"entity/il_city_cannon/impact"|"entity/illuminate_adept_circle/detonation"|"entity/jet_champion_grenade_he/detonation"|"entity/pathfinder_lightspear/impact"|"entity/seaf_gun/impact"|"entity/soldier_riotgun/impact"|"stratagem/aac8_autocannon_sentry/impact"|"stratagem/agm17_gas_mortar_sentry/impact"|"stratagem/am12_mortar_sentry/impact"|"stratagem/am23_ems_mortar_sentry/expiry"|"stratagem/am23_ems_mortar_sentry/impact"|"stratagem/amls4x_rocket_sentry/impact"|"stratagem/eagle_110mm_rocket_pods/impact"|"stratagem/eagle_110mm_rocket_pods/magazine_impact"|"stratagem/eagle_110mm_rocket_pods/magazine_impact_2"|"stratagem/eagle_110mm_rocket_pods/payload_impact"|"stratagem/eagle_500kg_bomb/payload_expiry"|"stratagem/eagle_500kg_bomb/payload_impact"|"stratagem/eagle_airstrike/payload_impact"|"stratagem/eagle_cluster_bomb/payload_expiry"|"stratagem/eagle_cluster_bomb/payload_expiry/shrapnel_impact"|"stratagem/eagle_gas_airstrike/payload_impact"|"stratagem/eagle_napalm_airstrike/payload_impact"|"stratagem/eagle_smoke_strike/payload_impact"|"stratagem/eat12_antitank_emplacement/impact"|"stratagem/exo45_patriot_exosuit/vehicle_crash"|"stratagem/exo45_patriot_exosuit/vehicle_crash_2"|"stratagem/m102_gunner_frv/ability"|"stratagem/m104_incinerator_frv/ability"|"stratagem/m104_incinerator_frv/ability_2"|"stratagem/md17_antitank_mines/mine"|"stratagem/md6_antipersonnel_minefield/mine"|"stratagem/md8_gas_mines/mine"|"stratagem/mdi4_incendiary_mines/mine"|"stratagem/nux223_hellbomb/behavior"|"stratagem/orbital_120mm_he_barrage/shell_impact"|"stratagem/orbital_120mm_he_barrage/shell_impact_2"|"stratagem/orbital_380mm_he_barrage/shell_impact"|"stratagem/orbital_380mm_he_barrage/shell_impact_2"|"stratagem/orbital_airburst_strike/shell_expiry"|"stratagem/orbital_airburst_strike/shell_expiry/shrapnel_impact"|"stratagem/orbital_ems_strike/shell_impact"|"stratagem/orbital_gas_strike/shell_impact"|"stratagem/orbital_gatling_barrage/shell_impact"|"stratagem/orbital_napalm_barrage/shell_impact"|"stratagem/orbital_napalm_barrage/shell_impact_2"|"stratagem/orbital_precision_strike/shell_impact"|"stratagem/orbital_railcannon_strike/orbital_expiry"|"support_weapon/40k_meltagun/overcharge"|"support_weapon/ac8_autocannon/function_impact"|"support_weapon/ac8_autocannon/impact"|"support_weapon/bflam80_cremator/ability"|"support_weapon/bmd_c4_pack/detonation"|"support_weapon/eat17_expendable_antitank/backblast"|"support_weapon/eat17_expendable_antitank/impact"|"support_weapon/eat411_leveller/impact"|"support_weapon/eat700_expendable_napalm/impact"|"support_weapon/eat700_expendable_napalm/impact/shrapnel_impact"|"support_weapon/faf14_spear/impact"|"support_weapon/gl21_grenade_launcher/impact"|"support_weapon/gl28_beltfed_grenade_launcher/impact"|"support_weapon/gl52_deescalator/impact"|"support_weapon/gr8_recoilless_rifle/backblast"|"support_weapon/gr8_recoilless_rifle/function_impact"|"support_weapon/gr8_recoilless_rifle/impact"|"support_weapon/las98_laser_cannon/ability"|"support_weapon/las99_quasar_cannon/impact"|"support_weapon/mls4x_commando/backblast"|"support_weapon/mls4x_commando/impact"|"support_weapon/ms11_solo_silo/ability"|"support_weapon/ms11_solo_silo/detonation"|"support_weapon/ms11_solo_silo/explosive_40"|"support_weapon/plas45_epoch/charge_2_expiry"|"support_weapon/plas45_epoch/impact"|"support_weapon/rl77_airburst_rocket_launcher/function_expiry"|"support_weapon/rl77_airburst_rocket_launcher/function_expiry/shrapnel_expiry"|"support_weapon/rl77_airburst_rocket_launcher/impact"|"support_weapon/s11_speargun/expiry"|"support_weapon/stax3_wasp_launcher/function_impact"|"support_weapon/stax3_wasp_launcher/impact"|"throwable/g109_urchin/detonation"|"throwable/g10_incendiary/detonation"|"throwable/g123_thermite/detonation"|"throwable/g12_high_explosive/detonation"|"throwable/g13_incendiary_impact/detonation"|"throwable/g142_pyrotech/detonation"|"throwable/g16_impact/detonation"|"throwable/g23_stun/detonation"|"throwable/g31_arc/detonation"|"throwable/g3_smoke/detonation"|"throwable/g40k_melta_mine/detonation"|"throwable/g48_giga_grenade/detonation"|"throwable/g4_gas/detonation"|"throwable/g50_seeker/detonation"|"throwable/g60_antitank_seeker/detonation"|"throwable/g6_frag/detonation"|"throwable/g7_pineapple/detonation"|"throwable/g7_pineapple/detonation/shrapnel_expiry"|"throwable/g89_smokescreen/detonation"|"throwable/g8_immolation/detonation"|"throwable/gsh39_shield/detonation"|"throwable/ted63_dynamite/detonation"|"throwable/tm1_lure_mine/detonation"|"vehicle/exo45_patriot_exosuit_slot_0/impact"|"vehicle/exo49_emancipator_exosuit_attach_turret_l/impact"|"vehicle/td110_maelstrom_slot_2/ability"|"vehicle/td110_maelstrom_slot_3/fired_ability"|"vehicle/td110_maelstrom_slot_3/fired_explosive_40"|"vehicle/td220_bastion_mk_xvi_attach_tank_gun/impact"|"weapon/cb9_exploding_crossbow/impact"|"weapon/cqc42_machete/ability"|"weapon/gl15_evictor/impact"|"weapon/gp20_ultimatum/impact"|"weapon/gp31_grenade_pistol/impact"|"weapon/p33_missile_pistol/impact"|"weapon/p34_breacher/fired_detonation"|"weapon/p34_breacher/impact"|"weapon/p40k_bolt_pistol/impact"|"weapon/plas101_purifier/charge_1_impact"|"weapon/plas101_purifier/impact"|"weapon/plas101_purifier/overcharge"|"weapon/plas15_loyalist/charge_1_impact"|"weapon/plas15_loyalist/charge_2_impact"|"weapon/plas15_loyalist/impact"|"weapon/plas1_scorcher/impact"|"weapon/plas39_accelerator_rifle/impact"|"weapon/plas39_accelerator_rifle/overcharge"|"weapon/r36_eruptor/impact"|"weapon/sg8p_punisher_plasma/impact"
 ---@alias HD2ExplosionName "B-100 Portable Hellbomb"|"Cyborg Production Unit"|"Hellbomb"|"NUX-223 Hellbomb"|"Portable Hellbomb"
 ---@alias HD2StatusId "burning_heavy"|"fire"|"fire_panic"|"flamer_slowed"|"gas"|"gas_2"|"gas_confusion"|"gas_confusion_2"|"stun_large"|"stun_medium"|"stun_small"
 ---@alias HD2MagazineAttachmentId "Jet Assisted Rifle 15mm. Drum Standard"|"Karbin Rifle Standard"|"Pistol 12x20mm. Standard"|"Pistol 9x20mm. Extended"|"Plasma Medium. Canister Extended"|"Plasma Medium. Canister Standard"|"Plasma Pistol. Canister Extended"|"Plasma Pistol. Canister Pistol"|"RIFLE 9x70mm. Extended"|"RIFLE 9x70mm. Standard"|"RIFLE Drake. Short"|"RIFLE Drake. Standard"|"RIFLE Justice. Extended"|"RIFLE Justice. Short"|"RIFLE Justice. Standard"|"Rifle 5,5x50mm. Drum"|"Rifle 5,5x50mm. Drum Carbine"|"Rifle 5,5x50mm. Extended"|"Rifle 5,5x50mm. Extended Fastreload"|"Rifle 5,5x50mm. Standard"|"Rifle 5,5x50mm. Standard Fastreload"|"Rifle 8x40mm Rifle Standard"|"SHOTGUN 12g. Drum"|"SHOTGUN 12g. Drum Light"|"SHOTGUN 12g. Magazine Extended"|"SHOTGUN 12g. Magazine Extended Light"|"SMG 12x25mm. Drum"|"SMG 12x25mm. Drum Pummeler"|"SMG 12x25mm. Extended"|"SMG 12x25mm. Extended Pummeler"|"SMG 12x25mm. Standard"|"SMG 12x25mm. Standard Pummeler"|"SMG 9x20mm. Top Mounted Extended"|"SMG 9x20mm. Top Mounted Extended Solvent"|"SMG 9x20mm. Top Mounted Standard"|"SMG 9x20mm. Top Mounted Standard Solvent"|"SMG Flamer Drum Magazine"|"SMG Flamer Extended Magazine"|"SMG Flamer Standard Magazine"|"Shotgun 12g. Magazine Standard"|"Shotgun 12g. Magazine Standard Light"|"Whisper Rifle 5,5x50mm. Drum"|"Whisper Rifle 5,5x50mm. Standard"|"weapon-attachment/v1/magazine/jet-assisted-rifle-15mm-drum-standard/d973eb6ff9b6c804"|"weapon-attachment/v1/magazine/karbin-rifle-standard/e2f9b6b1f2e8fddb"|"weapon-attachment/v1/magazine/pistol-12x20mm-standard/874261a0d16e5e00"|"weapon-attachment/v1/magazine/pistol-9x20mm-extended/98939255db31bed4"|"weapon-attachment/v1/magazine/plasma-medium-canister-extended/09729aaa96113627"|"weapon-attachment/v1/magazine/plasma-medium-canister-standard/f4fa14d4afd3ea71"|"weapon-attachment/v1/magazine/plasma-pistol-canister-extended/6ec0d8e8516cbc07"|"weapon-attachment/v1/magazine/plasma-pistol-canister-pistol/b427e5ddcd7ebe62"|"weapon-attachment/v1/magazine/rifle-5-5x50mm-drum-carbine/00618531fc7a3692"|"weapon-attachment/v1/magazine/rifle-5-5x50mm-drum/fa499a29b375c6cf"|"weapon-attachment/v1/magazine/rifle-5-5x50mm-extended-fastreload/b9d2c29a3b15b591"|"weapon-attachment/v1/magazine/rifle-5-5x50mm-extended/bfc7127000978692"|"weapon-attachment/v1/magazine/rifle-5-5x50mm-standard-fastreload/b46fd3d0a10576b9"|"weapon-attachment/v1/magazine/rifle-5-5x50mm-standard/272e4c5f18bbd39e"|"weapon-attachment/v1/magazine/rifle-8x40mm-rifle-standard/892779ea0d77aeb3"|"weapon-attachment/v1/magazine/rifle-9x70mm-extended/ac5002ad314cd5a3"|"weapon-attachment/v1/magazine/rifle-9x70mm-standard/cda05894170c4de9"|"weapon-attachment/v1/magazine/rifle-drake-short/a04c9bf6b8f34a03"|"weapon-attachment/v1/magazine/rifle-drake-standard/30c524ee2906dec4"|"weapon-attachment/v1/magazine/rifle-justice-extended/621a26851cfd19a2"|"weapon-attachment/v1/magazine/rifle-justice-short/9deab1113f78adfa"|"weapon-attachment/v1/magazine/rifle-justice-standard/c52443137e402fe8"|"weapon-attachment/v1/magazine/shotgun-12g-drum-light/6848f4e70d10b9a7"|"weapon-attachment/v1/magazine/shotgun-12g-drum/c1aeebcaa7c23988"|"weapon-attachment/v1/magazine/shotgun-12g-magazine-extended-light/ce3ad89a45cec7a2"|"weapon-attachment/v1/magazine/shotgun-12g-magazine-extended/95b6103970039345"|"weapon-attachment/v1/magazine/shotgun-12g-magazine-standard-light/6304622136df620c"|"weapon-attachment/v1/magazine/shotgun-12g-magazine-standard/f9f877be8deda58d"|"weapon-attachment/v1/magazine/smg-12x25mm-drum-pummeler/4fded5f56e190410"|"weapon-attachment/v1/magazine/smg-12x25mm-drum/568bc4a451110ca0"|"weapon-attachment/v1/magazine/smg-12x25mm-extended-pummeler/946ef6b4fae7c0de"|"weapon-attachment/v1/magazine/smg-12x25mm-extended/73a27ec123b6d632"|"weapon-attachment/v1/magazine/smg-12x25mm-standard-pummeler/ea054f1cc567db3b"|"weapon-attachment/v1/magazine/smg-12x25mm-standard/6c63bd137af2da1e"|"weapon-attachment/v1/magazine/smg-9x20mm-top-mounted-extended-solvent/11156cef840b147a"|"weapon-attachment/v1/magazine/smg-9x20mm-top-mounted-extended/176c9113b2833712"|"weapon-attachment/v1/magazine/smg-9x20mm-top-mounted-standard-solvent/80bf5c7ef57ea0e0"|"weapon-attachment/v1/magazine/smg-9x20mm-top-mounted-standard/fc9cc6afc9155eb2"|"weapon-attachment/v1/magazine/smg-flamer-drum-magazine/edd0b384b4ec7242"|"weapon-attachment/v1/magazine/smg-flamer-extended-magazine/a7609a0fd1736a11"|"weapon-attachment/v1/magazine/smg-flamer-standard-magazine/e68347c558fb8b96"|"weapon-attachment/v1/magazine/whisper-rifle-5-5x50mm-drum/dc2b49810b002079"|"weapon-attachment/v1/magazine/whisper-rifle-5-5x50mm-standard/16af29c8d0590809"
@@ -2147,13 +2148,55 @@ function HD2ActionHandle:describe() end
 ---@class HD2ExplosionOptions
 ---@field position HD2Vector3|HD2Position World position (an event position works as it is).
 ---@field owner string|nil Mod id (defaults to the calling mod).
+---@field allow_unverified_effect boolean|nil Required for a catalogued explosion outside the reviewed spawn set (docs/explosions.md).
 local HD2ExplosionOptions = {}
+
+---hd2.explosions.list filter (docs/explosions.md): every key optional.
+---@class HD2ExplosionFilter
+---@field family "weapon"|"support_weapon"|"throwable"|"stratagem"|"backpack"|"vehicle"|"enemy"|"entity"|nil The owner's family.
+---@field owner string|nil A case-insensitive substring of an owner's name.
+---@field search string|nil A case-insensitive substring of the name or label.
+---@field shared boolean|nil More than one owner requests the row.
+---@field payload boolean|nil Usable as a weapon's impact or expiry explosion (its package is known).
+---@field spawn boolean|nil hd2.explosions.spawn can request it.
+---@field package_known boolean|nil A package that ships its effect is known.
+---@field reviewed_spawn boolean|nil In the reviewed spawn set (needs no acknowledgement to spawn).
+local HD2ExplosionFilter = {}
+
+---One catalogued explosion (hd2.explosions.list); no raw ids.
+---@class HD2ExplosionEntry
+---@field name string Semantic id: <family>/<owner>/<role>, e.g. weapon/r36_eruptor/impact.
+---@field label string Readable name, e.g. R-36 Eruptor (impact).
+---@field family string The owner's family.
+---@field evidence "data"|"code"|"chain" How the owners were proven.
+---@field shared boolean More than one owner requests the row: edits need allow_shared.
+---@field owners integer How many owners request it (describe() lists them).
+---@field package_known boolean A package that ships its effect is known.
+---@field mission_package boolean Its effect ships in the mission effects package (resident in every mission; never loaded).
+---@field payload boolean Usable as a weapon's impact or expiry explosion.
+---@field spawn boolean hd2.explosions.spawn can request it.
+---@field reviewed_spawn boolean In the reviewed spawn set.
+---@field legacy_name string|nil Its reviewed name (a weapon or a named explosion).
+---@field stats table inner_radius, outer_radius, shockwave_radius, shrapnel_count, standard_damage, durable_damage, ap_direct, ap_slight, ap_large, ap_extreme, demolition, stagger, push_force, shrapnel, arc, damage_row.
+local HD2ExplosionEntry = {}
+
+---hd2.explosion(name): a catalogued explosion (docs/explosions.md). The target of the explosion.* fields (allow_unverified_effect; allow_shared for a shared row), a value of terminal.explosion and of attack output explosion slots (allow_unverified_reference and allow_unverified_effect), and an argument of hd2.explosions.spawn / prepare.
+---@class HD2CatalogueExplosion
+---@field resource "explosion"
+---@field explosion string Its semantic id.
+local HD2CatalogueExplosion = {}
+---The list entry plus owners, package and editable fields.
+---@return table
+function HD2CatalogueExplosion:describe() end
+---The editable fields: {semanticFieldId, currentDefault, editable, reason, shared, range, acknowledgements}.
+---@return table[]
+function HD2CatalogueExplosion:fields() end
 
 ---hd2.explosions: request a catalogued explosion (docs/event-scripting.md).
 ---@class HD2Explosions
 local HD2Explosions = {}
----Request a catalogued explosion at a position: a named explosion ('Hellbomb' = the NUX-223 Hellbomb, 'B-100 Portable Hellbomb'), or a weapon's catalogued explosion. Host only, in a mission, credited to the local player; loads the explosion's package first when needed. Unknown explosions, raw ids and unknown packages are refused.
----@param explosion HD2ExplosionName|HD2WeaponName|HD2Explosion
+---Request a catalogued explosion at a position: a named explosion ('Hellbomb' = the NUX-223 Hellbomb, 'B-100 Portable Hellbomb'), a weapon's catalogued explosion, or any explosion of the catalogue (hd2.explosions.list({spawn = true}); outside the reviewed set with opts.allow_unverified_effect). Host only, in a mission, credited to the local player; loads the explosion's package first when needed (the mission effects package is only checked). Unknown explosions, raw ids and unknown packages are refused.
+---@param explosion HD2ExplosionName|HD2WeaponName|HD2Explosion|HD2CatalogueExplosionName|HD2CatalogueExplosion
 ---@param opts HD2ExplosionOptions
 ---@return HD2ActionHandle
 function HD2Explosions.spawn(explosion, opts) end
@@ -2162,12 +2205,21 @@ function HD2Explosions.spawn(explosion, opts) end
 ---@return HD2Explosion|nil, string|nil
 function HD2Explosions.of(weapon) end
 ---Load the explosion assets now (status ready or waiting_for_assets).
----@param explosion HD2ExplosionName|HD2WeaponName|HD2Explosion
+---@param explosion HD2ExplosionName|HD2WeaponName|HD2Explosion|HD2CatalogueExplosionName|HD2CatalogueExplosion
+---@param opts? HD2ExplosionOptions
 ---@return HD2ActionHandle
-function HD2Explosions.prepare(explosion) end
----Every explosion hd2.explosions can request.
----@return {name: string, weapon: string|nil, type: integer, source: "behavior"|"weapon", assets_known: boolean}[]
-function HD2Explosions.list() end
+function HD2Explosions.prepare(explosion, opts) end
+---Every catalogued explosion (docs/explosions.md), optionally filtered. No raw ids.
+---@param filter? HD2ExplosionFilter
+---@return HD2ExplosionEntry[]
+function HD2Explosions.list(filter) end
+---One catalogued explosion: the list entry plus owners, package and editable fields; nil and the reason when unknown.
+---@param name HD2CatalogueExplosionName|HD2CatalogueExplosion
+---@return table|nil, string|nil
+function HD2Explosions.describe(name) end
+---The reviewed spawn set (0.29's hd2.explosions.list()), each with its catalogue name.
+---@return {name: string, weapon: string|nil, source: "behavior"|"weapon", assets_known: boolean, objective: boolean|nil, catalogue: string|nil}[]
+function HD2Explosions.reviewed() end
 
 ---hd2.actions: what event scripts can make the game do.
 ---@class HD2Actions
@@ -3541,6 +3593,11 @@ hd2.enemies = {}
 ---@param identity HD2AttackOutputId
 ---@return HD2AttackOutput
 function hd2.attack_output(identity) end
+---A catalogued explosion by semantic id or label (docs/explosions.md, sdk/ExplosionCatalogue.json): the target
+---of the explosion.* fields, a payload value and a spawn argument.
+---@param name HD2CatalogueExplosionName|string
+---@return HD2CatalogueExplosion
+function hd2.explosion(name) end
 ---Mods that need a newer HD2Runtime (HD2Runtime 0.28.0+). The SDK wrapper of every mod reports here before its
 ---own version check fails closed; HD2Runtime logs each mod and shows one update warning per session on the ship.
 hd2.compatibility = {}

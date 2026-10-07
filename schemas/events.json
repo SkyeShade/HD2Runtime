@@ -2586,7 +2586,156 @@
       "owner",
       "string|nil",
       "Mod id (defaults to the calling mod)."
+     ],
+     [
+      "allow_unverified_effect",
+      "boolean|nil",
+      "Required for a catalogued explosion outside the reviewed spawn set (docs/explosions.md)."
      ]
+    ]
+   },
+   "HD2ExplosionFilter": {
+    "doc": "hd2.explosions.list filter (docs/explosions.md): every key optional.",
+    "fields": [
+     [
+      "family",
+      "\"weapon\"|\"support_weapon\"|\"throwable\"|\"stratagem\"|\"backpack\"|\"vehicle\"|\"enemy\"|\"entity\"|nil",
+      "The owner's family."
+     ],
+     [
+      "owner",
+      "string|nil",
+      "A case-insensitive substring of an owner's name."
+     ],
+     [
+      "search",
+      "string|nil",
+      "A case-insensitive substring of the name or label."
+     ],
+     [
+      "shared",
+      "boolean|nil",
+      "More than one owner requests the row."
+     ],
+     [
+      "payload",
+      "boolean|nil",
+      "Usable as a weapon's impact or expiry explosion (its package is known)."
+     ],
+     [
+      "spawn",
+      "boolean|nil",
+      "hd2.explosions.spawn can request it."
+     ],
+     [
+      "package_known",
+      "boolean|nil",
+      "A package that ships its effect is known."
+     ],
+     [
+      "reviewed_spawn",
+      "boolean|nil",
+      "In the reviewed spawn set (needs no acknowledgement to spawn)."
+     ]
+    ]
+   },
+   "HD2ExplosionEntry": {
+    "doc": "One catalogued explosion (hd2.explosions.list); no raw ids.",
+    "fields": [
+     [
+      "name",
+      "string",
+      "Semantic id: <family>/<owner>/<role>, e.g. weapon/r36_eruptor/impact."
+     ],
+     [
+      "label",
+      "string",
+      "Readable name, e.g. R-36 Eruptor (impact)."
+     ],
+     [
+      "family",
+      "string",
+      "The owner's family."
+     ],
+     [
+      "evidence",
+      "\"data\"|\"code\"|\"chain\"",
+      "How the owners were proven."
+     ],
+     [
+      "shared",
+      "boolean",
+      "More than one owner requests the row: edits need allow_shared."
+     ],
+     [
+      "owners",
+      "integer",
+      "How many owners request it (describe() lists them)."
+     ],
+     [
+      "package_known",
+      "boolean",
+      "A package that ships its effect is known."
+     ],
+     [
+      "mission_package",
+      "boolean",
+      "Its effect ships in the mission effects package (resident in every mission; never loaded)."
+     ],
+     [
+      "payload",
+      "boolean",
+      "Usable as a weapon's impact or expiry explosion."
+     ],
+     [
+      "spawn",
+      "boolean",
+      "hd2.explosions.spawn can request it."
+     ],
+     [
+      "reviewed_spawn",
+      "boolean",
+      "In the reviewed spawn set."
+     ],
+     [
+      "legacy_name",
+      "string|nil",
+      "Its reviewed name (a weapon or a named explosion)."
+     ],
+     [
+      "stats",
+      "table",
+      "inner_radius, outer_radius, shockwave_radius, shrapnel_count, standard_damage, durable_damage, ap_direct, ap_slight, ap_large, ap_extreme, demolition, stagger, push_force, shrapnel, arc, damage_row."
+     ]
+    ]
+   },
+   "HD2CatalogueExplosion": {
+    "doc": "hd2.explosion(name): a catalogued explosion (docs/explosions.md). The target of the explosion.* fields (allow_unverified_effect; allow_shared for a shared row), a value of terminal.explosion and of attack output explosion slots (allow_unverified_reference and allow_unverified_effect), and an argument of hd2.explosions.spawn / prepare.",
+    "fields": [
+     [
+      "resource",
+      "\"explosion\"",
+      ""
+     ],
+     [
+      "explosion",
+      "string",
+      "Its semantic id."
+     ]
+    ],
+    "methods": [
+     {
+      "name": "describe",
+      "params": [],
+      "returns": "table",
+      "doc": "The list entry plus owners, package and editable fields."
+     },
+     {
+      "name": "fields",
+      "params": [],
+      "returns": "table[]",
+      "doc": "The editable fields: {semanticFieldId, currentDefault, editable, reason, shared, range, acknowledgements}."
+     }
     ]
    },
    "HD2Explosions": {
@@ -2597,7 +2746,7 @@
       "params": [
        [
         "explosion",
-        "HD2ExplosionName|HD2WeaponName|HD2Explosion"
+        "HD2ExplosionName|HD2WeaponName|HD2Explosion|HD2CatalogueExplosionName|HD2CatalogueExplosion"
        ],
        [
         "opts",
@@ -2605,7 +2754,7 @@
        ]
       ],
       "returns": "HD2ActionHandle",
-      "doc": "Request a catalogued explosion at a position: a named explosion ('Hellbomb' = the NUX-223 Hellbomb, 'B-100 Portable Hellbomb'), or a weapon's catalogued explosion. Host only, in a mission, credited to the local player; loads the explosion's package first when needed. Unknown explosions, raw ids and unknown packages are refused."
+      "doc": "Request a catalogued explosion at a position: a named explosion ('Hellbomb' = the NUX-223 Hellbomb, 'B-100 Portable Hellbomb'), a weapon's catalogued explosion, or any explosion of the catalogue (hd2.explosions.list({spawn = true}); outside the reviewed set with opts.allow_unverified_effect). Host only, in a mission, credited to the local player; loads the explosion's package first when needed (the mission effects package is only checked). Unknown explosions, raw ids and unknown packages are refused."
      },
      {
       "name": "of",
@@ -2623,7 +2772,11 @@
       "params": [
        [
         "explosion",
-        "HD2ExplosionName|HD2WeaponName|HD2Explosion"
+        "HD2ExplosionName|HD2WeaponName|HD2Explosion|HD2CatalogueExplosionName|HD2CatalogueExplosion"
+       ],
+       [
+        "opts",
+        "HD2ExplosionOptions|nil"
        ]
       ],
       "returns": "HD2ActionHandle",
@@ -2631,9 +2784,31 @@
      },
      {
       "name": "list",
+      "params": [
+       [
+        "filter",
+        "HD2ExplosionFilter|nil"
+       ]
+      ],
+      "returns": "HD2ExplosionEntry[]",
+      "doc": "Every catalogued explosion (docs/explosions.md), optionally filtered. No raw ids."
+     },
+     {
+      "name": "describe",
+      "params": [
+       [
+        "name",
+        "HD2CatalogueExplosionName|HD2CatalogueExplosion"
+       ]
+      ],
+      "returns": "table|nil, string|nil",
+      "doc": "One catalogued explosion: the list entry plus owners, package and editable fields; nil and the reason when unknown."
+     },
+     {
+      "name": "reviewed",
       "params": [],
-      "returns": "{name: string, weapon: string|nil, type: integer, source: \"behavior\"|\"weapon\", assets_known: boolean}[]",
-      "doc": "Every explosion hd2.explosions can request."
+      "returns": "{name: string, weapon: string|nil, source: \"behavior\"|\"weapon\", assets_known: boolean, objective: boolean|nil, catalogue: string|nil}[]",
+      "doc": "The reviewed spawn set (0.29's hd2.explosions.list()), each with its catalogue name."
      }
     ]
    },

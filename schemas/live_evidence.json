@@ -1527,6 +1527,33 @@
       "acknowledgementRemoved": null,
       "nextTests": ["ProjectileDonorTest 0.1.0: the SMG-32 Reprimand fires Eagle 500kg bombs, the M-105 Stalwart Orbital Precision Strike shells, the AR-11 Arbitrator the HMG Emplacement round (defaults); options: the APW-1 fires the AC-8's flak, the MG-206 Orbital Gatling Barrage rounds, the R-2 Amendment the Orbital Railcannon round. Each: visible in flight, its explosion effects play, nothing missing or crashing; turned off, the weapon fires its own projectile again after re-equipping."]
     },
+    "explosion_catalogue_edit": {
+      "status": "pending",
+      "domain": "explosion",
+      "fields": ["explosion.inner_radius", "explosion.outer_radius", "explosion.shockwave_radius", "explosion.shrapnel_count", "explosion.damage.*"],
+      "scope": "hd2.explosion(name): one ExplosionSettings row named by research/explosion-identities-F5FEE03DCFDB.json and the DamageInfo row its +4 links (docs/explosions.md), re-proven live by type, group, row and settings type before every write; every catalogued explosion's identity and values, and a write and rollback per explosion, code-proven offline in validation/explosion-catalogue-snapshot.json. Every field keeps allow_unverified_effect.",
+      "tests": [],
+      "acknowledgementRemoved": null,
+      "nextTests": ["ExplosionCatalogueTest 0.1.0, solo: call an Orbital 120mm HE Barrage: each shell's blast reaches farther (inner 3.3 -> 5 m, outer 10 -> 14 m); the log says barrage-shell-wider APPLIED."]
+    },
+    "explosion_catalogue_payload": {
+      "status": "pending",
+      "domain": "weapon",
+      "fields": ["terminal.explosion", "projectile.impact_explosion", "projectile.expiry_explosion"],
+      "scope": "A catalogued explosion (hd2.explosion(name)) with a known package as a weapon projectile's impact or expiry explosion and as an attack output's explosion slot: its package loaded before the write (none for the mission effects package), its live row re-proven, recursion refused. Code-proven offline (validation/explosion-catalogue-snapshot.json payload writes; the packaged scenario example-explosion-catalogue-test). Every use keeps allow_unverified_reference and allow_unverified_effect.",
+      "tests": [],
+      "acknowledgementRemoved": null,
+      "nextTests": ["ExplosionCatalogueTest 0.1.0, solo: an R-36 Eruptor shell bursts with the PLAS-15 Loyalist's small plasma blast (weapon/plas15_loyalist/impact) and no shrapnel; nothing missing or silent. Then a stratagem-package donor (for example stratagem/orbital_gas_strike/shell_impact on the Eruptor): the log shows its package requested, then resident, then APPLIED; a gas cloud where the shell lands."]
+    },
+    "explosion_catalogue_spawn": {
+      "status": "pending",
+      "domain": "event_actions",
+      "fields": ["hd2.explosions.spawn"],
+      "scope": "hd2.explosions.spawn of a catalogued explosion outside the reviewed spawn set (allow_unverified_effect), its type proven against the settings table in every mission snapshot, its package loaded first (the mission effects package only checked); host only, rate-limited, credited to the local player. Code-proven offline (tests/test_explosion_catalogue.py).",
+      "tests": [],
+      "acknowledgementRemoved": null,
+      "nextTests": ["ExplosionCatalogueTest 0.1.0, hosting: at mission start the gas strike's package loads (prepare); each enemy you kill releases the Orbital Gas Strike's shell explosion where it died: a gas cloud that damages and confuses enemies; the log says explosion stratagem/orbital_gas_strike/shell_impact requested; at most 6 at once."]
+    },
     "custom_stratagem_native_panel": {
       "status": "live_partial",
       "domain": "stratagem",

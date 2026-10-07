@@ -410,6 +410,10 @@ donor output:
   - the LAS-58 Talon row with the GL-21 grenade blast.
 
   `allow_shared` is never dropped by live proof.
+- **Catalogued explosions (0.30.0-dev; not live-tested).** An explosion slot also takes any catalogued explosion with
+  a known package, `hd2.explosion(name)` (docs/explosions.md: `hd2.explosions.list({payload = true})`), with
+  `allow_unverified_reference` and `allow_unverified_effect`. Its package is loaded before the write (none for the
+  mission effects package); its live ExplosionSettings row is re-proven, and the recursion rule below applies.
 - **Recursion.** A composition must never make a projectile spawn itself. Before an explosion slot is written, the
   chain explosion → submunition projectile → its impact and expiry explosions is followed in the live tables, and a
   chain that reaches the written row is refused (`RECURSIVE_COMPOSITION`). Native submunition chains (the EAT-700

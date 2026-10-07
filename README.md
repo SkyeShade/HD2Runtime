@@ -76,6 +76,10 @@ HD2Runtime is designed to fail safely when a game structure or ownership relatio
   (`hd2.input.down` / `pressed` / `released`), a per-frame callback (`hd2.on_frame`), per-mod saved data
   (`hd2.store`, see `docs/mod-store.md`), the game build status (`hd2.build()`) and the live values of the weapon in
   hand (`player:weapon_state()`, see `docs/player-equipment.md`)
+- Explosion catalogue (development line, not live-tested): 241 of the game's 422 explosions named from their owners
+  (`hd2.explosions.list` / `describe`, `sdk/ExplosionCatalogue.json`); edit any of them (`hd2.explosion(name)`: radii,
+  shrapnel count, damage), use one with a known package as a weapon's impact or expiry explosion, and request 141 of
+  them at a position (see `docs/explosions.md`)
 - Generated SDK metadata for tools such as HD2RuntimeGUI
 
 Unsupported or ambiguous values remain read-only rather than being modified speculatively.
