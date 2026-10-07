@@ -290,6 +290,13 @@ local homing=require('hd2runtime/api/homing')
 M.projectiles.homing=homing.homing
 M.projectiles.homing_list=homing.list
 M.projectiles.homing_status=homing.status
+-- Per-shot modification (api/shots.lua; docs/projectile-shots.md; DEVELOPMENT, solo): the local player's own shots of a
+-- weapon, each shot's own copy (damage, penetration, speed, gravity, drag multipliers); every other weapon stays vanilla.
+do
+    local shot_api=require('hd2runtime/api/shots')
+    M.projectiles.modify_shots=shot_api.modify_shots
+    M.projectiles.modify_shots_status=shot_api.status
+end
 -- How often each enemy type spawns (api/enemy_spawns.lua; docs/enemy-spawns.md): its weight in the game's spawn rosters.
 -- hd2.enemies stays callable: hd2.enemies(filter) lists the reviewed enemy / structure names as before.
 local enemy_spawns=require('hd2runtime/api/enemy_spawns')

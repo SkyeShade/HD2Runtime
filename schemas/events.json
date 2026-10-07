@@ -3065,6 +3065,27 @@
       "params": [],
       "returns": "{owner: string, weapon: string, type: integer, target: string, shots: integer, steered: integer, writes: integer}[]",
       "doc": "Every active homing configuration (one per weapon and projectile type) with this mission's counts."
+     },
+     {
+      "name": "modify_shots",
+      "params": [
+       [
+        "weapon",
+        "string"
+       ],
+       [
+        "opts",
+        "HD2ShotOptions|nil"
+       ]
+      ],
+      "returns": "HD2ShotHandle",
+      "doc": "Modify the LOCAL player's own shots of a weapon (DEVELOPMENT, solo; docs/projectile-shots.md): each shot's own copy is multiplied once, right after it is fired: damage (each direct hit's damage; explosions are not scaled), armor_penetration (each direct hit's penetration lanes), speed (velocity and reference speed together), gravity, drag. The weapon, its projectile row, every DamageInfo row and every other weapon firing the same projectile (the Liberator Carbine for the AR-23 Liberator) stay vanilla. Lasts until stop() or the session ends. The weapon is a name from homing_list(). Not live-tested."
+     },
+     {
+      "name": "modify_shots_status",
+      "params": [],
+      "returns": "{owner: string, weapon: string, changes: table<string, number>, shots: integer, modified: integer}[]",
+      "doc": "Every active shot configuration with this mission's counts."
      }
     ]
    },
@@ -3185,6 +3206,117 @@
       "params": [],
       "returns": "table",
       "doc": "A copy for logs."
+     }
+    ]
+   },
+   "HD2ShotOptions": {
+    "doc": "",
+    "fields": [
+     [
+      "damage",
+      "number|nil",
+      "Multiplier of each direct hit's damage (0.01..100)."
+     ],
+     [
+      "armor_penetration",
+      "number|nil",
+      "Multiplier of each direct hit's penetration lanes (0.1..10; rounded by the game)."
+     ],
+     [
+      "speed",
+      "number|nil",
+      "Multiplier of the shot's velocity and reference speed (0.1..10)."
+     ],
+     [
+      "gravity",
+      "number|nil",
+      "Multiplier of the shot's gravity (0..20)."
+     ],
+     [
+      "drag",
+      "number|nil",
+      "Multiplier of the shot's drag (0..20)."
+     ],
+     [
+      "on_shot",
+      "fun(event: table)|nil",
+      "Called for each of the weapon's shots seen: kind 'modified' or 'untouched' (every multiplier 1); before/after hold damage_multiplier, penetration_multiplier, speed, reference_speed, gravity, drag, distance, damage = {id, standard, durable, armor_penetration}."
+     ],
+     [
+      "label",
+      "string|nil",
+      "Name used in the log (at most 64 characters)."
+     ],
+     [
+      "owner",
+      "string|nil",
+      "Mod id (defaults to the calling mod)."
+     ]
+    ],
+    "methods": []
+   },
+   "HD2ShotHandle": {
+    "doc": "A shot configuration. A refusal never raises: status is refused with a code and a reason.",
+    "fields": [
+     [
+      "kind",
+      "string",
+      "'projectile_shots'."
+     ],
+     [
+      "owner",
+      "string",
+      "The mod that configured it."
+     ],
+     [
+      "status",
+      "string",
+      "'active', 'stopped' or 'refused'."
+     ],
+     [
+      "code",
+      "string|nil",
+      "Why it was refused (UNKNOWN_WEAPON, INVALID_OPTION, ALREADY_MODIFIED, LIMIT)."
+     ],
+     [
+      "reason",
+      "string|nil",
+      "The refusal in words."
+     ],
+     [
+      "weapon",
+      "string|nil",
+      "The weapon."
+     ],
+     [
+      "types",
+      "integer[]|nil",
+      "The projectile types its shots are."
+     ]
+    ],
+    "methods": [
+     {
+      "name": "set",
+      "params": [
+       [
+        "opts",
+        "HD2ShotOptions"
+       ]
+      ],
+      "returns": "HD2ShotHandle|nil",
+      "doc": "New multipliers for the next shots (omitted ones become 1); nil, code, reason when refused."
+     },
+     {
+      "name": "stop",
+      "params": [],
+      "returns": "HD2ShotHandle",
+      "doc": "Stop modifying (shots already written keep their values)."
+     },
+     {
+      "name": "stats",
+      "params": [],
+      "returns": "{shots: integer, modified: integer, writes: integer, untouched: integer, others: integer, other_sources: integer, refused: table<string, integer>}|nil",
+      "doc": "This mission so far: own shots seen, modified, writes, untouched, others (not this player's), other_sources (another weapon), and why shots stayed vanilla."
      }
     ]
    },

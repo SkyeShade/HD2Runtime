@@ -866,6 +866,7 @@ def outputs():
             'sdk/docs/weapon-sounds.md':(ROOT/'docs/weapon-sounds.md').read_text(encoding='utf-8'),
             'sdk/docs/legacy-sdk-compatibility.md':(ROOT/'docs/legacy-sdk-compatibility.md').read_text(encoding='utf-8'),
             'sdk/docs/projectile-homing.md':(ROOT/'docs/projectile-homing.md').read_text(encoding='utf-8'),
+            'sdk/docs/projectile-shots.md':(ROOT/'docs/projectile-shots.md').read_text(encoding='utf-8'),
             'sdk/docs/enemy-spawns.md':(ROOT/'docs/enemy-spawns.md').read_text(encoding='utf-8'),
             'sdk/docs/ui-overlay.md':(ROOT/'docs/ui-overlay.md').read_text(encoding='utf-8'),
             'sdk/docs/sounds.md':(ROOT/'docs/sounds.md').read_text(encoding='utf-8'),

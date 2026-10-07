@@ -2310,6 +2310,14 @@ function HD2Projectiles.homing_list() end
 ---Every active homing configuration (one per weapon and projectile type) with this mission's counts.
 ---@return {owner: string, weapon: string, type: integer, target: string, shots: integer, steered: integer, writes: integer}[]
 function HD2Projectiles.homing_status() end
+---Modify the LOCAL player's own shots of a weapon (DEVELOPMENT, solo; docs/projectile-shots.md): each shot's own copy is multiplied once, right after it is fired: damage (each direct hit's damage; explosions are not scaled), armor_penetration (each direct hit's penetration lanes), speed (velocity and reference speed together), gravity, drag. The weapon, its projectile row, every DamageInfo row and every other weapon firing the same projectile (the Liberator Carbine for the AR-23 Liberator) stay vanilla. Lasts until stop() or the session ends. The weapon is a name from homing_list(). Not live-tested.
+---@param weapon string
+---@param opts? HD2ShotOptions
+---@return HD2ShotHandle
+function HD2Projectiles.modify_shots(weapon, opts) end
+---Every active shot configuration with this mission's counts.
+---@return {owner: string, weapon: string, changes: table<string, number>, shots: integer, modified: integer}[]
+function HD2Projectiles.modify_shots_status() end
 
 ---@class HD2HomingOptions
 ---@field target "enemy"|"friendly"|nil What the shots home on: a living catalogued enemy (default) or another player's living Helldiver (never the shooter).
@@ -2344,6 +2352,38 @@ function HD2HomingHandle:stats() end
 ---A copy for logs.
 ---@return table
 function HD2HomingHandle:describe() end
+
+---@class HD2ShotOptions
+---@field damage number|nil Multiplier of each direct hit's damage (0.01..100).
+---@field armor_penetration number|nil Multiplier of each direct hit's penetration lanes (0.1..10; rounded by the game).
+---@field speed number|nil Multiplier of the shot's velocity and reference speed (0.1..10).
+---@field gravity number|nil Multiplier of the shot's gravity (0..20).
+---@field drag number|nil Multiplier of the shot's drag (0..20).
+---@field on_shot fun(event: table)|nil Called for each of the weapon's shots seen: kind 'modified' or 'untouched' (every multiplier 1); before/after hold damage_multiplier, penetration_multiplier, speed, reference_speed, gravity, drag, distance, damage = {id, standard, durable, armor_penetration}.
+---@field label string|nil Name used in the log (at most 64 characters).
+---@field owner string|nil Mod id (defaults to the calling mod).
+local HD2ShotOptions = {}
+
+---A shot configuration. A refusal never raises: status is refused with a code and a reason.
+---@class HD2ShotHandle
+---@field kind string 'projectile_shots'.
+---@field owner string The mod that configured it.
+---@field status string 'active', 'stopped' or 'refused'.
+---@field code string|nil Why it was refused (UNKNOWN_WEAPON, INVALID_OPTION, ALREADY_MODIFIED, LIMIT).
+---@field reason string|nil The refusal in words.
+---@field weapon string|nil The weapon.
+---@field types integer[]|nil The projectile types its shots are.
+local HD2ShotHandle = {}
+---New multipliers for the next shots (omitted ones become 1); nil, code, reason when refused.
+---@param opts HD2ShotOptions
+---@return HD2ShotHandle|nil
+function HD2ShotHandle:set(opts) end
+---Stop modifying (shots already written keep their values).
+---@return HD2ShotHandle
+function HD2ShotHandle:stop() end
+---This mission so far: own shots seen, modified, writes, untouched, others (not this player's), other_sources (another weapon), and why shots stayed vanilla.
+---@return {shots: integer, modified: integer, writes: integer, untouched: integer, others: integer, other_sources: integer, refused: table<string, integer>}|nil
+function HD2ShotHandle:stats() end
 
 ---@class HD2SpawnWeightOptions
 ---@field allow_unverified_effect boolean Required (true) until the live test passes.
