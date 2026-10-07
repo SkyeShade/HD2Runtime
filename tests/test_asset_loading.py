@@ -59,7 +59,12 @@ class AssetLoadingTests(unittest.TestCase):
         summary = self.research['summary']
         self.assertEqual(summary['known'] + summary['unknown'], summary['semanticObjects'])
         self.assertEqual(summary['known'], summary['ownPackage'] + summary['holderPackage'] + summary['stratagemPackage']
-            + summary['objectivePackage'])
+            + summary['objectivePackage'] + summary['explosionPackage'])
+        # A catalogued explosion (research/explosion-identities): the package that lists its particle effect.
+        self.assertEqual(catalog['explosion/weapon/cb9_exploding_crossbow/impact']['dependency']['via'],
+            'explosion_own_loadout_package')
+        self.assertEqual(catalog['explosion/weapon/r36_eruptor/impact']['dependency']['name'],
+            'packages/content/effects_mission')
         # An objective's explosion (the Cyborg Production Unit's): its effect and its sound packages, by identity.
         self.assertEqual(catalog['explosion/Cyborg Production Unit']['dependency']['via'], 'explosion_effect_package')
         self.assertEqual(catalog['explosion/Cyborg Production Unit/sound']['dependency']['via'],

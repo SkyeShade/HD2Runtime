@@ -198,12 +198,50 @@ class CodeImageTests(unittest.TestCase):
             ins = self.image.insn(site)
             self.assertIn(ins.mnemonic, ('call', 'jmp'))
             self.assertEqual(ins.operands[0].imm, 0x13C0A80)
+        # The call index finds exactly what the full reference scan finds.
+        for target in (0x13C0A80, 0x4C89C0, 0x11AD240):
+            self.assertEqual(self.image.calls_to(target), [ins.address for ins in self.image.references(target)
+                if ins.mnemonic in ('call', 'jmp')], hex(target))
         accessors = self.image.global_accessors(0x3326688)   # the health component manager
         self.assertGreater(len(accessors), 50)
 
     def test_pin_format(self):
         pin = self.image.pin(0x13C0A80, 'explosion request entry')
         self.assertEqual(set(pin) >= {'rva', 'bytes', 'asm', 'role'}, True)
+
+    def test_call_literals_and_dispatchers(self):
+        from scan.literals import Attribution, CallLiterals, Dispatcher
+        behavior = Dispatcher(self.image, 'behavior', 0x4A0154, 0x2B5)
+        ability = Dispatcher(self.image, 'ability', 0x115C784, 0xB33)
+        # research/event-actions: BehaviorId 224 runs 0x288360 (the NUX-223 Hellbomb), AbilityId 906 runs 0x10CEA90.
+        self.assertIn(224, behavior.handlers[0x288360])
+        self.assertIn(906, ability.handlers[0x10CEA90])
+        literals = CallLiterals(self.image, entries=set(behavior.stubs) | set(ability.stubs))
+        self.assertEqual(literals.literal(0x288825, 'edx'), 242)      # mov edx, 0xf2; ...; call 0x4c89c0
+        self.assertEqual(literals.literal(0x10CEB08, 'edx'), 293)
+        attribution = Attribution(self.image, [behavior, ability])
+        self.assertIn(('behavior', 224), attribution.site(0x288825)[0])
+        self.assertIn(('ability', 906), attribution.site(0x10CEB08)[0])
+
+
+class LiteralTests(unittest.TestCase):
+    """scan.literals.register_literal on synthetic blocks (newest instruction first)."""
+
+    def test_immediates_zeroing_and_moves(self):
+        from scan.literals import register_literal
+        self.assertEqual(register_literal([(8, 5, 'mov', 'edx, 0xf2'), (0, 3, 'mov', 'r8d, 1')], 'edx'), 242)
+        self.assertEqual(register_literal([(0, 2, 'xor', 'edx, edx')], 'rdx'), 0)
+        self.assertEqual(register_literal([(4, 3, 'mov', 'edx, ebx'), (0, 5, 'mov', 'ebx, 7')], 'edx'), 7)
+        self.assertEqual(register_literal([(4, 4, 'lea', 'edx, [r9 + 0x31]'), (0, 3, 'xor', 'r9d, r9d')], 'edx'), 0x31)
+
+    def test_unresolved_values_stay_none(self):
+        from scan.literals import register_literal
+        self.assertIsNone(register_literal([(0, 4, 'mov', 'edx, dword ptr [rbx + 8]')], 'edx'))
+        self.assertIsNone(register_literal([(0, 3, 'add', 'edx, 1')], 'edx'))
+        self.assertIsNone(register_literal([], 'edx'))
+        # A write of another register never resolves this one.
+        self.assertIsNone(register_literal([(0, 5, 'mov', 'ecx, 3')], 'edx'))
+        self.assertIsNone(register_literal([(0, 5, 'mov', 'edx, 3')], 'xmm0'))
 
 
 if __name__ == '__main__':

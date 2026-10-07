@@ -135,15 +135,16 @@
     "refcountFillLimit": 0.75
   },
   "summary": {
-    "semanticObjects": 362,
-    "known": 289,
+    "semanticObjects": 503,
+    "known": 430,
     "ownPackage": 277,
     "holderPackage": 7,
     "stratagemPackage": 3,
     "objectivePackage": 2,
+    "explosionPackage": 141,
     "unknown": 73,
-    "packages": 199,
-    "unnamedPackages": 23,
+    "packages": 213,
+    "unnamedPackages": 24,
     "liveTestedObjects": 3,
     "liveLoadedPackages": 3,
     "liveProvenFamilies": [
@@ -446,6 +447,2121 @@
         "autoLoadSupported": true,
         "derivation": "delivering_stratagem_package",
         "package": "hellbomb",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/backpack/b100_portable_hellbomb/behavior",
+      "label": "B-100 Portable Hellbomb (behavior)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_named_explosion_package",
+        "package": "hellbomb_backpack",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/backpack/lift182_warp_pack/displacement",
+      "label": "LIFT-182 Warp Pack (displacement)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "displacement_backpack",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/enemy/gunship/behavior_2",
+      "label": "Gunship (behavior) #2",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_effect_loadout_package",
+        "package": "samples_uranium",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/enemy/jet_champion/behavior",
+      "label": "jet_champion (behavior)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_effect_loadout_package",
+        "package": "bug_thumper",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/enemy/lieutenant_artillery/behavior",
+      "label": "lieutenant_artillery (behavior)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_effect_loadout_package",
+        "package": "bug_thumper",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/enemy/lieutenant_ivory_legion/impact",
+      "label": "lieutenant_ivory_legion (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_effect_loadout_package",
+        "package": "impact_incendiary_grenade",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/enemy/rupture_charger/ability_2",
+      "label": "Rupture Charger (ability) #2",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_effect_loadout_package",
+        "package": "orbital_shell",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/enemy/siege_engine/ability_4",
+      "label": "siege_engine (ability) #4",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_effect_loadout_package",
+        "package": "central_core_drill_01",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/enemy/soldier_rpg/behavior",
+      "label": "soldier_rpg (behavior)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_effect_loadout_package",
+        "package": "samples_uranium",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/entity/avatar_helldiver/behavior",
+      "label": "avatar_helldiver (behavior)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_effect_loadout_package",
+        "package": "remote_explosives",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/entity/caltrops_grenade/detonation",
+      "label": "caltrops_grenade (detonation)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_effect_loadout_package",
+        "package": "caltrops_grenade",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/entity/caltrops_mine/detonation",
+      "label": "caltrops_mine (detonation)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_effect_loadout_package",
+        "package": "samples_uranium",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/entity/cyborg_production_unit/ability",
+      "label": "Cyborg Production Unit (ability)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_named_explosion_package",
+        "package": null,
+        "packageNamed": false,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/entity/eagle_missile/missile_impact",
+      "label": "eagle_missile (missile impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_effect_loadout_package",
+        "package": "eagle_missile",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/entity/habs_barrel_fuel/detonation",
+      "label": "habs_barrel_fuel (detonation)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_effect_loadout_package",
+        "package": "bug_thumper",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/entity/idle_sam_site/impact",
+      "label": "idle_sam_site (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_effect_loadout_package",
+        "package": "hornet_pistol",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/entity/il_city_cannon/impact",
+      "label": "il_city_cannon (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_effect_loadout_package",
+        "package": "orbital_shell",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/entity/seaf_gun/impact",
+      "label": "seaf_gun (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_effect_loadout_package",
+        "package": "orbital_shell",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/entity/soldier_riotgun/impact",
+      "label": "soldier_riotgun (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_effect_loadout_package",
+        "package": "lat_oneshot",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/aac8_autocannon_sentry/impact",
+      "label": "A/AC-8 Autocannon Sentry (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_stratagem_call_in_package",
+        "package": "autocannon_turret",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/agm17_gas_mortar_sentry/impact",
+      "label": "A/GM-17 Gas Mortar Sentry (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_stratagem_call_in_package",
+        "package": "mortar_turret_gas",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/am12_mortar_sentry/impact",
+      "label": "A/M-12 Mortar Sentry (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_stratagem_call_in_package",
+        "package": "mortar_turret",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/am23_ems_mortar_sentry/expiry",
+      "label": "A/M-23 EMS Mortar Sentry (expiry)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_stratagem_call_in_package",
+        "package": null,
+        "packageNamed": false,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/am23_ems_mortar_sentry/impact",
+      "label": "A/M-23 EMS Mortar Sentry (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_stratagem_call_in_package",
+        "package": null,
+        "packageNamed": false,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/amls4x_rocket_sentry/impact",
+      "label": "A/MLS-4X Rocket Sentry (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_stratagem_call_in_package",
+        "package": "rocket_turret",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/eagle_110mm_rocket_pods/impact",
+      "label": "Eagle 110mm Rocket Pods (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_stratagem_call_in_package",
+        "package": "eagle_rocket",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/eagle_110mm_rocket_pods/magazine_impact",
+      "label": "Eagle 110mm Rocket Pods (magazine impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_effect_loadout_package",
+        "package": "hornet_pistol",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/eagle_110mm_rocket_pods/magazine_impact_2",
+      "label": "Eagle 110mm Rocket Pods (magazine impact) #2",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_stratagem_call_in_package",
+        "package": "eagle_rocket",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/eagle_110mm_rocket_pods/payload_impact",
+      "label": "Eagle 110mm Rocket Pods (payload impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_stratagem_call_in_package",
+        "package": "eagle_rocket",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/eagle_500kg_bomb/payload_expiry",
+      "label": "Eagle 500kg Bomb (payload expiry)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_stratagem_call_in_package",
+        "package": "eagle_bomb",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/eagle_500kg_bomb/payload_impact",
+      "label": "Eagle 500kg Bomb (payload impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_stratagem_call_in_package",
+        "package": "eagle_bomb",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/eagle_airstrike/payload_impact",
+      "label": "Eagle Airstrike (payload impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_stratagem_call_in_package",
+        "package": "eagle_airstrike",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/eagle_cluster_bomb/payload_expiry",
+      "label": "Eagle Cluster Bomb (payload expiry)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_stratagem_call_in_package",
+        "package": "eagle_clusterbombs",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/eagle_cluster_bomb/payload_expiry/shrapnel_impact",
+      "label": "Eagle Cluster Bomb (payload expiry, shrapnel impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_effect_loadout_package",
+        "package": "orbital_shot",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/eagle_gas_airstrike/payload_impact",
+      "label": "Eagle Gas Airstrike (payload impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_stratagem_call_in_package",
+        "package": "eagle_gas",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/eagle_napalm_airstrike/payload_impact",
+      "label": "Eagle Napalm Airstrike (payload impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_stratagem_call_in_package",
+        "package": "eagle_napalm",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/eagle_smoke_strike/payload_impact",
+      "label": "Eagle Smoke Strike (payload impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_stratagem_call_in_package",
+        "package": "eagle_airstrike_smoke",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/eat12_antitank_emplacement/impact",
+      "label": "E/AT-12 Anti-Tank Emplacement (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_stratagem_call_in_package",
+        "package": "antitank_emplacement",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/exo45_patriot_exosuit/vehicle_crash",
+      "label": "EXO-45 Patriot Exosuit (vehicle crash)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_stratagem_call_in_package",
+        "package": "combat_walker",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/exo45_patriot_exosuit/vehicle_crash_2",
+      "label": "EXO-45 Patriot Exosuit (vehicle crash) #2",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_stratagem_call_in_package",
+        "package": "combat_walker",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/m102_gunner_frv/ability",
+      "label": "M-102 Gunner FRV (ability)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "oil_rig",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/m104_incinerator_frv/ability",
+      "label": "M-104 Incinerator FRV (ability)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_effect_loadout_package",
+        "package": "remote_explosives",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/m104_incinerator_frv/ability_2",
+      "label": "M-104 Incinerator FRV (ability) #2",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_effect_loadout_package",
+        "package": "eagle_bomb",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/md17_antitank_mines/mine",
+      "label": "MD-17 Anti-Tank Mines (mine)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_stratagem_call_in_package",
+        "package": "mine_launcher_tank",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/md6_antipersonnel_minefield/mine",
+      "label": "MD-6 Anti-Personnel Minefield (mine)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_stratagem_call_in_package",
+        "package": "mine_launcher",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/md8_gas_mines/mine",
+      "label": "MD-8 Gas Mines (mine)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_stratagem_call_in_package",
+        "package": "mine_launcher_gas",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/mdi4_incendiary_mines/mine",
+      "label": "MD-I4 Incendiary Mines (mine)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_stratagem_call_in_package",
+        "package": "mine_launcher_incendiary",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/nux223_hellbomb/behavior",
+      "label": "NUX-223 Hellbomb (behavior)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_named_explosion_package",
+        "package": "hellbomb",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/orbital_120mm_he_barrage/shell_impact",
+      "label": "Orbital 120mm HE Barrage (shell impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_stratagem_call_in_package",
+        "package": "orbital_strike",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/orbital_120mm_he_barrage/shell_impact_2",
+      "label": "Orbital 120mm HE Barrage (shell impact) #2",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_stratagem_call_in_package",
+        "package": "orbital_strike",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/orbital_380mm_he_barrage/shell_impact",
+      "label": "Orbital 380mm HE Barrage (shell impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_stratagem_call_in_package",
+        "package": "orbital_barrage",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/orbital_380mm_he_barrage/shell_impact_2",
+      "label": "Orbital 380mm HE Barrage (shell impact) #2",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_stratagem_call_in_package",
+        "package": "orbital_barrage",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/orbital_airburst_strike/shell_expiry",
+      "label": "Orbital Airburst Strike (shell expiry)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_stratagem_call_in_package",
+        "package": "orbital_shot",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/orbital_airburst_strike/shell_expiry/shrapnel_impact",
+      "label": "Orbital Airburst Strike (shell expiry, shrapnel impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_effect_loadout_package",
+        "package": "orbital_shot",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/orbital_ems_strike/shell_impact",
+      "label": "Orbital EMS Strike (shell impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_stratagem_call_in_package",
+        "package": "orbital_stun",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/orbital_gas_strike/shell_impact",
+      "label": "Orbital Gas Strike (shell impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_stratagem_call_in_package",
+        "package": "orbital_gas",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/orbital_gatling_barrage/shell_impact",
+      "label": "Orbital Gatling Barrage (shell impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_stratagem_call_in_package",
+        "package": "orbital_gatling_barrage",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/orbital_napalm_barrage/shell_impact",
+      "label": "Orbital Napalm Barrage (shell impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_stratagem_call_in_package",
+        "package": "orbital_napalm_barrage",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/orbital_napalm_barrage/shell_impact_2",
+      "label": "Orbital Napalm Barrage (shell impact) #2",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_stratagem_call_in_package",
+        "package": "orbital_napalm_barrage",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/orbital_precision_strike/shell_impact",
+      "label": "Orbital Precision Strike (shell impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_stratagem_call_in_package",
+        "package": "orbital_shell",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/stratagem/orbital_railcannon_strike/orbital_expiry",
+      "label": "Orbital Railcannon Strike (orbital expiry)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_stratagem_call_in_package",
+        "package": "orbital_railcannon",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/support_weapon/40k_meltagun/overcharge",
+      "label": "40-K Meltagun (overcharge)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "energy_weapon_shark",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/support_weapon/ac8_autocannon/function_impact",
+      "label": "AC-8 Autocannon (function impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_mission_effects_package",
+        "package": "effects_mission",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/support_weapon/ac8_autocannon/impact",
+      "label": "AC-8 Autocannon (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "automatic_cannon",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/support_weapon/bmd_c4_pack/detonation",
+      "label": "B/MD C4 Pack (detonation)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": null,
+        "packageNamed": false,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/support_weapon/eat17_expendable_antitank/backblast",
+      "label": "EAT-17 Expendable Anti-Tank (backblast)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "lat_oneshot",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/support_weapon/eat17_expendable_antitank/impact",
+      "label": "EAT-17 Expendable Anti-Tank (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "lat_oneshot",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/support_weapon/eat411_leveller/impact",
+      "label": "EAT-411 Leveller (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "expendable_massive_rocket_launcher",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/support_weapon/eat700_expendable_napalm/impact",
+      "label": "EAT-700 Expendable Napalm (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "expendable_napalm_launcher",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": true,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/support_weapon/eat700_expendable_napalm/impact/shrapnel_impact",
+      "label": "EAT-700 Expendable Napalm (impact, shrapnel impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_effect_loadout_package",
+        "package": "expendable_napalm_launcher",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": true,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/support_weapon/faf14_spear/impact",
+      "label": "FAF-14 Spear (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": null,
+        "packageNamed": false,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/support_weapon/gl21_grenade_launcher/impact",
+      "label": "GL-21 Grenade Launcher (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "grenade_launcher",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/support_weapon/gl28_beltfed_grenade_launcher/impact",
+      "label": "GL-28 Belt-Fed Grenade Launcher (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": null,
+        "packageNamed": false,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/support_weapon/gl52_deescalator/impact",
+      "label": "GL-52 De-Escalator (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "grenade_launcher_tactical",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/support_weapon/gr8_recoilless_rifle/backblast",
+      "label": "GR-8 Recoilless Rifle (backblast)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "recoilless_rifle",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/support_weapon/gr8_recoilless_rifle/function_impact",
+      "label": "GR-8 Recoilless Rifle (function impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "recoilless_rifle",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/support_weapon/gr8_recoilless_rifle/impact",
+      "label": "GR-8 Recoilless Rifle (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "recoilless_rifle",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/support_weapon/las98_laser_cannon/ability",
+      "label": "LAS-98 Laser Cannon (ability)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_effect_loadout_package",
+        "package": "bug_thumper",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/support_weapon/las99_quasar_cannon/impact",
+      "label": "LAS-99 Quasar Cannon (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "laser_cannon",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/support_weapon/mls4x_commando/backblast",
+      "label": "MLS-4X Commando (backblast)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "laser_guided_missile_launcher",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/support_weapon/mls4x_commando/impact",
+      "label": "MLS-4X Commando (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "laser_guided_missile_launcher",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/support_weapon/ms11_solo_silo/ability",
+      "label": "MS-11 Solo Silo (ability)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "mini_missile_silo",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/support_weapon/ms11_solo_silo/detonation",
+      "label": "MS-11 Solo Silo (detonation)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "mini_missile_silo",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/support_weapon/ms11_solo_silo/explosive_40",
+      "label": "MS-11 Solo Silo (explosive 40)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "mini_missile_silo",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/support_weapon/plas45_epoch/charge_2_expiry",
+      "label": "PLAS-45 Epoch (charge 2 expiry)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "plasma_blaster",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/support_weapon/plas45_epoch/impact",
+      "label": "PLAS-45 Epoch (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_mission_effects_package",
+        "package": "effects_mission",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/support_weapon/rl77_airburst_rocket_launcher/function_expiry",
+      "label": "RL-77 Airburst Rocket Launcher (function expiry)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_mission_effects_package",
+        "package": "effects_mission",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/support_weapon/rl77_airburst_rocket_launcher/function_expiry/shrapnel_expiry",
+      "label": "RL-77 Airburst Rocket Launcher (function expiry, shrapnel expiry)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_effect_loadout_package",
+        "package": "autocannon_turret",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/support_weapon/rl77_airburst_rocket_launcher/impact",
+      "label": "RL-77 Airburst Rocket Launcher (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_mission_effects_package",
+        "package": "effects_mission",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/support_weapon/s11_speargun/expiry",
+      "label": "S-11 Speargun (expiry)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "harpoon_gun",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/support_weapon/stax3_wasp_launcher/function_impact",
+      "label": "StA-X3 W.A.S.P. Launcher (function impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_mission_effects_package",
+        "package": "effects_mission",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/support_weapon/stax3_wasp_launcher/impact",
+      "label": "StA-X3 W.A.S.P. Launcher (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": null,
+        "packageNamed": false,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/throwable/g109_urchin/detonation",
+      "label": "G-109 Urchin (detonation)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "sticky_stun_grenade",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/throwable/g10_incendiary/detonation",
+      "label": "G-10 Incendiary (detonation)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "incendiary_grenade",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/throwable/g123_thermite/detonation",
+      "label": "G-123 Thermite (detonation)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "sticky_grenade",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/throwable/g12_high_explosive/detonation",
+      "label": "G-12 High Explosive (detonation)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "he_grenade",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/throwable/g13_incendiary_impact/detonation",
+      "label": "G-13 Incendiary Impact (detonation)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "impact_incendiary_grenade",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/throwable/g142_pyrotech/detonation",
+      "label": "G-142 Pyrotech (detonation)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "zipper_grenade",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/throwable/g16_impact/detonation",
+      "label": "G-16 Impact (detonation)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "impact_grenade",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/throwable/g23_stun/detonation",
+      "label": "G-23 Stun (detonation)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "flashbang",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/throwable/g31_arc/detonation",
+      "label": "G-31 Arc (detonation)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "arc_grenade",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/throwable/g3_smoke/detonation",
+      "label": "G-3 Smoke (detonation)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "smoke_grenade",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/throwable/g40k_melta_mine/detonation",
+      "label": "G/40-K Melta Mine (detonation)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "mine_shark",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/throwable/g48_giga_grenade/detonation",
+      "label": "G-48 Giga Grenade (detonation)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "at_explosive_grenade",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/throwable/g4_gas/detonation",
+      "label": "G-4 Gas (detonation)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "gas_grenade",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/throwable/g50_seeker/detonation",
+      "label": "G-50 Seeker (detonation)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "self_destruct_drone",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/throwable/g60_antitank_seeker/detonation",
+      "label": "G-60 Anti-Tank Seeker (detonation)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "at_self_destruct_drone",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/throwable/g6_frag/detonation",
+      "label": "G-6 Frag (detonation)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "frag_grenade",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/throwable/g7_pineapple/detonation",
+      "label": "G-7 Pineapple (detonation)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "cluster_frag_grenade",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/throwable/g7_pineapple/detonation/shrapnel_expiry",
+      "label": "G-7 Pineapple (detonation, shrapnel expiry)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_effect_loadout_package",
+        "package": "cluster_frag_grenade",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/throwable/g89_smokescreen/detonation",
+      "label": "G-89 Smokescreen (detonation)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "impact_grenade",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/throwable/g8_immolation/detonation",
+      "label": "G-8 Immolation (detonation)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "molotov_grenade",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/throwable/gsh39_shield/detonation",
+      "label": "G/SH-39 Shield (detonation)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "shield_grenade",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/throwable/ted63_dynamite/detonation",
+      "label": "TED-63 Dynamite (detonation)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": null,
+        "packageNamed": false,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/throwable/tm1_lure_mine/detonation",
+      "label": "TM-1 Lure Mine (detonation)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "luring_mine",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/vehicle/exo45_patriot_exosuit_slot_0/impact",
+      "label": "EXO-45 Patriot Exosuit slot 0 (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_effect_loadout_package",
+        "package": "samples_uranium",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/vehicle/exo49_emancipator_exosuit_attach_turret_l/impact",
+      "label": "EXO-49 Emancipator Exosuit attach_turret_l (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_effect_loadout_package",
+        "package": "autocannon_turret",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/vehicle/td110_maelstrom_slot_2/ability",
+      "label": "TD-110 Maelstrom slot 2 (ability)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_effect_loadout_package",
+        "package": "tank_storm",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/vehicle/td110_maelstrom_slot_3/fired_ability",
+      "label": "TD-110 Maelstrom slot 3 (fired ability)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_effect_loadout_package",
+        "package": "tank_storm",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/vehicle/td110_maelstrom_slot_3/fired_explosive_40",
+      "label": "TD-110 Maelstrom slot 3 (fired explosive 40)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_effect_loadout_package",
+        "package": "eagle_missile",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/vehicle/td220_bastion_mk_xvi_attach_tank_gun/impact",
+      "label": "TD-220 Bastion MK XVI attach_tank_gun (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_effect_loadout_package",
+        "package": "orbital_strike",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/weapon/cb9_exploding_crossbow/impact",
+      "label": "CB-9 Exploding Crossbow (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "crossbow_greyfax",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/weapon/cqc42_machete/ability",
+      "label": "CQC-42 Machete (ability)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_effect_loadout_package",
+        "package": "melee_sledge_hammer",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/weapon/gl15_evictor/impact",
+      "label": "GL-15 Evictor (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "pump_shotgun",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/weapon/gp20_ultimatum/impact",
+      "label": "GP-20 Ultimatum (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "cricket_pistol",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/weapon/gp31_grenade_pistol/impact",
+      "label": "GP-31 Grenade Pistol (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_effect_loadout_package",
+        "package": "autocannon_turret",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/weapon/p33_missile_pistol/impact",
+      "label": "P-33 Missile Pistol (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "pistol_smart_missile",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/weapon/p34_breacher/fired_detonation",
+      "label": "P-34 Breacher (fired detonation)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "hornet_pistol",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/weapon/p34_breacher/impact",
+      "label": "P-34 Breacher (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "hornet_pistol",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/weapon/p40k_bolt_pistol/impact",
+      "label": "P/40-K Bolt Pistol (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "pistol_shark",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/weapon/plas101_purifier/charge_1_impact",
+      "label": "PLAS-101 Purifier (charge 1 impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_mission_effects_package",
+        "package": "effects_mission",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/weapon/plas101_purifier/impact",
+      "label": "PLAS-101 Purifier (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_mission_effects_package",
+        "package": "effects_mission",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/weapon/plas101_purifier/overcharge",
+      "label": "PLAS-101 Purifier (overcharge)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "plasma_rifle",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/weapon/plas15_loyalist/charge_1_impact",
+      "label": "PLAS-15 Loyalist (charge 1 impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_mission_effects_package",
+        "package": "effects_mission",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/weapon/plas15_loyalist/charge_2_impact",
+      "label": "PLAS-15 Loyalist (charge 2 impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_mission_effects_package",
+        "package": "effects_mission",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/weapon/plas15_loyalist/impact",
+      "label": "PLAS-15 Loyalist (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_mission_effects_package",
+        "package": "effects_mission",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/weapon/plas1_scorcher/impact",
+      "label": "PLAS-1 Scorcher (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_mission_effects_package",
+        "package": "effects_mission",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/weapon/plas39_accelerator_rifle/impact",
+      "label": "PLAS-39 Accelerator Rifle (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_mission_effects_package",
+        "package": "effects_mission",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/weapon/plas39_accelerator_rifle/overcharge",
+      "label": "PLAS-39 Accelerator Rifle (overcharge)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_own_loadout_package",
+        "package": "sniper_rifle_helghast",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/weapon/r36_eruptor/impact",
+      "label": "R-36 Eruptor (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_mission_effects_package",
+        "package": "effects_mission",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/weapon/sg8p_punisher_plasma/impact",
+      "label": "SG-8P Punisher Plasma (impact)",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "explosion_mission_effects_package",
+        "package": "effects_mission",
         "packageNamed": true,
         "liveTested": false,
         "packageLiveLoaded": false,

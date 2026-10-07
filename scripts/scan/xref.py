@@ -228,8 +228,35 @@ class CodeImage:
                         found[address] = self.insn(address)
         return [found[a] for a in sorted(found)]
 
+    def _call_index(self):
+        """(sorted targets, their E8/E9 positions) of every byte in .text that could start a rel32 call or jmp: built
+        once (one pass), so a caller lookup costs a binary search plus re-decoding its few hits."""
+        if getattr(self, '_calls', None) is None:
+            lo, hi = self.text
+            raw = numpy.frombuffer(self.data, dtype=numpy.uint8, offset=lo, count=hi - lo - 4)
+            positions = numpy.nonzero((raw == 0xE8) | (raw == 0xE9))[0].astype(numpy.int64)
+            words = numpy.frombuffer(self.data, dtype=numpy.uint8, offset=lo, count=hi - lo)
+            rel = (words[positions + 1].astype(numpy.int64) | (words[positions + 2].astype(numpy.int64) << 8)
+                | (words[positions + 3].astype(numpy.int64) << 16) | (words[positions + 4].astype(numpy.int64) << 24))
+            rel = numpy.where(rel >= 1 << 31, rel - (1 << 32), rel)
+            targets = positions + lo + 5 + rel
+            order = numpy.argsort(targets, kind='stable')
+            self._calls = (targets[order], positions[order] + lo)
+        return self._calls
+
     def calls_to(self, target) -> list[int]:
-        return [ins.address for ins in self.references(target) if ins.mnemonic in ('call', 'jmp')]
+        """Direct call and jmp sites of target (rel32), each re-decoded: an E8/E9 byte inside another instruction is
+        not a site. Same result as filtering references(target) to calls and jumps, without its full scan."""
+        targets, positions = self._call_index()
+        first = int(numpy.searchsorted(targets, target, side='left'))
+        last = int(numpy.searchsorted(targets, target, side='right'))
+        found = []
+        for at in sorted(int(p) for p in positions[first:last]):
+            if self._decode_covering(at + 1, 0) == at:
+                ins = self.insn(at)
+                if ins.mnemonic in ('call', 'jmp'):
+                    found.append(at)
+        return found
 
     def global_accessors(self, global_rva) -> dict[int, list[int]]:
         """Function root -> instruction addresses that reference the global."""

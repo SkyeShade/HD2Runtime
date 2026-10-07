@@ -30,6 +30,7 @@ naming-proof standard: owner, layout, hidden-name length, active source, sharing
 | `scan/settings.py` | `SettingsView`: projectile, damage, explosion, arc and beam rows by native type, with the same flattened member paths |
 | `scan/strides.py` | Array and struct-stride discovery in raw bytes (`score_strides`, `columns`, `runs`) for memory the type library does not describe |
 | `scan/xref.py` | `CodeImage.from_snapshot('game.dll' / 'exe')`, cached under `build/scan-cache` |
+| `scan/literals.py` | Identities that live in code: `CallLiterals` (the literal an argument register holds at every call site of a function, from the straight-line block before the call), `Dispatcher` (a BehaviorId / AbilityId jump table: handlers and stubs), `Attribution` (the dispatcher ids that run a call site, through up to three caller levels). Used by `research_explosion_identities.py` for explosion types passed as literals |
 | `scan/instances.py` | `SnapshotReader`, `locate_records`, `find_copies`, `compare_copy`, `diff_snapshots` |
 | `scan/golib.py` | `GoLibrary`, `align`, `align_tree`, `leads_for` |
 | `scan/report.py` | `candidate`, `document`, `confidence`, `write`, Markdown tables |

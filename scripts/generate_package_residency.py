@@ -59,7 +59,9 @@ def outputs(research_path=RESEARCH):
             'named': bool(name), 'inBundleDatabase': dep['inBundleDatabase']})
         dependencies[key] = dict({'package': pid, 'via': dep['via'], 'label': item['label']},
             **({'live': True} if key in live_objects else {}))
-        by_resource.setdefault(item['resource'], pid)
+        if item['resource']:
+            # A catalogued explosion is no entity: it has a key, no resource.
+            by_resource.setdefault(item['resource'], pid)
     runtime = {'version': 1, 'build': research['build'],
         'loader': {'requestRva': g['requestRva'], 'releaseRva': g['releaseRva'],
             'requestProof': g['requestProof'], 'releaseProof': g['releaseProof'],

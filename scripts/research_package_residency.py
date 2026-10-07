@@ -386,6 +386,19 @@ def build():
                 'resource': item['entity'], 'path': item['path'], 'dependency': sound, 'known': sound['inBundleDatabase']}
         catalog['explosion/' + item['name']] = {'label': item['name'], 'kind': 'explosion', 'resource': item['entity'],
             'path': item['path'], 'dependency': dep, 'known': dep['inBundleDatabase']}
+    # Catalogued explosions (research/explosion-identities-F5FEE03DCFDB.json, scripts/research_explosion_identities.py):
+    # 'explosion/<semantic id>' is the package that lists the explosion's particle effect: its owner's (a loadout or
+    # call-in package), a loadout package that lists it, or the mission effects package (resident in every mission; the
+    # Runtime checks it, never loads it). An explosion without a particle effect uses its owner's package.
+    identities_path = ROOT / 'research/explosion-identities-F5FEE03DCFDB.json'
+    if identities_path.is_file():
+        for item in json.loads(identities_path.read_text(encoding='utf-8'))['explosions']:
+            chosen = item.get('package')
+            if not (item.get('name') and chosen):
+                continue
+            dep = package(int(chosen['package'], 16), 'explosion_' + chosen['via'])
+            catalog['explosion/' + item['name']] = {'label': item['label'], 'kind': 'explosion', 'resource': None,
+                'path': None, 'dependency': dep, 'known': dep['inBundleDatabase']}
     catalog = dict(sorted(catalog.items()))
     log_evidence = json.loads(LOG_EVIDENCE.read_text()) if LOG_EVIDENCE.is_file() else None
     return {'schemaVersion': 1, 'build': build_profile.BUILD_ID, 'snapshot': build_profile.SNAPSHOT_NAME,
@@ -399,6 +412,9 @@ def build():
                 for v in catalog.values()),
             'objectivePackage': sum((v['dependency'] or {}).get('via') in ('explosion_effect_package',
                 'explosion_sound_package') for v in catalog.values()),
+            'explosionPackage': sum(key.startswith('explosion/') and (v['dependency'] or {}).get('via', '').startswith(
+                'explosion_') and v['dependency']['via'] not in ('explosion_effect_package', 'explosion_sound_package')
+                for key, v in catalog.items()),
             'unknown': sum(not v['known'] for v in catalog.values())}}
 
 
