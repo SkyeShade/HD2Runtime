@@ -60,7 +60,7 @@ from research_railgun_charge import (canonical, check_pins, delta_targets, golib
     pin_refs, snapshot_tables)
 
 OUTPUT = ROOT / 'research/hoverpack-components-F5FEE03DCFDB.json'
-MARKDOWN = ROOT / 'docs/research/hoverpack-components-F5FEE03DCFDB.md'
+MARKDOWN = ROOT / 'research/docs/hoverpack-components-F5FEE03DCFDB.md'
 COMPONENT = 'JumppackComponentData'
 RECORD_TYPE = 'JumppackComponent'
 RECORD_SIZE = 280

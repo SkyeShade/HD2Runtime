@@ -1,4 +1,4 @@
--- Calls a client asks the SESSION HOST to run (EXPERIMENTAL; docs/research/runtime-peer-messaging-F5FEE03DCFDB.md
+-- Calls a client asks the SESSION HOST to run (EXPERIMENTAL; research/docs/runtime-peer-messaging-F5FEE03DCFDB.md
 -- section 15). For payloads only the host can create for everyone (the Pelican CAS: a Runtime-spawned Pelican is
 -- created through the host's spawn request; a client's would exist on that client only).
 --

@@ -3,7 +3,7 @@
 **0.1.0 live: the AI was never changed** (`AI switched false`). The freshly spawned chin turret sat in behaviour 645
 stage 4, and 0.1.0 allowed the change from stage 1 only. That run tested 148 at 600 RPM on the native AI only.
 
-**Research since** (docs/research/pelican-cas-F5FEE03DCFDB.md section 18b):
+**Research since** (research/docs/pelican-cas-F5FEE03DCFDB.md section 18b):
 - **645 stage 4 = the turret is not active.** It sits there during the Pelican's approach. Entering it parks the aim
   and clears the target, and it runs no timer. 645 pulls the trigger only on entering stage 3, so the trigger is
   released in stage 4 (and in stage 1).
@@ -30,7 +30,7 @@ sequence below, with this build's ZIP.
 # PelicanGatlingAIProof 0.1.0 (development only, solo host): the Gatling Sentry's AI on the Pelican's own chin turret
 
 The chin turret keeps its entity, model, mount, node 41 and attachment. Only its AI and weapon change, for that one
-Pelican. Research: docs/research/pelican-cas-F5FEE03DCFDB.md, section 18.
+Pelican. Research: research/docs/pelican-cas-F5FEE03DCFDB.md, section 18.
 
 ## The field, found [C]
 

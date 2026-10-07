@@ -1,5 +1,5 @@
 local hd2=require('mods/skyeshade/hd2runtime')
--- ExtractionPelicanProbe 0.1.0: THE EXTRACTION PELICAN, OBSERVED (docs/research/pelican-cas-F5FEE03DCFDB.md, "The
+-- ExtractionPelicanProbe 0.1.0: THE EXTRACTION PELICAN, OBSERVED (research/docs/pelican-cas-F5FEE03DCFDB.md, "The
 -- extraction Pelican"). Development only; READ-ONLY: nothing is written, spawned or called.
 --
 -- Research (offline, pinned): the extraction Pelican is the entity shuttle_gunship (the mission stratagem Extract,

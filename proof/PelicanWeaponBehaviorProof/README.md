@@ -2,7 +2,7 @@
 
 The Pelican keeps its own chin turret: its entity, model, node 41 and targeting AI. Only its weapon behaviour changes,
 for that one Pelican, through the game's own routines. No shared definition is written. Research:
-docs/research/pelican-cas-F5FEE03DCFDB.md, section 17.
+research/docs/pelican-cas-F5FEE03DCFDB.md, section 17.
 
 ## The burst, found
 

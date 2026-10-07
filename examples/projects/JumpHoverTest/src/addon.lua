@@ -1,6 +1,6 @@
 local hd2=require('mods/skyeshade/hd2runtime')
 -- Live test for the jump / hover movement fields (hd2.fields.jump.*, hd2.fields.hover.*, docs/backpack-authoring.md,
--- docs/research/hoverpack-components-F5FEE03DCFDB.md). Each field is a member of the pack's own JumppackComponent
+-- research/docs/hoverpack-components-F5FEE03DCFDB.md). Each field is a member of the pack's own JumppackComponent
 -- record, read live by the flight code every frame: an APPLIED write takes effect at once, also on a pack you already
 -- wear. Not yet shown in game: every write needs allow_unverified_effect.
 local BANNER='JUMP HOVER 0.1.0 BUILD'

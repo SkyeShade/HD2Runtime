@@ -1,4 +1,4 @@
--- The Runtime-to-Runtime peer channel (DEVELOPMENT; docs/research/runtime-peer-messaging-F5FEE03DCFDB.md, section 2;
+-- The Runtime-to-Runtime peer channel (DEVELOPMENT; research/docs/runtime-peer-messaging-F5FEE03DCFDB.md, section 2;
 -- research/peer-messaging-F5FEE03DCFDB.json). Not exported to mods; the user approved it for RuntimePeerHelloProof only:
 -- no custom stratagem uses it yet.
 --

@@ -1,4 +1,4 @@
-"""The Wwise plugin's Lua bindings (docs/research/wwise-plugin-bindings-F5FEE03DCFDB.md): every module function and
+"""The Wwise plugin's Lua bindings (research/docs/wwise-plugin-bindings-F5FEE03DCFDB.md): every module function and
 constant the plugin registers, the Lua API table offsets the bindings call, and for each binding the exact argument
 order, how each argument is read, defaults, guards, the native routine it reaches, the values it returns and whether
 it acts on one source / playing id (local), on every source of the world (world) or on the whole sound engine

@@ -1,4 +1,4 @@
-"""Custom stratagem multiplayer state over the peer channel (runtime/custom_mp_sync.lua; docs/research/runtime-peer-
+"""Custom stratagem multiplayer state over the peer channel (runtime/custom_mp_sync.lua; research/docs/runtime-peer-
 messaging-F5FEE03DCFDB.md sections 3 and 10), on the offline event world with a two-member lobby (tests/event_world_
 fixture.lua W.lobby; the channel's two engine calls recorded, the service a table):
   * this machine publishes its current picks (seq + 1 on every change, never an unchanged value) and reads the other

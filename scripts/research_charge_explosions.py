@@ -57,7 +57,7 @@ from scan.settings import SettingsView  # noqa: E402
 from reference_format import dl_hash  # noqa: E402
 
 OUTPUT = ROOT / 'research/charge-explosions-F5FEE03DCFDB.json'
-MARKDOWN = ROOT / 'docs/research/charge-explosions-F5FEE03DCFDB.md'
+MARKDOWN = ROOT / 'research/docs/charge-explosions-F5FEE03DCFDB.md'
 CHARGE = ROOT / 'research/railgun-charge-F5FEE03DCFDB.json'
 FIRE_MODES = ROOT / 'research/weapon-fire-modes-F5FEE03DCFDB.json'
 CATALOG = ROOT / 'schemas/support_weapon_authoring_catalog.json'

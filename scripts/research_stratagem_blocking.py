@@ -1,6 +1,6 @@
 """How the native stratagem picker decides that a card is BLOCKED / UNAVAILABLE, draws it, and refuses a pick of it; and
 which of those states the Runtime may set for a vanilla carrier stratagem that a selected custom stratagem reserves
-(docs/research/stratagem-blocking-F5FEE03DCFDB.md). Read-only, offline: the game.dll image and the seven retained
+(research/docs/stratagem-blocking-F5FEE03DCFDB.md). Read-only, offline: the game.dll image and the seven retained
 snapshots of build F5FEE03DCFDB (research_stratagem_calldown.SNAPSHOTS), and the game's text resources. Nothing is
 written. Builds on research/stratagem-picker-F5FEE03DCFDB.json (the card list) and the selector's loadout pins.
 

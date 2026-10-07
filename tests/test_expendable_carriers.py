@@ -1,4 +1,4 @@
-"""Expendable LIFECYCLE members vs per-donor CLONE COMPATIBILITY (docs/research/expendable-carriers-F5FEE03DCFDB.md,
+"""Expendable LIFECYCLE members vs per-donor CLONE COMPATIBILITY (research/docs/expendable-carriers-F5FEE03DCFDB.md,
 research/expendable-carriers-F5FEE03DCFDB.json, scripts/research_expendable_carriers.py; runtime/weapon_clone.lua,
 runtime/weapon_carriers.lua, domains/weapon_clone.lua):
   * the research is read-only, its pins identical in every snapshot, both auto-drop gates identified (WeaponReload,

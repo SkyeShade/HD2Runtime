@@ -1,5 +1,5 @@
 """runtime/pelican_gatling.lua (the Gatling turret experiment, live-proven by PelicanGatlingProof 0.2.0, whose source is
-kept in proof/PelicanGatlingProof/archive; docs/research/pelican-cas-F5FEE03DCFDB.md section 16): one Runtime-spawned
+kept in proof/PelicanGatlingProof/archive; research/docs/pelican-cas-F5FEE03DCFDB.md section 16): one Runtime-spawned
 Pelican's chin turret replaced by a Gatling turret entity (REPLACE) or given its own Gatling weapon record (WEAPON),
 through the game's own routines, on the offline Pelican world of tests/test_pelicans.py. The game's
 routines are simulated (they record their calls and do what the research found they do); the guards, the guarded

@@ -1,4 +1,4 @@
-"""Runtime public-matchmaking safety (runtime/matchmaking_safety.lua; docs/research/matchmaking-safety-F5FEE03DCFDB.md;
+"""Runtime public-matchmaking safety (runtime/matchmaking_safety.lua; research/docs/matchmaking-safety-F5FEE03DCFDB.md;
 research/matchmaking-safety-F5FEE03DCFDB.json) on the offline event world (tests/event_world_fixture.lua). The game's
 two functions (the privacy setter and the Quickplay stop) are SIMULATED and recorded, never executed: the simulation
 does what the pinned code does (setting +0x174 and lobby key 19, 0 while an SOS Beacon is active; the Quickplay flag

@@ -1,5 +1,5 @@
 """Generate domains/wwise_plugin.lua from research/wwise-plugin-F5FEE03DCFDB.json
-(docs/research/wwise-plugin-bindings-F5FEE03DCFDB.md): what runtime/wwise_playing.lua and runtime/sound_events.lua
+(research/docs/wwise-plugin-bindings-F5FEE03DCFDB.md): what runtime/wwise_playing.lua and runtime/sound_events.lua
 prove in the loaded Wwise plugin (bin/plugins/wwise_pluginw64_release.dll) before they call its bindings or read its
 playing-id map: the module's image size, the pinned instructions of every binding the Runtime calls (trigger_event, the
 source resolver, stop / pause / resume / is_playing / get_playing_elapsed, set_source_parameter, set_switch,

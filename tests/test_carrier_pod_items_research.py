@@ -1,4 +1,4 @@
-"""The carrier pod items research (docs/research/carrier-pod-items-F5FEE03DCFDB.md,
+"""The carrier pod items research (research/docs/carrier-pod-items-F5FEE03DCFDB.md,
 research/carrier-pod-items-F5FEE03DCFDB.json): read-only, every pin identical in every snapshot, and the facts the
 design rests on: the type-agnostic rack spawner, the generic placement and release, the item kinds' pickup zones and
 the One True Flag precedent, the exclusive carrier racks, and what stays refused."""

@@ -137,7 +137,7 @@ The Hover Pack and both jump packs share `JumppackComponent` (280 bytes, three r
 The LIFT-850 Jump Pack and LIFT-860 Hover Pack movement is the pack's own `JumppackComponent` record (one owner
 each), read live every frame by the flight code: **a write takes effect on the next frame, including a pack already
 worn and mid-flight.** Research: `research/hoverpack-components-F5FEE03DCFDB.json`,
-[docs/research/hoverpack-components-F5FEE03DCFDB.md](research/hoverpack-components-F5FEE03DCFDB.md). Every field
+[research/docs/hoverpack-components-F5FEE03DCFDB.md](research/hoverpack-components-F5FEE03DCFDB.md). Every field
 below needs `allow_unverified_effect` (evidence tier `native_consumer_proven`: the reading code is traced, the effect is
 not yet shown in game). Where every pack holds the same value, the meaning is proven from the code but the magnitude has
 no independent confirmation; the descriptor says so.

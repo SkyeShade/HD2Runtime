@@ -1,4 +1,4 @@
--- The per-beacon redirect (development only; docs/research/beacon-redirect-F5FEE03DCFDB.md). Not exported by
+-- The per-beacon redirect (development only; research/docs/beacon-redirect-F5FEE03DCFDB.md). Not exported by
 -- api/hd2.lua and no public field reaches it.
 --
 -- research/beacon-redirect-F5FEE03DCFDB.json: a thrown stratagem is a beacon. The manager is

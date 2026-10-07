@@ -1,4 +1,4 @@
-"""The carrier pod (runtime/carrier_pod.lua, domains/carrier_pod_items.lua; docs/research/carrier-pod-items-F5FEE03DCFDB.md
+"""The carrier pod (runtime/carrier_pod.lua, domains/carrier_pod_items.lua; research/docs/carrier-pod-items-F5FEE03DCFDB.md
 section 11):
   * research/carrier-pod-nodes-F5FEE03DCFDB.json: read-only; every weapon and backpack rack but the One True Flag's names
     ONE unit; the Leveller's slot 1 is EMPTY inside its spawn count at attach_1, a node of that unit, so its capacity is

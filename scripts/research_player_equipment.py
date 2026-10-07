@@ -2,7 +2,7 @@
 player:loadout(), player:backpack(), player:ammo() and hd2.actions.resupply_from_pack).
 
 Read-only. Proves on build F5FEE03DCFDB, from the unpacked game.dll in the retained snapshots and the pinned entity
-tables (docs/research/player-equipment-F5FEE03DCFDB.md):
+tables (research/docs/player-equipment-F5FEE03DCFDB.md):
 
 1. Inventory record (manager global game+0x3326738; hash +0x28; descriptors +0x40; records +0x50, stride 0x30;
    counts +0x58, stride 8). The game's own consumers name the slots: get_backpack (0x9A9CC0) returns record +0x0C;

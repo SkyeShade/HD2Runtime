@@ -1,6 +1,6 @@
 local hd2=require('mods/skyeshade/hd2runtime')
 -- Live test for the Eagle component fields (hd2.fields.eagle.*, docs/stratagem-authoring.md "Eagle attack fields",
--- docs/research/eagle-components-F5FEE03DCFDB.md). Each field is a member of the EagleComponentData record of the
+-- research/docs/eagle-components-F5FEE03DCFDB.md). Each field is a member of the EagleComponentData record of the
 -- stratagem's OWN jet (its payload[0]), re-proven before every write. It is a type-record write: every call of that
 -- Eagle on this machine uses it (not per call), and no other Eagle reads it. The Napalm and Strafing Run jets are also
 -- read by the Democracy Space Station's Eagle Storm (and an unused DSS strafing row), so they need allow_shared.

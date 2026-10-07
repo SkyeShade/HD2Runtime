@@ -1,5 +1,5 @@
 local hd2=require('mods/skyeshade/hd2runtime')
--- PelicanProbe 0.1.0: THE GAME'S OWN PELICAN, OBSERVED AND HELD (docs/research/pelican-cas-F5FEE03DCFDB.md).
+-- PelicanProbe 0.1.0: THE GAME'S OWN PELICAN, OBSERVED AND HELD (research/docs/pelican-cas-F5FEE03DCFDB.md).
 --
 -- The game's transport Pelican is the one a vehicle or exosuit call-in sends (runtime/pelicans.lua). This probe:
 --   * observes every transport Pelican, read-only: its cargo when first seen (the research says the cargo already

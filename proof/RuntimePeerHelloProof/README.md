@@ -1,6 +1,6 @@
 # RuntimePeerHelloProof 0.1.0: the first Runtime-to-Runtime message
 
-Development proof of the Runtime's peer channel (docs/research/runtime-peer-messaging-F5FEE03DCFDB.md, sections 2 and
+Development proof of the Runtime's peer channel (research/docs/runtime-peer-messaging-F5FEE03DCFDB.md, sections 2 and
 4). **Nothing of gameplay changes.** No custom stratagem uses the channel yet: this proof decides whether it works.
 
 0.1.0 (`0.1.0 PEER HELLO BUILD`). It needs `HD2Runtime-0.30.0-dev-peer-channel.zip`, whose log says

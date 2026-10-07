@@ -1,4 +1,4 @@
-"""The native barrage -> call association fields of runtime/custom_barrages.lua (docs/research/runtime-peer-messaging-
+"""The native barrage -> call association fields of runtime/custom_barrages.lua (research/docs/runtime-peer-messaging-
 F5FEE03DCFDB.md section 18; research/barrage-association-F5FEE03DCFDB.json). Offline, on the payload world with the
 beacon manager of tests/test_beacon_redirect.py and a bombardment manager laid out as the research found it:
   * the instance's replicated block (target bytes, shells, salvos, heading, seed) and its copy's shells fired;

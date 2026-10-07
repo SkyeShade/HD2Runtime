@@ -1,4 +1,4 @@
-"""Carrier allocation for several custom stratagems (runtime/carrier_allocator.lua; docs/research/pelican-cas-
+"""Carrier allocation for several custom stratagems (runtime/carrier_allocator.lua; research/docs/pelican-cas-
 F5FEE03DCFDB.md, "Carrier allocation"): the Gas Barrage takes its own discovery's carrier and reserves its
 payload-compatible family; the Pelican CAS takes another RED-beacon carrier (the beam colour, row +0xD4; never the
 delivery family): an orbital, then an Eagle, then any other red carrier; a definition with nothing left is refused (its

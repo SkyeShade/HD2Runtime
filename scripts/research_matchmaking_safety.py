@@ -1,4 +1,4 @@
-"""Runtime public-matchmaking safety (docs/research/matchmaking-safety-F5FEE03DCFDB.md): where Helldivers 2 keeps the
+"""Runtime public-matchmaking safety (research/docs/matchmaking-safety-F5FEE03DCFDB.md): where Helldivers 2 keeps the
 lobby privacy, how the host's lobby advertises it, how Quickplay and the SOS Beacon reach strangers, and the game's own
 functions that change privacy and cancel Quickplay. Read-only, offline: the game.dll image of the retained snapshots of
 build F5FEE03DCFDB. Nothing is written or called.

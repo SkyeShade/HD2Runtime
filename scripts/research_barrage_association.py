@@ -1,4 +1,4 @@
-"""Native barrage -> call association (docs/research/runtime-peer-messaging-F5FEE03DCFDB.md section 18;
+"""Native barrage -> call association (research/docs/runtime-peer-messaging-F5FEE03DCFDB.md section 18;
 local_research/mp/barrage/barrage-association-notes.md). Read-only, offline: the game.dll image and the seven retained
 snapshots of build F5FEE03DCFDB. Nothing is written, no game function is called.
 

@@ -1,0 +1,3 @@
+[submodule "research"]
+	path = research
+	url = https://github.com/SkyeShade/HD2Runtime-Research.git

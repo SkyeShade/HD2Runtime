@@ -1,4 +1,4 @@
-"""The weapon firing-sound catalogue (docs/weapon-sounds.md; docs/research/weapon-sounds-F5FEE03DCFDB.md;
+"""The weapon firing-sound catalogue (docs/weapon-sounds.md; research/docs/weapon-sounds-F5FEE03DCFDB.md;
 research/weapon-sounds-F5FEE03DCFDB.json -> scripts/generate_weapon_sounds.py -> domains/weapon_sounds.lua,
 sdk/WeaponSoundCatalogue.json; runtime/weapon_sounds.lua; api/sounds.lua) and a Runtime Pelican chin gun taking any
 'shot' or 'loop' entry on its OWN weapon copy (runtime/pelican_weapon.lua), on the host and on another machine's mirror:

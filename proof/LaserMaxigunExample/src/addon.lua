@@ -1,6 +1,6 @@
 local hd2=require('mods/skyeshade/hd2runtime')
 -- LaserMaxigunExample 0.1.1: the LAS-1000 LASER MAXIGUN, a mission-scoped VARIANT of the M-1000 Maxigun on its own type
--- (docs/custom-stratagem-api.md "weapon"; docs/custom-models.md; docs/research/weapon-variants-F5FEE03DCFDB.md).
+-- (docs/custom-stratagem-api.md "weapon"; docs/custom-models.md; research/docs/weapon-variants-F5FEE03DCFDB.md).
 -- The Maxigun is the only support weapon with its component set (spin-up, backpack-fed ammo, the ammo belt), so its own
 -- type is its only carrier (the carrier group 'weapon'):
 --   * its own stratagem row presents as the Laser Maxigun (name, icon, description) and answers to its code: you throw

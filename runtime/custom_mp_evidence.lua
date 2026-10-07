@@ -1,4 +1,4 @@
--- Native EVIDENCE of other machines' custom calls (EXPERIMENTAL; docs/research/runtime-peer-messaging-F5FEE03DCFDB.md
+-- Native EVIDENCE of other machines' custom calls (EXPERIMENTAL; research/docs/runtime-peer-messaging-F5FEE03DCFDB.md
 -- section 16). Read-only: it remembers what this machine itself read, it writes nothing.
 --
 -- Every compatible Runtime OBSERVES another player's custom call natively, on its own machine:

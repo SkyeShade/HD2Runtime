@@ -1,4 +1,4 @@
-"""The development beacon API (runtime/beacons.lua; docs/research/beacon-redirect-F5FEE03DCFDB.md, "The beacon API"):
+"""The development beacon API (runtime/beacons.lua; research/docs/beacon-redirect-F5FEE03DCFDB.md, "The beacon API"):
 semantic timing (call_in_time = countdown - threshold, lifetime_after_activation = threshold), one guarded transaction per
 change (delivery, timing, or both atomically), every refusal writing nothing, and the first-update watch. Offline: the
 payload world with the beacon manager of tests/test_beacon_redirect.py."""

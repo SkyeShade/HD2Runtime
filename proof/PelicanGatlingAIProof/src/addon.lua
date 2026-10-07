@@ -7,7 +7,7 @@ local hd2=require('mods/skyeshade/hd2runtime')
 -- through its own transition, writes and replicates the id, and starts the new one at its own stage 1. 0.2.0 calls that
 -- routine (213 only) while the turret is quiet (645 stage 1 or 4, nothing pending), logs "behaviour BEFORE" and
 -- "behaviour AFTER" read from the field, refuses unless AFTER is exactly 213, and every AI STAGE line prints the field.
--- PelicanGatlingAIProof 0.1.0: THE GATLING SENTRY'S AI ON THE PELICAN'S OWN CHIN TURRET (docs/research/pelican-cas-
+-- PelicanGatlingAIProof 0.1.0: THE GATLING SENTRY'S AI ON THE PELICAN'S OWN CHIN TURRET (research/docs/pelican-cas-
 -- F5FEE03DCFDB.md section 18). Development only; solo host only. Install with PelicanCasProof.
 -- The chin turret keeps its entity, model, mount, node 41 and attachment. As soon as a Runtime Pelican's chin turret
 -- exists and is uniquely identified (during its approach), through runtime/pelican_weapon.lua:

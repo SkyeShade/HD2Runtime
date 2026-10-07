@@ -1,5 +1,5 @@
 local hd2=require('mods/skyeshade/hd2runtime')
--- PodProbe 0.1.0: READ-ONLY HELLPOD PROBE (docs/research/carrier-families-F5FEE03DCFDB.md, "Support and deployable
+-- PodProbe 0.1.0: READ-ONLY HELLPOD PROBE (research/docs/carrier-families-F5FEE03DCFDB.md, "Support and deployable
 -- payloads"). Writes nothing. It observes the first per-call object that selects what a hellpod delivers: the pod's
 -- TransportComponent element ([game+0x3326518], 0x40 bytes each at +0x40):
 --     +0x0  the content resource hash (a weapon rack, a sentry, ...), copied from the beacon's dispatcher record when

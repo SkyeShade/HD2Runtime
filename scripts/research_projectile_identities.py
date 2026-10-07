@@ -49,7 +49,7 @@ from scan.settings import SettingsView  # noqa: E402
 OUTPUT = ROOT / 'research/projectile-identities-F5FEE03DCFDB.json'
 HINTS = ROOT / 'research/leads/reddit-projectile-id-hypotheses.csv'
 REVIEWED = ROOT / 'research/leads/reddit-projectile-id-hypotheses-reviewed.csv'
-DOC = ROOT / 'docs/research/projectile-identities-F5FEE03DCFDB.md'
+DOC = ROOT / 'research/docs/projectile-identities-F5FEE03DCFDB.md'
 COMPONENTS = ROOT / 'research/projectile-components-F5FEE03DCFDB.json'
 TYPES = 350
 

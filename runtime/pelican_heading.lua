@@ -1,5 +1,5 @@
 -- The Pelican's body heading while it is held (development only; PelicanGatlingProof 0.4.0;
--- docs/research/pelican-cas-F5FEE03DCFDB.md section 20e; research/pelican-F5FEE03DCFDB.json "heading"). Not exported by
+-- research/docs/pelican-cas-F5FEE03DCFDB.md section 20e; research/pelican-F5FEE03DCFDB.json "heading"). Not exported by
 -- api/hd2.lua.
 --
 -- In its hold (behaviour 667 stage 6) the Pelican's flight is in mode 1: its hover controller (game+0x3326DB0) owns its

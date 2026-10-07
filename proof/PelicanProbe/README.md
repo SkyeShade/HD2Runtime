@@ -1,7 +1,7 @@
 # PelicanProbe 0.1.0 (development only): the game's own Pelican, observed and held
 
 The first step toward Pelican Close Air Support. It answers, live, what the offline research
-(`docs/research/pelican-cas-F5FEE03DCFDB.md`) predicts from the game's code:
+(`research/docs/pelican-cas-F5FEE03DCFDB.md`) predicts from the game's code:
 
 - how the game's transport Pelican flies, hovers, releases, departs and is removed;
 - whether its cargo already exists when the Runtime first sees it (the research says yes: no per-call cargo window);

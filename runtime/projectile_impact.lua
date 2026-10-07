@@ -1,4 +1,4 @@
--- A projectile's own impact explosion, per projectile (development; docs/research/gas-eat-F5FEE03DCFDB.md). Not
+-- A projectile's own impact explosion, per projectile (development; research/docs/gas-eat-F5FEE03DCFDB.md). Not
 -- exported by api/hd2.lua: hd2.custom_stratagem weapons reach it (weapon:set_impact_explosion).
 --
 -- SpawnProjectile copies the row's impact explosion (+0x90) into the projectile's own hit record (+0x7C), and the

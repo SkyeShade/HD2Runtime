@@ -1,5 +1,5 @@
 -- The loaded Wwise plugin (bin/plugins/wwise_pluginw64_release.dll), proven against domains/wwise_plugin.lua
--- (scripts/generate_wwise_plugin.py; docs/research/wwise-plugin-bindings-F5FEE03DCFDB.md). Read-only: nothing here
+-- (scripts/generate_wwise_plugin.py; research/docs/wwise-plugin-bindings-F5FEE03DCFDB.md). Read-only: nothing here
 -- writes memory or calls the plugin.
 --
 -- prove(world): the module's image size and the exact bytes of every pinned instruction of the bindings the Runtime

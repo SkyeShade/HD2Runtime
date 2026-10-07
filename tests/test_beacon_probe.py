@@ -1,4 +1,4 @@
-"""proof/BeaconProbe 0.1.0 (read-only; docs/research/beacon-redirect-F5FEE03DCFDB.md): the probe's own addon on the
+"""proof/BeaconProbe 0.1.0 (read-only; research/docs/beacon-redirect-F5FEE03DCFDB.md): the probe's own addon on the
 offline event world with a beacon component manager laid out as the research found it ([game+0x346BF98] + 0x40 +
 0x1380; elements of 0x40 bytes with the type at +0xC; state of 0x8E8 bytes, activated at +0x8E4). It logs a beacon's
 creation, the Runtime updates before its activation (the redirect window), a type change, the activation and the

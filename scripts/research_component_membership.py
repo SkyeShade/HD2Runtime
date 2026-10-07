@@ -1,6 +1,6 @@
 """Can the component MEMBERSHIP of an entity type be changed by a mission-scoped data edit (no code patch), e.g. remove
 the AC-8's WeaponReload or give a weapon type the EAT-17's Backblast / WeaponMagazine, so that any weapon could become
-an EAT clone? (docs/research/component-membership-F5FEE03DCFDB.md). Read-only, offline.
+an EAT clone? (research/docs/component-membership-F5FEE03DCFDB.md). Read-only, offline.
 
 Proves on build F5FEE03DCFDB, from the pinned entity file, the game.dll image and the seven retained snapshots:
 

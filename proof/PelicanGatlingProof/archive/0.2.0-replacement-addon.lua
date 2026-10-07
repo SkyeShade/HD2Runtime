@@ -13,7 +13,7 @@ local hd2=require('mods/skyeshade/hd2runtime')
 --     attempt with the game's own destroy routine (not forced: the game's own ownership check stays): DESTROY lines;
 --   * GATLING UNIT: which engine unit functions exist and the Gatling's unit (mesh count); Ctrl+Shift+F3 hides the next
 --     mesh of the newest Gatling (its own render state) so the ground base's meshes can be identified.
--- PelicanGatlingProof 0.1.0: ONE RUNTIME PELICAN'S CHIN TURRET AS A GATLING TURRET (docs/research/pelican-cas-
+-- PelicanGatlingProof 0.1.0: ONE RUNTIME PELICAN'S CHIN TURRET AS A GATLING TURRET (research/docs/pelican-cas-
 -- F5FEE03DCFDB.md section 16). Development only; solo host only. Install with PelicanCasProof: each Pelican CAS
 -- Pelican (a Runtime-spawned, empty Pelican) is changed 3 s after it starts hovering, ONCE, in the current mode:
 --   * REPLACE (the default): the game's own spawn request creates a gatling_turret; the game's own attach routine attaches

@@ -1,5 +1,5 @@
 -- The thrown stratagem balls and their throwers (EXPERIMENTAL; read-only; research/peer-messaging-F5FEE03DCFDB.json
--- "callIn"; docs/research/runtime-peer-messaging-F5FEE03DCFDB.md, section 11). Nothing here writes the game.
+-- "callIn"; research/docs/runtime-peer-messaging-F5FEE03DCFDB.md, section 11). Nothing here writes the game.
 --
 -- A thrown ball is a networked game object (type 1169) of the call-in component [game+0x3326D98]. Its replicated state
 -- (+0x60, 0x28 each, the total count at +0x18 with the network copies) holds, on EVERY machine:

@@ -1,6 +1,6 @@
 """The in-mission teammate stratagem HUD (the panels the game shows while the stratagem key is held), read-only, proven on
 build F5FEE03DCFDB from the game.dll image and the retained mission snapshots
-(docs/research/teammate-hud-F5FEE03DCFDB.md).
+(research/docs/teammate-hud-F5FEE03DCFDB.md).
 
 1. Where it lives. The mission HUD (HUD system [game+0x346D538] +0x24E340) updates its squad container at +0x1F8C8
    (0x12EBECA / 0x12EBEDA -> 0x182D9E0). The container is drawn while its flags (+0) have bit 4 (0x182DA03..0x182DA10).

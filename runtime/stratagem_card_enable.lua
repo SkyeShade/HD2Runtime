@@ -1,4 +1,4 @@
--- THE GAME'S PER-CARD GREY HELPER (research cardEnable, research/stratagem-blocking-F5FEE03DCFDB.json; docs/research/
+-- THE GAME'S PER-CARD GREY HELPER (research cardEnable, research/stratagem-blocking-F5FEE03DCFDB.json; research/docs/
 -- stratagem-blocking-F5FEE03DCFDB.md). Development module: not exported by api/hd2.lua; its only caller is the
 -- carrier-in-slot probe's doubles (runtime/stratagem_blocking.lua enable, handed this module by its owner,
 -- runtime/custom_stratagems.lua).

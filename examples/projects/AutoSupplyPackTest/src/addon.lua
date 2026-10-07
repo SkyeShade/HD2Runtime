@@ -1,6 +1,6 @@
 local hd2=require('mods/skyeshade/hd2runtime')
 -- Live test for the equipment reads and hd2.actions.resupply_from_pack (docs/player-equipment.md,
--- docs/research/player-equipment-F5FEE03DCFDB.md). An auto-consuming Supply Pack: when the weapon in your hands runs
+-- research/docs/player-equipment-F5FEE03DCFDB.md). An auto-consuming Supply Pack: when the weapon in your hands runs
 -- low, your own B-1 Supply Pack uses one of its supplies on you, exactly as if you pressed the pack's own key (the
 -- game's own self-use: the same animation, one supply spent, the same refill). The "auto" part is this mod; Runtime
 -- only offers the reads and the one action.

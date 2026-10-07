@@ -1,5 +1,5 @@
 """Several mods editing support, sentry, backpack and drone weapon data at once
-(docs/research/support-sentry-conflict-F5FEE03DCFDB.md).
+(research/docs/support-sentry-conflict-F5FEE03DCFDB.md).
 
 A user report: "ARC-3 Arc Thrower with AX/LAS-5 Rover: only the Arc Thrower works; looks like it conflicts with mods
 that modify sentry turret values". These tests pin what the Runtime does with such combinations:

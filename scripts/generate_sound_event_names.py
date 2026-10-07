@@ -1,7 +1,7 @@
 """Generate domains/sound_event_names.lua: a name for every Wwise id the sound catalogues hold.
 
 The game's Wwise plugin takes every event, game parameter, switch and state only by name (it hashes the name, FNV-1
-32; docs/research/wwise-plugin-bindings-F5FEE03DCFDB.md). The catalogues (domains/weapon_sounds.lua,
+32; research/docs/wwise-plugin-bindings-F5FEE03DCFDB.md). The catalogues (domains/weapon_sounds.lua,
 domains/sound_events.lua) know most ids only as numbers, so the Runtime posts each through a name whose hash is that id
 (runtime/wwise_names.lua). Searching takes about 40 ms an id; this runs that very Lua code offline on the game's own
 lua51.dll, in parallel, for every catalogued event id (both catalogues) and every unnamed game parameter, switch group,

@@ -1,4 +1,4 @@
-"""Loadout pod research (docs/research/loadout-pod-F5FEE03DCFDB.md): can a custom stratagem's pod deliver a JAR-5
+"""Loadout pod research (research/docs/loadout-pod-F5FEE03DCFDB.md): can a custom stratagem's pod deliver a JAR-5
 Dominator primary configured full-auto, plus an M-1000 Maxigun backpack that feeds that JAR-5's ammunition, under the
 instance-local rule? Read-only, offline: the game.dll image of the retained snapshots, the pinned entity tables (scan
 toolkit) and the seven retained snapshots of build F5FEE03DCFDB. Nothing is written anywhere.

@@ -1,6 +1,6 @@
 # PelicanTurretProbe 0.3.0 (development only, read-only): what the turret fires, and what of it is per instance
 
-**Nothing is written, created or called.** The research (docs/research/pelican-cas-F5FEE03DCFDB.md, section 15) found:
+**Nothing is written, created or called.** The research (research/docs/pelican-cas-F5FEE03DCFDB.md, section 15) found:
 
 - **What a turret fires.** Its weapon record's flags name the components it has. The chin turret and the Gatling
   Sentry are both *magazine* weapons. After every shot, the game re-derives the magazine's "chambered" type from:
@@ -39,7 +39,7 @@ The rest of this page is 0.1.0's, with the build names updated.
 
 # PelicanTurretProbe 0.1.0: the Pelican's chin turret and the Gatling Sentry, observed
 
-**Nothing is written, spawned or called.** Offline research (docs/research/pelican-cas-F5FEE03DCFDB.md, "The Pelican's
+**Nothing is written, spawned or called.** Offline research (research/docs/pelican-cas-F5FEE03DCFDB.md, "The Pelican's
 turret") found:
 
 - the transport Pelican (`shuttle_transport`, ours) and the extraction Pelican (`shuttle_gunship`) both mount the

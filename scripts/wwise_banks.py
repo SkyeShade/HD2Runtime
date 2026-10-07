@@ -1,7 +1,7 @@
 """Read the game's Wwise sound banks (wwise_bank resources) offline: chunks, HIRC objects, events and actions, the Init
 bank's STMG (state groups, switch groups, game parameters), the sound-structure nodes (parent, children, switch and
 state groups, RTPCs) and the Stingray wwise_metadata records. Pure parsing, no game process; reused by
-scripts/research_sound_events.py (docs/research/sound-events-F5FEE03DCFDB.md) and scripts/research_weapon_sounds.py.
+scripts/research_sound_events.py (research/docs/sound-events-F5FEE03DCFDB.md) and scripts/research_weapon_sounds.py.
 
 The bank layout is this build's (Wwise as shipped with build F5FEE03DCFDB): a Stingray header (magic A5F4A378, u32,
 u64 id) before BKHD; HIRC objects are (u8 kind, u32 size, u32 id, body); a Sound's source is 18 bytes (u32 plugin,

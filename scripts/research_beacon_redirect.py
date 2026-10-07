@@ -1,4 +1,4 @@
-"""Beacon redirect and delivery semantics (docs/research/beacon-redirect-F5FEE03DCFDB.md): the facts a per-call beacon
+"""Beacon redirect and delivery semantics (research/docs/beacon-redirect-F5FEE03DCFDB.md): the facts a per-call beacon
 redirect would rest on, which the live BeaconProbe (proof/BeaconProbe) cannot see by itself. Read-only, offline: the
 game.dll image and the seven retained snapshots of build F5FEE03DCFDB. Nothing is written.
 

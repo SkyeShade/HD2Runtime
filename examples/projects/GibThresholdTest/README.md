@@ -8,7 +8,7 @@ Live test for the whole-body gib ("splootch") threshold: `hd2.fields.gore.whole_
 (after armor, the zone multiplier and the durable mix; Electricity counts double). `-1` means it never bursts.
 
 **When it applies.** The value is read at hit time, so bugs that are already alive follow a change at once. The field
-needs `allow_unverified_effect` until this test passes. Research: `docs/research/enemy-gib-threshold-F5FEE03DCFDB.md`.
+needs `allow_unverified_effect` until this test passes. Research: `research/docs/enemy-gib-threshold-F5FEE03DCFDB.md`.
 
 ## 0.2.0: the extreme test
 

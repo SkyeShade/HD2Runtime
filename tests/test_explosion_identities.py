@@ -1,4 +1,4 @@
-"""Explosion identities (scripts/research_explosion_identities.py, docs/research/explosion-identities-F5FEE03DCFDB.md).
+"""Explosion identities (scripts/research_explosion_identities.py, research/docs/explosion-identities-F5FEE03DCFDB.md).
 
 Pins the research output: every ExplosionSettings type is listed; a name comes only from a typed reference (a projectile
 row, a beam row, an entity component member, a customization delta), a code literal attributed to a behavior or ability
@@ -14,7 +14,7 @@ from support import ROOT
 import build_profile
 
 OUTPUT = ROOT / 'research/explosion-identities-F5FEE03DCFDB.json'
-DOC = ROOT / 'docs/research/explosion-identities-F5FEE03DCFDB.md'
+DOC = ROOT / 'research/docs/explosion-identities-F5FEE03DCFDB.md'
 ACTIONS = json.loads((ROOT / 'research/event-actions-F5FEE03DCFDB.json').read_text(encoding='utf-8'))
 DATALIB = build_profile.datalibrary()
 HAVE_DATALIB = (DATALIB / 'generated_entities.dl_bin').is_file() and (DATALIB / 'dl_library.dl_typelib').is_file()

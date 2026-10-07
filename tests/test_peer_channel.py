@@ -1,4 +1,4 @@
-"""The Runtime-to-Runtime peer channel (runtime/peer_channel.lua; docs/research/runtime-peer-messaging-F5FEE03DCFDB.md
+"""The Runtime-to-Runtime peer channel (runtime/peer_channel.lua; research/docs/runtime-peer-messaging-F5FEE03DCFDB.md
 section 2; research/peer-messaging-F5FEE03DCFDB.json): the game's PlayFab lobby member data through the engine table's
 two member-data slots, on the offline event world (tests/event_world_fixture.lua W.lobby). The two engine calls are
 recorded, never executed. Every guard refuses before a call; posts follow the join delay, the interval, the

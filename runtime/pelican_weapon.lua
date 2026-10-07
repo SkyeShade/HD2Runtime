@@ -1,5 +1,5 @@
 -- The Pelican chin turret's own weapon behaviour (development only; PelicanWeaponBehaviorProof;
--- docs/research/pelican-cas-F5FEE03DCFDB.md section 17). Not exported by api/hd2.lua.
+-- research/docs/pelican-cas-F5FEE03DCFDB.md section 17). Not exported by api/hd2.lua.
 --
 -- One Runtime-spawned Pelican's own chin turret (shuttle_gunship_turret_hmg: its entity, model, node 41 and targeting
 -- AI stay) takes a configurable weapon behaviour, per instance, without changing any shared definition
@@ -366,7 +366,7 @@ function M.gatling_rpm(world,turret)
 end
 
 ------------------------------------------------------------------------------------ the firing sound, per instance --
--- docs/research/pelican-maelstrom-sound-F5FEE03DCFDB.md, docs/research/weapon-sounds-F5FEE03DCFDB.md; the catalogue
+-- research/docs/pelican-maelstrom-sound-F5FEE03DCFDB.md, research/docs/weapon-sounds-F5FEE03DCFDB.md; the catalogue
 -- runtime/weapon_sounds.lua (domains/weapon_sounds.lua). A projectile weapon's firing sound is part of its RESOLVED
 -- ProjectileWeapon record (its own copy when it has one): every shot reads its per-shot Wwise event (+0x104) and
 -- whether that goes out as MIDI notes (+0xED) from that record (0x612A13 -> 0x614BAD, 0x614C4D); the update posts the
@@ -1216,7 +1216,7 @@ function M.restore_ai(world,turret,label)
 end
 M.DEATH_STAGE=11
 
--- THE CHIN TURRET'S OWN INVINCIBLE BYTE (r44, defence in depth; docs/research/chin-turret-invulnerability-F5FEE03DCFDB.md).
+-- THE CHIN TURRET'S OWN INVINCIBLE BYTE (r44, defence in depth; research/docs/chin-turret-invulnerability-F5FEE03DCFDB.md).
 -- The turret's HealthComponent ext entry (manager game+0x3326688, ext array +0x1060, 0x1C bytes per entity) holds the
 -- game's per-entity `invincible` byte at +0x18 (network field 0x95417727; the game sets it per entity itself, from some
 -- AIs and seats). ApplyDamage returns before any health, state, life or kill work when it is set (0x92388C), and the
@@ -1387,7 +1387,7 @@ function M.aim_error(s,root,speed)
 end
 
 --------------------------------------------------------------------------------------------- the aim point, lowered --
--- One turret's aim point, lowered (research/custom-payloads pelicanAim; docs/research/pelican-cas-F5FEE03DCFDB.md
+-- One turret's aim point, lowered (research/custom-payloads pelicanAim; research/docs/pelican-cas-F5FEE03DCFDB.md
 -- section 29; build/test-artifacts/aim-research/aim-point.md). The game aims a turret at each target type's single aim
 -- node (T): for a Terminid about 1.2 to 1.5 m above its feet, so the Pelican's rounds pass over it (live r13: the shot
 -- 0.44 m above T, T 1.52 m above the root). The turret's OWN targeting record carries the game's aim override: while t
@@ -2044,7 +2044,7 @@ M.HOLD_MIN=1.25
 M.GRACE=0.5
 M.REJECT=5
 M.AIM_SECONDS=1.5         -- s aiming without firing before an unaimable target is let go (was 3)
--- Faster acquisition and firing (docs/research/pelican-cas-F5FEE03DCFDB.md section 30; research/custom-payloads
+-- Faster acquisition and firing (research/docs/pelican-cas-F5FEE03DCFDB.md section 30; research/custom-payloads
 -- pelicanIdle; build/test-artifacts/ai-research/idle-ai.md): behaviour 213 idles on its own timers, a 1 s re-pick while it
 -- searches (stages 2 / 3) and a 0.5 s fire check while it aims (stage 5, within 3 degrees). With M.AGGRESSIVE the
 -- controller makes them due NOW (the same guarded 8-byte write as the lock's hold), so the game's own logic picks and

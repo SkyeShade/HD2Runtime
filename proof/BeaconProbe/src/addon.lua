@@ -1,5 +1,5 @@
 local hd2=require('mods/skyeshade/hd2runtime')
--- BeaconProbe 0.1.0: READ-ONLY (docs/research/beacon-redirect-F5FEE03DCFDB.md). Development only. Writes nothing.
+-- BeaconProbe 0.1.0: READ-ONLY (research/docs/beacon-redirect-F5FEE03DCFDB.md). Development only. Writes nothing.
 -- Every Runtime update it reads the game's stratagem beacons (research/arbitrary-carrier-F5FEE03DCFDB.json):
 --   the beacon component manager = [game+0x346BF98] + 0x40 (systems) + 0x1380 (pinned: 0xFDAF4B, 0x5712FB);
 --   +0x34 the instance count, +0x38 the count with state, +0x60 entity handles, +0x68 state (0x8E8 each, +0x8E4

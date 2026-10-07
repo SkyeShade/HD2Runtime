@@ -1,5 +1,5 @@
 """Can a support weapon's OWN type become a custom variant of itself for one mission, with a Runtime-owned model "on the
-side" (docs/research/weapon-variants-F5FEE03DCFDB.md)? Read-only, offline.
+side" (research/docs/weapon-variants-F5FEE03DCFDB.md)? Read-only, offline.
 
 The expendable clone (scripts/research_carrier_weapon_clone.py) turns an unused weapon type of the donor's component
 class into the donor. A weapon whose class has ONE member (the M-1000 Maxigun: WindUp, LinkedAmmo and the ammo chain)

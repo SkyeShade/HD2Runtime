@@ -2,7 +2,7 @@
 
 **Writes nothing.** It observes the first per-call object that selects what a hellpod delivers: the pod's
 **TransportComponent** element (`[game+0x3326518]`, 0x40 bytes each), from the offline research in
-`docs/research/carrier-families-F5FEE03DCFDB.md`:
+`research/docs/carrier-families-F5FEE03DCFDB.md`:
 
 | Member | Meaning |
 | --- | --- |

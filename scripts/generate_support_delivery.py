@@ -1,6 +1,6 @@
 """Generate domains/support_delivery.lua: the hellpod a support beacon spawns and the rack slots naming its exact weapon
 entities, which runtime/support_pods.lua (development) reads read-only, with the pinned code it re-proves first, from
-research/support-delivery-F5FEE03DCFDB.json (docs/research/gas-eat-F5FEE03DCFDB.md).
+research/support-delivery-F5FEE03DCFDB.json (research/docs/gas-eat-F5FEE03DCFDB.md).
 """
 from __future__ import annotations
 

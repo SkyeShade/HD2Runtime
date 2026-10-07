@@ -69,7 +69,7 @@ replacement entity to be live with `WeaponData`. The slot must still hold the ex
 
 These fields are on `hd2.vehicle(name)`. They need `allow_unverified_effect` until a live test passes
 (examples/projects/VehicleTuningTest). Their meaning is proven from the native code that reads them
-(research/vehicle-mech-components-F5FEE03DCFDB.json, docs/research/vehicle-mech-components-F5FEE03DCFDB.md).
+(research/vehicle-mech-components-F5FEE03DCFDB.json, research/docs/vehicle-mech-components-F5FEE03DCFDB.md).
 
 | Field | Vehicles | Backing | Range | When it applies |
 | --- | --- | --- | --- | --- |

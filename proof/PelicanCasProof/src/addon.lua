@@ -1,5 +1,5 @@
 local hd2=require('mods/skyeshade/hd2runtime')
--- PelicanCasProof 0.1.1: THE RED-BEACON CARRIER (docs/research/pelican-cas-F5FEE03DCFDB.md, "Carrier allocation").
+-- PelicanCasProof 0.1.1: THE RED-BEACON CARRIER (research/docs/pelican-cas-F5FEE03DCFDB.md, "Carrier allocation").
 -- Development only; solo host; no multiplayer, no weapons.
 -- 0.1.0 is LIVE-PROVEN and unchanged except for the carrier choice: its carrier was the Orbital EMS Strike, an orbital
 -- bombardment whose beacon is BLUE. "Orbital" (the delivery family) and the call-in class never meant offensive. Now the

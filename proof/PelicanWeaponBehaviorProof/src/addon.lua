@@ -1,5 +1,5 @@
 local hd2=require('mods/skyeshade/hd2runtime')
--- PelicanWeaponBehaviorProof 0.1.0: THE PELICAN'S OWN CHIN TURRET WITH A CONFIGURABLE WEAPON BEHAVIOUR (docs/research/
+-- PelicanWeaponBehaviorProof 0.1.0: THE PELICAN'S OWN CHIN TURRET WITH A CONFIGURABLE WEAPON BEHAVIOUR (research/docs/
 -- pelican-cas-F5FEE03DCFDB.md section 17). Development only; solo host only. Install with PelicanCasProof.
 -- The chin turret keeps its entity, model, node 41 and targeting AI. 3 s into each Pelican CAS hover, once, through
 -- runtime/pelican_weapon.lua (every write per instance and guarded; nothing shared):

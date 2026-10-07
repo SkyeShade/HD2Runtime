@@ -223,7 +223,7 @@ function M.create()
         assert(descriptor~=nil and out~=nil)
         return tonumber(out[0])
     end
-    -- The Pelican Gatling turret experiment (PelicanGatlingProof; docs/research/pelican-cas-F5FEE03DCFDB.md section 16;
+    -- The Pelican Gatling turret experiment (PelicanGatlingProof; research/docs/pelican-cas-F5FEE03DCFDB.md section 16;
     -- research/pelican-F5FEE03DCFDB.json "gatling"). Five native calls, used only by runtime/pelican_gatling.lua after it
     -- re-proved each routine's exact entry bytes and every Gatling pin, from the Runtime's own update on the game
     -- thread, in a mission as the solo host, for ONE Runtime-spawned Pelican and its own chin turret. None is exposed

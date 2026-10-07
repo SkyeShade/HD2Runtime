@@ -1,5 +1,5 @@
 -- A support beacon's hellpod and the exact weapon entities its rack holds (development; read-only;
--- docs/research/gas-eat-F5FEE03DCFDB.md, "Capture"). Not exported by api/hd2.lua: hd2.custom_stratagem call contexts
+-- research/docs/gas-eat-F5FEE03DCFDB.md, "Capture"). Not exported by api/hd2.lua: hd2.custom_stratagem call contexts
 -- reach it (ctx:spawned_weapons).
 --
 -- research/support-delivery-F5FEE03DCFDB.json: when a beacon activates, the dispatcher creates the pod and the pod's

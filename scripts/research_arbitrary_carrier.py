@@ -1,4 +1,4 @@
-"""Arbitrary carrier research (docs/research/arbitrary-carrier-F5FEE03DCFDB.md): can ANY stratagem, the first target
+"""Arbitrary carrier research (research/docs/arbitrary-carrier-F5FEE03DCFDB.md): can ANY stratagem, the first target
 being the Eagle Strafing Run, be the identity of a custom stratagem whose gameplay the Runtime supplies? Where does a
 call's native gameplay get chosen, and what of it is shared, per player, or per call? Read-only, offline: the game.dll
 image and the seven retained snapshots of build F5FEE03DCFDB, and research/offensive-stratagem-runtime. Nothing is

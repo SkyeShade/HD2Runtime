@@ -34,7 +34,7 @@ RANGE = {**{field: (0, 500) for field in SPREAD_RECOIL[:2]}, **{field: (0, 100) 
 TIMING = {**{field: 'spawn' for field in SPREAD_RECOIL}, 'windup.wind_up_seconds': 'live',
     'windup.wind_down_seconds': 'live', 'beam.fire_rate': 'unverified', 'turret.pitch_yaw_coupling': 'live',
     'targeting.side_range': 'spawn', 'targeting.rear_range': 'spawn'}
-# The research baselines (docs/research/sentry-components-F5FEE03DCFDB.md sections 4, 5, 7, 8).
+# The research baselines (research/docs/sentry-components-F5FEE03DCFDB.md sections 4, 5, 7, 8).
 BASELINE = {('A/MG-43 Machine Gun Sentry', 'weapon.horizontal_spread'): 10.0,
     ('A/M-12 Mortar Sentry', 'weapon.vertical_spread'): 100.0, ('A/MLS-4X Rocket Sentry', 'weapon.vertical_spread'): 15.0,
     ('A/AC-8 Autocannon Sentry', 'weapon.horizontal_spread'): 2.0,

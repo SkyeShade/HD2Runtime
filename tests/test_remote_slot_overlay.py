@@ -1,5 +1,5 @@
 """Other players' custom picks on the loadout screen (display only; runtime/stratagem_slot_overlay.lua remote_panels and
-remote_slots; research/peer-messaging-F5FEE03DCFDB.json "panels"; docs/research/runtime-peer-messaging-F5FEE03DCFDB.md
+remote_slots; research/peer-messaging-F5FEE03DCFDB.json "panels"; research/docs/runtime-peer-messaging-F5FEE03DCFDB.md
 sections 13 and 14), on the offline loadout screen of tests/test_stratagem_slot_overlay.py with a teammate panel laid out
 as the research found it (panel k = ui + 0x53A78 + k * 0x1EE18; its peer, its record; the slot panel +0x5B78 with its
 bound record, local flag and slot widgets). THE SYNCED TABLE IS THE AUTHORITY (live 2026-10-04: aboard the ship every

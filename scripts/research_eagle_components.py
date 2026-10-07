@@ -1,5 +1,5 @@
 """Offline research: every Eagle-related structure of build F5FEE03DCFDB, compared across ALL Eagles
-(docs/research/eagle-components-F5FEE03DCFDB.md -> research/eagle-components-F5FEE03DCFDB.json).
+(research/docs/eagle-components-F5FEE03DCFDB.md -> research/eagle-components-F5FEE03DCFDB.json).
 
 Read-only and reproducible: the pinned entity file and type library (scripts/scan/tables), the settings rows
 (scripts/scan/settings), the game.dll image and the seven retained snapshots (scripts/scan/xref, instances). Nothing is

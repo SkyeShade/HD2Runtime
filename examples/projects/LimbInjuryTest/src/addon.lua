@@ -1,6 +1,6 @@
 local hd2=require('mods/skyeshade/hd2runtime')
 -- Live test for hd2.actions.injure (docs/event-scripting.md#limb-injuries,
--- docs/research/player-injury-path-F5FEE03DCFDB.md). Runtime queues damage at one limb of YOUR OWN avatar through the
+-- research/docs/player-injury-path-F5FEE03DCFDB.md). Runtime queues damage at one limb of YOUR OWN avatar through the
 -- game's own damage request, with the template of the game's own VG-70 Variable self-damage (its third fire mode
 -- hurts the shooter's right shoulder the same way). The game applies it later in the frame like any hit on that
 -- limb: the limb's zone loses the damage (arms 35, legs 45, chest 60, head 85) and main health loses its share.

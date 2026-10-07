@@ -2500,7 +2500,7 @@ The proof itself writes no memory.
 which mode ("from the arrival" or "from the call") was used.
 
 **Next:** the carrier no longer needs to be a payload-compatible orbital. See
-`docs/research/arbitrary-carrier-F5FEE03DCFDB.md`: the beacon's type, read once at activation, is the per-call boundary
+`research/docs/arbitrary-carrier-F5FEE03DCFDB.md`: the beacon's type, read once at activation, is the per-call boundary
 where the identity carrier's gameplay can be replaced.
 
 ## A virtual card in the ship loadout picker: research (2026-10-02, offline)
@@ -4433,9 +4433,9 @@ Examples: `proof/PelicanCasExample`, `proof/GasBarrageExample`, `proof/GasEatExa
 
 Related research:
 
-- the Gas EAT: `docs/research/gas-eat-F5FEE03DCFDB.md`;
-- the payload families: `docs/research/custom-payloads-F5FEE03DCFDB.md`;
-- Stratagem MultiSelect and the selector: `docs/research/multi-stratagem-select-F5FEE03DCFDB.md`.
+- the Gas EAT: `research/docs/gas-eat-F5FEE03DCFDB.md`;
+- the payload families: `research/docs/custom-payloads-F5FEE03DCFDB.md`;
+- Stratagem MultiSelect and the selector: `research/docs/multi-stratagem-select-F5FEE03DCFDB.md`.
 
 The development proofs described above stay as the known-good references.
 

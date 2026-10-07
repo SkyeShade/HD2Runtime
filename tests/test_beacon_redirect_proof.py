@@ -1,4 +1,4 @@
-"""proof/BeaconRedirectProof 0.3.0 (docs/research/beacon-redirect-F5FEE03DCFDB.md): the proof's own addon on the offline
+"""proof/BeaconRedirectProof 0.3.0 (research/docs/beacon-redirect-F5FEE03DCFDB.md): the proof's own addon on the offline
 payload world with a beacon manager, a marker component and barrage instances. Type-only mode (default): an AC-8
 Autocannon beacon (25) is redirected to 136 in its first update; a native 120mm thrown first is observed read-only as
 the control; each beacon's barrage instance is attributed to it (created in its activation's update) and its start

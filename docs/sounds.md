@@ -144,7 +144,7 @@ the unit's root node is used (an arbitrary node index is not range-checked by th
 - Changing calls (pause, resume, parameters, switches, triggers) share the mod's budget with posts (32 a second);
   `is_playing` and `elapsed` do not.
 
-**Not offered, and why** (docs/research/wwise-plugin-bindings-F5FEE03DCFDB.md):
+**Not offered, and why** (research/docs/wwise-plugin-bindings-F5FEE03DCFDB.md):
 
 - `Wwise.set_state`, `WwiseWorld.set_global_parameter`: engine-wide (the game's music, mix and environment states and
   its global parameters); a mod's value would stay until the game sets its own, and nothing can restore the game's

@@ -4,7 +4,7 @@
 -- stingray.WwiseWorld.trigger_event(Wwise.wwise_world(world), name[, source]) on the game's own Game World
 -- (ui_sound.game_world: the Application.worlds value at the Game World's position in the engine's world array). Every
 -- binding's arguments are read from the plugin's code (bin/plugins/wwise_pluginw64_release.dll;
--- docs/research/wwise-plugin-bindings-F5FEE03DCFDB.md, research/wwise-plugin-F5FEE03DCFDB.json):
+-- research/docs/wwise-plugin-bindings-F5FEE03DCFDB.md, research/wwise-plugin-F5FEE03DCFDB.json):
 --   * trigger_event 0xD9C0: (WwiseWorld, name STRING, [source]): the name is strlen'd and hashed by 0xD4A70 (AK
 --     GetIDFromString: FNV-1 32 of the lower-cased name; a number would be hashed as its decimal text); the source from
 --     arg 3 by the resolver 0xA6C0: absent = the world's own default source (+0x4148; an explicit nil counts as present

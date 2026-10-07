@@ -1,4 +1,4 @@
-"""The arbitrary carrier research (docs/research/arbitrary-carrier-F5FEE03DCFDB.md,
+"""The arbitrary carrier research (research/docs/arbitrary-carrier-F5FEE03DCFDB.md,
 research/arbitrary-carrier-F5FEE03DCFDB.json): read-only, its pins identical in every snapshot, and the facts the
 report rests on: the delivery kinds per family, the Eagle row (one aircraft payload, linked Eagle Rearm), the beacon's
 type read once at activation by the spawn dispatcher, and the bombardment private copies."""

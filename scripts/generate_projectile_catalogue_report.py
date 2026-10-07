@@ -1,4 +1,4 @@
-"""Generate docs/research/projectile-components-F5FEE03DCFDB.md, the human-readable projectile component catalogue, from
+"""Generate research/docs/projectile-components-F5FEE03DCFDB.md, the human-readable projectile component catalogue, from
 research/projectile-components-F5FEE03DCFDB.json (scripts/research_projectile_components.py).
 """
 from __future__ import annotations
@@ -9,7 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 RESEARCH = ROOT / 'research/projectile-components-F5FEE03DCFDB.json'
-OUTPUT = ROOT / 'docs/research/projectile-components-F5FEE03DCFDB.md'
+OUTPUT = ROOT / 'research/docs/projectile-components-F5FEE03DCFDB.md'
 TITLES = {'visual': 'Visual components', 'damage': 'Direct-damage components',
     'impact_explosion': 'Impact-explosion components', 'ballistics': 'Ballistic profiles'}
 LIVE = {'observed': 'OBSERVED live on a Runtime-owned row', 'verified': 'VERIFIED live on a Runtime-owned row',

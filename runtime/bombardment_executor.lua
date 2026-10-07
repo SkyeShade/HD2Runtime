@@ -1,4 +1,4 @@
--- The Runtime bombardment executor (development only; docs/research/beacon-redirect-F5FEE03DCFDB.md, "The Runtime
+-- The Runtime bombardment executor (development only; research/docs/beacon-redirect-F5FEE03DCFDB.md, "The Runtime
 -- bombardment executor"). Not exported by api/hd2.lua.
 --
 -- It fires a vanilla shell (a ProjectileInfo type, e.g. the Orbital Gas Strike's shell 197) in a barrage pattern through

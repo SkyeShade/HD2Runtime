@@ -1,5 +1,5 @@
 -- The game's own BLOCKED stratagem card state, for vanilla carrier stratagems a selected custom stratagem reserves
--- (docs/research/stratagem-blocking-F5FEE03DCFDB.md; research/stratagem-blocking-F5FEE03DCFDB.json). Development
+-- (research/docs/stratagem-blocking-F5FEE03DCFDB.md; research/stratagem-blocking-F5FEE03DCFDB.json). Development
 -- module: not exported by api/hd2.lua; its caller (the custom stratagem owner) computes the reservations.
 --
 -- What the game does for an item Arrowhead disables: the online override data sets the catalogue item's disabled flag;
@@ -407,7 +407,7 @@ function M.release(world,dt)return M.apply(world,{},dt)end
 -- THE CARRIER-IN-SLOT PROBE'S DOUBLES (0.3.0; the user's rule of 2026-10-07: a custom carrier slot never locks its
 -- carrier out). The game greys every type the edited record already holds: the card's ENABLED byte (card list +
 -- 0x92DC2 + i), 0 from the grid build and from the grey refresh after every pick; both select paths refuse a greyed card
--- exactly as a blocked one. Stratagem MultiSelect (a research lead only, docs/research/multi-stratagem-select-
+-- exactly as a blocked one. Stratagem MultiSelect (a research lead only, research/docs/multi-stratagem-select-
 -- F5FEE03DCFDB.md) re-enables greyed cards with the game's card-enable call and the game then puts the same stratagem in
 -- several slots. 0.3.1: through that same call, the game's per-card grey helper (research cardEnable: the enabled byte,
 -- and for a realized card its grey bit and native redraw), so the card also LOOKS pickable (live r36: the byte alone,

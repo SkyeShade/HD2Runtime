@@ -1,4 +1,4 @@
--- Runtime public-matchmaking safety (docs/research/matchmaking-safety-F5FEE03DCFDB.md;
+-- Runtime public-matchmaking safety (research/docs/matchmaking-safety-F5FEE03DCFDB.md;
 -- research/matchmaking-safety-F5FEE03DCFDB.json; domains/matchmaking_safety.lua). The conservative rule: while
 -- HD2Runtime is active, Public matchmaking is off. A Runtime user must not end up with strangers by accident:
 --

@@ -1,7 +1,7 @@
 """Generate domains/custom_payloads.lua: the Eagle jet and its rockets, the Eagle rows and Eagle Rearm, and the reviewed
 explosion donors beyond the Gas Strike, which the custom stratagem payload families (runtime/custom_eagles.lua,
 runtime/explosion_donors.lua; development) read and re-prove first, from research/custom-payloads-F5FEE03DCFDB.json
-(docs/research/custom-payloads-F5FEE03DCFDB.md).
+(research/docs/custom-payloads-F5FEE03DCFDB.md).
 """
 from __future__ import annotations
 

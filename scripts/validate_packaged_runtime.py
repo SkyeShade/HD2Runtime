@@ -2923,7 +2923,7 @@ end
 # restore (6) and the conversion undone (1).
 EXTRAS['proof-gas-barrage-cooldown'] = {'menu': MENU_STUB, 'after': PROOF_GAS_BARRAGE_COOLDOWN, 'seedPayload': True,
     'readOnly': True}
-# BeaconProbe 0.1.0 (read-only; docs/research/beacon-redirect-F5FEE03DCFDB.md) on the shipped artifact and the snapshot's
+# BeaconProbe 0.1.0 (read-only; research/docs/beacon-redirect-F5FEE03DCFDB.md) on the shipped artifact and the snapshot's
 # real game.dll and memory: the probe loads, its 27 pins prove on the real code, the beacon manager path
 # ([game+0x346BF98] + 0x40 + 0x1380) reads a plausible manager (the snapshots hold no beacon: none is reported created),
 # and in a mission it reports every player's record. Read-only: no overlay write.
@@ -2948,7 +2948,7 @@ return function(frame,watches,counts,lines)
 end
 """
 EXTRAS['proof-beacon-probe'] = {'after': PROOF_BEACON_PROBE, 'readOnly': True}
-# BeaconRedirectProof 0.3.0, the per-beacon redirect (runtime/beacon_redirect.lua; docs/research/beacon-redirect-
+# BeaconRedirectProof 0.3.0, the per-beacon redirect (runtime/beacon_redirect.lua; research/docs/beacon-redirect-
 # F5FEE03DCFDB.md) on the shipped artifact and the snapshot's real game.dll and memory; late resource lookups disabled,
 # so runtime/beacon_redirect.lua must have been loaded at startup from the archive. On every snapshot: the proof loads,
 # the module's pins prove on the real code, the beacon manager reads. Aboard the ship nothing is armed or written. On a
@@ -3074,7 +3074,7 @@ end
 # beacon (10 overlay writes) and the redirect (1 guarded write), the simulated activation (6), the second beacon (9) and
 # the timing transaction.
 EXTRAS['proof-beacon-redirect'] = {'menu': MENU_STUB, 'after': PROOF_BEACON_REDIRECT, 'readOnly': True}
-# BeaconTimingProof 0.1.0, the development beacon API (runtime/beacons.lua; docs/research/beacon-redirect-F5FEE03DCFDB.md,
+# BeaconTimingProof 0.1.0, the development beacon API (runtime/beacons.lua; research/docs/beacon-redirect-F5FEE03DCFDB.md,
 # "The beacon API") on the shipped artifact and the snapshot's real game.dll and memory; late resource lookups
 # disabled, so runtime/beacons.lua must have been loaded at startup from the archive. Aboard the ship nothing is armed
 # or written. On a mission snapshot (default mode): an AC-8 beacon is SIMULATED in the real manager's own heap arrays
@@ -3248,7 +3248,7 @@ return function(frame,watches,counts,lines)
 end
 """
 EXTRAS['proof-pod-probe'] = {'after': PROOF_POD_PROBE, 'readOnly': True}
-# PelicanProbe 0.1.0 (runtime/pelicans.lua, runtime/carrier_allocator.lua; docs/research/pelican-cas-F5FEE03DCFDB.md) on
+# PelicanProbe 0.1.0 (runtime/pelicans.lua, runtime/carrier_allocator.lua; research/docs/pelican-cas-F5FEE03DCFDB.md) on
 # the shipped artifact and the snapshot's real game.dll and memory, late resource lookups disabled (both modules must
 # have been loaded at startup from the archive). Aboard the ship: the read-only carrier allocation is logged (or waits
 # for the account catalogue). In a mission: the Pelican pins prove on the real code, the hold watch runs, the real
@@ -3354,7 +3354,7 @@ return function(frame,watches,counts,lines)
 end
 """
 EXTRAS['proof-pelican-spawn'] = {'after': PROOF_PELICAN_SPAWN, 'readOnly': True}
-# PelicanCasProof 0.1.1 (Pelican Close Air Support with a RED-beacon carrier: docs/research/pelican-cas-F5FEE03DCFDB.md,
+# PelicanCasProof 0.1.1 (Pelican Close Air Support with a RED-beacon carrier: research/docs/pelican-cas-F5FEE03DCFDB.md,
 # "Carrier allocation"; 0.1.0 live-proven with the blue Orbital EMS Strike) on the shipped artifact and
 # the snapshot's real StratagemSettings, account catalogue, text registry, mission record and clock; late resource
 # lookups disabled, so the allocator, the beacon API, the slot cooldown, the Pelican modules and the carrier lifecycle
@@ -3503,7 +3503,7 @@ return function(frame,watches,counts,lines)
 end
 """
 # PelicanOrbitProof 0.2.0 (runtime/pelicans.lua retarget, now aligned 4-byte members, and the orbit with its entry:
-# docs/research/pelican-cas-F5FEE03DCFDB.md, "The orbit") on the shipped artifact and the snapshot's real game.dll and memory: the proof loads; the Pelican pins (the
+# research/docs/pelican-cas-F5FEE03DCFDB.md, "The orbit") on the shipped artifact and the snapshot's real game.dll and memory: the proof loads; the Pelican pins (the
 # retarget evidence: the flight update reading its target every frame, the release's one push, the only other writer)
 # prove on the real code; nothing is written by the proof. The orbit driver and the retarget refuse anything but a
 # held Runtime Pelican, writing nothing: aboard the ship (NOT_IN_MISSION), and in a mission for a Pelican the Runtime
@@ -3542,7 +3542,7 @@ return function(frame,watches,counts,lines)
 end
 """
 EXTRAS['proof-pelican-orbit'] = {'after': PROOF_PELICAN_ORBIT, 'readOnly': True}
-# ExtractionPelicanProbe 0.1.0 and PelicanTurretProbe 0.3.0 (read-only; docs/research/pelican-cas-F5FEE03DCFDB.md, "Pelican
+# ExtractionPelicanProbe 0.1.0 and PelicanTurretProbe 0.3.0 (read-only; research/docs/pelican-cas-F5FEE03DCFDB.md, "Pelican
 # variants" and "The Pelican's turret") on the shipped artifact and the snapshot's real memory: each probe loads and writes
 # nothing; runtime/pelicans.lua's read-only readers, loaded at startup, read the REAL behaviour settings: the transport
 # Pelican 667, the extraction Pelican (shuttle_gunship) 202, its chin turret 645, the Gatling Sentry 213; the live
@@ -3613,7 +3613,7 @@ return function(frame,watches,counts,lines)
  return results
 end
 """
-# PelicanGatlingProof 0.5.0 (runtime/pelican_weapon.lua, runtime/pelican_heading.lua; docs/research/pelican-cas-
+# PelicanGatlingProof 0.5.0 (runtime/pelican_weapon.lua, runtime/pelican_heading.lua; research/docs/pelican-cas-
 # F5FEE03DCFDB.md sections 19-22) on the
 # shipped artifact and the snapshot's real game.dll and memory: the proof loads and runtime/pelican_weapon.lua was loaded
 # at startup; every Pelican pin (the casing path, the first shot, the rate seed, the Gatling AI's stage 12 and the
@@ -3770,7 +3770,7 @@ return function(frame,watches,counts,lines)
 end
 """
 EXTRAS['proof-pelican-gatling'] = {'after': PROOF_PELICAN_GATLING, 'readOnly': True}
-# PelicanWeaponBehaviorProof 0.1.0 (runtime/pelican_weapon.lua; docs/research/pelican-cas-F5FEE03DCFDB.md section 17) on
+# PelicanWeaponBehaviorProof 0.1.0 (runtime/pelican_weapon.lua; research/docs/pelican-cas-F5FEE03DCFDB.md section 17) on
 # the shipped artifact and the snapshot's real game.dll and memory: the proof loads and runtime/pelican_weapon.lua was
 # loaded at startup; every Pelican pin (the chin turret AI's 0.5 s fire window and 1.5 s re-aim, the trigger, the
 # magazine copy routine and the record the game derives from it, included) and the exact entry bytes of the ProjectileWeapon
@@ -3809,7 +3809,7 @@ return function(frame,watches,counts,lines)
 end
 """
 EXTRAS['proof-pelican-weapon-behavior'] = {'after': PROOF_PELICAN_WEAPON, 'readOnly': True}
-# PelicanGatlingAIProof 0.2.0 (runtime/pelican_weapon.lua switch_ai through the game SetBehaviour; docs/research/pelican-cas-F5FEE03DCFDB.md section 18)
+# PelicanGatlingAIProof 0.2.0 (runtime/pelican_weapon.lua switch_ai through the game SetBehaviour; research/docs/pelican-cas-F5FEE03DCFDB.md section 18)
 # on the shipped artifact and the snapshot's real game.dll and memory: the proof loads; every Pelican pin (the Behavior
 # update choosing code by the record's behaviour id, the jump table, the Gatling AI's stage machine included) proves and
 # the jump table's 645 and 213 entries are the researched ones; on a mission snapshot the real Behavior records read
@@ -3998,8 +3998,8 @@ for _name, _id, _banner, _beacon, _families, _colour_set in (
     EXTRAS[_name] = {'after': EXAMPLE_CUSTOM_STRATAGEM % {'id': _id, 'banner': _banner,
         'beacon': _beacon, 'families': _families, 'colour_set': _colour_set}, 'readOnly': True}
 # The expendable custom stratagem example (proof/EAT17GExample 0.2.1; runtime/weapon_clone.lua, runtime/weapon_carriers.lua,
-# runtime/carrier_pod.lua, runtime/carrier_groups.lua; docs/research/carrier-weapon-clone-F5FEE03DCFDB.md,
-# docs/research/carrier-pod-items-F5FEE03DCFDB.md section 11) on the shipped artifact, the snapshot's real game.dll and
+# runtime/carrier_pod.lua, runtime/carrier_groups.lua; research/docs/carrier-weapon-clone-F5FEE03DCFDB.md,
+# research/docs/carrier-pod-items-F5FEE03DCFDB.md section 11) on the shipped artifact, the snapshot's real game.dll and
 # its real entity region: the example loads from the archive, binds its Mod Options level and registers through
 # hd2.custom_stratagem in the expendable carrier group with a two-launcher pod; the clone and carrier pod modules were
 # loaded at startup; every clone pin proves on the real game.dll; each clone host's records are where the research found
@@ -4104,7 +4104,7 @@ end
 """
 EXTRAS['example-eat17g'] = {'after': EXAMPLE_EAT17G, 'readOnly': True}
 # The weapon VARIANT example (proof/LaserMaxigunExample 0.1.0; runtime/weapon_clone.lua variant_body,
-# runtime/model_resources.lua, domains/weapon_variants.lua; docs/custom-models.md, docs/research/weapon-variants-
+# runtime/model_resources.lua, domains/weapon_variants.lua; docs/custom-models.md, research/docs/weapon-variants-
 # F5FEE03DCFDB.md) on the shipped artifact, the snapshot's real game.dll and entity region: it registers in the weapon
 # carrier group with the Talon round and its model (Mod Options: check only by default); the clone pins and the UnitPath
 # consumer pins prove on the real game.dll; the Maxigun's four records are where the research found them, native; its
@@ -4474,7 +4474,7 @@ return function(frame,watches,counts,lines)
 end
 """
 EXTRAS['proof-peer-hello'] = {'after': PROOF_PEER_HELLO, 'readOnly': True}
-# The client-write proof (runtime/multiplayer.lua host_guard; docs/research/runtime-peer-messaging-F5FEE03DCFDB.md
+# The client-write proof (runtime/multiplayer.lua host_guard; research/docs/runtime-peer-messaging-F5FEE03DCFDB.md
 # section 10), with the Gas EAT example, on the shipped artifact and a real MISSION snapshot whose host condition is
 # overlaid as absent (seed_client: the game mode's authority bit cleared) and whose first unlimited loadout entry is the
 # token (seed_payload_mission). The Gas EAT's carrier allocated on the real catalogue; this machine's OWN record entry

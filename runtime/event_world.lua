@@ -868,7 +868,7 @@ end
 
 ---------------------------------------------------------------------------------------------------- injury --
 -- The game's own limb injury of the LOCAL player's avatar (research/player-injury-path-F5FEE03DCFDB.json,
--- docs/research/player-injury-path-F5FEE03DCFDB.md): the engine's unit actor lookup finds the limb's physics actor on
+-- research/docs/player-injury-path-F5FEE03DCFDB.md): the engine's unit actor lookup finds the limb's physics actor on
 -- the avatar's unit, then QueueDamage queues one damage event at it with the template of the VG-70 Variable's own
 -- self-damage (kind 6 Ability, element 0). The game's drain applies it later in the frame through ApplyDamage, which
 -- lowers the zone that lists that actor; a zone at 0 health is an injured limb. Nothing gameplay runs inside the call.

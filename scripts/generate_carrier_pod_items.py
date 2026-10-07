@@ -1,5 +1,5 @@
 """Generate domains/carrier_pod_items.lua: what a custom stratagem may put in its carrier's OWN pod rack
-(docs/research/carrier-pod-items-F5FEE03DCFDB.md, sections 1, 2, 6 and 11), from
+(research/docs/carrier-pod-items-F5FEE03DCFDB.md, sections 1, 2, 6 and 11), from
 research/carrier-pod-items-F5FEE03DCFDB.json (the exclusive carrier racks, the item catalogue and its verdicts),
 research/carrier-pod-nodes-F5FEE03DCFDB.json (every slot's node, its role, the capacity) and
 research/pod-payloads-F5FEE03DCFDB.json (each rack record's identity: record index, index row, owner count).

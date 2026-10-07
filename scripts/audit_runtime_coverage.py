@@ -6,7 +6,7 @@ catalogs expose, stat by stat, through a reviewed map from each wiki stat to the
 it. The wiki is the semantic guide only: a stat counts as covered when the Runtime publishes a writable field for
 it, whatever the wiki's number is.
 
-Output: research/runtime-coverage-audit-F5FEE03DCFDB.json and docs/research/runtime-coverage-audit-F5FEE03DCFDB.md.
+Output: research/runtime-coverage-audit-F5FEE03DCFDB.json and research/docs/runtime-coverage-audit-F5FEE03DCFDB.md.
 
   py scripts/audit_runtime_coverage.py [--check]
 """
@@ -22,7 +22,7 @@ ROOT = Path(__file__).resolve().parents[1]
 WIKI = ROOT.parent / 'HD2WikiImporter/output'
 SDK = ROOT / 'sdk'
 JSON_OUTPUT = ROOT / 'research/runtime-coverage-audit-F5FEE03DCFDB.json'
-MD_OUTPUT = ROOT / 'docs/research/runtime-coverage-audit-F5FEE03DCFDB.md'
+MD_OUTPUT = ROOT / 'research/docs/runtime-coverage-audit-F5FEE03DCFDB.md'
 
 # Wiki stratagem stat -> Runtime semantic fields that author it (any one writable counts).
 STRATAGEM_STATS = {

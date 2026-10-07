@@ -72,7 +72,7 @@ The four charge weapons (RS-422 Railgun, PLAS-45 Epoch, ARC-3 Arc Thrower, 40-K 
 `WeaponChargeComponent` record (one owner each). The native charge code reads it live every frame and on every
 shot; no customization and no per-instance copy exists. **A write takes effect on the next frame, including a weapon
 already in hand.** Research: `research/railgun-charge-F5FEE03DCFDB.json`,
-[docs/research/railgun-charge-F5FEE03DCFDB.md](research/railgun-charge-F5FEE03DCFDB.md).
+[research/docs/railgun-charge-F5FEE03DCFDB.md](research/railgun-charge-F5FEE03DCFDB.md).
 
 How charging works: while the trigger is held the charge grows by the frame time. Outside fire mode 6 it stops at the
 full charge time (Railgun **Safe**); in fire mode 6 it keeps growing (Railgun **Unsafe**, the Epoch always). Releasing
@@ -143,7 +143,7 @@ Live test: `examples/projects/RailgunChargeTest`.
 
 A charge weapon's own charge record also decides **which projectile a release fires** and **which explosion the
 overcharge failure spawns** (research: `research/charge-explosions-F5FEE03DCFDB.json`,
-[docs/research/charge-explosions-F5FEE03DCFDB.md](research/charge-explosions-F5FEE03DCFDB.md)). When the trigger is
+[research/docs/charge-explosions-F5FEE03DCFDB.md](research/charge-explosions-F5FEE03DCFDB.md)). When the trigger is
 released, the native fire code picks the projectile of the charge level reached; the overcharge failure destroys the
 weapon and spawns its explosion at the weapon. Each of those rows is its own attack role:
 

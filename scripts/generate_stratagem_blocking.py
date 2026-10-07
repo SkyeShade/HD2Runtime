@@ -1,7 +1,7 @@
 """Generate domains/stratagem_blocking.lua: the native stratagem grid's per-card BLOCKED state (the card list entry byte
 the game's own server-disabled treatment and pick refusal read), the grid's one-shot realize request, the catalogue
 lookup from a stable id to a card key, and the pinned code runtime/stratagem_blocking.lua re-proves first, from
-research/stratagem-blocking-F5FEE03DCFDB.json (docs/research/stratagem-blocking-F5FEE03DCFDB.md).
+research/stratagem-blocking-F5FEE03DCFDB.json (research/docs/stratagem-blocking-F5FEE03DCFDB.md).
 """
 from __future__ import annotations
 

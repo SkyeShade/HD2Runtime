@@ -1,6 +1,6 @@
 """Shared helper for the weapon firing-sound field `weapon.sound` (player and support weapon catalogs).
 
-Source: research/weapon-sounds-F5FEE03DCFDB.json (scripts/research_weapon_sounds.py; docs/research/
+Source: research/weapon-sounds-F5FEE03DCFDB.json (scripts/research_weapon_sounds.py; research/docs/
 weapon-sounds-F5FEE03DCFDB.md) and the catalogue names of scripts/generate_weapon_sounds.py.
 
 A weapon's firing sound is its resolved ProjectileWeapon record's events: the per-shot event +0x104 (260; +0x10C in

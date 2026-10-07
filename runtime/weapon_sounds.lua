@@ -1,4 +1,4 @@
--- The weapon firing-sound catalogue (docs/weapon-sounds.md; docs/research/weapon-sounds-F5FEE03DCFDB.md), read-only.
+-- The weapon firing-sound catalogue (docs/weapon-sounds.md; research/docs/weapon-sounds-F5FEE03DCFDB.md), read-only.
 --
 -- domains/weapon_sounds.lua (scripts/generate_weapon_sounds.py) names every firing sound of build F5FEE03DCFDB that a
 -- ProjectileWeapon type posts and a Wwise bank defines: `<family>/<weapon>[/<part>]`, for example

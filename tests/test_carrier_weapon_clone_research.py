@@ -1,4 +1,4 @@
-"""The carrier weapon clone research (docs/research/carrier-weapon-clone-F5FEE03DCFDB.md,
+"""The carrier weapon clone research (research/docs/carrier-weapon-clone-F5FEE03DCFDB.md,
 research/carrier-weapon-clone-F5FEE03DCFDB.json): read-only, its pins identical in every snapshot, and the facts the
 design rests on: the EAT-17's clone class is {EAT-700, EAT-411}; the expendable drop is WeaponData +0x1CC played by
 0x753A10 only without a WeaponReload instance; the AC-8 cannot be an EAT; an EAT-700 -> EAT-17 clone is 19 member

@@ -1,4 +1,4 @@
--- The transport Pelican (development only; docs/research/pelican-cas-F5FEE03DCFDB.md). Not exported by api/hd2.lua.
+-- The transport Pelican (development only; research/docs/pelican-cas-F5FEE03DCFDB.md). Not exported by api/hd2.lua.
 --
 -- research/pelican-F5FEE03DCFDB.json: the game's transport Pelican is the entity shuttle_transport. A vehicle or exosuit
 -- call-in spawns it at the beacon (the dispatcher's own spawn) with the vehicle as its cargo. Three components describe
@@ -556,7 +556,7 @@ end
 function M.active()local out={};for entity in pairs(owned)do out[#out+1]=entity end;table.sort(out);return out end
 
 ----------------------------------------------------------------------------------------------- the retarget --
--- Research "retarget" and "targetPush" (docs/research/pelican-cas-F5FEE03DCFDB.md, "Retargeting a live Pelican"): the
+-- Research "retarget" and "targetPush" (research/docs/pelican-cas-F5FEE03DCFDB.md, "Retargeting a live Pelican"): the
 -- flight component steers every update toward its record's target (+0x4FC); the game's own move-to (0x4D1150) is, for
 -- a Pelican held by the flight component alone, a plain 12-byte store of P+0x1BC into that member. A released stage 6
 -- reads only its release time: nothing re-pushes a target until the departure (stage 8) pushes its own. So a held
@@ -898,7 +898,7 @@ end
 function M.orbiting(entity)return orbits[entity]end
 
 ------------------------------------------------------------------------------------------- read-only variants --
--- Research "variants", "extraction" and "turretComponents" (docs/research/pelican-cas-F5FEE03DCFDB.md, "Pelican
+-- Research "variants", "extraction" and "turretComponents" (research/docs/pelican-cas-F5FEE03DCFDB.md, "Pelican
 -- variants"): read-only diagnostics for the probes; nothing here writes.
 local VS=D.variants.settings
 local BY_RESOURCE={}
@@ -1027,7 +1027,7 @@ function M.attachable(world,entity)
         rotation={x=f32(raw,A.worldRotation),y=f32(raw,A.worldRotation+4),z=f32(raw,A.worldRotation+8),
             w=f32(raw,A.worldRotation+12)},raw=raw}
 end
--- What a turret fires and what of it is per instance (research "turretWeapon", docs/research/pelican-cas-F5FEE03DCFDB.md
+-- What a turret fires and what of it is per instance (research "turretWeapon", research/docs/pelican-cas-F5FEE03DCFDB.md
 -- section 15), read-only: {flags (its weapon record), path ('heat': its resolved ProjectileWeapon +0; 'magazine': the
 -- chambered type, re-derived after every shot from the pattern or the resolved ProjectileWeapon +0; 'rounds'; 'other'),
 -- heat, windUp (true when it has those components), interval (s: its instance record, set once at creation), rpm

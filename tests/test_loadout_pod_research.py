@@ -1,4 +1,4 @@
-"""The loadout pod research (docs/research/loadout-pod-F5FEE03DCFDB.md, research/loadout-pod-F5FEE03DCFDB.json):
+"""The loadout pod research (research/docs/loadout-pod-F5FEE03DCFDB.md, research/loadout-pod-F5FEE03DCFDB.json):
 read-only, every pin identical in every snapshot, and the facts the design rests on: the weapon pickup case and its
 slots, the rack spawning its items inside its own creation, the WeaponData private copy and the selector reading it,
 the ammunition source chosen by components, and what is refused."""

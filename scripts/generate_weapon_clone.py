@@ -1,4 +1,4 @@
-"""Generate domains/weapon_clone.lua: the carrier weapon clone's reviewed data (docs/research/carrier-weapon-clone-
+"""Generate domains/weapon_clone.lua: the carrier weapon clone's reviewed data (research/docs/carrier-weapon-clone-
 F5FEE03DCFDB.md) from research/carrier-weapon-clone-F5FEE03DCFDB.json (scripts/research_carrier_weapon_clone.py):
 
 * the component tables as they sit in the entity region (offset, header, index, indices, records, record offset,

@@ -1,5 +1,5 @@
 -- Cross-catalogue native record identity, and which HD2Runtime operation applied which bytes.
--- (docs/research/support-sentry-conflict-F5FEE03DCFDB.md)
+-- (research/docs/support-sentry-conflict-F5FEE03DCFDB.md)
 --
 -- Each authoring catalogue (player, support and mounted weapons, stratagems, backpacks and vehicles, throwables,
 -- enemies, boosters, attack outputs) lists the consumers of a shared settings row or component record only within

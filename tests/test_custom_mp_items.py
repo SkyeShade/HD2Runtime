@@ -1,5 +1,5 @@
 """Gas EAT payload provenance across machines (runtime/custom_mp_items.lua; runtime/projectile_impact.lua provenance;
-runtime/custom_stratagems.lua; docs/research/runtime-peer-messaging-F5FEE03DCFDB.md section 14). Each test runs ONE
+runtime/custom_stratagems.lua; research/docs/runtime-peer-messaging-F5FEE03DCFDB.md section 14). Each test runs ONE
 machine of a two-player lobby on the offline payload world (the projectile pool, the Gas Strike's chain, the network
 id map), with the synced view stubbed as the other machine's Runtime published it. Every machine has its OWN entity ids
 for the same launchers; network ids are the same everywhere.

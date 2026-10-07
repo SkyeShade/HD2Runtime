@@ -10,7 +10,7 @@ any other red carrier; with none left it is refused (the explicit fallback: refu
 
 The rest of this page is 0.1.0's, with the build names updated.
 
-The first custom stratagem whose delivery is a game Pelican (docs/research/pelican-cas-F5FEE03DCFDB.md, section 5e).
+The first custom stratagem whose delivery is a game Pelican (research/docs/pelican-cas-F5FEE03DCFDB.md, section 5e).
 No weapons, no Gas Barrage payload.
 
 **What happens:**

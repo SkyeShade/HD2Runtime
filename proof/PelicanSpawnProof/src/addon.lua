@@ -1,6 +1,6 @@
 local hd2=require('mods/skyeshade/hd2runtime')
 -- PelicanSpawnProof 0.2.0: THE HOVER ANCHOR, AND WHAT OTHER PLAYERS SEE (docs/event-scripting.md, "Pelicans";
--- docs/research/pelican-cas-F5FEE03DCFDB.md).
+-- research/docs/pelican-cas-F5FEE03DCFDB.md).
 --
 -- 0.1.0 is live-proven for the spawn (empty), the 60 s hold and the departure; its Pelican hovered ~250 m from the
 -- requested point: the game's default spawn context is all zero, so the Pelican's drop-position record (its hover

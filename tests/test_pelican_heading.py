@@ -1,4 +1,4 @@
-"""runtime/pelican_heading.lua (docs/research/pelican-cas-F5FEE03DCFDB.md section 20e): a Runtime-held Pelican's body
+"""runtime/pelican_heading.lua (research/docs/pelican-cas-F5FEE03DCFDB.md section 20e): a Runtime-held Pelican's body
 heading in its hold through its hover controller's desired facing D, on the offline Pelican world of tests/test_pelicans.py
 with the turret fixture of tests/test_pelican_gatling.py and a simulated hover controller (game+0x3326DB0). The
 controller itself is the game's; the guards, the stepped writes and the read-back are the Runtime's own."""

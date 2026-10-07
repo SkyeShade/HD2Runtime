@@ -1,4 +1,4 @@
-"""The component membership research (docs/research/component-membership-F5FEE03DCFDB.md,
+"""The component membership research (research/docs/component-membership-F5FEE03DCFDB.md,
 research/component-membership-F5FEE03DCFDB.json). It is read-only, and its pins are identical in every snapshot. It
 covers the facts behind the verdicts:
 - membership at spawn is the EntitySettings u16 list;

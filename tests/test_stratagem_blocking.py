@@ -1,5 +1,5 @@
 """The game's own BLOCKED stratagem card state for carriers a custom stratagem reserves (runtime/stratagem_blocking.lua;
-research/stratagem-blocking-F5FEE03DCFDB.json; docs/research/stratagem-blocking-F5FEE03DCFDB.md). Offline: the event
+research/stratagem-blocking-F5FEE03DCFDB.json; research/docs/stratagem-blocking-F5FEE03DCFDB.md). Offline: the event
 world with a loadout screen whose stratagem grid is built, realized and refreshed as the game's code does it (the grid
 builder copies the catalogue's server-disabled flag into each card's blocked byte; the per-frame list update realizes
 once on the one-shot request), and the account catalogue with card keys that differ from the stable ids, as in game.
@@ -237,7 +237,7 @@ class StratagemBlockingResearchTests(unittest.TestCase):
         sys.path.insert(0, str(ROOT / 'scripts'))
         import generate_stratagem_blocking
         self.assertEqual(generate_stratagem_blocking.generate(check=True), [])
-        doc = (ROOT / 'docs/research/stratagem-blocking-F5FEE03DCFDB.md').read_text(encoding='utf-8')
+        doc = (ROOT / 'research/docs/stratagem-blocking-F5FEE03DCFDB.md').read_text(encoding='utf-8')
         self.assertIn('needs the user\'s decision', doc)
 
     def test_the_module_writes_only_through_guarded_transactions(self):

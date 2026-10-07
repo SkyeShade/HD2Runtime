@@ -1,5 +1,5 @@
 local hd2=require('mods/skyeshade/hd2runtime')
--- PelicanTurretProbe 0.3.0: WHAT THE TURRET FIRES, AND WHAT OF IT IS PER INSTANCE (docs/research/pelican-cas-
+-- PelicanTurretProbe 0.3.0: WHAT THE TURRET FIRES, AND WHAT OF IT IS PER INSTANCE (research/docs/pelican-cas-
 -- F5FEE03DCFDB.md section 15). READ-ONLY: nothing is written, created or called.
 -- Research (pinned): the projectile a turret fires comes from its weapon record's flags (the components it has). A
 -- magazine turret (the chin turret, the Gatling Sentry) fires its magazine record's chambered type, re-derived after
@@ -11,7 +11,7 @@ local hd2=require('mods/skyeshade/hd2runtime')
 -- magazine record, heat and wind-up), and for every chin turret GATLING CONFIG: each value a Gatling configuration
 -- would change and whether this turret has a per-instance home for it. While they fire: TURRET FIRE (rounds and the
 -- chambered type). Ctrl+Shift+F5: status.
--- PelicanTurretProbe 0.2.0: THE PARENT/CHILD LINK, READ (docs/research/pelican-cas-F5FEE03DCFDB.md, "The turret as a
+-- PelicanTurretProbe 0.2.0: THE PARENT/CHILD LINK, READ (research/docs/pelican-cas-F5FEE03DCFDB.md, "The turret as a
 -- child entity"). READ-ONLY.
 -- 0.1.0 live: every Runtime Pelican's chin turret exists (entity = the Pelican's + 1) and acts (its Behavior record
 -- cycles), but its transform position stays where it was created, so "within 15 m" mostly missed it. Research since
@@ -21,7 +21,7 @@ local hd2=require('mods/skyeshade/hd2runtime')
 -- position against its parent's pose (does it follow?) and its transform position (stale?). For a Gatling Sentry the
 -- same record shows what a ground turret's link is.
 -- PelicanTurretProbe 0.1.0: THE PELICAN'S CHIN TURRET AND THE GATLING SENTRY, OBSERVED
--- (docs/research/pelican-cas-F5FEE03DCFDB.md, "The Pelican's turret"). Development only; READ-ONLY.
+-- (research/docs/pelican-cas-F5FEE03DCFDB.md, "The Pelican's turret"). Development only; READ-ONLY.
 --
 -- Research (offline): the transport Pelican (shuttle_transport) and the extraction Pelican (shuttle_gunship) both
 -- mount the same chin turret, a separate entity (shuttle_gunship_turret_hmg, behaviour 645) spawned on their

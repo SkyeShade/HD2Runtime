@@ -1,4 +1,4 @@
-"""The per-beacon redirect (runtime/beacon_redirect.lua; docs/research/beacon-redirect-F5FEE03DCFDB.md): in the update an
+"""The per-beacon redirect (runtime/beacon_redirect.lua; research/docs/beacon-redirect-F5FEE03DCFDB.md): in the update an
 Eagle Strafing Run (30) or AC-8 Autocannon (25) beacon is first seen, one guarded 4-byte write changes that beacon's type
 (+0xC) to the 120mm's 136 (or to 0, neutral); nothing else of the beacon, no StratagemInfo and no payload record
 changes; every failed guard writes nothing; a beacon whose countdown has started (+0x3C) but not crossed its threshold

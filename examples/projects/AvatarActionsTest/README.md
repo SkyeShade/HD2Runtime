@@ -1,7 +1,7 @@
 # AvatarActionsTest
 
 Live test for `hd2.actions.heal_limb`, `hd2.actions.heal_limbs` and `hd2.actions.add_velocity`
-(`docs/event-scripting.md`; `docs/research/player-avatar-actions-F5FEE03DCFDB.md`). Every log line starts with
+(`docs/event-scripting.md`; `research/docs/player-avatar-actions-F5FEE03DCFDB.md`). Every log line starts with
 `AVATAR ACTIONS 0.1.0 BUILD`. Everything acts on your own avatar only; no host needed.
 
 ## How it works

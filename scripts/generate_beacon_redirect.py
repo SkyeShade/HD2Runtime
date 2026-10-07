@@ -1,6 +1,6 @@
 """Generate domains/beacon_redirect.lua: the stratagem beacon manager's path and layout, the element and state members
 and the pinned code the per-beacon redirect (runtime/beacon_redirect.lua, development) re-proves first, from
-research/beacon-redirect-F5FEE03DCFDB.json (docs/research/beacon-redirect-F5FEE03DCFDB.md).
+research/beacon-redirect-F5FEE03DCFDB.json (research/docs/beacon-redirect-F5FEE03DCFDB.md).
 """
 from __future__ import annotations
 

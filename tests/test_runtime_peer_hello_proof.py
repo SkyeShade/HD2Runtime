@@ -1,4 +1,4 @@
-"""proof/RuntimePeerHelloProof 0.1.0 (docs/research/runtime-peer-messaging-F5FEE03DCFDB.md, section 4): the proof's own
+"""proof/RuntimePeerHelloProof 0.1.0 (research/docs/runtime-peer-messaging-F5FEE03DCFDB.md, section 4): the proof's own
 addon on the offline event world with a two-member lobby (tests/event_world_fixture.lua W.lobby; the two engine calls
 recorded, the service a table). It publishes HELLO after the join delay, reads it back, logs the other member's
 values, publishes the size probe only after the other's hello and its own post, posts in a mission and back on the

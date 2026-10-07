@@ -1,4 +1,4 @@
-"""The Runtime-to-Runtime peer channel (docs/research/runtime-peer-messaging-F5FEE03DCFDB.md): the game's PlayFab lobby
+"""The Runtime-to-Runtime peer channel (research/docs/runtime-peer-messaging-F5FEE03DCFDB.md): the game's PlayFab lobby
 member data, which game.dll itself publishes and reads through two slots of the engine's API table. Read-only, offline:
 the game.dll and executable images and the seven retained snapshots of build F5FEE03DCFDB. Nothing is written.
 

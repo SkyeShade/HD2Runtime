@@ -1,5 +1,5 @@
-"""The full sound-event catalogue and the playback controls (docs/sounds.md; docs/research/sound-events-F5FEE03DCFDB.md;
-docs/research/wwise-plugin-bindings-F5FEE03DCFDB.md):
+"""The full sound-event catalogue and the playback controls (docs/sounds.md; research/docs/sound-events-F5FEE03DCFDB.md;
+research/docs/wwise-plugin-bindings-F5FEE03DCFDB.md):
   * research/sound-events-F5FEE03DCFDB.json -> scripts/generate_sound_events.py -> domains/sound_events.lua,
     sdk/SoundEventCatalogue.json; research/wwise-plugin-F5FEE03DCFDB.json -> scripts/generate_wwise_plugin.py ->
     domains/wwise_plugin.lua (current, names from evidence only, the pins equal to the installed plugin's bytes);

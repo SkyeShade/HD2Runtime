@@ -1,7 +1,7 @@
 -- The common shape of custom stratagem calls and their entities' PROVENANCE (0.30; internal: not exported to mods).
 -- Read-only bookkeeping: it describes, it writes nothing of the game.
 --
--- Three live-proven multiplayer families share one model (docs/research/runtime-peer-messaging-F5FEE03DCFDB.md, sections
+-- Three live-proven multiplayer families share one model (research/docs/runtime-peer-messaging-F5FEE03DCFDB.md, sections
 -- 14 to 19):
 --   support item provenance            the EAT-17G / Gas EAT launchers          (role launcher)
 --   replicated native executor         the Orbital Gas Barrage's 120mm barrage  (role barrage)

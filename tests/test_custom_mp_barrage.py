@@ -1,5 +1,5 @@
 """The native Orbital Gas Barrage across machines (runtime/custom_barrages.lua; runtime/custom_mp_items.lua barrage
-handler; runtime/custom_stratagems.lua start_barrage; docs/research/runtime-peer-messaging-F5FEE03DCFDB.md section 15),
+handler; runtime/custom_stratagems.lua start_barrage; research/docs/runtime-peer-messaging-F5FEE03DCFDB.md section 15),
 each test ONE machine of a two-player lobby on the offline payload world (the projectile pool with the 120mm's shell rows
 194 and 137, the Gas Strike's chain, the network id map, the bombardment manager), with the synced view stubbed as the
 other machine's Runtime published it:

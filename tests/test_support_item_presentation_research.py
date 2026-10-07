@@ -1,4 +1,4 @@
-"""The support item presentation research (docs/research/support-item-presentation-F5FEE03DCFDB.md,
+"""The support item presentation research (research/docs/support-item-presentation-F5FEE03DCFDB.md,
 research/support-item-presentation-F5FEE03DCFDB.json): read-only, its pins identical in every snapshot, and the facts
 the design rests on: every icon and name consumer reads the TYPE records (EncyclopediaEntry, Spottable), neither table
 has an instance copy, the EAT-17's marker icon is its stratagem icon, and the EAT-700 is the only EAT-compatible

@@ -1,5 +1,5 @@
 -- The NATIVE barrage of a custom stratagem call, on every machine (EXPERIMENTAL; read-only; research peer-messaging
--- "barrage"; local_research/mp/barrage/barrage-notes.md; docs/research/runtime-peer-messaging-F5FEE03DCFDB.md section
+-- "barrage"; local_research/mp/barrage/barrage-notes.md; research/docs/runtime-peer-messaging-F5FEE03DCFDB.md section
 -- 15). Nothing here writes the game or calls a game function.
 --
 -- A custom orbital in native mode (orbital = {pattern, impact_explosion, native = true}) redirects its own beacon's

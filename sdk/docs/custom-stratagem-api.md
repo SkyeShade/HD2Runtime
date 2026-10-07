@@ -180,7 +180,7 @@ default) is reported as incompatible.
   that never becomes ready stays locked.
 - **Native uses** (0.2.0): with `uses`, they are the game's own per-slot uses (its HUD counter, its depleted look, its
   refusal at 0; the game counts them down): one 4-byte write -1 -> `uses` into each of this player's own adopted record
-  entries, never the row (docs/research/carrier-max-uses-F5FEE03DCFDB.md, option A). Refused with nothing written (the
+  entries, never the row (research/docs/carrier-max-uses-F5FEE03DCFDB.md, option A). Refused with nothing written (the
   definition refused, its slots locked) unless the entry reads the carrier with unlimited uses in this mission's
   record, the carrier's type is in no other record entry (`CARRIER_ELSEWHERE`), its row has unlimited uses
   (`USES_DIFFER`) and a per-player cooldown (`SHARED_COOLDOWN`), and it is not an Eagle or type 28/124
@@ -496,7 +496,7 @@ EAT-411's: one launcher).
 
 A support delivery shows its donor's name and icon everywhere: every pickup prompt, map marker and weapon panel reads
 the weapon's TYPE records, so one call's EAT-17 cannot look different from another EAT-17 (research:
-`docs/research/carrier-weapon-clone-F5FEE03DCFDB.md`). The expendable family delivers a **clone** instead.
+`research/docs/carrier-weapon-clone-F5FEE03DCFDB.md`). The expendable family delivers a **clone** instead.
 
 - **The carrier weapon:** an unused vanilla weapon of the donor's expendable component class, in order. For the
   EAT-17 (today's only donor) the pool is the **EAT-700 Expendable Napalm**, then the **EAT-411 Leveller**: their
@@ -569,7 +569,7 @@ delivery={family='weapon',weapon=hd2.support_weapon('M-1000 Maxigun'),
 **What a variant is.** A weapon whose component class is itself (today the **M-1000 Maxigun**: spin-up,
 backpack-fed ammo, the ammo belt; no other support weapon has its components) can be carried by no other type. So its
 variant converts **its own type** for one mission (`runtime/weapon_clone.lua` variant; research
-`docs/research/weapon-variants-F5FEE03DCFDB.md`).
+`research/docs/weapon-variants-F5FEE03DCFDB.md`).
 
 **The carrier group `weapon`.**
 - The weapon's own stratagem is the beacon carrier, the variant and the pod (condensed): its row presents as the
@@ -759,7 +759,7 @@ silo={donor='MS-11 Solo Silo',blast='Cyborg Production Unit',fallback='NUX-223 H
 - **A Pelican near the blast** (r44): before the blast is requested, every Runtime Pelican within 200 m whose chin gun
   runs the Gatling Sentry's AI gets its own AI back (`AI RESTORED`), and the Gatling AI again 5 s later if the turret
   lives. Two live host crashes (2026-10-07): the blast killed the chin turret, and the Gatling AI's death stage crashes
-  the game on an entity that is not a sentry (docs/research/pelican-cas-F5FEE03DCFDB.md section 33). Also (r44) a
+  the game on an entity that is not a sentry (research/docs/pelican-cas-F5FEE03DCFDB.md section 33). Also (r44) a
   Gatling-AI chin turret is made invincible on every machine (`INVINCIBLE`, its own health entry's byte), so nothing
   kills it. Offline only.
 

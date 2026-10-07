@@ -1,4 +1,4 @@
-"""The Pelican (docs/research/pelican-cas-F5FEE03DCFDB.md): how the game makes, flies, holds and removes its transport
+"""The Pelican (research/docs/pelican-cas-F5FEE03DCFDB.md): how the game makes, flies, holds and removes its transport
 Pelican, what a per-instance Runtime write can reach, and what only native code can. Read-only, offline: the game.dll
 image, the retained snapshots of build F5FEE03DCFDB and the game's own bundles. Nothing is written.
 

@@ -37,7 +37,7 @@ without a particle effect uses its owner's package. ``package`` is None when not
 Settings table: in every mission snapshot, game+0x37CC920 + 8 * type points at a record that equals the pinned row
 byte for byte outside its relocated array (+40..+56), for every type below the request's bound (0x1A7).
 
-Output: research/explosion-identities-F5FEE03DCFDB.json and docs/research/explosion-identities-F5FEE03DCFDB.md;
+Output: research/explosion-identities-F5FEE03DCFDB.json and research/docs/explosion-identities-F5FEE03DCFDB.md;
 ``--check`` compares instead of writing.
 """
 from __future__ import annotations
@@ -56,7 +56,7 @@ from scan import tables as T  # noqa: E402
 from scan.settings import SettingsView  # noqa: E402
 
 OUTPUT = ROOT / 'research/explosion-identities-F5FEE03DCFDB.json'
-DOC = ROOT / 'docs/research/explosion-identities-F5FEE03DCFDB.md'
+DOC = ROOT / 'research/docs/explosion-identities-F5FEE03DCFDB.md'
 PROJECTILES = ROOT / 'research/projectile-identities-F5FEE03DCFDB.json'
 RESIDENCY = ROOT / 'research/package-residency-F5FEE03DCFDB.json'
 ACTIONS = ROOT / 'research/event-actions-F5FEE03DCFDB.json'

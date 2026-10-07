@@ -44,7 +44,7 @@ function M.solo_guard(count,allowed,what)
     return 'NOT_SOLO','solo only: '..tostring(count)..' stratagem records'..(what and(' ('..what..')')or'')
         ..'; only a custom stratagem call\'s own writes accept the experimental multiplayer scope'
 end
--- THE CLIENT-WRITE PROOF (docs/research/runtime-peer-messaging-F5FEE03DCFDB.md, section 10). A non-host client runs
+-- THE CLIENT-WRITE PROOF (research/docs/runtime-peer-messaging-F5FEE03DCFDB.md, section 10). A non-host client runs
 -- its OWN custom stratagem calls only for the payload families in M.CLIENT_FAMILIES (the support delivery: Gas EAT), and
 -- only while the orchestrator enabled the proof for this mission (every lobby member a compatible Runtime, the synced
 -- table and the carrier map agreeing with the host's). The host guard of exactly four writes accepts it, and only for a

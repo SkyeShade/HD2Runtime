@@ -1,5 +1,5 @@
 """Custom multiplayer at mission start (runtime/custom_stratagems.lua mp_step; runtime/custom_mp_sync.lua;
-docs/research/runtime-peer-messaging-F5FEE03DCFDB.md section 10), with the synced view and the records stubbed:
+research/docs/runtime-peer-messaging-F5FEE03DCFDB.md section 10), with the synced view and the records stubbed:
   * the carriers come from the synced table only (the ids the lobby selects), with every custom slot's entry excluded
     from the native picks; the host publishes the table and carrier hashes and runs its own calls of every family;
   * a client waits for the host's hashes: equal, it runs its own calls of the client families (the Gas EAT and the HMG

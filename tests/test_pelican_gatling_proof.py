@@ -1,4 +1,4 @@
-"""proof/PelicanGatlingProof 0.5.0 (docs/research/pelican-cas-F5FEE03DCFDB.md sections 19-24): the Pelican's own chin
+"""proof/PelicanGatlingProof 0.5.0 (research/docs/pelican-cas-F5FEE03DCFDB.md sections 19-24): the Pelican's own chin
 turret as a Gatling Sentry, on the offline Pelican world of tests/test_pelicans.py with the turret fixture of
 tests/test_pelican_gatling.py and the hover controller of tests/test_pelican_heading.py: the Gatling read from the game;
 projectile, rate, casing, zero aim recoil (0.4.1) and the safe-maximum magazine on the turret's own records; SetBehaviour

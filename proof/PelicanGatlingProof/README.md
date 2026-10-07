@@ -1,7 +1,7 @@
 # PelicanGatlingProof 0.5.0 (development only, solo host): frozen tuning, kill attribution
 
 The first line is `PelicanGatlingProof 0.5.0 GATLING ATTRIBUTION BUILD (solo host)`. Install this hand-off's runtime ZIP,
-`PelicanGatlingProof-0.5.0.zip` and `PelicanCasProof-0.1.1.zip`. Research: docs/research/pelican-cas-F5FEE03DCFDB.md
+`PelicanGatlingProof-0.5.0.zip` and `PelicanCasProof-0.1.1.zip`. Research: research/docs/pelican-cas-F5FEE03DCFDB.md
 section 24.
 
 **Frozen tuning** (the Pelican CAS defaults for now; the Mod Options settings are gone):
@@ -109,7 +109,7 @@ Without Mod Options Menu, every Pelican gets Mild and Normal.
 # PelicanGatlingProof 0.4.3 (development only, solo host): spread experiment
 
 0.4.3 was built but never live-tested; 0.4.4 carries it, with the spread choices widened. Everything else is 0.4.2's: targeting, body facing,
-ammunition, zero aim recoil. Research: docs/research/pelican-cas-F5FEE03DCFDB.md section 22.
+ammunition, zero aim recoil. Research: research/docs/pelican-cas-F5FEE03DCFDB.md section 22.
 
 **Where the spread lives.** Every shot turns its direction by two random angles. They come from the weapon's own
 WeaponData instance record: +0x58 is the horizontal width and +0x5C the vertical width, full widths in milliradians, so a
@@ -140,7 +140,7 @@ and `assets for`, and how each Pelican's fire looked and hit.
 # PelicanGatlingProof 0.4.2 (development only, solo host): target lock fixed, spatial replacement
 
 0.4.2 was built but never live-tested; 0.4.3 carries it unchanged. Everything else is 0.4.1's: zero aim recoil,
-spread and aim math unchanged, the body facing toward the locked target. Research: docs/research/pelican-cas-F5FEE03DCFDB.md
+spread and aim math unchanged, the body facing toward the locked target. Research: research/docs/pelican-cas-F5FEE03DCFDB.md
 section 21.
 
 **Why 0.4.1 never locked.** The lock refused any target farther than 100 m from the chin turret. It took the turret's
@@ -201,7 +201,7 @@ The Pelican's own chin turret, configured as a Gatling Sentry. It keeps its enti
 movement. Nothing shared is written: every Pelican, Gatling, weapon, magazine, WeaponData and projectile definition is
 read, never changed, and compared whole before and after.
 
-Research: docs/research/pelican-cas-F5FEE03DCFDB.md, sections 19 and 20. Earlier sources are kept in `archive/`: 0.2.0,
+Research: research/docs/pelican-cas-F5FEE03DCFDB.md, sections 19 and 20. Earlier sources are kept in `archive/`: 0.2.0,
 the physical Gatling replacement, set aside; and 0.3.0, the first chin-turret build, live-tested.
 
 ## What 0.3.0 showed live, and what changed

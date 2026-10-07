@@ -1,7 +1,7 @@
 """Weapon VARIANTS and Runtime-owned custom MODELS (scripts/research_weapon_variants.py,
 research/weapon-variants-F5FEE03DCFDB.json, domains/weapon_variants.lua, runtime/weapon_clone.lua variant_body,
 runtime/model_resources.lua, scripts/hd2_model.py, runtime/custom_stratagems.lua delivery.family 'weapon';
-docs/custom-models.md, docs/research/weapon-variants-F5FEE03DCFDB.md):
+docs/custom-models.md, research/docs/weapon-variants-F5FEE03DCFDB.md):
   * the research: the Maxigun alone in its component class, its four records exclusively owned, every UnitPath consumer
     site reviewed; the generated domain and sdk/ModelBaseCapabilities.json are current;
   * registration: a weapon delivery on a reviewed variant host; its round a catalogued output of the host's own

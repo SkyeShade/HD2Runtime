@@ -1,4 +1,4 @@
--- The carrier weapon clone (development; docs/research/carrier-weapon-clone-F5FEE03DCFDB.md, docs/custom-stratagem-api.md
+-- The carrier weapon clone (development; research/docs/carrier-weapon-clone-F5FEE03DCFDB.md, docs/custom-stratagem-api.md
 -- "expendable"). Not exported by api/hd2.lua.
 --
 -- An unused vanilla support weapon TYPE of the donor's expendable component class (for the EAT-17: the EAT-700, then the
@@ -21,7 +21,7 @@
 -- bytes again. A finalizer restores before this Lua state closes.
 -- A ROUND (spec.round: a reviewed round of the donor, M.round / M.rounds) makes the clone fire that round instead of
 -- the donor's own: ProjectileWeapon +0 ProjType := the round's type at every level (see "rounds" below).
--- A VARIANT (spec.variant = true; domains/weapon_variants.lua, docs/research/weapon-variants-F5FEE03DCFDB.md) is a weapon
+-- A VARIANT (spec.variant = true; domains/weapon_variants.lua, research/docs/weapon-variants-F5FEE03DCFDB.md) is a weapon
 -- whose component class is itself (the M-1000 Maxigun): its OWN type becomes the custom weapon for one mission, never
 -- another's: the presentation members (as a clone's), its round (ProjectileWeapon +0 := a catalogued attack output of
 -- its own compatibility class, its package resident) and its model (UnitComponent +0 UnitPath := a Runtime-owned unit
@@ -89,7 +89,7 @@ function M.variants()
     return out
 end
 
--- EXPENDABLE LIFECYCLE vs CLONE COMPATIBILITY (docs/research/expendable-carriers-F5FEE03DCFDB.md). A lifecycle member
+-- EXPENDABLE LIFECYCLE vs CLONE COMPATIBILITY (research/docs/expendable-carriers-F5FEE03DCFDB.md). A lifecycle member
 -- is a support weapon that discards itself when empty and can never be reloaded (WeaponData +0x1CC auto drop, no
 -- WeaponReload / SeatCollection instance to stop it, no other ammunition feed, no spare magazine): EAT-17, EAT-700,
 -- EAT-411, MLS-4X Commando, MGX-42 Bullet Storm. Membership says nothing about the vanilla round count (the Commando has

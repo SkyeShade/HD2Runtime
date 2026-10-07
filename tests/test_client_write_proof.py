@@ -1,4 +1,4 @@
-"""The client-write proof (runtime/multiplayer.lua host_guard; docs/research/runtime-peer-messaging-F5FEE03DCFDB.md
+"""The client-write proof (runtime/multiplayer.lua host_guard; research/docs/runtime-peer-messaging-F5FEE03DCFDB.md
 section 10): the four writes a non-host client may make for its OWN Gas EAT call, each on the offline world it is
 already tested on as the host. For each write:
   * a client is refused NOT_HOST exactly as before unless BOTH the write carries the orchestrator's client mark and the

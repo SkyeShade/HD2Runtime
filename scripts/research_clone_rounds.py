@@ -1,5 +1,5 @@
 """The ROUND OVERRIDES of the carrier weapon clone: a reviewed round a donor's clone may fire instead of the donor's own
-(build/test-artifacts/airburst-research/airburst.md option (b); docs/research/carrier-weapon-clone-F5FEE03DCFDB.md).
+(build/test-artifacts/airburst-research/airburst.md option (b); research/docs/carrier-weapon-clone-F5FEE03DCFDB.md).
 Read-only, offline. scripts/research_carrier_weapon_clone.py puts the result in research/carrier-weapon-clone-
 F5FEE03DCFDB.json `roundOverrides`; scripts/generate_weapon_clone.py validates it and emits domains/weapon_clone.lua
 `rounds`.

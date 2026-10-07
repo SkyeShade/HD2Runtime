@@ -1,7 +1,7 @@
 """Generate domains/peer_messaging.lua: the game's PlayFab lobby member data as runtime/peer_channel.lua (development)
 reaches it, the network context, the lobby wrapper and its flag, the PlayfabLobby members and state, the engine API
 table's two member-data slots and the game's own keys, with the pinned code it re-proves first, from
-research/peer-messaging-F5FEE03DCFDB.json (docs/research/runtime-peer-messaging-F5FEE03DCFDB.md).
+research/peer-messaging-F5FEE03DCFDB.json (research/docs/runtime-peer-messaging-F5FEE03DCFDB.md).
 """
 from __future__ import annotations
 
@@ -15,13 +15,13 @@ sys.path.insert(0, str(ROOT / 'scripts'))
 from reference_format import lua  # noqa: E402
 
 RESEARCH = ROOT / 'research/peer-messaging-F5FEE03DCFDB.json'
-# The native barrage -> call association (scripts/research_barrage_association.py; docs/research/runtime-peer-messaging-
+# The native barrage -> call association (scripts/research_barrage_association.py; research/docs/runtime-peer-messaging-
 # F5FEE03DCFDB.md section 18): the rest of the barrage's replicated block, its instance state's shell count, the beacon
 # fields the dispatcher reads, and the pins of the creation path from the activation to the block's target.
 ASSOCIATION = ROOT / 'research/barrage-association-F5FEE03DCFDB.json'
 OUTPUT = ROOT / 'domains/peer_messaging.lua'
 
-# The local fire cadence of a projectile-weapon instance (docs/research/runtime-peer-messaging-F5FEE03DCFDB.md section
+# The local fire cadence of a projectile-weapon instance (research/docs/runtime-peer-messaging-F5FEE03DCFDB.md section
 # 16; 2026-10-05; read-only static research of this build's game.dll, each pin's bytes checked in the seven retained
 # snapshots). Instance record (manager +0x78, 0xA8 each): +firing (byte: the trigger held past its delay), +trigger
 # (byte: the replicated trigger, pinned by the research's 0x740795), +cooldown (f32 s: runs down every update; each local

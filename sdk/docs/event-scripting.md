@@ -379,7 +379,7 @@ end)
 - The injury names your avatar as its dealer and owner (self-inflicted) and keeps its last-hit creditor, as the VG-70
   keeps it. The returned handle's `status` is `'requested'` once queued; `zone_health` and `injured_before` describe
   the limb just before the request. Not live-tested: what the injured limb looks like to other players, and how the
-  game's statistics count a self-inflicted hit. See docs/research/player-injury-path-F5FEE03DCFDB.md.
+  game's statistics count a self-inflicted hit. See research/docs/player-injury-path-F5FEE03DCFDB.md.
 
 ### Limb heals
 

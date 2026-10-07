@@ -1,4 +1,4 @@
-"""Carrier families (docs/research/carrier-families-F5FEE03DCFDB.md): every StratagemInfo row of build F5FEE03DCFDB
+"""Carrier families (research/docs/carrier-families-F5FEE03DCFDB.md): every StratagemInfo row of build F5FEE03DCFDB
 classified into the custom-stratagem carrier families from the fields the game's own call-in system and UI read.
 Read-only, offline: the mission snapshot's rows and the stratagem catalogue. Nothing is written.
 

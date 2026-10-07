@@ -1,4 +1,4 @@
-"""runtime/pelican_weapon.lua switch_ai and proof/PelicanGatlingAIProof 0.2.0 (docs/research/pelican-cas-F5FEE03DCFDB.md
+"""runtime/pelican_weapon.lua switch_ai and proof/PelicanGatlingAIProof 0.2.0 (research/docs/pelican-cas-F5FEE03DCFDB.md
 section 18): one Runtime Pelican's own chin turret gets the Gatling Sentry's AI through the game's own SetBehaviour
 (0x843EA0) with behaviour 213, while it is quiet (645 stage 1 or 4, nothing pending), on the offline Pelican world of
 tests/test_pelicans.py with the turret fixture of tests/test_pelican_gatling.py. SetBehaviour is simulated as the
@@ -207,7 +207,7 @@ return 'ok'
 """)
 
     def test_the_chin_turret_made_invincible_its_checks_and_its_release(self):
-        # r44 (docs/research/chin-turret-invulnerability-F5FEE03DCFDB.md): its own health entry's invincible byte 0 -> 1
+        # r44 (research/docs/chin-turret-invulnerability-F5FEE03DCFDB.md): its own health entry's invincible byte 0 -> 1
         # (the gates re-proven), checked every step, cleared only when this machine set it and it is alive.
         self.check(r"""
 pworld()

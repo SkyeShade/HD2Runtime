@@ -1,7 +1,7 @@
 # BeaconProbe 0.1.0 (development only): READ-ONLY
 
 **It writes nothing:** no transaction, no guarded write, no native call. It only reads, every Runtime update, through
-the Runtime's reader. Research: `docs/research/beacon-redirect-F5FEE03DCFDB.md`.
+the Runtime's reader. Research: `research/docs/beacon-redirect-F5FEE03DCFDB.md`.
 
 ## What it reads
 

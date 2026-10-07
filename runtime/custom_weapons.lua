@@ -199,7 +199,7 @@ end
 --     runtime/custom_mp_items.lua (the caller verified, its synced picks selecting it).
 -- Whatever the role, the machine that CREATED the entity (its world record's created-here flag) configures it whole;
 -- every other machine mirrors on its OWN copy only what each machine reads from its own data for its own shots (live:
--- each machine fires a turret's rounds from its own copy, docs/research/runtime-peer-messaging-F5FEE03DCFDB.md
+-- each machine fires a turret's rounds from its own copy, research/docs/runtime-peer-messaging-F5FEE03DCFDB.md
 -- section 15): the round (its own ProjectileWeapon copy and, for a magazine weapon, its own magazine copy with the
 -- pattern off and the chambered round), the spread and the aim recoil. The rate and the ammunition are the creator's,
 -- which the game replicates (its current RPM entry, the 11-bit round counts): never written on a copy.

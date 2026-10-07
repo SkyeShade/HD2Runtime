@@ -1,6 +1,6 @@
 local hd2=require('mods/skyeshade/hd2runtime')
 -- Live test for the charge fields (hd2.fields.charge.*, docs/support-weapon-api.md "Charge",
--- docs/research/railgun-charge-F5FEE03DCFDB.md). Every field is a member of the weapon's OWN WeaponChargeComponent
+-- research/docs/railgun-charge-F5FEE03DCFDB.md). Every field is a member of the weapon's OWN WeaponChargeComponent
 -- record, read live by the native charge code every frame: an APPLIED write takes effect at once, also on a Railgun
 -- already in your hands. Not yet shown in game: the new fields need allow_unverified_effect (the overcharge explosion
 -- of another weapon also allow_unverified_reference). The charge times are older ids and need no acknowledgement.

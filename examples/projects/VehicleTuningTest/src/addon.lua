@@ -1,6 +1,6 @@
 local hd2=require('mods/skyeshade/hd2runtime')
 -- Live test for the vehicle tuning fields (docs/vehicle-weapons.md turret motion, docs/vehicle-authoring.md body
--- rotation and steering; research docs/research/vehicle-mech-components-F5FEE03DCFDB.md). Every field here needs
+-- rotation and steering; research research/docs/vehicle-mech-components-F5FEE03DCFDB.md). Every field here needs
 -- allow_unverified_effect until this test passes: sentry live evidence for the same turret ids does not apply to
 -- vehicles.
 --

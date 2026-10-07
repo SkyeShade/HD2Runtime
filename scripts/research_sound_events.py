@@ -1,4 +1,4 @@
-"""The full sound-event catalogue (docs/research/sound-events-F5FEE03DCFDB.md): every Wwise Event object in every
+"""The full sound-event catalogue (research/docs/sound-events-F5FEE03DCFDB.md): every Wwise Event object in every
 wwise_bank of build F5FEE03DCFDB, with its banks, actions, kind, range, the mixer bus it plays on, the game parameters,
 switch and state groups its sounds react to, the packages listing its banks and which stratagem or loadout package
 provides them; and the sound engine's game parameters, state groups / states, switch groups / switches and busses.

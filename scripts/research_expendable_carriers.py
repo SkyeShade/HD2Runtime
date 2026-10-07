@@ -1,5 +1,5 @@
 """Which support weapons are EXPENDABLE (a disposable, non-reloadable lifecycle), and which of them can carry a clone of
-which donor? (docs/research/expendable-carriers-F5FEE03DCFDB.md). Read-only, offline.
+which donor? (research/docs/expendable-carriers-F5FEE03DCFDB.md). Read-only, offline.
 
 "Expendable" is the weapon's LIFECYCLE, never its vanilla round count: the weapon discards itself when empty and can
 never be reloaded. Membership is derived from game data and code, never from names. Two separate questions:

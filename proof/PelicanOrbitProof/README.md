@@ -42,7 +42,7 @@ The rest of this page is 0.1.0's, with the build names updated.
 The Pelican CAS hover is live-proven: the game's transport Pelican, spawned empty with the beacon as its anchor, holds
 over the beacon, steered by its flight component's target. This proof asks whether the **same normal Pelican**
 (behaviour 667, never the extraction's behaviour 202) circles when the Runtime moves that per-instance target
-(docs/research/pelican-cas-F5FEE03DCFDB.md, "Retargeting a live Pelican" and "The orbit").
+(research/docs/pelican-cas-F5FEE03DCFDB.md, "Retargeting a live Pelican" and "The orbit").
 
 **What happens on Ctrl+Shift+F8:**
 1. One empty Pelican (`hd2.pelican.spawn`) anchored at the **centre**: the landing position of the last beacon you threw

@@ -1,4 +1,4 @@
-"""The transport Pelican (runtime/pelicans.lua; docs/research/pelican-cas-F5FEE03DCFDB.md): the read-only readers of the
+"""The transport Pelican (runtime/pelicans.lua; research/docs/pelican-cas-F5FEE03DCFDB.md): the read-only readers of the
 Transport, Behavior and transform components, the per-update watch (seen, cargo, stages, release, departure, gone),
 and the per-instance hold: one guarded 8-byte write of a released Pelican's release time (P+0x178), so it departs the
 asked seconds after its release; every refusal writes nothing. Offline: the payload world with the three components

@@ -167,7 +167,7 @@ function M.catalogue()
         table.sort(defaults)
         out[#out+1]={name=name,beacon=g.beacon,families=g.families,pod=g.pod==true,weapon=g.weapon==true,
             eagle=g.eagle==true,doc=g.doc,payloads=payloads,defaults=defaults}
-        -- The expendable group: its lifecycle members (disposable, never reloadable; docs/research/expendable-carriers-
+        -- The expendable group: its lifecycle members (disposable, never reloadable; research/docs/expendable-carriers-
         -- F5FEE03DCFDB.md), each with the donors it can carry a clone of (only those inside its component class).
         if g.weapon and not g.variant then
             local members={}

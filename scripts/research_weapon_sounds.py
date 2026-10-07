@@ -1,4 +1,4 @@
-"""The weapon firing-sound catalogue (docs/research/weapon-sounds-F5FEE03DCFDB.md): every ProjectileWeapon type of build
+"""The weapon firing-sound catalogue (research/docs/weapon-sounds-F5FEE03DCFDB.md): every ProjectileWeapon type of build
 F5FEE03DCFDB that names a firing sound, the Wwise banks that define its events, the packages that list those banks, the
 stratagems whose call-in packages provide them, and how far each layer carries. Read-only, offline: the game.dll image,
 the seven retained snapshots and the game's own bundles. Nothing is written to the game or the snapshots.

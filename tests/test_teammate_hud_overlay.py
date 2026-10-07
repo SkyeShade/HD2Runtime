@@ -1,6 +1,6 @@
 """Other players' custom slots on the in-mission teammate stratagem HUD (display only; runtime/stratagem_slot_overlay.lua
 teammate_cards and mission_remote_slots; research/teammate-hud-F5FEE03DCFDB.json;
-docs/research/teammate-hud-F5FEE03DCFDB.md), on the offline mission HUD of tests/test_stratagem_slot_overlay.py with the
+research/docs/teammate-hud-F5FEE03DCFDB.md), on the offline mission HUD of tests/test_stratagem_slot_overlay.py with the
 squad container laid out as the research found it (panel k = HUD + 0x24E340 + 0x1F8C8 + 0x6A0 + k * 0xA6A0, bound to its
 player by the entity at +0xA66C; card j = panel + 0x2A20 + j * 0x14F0: its record entry index, the type it shows, its
 state, its lit band, its icon element at +0x518).

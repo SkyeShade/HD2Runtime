@@ -15,7 +15,7 @@ starts with `VEHICLE TUNING 0.1.0 BUILD`. The fields:
   second.
 
 Every field needs `allow_unverified_effect` until this test passes. The sentry live evidence for the same turret ids does
-not apply to vehicles. Research: `docs/research/vehicle-mech-components-F5FEE03DCFDB.md`.
+not apply to vehicles. Research: `research/docs/vehicle-mech-components-F5FEE03DCFDB.md`.
 
 ## When each value takes effect
 

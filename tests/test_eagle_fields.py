@@ -26,7 +26,7 @@ EDITABLE = {   # by attack kind: bombs (5), strafe (2), rockets (4)
     **{name: {'eagle.airstrike_pattern', 'eagle.drop_interval', 'eagle.attack_angle'} for name in
         ('Eagle Airstrike', 'Eagle Cluster Bomb', 'Eagle Napalm Airstrike', 'Eagle Smoke Strike', 'Eagle 500kg Bomb',
          'Eagle Gas Airstrike')}}
-# The research baselines (docs/research/eagle-components-F5FEE03DCFDB.md, section 3).
+# The research baselines (research/docs/eagle-components-F5FEE03DCFDB.md, section 3).
 BASELINE = {
     'Eagle Strafing Run': (0, 0.5, 1.5, 60, 60, 180), 'Eagle Airstrike': (0, 0.2, 1.5, 50, 60, 90),
     'Eagle Cluster Bomb': (3, 0.1, 1.5, 50, 60, 90), 'Eagle Napalm Airstrike': (4, 0.2, 1.5, 50, 60, 90),

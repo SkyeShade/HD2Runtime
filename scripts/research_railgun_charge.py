@@ -46,7 +46,7 @@ Proven on build F5FEE03DCFDB (details, pins and per-member evidence in the JSON)
    multipliers; charge.minimum_seconds (+72) and charge.maximum_seconds (+76) are the projectile SPEED multipliers at
    minimum charge and full overcharge, not times (and no arc consumer reads them).
 
-  py scripts/research_railgun_charge.py          # write research/railgun-charge-F5FEE03DCFDB.json + docs/research md
+  py scripts/research_railgun_charge.py          # write research/railgun-charge-F5FEE03DCFDB.json + research/docs md
   py scripts/research_railgun_charge.py --check  # fail if the committed outputs are stale
 
 Requires capstone and numpy, the pinned datalibrary and the retained snapshots.
@@ -67,7 +67,7 @@ from scan import compare, golib, report, tables  # noqa: E402
 from scan.tables import decode, hexid  # noqa: E402
 
 OUTPUT = ROOT / 'research/railgun-charge-F5FEE03DCFDB.json'
-MARKDOWN = ROOT / 'docs/research/railgun-charge-F5FEE03DCFDB.md'
+MARKDOWN = ROOT / 'research/docs/railgun-charge-F5FEE03DCFDB.md'
 WIKI = ROOT.parent / 'HD2WikiImporter/output'
 COMPONENT = 'WeaponChargeComponentData'
 RECORD_TYPE = 'WeaponChargeComponent'

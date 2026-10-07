@@ -1,4 +1,4 @@
-"""The Runtime peer protocol hd2rt/1 (runtime/peer_protocol.lua; docs/research/runtime-peer-messaging-F5FEE03DCFDB.md,
+"""The Runtime peer protocol hd2rt/1 (runtime/peer_protocol.lua; research/docs/runtime-peer-messaging-F5FEE03DCFDB.md,
 section 3): the one lobby member value each Runtime publishes. Pure: it encodes and decodes semantic state only (a
 version, hashes, a counter, custom stratagem ids) and refuses anything else whole."""
 import unittest

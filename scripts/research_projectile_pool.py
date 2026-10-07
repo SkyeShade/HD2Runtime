@@ -22,7 +22,7 @@ Proves on build F5FEE03DCFDB, from the game.dll image and the four retained miss
 3. In the mission snapshots the counter grows (0, 331, 768, 1005), and the newest slots hold finite positions, a
    non-zero velocity (near the stored speed; a projectile can also inherit its source's velocity, row +0xF0 bit 0), a
    distance travelled, the local peer as creditor and an owner and source entity.
-4. The impact explosion is the projectile's OWN COPY (docs/research/gas-eat-F5FEE03DCFDB.md): SpawnProjectile copies
+4. The impact explosion is the projectile's OWN COPY (research/docs/gas-eat-F5FEE03DCFDB.md): SpawnProjectile copies
    row +0x90 into hit record +0x7C (0x13AA646 / 0x13AA64C), the only store to it (the census below). On impact the
    update reads that copy, never the row: with no arming distance the impact path calls the explosion step with the
    override flag 0 (0x13AED9B / 0x13AEDA7), which skips a projectile whose impact was already requested (+0xB9,

@@ -1,5 +1,5 @@
 -- A custom stratagem's CARRIER POD: what its carrier's OWN hellpod rack holds for one mission (development;
--- docs/research/carrier-pod-items-F5FEE03DCFDB.md, sections 1, 2, 6 and 11; docs/custom-stratagem-api.md "Carrier
+-- research/docs/carrier-pod-items-F5FEE03DCFDB.md, sections 1, 2, 6 and 11; docs/custom-stratagem-api.md "Carrier
 -- groups" and "pod"). Not exported by api/hd2.lua.
 --
 -- The carrier is a support (or backpack) stratagem nobody in the lobby brings, and its rack record

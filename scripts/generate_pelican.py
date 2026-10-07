@@ -1,6 +1,6 @@
 """Generate domains/pelican.lua: the transport Pelican's components (Transport, Behavior, transform, clock), its flight
 members and timings, and the pinned code the development Pelican module (runtime/pelicans.lua) re-proves first, from
-research/pelican-F5FEE03DCFDB.json (docs/research/pelican-cas-F5FEE03DCFDB.md).
+research/pelican-F5FEE03DCFDB.json (research/docs/pelican-cas-F5FEE03DCFDB.md).
 """
 from __future__ import annotations
 
@@ -14,7 +14,7 @@ sys.path.insert(0, str(ROOT / 'scripts'))
 from reference_format import lua  # noqa: E402
 
 RESEARCH = ROOT / 'research/pelican-F5FEE03DCFDB.json'
-# The chin gun's firing sound (docs/research/pelican-maelstrom-sound-F5FEE03DCFDB.md): its own research and pins.
+# The chin gun's firing sound (research/docs/pelican-maelstrom-sound-F5FEE03DCFDB.md): its own research and pins.
 SOUND_RESEARCH = ROOT / 'research/pelican-maelstrom-sound-F5FEE03DCFDB.json'
 SOUND_GROUPS = ('soundShot', 'soundOverride', 'soundMidi', 'soundSource', 'soundUpdate', 'soundRelease', 'soundCreation')
 OUTPUT = ROOT / 'domains/pelican.lua'

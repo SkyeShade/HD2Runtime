@@ -71,7 +71,7 @@ these must hold; otherwise nothing is written:
 
 `runtime/weapon_clone.lua` also re-proves the UnitPath consumer review on the running game.dll. That covers every
 call site of the UnitComponent type lookup and every type-table read (research:
-`docs/research/weapon-variants-F5FEE03DCFDB.md`).
+`research/docs/weapon-variants-F5FEE03DCFDB.md`).
 
 `delivery.model_use = 'check'` only logs whether the model is ready (`MODEL READY` / `MODEL NOT READY`) and keeps the
 vanilla model. Use it for a first live test that the patch loads.

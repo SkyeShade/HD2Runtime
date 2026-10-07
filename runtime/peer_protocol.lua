@@ -1,4 +1,4 @@
--- The Runtime peer protocol hd2rt/1 (DEVELOPMENT; docs/research/runtime-peer-messaging-F5FEE03DCFDB.md, section 3):
+-- The Runtime peer protocol hd2rt/1 (DEVELOPMENT; research/docs/runtime-peer-messaging-F5FEE03DCFDB.md, section 3):
 -- the one value each machine publishes as its lobby member property (runtime/peer_channel.lua). Pure: no game access.
 --
 --   hd2rt/1;<runtime version>;<registry hash>;<seq>;<slot0>,<slot1>,<slot2>,<slot3>[;host:<table hash>:<carrier hash>]

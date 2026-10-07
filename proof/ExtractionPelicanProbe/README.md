@@ -1,7 +1,7 @@
 # ExtractionPelicanProbe 0.1.0 (development only, read-only): the extraction Pelican, observed
 
 **Nothing is written, spawned or called.** The probe watches the game's own extraction Pelican during a normal
-extraction, to check the offline research (docs/research/pelican-cas-F5FEE03DCFDB.md, "Pelican variants"):
+extraction, to check the offline research (research/docs/pelican-cas-F5FEE03DCFDB.md, "Pelican variants"):
 
 - the extraction Pelican is the entity `shuttle_gunship`, delivered by the mission stratagem `Extract` (type 148) the way
   a vehicle's Pelican is delivered from its beacon;

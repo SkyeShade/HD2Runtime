@@ -1,5 +1,5 @@
 local hd2=require('mods/skyeshade/hd2runtime')
--- PelicanGatlingProof 0.3.0: THE PELICAN'S OWN CHIN TURRET AS A GATLING SENTRY (docs/research/pelican-cas-F5FEE03DCFDB.md
+-- PelicanGatlingProof 0.3.0: THE PELICAN'S OWN CHIN TURRET AS A GATLING SENTRY (research/docs/pelican-cas-F5FEE03DCFDB.md
 -- section 19). Development only; solo host only. Install with PelicanCasProof (no other Pelican proof).
 -- The chin turret keeps its entity, model, mount, node 41, parent link and movement. As soon as a Runtime Pelican's chin
 -- turret exists and is uniquely identified (during its approach), through runtime/pelican_weapon.lua:

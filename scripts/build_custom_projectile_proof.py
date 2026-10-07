@@ -74,7 +74,7 @@ PROJECTS = [ROOT / 'proof/CustomProjectileRowProof', ROOT / 'proof/ReprimandCust
     # The custom stratagem API examples (docs/custom-stratagem-api.md): the public API only.
     ROOT / 'proof/PelicanCasExample', ROOT / 'proof/GasBarrageExample', ROOT / 'proof/GasEatExample',
     ROOT / 'proof/HmgSentryExample', ROOT / 'proof/EagleStunRocketPodsExample',
-    # The Runtime-to-Runtime peer channel's first live proof (docs/research/runtime-peer-messaging-F5FEE03DCFDB.md).
+    # The Runtime-to-Runtime peer channel's first live proof (research/docs/runtime-peer-messaging-F5FEE03DCFDB.md).
     ROOT / 'proof/RuntimePeerHelloProof']
 # proof/CustomStratagemP0Proof 0.10.0 is the read-only custom icon family probe (it writes nothing). Its 0.9.0 (a custom
 # icon written into presentation_icon) crashed the game and is kept only in live-2026-10-01-custom-icon-CRASHED.

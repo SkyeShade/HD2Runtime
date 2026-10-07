@@ -1,7 +1,7 @@
 """Generate domains/player_equipment.lua: the inventory, deposit, magazine, avatar action context and ability layouts,
 the Supply Pack's self-use ability and the two game functions runtime/player_equipment.lua calls, with every pinned
 instruction it re-proves first, from research/player-equipment-F5FEE03DCFDB.json
-(docs/research/player-equipment-F5FEE03DCFDB.md), plus the item catalog (entity type -> the name mods already use).
+(research/docs/player-equipment-F5FEE03DCFDB.md), plus the item catalog (entity type -> the name mods already use).
 """
 from __future__ import annotations
 

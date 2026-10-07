@@ -1,5 +1,5 @@
 """The vehicle and mech component research domain (scripts/research_vehicle_mech_components.py,
-research/vehicle-mech-components-F5FEE03DCFDB.json, docs/research/vehicle-mech-components-F5FEE03DCFDB.md): read-only,
+research/vehicle-mech-components-F5FEE03DCFDB.json, research/docs/vehicle-mech-components-F5FEE03DCFDB.md): read-only,
 every proposal meets the field-naming proof standard (code read, name-length fit, differential, ownership, lifecycle),
 the record-lookup rule holds for every table, and the facts the report rests on. The layout fingerprints and a few
 values are re-read from the pinned entity file when the data library is present."""

@@ -493,7 +493,7 @@ end
 
 ------------------------------------------------------------------------------------- other players' custom slots --
 -- The loadout screen also draws each teammate's four stratagems (research/peer-messaging-F5FEE03DCFDB.json "panels";
--- docs/research/runtime-peer-messaging-F5FEE03DCFDB.md section 13): panel k = ui + base + k * stride, panel 0 the local
+-- research/docs/runtime-peer-messaging-F5FEE03DCFDB.md section 13): panel k = ui + base + k * stride, panel 0 the local
 -- player, 1-3 teammates, each holding its player's peer id and record, its slot widgets at panel 0's offsets shifted by
 -- the panel stride (the same repaint). Read-only: nothing here writes the game, the teammate's record is never touched.
 local PANELS=require('hd2runtime/domains/peer_messaging').panels

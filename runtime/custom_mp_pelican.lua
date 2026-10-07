@@ -1,4 +1,4 @@
--- A host-spawned Pelican CAS on every OTHER compatible machine (EXPERIMENTAL; docs/research/runtime-peer-messaging-
+-- A host-spawned Pelican CAS on every OTHER compatible machine (EXPERIMENTAL; research/docs/runtime-peer-messaging-
 -- F5FEE03DCFDB.md section 15; research peer-messaging "pelicanMirror"; local_research/mp/pelican/pelican-mp-notes.md).
 --
 -- The session host spawns the Pelican and keeps everything that is simulation: its flight, hold and orbit, its chin
@@ -11,7 +11,7 @@
 -- the rate slot and the casing before its first local shot; zero recoil; the spread), then mirror_interval every update
 -- (its instance interval, the local shot cadence, at the Gatling rate while its replicated current RPM entry stands and
 -- reads the host's seed or the Gatling rate; docs section 16). With gun.sound, the same firing sound on its own copy
--- (every machine posts its own local shots' sound from its own copy: docs/research/pelican-maelstrom-sound-
+-- (every machine posts its own local shots' sound from its own copy: research/docs/pelican-maelstrom-sound-
 -- F5FEE03DCFDB.md), its bank's package requested here. With gun.impact_explosion (explosive rounds), every round its
 -- copy fires HERE requests the donor's explosion on impact: runtime/projectile_impact.lua's continuous binding on this
 -- machine's own pool (provenance: the exact turret decides, whoever its rounds credit), as the Gas EAT's launchers are

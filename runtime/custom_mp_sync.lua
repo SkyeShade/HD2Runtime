@@ -1,4 +1,4 @@
--- Custom stratagem multiplayer state over the Runtime peer channel (EXPERIMENTAL; docs/research/runtime-peer-messaging-
+-- Custom stratagem multiplayer state over the Runtime peer channel (EXPERIMENTAL; research/docs/runtime-peer-messaging-
 -- F5FEE03DCFDB.md, sections 3 and 10). The channel (runtime/peer_channel.lua: the game's own PlayFab lobby member
 -- data) is live-proven between two Runtimes: both directions, the session peer ids, a 225-byte value, in a mission.
 --

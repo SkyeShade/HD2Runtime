@@ -5,7 +5,7 @@ observation of every Pelican uses the Runtime's read-only Pelican readers (inter
 
 **0.1.0 live result:** the empty spawn, the 60 s hold and the departure worked; the Pelican hovered about 252 m from the
 requested point. The cause: the game takes a Pelican's hover point from its **anchor**, filled at creation from the
-spawn context, and 0.1.0 passed none, so the anchor was the world origin (docs/research/pelican-cas-F5FEE03DCFDB.md,
+spawn context, and 0.1.0 passed none, so the anchor was the world origin (research/docs/pelican-cas-F5FEE03DCFDB.md,
 section 5b).
 
 **What changed in 0.2.0:**

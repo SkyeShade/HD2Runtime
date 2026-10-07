@@ -1,4 +1,4 @@
--- Custom Eagles (development; docs/custom-stratagem-api.md, "eagle"; docs/research/custom-payloads-F5FEE03DCFDB.md). Not
+-- Custom Eagles (development; docs/custom-stratagem-api.md, "eagle"; research/docs/custom-payloads-F5FEE03DCFDB.md). Not
 -- exported by api/hd2.lua: hd2.custom_stratagem definitions with an `eagle` payload reach it.
 --
 -- research/custom-payloads-F5FEE03DCFDB.json:

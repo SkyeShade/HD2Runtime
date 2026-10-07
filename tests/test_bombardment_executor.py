@@ -1,4 +1,4 @@
-"""The Runtime bombardment executor (runtime/bombardment_executor.lua; docs/research/beacon-redirect-F5FEE03DCFDB.md,
+"""The Runtime bombardment executor (runtime/bombardment_executor.lua; research/docs/beacon-redirect-F5FEE03DCFDB.md,
 "The Runtime bombardment executor"): the Orbital 120mm HE Barrage's pattern (read from its live, vanilla record), fired as
 the Orbital Gas Strike's shell 197 through the game's projectile wrapper from the host's avatar: 5 salvos of 3, 0.75 s
 between shells, 2.0 s between salvos, a +-27 square scatter, each shell 3000 above its aim, straight down. Every guard

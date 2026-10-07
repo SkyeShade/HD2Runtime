@@ -1,4 +1,4 @@
--- The Pelican Gatling turret experiment (development only; PelicanGatlingProof; docs/research/pelican-cas-F5FEE03DCFDB.md
+-- The Pelican Gatling turret experiment (development only; PelicanGatlingProof; research/docs/pelican-cas-F5FEE03DCFDB.md
 -- section 16). Not exported by api/hd2.lua.
 --
 -- One Runtime-spawned Pelican's chin turret (shuttle_gunship_turret_hmg, a mounted child at the Pelican's

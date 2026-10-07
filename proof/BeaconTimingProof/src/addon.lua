@@ -1,5 +1,5 @@
 local hd2=require('mods/skyeshade/hd2runtime')
--- BeaconTimingProof 0.1.0: THE BEACON TIMING API (runtime/beacons.lua; docs/research/beacon-redirect-F5FEE03DCFDB.md,
+-- BeaconTimingProof 0.1.0: THE BEACON TIMING API (runtime/beacons.lua; research/docs/beacon-redirect-F5FEE03DCFDB.md,
 -- "The beacon API"). Development only; solo host; no multiplayer change; not part of the Gas Barrage.
 -- What the API sets, per beacon, semantically:
 --     call_in_time              = countdown - activation threshold (the time to the activation, once landed)

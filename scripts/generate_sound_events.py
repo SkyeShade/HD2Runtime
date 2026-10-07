@@ -1,5 +1,5 @@
 """Generate the full sound-event catalogue from research/sound-events-F5FEE03DCFDB.json
-(docs/research/sound-events-F5FEE03DCFDB.md; docs/sounds.md):
+(research/docs/sound-events-F5FEE03DCFDB.md; docs/sounds.md):
 
 - domains/sound_events.lua: the Runtime's catalogue (runtime/sound_catalogue.lua): every Wwise event of the build by its
   name `<family>/<bank>/<event>`, its banks, kind, range, bus, the game parameters / switch and state groups its sounds

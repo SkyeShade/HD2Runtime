@@ -1,4 +1,4 @@
--- What this machine sees of ANOTHER machine's custom stratagem call (EXPERIMENTAL; read-only; docs/research/runtime-
+-- What this machine sees of ANOTHER machine's custom stratagem call (EXPERIMENTAL; read-only; research/docs/runtime-
 -- peer-messaging-F5FEE03DCFDB.md, section 10). Nothing here writes the game or calls a game function.
 --
 -- A beacon of a carrier type with no state here is another machine's call (its thrower's Runtime runs it). For the

@@ -1,4 +1,4 @@
--- The development beacon API (docs/research/beacon-redirect-F5FEE03DCFDB.md, "The beacon API"). Not exported by
+-- The development beacon API (research/docs/beacon-redirect-F5FEE03DCFDB.md, "The beacon API"). Not exported by
 -- api/hd2.lua yet: it becomes public only after its own live proof (proof/BeaconTimingProof).
 --
 -- A thrown stratagem is a beacon with three independent per-call properties the API exposes semantically:

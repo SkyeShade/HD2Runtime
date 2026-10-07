@@ -1,6 +1,6 @@
 """The Pelican CAS with several players (runtime/custom_mp_calls.lua, runtime/custom_mp_pelican.lua,
 runtime/pelican_weapon.lua mirror_configure / mirror_interval, runtime/projectile_impact.lua bind_credit;
-docs/research/runtime-peer-messaging-F5FEE03DCFDB.md section 15):
+research/docs/runtime-peer-messaging-F5FEE03DCFDB.md section 15):
   * a client requests its call from the session host with semantic state only (custom id, beacon network id, call
     sequence, loadout slot, carrier map hash); the host runs it once, only when its synced slot, the carrier map, a new
     sequence and its beacon's thrower agree, as that player's call (credit to that player), and publishes the Pelican's

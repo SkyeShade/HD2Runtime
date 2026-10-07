@@ -1,6 +1,6 @@
 local hd2=require('mods/skyeshade/hd2runtime')
 -- Live test for the PLAS-45 Epoch's three explosions and the RS-422 Railgun's overcharge explosion (docs/support-weapon-
--- api.md "Charge-level shots and explosions", docs/research/charge-explosions-F5FEE03DCFDB.md). Each charge level of the
+-- api.md "Charge-level shots and explosions", research/docs/charge-explosions-F5FEE03DCFDB.md). Each charge level of the
 -- Epoch fires its own projectile row, chosen by the Epoch's own charge record when the trigger is released:
 --   attack('primary')         partial-charge shot: released after 1 s and before 2.5 s; its explosion attack('primary_impact');
 --   attack('full_charge')     full-charge and overcharged shots: released at 2.5 s or later; its explosion

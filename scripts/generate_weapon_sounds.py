@@ -1,5 +1,5 @@
 """Generate the weapon firing-sound catalogue from research/weapon-sounds-F5FEE03DCFDB.json
-(docs/research/weapon-sounds-F5FEE03DCFDB.md; docs/weapon-sounds.md):
+(research/docs/weapon-sounds-F5FEE03DCFDB.md; docs/weapon-sounds.md):
 
 - domains/weapon_sounds.lua: the Runtime's catalogue (runtime/weapon_sounds.lua): every entry by its semantic name
   `<family>/<weapon>[/<part>]`, its events (kept here for the Runtime only), its bank, the packages that list the bank,

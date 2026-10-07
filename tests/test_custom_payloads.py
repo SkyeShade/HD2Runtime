@@ -1,4 +1,4 @@
-"""The custom stratagem payload families (docs/custom-stratagem-api.md; docs/research/custom-payloads-F5FEE03DCFDB.md),
+"""The custom stratagem payload families (docs/custom-stratagem-api.md; research/docs/custom-payloads-F5FEE03DCFDB.md),
 offline:
   * the research and its domain (the Eagle jet and its rockets, the EMS donor chain, Eagle rows and Eagle Rearm);
   * support deliveries of any reviewed support weapon or backpack (the rack's own items and count);

@@ -1,6 +1,6 @@
 local hd2=require('mods/skyeshade/hd2runtime')
 -- Live test for hd2.actions.heal_limb / heal_limbs / add_velocity (docs/event-scripting.md, limb heals and velocity;
--- docs/research/player-avatar-actions-F5FEE03DCFDB.md). Everything acts on YOUR OWN avatar only (no host needed).
+-- research/docs/player-avatar-actions-F5FEE03DCFDB.md). Everything acts on YOUR OWN avatar only (no host needed).
 --   * Limb heals use the game's own zone restore: the limb returns to full and an injured limb is healed; main
 --     health is unchanged.
 --   * Velocity kicks use the game's own movement velocity setter: your current velocity plus the kick.

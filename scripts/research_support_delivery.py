@@ -1,5 +1,5 @@
 """A support stratagem's delivery: the hellpod a support beacon spawns and the exact weapon entities its rack holds
-(docs/research/gas-eat-F5FEE03DCFDB.md, "Delivery" and "Capture"). Read-only, offline: the game.dll image and the
+(research/docs/gas-eat-F5FEE03DCFDB.md, "Delivery" and "Capture"). Read-only, offline: the game.dll image and the
 retained mission snapshots of build F5FEE03DCFDB. Nothing is written.
 
 Proves:

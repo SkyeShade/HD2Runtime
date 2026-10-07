@@ -1,6 +1,6 @@
 local hd2=require('mods/skyeshade/hd2runtime')
 -- Live test for the whole-body gib ("splootch") threshold, hd2.fields.gore.whole_body_gib_damage
--- (docs/enemy-authoring.md, docs/research/enemy-gib-threshold-F5FEE03DCFDB.md). A Terminid bursts when the hit that
+-- (docs/enemy-authoring.md, research/docs/enemy-gib-threshold-F5FEE03DCFDB.md). A Terminid bursts when the hit that
 -- kills it deals at least this much final damage (after armor and zone multipliers; Electricity counts double).
 -- The value is read at hit time, so bugs already alive follow a change at once.
 --

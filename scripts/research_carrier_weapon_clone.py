@@ -1,5 +1,5 @@
 """Can an unused vanilla support weapon TYPE be turned into a full EAT-17 clone for one mission (a "carrier weapon
-clone"), and which carriers can host it? (docs/research/carrier-weapon-clone-F5FEE03DCFDB.md). Read-only, offline.
+clone"), and which carriers can host it? (research/docs/carrier-weapon-clone-F5FEE03DCFDB.md). Read-only, offline.
 
 Proves on build F5FEE03DCFDB, from the pinned entity tables, the game.dll image, the seven retained snapshots and the
 game's archives:

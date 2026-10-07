@@ -1,4 +1,4 @@
--- Custom item PROVENANCE across machines (EXPERIMENTAL; docs/research/runtime-peer-messaging-F5FEE03DCFDB.md section
+-- Custom item PROVENANCE across machines (EXPERIMENTAL; research/docs/runtime-peer-messaging-F5FEE03DCFDB.md section
 -- 14). A launcher a custom stratagem call delivered (the Gas EAT's two EAT-17s) is that custom stratagem's whoever
 -- picks it up: its rocket's payload follows the exact launcher, never the player who fires it.
 --

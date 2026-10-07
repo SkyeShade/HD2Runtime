@@ -1,5 +1,5 @@
 """Generate domains/weapon_variants.lua: the reviewed data of a support weapon's mission-scoped VARIANT of its own type
-(docs/research/weapon-variants-F5FEE03DCFDB.md) from research/weapon-variants-F5FEE03DCFDB.json
+(research/docs/weapon-variants-F5FEE03DCFDB.md) from research/weapon-variants-F5FEE03DCFDB.json
 (scripts/research_weapon_variants.py):
 
 * each variant HOST (the M-1000 Maxigun): its pool (itself: the only support weapon with its component set), its four

@@ -1,4 +1,4 @@
-"""proof/PelicanCasProof 0.1.1 (docs/research/pelican-cas-F5FEE03DCFDB.md): Pelican Close Air Support, the first custom
+"""proof/PelicanCasProof 0.1.1 (research/docs/pelican-cas-F5FEE03DCFDB.md): Pelican Close Air Support, the first custom
 stratagem whose delivery is a Runtime-summoned game Pelican. Offline, the proof's own addon end to end on the event
 world of the Gas Barrage proofs (the custom panel, the saved loadout, the mission record and HUD), with two owned
 orbitals that are not payload-compatible with the 120mm: the Orbital EMS Strike (a BLUE beam, as in the game: never the

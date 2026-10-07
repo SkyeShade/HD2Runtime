@@ -32,7 +32,7 @@ later lookups and other machines know about.
 | Adapter | `runtime/windows_write.lua` `owned_block`, `owned_write`, `native_spawn_projectile` | memory the Runtime owns; the call |
 | Action | `api/actions.lua` `spawn_custom_projectile` (not exported by `hd2`) | authority, rate limit, asset gate, logging |
 | Components | `domains/projectile_rows.lua` `components`, `core/projectile_rows.lua` `component_changes` | semantic descriptors; copy exactly the members a component owns |
-| Catalogue | `scripts/research_projectile_components.py` -> `research/projectile-components-F5FEE03DCFDB.json`, `scripts/generate_projectile_catalogue_report.py` -> `docs/research/projectile-components-F5FEE03DCFDB.md` | every vanilla row split into components, identical values grouped |
+| Catalogue | `scripts/research_projectile_components.py` -> `research/projectile-components-F5FEE03DCFDB.json`, `scripts/generate_projectile_catalogue_report.py` -> `research/docs/projectile-components-F5FEE03DCFDB.md` | every vanilla row split into components, identical values grouped |
 | Proof | `proof/CustomProjectileRowProof`, `scripts/build_custom_projectile_proof.py` | development-only live test |
 | Pool | `scripts/research_projectile_pool.py` -> `research/projectile-pool-F5FEE03DCFDB.json` -> `domains/projectile_rows.lua` `pool`; `runtime/event_world.lua` `projectile_counter`, `projectile_types`, `projectile_slot` | the projectile pool, read-only: which projectiles spawned since the last look |
 | Replacement | `runtime/projectile_replacement.lua`; `api/actions.lua` `replace_projectiles`, `stop_replacing_projectiles` (not exported by `hd2`) | a weapon's carrier shots replaced by a custom projectile |
@@ -153,7 +153,7 @@ result as before.
   not established.
 - **No colour component.** Colour is baked into the particle effect assets.
 
-**The catalogue** (`docs/research/projectile-components-F5FEE03DCFDB.md`) splits all 350 vanilla rows into these
+**The catalogue** (`research/docs/projectile-components-F5FEE03DCFDB.md`) splits all 350 vanilla rows into these
 components. All 350 live rows match the datalibrary. 86 rows have a catalogued identity, 70 rows have a runtime donor
 (78 donor names), and 139 rows have a unit.
 

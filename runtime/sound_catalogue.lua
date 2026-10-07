@@ -1,4 +1,4 @@
--- The full sound-event catalogue (docs/sounds.md; docs/research/sound-events-F5FEE03DCFDB.md), read-only.
+-- The full sound-event catalogue (docs/sounds.md; research/docs/sound-events-F5FEE03DCFDB.md), read-only.
 --
 -- domains/sound_events.lua (scripts/generate_sound_events.py) names every Wwise event of build F5FEE03DCFDB:
 -- `<family>/<bank>/<event>`, for example 'explosions/stratagems_orbital_380mm_he/3d167800' or

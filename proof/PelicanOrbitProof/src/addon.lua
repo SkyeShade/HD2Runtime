@@ -1,5 +1,5 @@
 local hd2=require('mods/skyeshade/hd2runtime')
--- PelicanOrbitProof 0.3.0: WHERE DOES THE PELICAN POINT? (docs/research/pelican-cas-F5FEE03DCFDB.md, "Orientation").
+-- PelicanOrbitProof 0.3.0: WHERE DOES THE PELICAN POINT? (research/docs/pelican-cas-F5FEE03DCFDB.md, "Orientation").
 -- 0.2.0 is LIVE-PROVEN: the full 60 s, 0 refused, behaviour 667 and stage 6 throughout (1.6-1.9 laps). Two additions,
 -- the orbit itself unchanged:
 --   * READ-ONLY orientation sampling every 0.25 s while it orbits: its root position and rotation (the transform
@@ -20,7 +20,7 @@ local hd2=require('mods/skyeshade/hd2runtime')
 --   * it went straight from its low hover (about 6 m up) to a target 60 m up and 40 m out. Now the ENTRY: for 15 s the
 --     circle's radius and height grow smoothly from its hover to 40 m and 60 m while it starts to turn (a spiral climb),
 --     then the orbit is ESTABLISHED. The same 0.25 s update interval: no extra writes.
--- PelicanOrbitProof 0.1.0: CAN THE NORMAL PELICAN CIRCLE A BEACON? (docs/research/pelican-cas-F5FEE03DCFDB.md,
+-- PelicanOrbitProof 0.1.0: CAN THE NORMAL PELICAN CIRCLE A BEACON? (research/docs/pelican-cas-F5FEE03DCFDB.md,
 -- "Retargeting a live Pelican" and "The orbit"). Development only; solo host; no weapons; not a public API.
 --
 -- The Pelican CAS hover is live-proven: the game's transport Pelican, spawned empty with the beacon as its anchor, holds

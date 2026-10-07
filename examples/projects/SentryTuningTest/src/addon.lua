@@ -1,6 +1,6 @@
 local hd2=require('mods/skyeshade/hd2runtime')
 -- Live test for the sentry component fields (docs/stratagem-authoring.md "Sentry turret motion, targeting and weapon
--- handling", docs/research/sentry-components-F5FEE03DCFDB.md). Each field is a member of the sentry's OWN deployed
+-- handling", research/docs/sentry-components-F5FEE03DCFDB.md). Each field is a member of the sentry's OWN deployed
 -- entity (its records have one owner each, so no allow_shared). It is a type-record write: every deployment of that
 -- sentry on this machine uses it. Spread, recoil and the targeting ranges are copied into a sentry when it SPAWNS: set
 -- them, then call the sentry in. The coupling, the yaw limits and the wind-up are read live.

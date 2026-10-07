@@ -1,4 +1,4 @@
-"""Carrier pod nodes (docs/research/carrier-pod-items-F5FEE03DCFDB.md, section 11): where each slot of a hellpod
+"""Carrier pod nodes (research/docs/carrier-pod-items-F5FEE03DCFDB.md, section 11): where each slot of a hellpod
 weapon rack places its item, and so how many items a carrier's OWN rack can hold. Read-only, offline: the pinned
 entity tables (scan toolkit), research/pod-payloads-F5FEE03DCFDB.json (every RackAttach slot of every rack) and the
 installed game's data folder (scripts/hd2_game_data.py; the rack unit resource is only read). Nothing is written.

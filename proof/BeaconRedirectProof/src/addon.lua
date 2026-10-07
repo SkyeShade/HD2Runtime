@@ -1,5 +1,5 @@
 local hd2=require('mods/skyeshade/hd2runtime')
--- BeaconRedirectProof 0.3.0: THE BEACON'S TIMING AND THE BARRAGE'S LIFECYCLE (docs/research/beacon-redirect-
+-- BeaconRedirectProof 0.3.0: THE BEACON'S TIMING AND THE BARRAGE'S LIFECYCLE (research/docs/beacon-redirect-
 -- F5FEE03DCFDB.md). Development only; solo host; no multiplayer change.
 -- 0.2.0 (AC-8 Autocannon -> 120mm) is live-proven at the dispatcher level: the dispatcher was given 136 and the 120mm's
 -- payload and requested its spawn. The redirected beacon keeps the AC-8's timers. 0.2.0's 30 s summary was wrong: a

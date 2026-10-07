@@ -25,7 +25,7 @@ Proves:
 5. Assets: in every mission snapshot the game holds the root package of every record entry's type (and the loadout
    packages of carried equipment), aboard the ship none; the unselected carrier's package is resident in no snapshot.
    The proof carrier's package is in the bundle database.
-5b. A stratagem's FULL call-in package list (docs/research/gas-eat-F5FEE03DCFDB.md): the mission loader (0x1753330)
+5b. A stratagem's FULL call-in package list (research/docs/gas-eat-F5FEE03DCFDB.md): the mission loader (0x1753330)
    asks 0x1753080(out, type, -, level) for every record entry's packages: the row's +0xA8 package when non-zero; the
    row's +0xF8 weapon key looked up in the loadout weapon table [game+0x33269E8] (entries from +0x1B2C, count +0x1B48,
    0x20 bytes: +0 key, +8 entity resource), that entity's registry record (0x4F5680) +8 package; each +0x118 entry

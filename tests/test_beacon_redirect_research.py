@@ -1,4 +1,4 @@
-"""The beacon redirect research (docs/research/beacon-redirect-F5FEE03DCFDB.md,
+"""The beacon redirect research (research/docs/beacon-redirect-F5FEE03DCFDB.md,
 research/beacon-redirect-F5FEE03DCFDB.json): read-only, its pins identical in every snapshot; the manager path plausible
 in every snapshot; the type replicated only at creation; the marker colour from the row category; the per-second
 re-targeting keyed on +0x170 for pods only; the Eagle Rearm fleet keyed on the row's link."""

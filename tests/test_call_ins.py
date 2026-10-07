@@ -1,5 +1,5 @@
 """The thrown stratagem balls and their throwers (runtime/call_ins.lua; research/peer-messaging-F5FEE03DCFDB.json
-"callIn"; docs/research/runtime-peer-messaging-F5FEE03DCFDB.md section 11), on the offline event world with a call-in
+"callIn"; research/docs/runtime-peer-messaging-F5FEE03DCFDB.md section 11), on the offline event world with a call-in
 component laid out as the research found it: a beacon's network id finds the one ball naming it; its thrower is that
 ball's owner peer, checked against the thrower's record (its entry holds the ball's type, or the token on a synced custom
 slot whose carrier the ball holds); a ball in hand, no ball, two balls or a mismatch are never guessed; changed code

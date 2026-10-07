@@ -1,4 +1,4 @@
-"""The Pelican chin gun's firing sound (docs/research/pelican-maelstrom-sound-F5FEE03DCFDB.md;
+"""The Pelican chin gun's firing sound (research/docs/pelican-maelstrom-sound-F5FEE03DCFDB.md;
 research/pelican-maelstrom-sound-F5FEE03DCFDB.json; runtime/pelican_weapon.lua sound section): a projectile weapon's
 firing sound is its RESOLVED ProjectileWeapon record's +0xED (MIDI) and +0x104 (the per-shot Wwise event), read at every
 shot, plus its instance record's +0x38 the game derives from +0xED at creation. gun.sound = 'maelstrom_main_gun' writes

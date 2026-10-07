@@ -1,7 +1,7 @@
 # What the Helldiver holds and wears, and the Supply Pack
 
 Read what the local player carries, read the worn backpack's own values, and use a B-1 Supply Pack on its wearer the
-way the game does. Research: [docs/research/player-equipment-F5FEE03DCFDB.md](research/player-equipment-F5FEE03DCFDB.md).
+way the game does. Research: [research/docs/player-equipment-F5FEE03DCFDB.md](research/player-equipment-F5FEE03DCFDB.md).
 Example: `examples/projects/AutoSupplyPackTest` (an auto-consuming Supply Pack).
 
 ```lua

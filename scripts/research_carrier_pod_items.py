@@ -1,4 +1,4 @@
-"""Carrier pod items research (docs/research/carrier-pod-items-F5FEE03DCFDB.md): can a custom stratagem's pod deliver
+"""Carrier pod items research (research/docs/carrier-pod-items-F5FEE03DCFDB.md): can a custom stratagem's pod deliver
 any catalogued equipment (primaries, secondaries, throwables, support weapons, backpacks) by writing the CARRIER's own
 rack for the mission, instead of redirecting the beacon to a donor whose rack is shared with vanilla calls? Read-only,
 offline: the game.dll image of the retained snapshots, the pinned entity tables (scan toolkit), the pod payload,
@@ -398,7 +398,7 @@ def build() -> dict:
         'protectionChanges': 0,
         'sources': ['research/pod-payloads-F5FEE03DCFDB.json', 'research/package-residency-F5FEE03DCFDB.json',
             'research/loadout-pod-F5FEE03DCFDB.json', 'research/support-delivery-F5FEE03DCFDB.json',
-            'docs/research/runtime-peer-messaging-F5FEE03DCFDB.md (r2/r3 live)', 'domains/package_residency.lua'],
+            'research/docs/runtime-peer-messaging-F5FEE03DCFDB.md (r2/r3 live)', 'domains/package_residency.lua'],
         'pins': pins,
         'pinnedBytesMismatchPerSnapshot': mismatch,
         'interaction': {'jumpTable': '0x%X' % JUMP_TABLE, 'cases': {k: cases[k] for k in sorted(set(

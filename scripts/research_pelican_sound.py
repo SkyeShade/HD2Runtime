@@ -1,4 +1,4 @@
-"""The Pelican chin gun's firing sound (docs/research/pelican-maelstrom-sound-F5FEE03DCFDB.md): where a projectile
+"""The Pelican chin gun's firing sound (research/docs/pelican-maelstrom-sound-F5FEE03DCFDB.md): where a projectile
 weapon's firing audio is referenced, whether that reference lives in the per-instance ProjectileWeapon copy the Runtime
 already makes for a Runtime Pelican's chin turret, and what the TD-110 Maelstrom's main gun (attach_tank_gun) uses.
 Read-only, offline: the game.dll image, the seven retained snapshots of build F5FEE03DCFDB and the game's own bundles.

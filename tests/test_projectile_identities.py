@@ -1,4 +1,4 @@
-"""Projectile identities (scripts/research_projectile_identities.py, docs/research/projectile-identities-F5FEE03DCFDB.md).
+"""Projectile identities (scripts/research_projectile_identities.py, research/docs/projectile-identities-F5FEE03DCFDB.md).
 
 Pins the research output: names come only from structural evidence in the game's data (entity members typed
 ProjectileType, attack outputs, explosion submunitions), never from the community hint list, which is only compared;

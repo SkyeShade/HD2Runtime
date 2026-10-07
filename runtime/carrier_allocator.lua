@@ -1,4 +1,4 @@
--- Carrier allocation for several custom stratagems (development; docs/research/pelican-cas-F5FEE03DCFDB.md, "Carrier
+-- Carrier allocation for several custom stratagems (development; research/docs/pelican-cas-F5FEE03DCFDB.md, "Carrier
 -- allocation"). Read-only: it chooses, it writes nothing.
 --
 -- Each custom stratagem borrows one vanilla carrier for its identity. Two custom stratagems must never share one:

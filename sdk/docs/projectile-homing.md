@@ -144,7 +144,7 @@ weapon (`NOT_SOLO`). With it:
 - **Other players see the shot fly straight**, with the hit drawn where it homed. Unless they also run the mod, their
   copy is not steered.
 
-Public matchmaking is off while HD2Runtime runs (docs/research/matchmaking-safety-F5FEE03DCFDB.md), so this only
+Public matchmaking is off while HD2Runtime runs (research/docs/matchmaking-safety-F5FEE03DCFDB.md), so this only
 happens in your own lobby.
 
 ## Log

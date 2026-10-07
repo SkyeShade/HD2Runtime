@@ -2,7 +2,7 @@
 -- api/hd2.lua directly: api/ownership.lua is its public face.
 --
 -- The game credits a hit to Creditor(owner): the peer owning the shooter's network object, unless the shooter carries
--- the no-credit tag or has none (research/pelican-F5FEE03DCFDB.json "attribution"; docs/research/pelican-cas section
+-- the no-credit tag or has none (research/pelican-F5FEE03DCFDB.json "attribution"; research/docs/pelican-cas section
 -- 24). The live-proven per-instance path (PelicanGatlingProof 0.5.0) clears that ONE entity's own tag through one
 -- guarded 8-byte write of its own Tag record (runtime/pelican_weapon.lua configure_credit: it wields itself, has the
 -- player faction bit and a network id). This module is the semantic seam: callers name an entity and a reason, never a

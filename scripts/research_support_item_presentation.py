@@ -1,5 +1,5 @@
 """Where a dropped or held support weapon's icon and name come from, and whether one call's EAT-17G can look different
-from the vanilla EAT-17 (docs/research/support-item-presentation-F5FEE03DCFDB.md). Read-only, offline.
+from the vanilla EAT-17 (research/docs/support-item-presentation-F5FEE03DCFDB.md). Read-only, offline.
 
 Proves on build F5FEE03DCFDB, from the game.dll image, the seven retained snapshots, the pinned entity tables and the
 game's archives:

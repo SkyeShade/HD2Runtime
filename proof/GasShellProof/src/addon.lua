@@ -1,6 +1,6 @@
 local hd2=require('mods/skyeshade/hd2runtime')
 -- GasShellProof 0.1.0: RUNTIME GAS SHELLS (runtime/bombardment_executor.lua, runtime/beacons.lua;
--- docs/research/beacon-redirect-F5FEE03DCFDB.md, "The Runtime bombardment executor"). Development only; solo host; no
+-- research/docs/beacon-redirect-F5FEE03DCFDB.md, "The Runtime bombardment executor"). Development only; solo host; no
 -- multiplayer change; not part of the Gas Barrage (the existing Gas Barrage stays the fallback).
 --     throw an AC-8 Autocannon beacon
 --         -> its delivery becomes 'none' in its first update (the empty default row: no pod, nothing spawned)

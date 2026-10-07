@@ -1,4 +1,4 @@
-"""runtime/pelican_weapon.lua and proof/PelicanWeaponBehaviorProof 0.1.0 (docs/research/pelican-cas-F5FEE03DCFDB.md section
+"""runtime/pelican_weapon.lua and proof/PelicanWeaponBehaviorProof 0.1.0 (research/docs/pelican-cas-F5FEE03DCFDB.md section
 17): one Runtime Pelican's own chin turret with its own weapon record (projectile, RPM), continuous fire (its fire window
 held open on each stage-3 entry) and optionally the Gatling ammo pattern (its own magazine record), on the offline Pelican
 world of tests/test_pelicans.py with the turret fixture of tests/test_pelican_gatling.py. The game's routines are

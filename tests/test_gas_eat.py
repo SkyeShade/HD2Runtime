@@ -1,4 +1,4 @@
-"""The Gas EAT's two Runtime parts (docs/research/gas-eat-F5FEE03DCFDB.md), offline on the payload world:
+"""The Gas EAT's two Runtime parts (research/docs/gas-eat-F5FEE03DCFDB.md), offline on the payload world:
   * runtime/projectile_impact.lua: a bound launcher's rocket (type 132) takes the Orbital Gas Strike's explosion 82 on
     impact through ONE guarded 4-byte write of ITS OWN hit record's impact explosion copy (+0x7C), while it flies; a
     vanilla EAT-17's rocket is never touched, a launcher has one round, every guard refuses (the rocket stays vanilla),

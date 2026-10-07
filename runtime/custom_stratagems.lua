@@ -943,7 +943,7 @@ local function pelican_spec(value)
     if gun and gun.behave_as=='gatling_sentry'then assets[#assets+1]='A/G-16 Gatling Sentry'end
     -- Its round's package: the MG-206's (AP4), the Eagle Strafing Run's (its rounds); for a Mod Options choice, each value's.
     for _,name in ipairs(gun and gunship.round_assets(gun.round)or{})do assets[#assets+1]=name end
-    -- A firing sound (docs/research/pelican-maelstrom-sound-F5FEE03DCFDB.md): its bank's package on every machine before
+    -- A firing sound (research/docs/pelican-maelstrom-sound-F5FEE03DCFDB.md): its bank's package on every machine before
     -- the first shot, so the sound goes into the gun's own copy in the same transaction.
     if gun and gun.sound~=nil then assets[#assets+1]=require('hd2runtime/runtime/weapon_sounds').stratagem(gun.sound)end
     -- Explosive rounds: the package that ships a blast's effect, for every blast it can name (a faction's: none).

@@ -1,4 +1,4 @@
-"""Offline research for the custom stratagem payload families (docs/research/custom-payloads-F5FEE03DCFDB.md):
+"""Offline research for the custom stratagem payload families (research/docs/custom-payloads-F5FEE03DCFDB.md):
 the Eagle (its jet, its strike projectile, its rockets' source), the reviewed explosion donors beyond the Gas Strike
 (the Orbital EMS Strike's static field), and the Eagle use and rearm facts the custom Eagle path relies on.
 

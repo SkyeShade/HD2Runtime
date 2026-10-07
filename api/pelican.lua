@@ -1,5 +1,5 @@
 -- hd2.pelican: the game's own transport Pelican, summoned EMPTY to hover over a position (docs/event-scripting.md#pelicans;
--- docs/research/pelican-cas-F5FEE03DCFDB.md).
+-- research/docs/pelican-cas-F5FEE03DCFDB.md).
 --
 -- The Runtime calls the game's existing spawn request for the transport Pelican (and for nothing else) with the
 -- descriptor the game's own beacon dispatcher builds for a vehicle's Pelican, minus the vehicle: a copy of the game's

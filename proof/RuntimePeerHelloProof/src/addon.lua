@@ -1,5 +1,5 @@
 local hd2=require('mods/skyeshade/hd2runtime')
--- RuntimePeerHelloProof 0.1.0: the smallest Runtime-to-Runtime proof (DEVELOPMENT; docs/research/runtime-peer-
+-- RuntimePeerHelloProof 0.1.0: the smallest Runtime-to-Runtime proof (DEVELOPMENT; research/docs/runtime-peer-
 -- messaging-F5FEE03DCFDB.md, section 4). Nothing of gameplay changes.
 --
 -- Each machine publishes ONE lobby member property, hd2rt, through the Runtime's peer channel (runtime/peer_channel.lua:

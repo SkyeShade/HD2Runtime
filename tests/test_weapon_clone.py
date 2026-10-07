@@ -1,5 +1,5 @@
 """The carrier weapon clone's reviewed data and conversion (domains/weapon_clone.lua, runtime/weapon_clone.lua;
-docs/research/carrier-weapon-clone-F5FEE03DCFDB.md):
+research/docs/carrier-weapon-clone-F5FEE03DCFDB.md):
   * the generated domain is up to date with research/carrier-weapon-clone-F5FEE03DCFDB.json;
   * its facts: the EAT-17's pool (EAT-700, then EAT-411), every host record exclusively owned, every write a width the
     guarded transaction takes, the levels (presentation 3 members, model and full on top), the donor's reviewed values;

@@ -1,5 +1,5 @@
 local hd2=require('mods/skyeshade/hd2runtime')
--- PelicanGatlingProof 0.5.0 (development only, solo host; docs/research/pelican-cas-F5FEE03DCFDB.md sections 19-24).
+-- PelicanGatlingProof 0.5.0 (development only, solo host; research/docs/pelican-cas-F5FEE03DCFDB.md sections 19-24).
 -- The Pelican CAS chin gun with its combat tuning FROZEN (the final Pelican CAS defaults for now):
 --   * the Gatling Sentry's AI (behaviour 213) with the Runtime's target lock, spatial replacement and body facing
 --     (sections 20-21), and the live-proven orbit;

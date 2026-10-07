@@ -1,7 +1,7 @@
 """Generate domains/matchmaking_safety.lua: the lobby privacy setting, the host's advertised privacy and SOS Beacon keys,
 the matchmaker's Quickplay flags and the game's own privacy setter and Quickplay stop, as runtime/matchmaking_safety.lua
 reaches them, with the pinned code it re-proves first, from research/matchmaking-safety-F5FEE03DCFDB.json
-(docs/research/matchmaking-safety-F5FEE03DCFDB.md).
+(research/docs/matchmaking-safety-F5FEE03DCFDB.md).
 """
 from __future__ import annotations
 
