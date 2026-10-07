@@ -49,10 +49,13 @@ its members once in one guarded transaction over its records, with a read-back. 
 
 - **r48, 2026-10-07 (solo, LiberatorShotProbe 0.1.0):** every shot was written before it moved (0.00 m travelled;
   133 modified, 45 untouched in VANILLA, read back true). The game's per-weapon damage per tap was about 24 (x1),
-  about 22 (x0.5) and about 147-175 (x2; 2 x 90 x the speed factor) on mixed targets, mostly a big Terminid warrior's
-  durable parts. This suggests `damage` scales the **standard** damage only, not the **durable** damage (the warrior's
-  durable parts take the DamageInfo's 22 either way). Under research; LiberatorShotProbe 0.2.0 re-measures on
-  unarmoured targets with the per-weapon stats only.
+  about 22 (x0.5) and about 147-175 (x2; 2 x 90 x the speed factor) on mixed targets and hit zones. Inconclusive for
+  x0.5: different taps hit different zones.
+- **What the multiplier scales (research/direct-hit-damage-F5FEE03DCFDB.json, every retained snapshot):** the game
+  blends one value per hit before the multiplier, standard x (1 - D) + durable x D (D: the hit zone's durable fraction,
+  0x12A2479), and 0x13AD524 multiplies that blend: `damage` scales standard and durable damage alike, as does the speed
+  factor. A zone with D = 0.68 blends the Liberator's 90 / 22 to about 44, x0.5 = 22, which fits the x0.5 taps; the
+  x1 taps' 24 fits a zone with D near 1. LiberatorShotProbe 0.2.0 re-measures on unarmoured targets (D = 0).
 
 ## Limits
 

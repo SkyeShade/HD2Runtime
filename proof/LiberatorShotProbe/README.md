@@ -25,6 +25,6 @@ weapon firing the same projectile stay vanilla. Development only, solo. Requires
 ## 0.2.0
 
 The first live run (r48, 2026-10-07) averaged every damage credited to the player (an HMG sentry's hits included) and
-shot a big Terminid warrior's durable parts. Its per-weapon numbers suggest the multiplier scales the standard damage
-(90 -> about 175 at x2) and not the durable damage (about 22 stayed about 22 at x0.5); 0.2.0 measures with the game's
-per-weapon stats only.
+shot a big Terminid warrior's parts. Its x0.5 numbers were inconclusive (different taps, different hit zones); the
+research (research/direct-hit-damage-F5FEE03DCFDB.json) shows the multiplier scales the hit's blended standard and
+durable damage alike. 0.2.0 measures with the game's per-weapon stats only, on unarmoured targets.
