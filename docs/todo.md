@@ -35,4 +35,17 @@ player without it.**
 - Unknown, needs live tests: what a vanilla client sees when a networked item spawns without its package (placeholder
   or crash); whether a ship-time request survives into the mission on a client; joiners loading mid-mission.
 
-Not designed or built yet.
+**Built (development, offline only; 2026-10-07): `runtime/asset_sync.lua`** (docs/asset-loading.md, "Synced asset
+loading (development)"). A mod's shared asset gates (require_assets, patch/plan/transaction swaps, explosion and
+spawn actions) publish their catalog packages under a second member-data key `hd2as` (`hd2as/1;<version>;<catalog
+hash>;<seq>;<pkgs>`, at most 24); every member with the same Runtime version and catalog hash requests them through
+`core/assets` (`synced-<peer>`), keeping 16 of the 64-package budget for its own requests. The two keys share the
+channel's post rate. Started at load in the game, so a player with no mod loads them too. No static declaration was
+needed: the packages are published as they are requested.
+
+Remaining:
+- The "assets ready" gating of networked swaps: a mod's swap still applies on its own machine whether or not the peers
+  have loaded the package (each member could publish which peers' sets are resident; a swap could wait for them, or
+  stay vanilla, fail closed).
+- Live tests: a second member-data key; machine B (Runtime, no mod) loading machine A's package and A's networked
+  entity or projectile drawing with it on B; a joiner; a mismatched version refused.
