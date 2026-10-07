@@ -21,7 +21,8 @@ local weapon_sounds=require('hd2runtime/runtime/weapon_sounds')
 local engine_gui=require('hd2runtime/runtime/engine_gui')
 local log=require('hd2runtime/runtime/log')
 local events=require('hd2runtime/runtime/events')
-local bit=require('bit')
+local wwise_names=require('hd2runtime/runtime/wwise_names')
+local precomputed=require('hd2runtime/domains/sound_event_names')
 local KEY='HD2RuntimeSoundEventsV1'
 local existing=rawget(_G,KEY)
 if existing then return existing end
@@ -29,76 +30,21 @@ local M={}
 rawset(_G,KEY,M)
 M.RATE=32            -- posts per mod per RATE_WINDOW seconds
 M.RATE_WINDOW=1
-M.PREFIX='hd2runtime_'
-M.ALPHABET='abcdefghijklmnopqrstuvwxyz0123456789_'
 
 local function emit(message)pcall(log.emit,'[HD2Runtime] '..message)end
 
 ------------------------------------------------------------------------------------------- names for event ids --
--- FNV-1 32 one step: h * 0x01000193 mod 2^32 (exactly: h * 0x193 + (h mod 256) * 2^24), then the low byte xor c.
-local P_LOW=0x193
-local P_INV=0x359C449B   -- 0x01000193^-1 mod 2^32
-local function forward(h,c)
-    h=(h*P_LOW+(h%256)*16777216)%4294967296
-    local low=h%256
-    return h-low+bit.band(bit.bxor(low,c),255)
-end
--- (a * b) mod 2^32, exact for u32 operands.
-local function mul32(a,b)
-    local lo,hi=b%65536,math.floor(b/65536)
-    return(a*lo+((a*hi)%65536)*65536)%4294967296
-end
-local function backward(h,c)
-    local low=h%256
-    return mul32(h-low+bit.band(bit.bxor(low,c),255),P_INV)
-end
-M.forward,M.backward,M.mul32=forward,backward,mul32
-local found={}   -- id -> name
--- A name whose Wwise id (ui_sound.fnv1) is `id`: 'hd2runtime_' + 7 characters of [a-z0-9_]. Meet in the middle: the
--- states after 3 characters forward from the prefix, then 4 characters backward from the id (37^4 ~ 1.9 M steps, about
--- 22 expected matches; the first in alphabet order is taken, so the name is always the same). Cached. nil when none.
+-- Every catalogued event's name is generated at build time (domains/sound_event_names.lua, by the same search run
+-- offline); any other id is searched here once (runtime/wwise_names.lua: about 40 ms) and cached for the session.
+M.forward,M.backward,M.mul32=wwise_names.forward,wwise_names.backward,wwise_names.mul32
+local found={}   -- id -> name, searched this session
 function M.name_for(id)
     assert(type(id)=='number'and id%1==0 and id>0 and id<4294967296,'a Wwise event id is an integer from 1 to 2^32 - 1')
-    if found[id]then return found[id]end
-    local A=M.ALPHABET
-    local n=#A
-    local codes={}
-    for i=1,n do codes[i]=A:byte(i)end
-    local start=0x811C9DC5
-    for i=1,#M.PREFIX do start=forward(start,M.PREFIX:byte(i))end
-    local table3={}
-    for i=1,n do
-        local h1=forward(start,codes[i])
-        for j=1,n do
-            local h2=forward(h1,codes[j])
-            for k=1,n do
-                local h3=forward(h2,codes[k])
-                if table3[h3]==nil then table3[h3]=(i-1)*n*n+(j-1)*n+(k-1)end
-            end
-        end
-    end
-    local best
-    for d=1,n do
-        local g3=backward(id,codes[d])
-        for e=1,n do
-            local g2=backward(g3,codes[e])
-            for f=1,n do
-                local g1=backward(g2,codes[f])
-                for g=1,n do
-                    local g0=backward(g1,codes[g])
-                    local head=table3[g0]
-                    if head then
-                        local i,j,k=math.floor(head/(n*n)),math.floor(head/n)%n,head%n
-                        local name=M.PREFIX..A:sub(i+1,i+1)..A:sub(j+1,j+1)..A:sub(k+1,k+1)
-                            ..A:sub(g,g)..A:sub(f,f)..A:sub(e,e)..A:sub(d,d)
-                        if ui_sound.fnv1(name)==id and(best==nil or name<best)then best=name end
-                    end
-                end
-            end
-        end
-    end
-    if best then found[id]=best end
-    return best
+    local name=precomputed[id]or found[id]
+    if name then return name end
+    name=wwise_names.search(id)
+    if name then found[id]=name end
+    return name
 end
 
 ------------------------------------------------------------------------------------------------- what to play --

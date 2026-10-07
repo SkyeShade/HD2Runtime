@@ -45,8 +45,9 @@ local function emit(message)pcall(log.emit,'[HD2Runtime] '..message)end
 
 -- The hooks the overlay reads the game through (tests replace them).
 M.hooks={}
--- The proven event world and its Ui World value, or nil and why.
-function M.hooks.world()
+-- The proven event world and its Ui World value, or nil and why. Read once per update tick for every overlay.
+local world_tick,world_cache=-1,nil
+local function find_world()
     local world,why=world_module.open()
     if not world then return nil,why end
     local proven,pwhy=selector.prove(world)
@@ -54,6 +55,11 @@ function M.hooks.world()
     local value,vwhy=slot_overlay.ui_world(world)
     if not value then return nil,'the Ui World: '..tostring(vwhy)end
     return world,value
+end
+function M.hooks.world()
+    local frame=events.state.frame
+    if world_tick~=frame then world_tick,world_cache=frame,{find_world()}end
+    return world_cache[1],world_cache[2]
 end
 function M.hooks.open_screen(world,ui_world,max_layer)return engine_gui.open({world=ui_world,max_layer=max_layer})end
 -- A font role's font ({name, em, ascent, advances, ...}), or nil and why when neither it nor monaco is loaded.

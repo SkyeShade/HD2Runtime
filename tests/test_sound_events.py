@@ -47,6 +47,31 @@ assert(not pcall(hd2.sounds.name_for,0)and not pcall(hd2.sounds.name_for,2^32))
 return 'ok'
 ''')
 
+    def test_every_catalogue_event_has_a_generated_name_and_the_table_is_current(self):
+        import importlib.util
+        from support import ROOT
+        spec = importlib.util.spec_from_file_location('gen_names', ROOT / 'scripts/generate_sound_event_names.py')
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        self.assertEqual(module.output(), (ROOT / 'domains/sound_event_names.lua').read_text(encoding='utf-8'),
+            'stale: run py scripts/generate_sound_event_names.py')
+        self.lua(r'''
+local names=require('hd2runtime/domains/sound_event_names')
+local W=require('hd2runtime/runtime/wwise_names')
+local D=require('hd2runtime/domains/weapon_sounds')
+local n=0
+for id,name in pairs(names)do assert(W.id(name)==id and U.fnv1(name)==id,name);n=n+1 end
+assert(n==182,'the catalogue holds 182 events: '..n)
+-- Every catalogue sound resolves without a search (the search is never called).
+local search=W.search;W.search=function()error('searched at runtime')end
+for name in pairs(D.sounds)do
+    local spec=S.resolve(name)
+    if spec then assert(names[spec.id]==spec.name,name)end
+end
+W.search=search
+return 'ok'
+''')
+
     def test_play_by_catalogue_name_ui_key_wwise_name_and_id(self):
         self.lua(r'''
 -- Nothing is posted unless the sound engine knows the event.

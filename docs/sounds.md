@@ -56,9 +56,12 @@ mod may post at most 32 sounds a second.
 **Events known only by id.** The binding takes a name, never a number (a number would be hashed as its decimal
 text). An event id is therefore posted through a name whose FNV-1 is that id: `'hd2runtime_'` and seven characters of
 `[a-z0-9_]`, found by meet-in-the-middle (the states three characters forward from the prefix against four characters
-backward from the id; about 22 matches expected, the first in alphabet order taken, so the name is stable). About
-40 ms the first time for an id, cached for the session; `hd2.sounds.name_for(id)` returns it. The Runtime's UI
-sounds were posted this way already (`hd2runtime_u64dawv` is the pick sound's id).
+backward from the id; about 22 matches expected, the first in alphabet order taken, so the name is stable;
+`runtime/wwise_names.lua`). The names of all 182 events the catalogue holds are generated at build time by running
+that same code offline (`scripts/generate_sound_event_names.py` -> `domains/sound_event_names.lua`), so a catalogue
+sound never searches in game; any other id takes about 40 ms the first time and is cached for the session.
+`hd2.sounds.name_for(id)` returns the name. The Runtime's UI sounds were posted this way already
+(`hd2runtime_u64dawv` is the pick sound's id).
 
 ## Banks
 
