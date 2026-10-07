@@ -45,6 +45,15 @@ projectile type, fired by the weapon's entity type, credited to the local peer, 
 its members once in one guarded transaction over its records, with a read-back. The damage multiplier is applied at
 0x13AD524 (`mulss xmm0, [hit+0x34]`) to the direct hit's damage event before the damage values are built.
 
+## Live evidence
+
+- **r48, 2026-10-07 (solo, LiberatorShotProbe 0.1.0):** every shot was written before it moved (0.00 m travelled;
+  133 modified, 45 untouched in VANILLA, read back true). The game's per-weapon damage per tap was about 24 (x1),
+  about 22 (x0.5) and about 147-175 (x2; 2 x 90 x the speed factor) on mixed targets, mostly a big Terminid warrior's
+  durable parts. This suggests `damage` scales the **standard** damage only, not the **durable** damage (the warrior's
+  durable parts take the DamageInfo's 22 either way). Under research; LiberatorShotProbe 0.2.0 re-measures on
+  unarmoured targets with the per-weapon stats only.
+
 ## Limits
 
 - **Solo only.** With several players every machine simulates its own copy of a shot, and which copy decides the
