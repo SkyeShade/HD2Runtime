@@ -52,8 +52,20 @@ local function normalize(handle,value)
     return snap(handle,value)
 end
 
+-- A deep copy of a plain table (a script choice's calldown list, no_explosion()); everything else as is.
+local function copy_value(value,depth)
+    if type(value)~='table'or getmetatable(value)~=nil then return value end
+    assert((depth or 0)<8,'choice value nested too deeply')
+    local out={}
+    for k,v in pairs(value)do out[k]=copy_value(v,(depth or 0)+1)end
+    return out
+end
 function Handle:get()
-    if self.kind=='choice'then return self.values[self.selected]end
+    if self.kind=='choice'then
+        local value=self.values[self.selected]
+        if self.script then return copy_value(value)end
+        return value
+    end
     return self.current
 end
 -- Settled by Mod Options Menu: 'pending', 'ready' or 'unavailable' (see :describe().reason).
@@ -92,7 +104,14 @@ function Handle:assign(value,source)
 end
 -- Values an operation must accept across the option's whole domain (validated at bind time).
 function Handle:samples()
-    if self.kind=='choice'then return self.values end
+    if self.kind=='choice'then
+        if self.script then
+            local out={}
+            for i,v in ipairs(self.values)do out[i]=copy_value(v)end
+            return out
+        end
+        return self.values
+    end
     if self.kind=='toggle'then return {false,true}end
     local result={self.min,self.max,self.default}
     if self.min+self.step<self.max then result[#result+1]=snap(self,self.min+self.step)end
@@ -377,11 +396,121 @@ function M.value(spec,owner)
     handles[id]=handle
     return handle
 end
--- Set a script value (snapped to its step, clamped to min..max). True when it changed.
+-- Whether two choice values are the same value: primitives by ==; typed reference handles (each built with its own
+-- metatable) by every non-function field they carry; plain tables (calldown lists, no_explosion()) element by element.
+local function same(a,b,depth)
+    if rawequal(a,b)then return true end
+    if type(a)~=type(b)then return false end
+    if type(a)~='table'then return a==b end
+    if(depth or 0)>8 then return false end
+    if(getmetatable(a)~=nil)~=(getmetatable(b)~=nil)then return false end
+    for k,v in pairs(a)do
+        if type(v)~='function'and not same(v,rawget(b,k),(depth or 0)+1)then return false end
+    end
+    for k,v in pairs(b)do
+        if type(v)~='function'and rawget(a,k)==nil then return false end
+    end
+    return true
+end
+M.same=same
+-- A choice value's readable form for logs and errors (never a table address).
+local function value_label(value,depth)
+    if type(value)~='table'then return tostring(value)end
+    if(depth or 0)>3 then return '{...}'end
+    if getmetatable(value)~=nil then
+        local parts={}
+        for _,key in ipairs({'resource','weapon','stratagem','output','explosion','attack','phase','path'})do
+            local v=rawget(value,key)
+            if v~=nil then parts[#parts+1]=key..'='..tostring(v)end
+        end
+        return '<'..table.concat(parts,' ')..'>'
+    end
+    local parts={}
+    for i,v in ipairs(value)do parts[i]=value_label(v,(depth or 0)+1)end
+    if#parts==0 then
+        for k,v in pairs(value)do parts[#parts+1]=tostring(k)..'='..value_label(v,(depth or 0)+1)end
+        table.sort(parts)
+    end
+    return '{'..table.concat(parts,', ')..'}'
+end
+M.value_label=value_label
+
+-- Set a script value: a slider is snapped to its step and clamped to min..max; a script choice selects the value equal
+-- to `value` (false when it is not one of its values). True when it changed.
 function Handle:set(value)
     assert(self.script,'only script values can be set from code; menu options follow the menu')
+    if self.kind=='choice'then
+        for index,candidate in ipairs(self.values)do
+            if same(candidate,value)then return self:assign(index,'script')end
+        end
+        return false
+    end
     if type(value)~='number'or value~=value then return false end
     return self:assign(math.min(self.max,math.max(self.min,value)),'script')
+end
+-- Select a script choice by its 1-based index. True when it changed.
+function Handle:select(index)
+    assert(self.script and self.kind=='choice','select() is for script choices')
+    return self:assign(index,'script')
+end
+
+-- Script choices (mod:choice): like script values, a value a mod selects from its own code and binds to one hd2.ensure
+-- field value, never shown in Mod Options Menu and always ready. The values may be any value a field takes: finite
+-- numbers, booleans, strings ('unlimited', a status name), typed reference handles (weapon:attack(role):projectile(),
+-- hd2.attack_output(...), terminal_action(...):explosion()) and plain tables of those (a calldown code {'up','right'},
+-- :no_explosion()). Plain tables are copied when declared and on every get, so a value proved at bind time cannot
+-- change afterwards. The bound ensure validates every value when it is declared.
+-- spec: {id, values = {...} (1..64, no two the same), default = index (1), labels = {...} (optional, for describe)}.
+local function valid_choice_value(value,depth)
+    local t=type(value)
+    if t=='boolean'then return true end
+    if t=='number'then return value==value and value>-math.huge and value<math.huge end
+    if t=='string'then return#value<=256 and not value:find('[%c]')end
+    if t~='table'or(depth or 0)>8 then return false end
+    if getmetatable(value)~=nil then return true end
+    for _,item in pairs(value)do if not valid_choice_value(item,(depth or 0)+1)then return false end end
+    return true
+end
+function M.choice(spec,owner)
+    assert(type(spec)=='table','choice requires a descriptor')
+    for key in pairs(spec)do
+        assert(key=='id'or key=='values'or key=='default'or key=='labels'or key=='owner',
+            'unsupported choice option: '..tostring(key))
+    end
+    assert(type(spec.id)=='string'and spec.id:match('^[%w_%-]+$')and#spec.id<=40,
+        'choice id must be 1 to 40 letters, digits, _ or -')
+    owner=owner or'unknown'
+    local page=script_pages[owner]
+    if not page then
+        page={id='script:'..owner,title=owner,fallback='default',count=0,order={},unavailable={},warned=0,operations={}}
+        script_pages[owner]=page
+    end
+    local id=owner..'.'..spec.id
+    if handles[id]then
+        assert(handles[id].kind=='choice'and handles[id].script,'value id '..spec.id..' is already a different value')
+        return handles[id]
+    end
+    local values=spec.values
+    assert(type(values)=='table'and#values>=1 and#values<=64,'choice needs 1 to 64 values')
+    local copies,labels={},{}
+    for index,value in ipairs(values)do
+        assert(valid_choice_value(value),'choice value '..index..' must be a number, boolean, string, reference '
+            ..'handle or a plain table of those')
+        for earlier=1,index-1 do
+            assert(not same(copies[earlier],value),'choice values '..earlier..' and '..index..' are the same')
+        end
+        copies[index]=copy_value(value)
+        local label=spec.labels and spec.labels[index]
+        labels[index]=type(label)=='string'and label:sub(1,LIMITS.choice)or value_label(value):sub(1,LIMITS.choice)
+    end
+    local default=spec.default==nil and 1 or spec.default
+    assert(type(default)=='number'and default%1==0 and default>=1 and default<=#copies,
+        'choice default must be a 1-based index')
+    local handle=setmetatable({id=id,option=spec.id,page=page,kind='choice',script=true,label=spec.id,listeners={},
+        state_listeners={},state='ready',registered=false,source='default',choices=labels,values=copies,
+        default=default,selected=default},Handle)
+    handles[id]=handle
+    return handle
 end
 
 -- Test/audit hook: forget every declaration.

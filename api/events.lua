@@ -189,6 +189,8 @@ function Mod:on_frame(callback,opts)return events.frame(callback,scoped(self,opt
 function Mod:bind(id,spec)return input.bind(id,spec,self.id)end
 -- A number this mod sets from code and binds to an hd2.ensure field value (see api/options.lua M.value).
 function Mod:value(spec)return require('hd2runtime/api/options').value(spec,self.id)end
+-- A script choice (api/options.lua M.choice): any field value, selected from code, bound like a script value.
+function Mod:choice(spec)return require('hd2runtime/api/options').choice(spec,self.id)end
 function Mod:log(message)events.emit_log('['..self.id..'] '..tostring(message))end
 function Mod:in_mission()return(events.mission())end
 function Mod:subscriptions()return events.subscriptions({owner=self.id})end

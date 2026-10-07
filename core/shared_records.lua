@@ -242,9 +242,27 @@ end
 
 -- The mod registering an operation now (hd2.events owner: the mod scope the SDK wrapper runs a mod's startup in, or
 -- the mod whose callback is running), or 'unknown'.
+-- Then, when that is 'unknown' (a mod built without the SDK wrapper's run_as scope, for example by the template's
+-- build.ps1 or an older ModBuilder export): the registering operation's origin, which api/hd2.lua keeps current for
+-- every validation (core/sdk_compatibility.lua; the same mod hd2.diagnostics.operations() names), and last the
+-- nearest mods/... chunk on the call stack. Live 2026-10-07 (HD2Runtime Editor): every claim of 15 installed mods read 'unknown'.
+local RUNTIME_CHUNK='mods/skyeshade/hd2runtime'
 function M.current_mod()
     local ok,owner=pcall(function()return require('hd2runtime/runtime/events').owner()end)
-    return ok and type(owner)=='string'and owner or'unknown'
+    if ok and type(owner)=='string'and owner~='unknown'then return owner end
+    local found,origin=pcall(function()return require('hd2runtime/core/sdk_compatibility').current()end)
+    if found and type(origin)=='table'and type(origin.mod)=='string'and origin.mod~='unknown'then return origin.mod end
+    if type(debug)=='table'and type(debug.getinfo)=='function'then
+        for level=2,48 do
+            local info=debug.getinfo(level,'S')
+            if not info then break end
+            local source=tostring(info.source or''):gsub('^[@=]',''):gsub('%.lua$','')
+            if source:match('^mods/[%w_/]+$')and source~=RUNTIME_CHUNK and source:sub(1,#RUNTIME_CHUNK+1)~=RUNTIME_CHUNK..'/'then
+                return source
+            end
+        end
+    end
+    return 'unknown'
 end
 
 ---------------------------------------------------------------------------------------------------------- claims --

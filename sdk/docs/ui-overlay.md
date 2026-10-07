@@ -29,6 +29,7 @@ end})
 | `d:rect(x, y, w, h, colour, z)` | a filled rectangle; `(x, y)` is its top-left corner |
 | `d:text(text, x, y, {size, colour, font, align, z})` | one line; `(x, y)` is its top-left corner (top-centre / top-right with `align = 'center' / 'right'`) |
 | `d:text_width(text, size, font)` | the width in pixels, with the same metrics |
+| `d:image(image, x, y, w, h, {colours, colour, z})` | one of the mod's own images (`hd2.resources.image`); `(x, y)` is its top-left corner (r50) |
 
 - **Coordinates** are GUI pixels with the origin at the **top-left**, y down (the same corner as
   `hd2.input.mouse()`; `overlay:mouse()` maps the cursor into overlay coordinates). `d.width`, `d.height` are the
@@ -37,6 +38,13 @@ end})
 - **Fonts**: `'body'` (FS Sinclair, the loadout screen's typeface) and `'title'` (FS Sinclair Medium), shipped in the
   Runtime's archive; `'mono'` is the engine's `monaco`. A role whose font is not loaded falls back to `monaco`.
   Text is 1-160 printable bytes (UTF-8 accepted), size 4-256 px.
+- **Text placement (r50 calibration).** The Runtime's FS Sinclair fonts draw their glyphs 0.41 x size below the
+  baseline `Gui.text` is given. Measured live on 2026-10-07 (HD2Runtime Editor at 3838 x 2158): text at sizes 12-22
+  landed 0.37-0.45 x size low. The font build measures glyph records from the baseline but writes the header offset
+  -descent x 0.75, the monaco convention for records measured from the line bottom (`scripts/hd2_font.py`); the rest
+  is likely the distance-field padding. The overlay lifts FS Sinclair text by `0.41 x size`
+  (`runtime/mod_overlay.lua` `M.TEXT_DROP`), so `(x, y)` is the line's top-left as documented. The custom stratagem
+  panel and the other Runtime GUIs pass baselines directly and are not corrected yet.
 - **Layers**: every overlay has a band starting at its `layer` (default 1011); an item's `z` (default 0) is added.
   The engine orders all GUIs of one world by layer, and the layer's depth key is `0.1 * (1023 - layer) / 1023`
   (exe 0x2693E3), so 1023 is the top: an item past it is refused. The default band sits above the native HUD's own
@@ -73,8 +81,10 @@ end})
   world GUI, so no layer puts an overlay above them.
 - **Input is not consumed.** An overlay that takes keys (`hd2.input.pressed`) shares them with the game; see
   [events.md](events.md#input-blocking-not-available).
-- **No images yet.** Mod images (`hd2.resources.image`) use the icon shader's mask colours; drawing them in an
-  overlay is not offered yet.
+- **Images are icon masks.** `d:image` draws through the game's icon material: R, G and B masks coloured by
+  `colours`, never true colour (a raw picture shows as a silhouette; docs/custom-images.md). Vanilla stratagem icons
+  are atlas sprites that `Gui.bitmap` most likely cannot show, and booster icons exist only as Noesis XAML: neither is
+  offered.
 - Visibility is the user's observation only: an engine call that succeeds (an id returned) does not prove pixels
   appeared.
 
@@ -87,5 +97,42 @@ end})
   state = 'waiting' | 'drawing' | 'hidden' | 'error' | 'failed' | 'closed', reason, layer, visible, width, height,
   scale, items, frames, engine_calls, opened, refused, first_refusal}`).
 - `hd2.ui.overlays()`: every overlay's status. `hd2.ui.colour(c)`: a colour as `{r, g, b, a}`, or nil.
+- `overlay:free_cursor(on, {camera = true})` and `hd2.ui.cursor()`: see [The cursor](#the-cursor-experimental-r50).
+  `status()` also reports `waiting_images`, `image_reason` and `cursor`.
+
+## Images (r50)
+
+```lua
+local logo = hd2.resources.image('logo')           -- images/logo.png in the mod project (256 x 256)
+overlay:draw(function(d)
+    d:image(logo, 40 * d.scale, 40 * d.scale, 64 * d.scale, 64 * d.scale,
+        {colours = {r = '#45ACC8', g = {255, 255, 255, 238}}})
+end)
+```
+
+- An image is drawn only when its texture, material and sprite are proven loaded (`image_resources.family`; checked
+  again every 60 frames until it is). Until then it is skipped and `status().waiting_images` counts it.
+- `colours = {r, g, b}`: the colours of its R, G and B masks (the icon material's c0-c2; the alpha is the layer's
+  strength). The default is white R and G and the native 0.2 black shadow on B; c3 is always zero (the BC1 texture's
+  alpha is about 1 everywhere, so a non-zero c3 would flood the quad). `colour` is the vertex colour (tint, alpha).
+- One material instance per image per GUI: every draw of one image in one overlay shares one colour set. A second
+  set in the same frame is refused (`one colour set per image per overlay`); a new set in a later frame recolours it.
+- An image partly off screen is dropped (a bitmap is never squashed).
+
+## The cursor (experimental, r50)
+
+`overlay:free_cursor(true)` frees the mouse cursor from the camera while the overlay is shown: through the engine's
+own Lua Window API it shows the cursor (`Window.set_show_cursor(true)`), stops clipping it to the window
+(`set_clip_cursor(false)`) and drops the mouse focus (`set_mouse_focus(false)`), the raw mouse input the camera turns
+from. `{camera = false}` keeps the focus. Hiding or closing the overlay, or `free_cursor(false)`, gives it back: the
+values the getters reported before the first hold are restored (`runtime/mod_cursor.lua`).
+
+- Each setter is called only when its getter (`Window.show_cursor()` etc., no argument) reports otherwise, so a quiet
+  frame costs three getter calls. Every value passed is a boolean; the first engine error turns capture off for the
+  session (logged once, `hd2.ui.cursor().disabled`).
+- **Not live-tested.** The functions are registered (their names are in the engine's Window string table of the
+  retained snapshot), but no build called them before r50. The live test checks: is the cursor visible and free in a
+  mission and on the ship; does the camera stop; does a click still fire the weapon (keys and clicks are still not
+  taken from the game); is everything restored after closing, alt-tab and a mission change.
 
 Tests: `tests/test_ui_overlay.py` (a recording fake of the engine GUI API).

@@ -2195,6 +2195,17 @@
       "doc": "A script value owned by this mod (the same object for the same id)."
      },
      {
+      "name": "choice",
+      "params": [
+       [
+        "spec",
+        "HD2ChoiceSpec"
+       ]
+      ],
+      "returns": "HD2ScriptChoice",
+      "doc": "A script choice owned by this mod: any field value (numbers, booleans, strings, reference handles, plain tables such as a calldown code), selected from code and bound to one hd2.ensure value like a script value (r50)."
+     },
+     {
       "name": "run",
       "params": [
        [
@@ -4808,6 +4819,12 @@
       ],
       "returns": "number[]|nil",
       "doc": "A colour as overlays take it ({r, g, b[, a]} or '#RRGGBB[AA]') -> {r, g, b, a}; nil when invalid."
+     },
+     {
+      "name": "cursor",
+      "params": [],
+      "returns": "table",
+      "doc": "The cursor capture's state: holders, disabled, the game's saved values and what the engine reports now."
      }
     ],
     "fields": [
@@ -4947,6 +4964,21 @@
       "params": [],
       "returns": "HD2Overlay",
       "doc": "Remove its primitives, its GUI and its frame callback."
+     },
+     {
+      "name": "free_cursor",
+      "params": [
+       [
+        "on",
+        "boolean|nil"
+       ],
+       [
+        "opts",
+        "table|nil"
+       ]
+      ],
+      "returns": "HD2Overlay",
+      "doc": "EXPERIMENTAL (r50): while shown, the engine shows the cursor, stops clipping it and drops the mouse focus so the camera stops turning; opts {camera = false} keeps the focus. free_cursor(false) gives it back."
      }
     ]
    },
@@ -5023,6 +5055,37 @@
       ],
       "returns": "nil",
       "doc": "A line of text (1-160 printable bytes); (x, y) its top-left corner (or top-centre / top-right with align)."
+     },
+     {
+      "name": "image",
+      "params": [
+       [
+        "image",
+        "table"
+       ],
+       [
+        "x",
+        "number"
+       ],
+       [
+        "y",
+        "number"
+       ],
+       [
+        "w",
+        "number"
+       ],
+       [
+        "h",
+        "number"
+       ],
+       [
+        "opts",
+        "HD2OverlayImageOptions|nil"
+       ]
+      ],
+      "returns": "nil",
+      "doc": "One of the mod's own images (hd2.resources.image) through the game's icon material; (x, y) its top-left corner. Drawn once its resources are loaded; an image partly off screen is dropped. One colour set per image per overlay (r50)."
      },
      {
       "name": "text_width",
@@ -5148,6 +5211,93 @@
       "boolean",
       ""
      ]
+    ]
+   },
+   "HD2OverlayImageOptions": {
+    "doc": "d:image options.",
+    "fields": [
+     [
+      "colours",
+      "table|nil",
+      "{r =, g =, b =}: the colours of the image's R, G and B masks (overlay colours; alpha = strength). Default white R and G, a 0.2 black shadow on B."
+     ],
+     [
+      "colour",
+      "number[]|string|nil",
+      "Vertex colour (tint and alpha); default white."
+     ],
+     [
+      "z",
+      "integer|nil",
+      "Added to the overlay layer."
+     ]
+    ],
+    "methods": []
+   },
+   "HD2ChoiceSpec": {
+    "doc": "mod:choice declaration.",
+    "fields": [
+     [
+      "id",
+      "string",
+      "1-40 letters, digits, _ or -."
+     ],
+     [
+      "values",
+      "any[]",
+      "1-64 values, no two the same; every one is validated when an ensure binds the choice."
+     ],
+     [
+      "default",
+      "integer|nil",
+      "1-based index (default 1)."
+     ],
+     [
+      "labels",
+      "string[]|nil",
+      "Readable names, for describe() and logs."
+     ]
+    ],
+    "methods": []
+   },
+   "HD2ScriptChoice": {
+    "doc": "A script choice (mod:choice).",
+    "fields": [],
+    "methods": [
+     {
+      "name": "get",
+      "params": [],
+      "returns": "any",
+      "doc": "The selected value (a copy of a plain table)."
+     },
+     {
+      "name": "set",
+      "params": [
+       [
+        "value",
+        "any"
+       ]
+      ],
+      "returns": "boolean",
+      "doc": "Select the value equal to `value` (reference handles by identity, tables element by element); false when it is not one of the values."
+     },
+     {
+      "name": "select",
+      "params": [
+       [
+        "index",
+        "integer"
+       ]
+      ],
+      "returns": "boolean",
+      "doc": "Select by 1-based index."
+     },
+     {
+      "name": "describe",
+      "params": [],
+      "returns": "table",
+      "doc": "The declaration and the selected value."
+     }
     ]
    }
   },

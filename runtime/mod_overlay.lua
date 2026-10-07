@@ -30,6 +30,7 @@ local ui_fonts=require('hd2runtime/runtime/ui_fonts')
 local font_data=require('hd2runtime/domains/ui_fonts')
 local images=require('hd2runtime/runtime/image_resources')
 local input=require('hd2runtime/runtime/input')
+local cursor=require('hd2runtime/runtime/mod_cursor')
 local KEY='HD2RuntimeModOverlaysV1'
 local existing=rawget(_G,KEY)
 if existing then return existing end
@@ -39,6 +40,12 @@ M.MAX_LAYER=1023
 M.DEFAULT_LAYER=1011
 M.MAX_ITEMS=1024
 M.FONT_ROLES={body=true,title=true,mono=true}
+-- The Runtime's FS Sinclair fonts draw their glyphs this fraction of the size BELOW the baseline Gui.text is given
+-- (live 2026-10-07, HD2Runtime Editor at 3838 x 2158: sizes 12-22 all landed 0.37-0.45 x size low, mean 0.41). The
+-- font build measures glyph records from the typographic baseline but writes the header offset -descent*0.75
+-- (scripts/hd2_font.py), the monaco convention for records measured from the line bottom; the rest is likely the
+-- distance-field padding. The overlay lifts its text by this much, so (x, y) is the line's top-left as documented.
+M.TEXT_DROP=0.41
 local overlays={}
 
 local function emit(message)pcall(log.emit,'[HD2Runtime] '..message)end
@@ -76,6 +83,12 @@ function M.hooks.font(world,role)
     return m
 end
 function M.hooks.mouse()return input.mouse()end
+-- Whether an image's texture, material and sprite are loaded (runtime/image_resources.lua family), or false and why.
+function M.hooks.image_ready(world,handle)
+    local family=images.family(world.runtime,handle)
+    if family and family.complete then return true end
+    return false,family and family.reason or'not loaded'
+end
 -- Offline fallback metrics (only for text_width before the first frame): monaco's.
 local function metrics_font()return font_data.fonts.monaco end
 
@@ -153,6 +166,7 @@ function Builder:text(text,x,y,opts)
         x=x-(opts.align=='center'and w/2 or w)
     end
     local baseline=self.height-(y+font.ascent*size/font.em)
+    if type(font.name)=='string'and font.name:find('^hd2runtime_fonts/')then baseline=baseline+M.TEXT_DROP*size end
     if x<0 or x>self.width or baseline<0 or baseline>self.height then return end
     self.items[#self.items+1]={kind='text',s=text,font=font.name,size=size,x=x,y=baseline,layer=self.layer+z,c=col}
 end
@@ -162,19 +176,69 @@ function Builder:text_width(text,size,role)
     return ui_fonts.width(font,tostring(text),size or 18)
 end
 
+-- Mask colours of an image (the icon material's c0-c2 for the R, G and B masks; c3 is always zero, because the BC1
+-- texture's alpha is about 1 everywhere and a non-zero c3 would flood the quad). opts.colours = {r =, g =, b =} with
+-- overlay colours; the alpha is the layer's strength. Default: white R and G, the native 0.2 black shadow on B.
+local DEFAULT_MASKS={r={255,255,255,255},g={255,255,255,255},b={0,0,0,51}}
+local function mask_vars(spec)
+    spec=spec or{}
+    local vars,key={},{}
+    for index,channel in ipairs({'r','g','b'})do
+        local c=colour(spec[channel]or DEFAULT_MASKS[channel])
+        if not c then return nil end
+        local v={'c'..(index-1),c[1]/255,c[2]/255,c[3]/255,c[4]/255}
+        vars[index]=v
+        key[index]=table.concat({c[1],c[2],c[3],c[4]},',')
+    end
+    vars[4]={'c3',0,0,0,0}
+    return vars,table.concat(key,';')
+end
+-- d:image(handle, x, y, w, h, {colours = {r, g, b}, colour = vertex colour (tint / alpha), z}): one of the mod's own
+-- images (hd2.resources.image), drawn through the game's icon material (docs/custom-images.md: 256 x 256 masks, or a
+-- raw picture shown as a silhouette). Drawn only once the image's resources are proven loaded; an image partly off
+-- screen is dropped (a bitmap is never squashed). One colour set per image per overlay (one material instance).
+function Builder:image(handle,x,y,w,h,opts)
+    if#self.items>=M.MAX_ITEMS then return refuse(self,'more than '..M.MAX_ITEMS..' items in one frame')end
+    opts=opts or{}
+    if not images.issued(handle)then return refuse(self,'not an image from hd2.resources.image')end
+    local z=opts.z or 0
+    if not(finite(x)and finite(y)and finite(w)and finite(h)and w>0 and h>0 and type(z)=='number'and z%1==0
+        and z>=0 and self.layer+z<=M.MAX_LAYER)then
+        return refuse(self,'invalid image box')
+    end
+    local col=colour(opts.colour or opts.color)
+    if not col then return refuse(self,'invalid colour')end
+    local vars,key=mask_vars(opts.colours)
+    if not vars then return refuse(self,'invalid mask colours')end
+    if x<0 or y<0 or x+w>self.width or y+h>self.height then return end
+    local material=images.material_name(handle)
+    local seen=self.materials[material]
+    if seen and seen~=key then return refuse(self,'one colour set per image per overlay: '..material)end
+    local ready,why=self.image_ready(handle)
+    if not ready then self.waiting_images=(self.waiting_images or 0)+1;self.image_why=why;return end
+    self.materials[material]=key
+    self.items[#self.items+1]={kind='bitmap',material=material,x=x,y=self.height-(y+h),w=w,h=h,layer=self.layer+z,
+        c=col,vars=vars,vkey=key}
+end
+
 ------------------------------------------------------------------------------------------------- reconciling --
 local function same_colour(a,b)return a[1]==b[1]and a[2]==b[2]and a[3]==b[3]and a[4]==b[4]end
 local function same(a,b)
     if a.kind~=b.kind or a.x~=b.x or a.y~=b.y or a.layer~=b.layer or not same_colour(a.c,b.c)then return false end
     if a.kind=='rect'then return a.w==b.w and a.h==b.h end
+    if a.kind=='bitmap'then return a.material==b.material and a.w==b.w and a.h==b.h end
     return a.s==b.s and a.font==b.font and a.size==b.size
 end
 local function create(screen,item)
     if item.kind=='rect'then return screen.rect(item.x,item.y,item.layer,item.w,item.h,item.c)end
+    if item.kind=='bitmap'then return screen.bitmap(item.material,item.x,item.y,item.layer,item.w,item.h,item.c)end
     return screen.text(item.s,item.font,item.size,item.font,item.x,item.y,item.layer,item.c)
 end
 local function update(screen,old,item)
     if item.kind=='rect'then return screen.update_rect(old.id,item.x,item.y,item.layer,item.w,item.h,item.c)end
+    if item.kind=='bitmap'then
+        return screen.update_bitmap(old.id,item.material,item.x,item.y,item.layer,item.w,item.h,item.c)
+    end
     local ok,why=screen.update_text(old.id,item.s,item.font,item.size,item.font,item.x,item.y,item.layer,item.c)
     if ok==nil and tostring(why):find('not callable',1,true)then
         -- No update_text binding: replace the primitive.
@@ -222,10 +286,30 @@ local function reconcile(screen,drawn,items)
     return out,calls
 end
 M.reconcile=reconcile
+-- Reconcile, then give each image material drawn this frame its mask colours (once per GUI, again when they change).
+-- A failed material lookup leaves the image transparent and is reported, never failing the screen.
+local function reconcile_and_colour(screen,drawn,items,coloured)
+    local out,calls=reconcile(screen,drawn,items)
+    if not out then return nil,calls end
+    for _,item in ipairs(out)do
+        if item.kind=='bitmap'and coloured[item.material]~=item.vkey then
+            coloured[item.material]=item.vkey
+            local instance=screen.material(item.material)
+            if instance then
+                local ok=screen.set_vectors(instance,item.vars)
+                calls=calls+1
+                if not ok then coloured[item.material]=false end
+            else coloured[item.material]=false end
+        end
+    end
+    return out,calls
+end
+M.reconcile_and_colour=reconcile_and_colour
 
 ---------------------------------------------------------------------------------------------------- overlays --
 local Overlay={};Overlay.__index=Overlay
 local function close_screen(self)
+    self.coloured,self.ready={},{}
     if self.screen then pcall(self.screen.close)end
     self.screen,self.ui_world,self.drawn=nil,nil,{}
 end
@@ -238,9 +322,14 @@ local function note(self,state,reason)
 end
 local function frame(self,dt)
     if not self.visible or not self.draw_fn then
+        if self.cursor then cursor.release(self.key)end
         if self.screen then close_screen(self)end
         note(self,'hidden')
         return
+    end
+    if self.cursor then
+        local held,why=cursor.hold(self.key,self.cursor)
+        self.cursor_reason=not held and why or nil
     end
     local world,ui_world=M.hooks.world()
     if not world then if self.screen then close_screen(self)end;note(self,'waiting',tostring(ui_world));return end
@@ -254,7 +343,18 @@ local function frame(self,dt)
     local screen=self.screen
     self.width,self.height=screen.width,screen.height
     self.scale=math.min(screen.width/1920,screen.height/1080)
+    self.coloured=self.coloured or{}
+    self.ready=self.ready or{}
+    local function image_ready(handle)
+        local r=self.ready[handle]
+        if r and(r.ok or self.frames-r.frame<60)then return r.ok,r.why end
+        local ok,result,why=pcall(M.hooks.image_ready,world,handle)
+        r={ok=ok and result==true,why=ok and why or tostring(result),frame=self.frames}
+        self.ready[handle]=r
+        return r.ok,r.why
+    end
     local d=setmetatable({items={},layer=self.layer,width=screen.width,height=screen.height,scale=self.scale,
+        materials={},image_ready=image_ready,
         fonts={},refused=0,font_for=function(role)return M.hooks.font(world,role)end},Builder)
     local ok,err=xpcall(self.draw_fn,function(e)return debug.traceback(tostring(e),2)end,d,dt)
     if not ok then
@@ -264,7 +364,8 @@ local function frame(self,dt)
         error(err,0)
     end
     self.refused,self.first_refusal=d.refused,d.first_refusal
-    local passed,drawn,calls=engine_gui.temp_scope(reconcile,screen,self.drawn,d.items)
+    self.waiting_images,self.image_why=d.waiting_images or 0,d.image_why
+    local passed,drawn,calls=engine_gui.temp_scope(reconcile_and_colour,screen,self.drawn,d.items,self.coloured)
     if not(passed and drawn)then
         close_screen(self)
         note(self,'failed','engine GUI call failed: '..tostring(passed and calls or drawn))
@@ -289,7 +390,22 @@ function Overlay:show(on)
     if self.ticker and self.ticker.state=='disabled'and self.visible then self.ticker:enable()end
     return self
 end
-function Overlay:hide()return self:show(false)end
+function Overlay:hide()
+    if self.cursor then cursor.release(self.key)end
+    return self:show(false)
+end
+-- While the overlay is shown, free the mouse cursor from the camera (EXPERIMENTAL; runtime/mod_cursor.lua): the engine
+-- shows it, stops clipping it and drops the mouse focus. opts = {camera = false} keeps the mouse focus (the cursor is
+-- shown but the camera may still turn). free_cursor(false) gives it back.
+function Overlay:free_cursor(on,opts)
+    if on==false then
+        if self.cursor then cursor.release(self.key)end
+        self.cursor=nil
+    else
+        self.cursor={camera=not(type(opts)=='table'and opts.camera==false)}
+    end
+    return self
+end
 function Overlay:visible_now()return self.visible==true and self.state=='drawing'end
 -- The cursor in overlay coordinates {x, y (top-left origin), left (left button held)}, or nil and why.
 function Overlay:mouse()
@@ -310,6 +426,7 @@ end
 function Overlay:close()
     if self.state=='closed'then return self end
     if self.ticker then self.ticker:cancel()end
+    if self.cursor then cursor.release(self.key)end
     close_screen(self)
     self.state,self.reason='closed',nil
     overlays[self.key]=nil
@@ -319,7 +436,8 @@ function Overlay:status()
     return {owner=self.owner,id=self.id,state=self.state,reason=self.reason,layer=self.layer,visible=self.visible,
         width=self.width,height=self.height,scale=self.scale,items=#self.drawn,frames=self.frames,
         engine_calls=self.calls,opened=self.opened,refused=self.refused,first_refusal=self.first_refusal,
-        callback=self.ticker and self.ticker.state}
+        waiting_images=self.waiting_images or 0,image_reason=self.image_why,callback=self.ticker and self.ticker.state,
+        cursor=self.cursor and(self.cursor_reason or'free')or nil}
 end
 
 -- The overlay `opts.id` (default 'main') of `owner`, created on first use; the same object afterwards (its layer

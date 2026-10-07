@@ -2867,6 +2867,9 @@ function HD2UI:overlays() end
 ---@param c number[]|string
 ---@return number[]|nil
 function HD2UI:colour(c) end
+---The cursor capture's state: holders, disabled, the game's saved values and what the engine reports now.
+---@return table
+function HD2UI:cursor() end
 
 ---@class HD2OverlayOptions
 ---@field id string|nil 1 to 48 letters, digits, _ . - (default 'main').
@@ -2908,6 +2911,11 @@ function HD2Overlay:status() end
 ---Remove its primitives, its GUI and its frame callback.
 ---@return HD2Overlay
 function HD2Overlay:close() end
+---EXPERIMENTAL (r50): while shown, the engine shows the cursor, stops clipping it and drops the mouse focus so the camera stops turning; opts {camera = false} keeps the focus. free_cursor(false) gives it back.
+---@param on? boolean
+---@param opts? table
+---@return HD2Overlay
+function HD2Overlay:free_cursor(on, opts) end
 
 ---What one frame of an overlay shows (the d of overlay:draw). Invalid items are refused (counted in status()), never passed to the engine.
 ---@class HD2OverlayFrame
@@ -2931,6 +2939,15 @@ function HD2OverlayFrame:rect(x, y, w, h, colour, z) end
 ---@param opts? HD2OverlayTextOptions
 ---@return nil
 function HD2OverlayFrame:text(text, x, y, opts) end
+---One of the mod's own images (hd2.resources.image) through the game's icon material; (x, y) its top-left corner. Drawn once its resources are loaded; an image partly off screen is dropped. One colour set per image per overlay (r50).
+---@param image table
+---@param x number
+---@param y number
+---@param w number
+---@param h number
+---@param opts? HD2OverlayImageOptions
+---@return nil
+function HD2OverlayFrame:image(image, x, y, w, h, opts) end
 ---@param text string
 ---@param size? number
 ---@param font? "body"|"title"|"mono"
@@ -2962,6 +2979,39 @@ local HD2OverlayTextOptions = {}
 ---@field wind_up boolean
 ---@field heat boolean
 local HD2WeaponState = {}
+
+---d:image options.
+---@class HD2OverlayImageOptions
+---@field colours table|nil {r =, g =, b =}: the colours of the image's R, G and B masks (overlay colours; alpha = strength). Default white R and G, a 0.2 black shadow on B.
+---@field colour number[]|string|nil Vertex colour (tint and alpha); default white.
+---@field z integer|nil Added to the overlay layer.
+local HD2OverlayImageOptions = {}
+
+---mod:choice declaration.
+---@class HD2ChoiceSpec
+---@field id string 1-40 letters, digits, _ or -.
+---@field values any[] 1-64 values, no two the same; every one is validated when an ensure binds the choice.
+---@field default integer|nil 1-based index (default 1).
+---@field labels string[]|nil Readable names, for describe() and logs.
+local HD2ChoiceSpec = {}
+
+---A script choice (mod:choice).
+---@class HD2ScriptChoice
+local HD2ScriptChoice = {}
+---The selected value (a copy of a plain table).
+---@return any
+function HD2ScriptChoice:get() end
+---Select the value equal to `value` (reference handles by identity, tables element by element); false when it is not one of the values.
+---@param value any
+---@return boolean
+function HD2ScriptChoice:set(value) end
+---Select by 1-based index.
+---@param index integer
+---@return boolean
+function HD2ScriptChoice:select(index) end
+---The declaration and the selected value.
+---@return table
+function HD2ScriptChoice:describe() end
 
 ---An entity. Every live query re-resolves it through the game (same mission, still in the health manager's hash, same type and descriptor) and returns nil once it is gone; the fields are a snapshot.
 ---@class HD2EntityHandle
@@ -3493,6 +3543,10 @@ function HD2ModContext:subscriptions() end
 ---@param spec HD2ValueSpec
 ---@return HD2ScriptValue
 function HD2ModContext:value(spec) end
+---A script choice owned by this mod: any field value (numbers, booleans, strings, reference handles, plain tables such as a calldown code), selected from code and bound to one hd2.ensure value like a script value (r50).
+---@param spec HD2ChoiceSpec
+---@return HD2ScriptChoice
+function HD2ModContext:choice(spec) end
 ---Run fn as this mod.
 ---@param fn fun(...): any
 ---@param ... any

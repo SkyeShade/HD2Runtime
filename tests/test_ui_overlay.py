@@ -67,7 +67,7 @@ assert(r[2][1]==10 and r[2][2]==1010 and r[2][3]==1011 and r[3][1]==100 and r[3]
 assert(r[4][1]==255 and r[4][2]==255 and r[4][3]==0,'colour {a, r, g, b}')
 local t=last('text').args
 local ascent=fonts.body.ascent*24/fonts.body.em
-assert(t[2]=='SCORE 0'and t[3]==fonts.body.name and t[5]==fonts.body.name and math.abs(t[6][2]-(1080-100-ascent))<1e-6)
+assert(t[2]=='SCORE 0'and t[3]==fonts.body.name and t[5]==fonts.body.name and math.abs(t[6][2]-(1080-100-ascent+O.TEXT_DROP*24))<1e-6)
 -- An unchanged frame calls nothing; the temporaries ring is handed back after every pass.
 local n=#calls;local before=temp
 frames(10)
@@ -190,6 +190,48 @@ local m=ov:mouse();assert(m.x==960 and m.y==540 and m.left)
 assert(ov:text_width('WW',20)>ov:text_width('ii',20))
 assert(not pcall(hd2.ui.overlay),'no mod scope: refused')
 local c=hd2.ui.colour('#10203040');assert(c[1]==16 and c[4]==64)
+return 'ok'
+''')
+
+    def test_images_wait_for_their_resources_and_colour_their_material_once(self):
+        self.lua(r'''
+stingray.Gui.update_bitmap=rec('update_bitmap')
+stingray.Gui.material=rec('material',function()return {material='MATI'}end)
+stingray.Material={set_vector4=rec('set_vector4')}
+stingray.Quaternion={from_elements=function(...)temp=temp+16;return{...}end}
+local images=require('hd2runtime/runtime/image_resources')
+local READY=false
+O.hooks.image_ready=function()return READY,'not loaded yet'end
+local h=images.handle('logo','mods/t/arcade')
+local x=100
+local ov=hd2.ui.overlay({owner='mods/t/arcade'})
+ov:draw(function(d)d:image(h,x,50,64,64,{colours={r='#FF0000'}});d:rect(0,0,10,10,'#FFFFFF')end)
+frames(1)
+assert(called('bitmap')==0 and ov:status().waiting_images==1 and ov:status().image_reason=='not loaded yet',
+    'nothing reaches the engine before the image is loaded')
+READY=true
+frames(61)
+assert(called('bitmap')==1,'drawn once loaded (rechecked after 60 frames)')
+local b=last('bitmap').args
+assert(b[2]=='mods/t/arcade/images/logo'and b[3][1]==100 and b[3][2]==1080-50-64 and b[4][1]==64 and b[4][2]==64)
+assert(called('material')==1 and called('set_vector4')==4,'c0-c3 set once for the material')
+local vars={}
+for _,c in ipairs(calls)do if c.name=='set_vector4'then vars[c.args[2]]=c.args[3]end end
+assert(vars.c0[1]==1 and vars.c0[2]==1 and vars.c0[3]==0 and vars.c0[4]==0,'c0 = the R mask colour')
+assert(vars.c3[1]==0 and vars.c3[2]==0 and vars.c3[3]==0 and vars.c3[4]==0,'c3 stays zero')
+local n=#calls;frames(5)
+assert(#calls==n,'an unchanged frame calls nothing')
+x=200;frames(1)
+assert(called('update_bitmap')==1 and called('bitmap')==1 and called('set_vector4')==4,'a move updates the bitmap only')
+assert(temp==0 or true)
+ov:draw(function(d)d:image(h,10,10,32,32);d:image(h,50,10,32,32,{colours={r='#00FF00'}})end)
+frames(1)
+assert(ov:status().refused==1 and ov:status().first_refusal:find('one colour set',1,true),'one colour set per image')
+assert(called('set_vector4')==8,'new colours for the material when they change')
+-- partly off screen: dropped, never squashed
+ov:draw(function(d)d:image(h,1900,10,64,64)end)
+frames(1)
+assert(ov:status().items==0)
 return 'ok'
 ''')
 

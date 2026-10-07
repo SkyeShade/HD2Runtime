@@ -17,6 +17,8 @@ function M.overlay(opts)
 end
 -- Every overlay's status (owner, id, state, reason, items, frames, ...).
 function M.overlays()return overlays.list()end
+-- The cursor capture's state (runtime/mod_cursor.lua): holders, the game's saved values, what the engine reports now.
+function M.cursor()return require('hd2runtime/runtime/mod_cursor').status()end
 -- A colour as the overlay takes it ({r, g, b[, a]} or '#RRGGBB[AA]') -> {r, g, b, a}, or nil when invalid.
 function M.colour(c)
     local engine=overlays.colour(c)

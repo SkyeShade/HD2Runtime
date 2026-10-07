@@ -303,3 +303,33 @@ hd2.ensure{transaction = t, recover = true,               -- or {delay = 30, max
   - without Mod Options Menu, only the option-bound operation was disabled (the 0.25.0
     behavior, now strict mode `fallback='disable'`; the default mode is validated offline);
   - saved values survive a full game restart (a saved 230 was loaded and applied at startup).
+
+## Script choices (r50)
+
+```lua
+local mod = hd2.mod()
+local code = mod:choice({id = 'code', values = {{'right', 'right', 'up'}, {'up', 'down', 'up'}}})
+hd2.ensure({patch = {id = 'precision-code', target = hd2.stratagem('Orbital Precision Strike'),
+    field = hd2.fields.stratagem.calldown_code, expect = {'right', 'right', 'up'}, value = code}})
+code:set({'up', 'down', 'up'})                       -- one owned transition, debounced like a slider
+```
+
+A script choice is the script value of non-numeric fields: never shown in Mod Options Menu, always ready, bound to one
+field `value` of an `hd2.ensure`.
+
+- **Values**: 1-64 of finite numbers, booleans, strings (up to 256 bytes), typed reference handles
+  (`weapon:attack(role):projectile()`, `hd2.attack_output(id)`, `projectile:terminal_action(phase):explosion()`) and
+  plain tables of those (a calldown code, `:no_explosion()`). No two may be the same. Plain tables are copied when
+  declared and on every `get`, so a value proved at bind time cannot change afterwards.
+- **Bind-time proof**: every value is validated through the operation's normal guards when the ensure is declared
+  (acknowledgements, ranges, reviewed donors), and so is the restore request; a refusal names the value
+  (`options.value_label`), never a table address.
+- `choice:set(value)` selects the value equal to `value` (reference handles by every field they carry, plain tables
+  element by element) and returns false when it is not one of the values; `choice:select(index)` selects by index;
+  `choice:get()` returns the selected value.
+- **Reference transitions**: a move between two references is an owned transition (proven live for projectile choices,
+  `LiberatorAttackOutputTest` 2026-09-29). r50 also fixes the ensure signature of `hd2.explosion` (catalogue) donors,
+  which were all read as the same value, so a choice between two of them was skipped as a no-op.
+- `mod:choice` with an id already used by a script value raises; the same id returns the same choice.
+
+Tests: `tests/test_editor_services.py`.

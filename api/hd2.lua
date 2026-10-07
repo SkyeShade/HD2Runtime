@@ -318,7 +318,7 @@ M.sounds={list=sounds.list,describe=sounds.describe,play=sounds.play,available=s
     state_groups=sounds.state_groups}
 -- Mod screen overlays: rectangles and text drawn over the game in the Ui World (api/ui.lua; docs/ui-overlay.md).
 local ui=require('hd2runtime/api/ui')
-M.ui={overlay=ui.overlay,overlays=ui.overlays,colour=ui.colour,color=ui.color,MAX_LAYER=ui.MAX_LAYER,
+M.ui={overlay=ui.overlay,overlays=ui.overlays,cursor=ui.cursor,colour=ui.colour,color=ui.color,MAX_LAYER=ui.MAX_LAYER,
     DEFAULT_LAYER=ui.DEFAULT_LAYER}
 -- Selectable custom stratagems and their spawned instances (development API, solo host; api/custom_stratagem.lua).
 local custom_stratagem=require('hd2runtime/api/custom_stratagem')

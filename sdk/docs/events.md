@@ -501,6 +501,10 @@ the operation's normal guards when it is declared, and re-applies (debounced, 0.
 it. It changes a **definition**, so every consumer of that definition sees it; it is the honest substitute for a
 per-hit modifier until one exists (`examples/projects/KillStackDamageTest`).
 
+`mod:choice({id, values, default, labels})` (r50) does the same for any value a field takes: booleans, strings
+(`'unlimited'`, a status name), reference handles and plain tables such as a calldown code. See
+[options.md](options.md#script-choices-r50).
+
 ## Subscriptions
 
 ```lua

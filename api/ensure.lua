@@ -111,9 +111,12 @@ local function desired_key(change)
     if change.desired~=nil then return tostring(change.desired)end
     local selector=change.desired_selector
     if selector then
+        -- Every identity a selector can carry: two catalogue explosions (hd2.explosion) differ only by `catalogue`,
+        -- so a choice between them must not read as the same signature (it would be skipped as a no-op).
         return 'ref:'..tostring(selector.output or'')..'|'..tostring(selector.weapon or'')..'|'
             ..tostring(selector.attack or'')..'|'..tostring(selector.phase or'')..'|'..tostring(selector.is_null or'')
-            ..(selector.ammunition and'|ammunition'or'')
+            ..(selector.ammunition and'|ammunition'or'')..'|'..tostring(selector.catalogue or'')..'|'
+            ..tostring(selector.none or'')..'|'..tostring(selector.self or'')..'|'..tostring(selector.resource or'')
     end
     return 'value:'..tostring(change.value)
 end
@@ -150,7 +153,7 @@ local function start_bound(runtime,emit,request,kind,validate,module,interval,st
     for _,handle in ipairs(bound)do
         for _,sample in ipairs(handle:samples())do
             local ok,why=pcall(build,{handle=handle,value=sample})
-            if not ok then error('option '..handle.id..' value '..tostring(sample)
+            if not ok then error('option '..handle.id..' value '..options.value_label(sample)
                 ..' is not accepted by '..id..': '..tostring(why),0)end
         end
     end
