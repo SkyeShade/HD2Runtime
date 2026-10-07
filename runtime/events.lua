@@ -35,7 +35,7 @@ M.NATIVE={source='native'}        -- the shared cause of native gameplay events 
 
 local state={now=0,frame=0,epoch=0,in_mission=false,sequence=0,depth=0,current=nil,
     lists={},by_key={},timers={},timer_keys={},queue={},queue_count=0,sources={},source_order={},
-    contexts={},mission_tables={},watch=nil,pollers={},scopes={}}
+    contexts={},mission_tables={},watch=nil,pollers={},scopes={},frames={}}
 M.state=state
 
 local function emit(message)pcall(log.emit,'[HD2Runtime] '..message)end
@@ -103,7 +103,7 @@ end
 
 ---------------------------------------------------------------------------------------------------- the watch --
 local function needed()
-    if next(state.by_key)or#state.timers>0 or next(state.pollers)then return true end
+    if next(state.by_key)or#state.timers>0 or#state.frames>0 or next(state.pollers)then return true end
     for _,source in ipairs(state.source_order)do
         if source.active or(source.status=='retry'and source_wanted and source_wanted(source))then return true end
     end
@@ -367,8 +367,14 @@ function Timer:cancel()
     if self.state=='active'then self.state='cancelled';unheap(self);state.timer_keys[self.key]=nil end
     return self
 end
+-- A frame callback can be paused and resumed (a timer cannot: its schedule would have to be rebuilt).
+function Timer:disable()if self.kind=='frame'and self.state=='active'then self.state='disabled'end;return self end
+function Timer:enable()
+    if self.kind=='frame'and self.state=='disabled'then self.state='active';self.consecutive=0 end
+    return self
+end
 function Timer:active()return self.state=='active'end
-function Timer:remaining()return self.state=='active'and math.max(0,self.due-state.now)or nil end
+function Timer:remaining()return self.state=='active'and self.due and math.max(0,self.due-state.now)or nil end
 function Timer:describe()
     return {id=self.id,owner=self.owner,kind=self.kind,interval=self.interval,scope=self.scope,state=self.state,
         remaining=self:remaining(),calls=self.calls,failures=self.failures,reason=self.reason}
@@ -386,7 +392,8 @@ function M.timer(kind,seconds,callback,opts,level)
     local valid,why=pcall(function()
         assert(type(seconds)=='number'and seconds==seconds and seconds>=0 and seconds<=86400,
             'seconds must be a number from 0 to 86400')
-        assert(kind~='every'or seconds>=M.MIN_REPEAT,'hd2.every needs an interval of at least '..M.MIN_REPEAT..' s')
+        assert(kind~='every'or seconds>=M.MIN_REPEAT,'hd2.every needs an interval of at least '..M.MIN_REPEAT..' s'
+            ..' (hd2.on_frame runs a callback every frame)')
         assert(type(callback)=='function','timer callback must be a function')
         assert(opts.scope==nil or opts.scope=='session'or opts.scope=='mission',"scope must be 'session' or 'mission'")
         assert(opts.scope~='mission'or state.in_mission,'a mission-scoped timer needs a mission in progress')
@@ -401,14 +408,24 @@ function M.timer(kind,seconds,callback,opts,level)
     local timer=setmetatable({id=state.sequence,seq=state.sequence,key=key,kind=kind,owner=owner,callback=callback,
         interval=seconds,due=state.now+seconds,scope=opts.scope or'session',epoch=state.epoch,state='active',
         calls=0,failures=0,consecutive=0,max_failures=DEFAULT_MAX_FAILURES,
-        label=(kind=='every'and'repeating timer 'or'timer ')..state.sequence},Timer)
+        label=(kind=='every'and'repeating timer 'or kind=='frame'and'frame callback 'or'timer ')..state.sequence},Timer)
     -- A timer started from a callback keeps the event that callback handled, so its actions stay attributable.
     timer.origin_event=state.current_event
     state.timer_keys[key]=timer
-    push(timer)
+    if kind=='frame'then
+        timer.due,timer.interval=nil,0
+        -- callback(dt, handle): invoke passes one argument, so the handle is bound once here, not per frame.
+        timer.call=function(dt)return callback(dt,timer)end
+        state.frames[#state.frames+1]=timer
+    else
+        push(timer)
+    end
     ensure_watch()
     return timer
 end
+-- A callback run every update tick with the tick's dt (seconds), after events and timers. Same owner, id, scope and
+-- failure rules as a timer; Timer:cancel() removes it, :disable() / :enable() pause it.
+function M.frame(callback,opts,level)return M.timer('frame',0,callback,opts,(level or 1)+1)end
 local function run_timers()
     while heap[1]and heap[1].due<=state.now do
         local timer=pop()
@@ -429,6 +446,26 @@ local function run_timers()
             end
         end
     end
+end
+-- Frame callbacks in registration order. One registered during this pass first runs next frame; finished ones
+-- (cancelled, failed, or of an ended mission) are dropped in place.
+local function run_frames(dt)
+    local frames=state.frames
+    local count,kept=#frames,0
+    for i=1,count do
+        local frame=frames[i]
+        if frame.scope=='mission'and frame.epoch~=state.epoch and(frame.state=='active'or frame.state=='disabled')then
+            frame.state='cancelled';state.timer_keys[frame.key]=nil
+        end
+        if frame.state=='active'then
+            invoke(frame,'frame',frame.call,dt,frame.origin_event)
+            if frame.state=='failed'then state.timer_keys[frame.key]=nil end
+        end
+        if frame.state=='active'or frame.state=='disabled'then kept=kept+1;frames[kept]=frame end
+    end
+    -- Callbacks added while the pass ran sit after `count`; move them down behind the kept ones.
+    for i=count+1,#frames do kept=kept+1;frames[kept]=frames[i]end
+    for i=#frames,kept+1,-1 do frames[i]=nil end
 end
 
 ----------------------------------------------------------------------------------------------- mod contexts --
@@ -511,6 +548,11 @@ function M.end_mission()
     for _,timer in ipairs({unpack(heap)})do
         if timer.scope=='mission'and timer.epoch<=ended then timer:cancel();timer.state='expired'end
     end
+    for _,frame in ipairs(state.frames)do
+        if frame.scope=='mission'and frame.epoch<=ended and(frame.state=='active'or frame.state=='disabled')then
+            frame.state='expired';state.timer_keys[frame.key]=nil
+        end
+    end
     for _,t in pairs(state.mission_tables)do clear(t)end
     state.epoch=state.epoch+1   -- every handle from the ended mission is now invalid
 end
@@ -545,6 +587,7 @@ tick=function(dt)
     end
     flush()
     run_timers()
+    if#state.frames>0 then run_frames(dt)end
     metrics.elapsed('events.tick',started)
 end
 -- Tests drive the engine without the scheduler.
@@ -570,6 +613,7 @@ function M.reset_for_tests()
     for k in pairs(state.lists)do state.lists[k]=nil end
     for i=#heap,1,-1 do heap[i]=nil end
     for k in pairs(state.timer_keys)do state.timer_keys[k]=nil end
+    for i=#state.frames,1,-1 do state.frames[i]=nil end
     for k in pairs(state.pollers)do state.pollers[k]=nil end
     for k in pairs(state.mission_tables)do state.mission_tables[k]=nil end
     for k in pairs(state.scopes)do state.scopes[k]=nil end

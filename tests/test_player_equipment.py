@@ -448,6 +448,14 @@ class PlayerEquipmentSnapshotTests(unittest.TestCase):
         self.assertEqual(alive['held'], {'entity': 605, 'name': 'R-36 Eruptor', 'slot': 'primary'})
         self.assertEqual(alive['ammo'], {'capacity': 5, 'feed': 'magazine', 'rounds': 3, 'spare': 6})
         self.assertIn('NO_BACKPACK', alive['inside'])
+        # player:weapon_state(): the Eruptor's own instance, what it fires with now (its 32 RPM, 3 of 5 rounds as
+        # player:ammo() reads them, its 5 x 5 mrad spread, projectile type 40 from its type record: no own copy).
+        state = alive['weaponState']
+        self.assertEqual((state['name'], state['fireRate'], state['feed'], state['rounds'], state['capacity'],
+            state['spread'], state['projectile'], state['ownRecord']),
+            ('R-36 Eruptor', 32, 'magazine', 3, 5, [5, 5], 40, False))
+        ship = result['results']['F5FEE03DCFDB-20260926T222226Z.hd2snap']['report']
+        self.assertIn('NOTHING_IN_HAND', ship['weaponState'])
 
     def test_the_recorded_validation_covers_every_snapshot(self):
         recorded = json.loads((ROOT / 'validation/player-equipment-snapshot.json').read_text(encoding='utf-8'))

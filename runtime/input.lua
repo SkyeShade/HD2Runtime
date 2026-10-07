@@ -256,8 +256,67 @@ function M.bindings()
     return result
 end
 function M.get(id)return bindings[id]end
+
+------------------------------------------------------------------------------------------------- raw keys --
+-- hd2.input.down / pressed / released: any key's state, read with GetAsyncKeyState like the bindings, for mods that
+-- need more than a few chords (a game, a menu). Only while the game window has the keyboard focus: unfocused, every
+-- key reads up and no press is reported. A key is sampled once per update tick, before events, timers and frame
+-- callbacks run, so every callback in one tick sees the same state, and pressed/released hold for exactly that tick.
+-- Read-only: the game still receives every key (Runtime cannot consume input).
+local RAW={CTRL=0x11,SHIFT=0x10,ALT=0x12,MOUSE1=0x01,MOUSE2=0x02}
+local function raw_code(name)
+    if type(name)~='string'or#name==0 or#name>16 then return nil end
+    local key=name:upper():gsub('%s','')
+    key=({ESC='ESCAPE',RETURN='ENTER',PGUP='PAGEUP',PGDN='PAGEDOWN',INS='INSERT',DEL='DELETE',CONTROL='CTRL'})[key]
+        or key
+    return VK[key]or RAW[key]
+end
+local watched,watched_list={},{}   -- code -> {down, changed (frame)}; the codes in watch order
+local was_focused=false
+local function sample()
+    local b=get_backend()
+    local focused=b and b.focused()or false
+    local frame=events.state.frame
+    for _,code in ipairs(watched_list)do
+        local key=watched[code]
+        local down=focused and b.down(code)==true or false
+        -- Regaining the focus primes the state: a key already held then is not a press.
+        if down~=key.down and(was_focused or not down)then key.changed=frame end
+        key.down=down
+    end
+    was_focused=focused
+end
+local function watch(name)
+    local code=raw_code(name)
+    if not code then error('unknown key '..tostring(name)..' (see hd2.input.keys())',3)end
+    local key=watched[code]
+    if not key then
+        key={down=false,changed=-1}
+        watched[code]=key;watched_list[#watched_list+1]=code
+        -- First use: read it now so down() is right immediately; edges start with the next tick.
+        local b=get_backend()
+        local focused=b and b.focused()or false
+        key.down=focused and b.down(code)==true or false
+        if#watched_list==1 then was_focused=focused end
+        events.set_poller('keys',sample)
+    end
+    return key
+end
+-- True while the key is held (and the game window has the focus).
+function M.down(name)return watch(name).down end
+-- True during the one update tick in which the key went down / came up. A key is followed from its first query on.
+function M.pressed(name)local key=watch(name);return key.down and key.changed==events.state.frame end
+function M.released(name)local key=watch(name);return not key.down and key.changed==events.state.frame end
+-- Whether the game window has the keyboard focus now (false when input is unavailable).
+function M.focused()local b=get_backend();return b and b.focused()or false end
+M.raw_keys=RAW
+
 function M.reset_for_tests()
     for _,binding in ipairs({unpack(order)})do binding:unbind()end
+    for code in pairs(watched)do watched[code]=nil end
+    for i=#watched_list,1,-1 do watched_list[i]=nil end
+    was_focused=false
+    events.set_poller('keys',nil)
     backend=nil
 end
 return M

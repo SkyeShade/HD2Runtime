@@ -54,6 +54,14 @@ local function prove(runtime)
     return {runtime=runtime,view=view,game=bases.game,exe=bases.exe,key=tostring(bases.game)..':'..tostring(bases.exe)}
 end
 
+-- The game build against the pinned one: 'matched', 'mismatched' or 'not_ready' (and the reason). It proves no pins
+-- and reads no memory; the files are hashed once per loaded module, a mismatch included (core/fingerprint.lua).
+function M.build()
+    local ok,runtime=pcall(adapter)
+    if not ok then return 'not_ready',(tostring(runtime):gsub('^[^%s:]+:%d+: ',''))end
+    return require('hd2runtime/core/fingerprint').status(runtime)
+end
+
 -- The proven world, or nil and the reason. Re-proven when game.dll's base changes.
 function M.open()
     local runtime=adapter()

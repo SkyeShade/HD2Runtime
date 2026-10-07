@@ -1,9 +1,10 @@
 -- Semantic asset requirements: hd2.require_assets(target) / hd2.asset_dependency(target).
 -- Targets are the typed handles Runtime already hands out (hd2.pickup, hd2.weapon, hd2.support_weapon,
--- hd2.throwable, hd2.vehicle, hd2.backpack, mounted-weapon candidates, projectile handles). Package IDs never
--- appear in requests or results.
+-- hd2.throwable, hd2.vehicle, hd2.backpack, mounted-weapon candidates, projectile handles, and a firing sound's bank
+-- through hd2.sounds.asset(name)). Package IDs never appear in requests or results.
 local assets=require('hd2runtime/core/assets')
 local database=require('hd2runtime/domains/package_residency')
+local weapon_sounds=require('hd2runtime/runtime/weapon_sounds')
 local M={}
 
 -- Semantic catalog key for a typed handle, or nil with a reason.
@@ -21,6 +22,7 @@ function M.key_for(target)
         end
         return'player_weapon/'..tostring(target.weapon)
     end
+    if resource=='sound'then return'sound/'..tostring(target.sound)end
     local semantic=rawget(target,'semanticId')
     if type(semantic)=='string'and semantic:match('^mounted%-weapon/')then return'mounted_weapon/'..semantic end
     return nil,'no asset catalog entry for this handle ('..tostring(resource)..')'
@@ -30,6 +32,12 @@ end
 function M.describe(target)
     local key,why=M.key_for(target)
     if not key then return {known=false,autoLoadSupported=false,blocker=why}end
+    if key:match('^sound/')then
+        local list,swhy=M.sound_dependencies(target.sound)
+        if not list then return {key=key,known=false,autoLoadSupported=false,liveTested=false,blocker=swhy}end
+        return {key=key,known=true,autoLoadSupported=true,derivation='sound_bank_stratagem_call_in',liveTested=false,
+            packages=#list,retain=database.policy.retain}
+    end
     local item=database.dependencies[key]
     if not item then
         return {key=key,known=false,autoLoadSupported=false,liveTested=false,
@@ -40,6 +48,28 @@ function M.describe(target)
         package=package.named and package.name:match('[^/]+$')or nil,retain=database.policy.retain}
 end
 
+-- A catalogue sound's bank: its stratagem's call-in packages that list the bank (the packages a Pelican gun or a
+-- sentry taking that sound requests; runtime/weapon_sounds.lua), or nil and why.
+function M.sound_dependencies(name)
+    local canonical,s=weapon_sounds.resolve(name)
+    if not s then return nil,'no firing sound '..tostring(name)end
+    if s.own then return {}end
+    if not(s.stratagemId and s.stratagem)then
+        return nil,'the '..canonical..' sound is resident-only: no stratagem package provides its bank'
+    end
+    local out={}
+    for _,dep in ipairs(assets.dependencies_for_stratagem(s.stratagemId,s.stratagem)or{})do
+        for _,p in ipairs(s.requests or{})do
+            if dep.package==p then
+                out[#out+1]={key='sound/'..canonical..(#out>0 and('/'..(#out+1))or''),package=dep.package,
+                    label=s.label..' sound',name=dep.name,via='sound_bank_stratagem_call_in'}
+            end
+        end
+    end
+    if#out==0 then return nil,'no package is known for the '..canonical..' sound'end
+    return out
+end
+
 local function dependencies_for(request)
     local targets=request.targets or{request.target}
     assert(type(targets)=='table'and#targets>=1 and#targets<=16,'require_assets takes one to 16 targets')
@@ -47,9 +77,15 @@ local function dependencies_for(request)
     for _,target in ipairs(targets)do
         local key,why=M.key_for(target)
         assert(key,why)
-        local dependency=assets.dependency(key)
-        assert(dependency,'ASSET_UNAVAILABLE: no known package for '..key)
-        found[#found+1]=dependency
+        if key:match('^sound/')then
+            local list,swhy=M.sound_dependencies(target.sound)
+            assert(list,'ASSET_UNAVAILABLE: '..tostring(swhy))
+            for _,dependency in ipairs(list)do found[#found+1]=dependency end
+        else
+            local dependency=assets.dependency(key)
+            assert(dependency,'ASSET_UNAVAILABLE: no known package for '..key)
+            found[#found+1]=dependency
+        end
     end
     return found
 end

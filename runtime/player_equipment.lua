@@ -22,6 +22,9 @@ local b=require('hd2runtime/core/bytes')
 local bit=require('bit')
 local scheduler=require('hd2runtime/runtime/scheduler')
 local metrics=require('hd2runtime/runtime/metrics')
+-- The weapon-instance reads (player:weapon_state): required at load, as the packaged game resolves modules then.
+local pelican_weapon=require('hd2runtime/runtime/pelican_weapon')
+local custom_weapons=require('hd2runtime/runtime/custom_weapons')
 local M={}
 local I,DP,MG,AV,AB,SP,N=D.inventory,D.deposit,D.magazine,D.avatar,D.ability,D.supplyPack,D.natives
 M.SLOTS={'primary','secondary','support','backpack'}
@@ -291,6 +294,32 @@ function M.held_weapon(player)
     item.selection,item.avatar_id=held.selection,avatar
     return item
 end
+-- player:weapon_state(): what the weapon in hand fires with NOW, read from its own instance records (the values a
+-- template change does not reach until the weapon is built again): {name, type, slot, entity_id, fire_rate (its
+-- current rounds per minute), rate_slots ({low, mid, high} of its rate selector), own_record (it has its own
+-- ProjectileWeapon copy), projectile (the projectile type it fires), feed ('magazine', 'heat', 'rounds' or 'other'),
+-- magazine {rounds, chambered, capacity} (magazine weapons), spread {horizontal, vertical} (mrad), recoil {horizontal,
+-- vertical} (its aim recoil per shot), wind_up, heat}. The local player only; read-only (runtime/custom_weapons.lua
+-- state, the reads the Pelican chin gun's live-proven writes check, behind the same pins). nil and the reason.
+function M.weapon_state(player)
+    local item,why=M.held_weapon(player)
+    if not item then return nil,why end
+    local world=world_module.open()
+    if not world then return nil,'EQUIPMENT_UNAVAILABLE: the game world is not readable'end
+    local proven,pwhy=pelican_weapon.prove(world)
+    if not proven then return nil,'UNSUPPORTED_BUILD: '..tostring(pwhy)end
+    local s,swhy=custom_weapons.state(world,item.entity_id)
+    if not s then return nil,'NOT_A_PROJECTILE_WEAPON: '..tostring(swhy)end
+    local w,m=s.weapon,s.magazine
+    local out={name=item.name,type=item.type,slot=item.slot,entity_id=item.entity_id,fire_rate=w.currentRpm,
+        rate_slots=w.rofSlots,own_record=w.copy~=nil,feed=w.path,wind_up=w.windUp==true,heat=w.heat==true}
+    out.projectile=w.copy and w.copy.projectileType or(s.types.pw and b.u32(s.types.pw,0))or nil
+    if m then out.magazine={rounds=m.rounds,chambered=m.chambered,capacity=m.capacity}end
+    if s.spread then out.spread={horizontal=s.spread.x,vertical=s.spread.y}end
+    if s.recoil then out.recoil={horizontal=s.recoil.x,vertical=s.recoil.y}end
+    metrics.count('player_equipment.weapon_states')
+    return out
+end
 -- player:backpack(): the worn backpack (M.item plus deposit and supply_pack); nil and the reason.
 function M.backpack(player)
     local world,avatar,why=open_for(player)
@@ -435,6 +464,7 @@ end
 function M.install(Player)
     Player.loadout=function(self)return M.loadout(self)end
     Player.held_weapon=function(self)return M.held_weapon(self)end
+    Player.weapon_state=function(self)return M.weapon_state(self)end
     Player.backpack=function(self)return M.backpack(self)end
     Player.ammo=function(self,slot)return M.ammo(self,slot)end
     Player.resupply_from_pack=function(self,opts)

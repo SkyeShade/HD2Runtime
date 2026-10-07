@@ -50,6 +50,11 @@ if player then
  local ammo,why_ammo=player:ammo('primary')
  out.ammo=ammo and{feed=ammo.feed,rounds=ammo.rounds,spare=ammo.spare_magazines,capacity=ammo.capacity }
   or why_ammo
+ local ws,why_ws=player:weapon_state()
+ out.weaponState=ws and{name=ws.name,fireRate=ws.fire_rate,feed=ws.feed,ownRecord=ws.own_record,
+  projectile=ws.projectile,rounds=ws.magazine and ws.magazine.rounds,capacity=ws.magazine and ws.magazine.capacity,
+  spread=ws.spread and{ws.spread.horizontal,ws.spread.vertical},recoil=ws.recoil and{ws.recoil.horizontal,ws.recoil.vertical}}
+  or why_ws
  local pack,why_pack=player:backpack()
  out.backpack=pack and pack.name or why_pack
  local avatar=handles.local_avatar(world)

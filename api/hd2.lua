@@ -264,6 +264,9 @@ local scripting=require('hd2runtime/api/events')
 M.events=scripting.events
 M.after=scripting.after
 M.every=scripting.every
+M.on_frame=scripting.on_frame
+M.build=scripting.build
+M.store=scripting.store
 M.input=scripting.input
 M.mod=scripting.mod
 M.players=scripting.players
@@ -297,9 +300,15 @@ M.status=actions.status_effects
 -- The game's own transport Pelican, summoned empty at a position and held per instance (api/pelican.lua).
 local pelican=require('hd2runtime/api/pelican')
 M.pelican={spawn=pelican.spawn,active=pelican.active,status=pelican.status}
--- The weapon firing-sound catalogue, read-only (api/sounds.lua; docs/weapon-sounds.md): names for a Pelican gun's sound.
+-- The weapon firing-sound catalogue (api/sounds.lua; docs/weapon-sounds.md) and playing game sound events
+-- (docs/sounds.md).
 local sounds=require('hd2runtime/api/sounds')
-M.sounds={list=sounds.list,describe=sounds.describe}
+M.sounds={list=sounds.list,describe=sounds.describe,play=sounds.play,available=sounds.available,
+    asset=sounds.asset,name_for=sounds.name_for}
+-- Mod screen overlays: rectangles and text drawn over the game in the Ui World (api/ui.lua; docs/ui-overlay.md).
+local ui=require('hd2runtime/api/ui')
+M.ui={overlay=ui.overlay,overlays=ui.overlays,colour=ui.colour,color=ui.color,MAX_LAYER=ui.MAX_LAYER,
+    DEFAULT_LAYER=ui.DEFAULT_LAYER}
 -- Selectable custom stratagems and their spawned instances (development API, solo host; api/custom_stratagem.lua).
 local custom_stratagem=require('hd2runtime/api/custom_stratagem')
 M.custom_stratagem={register=custom_stratagem.register,status=custom_stratagem.status,

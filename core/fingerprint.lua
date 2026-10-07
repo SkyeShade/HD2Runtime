@@ -2,13 +2,15 @@
 --
 -- Hashing the executable and game.dll reads ~30 MB from disk and is synchronous,
 -- so it must not repeat per operation or per ensure cycle. Windows keeps a mapped
--- module's image file locked for the life of the mapping, so a successful match for
--- the same loaded module identities stays valid for the whole process. Only
--- successes are cached; a mismatch is re-hashed and still fails closed.
+-- module's image file locked for the life of the mapping, so the result for the same
+-- loaded module identities stays valid for the whole process: a match and a mismatch
+-- are both cached. A hash that fails to complete raises and is never cached (a
+-- wrong build is only remembered once both files were hashed in full), and a
+-- different module at the same name is a new identity that is hashed again.
 local profile=require('hd2runtime/schemas/current')
 local metrics=require('hd2runtime/runtime/metrics')
 local M={}
-local verified={}
+local verified={}   -- identity key -> true (pinned build) or false (another build)
 -- Loaded-module identity: base address plus handle. A different module at
 -- application time is a new identity and is always hashed again.
 local function identity(runtime,handle)
@@ -21,13 +23,22 @@ function M.matches(runtime)
     local exe,dll=runtime.module(nil),runtime.module('game.dll')
     if not exe or not dll then return nil end
     local key=tostring(runtime.mode)..'|'..identity(runtime,exe)..'|'..identity(runtime,dll)
-    if verified[key]then metrics.count('fingerprint.cache_hits');return true end
+    if verified[key]~=nil then metrics.count('fingerprint.cache_hits');return verified[key]end
     metrics.count('fingerprint.module_hashes',2)
     local started=metrics.now()
-    local ok=runtime.module_hash(exe)==profile.exe_sha and runtime.module_hash(dll)==profile.dll_sha
+    local exe_sha,dll_sha=runtime.module_hash(exe),runtime.module_hash(dll)
     metrics.elapsed('fingerprint.module_hash',started)
-    if ok then verified[key]=true end
+    local ok=exe_sha==profile.exe_sha and dll_sha==profile.dll_sha
+    if type(exe_sha)=='string'and type(dll_sha)=='string'then verified[key]=ok end
     return ok
+end
+-- The build status without raising: 'matched', 'mismatched' or 'not_ready' (modules not loaded, or the hash could
+-- not be completed; the reason is the second value). Cheap after the first answer for a loaded build.
+function M.status(runtime)
+    local ok,result=pcall(M.matches,runtime)
+    if not ok then return 'not_ready',(tostring(result):gsub('^[^%s:]+:%d+: ',''))end
+    if result==nil then return 'not_ready','game modules not loaded'end
+    return result and'matched'or'mismatched'
 end
 -- Test/audit hook: forget cached verifications.
 function M.reset()verified={}end

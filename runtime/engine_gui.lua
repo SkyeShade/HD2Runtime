@@ -1,5 +1,5 @@
--- The engine GUI subset the Runtime draws with (development; docs/custom-stratagems.md, "Drawing: the engine GUI
--- subset"). Not exported by api/hd2.lua.
+-- The engine GUI subset the Runtime draws with (docs/custom-stratagems.md, "Drawing: the engine GUI subset"). Not
+-- exported by api/hd2.lua itself: mods draw through hd2.ui.overlay (runtime/mod_overlay.lua), which uses it.
 --
 -- Only the calls a released Helldivers 2 Lua mod (Know Your Constellation, Vanilla Plus Megapack) is seen to use
 -- in game, plus Gui.bitmap for the Runtime's own icon material:
@@ -273,8 +273,49 @@ function M.open(opts)
         return call(function()return S.Gui.text(gui,s,font,font_size,material,position(x,y,layer),color(c))end,'create',
             opt)
     end
+    -- Changes a text's string, font, size, place or colour: Gui.update_text(gui, id, text, font, size, material,
+    -- position, color) (exe 0x3E5860 -> 0x3E54D0: Gui.text's own parser with the id read second, lua_tointeger(2),
+    -- then text 3, font 4, size 5, material 6, the position 7 and the colour 8, the indices Gui.text reads one lower;
+    -- it returns nothing). true when the engine raised no error. Nil and why when the binding is missing.
+    function screen.update_text(id,s,font,font_size,material,x,y,layer,c,opt)
+        if id==nil or not(text_ok(s)and name_ok(font)and name_ok(material)and finite(font_size,4,256)
+                and box_ok(x,y,layer,0,0)and color_ok(c))then
+            return nil,'invalid text'
+        end
+        if not callable(S.Gui.update_text)then return nil,'stingray.Gui.update_text is not callable'end
+        return call(function()return S.Gui.update_text(gui,id,s,font,font_size,material,position(x,y,layer),color(c))end,
+            'update',opt)
+    end
+    -- Removes one primitive this GUI created: kind 'rect', 'text' or 'bitmap' -> Gui.destroy_rect / destroy_text /
+    -- destroy_bitmap(gui, id) (exe 0x3E2040, 0x3E58E0, 0x3E2EB0: lua_touserdata(1), lua_tointeger(2), the GUI's one
+    -- primitive removal 0x267990(gui, id); they return nothing). Only ids this screen returned may be passed.
+    local DESTROY={rect='destroy_rect',text='destroy_text',bitmap='destroy_bitmap'}
+    function screen.destroy(kind,id,opt)
+        local name=DESTROY[kind]
+        if not name or type(id)~='number'or id%1~=0 then return nil,'invalid primitive'end
+        if not callable(S.Gui[name])then return nil,'stingray.Gui.'..name..' is not callable'end
+        return call(function()return S.Gui[name](gui,id)end,'update',opt)
+    end
     screen.close=close
     return screen
+end
+
+-- Runs fn(...) and gives the engine's Lua temporaries back afterwards: Script.temp_count() before, set_temp_count(n)
+-- after. In this build both take ONE integer, the byte position in the 1 MiB temporaries ring the Vector2 / Vector3 /
+-- Color constructors draw from (exe 0x490150: (cur - start) mod 0x100000 pushed as one integer; 0x490270: cur = start +
+-- n, wrapped), not the three counts of older engines. So a pass that builds many values never moves the ring on for
+-- other scripts' temporaries. Returns what fn returns (pcall-style: ok, ...); without the bindings it just runs fn.
+function M.temp_scope(fn,...)
+    local S=rawget(_G,'stingray')
+    local script=type(S)=='table'and type(S.Script)=='table'and S.Script
+    local mark
+    if script and callable(script.temp_count)and callable(script.set_temp_count)then
+        local ok,n=pcall(script.temp_count)
+        if ok and finite(n,0,1048575)and n%1==0 then mark=n end
+    end
+    local results={pcall(fn,...)}
+    if mark then pcall(script.set_temp_count,mark)end
+    return unpack(results,1,table.maxn(results))
 end
 
 -- A script-created world, as the engine's performance HUD script makes one (development; the render-order probe):

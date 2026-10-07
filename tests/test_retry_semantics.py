@@ -136,6 +136,68 @@ local checks=not_ready_checks;tick(e,3600,1)
 assert(not_ready_checks==checks,'ensure kept polling after exhausted retries')
 ''')
 
+    def test_ensure_recover_starts_a_fresh_guarded_resolution_after_exhausted_retries(self):
+        check('''
+local seen={}
+local e=hd2.ensure{transaction=transaction_request(),startup_delay=0,recover={delay=10,max_delay=15},
+    on_status=function(status,info)seen[#seen+1]=status..':'..tostring(info.code)..':'..tostring(info.previous)end}
+loaded=false
+tick(e,27)
+assert(e.status=='recovering'and e.recoveries==1 and e.result.code=='TARGET_UNAVAILABLE','status='..e.status)
+assert(e.retry_in and e.retry_in<=10,'retry_in '..tostring(e.retry_in))
+assert(count_logs('recovery 1 in 10 update seconds')==1 and#writes==0)
+-- Still not ready: the next wait doubles, up to max_delay.
+tick(e,10+27)
+assert(e.status=='recovering'and e.recoveries==2 and count_logs('recovery 2 in 15 update seconds')==1)
+-- Ready again: the fresh resolution applies (every guard re-run) and the ensure keeps running.
+loaded=true
+tick(e,20)
+assert(e.status=='waiting'and e.runs==1,'status='..e.status..' runs='..e.runs);assert_values('new')
+assert(count_logs('recovering: fresh guarded resolution')==2)
+local text=table.concat(seen,' ')
+assert(text:find('recovering:TARGET_UNAVAILABLE',1,true)and text:find('waiting:',1,true),text)
+''')
+
+    def test_ensure_recover_never_covers_deterministic_failures_and_honours_its_limit(self):
+        check('''
+replace(targets.radius.address,string.char(1,2,3,4))
+local e=hd2.ensure{transaction=transaction_request(),startup_delay=0,recover=true}
+tick(e,10)
+assert(e.status=='rejected'and e.result.code=='CONFLICT'and e.recoveries==0,'a conflict is never recovered')
+replace(targets.radius.address,targets.radius.old)
+loaded=false
+local limited=hd2.ensure{transaction=transaction_request(),startup_delay=0,recover={delay=1,limit=2}}
+tick(limited,200)
+assert(limited.status=='rejected'and limited.recoveries==2,'status='..limited.status..' '..limited.recoveries)
+assert(#writes==0)
+-- Invalid options are refused at registration.
+local function refused(request)local ok,h=pcall(hd2.ensure,request);return not ok or h.status=='rejected'end
+for _,bad in ipairs({{delay=0},{limit=0},{max_delay=1,delay=5},{wait=3},'yes'})do
+    assert(refused{transaction=transaction_request(),recover=bad},'recover '..tostring(bad))
+end
+assert(refused{transaction=transaction_request(),on_status=42})
+-- A failing on_status is logged and changes nothing.
+loaded=true
+local f=hd2.ensure{transaction=transaction_request(),startup_delay=0,on_status=function()error('cb broke')end}
+tick(f,5);assert(f.status=='waiting'and f.runs==1 and count_logs('on_status failed')>=1)
+''')
+
+    def test_recoverable_classification(self):
+        run('''
+local ensure=require('hd2runtime/api/ensure')
+local moved='ownership/context or non-target bytes changed'
+assert(ensure.recoverable(moved,{rollback='verified',protection_restored=true}))
+assert(ensure.recoverable(moved,{rollback='not_needed'}))
+assert(not ensure.recoverable(moved,{rollback='refused_or_failed'}))
+assert(not ensure.recoverable(moved,{rollback='verified',protection_restored=false}))
+assert(ensure.recoverable('x',{code='TARGET_UNSTABLE',rollback='not_needed'}))
+assert(ensure.recoverable('x',{code='TARGET_UNAVAILABLE'}))
+assert(not ensure.recoverable('CONFLICT: radius',{code='CONFLICT'}))
+assert(not ensure.recoverable('unsupported build fingerprint',{code='VALIDATION_FAILED'}))
+assert(not ensure.recoverable('ASSET_UNAVAILABLE: x',{code='ASSET_UNAVAILABLE'}))
+return 'ok'
+''')
+
     def test_plan_retries_transiently_and_counts_attempts(self):
         check('''
 loaded=false

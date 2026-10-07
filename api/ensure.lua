@@ -11,6 +11,73 @@ local sdk_compatibility=require('hd2runtime/core/sdk_compatibility')
 local M={}
 local DEBOUNCE=0.5 -- update seconds that coalesce a burst of option changes into one resolution
 
+-- Recovery (request.recover): a rejection caused by the game's data not being ready or moving under the check is
+-- followed, after a delay, by a FRESH full guarded resolution instead of stopping the ensure. Nothing is relaxed: the
+-- new attempt re-runs discovery, ownership, fingerprint, expected bytes and the guarded transaction. Recoverable:
+--   * TARGET_UNAVAILABLE / TARGET_UNSTABLE after the operation's own bounded retries (runtime/retry.lua);
+--   * 'ownership/context or non-target bytes changed' (core/guarded_transaction.lua: the data moved between the
+--     pre-write check and the write), only when its rollback is verified (or nothing was written) and page
+--     protection was restored.
+-- Never: CONFLICT, validation, acknowledgements, an unsupported build, an incomplete rollback.
+M.RECOVER_DELAY=30
+M.RECOVER_MAX_DELAY=600
+local RECOVERABLE_CODES={TARGET_UNAVAILABLE=true,TARGET_UNSTABLE=true}
+function M.recoverable(error_text,result)
+    result=result or{}
+    if result.protection_restored==false then return false end
+    if result.rollback and result.rollback~='not_needed'and result.rollback~='verified'then return false end
+    if RECOVERABLE_CODES[result.code]then return true end
+    return tostring(error_text):find('ownership/context or non-target bytes changed',1,true)~=nil
+end
+-- request.recover: nil/false (off), true (default delays), or {delay = s (first wait), max_delay = s, limit = n}.
+local function recover_policy(value)
+    if value==nil or value==false then return nil end
+    if value==true then value={}end
+    assert(type(value)=='table','ensure recover must be true or {delay, max_delay, limit}')
+    for key in pairs(value)do
+        assert(key=='delay'or key=='max_delay'or key=='limit','unsupported recover option: '..tostring(key))
+    end
+    local delay=value.delay or M.RECOVER_DELAY
+    local max_delay=value.max_delay or math.max(delay,M.RECOVER_MAX_DELAY)
+    assert(type(delay)=='number'and delay>=1 and delay<math.huge,'invalid recover delay (at least 1 s)')
+    assert(type(max_delay)=='number'and max_delay>=delay and max_delay<math.huge,'invalid recover max_delay')
+    assert(value.limit==nil or(type(value.limit)=='number'and value.limit>=1 and value.limit%1==0),
+        'recover limit must be a positive integer')
+    return {delay=delay,max_delay=max_delay,limit=value.limit}
+end
+-- Whether the child operation that just failed did so recoverably.
+local function child_recoverable(watch,recover)
+    return recover~=nil and(recover.limit==nil or watch.recoveries<recover.limit)
+        and watch.error~='ensured operation cancelled unexpectedly'and M.recoverable(watch.error,watch.result)
+end
+-- request.on_status: fn(status, info) after every status change of the ensure, run as the mod that registered it.
+-- info = {id, status, previous, error, code, runs, recoveries, retry_in}. A failing callback is logged (its first
+-- three failures) and never changes the ensure.
+local function watch_status(watch,callback,owner,emit)
+    if callback==nil then return watch end
+    local events=require('hd2runtime/runtime/events')
+    local last,failures=watch.status,0
+    local function notify()
+        if watch.status==last then return end
+        local previous=last
+        last=watch.status
+        local result=type(watch.result)=='table'and watch.result or{}
+        local info={id=watch.id,status=watch.status,previous=previous,error=watch.error,code=result.code,
+            runs=watch.runs,recoveries=watch.recoveries,retry_in=watch.retry_in}
+        local ok,why=pcall(events.run_as,owner or'unknown',callback,watch.status,info)
+        if not ok then
+            failures=failures+1
+            if failures<=3 then
+                pcall(emit,'[HD2Runtime] ensure '..tostring(watch.id)..' on_status failed: '..tostring(why))
+            end
+        end
+    end
+    local tick,cancel=watch.tick,watch.cancel
+    function watch.tick(dt)tick(dt);notify()end
+    function watch.cancel()cancel();notify()end
+    return watch
+end
+
 -- Copy a request with every option handle replaced by its current value (or an override).
 -- Handles may bind only a field `value`, or an element of a list `value` (one slider per rate in fire_rate.modes);
 -- target objects (tables with a metatable) are kept.
@@ -57,7 +124,7 @@ local function signature(kind,spec,enabled)
 end
 
 -- One logical operation whose field values and enabled state follow option handles.
-local function start_bound(runtime,emit,request,kind,validate,module,interval,startup,max_interval)
+local function start_bound(runtime,emit,request,kind,validate,module,interval,startup,max_interval,recover)
     local body=request[kind]
     local enabled_handle=request.enabled
     assert(enabled_handle==nil or(options.is_handle(enabled_handle)and enabled_handle.kind=='toggle'),
@@ -90,9 +157,11 @@ local function start_bound(runtime,emit,request,kind,validate,module,interval,st
     local restore=build(nil,true)
     local function log(message)pcall(emit,'[HD2Runtime] '..message)end
     local watch={status='waiting',runs=0,kind=kind,id=id,interval=interval,max_interval=max_interval,
-        current_interval=interval,verifications=0,drifts=0,bound=true,enabled=true,restores=0,rebinds=0}
+        current_interval=interval,verifications=0,drifts=0,bound=true,enabled=true,restores=0,rebinds=0,recoveries=0}
     local elapsed,next_at=0,0
     local child,mode,target,verification
+    -- A recoverable rejection keeps what failed (its mode and target) to start again after recover_delay.
+    local relaunch,recover_delay=nil,recover and recover.delay
     local owned,applied_signature={},nil
     local dirty,debounce=false,0
 
@@ -144,7 +213,10 @@ local function start_bound(runtime,emit,request,kind,validate,module,interval,st
         -- do not yield), so cancelling it here changes no bytes and frees the operation gate.
         dirty,debounce=true,DEBOUNCE
         if child then child.cancel();child=nil end
-        if watch.status=='blocked'or watch.status=='running'then watch.status='waiting'end
+        if watch.status=='blocked'or watch.status=='running'or watch.status=='recovering'then
+            watch.status='waiting'
+        end
+        relaunch,watch.retry_in=nil,nil
     end
     for _,handle in ipairs(bound)do handle:subscribe(listener)end
     if enabled_handle then enabled_handle:subscribe(listener)end
@@ -166,27 +238,48 @@ local function start_bound(runtime,emit,request,kind,validate,module,interval,st
         end
         if watch.status=='blocked'or watch.status=='disabled'then return end
         if not child then
-            if elapsed<next_at then return end
-            if verification then
-                local stable,reason=steady.verify(runtime,verification)
-                watch.verifications=watch.verifications+1
-                if stable then
-                    watch.current_interval=math.min(watch.current_interval*2,max_interval)
-                    next_at=elapsed+watch.current_interval;return
-                end
-                watch.drifts=watch.drifts+1;watch.current_interval=interval
-                metrics.count('ensure.full_resolutions_after_drift')
-                log('ensure '..id..' drift detected ('..tostring(reason)..'); full guarded resolution')
-                if reason=='target value drifted'then diagnostics.external_change(conflict,elapsed)end
+            if elapsed<next_at then
+                if relaunch then watch.retry_in=next_at-elapsed end
+                return
             end
-            metrics.count('ensure.full_resolutions')
-            launch('apply',target and target.spec or spec,target and target.signature
-                or signature(kind,spec,true))
+            if relaunch then
+                local again=relaunch
+                relaunch,watch.retry_in=nil,nil
+                metrics.count('ensure.recoveries')
+                log('ensure '..id..' recovering: fresh guarded resolution ('..watch.recoveries..')')
+                launch(again.mode,again.spec,again.signature)
+            else
+                if verification then
+                    local stable,reason=steady.verify(runtime,verification)
+                    watch.verifications=watch.verifications+1
+                    if stable then
+                        watch.current_interval=math.min(watch.current_interval*2,max_interval)
+                        next_at=elapsed+watch.current_interval;return
+                    end
+                    watch.drifts=watch.drifts+1;watch.current_interval=interval
+                    metrics.count('ensure.full_resolutions_after_drift')
+                    log('ensure '..id..' drift detected ('..tostring(reason)..'); full guarded resolution')
+                    if reason=='target value drifted'then diagnostics.external_change(conflict,elapsed)end
+                end
+                metrics.count('ensure.full_resolutions')
+                launch('apply',target and target.spec or spec,target and target.signature
+                    or signature(kind,spec,true))
+            end
         end
         child.tick(dt)
         if child.status=='rejected'or child.status=='cancelled'then
             watch.result=child.result;watch.error=child.error or'ensured operation cancelled unexpectedly'
-            child=nil;watch.status='blocked'
+            child=nil
+            if child_recoverable(watch,recover)then
+                watch.recoveries=watch.recoveries+1
+                relaunch={mode=mode,spec=target.spec,signature=target.signature}
+                next_at=elapsed+recover_delay;watch.retry_in=recover_delay;watch.status='recovering'
+                log('ensure '..id..' data not ready or moved ('..tostring(watch.result and watch.result.code
+                    or watch.error)..'); recovery '..watch.recoveries..' in '..recover_delay..' update seconds')
+                recover_delay=math.min(recover_delay*2,recover.max_delay)
+                return
+            end
+            watch.status='blocked'
             log('ensure '..id..' blocked until an option changes: '..tostring(watch.error))
             return
         end
@@ -200,6 +293,7 @@ local function start_bound(runtime,emit,request,kind,validate,module,interval,st
             log('ensure '..id..' restored the reviewed baseline and is disabled')
             return
         end
+        recover_delay=recover and recover.delay
         owned={}
         each_change(kind,target.spec,function(key,change)owned[key]=change.desired end)
         applied_signature=target.signature;verification=child.verification;child=nil
@@ -257,8 +351,11 @@ end
 function M.start(runtime,emit,request)
     assert(type(request)=='table','ensure requires a descriptor')
     local allowed={patch=true,transaction=true,plan=true,interval=true,startup_delay=true,max_interval=true,
-        enabled=true}
+        enabled=true,recover=true,on_status=true}
     for key in pairs(request)do assert(allowed[key],'unsupported ensure option: '..tostring(key))end
+    local recover=recover_policy(request.recover)
+    assert(request.on_status==nil or type(request.on_status)=='function','ensure on_status must be a function')
+    local owner=shared_records.current_mod()
     local count=(request.patch and 1 or 0)+(request.transaction and 1 or 0)+(request.plan and 1 or 0)
     assert(count==1,'ensure requires exactly one patch, transaction or plan')
     local interval=request.interval or 60
@@ -276,8 +373,8 @@ function M.start(runtime,emit,request)
         local modules={patch='hd2runtime/api/patch',transaction='hd2runtime/api/transaction',
             plan='hd2runtime/api/plan'}
         local watch=start_bound(runtime,emit,request,body_kind,validators[body_kind],
-            require(modules[body_kind]),interval,startup,max_interval)
-        return watch
+            require(modules[body_kind]),interval,startup,max_interval,recover)
+        return watch_status(watch,request.on_status,owner,emit)
     end
     local kind,spec,module
     if request.patch then
@@ -293,7 +390,8 @@ function M.start(runtime,emit,request)
     spec.mod,spec.ensured=shared_records.current_mod(),true
     pcall(shared_records.warn_unlisted,spec,'ensure',spec.mod,emit)
     local watch={status='waiting',runs=0,kind=kind,id=spec.id,interval=interval,
-        max_interval=max_interval,current_interval=interval,verifications=0,drifts=0}
+        max_interval=max_interval,current_interval=interval,verifications=0,drifts=0,recoveries=0}
+    local recover_delay=recover and recover.delay
     local conflict=diagnostics.watch(spec.id,diagnostics.describe(kind,request[kind]),interval,
         function(line)pcall(emit,line)end)
     local elapsed,next_at,child=0,0,module.start_spec(runtime,emit,spec,startup)
@@ -310,7 +408,15 @@ function M.start(runtime,emit,request)
         assert(type(dt)=='number' and dt>=0 and dt<math.huge,'invalid elapsed time')
         elapsed=elapsed+dt
         if not child then
-            if elapsed<next_at then return end
+            if elapsed<next_at then
+                if watch.status=='recovering'then watch.retry_in=next_at-elapsed end
+                return
+            end
+            if watch.status=='recovering'then
+                watch.retry_in=nil
+                metrics.count('ensure.recoveries')
+                log('ensure '..spec.id..' recovering: fresh guarded resolution ('..watch.recoveries..')')
+            end
             if verification then
                 -- Steady state: re-check only the retained target bytes. No discovery,
                 -- catalog rebuild, fingerprint hashing, protection change, or write.
@@ -333,6 +439,18 @@ function M.start(runtime,emit,request)
             child=module.start_spec(runtime,emit,spec,0)
         end
         child.tick(dt)
+        if child.status=='rejected'then
+            watch.error=child.error;watch.result=child.result
+            if child_recoverable(watch,recover)then
+                child=nil;verification=nil
+                watch.recoveries=watch.recoveries+1
+                next_at=elapsed+recover_delay;watch.retry_in=recover_delay;watch.status='recovering'
+                log('ensure '..spec.id..' data not ready or moved ('..tostring(watch.result and watch.result.code
+                    or watch.error)..'); recovery '..watch.recoveries..' in '..recover_delay..' update seconds')
+                recover_delay=math.min(recover_delay*2,recover.max_delay)
+                return
+            end
+        end
         if child.status=='rejected' then
             watch.status='rejected';watch.error=child.error;watch.result=child.result;child=nil
             log('ensure '..spec.id..' stopped code='..tostring(watch.result and watch.result.code)
@@ -344,6 +462,7 @@ function M.start(runtime,emit,request)
             log('ensure '..spec.id..' stopped reason='..watch.error);return
         end
         if child.status=='complete' then
+            recover_delay=recover and recover.delay
             watch.runs=watch.runs+1;watch.result=child.result;verification=child.verification;child=nil
             next_at=elapsed+watch.current_interval;watch.status='waiting'
             log('ensure '..spec.id..' verified status='..watch.result.status
@@ -351,6 +470,6 @@ function M.start(runtime,emit,request)
                 ..(verification and' steady=byte-check'or' steady=full'))
         else watch.status='running' end
     end
-    return watch
+    return watch_status(watch,request.on_status,owner,emit)
 end
 return M

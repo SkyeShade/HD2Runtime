@@ -5,6 +5,7 @@ local catalog=require('hd2runtime/domains/events_catalog')
 local sources=require('hd2runtime/runtime/event_sources')
 local handles=require('hd2runtime/runtime/handles')
 local world_module=require('hd2runtime/runtime/event_world')
+local mod_store=require('hd2runtime/runtime/mod_store')
 local M={}
 
 -- The owner of a registration made directly through hd2.* (runtime/events.lua M.owner): an explicit opts.owner,
@@ -70,6 +71,13 @@ function M.every(seconds,callback,opts)
     if not owner then return events.refused_timer(opts and opts.owner,why)end
     return events.timer('every',seconds,callback,setmetatable({owner=owner},{__index=opts}))
 end
+-- callback(dt, handle) on every update tick, dt in seconds (the game's frame time). Same opts as hd2.every (id,
+-- scope); handle:cancel() removes it, :disable() / :enable() pause it. Keep the work small: it runs every frame.
+function M.on_frame(callback,opts)
+    local owner,why=owner_of(opts)
+    if not owner then return events.refused_timer(opts and opts.owner,why)end
+    return events.frame(callback,setmetatable({owner=owner},{__index=opts}))
+end
 
 ----------------------------------------------------------------------------------------------- entity ids --
 -- hd2.entities: the identity catalog of every entity type with health (domains/event_entities.lua). Offline; no game
@@ -114,10 +122,22 @@ function entities.list(filter)
 end
 M.entities=entities
 
--- The game's state now: {state, name, mission, host, mode}; nil when unreadable.
+-- The game's state now: {state, name, mission, host, mode}; nil and the reason when unreadable. hd2.build() tells a
+-- wrong game build apart from a game that is not readable yet.
 function M.game_state()
-    local world=world_module.open()
-    return world and world_module.game_state(world)or nil
+    local world,why=world_module.open()
+    if not world then return nil,why end
+    local state=world_module.game_state(world)
+    if not state then return nil,'game state unreadable'end
+    return state
+end
+-- The running game build against the one this Runtime was built for: 'matched', 'mismatched' or 'not_ready', and a
+-- table {pinned=<first 12 hex digits of the pinned executable>, reason=<why not ready>}. Cheap to poll: each loaded
+-- build is hashed once, a wrong one included.
+local pinned=require('hd2runtime/schemas/current').exe_sha:sub(1,12)
+function M.build()
+    local status,reason=world_module.build()
+    return status,{pinned=pinned,reason=reason}
 end
 -- Players in the session (HD2PlayerHandle) and the local player (nil when unreadable).
 function M.players()return handles.players()end
@@ -131,12 +151,24 @@ function M.input.bind(id,spec)
 end
 function M.input.bindings()return input.bindings()end
 function M.input.get(id)return input.get(id)end
-function M.input.keys()
+-- Every key name hd2.input.bind accepts; with raw=true also the names only down/pressed/released accept (CTRL,
+-- SHIFT, ALT, MOUSE1, MOUSE2).
+function M.input.keys(raw)
     local names={}
     for name in pairs(input.keys)do names[#names+1]=name end
+    if raw then for name in pairs(input.raw_keys)do names[#names+1]=name end end
     table.sort(names)
     return names
 end
+-- Any key's state while the game window has the focus (runtime/input.lua): down = held now; pressed / released =
+-- went down / came up in this update tick. Unknown names raise. Nothing is consumed: the game sees the key too.
+M.input.down=input.down
+M.input.pressed=input.pressed
+M.input.released=input.released
+M.input.focused=input.focused
+-- The cursor for mod UI: {x, y (client pixels from the top-left), w, h (client size), left (left button held)}, or
+-- nil and the reason when the game window does not have the focus.
+M.input.mouse=input.mouse
 
 --------------------------------------------------------------------------------------------- mod contexts --
 -- hd2.mod(id) is one mod's scripting context: everything it registers is attributed to it, and it owns a mission
@@ -153,6 +185,7 @@ function Mod:once(name,callback,opts)
 end
 function Mod:after(seconds,callback,opts)return events.timer('after',seconds,callback,scoped(self,opts))end
 function Mod:every(seconds,callback,opts)return events.timer('every',seconds,callback,scoped(self,opts))end
+function Mod:on_frame(callback,opts)return events.frame(callback,scoped(self,opts))end
 function Mod:bind(id,spec)return input.bind(id,spec,self.id)end
 -- A number this mod sets from code and binds to an hd2.ensure field value (see api/options.lua M.value).
 function Mod:value(spec)return require('hd2runtime/api/options').value(spec,self.id)end
@@ -161,6 +194,11 @@ function Mod:in_mission()return(events.mission())end
 function Mod:subscriptions()return events.subscriptions({owner=self.id})end
 -- Run fn(...) as this mod: hd2.events.on, hd2.after, hd2.input.bind and actions called inside belong to it.
 function Mod:run(fn,...)return events.run_as(self.id,fn,...)end
+-- This mod's saved key/value data (runtime/mod_store.lua, docs/mod-store.md).
+function Mod:store()return mod_store.open(self.id)end
+-- hd2.store(): the calling mod's saved key/value data, kept between game sessions in its own file
+-- (runtime/mod_store.lua, docs/mod-store.md). The mod is found the way hd2.mod() finds it.
+function M.store()return mod_store.open(events.owner(nil,2))end
 -- hd2.mod() with no id is the calling mod (the SDK addon wrapper's scope, the running callback's mod, or the mod
 -- resource chunk); it refuses to guess when none of those names a mod.
 function M.mod(id)
