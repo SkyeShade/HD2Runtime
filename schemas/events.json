@@ -3772,17 +3772,6 @@
       "params": [],
       "returns": "string",
       "doc": "Returns the last selected slot."
-     },
-     {
-      "name": "carrier_mode_all",
-      "params": [
-       [
-        "on",
-        "boolean"
-       ]
-      ],
-      "returns": "boolean",
-      "doc": "Development: every custom stratagem that names no selection takes the carrier-in-slot mode (true) or the token (false). Applied aboard the ship (true now, false when waiting); part of the registry hash."
      }
     ]
    },

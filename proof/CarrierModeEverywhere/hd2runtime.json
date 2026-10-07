@@ -1,1 +1,0 @@
-{"format":1,"name":"CarrierModeEverywhere","resource":"mods/skyeshade/hd2runtime_carrier_mode_everywhere","guid":"56de08a2-ccf1-5065-92d1-94b6c479d11f","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.30.0-dev","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../sdk","ide_library":"../../sdk/stubs"}

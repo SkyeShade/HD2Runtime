@@ -89,6 +89,9 @@ class CustomStratagemFlowTests(unittest.TestCase):
             + lua_literal(eat) + PROOF + FLOW_HARNESS + carriers + PAYLOAD_FLOW + CAS_WORLD
             + 'return (function()\nlocal lines=CT.lines\n'
             + "local custom=require('hd2runtime/runtime/custom_stratagems');custom.reset_for_tests()\n"
+            # The token path end to end (the Runtime's own fallback; the carrier itself is the default since r44:
+            # tests/test_carrier_in_slot.py).
+            + "custom.set_default_selection_for_tests('token')\n"
             + "require('hd2runtime/runtime/spawned_instances').reset_for_tests()\n"
             + "require('hd2runtime/runtime/pelican_gunship').reset_for_tests()\n"
             + "local function examples()proof();assert(loadstring(GAS_ADDON,'@'..GAS_RESOURCE))();"

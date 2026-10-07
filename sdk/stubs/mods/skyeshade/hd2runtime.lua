@@ -2553,10 +2553,6 @@ function HD2CustomStratagems.select_focused() end
 ---Returns the last selected slot.
 ---@return string
 function HD2CustomStratagems.undo() end
----Development: every custom stratagem that names no selection takes the carrier-in-slot mode (true) or the token (false). Applied aboard the ship (true now, false when waiting); part of the registry hash.
----@param on boolean
----@return boolean
-function HD2CustomStratagems.carrier_mode_all(on) end
 
 ---hd2.ownership: whom an associated autonomous entity's kills credit (development, solo host).
 ---@class HD2Ownership

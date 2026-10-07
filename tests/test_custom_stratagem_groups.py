@@ -382,13 +382,14 @@ return 'ok'
 
     def test_registry_hash_stability(self):
         self.lua(r'''
--- An expendable definition without the new options (the 0.1.0 example's shape) keeps its line exactly.
+-- An expendable definition without the new options (the 0.1.0 example's shape) keeps its line exactly, naming its
+-- selection (r44: the carrier itself by default).
 custom.register({id='eat17g_clone',name='E',description='d',icon='e',code={'down','down','up','up','left','right'},
     carrier={beacon='support',prefer_families={'support','backpack'}},delivery={family='expendable',weapon=SW(EAT17),
     modify={impact_explosion='Orbital Gas Strike'},level='presentation'}},'mods/t/a')
 local expected=protocol.registry_hash({{id='eat17g_clone',policy='support|support/backpack|||',
     family='expendable|EAT-17 Expendable Anti-Tank|EAT-17 Expendable Anti-Tank/EAT-411 Leveller/EAT-700 Expendable Napalm/'
-    ..'Orbital Gas Strike|expendable=EAT-17 Expendable Anti-Tank,level=presentation,impact=Orbital Gas Strike,rounds=nil'}})
+    ..'Orbital Gas Strike|expendable=EAT-17 Expendable Anti-Tank,level=presentation,impact=Orbital Gas Strike,rounds=nil|selection=carrier'}})
 assert(custom.registry_hash()==expected,'the line of a definition without the new options changed')
 custom.reset_for_tests()
 -- A pod and a requested group add to the definition's own line only.
@@ -397,7 +398,7 @@ custom.register(eat17g('eat17g',{delivery={family='expendable',weapon=SW(EAT17),
 local with=protocol.registry_hash({{id='eat17g',policy='nil|||||group=expendable',
     family='expendable|EAT-17 Expendable Anti-Tank|EAT-17 Expendable Anti-Tank/EAT-411 Leveller/EAT-700 Expendable Napalm/'
     ..'Orbital Gas Strike|expendable=EAT-17 Expendable Anti-Tank,level=presentation,impact=Orbital Gas Strike,rounds=nil,'
-    ..'pod=clone x2'}})
+    ..'pod=clone x2|selection=carrier'}})
 assert(custom.registry_hash()==with,'the pod line')
 return 'ok'
 ''')

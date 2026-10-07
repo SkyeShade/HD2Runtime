@@ -142,7 +142,8 @@ return 'ok'
 
     def test_the_registry_hash_of_every_other_definition_is_unchanged(self):
         self.lua(r'''
--- Three definitions of the other families: the hash is the protocol's over exactly the lines it always had.
+-- Three definitions of the other families: the hash is the protocol's over exactly the lines it always had, each naming
+-- its selection (r44: the carrier itself by default).
 custom.register({id='eat17_gas',name='G',description='d',icon='eat17_gas',code={'down','down','right','up','right'},
     carrier=BLUE,delivery={family='support',items={{donor=EAT17,modify={impact_explosion='Orbital Gas Strike'}}}}},'mods/t/a')
 custom.register({id='pelican_close_air_support',name='P',description='d',icon='p',code={'left','down','left','up','left','up'},
@@ -153,9 +154,9 @@ custom.register({id='orbital_gas_barrage',name='O',description='d',icon='o',code
 local before=custom.registry_hash()
 local function line(id,policy,family)return {id=id,policy=policy,family=family}end
 local expected=protocol.registry_hash({
-    line('eat17_gas','support|support/backpack|||','support|EAT-17 Expendable Anti-Tank|EAT-17 Expendable Anti-Tank/Orbital Gas Strike|impact=Orbital Gas Strike,rounds=nil'),
-    line('pelican_close_air_support','offensive|orbital|||','pelican|||hover=60,kind=pelican'),
-    line('orbital_gas_barrage','offensive|orbital|||','orbital|Orbital 120mm HE Barrage|Orbital 120mm HE Barrage/Orbital Gas Strike|native=Orbital 120mm HE Barrage,impact=Orbital Gas Strike')})
+    line('eat17_gas','support|support/backpack|||','support|EAT-17 Expendable Anti-Tank|EAT-17 Expendable Anti-Tank/Orbital Gas Strike|impact=Orbital Gas Strike,rounds=nil|selection=carrier'),
+    line('pelican_close_air_support','offensive|orbital|||','pelican|||hover=60,kind=pelican|selection=carrier'),
+    line('orbital_gas_barrage','offensive|orbital|||','orbital|Orbital 120mm HE Barrage|Orbital 120mm HE Barrage/Orbital Gas Strike|native=Orbital 120mm HE Barrage,impact=Orbital Gas Strike|selection=carrier')})
 assert(before==expected,'the hash of the other families changed: '..before..' ~= '..expected)
 -- An expendable definition adds its own line; a Mod Options level change changes only that line.
 local options=require('hd2runtime/api/options')

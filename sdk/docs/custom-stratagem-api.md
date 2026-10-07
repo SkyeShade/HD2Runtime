@@ -126,12 +126,29 @@ Up to four labels of 1 to 32 characters, shown in upper case after the automatic
 of another label, is dropped). Without `traits`, the panel shows the payload family's (`SUPPORT WEAPON`, `ORBITAL`, the
 custom model, the round, ...). Presentation only: not part of the registry hash.
 
-### `selection = 'carrier'` (probe; development, solo host; r34/r35 log evidence only)
+### The loadout slot holds the carrier itself (`selection`; the default since r44)
 
-The carrier-in-slot probe (2026-10-07; runtime/carrier_in_slot.lua; proof/CarrierSlotProbe). The pick writes the
-custom stratagem's CARRIER itself into the loadout slot instead of the Orbital Precision Strike token: the same guarded
-loadout-record write, the carrier the ship allocation gives it at that moment. Default `'token'`, the system described
-everywhere else.
+Every custom stratagem's pick writes its CARRIER itself into the loadout slot (runtime/carrier_in_slot.lua; first built
+as the carrier-in-slot probe, proof/CarrierSlotProbe): the same guarded loadout-record write the pick always made, the
+carrier the ship allocation gives it at that moment. A mod does not ask for it; ModBuilder projects have no option.
+
+**Status:**
+- Solo: live (r37, CarrierSlotProbe: the look, the moves, the doubles).
+- Two players: live with the probe (r41) and with four example mods at once (r43, CarrierModeEverywhere: the Shredder
+  Silo, the Pelican Gatling Support, the Orbital Gas Barrage and the EAT-40 Expendable Gas; the user: "it works
+  perfectly"). Open: a teammate's TAB menu shows no use count for a slot with native uses.
+- Not tried live in this mode: the Eagle pods (an Eagle carrier: its rearm uses), the sentries, the other expendables.
+
+**The Orbital Precision Strike token** is still the Runtime's own fallback, with the conversion at mission start
+described in the rest of this document. A pick writes the token when:
+- several players are in the lobby without custom multiplayer (a teammate without a matching Runtime and mod set);
+- custom multiplayer is still `WAITING` (a teammate joining): pick again once it shows `ENABLED`;
+- no carrier is known for the custom stratagem yet.
+
+`selection = 'token'` (Lua only, development) makes a definition always use the token: for testing that path. Any
+other value is refused at registration. The registry hash line of every definition names its selection
+(`|selection=carrier` / `|selection=token`), so a lobby mixing this build with an older 0.30.0-dev one (token by
+default) is reported as incompatible.
 
 - **Identity:** the slot is still the Runtime's virtual slot, recorded with the carrier's stable id, so the selector's
   tracking, the saved-order reconstruction and the loadout overlay work as for a token slot.
@@ -247,42 +264,23 @@ everywhere else.
     stratagem (`TEAMMATE HUD NATIVE`): the game's own card shows it, with its own cooldown band. It still draws over a
     token card and over a carrier that is not presented there.
 
-#### The carrier-mode switch (development; r42, offline only)
+#### History: the whole-set test (r42, r43)
 
-`hd2.custom_stratagem.carrier_mode_all(true|false)` puts every custom stratagem that does not name its `selection`
-in the carrier-in-slot mode (`true`) or back to the token (`false`), so one session shows which custom stratagems
-work in that mode. The test mod `proof/CarrierModeEverywhere` calls it with `true` while it is installed.
-
-- A definition naming `selection = 'token'` keeps the token. One naming `'carrier'` keeps the carrier. Definitions
-  registered after the call follow it.
-- It is applied aboard the ship only. A call during a mission returns `false` and is applied back aboard the ship
-  (`CARRIER MODE FOR EVERY CUSTOM STRATAGEM`), so a mission's slots never change mode under it.
-- A slot picked in the other mode stays in it until it is picked again. A carrier slot whose definition is back to
-  the token is refused in the mission (locked, never called).
-- It is part of the registry hash: a definition in the carrier mode adds `|selection=carrier` to its line; a token
-  definition's line is unchanged. With several players, every player needs the same switch state, or custom
-  multiplayer reports the mismatch.
-- Nothing else changes per kind. The token mode already converts the slot to the carrier at mission start, so the
-  payload paths (the redirect, the conversions, the clones) have always run on a slot that holds the carrier. The
-  carrier mode puts it there at the pick instead. What can differ per kind is the pick's guards (`TOKEN_LIMITED`,
-  `TOKEN_VEHICLE`, `TOKEN_NOT_SELECTABLE` on the carrier itself) and the native uses (`SPECIAL_USES`, `USES_DIFFER`,
-  `SHARED_COOLDOWN`).
-- r42 two-player test (Shredder Silo, Pelican Gatling, Orbital Gas Barrage, EAT-40 Expendable Gas; logs only):
-  - every call landed as its custom stratagem, and the remote barrages and EATs were converted;
-  - but the HUD and TAB menu showed the carriers' own looks, except the two early presentations that applied (the
-    client's silo and EAT). Every machine started all its early presentations in one frame; their icon-and-code
-    transactions interleaved and refused each other (`unstable ownership/data snapshot`, `GUARD_REJECTED`). The mission
-    steps then applied them after the HUD was built.
-  - the host's EAT pick wrote the token (solo, an expendable's carrier was not known before its pick; then several
-    players before custom multiplayer was enabled). In the mission its presentation was refused (`ALREADY_APPLIED`):
-    the client's carrier slot of it had been presented there first, without the code.
-- Fixed in r43 (offline only):
-  - the carrier presentations (applies and restores) run one at a time;
-  - an early presentation refused for a transient reason is tried again (at most 3 attempts) while the game still
-    enters the mission;
-  - a teammate's carrier slot of an id this machine holds in any slot (a token slot too) is left to this machine's
-    own steps, which present it with its code;
-  - an expendable's pick takes its condensed carrier (its carrier weapon's own stratagem) from the availability step.
+r42 added a development switch (`hd2.custom_stratagem.carrier_mode_all`, the CarrierModeEverywhere test mod) that put
+every custom stratagem in this mode at once; both were removed in r44, when this mode became the default.
+- No payload path changes per kind: the token mode already converts the slot to the carrier at mission start, so the
+  redirect, the conversions and the clones always ran on a slot that holds the carrier. What can differ per kind is
+  the pick's guards on the carrier itself (`TOKEN_LIMITED`, `TOKEN_VEHICLE`, `TOKEN_NOT_SELECTABLE`) and the native
+  uses (`SPECIAL_USES`, `USES_DIFFER`, `SHARED_COOLDOWN`).
+- r42 two players: every call landed as its custom stratagem, but the HUD and TAB menu showed the carriers' own looks.
+  Every machine started all its early presentations in one frame; their icon-and-code transactions interleaved and
+  refused each other (`unstable ownership/data snapshot`, `GUARD_REJECTED`). The host's EAT pick wrote the token
+  (solo, an expendable's carrier was not known before its pick), and its mission presentation was refused
+  (`ALREADY_APPLIED`): the client's slot of it had been presented first, without the code.
+- r43 fixes: the carrier presentations run one at a time; an early presentation refused for a transient reason is
+  tried again (3 attempts at most) while the game still enters the mission; a teammate's slot of an id this machine
+  holds in any slot is left to this machine's own steps; an expendable's pick takes its condensed carrier from the
+  availability step. Live with two players (r43).
 
 ### `code`
 
@@ -744,6 +742,10 @@ silo={donor='MS-11 Solo Silo',blast='Cyborg Production Unit',fallback='NUX-223 H
   (`CUSTOM MP ITEMS: missile network id N`). Every other compatible Runtime watches its own copy of that missile
   (`REMOTE CUSTOM SILO`) and requests the blast where it detonates there (`explosion ... mirrored at ... on this
   machine`). Not live-tested in this form.
+- **A Pelican near the blast** (r44): before the blast is requested, every Runtime Pelican within 200 m whose chin gun
+  runs the Gatling Sentry's AI gets its own AI back (`AI RESTORED`), and the Gatling AI again 5 s later if the turret
+  lives. Two live host crashes (2026-10-07): the blast killed the chin turret, and the Gatling AI's death stage crashes
+  the game on an entity that is not a sentry (docs/research/pelican-cas-F5FEE03DCFDB.md section 33). Offline only.
 
 ### Weapon modifications
 

@@ -390,14 +390,19 @@ local function spec(over)
 end
 local d=custom.register(spec(),'mods/test/probe')
 assert(d.selection=='carrier')
+-- r44: the carrier itself by default; only the token (development) is named in the REGISTERED line.
+assert(custom.register(spec({id='probe_plain',code={'down','down','down','down','up','right'},selection=nil}),
+    'mods/test/probe').selection=='carrier')
 local reg
 for _,l in ipairs(lines)do if l:find('REGISTERED probe_gas',1,true)then reg=l end end
-assert(reg and reg:find('SELECTION: its loadout slot holds the carrier itself, not the token',1,true),tostring(reg))
+assert(reg and not reg:find('SELECTION',1,true),tostring(reg))
 local ok,why=pcall(custom.register,spec({id='probe_bad',code={'down','down','down','down','up','up'},selection='slot'}),
     'mods/test/probe')
 assert(not ok and tostring(why):find("selection must be 'token'",1,true),tostring(why))
 assert(custom.register(spec({id='probe_token',code={'down','down','down','down','up','left'},selection='token'}),
     'mods/test/probe').selection==nil)
+for _,l in ipairs(lines)do if l:find('REGISTERED probe_token',1,true)then reg=l end end
+assert(reg:find('SELECTION token (development): its loadout slot holds the Orbital Precision Strike token',1,true),reg)
 -- The mission refusals: several players, mixed slots, a slot carrier that is not its carrier now; none for a token slot.
 local C,T=1063322614,3523620028
 local a={stable_id=C,carrier='Orbital 120mm HE Barrage'}
@@ -416,79 +421,6 @@ assert(custom.probe_refusal(d,a,1)==nil,'a token slot runs as before')
 assert(custom.probe_carrier('probe_token')==nil)
 return 'ok'
 '''), b'ok')
-
-
-class CarrierModeSwitchTests(unittest.TestCase):
-    def test_the_switch_takes_every_definition_without_a_selection_aboard_the_ship_only(self):
-        self.assertEqual(run(WORLD + r"""
-local custom=require('hd2runtime/runtime/custom_stratagems');custom.reset_for_tests();custom.reset_carrier_mode_for_tests()
-local hd2=require('hd2runtime/api/hd2')
-local log_module=require('hd2runtime/runtime/log')
-local lines={}
-log_module.emit=function(t)lines[#lines+1]=t end
-local function count(text)local n=0;for _,l in ipairs(lines)do if l:find(text,1,true)then n=n+1 end end;return n end
-local function spec(id,code,over)
-    local s={id=id,name='PROBE',description='d',icon='x',code=code,
-        carrier={beacon='offensive',prefer_families={'orbital'}},
-        orbital={native=true,pattern='Orbital 120mm HE Barrage',impact_explosion='Orbital Gas Strike'}}
-    for k,v in pairs(over or{})do s[k]=v end
-    return s
-end
-local plain=custom.register(spec('plain',{'up','right','down','left','up','right','down'}),'mods/test/a')
-local token=custom.register(spec('named_token',{'down','down','down','down','up','left'},{selection='token'}),'mods/test/b')
-local carrier=custom.register(spec('named_carrier',{'down','down','down','down','up','up'},{selection='carrier'}),'mods/test/c')
-assert(plain.selection==nil and token.selection==nil and carrier.selection=='carrier')
-local before=custom.registry_hash()
--- During a mission the change waits for the ship.
-local world_module=require('hd2runtime/runtime/event_world')
-local real,real_open=world_module.game_state,world_module.open
-world_module.game_state=function()return {name='Mission',mission=true}end
-world_module.open=function()return {}end
-assert(hd2.custom_stratagem.carrier_mode_all(true)==false)
-assert(plain.selection==nil and not custom.carrier_mode_all())
-assert(count('CARRIER MODE FOR EVERY CUSTOM STRATAGEM: ON requested')==1)
-custom.carrier_mode_step()
-assert(plain.selection==nil,'still in the mission')
--- Aboard the ship: applied.
-world_module.game_state=function()return {name='Ship'}end
-custom.carrier_mode_step()
-assert(custom.carrier_mode_all()and plain.selection=='carrier'and token.selection==nil and carrier.selection=='carrier')
-assert(count('CARRIER MODE FOR EVERY CUSTOM STRATAGEM: ON (development; requested earlier): 1 custom stratagem')==1,
-    table.concat(lines,' / '))
-local on=custom.registry_hash()
-assert(on~=before,'a lobby whose players differ is told apart')
--- A registration after the switch follows it.
-local late=custom.register(spec('late',{'left','left','right','right','up','down'}),'mods/test/d')
-assert(late.selection=='carrier')
--- Off again: back to the token; the named ones keep theirs; the hash is the one before (late aside).
-assert(hd2.custom_stratagem.carrier_mode_all(false)==true)
-assert(plain.selection==nil and late.selection==nil and token.selection==nil and carrier.selection=='carrier')
-assert(hd2.custom_stratagem.carrier_mode_all(false)==true,'no change: nothing logged')
-assert(count('CARRIER MODE FOR EVERY CUSTOM STRATAGEM: OFF')==1)
-assert(not pcall(hd2.custom_stratagem.carrier_mode_all,'yes'),'true or false only')
-world_module.game_state,world_module.open=real,real_open
-return 'ok'
-"""), b'ok')
-
-    def test_a_token_definitions_hash_line_is_unchanged_with_the_switch_off(self):
-        # The registry hash of a token definition never names the selection (older Runtimes hash the same line).
-        self.assertEqual(run(WORLD + r"""
-local custom=require('hd2runtime/runtime/custom_stratagems');custom.reset_for_tests();custom.reset_carrier_mode_for_tests()
-local protocol=require('hd2runtime/runtime/peer_protocol')
-local seen
-local real=protocol.registry_hash
-protocol.registry_hash=function(list)seen=list;return real(list)end
-custom.register({id='plain',name='PROBE',description='d',icon='x',code={'up','right','down','left','up','right','down'},
-    carrier={beacon='offensive',prefer_families={'orbital'}},
-    orbital={native=true,pattern='Orbital 120mm HE Barrage',impact_explosion='Orbital Gas Strike'}},'mods/test/a')
-custom.registry_hash()
-assert(not seen[1].family:find('selection',1,true),seen[1].family)
-custom.set_carrier_mode_all(true,'test')
-custom.registry_hash()
-assert(seen[1].family:find('|selection=carrier',1,true),seen[1].family)
-protocol.registry_hash=real
-return 'ok'
-"""), b'ok')
 
 
 class FlowTests(unittest.TestCase):
@@ -591,53 +523,12 @@ assert(count('stratagem selector MOVED')==0,'nothing moved: nobody else holds it
 return 'ok'
 ''')
 
-    def test_the_switch_puts_a_definition_without_a_selection_in_the_carrier_mode_end_to_end(self):
-        # r42: the CarrierModeEverywhere test mod. The example registered as it ships (no selection), the switch on.
-        self.flow(r'''
-rawset(_G,'ModOptionsMenu',MENU)
-custom.reset_carrier_mode_for_tests()
-local plain=GAS_ADDON:gsub("    selection='carrier',\n",'')
-assert(loadstring(plain,'@'..GAS_RESOURCE))()
-local d=custom.get('orbital_gas_barrage')
-assert(d and d.selection==nil and d.selection_given==nil)
-tick(40)
-ship({})
-tick(4)
-assert(require('hd2runtime/api/hd2').custom_stratagem.carrier_mode_all(true)==true)
-assert(d.selection=='carrier')
-select_into(0)
-native_append(22);native_append(130)
-SCREEN.set('selecting',false);tick(8)
-SCREEN.close();tick(4)
-local V=require('hd2runtime/runtime/stratagem_selector').virtual_slots()
-assert(V.slots[0]and V.slots[0].carrier==true,lines('SELECTED'))
-local kind,cid=V.slots[0].type,V.slots[0].token
-assert(kind~=118 and cid~=PRECISION_ID,'the carrier itself, not the token')
-W.saved_loadout({{id=cid},{id=ID22},{id=1298599997}})
-tick(80)
-mission({host=true})
-local record,hud=mission_record({kind,22,130})
-local h=W.stratagem_hud({peer=LOCAL,slots=hud,record=record})
-live_cooldowns(h,#record)
-CT.player(0,0,0)
-tick(120)
-assert(count('MISSION (orbital_gas_barrage): READY TO CALL: loadout slot 0 = ')==1,lines('MISSION')..' | '
-    ..lines('REFUSED'))
-assert(count('stratagem slot CONVERTED')==0)
--- Off during the mission: it waits; the mission keeps its mode.
-assert(require('hd2runtime/api/hd2').custom_stratagem.carrier_mode_all(false)==false)
-tick(30)
-assert(d.selection=='carrier'and count('(orbital_gas_barrage): REFUSED')==0 and count('RETURN TO SHIP')==0,lines('orbital_gas_barrage'))
-return 'ok'
-''')
-
     def test_several_early_presentations_entering_together_all_apply(self):
         # r43 (the r42 whole-set test): every carrier slot's early presentation started in the same frame; their icon
         # and code transactions interleaved and refused each other, so the HUD showed the carriers' own looks.
         self.flow(r'''
 rawset(_G,'ModOptionsMenu',MENU)
-custom.reset_carrier_mode_for_tests()
-custom.set_carrier_mode_all(true,'test')
+-- The Pelican example as it ships (no selection): the carrier itself by default (r44).
 assert(loadstring(GAS_ADDON,'@'..GAS_RESOURCE))()
 assert(loadstring(ADDON,'@'..RESOURCE))()
 assert(custom.get('pelican_close_air_support').selection=='carrier')
@@ -684,8 +575,6 @@ return 'ok'
         g, g_addon = example_addon('EAT17GExample')
         self.flow('local G_ADDON=' + lua_literal(g_addon) + '\nlocal G_RESOURCE=' + lua_literal(g) + r'''
 rawset(_G,'ModOptionsMenu',MENU)
-custom.reset_carrier_mode_for_tests()
-custom.set_carrier_mode_all(true,'test')
 assert(loadstring(G_ADDON,'@'..G_RESOURCE))()
 local id='eat17g_clone'
 assert(custom.get(id).kind=='expendable'and custom.get(id).selection=='carrier')
