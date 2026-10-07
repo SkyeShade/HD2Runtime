@@ -4,7 +4,10 @@ HD2Runtime names the firing sounds of the game's weapons so a mod can use them: 
 custom stratagem's sentry, and (offline only) as a player or support weapon's own firing sound (`weapon.sound`).
 The catalogue is read-only: it lists what exists, and a name is what a mod passes. The catalogue returns no Wwise
 event, bank or package id. To play a sound directly (and to load a sound's bank with `hd2.require_assets{targets =
-{hd2.sounds.asset(name)}}`), see [sounds.md](sounds.md).
+{hd2.sounds.asset(name)}}`), see [sounds.md](sounds.md). Every other sound of the game (10 030 events: explosions,
+stratagems, enemies, UI, voice, ambience, music, ...) is in the full event catalogue,
+`hd2.sounds.list({catalogue = 'events'})` ([sounds.md](sounds.md)); an event there lists the firing sounds that post it
+(`weapons`), and `hd2.sounds.list({catalogue = 'events', weapon = 'sentry/gatling'})` finds a firing sound's events.
 
 Research: [research/weapon-sounds-F5FEE03DCFDB.md](research/weapon-sounds-F5FEE03DCFDB.md). Build F5FEE03DCFDB.
 

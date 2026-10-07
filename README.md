@@ -70,7 +70,9 @@ HD2Runtime is designed to fail safely when a game structure or ownership relatio
 - In-game options: sliders, choices and toggles on the MODS tab (CowboyBingus Mod Options Menu)
   that drive one ensured operation live, with the same guards
 - Services for UI and game mods (development line, not live-tested): screen overlays (`hd2.ui.overlay`, see
-  `docs/ui-overlay.md`), game sound events (`hd2.sounds.play`, see `docs/sounds.md`), any key's state
+  `docs/ui-overlay.md`), game sound events (`hd2.sounds.play`; every Wwise event of the game catalogued by family,
+  bank and kind, its bank loadable, pause / resume / is_playing / elapsed and per-sound game parameters and switches,
+  see `docs/sounds.md`), any key's state
   (`hd2.input.down` / `pressed` / `released`), a per-frame callback (`hd2.on_frame`), per-mod saved data
   (`hd2.store`, see `docs/mod-store.md`), the game build status (`hd2.build()`) and the live values of the weapon in
   hand (`player:weapon_state()`, see `docs/player-equipment.md`)
