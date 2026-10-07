@@ -1,8 +1,8 @@
 -- Generated from custom_stratagems.json by the HD2Runtime SDK (hd2.py custom-stratagem compile; format hd2runtime-custom-stratagems/1).
--- Edit custom_stratagems.json, not this file: the build compiles it again. Source SHA-256 f35e9a3d825903c86d324db33a92bf1c1cb6cabda4978dc6c7876d3d0c5dc68c.
+-- Edit custom_stratagems.json, not this file: the build compiles it again. Source SHA-256 95a00a616250c7f234730af737600c1b39977e94e32e92af40a2a8f292eb23d0.
 local hd2=require('mods/skyeshade/hd2runtime')
 local mod=hd2.mod()
-mod:log('CustomStratagemPack 0.2.0 BUILD: 4 Pelican supports, HMG sentry, gas and EMS barrages, 3 EATs, the Shredder Silo.')
+mod:log('CustomStratagemPack 0.3.0 FRIEND-FEEDBACK BUILD: gas and EMS Pelicans fire AP4 rounds; gas and EMS EATs hit for 500 direct (per rocket); HMG sentry unchanged.')
 hd2.custom_stratagem.register({
     id='pelican_close_air_support',
     name='PELICAN GATLING SUPPORT',
@@ -40,7 +40,7 @@ hd2.custom_stratagem.register({
     uses=4,
     traits={'Pelican','Stun'},
     carrier={beacon='offensive',prefer_families={'orbital'}},
-    pelican={hover=90,orbit={radius=40,altitude=60,duration=85},gun={behave_as='gatling_sentry',rpm=30,round='native',casing='own',spread=15,recoil=false,unlimited_ammo=true,face_target=true,sound='sentry/ems_mortar',impact_explosion='EMS mortar field',aim_height=0.7}},
+    pelican={hover=90,orbit={radius=40,altitude=60,duration=85},gun={behave_as='gatling_sentry',rpm=30,round='ap4',casing='own',spread=15,recoil=false,unlimited_ammo=true,face_target=true,sound='sentry/ems_mortar',impact_explosion='EMS mortar field',aim_height=0.7}},
 })
 hd2.custom_stratagem.register({
     id='pelican_gas_support',
@@ -53,7 +53,7 @@ hd2.custom_stratagem.register({
     uses=4,
     traits={'Pelican','Caustic'},
     carrier={beacon='offensive',prefer_families={'orbital'}},
-    pelican={hover=90,orbit={radius=40,altitude=60,duration=85},gun={behave_as='gatling_sentry',rpm=60,round='native',casing='own',spread=15,recoil=false,unlimited_ammo=true,face_target=true,sound='sentry/gas_mortar',impact_explosion='Gas grenade cloud',aim_height=0.7}},
+    pelican={hover=90,orbit={radius=40,altitude=60,duration=85},gun={behave_as='gatling_sentry',rpm=60,round='ap4',casing='own',spread=15,recoil=false,unlimited_ammo=true,face_target=true,sound='sentry/gas_mortar',impact_explosion='Gas grenade cloud',aim_height=0.7}},
 })
 hd2.custom_stratagem.register({
     id='hmg_sentry',
@@ -113,7 +113,7 @@ hd2.custom_stratagem.register({
     cooldown=70,
     traits={'Support Weapon','Anti-Tank','Caustic','Expendable'},
     carrier={group='expendable'},
-    delivery={family='expendable',weapon='EAT-17 Expendable Anti-Tank',modify={impact_explosion='Orbital Gas Strike'},pod={{item='clone',count=2}}},
+    delivery={family='expendable',weapon='EAT-17 Expendable Anti-Tank',modify={impact_explosion='Orbital Gas Strike',direct_damage=500},pod={{item='clone',count=2}}},
 })
 hd2.custom_stratagem.register({
     id='eat23_ems',
@@ -125,7 +125,7 @@ hd2.custom_stratagem.register({
     cooldown=70,
     traits={'Support Weapon','Anti-Tank','Stun','Expendable'},
     carrier={group='expendable'},
-    delivery={family='expendable',weapon='EAT-17 Expendable Anti-Tank',modify={impact_explosion='Orbital EMS Strike'},pod={{item='clone',count=2}}},
+    delivery={family='expendable',weapon='EAT-17 Expendable Anti-Tank',modify={impact_explosion='Orbital EMS Strike',direct_damage=500},pod={{item='clone',count=2}}},
 })
 hd2.custom_stratagem.register({
     id='shredder_silo',

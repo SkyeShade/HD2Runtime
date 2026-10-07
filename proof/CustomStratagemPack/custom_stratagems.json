@@ -1,6 +1,6 @@
 {
  "format": "hd2runtime-custom-stratagems/1",
- "log": "CustomStratagemPack 0.2.0 BUILD: 4 Pelican supports, HMG sentry, gas and EMS barrages, 3 EATs, the Shredder Silo.",
+ "log": "CustomStratagemPack 0.3.0 FRIEND-FEEDBACK BUILD: gas and EMS Pelicans fire AP4 rounds; gas and EMS EATs hit for 500 direct (per rocket); HMG sentry unchanged.",
  "stratagems": [
   {
    "id": "pelican_close_air_support",
@@ -140,7 +140,7 @@
      "face_target": true,
      "aim_height": 0.7,
      "rpm": 30,
-     "round": "native",
+     "round": "ap4",
      "casing": "own",
      "impact_explosion": "EMS mortar field",
      "sound": "sentry/ems_mortar"
@@ -192,7 +192,7 @@
      "face_target": true,
      "aim_height": 0.7,
      "rpm": 60,
-     "round": "native",
+     "round": "ap4",
      "casing": "own",
      "impact_explosion": "Gas grenade cloud",
      "sound": "sentry/gas_mortar"
@@ -382,7 +382,8 @@
     "family": "expendable",
     "weapon": "EAT-17 Expendable Anti-Tank",
     "modify": {
-     "impact_explosion": "Orbital Gas Strike"
+     "impact_explosion": "Orbital Gas Strike",
+     "direct_damage": 500
     },
     "pod": [
      {
@@ -422,7 +423,8 @@
     "family": "expendable",
     "weapon": "EAT-17 Expendable Anti-Tank",
     "modify": {
-     "impact_explosion": "Orbital EMS Strike"
+     "impact_explosion": "Orbital EMS Strike",
+     "direct_damage": 500
     },
     "pod": [
      {

@@ -4198,9 +4198,11 @@ def _eat23_scenario():
 EXTRAS['example-eat23'] = {'after': _eat23_scenario(), 'readOnly': True}
 
 
-# The combined CustomStratagemPack (proof/CustomStratagemPack 0.2.0): eleven of the examples' stratagems in one mod, each
-# copied unchanged. It loads from the archive, every stratagem registers (one REGISTERED line each, the kind its own
-# example registers) and none is refused; nothing is written.
+# The combined CustomStratagemPack (proof/CustomStratagemPack 0.3.0): eleven of the examples' stratagems in one mod, each
+# copied from its example; 0.3.0 (a friend's feedback, 2026-10-07): the gas and EMS Pelicans fire the AP4 round, the
+# gas and EMS EATs hit for 500 direct (each rocket's own copy). It loads from the archive, every stratagem registers
+# (one REGISTERED line each, the kind its own example registers) with those changes, and none is refused; nothing is
+# written.
 PACK_IDS = {'pelican_close_air_support': 'pelican', 'pelican_cannon_support': 'pelican', 'pelican_ems_support': 'pelican',
     'pelican_gas_support': 'pelican', 'hmg_sentry': None, 'orbital_gas_barrage': None, 'orbital_ems_barrage': None,
     'eat_cluster': 'expendable', 'eat17g_clone': 'expendable', 'eat23_ems': 'expendable', 'shredder_silo': 'silo'}
@@ -4221,7 +4223,19 @@ return function(frame,watches,counts,lines)
  end
  table.sort(missing)
  step('the pack loads from the archive and registers all eleven stratagems, each as its own example does; nothing is '
-  ..'written',count('CustomStratagemPack 0.2.0 BUILD')==1 and#missing==0 and counts.writes==0,table.concat(missing,', '))
+  ..'written',count('CustomStratagemPack 0.3.0 FRIEND-FEEDBACK BUILD')==1 and#missing==0 and counts.writes==0,
+  table.concat(missing,', '))
+ local changed={}
+ for _,id in ipairs({'pelican_ems_support','pelican_gas_support'})do
+  local d=custom.get(id)
+  if not(d and d.pelican and d.pelican.gun and d.pelican.gun.round=='ap4')then changed[#changed+1]=id end
+ end
+ for _,id in ipairs({'eat17g_clone','eat23_ems'})do
+  local d=custom.get(id)
+  if not(d and d.delivery and d.delivery.damage==500 and d.delivery.impact)then changed[#changed+1]=id end
+ end
+ step('0.3.0: the gas and EMS Pelicans fire the AP4 round; the gas and EMS EATs hit for 500 direct with their impact',
+  #changed==0,table.concat(changed,', '))
  step('no stratagem of the pack is refused',count('custom stratagem REFUSED')==0 and count('rejected')==0,
   tostring(count('custom stratagem REFUSED')))
  return results
