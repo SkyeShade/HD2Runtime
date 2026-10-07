@@ -754,8 +754,12 @@ return function(frame,watches,counts,lines)
  local boom=hd2.explosions.spawn('R-36 Eruptor',{position={x=1,y=2,z=3}})
  step('an explosion aboard the ship is refused (not in a mission)',boom.status=='refused'and boom.code=='NOT_IN_MISSION',
   tostring(boom.code)..' '..tostring(boom.reason))
- step('every catalogued explosion resolves from the packaged archive',#hd2.explosions.list()==16,
-  tostring(#hd2.explosions.list()))
+ step('every catalogued explosion resolves from the packaged archive',#hd2.explosions.list()==241
+  and #hd2.explosions.reviewed()==16 and hd2.explosion('weapon/r36_eruptor/impact'):describe().package.known,
+  tostring(#hd2.explosions.list())..' '..tostring(#hd2.explosions.reviewed()))
+ local unverified=hd2.explosions.spawn('stratagem/orbital_gas_strike/shell_impact',{position={x=1,y=2,z=3}})
+ step('a catalogued explosion outside the reviewed set needs allow_unverified_effect',unverified.status=='refused'
+  and unverified.code=='UNVERIFIED_EXPLOSION',tostring(unverified.code))
  step('the projectile and status catalogs resolve from the packaged archive',#hd2.projectiles.list()==67
   and #hd2.status.list()==11,tostring(#hd2.projectiles.list())..' '..tostring(#hd2.status.list()))
  local shot=hd2.projectiles.spawn('R-36 Eruptor',{position={x=1,y=2,z=3},direction={x=1,y=0,z=0}})

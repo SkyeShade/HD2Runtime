@@ -208,7 +208,7 @@ end
 table.sort(natives,function(a,c)return a.stableId<c.stableId end)
 out.nativeCodes=json.array(natives)
 -- Silos (runtime/custom_silos.lua): the donor silos whose rack items (the missile, the remote) are reviewed; the
--- explosions a silo's blast may name (hd2.explosions.list(): those whose packages are known).
+-- explosions a silo's blast may name (the reviewed spawn set, hd2.explosions.reviewed(): those whose packages are known).
 local silos=require('hd2runtime/runtime/custom_silos')
 local silo_list={}
 for _,name in ipairs(silos.names())do
@@ -217,8 +217,11 @@ for _,name in ipairs(silos.names())do
 end
 out.siloDonors=json.array(silo_list)
 local blasts={}
-for _,e in ipairs(require('hd2runtime/api/actions').explosions.list())do
-    if e.assets_known then blasts[#blasts+1]={name=e.name,source=e.source,type=e.type,objective=e.objective}end
+local A=require('hd2runtime/api/actions')
+for _,e in ipairs(A.explosions.reviewed())do
+    if e.assets_known then
+        blasts[#blasts+1]={name=e.name,source=e.source,type=A.explosion_target(e.name).type,objective=e.objective}
+    end
 end
 out.blastExplosions=json.array(blasts)
 -- Weapon variants (delivery.family = 'weapon'; runtime/weapon_clone.lua variant, domains/weapon_variants.lua): each

@@ -1,5 +1,5 @@
 {
-  "examples": 117,
+  "examples": 118,
   "failed": [],
   "mode": "snapshot",
   "results": {
@@ -1675,6 +1675,47 @@
       "usesOptions": false,
       "versionReasons": [
         "stratagem stratagem.max_uses -> 0.26.0",
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "ExplosionCatalogueTest": {
+      "baselineChanges": 3,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.30.0-dev",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "barrage-shell-wider",
+          "mode": "transaction",
+          "resource": "explosion"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "attack": "primary",
+          "callKind": "ensure",
+          "id": "eruptor-loyalist-impact",
+          "mode": "patch",
+          "path": "terminal_action",
+          "resource": "player_weapon",
+          "weapon": "R-36 Eruptor"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.30.0-dev",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "explosion target -> 0.30.0-dev",
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0",
+        "the explosion catalogue (hd2.explosion, hd2.explosions.list / describe) -> 0.30.0-dev",
         "typed writes -> 0.23.2"
       ]
     },

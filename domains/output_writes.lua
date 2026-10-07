@@ -42,6 +42,14 @@ local function slot_selector(field,value,label)
     if value=='none'then
         assert(field.allowNone,label..': the direct-hit damage cannot be removed');return {none=true,type=0}
     end
+    if type(value)=='table'and rawget(value,'resource')=='explosion'then
+        -- A catalogued explosion (hd2.explosion(name); domains/explosion_catalogue.lua) for an explosion slot.
+        for key in pairs(value)do assert(key=='resource'or key=='explosion',label..' has an unsupported identity')end
+        assert(field.type=='explosion_slot',label..': a damage slot takes a direct_damage() handle, not an explosion')
+        local entry,id=require('hd2runtime/domains/explosion_writes').entry(value.explosion)
+        assert(entry,'UNKNOWN_EXPLOSION: '..tostring(value.explosion)..' is not a catalogued explosion')
+        return {catalogue=id,entry=entry,type=entry.type}
+    end
     assert(type(value)=='table'and value.resource=='attack_output_slot'and type(value.output)=='string'
         and SLOT_FIELDS[value.slot],label..' must be "none" or hd2.attack_output(name):direct_damage() / '
         ..':impact_explosion() / :expiry_explosion()')
@@ -125,17 +133,35 @@ local function validate_change(output,item,request)
         local expected,desired=slot_selector(field,item.expect,'expect'),slot_selector(field,item.value,'value')
         -- Exact (row, slot, donor) tuples a live test proved need no acknowledgement (liveProvenValues: "none" or
         -- "<donor output id>#<slot>").
-        local key=desired.none and'none'or desired.donor.id..'#'..desired.slot
+        local key=desired.none and'none'or desired.catalogue and('explosion:'..desired.catalogue)
+            or desired.donor.id..'#'..desired.slot
         assert(request.allow_unverified_effect==true or live_proven(field,key),'field requires '
             ..'allow_unverified_effect=true: '..item.field..' ('..tostring(field.acknowledgementReason)..')')
+        local dependency
+        if desired.catalogue then
+            -- Any catalogued explosion whose package is known; not live-tested as a slot donor.
+            if not desired.entry.payload then
+                error('ASSET_UNAVAILABLE: no package is known that ships the effect of the '..desired.catalogue
+                    ..' explosion (hd2.explosions.list({payload = true}))',0)
+            end
+            assert(request.allow_unverified_reference==true,'a catalogued explosion donor is not live-tested and '
+                ..'requires allow_unverified_reference=true: '..desired.catalogue)
+            if not desired.entry.package.mission then
+                dependency=require('hd2runtime/core/assets').dependency(desired.entry.package.key)
+                assert(dependency,'ASSET_UNAVAILABLE: the package of the '..desired.catalogue..' explosion is not '
+                    ..'catalogued')
+            end
+        end
+        assert(not expected.catalogue,'expect must be this output\'s own '..item.field..' handle or "none"')
         assert(expected.type==field.currentDefault and(expected.none or expected.donor.id==output.id
             and expected.slot==SLOT_KEYS[item.field]),'expect must be this output\'s own '..item.field
             ..' handle (hd2.attack_output(name):'..({directDamage='direct_damage',impactExplosion='impact_explosion',
             expiryExplosion='expiry_explosion'})[SLOT_KEYS[item.field]]..'()) or "none" where it has none')
         return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,slot=true,
             expected=b.encode(expected.type,'u32'),desired=b.encode(desired.type,'u32'),donor=desired.donor,
-            donor_field=desired.donor_field,expect=item.expect,value=item.value,
-            asset_dependency=desired.donor and donor_dependency(output,desired.donor)or nil}
+            donor_field=desired.donor_field,expect=item.expect,value=item.value,catalogue_explosion=desired.entry,
+            catalogue_name=desired.catalogue,
+            asset_dependency=desired.donor and donor_dependency(output,desired.donor)or dependency}
     end
     assert(field.editable,'field is read-only: '..item.field)
     assert(not field.shared or request.allow_shared==true,'shared field requires allow_shared=true: '..item.field
@@ -154,7 +180,8 @@ local function validate_change(output,item,request)
 end
 local function validate(request,multiple)
     assert(type(request)=='table',(multiple and'transaction'or'patch')..' requires a descriptor')
-    local allowed={id=true,target=true,diagnostic=true,allow_shared=true,allow_unverified_effect=true}
+    local allowed={id=true,target=true,diagnostic=true,allow_shared=true,allow_unverified_effect=true,
+        allow_unverified_reference=true}
     if multiple then allowed.changes=true else allowed.field=true;allowed.expect=true;allowed.value=true end
     for key in pairs(request)do assert(allowed[key],'unsupported option: '..tostring(key))end
     valid_id(request.id)
@@ -269,6 +296,7 @@ local function assert_no_recursion(resolved,row_type,explosion_type,label)
         end
     end
 end
+M.assert_no_recursion=assert_no_recursion
 function M.prepare(resolved,reader,spec)
     local plan={changes={},snapshots=reader.snapshots}
     local output=resolved.output
@@ -300,6 +328,12 @@ function M.prepare(resolved,reader,spec)
             local donor=settings_row(root,change.donor.referenceSettings,change.donor.id)
             assert(b.u32(donor.bytes,change.donor_field.backing.offset)==change.donor_field.currentDefault,
                 'CONFLICT: '..change.donor.id..' '..change.donor_field.semanticFieldId..' changed')
+        end
+        if change.catalogue_explosion then
+            -- A catalogued explosion donor: its live ExplosionSettings row is still the reviewed row.
+            local entry=change.catalogue_explosion
+            require('hd2runtime/domains/explosion_writes').settings_row(resolved.roots,'explosion',entry.type,
+                entry.group,entry.row,entry.settingsType,change.catalogue_name)
         end
         if change.slot and change.descriptor.type=='explosion_slot'then
             local desired=b.u32(change.desired,0)

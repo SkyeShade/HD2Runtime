@@ -237,7 +237,7 @@ assert(W.runtime.explosions[6].source==100 and W.runtime.explosions[6].owner==10
 a=spawn('B-100 Portable Hellbomb')
 assert(a.status=='requested'and W.runtime.explosions[7].type==125,tostring(a.code))
 local listed={}
-for _,item in ipairs(hd2.explosions.list())do listed[item.name]=item end
+for _,item in ipairs(hd2.explosions.reviewed())do listed[item.name]=item end
 assert(listed['NUX-223 Hellbomb'].source=='behavior'and listed['NUX-223 Hellbomb'].assets_known)
 assert(listed['R-36 Eruptor'].source=='weapon'and listed['R-36 Eruptor'].weapon=='R-36 Eruptor')
 local X=require('hd2runtime/domains/event_natives').explosion

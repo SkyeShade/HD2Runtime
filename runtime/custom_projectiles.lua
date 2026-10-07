@@ -17,6 +17,7 @@ local metrics=require('hd2runtime/runtime/metrics')
 local M={}
 local definitions,order={},{}
 local function catalog()return require('hd2runtime/domains/attack_outputs')end
+local catalogued_explosion
 local TYPE_COUNT=require('hd2runtime/domains/projectile_rows').table.typeCount
 
 -- The live-verified development proof (docs/custom-projectile-rows.md): a LAS-58 Talon base with the PLAS-1 Scorcher's
@@ -83,11 +84,25 @@ local function projectile_output(name,role,assets)
     end
     return {output=id,weapon=owner.name,type=kind,dependency=dependency,catalog=output}
 end
+-- A catalogued explosion as the impact explosion donor (hd2.explosion(name), or its catalogue name): entry, name; nil
+-- otherwise. A weapon name or projectile output id is never a catalogue name (their namespaces differ).
+function catalogued_explosion(donor)
+    local name=donor
+    if type(donor)=='table'and rawget(donor,'resource')=='explosion'then name=rawget(donor,'explosion')
+    elseif type(donor)~='string'or catalog().outputs[donor]then return nil end
+    local entry,id=require('hd2runtime/domains/explosion_writes').entry(name)
+    if entry then return entry,id end
+    return nil
+end
 -- The spec as a comparable string (a definition id is defined once; the same spec again returns it).
 local function canonical(spec)
     local parts={tostring(spec.id),tostring(spec.base)}
     for _,id in ipairs(projectile_rows.COMPONENT_ORDER)do
-        if spec.components and spec.components[id]then parts[#parts+1]=id..'<'..tostring(spec.components[id])end
+        local donor=spec.components and spec.components[id]
+        if donor then
+            local _,explosion=catalogued_explosion(donor)
+            parts[#parts+1]=id..'<'..(explosion and('explosion:'..explosion)or tostring(donor))
+        end
     end
     for _,change in ipairs(spec.changes or{})do
         local members=change.members or{change.member}
@@ -115,11 +130,14 @@ local function validate_spec(spec)
         return nil,'INVALID_DEFINITION','components must be a table {component = donor}'
     end
     for id,donor in pairs(spec.components or{})do
-        if not projectile_rows.component(id)then
+        if id=='impact_explosion'and catalogued_explosion(donor)then donor=nil end
+        if donor==nil then
+            -- A catalogued explosion (hd2.explosion(name)): checked when the definition is built.
+        elseif not projectile_rows.component(id)then
             return nil,'UNKNOWN_COMPONENT','no projectile component '..tostring(id)..' (components: '
                 ..table.concat(projectile_rows.COMPONENT_ORDER,', ')..')'
         end
-        if type(donor)~='string'then
+        if donor~=nil and type(donor)~='string'then
             return nil,'INVALID_DEFINITION','component '..id..' needs a donor projectile (a weapon name or output id)'
         end
     end
@@ -208,7 +226,40 @@ function M.define(spec)
     end
     for _,id in ipairs(projectile_rows.COMPONENT_ORDER)do
         local name=spec.components and spec.components[id]
-        if name then
+        local explosion,explosion_name
+        if name and id=='impact_explosion'then explosion,explosion_name=catalogued_explosion(name)end
+        if explosion then
+            -- A catalogued explosion (domains/explosion_catalogue.lua): its type at +0x90, after its live settings
+            -- record proves the reviewed type, damage link and radii; its package (unless it is the mission effects
+            -- package, resident in every mission) is a dependency of the definition.
+            if not explosion.payload then
+                return nil,'ASSET_UNKNOWN','no package is known that ships the effect of the '..explosion_name
+                    ..' explosion'
+            end
+            local record=world_module.explosion_settings(world,explosion.type)
+            local raw=record and world.view.read(record,28)
+            if not raw or b.u32(raw,4)~=(explosion.damage and explosion.damage.type or 0)
+                or math.abs(b.value(raw,16,'f32')-explosion.values[1])>1e-4
+                or math.abs(b.value(raw,20,'f32')-explosion.values[2])>1e-4
+                or math.abs(b.value(raw,24,'f32')-explosion.values[3])>1e-4 then
+                return nil,'DONOR_CHANGED','the live settings record of the '..explosion_name..' explosion is not '
+                    ..'its reviewed row'
+            end
+            local entry=projectile_rows.copied('impact_explosion')
+            local before=#applied
+            ok,code,reason=take(entry,b.encode(explosion.type,'u32'),{output='explosion:'..explosion_name,
+                type=explosion.type,catalog={}},id)
+            if not ok then return nil,code,reason end
+            summaries[#summaries+1]={id=id,name=projectile_rows.component(id).name,from='explosion:'..explosion_name,
+                explosion=explosion_name,differs=#applied>before,assets='donor'}
+            if not explosion.package.mission then
+                local dependency=core_assets.dependency(explosion.package.key)
+                if not dependency then
+                    return nil,'ASSET_UNKNOWN','the package of the '..explosion_name..' explosion is not catalogued'
+                end
+                add_package({dependency=dependency})
+            end
+        elseif name then
             local component=projectile_rows.component(id)
             local donor
             donor,code,reason=projectile_output(name,component.name..' donor',component.assets=='donor')

@@ -16,6 +16,7 @@ local function database_for(kind)
     return kind=='support_weapon'and support_database or database
 end
 local M={}
+local catalogued_explosion_change
 -- Catalogued attack outputs, projectile sources and ammunition sources (domains/attack_outputs.lua).
 local function attack_outputs()return require('hd2runtime/domains/attack_outputs')end
 -- Package the source weapon's projectile/explosion assets live in (its generated loadout package), when the
@@ -330,6 +331,14 @@ local function reference_selector(value,label)
 end
 local function explosion_selector(value,label)
     assert(type(value)=='table',label..' must be an explosion reference handle')
+    if rawget(value,'resource')=='explosion'then
+        -- A catalogued explosion (hd2.explosion(name); domains/explosion_catalogue.lua) as the donor.
+        for key in pairs(value)do assert(key=='resource'or key=='explosion',
+            label..' contains unsupported explosion identity')end
+        local entry,id=require('hd2runtime/domains/explosion_writes').entry(value.explosion)
+        assert(entry,'UNKNOWN_EXPLOSION: '..tostring(value.explosion)..' is not a catalogued explosion')
+        return {catalogue=id,entry=entry}
+    end
     for key in pairs(value)do assert(key=='resource'or key=='path'or key=='weapon'or key=='attack'
         or key=='phase',label..' contains unsupported explosion reference identity')end
     assert(value.resource=='player_weapon'and(value.path=='explosion'or value.path=='no_explosion')
@@ -390,6 +399,30 @@ local function change_dependencies(changes)
         for _,dependency in ipairs(change.asset_dependencies or{})do out[#out+1]=dependency end
     end
     return out
+end
+-- A catalogued explosion (hd2.explosion(name)) as an impact or expiry explosion donor: any explosion of the catalogue
+-- whose package is known (domains/explosion_catalogue.lua payload): loaded before the write, or the mission effects
+-- package, resident in every mission. No such donor is live-tested: allow_unverified_reference and
+-- allow_unverified_effect. prepare re-proves the donor's live ExplosionSettings row and refuses a chain that would
+-- make the projectile spawn itself (its explosion releasing this projectile as a submunition).
+function catalogued_explosion_change(item,field,expected,desired,allow_unverified_reference,allow_unverified_effect)
+    local entry=desired.entry
+    if not entry.payload then
+        error('ASSET_UNAVAILABLE: no package is known that ships the effect of the '..desired.catalogue..' explosion '
+            ..'(hd2.explosions.list({payload = true}))',0)
+    end
+    assert(allow_unverified_reference==true,'a catalogued explosion donor is not live-tested and requires '
+        ..'allow_unverified_reference=true: '..desired.catalogue)
+    assert(allow_unverified_effect==true,'a catalogued explosion donor is not live-tested and requires '
+        ..'allow_unverified_effect=true: '..desired.catalogue)
+    local dependency
+    if not entry.package.mission then
+        dependency=require('hd2runtime/core/assets').dependency(entry.package.key)
+        assert(dependency,'ASSET_UNAVAILABLE: the package of the '..desired.catalogue..' explosion is not catalogued')
+    end
+    return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
+        semantic_aliases={item.field},expect=item.expect,value=item.value,
+        expected_selector=expected,desired_selector=desired,catalogue_explosion=entry,asset_dependency=dependency}
 end
 -- Fields of the original fixed JAR-5 resource. Typed weapon targets use per-angle AP and the
 -- player_* damage constants; say so instead of a generic rejection.
@@ -583,10 +616,14 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
             and field.referencePhase==phase,'explosion reference target changed')
         local expected=explosion_selector(item.expect,'expect')
         local desired=explosion_selector(item.value,'value')
-        assert(expected.weapon==weapon.name and expected.attack==role and expected.phase==phase,
-            'expect must be the target terminal action current explosion handle')
+        assert(not expected.catalogue and expected.weapon==weapon.name and expected.attack==role
+            and expected.phase==phase,'expect must be the target terminal action current explosion handle')
         assert(expected.is_null==(field.currentDefault.explosionType==0),
             'expect does not represent the reviewed terminal reference')
+        if desired.catalogue then
+            return catalogued_explosion_change(item,field,expected,desired,allow_unverified_reference,
+                allow_unverified_effect)
+        end
         local source
         if not desired.is_null then
             local source_weapon=assert(database.weapons[desired.weapon],
@@ -1107,6 +1144,7 @@ function M.capture_many(runtime,reader,specs)
             elseif change.source_resource then
                 resolved.reference_sources[change.canonical_field]=find_candidate(catalog,change.source_resource)
             elseif change.desired_selector and not change.desired_selector.is_null
+                and not change.desired_selector.catalogue
                 and change.descriptor.type~='function_projectile_reference'then
                 local source=assert(selected.weapons[change.desired_selector.weapon],
                     'projectile source metadata missing')
@@ -1479,7 +1517,19 @@ function M.prepare(resolved,reader,spec)
             local reviewed=change.descriptor.currentDefault.explosionType
             local expected=b.encode(reviewed,'u32')
             local source_type=0
-            if not change.desired_selector.is_null then
+            if change.catalogue_explosion then
+                -- A catalogued explosion donor: its live row is the reviewed row, and the projectile row being
+                -- written is not one its chain releases (an endless spawn loop).
+                local entry=change.catalogue_explosion
+                local settings=require('hd2runtime/domains/explosion_writes').settings_row(resolved.roots,'explosion',
+                    entry.type,entry.group,entry.row,entry.settingsType,change.desired_selector.catalogue)
+                require('hd2runtime/domains/output_writes').assert_no_recursion(resolved,record.kind,entry.type,
+                    change.field)
+                source_type=entry.type
+                source_identity={component='ExplosionSettings',record_index=settings.row,explosion_type=source_type,
+                    settings_group=settings.group,settings_row=settings.row,settings_type=settings.settings_type,
+                    scope='catalogued_explosion_source'}
+            elseif not change.desired_selector.is_null then
                 local source_candidate=assert(resolved.reference_sources[change.canonical_field],
                     'explosion source was not freshly resolved')
                 local source_projectile,source_projectile_type=projectile_for_candidate(resolved,

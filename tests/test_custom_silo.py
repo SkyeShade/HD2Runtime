@@ -118,9 +118,10 @@ state['0xCF1B36D0765B57A5']='resident'
 assert(actions.explosion_resident(runtime,t)==true)
 -- The list names it, an objective explosion.
 local found
-for _,e in ipairs(actions.explosions.list())do if e.name=='Cyborg Production Unit'then found=e end end
-assert(found and found.type==293 and found.source=='behavior'and found.assets_known==true and found.objective==true)
-assert(#actions.explosions.list()==16)
+for _,e in ipairs(actions.explosions.reviewed())do if e.name=='Cyborg Production Unit'then found=e end end
+assert(found and found.type==nil and found.source=='behavior'and found.assets_known==true and found.objective==true)
+assert(found.catalogue=='entity/cyborg_production_unit/ability')
+assert(#actions.explosions.reviewed()==16)
 return 'ok'
 '''), b'ok')
 

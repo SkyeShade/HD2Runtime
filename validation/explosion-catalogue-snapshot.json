@@ -1,0 +1,32 @@
+{
+  "byFamily": {
+    "backpack": 2,
+    "enemy": 94,
+    "entity": 22,
+    "stratagem": 42,
+    "support_weapon": 32,
+    "throwable": 23,
+    "vehicle": 6,
+    "weapon": 20
+  },
+  "changedWrites": 475,
+  "conflictRejections": 475,
+  "explosions": 241,
+  "fieldsProven": 2849,
+  "fixtureFallback": "disabled",
+  "identityProofs": 241,
+  "mode": "snapshot-overlay",
+  "payloadRollbacks": 3,
+  "payloadWrites": 3,
+  "proofRejections": {
+    "damageLink": 1,
+    "donorRow": 2,
+    "rowType": 1,
+    "wrongBuild": 1
+  },
+  "protectionChanges": 0,
+  "rollbacks": 475,
+  "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "status": "VALIDATED",
+  "writes": 956
+}

@@ -23,6 +23,7 @@ function M.start_spec(runtime,emit,spec,startup_delay)
         if type(value)~='table'then return tostring(value)end
         if value.weapon and value.attack then return value.weapon..':'..value.attack end
         if value.output then return value.output end
+        if rawget(value,'resource')=='explosion'then return 'explosion '..tostring(value.explosion)end
         if value.weapon and value.path then return value.weapon..':'..value.path end
         if getmetatable(value)==nil then
             local parts={}

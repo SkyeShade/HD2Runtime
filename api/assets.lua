@@ -13,6 +13,16 @@ function M.key_for(target)
     local resource=rawget(target,'resource')
     if resource=='pickup'then return'pickup/'..tostring(target.semanticId)end
     if resource=='throwable'then return'throwable/'..tostring(target.throwable)end
+    if resource=='explosion'then
+        -- A catalogued explosion (api/explosion_catalogue.lua): the package that lists its effect. The mission effects
+        -- package is resident in every mission and never loaded by the Runtime.
+        local entry=require('hd2runtime/domains/explosion_catalogue').explosions[tostring(target.explosion)]
+        if entry and entry.package and entry.package.mission then
+            return nil,'the '..tostring(target.explosion)..' explosion ships in the mission effects package, resident in '
+                ..'every mission; the Runtime never loads it'
+        end
+        return'explosion/'..tostring(target.explosion)
+    end
     if resource=='backpack'then return'backpack/'..tostring(target.backpack)end
     if resource=='vehicle'then return'vehicle/'..tostring(target.vehicle)end
     if resource=='support_weapon'then return'support_weapon/'..tostring(target.weapon)end

@@ -25,6 +25,7 @@ function M.describe(kind,body)
         if type(target)~='table'then return tostring(target)end
         local name=target.weapon or target.stratagem or target.output or target.entity or target.backpack
             or target.vehicle or target.attachment or target.enemy or target.booster or target.throwable or target.rack
+            or target.explosion
         local parts={tostring(target.resource)}
         if name then parts[#parts+1]=tostring(name)end
         if target.attack then parts[#parts+1]=tostring(target.attack)end

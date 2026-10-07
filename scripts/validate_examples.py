@@ -69,6 +69,7 @@ KIND_FIELDS_0_28_0 = {
         'beam.primary.length', 'beam.primary.radius', 'heat.capacity', 'heat.cool_per_second', 'heat.heat_per_shot'}
         | STATUS_SLOTS}
 RESOURCE_FLOORS = {'booster': '0.24.0', 'vehicle_weapon': '0.26.0', 'pod_rack': '0.26.0', 'throwable': '0.27.0',
+    'explosion': (ROOT / 'VERSION').read_text().strip(),
     'enemy': RELEASE_0_28_0, 'attack_output': RELEASE_0_28_0}
 RESOURCE_PATH_FLOORS = {('backpack', 'damage_zone'): RELEASE_0_28_0, ('player_weapon', 'ammunition'): RELEASE_0_28_0}
 BOOSTER_PATH_FLOORS = {'tuning': '0.25.0', 'explosion': '0.25.0', 'status_damage': '0.25.0',
@@ -181,6 +182,8 @@ local function run_example(body,name)
  report.usesHoming=body:find('projectiles%.homing')~=nil
  report.usesSpawnWeights=body:find('enemies%.spawn_')~=nil
  report.usesMoreDonors=body:find('%(projectile %d+%)')~=nil
+ report.usesExplosionCatalogue=body:find('hd2%.explosion%(')~=nil or body:find('explosions%.list%(')~=nil
+ or body:find('explosions%.describe%(')~=nil
  report.usesEvents=body:find('hd2%.events')~=nil or body:find('hd2%.mod%(')~=nil or body:find('hd2%.after')~=nil
   or body:find('hd2%.every')~=nil or body:find('hd2%.input')~=nil
  local function record(kind,request)
@@ -306,6 +309,8 @@ def required_version(report):
         bump(UNRELEASED, 'hd2.projectiles.homing')
     if report.get('usesSpawnWeights'):
         bump(UNRELEASED, 'hd2.enemies spawn weights')
+    if report.get('usesExplosionCatalogue'):
+        bump(UNRELEASED, 'the explosion catalogue (hd2.explosion, hd2.explosions.list / describe)')
     if report.get('usesMoreDonors'):
         bump(UNRELEASED, 'more projectile donors (docs/attack-outputs.md)')
     if report.get('usesEvents'):

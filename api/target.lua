@@ -295,6 +295,9 @@ function M.new(describe)
         return methods
     end
     function builders.attack_output(identity)return attack_output_handle(identity)end
+    -- A catalogued explosion (api/explosion_catalogue.lua; docs/explosions.md) by its semantic id or label: the target
+    -- of the explosion.* fields and a payload value for impact / expiry explosion references.
+    function builders.explosion(name)return require('hd2runtime/api/explosion_catalogue').handle(name)end
     -- Catalogued output IDs ({family=..., selectable=true} filters).
     function builders.attack_outputs(filter)
         local catalog=require('hd2runtime/domains/attack_outputs')

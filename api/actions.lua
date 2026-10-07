@@ -108,10 +108,35 @@ function explosions.of(weapon)
     return nil,'no catalogued explosion for '..tostring(weapon)..' ('..tostring(last):gsub('^[^%s:]+:%d+: ','')..')'
 end
 
--- Validates an explosion target: {name, type, dependency} or nil, code, reason. Only catalogued player-weapon
--- explosion handles (hd2.explosions.of or the typed builder chain) are accepted, and only when the package that owns
--- their assets is known.
-local function resolve(explosion)
+-- Validates an explosion target: {name, type, dependency} or nil, code, reason. The reviewed spawn set (the named
+-- explosions, the catalogued weapon explosions and their typed handles) needs no acknowledgement; any other catalogued
+-- explosion (hd2.explosions.list(); api/explosion_catalogue.lua) needs opts.allow_unverified_effect, its type proven
+-- against the game's settings table and a known package. Raw explosion ids are refused.
+local catalogue_api=require('hd2runtime/api/explosion_catalogue')
+local resolve
+local function resolve_catalogue(entry,id,opts)
+    local legacy=entry.legacy
+    if legacy then
+        -- A reviewed explosion by its catalogue name resolves exactly as by its reviewed name.
+        local target,code,reason=resolve(legacy.name)
+        if target then target.catalogue=id end
+        return target,code,reason
+    end
+    if not entry.spawn then
+        return nil,'ASSET_UNKNOWN','no package is known that ships the effect of '..id..', so it cannot be requested'
+    end
+    if not(type(opts)=='table'and opts.allow_unverified_effect==true)then
+        return nil,'UNVERIFIED_EXPLOSION',id..' is outside the reviewed spawn set (hd2.explosions.list({reviewed_spawn = '
+            ..'true})): requesting it needs allow_unverified_effect = true'
+    end
+    local dependency=core_assets.dependency(entry.package.key)
+    if not dependency then
+        return nil,'ASSET_UNKNOWN','the package that holds the '..id..' explosion is not known'
+    end
+    return {name=id,type=entry.type,dependency=dependency,dependencies={dependency},catalogue=id,
+        mission=entry.package.mission==true or nil}
+end
+function resolve(explosion,opts)
     local item=type(explosion)=='string'and named[explosion:lower()]
     if item then
         local dependency=core_assets.dependency('explosion/'..item.name)
@@ -129,6 +154,11 @@ local function resolve(explosion)
         return {name=item.name,type=item.type,dependency=dependency,dependencies=list,
             objective=item.objective==true or nil}
     end
+    if type(explosion)=='string'or catalogue_api.is_handle(explosion)then
+        local entry,id=catalogue_api.entry(explosion)
+        if entry then return resolve_catalogue(entry,id,opts)end
+        if catalogue_api.is_handle(explosion)then return nil,'UNKNOWN_EXPLOSION',id end
+    end
     if type(explosion)=='string'then
         local handle,why=explosions.of(explosion)
         if not handle then return nil,'UNKNOWN_EXPLOSION',why end
@@ -136,8 +166,8 @@ local function resolve(explosion)
     end
     if type(explosion)~='table'or rawget(explosion,'resource')~='player_weapon'or rawget(explosion,'path')~='explosion'
         or type(explosion.describe)~='function'then
-        return nil,'UNKNOWN_EXPLOSION','only catalogued weapon explosions are accepted (hd2.explosions.of(weapon)); '
-            ..'raw explosion ids are refused'
+        return nil,'UNKNOWN_EXPLOSION','only catalogued explosions are accepted (hd2.explosions.list(), '
+            ..'hd2.explosion(name) or hd2.explosions.of(weapon)); raw explosion ids are refused'
     end
     local descriptor=explosion.describe()
     local kind=descriptor and descriptor.explosionType
@@ -155,6 +185,8 @@ local function resolve(explosion)
     return {name=tostring(explosion.weapon),type=kind,dependency=dependency}
 end
 
+local MISSION_PACKAGE_REASON='its effect ships in the mission effects package, which is resident in every mission and '
+    ..'is never loaded by the Runtime; it is not resident now'
 -- Whether every package of a resolved explosion target is resident now (read-only).
 function M.explosion_resident(runtime,target)
     for _,dependency in ipairs(target.dependencies or{target.dependency})do
@@ -164,7 +196,8 @@ function M.explosion_resident(runtime,target)
     return true
 end
 -- A named or catalogued explosion's target ({name, type, dependency, dependencies}) or nil, code, reason. Offline.
-function M.explosion_target(explosion)return resolve(explosion)end
+-- opts.allow_unverified_effect admits a catalogued explosion outside the reviewed spawn set.
+function M.explosion_target(explosion,opts)return resolve(explosion,opts)end
 
 -- Every axis is checked by name (a missing one refuses; iterating {x, y, z} would stop at it).
 local function finite(v,limit)return type(v)=='number'and v==v and math.abs(v)<=limit end
@@ -274,10 +307,13 @@ end
 
 -- Request a catalogued explosion at a position: hd2.explosions.spawn(explosion, {position = event.position}).
 -- explosion: a named explosion ('Hellbomb' = the NUX-223 Hellbomb, 'B-100 Portable Hellbomb'), a weapon name
--- ('R-36 Eruptor') or a typed explosion handle. Host only, during a mission, credited to
--- the local player (source and owner = the local avatar, creditor = the local peer). When the explosion's package
--- is not loaded yet, Runtime loads it through the game's own package system first (status 'waiting_for_assets',
--- then 'requested'). Returns an action handle; a refusal never raises (status 'refused', code, reason).
+-- ('R-36 Eruptor'), a typed explosion handle, or a catalogued explosion (its name from hd2.explosions.list(), or
+-- hd2.explosion(name)); one outside the reviewed spawn set needs opts.allow_unverified_effect = true. Host only, during
+-- a mission, credited to the local player (source and owner = the local avatar, creditor = the local peer). When the
+-- explosion's package is not loaded yet, Runtime loads it through the game's own package system first (status
+-- 'waiting_for_assets', then 'requested'); an explosion whose effect ships in the mission effects package is requested
+-- only while that package is resident (it always is in a mission). Returns an action handle; a refusal never raises
+-- (status 'refused', code, reason).
 function explosions.spawn(explosion,opts)
     opts=opts or{}
     local explicit=opts.owner
@@ -285,7 +321,7 @@ function explosions.spawn(explosion,opts)
     local action=new_action('explosion',owner)
     local _,epoch=events.mission()
     action.mission=epoch
-    local target,code,reason=resolve(explosion)
+    local target,code,reason=resolve(explosion,opts)
     if not target then return refuse(action,code,reason)end
     action.explosion,action.type=target.name,target.type
     action.position=position_of(opts.position)
@@ -303,6 +339,8 @@ function explosions.spawn(explosion,opts)
     end
     local runtime=allowed.world.runtime
     if M.explosion_resident(runtime,target)then return fire(action,target)end
+    -- The mission effects package is resident in every mission; the Runtime never loads it (about 300 MB).
+    if target.mission then return refuse(action,'ASSET_UNAVAILABLE',MISSION_PACKAGE_REASON)end
     -- Load the explosion's assets first, through the same gate reference swaps use; then request.
     action.status='waiting_for_assets'
     local gate=core_assets.gate(runtime,{id='explosion-'..target.name:gsub('[^%w_%-]','_'),
@@ -328,15 +366,16 @@ end
 
 -- Load an explosion's assets now (for example when a mission starts) so a later spawn needs no wait. Returns an
 -- action handle ('ready', 'waiting_for_assets' or 'refused').
-function explosions.prepare(explosion)
+function explosions.prepare(explosion,opts)
     local owner=events.owner(nil,2)
     local action=new_action('explosion_assets',owner)
-    local target,code,reason=resolve(explosion)
+    local target,code,reason=resolve(explosion,opts)
     if not target then return refuse(action,code,reason)end
     action.explosion,action.type=target.name,target.type
     local world,why=world_module.open()
     if not world then return refuse(action,'EXPLOSION_UNAVAILABLE',tostring(why))end
     if M.explosion_resident(world.runtime,target)then action.status='ready';return action end
+    if target.mission then return refuse(action,'ASSET_UNAVAILABLE',MISSION_PACKAGE_REASON)end
     action.status='waiting_for_assets'
     local gate=core_assets.gate(world.runtime,{id='explosion-'..target.name:gsub('[^%w_%-]','_'),
         asset_dependencies=target.dependencies or{target.dependency}},events.emit_log)
@@ -351,24 +390,36 @@ function explosions.prepare(explosion)
     return action
 end
 
--- Every catalogued explosion: {name, weapon, type, source, assets_known, objective}. Named explosions come first
--- (source 'behavior', weapon nil; objective = true when its effect and sound ship in objective packages, e.g. the
--- Cyborg Production Unit's: two packages of about 300 MB), then weapon explosions (source 'weapon', name = the weapon).
--- Offline; no game reads.
-function explosions.list()
+-- The reviewed spawn set (0.29's hd2.explosions.list()): {name, weapon, source, assets_known, objective}. Named
+-- explosions come first (source 'behavior', weapon nil; objective = true when its effect and sound ship in objective
+-- packages, e.g. the Cyborg Production Unit's: two packages of about 300 MB), then weapon explosions (source 'weapon',
+-- name = the weapon); each also names its catalogue entry (catalogue). Offline; no game reads.
+function explosions.reviewed()
+    local by_type={}
+    local catalogue=require('hd2runtime/domains/explosion_catalogue')
+    for _,id in ipairs(catalogue.order)do
+        local entry=catalogue.explosions[id]
+        if entry.legacy then by_type[entry.type]=id end
+    end
     local result={}
     for _,item in ipairs(natives.explosion.named or{})do
-        result[#result+1]={name=item.name,type=item.type,source='behavior',
-            assets_known=resolve(item.name)~=nil,objective=item.objective==true or nil}
+        result[#result+1]={name=item.name,source='behavior',assets_known=resolve(item.name)~=nil,
+            objective=item.objective==true or nil,catalogue=by_type[item.type]}
     end
     for _,item in ipairs(natives.explosion.weapons)do
         local handle=explosions.of(item.weapon)
         local key=handle and assets_api.key_for(handle)
-        result[#result+1]={name=item.weapon,weapon=item.weapon,type=item.type,source='weapon',
-            assets_known=key and core_assets.dependency(key)~=nil or false}
+        result[#result+1]={name=item.weapon,weapon=item.weapon,source='weapon',
+            assets_known=key and core_assets.dependency(key)~=nil or false,catalogue=by_type[item.type]}
     end
     return result
 end
+-- Every catalogued explosion (api/explosion_catalogue.lua; docs/explosions.md): {name, label, family, evidence,
+-- shared, owners, package_known, mission_package, payload, spawn, reviewed_spawn, legacy_name, stats}, filtered by
+-- {family, owner, search, shared, payload, spawn, package_known, reviewed_spawn}. No raw ids. Offline.
+explosions.list=catalogue_api.list
+-- One catalogued explosion in full: the list entry plus its owners, package and editable fields; nil and the reason.
+explosions.describe=catalogue_api.describe
 M.explosions=explosions
 
 ------------------------------------------------------------------------------------------------ projectiles --
@@ -1062,8 +1113,9 @@ function M.status()
         definition={status='available',api='mod:value(spec) bound to hd2.ensure',
             limits='changes a shared definition (every user of it), re-applied about half a second later'},
         explosion={status='available',api='hd2.explosions.spawn(name, weapon or handle, {position=...})',
-            limits='the named Hellbomb explosions and catalogued weapon explosions, each with a known package; host '
-                ..'only; in a mission; credited to the '
+            limits='every catalogued explosion (hd2.explosions.list({spawn = true})) with a known package; outside the '
+                ..'reviewed set (the named Hellbomb explosions and catalogued weapon explosions) with '
+                ..'allow_unverified_effect; host only; in a mission; credited to the '
                 ..'local player; '..M.EXPLOSION_BURST..' at once and '..M.EXPLOSION_REFILL..' per second per mod; '
                 ..'other players may not see the effect',
             live='live-proven on host for the NUX-223 Hellbomb only; other explosions and what other players see are '

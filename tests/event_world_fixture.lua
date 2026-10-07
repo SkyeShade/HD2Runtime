@@ -241,6 +241,17 @@ for _,list in ipairs({X.weapons,X.named or{}})do
         write(GAME+X.settingsTable+item.type*8,u64(record))
     end
 end
+-- Every catalogued explosion (domains/explosion_catalogue.lua): its type, damage link and radii, as the live row.
+for _,entry in pairs(require('hd2runtime/domains/explosion_catalogue').explosions)do
+    local at=GAME+X.settingsTable+entry.type*8
+    local record=le32(read(at,4))+le32(read(at+4,4))*4294967296
+    if record==0 then
+        record=alloc(0x98)
+        write(at,u64(record))
+    end
+    write(record,u32(entry.type)..u32(entry.damage and entry.damage.type or 0))
+    write(record+16,f32(entry.values[1])..f32(entry.values[2])..f32(entry.values[3]))
+end
 function W.queue_count(n)write(explosion_queue+X.count,u32(n))end
 -- The queue as the game keeps it (research/event-explosions-F5FEE03DCFDB.json): a request appends at index count; one
 -- world update (W.explosion_update) kicks min(count, 8), processes exactly those and moves the rest to the front.
