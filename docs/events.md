@@ -171,6 +171,39 @@ Observed on four captures of one hosted mission (alive, after a death and reinfo
 
 `hd2.players()`, `hd2.local_player()` and `hd2.game_state()` return fresh handles or snapshots.
 
+### Is this the right game build? `hd2.build()`
+
+```lua
+local status, info = hd2.build()   -- 'matched' | 'mismatched' | 'not_ready', {pinned, reason}
+if status == 'mismatched' then mod:log('HD2Runtime does not support this game update yet (pinned ' .. info.pinned .. ')') end
+local state, why = hd2.game_state()   -- nil and the reason when unreadable
+```
+
+- `matched`: the running executable and game.dll are the build this Runtime is pinned to (`info.pinned`: the first
+  12 hex digits of its executable hash). `mismatched`: another build; every write and native read refuses.
+  `not_ready`: the modules are not loaded yet or could not be hashed (`info.reason`).
+- It never raises, proves no pins and reads no game memory. Cheap to poll: the two files (~30 MB) are hashed once per
+  loaded module, a wrong build included (before this, every call on a wrong build hashed them again).
+- `hd2.game_state()` returns its reason as a second value: `unsupported build fingerprint`, `TARGET_UNAVAILABLE: game
+  modules not ready`, a changed native structure, or `game state unreadable`.
+- The local avatar's entity id: `hd2.local_player():avatar()`. Which menu is open and which ship station a player
+  uses are not mapped (see [Not mapped yet](#not-mapped-yet)).
+
+### Not mapped yet
+
+Asked for by mod authors and not available, because no retained snapshot or native code reading proves them yet:
+
+- **A general "a menu is open" state** (the UI presenter). Only the loadout screen is read (the stratagem selector's
+  own detection), and only internally.
+- **Ship stations** (who uses the Stratagem Hero cabinet or another terminal; "the local player started / stopped
+  using a station").
+- **Positions of entities without health** (a cabinet, a terminal): `entity:position()` reads the health manager's
+  record, so it answers only for entities with health. The engine's unit position read exists internally, but no
+  public handle names such an entity yet.
+
+Each needs snapshots taken in those exact states (menu open and closed; at the cabinet and away) before a field can be
+named; see [field-naming rules](evidence.md).
+
 ## Damage
 
 `entity_damaged` / `player_damaged` are **observational**: the health lost since the previous tick (every hit in that
@@ -454,13 +487,28 @@ t:cancel(); r:remaining()
 ```
 
 - Game time: the sum of update `dt`. It pauses while the game does not update.
-- `after(0, ...)` runs on the next tick. `every` needs at least 0.05 s; per-frame work belongs in a source, not a
-  timer.
+- `after(0, ...)` runs on the next tick. `every` needs at least 0.05 s; per-frame work uses `hd2.on_frame`.
 - Missed intervals (a long frame) are skipped, never replayed in a burst.
 - Timers live in a binary heap keyed by due time: a tick with nothing due costs one comparison.
 - Timer callbacks are isolated exactly like event callbacks. `id` replaces an earlier timer with the same id.
 - A timer started from inside a callback keeps that callback's event as its origin, so an action it performs is
   still attributed (see [Causes](#causes-and-recursion)).
+
+### Every frame: `hd2.on_frame`
+
+```lua
+local frame = hd2.on_frame(function(dt, handle)   -- or mod:on_frame(...)
+    game:update(dt)                                -- dt: the tick's game seconds
+end, {id = 'arcade', scope = 'session'})
+frame:disable(); frame:enable(); frame:cancel()
+```
+
+- Runs on every update tick, after the events and timers of that tick, in registration order. One registered from
+  inside a frame callback first runs on the next tick.
+- The official replacement for wrapping the global `update` function: the same owner, `id` (a second callback with
+  the same id replaces the first), `scope = 'mission'` and failure isolation as a timer (25 failures in a row disable
+  it, logged as `frame callback failed (mod ...)`).
+- It costs nothing while no mod registers one. Keep the work small: it runs every frame.
 
 ## Keybinds
 
@@ -480,14 +528,47 @@ mod:bind('my_mod.detonate', {key = 'F6', on_press = function() ... end, on_relea
 - Limits: Runtime cannot see the game's own bindings or whether the chat box has focus. Prefer keys the game
   leaves unbound (F5–F12, Insert, Home, End, Page Up/Down). The Mod Options Menu can later expose `rebind`.
 
+### Any key's state: `hd2.input.down / pressed / released`
+
+For a mod that needs more than a few chords (a game, a menu):
+
+```lua
+hd2.on_frame(function(dt)
+    if hd2.input.pressed('W') then cursor_up() end        -- the one tick the key went down
+    if hd2.input.down('Space') then charge(dt) end         -- held
+    if hd2.input.released('MOUSE1') then fire() end
+end)
+```
+
+- Every name of `hd2.input.keys(true)`: the chord keys plus `CTRL`, `SHIFT`, `ALT`, `MOUSE1` and `MOUSE2`; aliases
+  `Esc`, `Return`, `PgUp`, `PgDn`, `Ins`, `Del`, `Control`. An unknown name raises.
+- A key is followed from its first query on and then sampled once per update tick, before that tick's events,
+  timers and frame callbacks, so every callback of one tick sees the same state, and `pressed` / `released` hold for
+  exactly that tick.
+- Only while the game window has the keyboard focus: unfocused, every key reads up. A key already held when the
+  focus comes back is not a press. `hd2.input.focused()` tells which; `hd2.input.mouse()` gives the cursor
+  `{x, y, w, h, left}` in client pixels from the top-left.
+- **Read-only: nothing is consumed.** The game receives every key a mod reads, so `W` still moves the Helldiver.
+  Blocking a key from the game needs a hook in the game's input code, which the Runtime does not install (see
+  [Input blocking](#input-blocking-not-available)).
+
+### Input blocking: not available
+
+There is no way to stop the game from also getting a key. The game reads its input in native code
+(`[game+0x347CF18] + 0x328 + (group * 97 + action) * 32`, research `runtime-stratagem-ui`), every frame, from every
+device; the Runtime only reads. Taking a key away would need a hook or a code patch in that path, and the Runtime
+installs neither. Mods should use keys and moments where the game's own reaction is harmless (an unbound key, a
+menu the game has open anyway).
+
 ## Mod contexts and state
 
 `hd2.mod(id)` returns one context per id, holding:
 
 - `mod.session`: a table kept for the game session;
 - `mod.mission`: a table cleared **in place** when a mission starts and when it ends (a mod may keep a reference);
-- `on`, `once`, `after`, `every`, `bind`, `log`, `in_mission`, `subscriptions`: every registration is attributed to
-  the mod.
+- `on`, `once`, `after`, `every`, `on_frame`, `bind`, `log`, `in_mission`, `subscriptions`: every registration is
+  attributed to the mod;
+- `mod:store()`: the mod's saved key/value data, kept between game sessions ([mod-store.md](mod-store.md)).
 
 Each mod has its own tables; nothing is shared between mods.
 

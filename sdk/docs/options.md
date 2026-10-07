@@ -229,7 +229,36 @@ The ensure watch reports `status` as one of the following, plus `enabled`, `rest
 - `waiting` — idle, verified;
 - `running` — resolving;
 - `blocked` — rejected; waiting for an option change;
+- `recovering` — rejected because the game's data was not ready or moved; a fresh resolution follows (`recover`);
 - `disabled` — dormant.
+
+### Recovery and status callbacks (`recover`, `on_status`)
+
+Both options work on every ensure, bound or not:
+
+```lua
+hd2.ensure{transaction = t, recover = true,               -- or {delay = 30, max_delay = 600, limit = 20}
+    on_status = function(status, info)                      -- after every status change, run as your mod
+        mod:log(info.id .. ': ' .. info.previous .. ' -> ' .. status .. ' ' .. tostring(info.code or ''))
+    end}
+```
+
+- **`recover`** (off by default). Each guarded run already retries a game that is not ready up to six times, five
+  update seconds apart. Without `recover`, an ensure whose run still fails stops (`rejected`; a bound ensure is
+  `blocked` until an option changes). With it, a run rejected because the data was not ready or **moved under the
+  check** is followed, after `delay` seconds (doubling up to `max_delay`, back to `delay` after a success), by a
+  fresh full guarded resolution: status `recovering`, `recoveries` counts them, `retry_in` is the wait left.
+  - Recovered: `TARGET_UNAVAILABLE` and `TARGET_UNSTABLE` after their retries, and `ownership/context or non-target
+    bytes changed` (the data changed between the pre-write check and the write), only when the rollback is verified
+    (or nothing was written) and page protection was restored.
+  - Never recovered: `CONFLICT` (another writer's value), validation and acknowledgement refusals, an unsupported
+    build, an incomplete rollback, and anything else; `limit` caps the recoveries.
+  - Nothing is relaxed: the new attempt re-runs discovery, ownership, the build fingerprint, the expected bytes and
+    the guarded transaction exactly as the first one did.
+- **`on_status(status, info)`** after every status change: `info = {id, status, previous, error, code, runs,
+  recoveries, retry_in}`. It runs as the mod that registered the ensure (its actions are attributed to it); a
+  failing callback is logged (its first three failures) and never changes the ensure. It replaces polling
+  `handle.status` from a timer.
 
 ## Performance
 

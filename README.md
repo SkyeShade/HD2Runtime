@@ -65,9 +65,15 @@ HD2Runtime is designed to fail safely when a game structure or ownership relatio
   labels the menus show, independent of gameplay (see `docs/weapon-presentation.md`)
 - Cross-family output research: why a projectile weapon cannot fire a beam, with the exact native blockers
   (`sdk/OutputCompositionCapabilities.json`)
-- Guarded patches, transactions and multi-object plans
+- Guarded patches, transactions and multi-object plans; `hd2.ensure` can recover by itself when the game's data was
+  not ready or moved under a check (`recover`), and report every status change (`on_status`) (see `docs/options.md`)
 - In-game options: sliders, choices and toggles on the MODS tab (CowboyBingus Mod Options Menu)
   that drive one ensured operation live, with the same guards
+- Services for UI and game mods (development line, not live-tested): screen overlays (`hd2.ui.overlay`, see
+  `docs/ui-overlay.md`), game sound events (`hd2.sounds.play`, see `docs/sounds.md`), any key's state
+  (`hd2.input.down` / `pressed` / `released`), a per-frame callback (`hd2.on_frame`), per-mod saved data
+  (`hd2.store`, see `docs/mod-store.md`), the game build status (`hd2.build()`) and the live values of the weapon in
+  hand (`player:weapon_state()`, see `docs/player-equipment.md`)
 - Generated SDK metadata for tools such as HD2RuntimeGUI
 
 Unsupported or ambiguous values remain read-only rather than being modified speculatively.

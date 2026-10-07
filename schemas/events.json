@@ -1359,6 +1359,12 @@
      "doc": "The item in hand and the slot it is in. Local player only."
     },
     {
+     "name": "weapon_state",
+     "params": [],
+     "returns": "HD2WeaponState|nil, string|nil",
+     "doc": "What the weapon in hand fires with now, from its own instance (the values a template change reaches only after the weapon is built again). Local player only; read-only."
+    },
+    {
      "name": "backpack",
      "params": [],
      "returns": "table|nil, string|nil",
@@ -1603,7 +1609,7 @@
      ],
      [
       "state",
-      "\"active\"|\"complete\"|\"cancelled\"|\"expired\"|\"failed\"|\"rejected\"",
+      "\"active\"|\"disabled\"|\"complete\"|\"cancelled\"|\"expired\"|\"failed\"|\"rejected\"",
       ""
      ]
     ],
@@ -1631,6 +1637,18 @@
       "params": [],
       "returns": "table",
       "doc": ""
+     },
+     {
+      "name": "disable",
+      "params": [],
+      "returns": "HD2Timer",
+      "doc": "Pause a frame callback (hd2.on_frame); no effect on timers."
+     },
+     {
+      "name": "enable",
+      "params": [],
+      "returns": "HD2Timer",
+      "doc": "Resume a paused frame callback."
      }
     ]
    },
@@ -1853,7 +1871,7 @@
     ]
    },
    "HD2Input": {
-    "doc": "hd2.input",
+    "doc": "hd2.input: keybinds (bound chords) and any key's state. Read-only: nothing is consumed.",
     "methods": [
      {
       "name": "bind",
@@ -1889,9 +1907,59 @@
      },
      {
       "name": "keys",
-      "params": [],
+      "params": [
+       [
+        "raw",
+        "boolean|nil"
+       ]
+      ],
       "returns": "string[]",
-      "doc": "Key names accepted in chords."
+      "doc": "Key names accepted in chords; with raw=true also the names only down/pressed/released accept (CTRL, SHIFT, ALT, MOUSE1, MOUSE2)."
+     },
+     {
+      "name": "down",
+      "params": [
+       [
+        "key",
+        "string"
+       ]
+      ],
+      "returns": "boolean",
+      "doc": "Whether a key is held now (any name of hd2.input.keys(true)). Only while the game window has the focus; the game still receives the key. Unknown names raise."
+     },
+     {
+      "name": "pressed",
+      "params": [
+       [
+        "key",
+        "string"
+       ]
+      ],
+      "returns": "boolean",
+      "doc": "True during the one update tick in which the key went down (sampled once per tick, before events, timers and frame callbacks). A key is followed from its first query on."
+     },
+     {
+      "name": "released",
+      "params": [
+       [
+        "key",
+        "string"
+       ]
+      ],
+      "returns": "boolean",
+      "doc": "True during the one update tick in which the key came up."
+     },
+     {
+      "name": "focused",
+      "params": [],
+      "returns": "boolean",
+      "doc": "Whether the game window has the keyboard focus."
+     },
+     {
+      "name": "mouse",
+      "params": [],
+      "returns": "HD2Mouse|nil, string|nil",
+      "doc": "The cursor in the game window (client pixels from the top-left), or nil and why when the window does not have the focus."
      }
     ]
    },
@@ -1992,6 +2060,21 @@
       "doc": "At least 0.05 s."
      },
      {
+      "name": "on_frame",
+      "params": [
+       [
+        "callback",
+        "fun(dt: number, handle: HD2Timer)"
+       ],
+       [
+        "opts",
+        "HD2TimerOptions|nil"
+       ]
+      ],
+      "returns": "HD2Timer",
+      "doc": "Every update tick (see hd2.on_frame)."
+     },
+     {
       "name": "bind",
       "params": [
        [
@@ -2054,6 +2137,12 @@
       ],
       "returns": "any",
       "doc": "Run fn as this mod."
+     },
+     {
+      "name": "store",
+      "params": [],
+      "returns": "HD2Store",
+      "doc": "This mod's saved key/value data (see hd2.store)."
      }
     ]
    },
@@ -3387,7 +3476,7 @@
     ]
    },
    "HD2Sounds": {
-    "doc": "hd2.sounds: the weapon firing-sound catalogue, read-only (docs/weapon-sounds.md).",
+    "doc": "hd2.sounds: the weapon firing-sound catalogue (docs/weapon-sounds.md) and playing game sound events (docs/sounds.md).",
     "methods": [
      {
       "name": "list",
@@ -3410,6 +3499,54 @@
       ],
       "returns": "HD2WeaponSound|nil",
       "doc": "One sound by its name (or an older alias such as 'maelstrom_main_gun'), or nil."
+     },
+     {
+      "name": "play",
+      "params": [
+       [
+        "event",
+        "string|{id: integer}"
+       ],
+       [
+        "opts",
+        "HD2SoundPlayOptions|nil"
+       ]
+      ],
+      "returns": "HD2SoundHandle|nil, string|nil, string|nil",
+      "doc": "Post a game sound event now: a catalogue name ('sentry/gatling' starts its loop), 'ui/<key>' (ui/stratagem_pick, ui/picker_close, ui/slot_select, ui/generic_select, ui/item_hover_select), any Wwise event name, or {id = <32-bit event id>}. Its bank must be loaded. Rate-limited per mod. nil, code, reason when refused."
+     },
+     {
+      "name": "available",
+      "params": [
+       [
+        "event",
+        "string|{id: integer}"
+       ]
+      ],
+      "returns": "boolean|nil, string|nil",
+      "doc": "Whether the sound engine knows the event now (its bank is loaded)."
+     },
+     {
+      "name": "asset",
+      "params": [
+       [
+        "name",
+        "string"
+       ]
+      ],
+      "returns": "table",
+      "doc": "A catalogue sound as a hd2.require_assets / hd2.asset_dependency target (its bank's package). Raises on an unknown name."
+     },
+     {
+      "name": "name_for",
+      "params": [
+       [
+        "id",
+        "integer"
+       ]
+      ],
+      "returns": "string|nil",
+      "doc": "A name the sound engine maps to a 32-bit event id (what play({id = id}) posts). About 40 ms on the first call for an id; cached."
      }
     ]
    },
@@ -3794,6 +3931,553 @@
       "doc": "Its kills credit the local player (its own no-credit tag cleared); it must belong to that player's custom stratagem call."
      }
     ]
+   },
+   "HD2BuildInfo": {
+    "doc": "hd2.build() details.",
+    "fields": [
+     [
+      "pinned",
+      "string",
+      "The first 12 hex digits of the executable build this Runtime is pinned to."
+     ],
+     [
+      "reason",
+      "string|nil",
+      "Why the status is not_ready."
+     ]
+    ]
+   },
+   "HD2Mouse": {
+    "doc": "The cursor, read-only.",
+    "fields": [
+     [
+      "x",
+      "number",
+      "Client pixels from the left."
+     ],
+     [
+      "y",
+      "number",
+      "Client pixels from the top."
+     ],
+     [
+      "w",
+      "number",
+      "Client width."
+     ],
+     [
+      "h",
+      "number",
+      "Client height."
+     ],
+     [
+      "left",
+      "boolean",
+      "The left button is held."
+     ]
+    ]
+   },
+   "HD2Store": {
+    "doc": "One mod's saved key/value data (hd2.store(); docs/mod-store.md). Values: booleans, finite numbers, strings and tables of those (arrays or string-keyed maps, no cycles, at most 16 deep). Saved about a second after a change, or at once with save().",
+    "fields": [
+     [
+      "owner",
+      "string",
+      "The mod it belongs to."
+     ]
+    ],
+    "methods": [
+     {
+      "name": "get",
+      "params": [
+       [
+        "key",
+        "string"
+       ],
+       [
+        "default",
+        "any"
+       ]
+      ],
+      "returns": "any",
+      "doc": "The stored value (a copy, for a table), or default."
+     },
+     {
+      "name": "set",
+      "params": [
+       [
+        "key",
+        "string"
+       ],
+       [
+        "value",
+        "any"
+       ]
+      ],
+      "returns": "HD2Store",
+      "doc": "Store a value (nil removes the key). Raises on a value that cannot be saved."
+     },
+     {
+      "name": "keys",
+      "params": [],
+      "returns": "string[]",
+      "doc": "Every key, sorted."
+     },
+     {
+      "name": "clear",
+      "params": [],
+      "returns": "HD2Store",
+      "doc": "Remove every key."
+     },
+     {
+      "name": "save",
+      "params": [],
+      "returns": "boolean, string|nil",
+      "doc": "Write now. false and the reason when it failed (the previous file is kept)."
+     },
+     {
+      "name": "describe",
+      "params": [],
+      "returns": "table",
+      "doc": "{owner, keys, dirty, saved, file, load_error}."
+     }
+    ]
+   },
+   "HD2SoundPlayOptions": {
+    "doc": "",
+    "fields": [
+     [
+      "position",
+      "HD2Vector3|number[]|nil",
+      "A world position: a 3D sound there. Without it the sound plays on the game world's own 2D source."
+     ],
+     [
+      "owner",
+      "string|nil",
+      ""
+     ]
+    ]
+   },
+   "HD2SoundHandle": {
+    "doc": "A posted sound.",
+    "fields": [
+     [
+      "state",
+      "\"playing\"|\"stopped\"",
+      ""
+     ],
+     [
+      "playing",
+      "integer",
+      "The sound engine's playing id."
+     ],
+     [
+      "event",
+      "string",
+      ""
+     ],
+     [
+      "name",
+      "string",
+      "The name posted."
+     ],
+     [
+      "kind",
+      "string",
+      "shot, loop, ui or event."
+     ],
+     [
+      "owner",
+      "string",
+      ""
+     ]
+    ],
+    "methods": [
+     {
+      "name": "stop",
+      "params": [],
+      "returns": "boolean|nil, string|nil",
+      "doc": "Stop this playing instance."
+     },
+     {
+      "name": "describe",
+      "params": [],
+      "returns": "table",
+      "doc": ""
+     }
+    ]
+   },
+   "HD2UI": {
+    "doc": "hd2.ui: mod screen overlays (docs/ui-overlay.md).",
+    "methods": [
+     {
+      "name": "overlay",
+      "params": [
+       [
+        "opts",
+        "HD2OverlayOptions|nil"
+       ]
+      ],
+      "returns": "HD2Overlay",
+      "doc": "The calling mod's overlay opts.id (default 'main'): created on first use, the same object afterwards."
+     },
+     {
+      "name": "overlays",
+      "params": [],
+      "returns": "table[]",
+      "doc": "Every overlay's status."
+     },
+     {
+      "name": "colour",
+      "params": [
+       [
+        "c",
+        "number[]|string"
+       ]
+      ],
+      "returns": "number[]|nil",
+      "doc": "A colour as overlays take it ({r, g, b[, a]} or '#RRGGBB[AA]') -> {r, g, b, a}; nil when invalid."
+     }
+    ],
+    "fields": [
+     [
+      "MAX_LAYER",
+      "integer",
+      "The highest layer (1023)."
+     ],
+     [
+      "DEFAULT_LAYER",
+      "integer",
+      "The default base layer (1011)."
+     ]
+    ]
+   },
+   "HD2OverlayOptions": {
+    "doc": "",
+    "fields": [
+     [
+      "id",
+      "string|nil",
+      "1 to 48 letters, digits, _ . - (default 'main')."
+     ],
+     [
+      "layer",
+      "integer|nil",
+      "The base layer of its band, 1..1023 (default 1011); an item's z is added to it."
+     ],
+     [
+      "visible",
+      "boolean|nil",
+      "Default true."
+     ],
+     [
+      "owner",
+      "string|nil",
+      ""
+     ]
+    ]
+   },
+   "HD2Overlay": {
+    "doc": "A mod's screen overlay: rectangles and text in the game's Ui World, over the HUD and under the game's menus (the Noesis UI always draws above). Coordinates are GUI pixels from the top-left.",
+    "fields": [
+     [
+      "owner",
+      "string",
+      ""
+     ],
+     [
+      "id",
+      "string",
+      ""
+     ],
+     [
+      "layer",
+      "integer",
+      ""
+     ],
+     [
+      "width",
+      "number|nil",
+      "The screen width in GUI pixels (after the first frame)."
+     ],
+     [
+      "height",
+      "number|nil",
+      ""
+     ],
+     [
+      "scale",
+      "number|nil",
+      "The screen against 1920 x 1080 (the smaller ratio)."
+     ]
+    ],
+    "methods": [
+     {
+      "name": "draw",
+      "params": [
+       [
+        "fn",
+        "fun(d: HD2OverlayFrame, dt: number)"
+       ]
+      ],
+      "returns": "HD2Overlay",
+      "doc": "Set the draw function: called every frame while shown; it describes the whole frame. Unchanged items make no engine call."
+     },
+     {
+      "name": "show",
+      "params": [
+       [
+        "on",
+        "boolean|nil"
+       ]
+      ],
+      "returns": "HD2Overlay",
+      "doc": ""
+     },
+     {
+      "name": "hide",
+      "params": [],
+      "returns": "HD2Overlay",
+      "doc": ""
+     },
+     {
+      "name": "mouse",
+      "params": [],
+      "returns": "{x: number, y: number, left: boolean}|nil, string|nil",
+      "doc": "The cursor in overlay coordinates."
+     },
+     {
+      "name": "text_width",
+      "params": [
+       [
+        "text",
+        "string"
+       ],
+       [
+        "size",
+        "number|nil"
+       ],
+       [
+        "font",
+        "\"body\"|\"title\"|\"mono\"|nil"
+       ]
+      ],
+      "returns": "number",
+      "doc": "The width of text in pixels."
+     },
+     {
+      "name": "status",
+      "params": [],
+      "returns": "table",
+      "doc": "{owner, id, state, reason, layer, visible, width, height, items, frames, engine_calls, refused, first_refusal}."
+     },
+     {
+      "name": "close",
+      "params": [],
+      "returns": "HD2Overlay",
+      "doc": "Remove its primitives, its GUI and its frame callback."
+     }
+    ]
+   },
+   "HD2OverlayFrame": {
+    "doc": "What one frame of an overlay shows (the d of overlay:draw). Invalid items are refused (counted in status()), never passed to the engine.",
+    "fields": [
+     [
+      "width",
+      "number",
+      ""
+     ],
+     [
+      "height",
+      "number",
+      ""
+     ],
+     [
+      "scale",
+      "number",
+      ""
+     ]
+    ],
+    "methods": [
+     {
+      "name": "rect",
+      "params": [
+       [
+        "x",
+        "number"
+       ],
+       [
+        "y",
+        "number"
+       ],
+       [
+        "w",
+        "number"
+       ],
+       [
+        "h",
+        "number"
+       ],
+       [
+        "colour",
+        "number[]|string|nil"
+       ],
+       [
+        "z",
+        "integer|nil"
+       ]
+      ],
+      "returns": "nil",
+      "doc": "A filled rectangle; (x, y) its top-left corner. colour {r, g, b[, a]} 0-255 or '#RRGGBB[AA]' (default white). z is added to the overlay's layer."
+     },
+     {
+      "name": "text",
+      "params": [
+       [
+        "text",
+        "string|number"
+       ],
+       [
+        "x",
+        "number"
+       ],
+       [
+        "y",
+        "number"
+       ],
+       [
+        "opts",
+        "HD2OverlayTextOptions|nil"
+       ]
+      ],
+      "returns": "nil",
+      "doc": "A line of text (1-160 printable bytes); (x, y) its top-left corner (or top-centre / top-right with align)."
+     },
+     {
+      "name": "text_width",
+      "params": [
+       [
+        "text",
+        "string"
+       ],
+       [
+        "size",
+        "number|nil"
+       ],
+       [
+        "font",
+        "\"body\"|\"title\"|\"mono\"|nil"
+       ]
+      ],
+      "returns": "number",
+      "doc": ""
+     }
+    ]
+   },
+   "HD2OverlayTextOptions": {
+    "doc": "",
+    "fields": [
+     [
+      "size",
+      "number|nil",
+      "Pixels (4-256, default 18)."
+     ],
+     [
+      "colour",
+      "number[]|string|nil",
+      ""
+     ],
+     [
+      "font",
+      "\"body\"|\"title\"|\"mono\"|nil",
+      "body / title: the FS Sinclair fonts the Runtime ships; mono: the engine's monaco."
+     ],
+     [
+      "align",
+      "\"left\"|\"center\"|\"right\"|nil",
+      ""
+     ],
+     [
+      "z",
+      "integer|nil",
+      ""
+     ]
+    ]
+   },
+   "HD2WeaponState": {
+    "doc": "player:weapon_state() (docs/player-equipment.md).",
+    "fields": [
+     [
+      "name",
+      "string|nil",
+      ""
+     ],
+     [
+      "type",
+      "string|nil",
+      ""
+     ],
+     [
+      "slot",
+      "string",
+      ""
+     ],
+     [
+      "entity_id",
+      "integer",
+      ""
+     ],
+     [
+      "fire_rate",
+      "number|nil",
+      "Its current rounds per minute."
+     ],
+     [
+      "rate_slots",
+      "number[]|nil",
+      "Its rate selector's three slots."
+     ],
+     [
+      "own_record",
+      "boolean",
+      "It has its own ProjectileWeapon copy."
+     ],
+     [
+      "projectile",
+      "integer|nil",
+      "The projectile type it fires."
+     ],
+     [
+      "feed",
+      "\"magazine\"|\"heat\"|\"rounds\"|\"other\"",
+      ""
+     ],
+     [
+      "magazine",
+      "{rounds: integer, chambered: integer, capacity: integer}|nil",
+      ""
+     ],
+     [
+      "spread",
+      "{horizontal: number, vertical: number}|nil",
+      "Milliradians."
+     ],
+     [
+      "recoil",
+      "{horizontal: number, vertical: number}|nil",
+      "Its aim recoil per shot."
+     ],
+     [
+      "wind_up",
+      "boolean",
+      ""
+     ],
+     [
+      "heat",
+      "boolean",
+      ""
+     ]
+    ]
    }
   },
   "functions": [
@@ -3833,7 +4517,22 @@
      ]
     ],
     "returns": "HD2Timer",
-    "doc": "Run repeatedly (at least 0.05 s apart). Missed intervals are skipped, never replayed."
+    "doc": "Run repeatedly (at least 0.05 s apart; hd2.on_frame runs a callback every frame). Missed intervals are skipped, never replayed."
+   },
+   {
+    "name": "on_frame",
+    "params": [
+     [
+      "callback",
+      "fun(dt: number, handle: HD2Timer)"
+     ],
+     [
+      "opts",
+      "HD2TimerOptions|nil"
+     ]
+    ],
+    "returns": "HD2Timer",
+    "doc": "Run a callback on every update tick with the tick's dt in seconds, after events and timers. Same owner, id and scope rules as hd2.every; handle:cancel() removes it, :disable() / :enable() pause it. Keep the work small."
    },
    {
     "name": "mod",
@@ -3861,8 +4560,20 @@
    {
     "name": "game_state",
     "params": [],
-    "returns": "HD2GameState|nil",
-    "doc": "The game's state now (nil when it cannot be read)."
+    "returns": "HD2GameState|nil, string|nil",
+    "doc": "The game's state now; nil and the reason when it cannot be read (hd2.build() tells a wrong game build apart from a game not readable yet)."
+   },
+   {
+    "name": "build",
+    "params": [],
+    "returns": "\"matched\"|\"mismatched\"|\"not_ready\", HD2BuildInfo",
+    "doc": "The running game build against the one this Runtime was built for, without raising. Cheap to poll: each loaded build is hashed once, a wrong one included."
+   },
+   {
+    "name": "store",
+    "params": [],
+    "returns": "HD2Store",
+    "doc": "The calling mod's saved key/value data, kept between game sessions in its own file (docs/mod-store.md). The mod is found the way hd2.mod() finds it."
    }
   ],
   "fields": [
@@ -3919,6 +4630,11 @@
    [
     "ownership",
     "HD2Ownership",
+    ""
+   ],
+   [
+    "ui",
+    "HD2UI",
     ""
    ]
   ]

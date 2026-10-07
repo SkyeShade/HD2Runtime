@@ -1,6 +1,6 @@
 ---@meta
 -- Generated authoring definitions. Never package or execute this file.
--- Schema SHA256 2ad6cb752764abf6aa6f1a3a647358cdeb6fcfe7a9e26e059083114263272972
+-- Schema SHA256 b26e938c237a65d2765fc6cd232d55b713358f0dcb808f07acb4e7e227b9b0a4
 
 ---@alias HD2Resource "0x16474112801385B6"|"0x59C5CA839449B379"|"0x80F1A156D9FA1E36"|"0x89C5493E08CA4207"|"0xB0C9FAF4AF8903F9"|"0xEC3575E7A93793BB"|"0xED13DDC480EC6910"|"amr"|"bastion"|"jar5"|"jump_pack"|"maelstrom"|"orbital_laser"|"shield_relay"
 ---@alias HD2PatchField "armor_penetration"
@@ -46,6 +46,8 @@
 ---@field restores? integer
 ---@field rebinds? integer
 ---@field option_defaults? boolean
+---@field recoveries? integer
+---@field retry_in? number
 
 ---@class HD2ObserveRequest
 ---@field targets HD2ReadTarget[]
@@ -132,6 +134,8 @@
 ---@field startup_delay? number
 ---@field max_interval? number
 ---@field enabled? HD2Option
+---@field recover? boolean|{delay?: number, max_delay?: number, limit?: integer}
+---@field on_status? fun(status: string, info: {id: string, status: string, previous: string, error: string|nil, code: string|nil, runs: integer, recoveries: integer, retry_in: number|nil})
 
 ---@class HD2RuntimeMetrics
 ---@field counters table<string, number>
@@ -1947,7 +1951,7 @@ local HD2TimerOptions = {}
 ---@class HD2Timer
 ---@field id integer|nil
 ---@field owner string
----@field state "active"|"complete"|"cancelled"|"expired"|"failed"|"rejected"
+---@field state "active"|"disabled"|"complete"|"cancelled"|"expired"|"failed"|"rejected"
 local HD2Timer = {}
 ---@return HD2Timer
 function HD2Timer:cancel() end
@@ -1958,6 +1962,12 @@ function HD2Timer:active() end
 function HD2Timer:remaining() end
 ---@return table
 function HD2Timer:describe() end
+---Pause a frame callback (hd2.on_frame); no effect on timers.
+---@return HD2Timer
+function HD2Timer:disable() end
+---Resume a paused frame callback.
+---@return HD2Timer
+function HD2Timer:enable() end
 
 ---@class HD2BindingSpec
 ---@field key string Default chord, e.g. 'F6' or 'Ctrl+Shift+F6'.
@@ -1989,7 +1999,7 @@ function HD2Binding:active() end
 ---@return table
 function HD2Binding:describe() end
 
----hd2.input
+---hd2.input: keybinds (bound chords) and any key's state. Read-only: nothing is consumed.
 ---@class HD2Input
 local HD2Input = {}
 ---Namespaced id ('author_mod.action'). Polled only while the game window has focus.
@@ -2002,9 +2012,28 @@ function HD2Input.bindings() end
 ---@param id string
 ---@return HD2Binding|nil
 function HD2Input.get(id) end
----Key names accepted in chords.
+---Key names accepted in chords; with raw=true also the names only down/pressed/released accept (CTRL, SHIFT, ALT, MOUSE1, MOUSE2).
+---@param raw? boolean
 ---@return string[]
-function HD2Input.keys() end
+function HD2Input.keys(raw) end
+---Whether a key is held now (any name of hd2.input.keys(true)). Only while the game window has the focus; the game still receives the key. Unknown names raise.
+---@param key string
+---@return boolean
+function HD2Input.down(key) end
+---True during the one update tick in which the key went down (sampled once per tick, before events, timers and frame callbacks). A key is followed from its first query on.
+---@param key string
+---@return boolean
+function HD2Input.pressed(key) end
+---True during the one update tick in which the key came up.
+---@param key string
+---@return boolean
+function HD2Input.released(key) end
+---Whether the game window has the keyboard focus.
+---@return boolean
+function HD2Input.focused() end
+---The cursor in the game window (client pixels from the top-left), or nil and why when the window does not have the focus.
+---@return HD2Mouse|nil, string|nil
+function HD2Input.mouse() end
 
 ---@class HD2ValueSpec
 ---@field id string Unique within the mod.
@@ -2430,7 +2459,7 @@ local HD2WeaponSound = {}
 ---@field text string|nil A part of the name or label (any case).
 local HD2SoundFilter = {}
 
----hd2.sounds: the weapon firing-sound catalogue, read-only (docs/weapon-sounds.md).
+---hd2.sounds: the weapon firing-sound catalogue (docs/weapon-sounds.md) and playing game sound events (docs/sounds.md).
 ---@class HD2Sounds
 local HD2Sounds = {}
 ---Every catalogued firing sound (sorted by name), or those the filter keeps (a family name or a table). An invalid filter raises an error.
@@ -2441,6 +2470,23 @@ function HD2Sounds.list(filter) end
 ---@param name string
 ---@return HD2WeaponSound|nil
 function HD2Sounds.describe(name) end
+---Post a game sound event now: a catalogue name ('sentry/gatling' starts its loop), 'ui/<key>' (ui/stratagem_pick, ui/picker_close, ui/slot_select, ui/generic_select, ui/item_hover_select), any Wwise event name, or {id = <32-bit event id>}. Its bank must be loaded. Rate-limited per mod. nil, code, reason when refused.
+---@param event string|{id: integer}
+---@param opts? HD2SoundPlayOptions
+---@return HD2SoundHandle|nil, string|nil, string|nil
+function HD2Sounds.play(event, opts) end
+---Whether the sound engine knows the event now (its bank is loaded).
+---@param event string|{id: integer}
+---@return boolean|nil, string|nil
+function HD2Sounds.available(event) end
+---A catalogue sound as a hd2.require_assets / hd2.asset_dependency target (its bank's package). Raises on an unknown name.
+---@param name string
+---@return table
+function HD2Sounds.asset(name) end
+---A name the sound engine maps to a 32-bit event id (what play({id = id}) posts). About 40 ms on the first call for an id; cached.
+---@param id integer
+---@return string|nil
+function HD2Sounds.name_for(id) end
 
 ---Which vanilla carrier a custom stratagem borrows: its carrier group (a structural pool), or the older policy fields; owned, selectable, enabled, unlimited, not in any lobby pick, never another custom stratagem's carrier, asset or delivery.
 ---@class HD2CustomStratagemCarrier
@@ -2563,6 +2609,180 @@ local HD2Ownership = {}
 ---@return {applied: boolean, already: boolean|nil, reason: string|nil}
 function HD2Ownership.credit_to_player(entity, player) end
 
+---hd2.build() details.
+---@class HD2BuildInfo
+---@field pinned string The first 12 hex digits of the executable build this Runtime is pinned to.
+---@field reason string|nil Why the status is not_ready.
+local HD2BuildInfo = {}
+
+---The cursor, read-only.
+---@class HD2Mouse
+---@field x number Client pixels from the left.
+---@field y number Client pixels from the top.
+---@field w number Client width.
+---@field h number Client height.
+---@field left boolean The left button is held.
+local HD2Mouse = {}
+
+---One mod's saved key/value data (hd2.store(); docs/mod-store.md). Values: booleans, finite numbers, strings and tables of those (arrays or string-keyed maps, no cycles, at most 16 deep). Saved about a second after a change, or at once with save().
+---@class HD2Store
+---@field owner string The mod it belongs to.
+local HD2Store = {}
+---The stored value (a copy, for a table), or default.
+---@param key string
+---@param default any
+---@return any
+function HD2Store:get(key, default) end
+---Store a value (nil removes the key). Raises on a value that cannot be saved.
+---@param key string
+---@param value any
+---@return HD2Store
+function HD2Store:set(key, value) end
+---Every key, sorted.
+---@return string[]
+function HD2Store:keys() end
+---Remove every key.
+---@return HD2Store
+function HD2Store:clear() end
+---Write now. false and the reason when it failed (the previous file is kept).
+---@return boolean, string|nil
+function HD2Store:save() end
+---{owner, keys, dirty, saved, file, load_error}.
+---@return table
+function HD2Store:describe() end
+
+---@class HD2SoundPlayOptions
+---@field position HD2Vector3|number[]|nil A world position: a 3D sound there. Without it the sound plays on the game world's own 2D source.
+---@field owner string|nil
+local HD2SoundPlayOptions = {}
+
+---A posted sound.
+---@class HD2SoundHandle
+---@field state "playing"|"stopped"
+---@field playing integer The sound engine's playing id.
+---@field event string
+---@field name string The name posted.
+---@field kind string shot, loop, ui or event.
+---@field owner string
+local HD2SoundHandle = {}
+---Stop this playing instance.
+---@return boolean|nil, string|nil
+function HD2SoundHandle:stop() end
+---@return table
+function HD2SoundHandle:describe() end
+
+---hd2.ui: mod screen overlays (docs/ui-overlay.md).
+---@class HD2UI
+---@field MAX_LAYER integer The highest layer (1023).
+---@field DEFAULT_LAYER integer The default base layer (1011).
+local HD2UI = {}
+---The calling mod's overlay opts.id (default 'main'): created on first use, the same object afterwards.
+---@param opts? HD2OverlayOptions
+---@return HD2Overlay
+function HD2UI:overlay(opts) end
+---Every overlay's status.
+---@return table[]
+function HD2UI:overlays() end
+---A colour as overlays take it ({r, g, b[, a]} or '#RRGGBB[AA]') -> {r, g, b, a}; nil when invalid.
+---@param c number[]|string
+---@return number[]|nil
+function HD2UI:colour(c) end
+
+---@class HD2OverlayOptions
+---@field id string|nil 1 to 48 letters, digits, _ . - (default 'main').
+---@field layer integer|nil The base layer of its band, 1..1023 (default 1011); an item's z is added to it.
+---@field visible boolean|nil Default true.
+---@field owner string|nil
+local HD2OverlayOptions = {}
+
+---A mod's screen overlay: rectangles and text in the game's Ui World, over the HUD and under the game's menus (the Noesis UI always draws above). Coordinates are GUI pixels from the top-left.
+---@class HD2Overlay
+---@field owner string
+---@field id string
+---@field layer integer
+---@field width number|nil The screen width in GUI pixels (after the first frame).
+---@field height number|nil
+---@field scale number|nil The screen against 1920 x 1080 (the smaller ratio).
+local HD2Overlay = {}
+---Set the draw function: called every frame while shown; it describes the whole frame. Unchanged items make no engine call.
+---@param fn fun(d: HD2OverlayFrame, dt: number)
+---@return HD2Overlay
+function HD2Overlay:draw(fn) end
+---@param on? boolean
+---@return HD2Overlay
+function HD2Overlay:show(on) end
+---@return HD2Overlay
+function HD2Overlay:hide() end
+---The cursor in overlay coordinates.
+---@return {x: number, y: number, left: boolean}|nil, string|nil
+function HD2Overlay:mouse() end
+---The width of text in pixels.
+---@param text string
+---@param size? number
+---@param font? "body"|"title"|"mono"
+---@return number
+function HD2Overlay:text_width(text, size, font) end
+---{owner, id, state, reason, layer, visible, width, height, items, frames, engine_calls, refused, first_refusal}.
+---@return table
+function HD2Overlay:status() end
+---Remove its primitives, its GUI and its frame callback.
+---@return HD2Overlay
+function HD2Overlay:close() end
+
+---What one frame of an overlay shows (the d of overlay:draw). Invalid items are refused (counted in status()), never passed to the engine.
+---@class HD2OverlayFrame
+---@field width number
+---@field height number
+---@field scale number
+local HD2OverlayFrame = {}
+---A filled rectangle; (x, y) its top-left corner. colour {r, g, b[, a]} 0-255 or '#RRGGBB[AA]' (default white). z is added to the overlay's layer.
+---@param x number
+---@param y number
+---@param w number
+---@param h number
+---@param colour? number[]|string
+---@param z? integer
+---@return nil
+function HD2OverlayFrame:rect(x, y, w, h, colour, z) end
+---A line of text (1-160 printable bytes); (x, y) its top-left corner (or top-centre / top-right with align).
+---@param text string|number
+---@param x number
+---@param y number
+---@param opts? HD2OverlayTextOptions
+---@return nil
+function HD2OverlayFrame:text(text, x, y, opts) end
+---@param text string
+---@param size? number
+---@param font? "body"|"title"|"mono"
+---@return number
+function HD2OverlayFrame:text_width(text, size, font) end
+
+---@class HD2OverlayTextOptions
+---@field size number|nil Pixels (4-256, default 18).
+---@field colour number[]|string|nil
+---@field font "body"|"title"|"mono"|nil body / title: the FS Sinclair fonts the Runtime ships; mono: the engine's monaco.
+---@field align "left"|"center"|"right"|nil
+---@field z integer|nil
+local HD2OverlayTextOptions = {}
+
+---player:weapon_state() (docs/player-equipment.md).
+---@class HD2WeaponState
+---@field name string|nil
+---@field type string|nil
+---@field slot string
+---@field entity_id integer
+---@field fire_rate number|nil Its current rounds per minute.
+---@field rate_slots number[]|nil Its rate selector's three slots.
+---@field own_record boolean It has its own ProjectileWeapon copy.
+---@field projectile integer|nil The projectile type it fires.
+---@field feed "magazine"|"heat"|"rounds"|"other"
+---@field magazine {rounds: integer, chambered: integer, capacity: integer}|nil
+---@field spread {horizontal: number, vertical: number}|nil Milliradians.
+---@field recoil {horizontal: number, vertical: number}|nil Its aim recoil per shot.
+---@field wind_up boolean
+---@field heat boolean
+local HD2WeaponState = {}
+
 ---An entity. Every live query re-resolves it through the game (same mission, still in the health manager's hash, same type and descriptor) and returns nil once it is gone; the fields are a snapshot.
 ---@class HD2EntityHandle
 ---@field id integer Engine entity id.
@@ -2669,6 +2889,9 @@ function HD2PlayerHandle:loadout() end
 ---The item in hand and the slot it is in. Local player only.
 ---@return table|nil, string|nil
 function HD2PlayerHandle:held_weapon() end
+---What the weapon in hand fires with now, from its own instance (the values a template change reaches only after the weapon is built again). Local player only; read-only.
+---@return HD2WeaponState|nil, string|nil
+function HD2PlayerHandle:weapon_state() end
 ---The worn backpack: catalog name and its live supply/ammo count, capacity and owner flag. Local player only.
 ---@return table|nil, string|nil
 function HD2PlayerHandle:backpack() end
@@ -3050,6 +3273,11 @@ function HD2ModContext:after(seconds, callback, opts) end
 ---@param opts? HD2TimerOptions
 ---@return HD2Timer
 function HD2ModContext:every(seconds, callback, opts) end
+---Every update tick (see hd2.on_frame).
+---@param callback fun(dt: number, handle: HD2Timer)
+---@param opts? HD2TimerOptions
+---@return HD2Timer
+function HD2ModContext:on_frame(callback, opts) end
 ---@param id string
 ---@param spec HD2BindingSpec
 ---@return HD2Binding
@@ -3071,6 +3299,9 @@ function HD2ModContext:value(spec) end
 ---@param ... any
 ---@return any
 function HD2ModContext:run(fn, ...) end
+---This mod's saved key/value data (see hd2.store).
+---@return HD2Store
+function HD2ModContext:store() end
 ---
 ---@overload fun(self: HD2ModContext, name: "mission_started", callback: fun(event: HD2Event_mission_started), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(self: HD2ModContext, name: "mission_ended", callback: fun(event: HD2Event_mission_ended), opts?: HD2SubscribeOptions): HD2Subscription
@@ -3140,6 +3371,7 @@ function HD2ModContext:once(name, callback, opts) end
 ---@field sounds HD2Sounds
 ---@field custom_stratagem HD2CustomStratagems
 ---@field ownership HD2Ownership
+---@field ui HD2UI
 local hd2 = {}
 ---@alias HD2WeaponName "AMR"|"APW-1 Anti-Materiel Rifle"|"AR-11 Arbitrator"|"AR-2 Coyote"|"AR-23 Liberator"|"AR-23A Liberator Carbine"|"AR-23C Liberator Concussive"|"AR-23P Liberator Penetrator"|"AR-32 Pacifier"|"AR-59 Suppressor"|"AR-61 Tenderizer"|"AR/GL-21 One-Two"|"ARC-12 Blitzer"|"BR-14 Adjudicator"|"CB-9 Exploding Crossbow"|"CQC-19 Stun Lance"|"CQC-2 Saber"|"CQC-30 Stun Baton"|"CQC-42 Machete"|"CQC-5 Combat Hatchet"|"CQC-73 Entrenchment Tool"|"DBS-2 Double Freedom"|"FLAM-66 Torcher"|"GL-15 Evictor"|"GP-20 Ultimatum"|"GP-31 Grenade Pistol"|"JAR-5 Dominator"|"LAS-12 Sai"|"LAS-13 Trident"|"LAS-16 Sickle"|"LAS-17 Double-Edge Sickle"|"LAS-5 Scythe"|"LAS-58 Talon"|"LAS-7 Dagger"|"M6C/SOCOM Pistol"|"M7S SMG"|"M90A Shotgun"|"MA5C Assault Rifle"|"MP-98 Knight"|"P-11 Stim Pistol"|"P-113 Verdict"|"P-19 Redeemer"|"P-2 Peacemaker"|"P-33 Missile Pistol"|"P-34 Breacher"|"P-35 Re-Educator"|"P-4 Senator"|"P-69 Veto"|"P-72 Crisper"|"P-92 Warrant"|"P/40-K Bolt Pistol"|"PLAS-1 Scorcher"|"PLAS-101 Purifier"|"PLAS-15 Loyalist"|"PLAS-39 Accelerator Rifle"|"R-2 Amendment"|"R-2124 Constitution"|"R-36 Eruptor"|"R-4 Hyena"|"R-6 Deadeye"|"R-63 Diligence"|"R-63CS Diligence Counter Sniper"|"R-72 Censor"|"R/40-K Hot-Shot Marksman Rifle"|"SG-20 Halt"|"SG-22 Bushwhacker"|"SG-225 Breaker"|"SG-225IE Breaker Incendiary"|"SG-225SP Breaker Spray&Pray"|"SG-451 Cookout"|"SG-8 Punisher"|"SG-8P Punisher Plasma"|"SG-8S Slugger"|"SG-97 Sweeper"|"SMG-203 Gallant"|"SMG-32 Reprimand"|"SMG-37 Defender"|"SMG-72 Pummeler"|"SMG/FLAM-34 Stoker"|"StA-11 SMG"|"StA-52 Assault Rifle"|"VG-70 Variable"|"amr"|"jar5"
 ---@param name HD2WeaponName
@@ -3258,12 +3490,17 @@ hd2.diagnostics = {}
 ---@param opts? HD2TimerOptions
 ---@return HD2Timer
 function hd2.after(seconds, callback, opts) end
----Run repeatedly (at least 0.05 s apart). Missed intervals are skipped, never replayed.
+---Run repeatedly (at least 0.05 s apart; hd2.on_frame runs a callback every frame). Missed intervals are skipped, never replayed.
 ---@param seconds number
 ---@param callback fun(timer: HD2Timer)
 ---@param opts? HD2TimerOptions
 ---@return HD2Timer
 function hd2.every(seconds, callback, opts) end
+---Run a callback on every update tick with the tick's dt in seconds, after events and timers. Same owner, id and scope rules as hd2.every; handle:cancel() removes it, :disable() / :enable() pause it. Keep the work small.
+---@param callback fun(dt: number, handle: HD2Timer)
+---@param opts? HD2TimerOptions
+---@return HD2Timer
+function hd2.on_frame(callback, opts) end
 ---The scripting context of one mod (the same object on every call). With no id: the calling mod (the SDK wrapper scope or the running callback); it refuses to guess.
 ---@param id? string
 ---@return HD2ModContext
@@ -3274,9 +3511,15 @@ function hd2.players() end
 ---The player on this machine.
 ---@return HD2PlayerHandle|nil
 function hd2.local_player() end
----The game's state now (nil when it cannot be read).
----@return HD2GameState|nil
+---The game's state now; nil and the reason when it cannot be read (hd2.build() tells a wrong game build apart from a game not readable yet).
+---@return HD2GameState|nil, string|nil
 function hd2.game_state() end
+---The running game build against the one this Runtime was built for, without raising. Cheap to poll: each loaded build is hashed once, a wrong one included.
+---@return "matched"|"mismatched"|"not_ready", HD2BuildInfo
+function hd2.build() end
+---The calling mod's saved key/value data, kept between game sessions in its own file (docs/mod-store.md). The mod is found the way hd2.mod() finds it.
+---@return HD2Store
+function hd2.store() end
 ---Describe schema and prior evidence without reading memory.
 ---@param resource HD2Resource
 ---@return table

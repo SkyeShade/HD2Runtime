@@ -2738,7 +2738,9 @@
         "enabled?": "boolean",
         "restores?": "integer",
         "rebinds?": "integer",
-        "option_defaults?": "boolean"
+        "option_defaults?": "boolean",
+        "recoveries?": "integer",
+        "retry_in?": "number"
       },
       "HD2ObserveRequest": {
         "targets": "HD2ReadTarget[]",
@@ -2818,7 +2820,9 @@
         "interval?": "number",
         "startup_delay?": "number",
         "max_interval?": "number",
-        "enabled?": "HD2Option"
+        "enabled?": "HD2Option",
+        "recover?": "boolean|{delay?: number, max_delay?: number, limit?: integer}",
+        "on_status?": "fun(status: string, info: {id: string, status: string, previous: string, error: string|nil, code: string|nil, runs: integer, recoveries: integer, retry_in: number|nil})"
       },
       "HD2RuntimeMetrics": {
         "counters": "table<string, number>",
