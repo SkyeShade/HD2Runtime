@@ -136,3 +136,21 @@ values the getters reported before the first hold are restored (`runtime/mod_cur
   taken from the game); is everything restored after closing, alt-tab and a mission change.
 
 Tests: `tests/test_ui_overlay.py` (a recording fake of the engine GUI API).
+
+## The mouse wheel (experimental, r51)
+
+`hd2.input.wheel()` is the wheel this update tick in notches (+ up, - down; fractions for smooth wheels), 0 when it
+did not move. The editor's scroll lists read it once per frame.
+
+- `GetAsyncKeyState` cannot see the wheel, and the engine's `stingray.Mouse` `wheel` axis read nothing while the
+  overlay held the mouse focus (live test of r50). Two sources are sampled once per tick while someone queries:
+  the engine axis, and a `WH_GETMESSAGE` hook on the game window's own thread counting `WM_MOUSEWHEEL` and the wheel
+  of `WM_INPUT` raw mouse input (`runtime/mouse_wheel.lua`).
+- The hook is installed only when the game window's thread is the thread running Lua, so it runs inside the engine's
+  own message pump and never while Lua runs. It only observes: `CallNextHookEx` is always called, raw input is read
+  with `GetRawInputData` (read-only) and nothing is consumed, so the game still scrolls its own menus.
+- It is removed one second after the last query; any error turns it off for the session (logged once).
+  `hd2.input.wheel_status()` reports `{hooked, disabled, source, engine}`; the first source that delivers a notch is
+  logged (`wheel: first wheel input from ...`), so a live test tells which one works.
+
+Tests: `tests/test_editor_services.py` (`WheelTests`).

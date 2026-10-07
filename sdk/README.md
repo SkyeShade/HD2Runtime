@@ -196,6 +196,23 @@ and an `acceptedForWrites` compatibility flag; GUI controls should render only
 preferred editable fields. It contains no runtime addresses. `hd2 inspect weapon <name>` uses
 this catalog for player weapons outside the original small live-read catalog.
 
+## The game's HUD icons (r51)
+
+```powershell
+python <SDK>/tools/hd2_hud_icons.py <out folder> [--game <Helldivers 2 data folder>] [--kind stratagem|booster|all]
+```
+
+This extracts every stratagem's and booster's own HUD icon from the installed game, read-only and locally. It writes
+`stratagem/<name>.png`, `booster/<name>.png` and `index.json`. `HudIconSprites.json` names each item's sprite: the
+icon member of its StratagemInfo row, or of the native Booster table row. That covers the 94 stratagems with a call-in
+and all 20 boosters, including those the loadout screen's vector library leaves unbound or empty (`uiIcon`).
+SG-88 and CQC-72 have no call-in stratagem, so they have no icon.
+
+- Stratagem icons are icon masks: R is the category-colour layer and G the white layer, the format `d:image` and
+  `images/*.png` use. Booster icons are colour images with alpha.
+- The tool uses the standard library only (BC1, BC3, BC4 and 8-bit RGBA pages). The artwork is Arrowhead's: use it in
+  your own builds, and publish it only if you may redistribute it.
+
 ## Scan a captured process offline
 
 The separate `HD2Runtime-SnapshotCapture-0.7.1.zip` package incrementally writes

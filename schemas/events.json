@@ -2031,6 +2031,18 @@
       "params": [],
       "returns": "HD2Mouse|nil, string|nil",
       "doc": "The cursor in the game window (client pixels from the top-left), or nil and why when the window does not have the focus."
+     },
+     {
+      "name": "wheel",
+      "params": [],
+      "returns": "number",
+      "doc": "EXPERIMENTAL (r51). The mouse wheel this update tick in notches (+ up, - down; fractions for smooth wheels), 0 when it did not move. Read from the engine's wheel axis and, while queried, a read-only message hook on the game window's thread (WM_MOUSEWHEEL and raw input); nothing is consumed."
+     },
+     {
+      "name": "wheel_status",
+      "params": [],
+      "returns": "table",
+      "doc": "Diagnostics of hd2.input.wheel: {hooked, disabled (why the hook is off), source (the first source that delivered a notch), engine (the engine axis is readable)}."
      }
     ]
    },

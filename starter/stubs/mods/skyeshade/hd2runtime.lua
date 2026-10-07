@@ -2036,6 +2036,12 @@ function HD2Input.focused() end
 ---The cursor in the game window (client pixels from the top-left), or nil and why when the window does not have the focus.
 ---@return HD2Mouse|nil, string|nil
 function HD2Input.mouse() end
+---EXPERIMENTAL (r51). The mouse wheel this update tick in notches (+ up, - down; fractions for smooth wheels), 0 when it did not move. Read from the engine's wheel axis and, while queried, a read-only message hook on the game window's thread (WM_MOUSEWHEEL and raw input); nothing is consumed.
+---@return number
+function HD2Input.wheel() end
+---Diagnostics of hd2.input.wheel: {hooked, disabled (why the hook is off), source (the first source that delivered a notch), engine (the engine axis is readable)}.
+---@return table
+function HD2Input.wheel_status() end
 
 ---@class HD2ValueSpec
 ---@field id string Unique within the mod.

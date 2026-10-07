@@ -1,0 +1,475 @@
+{
+ "schemaVersion": 1,
+ "contract": "hd2runtime.hud_icon_sprites.v1",
+ "build": "F5FEE03DCFDB",
+ "gameDllSha256": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
+ "note": "Sprite names of the HUD icons: lookup keys of records in the game's texture_atlas resources. sdk/tools/hd2_hud_icons.py extracts the artwork locally from the installed game; none is published. Stratagem sprites are icon masks (R category colour, G white); booster sprites are colour images.",
+ "sources": {
+  "stratagem": "StratagemInfo +0xB0 of the uniquely resolved root (stratagem-calldown-F5FEE03DCFDB.json)",
+  "booster": "native Booster table row +0x20 (booster-native-F5FEE03DCFDB.json)"
+ },
+ "stratagems": {
+  "40-K Meltagun": {
+   "sprite": "0x98D919DDDC809B33",
+   "root": 774795224
+  },
+  "A/AC-8 Autocannon Sentry": {
+   "sprite": "0xDCCA83A50E2BBB6F",
+   "root": 854563507
+  },
+  "A/ARC-3 Tesla Tower": {
+   "sprite": "0xC494423C82545847",
+   "root": 2402590523
+  },
+  "A/FLAM-40 Flame Sentry": {
+   "sprite": "0x89509CECADFF38E7",
+   "root": 474724029
+  },
+  "A/G-16 Gatling Sentry": {
+   "sprite": "0x4B577C74635A7555",
+   "root": 623391597
+  },
+  "A/GM-17 Gas Mortar Sentry": {
+   "sprite": "0x42EA13ED9EF15021",
+   "root": 3183339606
+  },
+  "A/LAS-98 Laser Sentry": {
+   "sprite": "0xEE6A25E8C10F59B0",
+   "root": 960389145
+  },
+  "A/M-12 Mortar Sentry": {
+   "sprite": "0x564C07B6A4144FB3",
+   "root": 1582497738
+  },
+  "A/M-23 EMS Mortar Sentry": {
+   "sprite": "0xF33C816DF715686A",
+   "root": 3085503322
+  },
+  "A/MG-43 Machine Gun Sentry": {
+   "sprite": "0x2D59FD6C06DDFECB",
+   "root": 4239785897
+  },
+  "A/MLS-4X Rocket Sentry": {
+   "sprite": "0x07B12E63DE39AAC9",
+   "root": 717707279
+  },
+  "AC-8 Autocannon": {
+   "sprite": "0xBB3D4D369252C9D2",
+   "root": 875551083
+  },
+  "APW-1 Anti-Materiel Rifle": {
+   "sprite": "0xE9EE8E33BD31752E",
+   "root": 2207713849
+  },
+  "ARC-3 Arc Thrower": {
+   "sprite": "0xD29B6F004139C1EA",
+   "root": 992079466
+  },
+  "AX/AR-23 Guard Dog": {
+   "sprite": "0x835D14DEA199741E",
+   "root": 485866824
+  },
+  "AX/ARC-3 K-9": {
+   "sprite": "0x6C030B6F244BE563",
+   "root": 1692135420
+  },
+  "AX/FLAM-75 Hot Dog": {
+   "sprite": "0x94168B0DDDA263AF",
+   "root": 1125307795
+  },
+  "AX/LAS-5 Rover": {
+   "sprite": "0x1832A7793911EB74",
+   "root": 951988742
+  },
+  "AX/TX-13 Dog Breath": {
+   "sprite": "0x94E071518262045D",
+   "root": 5185868
+  },
+  "B-1 Supply Pack": {
+   "sprite": "0xE91AC7A0F72AC1FD",
+   "root": 1907808218
+  },
+  "B-100 Portable Hellbomb": {
+   "sprite": "0x1E8F939183A990BD",
+   "root": 1053576110
+  },
+  "B/FLAM-80 Cremator": {
+   "sprite": "0xA7540858488027F0",
+   "root": 2271469939
+  },
+  "B/MD C4 Pack": {
+   "sprite": "0x286AD42DBC7314D0",
+   "root": 3748434442
+  },
+  "CQC-1 One True Flag": {
+   "sprite": "0x4966B6A9FB422AB5",
+   "root": 2265180087
+  },
+  "CQC-20 Breaching Hammer": {
+   "sprite": "0x3E698BBCF42B5FB7",
+   "root": 3330450692
+  },
+  "CQC-9 Defoliation Tool": {
+   "sprite": "0x12486B1032FA6FCE",
+   "root": 3572024208
+  },
+  "E/AT-12 Anti-Tank Emplacement": {
+   "sprite": "0x6BE43825767C4437",
+   "root": 762584056
+  },
+  "E/GL-21 Grenadier Battlement": {
+   "sprite": "0x605B3025CA4368BF",
+   "root": 2480128092
+  },
+  "E/MG-101 HMG Emplacement": {
+   "sprite": "0xBD881825D4655014",
+   "root": 2919842659
+  },
+  "EAT-17 Expendable Anti-Tank": {
+   "sprite": "0xCF20900C57479CA6",
+   "root": 3413606544
+  },
+  "EAT-411 Leveller": {
+   "sprite": "0x7EC6BC6B2C19010F",
+   "root": 2934950455
+  },
+  "EAT-700 Expendable Napalm": {
+   "sprite": "0xA211B6A2D5A3B5C9",
+   "root": 1813634375
+  },
+  "EXO-45 Patriot Exosuit": {
+   "sprite": "0x396ECA60A6E80E17",
+   "root": 295629711
+  },
+  "EXO-49 Emancipator Exosuit": {
+   "sprite": "0xCCA47E13FC4682E8",
+   "root": 1290499887
+  },
+  "EXO-51 Lumberer Exosuit": {
+   "sprite": "0xC9C24C7E931BBC83",
+   "root": 3086305673
+  },
+  "EXO-55 Breakthrough Exosuit": {
+   "sprite": "0xA16325D3F60F1077",
+   "root": 563851843
+  },
+  "Eagle 110mm Rocket Pods": {
+   "sprite": "0x3AEDE94D73A6369B",
+   "root": 1979913877
+  },
+  "Eagle 500kg Bomb": {
+   "sprite": "0xF96A659EBFFDFBE4",
+   "root": 4119049995
+  },
+  "Eagle Airstrike": {
+   "sprite": "0xAE1FF433380F2B1A",
+   "root": 1238358532
+  },
+  "Eagle Cluster Bomb": {
+   "sprite": "0x9665EAA5EBB73B41",
+   "root": 3656370131
+  },
+  "Eagle Gas Airstrike": {
+   "sprite": "0x0D3C8F39571EAEA9",
+   "root": 4196275240
+  },
+  "Eagle Napalm Airstrike": {
+   "sprite": "0x3EC6A98542325181",
+   "root": 2040137691
+  },
+  "Eagle Smoke Strike": {
+   "sprite": "0xE768C8E161674303",
+   "root": 1685231450
+  },
+  "Eagle Strafing Run": {
+   "sprite": "0x39032A0EE6990E4A",
+   "root": 2808191861
+  },
+  "FAF-14 Spear": {
+   "sprite": "0xFB05212C348660B8",
+   "root": 3923676543
+  },
+  "FLAM-40 Flamethrower": {
+   "sprite": "0x37666BD2F5547999",
+   "root": 1432571981
+  },
+  "FX-12 Shield Generator Relay": {
+   "sprite": "0xCF6EE0FF5BAAA7D9",
+   "root": 2281932031
+  },
+  "GL-21 Grenade Launcher": {
+   "sprite": "0xC7CD49C76480B2B3",
+   "root": 3343676429
+  },
+  "GL-28 Belt-Fed Grenade Launcher": {
+   "sprite": "0x58DF9B0FEBA4D998",
+   "root": 512147393
+  },
+  "GL-52 De-Escalator": {
+   "sprite": "0xE2191F8010434FDD",
+   "root": 153819019
+  },
+  "GR-8 Recoilless Rifle": {
+   "sprite": "0x938467B5FB78F74B",
+   "root": 1298599997
+  },
+  "LAS-98 Laser Cannon": {
+   "sprite": "0xC423870A1F604D7E",
+   "root": 2822568285
+  },
+  "LAS-99 Quasar Cannon": {
+   "sprite": "0x9493D2068B2ED250",
+   "root": 2625074523
+  },
+  "LIFT-182 Warp Pack": {
+   "sprite": "0x9B34A00D7838336B",
+   "root": 2185045091
+  },
+  "LIFT-850 Jump Pack": {
+   "sprite": "0xE4456751DB440DDB",
+   "root": 1753436707
+  },
+  "LIFT-860 Hover Pack": {
+   "sprite": "0xF245740ED2931B16",
+   "root": 73468749
+  },
+  "M-1000 Maxigun": {
+   "sprite": "0x64B93CCD55290E82",
+   "root": 3455841218
+  },
+  "M-102 Gunner FRV": {
+   "sprite": "0x4269783E5C3F1157",
+   "root": 3935317067
+  },
+  "M-103 Supply FRV": {
+   "sprite": "0xF8A54F24DB5FAF1D",
+   "root": 2636699686
+  },
+  "M-104 Incinerator FRV": {
+   "sprite": "0x0731D5C3C0C98E6B",
+   "root": 2846457047
+  },
+  "M-105 Stalwart": {
+   "sprite": "0x2927B1EAA64D86FB",
+   "root": 14345846
+  },
+  "MD-17 Anti-Tank Mines": {
+   "sprite": "0xBBC50C4F93B693D2",
+   "root": 2239174926
+  },
+  "MD-6 Anti-Personnel Minefield": {
+   "sprite": "0x70FFBE63C3C5252A",
+   "root": 12688472
+  },
+  "MD-8 Gas Mines": {
+   "sprite": "0xDFCA79C9DCA2B66D",
+   "root": 644090457
+  },
+  "MD-I4 Incendiary Mines": {
+   "sprite": "0xA3B1D523ADCFA2C3",
+   "root": 2742141597
+  },
+  "MG-206 Heavy Machine Gun": {
+   "sprite": "0x267AF54D199B9B65",
+   "root": 533318241
+  },
+  "MG-43 Machine Gun": {
+   "sprite": "0x4AC3CCFFFBA4FA71",
+   "root": 458198946
+  },
+  "MGX-42 Bullet Storm": {
+   "sprite": "0xE1ADD103D5EA07D9",
+   "root": 3288352984
+  },
+  "MLS-4X Commando": {
+   "sprite": "0x8FA2534B83773256",
+   "root": 2232989803
+  },
+  "MS-11 Solo Silo": {
+   "sprite": "0x90DEA232B10303D4",
+   "root": 1337271929
+  },
+  "Orbital 120mm HE Barrage": {
+   "sprite": "0x9C9B3DCE316F1256",
+   "root": 1063322614
+  },
+  "Orbital 380mm HE Barrage": {
+   "sprite": "0x90080A083B5CB566",
+   "root": 3108516875
+  },
+  "Orbital Airburst Strike": {
+   "sprite": "0xAF257D46099B5B1B",
+   "root": 1560416221
+  },
+  "Orbital EMS Strike": {
+   "sprite": "0x866864809C2204C9",
+   "root": 1280711447
+  },
+  "Orbital Gas Strike": {
+   "sprite": "0x78F1E50B852CFB79",
+   "root": 3193297673
+  },
+  "Orbital Gatling Barrage": {
+   "sprite": "0xCC1AE3EE1883F5E4",
+   "root": 2084654169
+  },
+  "Orbital Laser": {
+   "sprite": "0x5E4086C313B3BB84",
+   "root": 970450596
+  },
+  "Orbital Napalm Barrage": {
+   "sprite": "0x1393C79C3A21BC90",
+   "root": 2902516083
+  },
+  "Orbital Precision Strike": {
+   "sprite": "0x53031033EE7A60E3",
+   "root": 3523620028
+  },
+  "Orbital Railcannon Strike": {
+   "sprite": "0x802BAE2545D65292",
+   "root": 2744472229
+  },
+  "Orbital Smoke Strike": {
+   "sprite": "0xA9944FD09947310F",
+   "root": 3713568312
+  },
+  "Orbital Walking Barrage": {
+   "sprite": "0x94AE892DADB6ABED",
+   "root": 3279813377
+  },
+  "PLAS-45 Epoch": {
+   "sprite": "0x45660FC429E7D2D4",
+   "root": 4261593827
+  },
+  "RL-77 Airburst Rocket Launcher": {
+   "sprite": "0x840B878E77D6F2D2",
+   "root": 2007887745
+  },
+  "RS-422 Railgun": {
+   "sprite": "0x5A963EB78223547E",
+   "root": 3078242205
+  },
+  "Resupply": {
+   "sprite": "0x89FB769B9CF03E58",
+   "root": 867876502
+  },
+  "S-11 Speargun": {
+   "sprite": "0xF084179BB16CECB4",
+   "root": 336693041
+  },
+  "SH-20 Ballistic Shield Backpack": {
+   "sprite": "0x4825C710F80DA053",
+   "root": 3353508219
+  },
+  "SH-32 Shield Generator Pack": {
+   "sprite": "0xE2C2F655E0D20D76",
+   "root": 3843705076
+  },
+  "SH-51 Directional Shield": {
+   "sprite": "0x4518898DF9888368",
+   "root": 272480476
+  },
+  "StA-X3 W.A.S.P. Launcher": {
+   "sprite": "0x80083F2A80F0A521",
+   "root": 890972990
+  },
+  "TD-110 Maelstrom": {
+   "sprite": "0xEA03D7CA543EDE10",
+   "root": 460870572
+  },
+  "TD-220 Bastion MK XVI": {
+   "sprite": "0x59993255EBE18184",
+   "root": 2002187052
+  },
+  "TX-41 Sterilizer": {
+   "sprite": "0x5952182C76B51D1C",
+   "root": 4152191751
+  }
+ },
+ "boosters": {
+  "Armed Resupply Pods": {
+   "sprite": "0x94A2EEACED1E8163",
+   "nativeName": "DefensiveAmmoPod"
+  },
+  "Concealed Insertion": {
+   "sprite": "0xE6EF43728AD05D17",
+   "nativeName": "SmokePods"
+  },
+  "Dead Sprint": {
+   "sprite": "0x7AF183E128935F59",
+   "nativeName": "DeathMarch"
+  },
+  "Experimental Infusion": {
+   "sprite": "0xF6156E4D847924D7",
+   "nativeName": "CombatDrugs"
+  },
+  "Expert Extraction Pilot": {
+   "sprite": "0x78CC2A31D3500E48",
+   "nativeName": "FastExtraction"
+  },
+  "Firebomb Hellpods": {
+   "sprite": "0x883534150115B630",
+   "nativeName": "FieryDrop"
+  },
+  "Flexible Reinforcement Budget": {
+   "sprite": "0xF8EE4F1775B54B75",
+   "nativeName": "FlexibleReinforcementBudget"
+  },
+  "Hellpod Space Optimization": {
+   "sprite": "0xB84F31BBD276D34B",
+   "nativeName": "HellpodSpaceOptimization"
+  },
+  "Increased Reinforcement Budget": {
+   "sprite": "0x20D02B065AD3B523",
+   "nativeName": "IncreasedReinforcementBudget"
+  },
+  "Integrated Extinguishers": {
+   "sprite": "0x496624A78ECB236C",
+   "nativeName": "FireExtinguish"
+  },
+  "Localization Confusion": {
+   "sprite": "0xC43230C8378D0D96",
+   "nativeName": "LocalizationConfusion"
+  },
+  "Motivational Shocks": {
+   "sprite": "0xAB2C6CD508356314",
+   "nativeName": "SlowStunResistance"
+  },
+  "Muscle Enhancement": {
+   "sprite": "0xC35CD043395BC2F5",
+   "nativeName": "MuscleEnhancement"
+  },
+  "Sample Extricator": {
+   "sprite": "0x780EDBF159D3E23A",
+   "nativeName": "BigEnemiesDropSamples"
+  },
+  "Sample Scanner": {
+   "sprite": "0xC3050D68489C8C9C",
+   "nativeName": "DoubleSampleChance"
+  },
+  "Stamina Enhancement": {
+   "sprite": "0x354C889FF4400B85",
+   "nativeName": "Stamina"
+  },
+  "Stun Pods": {
+   "sprite": "0x7399004594EA3E08",
+   "nativeName": "ShockPods"
+  },
+  "Surplus EAT Allocation": {
+   "sprite": "0x13E43CADFA5C61AE",
+   "nativeName": "FreeEAT"
+  },
+  "UAV Recon Booster": {
+   "sprite": "0x7118CBC8FCF28C80",
+   "nativeName": "UAVRecon"
+  },
+  "Vitality Enhancement": {
+   "sprite": "0xA9C52A2333DFCB68",
+   "nativeName": "Vitality"
+  }
+ },
+ "missing": {
+  "CQC-72 Entrenchment Tool": "no call-in stratagem (rootResolution NO_CALL_IN): no StratagemInfo row",
+  "SG-88 Break-Action Shotgun": "no call-in stratagem (rootResolution NO_CALL_IN): no StratagemInfo row"
+ }
+}

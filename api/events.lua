@@ -166,6 +166,10 @@ M.input.down=input.down
 M.input.pressed=input.pressed
 M.input.released=input.released
 M.input.focused=input.focused
+-- The mouse wheel this update tick in notches (+ up), 0 when it did not move (runtime/mouse_wheel.lua; r51,
+-- experimental: the engine axis and a read-only message hook on the game window's thread while it is queried).
+function M.input.wheel()return require('hd2runtime/runtime/mouse_wheel').read()end
+function M.input.wheel_status()return require('hd2runtime/runtime/mouse_wheel').status()end
 -- The cursor for mod UI: {x, y (client pixels from the top-left), w, h (client size), left (left button held)}, or
 -- nil and the reason when the game window does not have the focus.
 M.input.mouse=input.mouse

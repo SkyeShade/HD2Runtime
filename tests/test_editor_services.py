@@ -140,5 +140,40 @@ return 'ok'
 '''), b'ok')
 
 
+class WheelTests(unittest.TestCase):
+    def test_the_wheel_combines_the_message_hook_and_the_engine_axis(self):
+        self.assertEqual(run(HARNESS + r'''
+local wheel=require('hd2runtime/runtime/mouse_wheel')
+wheel.reset_for_tests()
+local axis=0
+rawset(_G,'stingray',{Mouse={axis=function()return {y=axis}end,axis_index=function(name)assert(name=='wheel')return 1 end}})
+local deliver,removed
+wheel.hooks.install=function(on_wheel)deliver=on_wheel;return {remove=function()removed=true end,thread=7}end
+local function tick(dt)events.tick(dt or 1/60)end
+assert(hd2.input.wheel()==0,'still')
+assert(deliver,'the hook is installed on the first query')
+deliver(1,'WM_MOUSEWHEEL')
+tick()
+assert(hd2.input.wheel()==1,'a notch from the hook')
+tick()
+assert(hd2.input.wheel()==0,'one tick only')
+axis=-1
+tick()
+assert(hd2.input.wheel()==-1,'the engine axis when the hook saw nothing')
+axis=0
+deliver(-2,'WM_INPUT');tick()
+assert(hd2.input.wheel()==-2,'raw input wheel')
+assert(hd2.input.wheel_status().source=='WM_MOUSEWHEEL','the first source is kept')
+for _=1,90 do tick()end
+assert(removed,'removed after a second without queries')
+-- an error inside the hook turns it off for the session
+wheel.reset_for_tests()
+hd2.input.wheel()
+deliver(nil,'boom')
+assert(wheel.status().disabled=='boom'and removed,'disabled')
+return 'ok'
+'''), b'ok')
+
+
 if __name__ == '__main__':
     unittest.main()

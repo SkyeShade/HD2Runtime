@@ -620,6 +620,8 @@ end)
 - Only while the game window has the keyboard focus: unfocused, every key reads up. A key already held when the
   focus comes back is not a press. `hd2.input.focused()` tells which; `hd2.input.mouse()` gives the cursor
   `{x, y, w, h, left}` in client pixels from the top-left.
+- `hd2.input.wheel()` is the mouse wheel this tick in notches (experimental, r51; see
+  [ui-overlay.md](ui-overlay.md#the-mouse-wheel-experimental-r51)).
 - **Read-only: nothing is consumed.** The game receives every key a mod reads, so `W` still moves the Helldiver.
   Blocking a key from the game needs a hook in the game's input code, which the Runtime does not install (see
   [Input blocking](#input-blocking-not-available)).
