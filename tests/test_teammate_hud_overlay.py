@@ -212,6 +212,29 @@ S.stop()
 assert(#W.runtime.writes==0)
 """)
 
+    def test_a_carrier_presented_here_shows_natively_and_gets_no_overlay(self):
+        # r38: the carrier-in-slot probe with several players presents every other player's carrier slot on this
+        # machine (custom_stratagems presented_here); its card then shows the custom stratagem natively.
+        self.check(r"""
+SYNCED[THEM]={[1]='orbital_gas_barrage'}
+panel(0,11,their_cards({[2]={entry=1,type=41}}))
+local native_on=true
+local S=overlay.mission_remote_slots(function()
+    if next(SYNCED)then return SYNCED,CARRIERS,function(kind,id)return native_on and kind==41 and id=='orbital_gas_barrage'end end
+end)
+tick();tick()
+assert(drawn_lines()==0 and count('TEAMMATE HUD NATIVE: panel 0, peer '..THEM..', slot 1 (record entry 1): its carrier '
+    ..'(type 41) is presented here as orbital_gas_barrage: the native card shows it; no overlay')==1,
+    table.concat(logged,' | '))
+-- Not presented here (any more): the overlay draws as before.
+native_on=false
+tick()
+assert(drawn_lines('panel 0, peer '..THEM..', slot 1 (record entry 1): orbital_gas_barrage over the card showing type '
+    ..'41 (its carrier)')==1,table.concat(logged,' | '))
+S.stop()
+assert(#W.runtime.writes==0)
+""")
+
     def test_panels_are_bound_by_their_own_player_and_the_table_ends_with_the_mission(self):
         self.check(r"""
 -- OTHER is on panel 0 (no custom pick), THEM on panel 2: bound by entity, whatever the index.

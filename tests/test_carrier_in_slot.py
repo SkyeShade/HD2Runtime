@@ -61,8 +61,8 @@ local C=1063322614
 local set={slots={[1]={definition='p',token=C,type=136,carrier=true}},pairs={}}
 local defs={p={id='p',texts={name='T'},icon='I',code={'up'}}}
 local hud=false
-local function ctx(name,mission,clock,players)
-    return {game={name=name,mission=mission},clock=clock,definitions=defs,set=set,players=players or 1,
+local function ctx(name,mission,clock,players,mp)
+    return {game={name=name,mission=mission},clock=clock,definitions=defs,set=set,players=players or 1,mp=mp,
         carrier_name=function(id)return id==C and'Orbital 120mm HE Barrage'or nil end,hud=function()return hud end}
 end
 -- Aboard the ship: only the timing (no presentation: the carrier is native there).
@@ -90,9 +90,9 @@ assert(not probe.entering())
 -- Without a loading-screen update: applied in the mission before the HUD; never with several players.
 probe.reset_for_tests();applied={};callbacks={};hud=false
 probe.step(ctx('Mission',true,1,2))
-assert(#callbacks==0,'several players: nothing')
-probe.step(ctx('Mission',true,1))
-assert(#callbacks==1)
+assert(#callbacks==0,'several players without custom multiplayer: nothing')
+probe.step(ctx('Mission',true,1,2,true))
+assert(#callbacks==1,'several players with custom multiplayer (r38): presented early')
 -- No carrier slot: nothing at all.
 probe.reset_for_tests();callbacks={};lines={}
 set={slots={[1]={definition='p',token=3523620028,type=118}},pairs={}}
@@ -315,6 +315,13 @@ local function try(record,changes,prep)
     return job
 end
 assert(try(nil,{uses=0}).code=='BAD_SPEC')
+-- r38: a client writes its own uses only when marked and inside the client-write proof; the host always.
+local MP=require('hd2runtime/runtime/multiplayer')
+assert(try(nil,nil,function()W.state(4,{host=false})end).code=='NOT_HOST')
+MP.enable_client_proof(true)
+assert(try(nil,{client=true},function()W.state(4,{host=false})end).status=='converted')
+MP.enable_client_proof(false)
+assert(try(nil,{client=true},function()W.state(4,{host=false})end).code=='NOT_HOST')
 assert(try(nil,{uses=101}).code=='BAD_SPEC')
 -- The carrier also natively in another slot: never written (that entry is a real pick).
 local twice={{type=124,uses=-1,granted=1},{type=136,uses=-1,granted=0},{type=136,uses=-1,granted=0},
@@ -661,6 +668,93 @@ assert(not lines('custom text APPLIED'):find(old_name,1,true),lines('custom text
 assert(count('NATIVE USES (carrier-in-slot probe)')==0,lines('NATIVE'))
 return 'ok'
 ''')
+
+def mp_lua(body):
+    # The custom multiplayer mission harness (tests/test_custom_mp_mission.py: ME a client, THEM the host) with the
+    # CarrierSlotProbe registered too.
+    from support import lua as lua_literal
+    from test_custom_mp_mission import mission_lua, example_addon
+    probe, probe_addon = example_addon('CarrierSlotProbe')
+    return mission_lua('local PROBE_ADDON=' + lua_literal(probe_addon) + '\nlocal PROBE_RESOURCE=' + lua_literal(probe)
+        + "\nassert(loadstring(PROBE_ADDON,'@'..PROBE_RESOURCE))()\n" + body + "\nreturn 'ok'")
+
+
+class MultiplayerTests(unittest.TestCase):
+    """r38 (EXPERIMENTAL): the carrier-in-slot probe with several players and custom multiplayer."""
+
+    def test_another_players_carrier_slot_is_presented_here(self):
+        self.assertEqual(mp_lua(r'''
+local cp=require('hd2runtime/runtime/carrier_presentation')
+local applied,calls={},{}
+cp.applied=function(name)return applied[name]==true end
+cp.apply=function(spec,cb)calls[#calls+1]=spec;applied[spec.carrier]=true;cb({status='applied'});return {status='applied'}end
+-- THEM's slot 0 is the probe, holding its carrier itself (the 120mm, type 136).
+V.table[THEM][0]='carrier_slot_probe'
+RECORDS[2]=rec(THEM,{136,41,130})
+local world=world_module.open()
+custom.probe_remote_step(world)
+assert(#calls==0,'aboard the ship: nothing')
+W.state(4,{host=false})
+custom.probe_remote_step(world)
+assert(#calls==1 and calls[1].carrier=='Orbital 120mm HE Barrage'and calls[1].code==nil and calls[1].text
+    and calls[1].icon,'its name and icon, no code')
+assert(count('REMOTE CARRIER PRESENTED (the carrier-in-slot probe): peer '..THEM..' slot 0 holds Orbital 120mm HE '
+    ..'Barrage for carrier_slot_probe: presented here as')==1)
+assert(custom.presented_here(136,'carrier_slot_probe')and not custom.presented_here(136,'eat17_gas'))
+custom.probe_remote_step(world)
+assert(#calls==1,'once')
+-- A new mission where the same type is also this player's own native pick: never presented.
+W.state(3);custom.probe_remote_step(world);W.state(4,{host=false})
+applied={}
+RECORDS[1]=rec(ME,{118,118,118,136})
+custom.probe_remote_step(world)
+assert(#calls==1 and count('REMOTE CARRIER NOT PRESENTED (the carrier-in-slot probe): peer '..THEM..' slot 0 holds '
+    ..'Orbital 120mm HE Barrage for carrier_slot_probe: it is also a native pick here')==1)
+assert(not custom.presented_here(136,'carrier_slot_probe'))
+-- This player's own slot of it too: its own steps present it (nothing applied here).
+W.state(3);custom.probe_remote_step(world);W.state(4,{host=false})
+V.table[ME][0]='carrier_slot_probe'
+RECORDS[1]=rec(ME,{136,118,118,22})
+custom.probe_remote_step(world)
+assert(#calls==1 and count("presented here by this machine's own slot of it")==1)
+assert(not custom.presented_here(136,'carrier_slot_probe'),'not until its own presentation is applied')
+applied['Orbital 120mm HE Barrage']=true
+assert(custom.presented_here(136,'carrier_slot_probe'))
+'''), b'ok')
+
+    def test_other_players_custom_slots_are_never_native_picks(self):
+        self.assertEqual(mp_lua(r'''
+local conv=require('hd2runtime/runtime/stratagem_slot_conversion')
+local LIVE={}
+conv.records=function()return LIVE end
+local function live(peer,types,me)
+    local e={{index=0,type=124,granted=1}}
+    for k,t in ipairs(types)do e[#e+1]={index=k,type=t,granted=0}end
+    return {peer=peer,['local']=me,entries=e}
+end
+-- THEM's slot 0 is the probe holding the 120mm; its slots 1 and 2 native (41: Orbital Gas Strike, 130).
+V.table[THEM][0]='carrier_slot_probe'
+LIVE={live(ME,{118,118,118,22},true),live(THEM,{136,41,130})}
+local world=world_module.open()
+local ids=custom.peer_ids(world)
+assert(not ids[1063322614],'its custom slot (the carrier itself) is not a native pick')
+assert(ids[3193297673]and ids[1298599997],'its native picks are')
+-- Without custom multiplayer every entry counts.
+local view=sync.view
+sync.view=function()return nil end
+assert(custom.peer_ids(world)[1063322614])
+sync.view=view
+-- The loadout screen's other players (aboard the ship): their native slots only; never when an owner is no peer.
+selector.lobby_records=function()
+    return {{index=0,owner=ME,['local']=true,types={118,118,118,22}},{index=1,owner=THEM,['local']=false,types={136,41,130}}}
+end
+local set,key=custom.screen_natives(world,V)
+assert(set and not set[1063322614]and set[3193297673]and set[1298599997],tostring(key))
+selector.lobby_records=function()return {{index=1,owner='00000000DEADBEEF',['local']=false,types={136}}}end
+local none,why=custom.screen_natives(world,V)
+assert(none==nil and why:find('is not a peer of the lobby table',1,true),tostring(why))
+'''), b'ok')
+
 
 if __name__ == '__main__':
     unittest.main()

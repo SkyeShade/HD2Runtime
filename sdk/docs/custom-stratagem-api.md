@@ -189,8 +189,9 @@ everywhere else.
   loadout from the recorded order: the fallback is refused (`IDENTITY_CHANGED`), nothing written, the slot stays
   locked all mission. Refusals of other kinds lock the slot's own entry with its own carrier type
   (`CUSTOM STRATAGEM LOCKED: ... its carrier X itself`).
-- **Refused in a mission** (the slot locked, never called): with several players; when its slots mix the token and the
-  carrier; when the launch fallback is refused.
+- **Refused in a mission** (the slot locked, never called): with several players without custom multiplayer; when its
+  slots mix the token and the carrier; when the launch fallback is refused; with custom multiplayer, when its slot's
+  carrier is not the lobby's carrier for it at mission start (`CUSTOM MP DESYNC`).
 - **Evidence:** r34 solo log (2026-10-07), two missions: `LOCKED`, `NATIVE USES` (-1 -> 3, read back true),
   `ADOPTED`, `RELEASED`, `READY TO CALL`, three calls landed, presentation applied during PrepareMission before the
   HUD was populated. r35 solo log: the carrier picked natively into another slot (the game took the duplicate: the
@@ -202,7 +203,23 @@ everywhere else.
   worked well"): the game's helper lifted the grey on every grid open (`by the game's per-card grey helper ... 1
   call`), the card looked pickable, the pick moved the slot (Airburst -> Gatling). The launch fallback (0.3.0) is
   offline only.
-- **With several players** the pick writes the token, as before.
+- **With several players** (r38, EXPERIMENTAL, NOT live-tested): only with custom multiplayer (every lobby member a
+  compatible Runtime with the same custom stratagem registry); without it the pick writes the token, as before.
+  - The pick writes the carrier the lobby gives that custom id (one carrier per id, whoever selects it).
+  - Aboard the ship the other players' native picks are read from the loadout screen (`CUSTOM MP SCREEN NATIVES`,
+    read-only; only while a carrier-mode custom stratagem is selected in the lobby, and only when every other loadout
+    record's owner is a peer of the synced lobby table), so a slot whose carrier another player picks moves before the
+    launch. Every player's custom slot (token or carrier) is never counted as a native pick, aboard the ship
+    (`peer_ids`) and at mission start (the synced table).
+  - In the mission the early lock is marked as a multiplayer lockout write (this machine's own entry) and the native
+    uses go through the client-write proof (the session host, or a client inside it).
+  - Every machine presents every OTHER player's carrier slot as its custom stratagem (`REMOTE CARRIER PRESENTED`: its
+    name and icon on that carrier's row, no code, as an expendable's clone already is on every machine), from the
+    first mission update, before the HUD. Never when that type is also a native pick on that machine or two custom ids
+    claim it. Restored with every presentation at the mission's end.
+  - The teammate HUD overlay stands down for a card whose carrier is presented on that machine as that custom
+    stratagem (`TEAMMATE HUD NATIVE`): the game's own card shows it, with its own cooldown band. It still draws over a
+    token card and over a carrier that is not presented there.
 
 ### `code`
 

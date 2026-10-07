@@ -1,60 +1,57 @@
-# CarrierSlotProbe 0.3.1: the carrier-in-slot probe
+# CarrierSlotProbe 0.4.0: the carrier-in-slot probe
 
-Probe 1 of the carrier-in-slot proposal (2026-10-07), with the native slot uses (0.2.0), no lockout (0.2.1), the
-doubles and launch fallback (0.3.0) and the doubles' look (0.3.1). One custom stratagem, Carrier Slot Probe: an Orbital
-Gas Barrage (the 120mm's own barrage, its shells bursting into the Gas Strike's cloud), 3 uses per mission, 45 s
-cooldown, code UP DOWN UP DOWN LEFT RIGHT LEFT. Its loadout slot holds its **carrier itself**, not the Orbital Precision Strike token. Needs HD2Runtime
-0.30.0-dev r37 or later. **Solo only**: with several players its pick writes the token as before, and a carrier slot
-picked solo is refused and locked in a multiplayer mission.
+Probe 1 of the carrier-in-slot proposal (2026-10-07). One custom stratagem, Carrier Slot Probe: an Orbital Gas Barrage
+(the 120mm's own barrage, its shells bursting into the Gas Strike's cloud), 3 uses per mission, 45 s cooldown, code UP
+DOWN UP DOWN LEFT RIGHT LEFT. Its loadout slot holds its **carrier itself**, not the Orbital Precision Strike token.
+Needs HD2Runtime 0.30.0-dev r38 or later.
 
-The log names this build: `CarrierSlotProbe 0.3.1 CARRIER SLOT DOUBLES LOOK PROBE BUILD`.
+The log names this build: `CarrierSlotProbe 0.4.0 CARRIER SLOT MULTIPLAYER PROBE BUILD`.
 
-New in 0.3.1 (runtime r37): the carrier also LOOKS pickable. In r36 it could be picked but was still drawn grey. The
-Runtime now lifts the grey through the game's own per-card helper, the call the game itself makes to grey or un-grey a
-card (Stratagem MultiSelect makes the same call). Its code is checked byte for byte before every call. If that check
-fails, the old way stays: pickable, drawn grey.
+What it does, by version:
 
-New in 0.3.0 (runtime r36):
+- **0.2.0:** native slot uses (the game's own HUD counter); the slot locked until it is ready to call.
+- **0.2.1:** no lockout of its carrier; the slot moves to its next carrier when someone else picks it.
+- **0.3.0:** doubles (you can pick its carrier in another slot); the launch fallback.
+- **0.3.1:** the carrier looks pickable (the game's own grey helper). Live: works (r37).
+- **0.4.0 (EXPERIMENTAL, NOT live-tested):** with friends, through custom multiplayer:
+  - your pick writes the carrier the lobby gives Carrier Slot Probe;
+  - a friend's native pick of that carrier moves your slot before the launch, if the Runtime can read the other
+    players' picks on the loadout screen;
+  - every machine shows every player's slot of it as Carrier Slot Probe, the teammate panel (CTRL) included, through
+    the game's own card. The Runtime's teammate overlay is not drawn over it any more.
 
-- **Doubles.** The game greys every stratagem already in your loadout ("already in this loadout"), including the
-  carrier in your custom slot. The Runtime now lifts that grey for exactly that carrier while you edit another slot,
-  so you can pick it there too (as Stratagem MultiSelect allows for any stratagem). Picking it moves the custom slot
-  to its next carrier (0.2.1's move). While you edit the custom slot itself, the carrier stays greyed.
-- **Launch fallback.** If the slot could not move before the launch (you readied right after the pick), the mission
-  swaps your own slot to its new carrier while it is still locked, then makes it ready. Your real pick of that
-  stratagem is never written. If the Runtime never saw your pick (made while ready), the probe is refused for that
-  mission and its slot stays locked.
-- **The only lockout left** is the regular one: the last carrier available for a custom stratagem you selected.
+Without custom multiplayer (a friend without a matching Runtime and mod set), the pick writes the token, as before.
 
-## What to do
+## Multiplayer test (2 players)
 
-1. Install the r37 HD2Runtime and CarrierSlotProbe 0.3.1 (remove 0.3.0). Solo.
-2. Pick Carrier Slot Probe from the custom panel into slot 1. The log's `SELECTED` line names its carrier (C).
-3. Close the stratagem picker. Open it again for another slot.
-4. Find C in the grid: it should look normal (not greyed) and be pickable. Pick it.
-5. Within a couple of seconds the custom slot moves to another carrier. The custom icon stays on its slot, and your
-   other slot shows C as a normal stratagem.
-6. Open the picker on the custom slot itself and look at its new carrier: greyed there (by design).
-7. Start a mission. Watch the HUD from its first frame, then call the probe three times and try a fourth. Also call
-   C from your other slot.
-8. Optional, the fallback: back aboard, pick the probe's current carrier into another slot and press ready right
-   away. You will see either a normal move (you were slower than the move), a `LAUNCH FALLBACK`, or an
-   `IDENTITY_CHANGED` refusal (the Runtime never saw the pick). All three are safe outcomes.
-9. Send the log, and say what you saw in steps 4, 5, 7 and 8.
+Both players install the r38 HD2Runtime and CarrierSlotProbe 0.4.0 (remove 0.3.1), with the same other custom
+stratagem mods (or none). Player A and player B; swap roles in a second run (host and client behave differently).
 
-## What to look for
+1. Form the lobby. Both logs should show `CUSTOM MP STATE` with both players and custom multiplayer enabled.
+2. **A** picks Carrier Slot Probe from the custom panel. A's log: `several players (custom multiplayer, EXPERIMENTAL r38):
+   its pick writes the carrier the lobby gives it`, then `SELECTED: carrier_slot_probe -> slot N holds C (... the CARRIER
+   itself ...)`. Note C.
+3. A's log also shows one of:
+   - `CUSTOM MP SCREEN NATIVES (aboard the ship, read-only ...)`: the Runtime reads B's picks;
+   - `CUSTOM MP SCREEN NATIVES not used`, with the reason: send that line.
+4. **B** opens the native picker and picks C (it is pickable: it is not in B's loadout). Within about 2 s A's log shows
+   `stratagem selector MOVED ... C -> D` and `SHIP (carrier_slot_probe): loadout slot N MOVED from C to D (another
+   player picked it natively)`. A's custom icon stays on its slot.
+5. Optional: **B** picks Carrier Slot Probe too. Both get the same carrier (one carrier per custom stratagem).
+6. Launch. In the mission:
+   - **A's HUD:** Carrier Slot Probe's icon and name from the first frame, 3 uses.
+   - **B holds CTRL:** A's slot shows Carrier Slot Probe's icon. Is it the game's own card, with its cooldown and uses?
+     B's log: `REMOTE CARRIER PRESENTED (the carrier-in-slot probe): peer <A> slot N holds D for carrier_slot_probe` and
+     `TEAMMATE HUD NATIVE: ... no overlay`.
+   - **A calls it:** both see the gas barrage. Does B's view of A's beacon show the custom icon?
+   - **A's uses:** after each of A's calls, what does B's CTRL card show (3, 2, 1, or no counter)?
+7. Send both logs and what you saw in step 6.
 
-1. Step 4: `STRATAGEM PICKABLE (native, the carrier-in-slot probe): C` and `stratagem doubles: native grid (slot N):
-   pickable 1 card (C), by the game's per-card grey helper (game+18D1440, re-proved; 1 call ...)`. The card looks
-   normal, and the pick is accepted. If the log says `the game's per-card grey helper is not used`, send that line.
-2. Step 5: `stratagem selector MOVED (carrier-in-slot probe): virtual slot 0 ...: its carrier C ... -> D`, then
-   `SHIP (carrier_slot_probe): loadout slot 0 MOVED from C to D (you picked it natively into loadout slot N)`.
-3. Step 7: the probe's slot shows Carrier Slot Probe's icon and name from the first frame, and 3 uses that count down
-   3 -> 2 -> 1 -> 0. The fourth call is refused. C in your other slot is plain vanilla: its own name, icon and code,
-   unlimited uses, and its own strike.
-4. The mission log: `LOCKED`, `NATIVE USES ... -> 3 ... read back true`, `ADOPTED`, `RELEASED`, `READY TO CALL`.
-   None of `NOT LOCKED`, `NOT RELEASED`, `LOCK FAILED`, `stratagem slot CONVERTED` (unless you hit the fallback in
-   step 8).
-5. Step 8 with the fallback: `LAUNCH FALLBACK (the carrier-in-slot probe)`, `CONVERTED: virtual carrier_slot_probe:
-   loadout slot N = record entry E: C ... -> D`, `RELEASED record entry E`, `READY TO CALL`; C in your other slot
-   stays vanilla.
+If step 4 does not move A's slot before the launch, A's slot is refused in that mission (`CUSTOM MP DESYNC`, locked,
+never called): safe, but please send the logs.
+
+## Solo test (unchanged from 0.3.1)
+
+1. Pick Carrier Slot Probe, close the picker, reopen it for another slot: its carrier looks pickable. Pick it: the
+   custom slot moves to its next carrier.
+2. In a mission: the custom look from the first frame, 3 uses counting down 3 -> 2 -> 1 -> 0, the fourth call refused.

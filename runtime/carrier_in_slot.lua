@@ -30,8 +30,11 @@
 --     payload work as for a converted slot;
 --   * the timing (the probe's question): every game state change, the presentation and the HUD population are logged
 --     with their Runtime clock (CARRIER-IN-SLOT PROBE ...).
--- Several players: not part of the probe (selection writes the token there, as before; a carrier slot picked solo is
--- refused and locked in a multiplayer mission).
+-- Several players (r38, EXPERIMENTAL): with custom multiplayer (every lobby member a compatible Runtime) the pick writes
+-- the carrier the lobby gives it; the other players' native picks the loadout screen shows move it before the launch;
+-- in the mission the lock is marked as a lockout write (this machine's own entry), the native uses go through the
+-- client-write proof, and every other player's carrier slot is presented on each machine (custom_stratagems
+-- probe_remote_step), so the teammate panel shows it natively. Without custom multiplayer: the token, as before.
 local world_module=require('hd2runtime/runtime/event_world')
 local log_module=require('hd2runtime/runtime/log')
 local M={}
@@ -110,11 +113,13 @@ function M.step(ctx)
         log(('TIMING: the mission HUD is populated at %.2f s; %s'):format(ctx.clock,#parts>0 and table.concat(parts,'; ')
             or'no early presentation (applied by the mission steps after the HUD instead)'))
     end
-    if ctx.players and ctx.players>1 then return end
+    -- Several players: only with custom multiplayer (r38, EXPERIMENTAL), the lock marked as a lockout write.
+    local several=ctx.players~=nil and ctx.players>1
+    if several and not ctx.mp then return end
     -- The lock: the mission's first update (its record is this mission's), once per definition.
     if game and game.mission and ctx.world then
         for id,x in pairs(by)do
-            if not state.locks[id]and not x.mixed then M.lock(ctx.world,id,x)end
+            if not state.locks[id]and not x.mixed then M.lock(ctx.world,id,x,several and'lockout'or nil)end
         end
     end
     -- The early presentation: entering the mission (the loading screen) or the mission before the HUD is populated.
@@ -152,7 +157,9 @@ function M.early(id,carrier)
     return e~=nil and e.applied==true and e.carrier==carrier
 end
 -- Locks each of a definition's carrier slots (x = M.slots_by_definition(set)[id]) in this mission's own record.
-function M.lock(world,id,x)
+function M.lock(world,id,x,client)
+    -- client = 'lockout' (several players): this machine's own entry's cooldown end, the multiplayer lockout mark.
+    if client=='lockout'then require('hd2runtime/runtime/multiplayer').enable_lockout(true)end
     local slots=require('hd2runtime/runtime/stratagem_slot_conversion')
     local cooldowns=require('hd2runtime/runtime/slot_cooldown')
     local carrier_type=require('hd2runtime/runtime/stratagem_loadout').type_of(world,x.id)
@@ -168,14 +175,15 @@ function M.lock(world,id,x)
             log(('%s: NOT LOCKED: %s'):format(id,state.locks[id].failed))
             return
         end
-        local r,code,reason=cooldowns.lock_entry(world,{index=entry.index,token=carrier_type,label=id})
+        local r,code,reason=cooldowns.lock_entry(world,{index=entry.index,token=carrier_type,label=id,client=client})
         if not(r and r.kind=='locked'and r.verified)then
             state.locks[id]={failed=tostring(code or(r and r.kind))..': '..tostring(reason)}
             log(('%s: NOT LOCKED (its slot can be called before it is ready): %s'):format(id,state.locks[id].failed))
             for _,l in ipairs(list)do cooldowns.unlock_entry(world,l)end
             return
         end
-        list[#list+1]={index=entry.index,token=carrier_type,locked=r.raw_desired,original=r.raw_before,label=id}
+        list[#list+1]={index=entry.index,token=carrier_type,locked=r.raw_desired,original=r.raw_before,label=id,
+            client=client}
     end
     state.locks[id]={entries=list}
     local indices={}

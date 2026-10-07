@@ -4249,7 +4249,7 @@ def _silo_scenario():
 EXTRAS['example-shredder-silo'] = {'after': _silo_scenario(), 'readOnly': True}
 
 
-# The carrier-in-slot probe (proof/CarrierSlotProbe 0.3.1; runtime/carrier_in_slot.lua): the custom stratagem checks of
+# The carrier-in-slot probe (proof/CarrierSlotProbe 0.4.0; runtime/carrier_in_slot.lua): the custom stratagem checks of
 # the other examples (a red orbital carrier, the token's colour set), then: registered with selection 'carrier', the
 # probe module loaded at startup with its early lock and its release, its 3 uses, its pick's carrier read from the real
 # allocation (read-only), nothing written.
@@ -4264,6 +4264,8 @@ PROBE_STEPS = r'''
   and type(require('hd2runtime/runtime/stratagem_selector').move_carrier)=='function'and type(custom.probe_move_step)=='function'
   and type(require('hd2runtime/runtime/stratagem_blocking').enable)=='function'
   and type(require('hd2runtime/runtime/stratagem_selector').reconvert_virtual)=='function'
+  and type(custom.probe_remote_step)=='function'and type(custom.presented_here)=='function'
+  and type(custom.screen_natives)=='function'
   and(c==nil or(type(c.id)=='number'and type(c.name)=='string'))and counts.writes==0,tostring(c and c.name))
  -- 0.3.1: the game's per-card grey helper, its whole body pinned, proves on the real game.dll (nothing called).
  local world=assert(require('hd2runtime/runtime/event_world').open())
@@ -4280,7 +4282,7 @@ end
 
 
 def _probe_scenario():
-    text = EXAMPLE_CUSTOM_STRATAGEM % {'id': 'carrier_slot_probe', 'banner': 'CarrierSlotProbe 0.3.1 CARRIER SLOT DOUBLES LOOK PROBE BUILD',
+    text = EXAMPLE_CUSTOM_STRATAGEM % {'id': 'carrier_slot_probe', 'banner': 'CarrierSlotProbe 0.4.0 CARRIER SLOT MULTIPLAYER PROBE BUILD',
         'beacon': 'offensive', 'families': "{'orbital','eagle','sentry','emplacement','mine','support','backpack'}",
         'colour_set': 0}
     old = " return results\nend\n"

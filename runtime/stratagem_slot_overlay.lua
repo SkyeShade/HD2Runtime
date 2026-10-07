@@ -787,7 +787,7 @@ function M.mission_remote_slots(source)
     end
     local function targets(world)
         local out={}
-        local synced,carriers=source()
+        local synced,carriers,native=source()
         -- Custom multiplayer is not running (no mission, solo, or refused): nothing is read; the next mission starts over.
         if not synced or not next(synced)then
             types,colours,notes,drawn,records={},{},{},{},{tick=nil,by_peer={}}
@@ -832,6 +832,17 @@ function M.mission_remote_slots(source)
                             refused(peer,slot,('the card shows type %s, neither %s\'s token (type %d) nor its frozen '
                                 ..'carrier (type %s); the native card stays'):format(tostring(card.type),id,kind,
                                 tostring(carrier)))
+                        elseif card.type==carrier and native and native(card.type,id)then
+                            -- r38: the carrier is presented as that custom stratagem on this machine: the native card
+                            -- shows it (the carrier-in-slot probe); no overlay.
+                            refused(peer,slot,nil)
+                            local key=peer..' '..slot
+                            if drawn[key]~='native '..id then
+                                drawn[key]='native '..id
+                                log(('TEAMMATE HUD NATIVE: panel %d, peer %s, slot %d (record entry %d): its carrier (type '
+                                    ..'%d) is presented here as %s: the native card shows it; no overlay'):format(panel.k,
+                                    peer,slot,card.entry,card.type,id))
+                            end
                         elseif M.rect(world,card.icon)then
                             refused(peer,slot,nil)
                             local placed=('%s@%d'):format(id,panel.k)

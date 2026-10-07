@@ -1805,11 +1805,34 @@ local function ship_step(world,v)
         if next(own)then present=probe.discount(present,own)end
     end
     local table_ids=mp_on and sync.table_ids(v.table)or nil
+    local screen_key='-'
+    if mp_on then
+        local carrier_mode=false
+        for _,id in ipairs(table_ids or{})do if defs[id]and defs[id].selection=='carrier'then carrier_mode=true end end
+        if carrier_mode then
+            local extra,skey=M.screen_natives(world,v)
+            if extra then
+                local merged={}
+                for k in pairs(present)do merged[k]=true end
+                for k in pairs(extra)do merged[k]=true end
+                present,screen_key=merged,skey
+                if ship.screen_said~=skey then
+                    ship.screen_said=skey
+                    log('CUSTOM MP SCREEN NATIVES (aboard the ship, read-only; the carrier-in-slot probe): the other '
+                        ..'players\' native picks the loadout screen shows: '..(skey~=''and skey or'none'))
+                end
+            elseif ship.screen_said~=skey then
+                ship.screen_said=skey
+                log('CUSTOM MP SCREEN NATIVES not used (the other players\' native picks count from the mission start): '
+                    ..tostring(skey))
+            end
+        end
+    end
     local pin_parts={}
     for id,stable in pairs(M.probe_pins())do pin_parts[#pin_parts+1]=id..'='..stable end
     table.sort(pin_parts)
     local key=table.concat(ids,',')..'|'..table.concat(lobby.peers,',')..'|'..(mp_on and v.table_hash or'-')..'|'
-        ..table.concat(pin_parts,',')
+        ..table.concat(pin_parts,',')..'|'..screen_key
     if key==ship.key and clock<ship.at+M.REVALIDATE_EVERY then return end
     ship.key,ship.at=key,clock
     local a,why=allocate(world,present,list,mp_on and'aboard the ship, a PREVIEW from the synced lobby table (every '
@@ -1952,6 +1975,86 @@ do
     M.probe_move_step=probe_move_step
 end
 
+-- THE CARRIER-IN-SLOT PROBE WITH SEVERAL PLAYERS (r38, EXPERIMENTAL; the user's request of 2026-10-07): every other
+-- player's carrier slot is presented as its custom stratagem on THIS machine too: the custom name and icon on that
+-- carrier's row (no code: this machine never calls it), as an expendable's clone already is on every machine
+-- (add_clone). From the first mission update (before the HUD), so this machine's teammate panel shows that slot as the
+-- custom stratagem natively, and the teammate HUD overlay stands down for it (M.presented_here). The authority is the
+-- synced lobby table (that player's slot names a carrier-mode custom id) and that player's record entry (the type it
+-- holds); never presented when that type is also a native pick anywhere (this machine's own included) or two custom
+-- ids claim it. This machine's own carrier slots are presented by their own steps. Restored with every presentation
+-- at the mission's end (restore_all).
+M.REMOTE_EVERY=0.25
+do
+    local remote={done={},names={},ids={}}
+    function M.probe_remote_step(world)
+        local game=world_module.game_state(world)
+        if not(game and game.mission)then
+            if next(remote.done)or next(remote.ids)then remote={done={},names={},ids={}}end
+            return
+        end
+        local v=sync.view()
+        if not(v and v.status=='enabled'and v.table)then return end
+        local records=cmp.first_records()
+        if not(records and#records>1)then records=slots.records(world)end
+        if not(records and#records>1)then return end
+        local present,custom=sync.native_present(records,v.table,function(kind)return loadout.id_of(world,kind)end)
+        local token=loadout.type_of(world,stratagem_id(M.TOKEN))
+        local claims={}
+        for _,c in ipairs(custom)do
+            local d=defs[c.id]
+            if c.type~=token and d and d.selection=='carrier'then
+                local cl=claims[c.type]or{id=c.id,where={},own=false}
+                claims[c.type]=cl
+                if cl.id~=c.id then cl.conflict=true end
+                if c.peer==v.local_peer then cl.own=true
+                else cl.where[#cl.where+1]=('peer %s slot %d'):format(c.peer,c.slot)end
+            end
+        end
+        for kind,cl in pairs(claims)do
+            local stable=loadout.id_of(world,kind)
+            local name=stable and names_by_id[stable]
+            local key=kind..'='..cl.id
+            if not remote.done[key]then
+                local why
+                if cl.conflict then why='two custom stratagems claim it'
+                elseif not name then why='not a catalogued stratagem'
+                elseif present[stable]then why='it is also a native pick here (never presented as a custom stratagem)'end
+                if why then
+                    remote.done[key]='refused'
+                    log(('MISSION: REMOTE CARRIER NOT PRESENTED (the carrier-in-slot probe): %s holds %s for %s: %s'):format(
+                        #cl.where>0 and table.concat(cl.where,', ')or'your slot',tostring(name or kind),cl.id,why))
+                elseif cl.own or carrier_presentation.applied(name)then
+                    -- This machine's own slot of it (its own steps present it), or already presented here.
+                    remote.done[key]='own'
+                    remote.names[kind],remote.ids[kind]=name,cl.id
+                    if#cl.where>0 then
+                        log(('MISSION: REMOTE CARRIER (the carrier-in-slot probe): %s holds %s for %s: presented here by '
+                            ..'this machine\'s own slot of it'):format(table.concat(cl.where,', '),name,cl.id))
+                    end
+                else
+                    remote.done[key]='pending'
+                    local d=defs[cl.id]
+                    carrier_presentation.apply({carrier=name,text=d.texts,icon=d.icon},function(h)
+                        local applied=h.status=='applied'
+                        remote.done[key]=applied and'applied'or'refused'
+                        if applied then remote.names[kind],remote.ids[kind]=name,cl.id end
+                        log(('MISSION: REMOTE CARRIER %s (the carrier-in-slot probe): %s holds %s for %s: %s'):format(
+                            applied and'PRESENTED'or'NOT PRESENTED',table.concat(cl.where,', '),name,cl.id,applied
+                            and('presented here as '..d.label..' (its name and icon; no code: never called here)')
+                            or(tostring(h.code)..': '..tostring(h.reason))))
+                    end)
+                end
+            end
+        end
+    end
+    -- Whether this machine presents carrier type `kind` as custom id `id` now: the native card shows it.
+    function M.presented_here(kind,id)
+        local name=remote.names[kind]
+        return name~=nil and remote.ids[kind]==id and carrier_presentation.applied(name)==true
+    end
+end
+
 ------------------------------------------------------------------ expendable: availability (aboard the ship) --
 -- An expendable custom stratagem is AVAILABLE while a carrier weapon of its donor's class remains for it: not picked
 -- natively by any lobby member (this player's saved loadout, every stratagem record this machine reads) and not the
@@ -1986,18 +2089,56 @@ local function lobby_picks(world,ids)
     return present,who,set
 end
 M.lobby_picks=lobby_picks
--- The stable ids other players' stratagem records hold now (a set; read-only).
+-- The stable ids other players' stratagem records hold now (a set; read-only). With custom multiplayer, an entry at a
+-- loadout slot the synced lobby table names as that player's custom stratagem is that player's custom slot (its token,
+-- or with the carrier-in-slot probe its carrier), never a native pick.
 function M.peer_ids(world)
     local out={}
+    local v=sync.view()
+    local t=v and v.status=='enabled'and v.table or nil
     for _,r in ipairs(slots.records(world)or{})do
         if not r['local']then
-            for _,e in ipairs(r.entries or{})do
-                local id=loadout.id_of(world,e.type)
+            local picks=t and t[r.peer]
+            local entries={}
+            for _,e in ipairs(r.entries or{})do entries[#entries+1]=e end
+            table.sort(entries,function(a,c)return a.index<c.index end)
+            local slot=0
+            for _,e in ipairs(entries)do
+                local custom=false
+                if e.granted==0 then
+                    custom=picks~=nil and picks[slot]and true or false
+                    slot=slot+1
+                end
+                local id=not custom and loadout.id_of(world,e.type)
                 if id then out[id]=true end
             end
         end
     end
     return out
+end
+-- The other players' NATIVE picks the loadout screen shows (stratagem_selector.lobby_records, read-only), aboard the
+-- ship with custom multiplayer (r38, the carrier-in-slot probe: a carrier slot whose carrier another player picks
+-- moves before the launch): each other player's slots the synced lobby table does not name as custom. Only when every
+-- other loadout record's owner is a peer of the table. Returns a set of stable ids and its key, or nil and why.
+function M.screen_natives(world,v)
+    if not(v and v.status=='enabled'and v.table)then return nil,'custom multiplayer is not enabled'end
+    local ok,list=pcall(selector.lobby_records,world)
+    if not(ok and list)then return nil,'the loadout screen is not open'end
+    local out,parts=({}),{}
+    for _,r in ipairs(list)do
+        if not r['local']then
+            local picks=v.table[r.owner]
+            if picks==nil then
+                return nil,('the loadout screen\'s player %s is not a peer of the lobby table'):format(tostring(r.owner))
+            end
+            for k,kind in ipairs(r.types)do
+                local id=not picks[k-1]and loadout.id_of(world,kind)or nil
+                if id then out[id]=true;parts[#parts+1]=r.owner..':'..id end
+            end
+        end
+    end
+    table.sort(parts)
+    return out,table.concat(parts,',')
 end
 -- Definitions that follow the availability rule: every expendable one, every carrier pod, and every definition that
 -- requested a carrier GROUP. (A legacy policy-only definition keeps its PRE-MISSION refusal, unchanged.)
@@ -2085,9 +2226,14 @@ function M.probe_carrier(id)
     local world=world_module.open()
     local players=world and world_module.players(world)
     if players and#players>1 then
-        require('hd2runtime/runtime/carrier_in_slot').log(id..': several players: its pick writes the token (the probe is '
-            ..'solo only)')
-        return nil
+        local v=sync.view()
+        if not(v and v.status=='enabled')then
+            require('hd2runtime/runtime/carrier_in_slot').log(id..': several players without custom multiplayer: its pick '
+                ..'writes the token')
+            return nil
+        end
+        require('hd2runtime/runtime/carrier_in_slot').log(id..': several players (custom multiplayer, EXPERIMENTAL r38): '
+            ..'its pick writes the carrier the lobby gives it')
     end
     local a=cache[id]or(group_view.a and group_view.a.assignments[id])
     if not(a and a.stable_id and a.carrier)then
@@ -3883,7 +4029,8 @@ local function advance(world,item)
             else
                 refuse_definition(item,'the slot conversion was refused: '..tostring(h.code)..': '..tostring(h.reason))
             end
-        end,a.carrier,adopt and{uses=d.uses}or reconvert and{multiplayer=true,client=item.client==true}
+        end,a.carrier,adopt and{uses=d.uses,client=item.client==true}or reconvert and{multiplayer=true,
+            client=item.client==true}
             or{uses=d.eagle and d.eagle.uses or nil,multiplayer=true,client=item.client==true})
         return
     end
@@ -4875,7 +5022,8 @@ local function tick(dt)
         if game then
             local players=world_module.players(wp)
             local probe=require('hd2runtime/runtime/carrier_in_slot')
-            probe.step({game=game,clock=clock,definitions=defs,set=set,world=wp,
+            local sv=sync.view()
+            probe.step({game=game,clock=clock,definitions=defs,set=set,world=wp,mp=sv~=nil and sv.status=='enabled',
                 carrier_name=function(id)return names_by_id[id]end,players=players and#players or nil,
                 hud=function()return stratagem_hud.populated(wp)end,
                 -- Whether the slots' carrier is the definition's carrier now and held by nobody else.
@@ -4889,6 +5037,16 @@ local function tick(dt)
                     end
                     return true
                 end})
+        end
+    end
+    -- r38: every other player's carrier slot presented on this machine too (custom multiplayer), from the first mission
+    -- update (before the HUD), every M.REMOTE_EVERY s.
+    if clock>=(M.remote_at or 0)then
+        M.remote_at=clock+M.REMOTE_EVERY
+        local wr=world_module.open()
+        if wr then
+            local ok,err=pcall(M.probe_remote_step,wr)
+            if not ok then step_failed('the remote carrier presentation',err)end
         end
     end
     -- Other players' thrown balls, faster than the step (a ball lives only around its landing): cached as evidence.
@@ -5050,7 +5208,7 @@ function M.start()
                     out=out or{};out[peer]=slots
                 end
             end
-            return out,mission.carrier_types
+            return out,mission.carrier_types,M.presented_here
         end)
         local stop=remote_overlays.stop
         remote_overlays.teammates=teammates

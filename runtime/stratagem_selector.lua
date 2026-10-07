@@ -1651,9 +1651,9 @@ function M.adopt_virtual(id,callback,carrier,opts)
     if#slots==0 then
         return slot_conversion.adopt_virtual({definition=tostring(id),slots={},order=order,carrier=carrier},callback)
     end
-    -- opts.uses: the native per-slot uses its adoption writes (probe 0.2.0).
+    -- opts.uses: the native per-slot uses its adoption writes (probe 0.2.0); opts.client: a client's write mark (r38).
     return slot_conversion.adopt_virtual({definition=id,slots=slots,order=order,carrier=carrier,
-        uses=opts and opts.uses or nil},callback)
+        uses=opts and opts.uses or nil,client=opts and opts.client or nil},callback)
 end
 -- The carrier-in-slot probe's launch fallback (0.3.0): the virtual CARRIER slots of `id`, picked with a carrier that is
 -- no longer its carrier, converted in the mission record from that old carrier (the slots' own, as the token) to

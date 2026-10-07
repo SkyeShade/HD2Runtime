@@ -954,6 +954,10 @@ function M.adopt_virtual(spec,callback)
             if not(type(n)=='number'and n%1==0 and n>=1 and n<=100)then
                 return nil,'BAD_SPEC','spec.uses must be a whole number from 1 to 100'
             end
+            -- With several players (r38): this machine's own entry, the host or a client inside the client-write proof.
+            local hcode,hwhy=require('hd2runtime/runtime/multiplayer').host_guard(game,spec.client==true,
+                'the native uses: the session host, or a client inside the client-write proof')
+            if hcode then return nil,hcode,hwhy end
             local crow=row(world,carrier_type)
             if not(crow and signed(world.view.u32(crow+ROWM.maxUses))==-1)then
                 return nil,'USES_DIFFER',spec.carrier..' does not have unlimited uses: its uses are its own'
