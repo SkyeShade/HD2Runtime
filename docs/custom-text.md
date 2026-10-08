@@ -70,9 +70,22 @@ It registers that table by appending its pointer to the registry, after the game
 table holds every mod's texts, so the number of mods never matters. When the place is taken anyway, `REGISTRY_FULL`
 is refused and one read-only line is logged, `text REGISTRY FULL (read-only diagnostic: what holds each place)`,
 naming each table: a game table (by name when English), a table in the Runtime format that this Runtime did not
-register (another HD2Runtime copy, or one loaded earlier in the session), or another shape. The game grows its
-array only through its own allocator (and frees the old array through it), so the Runtime never grows it with its
-own memory.
+register (another HD2Runtime copy, or one loaded earlier in the session), or another shape.
+
+Then the Runtime **grows the registry the way the game does** (`text REGISTRY GROWN`): the game's add (`0x321AA0`)
+grows a full array through the registry's own allocator (registry `+0x10`, vtable `+0x30`; policy: under 8 -> 8,
+else capacity + capacity / 2) and frees the old array through it. The Runtime reproduces exactly that, pinned,
+with one difference: the old array stays allocated, because a lookup on another thread may still read it.
+- **Checks:** every pin of the add's growth path and of the allocate proves; the allocator's vtable and its
+  `+0x30` entry are the reviewed ones (the same in every retained snapshot); the call runs on the game thread
+  inside the Runtime's update, on a live process only.
+- **One allocate call,** then one guarded transaction: each table pointer copied into the new array, then the
+  array pointer, then the capacity. The count and the entries never change, so every reader sees the same
+  tables; the result is read back before the Runtime table is appended as usual.
+- **No hook, no generated code, no protection change:** an in-process call to the game's own allocator, like the
+  other game functions the Runtime calls.
+- **Refused** (another allocator, not the game thread, no memory), nothing is written and `REGISTRY_FULL` stands.
+  Not live-tested yet.
 
 A custom stratagem whose text is refused this way still runs (0.30.2): its carrier keeps its own name and
 description and takes the custom icon and code (`carrier presentation TEXT FALLBACK: ...`). Every other text refusal

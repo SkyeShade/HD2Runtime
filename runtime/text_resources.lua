@@ -366,6 +366,71 @@ local function report_full(runtime,reg)
     log('REGISTRY FULL (read-only diagnostic: what holds each place): '..text)
 end
 
+-- Growing a full registry (0.30.2; research registry.growth): exactly what the game's add (0x321AA0) does when it is
+-- full, through the same allocator, except that the old array stays allocated (a lookup on another thread may still be
+-- reading it; the game would free it). The allocator at registry +0x10 must be the reviewed one (its vtable and the
+-- vtable's +0x30 entry, the allocate the add calls); the capacity follows the add's policy (under 8 -> 8, else
+-- capacity + capacity / 2). One call to that allocate on the game thread inside the Runtime's update, on a live process
+-- only; then one guarded transaction: the old pointers copied into the new array, the array pointer, then the capacity.
+-- The count and every entry stay the same, so every reader sees the same tables. Returns the new registry, or nil, code
+-- and reason (nothing written).
+M.native={}
+function M.native.allocate(runtime,entry,allocator,size)
+    if not(runtime and runtime.mode=='live')then return nil,'not a live game process'end
+    local win=require('hd2runtime/runtime/windows_ffi')
+    local ffi=win.ffi
+    local allocate=ffi.cast(win.fn('void *(*)(void *, void *, uint64_t, uint64_t)'),entry)
+    local out=ffi.new('uint64_t[2]')
+    local returned=allocate(ffi.cast('void *',allocator),out,size,8)
+    local pointer,got=tonumber(out[0]),tonumber(out[1])
+    if returned==nil or tonumber(ffi.cast('uintptr_t',returned))~=tonumber(ffi.cast('uintptr_t',out))then
+        return nil,'the allocate did not return its result'
+    end
+    if pointer==0 or got<size then return nil,'the allocate returned no memory'end
+    return pointer
+end
+local function grow(runtime,reg,pins)
+    if not scheduler.in_update()then return nil,'NOT_GAME_THREAD','only inside the Runtime\'s own update'end
+    local G=D.growth
+    local allocator=qword(bytes(runtime,reg.list+G.allocator,8),0)
+    local vtable=allocator~=0 and qword(bytes(runtime,allocator,8),0)
+    if not(vtable==pins.exe+G.vtable and qword(bytes(runtime,vtable+0x30,8),0)==pins.exe+G.allocate)then
+        return nil,'ALLOCATOR_CHANGED','the registry allocator is not the reviewed one'
+    end
+    local capacity=reg.capacity<G.minimum and G.minimum or reg.capacity+math.floor(reg.capacity/2)
+    if capacity>D.limits.registryCapacity then return nil,'GROWTH_LIMIT','the registry would exceed '..D.limits.registryCapacity end
+    local ok,array,why=pcall(M.native.allocate,runtime,pins.exe+G.allocate,allocator,capacity*8)
+    if not ok or not array then return nil,'ALLOCATE_FAILED',tostring(ok and why or array)end
+    -- The new array (the allocator's memory) and the registry header, re-proven by the guarded transaction.
+    local fresh=owner_of(runtime,array,capacity*8)
+    local head=owner_of(runtime,reg.list,16)
+    local slots=owner_of(runtime,reg.array,reg.capacity*8)
+    if not(fresh and head and slots)then return nil,'REGISTRY_CHANGED','the new array is not in private read-write memory'end
+    local now=bytes(runtime,array,capacity*8)
+    local plan={snapshots={{owner=head,offset=reg.list-head.base,bytes=reg.head},
+            {owner=slots,offset=reg.array-slots.base,bytes=reg.slots},
+            {owner=fresh,offset=array-fresh.base,bytes=now}},changes={}}
+    -- Each table pointer copied (one 8-byte change each), then the array pointer, then the capacity.
+    for index=0,reg.count-1 do
+        plan.changes[#plan.changes+1]=change('grow.slot'..index,fresh,array+index*8,now:sub(index*8+1,index*8+8),
+            reg.slots:sub(index*8+1,index*8+8))
+    end
+    plan.changes[#plan.changes+1]=change('grow.array',head,reg.list+D.registry.tables,u64(reg.array),u64(array))
+    plan.changes[#plan.changes+1]=change('grow.capacity',head,reg.list+D.registry.capacity,u32(reg.capacity),
+        u32(capacity))
+    local report=transaction.apply(runtime,plan)
+    metrics.count('text.registry_growths')
+    if report.status~='APPLIED'then return nil,'REGISTRY_CHANGED',tostring(report.reason)end
+    local after=registry(runtime,pins.exe)
+    local same=after~=nil and after.count==reg.count and after.capacity==capacity and after.array==array
+    for index,at in ipairs(reg.tables)do if same and after.tables[index]~=at then same=false end end
+    if not same then return nil,'VERIFY_FAILED','the grown registry does not read back the same tables'end
+    log(('REGISTRY GROWN (the game\'s own policy and allocator): capacity %d -> %d, %d tables kept in order (the old '
+        ..'array stays allocated); %d writes'):format(reg.capacity,capacity,reg.count,report.writes))
+    return after
+end
+M.grow_for_tests=grow
+
 -- Registers the Runtime table for every defined text (or confirms it): true and {action, index, language}, or nil, code
 -- and reason. At most one guarded transaction; never inside a game table.
 function M.ensure(runtime)
@@ -397,6 +462,12 @@ function M.ensure(runtime)
     end
     if not index and reg.count>=reg.capacity then
         report_full(runtime,reg)
+        -- Grow it as the game would (0.30.2); refused, the registry stays as it is and REGISTRY_FULL stands.
+        local grown,gcode,greason=grow(runtime,reg,pins)
+        if grown then reg=grown
+        else log('the full registry was not grown ('..tostring(gcode)..': '..tostring(greason)..')')end
+    end
+    if not index and reg.count>=reg.capacity then
         return nil,'REGISTRY_FULL',('the game\'s text registry has no spare capacity (%d of %d); the Runtime never grows '
             ..'it'):format(reg.count,reg.capacity)
     end

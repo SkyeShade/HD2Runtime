@@ -62,6 +62,10 @@ def build() -> dict:
             'tableBytes': 65536, 'tables': 16},
         # The game's own tables in English, by id count (every retained snapshot is English): the REGISTRY_FULL
         # diagnostic names a one-language 'us' table by its size (0.30.2, read-only).
+        # 0.30.2: how a full registry grows (the add's own policy and allocator; research registry.growth): a larger
+        # array from the registry allocator (registry +0x10, vtable +0x30), the old one kept allocated.
+        'growth': {'allocator': 0x10, 'vtable': int(registry['growth']['allocatorVtable'], 16),
+            'allocate': int(registry['growth']['allocate'], 16), 'minimum': 8},
         'knownTables': [{'resource': table['resource'].removesuffix('_us'), 'ids': table['ids']}
             for table in research['snapshots'][0]['tables']],
         'pins': sorted(pins, key=lambda pin: (pin['module'], pin['rva']))}

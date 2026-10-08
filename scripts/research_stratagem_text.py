@@ -93,6 +93,32 @@ EXE = {
         (0x321C06, 'mov qword ptr [rax + rcx*8], rbp', None, 'the pointer at [count] ...'),
         (0x321C0C, 'inc dword ptr [rbx]', None, '... then the count'),
     ],
+    # 0.30.2: how the add grows a full array (the Runtime's REGISTRY_FULL growth reproduces it through the same
+    # allocator and keeps the old array allocated): capacity < 8 -> 8, else capacity + capacity / 2; the allocator at
+    # registry +0x10; its vtable +0x30 allocates (self, out {pointer, size}, bytes, alignment 8) and returns out.
+    'grow': [
+        (0x321B6C, 'cmp edx, 8', None, 'grow: under 8 ...'),
+        (0x321B87, 'mov edi, 8', None, '... becomes 8'),
+        (0x321B78, 'shr rdi, 1', None, 'else capacity / 2 ...'),
+        (0x321B7B, 'add rdi, rdx', None, '... added to the capacity'),
+        (0x321BA9, 'mov rcx, qword ptr [rbx + 0x10]', None, 'the allocator: registry +0x10'),
+        (0x321BAD, 'lea r8d, [rdi*8]', None, 'bytes: 8 per table pointer'),
+        (0x321BB5, 'mov r9d, 8', None, 'alignment 8'),
+        (0x321BC3, 'call qword ptr [r10 + 0x30]', None, 'allocate: vtable +0x30'),
+        (0x321BC7, 'mov rsi, qword ptr [rax]', None, 'the new array: the first qword of the result'),
+        (0x321BDE, 'call 0x1267850', None, 'the old pointers copied'),
+        (0x321BF4, 'mov qword ptr [rbx + 8], rsi', None, 'the new array stored ...'),
+        (0x321BF8, 'mov dword ptr [rbx + 4], edi', None, '... then the new capacity'),
+    ],
+    'allocate': [
+        (0x5C2E10, 'mov qword ptr [rsp + 8], rbx', None, 'allocate of the registry allocator (vtable +0x30)'),
+        (0x5C2E20, 'test r8, r8', None, 'zero bytes: an empty result'),
+        (0x5C2E3C, 'mov rcx, qword ptr [rcx + 0x20]', None, 'its backing allocator ...'),
+        (0x5C2E48, 'call qword ptr [rax + 0x30]', None, '... allocates'),
+        (0x5C2E51, 'lock xadd qword ptr [rbx + 0x28], r8', None, 'thread-safe counters'),
+        (0x5C2EC5, 'movups xmmword ptr [rdi], xmm0', None, 'the {pointer, size} result in the buffer of the caller'),
+        (0x5C2EC2, 'mov rax, rdi', None, 'returns the buffer'),
+    ],
     'clear': [
         (0x321C20, 'mov rcx, qword ptr [rip + {rip}]', REGISTRY, 'clear: the registry ...'),
         (0x321C2E, 'jmp 0x3269f0', None, '... resized to 0'),
@@ -363,10 +389,17 @@ def main():
         api = mem.ptr(mem.game + GUI_API)
         table10 = mem.ptr(api + 0x10)
         slots = {SLOTS[k]: '0x%X' % (mem.ptr(table10 + k) - exe_at) for k in SLOTS}
+        allocator = mem.ptr(registry + 0x10)
+        vtable = mem.ptr(allocator)
         snapshots.append({'snapshot': name, 'count': count, 'capacity': capacity, 'spare': capacity - count,
             'currentLanguage': codes.get(current, '0x%08X' % current), 'languageTable': language_table,
-            'apiSlots': slots, 'tables': entries})
+            'apiSlots': slots, 'tables': entries,
+            'allocator': {'vtable': '0x%X' % (vtable - exe_at), 'allocate': '0x%X' % (mem.ptr(vtable + 0x30) - exe_at),
+                'free': '0x%X' % (mem.ptr(vtable + 0x40) - exe_at)}})
         mem.close()
+    if any(item['allocator'] != {'vtable': '0x168B5A0', 'allocate': '0x5C2E10', 'free': '0x5C2ED0'}
+            for item in snapshots):
+        raise ValueError('the registry allocator differs: %r' % [item['allocator'] for item in snapshots])
     for item in snapshots:
         if item['languageTable'] != list(hd2_text.LANGUAGES):
             raise ValueError('the language table differs: %r' % item['languageTable'])
@@ -407,7 +440,12 @@ def main():
             'apiSlots': {SLOTS[k]: '0x%X' % v for k, v in SLOT_TARGETS.items()},
             'gameSlotUses': {k: ['0x%X' % a for a in v] for k, v in uses.items()},
             'gameSlotUseFunctions': {k: ['0x%X' % f for f in v] for k, v in use_functions.items()},
-            'registrationCallers': registrar_callers},
+            'registrationCallers': registrar_callers,
+            'growth': {'policy': 'capacity < 8 -> 8, else capacity + capacity / 2 (the add, 0x321B6C)',
+                'allocatorVtable': '0x168B5A0', 'allocate': '0x5C2E10', 'free': '0x5C2ED0',
+                'allocateCall': '(self, out {pointer, size}, bytes, 8) -> out (vtable +0x30)',
+                'runtimeRule': 'the same allocator and policy; the array pointer, then the capacity; the old array '
+                    'is kept allocated (a lookup may still read it)'}},
         'format': {'magic': '0x%08X' % hd2_text.MAGIC, 'type': '0x%016X' % hd2_text.STRINGS_TYPE,
             'header': ['magic', 'language count', 'id count'], 'then': ['language hashes (ascending)',
                 'ids (ascending)', 'language x id offsets from the table start (0 = absent)', 'NUL-terminated UTF-8'],

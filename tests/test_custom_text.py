@@ -181,6 +181,56 @@ assert(report.slots[1].kind=='game'and report.slots[2].kind=='runtime_other')
 return 'ok'
 ''')
 
+    def test_a_full_registry_grows_as_the_game_grows_it(self):
+        # 0.30.2: the add's own policy and allocator (research registry.growth): one allocate on the game thread, the
+        # pointers copied, the array then the capacity; the old array untouched; then the normal append.
+        self.check(r'''
+local function in_update(fn)
+    local out
+    local w={status='active'}
+    function w.cancel()w.status='cancelled'end
+    function w.tick()out={fn()};w.status='complete'end;w.perf_owner='test'
+    scheduler.attach(w);tick(1,0.1);assert(out,'not ticked: '..table.concat(logged,' | '):sub(-900))
+    return unpack(out)
+end
+local a=text('gas_name','ORBITAL GAS BARRAGE')
+local reg=W.text_registry({tables={{us={[NAME]='ORBITAL 120MM HE BARRAGE'}},{us={[DESC]='A barrage.'}}},capacity=2})
+local G=TXT.growth
+local allocator=W.alloc(64)
+W.write(allocator,W.u64(W.EXE+G.vtable))
+W.write(W.EXE+G.vtable+0x30,W.u64(W.EXE+G.allocate))
+W.write(reg.list+G.allocator,W.u64(allocator))
+local calls={}
+texts.native.allocate=function(runtime,entry,object,size)
+    calls[#calls+1]={entry=entry,object=object,size=size}
+    return W.alloc(4096)
+end
+local old=W.read(reg.array,16)
+-- Outside the Runtime's update: never grown, nothing written.
+local before=#(W.runtime.writes or{})
+local ok,code=texts.ensure(W.runtime)
+assert(not ok and code=='REGISTRY_FULL'and#calls==0 and#(W.runtime.writes or{})==before)
+-- Inside it: grown (2 -> 8, the add's minimum) and appended.
+local done,info=in_update(function()return texts.ensure(W.runtime)end)
+assert(done and info.action=='appended'and info.capacity==8 and info.count==3,tostring(info))
+assert(#calls==1 and calls[1].entry==W.EXE+G.allocate and calls[1].object==allocator and calls[1].size==64)
+assert(W.read(reg.array,16)==old,'the old array untouched (kept allocated)')
+assert(reg.slot(0)~=0 and texts.resolves(W.runtime,a),'resolves')
+assert(count('REGISTRY GROWN')==1 and count('capacity 2 -> 8, 2 tables kept in order')==1,table.concat(logged,' | '))
+-- Another allocator: never called, still REGISTRY_FULL.
+texts.reset_for_tests()
+a=text('gas_name','ORBITAL GAS BARRAGE')
+reg=W.text_registry({tables={{us={[NAME]='X'}}},capacity=1})
+local other=W.alloc(64);W.write(other,W.u64(W.EXE+0x1000))
+W.write(reg.list+G.allocator,W.u64(other))
+calls={}
+before=#(W.runtime.writes or{})
+local ok2,code2=in_update(function()return texts.ensure(W.runtime)end)
+assert(not ok2 and code2=='REGISTRY_FULL'and#calls==0 and#(W.runtime.writes or{})==before)
+assert(count('the full registry was not grown (ALLOCATOR_CHANGED')==1)
+return 'ok'
+''')
+
     def test_every_refusal_writes_nothing(self):
         self.check(r'''
 local function refused(code,text_)
@@ -404,6 +454,36 @@ return 'ok'
 ''')
         stub = (ROOT / 'sdk/stubs/mods/skyeshade/hd2runtime.lua').read_text(encoding='utf-8')
         self.assertNotIn('HD2Resources.text', stub)
+
+
+class GrowthAdapterTests(unittest.TestCase):
+    def test_the_allocate_call_passes_the_game_arguments_and_reads_the_result(self):
+        # The real FFI adapter against a Lua callback standing in for the registry allocator's allocate (vtable +0x30):
+        # (self, out {pointer, size}, bytes, 8) -> out. Nothing of the game runs.
+        from lua_offline import execute
+        from support import modules
+        self.assertEqual(execute((modules() + r'''
+local ffi=require('ffi')
+local texts=require('hd2runtime/runtime/text_resources')
+local seen
+local backing=ffi.new('uint8_t[256]')
+local cb=ffi.cast('void *(*)(void *, void *, uint64_t, uint64_t)',function(self_,out,size,align)
+    seen={self=tonumber(ffi.cast('uintptr_t',self_)),size=tonumber(size),align=tonumber(align)}
+    local o=ffi.cast('uint64_t *',out)
+    o[0]=ffi.cast('uint64_t',ffi.cast('uintptr_t',backing));o[1]=size
+    return out
+end)
+local entry=tonumber(ffi.cast('uintptr_t',cb))
+assert(texts.native.allocate({mode='snapshot'},entry,0x5000,216)==nil,'never on a snapshot')
+local pointer=texts.native.allocate({mode='live'},entry,0x5000,216)
+assert(pointer==tonumber(ffi.cast('uintptr_t',backing)),'the result pointer')
+assert(seen.self==0x5000 and seen.size==216 and seen.align==8,'the game arguments')
+local bad=ffi.cast('void *(*)(void *, void *, uint64_t, uint64_t)',function(self_,out,size,align)
+    ffi.cast('uint64_t *',out)[0]=0;return out end)
+assert(texts.native.allocate({mode='live'},tonumber(ffi.cast('uintptr_t',bad)),0x5000,216)==nil,'no memory: refused')
+cb:free();bad:free()
+return 'ok'
+''').encode()), b'ok')
 
 
 if __name__ == '__main__':
