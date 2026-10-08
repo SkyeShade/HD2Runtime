@@ -147,7 +147,13 @@ def build() -> dict:
             for kind in ('armorKit', 'helmetKit', 'capeKit'):
                 if player[kind].get('name'):
                     kit_names[player[kind]['id']] = player[kind]['name']
-    return {'source': {'research': RESEARCH.name, 'build': d['build'], 'gameDllSha256': d['gameDll']},
+    # The live-proven armor-slot swaps (schemas/live_evidence.json, family player_armor_passive_swap): those passive ids
+    # need no allow_unverified_effect for the armor slot alone.
+    import live_evidence
+    swap = live_evidence.family('player_armor_passive_swap')
+    live = {'armorSwap': sorted(swap.get('passives', [])) if swap['status'] == 'live_proven' else [],
+        'evidence': live_evidence.proven('player_armor_passive_swap')}
+    return {'live': live, 'source': {'research': RESEARCH.name, 'build': d['build'], 'gameDllSha256': d['gameDll']},
         'manager': dict(LAYOUT, globalRva=d['globals']['customizationManager']), 'record': RECORD, 'kit': KIT,
         'passive': PASSIVE, 'modifier': MODIFIER, 'types': TYPES, 'passives': passives, 'unused': unused,
         'keys': key_table,

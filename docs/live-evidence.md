@@ -10,6 +10,7 @@ Composition tests record four separate facts: the donor output works, the refere
 
 | Family | Status | Fields | Scope | Acknowledgement |
 | --- | --- | --- | --- | --- |
+| `player_armor_passive_swap` | live-proven | `player_passives.armor` | The armor passive slot (+0x3C) of the local player's applied record, solo, with the passives the test cycled: 8 SERVO-ASSISTED, 6 ENGINEERING KIT, 2 SCOUT. | removed `allow_unverified_effect` |
 | `sentry_turret_turn_speed` | live-proven | `turret.yaw_speed`, `turret.pitch_speed` | Every turreted sentry: the same TurretComponent members, equal to the wiki turn-speed tables on all nine. | removed `allow_unverified_effect` |
 | `sentry_targeting_range` | live-proven | `targeting.range` | Every sentry with a SensorEye range: the same SensorEyeComponent member, equal to the seven wiki-stated ranges. | removed `allow_unverified_effect` |
 | `minefield_salvos` | live-proven | `minefield.salvos` | All four minefields: the same ThrowerComponent slot-0 member, proven by the wiki sentence, the type library and the launch sockets. Reduce-only is kept. | removed `allow_unverified_effect` |
@@ -100,6 +101,9 @@ Composition tests record four separate facts: the donor output works, the refere
 | `custom_stratagem_carrier_in_slot` | live-partial | `hd2.custom_stratagem selection (the carrier itself, the default since r44)` | The pick writes the custom stratagem's carrier itself into the loadout slot (runtime/carrier_in_slot.lua): no conversion in the mission, the presentation applied on the loading screen, the slot locked until it is ready to call, native per-slot uses, the moves when another player picks the carrier, the doubles (the game's own per-card grey helper), the launch fallback, and with several players the same carrier per id on every machine and every player's slot presented natively on every machine. The Orbital Precision Strike token stays the fallback (several players without custom multiplayer, a pick while it is waiting, no carrier known). Code-proven offline (tests/test_carrier_in_slot.py). | unchanged |
 
 ## Notes
+
+**`player_armor_passive_swap`**
+- Not promoted (still need `allow_unverified_effect`): player_passives.second (the helmet slot +0x38), every other passive id, several players.
 
 **`sentry_turret_turn_speed`**
 - Not promoted (still need `allow_unverified_effect`): turret.pitch_min, turret.pitch_max, turret.yaw_min, turret.yaw_max.
@@ -908,3 +912,11 @@ Every operation logged: `MODEL READY: model 'laser_maxigun' ... (model_use check
 | --- | --- | --- | --- | --- |
 | LaserMaxigunExample | pass | the M-1000 Maxigun's own type records (the variant host; condensed: its own beacon and pod): `presentation, round (ProjectileWeaponComponentData +0), model (UnitComponentData UnitPath)` its native records (projectile 306, unit 0x43A58CB89CFA197C) → the LAS-1000 Laser Maxigun presentation, the LAS-58 Talon's projectile 144, the mod's unit 0xC689DFAE66394A62 (the debug palette) |  | The user: the Maxigun model swap works ("seems maxigun model swapping works though!!"), and the called gun fired Talon rounds (r26: "the ammo was surely swapped"). The log, two missions: mission 1 with Model "Check only": MODEL READY, nothing written to its UnitPath, APPLIED 3 writes (presentation and the Talon round); mission 2 with Model "Debug model": MODEL READY (model_use apply), APPLIED 4 writes (presentation, the round and the model), each record one owner and its exact native bytes. Each call delivered the carrier's own pod with the gun and its backpack (2 items). Back aboard the ship after each mission: weapon clone RESTORED, every record its native bytes true. While the Laser Maxigun was selected the vanilla Maxigun was blocked natively (logged; not reported as tried). Solo host. |
 | HD2Runtime custom stratagem panel | partial | the loadout screen (Ui World GUIs only): `the native-style panel and its details overlay` nothing drawn → seven cards in four columns, the title and the overlay (draws only; nothing written) |  | The screenshot: the panel right of the native details panel, seven cards in two rows of four in the native card look, the title CUSTOM STRATAGEMS in the game's font; the log: the native renderer, 7 of 7 entries in view, the details overlay drawn on focus. Not holding: the yellow equipped look was stale. The panel opened while the selector still held the last mission's four picks; the selector dropped them a moment later (no virtual slot remains), but the cards stayed yellow, and the new picks (the Laser Maxigun and the Pelican) did not light up until a later visit. Cause: the panel computed the equipped look only when it opened. Fixed offline in r28 (it redraws when the picks change); not re-tested. The r27 overlay (arrows, call-in time, the user's layout) was not reported. |
+
+## Session armor-passive-swap-r54-2026-10-08
+
+Runtime: HD2Runtime 0.30.0-dev r54 (HD2Runtime-0.30.0-dev-attachments-helldiver-passives-r54.zip, 82D4F134...BD26), PassiveSwapProbe 0.1.0 (C4F5ADE9...E8F5); build/test-artifacts/r54. Reported by the user without a log..
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| PassiveSwapProbe | pass | the local player's applied customization record (game+0x33264F8 +0x96C): `armor passive (+0x3C)` the armor kit's own passive → 8 SERVO-ASSISTED, 6 ENGINEERING KIT, 2 SCOUT (F8 cycle) |  | The user: the three armor passives worked (the probe's F8 modes SERVO-ASSISTED, ENGINEERING KIT and SCOUT). The second passive (Ctrl+F8, MED-KIT in the helmet slot) was not reported. Solo host. |

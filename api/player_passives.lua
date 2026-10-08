@@ -100,12 +100,18 @@ function M.set(spec)
     for key in pairs(spec)do
         if not OPTIONS[key]then return refuse(handle,'INVALID_OPTION','unsupported option: '..tostring(key))end
     end
-    if spec.allow_unverified_effect~=true then
-        return refuse(handle,'ACKNOWLEDGEMENT_REQUIRED','a passive override is not yet shown in game: pass '
-            ..'allow_unverified_effect = true')
-    end
     local ok,armor,reason=slot_value(handle,spec,'armor')
     if not ok then return refuse(handle,armor,reason)end
+    -- The acknowledgement: an override is not live-tested, except an armor-slot swap alone to a passive the live
+    -- evidence proved (schemas/live_evidence.json, player_armor_passive_swap: SCOUT, ENGINEERING KIT, SERVO-ASSISTED).
+    local proven=false
+    for _,id in ipairs(D.live and D.live.armorSwap or{})do if id==armor then proven=true end end
+    if proven and spec.second~=nil and spec.second~=false then proven=false end
+    if spec.allow_unverified_effect~=true and not proven then
+        return refuse(handle,'ACKNOWLEDGEMENT_REQUIRED','this passive override is not yet shown in game: pass '
+            ..'allow_unverified_effect = true (live-proven without it: an armor-slot swap alone to '
+            ..'SCOUT, ENGINEERING KIT or SERVO-ASSISTED)')
+    end
     local ok2,second,reason2=slot_value(handle,spec,'second')
     if not ok2 then return refuse(handle,second,reason2)end
     if armor==nil and second==nil then

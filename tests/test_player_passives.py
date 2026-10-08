@@ -204,8 +204,13 @@ end
 refused(5,'INVALID_OPTION')
 refused({},'INVALID_OPTION')
 refused({armor=8,colour='red'},'INVALID_OPTION')
--- The acknowledgement: an override is not live-tested yet.
-refused({armor=8,allow_unverified_effect=false},'ACKNOWLEDGEMENT_REQUIRED')
+-- The acknowledgement: an override is not live-tested yet, except an armor-slot swap alone to a live-proven passive
+-- (schemas/live_evidence.json, player_armor_passive_swap: 2, 6, 8).
+refused({armor=1,allow_unverified_effect=false},'ACKNOWLEDGEMENT_REQUIRED')
+refused({armor=8,second=7,allow_unverified_effect=false},'ACKNOWLEDGEMENT_REQUIRED')
+refused({second=7,allow_unverified_effect=false},'ACKNOWLEDGEMENT_REQUIRED')
+local D=require('hd2runtime/domains/player_passives')
+assert(table.concat(D.live.armorSwap,',')=='2,6,8',table.concat(D.live.armorSwap,','))
 refused({second=0},'INVALID_OPTION')
 refused({armor='NOPE'},'UNKNOWN_PASSIVE')
 refused({armor=4},'UNKNOWN_PASSIVE')

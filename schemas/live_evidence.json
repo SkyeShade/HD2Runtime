@@ -1211,9 +1211,27 @@
          "writes": [{"target": "the loadout screen (Ui World GUIs only)", "field": "the native-style panel and its details overlay", "from": "nothing drawn", "to": "seven cards in four columns, the title and the overlay (draws only; nothing written)"}],
          "observation": "The screenshot: the panel right of the native details panel, seven cards in two rows of four in the native card look, the title CUSTOM STRATAGEMS in the game's font; the log: the native renderer, 7 of 7 entries in view, the details overlay drawn on focus. Not holding: the yellow equipped look was stale. The panel opened while the selector still held the last mission's four picks; the selector dropped them a moment later (no virtual slot remains), but the cards stayed yellow, and the new picks (the Laser Maxigun and the Pelican) did not light up until a later visit. Cause: the panel computed the equipped look only when it opened. Fixed offline in r28 (it redraws when the picks change); not re-tested. The r27 overlay (arrows, call-in time, the user's layout) was not reported."}
       ]
+    },
+    {
+      "id": "armor-passive-swap-r54-2026-10-08",
+      "date": "2026-10-08",
+      "runtime": "HD2Runtime 0.30.0-dev r54 (HD2Runtime-0.30.0-dev-attachments-helldiver-passives-r54.zip, 82D4F134...BD26), PassiveSwapProbe 0.1.0 (C4F5ADE9...E8F5); build/test-artifacts/r54. Reported by the user without a log.",
+      "logSignals": [],
+      "tests": [
+        {"mod": "PassiveSwapProbe", "operation": "armor-passive-override", "result": "PASS", "family": "player_armor_passive_swap",
+         "writes": [{"target": "the local player's applied customization record (game+0x33264F8 +0x96C)", "field": "armor passive (+0x3C)", "from": "the armor kit's own passive", "to": "8 SERVO-ASSISTED, 6 ENGINEERING KIT, 2 SCOUT (F8 cycle)"}],
+         "observation": "The user: the three armor passives worked (the probe's F8 modes SERVO-ASSISTED, ENGINEERING KIT and SCOUT). The second passive (Ctrl+F8, MED-KIT in the helmet slot) was not reported. Solo host."}
+      ]
     }
   ],
   "families": {
+    "player_armor_passive_swap": {
+      "status": "live_proven", "domain": "player_passives", "fields": ["player_passives.armor"],
+      "scope": "The armor passive slot (+0x3C) of the local player's applied record, solo, with the passives the test cycled: 8 SERVO-ASSISTED, 6 ENGINEERING KIT, 2 SCOUT.",
+      "tests": ["PassiveSwapProbe"], "acknowledgementRemoved": "allow_unverified_effect",
+      "passives": [2, 6, 8],
+      "notPromoted": ["player_passives.second (the helmet slot +0x38)", "every other passive id", "several players"]
+    },
     "sentry_turret_turn_speed": {
       "status": "live_proven", "domain": "stratagem", "fields": ["turret.yaw_speed", "turret.pitch_speed"],
       "scope": "Every turreted sentry: the same TurretComponent members, equal to the wiki turn-speed tables on all nine.",
