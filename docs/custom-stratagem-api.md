@@ -673,9 +673,19 @@ same mod build and the same choice.
 - `model_use` without `model`;
 - a carrier group other than `weapon`.
 
-**Not live-tested:** every host but the M-1000 Maxigun (live r25-r27: name, Talon round, model; solo host). The other
-31 are validated offline on every retained snapshot (`scripts/validate_weapon_variant_snapshot.py`): in a mission each
-host with no entity in the world converts in one guarded transaction and restores byte for byte.
+**Live-tested (solo host):**
+- the M-1000 Maxigun (r25-r27: name, the Talon round, the debug model);
+- the AC-8 with the EAT-700's napalm round, the GR-8 with the EAT-411 Leveller's round, the MG-206 with the APW-1's
+  round, and the LAS-98 renamed (r56 / r57, `proof/WeaponVariantShowcase`: each as expected in play).
+
+The other 27 hosts are validated offline on every retained snapshot (`scripts/validate_weapon_variant_snapshot.py`):
+in a mission each host with no entity in the world converts in one guarded transaction and restores byte for byte.
+
+**Another writer's change refuses the variant.** A record that is not its reviewed native bytes is refused
+`NOT_NATIVE` with nothing written. The log names the words that differ (offset, native -> now). Live r56: a
+third-party HMG buff mod had raised the MG-206's two rates (+0x8 / +0xC, 600 / 750 -> 750 / 1200 rpm), so the
+MG-206X was refused until that mod was removed. Variants do not compose with other writers to the same record in
+0.30.0.
 
 ### `sentry`: a custom sentry
 
