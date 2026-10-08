@@ -1,0 +1,1 @@
+{"format":1,"name":"PassiveSwapProbe","resource":"mods/skyeshade/hd2runtime_passive_swap_probe","guid":"ba4cc653-8a16-58da-9ce1-16ccbfecaf9b","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.30.0-dev","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../sdk","ide_library":"../../sdk/stubs"}

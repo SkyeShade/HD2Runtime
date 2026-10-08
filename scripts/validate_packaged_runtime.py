@@ -4607,6 +4607,45 @@ return function(frame,watches,counts,lines)
 end
 """
 EXTRAS['proof-liberator-shots'] = {'after': PROOF_LIBERATOR_SHOTS, 'readOnly': True}
+# The armor passive override live test (proof/PassiveSwapProbe 0.1.0; runtime/player_passives.lua): it loads from the
+# archive and logs the snapshot's passives; the packaged module proves the research's 59 pins on the snapshot's game.dll
+# and the read API returns the snapshot's own record (entity 5: RS-100 SANCTIONER, passive 32 REDUCED SIGNATURE in the
+# armor slot, nothing in the helmet slot; movement noise x0.5 and enemy detection range x0.6 are what the game reads),
+# and the record a write would target is private read-write memory. No key is pressed: nothing is written.
+PROOF_PASSIVE_SWAP = r"""
+return function(frame,watches,counts,lines)
+ local results={}
+ local function step(name,ok,detail)results[#results+1]={name=name,passed=ok==true,detail=detail}end
+ local function count(text)local n=0;for _,line in ipairs(lines)do if line:find(text,1,true)then n=n+1 end end;return n end
+ for _=1,60 do frame()end
+ step('the probe loads from the archive and logs the snapshot\'s passives',
+  count('PassiveSwapProbe 0.1.0 PASSIVE SWAP PROBE BUILD')==1 and count('the game has 32 armor passives')==1
+  and count('ARMOR SLOT REDUCED SIGNATURE (32), HELMET SLOT none (0)')==1,table.concat(lines,' | '):sub(-600))
+ local world=require('hd2runtime/runtime/event_world').open()
+ local ok,why=require('hd2runtime/runtime/player_passives').prove(world)
+ step('the packaged passive module proves every research pin on the snapshot\'s game.dll',ok==true,tostring(why))
+ local hd2=require('mods/skyeshade/hd2runtime')
+ local mine,code,reason=hd2.player_passives()
+ step('the read API returns the snapshot\'s record: entity 5, armor passive 32 REDUCED SIGNATURE',mine~=nil
+  and mine.entity==5 and mine.record==0 and mine.armor_kit.id=='0x4DD749C6'and mine.armor_kit.passive==32
+  and mine.armor_passive.id==32 and mine.armor_passive.name=='REDUCED SIGNATURE'and mine.helmet_passive.id==0
+  and mine.derived.armor==32 and mine.derived.second==0 and mine.overridden==false,
+  tostring(code)..' '..tostring(reason)..' '..tostring(mine and mine.entity)..' '..tostring(mine and mine.armor_passive.id))
+ local e=mine and mine.effective or{}
+ step('the game reads movement noise x0.5 and enemy detection range x0.6 from the armor slot',#e==2
+  and e[1].key=='AF8B7112'and e[1].key_name=='movement_noise'and e[1].type=='Multiply'and e[1].value==0.5
+  and e[2].key=='14ECCE15'and e[2].value==0.6 and e[1].source=='armor'and e[2].source=='armor',tostring(#e))
+ local s=world and require('hd2runtime/runtime/player_passives').read_local(world)
+ local r=s and world.runtime.query and world.runtime.query(s.address+0x38)
+ step('the record a write would target is committed private read-write memory',r~=nil and r.state==0x1000
+  and r.type==0x20000 and r.protect==4,tostring(r and r.type)..' '..tostring(r and r.protect))
+ step('hd2.passives.list() holds the game\'s 32 passives',#hd2.passives.list()==32
+  and hd2.passives.find('SERVO-ASSISTED').id==8,'')
+ step('nothing is written',counts.writes==0,tostring(counts.writes))
+ return results
+end
+"""
+EXTRAS['proof-passive-swap'] = {'after': PROOF_PASSIVE_SWAP, 'readOnly': True}
 # The client-write proof (runtime/multiplayer.lua host_guard; research/docs/runtime-peer-messaging-F5FEE03DCFDB.md
 # section 10), with the Gas EAT example, on the shipped artifact and a real MISSION snapshot whose host condition is
 # overlaid as absent (seed_client: the game mode's authority bit cleared) and whose first unlimited loadout entry is the
@@ -4896,6 +4935,7 @@ SCENARIOS = {
     'custom-stratagem-multiplayer': lambda: proof('HmgSentryExample'),
     'proof-peer-hello': lambda: proof('RuntimePeerHelloProof'),
     'proof-liberator-shots': lambda: proof('LiberatorShotProbe'),
+    'proof-passive-swap': lambda: proof('PassiveSwapProbe'),
     'client-write-proof': lambda: proof('GasEatExample'),
     'proof-text-write-refused': lambda: proof('CustomStratagemP0Proof'),
     'backpack-ammo-maxigun': lambda: example('MaxigunBackpackAmmo'),

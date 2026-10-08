@@ -8,7 +8,8 @@ import json
 import unittest
 
 from support import ROOT, run
-from test_event_scripting import PRELUDE
+from test_event_scripting import PRELUDE, SDK
+from reference_format import lua as lua_literal
 
 RESEARCH = json.loads((ROOT / 'research/player-attributes-F5FEE03DCFDB.json').read_text(encoding='utf-8'))
 
@@ -282,6 +283,46 @@ w:stop()
 assert(armor()==9 and writes()==n,'a lost override restores nothing')
 return 'ok'
 ''')
+
+
+def probe():
+    """proof/PassiveSwapProbe inside the SDK's addon wrapper, exactly as its built ZIP ships it."""
+    project = ROOT / 'proof/PassiveSwapProbe'
+    spec = json.loads((project / 'hd2runtime.json').read_text(encoding='utf-8'))
+    return SDK.wrap_addon(spec['resource'], spec['requires']['hd2runtime']['min_version'],
+        (project / 'src/addon.lua').read_text(encoding='utf-8-sig')), spec['resource']
+
+
+class PassiveSwapProbeTests(unittest.TestCase):
+    def test_the_probe_logs_cycles_adds_and_restores(self):
+        addon, resource = probe()
+        self.assertEqual(lua('local ADDON,RESOURCE=' + lua_literal(addon) + ',' + lua_literal(resource) + r'''
+local input=require('hd2runtime/runtime/input')
+local keys={}
+input.set_backend({focused=function()return true end,down=function(code)return keys[code]==true end})
+local function press(...)
+    local codes={...}
+    for _,c in ipairs(codes)do keys[c]=true end;tick()
+    for _,c in ipairs(codes)do keys[c]=false end;tick()
+end
+assert(loadstring(ADDON,'@'..RESOURCE))()
+local F8,CTRL,SHIFT=input.keys.F8,0x11,0x10
+assert(count('PassiveSwapProbe 0.1.0 PASSIVE SWAP PROBE BUILD')==1,table.concat(logged,' | '))
+assert(count('the game has 32 armor passives')==1 and count('ARMOR SLOT REDUCED SIGNATURE (32)')==1,
+    table.concat(logged,' | '))
+press(F8)
+assert(armor()==8 and count('MODE SERVO-ASSISTED (F8): handle active')==1 and count('OBSERVE: THROW RANGE x1.3')==1,
+    table.concat(logged,' | '))
+press(CTRL,F8)
+assert(armor()==8 and second()==7 and count('MODE SERVO-ASSISTED + second MED-KIT')==1,table.concat(logged,' | '))
+press(F8)
+assert(armor()==6 and second()==7,'ENGINEERING KIT, MED-KIT kept')
+press(SHIFT,F8)
+assert(count('STATUS (Shift+F8): mode ENGINEERING KIT + second MED-KIT; handle active')==1,table.concat(logged,' | '))
+press(CTRL,SHIFT,F8)
+assert(armor()==32 and second()==0 and count('RESTORED (Ctrl+Shift+F8)')==1,table.concat(logged,' | '))
+return 'ok'
+'''), b'ok')
 
 
 class PlayerPassivesDomainTests(unittest.TestCase):
