@@ -20,6 +20,14 @@ end
 
 
 class OngoingProbeTests(unittest.TestCase):
+    def test_the_probe_runs_only_with_verbose_logging(self):
+        # 0.30.0: a development diagnostic, a line a second per call; the released default log stays quiet.
+        from support import ROOT
+        source = (ROOT / 'runtime/custom_stratagems.lua').read_text(encoding='utf-8')
+        at = source.index("require('hd2runtime/runtime/ongoing_probe').step(world,M.STEP)")
+        self.assertIn('if verbose then', source[at - 200:at])
+        self.assertEqual(source.count("require('hd2runtime/runtime/ongoing_probe')"), 1)
+
     def test_a_call_is_followed_read_only_until_after_its_cooldown_shows(self):
         self.assertEqual(cool_lua(PROBE + r'''
 local h=converted()
