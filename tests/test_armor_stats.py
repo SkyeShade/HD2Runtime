@@ -18,7 +18,8 @@ OVERLAY = json.loads((ROOT / 'validation/armor-stats-snapshot.json').read_text(e
 # player's applied record, and the avatar manager with the local avatar (100) at slot 0 of its entity -> slot map.
 WORLD = PRELUDE + r'''
 local b=require('hd2runtime/core/bytes')
-W.guarded_runtime()
+local RT=W.guarded_runtime()
+require('hd2runtime/core/page_protection').reset_executable_data_for_tests()
 local A=require('hd2runtime/runtime/armor_stats');A.reset_for_tests()
 local D=require('hd2runtime/domains/armor_stats')
 local PD=require('hd2runtime/domains/player_passives')
@@ -28,6 +29,10 @@ for _,list in ipairs({D.pins,D.constants,PD.pins})do
 end
 for _,t in pairs(D.tables)do W.write(W.GAME+t.rva,b.unhex(t.hex))end
 W.write(W.GAME+D.curve.rva,b.unhex(D.curve.hex))
+-- The tables' and the curve's pages are PAGE_EXECUTE_READWRITE, as in every retained snapshot (the curve spans two).
+for _,extent in ipairs({{D.tables.armor.rva,12},{D.tables.speed.rva,12},{D.tables.stamina.rva,12},{D.curve.rva,40}})do
+    for at=W.GAME+extent[1],W.GAME+extent[1]+extent[2]-1 do RT.protections[at-at%4096]=0x40 end
+end
 local SANCTIONER=A.kit_by_id['4DD749C6']
 local MGR=W.alloc(0x1000)
 W.write(W.GAME+MG.globalRva,W.u64(MGR))
@@ -182,11 +187,11 @@ assert(A.passive_value({{type='Add',value=1}},2)==3 and A.passive_value({{type='
 -- Classes and the curve: read-only.
 local c=hd2.armor_class('heavy'):describe()
 assert(c.source=='research'and c.rating.value==2 and c.rating.display==150 and c.speed.display==450
-    and c.stamina.display==50 and c.damage_multiplier==0.75 and c.editable==false
-    and c.reason_read_only:find('PAGE_EXECUTE_READWRITE',1,true))
+    and c.stamina.display==50 and c.damage_multiplier==0.75 and c.editable==true
+    and c.executable_data:find('PAGE_EXECUTE_READWRITE',1,true))
 local f=hd2.armor_stats.class('light'):fields()
-assert(#f==3 and f[1].semanticFieldId=='armor_class.rating'and f[1].editable==false and f[1].min==-1 and f[1].max==4
-    and f[2].min==0.5 and f[3].max==2 and f[1].readOnlyReason)
+assert(#f==3 and f[1].semanticFieldId=='armor_class.rating'and f[1].editable==true and f[1].min==-1 and f[1].max==4
+    and f[2].min==0.5 and f[3].max==2 and f[1].executableData==true)
 local cu=hd2.armor_stats.damage_curve():describe()
 assert(#cu.points==5 and cu.points[1].armor_value==-1 and cu.points[5].damage==0.65 and #cu.fields==5)
 assert(hd2.fields.armor_kit.piece_weight_torso=='armor_kit.piece_weight.torso'
@@ -231,31 +236,36 @@ refused({id='t',target=kit,allow_shared=true,allow_unverified_effect=true,change
 assert(not pcall(hd2.armor_stats.kit,'nope')and not pcall(hd2.armor_stats.kit,'B-01 Tactical'))
 local ok,why=pcall(hd2.armor_stats.class,'titanium')
 assert(not ok and why:find('UNKNOWN_ARMOR_CLASS',1,true))
--- Class and curve fields: validated in full (acknowledgements, expect, range), then refused.
+-- Class and curve fields: validated in full (acknowledgements, expect, range); written as reviewed executable data.
 local heavy=hd2.armor_class('heavy')
 local function class(extra)
     local r={id='c',target=heavy,field=F.armor_class.rating,expect=2,value=0,allow_shared=true,allow_unverified_effect=true}
     for k,v in pairs(extra or{})do if v==false then r[k]=nil else r[k]=v end end
     return r
 end
-refused(class(),'WRITE_REFUSED_IMAGE_PAGE')
-refused(class({field=F.armor_class.speed,expect=0.9,value=1.2}),'WRITE_REFUSED_IMAGE_PAGE')
-refused(class({field=F.armor_class.stamina,expect=1.5,value=0.5}),'WRITE_REFUSED_IMAGE_PAGE')
+local D=require('hd2runtime/domains/armor_stats')
+for _,c in ipairs({{class(),'armor',2},{class({field=F.armor_class.speed,expect=0.9,value=1.2}),'speed',2},
+        {class({field=F.armor_class.stamina,expect=1.5,value=0.5}),'stamina',2}})do
+    local v=W.validate_patch(c[1])
+    assert(v.target_kind=='armor_class'and v.changes[1].rva==D.tables[c[2]].rva+c[3]*4
+        and v.changes[1].table==c[2],c[2])
+end
 refused(class({allow_shared=false}),'allow_shared')
 refused(class({allow_unverified_effect=false}),'allow_unverified_effect')
 refused(class({value=9}),'reviewed range')
 refused(class({value=0/0}),'finite')
 refused(class({expect=1}),'expect differs')
 refused(class({target={resource='armor_class',armor_class='titanium'}}),'UNKNOWN_ARMOR_CLASS')
-refused({id='k',target=hd2.armor_stats.damage_curve(),field=F.armor_damage_curve.at_2,expect=0.75,value=0.1,
-    allow_shared=true,allow_unverified_effect=true},'WRITE_REFUSED_IMAGE_PAGE')
+local cv=W.validate_patch({id='k',target=hd2.armor_stats.damage_curve(),field=F.armor_damage_curve.at_2,expect=0.75,
+    value=0.1,allow_shared=true,allow_unverified_effect=true})
+assert(cv.target_kind=='armor_damage_curve'and cv.changes[1].table=='curve')
 refused({id='k',target=hd2.armor_stats.damage_curve(),field=F.armor_damage_curve.at_2,expect=0.75,value=9,
     allow_shared=true,allow_unverified_effect=true},'reviewed range')
 -- The public entry points refuse the same way (no acknowledgement is ever added).
 local watch=hd2.patch({id='no-ack',target=kit,field=F.armor_kit.piece_weight_torso,expect='light',value='heavy'})
 assert(watch==nil or watch.status=='rejected',tostring(watch and watch.status))
 local class_watch=hd2.patch(class())
-assert(class_watch.status=='rejected'and class_watch.error:find('WRITE_REFUSED_IMAGE_PAGE',1,true))
+assert(not(class_watch.error and class_watch.error:find('WRITE_REFUSED_IMAGE_PAGE',1,true)),tostring(class_watch.error))
 -- Per-player options.
 local me=hd2.armor_stats.player()
 assert(me:set({stamina_factor=0.5}).code=='ACKNOWLEDGEMENT_REQUIRED')
@@ -421,13 +431,22 @@ class ArmorStatsSnapshotTests(unittest.TestCase):
                 (2, [2, 2]), name)
             self.assertEqual(trips['sanctioner_torso_heavy']['liveAfter']['rating'], 70, name)
             self.assertEqual(trips['ravager_all_heavy']['liveAfter']['rating'], 150, name)
-            for trip in trips.values():
+            for key in ('sanctioner_torso_heavy', 'ravager_all_heavy'):
+                trip = trips[key]
                 self.assertEqual((trip['protectionChanges'], trip['restored'], trip['pieceBytesChanged']),
                     (0, True, trip['writes']), name)
+            # The class tables and the curve: reviewed executable data, one 4-byte write each, no protection change.
+            self.assertEqual(trips['heavy_rating_0']['liveAfter'], {'rating': 0, 'display': 50, 'damage': 1.25}, name)
+            self.assertEqual(trips['heavy_stamina_0_5']['liveAfter'], {'stamina': 0.5, 'display': 150}, name)
+            self.assertEqual(trips['curve_at_2_0_5']['liveAfter'], {'at_2': 0.5}, name)
+            for key in ('heavy_rating_0', 'heavy_stamina_0_5', 'curve_at_2_0_5'):
+                trip = trips[key]
+                self.assertEqual((trip['writes'], trip['protectionChanges'], trip['restored']), (1, 0, True), name)
+                self.assertTrue(1 <= trip['bytesChanged'] <= 4, name)
             rejections = result['rejections']
             for label in ('no allow_shared', 'no allow_unverified_effect', 'weight 3', 'unknown kit',
                     'ambiguous kit name', 'unknown class', 'third-party piece weight', 'kit moved', 'tampered pin',
-                    'heavy rating refused', 'curve at_0 refused'):
+                    'curve at_0 without allow_unverified_effect', 'class without allow_shared', 'class rating 9'):
                 self.assertIn(label, rejections, name)
             self.assertIn('ARMOR_KIT_MOVED', rejections['kit moved'])
             self.assertIn('CONFLICT', rejections['third-party piece weight'])
@@ -460,7 +479,7 @@ class ArmorStatsWiringTests(unittest.TestCase):
         self.assertIn("'generate_armor_stats'", (ROOT / 'scripts/regenerate_domains.py').read_text(encoding='utf-8'))
         self.assertIn('generate_armor_stats.generate(check=True)',
             (ROOT / 'scripts/build_release.py').read_text(encoding='utf-8'))
-        self.assertEqual((ROOT / 'proof/ArmorStatProbe/VERSION').read_text(encoding='utf-8'), '0.1.0\n')
+        self.assertEqual((ROOT / 'proof/ArmorStatProbe/VERSION').read_text(encoding='utf-8'), '0.2.0\n')
 
 
 class ArmorStatProbeTests(unittest.TestCase):
@@ -479,7 +498,7 @@ local function press(...)
 end
 assert(loadstring(ADDON,'@'..RESOURCE))()
 local F9,CTRL,SHIFT=input.keys.F9,0x11,0x10
-assert(count('ArmorStatProbe 0.1.0 ARMOR STAT PROBE BUILD')==1,table.concat(logged,' | '))
+assert(count('ArmorStatProbe 0.2.0 ARMOR STAT PROBE BUILD')==1,table.concat(logged,' | '))
 assert(count('STATE (loaded): avatar 100 slot 0; armor kit 4DD749C6 RS-100 SANCTIONER; STAMINA FACTOR 0.75 (the kit '
     ..'gives 0.75); ARMOR BONUS 0')==1,table.concat(logged,' | '))
 press(F9)
@@ -505,13 +524,33 @@ end
 assert(weights()==string.rep('2',13),weights()..' | '..table.concat(logged,' | '):sub(-1500))
 assert(count('KIT ENSURE 4DD749C6: ')>=1 and count('now gives rating 150')>=1,table.concat(logged,' | '):sub(-1500))
 press(SHIFT,F9)
-assert(count('STATUS (Shift+F9): stamina GAME, kit ALL HEAVY (kit 4DD749C6')==1,table.concat(logged,' | '))
+assert(count('STATUS (Shift+F9): stamina GAME, kit ALL HEAVY, curve VANILLA (kit 4DD749C6')==1,table.concat(logged,' | '))
 assert(count('KIT LIVE (Shift+F9): kit 4DD749C6 gives rating 150')==1,table.concat(logged,' | '):sub(-800))
 -- ALL LIGHT (this kit's vanilla), then VANILLA: the ensure's own bytes are a transition, not a conflict.
 press(CTRL,F9);tick(40)
 assert(weights()==string.rep('0',13),weights())
 press(CTRL,F9);tick(40)
 assert(weights()==string.rep('0',13)and count('KIT VANILLA (Ctrl+F9)')==1,weights())
+-- Alt+F9: the damage curve through one ensure (reviewed executable data): TOUGH x0.5, FRAGILE x2, VANILLA.
+local ALT=0x12
+local CURVE_BYTES=W.read(W.GAME+D.curve.rva,40)
+local function curve()
+    local out={}
+    for _,pt in ipairs(hd2.armor_stats.damage_curve():describe().points)do out[#out+1]=('%g'):format(pt.damage)end
+    return table.concat(out,',')
+end
+assert(curve()=='1.66,1.25,1,0.75,0.65',curve())
+press(ALT,F9);tick(80)
+assert(count('CURVE TOUGH (Alt+F9)')==1 and curve()=='0.83,0.625,0.5,0.375,0.325',curve()..' | '
+    ..table.concat(logged,' | '):sub(-1500))
+assert(count('CURVE ENSURE: ')>=1,table.concat(logged,' | '):sub(-800))
+press(ALT,F9);tick(40)
+assert(count('CURVE FRAGILE (Alt+F9)')==1 and curve()=='3.32,2.5,2,1.5,1.3',curve())
+press(SHIFT,F9)
+assert(count('CURVE LIVE (Shift+F9): A -1 x3.32, A 0 x2.5')==1,table.concat(logged,' | '):sub(-800))
+press(ALT,F9);tick(40)
+assert(count('CURVE VANILLA (Alt+F9)')==1 and curve()=='1.66,1.25,1,0.75,0.65'
+    and W.read(W.GAME+D.curve.rva,40)==CURVE_BYTES,curve())
 return 'ok'
 '''), b'ok')
 

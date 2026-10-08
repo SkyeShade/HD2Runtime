@@ -172,6 +172,13 @@ guarded transaction use it:
   unreadable.
 - **Write target:** READONLY or READWRITE only, as before. A write target on a
   copy-on-write or executable page is still refused before any page is opened.
+- **Reviewed executable data (2026-10-08, the user's decision):** the one
+  exception. A domain may register an exact extent (1 to 64 bytes, no overlap)
+  with `register_executable_data` after its own proofs; a PAGE_EXECUTE_READWRITE
+  (0x40) page is then a write target only when every change of the transaction
+  on that page lies inside a registered extent. The page is written as mapped
+  and never re-protected. Only the armor class tables and the damage curve use
+  it (`docs/armor-stats.md`); `tests/test_executable_data_extent.py`.
 
 `tests/test_proton_page_protection.py` runs the real MG-43 and MG-206 plans on
 the retained snapshot with game.dll's writable image pages reported as

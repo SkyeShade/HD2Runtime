@@ -12,11 +12,11 @@
 --     per-weight tables;
 --   * armor_damage_curve (hd2.armor_stats.damage_curve()): armor_damage_curve.at_minus_1 .. at_3, the avatar damage
 --     multiplier at each armor value.
---   Both are READ-ONLY: the tables and the curve live in game.dll pages that are PAGE_EXECUTE_READWRITE at run time
---   (every retained snapshot), and a guarded write never targets an executable page (core/page_protection.lua). Their
---   requests are validated in full (acknowledgements, reviewed vanilla value, reviewed range) and then refused with
---   WRITE_REFUSED_IMAGE_PAGE; lifting that is the user's decision (docs/armor-stats.md, "Why the class tables are
---   read-only").
+--   The tables and the curve live in game.dll pages that are PAGE_EXECUTE_READWRITE at run time (every retained
+--   snapshot). A guarded write never targets an executable page, EXCEPT a reviewed extent (the user's decision of
+--   2026-10-08; core/page_protection.lua register_executable_data): before a class or curve write this domain proves
+--   the build, every pin and constant, and registers the exact 4-byte extent of each changed entry; the transaction
+--   then accepts that page as it is (never re-protected) only for changes inside registered extents.
 --
 -- Before any kit write the domain re-proves: the build the research covers, game.dll's image, every instruction pin
 -- of the research plus the slot-map pins and the consumers' constants, the customization manager pointer, the kit's
@@ -24,6 +24,7 @@
 -- context), and each piece's current weight: the reviewed vanilla weight or the desired one (core/ownership.lua),
 -- anything else is a CONFLICT.
 local ownership=require('hd2runtime/core/ownership')
+local protection=require('hd2runtime/core/page_protection')
 local b=require('hd2runtime/core/bytes')
 local profile=require('hd2runtime/schemas/current')
 local natives=require('hd2runtime/domains/event_natives')
@@ -84,7 +85,7 @@ function M.class_fields(index)
         out[#out+1]=cached('class:'..index..':'..f.name,function()
             local range=D.ranges[f.name]
             return {semanticFieldId='armor_class.'..f.name,type='number',unit=f.unit,
-                currentDefault=D.tables[f.table].values[index+1],editable=false,readOnlyReason=A.REASON_IMAGE_PAGE,
+                currentDefault=D.tables[f.table].values[index+1],editable=true,executableData=true,
                 min=range[1],max=range[2],
                 lifecycle=f.name=='rating'and'the next hit (live)'or'the next armor apply (respawn or a kit change)'
                     ..(f.name=='speed'and'; how the game consumes the speed product is UNPROVEN'or''),
@@ -103,8 +104,8 @@ function M.curve_fields()
         out[#out+1]=cached('curve:'..point.name,function()
             local range=D.ranges.damage
             return {semanticFieldId='armor_damage_curve.'..point.name,type='number',
-                unit='damage multiplier at armor value '..point.key,currentDefault=D.curve.points[i][2],editable=false,
-                readOnlyReason=A.REASON_IMAGE_PAGE,min=range[1],max=range[2],armorValue=point.key,
+                unit='damage multiplier at armor value '..point.key,currentDefault=D.curve.points[i][2],editable=true,
+                executableData=true,min=range[1],max=range[2],armorValue=point.key,
                 lifecycle='the next hit on a Helldiver (live)',target={resource='armor_damage_curve'},
                 backing={kind='image_table',table='curve',rva=D.curve.rva+(i-1)*8+4,storage='f32',width=4},
                 shared=true,allowSharedRequired=true,sharedReason='every Helldiver hit on this machine',
@@ -167,8 +168,10 @@ local function validate_change(kind,fields,item,request,label)
         ..': declared='..tostring(item.expect)..' reviewed='..tostring(field.currentDefault))
     assert(item.value>=field.min and item.value<=field.max,'value outside the reviewed range ['..field.min..', '
         ..field.max..'] for '..item.field)
-    -- Validated in full; the write itself is refused (docs/armor-stats.md).
-    error('WRITE_REFUSED_IMAGE_PAGE: '..item.field..' is read-only: '..A.REASON_IMAGE_PAGE,0)
+    -- A reviewed executable-data entry (core/page_protection.lua): its own f32, at its own image offset.
+    return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,semantic_aliases={item.field},
+        expected=b.encode(field.currentDefault,'f32'),desired=b.encode(item.value,'f32'),expect=item.expect,
+        value=item.value,rva=field.backing.rva,table=field.backing.table}
 end
 local function validate(request,multiple)
     assert(type(request)=='table',(multiple and'transaction'or'patch')..' requires a descriptor')
@@ -181,7 +184,8 @@ local function validate(request,multiple)
         or kind=='armor_class'and('the '..D.classes[identity+1]..' armor class')or'the armor damage curve'
     local items=multiple and request.changes or{{field=request.field,expect=request.expect,value=request.value}}
     assert(type(items)=='table'and#items>=1 and#items<=#D.slots,'transaction requires one to '..#D.slots..' changes')
-    local result={kind='armor_kit',id=request.id,armor_kit=kind=='armor_kit'and identity.id or nil,
+    local result={kind='armor_kit',target_kind=kind,id=request.id,armor_kit=kind=='armor_kit'and identity.id or nil,
+        target_label=label,
         diagnostic=request.diagnostic==true,allow_shared=request.allow_shared==true,
         allow_unverified_effect=request.allow_unverified_effect==true,changes={},resource='armor_kit'}
     local seen={}
@@ -295,9 +299,13 @@ function M.capture_many(runtime,reader,specs)
     local manager=pointer(reader.read(image,CM.globalRva,8,true),0,'the customization manager')
     local by_kit,results={},{}
     for index,spec in ipairs(specs)do
-        local kit=assert(A.kit_by_id[spec.armor_kit],'reviewed armor kit absent')
-        by_kit[kit.id]=by_kit[kit.id]or capture_kit(reader,manager,kit)
-        results[index]={kit=kit,live=by_kit[kit.id],tables=tables,points=points}
+        if spec.target_kind and spec.target_kind~='armor_kit'then
+            results[index]={target_kind=spec.target_kind,image=image,tables=tables,points=points}
+        else
+            local kit=assert(A.kit_by_id[spec.armor_kit],'reviewed armor kit absent')
+            by_kit[kit.id]=by_kit[kit.id]or capture_kit(reader,manager,kit)
+            results[index]={kit=kit,live=by_kit[kit.id],tables=tables,points=points}
+        end
     end
     return results
 end
@@ -305,7 +313,42 @@ function M.capture(runtime,reader,spec)return M.capture_many(runtime,reader,{spe
 
 -- One change per piece. Each spec change's first piece comes first, in the spec's order (the transaction log pairs
 -- them), then every other body's piece of the same slot.
+-- A class-table or curve write: each change's 4-byte entry in game.dll's image, its extent registered as reviewed
+-- executable data (core/page_protection.lua) after capture_many proved the build, every pin and constant; the entry
+-- itself is a captured context, and its expected bytes are the reviewed vanilla (or this Runtime's own earlier write,
+-- through core/ownership).
+local function prepare_image(resolved,reader,spec)
+    local plan={changes={},snapshots=reader.snapshots}
+    local image=resolved.image
+    for _,change in ipairs(spec.changes)do
+        local address=image.base+change.rva
+        local r=reader.query(address)
+        assert(r.state==0x1000 and r.allocation_base==image.base and r.type==IMAGE,
+            spec.target_label..': '..change.field..' is not in game.dll\'s image')
+        assert(r.protect==protection.REVIEWED_EXECUTABLE or r.protect==protection.READONLY
+            or r.protect==protection.READWRITE,spec.target_label..': '..change.field..' page protection '
+            ..string.format('0x%X',r.protect or 0)..' is not the reviewed one')
+        local owner={base=image.base,size=image.size,type=IMAGE,protect=r.protect}
+        local before=reader.read(owner,change.rva,4,true)
+        if r.protect==protection.REVIEWED_EXECUTABLE then
+            protection.register_executable_data(address,4,'armor stats '..change.table..' entry (game+'
+                ..string.format('%X',change.rva)..')')
+        end
+        local expected=ownership.expected(change,before,nil,{target=spec.target_label..' '..change.field})
+        plan.changes[#plan.changes+1]={label=change.field,canonical_field=change.canonical_field,
+            semantic_aliases={change.field},owner=owner,offset=change.rva,field_offset=0,expected=expected,
+            desired=change.desired,before=before,already_desired=before==change.desired,expect=change.expect,
+            value=change.value,identity={component='ArmorStatsTable',component_type='native',record_index=change.rva,
+                record_type='game.dll '..change.table..' table',unique_owner=true,owner_count=1,
+                scope=change.descriptor.operationGroup},chain={}}
+    end
+    plan.notes={('note: %s: %s: %s (every Helldiver on this machine; %s)'):format(spec.id,spec.target_label,
+        table.concat((function()local t={};for _,c in ipairs(spec.changes)do t[#t+1]=c.field..' = '..tostring(c.value)end
+            return t end)(),', '),spec.changes[1].descriptor.lifecycle)}
+    return plan
+end
 function M.prepare(resolved,reader,spec)
+    if resolved.target_kind and resolved.target_kind~='armor_kit'then return prepare_image(resolved,reader,spec)end
     local plan={changes={},snapshots=reader.snapshots}
     local primary,extra,weights={},{},{}
     for _,change in ipairs(spec.changes)do

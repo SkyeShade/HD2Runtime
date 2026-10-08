@@ -112,8 +112,11 @@ function M.apply(runtime,plan)
         end
         return table.concat(parts)
     end
+    -- A reviewed executable-data page (core/page_protection.lua: every change on it inside a registered extent) is
+    -- accepted as it is (PAGE_EXECUTE_READWRITE, never re-protected); every other page needs a writable target.
+    local REVIEWED_EXEC={[protection.READONLY]=true,[protection.READWRITE]=true,[protection.REVIEWED_EXECUTABLE]=true}
     local function page_region(page)
-        local r=region(page.address,page.owner,protection.WRITABLE_TARGET)
+        local r=region(page.address,page.owner,page.reviewed_executable and REVIEWED_EXEC or protection.WRITABLE_TARGET)
         assert(page.address>=page.owner.base and page.address+PAGE<=page.owner.base+page.owner.size
             and r.base<=page.address and r.base+r.size>=page.address+PAGE,
             'target page extent changed')
@@ -169,9 +172,12 @@ function M.apply(runtime,plan)
             local page_address=address-address%PAGE
             local key=tostring(page_address)
             local page=page_by_key[key]
-            if page then assert(page.owner.base==change.owner.base,'page shared by different owners')
+            local reviewed_exec=protection.reviewed_executable_data(address,#change.desired)~=nil
+            if page then
+                assert(page.owner.base==change.owner.base,'page shared by different owners')
+                page.reviewed_executable=page.reviewed_executable and reviewed_exec
             else
-                page={address=page_address,owner=change.owner,opened=false}
+                page={address=page_address,owner=change.owner,opened=false,reviewed_executable=reviewed_exec}
                 page_by_key[key]=page;pages[#pages+1]=page
             end
             change.page=page
@@ -268,9 +274,17 @@ function M.apply(runtime,plan)
     local attempted={}
     local current_states={}
     for i,value in ipairs(before)do current_states[i]=value end
+    -- Writable now: opened READWRITE, or a reviewed executable-data page still PAGE_EXECUTE_READWRITE as captured.
+    local function writable_now(page)
+        local p=page_region(page).protect
+        return p==4 or(page.reviewed_executable==true and p==protection.REVIEWED_EXECUTABLE
+            and page.original==protection.REVIEWED_EXECUTABLE)
+    end
     local function open_page(page,label)
         local r=page_region(page)
         if r.protect==4 then return end
+        -- A reviewed executable-data page is already writable: nothing is opened, nothing restored.
+        if r.protect==protection.REVIEWED_EXECUTABLE and page.reviewed_executable then return end
         assert(r.protect==2,'unsupported '..label..' page protection')
         report.protection_changes=report.protection_changes+1
         local prior=runtime.protect(page.address,PAGE,4)
@@ -303,7 +317,7 @@ function M.apply(runtime,plan)
                     check(actual)
                     assert(read(change.owner,change.offset,#change.before)==actual[attempt.index],
                         'rollback target changed')
-                    assert(page_region(change.page).protect==4,'rollback page protection changed')
+                    assert(writable_now(change.page),'rollback page protection changed')
                     report.writes=report.writes+1
                     local wrote,reason,count=runtime.write(change.owner.base+change.offset,change.before,change.packed)
                     assert(wrote and count==#change.before,'rollback write failed: '..tostring(reason))
@@ -332,7 +346,7 @@ function M.apply(runtime,plan)
             assert(read(change.owner,change.offset,#change.before)==before[index],
                 'immediate target reread mismatch')
             if change.before~=change.desired then
-                assert(page_region(change.page).protect==4,'writable protection changed before write')
+                assert(writable_now(change.page),'writable protection changed before write')
                 check(current_states)
                 local attempt={index=index,count=-1};attempted[#attempted+1]=attempt
                 report.writes=report.writes+1

@@ -4,9 +4,12 @@
 stores its own numbers. Each armor piece of a kit has a **weight** (light, medium or heavy), and the weight indexes three
 per-weight tables in game.dll. The writable levers are:
 - a kit's piece weights, for every player wearing that kit;
+- a weight class's table values (armor value, speed factor, stamina factor), for every armor piece of that weight;
+- the damage curve (the damage multiplier at each armor value), for every Helldiver;
 - the local player's own armor bonus and stamina factor.
 
-The tables themselves and the damage curve are read-only (see [Why the class tables are read-only](#why-the-class-tables-are-read-only)).
+The class tables and the curve are in game.dll pages that are executable at run time. They are written under a narrow,
+reviewed exception (see [Class tables: reviewed executable data](#class-tables-reviewed-executable-data)).
 
 ```lua
 local kit = hd2.armor_stats.kit('FS-37 Ravager')     -- or by id: 0x1F9BFA78, '1F9BFA78'
@@ -21,8 +24,15 @@ hd2.transaction({id = 'ravager-heavy', target = kit, allow_shared = true, allow_
 hd2.ensure({patch = {id = 'ravager-torso', target = kit, field = hd2.fields.armor_kit.piece_weight_torso,
     expect = 'light', value = 'medium', allow_shared = true, allow_unverified_effect = true}})
 
-hd2.armor_stats.class('heavy'):describe()            -- the heavy table values now (read-only)
-hd2.armor_stats.damage_curve():describe()            -- damage multiplier by armor value (read-only)
+hd2.armor_stats.class('heavy'):describe()            -- the heavy table values now
+hd2.armor_stats.damage_curve():describe()            -- damage multiplier by armor value
+
+-- Every heavy armor piece: armor value 2 -> 3 (rating 150 -> 200 at full heavy), for every Helldiver on this machine.
+hd2.patch({id = 'heavier-heavy', target = hd2.armor_stats.class('heavy'), field = hd2.fields.armor_class.rating,
+    expect = 2, value = 3, allow_shared = true, allow_unverified_effect = true})
+-- Damage taken at armor value 2: x0.75 -> x0.6.
+hd2.patch({id = 'curve-2', target = hd2.armor_stats.damage_curve(), field = hd2.fields.armor_damage_curve.at_2,
+    expect = 0.75, value = 0.6, allow_shared = true, allow_unverified_effect = true})
 
 local me = hd2.armor_stats.player()                  -- the local player's own avatar (solo)
 local r = me:set({stamina_factor = 0.5, armor_bonus = 1, allow_unverified_effect = true})
@@ -74,8 +84,8 @@ generated domain is `domains/armor_stats.lua` (`scripts/generate_armor_stats.py`
 | --- | --- |
 | `hd2.armor_stats.kit(id or name)` | A kit target (`{resource = 'armor_kit', armor_kit = '1F9BFA78'}`). By id (a number or 8 hex digits) or by game name in any case. A name several kits share (for example `B-01 Tactical`, 9 kits) raises `AMBIGUOUS_ARMOR_KIT` with their ids; an unknown one raises `UNKNOWN_ARMOR_KIT`. |
 | `hd2.armor_stats.kits()` | Every armor kit of the build (135): `{id, name, passive, passive_name, class, vanilla = {rating, speed, stamina, armor_value, speed_factor, stamina_factor, damage_multiplier}}`. Offline. |
-| `hd2.armor_stats.class('light' / 'medium' / 'heavy')` | A weight class target (read-only). `hd2.armor_class` is the same function. Unknown: `UNKNOWN_ARMOR_CLASS`. |
-| `hd2.armor_stats.damage_curve()` | The damage curve target (read-only). |
+| `hd2.armor_stats.class('light' / 'medium' / 'heavy')` | A weight class target. `hd2.armor_class` is the same function. Unknown: `UNKNOWN_ARMOR_CLASS`. |
+| `hd2.armor_stats.damage_curve()` | The damage curve target. |
 | `hd2.armor_stats.player()` | The local player's avatar members (development, solo). |
 
 ### Kit targets
@@ -122,12 +132,20 @@ hd2.patch({id = 'sanctioner-torso', target = hd2.armor_stats.kit('4DD749C6'),
   - `speed` = `{value, display (500 x factor), vanilla}`;
   - `stamina` = `{value, display (100 x (2 - F)), vanilla}`;
   - `damage_multiplier`, the curve at that armor value;
-  - `source`, `editable = false` and the reason.
+  - `source`, `editable = true` and `executable_data` (why the page is accepted).
 - `hd2.armor_stats.damage_curve():describe()` returns `{points = {{armor_value, damage}}, vanilla, source}`.
 - **Fields.** `armor_class.rating` (A units, reviewed range -1 to 4), `armor_class.speed` (0.5 to 1.5),
   `armor_class.stamina` (0.25 to 2), and `armor_damage_curve.at_minus_1`, `at_0`, `at_1`, `at_2`, `at_3` (0 to 4).
-  - A request is validated in full: `allow_shared`, `allow_unverified_effect`, the vanilla `expect`, the range.
-  - Then it is refused with `WRITE_REFUSED_IMAGE_PAGE`. Nothing is read or written.
+  - Every request needs `allow_shared` and `allow_unverified_effect`, the vanilla `expect` (or the value this Runtime
+    wrote) and a value in range.
+  - **What is written.** One 4-byte f32: the class's entry in its table, or the curve point's damage. The curve's
+    armor values (the x of each point) are never written.
+  - **Who it affects.** Every Helldiver on this machine: a class value applies to every armor piece of that weight, of
+    every kit; the curve to every hit on a Helldiver.
+  - **When it takes effect.** The armor value and the curve: the next hit. Speed and stamina: the next armor apply (a
+    respawn or an armor change).
+  - The class and curve values are not synced: in multiplayer every machine evaluates with its own tables (which
+    machine evaluates a hit on a remote player is not proven).
 
 ### The local player
 
@@ -159,28 +177,29 @@ A refusal never raises: it returns `{status = 'refused', code, reason}`.
   `NO_AVATAR_SLOT`, `UNEXPECTED_STATE`, `NOT_SOLO`, `NOT_PRIVATE`, `UNAVAILABLE`, `UNSUPPORTED_BUILD`,
   `GUARD_REJECTED`.
 
-## Why the class tables are read-only
+## Class tables: reviewed executable data
 
 The research reads the three tables and the curve from game.dll's read-only initialized-data section (PE flags
 0x40000040). At run time, the game's loader leaves that whole range **PAGE_EXECUTE_READWRITE** (0x40): game.dll
 `+0x2112000`, 0x528000 bytes, in all seven retained snapshots (`validation/armor-stats-snapshot.json`, `imagePages`).
 
 The guarded write accepts a target page only if it is READONLY (opened to READWRITE for the write, then restored) or
-READWRITE, never copy-on-write and never executable (`core/page_protection.lua`, `docs/guarded-patch.md`). That rule
-is not relaxed here:
-- the snapshot validation sends a guarded transaction directly at the heavy armor entry;
-- it is REJECTED before any page is opened (`failed=protection`), with nothing written.
-
-So `armor_class.*` and `armor_damage_curve.*` are validated and then refused.
-
-**Writing them needs the user's decision.** A narrow exception would accept an EXECUTE_READWRITE page as a data
-target only for these exact 12-byte and 40-byte extents, with:
-- the build fingerprint;
-- the research's 177 pins;
-- the vanilla bytes as expected;
-- protection never changed.
-
-No such exception exists today. The proof therefore exercises the writable levers instead.
+READWRITE, never copy-on-write and never executable (`core/page_protection.lua`, `docs/guarded-patch.md`). One narrow
+exception exists, the user's decision of 2026-10-08: **reviewed executable data**.
+- A domain registers an exact extent (1 to 64 bytes, no overlap) with `register_executable_data`, only after its own
+  proofs. Here, before each class or curve write, the domain proves:
+  - the build fingerprint;
+  - the research's pins and the consumers' constants;
+  - that the entry is in game.dll's image, in a page whose protection is 0x40 (or READONLY / READWRITE);
+  - its current bytes are the vanilla value, or the value this Runtime wrote.
+  It then registers that entry's 4 bytes.
+- The transaction accepts a 0x40 page only when **every** change of the transaction on that page lies inside a
+  registered extent. The page is written as it is mapped and never re-protected (no protection change at all).
+- Every other executable page, and every unregistered byte of a registered page, is still refused before anything is
+  written. The snapshot validation sends a guarded transaction directly at the (unregistered) heavy armor entry: it is
+  REJECTED before any page is opened (`failed=protection`), with nothing written.
+- Tests: `tests/test_executable_data_extent.py` (unregistered page refused, registered extent written with no
+  protection change, a mixed page refused whole, registration exact and bounded).
 
 ## Guards (kit writes)
 
@@ -207,17 +226,27 @@ other byte of the captured arrays must be unchanged. An ensure restores the vani
     research's numbers for all 135 kits;
   - round trips: Sanctioner torso heavy (rating 70, class Heavy), Ravager all heavy (rating 150). Exact bytes, the
     note and the live describe follow, and the inverse restores;
+  - class and curve round trips through the domain: heavy armor value 2 -> 0 (rating 50, damage x1.25), heavy stamina
+    factor 1.5 -> 0.5 (regen 150), curve at armor value 2 x0.75 -> x0.5. One 4-byte write each, only those bytes
+    change in the table or curve, no page protection change, the live describe follows, the inverse restores;
   - the local player: slot 0, armor bonus 0 and stamina factor 0.75 = the Sanctioner's F. `set` and `restore` give the
     exact bytes. A third-party value is refused;
   - every rejection listed under Guards.
 - `tests/test_armor_stats.py`: the domain against the research, the targets and descriptors, every refusal, the
   per-player write on a synthetic world (solo, restore, third-party values), the wiring, and the probe.
-- Packaged scenario `proof-armor-stats`, read-only, on the reference snapshot: see `proof/ArmorStatProbe`.
+- `tests/test_executable_data_extent.py`: the reviewed executable-data exception in the guarded transaction.
+- Packaged scenario `proof-armor-stats` on the reference snapshot, from the built ZIP:
+  - the probe loads and reads the state (it writes nothing until a key is pressed);
+  - a direct write at the unregistered heavy entry is refused;
+  - a class + curve transaction and its inverse;
+  - the probe's Alt+F9 ensure over the whole curve (two pages), back to the exact vanilla bytes.
+  See `proof/ArmorStatProbe`.
 
 ## Not live-tested
 
-Nothing here has been tried in game. `proof/ArmorStatProbe` 0.1.0 is the live test:
+Nothing here has been tried in game. `proof/ArmorStatProbe` 0.2.0 is the live test:
 - **F9** cycles the local player's stamina factor: 0.5 (sprint much longer), then 1.5 (much shorter), then the
   game's own value.
 - **Ctrl+F9** cycles the worn armor kit's pieces: all heavy (damage x0.75), all light (x1.25), then vanilla. Every hit
   on the local player logs the health lost.
+- **Alt+F9** cycles the damage curve: every point x0.5, x2, then vanilla (live: the next hit).

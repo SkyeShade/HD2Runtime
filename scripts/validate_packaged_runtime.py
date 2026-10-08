@@ -4659,13 +4659,19 @@ return function(frame,watches,counts,lines)
 end
 """
 EXTRAS['proof-passive-swap'] = {'after': PROOF_PASSIVE_SWAP, 'readOnly': True}
-# The armor stats live test (proof/ArmorStatProbe 0.1.0; runtime/armor_stats.lua, domains/armor_stats_writes.lua): it
+# The armor stats live test (proof/ArmorStatProbe 0.2.0; runtime/armor_stats.lua, domains/armor_stats_writes.lua): it
 # loads from the archive and logs the snapshot's state; the packaged module proves the research's pins, the 12 slot-map
 # pins and the constants on the snapshot's game.dll; the local player reads as avatar slot 0 with stamina factor 0.75 =
 # the RS-100 Sanctioner's (all light) and armor bonus 0; the kit's live stats are the research's (rating 50, speed 550,
-# stamina regen 125); the heavy class reads 2 / 0.9 / 1.5 and its pages are PAGE_EXECUTE_READWRITE (the reason the class
-# fields are read-only); the members and pieces a write would target are private read-write memory (a guarded kit
-# resolution on the packaged modules is a no-op). No key is pressed: nothing is written.
+# stamina regen 125); the heavy class reads 2 / 0.9 / 1.5 and its pages are PAGE_EXECUTE_READWRITE; the members and
+# pieces a write would target are private read-write memory (a guarded kit resolution on the packaged modules is a
+# no-op). No key is pressed, so the probe writes nothing. The class tables and the curve as reviewed executable data
+# (core/page_protection.lua, the user's decision of 2026-10-08), on the packaged modules: a direct guarded write at the
+# unregistered heavy armor entry is refused with nothing written; through the domain the curve point at armor value 2
+# (x0.75 -> x0.5) and the heavy armor value (2 -> 3) are written in one transaction, two 4-byte writes, no protection
+# change, the live describes follow, and the inverse restores both entries exactly. Then the probe's Alt+F9 (its public
+# hd2.ensure over the five curve points, which span two pages): TOUGH writes every point x0.5, VANILLA restores the
+# curve's 40 bytes exactly, with no protection change.
 PROOF_ARMOR_STATS = r"""
 return function(frame,watches,counts,lines)
  local results={}
@@ -4673,7 +4679,7 @@ return function(frame,watches,counts,lines)
  local function count(text)local n=0;for _,line in ipairs(lines)do if line:find(text,1,true)then n=n+1 end end;return n end
  for _=1,60 do frame()end
  step('the probe loads from the archive and logs the snapshot\'s state',
-  count('ArmorStatProbe 0.1.0 ARMOR STAT PROBE BUILD')==1
+  count('ArmorStatProbe 0.2.0 ARMOR STAT PROBE BUILD')==1
   and count('armor kit 4DD749C6 RS-100 SANCTIONER; STAMINA FACTOR 0.75 (the kit gives 0.75); ARMOR BONUS 0')==1,
   table.concat(lines,' | '):sub(-700))
  local world=require('hd2runtime/runtime/event_world').open()
@@ -4691,8 +4697,8 @@ return function(frame,watches,counts,lines)
   and kit.pieces.torso~=nil and kit.pieces.torso.weight==0,tostring(kit.source)..' '..tostring(kit.reason))
  local heavy=hd2.armor_class('heavy'):describe()
  local r=world.runtime.query(world.game+require('hd2runtime/domains/armor_stats').tables.armor.rva)
- step('the heavy class reads 2 / 0.9 / 1.5, read-only: its page is PAGE_EXECUTE_READWRITE',heavy.source=='live'
-  and heavy.rating.value==2 and heavy.speed.value==0.9 and heavy.stamina.value==1.5 and heavy.editable==false
+ step('the heavy class reads 2 / 0.9 / 1.5, editable: its page is PAGE_EXECUTE_READWRITE',heavy.source=='live'
+  and heavy.rating.value==2 and heavy.speed.value==0.9 and heavy.stamina.value==1.5 and heavy.editable==true
   and r~=nil and r.protect==0x40,tostring(r and r.protect))
  local s=A.read_player(world)
  local q1=s and world.runtime.query(s.stamina.address)
@@ -4711,11 +4717,91 @@ return function(frame,watches,counts,lines)
  step('the members and the pieces a write would target are committed private read-write memory',q1~=nil
   and q1.type==0x20000 and q1.protect==4 and target~=nil and target.owner.type==0x20000 and target.owner.protect==4
   and target.already_desired==true,tostring(resolved and#plan.changes or plan))
- step('nothing is written',counts.writes==0,tostring(counts.writes))
+ step('the probe writes nothing',counts.writes==0,tostring(counts.writes))
+ -- Reviewed executable data on the packaged modules.
+ local D=require('hd2runtime/domains/armor_stats')
+ local W=require('hd2runtime/domains/armor_stats_writes')
+ local guarded=require('hd2runtime/core/guarded_transaction')
+ local page=require('hd2runtime/core/page_protection')
+ local image={base=world.game,size=r and(r.base-world.game+r.size)or 0,type=0x1000000,protect=0x40}
+ local heavy_rva=D.tables.armor.rva+8
+ local entry=world.runtime.read(world.game+heavy_rva,4)
+ local direct=guarded.apply(world.runtime,{snapshots={{owner=image,offset=D.tables.armor.rva,
+  bytes=world.runtime.read(world.game+D.tables.armor.rva,12)}},changes={{label='armor_class.rating',owner=image,
+  offset=heavy_rva,expected=entry,desired=string.char(0,0,0x40,0x40),before=entry,already_desired=false,
+  identity={component='armor table',component_type='native_module_data',record_index=2,unique_owner=false,
+  owner_count=0},chain={}}}})
+ step('a direct guarded write at the unregistered heavy armor entry is refused, nothing written',
+  direct.status=='REJECTED'and counts.writes==0 and world.runtime.read(world.game+heavy_rva,4)==entry,
+  tostring(direct.status)..' '..tostring(direct.guard_failure or direct.reason))
+ local curve=world.runtime.read(world.game+D.curve.rva,40)
+ local armor=world.runtime.read(world.game+D.tables.armor.rva,12)
+ local done,report=pcall(function()
+  local spec=W.validate_transaction({id='exec-data',target={resource='armor_class',armor_class='heavy'},allow_shared=true,
+   allow_unverified_effect=true,changes={{field='armor_class.rating',expect=2,value=3}}})
+  local cspec=W.validate_transaction({id='exec-data-curve',target={resource='armor_damage_curve'},allow_shared=true,
+   allow_unverified_effect=true,changes={{field='armor_damage_curve.at_2',expect=0.75,value=0.5}}})
+  local function plan_of(sp)
+   local reader=require('hd2runtime/runtime/reader').new(world.runtime)
+   local co=coroutine.create(function()return W.prepare(W.capture(world.runtime,reader,sp),reader,sp)end)
+   local fine,out
+   repeat fine,out=coroutine.resume(co)until not fine or coroutine.status(co)=='dead'
+   assert(fine,out)
+   return out
+  end
+  local a,b=plan_of(spec),plan_of(cspec)
+  local plan={changes={a.changes[1],b.changes[1]},snapshots={}}
+  for _,x in ipairs(a.snapshots or{})do plan.snapshots[#plan.snapshots+1]=x end
+  for _,x in ipairs(b.snapshots or{})do plan.snapshots[#plan.snapshots+1]=x end
+  local applied=guarded.apply(world.runtime,plan)
+  local live={heavy=hd2.armor_class('heavy'):describe(),curve=hd2.armor_stats.damage_curve():describe(),
+   writes=counts.writes,protect=world.runtime.query(world.game+D.curve.rva).protect}
+  local inverse=guarded.apply(world.runtime,guarded.inverse(plan))
+  return {applied=applied,live=live,inverse=inverse}
+ end)
+ local at2
+ if done then for _,pt in ipairs(report.live.curve.points)do if pt.armor_value==2 then at2=pt.damage end end end
+ step('heavy armor value 2 -> 3 and the curve at 2 x0.75 -> x0.5: one transaction, two writes, no protection change, '
+  ..'the live describes follow',done and report.applied.status=='APPLIED'and report.applied.writes==2
+  and report.applied.protection_changes==0 and report.live.writes==2 and report.live.protect==0x40
+  and report.live.heavy.rating.value==3 and report.live.heavy.rating.display==200 and at2==0.5
+  and page.reviewed_executable_data(world.game+heavy_rva,4)~=nil,
+  done and(tostring(report.applied.status)..' '..tostring(report.applied.reason))or tostring(report))
+ step('the inverse restores the armor table and the curve exactly',done and report.inverse.status=='APPLIED'
+  and report.inverse.protection_changes==0 and world.runtime.read(world.game+D.curve.rva,40)==curve
+  and world.runtime.read(world.game+D.tables.armor.rva,12)==armor,done and tostring(report.inverse.status)or'')
+ -- The probe's Alt+F9: its public ensure over the whole curve.
+ local input=require('hd2runtime/runtime/input')
+ local held={}
+ input.set_backend({focused=function()return true end,down=function(code)return held[code]==true end})
+ local function press(...)
+  for _,c in ipairs({...})do held[c]=true end;frame();frame()
+  for _,c in ipairs({...})do held[c]=nil end;frame()
+ end
+ local function points()
+  local out={}
+  for _,pt in ipairs(hd2.armor_stats.damage_curve():describe().points)do out[#out+1]=('%g'):format(pt.damage)end
+  return table.concat(out,',')
+ end
+ local writes_before=counts.writes
+ press(0x12,input.keys.F9)
+ for _=1,100 do frame()if points()=='0.83,0.625,0.5,0.375,0.325'then break end end
+ step('Alt+F9 (the probe\'s public ensure): every curve point x0.5 across both pages, no protection change',
+  count('CURVE TOUGH (Alt+F9)')==1 and points()=='0.83,0.625,0.5,0.375,0.325'and counts.writes-writes_before==5
+  and world.runtime.query(world.game+D.curve.rva).protect==0x40
+  and world.runtime.query(world.game+D.curve.rva+39).protect==0x40,
+  points()..' writes '..tostring(counts.writes-writes_before)..' | '..table.concat(lines,' | '):sub(-900))
+ press(0x12,input.keys.F9)
+ for _=1,100 do frame()if points()=='3.32,2.5,2,1.5,1.3'then break end end
+ press(0x12,input.keys.F9)
+ for _=1,100 do frame()if world.runtime.read(world.game+D.curve.rva,40)==curve then break end end
+ step('Alt+F9 twice more (FRAGILE x2, then VANILLA): the curve\'s 40 bytes are restored exactly',
+  count('CURVE FRAGILE (Alt+F9)')==1 and count('CURVE VANILLA (Alt+F9)')==1
+  and world.runtime.read(world.game+D.curve.rva,40)==curve,points())
  return results
 end
 """
-EXTRAS['proof-armor-stats'] = {'after': PROOF_ARMOR_STATS, 'readOnly': True}
+EXTRAS['proof-armor-stats'] = {'after': PROOF_ARMOR_STATS}
 # The client-write proof (runtime/multiplayer.lua host_guard; research/docs/runtime-peer-messaging-F5FEE03DCFDB.md
 # section 10), with the Gas EAT example, on the shipped artifact and a real MISSION snapshot whose host condition is
 # overlaid as absent (seed_client: the game mode's authority bit cleared) and whose first unlimited loadout entry is the
@@ -5229,7 +5315,10 @@ function runtime.protect(page,size,value)
  return old
 end
 function runtime.write(at,bytes)
- assert((protection[at-at%PAGE] or original_protect(at-at%PAGE))==4,'overlay write without writable page')
+ local p=protection[at-at%PAGE] or original_protect(at-at%PAGE)
+ -- A reviewed executable-data extent (core/page_protection.lua) is written in its page as mapped (0x40).
+ assert(p==4 or(p==0x40 and require('hd2runtime/core/page_protection').reviewed_executable_data(at,#bytes)~=nil),
+  'overlay write without writable page')
  counts.writes=counts.writes+1
  if overlay[at]==nil then
   local lo,hi=1,#overlay_sorted+1

@@ -3355,7 +3355,7 @@ function HD2ArmorKitTarget:preview(weights) end
 ---@field vanilla table {rating, speed, stamina, armor_value, speed_factor, stamina_factor, damage_multiplier}.
 local HD2ArmorKitSummary = {}
 
----A weight class (hd2.armor_stats.class / hd2.armor_class). Fields hd2.fields.armor_class.rating / speed / stamina are READ-ONLY: a write is validated, then refused with WRITE_REFUSED_IMAGE_PAGE (docs/armor-stats.md).
+---A weight class (hd2.armor_stats.class / hd2.armor_class). Fields hd2.fields.armor_class.rating / speed / stamina: one f32 entry per class table in game.dll, written as reviewed executable data, for every Helldiver on this machine (allow_shared and allow_unverified_effect; docs/armor-stats.md).
 ---@class HD2ArmorClassTarget
 ---@field resource "armor_class"
 ---@field armor_class "light"|"medium"|"heavy"
@@ -3367,7 +3367,7 @@ function HD2ArmorClassTarget:describe() end
 ---@return table[]
 function HD2ArmorClassTarget:fields() end
 
----The avatar damage curve (hd2.armor_stats.damage_curve()). Fields hd2.fields.armor_damage_curve.at_minus_1 .. at_3 are READ-ONLY, like the class tables.
+---The avatar damage curve (hd2.armor_stats.damage_curve()). Fields hd2.fields.armor_damage_curve.at_minus_1 .. at_3: the damage multiplier at each armor value, written as reviewed executable data like the class tables.
 ---@class HD2ArmorDamageCurveTarget
 ---@field resource "armor_damage_curve"
 local HD2ArmorDamageCurveTarget = {}

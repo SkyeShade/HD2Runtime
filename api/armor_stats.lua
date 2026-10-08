@@ -5,13 +5,14 @@
 --   kit:describe()                                            -- its pieces and the stats they give now
 --   hd2.transaction({id = 'ravager-heavy', target = kit, allow_shared = true, allow_unverified_effect = true,
 --       changes = kit:changes('heavy')})                      -- every armor piece heavy (or hd2.ensure it)
---   hd2.armor_stats.class('heavy'):describe()                 -- the per-weight tables (read-only)
+--   hd2.armor_stats.class('heavy'):describe()                 -- the per-weight tables (writable: reviewed executable data)
 --   local me = hd2.armor_stats.player()
 --   me:set({stamina_factor = 0.5, allow_unverified_effect = true})   -- the local player's avatar (solo)
 --   me:restore()
 --
 -- A kit's pieces are shared by every player wearing that kit (allow_shared). The class tables and the damage curve
--- are read-only (their game.dll pages are executable; docs/armor-stats.md). The per-player members are the local
+-- are shared by every Helldiver (allow_shared): reviewed executable data (their game.dll pages are executable; only
+-- their exact entries are written, the user's decision of 2026-10-08; docs/armor-stats.md). The per-player members are the local
 -- player's own avatar, solo only; a refusal never raises: {status = 'refused', code, reason}.
 local A=require('hd2runtime/runtime/armor_stats')
 local W=require('hd2runtime/domains/armor_stats_writes')
@@ -23,7 +24,7 @@ local function public(fields)
     local out={}
     for _,f in ipairs(fields)do
         out[#out+1]={semanticFieldId=f.semanticFieldId,type=f.type,unit=f.unit,currentDefault=f.currentDefault,
-            editable=f.editable,readOnlyReason=f.readOnlyReason,min=f.min,max=f.max,allowedValues=f.allowedValues,
+            editable=f.editable,readOnlyReason=f.readOnlyReason,executableData=f.executableData,min=f.min,max=f.max,allowedValues=f.allowedValues,
             slot=f.slot,armorValue=f.armorValue,lifecycle=f.lifecycle,shared=true,sharedReason=f.sharedReason,
             acknowledgements=f.editable and{'allow_shared','allow_unverified_effect'}or nil}
     end
