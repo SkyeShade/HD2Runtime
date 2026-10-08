@@ -20,7 +20,7 @@ ORDER = ('apply_projectile_residency', 'generate_live_evidence', 'generate_strat
     'generate_booster_authoring',
     'generate_stratagem_authoring', 'generate_weapon_authoring', 'generate_fire_mode_authoring',
     'generate_vehicle_weapon_authoring', 'generate_pod_payload_authoring', 'generate_throwable_authoring',
-    'generate_package_residency', 'generate_explosion_catalogue', 'generate_weapon_movement', 'generate_enemy_authoring', 'generate_helldiver_fields', 'generate_attack_outputs', 'generate_weapon_modes',
+    'generate_package_residency', 'generate_explosion_catalogue', 'generate_weapon_movement', 'generate_enemy_authoring', 'generate_helldiver_fields', 'generate_armor_stats', 'generate_attack_outputs', 'generate_weapon_modes',
     'generate_weapon_presentation', 'generate_carrier_pod_items', 'generate_custom_stratagem_schema',
     'generate_legacy_acknowledgements', 'generate_projectile_homing', 'generate_enemy_spawn_weights', 'generate_teammate_hud', 'generate_sdk')
 
