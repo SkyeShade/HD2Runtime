@@ -1,0 +1,1 @@
+{"format":1,"name":"GameIconProbe","resource":"mods/skyeshade/hd2runtime_game_icon_probe","guid":"7a6def58-687e-58bc-ab0b-2131ec15fd88","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.30.0-dev","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../sdk","ide_library":"../../sdk/stubs"}
