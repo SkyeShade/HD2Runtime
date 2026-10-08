@@ -3508,6 +3508,305 @@
      }
     ]
    },
+   "HD2PassiveModifier": {
+    "doc": "One modifier row of a passive {key, type, value}: what EntityAttribute returns to a reader.",
+    "fields": [
+     [
+      "key",
+      "string",
+      "The row's key, 8 hex digits (a thin hash)."
+     ],
+     [
+      "key_name",
+      "string",
+      "The research's semantic name of the key (e.g. 'throw_range', 'movement_noise'; 'unknown_<key>' where no reader or text is known)."
+     ],
+     [
+      "type",
+      "string",
+      "'Set', 'Add', 'Multiply' or 'Time': how the reader combines value with its default (the reader's own code)."
+     ],
+     [
+      "value",
+      "number",
+      "The value."
+     ],
+     [
+      "text",
+      "string|nil",
+      "The game's effect text (list() only)."
+     ],
+     [
+      "source",
+      "string|nil",
+      "effective only: 'armor' or 'second' (the helmet slot)."
+     ],
+     [
+      "passive",
+      "integer|nil",
+      "effective only: the passive id the row comes from."
+     ],
+     [
+      "name",
+      "string|nil",
+      "effective only: that passive's name."
+     ]
+    ],
+    "methods": []
+   },
+   "HD2Passive": {
+    "doc": "One of the game's 32 armor passives (research/player-attributes-F5FEE03DCFDB.json).",
+    "fields": [
+     [
+      "id",
+      "integer",
+      "The passive id (0-41; 4 and 22-30 are unused)."
+     ],
+     [
+      "name",
+      "string",
+      "The game's own name (e.g. 'SERVO-ASSISTED')."
+     ],
+     [
+      "modifiers",
+      "HD2PassiveModifier[]",
+      "Its rows in the game's order."
+     ],
+     [
+      "effect_package",
+      "boolean",
+      "It has an effect package (17 Integrated Explosives, 19 Adreno-Defibrillator): set() takes it only while some record holds it."
+     ],
+     [
+      "package",
+      "string|nil",
+      "The package field (8 hex digits) when it has one."
+     ],
+     [
+      "armor_kits",
+      "integer",
+      "How many armor kits carry it."
+     ]
+    ],
+    "methods": []
+   },
+   "HD2Passives": {
+    "doc": "hd2.passives: every armor passive of the game (offline; docs/armor-passives.md).",
+    "methods": [
+     {
+      "name": "list",
+      "params": [],
+      "returns": "HD2Passive[]",
+      "doc": "Every passive of the game with its modifier rows, by id (the research's table; no game read)."
+     },
+     {
+      "name": "find",
+      "params": [
+       [
+        "passive",
+        "string|integer"
+       ]
+      ],
+      "returns": "HD2Passive|nil, string?, string?",
+      "doc": "One passive by its game name (any case) or id; nil, UNKNOWN_PASSIVE, reason otherwise."
+     }
+    ]
+   },
+   "HD2PassiveRef": {
+    "doc": "",
+    "fields": [
+     [
+      "id",
+      "integer",
+      "The passive id."
+     ],
+     [
+      "name",
+      "string",
+      "Its game name."
+     ]
+    ],
+    "methods": []
+   },
+   "HD2KitRef": {
+    "doc": "",
+    "fields": [
+     [
+      "id",
+      "string",
+      "The kit id (0x + 8 hex digits)."
+     ],
+     [
+      "name",
+      "string|nil",
+      "Its game name, where the research resolved it."
+     ],
+     [
+      "passive",
+      "integer|nil",
+      "The kit's own passive (kit +0x1C): what the game derives the slot from."
+     ]
+    ],
+    "methods": []
+   },
+   "HD2PlayerPassives": {
+    "doc": "The local player's passives as the game reads them now (hd2.player_passives()).",
+    "fields": [
+     [
+      "entity",
+      "integer",
+      "The player entity (an avatar is mapped to it by the game)."
+     ],
+     [
+      "record",
+      "integer",
+      "Its applied customization record (0-3)."
+     ],
+     [
+      "armor_kit",
+      "HD2KitRef",
+      "The armor kit."
+     ],
+     [
+      "helmet_kit",
+      "HD2KitRef",
+      "The helmet kit (no vanilla helmet has a passive)."
+     ],
+     [
+      "cape_kit",
+      "HD2KitRef",
+      "The cape kit."
+     ],
+     [
+      "armor_passive",
+      "HD2PassiveRef",
+      "The armor slot (record +0x3C)."
+     ],
+     [
+      "helmet_passive",
+      "HD2PassiveRef",
+      "The helmet slot (record +0x38), where set() puts the second passive; 0 = none."
+     ],
+     [
+      "derived",
+      "{armor: integer, second: integer}",
+      "The kits' own passives (what the game puts back on a kit change)."
+     ],
+     [
+      "overridden",
+      "boolean",
+      "A slot differs from its kit."
+     ],
+     [
+      "runtime",
+      "string|nil",
+      "The mod holding an override."
+     ],
+     [
+      "effective",
+      "HD2PassiveModifier[]",
+      "The rows a flags=3 reader finds, in order: the armor passive's, then the second passive's keys the armor lacks (the first row per key wins; no stacking)."
+     ]
+    ],
+    "methods": []
+   },
+   "HD2PlayerPassiveSpec": {
+    "doc": "",
+    "fields": [
+     [
+      "armor",
+      "HD2PassiveName|integer|nil",
+      "The armor passive (name or id); nil: the kit's own."
+     ],
+     [
+      "second",
+      "HD2PassiveName|integer|false|nil",
+      "A second passive in the helmet slot; nil or false: none (the kit's)."
+     ],
+     [
+      "owner",
+      "string|nil",
+      "Mod id (defaults to the calling mod)."
+     ]
+    ],
+    "methods": []
+   },
+   "HD2PlayerPassiveHandle": {
+    "doc": "An armor passive override. A refusal never raises: status is refused with a code and a reason.",
+    "fields": [
+     [
+      "kind",
+      "string",
+      "'player_passives'."
+     ],
+     [
+      "owner",
+      "string",
+      "The mod that set it."
+     ],
+     [
+      "status",
+      "string",
+      "'active', 'waiting' (no record yet), 'suspended' (several players or the package is gone; the kit's values are back), 'lost' (something else wrote the slot), 'replaced', 'stopped' or 'refused'."
+     ],
+     [
+      "code",
+      "string|nil",
+      "Why (INVALID_OPTION, UNKNOWN_PASSIVE, SAME_PASSIVE, PACKAGE_NOT_RESIDENT, NOT_SOLO, ALREADY_SET, UNEXPECTED_STATE, NOT_PRIVATE, GUARD_REJECTED, UNSUPPORTED_BUILD; waiting: UNAVAILABLE, NO_PLAYER, NO_RECORD, NOT_READY)."
+     ],
+     [
+      "reason",
+      "string|nil",
+      "The reason in words."
+     ],
+     [
+      "armor",
+      "HD2PassiveRef|nil",
+      "The armor passive asked for."
+     ],
+     [
+      "second",
+      "HD2PassiveRef|nil",
+      "The second passive asked for."
+     ]
+    ],
+    "methods": [
+     {
+      "name": "stop",
+      "params": [],
+      "returns": "HD2PlayerPassiveHandle",
+      "doc": "Stop holding: the kit's own passives go back into the slots that still hold this override's values."
+     },
+     {
+      "name": "describe",
+      "params": [],
+      "returns": "{kind: string, owner: string, status: string, code: string|nil, reason: string|nil, armor: HD2PassiveRef|nil, second: HD2PassiveRef|nil, applications: integer}",
+      "doc": "The override and how many times it was written (re-applications after kit changes included)."
+     }
+    ]
+   },
+   "HD2PlayerPassivesApi": {
+    "doc": "hd2.player_passives: call it for the local player's passives (HD2PlayerPassives, or nil, code, reason); set() overrides them (DEVELOPMENT, solo; docs/armor-passives.md).",
+    "methods": [
+     {
+      "name": "set",
+      "params": [
+       [
+        "spec",
+        "HD2PlayerPassiveSpec"
+       ]
+      ],
+      "returns": "HD2PlayerPassiveHandle",
+      "doc": "Override the local player's armor passive and/or add a second passive in the helmet slot: one guarded 4-byte write per slot on the player's own record, re-applied after each kit change, until stop(). Readers that ignore the helmet slot (flinch, one chest-bleed site, Integrated Explosives) never see the second passive; overlapping keys do not stack; the armor rating follows the armor kit. Solo only (NOT_SOLO). Not live-tested."
+     },
+     {
+      "name": "status",
+      "params": [],
+      "returns": "{owner: string, status: string, code: string|nil, reason: string|nil, armor: HD2PassiveRef|nil, second: HD2PassiveRef|nil, applications: integer}|nil",
+      "doc": "The held override, or nil."
+     }
+    ]
+   },
    "HD2StatusOptions": {
     "doc": "",
     "fields": [
@@ -5539,6 +5838,16 @@
    [
     "ui",
     "HD2UI",
+    ""
+   ],
+   [
+    "passives",
+    "HD2Passives",
+    ""
+   ],
+   [
+    "player_passives",
+    "HD2PlayerPassivesApi|fun(): HD2PlayerPassives|nil, string?, string?",
     ""
    ]
   ]

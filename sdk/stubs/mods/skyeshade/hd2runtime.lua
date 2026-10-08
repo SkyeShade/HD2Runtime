@@ -5,6 +5,7 @@
 ---@alias HD2Resource "0x16474112801385B6"|"0x59C5CA839449B379"|"0x80F1A156D9FA1E36"|"0x89C5493E08CA4207"|"0xB0C9FAF4AF8903F9"|"0xEC3575E7A93793BB"|"0xED13DDC480EC6910"|"amr"|"bastion"|"jar5"|"jump_pack"|"maelstrom"|"orbital_laser"|"shield_relay"
 ---@alias HD2PatchField "armor_penetration"
 ---@alias HD2TransactionField "cooldown"|"durability"|"lifetime"|"radius"
+---@alias HD2PassiveName "ACCLIMATED"|"ADRENO-DEFIBRILLATOR"|"ADVANCED FILTRATION"|"BALLISTIC PADDING"|"BLUNT-FORCE MITIGATION"|"CONCUSSIVE PADDING, GRENADIER"|"CONCUSSIVE PADDING, HAZMAT"|"CONCUSSIVE PADDING, REINFORCED"|"DEMOCRACY PROTECTS"|"DESERT STORMER"|"ELECTRICAL CONDUIT"|"ENGINEERING KIT"|"EXTRA PADDING"|"FEET FIRST"|"FORTIFIED"|"GUNSLINGER"|"INFLAMMABLE"|"INTEGRATED EXPLOSIVES"|"KINETIC DISPLACEMENT MITIGATION"|"MED-KIT"|"OXYGENATOR"|"PEAK PHYSIQUE"|"REDUCED SIGNATURE"|"REINFORCED EPAULETTES"|"ROCK-SOLID"|"SCOUT"|"SERVO-ASSISTED"|"SIEGE-READY"|"STANDARD ISSUE"|"SUPPLEMENTAL ADRENALINE"|"TRUE GRIT"|"UNFLINCHING"
 
 ---@class HD2ReadTarget
 ---@field resource HD2Resource
@@ -2525,6 +2526,99 @@ function HD2Enemies.spawn_list(filter) end
 ---@return {owner: string, enemy: string, entity: string, multiplier: number, status: string, rows: integer}[]
 function HD2Enemies.spawn_status() end
 
+---One modifier row of a passive {key, type, value}: what EntityAttribute returns to a reader.
+---@class HD2PassiveModifier
+---@field key string The row's key, 8 hex digits (a thin hash).
+---@field key_name string The research's semantic name of the key (e.g. 'throw_range', 'movement_noise'; 'unknown_<key>' where no reader or text is known).
+---@field type string 'Set', 'Add', 'Multiply' or 'Time': how the reader combines value with its default (the reader's own code).
+---@field value number The value.
+---@field text string|nil The game's effect text (list() only).
+---@field source string|nil effective only: 'armor' or 'second' (the helmet slot).
+---@field passive integer|nil effective only: the passive id the row comes from.
+---@field name string|nil effective only: that passive's name.
+local HD2PassiveModifier = {}
+
+---One of the game's 32 armor passives (research/player-attributes-F5FEE03DCFDB.json).
+---@class HD2Passive
+---@field id integer The passive id (0-41; 4 and 22-30 are unused).
+---@field name string The game's own name (e.g. 'SERVO-ASSISTED').
+---@field modifiers HD2PassiveModifier[] Its rows in the game's order.
+---@field effect_package boolean It has an effect package (17 Integrated Explosives, 19 Adreno-Defibrillator): set() takes it only while some record holds it.
+---@field package string|nil The package field (8 hex digits) when it has one.
+---@field armor_kits integer How many armor kits carry it.
+local HD2Passive = {}
+
+---hd2.passives: every armor passive of the game (offline; docs/armor-passives.md).
+---@class HD2Passives
+local HD2Passives = {}
+---Every passive of the game with its modifier rows, by id (the research's table; no game read).
+---@return HD2Passive[]
+function HD2Passives.list() end
+---One passive by its game name (any case) or id; nil, UNKNOWN_PASSIVE, reason otherwise.
+---@param passive string|integer
+---@return HD2Passive|nil, string?, string?
+function HD2Passives.find(passive) end
+
+---@class HD2PassiveRef
+---@field id integer The passive id.
+---@field name string Its game name.
+local HD2PassiveRef = {}
+
+---@class HD2KitRef
+---@field id string The kit id (0x + 8 hex digits).
+---@field name string|nil Its game name, where the research resolved it.
+---@field passive integer|nil The kit's own passive (kit +0x1C): what the game derives the slot from.
+local HD2KitRef = {}
+
+---The local player's passives as the game reads them now (hd2.player_passives()).
+---@class HD2PlayerPassives
+---@field entity integer The player entity (an avatar is mapped to it by the game).
+---@field record integer Its applied customization record (0-3).
+---@field armor_kit HD2KitRef The armor kit.
+---@field helmet_kit HD2KitRef The helmet kit (no vanilla helmet has a passive).
+---@field cape_kit HD2KitRef The cape kit.
+---@field armor_passive HD2PassiveRef The armor slot (record +0x3C).
+---@field helmet_passive HD2PassiveRef The helmet slot (record +0x38), where set() puts the second passive; 0 = none.
+---@field derived {armor: integer, second: integer} The kits' own passives (what the game puts back on a kit change).
+---@field overridden boolean A slot differs from its kit.
+---@field runtime string|nil The mod holding an override.
+---@field effective HD2PassiveModifier[] The rows a flags=3 reader finds, in order: the armor passive's, then the second passive's keys the armor lacks (the first row per key wins; no stacking).
+local HD2PlayerPassives = {}
+
+---@class HD2PlayerPassiveSpec
+---@field armor HD2PassiveName|integer|nil The armor passive (name or id); nil: the kit's own.
+---@field second HD2PassiveName|integer|false|nil A second passive in the helmet slot; nil or false: none (the kit's).
+---@field owner string|nil Mod id (defaults to the calling mod).
+local HD2PlayerPassiveSpec = {}
+
+---An armor passive override. A refusal never raises: status is refused with a code and a reason.
+---@class HD2PlayerPassiveHandle
+---@field kind string 'player_passives'.
+---@field owner string The mod that set it.
+---@field status string 'active', 'waiting' (no record yet), 'suspended' (several players or the package is gone; the kit's values are back), 'lost' (something else wrote the slot), 'replaced', 'stopped' or 'refused'.
+---@field code string|nil Why (INVALID_OPTION, UNKNOWN_PASSIVE, SAME_PASSIVE, PACKAGE_NOT_RESIDENT, NOT_SOLO, ALREADY_SET, UNEXPECTED_STATE, NOT_PRIVATE, GUARD_REJECTED, UNSUPPORTED_BUILD; waiting: UNAVAILABLE, NO_PLAYER, NO_RECORD, NOT_READY).
+---@field reason string|nil The reason in words.
+---@field armor HD2PassiveRef|nil The armor passive asked for.
+---@field second HD2PassiveRef|nil The second passive asked for.
+local HD2PlayerPassiveHandle = {}
+---Stop holding: the kit's own passives go back into the slots that still hold this override's values.
+---@return HD2PlayerPassiveHandle
+function HD2PlayerPassiveHandle:stop() end
+---The override and how many times it was written (re-applications after kit changes included).
+---@return {kind: string, owner: string, status: string, code: string|nil, reason: string|nil, armor: HD2PassiveRef|nil, second: HD2PassiveRef|nil, applications: integer}
+function HD2PlayerPassiveHandle:describe() end
+
+---hd2.player_passives: call it for the local player's passives (HD2PlayerPassives, or nil, code, reason); set() overrides them (DEVELOPMENT, solo; docs/armor-passives.md).
+---@class HD2PlayerPassivesApi
+local HD2PlayerPassivesApi = {}
+---Override the local player's armor passive and/or add a second passive in the helmet slot: one guarded 4-byte write per slot on the player's own record, re-applied after each kit change, until stop(). Readers that ignore the helmet slot (flinch, one chest-bleed site, Integrated Explosives) never see the second passive; overlapping keys do not stack; the armor rating follows the armor kit. Solo only (NOT_SOLO). Not live-tested.
+---@param spec HD2PlayerPassiveSpec
+---@return HD2PlayerPassiveHandle
+function HD2PlayerPassivesApi.set(spec) end
+---The held override, or nil.
+---@return {owner: string, status: string, code: string|nil, reason: string|nil, armor: HD2PassiveRef|nil, second: HD2PassiveRef|nil, applications: integer}|nil
+function HD2PlayerPassivesApi.status() end
+
 ---@class HD2StatusOptions
 ---@field buildup number|nil Buildup added (0 < buildup <= 1000, default 100). The status starts when the target's buildup reaches its susceptibility; strength and duration come from the status itself.
 ---@field owner string|nil Mod id (defaults to the calling mod).
@@ -3735,6 +3829,8 @@ function HD2ModContext:once(name, callback, opts) end
 ---@field custom_stratagem HD2CustomStratagems
 ---@field ownership HD2Ownership
 ---@field ui HD2UI
+---@field passives HD2Passives
+---@field player_passives HD2PlayerPassivesApi|fun(): HD2PlayerPassives|nil, string?, string?
 local hd2 = {}
 ---@alias HD2WeaponName "AMR"|"APW-1 Anti-Materiel Rifle"|"AR-11 Arbitrator"|"AR-2 Coyote"|"AR-23 Liberator"|"AR-23A Liberator Carbine"|"AR-23C Liberator Concussive"|"AR-23P Liberator Penetrator"|"AR-32 Pacifier"|"AR-59 Suppressor"|"AR-61 Tenderizer"|"AR/GL-21 One-Two"|"ARC-12 Blitzer"|"BR-14 Adjudicator"|"CB-9 Exploding Crossbow"|"CQC-19 Stun Lance"|"CQC-2 Saber"|"CQC-30 Stun Baton"|"CQC-42 Machete"|"CQC-5 Combat Hatchet"|"CQC-73 Entrenchment Tool"|"DBS-2 Double Freedom"|"FLAM-66 Torcher"|"GL-15 Evictor"|"GP-20 Ultimatum"|"GP-31 Grenade Pistol"|"JAR-5 Dominator"|"LAS-12 Sai"|"LAS-13 Trident"|"LAS-16 Sickle"|"LAS-17 Double-Edge Sickle"|"LAS-5 Scythe"|"LAS-58 Talon"|"LAS-7 Dagger"|"M6C/SOCOM Pistol"|"M7S SMG"|"M90A Shotgun"|"MA5C Assault Rifle"|"MP-98 Knight"|"P-11 Stim Pistol"|"P-113 Verdict"|"P-19 Redeemer"|"P-2 Peacemaker"|"P-33 Missile Pistol"|"P-34 Breacher"|"P-35 Re-Educator"|"P-4 Senator"|"P-69 Veto"|"P-72 Crisper"|"P-92 Warrant"|"P/40-K Bolt Pistol"|"PLAS-1 Scorcher"|"PLAS-101 Purifier"|"PLAS-15 Loyalist"|"PLAS-39 Accelerator Rifle"|"R-2 Amendment"|"R-2124 Constitution"|"R-36 Eruptor"|"R-4 Hyena"|"R-6 Deadeye"|"R-63 Diligence"|"R-63CS Diligence Counter Sniper"|"R-72 Censor"|"R/40-K Hot-Shot Marksman Rifle"|"SG-20 Halt"|"SG-22 Bushwhacker"|"SG-225 Breaker"|"SG-225IE Breaker Incendiary"|"SG-225SP Breaker Spray&Pray"|"SG-451 Cookout"|"SG-8 Punisher"|"SG-8P Punisher Plasma"|"SG-8S Slugger"|"SG-97 Sweeper"|"SMG-203 Gallant"|"SMG-32 Reprimand"|"SMG-37 Defender"|"SMG-72 Pummeler"|"SMG/FLAM-34 Stoker"|"StA-11 SMG"|"StA-52 Assault Rifle"|"VG-70 Variable"|"amr"|"jar5"
 ---@param name HD2WeaponName

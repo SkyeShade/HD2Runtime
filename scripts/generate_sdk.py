@@ -173,6 +173,9 @@ def outputs():
     alias('HD2Resource',list(resources)+[r['resource'] for r in resources.values()])
     alias('HD2PatchField',[schema['contracts']['patch']['field']])
     alias('HD2TransactionField',list(schema['contracts']['transaction']['fields']))
+    # The game's armor passives by name (docs/armor-passives.md; hd2.passives, hd2.player_passives.set).
+    alias('HD2PassiveName',[p['name'] for p in json.loads((ROOT/'research/player-attributes-F5FEE03DCFDB.json')
+        .read_text(encoding='utf-8'))['passiveTable']])
     acknowledgements=['---@field allow_unverified_effect? boolean Required only where the capability '
             'catalog names it (magazine attachments).',
         '---@field allow_unverified_reference? boolean Required only where the capability catalog '
@@ -921,6 +924,7 @@ def outputs():
             'sdk/docs/legacy-sdk-compatibility.md':(ROOT/'docs/legacy-sdk-compatibility.md').read_text(encoding='utf-8'),
             'sdk/docs/projectile-homing.md':(ROOT/'docs/projectile-homing.md').read_text(encoding='utf-8'),
             'sdk/docs/projectile-shots.md':(ROOT/'docs/projectile-shots.md').read_text(encoding='utf-8'),
+            'sdk/docs/armor-passives.md':(ROOT/'docs/armor-passives.md').read_text(encoding='utf-8'),
             'sdk/docs/enemy-spawns.md':(ROOT/'docs/enemy-spawns.md').read_text(encoding='utf-8'),
             'sdk/docs/helldiver-fields.md':(ROOT/'docs/helldiver-fields.md').read_text(encoding='utf-8'),
             'sdk/docs/ui-overlay.md':(ROOT/'docs/ui-overlay.md').read_text(encoding='utf-8'),

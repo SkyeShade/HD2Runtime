@@ -308,6 +308,14 @@ local enemy_spawns=require('hd2runtime/api/enemy_spawns')
 local list_enemies=assert(M.enemies,'the enemy name list builder is missing')
 M.enemies=setmetatable({spawn_weight=enemy_spawns.spawn_weight,spawn_list=enemy_spawns.spawn_list,
     spawn_status=enemy_spawns.spawn_status},{__call=function(_,filter)return list_enemies(filter)end})
+-- Armor passives (api/player_passives.lua; docs/armor-passives.md): hd2.passives.list() every passive of the game;
+-- hd2.player_passives() the local player's, and hd2.player_passives.set (DEVELOPMENT, solo) overrides them.
+do
+    local player_passives=require('hd2runtime/api/player_passives')
+    M.passives={list=player_passives.list,find=player_passives.find}
+    M.player_passives=setmetatable({set=player_passives.set,status=player_passives.status},
+        {__call=function()return player_passives.current()end})
+end
 M.status=actions.status_effects
 -- The game's own transport Pelican, summoned empty at a position and held per instance (api/pelican.lua).
 local pelican=require('hd2runtime/api/pelican')
