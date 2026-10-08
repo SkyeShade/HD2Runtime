@@ -141,6 +141,12 @@ own Lua Window API it shows the cursor (`Window.set_show_cursor(true)`), stops c
 from. `{camera = false}` keeps the focus. Hiding or closing the overlay, or `free_cursor(false)`, gives it back: the
 values the getters reported before the first hold are restored (`runtime/mod_cursor.lua`).
 
+**Over a game menu the focus is kept (0.30.2).** When the game already shows its own cursor at the first hold (a
+terminal, the loadout screen, the pause menu), its menu already keeps the camera still, so only the cursor is freed and
+the engine keeps reading the mouse, wheel included: `hd2.input.wheel()` works there without the native hook. A wheel
+turn may also scroll the game menu underneath. If the game hides its cursor during the hold (the menu closed), the
+focus is taken as usual, and the release restores what the game had then. `hd2.ui.cursor().game_menu` tells which.
+
 - Each setter is called only when its getter (`Window.show_cursor()` etc., no argument) reports otherwise, so a quiet
   frame costs three getter calls. Every value passed is a boolean; the first engine error turns capture off for the
   session (logged once, `hd2.ui.cursor().disabled`).

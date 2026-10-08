@@ -10,6 +10,12 @@
 -- retained snapshot) but no Runtime build has called them before r50; the bindings check nothing, so every value is a
 -- boolean and the first error turns the feature off for the session (logged once).
 -- Not done (no proven route): taking keys or clicks away from the game. See docs/events.md "Input blocking".
+--
+-- 0.30.2: over a game menu the mouse focus is kept. When the game itself already shows its cursor at the first hold (a
+-- terminal, the loadout screen, the pause menu), its menu already keeps the camera still, so only the cursor steps run
+-- and the engine keeps reading the mouse, wheel included (hd2.input.wheel without the native hook). If the game hides
+-- its cursor during the hold (its menu closed), the focus is taken as usual and what the game has then is what the
+-- release restores.
 local log=require('hd2runtime/runtime/log')
 local KEY='HD2RuntimeModCursorV1'
 local existing=rawget(_G,KEY)
@@ -18,6 +24,7 @@ local M={}
 rawset(_G,KEY,M)
 
 local holders,saved,applied,disabled,logged={},nil,false,nil,{}
+local menu       -- the game showed its own cursor at the first hold: its mouse focus is kept
 M.STEPS={
     {get='show_cursor',set='set_show_cursor',want=true,default=false,required=true},
     {get='clip_cursor',set='set_clip_cursor',want=false,default=true},
@@ -71,8 +78,15 @@ function M.hold(key,opts)
         for _,step in ipairs(M.STEPS)do saved[step.get]=read(step.get)end
         emit('first hold; the game had show_cursor='..tostring(saved.show_cursor)..' clip_cursor='
             ..tostring(saved.clip_cursor)..' mouse_focus='..tostring(saved.mouse_focus))
+        menu=saved.show_cursor==true
+        if menu then emit('a game menu shows the cursor: the mouse focus is kept (the engine still reads the wheel)')end
+    elseif menu and read('show_cursor')==false then
+        -- The game hid its cursor during the hold (its menu closed): what it has now is what the release restores.
+        for _,step in ipairs(M.STEPS)do saved[step.get]=read(step.get)end
+        menu=false
+        emit('the game closed its menu during the hold: the mouse focus is taken from the camera now')
     end
-    local camera=true
+    local camera=not menu
     for _,o in pairs(holders)do if o.camera==false then camera=false end end
     for _,step in ipairs(M.STEPS)do
         if not step.camera or camera then
@@ -93,7 +107,7 @@ end
 function M.release(key,force)
     holders[key]=nil
     if next(holders)~=nil and not force then return end
-    if not applied then saved=nil;return end
+    if not applied then saved,menu=nil,nil;return end
     for _,step in ipairs(M.STEPS)do
         local value=saved and saved[step.get]
         if value==nil then value=step.default end
@@ -102,14 +116,14 @@ function M.release(key,force)
             if not ok then emit('restore: '..why)end
         end
     end
-    applied,saved=false,nil
+    applied,saved,menu=false,nil,nil
 end
 function M.status()
     local list={}
     for key in pairs(holders)do list[#list+1]=key end
     table.sort(list)
-    return {held=#list>0,holders=list,disabled=disabled,saved=saved,
+    return {held=#list>0,holders=list,disabled=disabled,saved=saved,game_menu=menu==true,
         show_cursor=read('show_cursor'),clip_cursor=read('clip_cursor'),mouse_focus=read('mouse_focus')}
 end
-function M.reset_for_tests()holders,saved,applied,disabled,logged={},nil,false,nil,{}end
+function M.reset_for_tests()holders,saved,applied,disabled,logged,menu={},nil,false,nil,{},nil end
 return M

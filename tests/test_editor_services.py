@@ -208,6 +208,43 @@ return 'ok'
 '''), b'ok')
 
 
+    def test_over_a_game_menu_the_mouse_focus_is_kept_until_the_menu_closes(self):
+        # 0.30.2: the game showing its own cursor at the first hold (a menu) keeps the camera still itself, so the focus
+        # stays and the engine still reads the wheel. If the game hides its cursor during the hold, the focus is taken
+        # and the release restores what the game had then (not the menu's visible cursor).
+        self.assertEqual(run(HARNESS + r'''
+local state={show_cursor=true,clip_cursor=true,mouse_focus=true}
+local writes={}
+local W={}
+for name in pairs(state)do
+    W[name]=function()return state[name]end
+    W['set_'..name]=function(v)writes[#writes+1]=name..'='..tostring(v);state[name]=v end
+end
+rawset(_G,'stingray',{Window=W})
+local cursor=require('hd2runtime/runtime/mod_cursor')
+cursor.reset_for_tests()
+assert(cursor.hold('a'))
+assert(state.mouse_focus==true and state.show_cursor==true and state.clip_cursor==false,'focus kept: '..
+    table.concat(writes,','))
+assert(cursor.status().game_menu==true)
+for _=1,5 do cursor.hold('a')end
+assert(state.mouse_focus==true,'kept while the menu stays open')
+-- The game closes its menu (hides its cursor): the focus is taken from the camera now.
+state.show_cursor=false
+cursor.hold('a')
+assert(state.show_cursor==true and state.mouse_focus==false and cursor.status().game_menu==false)
+cursor.release('a')
+assert(state.show_cursor==false and state.mouse_focus==true,'restored to gameplay, not to the menu cursor')
+-- A gameplay hold (no game cursor) still takes the focus.
+cursor.reset_for_tests()
+state.show_cursor,state.mouse_focus=false,true
+cursor.hold('b')
+assert(state.mouse_focus==false and cursor.status().game_menu==false)
+cursor.release('b')
+return 'ok'
+'''), b'ok')
+
+
 class WheelTests(unittest.TestCase):
     def test_the_wheel_combines_the_message_hook_and_the_engine_axis(self):
         self.assertEqual(run(HARNESS + r'''
