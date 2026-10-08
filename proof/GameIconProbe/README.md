@@ -1,4 +1,4 @@
-# GameIconProbe 0.1.0 (development only, visual only): the game's own HUD icons in a screen GUI
+# GameIconProbe 0.2.0 (development only, visual only): the game's own HUD icons in a screen GUI
 
 **Nothing is written** to game memory or game files, and no game resource is loaded, created or replaced.
 
@@ -47,3 +47,15 @@ Enhancement upright and as the game shows them (red category layer and white; th
 glyph); B drew them upside down, so `uv00 = (u, v)` is the top-left. C drew each whole page, proving `set_texture`; D,
 an untouched vanilla icon material, drew the game's "?" placeholder. hd2.resources.game_icon is built on this
 (docs/game-icons.md).
+
+## 0.2.0: which UI material draws a booster as the game shows it
+
+Through the stratagem icon material a booster shows as a square: its sprite is a full-colour picture whose hexagon is
+its alpha, and the icon shader stacks R, G, B and A as colour masks, so the colour left outside the hexagon is drawn
+too (live r59). The game's UI image shader family has the same `diffuse_map` slot and no mask layers. 0.2.0 draws the
+Vitality Enhancement booster through one always-loaded material of six of those shaders (columns 1-6: `BA25DE35`,
+`09057911`, `50C4CF1C`, `40600CA5`, `AAA07776`, `DB4D723D`), row 1 as they are, row 2 with `c0` white (a second GUI).
+Needs HD2Runtime with `hd2.resources.game_icon` (game-icons r59 or later).
+
+**Live test:** aboard the ship, **Ctrl+F7** (Ctrl+Shift+F7 closes). Screenshot the panel: which cells show the yellow
+hexagon with its dark glyph and nothing around it? Send it with every `GameIconProbe` line of `HD2Runtime.log`.
