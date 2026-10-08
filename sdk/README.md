@@ -1,6 +1,6 @@
 # HD2Runtime SDK and shared runtime
 
-For a first mod, use `HD2Runtime-ModTemplate-0.30.0.zip`. It is a standalone
+For a first mod, use `HD2Runtime-ModTemplate-0.30.1.zip`. It is a standalone
 open-folder Rider project with bundled stubs and a Windows builder; Python is not
 required. The CLI workflow below remains available for advanced authors and
 automated project generation. New authors should start with
