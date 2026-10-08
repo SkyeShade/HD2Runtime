@@ -29,6 +29,7 @@ import apply_projectile_residency
 import generate_status_catalog
 import generate_weapon_movement
 import generate_enemy_authoring
+import generate_helldiver_fields
 import generate_live_evidence
 import generate_events
 import generate_event_natives
@@ -213,6 +214,7 @@ def main():
     generate_package_residency.generate(check=True)
     generate_weapon_movement.generate(check=True)
     generate_enemy_authoring.generate(check=True)
+    generate_helldiver_fields.generate(check=True)
     generate_live_evidence.generate(check=True)
     generate_attack_outputs.generate(check=True)
     generate_weapon_modes.generate(check=True)

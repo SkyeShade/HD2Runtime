@@ -1,0 +1,1534 @@
+{
+ "contract": "hd2runtime.helldiver.type_fields.v1",
+ "schemaVersion": 1,
+ "source": {
+  "research": "avatar-fields-F5FEE03DCFDB.json",
+  "build": "F5FEE03DCFDB"
+ },
+ "target": {
+  "accessor": "hd2.helldiver()",
+  "type": "content/fac_helldivers/cha_avatar/avatar_helldiver",
+  "scope": "The avatar_helldiver TYPE record: every Helldiver this machine simulates (the local player, and whoever else it simulates) reads it, so a write changes them all.",
+  "zones": [
+   {
+    "id": "head",
+    "index": 0
+   },
+   {
+    "id": "body",
+    "index": 1
+   },
+   {
+    "id": "arm_left",
+    "index": 2
+   },
+   {
+    "id": "arm_right",
+    "index": 3
+   },
+   {
+    "id": "leg_left",
+    "index": 4
+   },
+   {
+    "id": "leg_right",
+    "index": 5
+   }
+  ]
+ },
+ "enums": {
+  "damage_multiplier": {
+   "values": [
+    "none",
+    "critical",
+    "normal",
+    "reduced",
+    "symbolic"
+   ],
+   "factors": {
+    "none": 0.0,
+    "critical": 1.5,
+    "normal": 1.0,
+    "reduced": 0.75,
+    "symbolic": 0.25
+   }
+  },
+  "damage_multiplier_dps": {
+   "values": [
+    "inherit",
+    "critical",
+    "normal",
+    "reduced",
+    "symbolic"
+   ]
+  }
+ },
+ "speedCapMetersPerSecond": 10.0,
+ "privateCopies": "A Helldiver spawned with an entity delta carries a frozen private copy of the whole record and reads it instead of the type (the avatar aboard the ship always does; the retained mission avatars did not): a type write does not reach it until it spawns again without one. Runtime never writes private copies; a write notes the Helldivers whose copy keeps its fields, and hd2.helldiver():private_copies() checks them (read-only).",
+ "notExposed": [
+  {
+   "member": "jog_stamina_decay_duration",
+   "offset": 56,
+   "reason": "UNKNOWN"
+  },
+  {
+   "member": "stamina_cost_vault",
+   "offset": 84,
+   "reason": "UNKNOWN"
+  },
+  {
+   "member": "explosive_damage_percentage",
+   "zoneOffset": 324,
+   "reason": "DORMANT"
+  }
+ ],
+ "summary": {
+  "fields": 27,
+  "instances": 52,
+  "zones": 6
+ },
+ "fieldInstances": [
+  {
+   "semanticFieldId": "helldiver.speed.direction_factor",
+   "displayName": "Slow-speed direction factor",
+   "target": {
+    "resource": "helldiver",
+    "path": "entity"
+   },
+   "type": "number",
+   "unit": "factor",
+   "storage": "f32",
+   "min": 0,
+   "max": 1,
+   "currentDefault": 0.75,
+   "grade": "STRONG",
+   "lifecycle": "live",
+   "reads": "every_frame",
+   "shadowedByPrivateCopy": "avatar",
+   "semantics": "Directional multiplier: the slow speeds (aim, walk, crouch aim, crouch walk, prone) are scaled by (1 - f) + f x this, f from the move direction against the facing (0..1). Name not proven.",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "helldiver.speed.aim",
+   "displayName": "Aiming speed",
+   "target": {
+    "resource": "helldiver",
+    "path": "entity"
+   },
+   "type": "number",
+   "unit": "meters_per_second",
+   "storage": "f32",
+   "min": 0,
+   "max": 10,
+   "currentDefault": 2.0,
+   "grade": "STRONG",
+   "lifecycle": "live",
+   "reads": "every_frame",
+   "shadowedByPrivateCopy": "avatar",
+   "semantics": "Standing, state bit 82 set (aiming, inferred): aim x direction factor (m/s).",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "helldiver.speed.walk",
+   "displayName": "Walking speed",
+   "target": {
+    "resource": "helldiver",
+    "path": "entity"
+   },
+   "type": "number",
+   "unit": "meters_per_second",
+   "storage": "f32",
+   "min": 0,
+   "max": 10,
+   "currentDefault": 2.0,
+   "grade": "STRONG",
+   "lifecycle": "live",
+   "reads": "every_frame",
+   "shadowedByPrivateCopy": "avatar",
+   "semantics": "Standing, no jog/sprint action, bit 82 clear: walk x direction factor (m/s).",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "helldiver.speed.jog",
+   "displayName": "Jogging speed",
+   "target": {
+    "resource": "helldiver",
+    "path": "entity"
+   },
+   "type": "number",
+   "unit": "meters_per_second",
+   "storage": "f32",
+   "min": 0,
+   "max": 10,
+   "currentDefault": 3.2,
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "every_frame",
+   "shadowedByPrivateCopy": "avatar",
+   "semantics": "Standing with the jog action (m/s).",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "helldiver.speed.sprint",
+   "displayName": "Sprinting speed",
+   "target": {
+    "resource": "helldiver",
+    "path": "entity"
+   },
+   "type": "number",
+   "unit": "meters_per_second",
+   "storage": "f32",
+   "min": 0,
+   "max": 10,
+   "currentDefault": 5.5,
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "every_frame",
+   "shadowedByPrivateCopy": "avatar",
+   "semantics": "Standing with the sprint action and stamina > 0 (or Death March) (m/s).",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "helldiver.speed.sprint_exhausted",
+   "displayName": "Sprinting speed at empty stamina",
+   "target": {
+    "resource": "helldiver",
+    "path": "entity"
+   },
+   "type": "number",
+   "unit": "meters_per_second",
+   "storage": "f32",
+   "min": 0,
+   "max": 10,
+   "currentDefault": 4.25,
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "every_frame",
+   "shadowedByPrivateCopy": "avatar",
+   "semantics": "Sprinting at empty stamina without Death March (m/s).",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "helldiver.speed.crouch_aim",
+   "displayName": "Crouched aiming speed",
+   "target": {
+    "resource": "helldiver",
+    "path": "entity"
+   },
+   "type": "number",
+   "unit": "meters_per_second",
+   "storage": "f32",
+   "min": 0,
+   "max": 10,
+   "currentDefault": 1.2,
+   "grade": "STRONG",
+   "lifecycle": "live",
+   "reads": "every_frame",
+   "shadowedByPrivateCopy": "avatar",
+   "semantics": "Crouched (state bit 77) while aiming (0xA40B50): x direction factor (m/s).",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "helldiver.speed.crouch_walk",
+   "displayName": "Crouched walking speed",
+   "target": {
+    "resource": "helldiver",
+    "path": "entity"
+   },
+   "type": "number",
+   "unit": "meters_per_second",
+   "storage": "f32",
+   "min": 0,
+   "max": 10,
+   "currentDefault": 1.5,
+   "grade": "STRONG",
+   "lifecycle": "live",
+   "reads": "every_frame",
+   "shadowedByPrivateCopy": "avatar",
+   "semantics": "Crouched, otherwise: x direction factor (m/s).",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "helldiver.speed.crouch_jog",
+   "displayName": "Crouched jogging speed",
+   "target": {
+    "resource": "helldiver",
+    "path": "entity"
+   },
+   "type": "number",
+   "unit": "meters_per_second",
+   "storage": "f32",
+   "min": 0,
+   "max": 10,
+   "currentDefault": 2.25,
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "every_frame",
+   "shadowedByPrivateCopy": "avatar",
+   "semantics": "Crouched with the jog action (m/s).",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "helldiver.speed.crouch_sprint",
+   "displayName": "Crouched sprinting speed",
+   "target": {
+    "resource": "helldiver",
+    "path": "entity"
+   },
+   "type": "number",
+   "unit": "meters_per_second",
+   "storage": "f32",
+   "min": 0,
+   "max": 10,
+   "currentDefault": 4.0,
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "every_frame",
+   "shadowedByPrivateCopy": "avatar",
+   "semantics": "Crouched with the sprint action (m/s).",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "helldiver.speed.prone",
+   "displayName": "Prone crawling speed",
+   "target": {
+    "resource": "helldiver",
+    "path": "entity"
+   },
+   "type": "number",
+   "unit": "meters_per_second",
+   "storage": "f32",
+   "min": 0,
+   "max": 10,
+   "currentDefault": 1.5,
+   "grade": "STRONG",
+   "lifecycle": "live",
+   "reads": "every_frame",
+   "shadowedByPrivateCopy": "avatar",
+   "semantics": "Prone (state bit 78): x direction factor (m/s).",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "helldiver.speed.swim",
+   "displayName": "Swimming speed",
+   "target": {
+    "resource": "helldiver",
+    "path": "entity"
+   },
+   "type": "number",
+   "unit": "meters_per_second",
+   "storage": "f32",
+   "min": 0,
+   "max": 10,
+   "currentDefault": 1.5,
+   "grade": "STRONG",
+   "lifecycle": "live",
+   "reads": "every_frame",
+   "shadowedByPrivateCopy": "avatar",
+   "semantics": "Swimming (state bit 95) (m/s).",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "helldiver.stamina.sprint_duration",
+   "displayName": "Seconds of sprinting on a full bar",
+   "target": {
+    "resource": "helldiver",
+    "path": "entity"
+   },
+   "type": "number",
+   "unit": "seconds",
+   "storage": "f32",
+   "min": 1,
+   "max": 3600,
+   "currentDefault": 23.0,
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "every_frame",
+   "shadowedByPrivateCopy": "avatar",
+   "semantics": "Seconds to empty a full bar: stamina -= cost multiplier x dt / this (/1.3 with modifier 2), while sprinting, sliding, or jogging on sand / mud / snow. Divisor: 0 empties the bar at once.",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "helldiver.stamina.recover_time_standing",
+   "displayName": "Seconds to refill an empty bar standing",
+   "target": {
+    "resource": "helldiver",
+    "path": "entity"
+   },
+   "type": "number",
+   "unit": "seconds",
+   "storage": "f32",
+   "min": 0.5,
+   "max": 600,
+   "currentDefault": 7.0,
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "every_frame",
+   "shadowedByPrivateCopy": "avatar",
+   "semantics": "Seconds to refill an empty bar standing: stamina += regen multiplier x dt / this (cap 1.0).",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "helldiver.stamina.recover_time_crouching",
+   "displayName": "Seconds to refill an empty bar crouched",
+   "target": {
+    "resource": "helldiver",
+    "path": "entity"
+   },
+   "type": "number",
+   "unit": "seconds",
+   "storage": "f32",
+   "min": 0.5,
+   "max": 600,
+   "currentDefault": 6.0,
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "every_frame",
+   "shadowedByPrivateCopy": "avatar",
+   "semantics": "Same, crouched.",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "helldiver.stamina.recover_time_prone",
+   "displayName": "Seconds to refill an empty bar prone",
+   "target": {
+    "resource": "helldiver",
+    "path": "entity"
+   },
+   "type": "number",
+   "unit": "seconds",
+   "storage": "f32",
+   "min": 0.5,
+   "max": 600,
+   "currentDefault": 5.0,
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "every_frame",
+   "shadowedByPrivateCopy": "avatar",
+   "semantics": "Same, prone.",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "helldiver.stamina.recover_delay",
+   "displayName": "Seconds before stamina starts to refill",
+   "target": {
+    "resource": "helldiver",
+    "path": "entity"
+   },
+   "type": "number",
+   "unit": "seconds",
+   "storage": "f32",
+   "min": 0,
+   "max": 60,
+   "currentDefault": 1.5,
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "per_action",
+   "shadowedByPrivateCopy": "avatar",
+   "semantics": "Seconds without regen after a drain or an action: copied into the per-avatar timer (+0x53E8FC) each time; the update counts it down (Stim Stamina skips it).",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "helldiver.stamina.cost_jump",
+   "displayName": "Stamina per jump",
+   "target": {
+    "resource": "helldiver",
+    "path": "entity"
+   },
+   "type": "number",
+   "unit": "stamina_fraction",
+   "storage": "f32",
+   "min": 0,
+   "max": 1,
+   "currentDefault": 0.2,
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "per_action",
+   "shadowedByPrivateCopy": "avatar",
+   "semantics": "Fraction of the bar per jump, x the per-avatar cost multiplier.",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "helldiver.stamina.cost_dodge",
+   "displayName": "Stamina per dive",
+   "target": {
+    "resource": "helldiver",
+    "path": "entity"
+   },
+   "type": "number",
+   "unit": "stamina_fraction",
+   "storage": "f32",
+   "min": 0,
+   "max": 1,
+   "currentDefault": 0.1,
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "per_action",
+   "shadowedByPrivateCopy": "avatar",
+   "semantics": "Fraction of the bar per dive (0xA50890, the locomotion launch), x the cost multiplier.",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "helldiver.stamina.cost_climb",
+   "displayName": "Stamina per climb",
+   "target": {
+    "resource": "helldiver",
+    "path": "entity"
+   },
+   "type": "number",
+   "unit": "stamina_fraction",
+   "storage": "f32",
+   "min": 0,
+   "max": 1,
+   "currentDefault": 0.0,
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "per_action",
+   "shadowedByPrivateCopy": "avatar",
+   "semantics": "Fraction of the bar per climb (vanilla 0).",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "helldiver.stamina.cost_slide",
+   "displayName": "Stamina per slide",
+   "target": {
+    "resource": "helldiver",
+    "path": "entity"
+   },
+   "type": "number",
+   "unit": "stamina_fraction",
+   "storage": "f32",
+   "min": 0,
+   "max": 1,
+   "currentDefault": 0.05,
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "per_action",
+   "shadowedByPrivateCopy": "avatar",
+   "semantics": "Fraction of the bar per slide start, x the cost multiplier.",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "entity.explosive_damage_percentage",
+   "displayName": "Explosion damage taken (every zone)",
+   "target": {
+    "resource": "helldiver",
+    "path": "entity"
+   },
+   "type": "number",
+   "unit": "ratio",
+   "storage": "f32",
+   "min": 0,
+   "max": 10,
+   "currentDefault": 0.5,
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "per_hit",
+   "shadowedByPrivateCopy": "health",
+   "semantics": "Explosion damage taken by every avatar zone (none sets affected_by_explosions); the existing enemy-schema id entity.explosive_damage_percentage (+388). Override-aware record.",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "zone.damage_multiplier",
+   "displayName": "Zone damage multiplier",
+   "target": {
+    "resource": "helldiver",
+    "path": "damage_zone",
+    "zone": "head"
+   },
+   "type": "enum",
+   "unit": null,
+   "storage": "u32",
+   "allowedValues": [
+    "none",
+    "critical",
+    "normal",
+    "reduced",
+    "symbolic"
+   ],
+   "currentDefault": "normal",
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "per_hit",
+   "shadowedByPrivateCopy": null,
+   "semantics": "Event +0x6C; damage x [0, 1.5, 1, 0.75, 0.25][value] for every hit kind. 0 (None) makes the zone take no damage. Read from the TYPE record (0x507430) even when a private copy exists.",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "zone.damage_multiplier",
+   "displayName": "Zone damage multiplier",
+   "target": {
+    "resource": "helldiver",
+    "path": "damage_zone",
+    "zone": "body"
+   },
+   "type": "enum",
+   "unit": null,
+   "storage": "u32",
+   "allowedValues": [
+    "none",
+    "critical",
+    "normal",
+    "reduced",
+    "symbolic"
+   ],
+   "currentDefault": "normal",
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "per_hit",
+   "shadowedByPrivateCopy": null,
+   "semantics": "Event +0x6C; damage x [0, 1.5, 1, 0.75, 0.25][value] for every hit kind. 0 (None) makes the zone take no damage. Read from the TYPE record (0x507430) even when a private copy exists.",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "zone.damage_multiplier",
+   "displayName": "Zone damage multiplier",
+   "target": {
+    "resource": "helldiver",
+    "path": "damage_zone",
+    "zone": "arm_left"
+   },
+   "type": "enum",
+   "unit": null,
+   "storage": "u32",
+   "allowedValues": [
+    "none",
+    "critical",
+    "normal",
+    "reduced",
+    "symbolic"
+   ],
+   "currentDefault": "normal",
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "per_hit",
+   "shadowedByPrivateCopy": null,
+   "semantics": "Event +0x6C; damage x [0, 1.5, 1, 0.75, 0.25][value] for every hit kind. 0 (None) makes the zone take no damage. Read from the TYPE record (0x507430) even when a private copy exists.",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "zone.damage_multiplier",
+   "displayName": "Zone damage multiplier",
+   "target": {
+    "resource": "helldiver",
+    "path": "damage_zone",
+    "zone": "arm_right"
+   },
+   "type": "enum",
+   "unit": null,
+   "storage": "u32",
+   "allowedValues": [
+    "none",
+    "critical",
+    "normal",
+    "reduced",
+    "symbolic"
+   ],
+   "currentDefault": "normal",
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "per_hit",
+   "shadowedByPrivateCopy": null,
+   "semantics": "Event +0x6C; damage x [0, 1.5, 1, 0.75, 0.25][value] for every hit kind. 0 (None) makes the zone take no damage. Read from the TYPE record (0x507430) even when a private copy exists.",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "zone.damage_multiplier",
+   "displayName": "Zone damage multiplier",
+   "target": {
+    "resource": "helldiver",
+    "path": "damage_zone",
+    "zone": "leg_left"
+   },
+   "type": "enum",
+   "unit": null,
+   "storage": "u32",
+   "allowedValues": [
+    "none",
+    "critical",
+    "normal",
+    "reduced",
+    "symbolic"
+   ],
+   "currentDefault": "normal",
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "per_hit",
+   "shadowedByPrivateCopy": null,
+   "semantics": "Event +0x6C; damage x [0, 1.5, 1, 0.75, 0.25][value] for every hit kind. 0 (None) makes the zone take no damage. Read from the TYPE record (0x507430) even when a private copy exists.",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "zone.damage_multiplier",
+   "displayName": "Zone damage multiplier",
+   "target": {
+    "resource": "helldiver",
+    "path": "damage_zone",
+    "zone": "leg_right"
+   },
+   "type": "enum",
+   "unit": null,
+   "storage": "u32",
+   "allowedValues": [
+    "none",
+    "critical",
+    "normal",
+    "reduced",
+    "symbolic"
+   ],
+   "currentDefault": "normal",
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "per_hit",
+   "shadowedByPrivateCopy": null,
+   "semantics": "Event +0x6C; damage x [0, 1.5, 1, 0.75, 0.25][value] for every hit kind. 0 (None) makes the zone take no damage. Read from the TYPE record (0x507430) even when a private copy exists.",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "zone.damage_multiplier_dps",
+   "displayName": "Zone damage multiplier for damage over time",
+   "target": {
+    "resource": "helldiver",
+    "path": "damage_zone",
+    "zone": "head"
+   },
+   "type": "enum",
+   "unit": null,
+   "storage": "u32",
+   "allowedValues": [
+    "inherit",
+    "critical",
+    "normal",
+    "reduced",
+    "symbolic"
+   ],
+   "currentDefault": "normal",
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "per_hit",
+   "shadowedByPrivateCopy": null,
+   "semantics": "Damage-over-time hits (builder argument 2): replaces damage_multiplier when not 0; 0 = use it.",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "zone.damage_multiplier_dps",
+   "displayName": "Zone damage multiplier for damage over time",
+   "target": {
+    "resource": "helldiver",
+    "path": "damage_zone",
+    "zone": "body"
+   },
+   "type": "enum",
+   "unit": null,
+   "storage": "u32",
+   "allowedValues": [
+    "inherit",
+    "critical",
+    "normal",
+    "reduced",
+    "symbolic"
+   ],
+   "currentDefault": "normal",
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "per_hit",
+   "shadowedByPrivateCopy": null,
+   "semantics": "Damage-over-time hits (builder argument 2): replaces damage_multiplier when not 0; 0 = use it.",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "zone.damage_multiplier_dps",
+   "displayName": "Zone damage multiplier for damage over time",
+   "target": {
+    "resource": "helldiver",
+    "path": "damage_zone",
+    "zone": "arm_left"
+   },
+   "type": "enum",
+   "unit": null,
+   "storage": "u32",
+   "allowedValues": [
+    "inherit",
+    "critical",
+    "normal",
+    "reduced",
+    "symbolic"
+   ],
+   "currentDefault": "normal",
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "per_hit",
+   "shadowedByPrivateCopy": null,
+   "semantics": "Damage-over-time hits (builder argument 2): replaces damage_multiplier when not 0; 0 = use it.",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "zone.damage_multiplier_dps",
+   "displayName": "Zone damage multiplier for damage over time",
+   "target": {
+    "resource": "helldiver",
+    "path": "damage_zone",
+    "zone": "arm_right"
+   },
+   "type": "enum",
+   "unit": null,
+   "storage": "u32",
+   "allowedValues": [
+    "inherit",
+    "critical",
+    "normal",
+    "reduced",
+    "symbolic"
+   ],
+   "currentDefault": "normal",
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "per_hit",
+   "shadowedByPrivateCopy": null,
+   "semantics": "Damage-over-time hits (builder argument 2): replaces damage_multiplier when not 0; 0 = use it.",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "zone.damage_multiplier_dps",
+   "displayName": "Zone damage multiplier for damage over time",
+   "target": {
+    "resource": "helldiver",
+    "path": "damage_zone",
+    "zone": "leg_left"
+   },
+   "type": "enum",
+   "unit": null,
+   "storage": "u32",
+   "allowedValues": [
+    "inherit",
+    "critical",
+    "normal",
+    "reduced",
+    "symbolic"
+   ],
+   "currentDefault": "normal",
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "per_hit",
+   "shadowedByPrivateCopy": null,
+   "semantics": "Damage-over-time hits (builder argument 2): replaces damage_multiplier when not 0; 0 = use it.",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "zone.damage_multiplier_dps",
+   "displayName": "Zone damage multiplier for damage over time",
+   "target": {
+    "resource": "helldiver",
+    "path": "damage_zone",
+    "zone": "leg_right"
+   },
+   "type": "enum",
+   "unit": null,
+   "storage": "u32",
+   "allowedValues": [
+    "inherit",
+    "critical",
+    "normal",
+    "reduced",
+    "symbolic"
+   ],
+   "currentDefault": "normal",
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "per_hit",
+   "shadowedByPrivateCopy": null,
+   "semantics": "Damage-over-time hits (builder argument 2): replaces damage_multiplier when not 0; 0 = use it.",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "zone.durable_resistance",
+   "displayName": "Zone durable damage share",
+   "target": {
+    "resource": "helldiver",
+    "path": "damage_zone",
+    "zone": "head"
+   },
+   "type": "number",
+   "unit": "ratio",
+   "storage": "f32",
+   "min": 0,
+   "max": 1,
+   "currentDefault": 0.0,
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "per_hit",
+   "shadowedByPrivateCopy": null,
+   "semantics": "Event +0x4C: damage = standard x (1 - d) + durable x d (TYPE record).",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "zone.durable_resistance",
+   "displayName": "Zone durable damage share",
+   "target": {
+    "resource": "helldiver",
+    "path": "damage_zone",
+    "zone": "body"
+   },
+   "type": "number",
+   "unit": "ratio",
+   "storage": "f32",
+   "min": 0,
+   "max": 1,
+   "currentDefault": 0.0,
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "per_hit",
+   "shadowedByPrivateCopy": null,
+   "semantics": "Event +0x4C: damage = standard x (1 - d) + durable x d (TYPE record).",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "zone.durable_resistance",
+   "displayName": "Zone durable damage share",
+   "target": {
+    "resource": "helldiver",
+    "path": "damage_zone",
+    "zone": "arm_left"
+   },
+   "type": "number",
+   "unit": "ratio",
+   "storage": "f32",
+   "min": 0,
+   "max": 1,
+   "currentDefault": 0.0,
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "per_hit",
+   "shadowedByPrivateCopy": null,
+   "semantics": "Event +0x4C: damage = standard x (1 - d) + durable x d (TYPE record).",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "zone.durable_resistance",
+   "displayName": "Zone durable damage share",
+   "target": {
+    "resource": "helldiver",
+    "path": "damage_zone",
+    "zone": "arm_right"
+   },
+   "type": "number",
+   "unit": "ratio",
+   "storage": "f32",
+   "min": 0,
+   "max": 1,
+   "currentDefault": 0.0,
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "per_hit",
+   "shadowedByPrivateCopy": null,
+   "semantics": "Event +0x4C: damage = standard x (1 - d) + durable x d (TYPE record).",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "zone.durable_resistance",
+   "displayName": "Zone durable damage share",
+   "target": {
+    "resource": "helldiver",
+    "path": "damage_zone",
+    "zone": "leg_left"
+   },
+   "type": "number",
+   "unit": "ratio",
+   "storage": "f32",
+   "min": 0,
+   "max": 1,
+   "currentDefault": 0.0,
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "per_hit",
+   "shadowedByPrivateCopy": null,
+   "semantics": "Event +0x4C: damage = standard x (1 - d) + durable x d (TYPE record).",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "zone.durable_resistance",
+   "displayName": "Zone durable damage share",
+   "target": {
+    "resource": "helldiver",
+    "path": "damage_zone",
+    "zone": "leg_right"
+   },
+   "type": "number",
+   "unit": "ratio",
+   "storage": "f32",
+   "min": 0,
+   "max": 1,
+   "currentDefault": 0.0,
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "per_hit",
+   "shadowedByPrivateCopy": null,
+   "semantics": "Event +0x4C: damage = standard x (1 - d) + durable x d (TYPE record).",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "zone.health",
+   "displayName": "Zone health (from the next spawn)",
+   "target": {
+    "resource": "helldiver",
+    "path": "damage_zone",
+    "zone": "head"
+   },
+   "type": "integer",
+   "unit": "health",
+   "storage": "i32",
+   "min": 1,
+   "max": 100000,
+   "currentDefault": 85,
+   "grade": "CONFIRMED",
+   "lifecycle": "spawn",
+   "reads": "spawn",
+   "shadowedByPrivateCopy": "health",
+   "semantics": "Copied into the health instance (+0xF8 + 4 x zone) when the avatar spawns; the live zone health is that copy. The record value is re-read when a dead zone is restored (0x91EFF0) and on one main-health cap path (0x924236), so a write also changes those for living avatars. -1 = main health / affects_main_health.",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "zone.health",
+   "displayName": "Zone health (from the next spawn)",
+   "target": {
+    "resource": "helldiver",
+    "path": "damage_zone",
+    "zone": "body"
+   },
+   "type": "integer",
+   "unit": "health",
+   "storage": "i32",
+   "min": 1,
+   "max": 100000,
+   "currentDefault": 60,
+   "grade": "CONFIRMED",
+   "lifecycle": "spawn",
+   "reads": "spawn",
+   "shadowedByPrivateCopy": "health",
+   "semantics": "Copied into the health instance (+0xF8 + 4 x zone) when the avatar spawns; the live zone health is that copy. The record value is re-read when a dead zone is restored (0x91EFF0) and on one main-health cap path (0x924236), so a write also changes those for living avatars. -1 = main health / affects_main_health.",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "zone.health",
+   "displayName": "Zone health (from the next spawn)",
+   "target": {
+    "resource": "helldiver",
+    "path": "damage_zone",
+    "zone": "arm_left"
+   },
+   "type": "integer",
+   "unit": "health",
+   "storage": "i32",
+   "min": 1,
+   "max": 100000,
+   "currentDefault": 35,
+   "grade": "CONFIRMED",
+   "lifecycle": "spawn",
+   "reads": "spawn",
+   "shadowedByPrivateCopy": "health",
+   "semantics": "Copied into the health instance (+0xF8 + 4 x zone) when the avatar spawns; the live zone health is that copy. The record value is re-read when a dead zone is restored (0x91EFF0) and on one main-health cap path (0x924236), so a write also changes those for living avatars. -1 = main health / affects_main_health.",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "zone.health",
+   "displayName": "Zone health (from the next spawn)",
+   "target": {
+    "resource": "helldiver",
+    "path": "damage_zone",
+    "zone": "arm_right"
+   },
+   "type": "integer",
+   "unit": "health",
+   "storage": "i32",
+   "min": 1,
+   "max": 100000,
+   "currentDefault": 35,
+   "grade": "CONFIRMED",
+   "lifecycle": "spawn",
+   "reads": "spawn",
+   "shadowedByPrivateCopy": "health",
+   "semantics": "Copied into the health instance (+0xF8 + 4 x zone) when the avatar spawns; the live zone health is that copy. The record value is re-read when a dead zone is restored (0x91EFF0) and on one main-health cap path (0x924236), so a write also changes those for living avatars. -1 = main health / affects_main_health.",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "zone.health",
+   "displayName": "Zone health (from the next spawn)",
+   "target": {
+    "resource": "helldiver",
+    "path": "damage_zone",
+    "zone": "leg_left"
+   },
+   "type": "integer",
+   "unit": "health",
+   "storage": "i32",
+   "min": 1,
+   "max": 100000,
+   "currentDefault": 45,
+   "grade": "CONFIRMED",
+   "lifecycle": "spawn",
+   "reads": "spawn",
+   "shadowedByPrivateCopy": "health",
+   "semantics": "Copied into the health instance (+0xF8 + 4 x zone) when the avatar spawns; the live zone health is that copy. The record value is re-read when a dead zone is restored (0x91EFF0) and on one main-health cap path (0x924236), so a write also changes those for living avatars. -1 = main health / affects_main_health.",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "zone.health",
+   "displayName": "Zone health (from the next spawn)",
+   "target": {
+    "resource": "helldiver",
+    "path": "damage_zone",
+    "zone": "leg_right"
+   },
+   "type": "integer",
+   "unit": "health",
+   "storage": "i32",
+   "min": 1,
+   "max": 100000,
+   "currentDefault": 45,
+   "grade": "CONFIRMED",
+   "lifecycle": "spawn",
+   "reads": "spawn",
+   "shadowedByPrivateCopy": "health",
+   "semantics": "Copied into the health instance (+0xF8 + 4 x zone) when the avatar spawns; the live zone health is that copy. The record value is re-read when a dead zone is restored (0x91EFF0) and on one main-health cap path (0x924236), so a write also changes those for living avatars. -1 = main health / affects_main_health.",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "zone.affects_main_health",
+   "displayName": "Damage forwarded to main health",
+   "target": {
+    "resource": "helldiver",
+    "path": "damage_zone",
+    "zone": "head"
+   },
+   "type": "number",
+   "unit": "ratio",
+   "storage": "f32",
+   "min": 0,
+   "max": 10,
+   "currentDefault": 1.5,
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "per_hit",
+   "shadowedByPrivateCopy": "health",
+   "semantics": "Share of the hit forwarded to main health: main loss = round(D x this) after the zone pass (0x923D2E), only when > 0 (reader CONFIRMED; the exact D is STRONG). Override-aware record (0x507920).",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "zone.affects_main_health",
+   "displayName": "Damage forwarded to main health",
+   "target": {
+    "resource": "helldiver",
+    "path": "damage_zone",
+    "zone": "body"
+   },
+   "type": "number",
+   "unit": "ratio",
+   "storage": "f32",
+   "min": 0,
+   "max": 10,
+   "currentDefault": 1.0,
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "per_hit",
+   "shadowedByPrivateCopy": "health",
+   "semantics": "Share of the hit forwarded to main health: main loss = round(D x this) after the zone pass (0x923D2E), only when > 0 (reader CONFIRMED; the exact D is STRONG). Override-aware record (0x507920).",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "zone.affects_main_health",
+   "displayName": "Damage forwarded to main health",
+   "target": {
+    "resource": "helldiver",
+    "path": "damage_zone",
+    "zone": "arm_left"
+   },
+   "type": "number",
+   "unit": "ratio",
+   "storage": "f32",
+   "min": 0,
+   "max": 10,
+   "currentDefault": 0.85,
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "per_hit",
+   "shadowedByPrivateCopy": "health",
+   "semantics": "Share of the hit forwarded to main health: main loss = round(D x this) after the zone pass (0x923D2E), only when > 0 (reader CONFIRMED; the exact D is STRONG). Override-aware record (0x507920).",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "zone.affects_main_health",
+   "displayName": "Damage forwarded to main health",
+   "target": {
+    "resource": "helldiver",
+    "path": "damage_zone",
+    "zone": "arm_right"
+   },
+   "type": "number",
+   "unit": "ratio",
+   "storage": "f32",
+   "min": 0,
+   "max": 10,
+   "currentDefault": 0.85,
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "per_hit",
+   "shadowedByPrivateCopy": "health",
+   "semantics": "Share of the hit forwarded to main health: main loss = round(D x this) after the zone pass (0x923D2E), only when > 0 (reader CONFIRMED; the exact D is STRONG). Override-aware record (0x507920).",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "zone.affects_main_health",
+   "displayName": "Damage forwarded to main health",
+   "target": {
+    "resource": "helldiver",
+    "path": "damage_zone",
+    "zone": "leg_left"
+   },
+   "type": "number",
+   "unit": "ratio",
+   "storage": "f32",
+   "min": 0,
+   "max": 10,
+   "currentDefault": 0.85,
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "per_hit",
+   "shadowedByPrivateCopy": "health",
+   "semantics": "Share of the hit forwarded to main health: main loss = round(D x this) after the zone pass (0x923D2E), only when > 0 (reader CONFIRMED; the exact D is STRONG). Override-aware record (0x507920).",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  },
+  {
+   "semanticFieldId": "zone.affects_main_health",
+   "displayName": "Damage forwarded to main health",
+   "target": {
+    "resource": "helldiver",
+    "path": "damage_zone",
+    "zone": "leg_right"
+   },
+   "type": "number",
+   "unit": "ratio",
+   "storage": "f32",
+   "min": 0,
+   "max": 10,
+   "currentDefault": 0.85,
+   "grade": "CONFIRMED",
+   "lifecycle": "live",
+   "reads": "per_hit",
+   "shadowedByPrivateCopy": "health",
+   "semantics": "Share of the hit forwarded to main health: main loss = round(D x this) after the zone pass (0x923D2E), only when > 0 (reader CONFIRMED; the exact D is STRONG). Override-aware record (0x507920).",
+   "shared": true,
+   "allowSharedRequired": true,
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "liveTested": false
+  }
+ ]
+}

@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "notes": "Type-wide Helldiver fields (hd2.helldiver(); docs/helldiver-fields.md). The naming layer only: each id names one research member of research/avatar-fields-F5FEE03DCFDB.json, which supplies the vanilla value, reviewed range, grade, lifecycle and semantics (scripts/generate_helldiver_fields.py checks the offsets and storage against it). Avatar offsets are relative to AvatarComponentData record 0; health offsets to HealthComponentData record 76; zone offsets to one damage zone (record +520 + index*552). Every write changes the avatar_helldiver TYPE record: every Helldiver this machine simulates (allow_shared), and nothing is live-tested (allow_unverified_effect).",
+  "zone": {"base": 520, "stride": 552, "nameOffset": 96},
+  "fields": [
+    {"id": "helldiver.speed.direction_factor", "display_name": "Slow-speed direction factor", "type": "number", "unit": "factor", "storage": "f32", "record": "avatar", "offset": 4, "member": "direction_factor"},
+    {"id": "helldiver.speed.aim", "display_name": "Aiming speed", "type": "number", "unit": "meters_per_second", "storage": "f32", "record": "avatar", "offset": 8, "member": "aim"},
+    {"id": "helldiver.speed.walk", "display_name": "Walking speed", "type": "number", "unit": "meters_per_second", "storage": "f32", "record": "avatar", "offset": 12, "member": "walk"},
+    {"id": "helldiver.speed.jog", "display_name": "Jogging speed", "type": "number", "unit": "meters_per_second", "storage": "f32", "record": "avatar", "offset": 16, "member": "jog"},
+    {"id": "helldiver.speed.sprint", "display_name": "Sprinting speed", "type": "number", "unit": "meters_per_second", "storage": "f32", "record": "avatar", "offset": 20, "member": "sprint"},
+    {"id": "helldiver.speed.sprint_exhausted", "display_name": "Sprinting speed at empty stamina", "type": "number", "unit": "meters_per_second", "storage": "f32", "record": "avatar", "offset": 24, "member": "sprint_exerted"},
+    {"id": "helldiver.speed.crouch_aim", "display_name": "Crouched aiming speed", "type": "number", "unit": "meters_per_second", "storage": "f32", "record": "avatar", "offset": 28, "member": "crouch_aim"},
+    {"id": "helldiver.speed.crouch_walk", "display_name": "Crouched walking speed", "type": "number", "unit": "meters_per_second", "storage": "f32", "record": "avatar", "offset": 32, "member": "crouch_walk"},
+    {"id": "helldiver.speed.crouch_jog", "display_name": "Crouched jogging speed", "type": "number", "unit": "meters_per_second", "storage": "f32", "record": "avatar", "offset": 36, "member": "crouch_jog"},
+    {"id": "helldiver.speed.crouch_sprint", "display_name": "Crouched sprinting speed", "type": "number", "unit": "meters_per_second", "storage": "f32", "record": "avatar", "offset": 40, "member": "crouch_sprint"},
+    {"id": "helldiver.speed.prone", "display_name": "Prone crawling speed", "type": "number", "unit": "meters_per_second", "storage": "f32", "record": "avatar", "offset": 44, "member": "prone"},
+    {"id": "helldiver.speed.swim", "display_name": "Swimming speed", "type": "number", "unit": "meters_per_second", "storage": "f32", "record": "avatar", "offset": 48, "member": "swim"},
+    {"id": "helldiver.stamina.sprint_duration", "display_name": "Seconds of sprinting on a full bar", "type": "number", "unit": "seconds", "storage": "f32", "record": "avatar", "offset": 52, "member": "sprint_stamina_decay_duration"},
+    {"id": "helldiver.stamina.recover_time_standing", "display_name": "Seconds to refill an empty bar standing", "type": "number", "unit": "seconds", "storage": "f32", "record": "avatar", "offset": 60, "member": "stamina_recover_time_stand"},
+    {"id": "helldiver.stamina.recover_time_crouching", "display_name": "Seconds to refill an empty bar crouched", "type": "number", "unit": "seconds", "storage": "f32", "record": "avatar", "offset": 64, "member": "stamina_recover_time_crouch"},
+    {"id": "helldiver.stamina.recover_time_prone", "display_name": "Seconds to refill an empty bar prone", "type": "number", "unit": "seconds", "storage": "f32", "record": "avatar", "offset": 68, "member": "stamina_recover_time_prone"},
+    {"id": "helldiver.stamina.recover_delay", "display_name": "Seconds before stamina starts to refill", "type": "number", "unit": "seconds", "storage": "f32", "record": "avatar", "offset": 72, "member": "stamina_recover_delay"},
+    {"id": "helldiver.stamina.cost_jump", "display_name": "Stamina per jump", "type": "number", "unit": "stamina_fraction", "storage": "f32", "record": "avatar", "offset": 76, "member": "stamina_cost_jump"},
+    {"id": "helldiver.stamina.cost_dodge", "display_name": "Stamina per dive", "type": "number", "unit": "stamina_fraction", "storage": "f32", "record": "avatar", "offset": 80, "member": "stamina_cost_dodge"},
+    {"id": "helldiver.stamina.cost_climb", "display_name": "Stamina per climb", "type": "number", "unit": "stamina_fraction", "storage": "f32", "record": "avatar", "offset": 88, "member": "stamina_cost_climb"},
+    {"id": "helldiver.stamina.cost_slide", "display_name": "Stamina per slide", "type": "number", "unit": "stamina_fraction", "storage": "f32", "record": "avatar", "offset": 92, "member": "stamina_cost_slide"},
+    {"id": "entity.explosive_damage_percentage", "display_name": "Explosion damage taken (every zone)", "type": "number", "unit": "ratio", "storage": "f32", "record": "health", "offset": 388, "member": "explosive_damage_percentage"},
+    {"id": "zone.damage_multiplier", "display_name": "Zone damage multiplier", "type": "enum", "enum": "damage_multiplier", "unit": null, "storage": "u32", "record": "health", "zoneOffset": 196, "member": "damage_multiplier"},
+    {"id": "zone.damage_multiplier_dps", "display_name": "Zone damage multiplier for damage over time", "type": "enum", "enum": "damage_multiplier_dps", "unit": null, "storage": "u32", "record": "health", "zoneOffset": 200, "member": "damage_multiplier_dps"},
+    {"id": "zone.durable_resistance", "display_name": "Zone durable damage share", "type": "number", "unit": "ratio", "storage": "f32", "record": "health", "zoneOffset": 204, "member": "durable_fraction"},
+    {"id": "zone.health", "display_name": "Zone health (from the next spawn)", "type": "integer", "unit": "health", "storage": "i32", "record": "health", "zoneOffset": 232, "member": "health"},
+    {"id": "zone.affects_main_health", "display_name": "Damage forwarded to main health", "type": "number", "unit": "ratio", "storage": "f32", "record": "health", "zoneOffset": 248, "member": "affects_main_health"}
+  ],
+  "enums": {
+    "damage_multiplier": {"none": 0, "critical": 1, "normal": 2, "reduced": 3, "symbolic": 4},
+    "damage_multiplier_dps": {"inherit": 0, "critical": 1, "normal": 2, "reduced": 3, "symbolic": 4}
+  }
+}
