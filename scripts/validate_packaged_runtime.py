@@ -4255,6 +4255,70 @@ return function(frame,watches,counts,lines)
 end
 """
 EXTRAS['example-laser-maxigun'] = {'after': EXAMPLE_LASER_MAXIGUN, 'readOnly': True, 'menu': MENU_STUB, 'options': True}
+# The weapon variants beyond the Maxigun (proof/WeaponVariantShowcase 0.1.0; domains/weapon_variants.lua, 34 hosts) on
+# the shipped artifact and the snapshot's real game.dll and entity region: the four variants register in the weapon
+# carrier group, each on its own type (pool = itself), the AC-8N with the EAT-700's round, the GR-8L with the EAT-411's,
+# the MG-206X with the APW-1's (each of the host's own compatibility class, its package a dependency), the LAS-98S with
+# no round and allow_shared (world loot); each host's records are where the research found them, native (read-only);
+# their availability against the real loadout; a conversion aboard the ship is refused with nothing written.
+PROOF_WEAPON_VARIANTS = r"""
+return function(frame,watches,counts,lines)
+ local results={}
+ local function step(name,ok,detail)results[#results+1]={name=name,passed=ok==true,detail=detail}end
+ local function count(text)local n=0;for _,line in ipairs(lines)do if line:find(text,1,true)then n=n+1 end end;return n end
+ for _=1,120 do frame()end
+ local custom=require('hd2runtime/runtime/custom_stratagems')
+ local V={showcase_ac8n={'AC-8 Autocannon','explosive_shrapnel'},showcase_gr8l={'GR-8 Recoilless Rifle','explosive_impact'},
+  showcase_mg206x={'MG-206 Heavy Machine Gun','conventional_plain'},showcase_las98s={'LAS-98 Laser Cannon',nil}}
+ local registered,bad=0,{}
+ for id,v in pairs(V)do
+  local d=custom.get(id)
+  if d and d.kind=='expendable'and d.delivery.variant==true and d.group=='weapon'
+    and table.concat(d.delivery.pool,',')==v[1]and((v[2]==nil and d.delivery.round==nil)
+    or(d.delivery.round and d.delivery.round.class==v[2]))then registered=registered+1 else bad[#bad+1]=id end
+ end
+ step('the showcase loads from the archive; its four variants register in the weapon group, each on its own type, '
+  ..'the three rounds of their hosts\' own classes, the LAS-98S without a round; nothing is written',
+  count('WeaponVariantShowcase 0.1.0 WEAPON VARIANT SHOWCASE')==1 and registered==4 and counts.writes==0,
+  'registered '..registered..'; bad '..table.concat(bad,','))
+ local wm=require('hd2runtime/runtime/event_world')
+ local world=assert(wm.open())
+ local clone=require('hd2runtime/runtime/weapon_clone')
+ local native,detail=0,{}
+ for _,v in pairs(V)do
+  local r,code,reason=clone.inspect(world,v[1],true)
+  if r and r.native then native=native+1 else detail[#detail+1]=v[1]..': '..tostring(code)..' '..tostring(reason)end
+ end
+ step('each host\'s records on the real entity region: one owner each, the game\'s type tables pointing at them, the '
+  ..'exact native bytes (read-only)',native==4 and counts.writes==0,table.concat(detail,'; '))
+ local loadout=require('hd2runtime/runtime/stratagem_loadout')
+ local saved=loadout.saved(world)
+ local ids={}
+ for k,pair in ipairs(saved and saved.pairs or{})do ids[k]=pair.id end
+ local present,who=custom.lobby_picks(world,ids)
+ local WC=require('hd2runtime/runtime/weapon_carriers')
+ local fine=0
+ local parts={}
+ for id,v in pairs(V)do
+  local why,weapon=WC.unavailable(id,v[1],present,{},{who=who,variant=true})
+  local mine=present[WC.stable_id(v[1])]
+  if(mine and why~=nil)or(not mine and why==nil and weapon and weapon.weapon==v[1])then fine=fine+1 end
+  parts[#parts+1]=v[1]..': '..tostring(why or'available')
+ end
+ step('the availability against the real loadout (no fallback: picked natively -> unavailable, else its own type)',
+  fine==4,table.concat(parts,'; '))
+ local game=wm.game_state(world)
+ if not(game and game.mission)then
+  local h=clone.apply({carrier='AC-8 Autocannon',variant=true})
+  local st
+  for _=1,200 do frame();st=h.status;if st~='pending'then break end end
+  step('aboard the ship a conversion is refused (NOT_IN_MISSION), nothing written',h.status=='refused'
+   and h.code=='NOT_IN_MISSION'and counts.writes==0,tostring(h.status)..' '..tostring(h.code))
+ end
+ return results
+end
+"""
+EXTRAS['proof-weapon-variants'] = {'after': PROOF_WEAPON_VARIANTS, 'readOnly': True}
 # The EAT-17C Cluster Expendable (proof/EAT17CExample 0.2.0, split out of ExtraStratagems 0.1.1): the same expendable
 # group checks as the EAT-17G, for its own id, banner and round (the RL-77 Airburst's rocket, type 312).
 def _eat17c_scenario():
@@ -5077,6 +5141,7 @@ SCENARIOS = {
     'example-eat17g': lambda: proof('EAT17GExample'),
     'example-eat17c': lambda: proof('EAT17CExample'),
     'example-laser-maxigun': lambda: proof('LaserMaxigunExample'),
+    'proof-weapon-variants': lambda: proof('WeaponVariantShowcase'),
     'example-pelican-cas-explosive': lambda: proof('PelicanCasExplosive'),
     'example-pelican-ems': lambda: proof('PelicanEmsExample'),
     'example-pelican-gas': lambda: proof('PelicanGasExample'),

@@ -1,0 +1,1 @@
+{"format":1,"name":"WeaponVariantShowcase","resource":"mods/skyeshade/hd2runtime_weapon_variant_showcase","guid":"4cba178a-35ef-5193-9749-1866fbb0a59e","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.30.0-dev","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../sdk","ide_library":"../../sdk/stubs"}
