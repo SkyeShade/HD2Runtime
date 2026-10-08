@@ -466,22 +466,53 @@ local function press(...)
     for _,c in ipairs(codes)do keys[c]=true end;tick()
     for _,c in ipairs(codes)do keys[c]=false end;tick()
 end
+-- The effect package (INTEGRATED EXPLOSIVES) loads through core/assets: a loader the fixture can request.
+local assets=require('hd2runtime/core/assets')
+local RM=require('hd2runtime/domains/package_residency').loader.refcountMap
+local map_header,map_entries=W.alloc(0x1000),W.alloc(0x1000)
+W.write(map_header+RM.entries,W.u64(map_entries))
+assets.reset()
+assets.prove=function()return {instance=map_header,request=2,capacity=16}end
+local IE='0xC76C97B3DFB67C5C'
+W.runtime.packages[IE]='absent'
+W.runtime.package_request=function()W.runtime.packages[IE]='loading'end
 assert(loadstring(ADDON,'@'..RESOURCE))()
 local F8,CTRL,SHIFT=input.keys.F8,0x11,0x10
-assert(count('PassiveSwapProbe 0.1.0 PASSIVE SWAP PROBE BUILD')==1,table.concat(logged,' | '))
-assert(count('the game has 32 armor passives')==1 and count('ARMOR SLOT REDUCED SIGNATURE (32)')==1,
-    table.concat(logged,' | '))
+local function all()return table.concat(logged,' | ')end
+assert(count('PassiveSwapProbe 0.2.0 PASSIVE SWAP ROUND TWO BUILD')==1 and count('PASSIVE SWAP PROBE BUILD')==0,all())
+assert(count('the game has 32 armor passives and 411 kits; effect packages: INTEGRATED EXPLOSIVES '..IE
+    ..', ADRENO-DEFIBRILLATOR 0x1EEE5C22038560E5; this probe uses 11 modes')==1,all())
+assert(count('ARMOR SLOT REDUCED SIGNATURE (32)')==1 and count('armor kit 0x4DD749C6 RS-100 SANCTIONER (light)')==1,all())
+-- INTEGRATED EXPLOSIVES: the package first (waiting_for_assets), then the write; each status change logged.
 press(F8)
-assert(armor()==8 and count('MODE SERVO-ASSISTED (F8): handle active')==1 and count('OBSERVE: THROW RANGE x1.3')==1,
-    table.concat(logged,' | '))
+assert(armor()==32 and count('MODE INTEGRATED EXPLOSIVES (F8): handle waiting_for_assets')==1
+    and count('FOLLOWS (INTEGRATED EXPLOSIVES): full; death_explosion direct')==1
+    and count('effect package passive/17 '..IE)==1 and count('OBSERVE: DEATH EXPLOSION')==1,all())
+W.runtime.packages[IE]=nil
+tick(4)
+assert(armor()==17 and count('HANDLE waiting_for_assets -> active')==1 and count('PASSIVES (handle active)')==1,all())
+press(F8)
+assert(armor()==7 and count('MODE MED-KIT (F8): handle active')==1 and count('OBSERVE: +2 STIMS')==1,all())
+for _,want in ipairs({{3,'FORTIFIED'},{9,'DEMOCRACY PROTECTS'},{5,'ELECTRICAL CONDUIT'},{11,'INFLAMMABLE'},
+        {1,'EXTRA PADDING'}})do
+    press(F8)
+    assert(armor()==want[1]and count('MODE '..want[2]..' (F8): handle active')==1,want[2]..': '..all())
+end
+assert(count('FOLLOWS (EXTRA PADDING): partial; armor_rating armor rating (does NOT follow)')==1
+    and count('OBSERVE: CONTROL, MUST NOT CHANGE')==1,all())
+press(F8)
+assert(armor()==8 and count('MODE SERVO-ASSISTED (F8): handle active')==1 and count('THROW RANGE x1.3')==1,all())
 press(CTRL,F8)
-assert(armor()==8 and second()==7 and count('MODE SERVO-ASSISTED + second MED-KIT')==1,table.concat(logged,' | '))
+assert(armor()==8 and second()==7 and count('MODE SERVO-ASSISTED + second MED-KIT')==1,all())
 press(F8)
 assert(armor()==6 and second()==7,'ENGINEERING KIT, MED-KIT kept')
 press(SHIFT,F8)
-assert(count('STATUS (Shift+F8): mode ENGINEERING KIT + second MED-KIT; handle active')==1,table.concat(logged,' | '))
+assert(count('STATUS (Shift+F8): mode ENGINEERING KIT + second MED-KIT; handle active')==1,all())
+press(F8);press(F8);press(F8)          -- SCOUT, VANILLA (+ MED-KIT), INTEGRATED EXPLOSIVES (+ MED-KIT)
+press(F8)                              -- MED-KIT: the second MED-KIT is left out
+assert(armor()==7 and second()==0 and count('MODE MED-KIT (F8): handle active')==2,all())
 press(CTRL,SHIFT,F8)
-assert(armor()==32 and second()==0 and count('RESTORED (Ctrl+Shift+F8)')==1,table.concat(logged,' | '))
+assert(armor()==32 and second()==0 and count('RESTORED (Ctrl+Shift+F8)')==1,all())
 return 'ok'
 '''), b'ok')
 

@@ -4607,11 +4607,13 @@ return function(frame,watches,counts,lines)
 end
 """
 EXTRAS['proof-liberator-shots'] = {'after': PROOF_LIBERATOR_SHOTS, 'readOnly': True}
-# The armor passive override live test (proof/PassiveSwapProbe 0.1.0; runtime/player_passives.lua): it loads from the
+# The armor passive override live test (proof/PassiveSwapProbe 0.2.0; runtime/player_passives.lua): it loads from the
 # archive and logs the snapshot's passives; the packaged module proves the research's 59 pins on the snapshot's game.dll
 # and the read API returns the snapshot's own record (entity 5: RS-100 SANCTIONER, passive 32 REDUCED SIGNATURE in the
 # armor slot, nothing in the helmet slot; movement noise x0.5 and enemy detection range x0.6 are what the game reads),
-# and the record a write would target is private read-write memory. No key is pressed: nothing is written.
+# and the record a write would target is private read-write memory. The packaged kit table names the worn kits, and the
+# effect packages of passives 17 and 19 are catalogue entries core/assets knows (nothing is requested). No key is
+# pressed: nothing is written.
 PROOF_PASSIVE_SWAP = r"""
 return function(frame,watches,counts,lines)
  local results={}
@@ -4619,7 +4621,8 @@ return function(frame,watches,counts,lines)
  local function count(text)local n=0;for _,line in ipairs(lines)do if line:find(text,1,true)then n=n+1 end end;return n end
  for _=1,60 do frame()end
  step('the probe loads from the archive and logs the snapshot\'s passives',
-  count('PassiveSwapProbe 0.1.0 PASSIVE SWAP PROBE BUILD')==1 and count('the game has 32 armor passives')==1
+  count('PassiveSwapProbe 0.2.0 PASSIVE SWAP ROUND TWO BUILD')==1
+  and count('the game has 32 armor passives and 411 kits')==1
   and count('ARMOR SLOT REDUCED SIGNATURE (32), HELMET SLOT none (0)')==1,table.concat(lines,' | '):sub(-600))
  local world=require('hd2runtime/runtime/event_world').open()
  local ok,why=require('hd2runtime/runtime/player_passives').prove(world)
@@ -4641,6 +4644,16 @@ return function(frame,watches,counts,lines)
   and r.type==0x20000 and r.protect==4,tostring(r and r.type)..' '..tostring(r and r.protect))
  step('hd2.passives.list() holds the game\'s 32 passives',#hd2.passives.list()==32
   and hd2.passives.find('SERVO-ASSISTED').id==8,'')
+ step('the kit table names the worn kits (RS-100 SANCTIONER, light; its helmet; the cape)',mine~=nil
+  and mine.armor_kit.name=='RS-100 SANCTIONER'and mine.armor_kit.weight=='light'and mine.armor_kit.index==198
+  and mine.helmet_kit.name=='RS-100 Sanctioner'and mine.cape_kit.slot=='cape'and#hd2.armor_kits()==411
+  and hd2.armor_kit('0x4DD749C6').wiki.armor_rating==50,tostring(mine and mine.armor_kit.name))
+ local assets=require('hd2runtime/core/assets')
+ local d17,d19=assets.dependency('passive/17'),assets.dependency('passive/19')
+ step('the effect packages of 17 and 19 are catalogue entries core/assets knows (none requested)',d17~=nil and d19~=nil
+  and d17.package=='0xC76C97B3DFB67C5C'and d19.package=='0x1EEE5C22038560E5'and assets.known(d17.package)
+  and not assets.held(d17.package)and hd2.passives.find(17).package_info.catalogue=='passive/17'
+  and hd2.passives.find(19).follows_swap=='unknown',tostring(d17 and d17.package))
  step('nothing is written',counts.writes==0,tostring(counts.writes))
  return results
 end
