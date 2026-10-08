@@ -70,10 +70,11 @@ M.TEXT={
     unavailable='Safety UNAVAILABLE: Public matchmaking is NOT blocked.',
     unavailable_advice='Set Friends Only / Invite Only and do not use Quickplay.',
     -- warnings only (M.ENFORCE=false)
-    warn_rule='Players without your mods can join.',
-    warn_advice='Friends Only / Invite Only keeps it to compatible Runtime users.',
-    warn_privacy='Lobby privacy is Public: strangers can join.',
-    warn_quickplay='Quickplay joins public games with strangers.',
+    warn_rule='Public lobbies can cause issues or crashes due to mods.',
+    warn_advice='Friends Only / Invite Only is safest when playing with mods.',
+    warn_privacy='This lobby is Public.',
+    warn_quickplay='Quickplay joins public lobbies.',
+    warn_sos='SOS Beacon active: this lobby is Public.',
 }
 
 local state
@@ -470,8 +471,9 @@ local function warn_privacy(o)
     state.said.warn_privacy=true
     local why_text=('setting %s, advertised %s, %s'):format(privacy_name(o.privacy),
         o.advertised and('"'..o.advertised..'"')or'-',o.is_host and'host'or'client')
-    log(('MATCHMAKING SAFETY WARNING: lobby privacy is Public (%s): players without your mods can join. HD2Runtime does '
-        ..'not change it; Friends Only / Invite Only keeps games to compatible Runtime users.'):format(why_text))
+    log(('MATCHMAKING SAFETY WARNING: lobby privacy is Public (%s): public lobbies can cause issues or crashes due to '
+        ..'mods. HD2Runtime does not change it; Friends Only / Invite Only is safest when playing with mods.'):format(
+        why_text))
     event('warn_privacy',why_text)
     notify(M.TEXT.warn_privacy,M.TEXT.warn_rule,M.TEXT.warn_advice)
     return {status='warned'}
@@ -480,8 +482,8 @@ local function warn_quickplay(o)
     if state.said.warn_quickplay then return {status='warned',repeated=true}end
     state.said.warn_quickplay=true
     local phase=o.joining and'joining a found lobby'or'searching'
-    log(('MATCHMAKING SAFETY WARNING: Quickplay is running (%s): it joins public games with players without your mods. '
-        ..'HD2Runtime does not cancel it.'):format(phase))
+    log(('MATCHMAKING SAFETY WARNING: Quickplay is running (%s): it joins public lobbies, which can cause issues or '
+        ..'crashes due to mods. HD2Runtime does not cancel it.'):format(phase))
     event('warn_quickplay',phase)
     notify(M.TEXT.warn_quickplay,M.TEXT.warn_rule,M.TEXT.warn_advice)
     return {status='warned',phase=phase}
@@ -544,13 +546,18 @@ function M.check(world,quickplay_only)
     end
     -- The SOS Beacon: the game advertises Open while it is active, whatever the setting. Warned, never overridden.
     local sos=o.is_host and o.joined and sos_active(o)
-    if sos and not state.sos then
+    if sos and not state.sos and not M.ENFORCE then
+        log('MATCHMAKING SAFETY WARNING: an SOS Beacon is active and the game made this lobby PUBLIC (advertised '
+            ..'privacy "'..tostring(o.advertised)..'", SOSBeacons "'..tostring(o.sos_key)..'") until it ends: public '
+            ..'lobbies can cause issues or crashes due to mods.')
+        event('sos',o.sos_key)
+        notify(M.TEXT.warn_sos,M.TEXT.warn_rule,M.TEXT.warn_advice)
+    elseif sos and not state.sos then
         log('MATCHMAKING SAFETY WARNING: an SOS Beacon is active and the game made this lobby PUBLIC (advertised '
             ..'privacy "'..tostring(o.advertised)..'", SOSBeacons "'..tostring(o.sos_key)..'"): strangers can join through '
             ..'Quickplay until it ends. HD2Runtime cannot block the SOS Beacon; do not use it while Runtime is active.')
         event('sos',o.sos_key)
-        if M.ENFORCE then notify(M.TEXT.sos,M.TEXT.rule,'Do not use the SOS Beacon while Runtime is active.')
-        else notify(M.TEXT.sos,M.TEXT.warn_rule,M.TEXT.warn_advice)end
+        notify(M.TEXT.sos,M.TEXT.rule,'Do not use the SOS Beacon while Runtime is active.')
     elseif not sos and state.sos then
         log('MATCHMAKING SAFETY: the SOS Beacon ended; the lobby advertises the privacy setting again')
     end
