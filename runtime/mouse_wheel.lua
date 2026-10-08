@@ -263,6 +263,9 @@ local function now()return events.state.now or 0 end
 M.SETTING='hd2runtime/settings/wheel_hook_off'
 M.NATIVE_OFF='the native mouse wheel hook is off (the "mouse wheel hook off" install option); the wheel is the engine '
     ..'axis'
+-- The message a mod can show when the player chose "Mouse wheel hook off" (hd2.input.wheel_status().notice).
+M.NOTICE='GameGuard safety: mouse wheel scrolling is off in mod windows (the HD2Runtime install choice "Mouse wheel '
+    ..'hook off"). Scroll over a game menu, or use the scrollbar and Page Up / Page Down.'
 local off_setting
 function M.native_allowed()
     if off_setting==nil then
@@ -371,7 +374,9 @@ end
 function M.status()
     local blocked
     if state.hook and state.hook.blocked then local ok,n=pcall(state.hook.blocked);blocked=ok and n or nil end
-    return {hooked=state.hook~=nil,native=M.native_allowed(),disabled=state.disabled,source=state.source,
+    local allowed=M.native_allowed()
+    return {hooked=state.hook~=nil,native=allowed,install_option=allowed and'hook_on'or'hook_off',
+        notice=not allowed and M.NOTICE or nil,disabled=state.disabled,source=state.source,
         engine=state.engine_ok,
         thread=state.hook and state.hook.thread or nil,blocking=state.block_flags or 0,blocked=blocked}
 end

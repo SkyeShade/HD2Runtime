@@ -169,6 +169,8 @@ session. GameGuard error 1015 ("Suspicious program detected") was reported with 
 generated code is what anti-cheat looks for. Off, nothing native is built or installed: `hd2.input.wheel()` reads
 the engine axis only (it works over a game menu, see The cursor), `hd2.input.block()` returns `false` and the
 reason, and `hd2.input.wheel_status().native` is `false`. The API is unchanged, so mods need no update.
+`hd2.input.wheel_status().install_option` is `'hook_on'` or `'hook_off'`; with `'hook_off'`, `notice` is a message a
+mod can show the player ("GameGuard safety: mouse wheel scrolling is off in mod windows ...").
 
 - `GetAsyncKeyState` cannot see the wheel, and the engine's `stingray.Mouse` `wheel` axis read nothing while the
   overlay held the mouse focus (live test of r50). Two sources are sampled once per tick while someone queries:

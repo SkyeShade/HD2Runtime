@@ -2176,7 +2176,7 @@ function HD2Input.mouse() end
 ---EXPERIMENTAL (r51). The mouse wheel this update tick in notches (+ up, - down; fractions for smooth wheels), 0 when it did not move. Read from the engine's wheel axis and, while queried, a read-only message hook on the game window's thread (WM_MOUSEWHEEL and raw input); nothing is consumed.
 ---@return number
 function HD2Input.wheel() end
----Diagnostics of hd2.input.wheel: {hooked, disabled (why the hook is off), source (the first source that delivered a notch), engine (the engine axis is readable)}.
+---Diagnostics of hd2.input.wheel: {hooked, native (the native hook may be used), install_option (0.30.2: 'hook_on', or 'hook_off' when the player installed HD2Runtime with the mod manager choice "Mouse wheel hook off"), notice (0.30.2: with 'hook_off', a message a mod can show the player; nil otherwise), disabled (why the hook stopped after an error), source (the first source that delivered a notch), engine (the engine axis is readable)}.
 ---@return table
 function HD2Input.wheel_status() end
 ---EXPERIMENTAL (r52). Keep the game from acting on input while a mod window is open: spec = {keyboard = true, mouse = true}, renewed every update (a 0.5 s lease); false stops. Key presses, characters, mouse button presses and the wheel become WM_NULL before the game's window sees them; releases always pass. Mods keep reading input through GetAsyncKeyState / GetCursorPos.

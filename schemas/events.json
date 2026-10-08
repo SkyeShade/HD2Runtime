@@ -2042,7 +2042,7 @@
       "name": "wheel_status",
       "params": [],
       "returns": "table",
-      "doc": "Diagnostics of hd2.input.wheel: {hooked, disabled (why the hook is off), source (the first source that delivered a notch), engine (the engine axis is readable)}."
+      "doc": "Diagnostics of hd2.input.wheel: {hooked, native (the native hook may be used), install_option (0.30.2: 'hook_on', or 'hook_off' when the player installed HD2Runtime with the mod manager choice \"Mouse wheel hook off\"), notice (0.30.2: with 'hook_off', a message a mod can show the player; nil otherwise), disabled (why the hook stopped after an error), source (the first source that delivered a notch), engine (the engine axis is readable)}."
      },
      {
       "name": "block",

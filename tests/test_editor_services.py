@@ -314,6 +314,7 @@ return 'ok'
 local wheel=require('hd2runtime/runtime/mouse_wheel')
 wheel.reset_for_tests()
 assert(wheel.native_allowed()==true,'on by default (no install option deployed)')
+assert(hd2.input.wheel_status().install_option=='hook_on'and hd2.input.wheel_status().notice==nil)
 package.preload[wheel.SETTING]=function()return true end
 wheel.reset_for_tests()
 local axis=0
@@ -334,6 +335,8 @@ assert(ok==false and why:find('install option',1,true),tostring(why))
 assert(hd2.input.block(false)==true,'stopping is always fine')
 local status=hd2.input.wheel_status()
 assert(status.native==false and status.hooked==false and status.source=='engine')
+-- The choice and a message a mod can show (0.30.2).
+assert(status.install_option=='hook_off'and status.notice:find('GameGuard safety',1,true),tostring(status.notice))
 return 'ok'
 '''), b'ok')
 
