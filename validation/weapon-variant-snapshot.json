@@ -2031,6 +2031,8 @@
    "native": true,
    "notNative": {
     "code": "NOT_NATIVE",
+    "expect": "differs in 1 word: +0x34 ",
+    "reason": "M-1000 Maxigun EncyclopediaEntryComponentData is not its reviewed native record (another writer changed it): nothing written; differs in 1 word: +0x34 7E71404B -> 7F71404B",
     "status": "refused",
     "writes": 0
    },
@@ -3004,6 +3006,8 @@
    "native": true,
    "notNative": {
     "code": "NOT_NATIVE",
+    "expect": "differs in 1 word: +0x34 ",
+    "reason": "M-1000 Maxigun EncyclopediaEntryComponentData is not its reviewed native record (another writer changed it): nothing written; differs in 1 word: +0x34 7E71404B -> 7F71404B",
     "status": "refused",
     "writes": 0
    },
@@ -3977,6 +3981,8 @@
    "native": true,
    "notNative": {
     "code": "NOT_NATIVE",
+    "expect": "differs in 1 word: +0x34 ",
+    "reason": "M-1000 Maxigun EncyclopediaEntryComponentData is not its reviewed native record (another writer changed it): nothing written; differs in 1 word: +0x34 7E71404B -> 7F71404B",
     "status": "refused",
     "writes": 0
    },

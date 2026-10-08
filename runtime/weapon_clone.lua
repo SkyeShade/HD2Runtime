@@ -591,6 +591,26 @@ function M.prove_model_consumers(world)
     proven_unit[key]=true
     return true
 end
+-- Where a record differs from its reviewed native bytes (hex): '; differs at +off native -> now, ...' (4-byte words,
+-- little-endian u32 hex, at most 12), or '' without reviewed bytes. Read-only; for the refusal's log line.
+local function u32hex(word)return(word:reverse():gsub('.',function(ch)return('%02X'):format(ch:byte())end))end
+function M.native_diff(native_hex,bytes)
+    if type(native_hex)~='string'or type(bytes)~='string'then return''end
+    local native=b.unhex(native_hex)
+    if #native~=#bytes then return('; the record is %d bytes, reviewed %d'):format(#bytes,#native)end
+    local parts,n={},0
+    for at=0,#native-1,4 do
+        local a,x=native:sub(at+1,at+4),bytes:sub(at+1,at+4)
+        if a~=x then
+            n=n+1
+            if n<=12 then
+                parts[#parts+1]=('+0x%X %s -> %s'):format(at,u32hex(a),u32hex(x))
+            end
+        end
+    end
+    if n==0 then return''end
+    return('; differs in %d word%s: %s%s'):format(n,n==1 and''or's',table.concat(parts,', '),n>12 and', ...'or'')
+end
 -- How many writes a variant makes (presentation, plus a round and a model when given), or nil (not a variant host).
 function M.variant_writes(carrier,round,model)
     local c=V.hosts[carrier]
@@ -646,7 +666,7 @@ function M.variant_body(spec)
     for component,r in pairs(c.records)do
         if fnv1a(records[component].bytes)~=r.fnv1a then
             return nil,'NOT_NATIVE',spec.carrier..' '..component..' is not its reviewed native record (another writer '
-                ..'changed it): nothing written'
+                ..'changed it): nothing written'..M.native_diff(r.native,records[component].bytes)
         end
     end
     if round then

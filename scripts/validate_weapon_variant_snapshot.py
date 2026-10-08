@@ -14,7 +14,7 @@ The production module runs against the snapshot's real entity region, game.dll a
 * the MODEL: as the snapshot is, the mod's unit is not loaded (MODEL_NO_BUILD_RECORD / MODEL_NOT_RESIDENT, nothing
   written); with a build record and the three resources simulated loaded, UnitPath = the model's unit name hash, every
   other byte unchanged, exact restore;
-* the guards: CONFLICT on restore, NOT_NATIVE, CARRIER_PRESENT; aboard the ship NOT_IN_MISSION;
+* the guards: CONFLICT on restore, NOT_NATIVE (naming the changed word), CARRIER_PRESENT; aboard the ship NOT_IN_MISSION;
 * EVERY variant host (26 support weapons, 2026-10-08): its records where the research found them, one owner each,
   their exact native bytes (read-only inspect); in a live mission, a host with no entity in the world converts and
   restores exactly: with a round (the LAS-58 Talon's 144, or the Maxigun's 306 for a host that fires 144; package
@@ -219,7 +219,8 @@ if out.mission then
  local rec=records()[1]
  overlay[rec.at+rec.size-1]=string.char((adapter.read(rec.at+rec.size-1,1):byte()+1)%256)
  local nn=settle(clone.apply({carrier=HOST,variant=true,multiplayer=multiplayer}))
- out.notNative={status=nn.status,code=nn.code,writes=#writes}
+ out.notNative={status=nn.status,code=nn.code,writes=#writes,reason=nn.reason,
+  expect=('differs in 1 word: +0x%X '):format((rec.size-1)-(rec.size-1)%4)}
  -- CARRIER_PRESENT: an entity of the Maxigun type already in the world.
  reset()
  local S=D.spottableInstances
@@ -327,7 +328,8 @@ def problems_of(report: dict, phase: str) -> list[str]:
             and cf['thenRestored'] == 'restored' and cf['exact']):
         problems.append('conflict: %r' % cf)
     nn = report['notNative']
-    if not (nn['status'] == 'refused' and nn['code'] == 'NOT_NATIVE' and nn['writes'] == 0):
+    if not (nn['status'] == 'refused' and nn['code'] == 'NOT_NATIVE' and nn['writes'] == 0
+            and nn['expect'] in (nn.get('reason') or '')):
         problems.append('not native: %r' % nn)
     cp = report.get('present')
     if cp and not (cp['status'] == 'refused' and cp['code'] == 'CARRIER_PRESENT' and cp['writes'] == 0):

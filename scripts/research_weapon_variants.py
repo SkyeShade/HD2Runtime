@@ -174,8 +174,10 @@ def host_facts(t: tables.EntityTables, name: str, resource: int, brings: dict) -
         if owners != [resource]:
             raise ValueError('its %s record is shared by %d types' % (component, len(owners)))
         index_row = next(row for row, res, _rec in comp.rows() if res == resource)
+        # native: the whole record, so a refusal can name the members another writer changed (live r56: the MG-206's
+        # ProjectileWeapon record was not native at mission start, with no Runtime writer logged).
         records[component] = {'indexRow': index_row, 'recordIndex': record, 'ownerCount': 1,
-            'fnv1a': fnv1a(comp.raw(record))}
+            'fnv1a': fnv1a(comp.raw(record)), 'native': comp.raw(record).hex()}
 
     def member(component, offset, width):
         return t.component(component).raw(rows[component])[offset:offset + width]
