@@ -3,7 +3,9 @@
 Outputs:
 * domains/package_residency.lua: runtime pins for the native loader (RVAs plus the exact code bytes each call
   re-proves), the engine residency layout, and the semantic dependency catalog (semantic key / resource ->
-  owning package). The runtime never accepts a package identity from a caller; it only resolves one here.
+  owning package). The runtime never accepts a package identity from a caller; it only resolves one here. The armor
+  passives' effect packages ('passive/17' Integrated Explosives, 'passive/19' Adreno-Defibrillator) come from
+  research/passive-effects-F5FEE03DCFDB.json (the research script's replica of the game's own resolver), not by hand.
 * sdk/AssetDependencyCapabilities.json: public metadata (no package or resource IDs): per semantic object,
   whether its package dependency is known and auto-loadable, how it was derived, and live-test state.
 """
@@ -11,6 +13,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from pathlib import Path
 import sys
 
@@ -21,9 +24,39 @@ import package_residency_evidence as evidence  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 RESEARCH = ROOT / 'research/package-residency-F5FEE03DCFDB.json'
+PASSIVE_EFFECTS = ROOT / 'research/passive-effects-F5FEE03DCFDB.json'
+PASSIVE_TABLE = ROOT / 'research/player-attributes-F5FEE03DCFDB.json'
 LUA_OUTPUT = ROOT / 'domains/package_residency.lua'
 JSON_OUTPUT = ROOT / 'sdk/AssetDependencyCapabilities.json'
 CONTRACT = 'hd2runtime.asset_dependencies.v1'
+
+
+def passive_effect_packages(research):
+    """The armor passives' effect packages (research/passive-effects-F5FEE03DCFDB.json, scripts/
+    research_passive_effects.py: the replica of 0x12689C0 resolving passive +0x30 through the dependency table and the
+    hash_lookup map): 'passive/<id>' -> {package, label, inBundleDatabase}. Checked against the passive table
+    (research/player-attributes-F5FEE03DCFDB.json: the same thin key) and the build; every value of the hash_lookup map
+    is a package of the bundle database, and the package's own bundle listing names its archive."""
+    effects = json.loads(PASSIVE_EFFECTS.read_text(encoding='utf-8'))
+    attributes = json.loads(PASSIVE_TABLE.read_text(encoding='utf-8'))
+    if effects['build'] != research['build'] or attributes['build'] != research['build']:
+        raise ValueError('the passive effects research covers another build')
+    mechanism = effects['packageMechanism']
+    if mechanism['hashLookup']['entries'] != mechanism['hashLookup']['valuesThatArePackages']:
+        raise ValueError('a hash_lookup value is not a bundle database package')
+    table = {p['id']: p for p in attributes['passiveTable']}
+    out = {}
+    for pid, item in sorted(mechanism['resolved'].items(), key=lambda kv: int(kv[0])):
+        passive = table[int(pid)]
+        listing = mechanism['contents'].get(item['package'])
+        if passive['package'] != item['thin'] or not listing or not listing.get('archive') or not listing['resources']:
+            raise ValueError('passive %s: the resolved package is not the passive table\'s or has no bundle' % pid)
+        if not re.fullmatch(r'0x[0-9A-F]{16}', item['package']):
+            raise ValueError('passive %s: malformed package id' % pid)
+        out['passive/' + pid] = {'package': item['package'], 'label': passive['name'], 'inBundleDatabase': True}
+    if sorted(out) != ['passive/' + str(p['id']) for p in attributes['passiveTable'] if p['package'] != '00000000']:
+        raise ValueError('a passive with an effect package was not resolved')
+    return out
 
 
 def outputs(research_path=RESEARCH):
@@ -62,6 +95,15 @@ def outputs(research_path=RESEARCH):
         if item['resource']:
             # A catalogued explosion is no entity: it has a key, no resource.
             by_resource.setdefault(item['resource'], pid)
+    for key, item in passive_effect_packages(research).items():
+        packages.setdefault(item['package'], {'name': 'unnamed passive effect package of ' + item['label'],
+            'named': False, 'inBundleDatabase': item['inBundleDatabase']})
+        dependencies[key] = {'package': item['package'], 'via': 'passive_effect_package',
+            'label': item['label'] + ' (armor passive effect)'}
+        public.append({'key': key, 'label': item['label'], 'kind': 'passive_effect',
+            'packageDependency': {'known': True, 'autoLoadSupported': True, 'derivation': 'passive_effect_package',
+                'package': None, 'packageNamed': False, 'liveTested': False, 'packageLiveLoaded': False,
+                'blocker': None}})
     runtime = {'version': 1, 'build': research['build'],
         'loader': {'requestRva': g['requestRva'], 'releaseRva': g['releaseRva'],
             'requestProof': g['requestProof'], 'releaseProof': g['releaseProof'],
@@ -79,6 +121,7 @@ def outputs(research_path=RESEARCH):
             'pollSeconds': 0.25, 'refcountFillLimit': 0.75}}
     summary = dict(research['summary'], packages=len(packages),
         unnamedPackages=sum(not p['named'] for p in packages.values()),
+        passiveEffectPackages=sum(d['via'] == 'passive_effect_package' for d in dependencies.values()),
         liveTestedObjects=len(live_objects), liveLoadedPackages=len(live_packages),
         liveProvenFamilies=sorted(k for k, v in evidence.families().items() if v['packageResidency'] == 'LIVE_PROVEN'))
     live = evidence.live()

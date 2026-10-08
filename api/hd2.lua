@@ -309,10 +309,12 @@ local list_enemies=assert(M.enemies,'the enemy name list builder is missing')
 M.enemies=setmetatable({spawn_weight=enemy_spawns.spawn_weight,spawn_list=enemy_spawns.spawn_list,
     spawn_status=enemy_spawns.spawn_status},{__call=function(_,filter)return list_enemies(filter)end})
 -- Armor passives (api/player_passives.lua; docs/armor-passives.md): hd2.passives.list() every passive of the game;
--- hd2.player_passives() the local player's, and hd2.player_passives.set (DEVELOPMENT, solo) overrides them.
+-- hd2.player_passives() the local player's, and hd2.player_passives.set (DEVELOPMENT, solo) overrides them;
+-- hd2.armor_kits(filter) / hd2.armor_kit(id or name) the game's 411 kits (read-only, offline).
 do
     local player_passives=require('hd2runtime/api/player_passives')
     M.passives={list=player_passives.list,find=player_passives.find}
+    M.armor_kits,M.armor_kit=player_passives.armor_kits,player_passives.armor_kit
     M.player_passives=setmetatable({set=player_passives.set,status=player_passives.status},
         {__call=function()return player_passives.current()end})
 end

@@ -108,12 +108,41 @@ assert(by[32].name=='REDUCED SIGNATURE'and by[32].modifiers[1].key=='AF8B7112'
     and by[32].modifiers[1].value==0.5)
 assert(by[17].effect_package and by[17].package=='644F8A3B'and not by[8].effect_package)
 assert(by[4]==nil and by[22]==nil,'unused ids')
+-- The game's descriptions and what follows a swap (research/passive-effects-F5FEE03DCFDB.json).
+assert(by[8].description=='Increases throwing range by #BONUS. Provides #SIGN#BONUS limb health.',by[8].description)
+assert(by[8].follows_swap=='full'and by[8].note==nil and by[8].modifiers[1].reader=='direct'
+    and by[8].modifiers[1].follows==true)
+assert(by[16].follows_swap=='partial'and by[16].modifiers[1].reader=='description-only'
+    and by[16].modifiers[1].follows==false and by[16].modifiers[1].note:find('stat 13 (primary reload) x1.3',1,true)
+    and by[16].note:find('primary_reload_speed, ammo_capacity follow the kit worn',1,true),by[16].note)
+assert(by[16].stats[2].stat==12 and by[16].stats[2].mul==1.2 and by[16].stats[2].described_by=='33C9C713')
+assert(by[1].follows_swap=='partial'and by[1].modifiers[1].reader=='armor rating'
+    and by[1].modifiers[1].note:find('follows the worn armor kit',1,true))
+assert(by[14].note:find('stat 11 x0.05 (no modifier row)',1,true)and by[14].modifiers[1].armor_slot_only==true,by[14].note)
+assert(by[19].follows_swap=='unknown'and by[19].modifiers[1].reader=='none found'
+    and by[19].modifiers[1].note:find('revive mechanism was not located',1,true)and by[19].note:find('stim_duration',1,true))
+assert(by[0].modifiers[1].reader=='no effect')
+assert(by[17].package_info.catalogue=='passive/17'and by[17].package_info.package=='0xC76C97B3DFB67C5C'
+    and by[17].package_info.contents=='4 material, 3 particles, 1 texture, 1 wwise_bank'
+    and by[17].package_info.armor_slot_only[1]=='death_explosion'and by[17].modifiers[1].armor_slot_only)
+assert(by[19].package_info.package=='0x1EEE5C22038560E5'and#by[19].package_info.armor_slot_only==0
+    and by[8].package_info==nil)
+local follows={full=0,partial=0,unknown=0}
+for _,p in ipairs(list)do follows[p.follows_swap]=follows[p.follows_swap]+1 end
+assert(follows.full==21 and follows.partial==10 and follows.unknown==1)
+-- The catalogue entries core/assets requests (generated from the same research).
+local assets=require('hd2runtime/core/assets')
+local dep=assets.dependency('passive/17')
+assert(dep and dep.package=='0xC76C97B3DFB67C5C'and dep.via=='passive_effect_package'and assets.known(dep.package))
+assert(assets.dependency('passive/19').package=='0x1EEE5C22038560E5'and assets.dependency('passive/8')==nil)
 assert(hd2.passives.find('servo-assisted').id==8 and hd2.passives.find(2).name=='SCOUT')
 assert(select(2,hd2.passives.find(4))=='UNKNOWN_PASSIVE'and select(2,hd2.passives.find('nope'))=='UNKNOWN_PASSIVE')
 local mine=assert(hd2.player_passives())
 assert(mine.entity==ENTITY and mine.record==0 and mine.armor_kit.id=='0x4DD749C6'
     and mine.armor_kit.name=='RS-100 SANCTIONER'and mine.armor_kit.passive==32)
 assert(mine.helmet_kit.name=='RS-100 Sanctioner'and mine.cape_kit.name=="FALLEN HERO'S VENGEANCE")
+assert(mine.armor_kit.index==198 and mine.armor_kit.slot=='armor'and mine.armor_kit.weight=='light'
+    and mine.helmet_kit.slot=='helmet'and mine.helmet_kit.weight==nil and mine.cape_kit.slot=='cape')
 assert(mine.armor_passive.id==32 and mine.armor_passive.name=='REDUCED SIGNATURE'and mine.helmet_passive.id==0)
 assert(mine.overridden==false and mine.derived.armor==32 and mine.derived.second==0)
 assert(keys(mine.effective)=='movement_noise:armor:Multiply:0.5:32 enemy_detection_range:armor:Multiply:0.6:32',
@@ -218,9 +247,17 @@ refused({armor=99},'UNKNOWN_PASSIVE')
 refused({second=25},'UNKNOWN_PASSIVE')
 refused({armor=8,second='servo-assisted'},'SAME_PASSIVE')
 refused({second=32},'SAME_PASSIVE')            -- the armor kit's own passive
--- An effect package nobody's record holds: refused (17 INTEGRATED EXPLOSIVES).
-local p=refused({armor='INTEGRATED EXPLOSIVES'},'PACKAGE_NOT_RESIDENT')
-assert(p.reason:find('644F8A3B',1,true),p.reason)
+-- An effect package the asset gate cannot load (here: the fixture has no package loader to prove): refused
+-- ASSET_UNAVAILABLE, nothing written (17 INTEGRATED EXPLOSIVES).
+local p=refused({armor='INTEGRATED EXPLOSIVES'},'ASSET_UNAVAILABLE')
+assert(p.reason:find('native package loader changed',1,true),p.reason)
+assert(count('REFUSED: ASSET_UNAVAILABLE: the effect package (passive/17 0xC76C97B3DFB67C5C) did not load')==1,
+    table.concat(logged,' | '))
+assert(hd2.player_passives.status()==nil,'a refused hold holds nothing')
+-- INTEGRATED EXPLOSIVES as the second passive: refused (its death explosion reads the armor slot only).
+local ie=refused({armor=8,second=17},'ARMOR_SLOT_ONLY')
+assert(ie.reason:find('INTEGRATED EXPLOSIVES works only in the armor slot: its death_explosion',1,true),ie.reason)
+refused({second='integrated explosives'},'ARMOR_SLOT_ONLY')
 assert(writes()==0)
 -- Several players: solo only.
 W.players({{peer=LOCAL,avatar=100},{peer=OTHER,avatar=101}},LOCAL)
@@ -258,17 +295,17 @@ return 'ok'
 
     def test_an_effect_package_passive_while_resident_waiting_and_solo_suspension(self):
         self.check(r'''
--- The armor kit carries INTEGRATED EXPLOSIVES (17): its package is resident, so it may become the second passive.
+-- The armor kit carries INTEGRATED EXPLOSIVES (17); another passive replaces it and comes back on stop().
 game_sets({EXPLOSIVE_KIT,17})
-local h=hd2.player_passives.set({armor='SERVO-ASSISTED',second='INTEGRATED EXPLOSIVES',allow_unverified_effect=true})
-assert(h.status=='active'and armor()==8 and second()==17,tostring(h.code)..' '..tostring(h.reason))
+local h=hd2.player_passives.set({armor='SERVO-ASSISTED',allow_unverified_effect=true})
+assert(h.status=='active'and armor()==8 and second()==0,tostring(h.code)..' '..tostring(h.reason))
 h:stop()
 assert(armor()==17 and second()==0)
 game_sets({SANCTIONER,32})
 -- No record yet: waiting, applied when it appears.
 map(nil)
 local w=hd2.player_passives.set({armor=8,allow_unverified_effect=true})
-assert(w.status=='waiting'and w.code=='NO_RECORD'and writes()==4,tostring(w.status)..' '..tostring(w.code))
+assert(w.status=='waiting'and w.code=='NO_RECORD'and writes()==2,tostring(w.status)..' '..tostring(w.code))
 tick(4)
 assert(w.status=='waiting'and armor()==32)
 map(ENTITY)
@@ -289,6 +326,122 @@ assert(w.status=='lost'and armor()==9 and count('LOST')==1,tostring(w.status))
 local n=writes()
 w:stop()
 assert(armor()==9 and writes()==n,'a lost override restores nothing')
+return 'ok'
+''')
+
+
+    def test_an_effect_package_loads_through_core_assets_shared_before_the_write(self):
+        self.check(r'''
+local assets=require('hd2runtime/core/assets')
+local sync=require('hd2runtime/runtime/asset_sync');sync.reset_for_tests()
+local RM=require('hd2runtime/domains/package_residency').loader.refcountMap
+local map_header,map_entries=W.alloc(0x1000),W.alloc(0x1000)
+W.write(map_header+RM.entries,W.u64(map_entries))
+assets.reset()
+assets.prove=function()return {instance=map_header,request=2,capacity=16}end
+local IE,ADRENO='0xC76C97B3DFB67C5C','0x1EEE5C22038560E5'
+local requested={}
+W.runtime.packages[IE],W.runtime.packages[ADRENO]='absent','absent'
+W.runtime.package_request=function(entry,instance,id)
+    local hex='0x'
+    for i=8,1,-1 do hex=hex..('%02X'):format(id:byte(i))end
+    requested[#requested+1]=hex
+    W.runtime.packages[hex]='loading'
+end
+-- INTEGRATED EXPLOSIVES in the armor slot: the package is requested first; nothing is written while it loads.
+local h=hd2.player_passives.set({armor='INTEGRATED EXPLOSIVES',allow_unverified_effect=true})
+assert(h.status=='waiting_for_assets'and writes()==0 and armor()==32,tostring(h.status)..' '..tostring(h.code))
+assert(#requested==1 and requested[1]==IE and assets.held(IE),table.concat(requested,','))
+assert(count('waiting_for_assets: the effect package (passive/17 '..IE..') loads first')==1,table.concat(logged,' | '))
+-- Shared: the package is in the synced asset set (published to the lobby's compatible Runtimes).
+local shared=sync.status().shared
+assert(#shared==1 and shared[1].package==IE:sub(3)and shared[1].holders:find('player-passives',1,true),
+    tostring(shared[1]and shared[1].holders))
+tick(8)
+assert(h.status=='waiting_for_assets'and writes()==0)
+-- Another mod meanwhile: the hold is this mod's.
+assert(hd2.player_passives.set({armor=8,owner='mods/other',allow_unverified_effect=true}).code=='ALREADY_SET')
+-- Resident: written at once.
+W.runtime.packages[IE]=nil
+tick(3)           -- the gate polls every 0.25 s
+assert(h.status=='active'and armor()==17 and writes()==1,tostring(h.status)..' '..armor())
+assert(count('effect package resident (passive/17 '..IE..'; requested through core/assets')==1
+    and count('APPLIED: armor INTEGRATED EXPLOSIVES (17)')==1,table.concat(logged,' | '))
+-- A kit change: re-applied while the Runtime's reference keeps the package resident.
+game_sets({FORTIFIED_KIT,3})
+tick(4)
+assert(armor()==17 and writes()==2)
+-- The package goes (it never does while the Runtime holds it; simulated): the next write is refused, suspended.
+W.runtime.packages[IE]='absent'
+game_sets({SANCTIONER,32})
+tick(4)
+assert(h.status=='suspended'and h.code=='PACKAGE_NOT_RESIDENT'and armor()==32,tostring(h.status))
+W.runtime.packages[IE]=nil
+tick(4)
+assert(h.status=='active'and armor()==17)
+h:stop()
+assert(armor()==32)
+-- ADRENO-DEFIBRILLATOR as the second passive: allowed (with the acknowledgement); its package loads first; the handle
+-- notes that its revive mechanism is unknown.
+local a=hd2.player_passives.set({second='ADRENO-DEFIBRILLATOR',allow_unverified_effect=true})
+assert(a.status=='waiting_for_assets'and requested[2]==ADRENO and second()==0,tostring(a.status))
+assert(#a.notes==1 and a.notes[1]:find('ADRENO-DEFIBRILLATOR (unknown): unknown: the revive mechanism',1,true),
+    tostring(a.notes[1]))
+W.runtime.packages[ADRENO]=nil
+tick(3)           -- the gate polls every 0.25 s
+assert(a.status=='active'and second()==19 and#sync.status().shared==2,tostring(a.status)..' '..second())
+a:stop()
+-- An already resident package: the gate is ready at once, the write happens in set() itself (no new request).
+local again=hd2.player_passives.set({armor=17,allow_unverified_effect=true})
+assert(again.status=='active'and armor()==17 and#requested==2,tostring(again.status)..' '..#requested)
+again:stop()
+-- A load that never finishes: refused after the asset timeout, nothing written.
+assets.reset()
+W.runtime.packages[IE]='absent'
+W.runtime.package_request=function()end
+local slow=hd2.player_passives.set({armor=17,allow_unverified_effect=true})
+assert(slow.status=='waiting_for_assets')
+local n=writes()
+for _=1,800 do tick()end
+assert(slow.status=='refused'and slow.code=='ASSET_UNAVAILABLE'and slow.reason:find('still absent after',1,true)
+    and writes()==n and armor()==32,tostring(slow.status)..' '..tostring(slow.reason))
+return 'ok'
+''')
+
+    def test_the_kits_api(self):
+        self.check(r'''
+local all=hd2.armor_kits()
+assert(#all==411 and all[1].index==0 and all[1].id=='0x1F9BFA78'and all[1].name=='FS-37 Ravager'
+    and all[1].slot=='armor'and all[1].weight=='light'and all[1].passive==6 and all[1].passive_name=='ENGINEERING KIT')
+assert(all[1].description:find('cool rocks',1,true)and all[1].rarity=='common'and all[1].set=='0x4B2DCC62')
+assert(all[1].wiki.source=='wiki'and all[1].wiki.armor_rating==50 and all[1].wiki.speed==550
+    and all[1].wiki.stamina_regen==125 and all[1].wiki.class=='Light'and all[1].wiki.match=='exact'
+    and all[1].wiki.passive_agrees==true)
+local slots,named={armor=0,helmet=0,cape=0},0
+for _,k in ipairs(all)do slots[k.slot]=slots[k.slot]+1;if k.name then named=named+1 end end
+assert(slots.armor==135 and slots.helmet==158 and slots.cape==118 and named==378)
+local heavy=hd2.armor_kits({slot='armor',weight='heavy',passive='fortified'})
+assert(#heavy==7 and heavy[1].name=='FS-55 Devastator',tostring(#heavy))
+for _,k in ipairs(heavy)do assert(k.weight=='heavy'and k.passive==3)end
+assert(#hd2.armor_kits({passive=17})==3 and#hd2.armor_kits({slot='helmet',passive=8})==0)
+assert(#hd2.armor_kits({name='b-01 tactical',slot='helmet'})==15)
+-- One kit: by name (the armor first when an armor and its helmet share it), index or id.
+local k=assert(hd2.armor_kit('fs-37 ravager'))
+assert(k.index==0 and k.slot=='armor'and k.same_name==2)
+assert(hd2.armor_kit('FS-37 Ravager','helmet').index==1 and hd2.armor_kit('FS-37 Ravager','helmet').weight==nil)
+assert(hd2.armor_kit(198).name=='RS-100 SANCTIONER'and hd2.armor_kit('0x4dd749c6').index==198
+    and hd2.armor_kit('4DD749C6').index==198)
+local unnamed=hd2.armor_kit(16)
+assert(unnamed.name==nil and unnamed.id=='0x135C4274'and unnamed.wiki==nil)
+assert(select(2,hd2.armor_kit('nope'))=='UNKNOWN_KIT'and select(2,hd2.armor_kit(411))=='UNKNOWN_KIT'
+    and select(2,hd2.armor_kit(0,'cape'))=='UNKNOWN_KIT'and select(2,hd2.armor_kit(0,'boots'))=='INVALID_OPTION')
+-- A copy: changing it changes nothing.
+k.name='x';assert(hd2.armor_kit(0).name=='FS-37 Ravager')
+for _,bad in ipairs({{slot='boots'},{weight='huge'},{passive='NOPE'},{colour='red'}})do
+    assert(not pcall(hd2.armor_kits,bad))
+end
+assert(not pcall(hd2.armor_kits,5))
+assert(writes()==0,'read-only')
 return 'ok'
 ''')
 
@@ -354,6 +507,44 @@ class PlayerPassivesDomainTests(unittest.TestCase):
         # Every key a passive carries has a semantic name; the writer is the only one the research found.
         self.assertTrue(all(m['key_name'] for p in d['passives'] for m in p['modifiers']))
         self.assertIn('only 0x874520 writes applied +0x38/+0x3C', RESEARCH['writers']['appliedPassives'])
+
+    def test_kits_names_and_what_follows_a_swap_are_the_research(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location('g', ROOT / 'scripts/generate_player_passives.py')
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        d = module.build()
+        names = json.loads((ROOT / 'research/armor-names-F5FEE03DCFDB.json').read_text(encoding='utf-8'))
+        effects = json.loads((ROOT / 'research/passive-effects-F5FEE03DCFDB.json').read_text(encoding='utf-8'))
+        self.assertEqual(len(d['kits']), 411)
+        self.assertEqual([k['id'] for k in d['kits']], ['0x' + k['kitId'] for k in names['kits']])
+        self.assertEqual(sum('name' in k for k in d['kits']), 378)
+        self.assertEqual({k['index']: k.get('name') for k in d['kits']}, {k['id']: k['name'] for k in names['kits']})
+        # No piece weights and no weight-class stat tables here (armor stats are another domain).
+        self.assertFalse(any('pieceWeights' in k or 'pieces' in k for k in d['kits']))
+        self.assertEqual({k.get('weight') for k in d['kits'] if k['slot'] == 'armor'}, {'light', 'medium', 'heavy'})
+        self.assertTrue(all(k['wiki']['match'] in ('exact', 'contained', 'fuzzy') for k in d['kits'] if 'wiki' in k))
+        by = {p['id']: p for p in d['passives']}
+        self.assertEqual({p['id']: p['followsSwap'] for p in d['passives']},
+            {p['id']: p['swapCoverage'] for p in effects['passives']})
+        readers = [m['reader'] for p in d['passives'] for m in p['modifiers']]
+        self.assertEqual({r: readers.count(r) for r in set(readers)}, {'direct': 54, 'data-driven': 5,
+            'description-only': 8, 'armor rating': 5, 'none found': 1, 'no effect': 1})
+        self.assertTrue(all(m.get('note') for p in d['passives'] for m in p['modifiers'] if m['follows'] is False))
+        self.assertEqual({i: by[i]['packageInfo']['package'] for i in (17, 19)},
+            {17: '0xC76C97B3DFB67C5C', 19: '0x1EEE5C22038560E5'})
+        self.assertEqual(by[17]['packageInfo']['armorSlotOnly'], ['death_explosion'])
+        self.assertEqual(sorted(i for i, p in by.items() if 'packageInfo' in p), [17, 19])
+        self.assertEqual({p['id']: p['description'] for p in d['passives']},
+            {p['id']: p['description'] for p in names['passives']})
+        # The catalogue entries core/assets requests are generated from the same research.
+        spec = importlib.util.spec_from_file_location('r', ROOT / 'scripts/generate_package_residency.py')
+        residency = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(residency)
+        catalogue = residency.passive_effect_packages(json.loads(residency.RESEARCH.read_text(encoding='utf-8')))
+        self.assertEqual({k: v['package'] for k, v in catalogue.items()},
+            {'passive/17': '0xC76C97B3DFB67C5C', 'passive/19': '0x1EEE5C22038560E5'})
+        self.assertEqual(residency.generate(check=True), [])
 
 
 if __name__ == '__main__':

@@ -3508,6 +3508,31 @@
       "The game's effect text (list() only)."
      ],
      [
+      "reader",
+      "string|nil",
+      "list() only: the research's reader status (research/passive-effects-F5FEE03DCFDB.json): 'direct', 'data-driven' (both follow a swap), 'description-only' (stat-driven at spawn: reload, ammo, sidearm; a swap never changes it), 'armor rating' (follows the worn kit), 'none found' (Adreno's revive) or 'no effect'."
+     ],
+     [
+      "follows",
+      "boolean|nil",
+      "list() only: whether the row follows a slot swap (nil: unknown or no effect)."
+     ],
+     [
+      "observable",
+      "string|nil",
+      "list() only: what to observe in play after a swap (the research)."
+     ],
+     [
+      "note",
+      "string|nil",
+      "list() only: why the row does not follow a swap."
+     ],
+     [
+      "armor_slot_only",
+      "boolean|nil",
+      "list() only: every reader of the key reads the armor slot only (flags 1): a second-slot copy never reaches it."
+     ],
+     [
       "source",
       "string|nil",
       "effective only: 'armor' or 'second' (the helmet slot)."
@@ -3539,6 +3564,11 @@
       "The game's own name (e.g. 'SERVO-ASSISTED')."
      ],
      [
+      "description",
+      "string",
+      "The game's own description (its effect lines; #BONUS as the game holds it)."
+     ],
+     [
       "modifiers",
       "HD2PassiveModifier[]",
       "Its rows in the game's order."
@@ -3546,17 +3576,37 @@
      [
       "effect_package",
       "boolean",
-      "It has an effect package (17 Integrated Explosives, 19 Adreno-Defibrillator): set() takes it only while some record holds it."
+      "It has an effect package (17 Integrated Explosives, 19 Adreno-Defibrillator): set() loads it through core/assets (shared) before the write."
      ],
      [
       "package",
       "string|nil",
-      "The package field (8 hex digits) when it has one."
+      "The passive +0x30 key (8 hex digits) when it has an effect package; package_info has the package."
      ],
      [
       "armor_kits",
       "integer",
       "How many armor kits carry it."
+     ],
+     [
+      "follows_swap",
+      "'full'|'partial'|'unknown'",
+      "Whether its effects follow a slot swap: 'full', 'partial' (some rows follow the kit worn instead: see note), 'unknown' (19: the revive mechanism was not located)."
+     ],
+     [
+      "note",
+      "string|nil",
+      "What does not follow a swap, in words."
+     ],
+     [
+      "stats",
+      "{stat: integer, name: string, add: number, mul: number, described_by: string|nil}[]",
+      "Its spawn-time stat rows (the kit worn at spawn applies them; a swap never changes them)."
+     ],
+     [
+      "package_info",
+      "HD2PassivePackage|nil",
+      "Its effect package."
      ]
     ],
     "methods": []
@@ -3608,9 +3658,24 @@
       "The kit id (0x + 8 hex digits)."
      ],
      [
+      "index",
+      "integer|nil",
+      "Its index in the game's kit table (hd2.armor_kit(index))."
+     ],
+     [
       "name",
       "string|nil",
-      "Its game name, where the research resolved it."
+      "Its game name (research/armor-names-F5FEE03DCFDB.json; nil for the 33 the game's text does not name)."
+     ],
+     [
+      "slot",
+      "'armor'|'helmet'|'cape'|nil",
+      "Its slot."
+     ],
+     [
+      "weight",
+      "'light'|'medium'|'heavy'|nil",
+      "An armor kit's weight (its armor pieces')."
      ],
      [
       "passive",
@@ -3692,7 +3757,7 @@
      [
       "second",
       "HD2PassiveName|integer|false|nil",
-      "A second passive in the helmet slot; nil or false: none (the kit's)."
+      "A second passive in the helmet slot; nil or false: none (the kit's). INTEGRATED EXPLOSIVES is refused here (ARMOR_SLOT_ONLY)."
      ],
      [
       "owner",
@@ -3702,7 +3767,7 @@
      [
       "allow_unverified_effect",
       "boolean",
-      "Required (true): an override is not live-tested yet; without it set() is refused ACKNOWLEDGEMENT_REQUIRED."
+      "Required (true) except for an armor-slot swap alone to a live-proven passive (SCOUT, ENGINEERING KIT, SERVO-ASSISTED); without it set() is refused ACKNOWLEDGEMENT_REQUIRED."
      ]
     ],
     "methods": []
@@ -3723,12 +3788,12 @@
      [
       "status",
       "string",
-      "'active', 'waiting' (no record yet), 'suspended' (several players or the package is gone; the kit's values are back), 'lost' (something else wrote the slot), 'replaced', 'stopped' or 'refused'."
+      "'active', 'waiting' (no record yet), 'waiting_for_assets' (an effect package loads first through core/assets; nothing is written until it is resident), 'suspended' (several players or the package is gone; the kit's values are back), 'lost' (something else wrote the slot), 'replaced', 'stopped' or 'refused'."
      ],
      [
       "code",
       "string|nil",
-      "Why (INVALID_OPTION, UNKNOWN_PASSIVE, SAME_PASSIVE, PACKAGE_NOT_RESIDENT, NOT_SOLO, ALREADY_SET, UNEXPECTED_STATE, NOT_PRIVATE, GUARD_REJECTED, UNSUPPORTED_BUILD; waiting: UNAVAILABLE, NO_PLAYER, NO_RECORD, NOT_READY)."
+      "Why (INVALID_OPTION, ACKNOWLEDGEMENT_REQUIRED, UNKNOWN_PASSIVE, SAME_PASSIVE, ARMOR_SLOT_ONLY, ASSET_UNAVAILABLE, PACKAGE_NOT_RESIDENT, NOT_SOLO, ALREADY_SET, UNEXPECTED_STATE, NOT_PRIVATE, GUARD_REJECTED, UNSUPPORTED_BUILD; waiting: UNAVAILABLE, NO_PLAYER, NO_RECORD, NOT_READY)."
      ],
      [
       "reason",
@@ -3744,6 +3809,11 @@
       "second",
       "HD2PassiveRef|nil",
       "The second passive asked for."
+     ],
+     [
+      "notes",
+      "string[]|nil",
+      "What the chosen passives do not carry over a swap (reload, ammo, sidearm stats, armor rating, Adreno's unlocated revive)."
      ]
     ],
     "methods": [
@@ -3773,7 +3843,7 @@
        ]
       ],
       "returns": "HD2PlayerPassiveHandle",
-      "doc": "Override the local player's armor passive and/or add a second passive in the helmet slot: one guarded 4-byte write per slot on the player's own record, re-applied after each kit change, until stop(). Readers that ignore the helmet slot (flinch, one chest-bleed site, Integrated Explosives) never see the second passive; overlapping keys do not stack; the armor rating follows the armor kit. Solo only (NOT_SOLO). Not live-tested."
+      "doc": "Override the local player's armor passive and/or add a second passive in the helmet slot: one guarded 4-byte write per slot on the player's own record, re-applied after each kit change, until stop(). A passive with an effect package (17, 19) is loaded first through core/assets, shared with compatible peers (status waiting_for_assets; ASSET_UNAVAILABLE on failure). Readers that ignore the helmet slot (flinch, one chest-bleed site, Integrated Explosives: refused there) never see the second passive; overlapping keys do not stack; reload, ammo, sidearm stats and the armor rating follow the kit worn. Solo only (NOT_SOLO). Live-proven: the armor-slot swap to SCOUT, ENGINEERING KIT, SERVO-ASSISTED."
      },
      {
       "name": "status",
@@ -5657,6 +5727,190 @@
       "doc": "The declaration and the selected value."
      }
     ]
+   },
+   "HD2PassivePackage": {
+    "doc": "A passive's effect package (research/passive-effects-F5FEE03DCFDB.json; the generated core/assets catalogue entry).",
+    "fields": [
+     [
+      "key",
+      "string",
+      "The passive +0x30 key (8 hex digits)."
+     ],
+     [
+      "catalogue",
+      "string",
+      "The core/assets catalogue key ('passive/17')."
+     ],
+     [
+      "package",
+      "string",
+      "The package id the game resolves the key to."
+     ],
+     [
+      "contents",
+      "string",
+      "What the package holds (resource types)."
+     ],
+     [
+      "armor_slot_only",
+      "string[]",
+      "Its effect rows read from the armor slot only (17: death_explosion): set() refuses it as the second passive (ARMOR_SLOT_ONLY)."
+     ],
+     [
+      "loads",
+      "string",
+      "How set() loads it."
+     ]
+    ],
+    "methods": []
+   },
+   "HD2ArmorKitWiki": {
+    "doc": "The community wiki's values for a kit (where a wiki page matched): NOT read from the game.",
+    "fields": [
+     [
+      "source",
+      "'wiki'",
+      "Always wiki."
+     ],
+     [
+      "name",
+      "string",
+      "The wiki's name."
+     ],
+     [
+      "match",
+      "'exact'|'contained'|'fuzzy'",
+      "How the wiki page matched the game name."
+     ],
+     [
+      "class",
+      "string|nil",
+      "The wiki's weight class (armor)."
+     ],
+     [
+      "armor_rating",
+      "number|nil",
+      "The wiki's armor rating (armor)."
+     ],
+     [
+      "speed",
+      "number|nil",
+      "The wiki's speed (armor)."
+     ],
+     [
+      "stamina_regen",
+      "number|nil",
+      "The wiki's stamina regen (armor)."
+     ],
+     [
+      "passive",
+      "string|nil",
+      "The wiki's passive name."
+     ],
+     [
+      "passive_agrees",
+      "boolean|nil",
+      "The wiki's passive is the game's."
+     ]
+    ],
+    "methods": []
+   },
+   "HD2ArmorKit": {
+    "doc": "One of the game's 411 kits (research/armor-names-F5FEE03DCFDB.json; read-only, offline).",
+    "fields": [
+     [
+      "index",
+      "integer",
+      "Its index in the kit table (0-410)."
+     ],
+     [
+      "id",
+      "string",
+      "The kit id (0x + 8 hex digits)."
+     ],
+     [
+      "slot",
+      "'armor'|'helmet'|'cape'",
+      "Its slot (kit +0x28)."
+     ],
+     [
+      "weight",
+      "'light'|'medium'|'heavy'|nil",
+      "Armor only: its weight (its armor pieces')."
+     ],
+     [
+      "passive",
+      "integer",
+      "Its passive (kit +0x1C; 0 for every helmet and cape)."
+     ],
+     [
+      "passive_name",
+      "string",
+      "That passive's game name."
+     ],
+     [
+      "set",
+      "string|nil",
+      "Its set id."
+     ],
+     [
+      "dlc",
+      "string|nil",
+      "Its dlc id."
+     ],
+     [
+      "rarity",
+      "string",
+      "'common' or 'heroic'."
+     ],
+     [
+      "name",
+      "string|nil",
+      "Its game name (378 of 411 resolved; armors and their helmets often share one)."
+     ],
+     [
+      "description",
+      "string|nil",
+      "Its game description."
+     ],
+     [
+      "same_name",
+      "integer",
+      "How many kits carry this name (0: unnamed)."
+     ],
+     [
+      "wiki",
+      "HD2ArmorKitWiki|nil",
+      "The community wiki's values where a page matched (not the game's)."
+     ]
+    ],
+    "methods": []
+   },
+   "HD2ArmorKitFilter": {
+    "doc": "",
+    "fields": [
+     [
+      "slot",
+      "'armor'|'helmet'|'cape'|nil",
+      "Only this slot."
+     ],
+     [
+      "weight",
+      "'light'|'medium'|'heavy'|nil",
+      "Only armor of this weight."
+     ],
+     [
+      "passive",
+      "HD2PassiveName|integer|nil",
+      "Only kits with this passive."
+     ],
+     [
+      "name",
+      "string|nil",
+      "Only kits with this game name (any case)."
+     ]
+    ],
+    "methods": []
    }
   },
   "functions": [
@@ -5753,6 +6007,32 @@
     "params": [],
     "returns": "HD2Store",
     "doc": "The calling mod's saved key/value data, kept between game sessions in its own file (docs/mod-store.md). The mod is found the way hd2.mod() finds it."
+   },
+   {
+    "name": "armor_kits",
+    "params": [
+     [
+      "filter",
+      "HD2ArmorKitFilter|nil"
+     ]
+    ],
+    "returns": "HD2ArmorKit[]",
+    "doc": "Every kit of the game matching the filter, by index (research/armor-names-F5FEE03DCFDB.json; read-only, offline). The wiki values are the wiki's, not the game's. A bad filter raises."
+   },
+   {
+    "name": "armor_kit",
+    "params": [
+     [
+      "kit",
+      "string|integer"
+     ],
+     [
+      "slot",
+      "'armor'|'helmet'|'cape'|nil"
+     ]
+    ],
+    "returns": "HD2ArmorKit|nil, string?, string?",
+    "doc": "One kit by index, id ('0x1F9BFA78') or game name (any case; a shared name: slot picks, else the armor first); nil, UNKNOWN_KIT, reason otherwise."
    }
   ],
   "fields": [

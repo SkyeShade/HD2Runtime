@@ -143,8 +143,9 @@
     "objectivePackage": 2,
     "explosionPackage": 141,
     "unknown": 73,
-    "packages": 213,
-    "unnamedPackages": 24,
+    "packages": 215,
+    "unnamedPackages": 26,
+    "passiveEffectPackages": 2,
     "liveTestedObjects": 3,
     "liveLoadedPackages": 3,
     "liveProvenFamilies": [
@@ -7693,6 +7694,36 @@
         "derivation": "own_loadout_package",
         "package": "tank",
         "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "passive/17",
+      "label": "INTEGRATED EXPLOSIVES",
+      "kind": "passive_effect",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "passive_effect_package",
+        "package": null,
+        "packageNamed": false,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "passive/19",
+      "label": "ADRENO-DEFIBRILLATOR",
+      "kind": "passive_effect",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "passive_effect_package",
+        "package": null,
+        "packageNamed": false,
         "liveTested": false,
         "packageLiveLoaded": false,
         "blocker": null

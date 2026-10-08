@@ -2533,6 +2533,11 @@ function HD2Enemies.spawn_status() end
 ---@field type string 'Set', 'Add', 'Multiply' or 'Time': how the reader combines value with its default (the reader's own code).
 ---@field value number The value.
 ---@field text string|nil The game's effect text (list() only).
+---@field reader string|nil list() only: the research's reader status (research/passive-effects-F5FEE03DCFDB.json): 'direct', 'data-driven' (both follow a swap), 'description-only' (stat-driven at spawn: reload, ammo, sidearm; a swap never changes it), 'armor rating' (follows the worn kit), 'none found' (Adreno's revive) or 'no effect'.
+---@field follows boolean|nil list() only: whether the row follows a slot swap (nil: unknown or no effect).
+---@field observable string|nil list() only: what to observe in play after a swap (the research).
+---@field note string|nil list() only: why the row does not follow a swap.
+---@field armor_slot_only boolean|nil list() only: every reader of the key reads the armor slot only (flags 1): a second-slot copy never reaches it.
 ---@field source string|nil effective only: 'armor' or 'second' (the helmet slot).
 ---@field passive integer|nil effective only: the passive id the row comes from.
 ---@field name string|nil effective only: that passive's name.
@@ -2542,10 +2547,15 @@ local HD2PassiveModifier = {}
 ---@class HD2Passive
 ---@field id integer The passive id (0-41; 4 and 22-30 are unused).
 ---@field name string The game's own name (e.g. 'SERVO-ASSISTED').
+---@field description string The game's own description (its effect lines; #BONUS as the game holds it).
 ---@field modifiers HD2PassiveModifier[] Its rows in the game's order.
----@field effect_package boolean It has an effect package (17 Integrated Explosives, 19 Adreno-Defibrillator): set() takes it only while some record holds it.
----@field package string|nil The package field (8 hex digits) when it has one.
+---@field effect_package boolean It has an effect package (17 Integrated Explosives, 19 Adreno-Defibrillator): set() loads it through core/assets (shared) before the write.
+---@field package string|nil The passive +0x30 key (8 hex digits) when it has an effect package; package_info has the package.
 ---@field armor_kits integer How many armor kits carry it.
+---@field follows_swap 'full'|'partial'|'unknown' Whether its effects follow a slot swap: 'full', 'partial' (some rows follow the kit worn instead: see note), 'unknown' (19: the revive mechanism was not located).
+---@field note string|nil What does not follow a swap, in words.
+---@field stats {stat: integer, name: string, add: number, mul: number, described_by: string|nil}[] Its spawn-time stat rows (the kit worn at spawn applies them; a swap never changes them).
+---@field package_info HD2PassivePackage|nil Its effect package.
 local HD2Passive = {}
 
 ---hd2.passives: every armor passive of the game (offline; docs/armor-passives.md).
@@ -2566,7 +2576,10 @@ local HD2PassiveRef = {}
 
 ---@class HD2KitRef
 ---@field id string The kit id (0x + 8 hex digits).
----@field name string|nil Its game name, where the research resolved it.
+---@field index integer|nil Its index in the game's kit table (hd2.armor_kit(index)).
+---@field name string|nil Its game name (research/armor-names-F5FEE03DCFDB.json; nil for the 33 the game's text does not name).
+---@field slot 'armor'|'helmet'|'cape'|nil Its slot.
+---@field weight 'light'|'medium'|'heavy'|nil An armor kit's weight (its armor pieces').
 ---@field passive integer|nil The kit's own passive (kit +0x1C): what the game derives the slot from.
 local HD2KitRef = {}
 
@@ -2587,20 +2600,21 @@ local HD2PlayerPassives = {}
 
 ---@class HD2PlayerPassiveSpec
 ---@field armor HD2PassiveName|integer|nil The armor passive (name or id); nil: the kit's own.
----@field second HD2PassiveName|integer|false|nil A second passive in the helmet slot; nil or false: none (the kit's).
+---@field second HD2PassiveName|integer|false|nil A second passive in the helmet slot; nil or false: none (the kit's). INTEGRATED EXPLOSIVES is refused here (ARMOR_SLOT_ONLY).
 ---@field owner string|nil Mod id (defaults to the calling mod).
----@field allow_unverified_effect boolean Required (true): an override is not live-tested yet; without it set() is refused ACKNOWLEDGEMENT_REQUIRED.
+---@field allow_unverified_effect boolean Required (true) except for an armor-slot swap alone to a live-proven passive (SCOUT, ENGINEERING KIT, SERVO-ASSISTED); without it set() is refused ACKNOWLEDGEMENT_REQUIRED.
 local HD2PlayerPassiveSpec = {}
 
 ---An armor passive override. A refusal never raises: status is refused with a code and a reason.
 ---@class HD2PlayerPassiveHandle
 ---@field kind string 'player_passives'.
 ---@field owner string The mod that set it.
----@field status string 'active', 'waiting' (no record yet), 'suspended' (several players or the package is gone; the kit's values are back), 'lost' (something else wrote the slot), 'replaced', 'stopped' or 'refused'.
----@field code string|nil Why (INVALID_OPTION, UNKNOWN_PASSIVE, SAME_PASSIVE, PACKAGE_NOT_RESIDENT, NOT_SOLO, ALREADY_SET, UNEXPECTED_STATE, NOT_PRIVATE, GUARD_REJECTED, UNSUPPORTED_BUILD; waiting: UNAVAILABLE, NO_PLAYER, NO_RECORD, NOT_READY).
+---@field status string 'active', 'waiting' (no record yet), 'waiting_for_assets' (an effect package loads first through core/assets; nothing is written until it is resident), 'suspended' (several players or the package is gone; the kit's values are back), 'lost' (something else wrote the slot), 'replaced', 'stopped' or 'refused'.
+---@field code string|nil Why (INVALID_OPTION, ACKNOWLEDGEMENT_REQUIRED, UNKNOWN_PASSIVE, SAME_PASSIVE, ARMOR_SLOT_ONLY, ASSET_UNAVAILABLE, PACKAGE_NOT_RESIDENT, NOT_SOLO, ALREADY_SET, UNEXPECTED_STATE, NOT_PRIVATE, GUARD_REJECTED, UNSUPPORTED_BUILD; waiting: UNAVAILABLE, NO_PLAYER, NO_RECORD, NOT_READY).
 ---@field reason string|nil The reason in words.
 ---@field armor HD2PassiveRef|nil The armor passive asked for.
 ---@field second HD2PassiveRef|nil The second passive asked for.
+---@field notes string[]|nil What the chosen passives do not carry over a swap (reload, ammo, sidearm stats, armor rating, Adreno's unlocated revive).
 local HD2PlayerPassiveHandle = {}
 ---Stop holding: the kit's own passives go back into the slots that still hold this override's values.
 ---@return HD2PlayerPassiveHandle
@@ -2612,7 +2626,7 @@ function HD2PlayerPassiveHandle:describe() end
 ---hd2.player_passives: call it for the local player's passives (HD2PlayerPassives, or nil, code, reason); set() overrides them (DEVELOPMENT, solo; docs/armor-passives.md).
 ---@class HD2PlayerPassivesApi
 local HD2PlayerPassivesApi = {}
----Override the local player's armor passive and/or add a second passive in the helmet slot: one guarded 4-byte write per slot on the player's own record, re-applied after each kit change, until stop(). Readers that ignore the helmet slot (flinch, one chest-bleed site, Integrated Explosives) never see the second passive; overlapping keys do not stack; the armor rating follows the armor kit. Solo only (NOT_SOLO). Not live-tested.
+---Override the local player's armor passive and/or add a second passive in the helmet slot: one guarded 4-byte write per slot on the player's own record, re-applied after each kit change, until stop(). A passive with an effect package (17, 19) is loaded first through core/assets, shared with compatible peers (status waiting_for_assets; ASSET_UNAVAILABLE on failure). Readers that ignore the helmet slot (flinch, one chest-bleed site, Integrated Explosives: refused there) never see the second passive; overlapping keys do not stack; reload, ammo, sidearm stats and the armor rating follow the kit worn. Solo only (NOT_SOLO). Live-proven: the armor-slot swap to SCOUT, ENGINEERING KIT, SERVO-ASSISTED.
 ---@param spec HD2PlayerPassiveSpec
 ---@return HD2PlayerPassiveHandle
 function HD2PlayerPassivesApi.set(spec) end
@@ -3215,6 +3229,53 @@ function HD2ScriptChoice:select(index) end
 ---The declaration and the selected value.
 ---@return table
 function HD2ScriptChoice:describe() end
+
+---A passive's effect package (research/passive-effects-F5FEE03DCFDB.json; the generated core/assets catalogue entry).
+---@class HD2PassivePackage
+---@field key string The passive +0x30 key (8 hex digits).
+---@field catalogue string The core/assets catalogue key ('passive/17').
+---@field package string The package id the game resolves the key to.
+---@field contents string What the package holds (resource types).
+---@field armor_slot_only string[] Its effect rows read from the armor slot only (17: death_explosion): set() refuses it as the second passive (ARMOR_SLOT_ONLY).
+---@field loads string How set() loads it.
+local HD2PassivePackage = {}
+
+---The community wiki's values for a kit (where a wiki page matched): NOT read from the game.
+---@class HD2ArmorKitWiki
+---@field source 'wiki' Always wiki.
+---@field name string The wiki's name.
+---@field match 'exact'|'contained'|'fuzzy' How the wiki page matched the game name.
+---@field class string|nil The wiki's weight class (armor).
+---@field armor_rating number|nil The wiki's armor rating (armor).
+---@field speed number|nil The wiki's speed (armor).
+---@field stamina_regen number|nil The wiki's stamina regen (armor).
+---@field passive string|nil The wiki's passive name.
+---@field passive_agrees boolean|nil The wiki's passive is the game's.
+local HD2ArmorKitWiki = {}
+
+---One of the game's 411 kits (research/armor-names-F5FEE03DCFDB.json; read-only, offline).
+---@class HD2ArmorKit
+---@field index integer Its index in the kit table (0-410).
+---@field id string The kit id (0x + 8 hex digits).
+---@field slot 'armor'|'helmet'|'cape' Its slot (kit +0x28).
+---@field weight 'light'|'medium'|'heavy'|nil Armor only: its weight (its armor pieces').
+---@field passive integer Its passive (kit +0x1C; 0 for every helmet and cape).
+---@field passive_name string That passive's game name.
+---@field set string|nil Its set id.
+---@field dlc string|nil Its dlc id.
+---@field rarity string 'common' or 'heroic'.
+---@field name string|nil Its game name (378 of 411 resolved; armors and their helmets often share one).
+---@field description string|nil Its game description.
+---@field same_name integer How many kits carry this name (0: unnamed).
+---@field wiki HD2ArmorKitWiki|nil The community wiki's values where a page matched (not the game's).
+local HD2ArmorKit = {}
+
+---@class HD2ArmorKitFilter
+---@field slot 'armor'|'helmet'|'cape'|nil Only this slot.
+---@field weight 'light'|'medium'|'heavy'|nil Only armor of this weight.
+---@field passive HD2PassiveName|integer|nil Only kits with this passive.
+---@field name string|nil Only kits with this game name (any case).
+local HD2ArmorKitFilter = {}
 
 ---An entity. Every live query re-resolves it through the game (same mission, still in the health manager's hash, same type and descriptor) and returns nil once it is gone; the fields are a snapshot.
 ---@class HD2EntityHandle
@@ -3991,6 +4052,15 @@ function hd2.build() end
 ---The calling mod's saved key/value data, kept between game sessions in its own file (docs/mod-store.md). The mod is found the way hd2.mod() finds it.
 ---@return HD2Store
 function hd2.store() end
+---Every kit of the game matching the filter, by index (research/armor-names-F5FEE03DCFDB.json; read-only, offline). The wiki values are the wiki's, not the game's. A bad filter raises.
+---@param filter? HD2ArmorKitFilter
+---@return HD2ArmorKit[]
+function hd2.armor_kits(filter) end
+---One kit by index, id ('0x1F9BFA78') or game name (any case; a shared name: slot picks, else the armor first); nil, UNKNOWN_KIT, reason otherwise.
+---@param kit string|integer
+---@param slot? 'armor'|'helmet'|'cape'
+---@return HD2ArmorKit|nil, string?, string?
+function hd2.armor_kit(kit, slot) end
 ---Describe schema and prior evidence without reading memory.
 ---@param resource HD2Resource
 ---@return table

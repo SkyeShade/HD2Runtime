@@ -21,9 +21,19 @@
 -- update (the exact bytes, private read-write target memory, read back), after the research's 59 pins proved and the
 -- identity held: the map entry names the local player's entity, the descriptor carries it, the record's armor kit is
 -- the kit row read, and each slot holds exactly its derived value (kit +0x1C) or the value this handle last wrote for
--- the same kits. A passive with an effect package (17 Integrated Explosives, 19 Adreno-Defibrillator) is written only
--- while some player's record already holds it (the game's own loader 0x874D80 then keeps its package): the asset
--- catalogue (core/assets) does not know the passives' 32-bit package field, so it cannot be requested here.
+-- the same kits.
+--
+-- EFFECT PACKAGES (research/passive-effects-F5FEE03DCFDB.json, section 2). Passive +0x30 is a 32-bit key the game
+-- resolves (0x12689C0) to a package: 17 INTEGRATED EXPLOSIVES -> 0xC76C97B3DFB67C5C (the death explosion's particles,
+-- materials and sound), 19 ADRENO-DEFIBRILLATOR -> 0x1EEE5C22038560E5 (a sound bank). The game's own 0x874D80 requests
+-- it the frame after a slot changes, never waits for it and loads it on the local peer only, so a death inside the load
+-- window would fire the effect with nothing resident. A hold naming such a passive (either slot) therefore first opens
+-- a core/assets gate on the generated catalogue entry 'passive/<id>' (domains/package_residency.lua, from the same
+-- research) with shared = true (runtime/asset_sync.lua publishes it to the lobby's compatible Runtimes), status
+-- 'waiting_for_assets' until the engine reports it resident, and writes only then; a failed gate refuses the hold
+-- (ASSET_UNAVAILABLE) with nothing written. core/assets keeps its reference for the session; 0x874D80's own paired
+-- request / release stays as it is. Every later write of such a passive re-checks the Runtime's reference and residency
+-- (else PACKAGE_NOT_RESIDENT: suspended).
 --
 -- Scope: SOLO (several players: NOT_SOLO; a running override is suspended and restored): the applied record is per
 -- peer, built from replicated kits, and which peer evaluates each effect is not proven. NOT LIVE-TESTED.
@@ -35,8 +45,10 @@ local metrics=require('hd2runtime/runtime/metrics')
 local log_module=require('hd2runtime/runtime/log')
 local b=require('hd2runtime/core/bytes')
 local natives=require('hd2runtime/domains/event_natives')
+local core_assets=require('hd2runtime/core/assets')
 local D=require('hd2runtime/domains/player_passives')
 local M={}
+M.ASSET_ID='player-passives'  -- the core/assets gate (and synced-asset holder) of the effect packages
 local MG,R,K,P,MO=D.manager,D.record,D.kit,D.passive,D.modifier
 M.EVERY=0.25              -- seconds between two looks at the record while a handle is held
 M.MAX_MODIFIERS=16
@@ -48,6 +60,9 @@ M.SLOTS=SLOTS
 local by_id,by_name={},{}
 for _,p in ipairs(D.passives)do by_id[p.id]=p;by_name[p.name:lower()]=p end
 M.by_id=by_id
+local kit_by_id={}            -- '0x1F9BFA78' -> the research's kit (domains/player_passives.lua kits)
+for _,k in ipairs(D.kits)do kit_by_id[k.id]=k end
+M.kit_by_id=kit_by_id
 
 local current               -- the one held override: {owner, want = {armor, second}, written, kits, status, ...}
 local watch
@@ -243,15 +258,29 @@ function M.read_local(world)
         slots={armor=b.u32(bytes,R.armorPassive),second=b.u32(bytes,R.helmetPassive)}}
 end
 
--- Whether some player's record already holds the passive (the game's own loader keeps its package resident then).
-local function resident(world,m,id)
-    local raw=world.view.read(m.address+MG.applied,m.records*MG.appliedStride)
-    if not raw then return false end
-    for i=0,m.records-1 do
-        local o=i*MG.appliedStride
-        if b.u32(raw,o+R.armorPassive)==id or b.u32(raw,o+R.helmetPassive)==id then return true end
+-- The core/assets dependencies of the effect packages the passives of `want` ({armor, second}) carry, in slot order
+-- (distinct), or nil and why (a catalogue without the entry: never guessed).
+function M.dependencies(want)
+    local out,seen={},{}
+    for _,slot in ipairs(SLOTS)do
+        local p=want[slot.name]and by_id[want[slot.name]]
+        local info=p and p.packageInfo
+        if info and not seen[info.dependency]then
+            seen[info.dependency]=true
+            local dependency=core_assets.dependency(info.dependency)
+            if not dependency then return nil,'the asset catalogue has no entry '..info.dependency end
+            out[#out+1]=dependency
+        end
     end
-    return false
+    return out
+end
+-- Whether a passive's effect package (if any) is held by the Runtime and resident now.
+local function package_ready(world,id)
+    local info=by_id[id]and by_id[id].packageInfo
+    if not info then return true end
+    if not core_assets.held(info.package)then return false end
+    local ok,state=pcall(core_assets.state,world.runtime,info.package)
+    return ok and state=='resident'
 end
 
 -- The modifiers the game reads for flags=3, in its order: the armor passive's rows, then the second (helmet) passive's
@@ -272,8 +301,12 @@ local function effective(world,m,armor,second)
 end
 M.effective=effective
 
+-- A worn kit: its id, the kit table's index, game name, slot and weight (research/armor-names-F5FEE03DCFDB.json), and
+-- its passive as read now (kit +0x1C; nil without a kit row).
 local function kit_view(id,row)
-    return {id=hex32(id),name=D.kitNames[hex32(id)],passive=row and row.passive or nil}
+    local k=kit_by_id[hex32(id)]
+    return {id=hex32(id),index=k and k.index,name=k and k.name,slot=k and k.slot,weight=k and k.weight,
+        passive=row and row.passive or nil}
 end
 -- The local player's passives: {entity, record, armor_kit, helmet_kit, cape_kit, armor_passive, helmet_passive,
 -- derived, overridden, effective}, or nil, code, reason.
@@ -328,11 +361,10 @@ function M.sync(want,prior,restore)
             if not by_id[target]or not M.passive(world,m,target)then
                 return nil,'UNKNOWN_PASSIVE','passive '..tostring(target)..' is not in the game\'s passive table'
             end
-            local package=by_id[target].package
-            if package and now~=target and not resident(world,m,target)then
-                return nil,'PACKAGE_NOT_RESIDENT',('%s carries an effect package (32-bit resource %s) that no player\'s '
-                    ..'record holds now, and the asset catalogue does not know it, so it cannot be requested')
-                    :format(label(target),package)
+            local info=by_id[target].packageInfo
+            if info and now~=target and not package_ready(world,target)then
+                return nil,'PACKAGE_NOT_RESIDENT',('%s carries an effect package (%s, %s) the Runtime does not hold '
+                    ..'resident now'):format(label(target),info.dependency,info.package)
             end
         end
         values[slot.name]=target
@@ -389,7 +421,8 @@ end
 -- players or a non-resident package, waits while the record is unavailable.
 local function look()
     local state=current
-    if not state or state.status=='stopped'or state.status=='refused'or state.status=='lost'then return end
+    if not state or state.status=='stopped'or state.status=='refused'or state.status=='lost'
+        or state.status=='waiting_for_assets'then return end
     local world=open()
     local s=world and M.read_local(world)
     if not s then return end
@@ -447,6 +480,37 @@ local function look()
 end
 M.look=look
 
+local function package_names(state)
+    local out={}
+    for _,d in ipairs(state.dependencies)do out[#out+1]=d.key..' '..d.package end
+    return table.concat(out,', ')
+end
+-- One step of a hold waiting for its effect packages: the gate is opened once the game is readable (shared: the
+-- packages go to the synced asset set), then polled; resident -> 'waiting' and written at once; failed -> refused.
+local function wait_for_assets(state,dt)
+    if not state.gate then
+        local world=world_module.open()
+        if not world then return end
+        state.gate=core_assets.gate(world.runtime,{id=M.ASSET_ID,asset_dependencies=state.dependencies,shared=true},
+            log_module.emit)
+        dt=0
+    end
+    local result,why=state.gate.tick(dt)
+    if result=='failed'then
+        state.gate=nil
+        state.status,state.code='refused','ASSET_UNAVAILABLE'
+        state.reason=tostring(why):gsub('^ASSET_UNAVAILABLE: ','')
+        log(('(%s): REFUSED: ASSET_UNAVAILABLE: the effect package (%s) did not load: %s; nothing was written')
+            :format(state.owner,package_names(state),state.reason))
+    elseif result=='ready'then
+        state.gate=nil
+        state.status,state.code,state.reason='waiting',nil,nil
+        log(('(%s): effect package resident (%s; requested through core/assets, shared with compatible peers): '
+            ..'writing'):format(state.owner,package_names(state)))
+    end
+    return result
+end
+
 local function ensure_watch()
     if watch and watch.status=='active'then return end
     watch={status='active',perf_label='player passives'}
@@ -455,6 +519,16 @@ local function ensure_watch()
         clock=clock+(dt or 0)
         if not current or current.status=='stopped'or current.status=='refused'or current.status=='lost'then
             watch.status='complete'
+            return
+        end
+        if current.status=='waiting_for_assets'then
+            local ok,why=pcall(wait_for_assets,current,dt or 0)
+            if not ok then log('asset wait failed: '..tostring(why))end
+            next_look=clock+M.EVERY
+            if why=='ready'then
+                ok,why=pcall(look)
+                if not ok then log('update failed: '..tostring(why))end
+            end
             return
         end
         if clock<next_look then return end
@@ -469,7 +543,8 @@ local function ensure_watch()
 end
 
 -- Holds an override. spec = {owner, want = {armor = id|nil, second = id|nil}}, validated by api/player_passives.lua.
--- Applies it now when the record is there; returns the state (status 'active' | 'waiting' | 'refused', code, reason).
+-- Applies it now when the record is there; returns the state (status 'active' | 'waiting' | 'waiting_for_assets' |
+-- 'refused', code, reason). A passive with an effect package waits for it first (see EFFECT PACKAGES above).
 -- Another owner's held override refuses (ALREADY_SET); the same owner's replaces it in place (no restore in between).
 function M.hold(spec)
     local prior,prior_status
@@ -483,6 +558,29 @@ function M.hold(spec)
     end
     local state={owner=spec.owner,want=spec.want,status='waiting',applications=0,written=prior and prior.written,
         derived=prior and prior.derived}
+    -- An effect package first: loaded through core/assets (shared) before anything is written.
+    local dependencies,dwhy=M.dependencies(spec.want)
+    if not dependencies then
+        if prior then prior.status=prior_status end
+        return {status='refused',code='ASSET_UNAVAILABLE',reason=dwhy}
+    end
+    if#dependencies>0 then
+        state.dependencies,state.status=dependencies,'waiting_for_assets'
+        local result=wait_for_assets(state,0)
+        if state.status=='refused'then
+            if prior then prior.status=prior_status end
+            return {status='refused',code=state.code,reason=state.reason}
+        end
+        if result~='ready'then
+            log(('(%s): waiting_for_assets: the effect package (%s) loads first; nothing is written until it is '
+                ..'resident'):format(state.owner,package_names(state)))
+            current=state
+            next_look=clock+M.EVERY
+            ensure_watch()
+            return state
+        end
+        state.status='waiting'
+    end
     local result,code,why=M.sync(state.want,state.written,false)
     if result then
         settle(state,result)

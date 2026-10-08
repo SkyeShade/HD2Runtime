@@ -6,6 +6,17 @@ the applied records), the kit, passive and modifier layouts, every one of the ga
 (flags 1), the record the retained snapshots hold, and every pin of the research (re-proved before any read or write).
 Checked here: the layout is the one the pins prove, every pin is hex, every passive id is in range and unique, every
 modifier key a passive carries has a semantic name, and every snapshot holds the same record.
+
+Also (research/armor-names-F5FEE03DCFDB.json, scripts/research_armor_names.py): every one of the game's 411 kits
+{index, id, slot, weight (its armor pieces'), passive, set, dlc, rarity, the game's name (378 resolved) and description,
+the community wiki's stats where a wiki page matched (labelled as the wiki's, never read from the game)} and every
+passive's game description; and (research/passive-effects-F5FEE03DCFDB.json, scripts/research_passive_effects.py) per
+passive whether its effects follow a slot swap ('full' | 'partial' | 'unknown'), per modifier its reader status
+('direct' | 'data-driven' | 'description-only' | 'armor rating' | 'none found' | 'no effect') with a note for the ones
+that do not follow, the spawn-time stat rows, and the effect package (17, 19) under its core/assets catalogue key
+'passive/<id>' (scripts/generate_package_residency.py adds that entry from the same research). Checked: the same names,
+ids and key order in all three research files, every kit's passive in the table, the research's own slot and name
+counts, and the snapshot kit names equal to the kit table's.
 """
 from __future__ import annotations
 
@@ -20,6 +31,8 @@ sys.path.insert(0, str(ROOT / 'scripts'))
 from reference_format import lua  # noqa: E402
 
 RESEARCH = ROOT / 'research/player-attributes-F5FEE03DCFDB.json'
+NAMES = ROOT / 'research/armor-names-F5FEE03DCFDB.json'
+EFFECTS = ROOT / 'research/passive-effects-F5FEE03DCFDB.json'
 OUTPUT = 'domains/player_passives.lua'
 # A semantic name per modifier key: the research's reader census (research/docs/player-attributes-F5FEE03DCFDB.md) and
 # the game's own effect text. 'unknown_<key>' where the research found neither a reader nor a text.
@@ -77,6 +90,120 @@ def _check_layout(d: dict) -> None:
             raise ValueError('pin %X is not %s' % (rva, text))
     if d['globals']['customizationManager'] != 0x33264F8:
         raise ValueError('the customization manager global moved')
+
+
+# The research's reader status per modifier row (research/passive-effects-F5FEE03DCFDB.json) -> the API's.
+READER_STATUS = {'direct reader': 'direct', 'data-driven reader': 'data-driven',
+    'stat row (kit passive, spawn time)': 'description-only', 'kit passive (PassiveValue)': 'armor rating',
+    'none found': 'none found', 'no effect': 'no effect'}
+READERS = sorted(set(READER_STATUS.values()))
+COVERAGE = ('full', 'partial', 'unknown')
+
+
+def _kits(attributes: dict, passives: list) -> list:
+    """Every kit of research/armor-names-F5FEE03DCFDB.json, by index: the game's identity, slot, weight, passive, set,
+    dlc, rarity, name and description, and the wiki's stats where a wiki page matched."""
+    n = json.loads(NAMES.read_text(encoding='utf-8'))
+    if n['gameDll'] != attributes['gameDll'] or n['build'] != attributes['build']:
+        raise ValueError('the armor names research covers another game.dll build')
+    names = {p['id']: p['name'] for p in passives}
+    if {p['id']: p['name'] for p in n['passives']} != names:
+        raise ValueError('the armor names research has other passive names')
+    kits, ids, slots, resolved = [], set(), {}, 0
+    for index, k in enumerate(n['kits']):
+        if k['id'] != index or k['kitId'] in ids or not re.fullmatch(r'[0-9A-F]{8}', k['kitId']):
+            raise ValueError('kit %s is out of order, repeated or malformed' % k['id'])
+        if k['slot'] not in ('armor', 'helmet', 'cape') or k['passive'] not in names:
+            raise ValueError('kit %s has slot %s or passive %s' % (index, k['slot'], k['passive']))
+        if (k['slot'] == 'armor') != (k['weight'] in ('light', 'medium', 'heavy')):
+            raise ValueError('kit %s: exactly the armor kits carry a weight' % index)
+        if k['slot'] != 'armor' and k['passive'] != 0:
+            raise ValueError('kit %s: a helmet or cape with a passive' % index)
+        ids.add(k['kitId'])
+        slots[k['slot']] = slots.get(k['slot'], 0) + 1
+        resolved += bool(k['name'])
+        kit = {'index': index, 'id': '0x' + k['kitId'], 'slot': k['slot'], 'weight': k['weight'],
+            'passive': k['passive'], 'set': k['set'] and '0x' + k['set'], 'dlc': k['dlc'] and '0x' + k['dlc'],
+            'rarity': k['rarity'], 'name': k['name'], 'description': k['description']}
+        w = k.get('wiki')
+        if w and k.get('wikiMatch'):
+            wiki = {'name': w['name'], 'match': k['wikiMatch'], 'class': w.get('class'),
+                'armorRating': w.get('armorRating'), 'speed': w.get('speed'), 'staminaRegen': w.get('staminaRegen'),
+                'passive': w.get('passiveName'), 'passiveAgrees': k.get('wikiPassiveAgrees')}
+            kit['wiki'] = {key: v for key, v in wiki.items() if v is not None}
+        kits.append({key: v for key, v in kit.items() if v is not None})
+    if slots != n['stats']['bySlot'] or resolved != n['stats']['namesResolved'] or len(kits) != n['stats']['kits']:
+        raise ValueError('the kit table is not the research\'s counts')
+    return kits
+
+
+def _effects(attributes: dict, passives: list, armor_only: set) -> None:
+    """Adds research/passive-effects-F5FEE03DCFDB.json to every passive: followsSwap, the game's description, per
+    modifier its reader status, whether it follows a swap and a note where it does not, the spawn-time stat rows, and
+    the effect package's catalogue key."""
+    e = json.loads(EFFECTS.read_text(encoding='utf-8'))
+    n = json.loads(NAMES.read_text(encoding='utf-8'))
+    if e['gameDll'] != attributes['gameDll'] or any(e['pinnedBytesMismatchPerSnapshot'].values()):
+        raise ValueError('the passive effects research covers another game.dll build, or a pin differs')
+    by_id = {p['id']: p for p in e['passives']}
+    descriptions = {p['id']: p['description'] for p in n['passives']}
+    resolved = e['packageMechanism']['resolved']
+    lookup = e['packageMechanism']['hashLookup']
+    if len(by_id) != len(passives) or lookup['entries'] != lookup['valuesThatArePackages']:
+        raise ValueError('the passive effects research has another passive table or package map')
+    for p in passives:
+        r = by_id[p['id']]
+        if r['name'] != p['name'] or [k['key'] for k in r['keys']] != [m['key'] for m in p['modifiers']]:
+            raise ValueError('passive %s has other rows in the passive effects research' % p['id'])
+        if r['swapCoverage'] not in COVERAGE:
+            raise ValueError('passive %s swap coverage %s' % (p['id'], r['swapCoverage']))
+        stats = [{'stat': s['stat'], 'name': s['name'], 'add': s['add'], 'mul': s['mul'],
+            'describedBy': s['describedBy']} for s in r['stats']]
+        not_following = []
+        for m, k in zip(p['modifiers'], r['keys']):
+            status = READER_STATUS[k['readerStatus']]
+            m['reader'], m['follows'], m['observable'] = status, k['followsRecordSwap'], k['observable']
+            if m['key'] in armor_only:
+                m['armorSlotOnly'] = True
+            if status == 'description-only':
+                stat = next((s for s in stats if s['describedBy'] == m['key']), None)
+                if not stat or k['followsRecordSwap'] is not False:
+                    raise ValueError('passive %s key %s: description-only without its stat row' % (p['id'], m['key']))
+                m['note'] = ('stat-driven at spawn: the effect is stat %d (%s) x%g of the kit worn at spawn; a swap '
+                    'never changes it' % (stat['stat'], stat['name'], stat['mul']))
+            elif status == 'armor rating':
+                if k['followsRecordSwap'] is not False:
+                    raise ValueError('passive %s key %s: an armor rating that follows a swap' % (p['id'], m['key']))
+                m['note'] = 'armor rating: it follows the worn armor kit (its own passive), never the slot'
+            elif status == 'none found':
+                if p['id'] != 19:
+                    raise ValueError('passive %s key %s: a row without a reader' % (p['id'], m['key']))
+                m['note'] = 'no reader found: the revive mechanism was not located, so whether a swap carries it is unknown'
+            if m['follows'] is False:
+                not_following.append(m['key_name'])
+        for s in stats:
+            if s['describedBy'] is None:
+                not_following.append('stat %d x%g (no modifier row)' % (s['stat'], s['mul']))
+        if (r['swapCoverage'] == 'partial') != bool(not_following):
+            raise ValueError('passive %s: coverage %s with %s not following' % (p['id'], r['swapCoverage'],
+                not_following))
+        p['followsSwap'], p['description'], p['stats'] = r['swapCoverage'], descriptions[p['id']], stats
+        if r['swapCoverage'] == 'partial':
+            p['note'] = 'partly follows a swap: %s follow%s the kit worn (at spawn) instead' % (
+                ', '.join(not_following), 's' if len(not_following) == 1 else '')
+        elif r['swapCoverage'] == 'unknown':
+            p['note'] = 'unknown: the revive mechanism was not located; its other rows (%s) follow a swap' % ', '.join(
+                m['key_name'] for m in p['modifiers'] if m['follows'])
+        if p['package'] or r['package']:
+            res = resolved.get(str(p['id']))
+            if not res or res['thin'] != p['package'] or res['package'] != r['package']:
+                raise ValueError('passive %s: the effect package is not the resolved one' % p['id'])
+            kinds = {}
+            for item in e['packageMechanism']['contents'][res['package']]['resources']:
+                kinds[item['type']] = kinds.get(item['type'], 0) + 1
+            p['packageInfo'] = {'key': p['package'], 'dependency': 'passive/%d' % p['id'], 'package': res['package'],
+                'contents': ', '.join('%d %s' % (c, t) for t, c in sorted(kinds.items())),
+                'armorSlotOnly': [m['key_name'] for m in p['modifiers'] if m.get('armorSlotOnly')]}
 
 
 def build() -> dict:
@@ -141,12 +268,17 @@ def build() -> dict:
     observed = {'entity': int(p['entity'], 16), 'record': p['record'], 'armorKit': p['armorKit']['id'],
         'helmetKit': p['helmetKit']['id'], 'capeKit': p['capeKit']['id'], 'armorPassive': p['armorPassive'],
         'helmetPassive': p['helmetPassive'], 'kitPassive': p['armorKit']['kitPassive']}
-    kit_names = {}
+    kits = _kits(d, passives)
+    by_kit_id = {k['id']: k for k in kits}
     for snap in d['snapshots']:
         for player in snap['players']:
             for kind in ('armorKit', 'helmetKit', 'capeKit'):
-                if player[kind].get('name'):
-                    kit_names[player[kind]['id']] = player[kind]['name']
+                kit = by_kit_id.get(player[kind]['id'])
+                if not kit or (player[kind].get('name') and kit.get('name') != player[kind]['name']):
+                    raise ValueError('snapshot kit %s is not the kit table\'s' % player[kind]['id'])
+    # Keys every EntityAttribute site of which reads the armor slot only (flags 1).
+    armor_only = {k for k, v in flags_one.items() if set(v) == set(keys[k]['entityAttributeSites'])}
+    _effects(d, passives, armor_only)
     # The live-proven armor-slot swaps (schemas/live_evidence.json, family player_armor_passive_swap): those passive ids
     # need no allow_unverified_effect for the armor slot alone.
     import live_evidence
@@ -161,11 +293,25 @@ def build() -> dict:
             for k, v in sorted(flags_one.items())],
         'computedFlags': [{'key': k, 'name': KEY_NAMES.get(k, 'unknown_' + k.lower()), 'sites': v}
             for k, v in sorted(computed.items())],
-        'observed': observed, 'kitNames': kit_names, 'pins': pins}
+        'observed': observed, 'kits': kits, 'slots': ['armor', 'helmet', 'cape'], 'weights': ['light', 'medium', 'heavy'],
+        'readers': READERS, 'pins': pins}
+
+
+def _utf8(value):
+    """The game's text as Lua byte strings: a non-ASCII string (e.g. a kit description's U+2019) becomes its UTF-8
+    bytes, which reference_format.lua writes as byte escapes (Lua has no \\uXXXX escape)."""
+    if isinstance(value, dict):
+        return {k: _utf8(v) for k, v in value.items()}
+    if isinstance(value, list):
+        return [_utf8(v) for v in value]
+    if isinstance(value, str) and not value.isascii():
+        return value.encode('utf-8')
+    return value
 
 
 def outputs() -> dict[str, str]:
-    return {OUTPUT: '-- Generated by scripts/generate_player_passives.py; do not edit.\nreturn ' + lua(build()) + '\n'}
+    return {OUTPUT: '-- Generated by scripts/generate_player_passives.py; do not edit.\nreturn ' + lua(_utf8(build()))
+        + '\n'}
 
 
 def generate(check=False):
