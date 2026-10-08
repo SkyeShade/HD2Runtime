@@ -36,7 +36,10 @@ presets, and effect owners. Attachment selection is not writable. Magazine
 ammo values are writable on the magazine attachment definitions themselves, with
 `allow_shared` and `allow_unverified_effect`; `MagazineAttachmentCapabilities.json`
 supersedes the older ammo-owner fields in `AttachmentOptionCapabilities.json`. See
-`docs/magazine-attachments.md` and `docs/attachment-preset-research.md`.
+`docs/magazine-attachments.md` and `docs/attachment-preset-research.md`. The stat
+modifiers of muzzle, optics and underbarrel definitions (ergonomics, sway, recoil,
+climb, spread) are writable the same way: `WeaponAttachmentModifierCapabilities.json`
+and `docs/weapon-attachments.md`.
 
 0.28.1 keeps SDK 0.27-era mods working: a field that gained `allow_unverified_effect` in 0.28.0 is accepted without
 it, as a logged legacy operation, from a mod that declares an older SDK (`docs/legacy-sdk-compatibility.md`).

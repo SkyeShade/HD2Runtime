@@ -18,6 +18,7 @@ HD2Runtime is designed to fail safely when a game structure or ownership relatio
 - Backpack authoring (Jump Pack, Hover Pack, shields) and backpack-fed ammo (Maxigun, Cremator, GL-28)
 - Shield Generator Relay shield radius and health
 - Magazine attachments: every resolved magazine option's ammo, reload duration and ergonomics
+- Muzzle, optics and underbarrel attachments: their ergonomics, sway, recoil, climb and spread modifiers
 - Third-person reticles and native fire-mode sets (for example, adding full-auto)
 - Stratagem mission uses, including the game's real unlimited value
 - Drop-pod contents: replace the items a support, backpack or Resupply pod opens with, and the spawn count

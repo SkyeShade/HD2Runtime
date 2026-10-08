@@ -165,6 +165,7 @@ Concussive is 2 / 2 / 2 / 2. Never copy `expect` values from a similar weapon.
 | Vehicles: health, damage zones, weapon mounts | `VehicleAuthoringCapabilities.json` |
 | Backpacks | `BackpackAuthoringCapabilities.json` |
 | Magazine attachments (round counts on weapons with selectable magazines) | `MagazineAttachmentCapabilities.json` |
+| Muzzle, optics and underbarrel attachments (ergonomics, sway, recoil, climb, spread) | `WeaponAttachmentModifierCapabilities.json` |
 | Boosters | `BoosterAuthoringCapabilities.json` |
 | The Lua name of a field | `stubs/mods/skyeshade/hd2runtime.lua`, the `---@class HD2Fields_<domain>` blocks |
 | Explanations | the other files in `docs/` |
@@ -302,6 +303,11 @@ hd2.booster('Armed Resupply Pods'):deployed_entity()   -- the resupply-pod turre
 -- Magazine attachment (owns the round count on weapons with selectable magazines)
 hd2.weapon('AR-23C Liberator Concussive'):magazine_attachment()
 hd2.weapon_attachment('Rifle 5,5x50mm. Drum')
+
+-- Muzzle, optics and underbarrel attachments (their stat modifiers; one definition, every weapon that equips it)
+hd2.weapon('AR-23 Liberator'):attachments('muzzle')
+hd2.weapon('AR-23 Liberator'):attachment_definition('muzzle','5,5mm. Flash Hider')
+hd2.weapon_attachment('Vertical Grip')
 ```
 
 ## 8. patch, transaction, plan, ensure
@@ -602,7 +608,7 @@ With the SDK anywhere else, point the example at it once:
 2. Browse the capability file for what you want to change.
 3. Read the matching doc (`vehicle-authoring.md`, `vehicle-weapons.md`, `backpack-authoring.md`,
    `backpack-ammo.md`, `stratagem-authoring.md`, `stratagem-uses.md`, `stratagem-calldown-code.md`, `stratagem-presentation.md`, `custom-images.md`, `custom-text.md`, `pod-payloads.md`,
-   `support-weapon-api.md`, `magazine-attachments.md`, `weapon-reticles.md`, `fire-modes.md`,
+   `support-weapon-api.md`, `magazine-attachments.md`, `weapon-attachments.md`, `weapon-reticles.md`, `fire-modes.md`,
    `composition-plans.md`).
 4. Use `:describe()` on a target.
 

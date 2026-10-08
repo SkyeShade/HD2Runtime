@@ -115,6 +115,12 @@ magazines, muzzles, optics, underbarrels, ammo types, paint schemes, internals a
 each it gives the slot, the patched components and offsets, decoded stat modifiers, and known
 consumer weapons. Magazine entries link to their writable definition here.
 
+The stat modifiers of muzzle, optics and underbarrel definitions (ergonomics, sway, recoil, climb, spread)
+are writable through the same guarded path. Use `weapon:attachments(slot)`, `weapon:attachment_definition(slot, id)`
+and `hd2.weapon_attachment(id)`; see `weapon-attachments.md` and `sdk/WeaponAttachmentModifierCapabilities.json`.
+For the magazine slot, `attachments('magazine')` and `attachment_definition('magazine', id)` return what the
+magazine functions above return.
+
 ## Validation
 
 - `scripts/research_magazine_attachments.py` decodes both tables, proves the live allocations, and
