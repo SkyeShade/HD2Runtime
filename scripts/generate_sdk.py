@@ -120,6 +120,15 @@ def outputs():
         constant=ident(name)
         assert constant not in fields[domain],'Helldiver field constant collision: '+field_id
         fields[domain][constant]=field_id
+    # Armor stats (domains/armor_stats_writes.lua; docs/armor-stats.md): a kit's piece weight per slot, and the
+    # read-only class tables and damage curve.
+    import sys
+    sys.path.insert(0,str(ROOT/'scripts'))
+    import generate_armor_stats
+    for field_id in generate_armor_stats.FIELD_IDS:
+        domain,name=field_id.split('.',1)
+        assert ident(name) not in fields.setdefault(domain,{}),'armor stats field constant collision: '+field_id
+        fields[domain][ident(name)]=field_id
     for definition in json.loads((ROOT/'schemas/throwable_fields.json').read_text())['fields']:
         field_id=definition['id'];domain,name=field_id.split('.',1)
         if field_id in fields.setdefault(domain,{}).values():continue
@@ -927,6 +936,7 @@ def outputs():
             'sdk/docs/armor-passives.md':(ROOT/'docs/armor-passives.md').read_text(encoding='utf-8'),
             'sdk/docs/enemy-spawns.md':(ROOT/'docs/enemy-spawns.md').read_text(encoding='utf-8'),
             'sdk/docs/helldiver-fields.md':(ROOT/'docs/helldiver-fields.md').read_text(encoding='utf-8'),
+            'sdk/docs/armor-stats.md':(ROOT/'docs/armor-stats.md').read_text(encoding='utf-8'),
             'sdk/docs/ui-overlay.md':(ROOT/'docs/ui-overlay.md').read_text(encoding='utf-8'),
             'sdk/docs/sounds.md':(ROOT/'docs/sounds.md').read_text(encoding='utf-8'),
             'sdk/docs/mod-store.md':(ROOT/'docs/mod-store.md').read_text(encoding='utf-8'),

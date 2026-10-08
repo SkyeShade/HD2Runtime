@@ -57,6 +57,10 @@ SLOT_PINS = [
 ]
 # Reviewed write ranges. The class tables and the curve are published read-only (docs/armor-stats.md): their pages are
 # PAGE_EXECUTE_READWRITE at run time, a protection the guarded write refuses by rule (core/page_protection.lua).
+# The field ids (hd2.fields.armor_kit.piece_weight_<slot>, armor_class.*, armor_damage_curve.*; scripts/generate_sdk.py).
+FIELD_IDS = (['armor_kit.piece_weight.' + slot for slot in SLOTS if slot != 'helmet']
+    + ['armor_class.' + name for name in ('rating', 'speed', 'stamina')]
+    + ['armor_damage_curve.' + name for name in ('at_minus_1', 'at_0', 'at_1', 'at_2', 'at_3')])
 RANGES = {'rating': [-1.0, 4.0], 'speed': [0.5, 1.5], 'stamina': [0.25, 2.0], 'damage': [0.0, 4.0],
     'armorBonus': [-1.0, 3.0], 'staminaFactor': [0.1, 3.0]}
 

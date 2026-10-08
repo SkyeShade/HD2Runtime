@@ -143,7 +143,8 @@ local function label(entry)
 end
 -- The (resource, target) a runtime descriptor belongs to when it is not a catalogue table itself (enemy writes
 -- build their descriptor per request): from its target identity.
-local NAME_KEYS={'weapon','stratagem','backpack','vehicle','throwable','enemy','booster','explosion','helldiver'}
+local NAME_KEYS={'weapon','stratagem','backpack','vehicle','throwable','enemy','booster','explosion','helldiver',
+    'armor_kit'}
 local function own_identity(descriptor)
     local entry=by_descriptor[descriptor]
     if entry then return entry.resource,entry.target end

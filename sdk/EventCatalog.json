@@ -5940,6 +5940,342 @@
      ]
     ],
     "methods": []
+   },
+   "HD2ArmorStatsApi": {
+    "doc": "hd2.armor_stats: armor rating, speed and stamina (DEVELOPMENT, not live-tested; docs/armor-stats.md). No armor stores its own numbers: each armor piece has a weight (light, medium, heavy) that indexes three per-weight tables in game.dll.",
+    "methods": [
+     {
+      "name": "kit",
+      "params": [
+       [
+        "identity",
+        "string|integer"
+       ]
+      ],
+      "returns": "HD2ArmorKitTarget",
+      "doc": "An armor kit by id (0x1F9BFA78, \"1F9BFA78\") or game name (any case; a name several kits share raises AMBIGUOUS_ARMOR_KIT with their ids): the target of the armor_kit.piece_weight.<slot> fields. Unknown: raises UNKNOWN_ARMOR_KIT."
+     },
+     {
+      "name": "kits",
+      "params": [],
+      "returns": "HD2ArmorKitSummary[]",
+      "doc": "Every armor kit of the build with its vanilla stats (offline)."
+     },
+     {
+      "name": "class",
+      "params": [
+       [
+        "name",
+        "\"light\"|\"medium\"|\"heavy\""
+       ]
+      ],
+      "returns": "HD2ArmorClassTarget",
+      "doc": "A weight class: its table values (armor value, speed and stamina factors) now. Read-only: the tables sit in game.dll pages that are executable at run time, which a guarded write never targets."
+     },
+     {
+      "name": "damage_curve",
+      "params": [],
+      "returns": "HD2ArmorDamageCurveTarget",
+      "doc": "The avatar damage curve (damage multiplier by armor value). Read-only, like the class tables."
+     },
+     {
+      "name": "player",
+      "params": [],
+      "returns": "HD2ArmorPlayer",
+      "doc": "The local player's own avatar members: the armor bonus and the stamina factor (DEVELOPMENT, solo)."
+     }
+    ]
+   },
+   "HD2ArmorKitTarget": {
+    "doc": "An armor kit (hd2.armor_stats.kit). Fields hd2.fields.armor_kit.piece_weight_<slot> (the weight of its armor piece in that slot, written in every body); every player wearing the kit reads them: allow_shared=true and allow_unverified_effect=true. The armor rating follows on the next hit, the speed and stamina factors at the next armor apply (a respawn or a kit change).",
+    "fields": [
+     [
+      "resource",
+      "\"armor_kit\"",
+      ""
+     ],
+     [
+      "armor_kit",
+      "string",
+      "The kit id (8 hex digits)."
+     ]
+    ],
+    "methods": [
+     {
+      "name": "describe",
+      "params": [],
+      "returns": "table",
+      "doc": "Its pieces per slot, the stats they give now (rating, speed, stamina_regen, armor_value, damage_multiplier, speed_factor, stamina_factor, class; live when the game is readable, else the research's), its passive, the vanilla stats and its fields."
+     },
+     {
+      "name": "fields",
+      "params": [],
+      "returns": "table[]",
+      "doc": "Its piece weight fields with their vanilla weight, range and lifecycle."
+     },
+     {
+      "name": "changes",
+      "params": [
+       [
+        "weight",
+        "\"light\"|\"medium\"|\"heavy\"|integer"
+       ],
+       [
+        "slots",
+        "string[]|nil"
+       ]
+      ],
+      "returns": "table[]",
+      "doc": "The change list {field, expect, value} that puts every armor piece (or the slots given) at a weight, for hd2.transaction / hd2.ensure. It adds no acknowledgement."
+     },
+     {
+      "name": "preview",
+      "params": [
+       [
+        "weights",
+        "table<string, \"light\"|\"medium\"|\"heavy\"|integer>"
+       ]
+      ],
+      "returns": "table",
+      "doc": "The stats the kit would give with these slot weights (the tables now, the stocky body)."
+     }
+    ]
+   },
+   "HD2ArmorKitSummary": {
+    "doc": "One armor kit of the build (hd2.armor_stats.kits()).",
+    "fields": [
+     [
+      "id",
+      "string",
+      "Kit id (8 hex digits)."
+     ],
+     [
+      "name",
+      "string|nil",
+      "Its game name."
+     ],
+     [
+      "passive",
+      "integer",
+      "Its passive id."
+     ],
+     [
+      "passive_name",
+      "string|nil",
+      "Its passive's game name."
+     ],
+     [
+      "class",
+      "string",
+      "The armory class label (the torso piece's weight)."
+     ],
+     [
+      "vanilla",
+      "table",
+      "{rating, speed, stamina, armor_value, speed_factor, stamina_factor, damage_multiplier}."
+     ]
+    ]
+   },
+   "HD2ArmorClassTarget": {
+    "doc": "A weight class (hd2.armor_stats.class / hd2.armor_class). Fields hd2.fields.armor_class.rating / speed / stamina are READ-ONLY: a write is validated, then refused with WRITE_REFUSED_IMAGE_PAGE (docs/armor-stats.md).",
+    "fields": [
+     [
+      "resource",
+      "\"armor_class\"",
+      ""
+     ],
+     [
+      "armor_class",
+      "\"light\"|\"medium\"|\"heavy\"",
+      ""
+     ]
+    ],
+    "methods": [
+     {
+      "name": "describe",
+      "params": [],
+      "returns": "table",
+      "doc": "rating {value (armor value A), display (50 + 50 x A), vanilla}, speed {value, display (500 x factor), vanilla}, stamina {value, display (100 x (2 - F)), vanilla}, damage_multiplier, source, editable = false and why."
+     },
+     {
+      "name": "fields",
+      "params": [],
+      "returns": "table[]",
+      "doc": "Its three fields (read-only)."
+     }
+    ]
+   },
+   "HD2ArmorDamageCurveTarget": {
+    "doc": "The avatar damage curve (hd2.armor_stats.damage_curve()). Fields hd2.fields.armor_damage_curve.at_minus_1 .. at_3 are READ-ONLY, like the class tables.",
+    "fields": [
+     [
+      "resource",
+      "\"armor_damage_curve\"",
+      ""
+     ]
+    ],
+    "methods": [
+     {
+      "name": "describe",
+      "params": [],
+      "returns": "table",
+      "doc": "{points = {{armor_value, damage}}, vanilla, source, editable = false}."
+     },
+     {
+      "name": "fields",
+      "params": [],
+      "returns": "table[]",
+      "doc": "Its five fields (read-only)."
+     }
+    ]
+   },
+   "HD2ArmorPlayer": {
+    "doc": "The local player's avatar members (hd2.armor_stats.player(); DEVELOPMENT, solo, not live-tested). A refusal never raises: status refused with a code and a reason.",
+    "methods": [
+     {
+      "name": "describe",
+      "params": [],
+      "returns": "HD2ArmorPlayerState|nil, string?, string?",
+      "doc": "The members now, or nil, code, reason."
+     },
+     {
+      "name": "set",
+      "params": [
+       [
+        "spec",
+        "HD2ArmorPlayerSpec"
+       ]
+      ],
+      "returns": "HD2ArmorPlayerResult",
+      "doc": "Write armor_bonus (live, every hit) and / or stamina_factor (live until the game next applies the armor: a respawn or a kit change). Each member must hold the game's own value or this Runtime's."
+     },
+     {
+      "name": "restore",
+      "params": [],
+      "returns": "HD2ArmorPlayerResult",
+      "doc": "Put the game's own values back (armor bonus 0, the kit's derived stamina factor) where a member still holds this Runtime's value."
+     }
+    ]
+   },
+   "HD2ArmorPlayerSpec": {
+    "doc": "hd2.armor_stats.player():set options.",
+    "fields": [
+     [
+      "armor_bonus?",
+      "number",
+      "-1..3: added to the armor value of every hit on the avatar (the sum clamped to -1..3)."
+     ],
+     [
+      "stamina_factor?",
+      "number",
+      "0.1..3: scales stamina drain AND regen and the jump / dive / climb / slide costs (light armor 0.75, medium 1, heavy 1.5)."
+     ],
+     [
+      "allow_unverified_effect",
+      "boolean",
+      "Required: not live-tested."
+     ],
+     [
+      "owner?",
+      "string",
+      "The mod name for the log (default: the calling mod)."
+     ]
+    ]
+   },
+   "HD2ArmorPlayerResult": {
+    "doc": "The outcome of a per-player write or restore.",
+    "fields": [
+     [
+      "status",
+      "string",
+      "'APPLIED', 'UNCHANGED' or 'refused'."
+     ],
+     [
+      "code",
+      "string|nil",
+      "Why it was refused: NOT_SOLO, NO_LOCAL_AVATAR, UNEXPECTED_STATE, OUT_OF_RANGE, ..."
+     ],
+     [
+      "reason",
+      "string|nil",
+      ""
+     ],
+     [
+      "armor_bonus",
+      "number|nil",
+      "The value now."
+     ],
+     [
+      "stamina_factor",
+      "number|nil",
+      "The value now."
+     ],
+     [
+      "writes",
+      "integer|nil",
+      ""
+     ],
+     [
+      "verified",
+      "boolean|nil",
+      "Read back."
+     ],
+     [
+      "skipped",
+      "string[]|nil",
+      "restore: members left alone."
+     ]
+    ]
+   },
+   "HD2ArmorPlayerState": {
+    "doc": "The local player's armor members now (hd2.armor_stats.player():describe()).",
+    "fields": [
+     [
+      "entity",
+      "integer",
+      "The player entity."
+     ],
+     [
+      "avatar",
+      "integer",
+      "The avatar entity."
+     ],
+     [
+      "slot",
+      "integer",
+      "Its avatar manager slot (the game's own map)."
+     ],
+     [
+      "armor_bonus",
+      "number",
+      "The armor modifier (0; -1 under a status effect)."
+     ],
+     [
+      "stamina_factor",
+      "number",
+      "The stamina factor the game applied (or this Runtime's)."
+     ],
+     [
+      "armor_kit",
+      "table|nil",
+      "{id, name, passive}."
+     ],
+     [
+      "derived",
+      "table|nil",
+      "What the kit gives now: {rating, speed, stamina_regen, armor_value, damage_multiplier, speed_factor, stamina_factor, ...}."
+     ],
+     [
+      "effective_armor_value",
+      "number|nil",
+      "What a hit uses: clamp(A + bonus, -1, 3) when the bonus is not 0."
+     ],
+     [
+      "overridden",
+      "boolean",
+      "A member holds this Runtime's value."
+     ]
+    ]
    }
   },
   "functions": [
@@ -6133,6 +6469,16 @@
    [
     "player_passives",
     "HD2PlayerPassivesApi|fun(): HD2PlayerPassives|nil, string?, string?",
+    ""
+   ],
+   [
+    "armor_stats",
+    "HD2ArmorStatsApi",
+    ""
+   ],
+   [
+    "armor_class",
+    "fun(name: \"light\"|\"medium\"|\"heavy\"): HD2ArmorClassTarget",
     ""
    ]
   ]

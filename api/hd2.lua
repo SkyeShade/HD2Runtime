@@ -322,6 +322,15 @@ M.status=actions.status_effects
 -- The game's own transport Pelican, summoned empty at a position and held per instance (api/pelican.lua).
 local pelican=require('hd2runtime/api/pelican')
 M.pelican={spawn=pelican.spawn,active=pelican.active,status=pelican.status}
+-- Armor rating, speed and stamina (api/armor_stats.lua; docs/armor-stats.md; DEVELOPMENT, not live-tested): a kit's
+-- piece weights (hd2.armor_stats.kit, guarded fields), the per-weight tables and the damage curve (read-only), the local
+-- player's avatar members (hd2.armor_stats.player, solo). hd2.armor_class is hd2.armor_stats.class.
+do
+    local armor_stats=require('hd2runtime/api/armor_stats')
+    M.armor_stats={kit=armor_stats.kit,kits=armor_stats.kits,class=armor_stats.class,
+        damage_curve=armor_stats.damage_curve,player=armor_stats.player}
+    M.armor_class=armor_stats.class
+end
 -- The weapon firing-sound catalogue (api/sounds.lua; docs/weapon-sounds.md), the full sound-event catalogue and
 -- playing game sound events (docs/sounds.md).
 local sounds=require('hd2runtime/api/sounds')

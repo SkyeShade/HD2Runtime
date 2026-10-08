@@ -1858,6 +1858,29 @@ function HD2Weapon:attachment_definition(slot, identity) end
 ---@field stamina_cost_climb "helldiver.stamina.cost_climb"
 ---@field stamina_cost_slide "helldiver.stamina.cost_slide"
 
+---@class HD2Fields_armor_kit
+---@field piece_weight_cape "armor_kit.piece_weight.cape"
+---@field piece_weight_torso "armor_kit.piece_weight.torso"
+---@field piece_weight_hips "armor_kit.piece_weight.hips"
+---@field piece_weight_left_leg "armor_kit.piece_weight.left_leg"
+---@field piece_weight_right_leg "armor_kit.piece_weight.right_leg"
+---@field piece_weight_left_arm "armor_kit.piece_weight.left_arm"
+---@field piece_weight_right_arm "armor_kit.piece_weight.right_arm"
+---@field piece_weight_left_shoulder "armor_kit.piece_weight.left_shoulder"
+---@field piece_weight_right_shoulder "armor_kit.piece_weight.right_shoulder"
+
+---@class HD2Fields_armor_class
+---@field rating "armor_class.rating"
+---@field speed "armor_class.speed"
+---@field stamina "armor_class.stamina"
+
+---@class HD2Fields_armor_damage_curve
+---@field at_minus_1 "armor_damage_curve.at_minus_1"
+---@field at_0 "armor_damage_curve.at_0"
+---@field at_1 "armor_damage_curve.at_1"
+---@field at_2 "armor_damage_curve.at_2"
+---@field at_3 "armor_damage_curve.at_3"
+
 ---@class HD2Fields_throwable
 ---@field starting_count "throwable.starting_count"
 ---@field max_count "throwable.max_count"
@@ -1914,6 +1937,9 @@ function HD2Weapon:attachment_definition(slot, identity) end
 ---@field booster HD2Fields_booster
 ---@field gore HD2Fields_gore
 ---@field helldiver HD2Fields_helldiver
+---@field armor_kit HD2Fields_armor_kit
+---@field armor_class HD2Fields_armor_class
+---@field armor_damage_curve HD2Fields_armor_damage_curve
 ---@field throwable HD2Fields_throwable
 ---@field ammunition HD2Fields_ammunition
 
@@ -3277,6 +3303,128 @@ local HD2ArmorKit = {}
 ---@field name string|nil Only kits with this game name (any case).
 local HD2ArmorKitFilter = {}
 
+---hd2.armor_stats: armor rating, speed and stamina (DEVELOPMENT, not live-tested; docs/armor-stats.md). No armor stores its own numbers: each armor piece has a weight (light, medium, heavy) that indexes three per-weight tables in game.dll.
+---@class HD2ArmorStatsApi
+local HD2ArmorStatsApi = {}
+---An armor kit by id (0x1F9BFA78, "1F9BFA78") or game name (any case; a name several kits share raises AMBIGUOUS_ARMOR_KIT with their ids): the target of the armor_kit.piece_weight.<slot> fields. Unknown: raises UNKNOWN_ARMOR_KIT.
+---@param identity string|integer
+---@return HD2ArmorKitTarget
+function HD2ArmorStatsApi.kit(identity) end
+---Every armor kit of the build with its vanilla stats (offline).
+---@return HD2ArmorKitSummary[]
+function HD2ArmorStatsApi.kits() end
+---A weight class: its table values (armor value, speed and stamina factors) now. Read-only: the tables sit in game.dll pages that are executable at run time, which a guarded write never targets.
+---@param name "light"|"medium"|"heavy"
+---@return HD2ArmorClassTarget
+function HD2ArmorStatsApi.class(name) end
+---The avatar damage curve (damage multiplier by armor value). Read-only, like the class tables.
+---@return HD2ArmorDamageCurveTarget
+function HD2ArmorStatsApi.damage_curve() end
+---The local player's own avatar members: the armor bonus and the stamina factor (DEVELOPMENT, solo).
+---@return HD2ArmorPlayer
+function HD2ArmorStatsApi.player() end
+
+---An armor kit (hd2.armor_stats.kit). Fields hd2.fields.armor_kit.piece_weight_<slot> (the weight of its armor piece in that slot, written in every body); every player wearing the kit reads them: allow_shared=true and allow_unverified_effect=true. The armor rating follows on the next hit, the speed and stamina factors at the next armor apply (a respawn or a kit change).
+---@class HD2ArmorKitTarget
+---@field resource "armor_kit"
+---@field armor_kit string The kit id (8 hex digits).
+local HD2ArmorKitTarget = {}
+---Its pieces per slot, the stats they give now (rating, speed, stamina_regen, armor_value, damage_multiplier, speed_factor, stamina_factor, class; live when the game is readable, else the research's), its passive, the vanilla stats and its fields.
+---@return table
+function HD2ArmorKitTarget:describe() end
+---Its piece weight fields with their vanilla weight, range and lifecycle.
+---@return table[]
+function HD2ArmorKitTarget:fields() end
+---The change list {field, expect, value} that puts every armor piece (or the slots given) at a weight, for hd2.transaction / hd2.ensure. It adds no acknowledgement.
+---@param weight "light"|"medium"|"heavy"|integer
+---@param slots? string[]
+---@return table[]
+function HD2ArmorKitTarget:changes(weight, slots) end
+---The stats the kit would give with these slot weights (the tables now, the stocky body).
+---@param weights table<string, "light"|"medium"|"heavy"|integer>
+---@return table
+function HD2ArmorKitTarget:preview(weights) end
+
+---One armor kit of the build (hd2.armor_stats.kits()).
+---@class HD2ArmorKitSummary
+---@field id string Kit id (8 hex digits).
+---@field name string|nil Its game name.
+---@field passive integer Its passive id.
+---@field passive_name string|nil Its passive's game name.
+---@field class string The armory class label (the torso piece's weight).
+---@field vanilla table {rating, speed, stamina, armor_value, speed_factor, stamina_factor, damage_multiplier}.
+local HD2ArmorKitSummary = {}
+
+---A weight class (hd2.armor_stats.class / hd2.armor_class). Fields hd2.fields.armor_class.rating / speed / stamina are READ-ONLY: a write is validated, then refused with WRITE_REFUSED_IMAGE_PAGE (docs/armor-stats.md).
+---@class HD2ArmorClassTarget
+---@field resource "armor_class"
+---@field armor_class "light"|"medium"|"heavy"
+local HD2ArmorClassTarget = {}
+---rating {value (armor value A), display (50 + 50 x A), vanilla}, speed {value, display (500 x factor), vanilla}, stamina {value, display (100 x (2 - F)), vanilla}, damage_multiplier, source, editable = false and why.
+---@return table
+function HD2ArmorClassTarget:describe() end
+---Its three fields (read-only).
+---@return table[]
+function HD2ArmorClassTarget:fields() end
+
+---The avatar damage curve (hd2.armor_stats.damage_curve()). Fields hd2.fields.armor_damage_curve.at_minus_1 .. at_3 are READ-ONLY, like the class tables.
+---@class HD2ArmorDamageCurveTarget
+---@field resource "armor_damage_curve"
+local HD2ArmorDamageCurveTarget = {}
+---{points = {{armor_value, damage}}, vanilla, source, editable = false}.
+---@return table
+function HD2ArmorDamageCurveTarget:describe() end
+---Its five fields (read-only).
+---@return table[]
+function HD2ArmorDamageCurveTarget:fields() end
+
+---The local player's avatar members (hd2.armor_stats.player(); DEVELOPMENT, solo, not live-tested). A refusal never raises: status refused with a code and a reason.
+---@class HD2ArmorPlayer
+local HD2ArmorPlayer = {}
+---The members now, or nil, code, reason.
+---@return HD2ArmorPlayerState|nil, string?, string?
+function HD2ArmorPlayer:describe() end
+---Write armor_bonus (live, every hit) and / or stamina_factor (live until the game next applies the armor: a respawn or a kit change). Each member must hold the game's own value or this Runtime's.
+---@param spec HD2ArmorPlayerSpec
+---@return HD2ArmorPlayerResult
+function HD2ArmorPlayer:set(spec) end
+---Put the game's own values back (armor bonus 0, the kit's derived stamina factor) where a member still holds this Runtime's value.
+---@return HD2ArmorPlayerResult
+function HD2ArmorPlayer:restore() end
+
+---hd2.armor_stats.player():set options.
+---@class HD2ArmorPlayerSpec
+---@field armor_bonus? number -1..3: added to the armor value of every hit on the avatar (the sum clamped to -1..3).
+---@field stamina_factor? number 0.1..3: scales stamina drain AND regen and the jump / dive / climb / slide costs (light armor 0.75, medium 1, heavy 1.5).
+---@field allow_unverified_effect boolean Required: not live-tested.
+---@field owner? string The mod name for the log (default: the calling mod).
+local HD2ArmorPlayerSpec = {}
+
+---The outcome of a per-player write or restore.
+---@class HD2ArmorPlayerResult
+---@field status string 'APPLIED', 'UNCHANGED' or 'refused'.
+---@field code string|nil Why it was refused: NOT_SOLO, NO_LOCAL_AVATAR, UNEXPECTED_STATE, OUT_OF_RANGE, ...
+---@field reason string|nil
+---@field armor_bonus number|nil The value now.
+---@field stamina_factor number|nil The value now.
+---@field writes integer|nil
+---@field verified boolean|nil Read back.
+---@field skipped string[]|nil restore: members left alone.
+local HD2ArmorPlayerResult = {}
+
+---The local player's armor members now (hd2.armor_stats.player():describe()).
+---@class HD2ArmorPlayerState
+---@field entity integer The player entity.
+---@field avatar integer The avatar entity.
+---@field slot integer Its avatar manager slot (the game's own map).
+---@field armor_bonus number The armor modifier (0; -1 under a status effect).
+---@field stamina_factor number The stamina factor the game applied (or this Runtime's).
+---@field armor_kit table|nil {id, name, passive}.
+---@field derived table|nil What the kit gives now: {rating, speed, stamina_regen, armor_value, damage_multiplier, speed_factor, stamina_factor, ...}.
+---@field effective_armor_value number|nil What a hit uses: clamp(A + bonus, -1, 3) when the bonus is not 0.
+---@field overridden boolean A member holds this Runtime's value.
+local HD2ArmorPlayerState = {}
+
 ---An entity. Every live query re-resolves it through the game (same mission, still in the health manager's hash, same type and descriptor) and returns nil once it is gone; the fields are a snapshot.
 ---@class HD2EntityHandle
 ---@field id integer Engine entity id.
@@ -3893,6 +4041,8 @@ function HD2ModContext:once(name, callback, opts) end
 ---@field ui HD2UI
 ---@field passives HD2Passives
 ---@field player_passives HD2PlayerPassivesApi|fun(): HD2PlayerPassives|nil, string?, string?
+---@field armor_stats HD2ArmorStatsApi
+---@field armor_class fun(name: "light"|"medium"|"heavy"): HD2ArmorClassTarget
 local hd2 = {}
 ---@alias HD2WeaponName "AMR"|"APW-1 Anti-Materiel Rifle"|"AR-11 Arbitrator"|"AR-2 Coyote"|"AR-23 Liberator"|"AR-23A Liberator Carbine"|"AR-23C Liberator Concussive"|"AR-23P Liberator Penetrator"|"AR-32 Pacifier"|"AR-59 Suppressor"|"AR-61 Tenderizer"|"AR/GL-21 One-Two"|"ARC-12 Blitzer"|"BR-14 Adjudicator"|"CB-9 Exploding Crossbow"|"CQC-19 Stun Lance"|"CQC-2 Saber"|"CQC-30 Stun Baton"|"CQC-42 Machete"|"CQC-5 Combat Hatchet"|"CQC-73 Entrenchment Tool"|"DBS-2 Double Freedom"|"FLAM-66 Torcher"|"GL-15 Evictor"|"GP-20 Ultimatum"|"GP-31 Grenade Pistol"|"JAR-5 Dominator"|"LAS-12 Sai"|"LAS-13 Trident"|"LAS-16 Sickle"|"LAS-17 Double-Edge Sickle"|"LAS-5 Scythe"|"LAS-58 Talon"|"LAS-7 Dagger"|"M6C/SOCOM Pistol"|"M7S SMG"|"M90A Shotgun"|"MA5C Assault Rifle"|"MP-98 Knight"|"P-11 Stim Pistol"|"P-113 Verdict"|"P-19 Redeemer"|"P-2 Peacemaker"|"P-33 Missile Pistol"|"P-34 Breacher"|"P-35 Re-Educator"|"P-4 Senator"|"P-69 Veto"|"P-72 Crisper"|"P-92 Warrant"|"P/40-K Bolt Pistol"|"PLAS-1 Scorcher"|"PLAS-101 Purifier"|"PLAS-15 Loyalist"|"PLAS-39 Accelerator Rifle"|"R-2 Amendment"|"R-2124 Constitution"|"R-36 Eruptor"|"R-4 Hyena"|"R-6 Deadeye"|"R-63 Diligence"|"R-63CS Diligence Counter Sniper"|"R-72 Censor"|"R/40-K Hot-Shot Marksman Rifle"|"SG-20 Halt"|"SG-22 Bushwhacker"|"SG-225 Breaker"|"SG-225IE Breaker Incendiary"|"SG-225SP Breaker Spray&Pray"|"SG-451 Cookout"|"SG-8 Punisher"|"SG-8P Punisher Plasma"|"SG-8S Slugger"|"SG-97 Sweeper"|"SMG-203 Gallant"|"SMG-32 Reprimand"|"SMG-37 Defender"|"SMG-72 Pummeler"|"SMG/FLAM-34 Stoker"|"StA-11 SMG"|"StA-52 Assault Rifle"|"VG-70 Variable"|"amr"|"jar5"
 ---@param name HD2WeaponName

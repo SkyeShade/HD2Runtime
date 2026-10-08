@@ -84,6 +84,9 @@ HD2Runtime is designed to fail safely when a game structure or ownership relatio
 - Type-wide Helldiver fields (development line, not live-tested; `hd2.helldiver()`): movement speeds, stamina and
   the six body zones' damage multipliers, durable share, damage to main health and health. They change every
   Helldiver this machine simulates, so every write needs `allow_shared` (see `docs/helldiver-fields.md`)
+- Armor rating, speed and stamina (development line, not live-tested; `hd2.armor_stats`): an armor kit's piece weights
+  (light, medium, heavy) for every player wearing it, the local player's own armor bonus and stamina factor, and the
+  per-weight tables and damage curve, read-only (see `docs/armor-stats.md`)
 - Generated SDK metadata for tools such as HD2RuntimeGUI
 
 Unsupported or ambiguous values remain read-only rather than being modified speculatively.

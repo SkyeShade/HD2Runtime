@@ -113,7 +113,7 @@ def outputs() -> dict[str, str]:
 
 STATIC = ('HD2Events', 'HD2Input', 'HD2Entities', 'HD2Explosions', 'HD2Actions', 'HD2Projectiles', 'HD2StatusEffects',
     'HD2Pelicans', 'HD2Sounds', 'HD2CustomStratagems', 'HD2Ownership', 'HD2Enemies', 'HD2Passives',
-    'HD2PlayerPassivesApi')   # tables of functions, not objects
+    'HD2PlayerPassivesApi', 'HD2ArmorStatsApi')   # tables of functions, not objects
 
 
 def _class_lines(name: str, spec: dict, parent: str | None = None) -> list[str]:
