@@ -252,10 +252,17 @@ local function start_bound(runtime,emit,request,kind,validate,module,interval,st
         child=nil;watch.status='cancelled'
         log('ensure '..id..' cancelled')
     end
+    -- Read-only internals for diagnosing a bound ensure that does not follow its option (r52; in-game editors log it).
+    local ticks,last_dt=0,nil
+    function watch.debug()
+        return {dirty=dirty,debounce=debounce,elapsed=elapsed,next_at=next_at,child=child and child.status or nil,
+            applied=applied_signature~=nil,ticks=ticks,last_dt=last_dt,listeners=#bound}
+    end
     function watch.tick(dt)
         if watch.status=='cancelled'or watch.status=='unavailable'
             or watch.status=='waiting_for_options'then return end
         assert(type(dt)=='number'and dt>=0 and dt<math.huge,'invalid elapsed time')
+        ticks,last_dt=ticks+1,dt
         elapsed=elapsed+dt
         if dirty then
             debounce=debounce-dt

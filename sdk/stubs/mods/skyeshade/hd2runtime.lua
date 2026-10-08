@@ -2042,6 +2042,10 @@ function HD2Input.wheel() end
 ---Diagnostics of hd2.input.wheel: {hooked, disabled (why the hook is off), source (the first source that delivered a notch), engine (the engine axis is readable)}.
 ---@return table
 function HD2Input.wheel_status() end
+---EXPERIMENTAL (r52). Keep the game from acting on input while a mod window is open: spec = {keyboard = true, mouse = true}, renewed every update (a 0.5 s lease); false stops. Key presses, characters, mouse button presses and the wheel become WM_NULL before the game's window sees them; releases always pass. Mods keep reading input through GetAsyncKeyState / GetCursorPos.
+---@param spec table|false
+---@return boolean, string|nil
+function HD2Input.block(spec) end
 
 ---@class HD2ValueSpec
 ---@field id string Unique within the mod.

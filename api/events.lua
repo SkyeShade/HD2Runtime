@@ -170,6 +170,9 @@ M.input.focused=input.focused
 -- experimental: the engine axis and a read-only message hook on the game window's thread while it is queried).
 function M.input.wheel()return require('hd2runtime/runtime/mouse_wheel').read()end
 function M.input.wheel_status()return require('hd2runtime/runtime/mouse_wheel').status()end
+-- Keep the game from acting on key presses / mouse presses and the wheel while a mod window is open: call every update
+-- with {keyboard = true, mouse = true}; false stops (r52, experimental; a 0.5 s lease, releases always pass).
+function M.input.block(spec)return require('hd2runtime/runtime/mouse_wheel').block(spec)end
 -- The cursor for mod UI: {x, y (client pixels from the top-left), w, h (client size), left (left button held)}, or
 -- nil and the reason when the game window does not have the focus.
 M.input.mouse=input.mouse

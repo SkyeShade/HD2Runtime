@@ -247,6 +247,20 @@ for _=1,60 do hd2.input.wheel();tick()end
 assert(attempts==1,'one attempt in a second, got '..attempts)
 for _=1,90 do hd2.input.wheel();tick()end
 assert(attempts==2,'retried after two seconds, got '..attempts)
+-- blocking: a lease renewed by every call, cleared by false and when nobody renews it for a second
+wheel.reset_for_tests()
+local flags,until_ms
+wheel.hooks.install=function()
+    return {remove=function()end,thread=7,read=function()return 0,0,0 end,blocked=function()return 3 end,
+        block=function(f,u)flags,until_ms=f,u end,now=function()return 5000 end}
+end
+assert(hd2.input.block({keyboard=true,mouse=true})==true and flags==3 and until_ms==5500,'lease: '..tostring(until_ms))
+assert(hd2.input.wheel_status().blocking==3 and hd2.input.wheel_status().blocked==3)
+assert(hd2.input.block(false)==true and flags==0,'stopped')
+hd2.input.block({keyboard=true})
+assert(flags==1)
+for _=1,90 do tick()end
+assert(flags==0,'released when not renewed')
 wheel.reset_for_tests()
 wheel.hooks.install=function()error('boom')end
 hd2.input.wheel()
@@ -278,8 +292,11 @@ local next_cb=ffi.cast('intptr_t (*)(void *, int, uintptr_t, intptr_t)',function
     next_calls[#next_calls+1]={hook==nil,code,tonumber(wparam)}
     return 77
 end)
+local clock=1000
+local tick_cb=ffi.cast('uint64_t (*)(void)',function()return clock end)
 local code=wheel.hook_code(tonumber(ffi.cast('uintptr_t',counters)),tonumber(ffi.cast('uintptr_t',raw_cb)),
-    tonumber(ffi.cast('uintptr_t',next_cb)))
+    tonumber(ffi.cast('uintptr_t',next_cb)),tonumber(ffi.cast('uintptr_t',tick_cb)))
+local lease=ffi.cast('uint64_t *',counters+4)
 local page=alloc(nil,4096,0x3000,0x40)                       -- PAGE_EXECUTE_READWRITE (test only)
 ffi.copy(page,code,#code)
 local proc=ffi.cast('intptr_t (*)(int, uintptr_t, intptr_t)',page)
@@ -317,6 +334,36 @@ assert(counters[1]==-240 and counters[2]==4 and raw_calls==4,'ignored records')
 -- other messages never call GetRawInputData
 send(0,1,0x0200,0,0xABCD)
 assert(raw_calls==4 and #next_calls==10,'other messages pass straight on')
+-- blocking: nothing is blocked without flags
+local function message()return ffi.cast('uint32_t *',msg+8)[0]end
+send(0,1,0x0100,0x2E,0);assert(message()==0x0100 and counters[6]==0,'no flags: a key press passes')
+-- keyboard flag with a live lease: presses and characters become WM_NULL, releases pass
+counters[3]=1;lease[0]=1500
+send(0,1,0x0100,0x2E,0);assert(message()==0,'WM_KEYDOWN blocked')
+send(0,1,0x0102,0x41,0);assert(message()==0,'WM_CHAR blocked')
+send(0,1,0x0101,0x2E,0);assert(message()==0x0101,'WM_KEYUP passes')
+send(0,1,0x0201,0,0);assert(message()==0x0201,'mouse not asked: a click passes')
+-- raw keyboard: a make is blocked, a break passes
+ffi.cast('uint32_t *',record)[0]=1;ffi.cast('uint16_t *',record+26)[0]=0;raw_record=ffi.string(record,48)
+send(0,1,0x00FF,0,0xABCD);assert(message()==0,'raw key make blocked')
+ffi.cast('uint16_t *',record+26)[0]=1;raw_record=ffi.string(record,48)
+send(0,1,0x00FF,0,0xABCD);assert(message()==0x00FF,'raw key break passes')
+-- the lease runs out: nothing is blocked
+clock=2000
+send(0,1,0x0100,0x2E,0);assert(message()==0x0100,'an expired lease blocks nothing')
+-- mouse flag: button presses and the wheel (still counted) are blocked; movement passes
+counters[3]=2;lease[0]=2500
+send(0,1,0x0201,0,0);assert(message()==0,'WM_LBUTTONDOWN blocked')
+send(0,1,0x0202,0,0);assert(message()==0x0202,'WM_LBUTTONUP passes')
+local w0=counters[0]
+send(0,1,0x020A,0x00780000);assert(message()==0 and counters[0]==w0+120,'the wheel counted, then blocked')
+ffi.cast('uint32_t *',record)[0]=0;ffi.cast('uint16_t *',record+28)[0]=0x0004;raw_record=ffi.string(record,48)
+send(0,1,0x00FF,0,0xABCD);assert(message()==0,'a raw right-button press blocked')
+ffi.cast('uint16_t *',record+28)[0]=0;raw_record=ffi.string(record,48)
+send(0,1,0x00FF,0,0xABCD);assert(message()==0x00FF,'raw movement passes')
+send(0,1,0x0200,0,0);assert(message()==0x0200,'WM_MOUSEMOVE passes')
+assert(counters[6]==6,'blocked count: '..counters[6])
+counters[3]=0
 -- the shipped pages: real GetRawInputData and CallNextHookEx, an execute-read code page, called directly
 local pages=wheel.pages()
 assert(wheel.pages()==pages,'allocated once')

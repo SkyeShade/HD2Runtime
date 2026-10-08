@@ -2043,6 +2043,17 @@
       "params": [],
       "returns": "table",
       "doc": "Diagnostics of hd2.input.wheel: {hooked, disabled (why the hook is off), source (the first source that delivered a notch), engine (the engine axis is readable)}."
+     },
+     {
+      "name": "block",
+      "params": [
+       [
+        "spec",
+        "table|false"
+       ]
+      ],
+      "returns": "boolean, string|nil",
+      "doc": "EXPERIMENTAL (r52). Keep the game from acting on input while a mod window is open: spec = {keyboard = true, mouse = true}, renewed every update (a 0.5 s lease); false stops. Key presses, characters, mouse button presses and the wheel become WM_NULL before the game's window sees them; releases always pass. Mods keep reading input through GetAsyncKeyState / GetCursorPos."
      }
     ]
    },

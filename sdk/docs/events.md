@@ -622,17 +622,36 @@ end)
   `{x, y, w, h, left}` in client pixels from the top-left.
 - `hd2.input.wheel()` is the mouse wheel this tick in notches (experimental, r51; see
   [ui-overlay.md](ui-overlay.md#the-mouse-wheel-experimental-r51)).
-- **Read-only: nothing is consumed.** The game receives every key a mod reads, so `W` still moves the Helldiver.
+- **Reading consumes nothing.** The game receives every key a mod reads, so `W` still moves the Helldiver, unless a
+  mod window asks the game to ignore input while it is open (`hd2.input.block`, below).
   Blocking a key from the game needs a hook in the game's input code, which the Runtime does not install (see
   [Input blocking](#input-blocking-not-available)).
 
-### Input blocking: not available
+### Keeping input from the game while a mod window is open (r52, experimental)
 
-There is no way to stop the game from also getting a key. The game reads its input in native code
-(`[game+0x347CF18] + 0x328 + (group * 97 + action) * 32`, research `runtime-stratagem-ui`), every frame, from every
-device; the Runtime only reads. Taking a key away would need a hook or a code patch in that path, and the Runtime
-installs neither. Mods should use keys and moments where the game's own reaction is harmless (an unbound key, a
-menu the game has open anyway).
+```lua
+mod:on_frame(function()
+    if editor_open then hd2.input.block({keyboard = true, mouse = true}) end   -- renew every update
+end)
+hd2.input.block(false)                                                      -- stop at once
+```
+
+The game takes its keyboard and mouse input from the window messages of its own window thread. While a mod renews the
+block, the Runtime's native message hook (docs/ui-overlay.md "The mouse wheel") turns these into `WM_NULL` before the
+game's window procedure sees them:
+
+- **`keyboard`:** key presses and characters (`WM_KEYDOWN`, `WM_SYSKEYDOWN`, `WM_CHAR`, `WM_SYSCHAR`, raw keyboard
+  makes). Key releases always pass, so a key held when a window opens is not left down.
+- **`mouse`:** button presses and double clicks (legacy and raw) and the wheel, after the wheel is counted for
+  `hd2.input.wheel`. Movement passes.
+- **A lease, not a switch.** Each call holds for 0.5 s (GetTickCount64, checked in the native procedure). If the mod
+  stops calling, or Lua stops running, the game gets its input back within half a second; `false` stops at once, and
+  removing the hook clears it.
+- **Mods still read everything:** keys and buttons through `GetAsyncKeyState` and the cursor through `GetCursorPos`,
+  which blocking does not touch, so `hd2.input.pressed`, keybinds and `overlay:mouse()` keep working.
+- `hd2.input.wheel_status()` reports `blocking` (the flags) and `blocked` (messages blocked so far).
+- **Not live-tested.** If the game reads a device another way (DirectInput, polling), that input still reaches it;
+  the live test checks Escape (the pause menu), Tab and Delete with a mod window open.
 
 ## Mod contexts and state
 
