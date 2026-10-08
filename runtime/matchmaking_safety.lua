@@ -29,10 +29,10 @@
 -- FAIL-SAFE: a pin that does not prove, an unreadable layout or no live process means NO call and NO write; the module
 -- then warns loudly (log and screen) that Public matchmaking is NOT blocked and what to do instead.
 --
--- 0.30.1: WARNINGS ONLY by default (M.ENFORCE=false). Public lobbies and Quickplay are allowed; the same reads warn
--- (log and screen) when this machine's privacy is Public, its hosted lobby advertises Open, Quickplay runs or an SOS
--- Beacon is active, once each time it starts. Neither native function is called, so the native adapter is never
--- created. The enforcement above is kept unchanged behind M.ENFORCE=true (the 0.30.0 behaviour).
+-- 0.30.1: WARNINGS ONLY by default (M.ENFORCE=false). Public lobbies and Quickplay are allowed. Since 0.30.2 this is one
+-- notice per game start, the first time aboard the ship ("Public lobbies can cause issues or crashes due to mods."),
+-- and nothing of the lobby is read: no pin, no call, no write; the native adapter is never created. The enforcement
+-- above is kept unchanged behind M.ENFORCE=true (the 0.30.0 behaviour).
 local world_module=require('hd2runtime/runtime/event_world')
 local scheduler=require('hd2runtime/runtime/scheduler')
 local log_module=require('hd2runtime/runtime/log')
@@ -69,12 +69,10 @@ M.TEXT={
     public_quickplay='Quickplay joins public games: cancel it.',
     unavailable='Safety UNAVAILABLE: Public matchmaking is NOT blocked.',
     unavailable_advice='Set Friends Only / Invite Only and do not use Quickplay.',
-    -- warnings only (M.ENFORCE=false)
-    warn_rule='Public lobbies can cause issues or crashes due to mods.',
-    warn_advice='Friends Only / Invite Only is safest when playing with mods.',
-    warn_privacy='This lobby is Public.',
-    warn_quickplay='Quickplay joins public lobbies.',
-    warn_sos='SOS Beacon active: this lobby is Public.',
+    -- the startup notice (warnings only, M.ENFORCE=false)
+    notice_issues='Public lobbies can cause issues or crashes due to mods.',
+    notice_advice='Friends Only / Invite Only is safest when playing with mods.',
+    notice_once='Shown once per game start.',
 }
 
 local state
@@ -465,32 +463,20 @@ local function enforce_quickplay(world,o)
     return {status='enforced',phase=phase}
 end
 
--- Warnings only (M.ENFORCE=false): one log line and one notice each time the state starts; nothing is called.
-local function warn_privacy(o)
-    if state.said.warn_privacy then return {status='warned',repeated=true}end
-    state.said.warn_privacy=true
-    local why_text=('setting %s, advertised %s, %s'):format(privacy_name(o.privacy),
-        o.advertised and('"'..o.advertised..'"')or'-',o.is_host and'host'or'client')
-    log(('MATCHMAKING SAFETY WARNING: lobby privacy is Public (%s): public lobbies can cause issues or crashes due to '
-        ..'mods. HD2Runtime does not change it; Friends Only / Invite Only is safest when playing with mods.'):format(
-        why_text))
-    event('warn_privacy',why_text)
-    notify(M.TEXT.warn_privacy,M.TEXT.warn_rule,M.TEXT.warn_advice)
-    return {status='warned'}
-end
-local function warn_quickplay(o)
-    if state.said.warn_quickplay then return {status='warned',repeated=true}end
-    state.said.warn_quickplay=true
-    local phase=o.joining and'joining a found lobby'or'searching'
-    log(('MATCHMAKING SAFETY WARNING: Quickplay is running (%s): it joins public lobbies, which can cause issues or '
-        ..'crashes due to mods. HD2Runtime does not cancel it.'):format(phase))
-    event('warn_quickplay',phase)
-    notify(M.TEXT.warn_quickplay,M.TEXT.warn_rule,M.TEXT.warn_advice)
-    return {status='warned',phase=phase}
-end
-
 -- One check: reads, decides, acts. Returns {status, ...} (tests and diagnostics).
 function M.check(world,quickplay_only)
+    if not M.ENFORCE then
+        -- Warnings only (0.30.2): one notice per game start, the first time aboard the ship (where it is seen), about
+        -- what public lobbies can do with mods. Nothing of the lobby is read, called or written.
+        if state.announced then return {status='notice_shown'}end
+        local game=world_module.game_state(world)
+        if not(game and game.name=='Ship')then return {status='waiting',code='NOT_ABOARD'}end
+        state.announced=true
+        log('MATCHMAKING SAFETY NOTICE: public lobbies can cause issues or crashes due to mods; Friends Only / Invite '
+            ..'Only is safest when playing with mods. HD2Runtime does not change the lobby or Quickplay.')
+        notify(M.TEXT.notice_issues,M.TEXT.notice_advice,M.TEXT.notice_once)
+        return {status='notice'}
+    end
     local ok,why=M.prove(world)
     if not ok then unavailable('UNSUPPORTED_BUILD',why);return {status='unavailable',code='UNSUPPORTED_BUILD',reason=why}end
     if quickplay_only then
@@ -512,12 +498,6 @@ function M.check(world,quickplay_only)
     end
     state.unreadable_since=nil
     state.said.unavailable,state.said.unavailable_notice=nil,nil
-    if not state.announced and not M.ENFORCE then
-        state.announced=true
-        log(('MATCHMAKING SAFETY ACTIVE (warnings only): Public lobbies and Quickplay are allowed; HD2Runtime warns when '
-            ..'this lobby is Public, Quickplay runs or an SOS Beacon is active, and changes nothing. Build %s, %d pins.'
-            ):format(D.source.build,#D.pins))
-    end
     if not state.announced then
         state.announced=true
         log(('MATCHMAKING SAFETY ACTIVE: Public matchmaking is disabled while HD2Runtime is active (privacy Public -> '
@@ -526,33 +506,15 @@ function M.check(world,quickplay_only)
     end
     local out={status='safe',privacy=o.privacy,observed=o}
     if o.singleplayer then out.status='singleplayer';return out end
-    if not M.ENFORCE then
-        if o.quickplay then out.quickplay=warn_quickplay(o);out.status='quickplay'
-        elseif not quickplay_only then state.said.warn_quickplay=nil end
-        if quickplay_only then return out end
-        if o.privacy==D.privacy.open or advertises_open(o)then
-            out.privacy_action=warn_privacy(o)
-            out.status=out.status=='quickplay'and out.status or'public'
-        else
-            state.said.warn_privacy=nil
-        end
-    else
-        if o.quickplay then out.quickplay=enforce_quickplay(world,o);out.status='quickplay'end
-        if quickplay_only then return out end
-        if o.privacy==D.privacy.open or advertises_open(o)then
-            out.privacy_action=enforce_privacy(world,o)
-            out.status=out.status=='quickplay'and out.status or'public'
-        end
+    if o.quickplay then out.quickplay=enforce_quickplay(world,o);out.status='quickplay'end
+    if quickplay_only then return out end
+    if o.privacy==D.privacy.open or advertises_open(o)then
+        out.privacy_action=enforce_privacy(world,o)
+        out.status=out.status=='quickplay'and out.status or'public'
     end
     -- The SOS Beacon: the game advertises Open while it is active, whatever the setting. Warned, never overridden.
     local sos=o.is_host and o.joined and sos_active(o)
-    if sos and not state.sos and not M.ENFORCE then
-        log('MATCHMAKING SAFETY WARNING: an SOS Beacon is active and the game made this lobby PUBLIC (advertised '
-            ..'privacy "'..tostring(o.advertised)..'", SOSBeacons "'..tostring(o.sos_key)..'") until it ends: public '
-            ..'lobbies can cause issues or crashes due to mods.')
-        event('sos',o.sos_key)
-        notify(M.TEXT.warn_sos,M.TEXT.warn_rule,M.TEXT.warn_advice)
-    elseif sos and not state.sos then
+    if sos and not state.sos then
         log('MATCHMAKING SAFETY WARNING: an SOS Beacon is active and the game made this lobby PUBLIC (advertised '
             ..'privacy "'..tostring(o.advertised)..'", SOSBeacons "'..tostring(o.sos_key)..'"): strangers can join through '
             ..'Quickplay until it ends. HD2Runtime cannot block the SOS Beacon; do not use it while Runtime is active.')

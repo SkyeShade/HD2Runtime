@@ -295,72 +295,40 @@ return 'ok'
 
 
 class WarningsOnlyTests(unittest.TestCase):
-    """0.30.1 default (M.ENFORCE=false): Public lobbies and Quickplay are allowed and warned about; nothing is called."""
+    """0.30.2 default (M.ENFORCE=false): one notice per game start, aboard the ship, about what public lobbies can do with
+    mods. Nothing of the lobby is read, called or written."""
     def lua(self, body):
-        self.assertEqual(run(HARNESS + 'safety.ENFORCE=false\n' + body + "\nreturn 'ok'"), b'ok')
+        self.assertEqual(run(HARNESS + 'safety.ENFORCE=false' + chr(10) + body + chr(10) + "return 'ok'"), b'ok')
 
     def test_the_default_is_warnings_only(self):
         self.assertIn('M.ENFORCE=false', SOURCE)
 
-    def test_a_public_setting_is_warned_once_per_choice_and_never_changed(self):
+    def test_one_startup_notice_aboard_the_ship_and_nothing_else(self):
         self.lua(r"""
-set_privacy(0)
-seconds(2)
-assert(#calls==0 and privacy()==0)
-assert(count('MATCHMAKING SAFETY ACTIVE (warnings only)')==1 and count('MATCHMAKING SAFETY ACTIVE:')==0)
-assert(count('MATCHMAKING SAFETY WARNING: lobby privacy is Public (setting Public, advertised -, host)')==1)
+local world=assert(world_module.open())
+local ship=world_module.game_state(world)
+assert(ship and ship.name=='Ship','the harness is aboard the ship: '..tostring(ship and ship.name))
+seconds(1)
+assert(count('MATCHMAKING SAFETY NOTICE: public lobbies can cause issues or crashes due to mods')==1)
 local t=screens[#screens].texts
-assert(t[2]=='This lobby is Public.'and t[3]=='Public lobbies can cause issues or crashes due to mods.')
-assert(t[4]=='Friends Only / Invite Only is safest when playing with mods.')
-assert(count('public lobbies can cause issues or crashes due to mods')==1)
+assert(t[1]=='HD2Runtime multiplayer safety'and t[2]=='Public lobbies can cause issues or crashes due to mods.')
+assert(t[3]=='Friends Only / Invite Only is safest when playing with mods.'and t[4]=='Shown once per game start.')
+-- Public privacy, Quickplay and an SOS Beacon: no call, no warning, no other notice.
+set_privacy(0);quickplay(true,false);host_lobby();key(PRIVACY_KEY,'0');key(SOS_KEY,'1')
 seconds(30)
-assert(#calls==0 and count('lobby privacy is Public')==1,'one warning while it stays Public')
--- Friends Only, then Public chosen again: warned again.
-set_privacy(1);seconds(1);set_privacy(0);seconds(1)
-assert(#calls==0 and count('lobby privacy is Public')==2)
--- A host lobby advertising Open with a Friends Only setting is warned too, not corrected.
-set_privacy(1);host_lobby();key(PRIVACY_KEY,'1');key(SOS_KEY,'0')
-seconds(1);key(PRIVACY_KEY,'0');seconds(1)
-assert(#calls==0 and read_key(PRIVACY_KEY)=='0')
-assert(count('lobby privacy is Public (setting Friends Only, advertised "0", host)')==1)
+assert(#calls==0 and privacy()==0 and quickplaying())
+assert(count('MATCHMAKING SAFETY NOTICE')==1 and count('WARNING')==0 and#screens==1,#screens)
+assert(count('strangers')==0)
 """)
 
-    def test_quickplay_is_warned_once_per_run_and_never_cancelled(self):
+    def test_no_notice_before_the_ship(self):
         self.lua(r"""
-set_privacy(1);quickplay(true,false)
-seconds(5)
-assert(#calls==0 and quickplaying())
-assert(count('MATCHMAKING SAFETY WARNING: Quickplay is running (searching)')==1)
-assert(screens[#screens].texts[2]=='Quickplay joins public lobbies.'
-    and screens[#screens].texts[3]=='Public lobbies can cause issues or crashes due to mods.')
-quickplay(false);seconds(1);quickplay(true,true);seconds(1)
-assert(#calls==0 and count('Quickplay is running (joining a found lobby)')==1)
-""")
-
-    def test_friends_only_and_sos_and_singleplayer_behave_as_before(self):
-        self.lua(r"""
-for _,v in ipairs({1,2,3})do set_privacy(v);host_lobby();key(PRIVACY_KEY,tostring(v));key(SOS_KEY,'0');seconds(2)end
-assert(#calls==0 and count('WARNING')==0 and #screens==0)
-key(SOS_KEY,'1');key(PRIVACY_KEY,'0')
-seconds(2)
-assert(#calls==0 and count('an SOS Beacon is active and the game made this lobby PUBLIC')==1)
-assert(count('lobby privacy is Public')==0)
-seconds(0.25)
-assert(screens[#screens].texts[2]=='SOS Beacon active: this lobby is Public.'
-    and screens[#screens].texts[3]=='Public lobbies can cause issues or crashes due to mods.')
-assert(count('strangers')==0,'no strangers wording in the warnings-only mode')
-key(SOS_KEY,'0');key(PRIVACY_KEY,'1');singleplayer(true);set_privacy(0);quickplay(true)
-seconds(2)
-assert(#calls==0 and count('lobby privacy is Public')==0 and count('Quickplay is running')==0)
-""")
-
-    def test_an_unproven_pin_is_logged_without_a_notice(self):
-        self.lua(r"""
-W.write(W.GAME+MS.pins[1].rva,'\204')
-set_privacy(0)
+game_state(4)
 seconds(3)
-assert(#calls==0 and count('MATCHMAKING SAFETY UNAVAILABLE (UNSUPPORTED_BUILD: game.dll+')==1)
-assert(count('no warning for Public lobbies or Quickplay this session')==1 and #screens==0)
+assert(count('MATCHMAKING SAFETY NOTICE')==0 and#screens==0)
+game_state(MS.game.ship)
+seconds(1)
+assert(count('MATCHMAKING SAFETY NOTICE')==1)
 """)
 
 

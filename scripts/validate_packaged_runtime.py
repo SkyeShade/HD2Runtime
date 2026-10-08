@@ -44,6 +44,9 @@ ENTRY = 'mods/skyeshade/hd2runtime'
 PACKAGE_MODULES = 'hd2runtime/runtime/package_modules'
 WRITE_ADAPTER = 'hd2runtime/runtime/windows_write'
 REFERENCE = re.compile(rb"""['"](hd2runtime/[A-Za-z0-9_/]+)['"]""")
+# Resources an install option of the runtime ZIP deploys in its own archive (scripts/build_release.py): referenced on
+# purpose, present only when the player chose that option, so never resolved from the runtime archive.
+INSTALL_OPTION_RESOURCES = {'hd2runtime/settings/wheel_hook_off'}
 
 GUI_TRANSACTION = r'''local hd2=require('mods/skyeshade/hd2runtime')
 
@@ -5186,7 +5189,7 @@ def archive_resources(path):
     other resources too: the Runtime's fonts)."""
     from hd2_archive import LUA_TYPE, read_archive
     with zipfile.ZipFile(path) as package:
-        name = next(n for n in package.namelist() if n.endswith('.patch_0'))
+        name = next(n for n in package.namelist() if n.startswith('runtime/') and n.endswith('.patch_0'))
         data = package.read(name)
         gpu = package.read(name + '.gpu_resources') if name + '.gpu_resources' in package.namelist() else b''
     found = {}
@@ -5229,7 +5232,8 @@ def static_scan(resources):
     if modules is not None:
         listed = [match.group(1).decode() for match in REFERENCE.finditer(modules)]
     names = sorted(set(references) | set(listed))
-    unresolved = [name for name in names if resource_hash(name) not in resources]
+    unresolved = [name for name in names if resource_hash(name) not in resources
+        and name not in INSTALL_OPTION_RESOURCES]
     known = {resource_hash(name) for name in names} | {resource_hash(ENTRY)}
     return {'resources': len(resources), 'referencedModules': len(references),
         'packageModuleList': bool(modules), 'listedModules': len(listed),

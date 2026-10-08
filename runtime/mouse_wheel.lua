@@ -15,11 +15,13 @@
 -- the procedure finishes safely). Any error turns the hook off for the session (logged once). It is never installed
 -- outside the game on Windows x64. The first source that delivers a notch is logged, so a live test tells which works.
 --
--- 0.30.2: the native hook is OFF unless the PLAYER turns it on (MODS > HD2Runtime > "Native mouse wheel / input
--- hook", default off; M.native_allowed). A window hook running generated code is what anti-cheat looks for, and
--- GameGuard error 1015 was reported with 0.30.x. Off, nothing native is built or installed (no executable page, no
--- hook): hd2.input.wheel() reads the engine axis only and hd2.input.block() returns false with the reason, which every
--- caller already handles. The API is unchanged, so no mod needs an update.
+-- 0.30.2: the player can turn the native hook off at install: the runtime ZIP's second mod manager option (Arsenal,
+-- Echelon) "mouse wheel hook off" also deploys a one-resource archive, hd2runtime/settings/wheel_hook_off, whose
+-- presence turns it off (M.native_allowed). GameGuard error 1015 was reported with 0.30.x, and a window hook running
+-- generated code is what anti-cheat looks for, so the option says it may fix that. Off, nothing native is built or
+-- installed (no executable page, no hook): hd2.input.wheel() reads the engine axis only (over a game menu the mouse
+-- focus is kept, runtime/mod_cursor.lua) and hd2.input.block() returns false with the reason, which every caller
+-- already handles. The API is unchanged, so no mod needs an update.
 local events=require('hd2runtime/runtime/events')
 local KEY='HD2RuntimeMouseWheelV2'
 local existing=rawget(_G,KEY)
@@ -256,26 +258,19 @@ local function disable(why)
     log('the message hook is off for this session: '..tostring(why))
 end
 local function now()return events.state.now or 0 end
--- The player's choice (MODS > HD2Runtime), registered on the first wheel or block query only, so a game whose mods
--- never ask shows no such page. Without Mod Options Menu it keeps its default: off.
-M.NATIVE_OFF='the native input hook is off (MODS > HD2Runtime > Native mouse wheel / input hook); the wheel is the '
-    ..'engine axis'
-local option
+-- Off only when the mod manager's "mouse wheel hook off" option deployed hd2runtime/settings/wheel_hook_off (looked up
+-- once per session; the archive is either deployed or not).
+M.SETTING='hd2runtime/settings/wheel_hook_off'
+M.NATIVE_OFF='the native mouse wheel hook is off (the "mouse wheel hook off" install option); the wheel is the engine '
+    ..'axis'
+local off_setting
 function M.native_allowed()
-    if option==nil then
-        local ok,handle=pcall(function()
-            local page=require('hd2runtime/api/options').page({id='hd2runtime',title='HD2Runtime'})
-            return page:toggle({id='native_input_hook',label='Native mouse wheel / input hook',default=false,
-                description='Lets mod windows read the mouse wheel everywhere and keep clicks from reaching the '
-                    ..'game, through a Windows message hook running native code. Off by default: anti-cheat '
-                    ..'(GameGuard) may treat it as a suspicious program. Off, the wheel works where the game reads it.'})
-        end)
-        option=ok and handle or false
-        if not ok then log('the native input hook option is unavailable: '..tostring(handle))end
+    if off_setting==nil then
+        local ok,value=pcall(require,M.SETTING)
+        off_setting=ok and value==true
+        if off_setting then log('the "mouse wheel hook off" install option is present: no native hook this session')end
     end
-    if not option then return false end
-    local ok,value=pcall(function()return option:get()end)
-    return ok and value==true
+    return not off_setting
 end
 local function ensure_hook()
     if state.hook or state.disabled or now()<state.next_try then return end
@@ -381,6 +376,7 @@ function M.status()
         thread=state.hook and state.hook.thread or nil,blocking=state.block_flags or 0,blocked=blocked}
 end
 function M.reset_for_tests()
+    off_setting=nil
     state.block_flags,state.block_query=nil,nil
     remove()
     state.value,state.frame,state.last_query,state.disabled,state.source,state.logged,state.engine_ok,state.next_try=

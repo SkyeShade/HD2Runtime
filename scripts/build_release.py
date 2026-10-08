@@ -104,6 +104,11 @@ def runtime_fonts():
     return found
 
 
+WHEEL_HOOK_OFF_FOLDER='runtime_wheel_hook_off'
+WHEEL_HOOK_OFF_SETTING='hd2runtime/settings/wheel_hook_off'
+WHEEL_HOOK_OFF_SOURCE=b'-- The "mouse wheel hook off" install option (runtime/mouse_wheel.lua).' + bytes([10]) + b'return true' + bytes([10])
+
+
 def build_runtime(version,report_bytes=b'{}\n',folder=None):
     """Write the installed-once runtime ZIP exactly as released and return its path."""
     spec=json.loads((ROOT/'hd2runtime.json').read_text());sources=runtime_resources()
@@ -119,13 +124,23 @@ def build_runtime(version,report_bytes=b'{}\n',folder=None):
     description='Shared HD2Runtime API 1. Requires Bingus Shared Loader v15+ / API 1. Install once; no gameplay changes until a dependent mod requests them.'
     # The HD2Runtime logo for the mod manager (HD2 Arsenal): the manifest's IconPath and the option's Image, as other
     # mods ship theirs; outside runtime/, so the game never reads it.
+    # 0.30.2: a second option, chosen in the mod manager (Arsenal, Echelon), also deploys a one-resource archive whose
+    # presence turns the native mouse wheel hook off (runtime/mouse_wheel.lua M.SETTING); the first stays the default.
+    hook_off=('Same runtime with the native mouse wheel hook off. Try this if the game closes with a GameGuard error '
+        '(1015, "Suspicious program detected"): it may fix it. Mod windows then scroll by wheel only over a game menu.')
     manifest={'Version':1,'Guid':spec['guid'],'Name':'HD2Runtime '+version,'Description':description,
               'Options':[{'Name':'Shared runtime','Description':description,'Include':['runtime'],
+                          'Image':RUNTIME_THUMBNAIL},
+                         {'Name':'Shared runtime, mouse wheel hook off (may fix GameGuard crashes)',
+                          'Description':hook_off,'Include':['runtime',WHEEL_HOOK_OFF_FOLDER],
                           'Image':RUNTIME_THUMBNAIL}],'IconPath':RUNTIME_THUMBNAIL}
+    setting=make_archive({resource_hash(WHEEL_HOOK_OFF_SETTING):lua_resource(WHEEL_HOOK_OFF_SOURCE)})
     runtime_zip=Path(folder or ROOT/'build')/('HD2Runtime-'+version+'-runtime.zip')
     hd2.zip_files(runtime_zip,{'manifest.json':json.dumps(manifest,indent=2).encode(),
         'hd2runtime.json':json.dumps(spec,indent=2).encode(),'runtime/'+ARCHIVE_NAME:archive,
         'runtime/'+ARCHIVE_NAME+'.stream':b'','runtime/'+ARCHIVE_NAME+'.gpu_resources':gpu_resources,
+        WHEEL_HOOK_OFF_FOLDER+'/'+ARCHIVE_NAME:setting,WHEEL_HOOK_OFF_FOLDER+'/'+ARCHIVE_NAME+'.stream':b'',
+        WHEEL_HOOK_OFF_FOLDER+'/'+ARCHIVE_NAME+'.gpu_resources':b'',
         'README.md':(ROOT/'sdk/README.md').read_bytes(),'build-report.json':report_bytes,
         'provenance.json':(ROOT/'docs/provenance.json').read_bytes(),
         RUNTIME_THUMBNAIL:(ROOT/'packaging'/RUNTIME_THUMBNAIL).read_bytes()})

@@ -70,10 +70,12 @@ class PackagedRuntimeStaticTests(unittest.TestCase):
                 if path.name == 'addon.lua':
                     continue
                 for match in packaged.REFERENCE.finditer(path.read_bytes()):
+                    if match.group(1).decode() in packaged.INSTALL_OPTION_RESOURCES:
+                        continue        # shipped in its install option's own archive (the manifest test)
                     self.assertIn(match.group(1).decode(), shipped, str(path.relative_to(ROOT)))
 
     def test_entry_captures_loaders_at_startup_without_running_modules(self):
-        names = self.scan['names']
+        names = [name for name in self.scan['names'] if name not in packaged.INSTALL_OPTION_RESOURCES]
         table = {name: self.resources[resource_hash(name)] for name in names + [packaged.ENTRY]}
         program = ('local RESOURCES={' + ','.join('[' + packaged.lua(k) + ']=' + packaged.lua_bytes(v)
             for k, v in table.items()) + '}\n' + r'''
@@ -112,8 +114,17 @@ class PackagedRuntimeManifestTests(unittest.TestCase):
             with zipfile.ZipFile(build_release.build_runtime(VERSION, folder=folder)) as z:
                 manifest = json.loads(z.read('manifest.json'))
                 thumbnail = z.read('thumbnail.png')
+                setting = z.read(build_release.WHEEL_HOOK_OFF_FOLDER + '/' + ARCHIVE_NAME)
         self.assertEqual(manifest['IconPath'], 'thumbnail.png')
-        self.assertEqual([o['Image'] for o in manifest['Options']], ['thumbnail.png'])
+        self.assertEqual([o['Image'] for o in manifest['Options']], ['thumbnail.png', 'thumbnail.png'])
+        # 0.30.2: the second option (the mod manager's choice) also deploys the "mouse wheel hook off" setting.
+        self.assertEqual([o['Include'] for o in manifest['Options']],
+            [['runtime'], ['runtime', build_release.WHEEL_HOOK_OFF_FOLDER]])
+        self.assertIn('GameGuard', manifest['Options'][1]['Name'])
+        from hd2_archive import read_archive
+        resources = read_archive(setting, b'')
+        self.assertEqual([h for _, h in resources], [resource_hash('hd2runtime/settings/wheel_hook_off')])
+        self.assertIn(b'return true', list(resources.values())[0][0])
         self.assertEqual(thumbnail, (ROOT / 'packaging/thumbnail.png').read_bytes())
         self.assertEqual(thumbnail[:8], b'\x89PNG\r\n\x1a\n')
         self.assertEqual(int.from_bytes(thumbnail[16:20], 'big'), 512)
