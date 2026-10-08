@@ -157,6 +157,30 @@ assert(texts.unregister(W.runtime)==true and reg.count()==2 and#W.runtime.writes
 return 'ok'
 ''')
 
+    def test_a_full_registry_is_described_once_and_nothing_is_written(self):
+        # 0.30.2 (a report of REGISTRY_FULL 18 of 18; every retained snapshot holds 17 of 18): a read-only description
+        # of what holds each place, logged once per distinct result.
+        self.check(r'''
+local a=text('gas_name','ORBITAL GAS BARRAGE')
+-- A game table of the size of strings_glossary_us (6 ids), and a table in the Runtime format (every language).
+local glossary={}
+for k=1,6 do glossary[0x1000+k]='G'..k end
+local everywhere={}
+for _,code in ipairs(texts.LANGUAGES)do everywhere[code]={[0x2222]='X'}end
+local reg=W.text_registry({tables={{us=glossary},everywhere},capacity=2})
+local before=#(W.runtime.writes or{})
+local ok,code=texts.ensure(W.runtime)
+assert(not ok and code=='REGISTRY_FULL'and#(W.runtime.writes or{})==before,'nothing written')
+assert(count('REGISTRY FULL (read-only diagnostic')==1,'logged')
+assert(count('1: game text localization/strings_glossary (6 ids)')==1,table.concat(logged,' | '))
+assert(count('2: a table in the Runtime format (all 15 languages, 1 texts')==1,table.concat(logged,' | '))
+texts.ensure(W.runtime)
+assert(count('REGISTRY FULL (read-only diagnostic')==1,'the same result is logged once')
+local report=texts.registry_report(W.runtime,{count=2,capacity=2,tables={reg.tables[1],reg.tables[2]}})
+assert(report.slots[1].kind=='game'and report.slots[2].kind=='runtime_other')
+return 'ok'
+''')
+
     def test_every_refusal_writes_nothing(self):
         self.check(r'''
 local function refused(code,text_)

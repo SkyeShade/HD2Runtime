@@ -312,6 +312,60 @@ local function verify(runtime,reg,language)
     return true
 end
 
+-- What every registered table is (0.30.2, read-only; logged once per distinct result when the registry is full, so a
+-- report shows what took the spare place): {count, capacity, slots = {{index, kind, text}}, text}. Kinds:
+--   'runtime'       this Runtime's own table;
+--   'runtime_other' a table in the Runtime's own format (every game language, in a read-only page of its own) that
+--                   this Runtime did not register: another HD2Runtime copy, or one loaded earlier in this session;
+--   'game'          a one-language table, as the game registers them (named by its size when English);
+--   'other'         a text table of another shape; 'unknown' when it is not a text table or cannot be read.
+local KNOWN={}
+for _,item in ipairs(D.knownTables or{})do
+    KNOWN[item.ids]=KNOWN[item.ids]and(KNOWN[item.ids]..' or '..item.resource)or item.resource
+end
+local function describe_table(runtime,at)
+    local ok,head=pcall(bytes,runtime,at,D.table.header)
+    if not ok or b.u32(head,0)~=D.table.magic then return 'unknown','not a text table'end
+    local nl,n=b.u32(head,D.table.languages),b.u32(head,D.table.ids)
+    if nl==0 or nl>D.limits.tableLanguages or n>D.limits.tableIds then
+        return 'unknown',('a text table of unexpected shape (%d languages, %d ids)'):format(nl,n)
+    end
+    local ok_l,first=pcall(bytes,runtime,at+D.table.header,4)
+    local language=ok_l and CODE[b.u32(first,0)]or'?'
+    if at==state.table then return 'runtime',('the table of this Runtime (%d languages, %d texts)'):format(nl,n)end
+    if nl==#CODES then
+        local r=runtime.query and runtime.query(at)
+        local own_page=r~=nil and r.type==0x20000 and r.protect==2 and r.allocation_base==at
+        return 'runtime_other',('a table in the Runtime format (all %d languages, %d texts%s) that this Runtime did '
+            ..'not register: another HD2Runtime copy, or one loaded earlier in this game session'):format(nl,n,
+            own_page and', in its own read-only page'or'')
+    end
+    if nl==1 then
+        local name=language=='us'and KNOWN[n]
+        return 'game',name and('game text '..name..' ('..n..' ids)')or('game text, language '..language..', '..n..' ids'
+            ..(language=='us'and', a table the retained snapshots do not have'or''))
+    end
+    return 'other',('a text table of %d languages (first %s), %d ids'):format(nl,language,n)
+end
+function M.registry_report(runtime,reg)
+    local slots,parts={},{}
+    for index,at in ipairs(reg.tables)do
+        local kind,text=describe_table(runtime,at)
+        slots[#slots+1]={index=index,kind=kind,text=text}
+        parts[#parts+1]=index..': '..text
+    end
+    return {count=reg.count,capacity=reg.capacity,slots=slots,
+        text=('%d of %d: %s'):format(reg.count,reg.capacity,table.concat(parts,'; '))}
+end
+local reported
+local function report_full(runtime,reg)
+    local ok,report=pcall(M.registry_report,runtime,reg)
+    local text=ok and report.text or('the tables could not be described: '..tostring(report))
+    if reported==text then return end
+    reported=text
+    log('REGISTRY FULL (read-only diagnostic: what holds each place): '..text)
+end
+
 -- Registers the Runtime table for every defined text (or confirms it): true and {action, index, language}, or nil, code
 -- and reason. At most one guarded transaction; never inside a game table.
 function M.ensure(runtime)
@@ -342,6 +396,7 @@ function M.ensure(runtime)
         return true,{action='present',index=index,language=CODE[language]}
     end
     if not index and reg.count>=reg.capacity then
+        report_full(runtime,reg)
         return nil,'REGISTRY_FULL',('the game\'s text registry has no spare capacity (%d of %d); the Runtime never grows '
             ..'it'):format(reg.count,reg.capacity)
     end
@@ -530,6 +585,6 @@ function M.state()return {table=state.table,index=state.index,language=state.lan
 function M.reset_for_tests()
     if keeper then keeper.stop()end
     identities=setmetatable({},{__mode='k'});by_key,by_loc,ordered={},{},{};version=0
-    state={table=nil,version=-1,tables=0,index=nil,language=nil};proven={}
+    state={table=nil,version=-1,tables=0,index=nil,language=nil};proven={};reported=nil
 end
 return M

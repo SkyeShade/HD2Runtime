@@ -38,6 +38,8 @@ def build() -> dict:
             or registry['gameSlotUseFunctions']['clear'] != ['0x12FEDC0']
             or registry['gameSlotUseFunctions']['set language'] != ['0x12FF050']):
         raise ValueError('the game registers text outside its language registration')
+    if len({tuple((t['resource'], t['ids']) for t in s['tables']) for s in research['snapshots']}) != 1             or any(s['currentLanguage'] != 'us' for s in research['snapshots']):
+        raise ValueError('the retained snapshots do not agree on the English game text tables')
     if any(s['languageTable'] != list(hd2_text.LANGUAGES) or s['capacity'] <= s['count'] for s in research['snapshots']):
         raise ValueError('the language table or the registry headroom is not proven in every snapshot')
     pins = [{'label': pin['role'], 'rva': pin['rva'], 'hex': pin['bytes'], 'module': 'exe'}
@@ -58,6 +60,10 @@ def build() -> dict:
         # Bounds: what the Runtime reads (a changed or busy registry, never a guess) and what it builds.
         'limits': {'registryCapacity': 64, 'tableLanguages': 32, 'tableIds': 200000, 'texts': 256, 'textBytes': 512,
             'tableBytes': 65536, 'tables': 16},
+        # The game's own tables in English, by id count (every retained snapshot is English): the REGISTRY_FULL
+        # diagnostic names a one-language 'us' table by its size (0.30.2, read-only).
+        'knownTables': [{'resource': table['resource'].removesuffix('_us'), 'ids': table['ids']}
+            for table in research['snapshots'][0]['tables']],
         'pins': sorted(pins, key=lambda pin: (pin['module'], pin['rva']))}
 
 

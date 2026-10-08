@@ -66,6 +66,14 @@ It registers that table by appending its pointer to the registry, after the game
   on the next update, once the registry is unchanged over two updates. If that is refused, the carrier's own text is
   restored, so nothing shows blank.
 
+**A full registry (0.30.2).** Every retained snapshot holds 17 tables in an array of capacity 18, and one Runtime
+table holds every mod's texts, so the number of mods never matters. When the place is taken anyway, `REGISTRY_FULL`
+is refused and one read-only line is logged, `text REGISTRY FULL (read-only diagnostic: what holds each place)`,
+naming each table: a game table (by name when English), a table in the Runtime format that this Runtime did not
+register (another HD2Runtime copy, or one loaded earlier in the session), or another shape. The game grows its
+array only through its own allocator (and frees the old array through it), so the Runtime never grows it with its
+own memory.
+
 **Ids.** A text's key is `<mod resource id>/text/<id>`, hashed the way the game hashes its own keys:
 - mod-local: another mod's text of the same id has another id;
 - never published.
