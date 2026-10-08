@@ -17,17 +17,48 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 RESEARCH = ROOT / 'research/status-effects-F5FEE03DCFDB.json'
+POLICY = ROOT / 'schemas/status_attachment_policy.json'
 UNVERIFIED = ('The slot mechanism is native and the status is one a player-side attack already applies, but a '
     'status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required.')
 SLOTS = 4
 _CACHE = {}
 
 
+def policy() -> dict:
+    """The reviewed attachment extension (schemas/status_attachment_policy.json), checked against the research:
+    semantic ID -> tier. Only statuses no player-side attack applies yet; never a terrain, stim, weather or system
+    status (a weather-family status the game itself applies through enemy slots, such as tremor, is allowed)."""
+    if 'policy' not in _CACHE:
+        research = {item['semanticId']: item for item in json.loads(RESEARCH.read_text(encoding='utf-8'))['statuses']}
+        document = json.loads(POLICY.read_text(encoding='utf-8'))
+        tiers, never = set(document['tiers']), set(document['neverAttachable'])
+        result = {}
+        for entry in document['statuses']:
+            name, tier = entry['semanticId'], entry['tier']
+            status = research.get(name)
+            if status is None or tier not in tiers or name in result or name in never:
+                raise ValueError(f'status attachment policy: invalid entry {entry!r}')
+            if status['attachable']:
+                raise ValueError(f'status attachment policy: {name} is already attachable')
+            if (tier == 'enemy_slot') != (status['slotUsers'] > 0):
+                raise ValueError(f'status attachment policy: {name} tier {tier} contradicts its slot users')
+            if tier == 'other_system' and status['family'] in document['neverAttachableFamilies']:
+                raise ValueError(f'status attachment policy: {name} is a {status["family"]} status')
+            result[name] = tier
+        missing = never - set(research)
+        if missing:
+            raise ValueError(f'status attachment policy: unknown statuses {sorted(missing)}')
+        _CACHE['policy'] = {'tiers': result, 'descriptions': document['tiers']}
+    return _CACHE['policy']
+
+
 def load() -> dict:
     if 'catalog' not in _CACHE:
         research = json.loads(RESEARCH.read_text(encoding='utf-8'))
+        extended = policy()['tiers']
         _CACHE['catalog'] = {'byType': {item['nativeType']: item for item in research['statuses']},
-            'attachable': [item['semanticId'] for item in research['statuses'] if item['attachable']],
+            'attachable': [item['semanticId'] for item in research['statuses']
+                if item['attachable'] or item['semanticId'] in extended],
             'slots': {int(key): value for key, value in research['damageSlots'].items()}}
     return _CACHE['catalog']
 

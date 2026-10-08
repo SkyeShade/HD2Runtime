@@ -79,7 +79,21 @@ hd2.ensure({plan={id='maxigun-stun',operations={
 ```
 
 - **Values.** A status reference takes catalog semantic IDs, or `'none'`. Only attachable statuses are accepted,
-  plus the slot's current status.
+  plus the slot's current status. 34 of the 71 statuses are attachable (`attachTier` in `StatusEffectCatalog.json`):
+  - `player_attack` (11): a player-side attack already applies it (fire, fire_panic, burning_heavy, the stuns, the
+    gases, flamer_slowed);
+  - `enemy_slot` (8, 0.30.2): the game applies it through DamageInfo slots of enemy or hazard attacks (confusion,
+    lava, acid_splash, choked, stun_massive, inverted_aim_assist, tremor, tornado_stun);
+  - `other_system` (15, 0.30.2, **experimental**): an attack effect the game applies by other means, never through a
+    slot (acid_stream, thermite, cyborg_fire, burning_light, radiation_light/heavy, electric, bleed, poison, gloom,
+    slowed, rooted, blind, deaf, stun_illuminate). Whether a slot-applied instance behaves like the game's own is
+    unknown; `bleed` lasts 9999 s by definition.
+
+  Terrain, stim, weather (including `acid_storm`, the acid-rain weather marker, which carries no damage) and system
+  statuses are never attachable (`schemas/status_attachment_policy.json`). For acid on enemies use `acid_splash` or
+  `acid_stream`.
+- **The extended statuses always need `allow_unverified_effect`**, on every row, live-proven direct-hit rows
+  included: no attack has been live-tested with them.
 - **Clearing.** `'none'` clears only the last used slot, so the slots stay packed.
 - **Strength.** Strengths range from 0 to 1000. Use the strength an existing user applies; the catalog lists the
   observed range for each status.
@@ -118,7 +132,7 @@ pointers masked.
 - A fifth status: the slot array is fixed at four, and growing it would need object cloning.
 - Stratagem, throwable and booster attacks: their DamageInfo rows have the same slots, but their write domains do not
   yet accept status references.
-- Enemy-only statuses on player weapons (acid, electric).
+- Terrain, stim, weather and system statuses (see Values).
 
 ## Live tests (2026-09-29, [live evidence](live-evidence.md))
 

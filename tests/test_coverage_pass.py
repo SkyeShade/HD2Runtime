@@ -167,6 +167,12 @@ return 'ok'
 
 ATTACHABLE = {'fire', 'fire_panic', 'burning_heavy', 'stun_small', 'stun_medium', 'stun_large', 'gas', 'gas_2',
     'gas_confusion', 'gas_confusion_2', 'flamer_slowed'}
+# The reviewed extension (schemas/status_attachment_policy.json, 0.30.2): statuses enemies or hazards apply through
+# DamageInfo slots, and attack effects other systems apply. Never terrain, stim, weather or system statuses.
+ENEMY_SLOT = {'confusion', 'lava', 'acid_splash', 'choked', 'stun_massive', 'inverted_aim_assist', 'tremor',
+    'tornado_stun'}
+OTHER_SYSTEM = {'acid_stream', 'thermite', 'cyborg_fire', 'burning_light', 'radiation_light', 'radiation_heavy',
+    'electric', 'bleed', 'poison', 'gloom', 'slowed', 'rooted', 'blind', 'deaf', 'stun_illuminate'}
 
 
 class StatusTests(unittest.TestCase):
@@ -184,11 +190,19 @@ class StatusTests(unittest.TestCase):
         self.assertEqual({k for k, s in statuses.items() if s['attachable']}, ATTACHABLE)
         self.assertEqual((statuses['fire']['name'], statuses['fire']['duration']), ('Fire', 3.0))
         self.assertEqual((statuses['stun_medium']['name'], statuses['stun_medium']['duration']), ('Stun Medium', 3.0))
-        # Electric and acid are applied by other systems or only by enemies: catalogued, never attachable.
+        # Electric and acid are applied by other systems or only by enemies: the research keeps them unattachable;
+        # the reviewed policy extends the published catalog (0.30.2).
         self.assertFalse(statuses['electric']['attachable'])
         self.assertFalse(statuses['acid_splash']['attachable'])
-        self.assertEqual(self.catalog['summary'], {'statuses': 71, 'attachable': 11,
+        self.assertEqual(self.catalog['summary'], {'statuses': 71, 'attachable': 34,
+            'attachableByTier': {'player_attack': 11, 'enemy_slot': 8, 'other_system': 15},
             'families': self.catalog['summary']['families']})
+        published = {s['semanticId']: s for s in self.catalog['statuses']}
+        self.assertEqual({k for k, s in published.items() if s['attachTier'] == 'enemy_slot'}, ENEMY_SLOT)
+        self.assertEqual({k for k, s in published.items() if s['attachTier'] == 'other_system'}, OTHER_SYSTEM)
+        never = {k for k, s in published.items() if not s['attachable']}
+        self.assertTrue({'acid_storm', 'blizzard', 'mud', 'stim_heal', 'pure_damage', 'hidden'} <= never)
+        self.assertTrue(all(published[k]['family'] in ('terrain', 'stim', 'weather', 'system', 'sense') for k in never))
         self.assertNotRegex(json.dumps(self.catalog), r'nativeType|0x[0-9A-Fa-f]{8}')
 
     def test_attachment_model(self):
@@ -225,7 +239,7 @@ class StatusTests(unittest.TestCase):
         explosion = [f for f in promoted if f['semanticFieldId'].startswith('explosion.')]
         self.assertEqual(len(explosion), 26)
         self.assertTrue(all(f.get('acknowledgement') == 'allow_unverified_effect' for f in explosion))
-        self.assertEqual(set(liberator['damage.status_1_type']['allowedValues']), ATTACHABLE)
+        self.assertEqual(set(liberator['damage.status_1_type']['allowedValues']), ATTACHABLE | ENEMY_SLOT | OTHER_SYSTEM)
         observed = {s['semanticId']: s.get('liveObserved') for s in self.catalog['statuses']}
         self.assertEqual(observed['fire'][0]['test'], 'LiberatorFireStatus')
         self.assertIn('1-2 s', observed['stun_medium'][0]['observation'])
@@ -257,9 +271,19 @@ transactions.validate{id='stun',target=bullets,allow_shared=true,changes={
 local ok,why=pcall(transactions.validate,{id='stun',target=hd2.weapon('CQC-5 Combat Hatchet'),changes={
  {field=hd2.fields.damage.status_1_type,expect='none',value='fire'}}})
 assert(not ok and tostring(why):find('allow_unverified_effect',1,true),tostring(why))
-ok,why=pcall(patches.validate,{id='x',target=bullets,allow_shared=true,allow_unverified_effect=true,
+-- Statuses beyond those player attacks apply keep allow_unverified_effect, even on this live-proven direct-hit row.
+ok,why=pcall(patches.validate,{id='x',target=bullets,allow_shared=true,
  field=hd2.fields.damage.status_1_type,expect='none',value='electric'})
-assert(not ok and tostring(why):find('not attachable',1,true),why)
+assert(not ok and tostring(why):find('requires allow_unverified_effect',1,true),tostring(why))
+patches.validate{id='x',target=bullets,allow_shared=true,allow_unverified_effect=true,
+ field=hd2.fields.damage.status_1_type,expect='none',value='electric'}
+patches.validate{id='x',target=bullets,allow_shared=true,allow_unverified_effect=true,
+ field=hd2.fields.damage.status_1_type,expect='none',value='acid_splash'}
+for _,never in ipairs({'acid_storm','stim_heal','pure_damage','mud'})do
+ ok,why=pcall(patches.validate,{id='x',target=bullets,allow_shared=true,allow_unverified_effect=true,
+  field=hd2.fields.damage.status_1_type,expect='none',value=never})
+ assert(not ok and tostring(why):find('not attachable',1,true),never..': '..tostring(why))
+end
 ok,why=pcall(patches.validate,{id='x',target=bullets,allow_shared=true,allow_unverified_effect=true,
  field=hd2.fields.damage.status_1_type,expect='none',value='no_such_status'})
 assert(not ok and tostring(why):find('unknown status',1,true),why)

@@ -660,6 +660,11 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
             for _,candidate in ipairs(field.allowedValues or{})do if candidate==item.value then allowed=true end end
             assert(allowed,'status '..item.value..' is not attachable (no player-side attack applies it through '
                 ..'a DamageInfo slot); see StatusEffectCatalog.json')
+            -- A status beyond those player attacks apply (schemas/status_attachment_policy.json, 0.30.2) is proven
+            -- on no attack: it keeps allow_unverified_effect on every row, live-proven direct-hit rows included.
+            local tier=status_catalog.statuses[item.value].tier
+            assert(tier=='player_attack'or allow_unverified_effect==true,'status '..item.value..' ('..tostring(tier)
+                ..' in StatusEffectCatalog.json) is not live-proven on any attack and requires allow_unverified_effect=true')
         end
         return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
             semantic_aliases={item.field},expect=item.expect,value=item.value,

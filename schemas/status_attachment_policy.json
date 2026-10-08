@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "note": "Reviewed extension of the attachable statuses (0.30.2). research/status-effects-F5FEE03DCFDB.json stays the fact source: 'attachable' there means a mapped player-side attack already applies the status through a DamageInfo slot. This policy adds statuses an attack may carry: 'enemy_slot' ones the game itself applies through DamageInfo slots of enemy or hazard rows (the same mechanism, on other rows), 'other_system' ones the game applies by other means (areas, beams, abilities) whose definition is a real attack effect. Every addition needs allow_unverified_effect until a live test passes. Terrain, stim, weather and system statuses are never attachable.",
+  "tiers": {
+    "enemy_slot": "The game applies it through DamageInfo status slots on enemy or hazard rows; the slot mechanism is the same on a weapon row, but no weapon applies it in vanilla.",
+    "other_system": "EXPERIMENTAL: the game never applies it through a DamageInfo slot; its definition is an attack effect (damage over time or a debuff), but whether a slot-applied instance behaves like the game's own is unknown."
+  },
+  "statuses": [
+    {"semanticId": "confusion", "tier": "enemy_slot"},
+    {"semanticId": "lava", "tier": "enemy_slot"},
+    {"semanticId": "acid_splash", "tier": "enemy_slot"},
+    {"semanticId": "choked", "tier": "enemy_slot"},
+    {"semanticId": "stun_massive", "tier": "enemy_slot"},
+    {"semanticId": "inverted_aim_assist", "tier": "enemy_slot"},
+    {"semanticId": "tremor", "tier": "enemy_slot"},
+    {"semanticId": "tornado_stun", "tier": "enemy_slot"},
+    {"semanticId": "acid_stream", "tier": "other_system"},
+    {"semanticId": "thermite", "tier": "other_system"},
+    {"semanticId": "cyborg_fire", "tier": "other_system"},
+    {"semanticId": "burning_light", "tier": "other_system"},
+    {"semanticId": "radiation_light", "tier": "other_system"},
+    {"semanticId": "radiation_heavy", "tier": "other_system"},
+    {"semanticId": "electric", "tier": "other_system"},
+    {"semanticId": "bleed", "tier": "other_system"},
+    {"semanticId": "poison", "tier": "other_system"},
+    {"semanticId": "gloom", "tier": "other_system"},
+    {"semanticId": "slowed", "tier": "other_system"},
+    {"semanticId": "rooted", "tier": "other_system"},
+    {"semanticId": "blind", "tier": "other_system"},
+    {"semanticId": "deaf", "tier": "other_system"},
+    {"semanticId": "stun_illuminate", "tier": "other_system"}
+  ],
+  "neverAttachableFamilies": ["terrain", "stim", "weather"],
+  "neverAttachable": ["pure_damage", "hidden", "flashlighted", "smoke_covered", "backpack_chemicals", "dark_fluid", "dark_fluid_2", "death_march", "hotshot_laser_rifle", "hotshot_laser_rifle_2", "hotshot_laser_rifle_3", "illuminate_scrambler", "constitution", "constitution_booster_armor_resistance", "post_mortem_explosion", "poison_vulnerability"]
+}
