@@ -309,9 +309,151 @@ def _utf8(value):
     return value
 
 
+# The public catalog (sdk/ArmorPassiveCatalog.json): the same build() as the domain, plus each passive's icon member
+# from the same research. The codes and statuses are the ones api/player_passives.lua and runtime/player_passives.lua
+# give (tests/test_player_passives.py checks them against the Lua).
+CATALOG = 'sdk/ArmorPassiveCatalog.json'
+CONTRACT = 'hd2runtime.armor_passives.catalog.v1'
+SWAP_FAMILY = 'player_armor_passive_swap'
+REFUSALS = ['INVALID_OPTION', 'ACKNOWLEDGEMENT_REQUIRED', 'UNKNOWN_PASSIVE', 'SAME_PASSIVE', 'ARMOR_SLOT_ONLY',
+    'ALREADY_SET', 'ASSET_UNAVAILABLE', 'NOT_SOLO', 'UNEXPECTED_STATE', 'NOT_PRIVATE', 'GUARD_REJECTED',
+    'UNSUPPORTED_BUILD']
+STATUSES = {
+    'active': 'the values are in place and kept there',
+    'waiting': 'no record or kit yet (UNAVAILABLE, NO_PLAYER, NO_RECORD, NOT_READY): written when they appear',
+    'waiting_for_assets': 'a passive\'s effect package is loading through core/assets; nothing is written until it is '
+        'resident (a failed load turns the handle refused, ASSET_UNAVAILABLE)',
+    'suspended': 'a second player joined (NOT_SOLO), or an effect package is not resident at a write '
+        '(PACKAGE_NOT_RESIDENT); the kit\'s values are back; resumes on its own',
+    'lost': 'something else wrote a slot (UNEXPECTED_STATE); the override never writes again',
+    'replaced': 'the same mod called set() again',
+    'stopped': 'stop() was called',
+    'refused': 'nothing was written; code and reason say why'}
+READER_MEANING = {
+    'direct': 'a code reader looks the key up in the slot when it runs: follows a swap',
+    'data-driven': 'a reader whose key comes from game data: follows a swap',
+    'description-only': 'description text; the effect is a stat row the kit worn at spawn applies: a swap never '
+        'changes it',
+    'armor rating': 'read through the worn armor kit\'s own passive: follows the kit, never the slot',
+    'none found': 'no reader located; whether a swap carries it is unknown',
+    'no effect': 'the row does nothing'}
+
+
+def _summary(p: dict) -> str:
+    return '; '.join('%s %s %g' % (m['key_name'], m['type'], m['value']) for m in p['modifiers']
+        if m['key_name'] != 'none') or 'none'
+
+
+def catalog(d: dict) -> dict:
+    """sdk/ArmorPassiveCatalog.json from build(): every passive, every kit, the set() contract and the live evidence."""
+    import live_evidence
+    research = json.loads(RESEARCH.read_text(encoding='utf-8'))
+    icons = {p['id']: p['icon'] for p in research['passiveTable']}
+    if set(icons) != {p['id'] for p in d['passives']} or not all(re.fullmatch(r'[0-9A-F]{16}', i)
+            for i in icons.values()):
+        raise ValueError('the passive icons are not one 64-bit id per passive')
+    names = {p['id']: p['name'] for p in d['passives']}
+    swap = live_evidence.family(SWAP_FAMILY)
+    proven = set(d['live']['armorSwap'])
+    refused_second = sorted(p['id'] for p in d['passives'] if (p.get('packageInfo') or {}).get('armorSlotOnly'))
+    passives = []
+    for p in d['passives']:
+        info = p.get('packageInfo')
+        slot_only = [m['key_name'] for m in p['modifiers'] if m.get('armorSlotOnly')]
+        passives.append({'id': p['id'], 'name': p['name'], 'description': p['description'],
+            'icon': '0x' + icons[p['id']], 'summary': _summary(p),
+            'modifiers': [{'key': m['key'], 'keyName': m['key_name'], 'type': m['type'], 'value': m['value'],
+                'text': m['text'], 'reader': m['reader'], 'follows': m['follows'], 'observable': m['observable'],
+                'note': m.get('note'), 'armorSlotOnly': bool(m.get('armorSlotOnly'))} for m in p['modifiers']],
+            'stats': p['stats'], 'followsSwap': p['followsSwap'], 'note': p.get('note'),
+            'effectPackage': info and {'catalogueKey': info['dependency'], 'contents': info['contents'],
+                'armorSlotOnly': info['armorSlotOnly'], 'loads': 'through core/assets before the write, shared with '
+                    'compatible peers'},
+            'armorKits': p['armorKits'], 'armorSlotOnly': p['id'] in refused_second, 'armorSlotOnlyKeys': slot_only,
+            'asSecond': 'refused: ARMOR_SLOT_ONLY' if p['id'] in refused_second else 'refused: INVALID_OPTION (use '
+                'second = false)' if p['id'] == 0 else 'allowed',
+            'liveProvenArmorSwap': p['id'] in proven,
+            'armorSwapAcknowledgement': None if p['id'] in proven else 'allow_unverified_effect'})
+    same = {}
+    for k in d['kits']:
+        if k.get('name'):
+            same[k['name'].lower()] = same.get(k['name'].lower(), 0) + 1
+    kits = []
+    for k in d['kits']:
+        kit = {'index': k['index'], 'id': k['id'], 'slot': k['slot'], 'weight': k.get('weight'),
+            'passive': k['passive'], 'passiveName': names[k['passive']], 'set': k.get('set'), 'dlc': k.get('dlc'),
+            'rarity': k.get('rarity'), 'name': k.get('name'), 'description': k.get('description'),
+            'sameName': same[k['name'].lower()] if k.get('name') else 0}
+        if 'wiki' in k:
+            kit['wiki'] = dict(k['wiki'], source='wiki', communityData=True)
+        kits.append(kit)
+    by_slot = {slot: sum(1 for k in kits if k['slot'] == slot) for slot in d['slots']}
+    coverage = {c: sum(1 for p in passives if p['followsSwap'] == c) for c in COVERAGE}
+    return {'contract': CONTRACT, 'schemaVersion': 1,
+        'hd2RuntimeVersion': (ROOT / 'VERSION').read_text(encoding='utf-8').strip(), 'build': d['source']['build'],
+        'source': {'research': [RESEARCH.name, NAMES.name, EFFECTS.name],
+            'generator': 'scripts/generate_player_passives.py', 'domain': OUTPUT, 'docs': 'docs/armor-passives.md'},
+        'status': 'development',
+        'summary': {'passives': len(passives), 'unusedIds': len(d['unused']), 'kits': len(kits), 'kitsBySlot': by_slot,
+            'namedKits': sum(1 for k in kits if k['name']), 'kitsWithWiki': sum(1 for k in kits if 'wiki' in k),
+            'followsSwap': coverage, 'effectPackages': sum(1 for p in passives if p['effectPackage']),
+            'liveProvenArmorSwap': len(proven)},
+        'accessors': {'list': 'hd2.passives.list()', 'find': 'hd2.passives.find(name or id)',
+            'kits': 'hd2.armor_kits(filter)', 'kit': 'hd2.armor_kit(index or id or name, slot)',
+            'current': 'hd2.player_passives()', 'set': 'hd2.player_passives.set(spec)',
+            'status': 'hd2.player_passives.status()'},
+        'model': {
+            'identity': 'A passive is named by its game name (any case) or its id. Unused ids: ' + ', '.join(
+                str(i) for i in d['unused']) + '.',
+            'modifierTypes': {'Set': 'v = x', 'Add': 'v += x', 'Multiply': 'v *= x', 'Time': 'v += x'},
+            'readers': {r: READER_MEANING[r] for r in READERS},
+            'followsSwap': {'full': 'every row follows a slot swap', 'partial': 'some rows follow the kit worn '
+                '(at spawn) instead; note names them', 'unknown': 'a row\'s mechanism was not located'},
+            'icon': 'The passive object\'s 64-bit icon member (research/' + RESEARCH.name + ', passiveTable[].icon), '
+                'as 0x and 16 hex digits: the id of its icon resource, for reading the icon from the user\'s own game '
+                'files. Not resolved to a file here.',
+            'kitWiki': 'Where a community wiki page matched a kit: the wiki\'s values (source "wiki"), never read '
+                'from the game.'},
+        'passives': passives, 'unusedIds': d['unused'], 'kits': kits,
+        'set': {'accessor': 'hd2.player_passives.set(spec)',
+            'options': {
+                'armor': {'type': 'passive name or id', 'slot': 'armor',
+                    'semantics': 'replaces the armor passive; nil keeps the kit\'s own'},
+                'second': {'type': 'passive name or id, or false', 'slot': 'helmet',
+                    'semantics': 'adds a passive in the helmet slot; nil or false: none (the kit\'s value, since no '
+                        'vanilla helmet has a passive)',
+                    'falseVsZero': 'second = false means none; second = 0 (STANDARD ISSUE) is refused INVALID_OPTION',
+                    'refused': [{'id': i, 'name': names[i], 'code': 'ARMOR_SLOT_ONLY'} for i in refused_second]},
+                'allow_unverified_effect': {'type': 'boolean', 'required': 'for every override except an armor-slot '
+                    'swap alone (no second) to a live-proven passive'},
+                'owner': {'type': 'string', 'required': False}},
+            'atLeastOne': ['armor', 'second'], 'soloOnly': True, 'raises': False,
+            'onePerGame': 'One override at a time: a mod\'s second set() replaces its first (replaced); another mod '
+                'is refused ALREADY_SET while one holds an override.',
+            'returns': 'a handle {kind, owner, status, code, reason, armor, second, notes} with stop() and describe()',
+            'stacking': 'A key both passives carry keeps the armor passive\'s row; values never stack.',
+            'writes': 'One guarded 4-byte write per slot on the local player\'s own applied record, kept in place '
+                'after each kit change until stop(). stop() puts the kit\'s values back where the slots still hold '
+                'the override\'s.',
+            'statuses': STATUSES, 'refusalCodes': list(REFUSALS),
+            'waitingCodes': ['UNAVAILABLE', 'NO_PLAYER', 'NO_RECORD', 'NOT_READY'],
+            'suspendedCodes': ['NOT_SOLO', 'PACKAGE_NOT_RESIDENT'], 'lostCodes': ['UNEXPECTED_STATE']},
+        'liveArmorSwap': {'family': SWAP_FAMILY, 'status': swap['status'], 'scope': swap['scope'],
+            'passives': [{'id': i, 'name': names[i]} for i in d['live']['armorSwap']],
+            'acknowledgementRemoved': swap['acknowledgementRemoved'], 'notPromoted': swap['notPromoted'],
+            'evidence': d['live']['evidence'],
+            'needsAcknowledgement': 'allow_unverified_effect for every other override: any other armor passive, any '
+                'second passive, and an armor swap together with a second'},
+        'evidence': {'status': 'development', 'liveTested': 'partly: only the armor-slot swap alone to the passives '
+            'in liveArmorSwap', 'liveTest': 'proof/PassiveSwapProbe'},
+        'safety': {'runtimeAddresses': False, 'rawWrites': False, 'packageIds': False,
+            'resourceIdentifiers': ['passives[].icon'], 'writesDuringGeneration': 0}}
+
+
 def outputs() -> dict[str, str]:
-    return {OUTPUT: '-- Generated by scripts/generate_player_passives.py; do not edit.\nreturn ' + lua(_utf8(build()))
-        + '\n'}
+    d = build()
+    return {OUTPUT: '-- Generated by scripts/generate_player_passives.py; do not edit.\nreturn ' + lua(_utf8(d))
+        + '\n', CATALOG: json.dumps(catalog(d), indent=1, ensure_ascii=True) + '\n'}
 
 
 def generate(check=False):

@@ -578,5 +578,133 @@ class PlayerPassivesDomainTests(unittest.TestCase):
         self.assertEqual(residency.generate(check=True), [])
 
 
+class PlayerPassivesCatalogTests(unittest.TestCase):
+    """sdk/ArmorPassiveCatalog.json: generated with the domain, the domain's passives and kits, the Lua API's view, the
+    set() contract and the live evidence."""
+    CATALOG = json.loads((ROOT / 'sdk/ArmorPassiveCatalog.json').read_text(encoding='utf-8'))
+
+    @staticmethod
+    def generator():
+        import generate_player_passives
+        return generate_player_passives
+
+    def test_the_catalog_is_generated_with_the_domain(self):
+        module = self.generator()
+        outputs = module.outputs()
+        self.assertEqual(sorted(outputs), ['domains/player_passives.lua', 'sdk/ArmorPassiveCatalog.json'])
+        self.assertEqual(outputs['sdk/ArmorPassiveCatalog.json'].encode('utf-8'),
+            (ROOT / 'sdk/ArmorPassiveCatalog.json').read_bytes())
+        self.assertEqual(module.generate(check=True), [])
+
+    def test_contract_schema_and_safety(self):
+        c = self.CATALOG
+        self.assertEqual((c['contract'], c['schemaVersion'], c['build'], c['status']),
+            ('hd2runtime.armor_passives.catalog.v1', 1, 'F5FEE03DCFDB', 'development'))
+        self.assertEqual(c['hd2RuntimeVersion'], (ROOT / 'VERSION').read_text(encoding='utf-8').strip())
+        self.assertEqual(c['summary'], {'passives': 32, 'unusedIds': 10, 'kits': 411,
+            'kitsBySlot': {'armor': 135, 'helmet': 158, 'cape': 118}, 'namedKits': 378, 'kitsWithWiki': 355,
+            'followsSwap': {'full': 21, 'partial': 10, 'unknown': 1}, 'effectPackages': 2, 'liveProvenArmorSwap': 4})
+        self.assertEqual(c['safety'], {'runtimeAddresses': False, 'rawWrites': False, 'packageIds': False,
+            'resourceIdentifiers': ['passives[].icon'], 'writesDuringGeneration': 0})
+        text = (ROOT / 'sdk/ArmorPassiveCatalog.json').read_text(encoding='utf-8')
+        for needle in ('"rva"', '"hex"', '"pins"', '33264F8', 'C76C97B3DFB67C5C', '1EEE5C22038560E5', '"package"'):
+            self.assertFalse(needle in text, needle)
+        for p in c['passives']:
+            self.assertRegex(p['icon'], r'^0x[0-9A-F]{16}$')
+            self.assertIn(p['followsSwap'], ('full', 'partial', 'unknown'))
+            self.assertEqual(p['armorSwapAcknowledgement'], None if p['liveProvenArmorSwap'] else
+                'allow_unverified_effect')
+        self.assertEqual([p['id'] for p in c['passives'] if p['armorSlotOnly']], [17])
+        self.assertEqual({p['id']: p['effectPackage']['catalogueKey'] for p in c['passives'] if p['effectPackage']},
+            {17: 'passive/17', 19: 'passive/19'})
+        self.assertEqual([k['index'] for k in c['kits']], list(range(411)))
+        self.assertTrue(all(k['wiki']['source'] == 'wiki' and k['wiki']['communityData'] for k in c['kits']
+            if 'wiki' in k))
+        self.assertEqual(c['set']['options']['second']['refused'], [{'id': 17, 'name': 'INTEGRATED EXPLOSIVES',
+            'code': 'ARMOR_SLOT_ONLY'}])
+        self.assertIn('second = 0', c['set']['options']['second']['falseVsZero'])
+        self.assertTrue(c['set']['soloOnly'] and not c['set']['raises'])
+
+    def test_passives_and_kits_agree_with_the_domain(self):
+        d = self.generator().build()
+        c = self.CATALOG
+        self.assertEqual([(p['id'], p['name'], p['description'], p['followsSwap'], p['armorKits'], p.get('note'))
+            for p in d['passives']], [(p['id'], p['name'], p['description'], p['followsSwap'], p['armorKits'],
+                p['note']) for p in c['passives']])
+        for dp, cp in zip(d['passives'], c['passives']):
+            self.assertEqual([(m['key'], m['key_name'], m['type'], m['value'], m['reader'], m['follows'])
+                for m in dp['modifiers']], [(m['key'], m['keyName'], m['type'], m['value'], m['reader'], m['follows'])
+                for m in cp['modifiers']])
+        self.assertEqual({p['id']: '0x' + p['icon'] for p in RESEARCH['passiveTable']},
+            {p['id']: p['icon'] for p in c['passives']})
+        self.assertEqual(c['unusedIds'], d['unused'])
+        for dk, ck in zip(d['kits'], c['kits']):
+            for key in ('index', 'id', 'slot', 'weight', 'passive', 'set', 'dlc', 'rarity', 'name', 'description'):
+                self.assertEqual(dk.get(key), ck[key], (dk['index'], key))
+            self.assertEqual({k: v for k, v in ck.get('wiki', {}).items() if k not in ('source', 'communityData')},
+                dk.get('wiki', {}))
+
+    def test_the_lua_api_gives_the_same_passives_kits_and_live_swaps(self):
+        out = run(r'''
+local hd2=require('hd2runtime/api/hd2')
+local D=require('hd2runtime/domains/player_passives')
+local lines={}
+for _,p in ipairs(hd2.passives.list())do
+    lines[#lines+1]=table.concat({'p',p.id,p.name,p.follows_swap,p.armor_kits,tostring(p.effect_package)},'|')
+end
+for _,k in ipairs(hd2.armor_kits())do
+    lines[#lines+1]=table.concat({'k',k.index,k.id,k.slot,k.passive,k.passive_name,k.same_name,tostring(k.name)},'|')
+end
+lines[#lines+1]='live|'..table.concat(D.live.armorSwap,',')
+return table.concat(lines,'\n')
+''').decode('utf-8').splitlines()
+        c = self.CATALOG
+        expected = ['|'.join(['p', str(p['id']), p['name'], p['followsSwap'], str(p['armorKits']),
+            str(p['effectPackage'] is not None).lower()]) for p in c['passives']]
+        expected += ['|'.join(['k', str(k['index']), k['id'], k['slot'], str(k['passive']), k['passiveName'],
+            str(k['sameName']), k['name'] if k['name'] is not None else 'nil']) for k in c['kits']]
+        expected.append('live|' + ','.join(str(p['id']) for p in c['liveArmorSwap']['passives']))
+        self.assertEqual(out[:len(expected)], expected)
+
+    def test_the_set_contract_and_the_live_swaps(self):
+        c = self.CATALOG
+        source = ''.join((ROOT / path).read_text(encoding='utf-8') for path in ('api/player_passives.lua',
+            'runtime/player_passives.lua'))
+        for code in c['set']['refusalCodes'] + c['set']['waitingCodes'] + c['set']['suspendedCodes']:
+            self.assertIn("'" + code + "'", source)
+        for status in c['set']['statuses']:
+            self.assertIn(status, source)
+        live = json.loads((ROOT / 'sdk/LiveEvidenceCatalog.json').read_text(encoding='utf-8'))
+        families = live['families'] if isinstance(live['families'], dict) else {f['family']: f for f in
+            live['families']}
+        family = families['player_armor_passive_swap']
+        swap = c['liveArmorSwap']
+        self.assertEqual([p['id'] for p in swap['passives']], family['passives'])
+        self.assertEqual([p['name'] for p in swap['passives']], ['SCOUT', 'ENGINEERING KIT', 'MED-KIT',
+            'SERVO-ASSISTED'])
+        self.assertEqual((swap['status'], swap['acknowledgementRemoved'], swap['notPromoted']),
+            (family['status'], family['acknowledgementRemoved'], family['notPromoted']))
+        self.assertEqual(sorted(p['id'] for p in c['passives'] if p['liveProvenArmorSwap']), [2, 6, 7, 8])
+
+    def test_docs_stubs_and_sdk_wiring(self):
+        doc = (ROOT / 'docs/armor-passives.md').read_text(encoding='utf-8')
+        self.assertEqual((ROOT / 'sdk/docs/armor-passives.md').read_text(encoding='utf-8'), doc)
+        self.assertIn('## Metadata', doc)
+        self.assertIn('`sdk/ArmorPassiveCatalog.json` (contract `' + self.CATALOG['contract'] + '`)', doc)
+        self.assertIn('`ArmorPassiveCatalog.json`', (ROOT / 'sdk/README.md').read_text(encoding='utf-8'))
+        self.assertIn('| `ArmorPassiveCatalog.json` |',
+            (ROOT / 'docs/getting-started.md').read_text(encoding='utf-8'))
+        # Every list of the live-proven swaps names all four (the stub comes from schemas/events.json).
+        stub = (ROOT / 'sdk/stubs/mods/skyeshade/hd2runtime.lua').read_text(encoding='utf-8')
+        for text in (stub, (ROOT / 'api/player_passives.lua').read_text(encoding='utf-8')):
+            self.assertNotIn('SCOUT, ENGINEERING KIT, SERVO-ASSISTED', text)
+            self.assertNotIn('SCOUT, ENGINEERING KIT or SERVO-ASSISTED', text)
+        self.assertEqual(stub.count('SCOUT, ENGINEERING KIT, MED-KIT, SERVO-ASSISTED'), 2)
+        self.assertIn("'generate_player_passives'",
+            (ROOT / 'scripts/regenerate_domains.py').read_text(encoding='utf-8'))
+        self.assertIn('generate_player_passives.generate(check=True)',
+            (ROOT / 'scripts/build_release.py').read_text(encoding='utf-8'))
+
+
 if __name__ == '__main__':
     unittest.main()

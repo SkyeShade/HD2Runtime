@@ -86,7 +86,8 @@ HD2Runtime is designed to fail safely when a game structure or ownership relatio
   Helldiver this machine simulates, so every write needs `allow_shared` (see `docs/helldiver-fields.md`)
 - Armor rating, speed and stamina (development line, not live-tested; `hd2.armor_stats`): an armor kit's piece weights
   (light, medium, heavy) for every player wearing it, the local player's own armor bonus and stamina factor, and the
-  per-weight tables and damage curve, read-only (see `docs/armor-stats.md`)
+  per-weight tables and damage curve, written as reviewed executable data (see `docs/armor-stats.md`;
+  `sdk/ArmorStatsCapabilities.json`). Armor passives and kits: `sdk/ArmorPassiveCatalog.json`
 - Generated SDK metadata for tools such as HD2RuntimeGUI
 
 Unsupported or ambiguous values remain read-only rather than being modified speculatively.

@@ -120,8 +120,8 @@ def outputs():
         constant=ident(name)
         assert constant not in fields[domain],'Helldiver field constant collision: '+field_id
         fields[domain][constant]=field_id
-    # Armor stats (domains/armor_stats_writes.lua; docs/armor-stats.md): a kit's piece weight per slot, and the
-    # read-only class tables and damage curve.
+    # Armor stats (domains/armor_stats_writes.lua; docs/armor-stats.md; sdk/ArmorStatsCapabilities.json): a kit's piece
+    # weight per slot, and the class tables and damage curve (reviewed executable data).
     import sys
     sys.path.insert(0,str(ROOT/'scripts'))
     import generate_armor_stats

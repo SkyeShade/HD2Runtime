@@ -46,6 +46,20 @@ me:restore()                                         -- the game's own values ag
 `research/docs/armor-stats-F5FEE03DCFDB.md`, with kit names from `research/armor-names-F5FEE03DCFDB.json`. The
 generated domain is `domains/armor_stats.lua` (`scripts/generate_armor_stats.py`).
 
+## Metadata
+
+`sdk/ArmorStatsCapabilities.json` (contract `hd2runtime.armor_stats.capabilities.v1`) is the catalog for SDK tools such
+as ModBuilder. `scripts/generate_armor_stats.py` writes it together with `domains/armor_stats.lua`, from the same
+research, so the two cannot drift. It holds:
+- the class tables, the damage curve, the slots, the ranges and the display formulas;
+- the passives' armor bonuses;
+- every armor kit (135): its id, index, name, passive, class, slots, vanilla piece weights and vanilla stats;
+- one field instance per writable value (1155): the piece weight of every kit's slots, the 9 class values and the 5
+  curve points, each with its allowed values or range, vanilla value, lifecycle and acknowledgements;
+- the transaction limits, the local player's `set` options and refusal codes, and the evidence.
+
+It publishes no address, pin or memory layout.
+
 ## Where the numbers come from
 
 | Table (game.dll) | light / medium / heavy | Read by |

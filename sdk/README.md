@@ -28,6 +28,10 @@ offensive, support-call-in, sentry, emplacement, and deferred mine authoring; se
 resident-only, its designed rate and a heuristic range. No Wwise event, bank or package id; see `docs/weapon-sounds.md`.
 `hd2.projectiles.homing(weapon, opts)` (0.30.0-dev, not live-tested) makes the local player's own shots of a weapon
 home on enemies or other players in flight; see `docs/projectile-homing.md`.
+`ArmorStatsCapabilities.json` (0.30.0-dev, not live-tested) lists every armor kit with its vanilla piece weights
+and stats, the weight-class tables, the damage curve and one field instance per writable value; see
+`docs/armor-stats.md`. `ArmorPassiveCatalog.json` lists the 32 armor passives, the 411 kits and the
+`hd2.player_passives.set` contract; see `docs/armor-passives.md`.
 
 Attachment preset research is split into `AttachmentPresetGraph.json`,
 `AttachmentSelectionCapabilities.json`, and `AttachmentEffectOwnership.json`.

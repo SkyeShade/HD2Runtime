@@ -3767,7 +3767,7 @@
      [
       "allow_unverified_effect",
       "boolean",
-      "Required (true) except for an armor-slot swap alone to a live-proven passive (SCOUT, ENGINEERING KIT, SERVO-ASSISTED); without it set() is refused ACKNOWLEDGEMENT_REQUIRED."
+      "Required (true) except for an armor-slot swap alone to a live-proven passive (SCOUT, ENGINEERING KIT, MED-KIT, SERVO-ASSISTED); without it set() is refused ACKNOWLEDGEMENT_REQUIRED."
      ]
     ],
     "methods": []
@@ -3843,7 +3843,7 @@
        ]
       ],
       "returns": "HD2PlayerPassiveHandle",
-      "doc": "Override the local player's armor passive and/or add a second passive in the helmet slot: one guarded 4-byte write per slot on the player's own record, re-applied after each kit change, until stop(). A passive with an effect package (17, 19) is loaded first through core/assets, shared with compatible peers (status waiting_for_assets; ASSET_UNAVAILABLE on failure). Readers that ignore the helmet slot (flinch, one chest-bleed site, Integrated Explosives: refused there) never see the second passive; overlapping keys do not stack; reload, ammo, sidearm stats and the armor rating follow the kit worn. Solo only (NOT_SOLO). Live-proven: the armor-slot swap to SCOUT, ENGINEERING KIT, SERVO-ASSISTED."
+      "doc": "Override the local player's armor passive and/or add a second passive in the helmet slot: one guarded 4-byte write per slot on the player's own record, re-applied after each kit change, until stop(). A passive with an effect package (17, 19) is loaded first through core/assets, shared with compatible peers (status waiting_for_assets; ASSET_UNAVAILABLE on failure). Readers that ignore the helmet slot (flinch, one chest-bleed site, Integrated Explosives: refused there) never see the second passive; overlapping keys do not stack; reload, ammo, sidearm stats and the armor rating follow the kit worn. Solo only (NOT_SOLO). Live-proven: the armor-slot swap to SCOUT, ENGINEERING KIT, MED-KIT, SERVO-ASSISTED."
      },
      {
       "name": "status",
@@ -5941,13 +5941,13 @@
        ]
       ],
       "returns": "HD2ArmorClassTarget",
-      "doc": "A weight class: its table values (armor value, speed and stamina factors) now. Read-only: the tables sit in game.dll pages that are executable at run time, which a guarded write never targets."
+      "doc": "A weight class: its table values (armor value, speed and stamina factors). Writable with allow_shared and allow_unverified_effect: the tables sit in game.dll pages that are executable at run time, and only their exact 4-byte entries are written, as reviewed executable data."
      },
      {
       "name": "damage_curve",
       "params": [],
       "returns": "HD2ArmorDamageCurveTarget",
-      "doc": "The avatar damage curve (damage multiplier by armor value). Read-only, like the class tables."
+      "doc": "The avatar damage curve (damage multiplier by armor value). Writable like the class tables (reviewed executable data)."
      },
      {
       "name": "player",
@@ -6066,13 +6066,13 @@
       "name": "describe",
       "params": [],
       "returns": "table",
-      "doc": "rating {value (armor value A), display (50 + 50 x A), vanilla}, speed {value, display (500 x factor), vanilla}, stamina {value, display (100 x (2 - F)), vanilla}, damage_multiplier, source, editable = false and why."
+      "doc": "rating {value (armor value A), display (50 + 50 x A), vanilla}, speed {value, display (500 x factor), vanilla}, stamina {value, display (100 x (2 - F)), vanilla}, damage_multiplier, source, editable = true and executable_data (why the page is accepted)."
      },
      {
       "name": "fields",
       "params": [],
       "returns": "table[]",
-      "doc": "Its three fields (read-only)."
+      "doc": "Its three fields: armor_class.rating, speed and stamina (writable)."
      }
     ]
    },
@@ -6090,13 +6090,13 @@
       "name": "describe",
       "params": [],
       "returns": "table",
-      "doc": "{points = {{armor_value, damage}}, vanilla, source, editable = false}."
+      "doc": "{points = {{armor_value, damage}}, vanilla, source, editable = true, executable_data}."
      },
      {
       "name": "fields",
       "params": [],
       "returns": "table[]",
-      "doc": "Its five fields (read-only)."
+      "doc": "Its five fields: armor_damage_curve.at_minus_1 .. at_3 (writable)."
      }
     ]
    },

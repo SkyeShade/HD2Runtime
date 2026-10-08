@@ -460,6 +460,138 @@ class ArmorStatsSnapshotTests(unittest.TestCase):
         self.assertEqual(sum(1 for r in OVERLAY['results'].values() if r['player']['status'] == 'checked'), 6)
 
 
+class ArmorStatsCatalogTests(unittest.TestCase):
+    """sdk/ArmorStatsCapabilities.json: generated with the domain, the domain's kits and the Lua descriptors."""
+    CATALOG = json.loads((ROOT / 'sdk/ArmorStatsCapabilities.json').read_text(encoding='utf-8'))
+
+    def test_the_catalog_is_generated_with_the_domain(self):
+        import generate_armor_stats
+        outputs = generate_armor_stats.outputs()
+        self.assertEqual(sorted(outputs), ['domains/armor_stats.lua', 'sdk/ArmorStatsCapabilities.json'])
+        self.assertEqual(outputs['sdk/ArmorStatsCapabilities.json'].encode('utf-8'),
+            (ROOT / 'sdk/ArmorStatsCapabilities.json').read_bytes())
+        self.assertEqual(generate_armor_stats.generate(check=True), [])
+
+    def test_contract_schema_and_safety(self):
+        c = self.CATALOG
+        self.assertEqual((c['contract'], c['schemaVersion'], c['build'], c['status']),
+            ('hd2runtime.armor_stats.capabilities.v1', 1, 'F5FEE03DCFDB', 'development'))
+        self.assertEqual(c['hd2RuntimeVersion'], (ROOT / 'VERSION').read_text(encoding='utf-8').strip())
+        self.assertEqual(c['summary'], {'kits': 135, 'namedKits': 127, 'uniquelyNamedKits': 108, 'classes': 3,
+            'curvePoints': 5, 'fieldInstances': 1155, 'kitFieldInstances': 1141, 'classFieldInstances': 9,
+            'curveFieldInstances': 5, 'passiveArmorBonuses': 5})
+        self.assertEqual(c['safety'], {'runtimeAddresses': False, 'rawWrites': False, 'nativeLayouts': False,
+            'writesDuringGeneration': 0})
+        # No address, pin, offset or layout: none of the domain's native keys or table addresses appear.
+        text = (ROOT / 'sdk/ArmorStatsCapabilities.json').read_text(encoding='utf-8')
+        for needle in ('"rva"', '"hex"', '"pins"', '"offset"', '"globalRva"', '21CB160', '2160678', '21C6F78',
+                '21CEFF0', '33264F8', '3326D20', '53E900', '546AC4'):
+            self.assertFalse(needle in text, needle)
+        self.assertEqual(c['transaction']['targetsPerRequest'], 1)
+        self.assertEqual((c['transaction']['minChanges'], c['transaction']['maxChanges']), (1, 10))
+        self.assertEqual(c['transaction']['acknowledgements'], ['allow_shared', 'allow_unverified_effect'])
+        self.assertEqual([k['name'] for k in c['classes']], ['light', 'medium', 'heavy'])
+        self.assertEqual([(k['display']['rating'], k['display']['speed'], k['display']['staminaRegen'])
+            for k in c['classes']], [(50, 550, 125), (100, 500, 100), (150, 450, 50)])
+        self.assertEqual([(p['armorValue'], p['damage']) for p in c['damageCurve']['points']],
+            [(-1, 1.66), (0, 1.25), (1, 1.0), (2, 0.75), (3, 0.65)])
+        self.assertEqual({b['name']: b['rows'] for b in c['passiveArmorBonuses']}, {
+            'EXTRA PADDING': [{'type': 'Add', 'value': 1.0}], 'UNFLINCHING': [{'type': 'Add', 'value': 0.5}],
+            'SUPPLEMENTAL ADRENALINE': [{'type': 'Add', 'value': 0.5}],
+            'CONCUSSIVE PADDING, REINFORCED': [{'type': 'Add', 'value': 0.6}],
+            'BLUNT-FORCE MITIGATION': [{'type': 'Add', 'value': 0.5}]})
+        self.assertEqual(c['ranges']['player.armor_bonus'], [-1.0, 3.0])
+        self.assertEqual(c['ranges']['player.stamina_factor'], [0.1, 3.0])
+        self.assertEqual(c['player']['acknowledgements'], ['allow_unverified_effect'])
+        self.assertTrue(c['player']['soloOnly'] and not c['player']['liveTested'] and not c['player']['raises'])
+        for instance in c['fieldInstances']:
+            self.assertEqual(instance['acknowledgements'], ['allow_shared', 'allow_unverified_effect'])
+            self.assertTrue(instance['editable'] and instance['shared'] and instance['allowSharedRequired'])
+            self.assertFalse(instance['liveTested'])
+            domain, name = instance['semanticFieldId'].split('.', 1)
+            self.assertEqual(instance['apiFieldConstant'], 'hd2.fields.' + domain + '.' + name.replace('.', '_'))
+            self.assertEqual(instance['target']['resource'], domain if domain != 'armor_damage_curve'
+                else 'armor_damage_curve')
+            if instance['type'] == 'enum':
+                self.assertEqual(instance['allowedValues'], ['light', 'medium', 'heavy'])
+                self.assertIn(instance['currentDefault'], instance['allowedValues'])
+                self.assertNotIn('min', instance)
+                self.assertFalse(instance['executableData'])
+            else:
+                self.assertLessEqual(instance['min'], instance['currentDefault'])
+                self.assertLessEqual(instance['currentDefault'], instance['max'])
+                self.assertTrue(instance['executableData'])
+        # The evidence: development, nothing promoted; the r55 session recorded, not promoted.
+        evidence = c['evidence']
+        self.assertEqual((evidence['status'], evidence['liveTested'], evidence['liveProvenFamilies']),
+            ('development', False, []))
+        self.assertEqual([(s['session'], s['status']) for s in evidence['sessions']],
+            [('armor-stats-passives-r55-2026-10-08', 'recorded_not_promoted')])
+        live = json.loads((ROOT / 'sdk/LiveEvidenceCatalog.json').read_text(encoding='utf-8'))
+        families = live['families'] if isinstance(live['families'], dict) else {f['family']: f for f in
+            live['families']}
+        self.assertFalse([name for name, f in families.items() if f.get('domain') == 'armor_stats'])
+        self.assertIn('armor-stats-passives-r55-2026-10-08', json.dumps(live['sessions']))
+
+    def test_the_kits_agree_with_the_domain(self):
+        import generate_armor_stats
+        domain = generate_armor_stats.build()
+        kits = self.CATALOG['kits']
+        self.assertEqual([k['id'] for k in kits], [k['id'] for k in domain['kits']])
+        for kit, d in zip(kits, domain['kits']):
+            self.assertEqual(kit['hexId'], '0x' + d['id'])
+            self.assertEqual((kit['index'], kit['name'], kit['passive']['id'], kit['class'], kit['vanilla']),
+                (d['index'], d['name'], d['passive'], d['class'], d['vanilla']))
+            self.assertEqual(kit['weights'],
+                {slot: ['light', 'medium', 'heavy'][w] for slot, w in d['weights'].items()})
+            self.assertEqual(kit['slots'], [s for s in domain['slots'] if s in d['weights']])
+            self.assertEqual(kit['nameUnique'], bool(d['name']) and d['name'].lower() not in domain['ambiguousNames'])
+        # One piece weight instance per slot a kit has, its vanilla weight the default.
+        pieces = {(i['target']['armor_kit'], i['target']['slot']): i['currentDefault']
+            for i in self.CATALOG['fieldInstances'] if i['target']['resource'] == 'armor_kit'}
+        self.assertEqual(pieces, {(k['id'], slot): w for k in kits for slot, w in k['weights'].items()})
+        sanctioner = next(k for k in kits if k['id'] == '4DD749C6')
+        self.assertEqual((sanctioner['index'], sanctioner['class'], sanctioner['ratingPieces']), (198, 'light', 5))
+
+    def test_the_field_instances_are_the_lua_descriptors(self):
+        out = run(r'''
+local D=require('hd2runtime/domains/armor_stats')
+local W=require('hd2runtime/domains/armor_stats_writes')
+local lines={}
+local function add(f,who)
+    lines[#lines+1]=table.concat({f.semanticFieldId,who,tostring(f.currentDefault),tostring(f.min),tostring(f.max),
+        f.lifecycle,f.sharedReason,f.acknowledgementReason,tostring(f.executableData==true),f.operationGroup,
+        table.concat(f.acknowledgements,'+'),table.concat(f.allowedValues or{},'+')},'|')
+end
+for _,kit in ipairs(D.kits)do for _,f in ipairs(W.kit_fields(kit))do add(f,kit.id)end end
+for index=0,2 do for _,f in ipairs(W.class_fields(index))do add(f,D.classes[index+1])end end
+for _,f in ipairs(W.curve_fields())do add(f,'curve')end
+lines[#lines+1]=tostring(#D.slots)
+return table.concat(lines,'\n')
+''').decode('utf-8').splitlines()
+
+        def text(value):
+            return 'nil' if value is None else ('%.14g' % value if isinstance(value, float) else str(value))
+        expected = []
+        for i in self.CATALOG['fieldInstances']:
+            target = i['target']
+            who = target.get('armor_kit') or target.get('armor_class') or 'curve'
+            low, high = (0, 2) if i['type'] == 'enum' else (i['min'], i['max'])
+            expected.append('|'.join([i['semanticFieldId'], who, text(i['currentDefault']), text(low), text(high),
+                i['lifecycle'], i['sharedReason'], i['acknowledgementReason'], text(i['executableData']).lower(),
+                i['operationGroup'], '+'.join(i['acknowledgements']), '+'.join(i.get('allowedValues', []))]))
+        expected.append(str(self.CATALOG['transaction']['maxChanges']))
+        self.assertEqual(out[:len(expected)], expected)
+
+    def test_the_published_codes_are_the_luas(self):
+        source = ''.join((ROOT / path).read_text(encoding='utf-8') for path in ('api/armor_stats.lua',
+            'runtime/armor_stats.lua', 'domains/armor_stats_writes.lua', 'core/ownership.lua'))
+        for code in self.CATALOG['player']['refusalCodes'] + self.CATALOG['transaction']['refusals']:
+            self.assertIn(code, source)
+        for status in ('APPLIED', 'UNCHANGED', 'refused'):
+            self.assertIn("'" + status + "'", source)
+
+
 class ArmorStatsWiringTests(unittest.TestCase):
     def test_sdk_docs_release_notes_and_packaged_scenario(self):
         stub = (ROOT / 'sdk/stubs/mods/skyeshade/hd2runtime.lua').read_text(encoding='utf-8')
@@ -471,6 +603,20 @@ class ArmorStatsWiringTests(unittest.TestCase):
         self.assertEqual(stub, (ROOT / 'starter/stubs/mods/skyeshade/hd2runtime.lua').read_text(encoding='utf-8'))
         self.assertEqual((ROOT / 'docs/armor-stats.md').read_text(encoding='utf-8'),
             (ROOT / 'sdk/docs/armor-stats.md').read_text(encoding='utf-8'))
+        # The class tables and the curve are writable (reviewed executable data): no stub calls them read-only.
+        for text in ('editable = false', 'Its three fields (read-only)', 'Its five fields (read-only)',
+                'Read-only, like the class tables'):
+            self.assertNotIn(text, stub)
+        # The catalog: the doc's Metadata section, the SDK README and the getting-started table name it.
+        doc = (ROOT / 'docs/armor-stats.md').read_text(encoding='utf-8')
+        catalog = json.loads((ROOT / 'sdk/ArmorStatsCapabilities.json').read_text(encoding='utf-8'))
+        self.assertIn('## Metadata', doc)
+        self.assertIn('`sdk/ArmorStatsCapabilities.json` (contract `' + catalog['contract'] + '`)', doc)
+        self.assertIn('every armor kit (%d)' % catalog['summary']['kits'], doc)
+        self.assertIn('one field instance per writable value (%d)' % catalog['summary']['fieldInstances'], doc)
+        self.assertIn('`ArmorStatsCapabilities.json`', (ROOT / 'sdk/README.md').read_text(encoding='utf-8'))
+        self.assertIn('| `ArmorStatsCapabilities.json` |',
+            (ROOT / 'docs/getting-started.md').read_text(encoding='utf-8'))
         notes = (ROOT / 'docs/releases/0.30.0-dev.md').read_text(encoding='utf-8')
         self.assertIn('## Armor rating, speed and stamina (2026-10-08, not live-tested)', notes)
         self.assertIn('docs/armor-stats.md', (ROOT / 'README.md').read_text(encoding='utf-8'))

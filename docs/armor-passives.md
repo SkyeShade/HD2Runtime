@@ -33,6 +33,20 @@ local ie = hd2.player_passives.set({armor = 'INTEGRATED EXPLOSIVES', allow_unver
 is not live-tested. The read APIs are read-only. The live test is `proof/PassiveSwapProbe` (0.2.0: more passives,
 the Integrated Explosives package, an Extra Padding control).
 
+## Metadata
+
+`sdk/ArmorPassiveCatalog.json` (contract `hd2runtime.armor_passives.catalog.v1`) is the catalog for SDK tools such as
+ModBuilder. `scripts/generate_player_passives.py` writes it together with `domains/player_passives.lua`, from the same
+research. It holds:
+- the 32 passives: name, the game's description, modifiers, what follows a swap, the effect package's catalogue key,
+  `armorSlotOnly`, whether the armor-slot swap is live-proven, and `icon`, the 64-bit id of the passive's icon
+  resource (for reading the icon from the user's own game files);
+- the 411 kits as `hd2.armor_kits` returns them, with the wiki values marked as community data;
+- the `hd2.player_passives.set` contract: options, statuses, refusal codes, and the live-proven armor-slot swaps that
+  need no `allow_unverified_effect`.
+
+It publishes no address and no package id.
+
 ## The read API
 
 | Call | Returns |

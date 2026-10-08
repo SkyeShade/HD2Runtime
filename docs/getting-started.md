@@ -167,6 +167,8 @@ Concussive is 2 / 2 / 2 / 2. Never copy `expect` values from a similar weapon.
 | Magazine attachments (round counts on weapons with selectable magazines) | `MagazineAttachmentCapabilities.json` |
 | Muzzle, optics and underbarrel attachments (ergonomics, sway, recoil, climb, spread) | `WeaponAttachmentModifierCapabilities.json` |
 | Boosters | `BoosterAuthoringCapabilities.json` |
+| Armor rating, speed and stamina: kit piece weights, weight classes, the damage curve | `ArmorStatsCapabilities.json` |
+| Armor passives and the game's armor, helmet and cape kits | `ArmorPassiveCatalog.json` |
 | The Lua name of a field | `stubs/mods/skyeshade/hd2runtime.lua`, the `---@class HD2Fields_<domain>` blocks |
 | Explanations | the other files in `docs/` |
 | Working code | `<Example>/src/addon.lua` in the example-projects ZIP (each top-level folder is one example) |

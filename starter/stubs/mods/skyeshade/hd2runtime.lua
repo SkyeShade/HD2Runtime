@@ -2646,7 +2646,7 @@ local HD2PlayerPassives = {}
 ---@field armor HD2PassiveName|integer|nil The armor passive (name or id); nil: the kit's own.
 ---@field second HD2PassiveName|integer|false|nil A second passive in the helmet slot; nil or false: none (the kit's). INTEGRATED EXPLOSIVES is refused here (ARMOR_SLOT_ONLY).
 ---@field owner string|nil Mod id (defaults to the calling mod).
----@field allow_unverified_effect boolean Required (true) except for an armor-slot swap alone to a live-proven passive (SCOUT, ENGINEERING KIT, SERVO-ASSISTED); without it set() is refused ACKNOWLEDGEMENT_REQUIRED.
+---@field allow_unverified_effect boolean Required (true) except for an armor-slot swap alone to a live-proven passive (SCOUT, ENGINEERING KIT, MED-KIT, SERVO-ASSISTED); without it set() is refused ACKNOWLEDGEMENT_REQUIRED.
 local HD2PlayerPassiveSpec = {}
 
 ---An armor passive override. A refusal never raises: status is refused with a code and a reason.
@@ -2670,7 +2670,7 @@ function HD2PlayerPassiveHandle:describe() end
 ---hd2.player_passives: call it for the local player's passives (HD2PlayerPassives, or nil, code, reason); set() overrides them (DEVELOPMENT, solo; docs/armor-passives.md).
 ---@class HD2PlayerPassivesApi
 local HD2PlayerPassivesApi = {}
----Override the local player's armor passive and/or add a second passive in the helmet slot: one guarded 4-byte write per slot on the player's own record, re-applied after each kit change, until stop(). A passive with an effect package (17, 19) is loaded first through core/assets, shared with compatible peers (status waiting_for_assets; ASSET_UNAVAILABLE on failure). Readers that ignore the helmet slot (flinch, one chest-bleed site, Integrated Explosives: refused there) never see the second passive; overlapping keys do not stack; reload, ammo, sidearm stats and the armor rating follow the kit worn. Solo only (NOT_SOLO). Live-proven: the armor-slot swap to SCOUT, ENGINEERING KIT, SERVO-ASSISTED.
+---Override the local player's armor passive and/or add a second passive in the helmet slot: one guarded 4-byte write per slot on the player's own record, re-applied after each kit change, until stop(). A passive with an effect package (17, 19) is loaded first through core/assets, shared with compatible peers (status waiting_for_assets; ASSET_UNAVAILABLE on failure). Readers that ignore the helmet slot (flinch, one chest-bleed site, Integrated Explosives: refused there) never see the second passive; overlapping keys do not stack; reload, ammo, sidearm stats and the armor rating follow the kit worn. Solo only (NOT_SOLO). Live-proven: the armor-slot swap to SCOUT, ENGINEERING KIT, MED-KIT, SERVO-ASSISTED.
 ---@param spec HD2PlayerPassiveSpec
 ---@return HD2PlayerPassiveHandle
 function HD2PlayerPassivesApi.set(spec) end
@@ -3331,11 +3331,11 @@ function HD2ArmorStatsApi.kit(identity) end
 ---Every armor kit of the build with its vanilla stats (offline).
 ---@return HD2ArmorKitSummary[]
 function HD2ArmorStatsApi.kits() end
----A weight class: its table values (armor value, speed and stamina factors) now. Read-only: the tables sit in game.dll pages that are executable at run time, which a guarded write never targets.
+---A weight class: its table values (armor value, speed and stamina factors). Writable with allow_shared and allow_unverified_effect: the tables sit in game.dll pages that are executable at run time, and only their exact 4-byte entries are written, as reviewed executable data.
 ---@param name "light"|"medium"|"heavy"
 ---@return HD2ArmorClassTarget
 function HD2ArmorStatsApi.class(name) end
----The avatar damage curve (damage multiplier by armor value). Read-only, like the class tables.
+---The avatar damage curve (damage multiplier by armor value). Writable like the class tables (reviewed executable data).
 ---@return HD2ArmorDamageCurveTarget
 function HD2ArmorStatsApi.damage_curve() end
 ---The local player's own avatar members: the armor bonus and the stamina factor (DEVELOPMENT, solo).
@@ -3378,10 +3378,10 @@ local HD2ArmorKitSummary = {}
 ---@field resource "armor_class"
 ---@field armor_class "light"|"medium"|"heavy"
 local HD2ArmorClassTarget = {}
----rating {value (armor value A), display (50 + 50 x A), vanilla}, speed {value, display (500 x factor), vanilla}, stamina {value, display (100 x (2 - F)), vanilla}, damage_multiplier, source, editable = false and why.
+---rating {value (armor value A), display (50 + 50 x A), vanilla}, speed {value, display (500 x factor), vanilla}, stamina {value, display (100 x (2 - F)), vanilla}, damage_multiplier, source, editable = true and executable_data (why the page is accepted).
 ---@return table
 function HD2ArmorClassTarget:describe() end
----Its three fields (read-only).
+---Its three fields: armor_class.rating, speed and stamina (writable).
 ---@return table[]
 function HD2ArmorClassTarget:fields() end
 
@@ -3389,10 +3389,10 @@ function HD2ArmorClassTarget:fields() end
 ---@class HD2ArmorDamageCurveTarget
 ---@field resource "armor_damage_curve"
 local HD2ArmorDamageCurveTarget = {}
----{points = {{armor_value, damage}}, vanilla, source, editable = false}.
+---{points = {{armor_value, damage}}, vanilla, source, editable = true, executable_data}.
 ---@return table
 function HD2ArmorDamageCurveTarget:describe() end
----Its five fields (read-only).
+---Its five fields: armor_damage_curve.at_minus_1 .. at_3 (writable).
 ---@return table[]
 function HD2ArmorDamageCurveTarget:fields() end
 

@@ -17,7 +17,7 @@
 -- core/assets (shared with compatible peers): the handle is 'waiting_for_assets' until it is resident, then written;
 -- a failed load refuses it (ASSET_UNAVAILABLE). INTEGRATED EXPLOSIVES as the SECOND passive is refused
 -- (ARMOR_SLOT_ONLY): the death explosion reads the armor slot only. Every override but an armor-slot swap alone to a
--- live-proven passive (SCOUT, ENGINEERING KIT, SERVO-ASSISTED) needs allow_unverified_effect = true.
+-- live-proven passive (SCOUT, ENGINEERING KIT, MED-KIT, SERVO-ASSISTED) needs allow_unverified_effect = true.
 --
 -- The kits (research/armor-names-F5FEE03DCFDB.json; read-only, offline):
 --   for _, k in ipairs(hd2.armor_kits({slot = 'armor', weight = 'heavy', passive = 'FORTIFIED'})) do print(k.name) end
@@ -30,6 +30,13 @@ local M={}
 local OPTIONS={armor=true,second=true,owner=true,allow_unverified_effect=true}
 local UNUSED={}
 for _,id in ipairs(D.unused)do UNUSED[id]=true end
+-- The live-proven armor-slot swaps by name, for the refusal text ('SCOUT, ENGINEERING KIT, MED-KIT or SERVO-ASSISTED').
+local function proven_names()
+    local names={}
+    for _,id in ipairs(D.live and D.live.armorSwap or{})do names[#names+1]=passives.name_of(id)end
+    if #names<2 then return names[1]or'none'end
+    return table.concat(names,', ',1,#names-1)..' or '..names[#names]
+end
 
 local function copy_list(list)
     local out={}
@@ -206,14 +213,15 @@ function M.set(spec)
     local ok,armor,reason=slot_value(handle,spec,'armor')
     if not ok then return refuse(handle,armor,reason)end
     -- The acknowledgement: an override is not live-tested, except an armor-slot swap alone to a passive the live
-    -- evidence proved (schemas/live_evidence.json, player_armor_passive_swap: SCOUT, ENGINEERING KIT, SERVO-ASSISTED).
+    -- evidence proved (schemas/live_evidence.json, player_armor_passive_swap, D.live.armorSwap: SCOUT, ENGINEERING KIT,
+    -- MED-KIT, SERVO-ASSISTED).
     local proven=false
     for _,id in ipairs(D.live and D.live.armorSwap or{})do if id==armor then proven=true end end
     if proven and spec.second~=nil and spec.second~=false then proven=false end
     if spec.allow_unverified_effect~=true and not proven then
         return refuse(handle,'ACKNOWLEDGEMENT_REQUIRED','this passive override is not yet shown in game: pass '
             ..'allow_unverified_effect = true (live-proven without it: an armor-slot swap alone to '
-            ..'SCOUT, ENGINEERING KIT or SERVO-ASSISTED)')
+            ..proven_names()..')')
     end
     local ok2,second,reason2=slot_value(handle,spec,'second')
     if not ok2 then return refuse(handle,second,reason2)end
