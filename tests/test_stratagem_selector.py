@@ -109,7 +109,7 @@ class SelectorResearchTests(unittest.TestCase):
         source = (ROOT / 'runtime/windows_write.lua').read_text(encoding='utf-8')
         self.assertIn('function runtime.native_selector_close(entry,ui)', source)
         self.assertIn("address(entry)and address(ui),'unsupported selector close call'", source)
-        self.assertIn("ffi.cast('void (*)(void *)',entry)", source)
+        self.assertIn("ffi.cast(win.fn('void (*)(void *)'),entry)", source)
         callers = sorted(p.name for p in (ROOT / 'runtime').glob('*.lua') if p.name != 'windows_write.lua'
             and 'native_selector_close(' in p.read_text(encoding='utf-8'))
         self.assertEqual(callers, ['stratagem_selector.lua'])

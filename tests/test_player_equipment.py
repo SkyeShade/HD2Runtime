@@ -247,7 +247,7 @@ class PlayerEquipmentResearchTests(unittest.TestCase):
             for forbidden in ('runtime.write', 'WriteProcessMemory', 'ffi.copy', 'VirtualProtect', 'owned_block'):
                 self.assertNotIn(forbidden, text)
         # The two native calls are the only casts, each guarded by its arguments.
-        self.assertEqual(len(re.findall(r'ffi\.cast\(\'uint8_t \(\*\)', SOURCE)), 2)
+        self.assertEqual(len(re.findall(r'ffi\.cast\(win\.fn\(\'uint8_t \(\*\)', SOURCE)), 2)
         self.assertIn("ability==SP.selfAbility", SOURCE)
 
 

@@ -101,7 +101,7 @@ function M.native_adapter()
         assert(address(entry)and address(settings)and(value==D.privacy.friendsOnly or value==D.privacy.inviteOnly
             or value==D.privacy.friendsAndClan),'unsupported privacy call')
         local v=ffi.new('uint32_t[1]',value)
-        local set=ffi.cast('void (*)(void *, uint32_t, const void *)',entry)
+        local set=ffi.cast(win.fn('void (*)(void *, uint32_t, const void *)'),entry)
         set(ffi.cast('void *',settings),D.setter.privacyId,v)
         assert(v~=nil)
         return true
@@ -110,7 +110,7 @@ function M.native_adapter()
     function A.stop_quickplay(entry,matchmaker)
         assert(address(entry)and address(matchmaker),'unsupported Quickplay stop call')
         local a=D.stopQuickplay.arguments
-        local stop=ffi.cast('void (*)(void *, uint8_t, int32_t, int32_t, uint8_t, uint8_t, uint8_t, uint8_t)',entry)
+        local stop=ffi.cast(win.fn('void (*)(void *, uint8_t, int32_t, int32_t, uint8_t, uint8_t, uint8_t, uint8_t)'),entry)
         stop(ffi.cast('void *',matchmaker),a[1],a[2],a[3],a[4],a[5],a[6],a[7])
         return true
     end

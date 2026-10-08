@@ -381,7 +381,7 @@ function M.native_adapter()
     -- needs_ammo(_, user) -> bool (game.dll 0x9AD7D0; its first argument is never read).
     function A.needs_ammo(entry,user)
         assert(address(entry)and u32(user)and user~=0,'unsupported needs_ammo call')
-        local query=ffi.cast('uint8_t (*)(void *, uint32_t)',entry)
+        local query=ffi.cast(win.fn('uint8_t (*)(void *, uint32_t)'),entry)
         return query(nil,user)~=0
     end
     -- try_start_action(context, request {ability, target, extra}) -> bool (game.dll 0xA431D0).
@@ -389,7 +389,7 @@ function M.native_adapter()
         assert(address(entry)and address(context)and ability==SP.selfAbility and u32(target)and u32(extra),
             'unsupported start_action call')
         local request=ffi.new('uint32_t[3]',ability,target,extra)
-        local start=ffi.cast('uint8_t (*)(void *, const uint32_t *)',entry)
+        local start=ffi.cast(win.fn('uint8_t (*)(void *, const uint32_t *)'),entry)
         local started=start(ffi.cast('void *',context),request)~=0
         -- Keeps the request referenced until the game returned (it copies it during the call).
         assert(request~=nil)

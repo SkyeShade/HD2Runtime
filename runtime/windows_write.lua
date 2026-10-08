@@ -37,7 +37,7 @@ function M.create()
             and type(instance)=='number'and instance>0 and instance<=9007199254740991
             and type(id)=='string'and#id==8 and id~=string.rep('\0',8),'unsupported package request')
         local ids=ffi.new('uint64_t[1]');ffi.copy(ids,id,8)
-        local request=ffi.cast('void (*)(void *, const uint64_t *, uint32_t)',entry)
+        local request=ffi.cast(win.fn('void (*)(void *, const uint64_t *, uint32_t)'),entry)
         request(ffi.cast('void *',instance),ids,1)
         return true
     end
@@ -49,7 +49,7 @@ function M.create()
             and type(manager)=='number'and manager>0 and manager<=9007199254740991
             and type(entity)=='number'and entity>0 and entity<4294967296 and entity%1==0
             and type(fraction)=='number'and fraction>0 and fraction<=1,'unsupported heal call')
-        local heal=ffi.cast('void (*)(void *, uint32_t, float)',entry)
+        local heal=ffi.cast(win.fn('void (*)(void *, uint32_t, float)'),entry)
         heal(ffi.cast('void *',manager),entity,fraction)
         return true
     end
@@ -69,8 +69,8 @@ function M.create()
             and type(peer_hi)=='number'and peer_hi>=0 and peer_hi<4294967296 and peer_hi%1==0,'unsupported explosion call')
         local position=ffi.new('float[3]',x,y,z)
         local peer=ffi.new('uint64_t',peer_hi)*4294967296+peer_lo
-        local request=ffi.cast('void (*)(void *, const float *, uint32_t, uint32_t, uint32_t, uint64_t, uint32_t, '
-            ..'const float *, uint8_t, uint32_t, const uint32_t *, const float *, const float *, uint8_t, uint32_t)',entry)
+        local request=ffi.cast(win.fn('void (*)(void *, const float *, uint32_t, uint32_t, uint32_t, uint64_t, uint32_t, '
+            ..'const float *, uint8_t, uint32_t, const uint32_t *, const float *, const float *, uint8_t, uint32_t)'),entry)
         request(ffi.cast('void *',queue),position,kind,source,owner,peer,0,nil,1,0,nil,nil,nil,0,0)
         return true
     end
@@ -88,7 +88,7 @@ function M.create()
             and type(kind)=='number'and kind>0 and kind<351 and kind%1==0
             and type(entity)=='number'and entity>0 and entity<4294967296 and entity%1==0,'unsupported projectile call')
         local position,direction=ffi.new('float[3]',x,y,z),ffi.new('float[3]',dx,dy,dz)
-        local fire=ffi.cast('void (*)(void *, uint32_t, const float *, const float *, uint32_t, uint32_t, uint64_t)',
+        local fire=ffi.cast(win.fn('void (*)(void *, uint32_t, const float *, const float *, uint32_t, uint32_t, uint64_t)'),
             entry)
         fire(ffi.cast('void *',system),kind,position,direction,entity,0,0)
         return true
@@ -122,7 +122,7 @@ function M.create()
         if not virtual_alloc then
             local export=kernel.GetProcAddress(kernel.GetModuleHandleA('kernel32.dll'),'VirtualAlloc')
             assert(export~=nil,'VirtualAlloc export unavailable')
-            virtual_alloc=ffi.cast('void *(__stdcall *)(void *, size_t, uint32_t, uint32_t)',export)
+            virtual_alloc=ffi.cast(win.fn('void *(__stdcall *)(void *, size_t, uint32_t, uint32_t)'),export)
         end
         local size=#bytes+(4096-#bytes%4096)%4096
         local block=virtual_alloc(nil,size,0x3000,4)              -- MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE
@@ -147,8 +147,8 @@ function M.create()
             local alloc=kernel.GetProcAddress(k32,'VirtualAlloc')
             local flush=kernel.GetProcAddress(k32,'FlushInstructionCache')
             assert(alloc~=nil and flush~=nil,'VirtualAlloc / FlushInstructionCache exports unavailable')
-            native_alloc=ffi.cast('void *(__stdcall *)(void *, size_t, uint32_t, uint32_t)',alloc)
-            native_flush=ffi.cast('int (__stdcall *)(void *, const void *, size_t)',flush)
+            native_alloc=ffi.cast(win.fn('void *(__stdcall *)(void *, size_t, uint32_t, uint32_t)'),alloc)
+            native_flush=ffi.cast(win.fn('int (__stdcall *)(void *, const void *, size_t)'),flush)
         end
         local block=native_alloc(nil,8192,0x3000,4)                 -- MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE
         assert(block~=nil,'VirtualAlloc failed: '..tostring(kernel.GetLastError()))
@@ -191,7 +191,7 @@ function M.create()
         local position,direction=ffi.new('float[3]',x,y,z),ffi.new('float[3]',dx,dy,dz)
         local descriptor=ffi.new('uint8_t[?]',layout.size+8)
         local creditor=ffi.new('uint64_t',peer_hi)*4294967296+peer_lo
-        local spawn=ffi.cast('uint32_t (*)(void *, const void *, const void *)',entry)
+        local spawn=ffi.cast(win.fn('uint32_t (*)(void *, const void *, const void *)'),entry)
         local base=tonumber(ffi.cast('uintptr_t',descriptor))
         local at=descriptor+(8-base%8)%8
         ffi.cast('const float **',at+layout.position)[0]=position
@@ -245,7 +245,7 @@ function M.create()
         for k=1,16 do pose[k-1]=rows[k]end
         ffi.cast('void **',at+0x48)[0]=cat
         ffi.cast('void **',at+0x50)[0]=nil
-        local spawn=ffi.cast('uint32_t *(*)(uint32_t *, uint64_t, void *)',entry)
+        local spawn=ffi.cast(win.fn('uint32_t *(*)(uint32_t *, uint64_t, void *)'),entry)
         spawn(out,entity[0],at)
         -- Keeps the descriptor and out referenced until the game returned.
         assert(descriptor~=nil and out~=nil)
@@ -279,7 +279,7 @@ function M.create()
         for k=1,16 do pose[k-1]=rows[k]end
         ffi.cast('void **',at+0x48)[0]=nil
         ffi.cast('void **',at+0x50)[0]=nil
-        local spawn=ffi.cast('uint32_t *(*)(uint32_t *, uint64_t, void *)',entry)
+        local spawn=ffi.cast(win.fn('uint32_t *(*)(uint32_t *, uint64_t, void *)'),entry)
         spawn(out,entity[0],at)
         assert(descriptor~=nil and out~=nil)
         return tonumber(out[0])
@@ -302,7 +302,7 @@ function M.create()
         local aligned=ffi.cast('float *',ffi.cast('uint8_t *',storage)+(16-base%16)%16)
         aligned[0],aligned[1],aligned[2],aligned[3]=rotation.x,rotation.y,rotation.z,rotation.w
         aligned[4],aligned[5],aligned[6]=offset.x,offset.y,offset.z
-        local attach=ffi.cast('void (*)(void *, uint32_t, uint32_t, uint32_t, const float *, const float *, float)',
+        local attach=ffi.cast(win.fn('void (*)(void *, uint32_t, uint32_t, uint32_t, const float *, const float *, float)'),
             entry)
         attach(ffi.cast('void *',manager),child,link,node,aligned+4,aligned,0)
         assert(storage~=nil)
@@ -312,14 +312,14 @@ function M.create()
     -- (the owner is the mount manager). A child without that relation is left as it is.
     function runtime.native_relation_unlink(entry,child,owner,parent)
         assert(address(entry)and entity_id(child)and address(owner)and entity_id(parent),'unsupported unlink call')
-        local unlink=ffi.cast('void (*)(uint32_t, void *, uint32_t)',entry)
+        local unlink=ffi.cast(win.fn('void (*)(uint32_t, void *, uint32_t)'),entry)
         unlink(child,ffi.cast('void *',owner),parent)
         return true
     end
     -- The game's own entity removal(world, entity): deferred (queued in the world's removal map on the host).
     function runtime.native_remove_entity(entry,world,entity)
         assert(address(entry)and address(world)and entity_id(entity),'unsupported removal call')
-        local remove=ffi.cast('void (*)(void *, uint32_t)',entry)
+        local remove=ffi.cast(win.fn('void (*)(void *, uint32_t)'),entry)
         remove(ffi.cast('void *',world),entity)
         return true
     end
@@ -329,7 +329,7 @@ function M.create()
     -- Runtime Pelican's original chin turret, after the game's removal request left it alive.
     function runtime.native_destroy_entity(entry,world,record)
         assert(address(entry)and address(world)and address(record),'unsupported destroy call')
-        local destroy=ffi.cast('void (*)(void *, void *, uint8_t)',entry)
+        local destroy=ffi.cast(win.fn('void (*)(void *, void *, uint8_t)'),entry)
         destroy(ffi.cast('void *',world),ffi.cast('void *',record),0)
         return true
     end
@@ -340,7 +340,7 @@ function M.create()
     function runtime.native_weapon_copy(entry,manager,handle)
         assert(address(entry)and address(manager)and address(handle),'unsupported weapon copy call')
         local delta=ffi.new('uint32_t[4]')   -- zero-filled: kind 0, first patch 0, count 0
-        local copy=ffi.cast('void (*)(void *, void *, const uint32_t *)',entry)
+        local copy=ffi.cast(win.fn('void (*)(void *, void *, const uint32_t *)'),entry)
         copy(ffi.cast('void *',manager),ffi.cast('void *',handle),delta)
         assert(delta~=nil)
         return true
@@ -353,7 +353,7 @@ function M.create()
         -- 213: the Gatling AI; 645: the chin turret's own AI back (r44: never let 213 die on a chin turret).
         assert(address(entry)and address(manager)and entity_id(entity)and(behaviour==213 or behaviour==645),
             'unsupported behaviour call')
-        local set=ffi.cast('void (*)(void *, uint32_t, uint32_t)',entry)
+        local set=ffi.cast(win.fn('void (*)(void *, uint32_t, uint32_t)'),entry)
         set(ffi.cast('void *',manager),entity,behaviour)
         return true
     end
@@ -367,7 +367,7 @@ function M.create()
         local context=ffi.new('void *[2]')
         context[0]=ffi.cast('void *',handle)
         context[1]=ffi.cast('void *',state)
-        local set=ffi.cast('void (*)(void *, const void *)',entry)
+        local set=ffi.cast(win.fn('void (*)(void *, const void *)'),entry)
         set(context,ffi.cast('const void *',candidate))
         assert(context~=nil)
         return true
@@ -377,7 +377,7 @@ function M.create()
     -- filled is still open on this UI: what Back on a focused stratagem slot calls. One argument, no result.
     function runtime.native_selector_close(entry,ui)
         assert(address(entry)and address(ui),'unsupported selector close call')
-        local close=ffi.cast('void (*)(void *)',entry)
+        local close=ffi.cast(win.fn('void (*)(void *)'),entry)
         close(ffi.cast('void *',ui))
         return true
     end
@@ -388,7 +388,7 @@ function M.create()
     function runtime.native_card_enable(entry,list,key,enabled)
         assert(address(entry)and address(list)and type(key)=='number'and key>=0 and key<4294967296 and key%1==0
             and(enabled==0 or enabled==1),'unsupported card enable call')
-        local set=ffi.cast('void (*)(void *, uint32_t, uint8_t)',entry)
+        local set=ffi.cast(win.fn('void (*)(void *, uint32_t, uint8_t)'),entry)
         set(ffi.cast('void *',list),key,enabled)
         return true
     end
@@ -399,7 +399,7 @@ function M.create()
     function runtime.native_magazine_copy(entry,manager,handle)
         assert(address(entry)and address(manager)and address(handle),'unsupported magazine copy call')
         local delta=ffi.new('uint32_t[4]')
-        local copy=ffi.cast('void (*)(void *, void *, const uint32_t *)',entry)
+        local copy=ffi.cast(win.fn('void (*)(void *, void *, const uint32_t *)'),entry)
         copy(ffi.cast('void *',manager),ffi.cast('void *',handle),delta)
         assert(delta~=nil)
         return true
@@ -415,7 +415,7 @@ function M.create()
             and type(buildup)=='number'and buildup==buildup and buildup>0 and buildup<=1000
             and type(instigator)=='number'and instigator>0 and instigator<4294967296 and instigator%1==0,
             'unsupported status call')
-        local request=ffi.cast('void (*)(void *, uint32_t, uint32_t, float, uint32_t, uint32_t)',entry)
+        local request=ffi.cast(win.fn('void (*)(void *, uint32_t, uint32_t, float, uint32_t, uint32_t)'),entry)
         request(nil,kind,target,buildup,instigator,0)
         return true
     end
@@ -425,7 +425,7 @@ function M.create()
     -- actors; returns the actor handle, or nil when the unit has no actor of that name.
     function runtime.native_unit_actor(entry,unit,name)
         assert(address(entry)and entity_id(unit)and entity_id(name),'unsupported unit actor call')
-        local lookup=ffi.cast('uint32_t (*)(uint32_t, uint32_t, uint32_t *)',entry)
+        local lookup=ffi.cast(win.fn('uint32_t (*)(uint32_t, uint32_t, uint32_t *)'),entry)
         local handle=tonumber(lookup(unit,name,nil))
         if handle==0xFFFFFFFF then return nil end
         return handle
@@ -446,9 +446,9 @@ function M.create()
             and half(creditor_lo)and half(creditor_hi)and half(actor)and actor~=0xFFFFFFFF,'unsupported injury call')
         local direction,position=ffi.new('float[3]',0,0,-1),ffi.new('float[3]',0,0,0)
         local creditor=ffi.new('uint64_t',creditor_hi)*4294967296+creditor_lo
-        local queue=ffi.cast('void (*)(void *, uint32_t, uint32_t, uint32_t, uint32_t, uint8_t, uint32_t, uint32_t, '
+        local queue=ffi.cast(win.fn('void (*)(void *, uint32_t, uint32_t, uint32_t, uint32_t, uint8_t, uint32_t, uint32_t, '
             ..'uint64_t, uint32_t, float, float, float, const float *, const float *, uint32_t, uint32_t, uint32_t, '
-            ..'float)',entry)
+            ..'float)'),entry)
         queue(nil,6,0,target,damage,1,network,network,creditor,0,0,0,0,direction,position,actor,9,0,1)
         -- Keeps both vectors referenced until the game returned (it copies them during the call).
         assert(direction~=nil and position~=nil)
@@ -462,7 +462,7 @@ function M.create()
         [0x87B05FF4]=true}
     function runtime.native_restore_zone(entry,entity,zone)
         assert(address(entry)and entity_id(entity)and AVATAR_ZONES[zone],'unsupported zone restore call')
-        local restore=ffi.cast('void (*)(void *, uint32_t, uint32_t)',entry)
+        local restore=ffi.cast(win.fn('void (*)(void *, uint32_t, uint32_t)'),entry)
         restore(nil,entity,zone)
         return true
     end
@@ -475,7 +475,7 @@ function M.create()
         assert(address(entry)and entity_id(entity)and speed(x)and speed(y)and speed(z)
             and x*x+y*y+z*z<=100*100,'unsupported velocity call')
         local v=ffi.new('float[3]',x,y,z)
-        local set=ffi.cast('void (*)(void *, uint32_t, const float *)',entry)
+        local set=ffi.cast(win.fn('void (*)(void *, uint32_t, const float *)'),entry)
         set(nil,entity,v)
         assert(v~=nil)
         return true
@@ -495,7 +495,7 @@ function M.create()
         ffi.copy(k,key);ffi.copy(v,value)
         local keys,values=ffi.new('const char *[1]'),ffi.new('const char *[1]')
         keys[0],values[0]=k,v
-        local publish=ffi.cast('int32_t (*)(void *, uint32_t, const char **, const char **)',entry)
+        local publish=ffi.cast(win.fn('int32_t (*)(void *, uint32_t, const char **, const char **)'),entry)
         local result=publish(ffi.cast('void *',lobby),1,keys,values)
         -- Keeps the strings and arrays referenced until the game returned (the SDK copies them during the call).
         assert(k~=nil and v~=nil and keys~=nil and values~=nil)
@@ -510,7 +510,7 @@ function M.create()
         local k=ffi.new('char[?]',#key+1)
         ffi.copy(k,key)
         local peer=ffi.new('uint64_t',peer_hi)*4294967296+peer_lo
-        local read=ffi.cast('const char *(*)(void *, uint64_t, const char *)',entry)
+        local read=ffi.cast(win.fn('const char *(*)(void *, uint64_t, const char *)'),entry)
         local value=read(ffi.cast('void *',lobby),peer,k)
         assert(k~=nil)
         if value==nil then return nil end

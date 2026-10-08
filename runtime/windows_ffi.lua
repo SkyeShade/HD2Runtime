@@ -55,6 +55,16 @@ local address = kernel.GetProcAddress(kernel.GetModuleHandleA('kernel32.dll'), '
 assert(address ~= nil, 'GetSystemInfo export unavailable')
 local get_system_info = ffi.cast(
     'void (__stdcall *)(HD2RuntimeSystemInfo *)', address)
-local bindings = {ffi=ffi,kernel=kernel,bcrypt=bcrypt,get_system_info=get_system_info}
+-- A function-pointer C type by its declaration, parsed ONCE (fn(signature)): LuaJIT never interns a function type, so
+-- ffi.cast('ret (*)(args)', p) in a function called again and again adds new C types each call until LuaJIT's C type
+-- table overflows ('table overflow': every later FFI call fails; about 11,000 calls of a lobby read's cast on the game's
+-- LuaJIT). Every native call made more than once casts through fn.
+local fn_types = {}
+local function fn(signature)
+    local t = fn_types[signature]
+    if not t then t = ffi.typeof(signature); fn_types[signature] = t end
+    return t
+end
+local bindings = {ffi=ffi,kernel=kernel,bcrypt=bcrypt,get_system_info=get_system_info,fn=fn}
 rawset(_G, KEY, bindings)
 return bindings
