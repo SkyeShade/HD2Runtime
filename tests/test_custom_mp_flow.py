@@ -482,5 +482,68 @@ return 'ok'
 """)
 
 
+class ReadinessTests(unittest.TestCase):
+    """0.30.2: aboard the ship, what will make the selected custom stratagems fail at the launch is predicted from the
+    mission start's own rules and shown on screen with how to fix it (the safety notice panel), again every minute,
+    and once more at the launch. Nothing is written."""
+
+    def mp(self, body):
+        flow.CustomStratagemFlowTests.lua(self, MP + body, carriers=flow.EAT_CARRIERS)
+
+    def test_predicted_failures_are_shown_with_a_fix(self):
+        self.mp(r"""
+local notices={}
+require('hd2runtime/runtime/matchmaking_safety').notice=function(title,line,rule,advice)
+    notices[#notices+1]=title..' | '..line..' | '..rule..' | '..tostring(advice);return true end
+rawset(_G,'ModOptionsMenu',MENU)
+examples()
+local wm=require('hd2runtime/runtime/event_world')
+local sel=require('hd2runtime/runtime/stratagem_selector')
+local state,host,players='Ship',false,3
+wm.game_state=function()return {name=state,host=host}end
+wm.players=function()local t={};for i=1,players do t[i]={peer='P'..i}end;return t end
+sel.virtual_slots=function()return {slots={[0]={definition='pelican_close_air_support',carrier=true,token=1}}}end
+custom.hooks.stratagem_table=function()return true end
+custom.reset_readiness_for_tests()
+local world={runtime={}}
+local writes=#(W.runtime.writes or{})
+-- A client with a player without HD2Runtime: the launch would lock the custom slots.
+local v={status='unavailable',peers={A={state='missing'},B={state='compatible'}}}
+custom.readiness_step(world,v)
+assert(#notices==1 and notices[1]:find('CUSTOM STRATAGEM PROBLEM | 1 player without HD2Runtime: your custom slots '
+    ..'will be locked. | Fix: everyone needs the same mods (or play Friends Only), or pick vanilla.',1,true),notices[1])
+assert(count('READINESS: 1 problem: 1 player without HD2Runtime')==1)
+custom.readiness_step(world,v)
+assert(#notices==1,'the same problem is not shown again within a minute')
+-- At the launch: shown once more, as a failure.
+state='PrepareMission'
+custom.readiness_step(world,v)
+custom.readiness_step(world,v)
+assert(#notices==2 and notices[2]:find('CUSTOM STRATAGEMS WILL FAIL',1,true)
+    and notices[2]:find('Launching anyway: these slots stay locked.',1,true),notices[2])
+-- The host runs its own customs: no multiplayer problem; a table another mod changed and a refused carrier are.
+state,host='Ship',true
+custom.reset_readiness_for_tests()
+custom.hooks.stratagem_table=function()return 'payload list pointer outside/ambiguous in owning group'end
+custom.internals_for_tests().ship().status.pelican_close_air_support='NOT READY: no free member of its carrier group'
+local problems=custom.readiness(world,v)
+assert(#problems==2,#problems)
+assert(problems[1].line:find(': no free member of its carrier group',1,true)
+    and problems[1].advice=='Fix: free its carrier or pick another custom stratagem.')
+assert(problems[2].line=='Another mod changed the stratagem data: custom names/looks will fail.')
+custom.readiness_step(world,v)
+assert(notices[#notices]:find('(+1 more in the log)',1,true),notices[#notices])
+-- Everything fine: nothing shown, and the log says it is ready again.
+custom.hooks.stratagem_table=function()return true end
+custom.internals_for_tests().ship().status.pelican_close_air_support='READY: carrier X'
+custom.reset_readiness_for_tests()
+local n=#notices
+custom.readiness_step(world,{status='enabled',peers={}})
+assert(#notices==n,'no notice when everything is ready')
+assert(#(W.runtime.writes or{})==writes,'nothing written')
+return 'ok'
+""")
+
+
 if __name__ == '__main__':
     unittest.main()

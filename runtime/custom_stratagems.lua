@@ -2136,6 +2136,16 @@ do
         end
     end
     M.probe_move_step=probe_move_step
+    -- The carrier slots that must still move before the launch (the readiness notice): {slot, definition, since, why}.
+    function M.pending_moves()
+        local out,set={},selector.virtual_slots()
+        for slot,seen in pairs(probe_move.seen)do
+            local e=set and set.slots[slot]
+            if e then out[#out+1]={slot=slot,definition=e.definition,since=seen.at,why=probe_move.said[slot]}end
+        end
+        table.sort(out,function(a,c)return a.slot<c.slot end)
+        return out
+    end
 end
 
 -- THE CARRIER-IN-SLOT PROBE WITH SEVERAL PLAYERS (r38, EXPERIMENTAL; the user's request of 2026-10-07): every other
@@ -2529,6 +2539,134 @@ function M.probe_carrier(id)
     end
     return {id=a.stable_id,name=a.carrier}
 end
+-- The readiness notice (0.30.2): aboard the ship, what will make this player's selected custom stratagems fail at the
+-- launch, predicted from what the mission start decides (the same rules, read-only), shown on screen with how to fix it
+-- (the safety notice panel) and logged as READINESS. Shown when a problem appears or changes, again every
+-- M.READINESS_REPEAT s while it stands, and once more when the launch begins (PrepareMission). Nothing is written.
+do
+    M.READINESS_REPEAT=60
+    -- s a waiting state (a lobby member's first post, a host hash) may last before it counts
+    M.READINESS_TRANSIENT=20
+    local readiness={key=nil,shown=-math.huge,since={},table_ok=nil,table_key=nil,launched=nil}
+    local function short(text,n)
+        text=tostring(text):gsub('%s+',' ')
+        if#text>n then return text:sub(1,n-3)..'...'end
+        return text
+    end
+    -- The stratagem table read as the presentation reads it (core/stratagem.capture_all): true, or why it cannot be.
+    M.hooks=M.hooks or{}
+    M.hooks.stratagem_table=function(world)
+        local ok,why=pcall(function()
+            local reader=require('hd2runtime/runtime/reader').new(world.runtime)
+            local profile=require('hd2runtime/schemas/current')
+            return require('hd2runtime/core/stratagem').capture_all(world.runtime,reader,profile)
+        end)
+        return ok or tostring(why)
+    end
+    -- The problems of the selected custom stratagems now: a list of {line (what fails), advice (how to fix it)}.
+    function M.readiness(world,v)
+        local list=selected()
+        if#list==0 then return {},list end
+        local problems={}
+        local function add(line,advice)problems[#problems+1]={line=short(line,90),advice=short(advice,90)}end
+        local game=world_module.game_state(world)
+        local players=#(world_module.players(world)or{})
+        local host=game and game.host==true
+        -- 1. A client needs custom multiplayer enabled at the launch (every lobby member a compatible Runtime).
+        if players>1 and not host and v then
+            if v.status=='unavailable'then
+                local missing=0
+                for _,peer in pairs(v.peers or{})do if peer.state=='missing'then missing=missing+1 end end
+                if missing>0 then
+                    add(('%d player%s without HD2Runtime: your custom slots will be locked.'):format(missing,
+                        missing==1 and''or's'),
+                        'Fix: everyone needs the same mods (or play Friends Only), or pick vanilla.')
+                else
+                    add('A player has other custom stratagem mods: your custom slots will be locked.',
+                        'Fix: everyone needs the same HD2Runtime and custom stratagem mods.')
+                end
+            end
+            if v.status=='waiting'then
+                readiness.since.waiting=readiness.since.waiting or clock
+                if clock-readiness.since.waiting>=M.READINESS_TRANSIENT then
+                    add("Still waiting for the lobby's HD2Runtime state: custom slots may be locked.",
+                        'Fix: wait a moment; if it stays, a player may lack HD2Runtime.')
+                end
+            else readiness.since.waiting=nil end
+            local ag=v.status=='enabled'and v.table_hash and sync.agreement(v,v.table_hash)
+            if ag and ag.status=='differ'then
+                readiness.since.differ=readiness.since.differ or clock
+                if clock-readiness.since.differ>=M.READINESS_TRANSIENT then
+                    add('Your custom picks differ from what the host sees.',
+                        'Fix: wait a few seconds, or re-pick the slot.')
+                end
+            else readiness.since.differ=nil end
+        end
+        -- 2. Each selected custom stratagem the ship allocation refuses (no free carrier, a code collision).
+        for _,d in ipairs(list)do
+            local text=ship.status[d.id]
+            if text and text:find('^NOT READY')then
+                add((d.name or d.id)..': '..text:gsub('^NOT READY: ',''),
+                    'Fix: free its carrier or pick another custom stratagem.')
+            end
+        end
+        -- 3. A carrier slot that must still move (another player picked its carrier) before the launch.
+        for _,m in ipairs(M.pending_moves and M.pending_moves()or{})do
+            if clock-m.since>=M.PROBE_MOVE_SETTLE+M.PROBE_MOVE_RETRY*2 then
+                local d=defs[m.definition]
+                add(('%s (slot %d) must switch carrier before the launch.'):format(d and d.name or m.definition,
+                    m.slot+1),
+                    'Fix: open the stratagem selection, stay un-Ready, and let it switch.')
+            end
+        end
+        -- 4. The stratagem table as the presentation reads it (another mod may have changed it): once per selection.
+        local ids={}
+        for _,d in ipairs(list)do ids[#ids+1]=d.id end
+        local key=table.concat(ids,',')
+        if readiness.table_key~=key then
+            readiness.table_key=key
+            readiness.table_ok=M.hooks.stratagem_table(world)
+        end
+        if readiness.table_ok~=true then
+            add('Another mod changed the stratagem data: custom names/looks will fail.',
+                'Fix: disable mods that change stratagems or hellpods, then restart.')
+        end
+        return problems,list
+    end
+    function M.readiness_step(world,v)
+        local game=world_module.game_state(world)
+        if not game then return end
+        local launching=game.name=='PrepareMission'
+        if not(game.name=='Ship'or launching)then readiness.key,readiness.launched=nil,nil;return end
+        if launching and readiness.launched then return end
+        if game.name=='Ship'then readiness.launched=nil end
+        local ok,problems=pcall(M.readiness,world,v)
+        if not ok then log('READINESS check failed: '..tostring(problems));return end
+        if launching then readiness.launched=true end
+        local parts={}
+        for _,p in ipairs(problems)do parts[#parts+1]=p.line end
+        local key=table.concat(parts,' | ')
+        if#problems==0 then
+            if readiness.key and readiness.key~=''then
+                log('READINESS: the selected custom stratagems are ready again')
+            end
+            readiness.key='';return
+        end
+        if not(key~=readiness.key or clock>=readiness.shown+M.READINESS_REPEAT or launching)then return end
+        if key~=readiness.key then log('READINESS: '..#problems..' problem'..(#problems==1 and''or's')..': '..key)end
+        readiness.key,readiness.shown=key,clock
+        local first=problems[1]
+        local more=#problems>1 and(' (+'..(#problems-1)..' more in the log)')or''
+        local ok_s,safety=pcall(require,'hd2runtime/runtime/matchmaking_safety')
+        if ok_s and type(safety)=='table'and safety.notice then
+            pcall(safety.notice,launching and'CUSTOM STRATAGEMS WILL FAIL'or'CUSTOM STRATAGEM PROBLEM',first.line..more,
+                first.advice,launching and'Launching anyway: these slots stay locked.'
+                    or'Shown again every minute while it stands.')
+        end
+    end
+    function M.reset_readiness_for_tests()readiness={key=nil,shown=-math.huge,since={},table_ok=nil,table_key=nil}end
+end
+
 local function availability_step(world,v)
     if clock<avail.at+M.AVAILABILITY_EVERY then return end
     avail.at=clock
@@ -5427,6 +5565,7 @@ local function tick(dt)
             M.limit_step();ship_step(world,v);M.probe_move_step(world);availability_step(world,v)
             reservations_step(world,v)
             mp_ship_step(world)
+            M.readiness_step(world,v)
         end
         return
     end

@@ -1028,6 +1028,23 @@ part of the API.
 
 Logged once per session: `CUSTOM STRATAGEMS MULTIPLAYER EXPERIMENTAL: N players (...)`.
 
+### Before the launch: the readiness notice (0.30.2)
+
+Aboard the ship, HD2Runtime predicts what will make your selected custom stratagems fail at the launch, from the same
+rules the mission start applies (read-only), and shows it in the safety notice panel with how to fix it. It logs each
+change as `READINESS: ...`. The notice comes when a problem appears or changes, again every minute while it stands,
+and once more when the launch begins (`CUSTOM STRATAGEMS WILL FAIL`).
+
+| Problem | Fix shown |
+| --- | --- |
+| As a client, a lobby member has no HD2Runtime (or another custom stratagem setup): your custom slots will be locked | Everyone needs the same mods (or play Friends Only), or pick vanilla |
+| As a client, the lobby's state does not arrive within 20 s, or your picks differ from the host's for 20 s | Wait a moment / re-pick the slot |
+| A selected custom stratagem has no free carrier, or its code collides | Free its carrier or pick another custom stratagem |
+| A carrier slot must switch carrier (another player picked it) and has not yet | Open the stratagem selection, stay un-Ready, and let it switch |
+| Another mod changed the stratagem data (the table does not read as reviewed) | Disable mods that change stratagems or hellpods, then restart |
+
+`hd2.custom_stratagem` has no new API for this; a mod sees the same lines in the log.
+
 ### Pick sync and the shared carrier map (this build)
 
 **What each machine publishes:**
