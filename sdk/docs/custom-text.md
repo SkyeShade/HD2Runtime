@@ -88,7 +88,8 @@ with one difference: the old array stays allocated, because a lookup on another 
   Not live-tested yet.
 
 A custom stratagem whose text is refused this way still runs (0.30.2): its carrier keeps its own name and
-description and takes the custom icon and code (`carrier presentation TEXT FALLBACK: ...`). Every other text refusal
+description and takes the custom icon and code (`carrier presentation TEXT FALLBACK: ...`), and the custom stratagem
+alert card says so in game (`VANILLA NAMES`: disable some mods that add text, then restart). Every other text refusal
 still refuses the presentation.
 
 **Ids.** A text's key is `<mod resource id>/text/<id>`, hashed the way the game hashes its own keys:

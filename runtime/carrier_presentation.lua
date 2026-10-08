@@ -60,6 +60,19 @@ local function pick(carrier)
     return latest
 end
 local function log(text)log_module.emit('[HD2Runtime] carrier presentation '..text)end
+-- The alert card for the carriers that keep their own text (the TEXT FALLBACK): one card listing every such carrier.
+local text_fallbacks={}
+function M.text_fallback_alert(carrier)
+    local seen=false
+    for _,c in ipairs(text_fallbacks)do if c==carrier then seen=true end end
+    if not seen then text_fallbacks[#text_fallbacks+1]=carrier end
+    local ok,card=pcall(require,'hd2runtime/runtime/stratagem_alert')
+    if not(ok and type(card)=='table'and card.post)then return end
+    pcall(card.post,{key='text_fallback',severity='warn',title='Custom stratagems',tag='Vanilla names',
+        items={{line=table.concat(text_fallbacks,', ')..' keep their vanilla name and description: the game text list '
+            ..'is full.',fix='Disable some mods that add text, then restart the game.'}},
+        footer='Their custom icons and call-in codes still work.'})
+end
 local function member_bytes(row,offset,width)return row:sub(offset+1,offset+width)end
 local function code_text(values)return values and calldown.text(values)or'unreadable'end
 
@@ -338,6 +351,7 @@ function M.apply(spec,callback)
                 -- the custom stratagem runs instead of being refused for the mission. Nothing of the text was written.
                 log(('TEXT FALLBACK: %s keeps its own name and description (%s); the custom icon and code are applied')
                     :format(spec.carrier,tostring(handle.reason)))
+                M.text_fallback_alert(spec.carrier)
                 spec={carrier=spec.carrier,icon=spec.icon,code=spec.code,uses=spec.uses}
                 state.spec,state.text_fallback=spec,tostring(handle.reason)
             elseif handle.status~='applied'then

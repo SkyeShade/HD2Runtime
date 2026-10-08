@@ -276,8 +276,10 @@ class IncompatibleRegistryTests(unittest.TestCase):
 
     SETUP = r"""
 local notices={}
-require('hd2runtime/runtime/matchmaking_safety').notice=function(title,line,rule,advice)
-    notices[#notices+1]=title..' | '..line..' | '..rule;return true end
+custom.hooks.alert=function()return {post=function(a)
+    local t={a.title..' '..a.tag}
+    for _,i in ipairs(a.items)do t[#t+1]=i.line;if i.fix then t[#t+1]=i.fix end end
+    notices[#notices+1]=table.concat(t,' | ');return true end,clear=function()end}end
 local function other_registry(seq,slots)
     W.lobby_values[THEM]=('hd2rt/1;%s;%s;%d;%s'):format(VERSION,'79C3E713',seq,slots)
 end
@@ -316,8 +318,8 @@ for _,id in ipairs({'pelican_close_air_support','orbital_gas_barrage','eat17_gas
     assert(custom.unavailable(id):find('All players must use the same custom stratagems and versions',1,true))
 end
 assert(I.ship().alloc==nil and count('CARRIER BLOCKS')==0,'no carrier allocated, nothing blocked')
-assert(#notices>=1 and notices[1]=='CUSTOM STRATAGEMS DISABLED | Incompatible custom-stratagem mods detected. | All '
-    ..'players must use the same custom stratagems and versions.',tostring(notices[1]))
+assert(#notices>=1 and notices[1]=='Custom stratagems Disabled | Incompatible custom-stratagem mods detected in the '
+    ..'lobby. | All players must use the same custom stratagems and versions.',tostring(notices[1]))
 -- The selected slots are kept (unpicking would leave a plain, callable token).
 local V=require('hd2runtime/runtime/stratagem_selector').virtual_slots()
 assert(V and V.slots[0].definition=='pelican_close_air_support'and V.slots[1].definition=='orbital_gas_barrage')
@@ -492,9 +494,12 @@ class ReadinessTests(unittest.TestCase):
 
     def test_predicted_failures_are_shown_with_a_fix(self):
         self.mp(r"""
-local notices={}
-require('hd2runtime/runtime/matchmaking_safety').notice=function(title,line,rule,advice)
-    notices[#notices+1]=title..' | '..line..' | '..rule..' | '..tostring(advice);return true end
+local notices,cleared={},{}
+custom.hooks.alert=function()return {post=function(a)
+    local t={a.severity,a.tag}
+    for _,i in ipairs(a.items)do t[#t+1]=i.line;t[#t+1]=tostring(i.fix)end
+    t[#t+1]=tostring(a.footer)
+    notices[#notices+1]=table.concat(t,' | ');return true end,clear=function(k)cleared[#cleared+1]=k end}end
 rawset(_G,'ModOptionsMenu',MENU)
 examples()
 local wm=require('hd2runtime/runtime/event_world')
@@ -510,7 +515,7 @@ local writes=#(W.runtime.writes or{})
 -- A client with a player without HD2Runtime: the launch would lock the custom slots.
 local v={status='unavailable',peers={A={state='missing'},B={state='compatible'}}}
 custom.readiness_step(world,v)
-assert(#notices==1 and notices[1]:find('CUSTOM STRATAGEM PROBLEM | 1 player without HD2Runtime: your custom slots '
+assert(#notices==1 and notices[1]:find('warn | Check before launch | 1 player without HD2Runtime: your custom slots '
     ..'will be locked. | Fix: everyone needs the same mods (or play Friends Only), or pick vanilla.',1,true),notices[1])
 assert(count('READINESS: 1 problem: 1 player without HD2Runtime')==1)
 custom.readiness_step(world,v)
@@ -519,8 +524,8 @@ assert(#notices==1,'the same problem is not shown again within a minute')
 state='PrepareMission'
 custom.readiness_step(world,v)
 custom.readiness_step(world,v)
-assert(#notices==2 and notices[2]:find('CUSTOM STRATAGEMS WILL FAIL',1,true)
-    and notices[2]:find('Launching anyway: these slots stay locked.',1,true),notices[2])
+assert(#notices==2 and notices[2]:find('fail | Will fail',1,true)
+    and notices[2]:find('Launching anyway: these slots stay locked for the mission.',1,true),notices[2])
 -- The host runs its own customs: no multiplayer problem; a table another mod changed and a refused carrier are.
 state,host='Ship',true
 custom.reset_readiness_for_tests()
@@ -532,12 +537,25 @@ assert(problems[1].line:find(': no free member of its carrier group',1,true)
     and problems[1].advice=='Fix: free its carrier or pick another custom stratagem.')
 assert(problems[2].line=='Another mod changed the stratagem data: custom names/looks will fail.')
 custom.readiness_step(world,v)
-assert(notices[#notices]:find('(+1 more in the log)',1,true),notices[#notices])
--- Everything fine: nothing shown, and the log says it is ready again.
+-- Every problem is on the card (it lists three and counts the rest), each with its fix.
+assert(notices[#notices]:find('no free member of its carrier group | Fix: free its carrier or pick another custom '
+    ..'stratagem. | Another mod changed the stratagem data: custom names/looks will fail. | Fix: disable mods that '
+    ..'change stratagems or hellpods, then restart.',1,true),notices[#notices])
+-- Fixed: the problem card goes and a short READY confirmation replaces it. (The stratagem table is read once per
+-- selection: another mod's change stands until a restart.)
 custom.hooks.stratagem_table=function()return true end
-custom.internals_for_tests().ship().status.pelican_close_air_support='READY: carrier X'
 custom.reset_readiness_for_tests()
+custom.readiness_step(world,v)
+assert(notices[#notices]:find('warn | Check before launch | pelican_close_air_support: no free member',1,true),notices[#notices])
+custom.internals_for_tests().ship().status.pelican_close_air_support='READY: carrier X'
 local n=#notices
+custom.readiness_step(world,{status='enabled',peers={}})
+assert(cleared[#cleared]=='readiness'and#notices==n+1 and notices[#notices]:find('ok | Ready | The problem is fixed',1,
+    true),notices[#notices])
+assert(count('READINESS: the selected custom stratagems are ready again')==1)
+-- Ready from the start: no card at all.
+custom.reset_readiness_for_tests()
+n=#notices
 custom.readiness_step(world,{status='enabled',peers={}})
 assert(#notices==n,'no notice when everything is ready')
 assert(#(W.runtime.writes or{})==writes,'nothing written')

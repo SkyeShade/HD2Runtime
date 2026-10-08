@@ -2541,7 +2541,7 @@ function M.probe_carrier(id)
 end
 -- The readiness notice (0.30.2): aboard the ship, what will make this player's selected custom stratagems fail at the
 -- launch, predicted from what the mission start decides (the same rules, read-only), shown on screen with how to fix it
--- (the safety notice panel) and logged as READINESS. Shown when a problem appears or changes, again every
+-- (the alert card, runtime/stratagem_alert.lua) and logged as READINESS. Shown when a problem appears or changes, again every
 -- M.READINESS_REPEAT s while it stands, and once more when the launch begins (PrepareMission). Nothing is written.
 do
     M.READINESS_REPEAT=60
@@ -2640,31 +2640,45 @@ do
         if not(game.name=='Ship'or launching)then readiness.key,readiness.launched=nil,nil;return end
         if launching and readiness.launched then return end
         if game.name=='Ship'then readiness.launched=nil end
-        local ok,problems=pcall(M.readiness,world,v)
+        local ok,problems,list=pcall(M.readiness,world,v)
         if not ok then log('READINESS check failed: '..tostring(problems));return end
         if launching then readiness.launched=true end
         local parts={}
         for _,p in ipairs(problems)do parts[#parts+1]=p.line end
         local key=table.concat(parts,' | ')
+        local card=M.hooks.alert()
         if#problems==0 then
             if readiness.key and readiness.key~=''then
                 log('READINESS: the selected custom stratagems are ready again')
+                -- The problem card goes; a short confirmation replaces it while customs stay selected.
+                if card then
+                    card.clear('readiness')
+                    if list and#list>0 then
+                        card.post({key='readiness',severity='ok',title='Custom stratagems',tag='Ready',seconds=5,
+                            items={{line='The problem is fixed: your selected custom stratagems will work.'}}},true)
+                    end
+                end
             end
             readiness.key='';return
         end
         if not(key~=readiness.key or clock>=readiness.shown+M.READINESS_REPEAT or launching)then return end
         if key~=readiness.key then log('READINESS: '..#problems..' problem'..(#problems==1 and''or's')..': '..key)end
         readiness.key,readiness.shown=key,clock
-        local first=problems[1]
-        local more=#problems>1 and(' (+'..(#problems-1)..' more in the log)')or''
-        local ok_s,safety=pcall(require,'hd2runtime/runtime/matchmaking_safety')
-        if ok_s and type(safety)=='table'and safety.notice then
-            pcall(safety.notice,launching and'CUSTOM STRATAGEMS WILL FAIL'or'CUSTOM STRATAGEM PROBLEM',first.line..more,
-                first.advice,launching and'Launching anyway: these slots stay locked.'
-                    or'Shown again every minute while it stands.')
+        local items={}
+        for _,p in ipairs(problems)do items[#items+1]={line=p.line,fix=p.advice}end
+        if card then
+            card.post({key='readiness',severity=launching and'fail'or'warn',title='Custom stratagems',
+                tag=launching and'Will fail'or'Check before launch',items=items,
+                footer=launching and'Launching anyway: these slots stay locked for the mission.'
+                    or'Shown again every minute while it stands.'},true)
         end
     end
     function M.reset_readiness_for_tests()readiness={key=nil,shown=-math.huge,since={},table_ok=nil,table_key=nil}end
+    -- The alert card module (tests replace it), or nil when it cannot load.
+    function M.hooks.alert()
+        local ok_a,card=pcall(require,'hd2runtime/runtime/stratagem_alert')
+        if ok_a and type(card)=='table'and card.post then return card end
+    end
 end
 
 local function availability_step(world,v)
@@ -4518,14 +4532,16 @@ function M.disabled_reason(v)
     return 'CUSTOM STRATAGEMS DISABLED: incompatible custom-stratagem mods detected ('..table.concat(parts,'; ')
         ..'). All players must use the same custom stratagems and versions'
 end
--- The on-screen warning (the safety notice panel; its own repeat rule).
+-- The on-screen warning (the alert card, runtime/stratagem_alert.lua; its own repeat rule). advice: what this player
+-- must do now (a slot not to call), listed as its own line.
 function M.disabled_notice(advice)
-    local ok,safety=pcall(require,'hd2runtime/runtime/matchmaking_safety')
-    if ok and type(safety)=='table'and safety.notice then
-        pcall(safety.notice,'CUSTOM STRATAGEMS DISABLED','Incompatible custom-stratagem mods detected.',
-            'All players must use the same custom stratagems and versions.',advice or
-            'Custom stratagems are unavailable; vanilla gameplay is unaffected.')
-    end
+    local card=M.hooks.alert()
+    if not card then return end
+    local items={{line='Incompatible custom-stratagem mods detected in the lobby.',
+        fix='All players must use the same custom stratagems and versions.'}}
+    if advice then items[#items+1]={line=advice}end
+    pcall(card.post,{key='disabled',severity='fail',title='Custom stratagems',tag='Disabled',items=items,
+        footer='Custom stratagems are unavailable; vanilla gameplay is unaffected.'})
 end
 -- Every custom slot of this machine that will NOT run in this mission is LOCKED: its token (Orbital Precision Strike)
 -- is never called (runtime/slot_cooldown.lua lock: its own entry unavailable all mission; the client's write carries the

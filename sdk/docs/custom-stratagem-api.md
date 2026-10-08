@@ -952,8 +952,9 @@ client's request validated and spawned by the host, its network provenance, the 
 **Incompatible registries fail closed (0.30 rule; r9, offline only):** when any lobby member runs another custom
 stratagem registry or Runtime version (or names a custom id not registered here), custom stratagems are DISABLED
 lobby-wide, on every machine: no carrier is allocated or frozen, no token converted, no custom call run and no provenance
-published; vanilla gameplay is untouched. The on-screen warning reads `CUSTOM STRATAGEMS DISABLED` / `Incompatible
-custom-stratagem mods detected.` / `All players must use the same custom stratagems and versions.`; every custom tile is
+published; vanilla gameplay is untouched. The alert card (below) reads `CUSTOM STRATAGEMS` `DISABLED` / `Incompatible
+custom-stratagem mods detected in the lobby.` / FIX `All players must use the same custom stratagems and versions.`
+(plus, in a mission, a slot not to call when its lock failed); every custom tile is
 unavailable with that reason and a pick is refused. Custom slots already selected are kept, and in a mission each one's
 token (Orbital Precision Strike) is LOCKED (its own record entry unavailable all mission: it is never called). Every
 other custom slot whose multiplayer setup is refused is locked the same way. The full registry hash is the compatibility
@@ -1031,9 +1032,10 @@ Logged once per session: `CUSTOM STRATAGEMS MULTIPLAYER EXPERIMENTAL: N players 
 ### Before the launch: the readiness notice (0.30.2)
 
 Aboard the ship, HD2Runtime predicts what will make your selected custom stratagems fail at the launch, from the same
-rules the mission start applies (read-only), and shows it in the safety notice panel with how to fix it. It logs each
-change as `READINESS: ...`. The notice comes when a problem appears or changes, again every minute while it stands,
-and once more when the launch begins (`CUSTOM STRATAGEMS WILL FAIL`).
+rules the mission start applies (read-only), and shows it on the alert card with how to fix it. It logs each
+change as `READINESS: ...`. The card comes when a problem appears or changes, again every minute while it stands,
+and once more when the launch begins (tag `WILL FAIL`, red). When the problems are gone it is taken away and a short
+green `READY` card confirms it.
 
 | Problem | Fix shown |
 | --- | --- |
@@ -1044,6 +1046,20 @@ and once more when the launch begins (`CUSTOM STRATAGEMS WILL FAIL`).
 | Another mod changed the stratagem data (the table does not read as reviewed) | Disable mods that change stratagems or hellpods, then restart |
 
 `hd2.custom_stratagem` has no new API for this; a mod sees the same lines in the log.
+
+**The alert card** (`runtime/stratagem_alert.lua`) is a Runtime-owned card at the top right of the screen, below the
+startup progress panel's place, drawn like every other Runtime panel (a screen GUI in the Ui World, layers 935-937) in
+the loadout screen's typeface (FS Sinclair; monaco when the Runtime fonts are not loaded):
+- the title `CUSTOM STRATAGEMS` with a tag at the right (`CHECK BEFORE LAUNCH`, `WILL FAIL`, `DISABLED`,
+  `VANILLA NAMES`, `READY`), and an accent colour by severity on its left bar, bullets, tag and `FIX` labels: red for
+  what will fail, amber for what to check, green for ready;
+- up to three problems, each with its `FIX` line (two lines each at most); the rest are counted (`+2 more in the
+  HD2Runtime log`); a footer;
+- a timer bar along its bottom edge that shrinks while it shows (14 s).
+
+One card per subject (readiness, disabled, text fallback); the most severe shows first. The same card is not repeated
+within 20 s. It writes nothing. If the engine refuses a card primitive, the card is off for the session and each
+subject goes to the small safety notice panel (the 0.30.2-dev path) instead.
 
 ### Pick sync and the shared carrier map (this build)
 
