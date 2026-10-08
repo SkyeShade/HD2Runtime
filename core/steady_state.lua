@@ -8,13 +8,18 @@
 -- header differs, target not desired) reports drift, and the caller falls back to
 -- the unchanged full guarded resolution and write path. This path never writes.
 local metrics=require('hd2runtime/runtime/metrics')
+local protection=require('hd2runtime/core/page_protection')
 local M={}
 local HEADER=32
 
-local function region_ok(runtime,owner,at)
+-- size: a target's byte count; a PAGE_EXECUTE_READWRITE page passes only for a target inside a reviewed
+-- executable-data extent (core/page_protection.lua), as the guarded transaction accepts it.
+local function region_ok(runtime,owner,at,size)
     local r=runtime.query(at)
     return r and r.state==0x1000 and r.allocation_base==owner.base
-        and r.type==(owner.type or 0x20000) and (r.protect==2 or r.protect==4)
+        and r.type==(owner.type or 0x20000) and (r.protect==2 or r.protect==4
+            or(size and r.protect==protection.REVIEWED_EXECUTABLE
+                and protection.reviewed_executable_data(at,size)~=nil))
         and r.base<=at and at<r.base+r.size
 end
 local function owner_key(owner)return tostring(owner.base)..':'..tostring(owner.size)end
@@ -52,7 +57,7 @@ function M.verify(runtime,handle)
         end
         for _,target in ipairs(handle.targets)do
             local at=target.owner.base+target.offset
-            if not region_ok(runtime,target.owner,at)then return false,'target region changed'end
+            if not region_ok(runtime,target.owner,at,#target.desired)then return false,'target region changed'end
             metrics.count('steady.target_reads')
             if runtime.read(at,#target.desired)~=target.desired then return false,'target value drifted'end
         end

@@ -544,6 +544,11 @@ press(ALT,F9);tick(80)
 assert(count('CURVE TOUGH (Alt+F9)')==1 and curve()=='0.83,0.625,0.5,0.375,0.325',curve()..' | '
     ..table.concat(logged,' | '):sub(-1500))
 assert(count('CURVE ENSURE: ')>=1,table.concat(logged,' | '):sub(-800))
+-- Steady state: the cheap check accepts the reviewed 0x40 extents (live r55 logged a full resolution every cycle).
+local cycles=count('ensure armor-stat-probe-curve verified')
+tick(400)
+assert(count('ensure armor-stat-probe-curve drift detected')==0,table.concat(logged,' | '):sub(-1200))
+assert(count('ensure armor-stat-probe-curve verified')==cycles,'no full resolution while the curve holds')
 press(ALT,F9);tick(40)
 assert(count('CURVE FRAGILE (Alt+F9)')==1 and curve()=='3.32,2.5,2,1.5,1.3',curve())
 press(SHIFT,F9)

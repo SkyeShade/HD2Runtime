@@ -28,8 +28,8 @@ h:stop()                                    -- the kit's own passives again
 local ie = hd2.player_passives.set({armor = 'INTEGRATED EXPLOSIVES', allow_unverified_effect = true})
 ```
 
-**Status: development. Solo only.** Live-proven (r54, `schemas/live_evidence.json` family
-`player_armor_passive_swap`): the armor-slot swap alone to SCOUT, ENGINEERING KIT or SERVO-ASSISTED. Everything else
+**Status: development. Solo only.** Live-proven (r54 and r55, `schemas/live_evidence.json` family
+`player_armor_passive_swap`): the armor-slot swap alone to SCOUT, ENGINEERING KIT, SERVO-ASSISTED or MED-KIT (r55: more stims). Everything else
 is not live-tested. The read APIs are read-only. The live test is `proof/PassiveSwapProbe` (0.2.0: more passives,
 the Integrated Explosives package, an Extra Padding control).
 
@@ -112,7 +112,7 @@ print(k.weight, k.passive_name, k.wiki and k.wiki.armor_rating)   -- light  REDU
 `{kind, owner, status, code, reason, armor, second, notes}` with `stop()` and `describe()`.
 
 - **`allow_unverified_effect = true`** is required for every override except an armor-slot swap alone (no `second`)
-  to a live-proven passive: SCOUT, ENGINEERING KIT, SERVO-ASSISTED.
+  to a live-proven passive: SCOUT, ENGINEERING KIT, SERVO-ASSISTED, MED-KIT.
 - **`notes`**: what the chosen passives do not carry over a swap (their `note`, also logged once), for example
   SIEGE-READY's reload and ammo capacity, or ADRENO-DEFIBRILLATOR's unlocated revive.
 
@@ -300,7 +300,7 @@ FALLEN HERO'S VENGEANCE cape. The packaged validation reads exactly that, and wr
 - **Solo only.** With several players every peer builds its own applied record from the replicated kits, and which
   peer evaluates each effect is not proven. A running override is suspended and its values restored (`NOT_SOLO`).
   Host or client makes no difference solo. Multiplayer is untested.
-- **Mostly not live-tested.** Live-proven: the armor-slot swap to SCOUT, ENGINEERING KIT and SERVO-ASSISTED (r54).
+- **Mostly not live-tested.** Live-proven: the armor-slot swap to SCOUT, ENGINEERING KIT and SERVO-ASSISTED (r54), and MED-KIT (r55: more stims).
   Everything else is unproven in game: the second slot, the other passives, the capacities' timing, the effect
   package load before the write, and Adreno-Defibrillator's revive. `proof/PassiveSwapProbe` 0.2.0 tests six more
   passives in the armor slot and the Extra Padding control.

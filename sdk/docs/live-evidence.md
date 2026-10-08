@@ -10,7 +10,7 @@ Composition tests record four separate facts: the donor output works, the refere
 
 | Family | Status | Fields | Scope | Acknowledgement |
 | --- | --- | --- | --- | --- |
-| `player_armor_passive_swap` | live-proven | `player_passives.armor` | The armor passive slot (+0x3C) of the local player's applied record, solo, with the passives the test cycled: 8 SERVO-ASSISTED, 6 ENGINEERING KIT, 2 SCOUT. | removed `allow_unverified_effect` |
+| `player_armor_passive_swap` | live-proven | `player_passives.armor` | The armor passive slot (+0x3C) of the local player's applied record, solo, with the passives the tests confirmed: 8 SERVO-ASSISTED, 6 ENGINEERING KIT, 2 SCOUT (r54), 7 MED-KIT (r55: more stims). | removed `allow_unverified_effect` |
 | `sentry_turret_turn_speed` | live-proven | `turret.yaw_speed`, `turret.pitch_speed` | Every turreted sentry: the same TurretComponent members, equal to the wiki turn-speed tables on all nine. | removed `allow_unverified_effect` |
 | `sentry_targeting_range` | live-proven | `targeting.range` | Every sentry with a SensorEye range: the same SensorEyeComponent member, equal to the seven wiki-stated ranges. | removed `allow_unverified_effect` |
 | `minefield_salvos` | live-proven | `minefield.salvos` | All four minefields: the same ThrowerComponent slot-0 member, proven by the wiki sentence, the type library and the launch sockets. Reduce-only is kept. | removed `allow_unverified_effect` |
@@ -920,3 +920,13 @@ Runtime: HD2Runtime 0.30.0-dev r54 (HD2Runtime-0.30.0-dev-attachments-helldiver-
 | Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
 | --- | --- | --- | --- | --- |
 | PassiveSwapProbe | pass | the local player's applied customization record (game+0x33264F8 +0x96C): `armor passive (+0x3C)` the armor kit's own passive → 8 SERVO-ASSISTED, 6 ENGINEERING KIT, 2 SCOUT (F8 cycle) |  | The user: the three armor passives worked (the probe's F8 modes SERVO-ASSISTED, ENGINEERING KIT and SCOUT). The second passive (Ctrl+F8, MED-KIT in the helmet slot) was not reported. Solo host. |
+
+## Session armor-stats-passives-r55-2026-10-08
+
+Runtime: HD2Runtime 0.30.0-dev r55 (HD2Runtime-0.30.0-dev-passives-armor-stats-r55.zip, 77705BBF...7B06), PassiveSwapProbe 0.2.0 (22AAA42D...80D7), ArmorStatProbe 0.2.0 (9D0B303A...0292); build/test-artifacts/r55. The user's report and HD2Runtime.log..
+
+Every operation logged: `passives (mods/skyeshade/hd2runtime_passive_swap_probe): APPLIED: armor MED-KIT (7), second none; 1 write, read back true`, `MODE MED-KIT (F8): handle active`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| PassiveSwapProbe | pass | the local player's applied customization record (game+0x33264F8 +0x96C): `armor passive (+0x3C)` 32 REDUCED SIGNATURE (the RS-100 Sanctioner's own) → 7 MED-KIT |  | The user: the medic armor passive gave more stims. The log: MED-KIT applied with 1 write, read back. Also in the same log, not reported as observations and not promoted: INTEGRATED EXPLOSIVES (17) waited for its effect package 0xC76C97B3DFB67C5C, the package was logged resident, then the write applied (the death explosion was not reported); ArmorStatProbe stamina factor 0.5 applied and was set again after each respawn; one F9 was refused UNEXPECTED_STATE because the avatar's stamina factor held 4 (a status effect); the kit ensure (all heavy / all light / vanilla) and the damage curve ensure (x0.5, x2) applied and held, the curve without any protection change. Only one hit was logged (VANILLA, -7 health), so no per-mode damage comparison exists. Solo host. |
