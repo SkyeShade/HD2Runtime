@@ -15,9 +15,9 @@
 -- the procedure finishes safely). Any error turns the hook off for the session (logged once). It is never installed
 -- outside the game on Windows x64. The first source that delivers a notch is logged, so a live test tells which works.
 --
--- 0.30.2: the player can turn the native hook off at install: the runtime ZIP's second mod manager option (Arsenal,
--- Echelon) "mouse wheel hook off" also deploys a one-resource archive, hd2runtime/settings/wheel_hook_off, whose
--- presence turns it off (M.native_allowed). GameGuard error 1015 was reported with 0.30.x, and a window hook running
+-- 0.30.2: the player can turn the native hook off at install: in the mod manager (Arsenal, Echelon) the runtime's
+-- sub-option "Mouse wheel hook off" (the default is "on") also deploys a one-resource archive,
+-- hd2runtime/settings/wheel_hook_off, whose presence turns it off (M.native_allowed). GameGuard error 1015 was reported with 0.30.x, and a window hook running
 -- generated code is what anti-cheat looks for, so the option says it may fix that. Off, nothing native is built or
 -- installed (no executable page, no hook): hd2.input.wheel() reads the engine axis only (over a game menu the mouse
 -- focus is kept, runtime/mod_cursor.lua) and hd2.input.block() returns false with the reason, which every caller

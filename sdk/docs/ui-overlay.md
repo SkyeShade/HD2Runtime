@@ -162,9 +162,9 @@ Tests: `tests/test_ui_overlay.py` (a recording fake of the engine GUI API).
 `hd2.input.wheel()` is the wheel this update tick in notches (+ up, - down; fractions for smooth wheels), 0 when it
 did not move. The editor's scroll lists read it once per frame.
 
-**Turning the native hook off (0.30.2).** The hook is on by default. The runtime ZIP has a second install option
-in the mod manager (Arsenal, Echelon): *Shared runtime, mouse wheel hook off (may fix GameGuard crashes)*. It also
-deploys a one-resource archive, `hd2runtime/settings/wheel_hook_off`, whose presence turns the hook off for the
+**Turning the native hook off (0.30.2).** The hook is on by default. In the mod manager (Arsenal, Echelon) the
+runtime's option has a pick-one choice: *Mouse wheel hook on* (the default) or *Mouse wheel hook off (may fix
+GameGuard crashes)*. "Off" also deploys a one-resource archive, `hd2runtime/settings/wheel_hook_off`, whose presence turns the hook off for the
 session. GameGuard error 1015 ("Suspicious program detected") was reported with 0.30.x, and a window hook running
 generated code is what anti-cheat looks for. Off, nothing native is built or installed: `hd2.input.wheel()` reads
 the engine axis only (it works over a game menu, see The cursor), `hd2.input.block()` returns `false` and the

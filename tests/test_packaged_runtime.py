@@ -116,11 +116,14 @@ class PackagedRuntimeManifestTests(unittest.TestCase):
                 thumbnail = z.read('thumbnail.png')
                 setting = z.read(build_release.WHEEL_HOOK_OFF_FOLDER + '/' + ARCHIVE_NAME)
         self.assertEqual(manifest['IconPath'], 'thumbnail.png')
-        self.assertEqual([o['Image'] for o in manifest['Options']], ['thumbnail.png', 'thumbnail.png'])
-        # 0.30.2: the second option (the mod manager's choice) also deploys the "mouse wheel hook off" setting.
-        self.assertEqual([o['Include'] for o in manifest['Options']],
-            [['runtime'], ['runtime', build_release.WHEEL_HOOK_OFF_FOLDER]])
-        self.assertIn('GameGuard', manifest['Options'][1]['Name'])
+        self.assertEqual([o['Image'] for o in manifest['Options']], ['thumbnail.png'])
+        # 0.30.2: one option (the managers show options as independent switches, all on) whose pick-one sub-options
+        # (defaulting to the first) choose the mouse wheel hook: on (nothing more), or off (the setting archive).
+        option = manifest['Options'][0]
+        self.assertEqual(option['Include'], ['runtime'])
+        self.assertEqual([sub['Include'] for sub in option['SubOptions']], [[], [build_release.WHEEL_HOOK_OFF_FOLDER]])
+        self.assertEqual(option['SubOptions'][0]['Name'], 'Mouse wheel hook on')
+        self.assertIn('GameGuard', option['SubOptions'][1]['Name'])
         from hd2_archive import read_archive
         resources = read_archive(setting, b'')
         self.assertEqual([h for _, h in resources], [resource_hash('hd2runtime/settings/wheel_hook_off')])
