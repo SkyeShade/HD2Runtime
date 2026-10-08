@@ -20083,5 +20083,200 @@
   "safety": {
     "runtimeAddresses": false,
     "writesDuringGeneration": 0
+  },
+  "stratagemHosts": [
+    {
+      "stratagem": "A/MG-43 Machine Gun Sentry",
+      "family": "Sentry",
+      "key": "A/MG-43 Machine Gun Sentry / weapon",
+      "semanticId": "vehicle-weapon/v1/a-mg-43-machine-gun-sentry/weapon/e4467d88812aed10",
+      "api": "hd2.stratagem('A/MG-43 Machine Gun Sentry'):attack('primary'):projectile_source()",
+      "field": "hd2.fields.attack.projectile",
+      "writable": false,
+      "reason": "The magazine names each round (a pattern with tracers), not ProjectileWeapon +0; a swap needs the pattern rewritten too (planned).",
+      "acknowledgement": "allow_unverified_effect",
+      "compatibilityClass": "conventional_plain",
+      "baseline": {
+        "weapon": "A/MG-43 Machine Gun Sentry / weapon",
+        "attack": "primary"
+      },
+      "baselineRound": {
+        "velocity": 820,
+        "damage": 125,
+        "mass": 11
+      }
+    },
+    {
+      "stratagem": "A/G-16 Gatling Sentry",
+      "family": "Sentry",
+      "key": "A/G-16 Gatling Sentry / weapon",
+      "semanticId": "vehicle-weapon/v1/a-g-16-gatling-sentry/weapon/b74a1c2a28d89525",
+      "api": "hd2.stratagem('A/G-16 Gatling Sentry'):attack('primary'):projectile_source()",
+      "field": "hd2.fields.attack.projectile",
+      "writable": false,
+      "reason": "The magazine names each round (a pattern with tracers), not ProjectileWeapon +0; a swap needs the pattern rewritten too (planned).",
+      "acknowledgement": "allow_unverified_effect",
+      "compatibilityClass": "conventional_plain",
+      "baseline": {
+        "weapon": "A/G-16 Gatling Sentry / weapon",
+        "attack": "primary"
+      },
+      "baselineRound": {
+        "velocity": 820,
+        "damage": 125,
+        "mass": 11
+      }
+    },
+    {
+      "stratagem": "A/AC-8 Autocannon Sentry",
+      "family": "Sentry",
+      "key": "A/AC-8 Autocannon Sentry / weapon",
+      "semanticId": "vehicle-weapon/v1/a-ac-8-autocannon-sentry/weapon/968090b5a43cae09",
+      "api": "hd2.stratagem('A/AC-8 Autocannon Sentry'):attack('primary'):projectile_source()",
+      "field": "hd2.fields.attack.projectile",
+      "writable": true,
+      "reason": null,
+      "acknowledgement": "allow_unverified_effect",
+      "compatibilityClass": "explosive_impact",
+      "baseline": {
+        "weapon": "A/AC-8 Autocannon Sentry / weapon",
+        "attack": "primary"
+      },
+      "baselineRound": {
+        "velocity": 1021,
+        "damage": 216,
+        "mass": 900
+      }
+    },
+    {
+      "stratagem": "A/M-12 Mortar Sentry",
+      "family": "Sentry",
+      "key": "A/M-12 Mortar Sentry / weapon",
+      "semanticId": "vehicle-weapon/v1/a-m-12-mortar-sentry/weapon/e138e24ed6487258",
+      "api": "hd2.stratagem('A/M-12 Mortar Sentry'):attack('primary'):projectile_source()",
+      "field": "hd2.fields.attack.projectile",
+      "writable": true,
+      "reason": null,
+      "acknowledgement": "allow_unverified_effect",
+      "compatibilityClass": "explosive_shrapnel",
+      "baseline": {
+        "weapon": "A/M-12 Mortar Sentry / weapon",
+        "attack": "primary"
+      },
+      "baselineRound": {
+        "velocity": 100,
+        "damage": 32,
+        "mass": 70000
+      }
+    },
+    {
+      "stratagem": "A/MLS-4X Rocket Sentry",
+      "family": "Sentry",
+      "key": "A/MLS-4X Rocket Sentry / weapon",
+      "semanticId": "vehicle-weapon/v1/a-mls-4x-rocket-sentry/weapon/85ca19bf4b59288f",
+      "api": "hd2.stratagem('A/MLS-4X Rocket Sentry'):attack('primary'):projectile_source()",
+      "field": "hd2.fields.attack.projectile",
+      "writable": true,
+      "reason": null,
+      "acknowledgement": "allow_unverified_effect",
+      "compatibilityClass": "explosive_impact",
+      "baseline": {
+        "weapon": "A/MLS-4X Rocket Sentry / weapon",
+        "attack": "primary"
+      },
+      "baselineRound": {
+        "velocity": 100,
+        "damage": 232,
+        "mass": 6000
+      }
+    },
+    {
+      "stratagem": "A/M-23 EMS Mortar Sentry",
+      "family": "Sentry",
+      "key": "A/M-23 EMS Mortar Sentry / weapon",
+      "semanticId": "vehicle-weapon/v1/a-m-23-ems-mortar-sentry/weapon/28cd777ca5a6f5ed",
+      "api": "hd2.stratagem('A/M-23 EMS Mortar Sentry'):attack('primary'):projectile_source()",
+      "field": "hd2.fields.attack.projectile",
+      "writable": true,
+      "reason": null,
+      "acknowledgement": "allow_unverified_effect",
+      "compatibilityClass": "explosive_impact_and_expiry",
+      "baseline": {
+        "weapon": "A/M-23 EMS Mortar Sentry / weapon",
+        "attack": "primary"
+      },
+      "baselineRound": {
+        "velocity": 100,
+        "damage": 32,
+        "mass": 70000
+      }
+    },
+    {
+      "stratagem": "A/GM-17 Gas Mortar Sentry",
+      "family": "Sentry",
+      "key": "A/GM-17 Gas Mortar Sentry / weapon",
+      "semanticId": "vehicle-weapon/v1/a-gm-17-gas-mortar-sentry/weapon/10f3566528417f0f",
+      "api": "hd2.stratagem('A/GM-17 Gas Mortar Sentry'):attack('primary'):projectile_source()",
+      "field": "hd2.fields.attack.projectile",
+      "writable": true,
+      "reason": null,
+      "acknowledgement": "allow_unverified_effect",
+      "compatibilityClass": "explosive_impact",
+      "baseline": {
+        "weapon": "A/GM-17 Gas Mortar Sentry / weapon",
+        "attack": "primary"
+      },
+      "baselineRound": {
+        "velocity": 100,
+        "damage": 32,
+        "mass": 70000
+      }
+    },
+    {
+      "stratagem": "E/MG-101 HMG Emplacement",
+      "family": "Emplacement",
+      "key": "E/MG-101 HMG Emplacement / weapon",
+      "semanticId": "vehicle-weapon/v1/e-mg-101-hmg-emplacement/weapon/fbd7fd1164d43524",
+      "api": "hd2.stratagem('E/MG-101 HMG Emplacement'):attack('primary'):projectile_source()",
+      "field": "hd2.fields.attack.projectile",
+      "writable": true,
+      "reason": null,
+      "acknowledgement": "allow_unverified_effect",
+      "compatibilityClass": "conventional_plain",
+      "baseline": {
+        "weapon": "E/MG-101 HMG Emplacement / weapon",
+        "attack": "primary"
+      },
+      "baselineRound": {
+        "velocity": 880,
+        "damage": 204,
+        "mass": 52
+      }
+    },
+    {
+      "stratagem": "E/AT-12 Anti-Tank Emplacement",
+      "family": "Emplacement",
+      "key": "E/AT-12 Anti-Tank Emplacement / weapon",
+      "semanticId": "vehicle-weapon/v1/e-at-12-anti-tank-emplacement/weapon/db131dd8e2f4fcbc",
+      "api": "hd2.stratagem('E/AT-12 Anti-Tank Emplacement'):attack('primary'):projectile_source()",
+      "field": "hd2.fields.attack.projectile",
+      "writable": true,
+      "reason": null,
+      "acknowledgement": "allow_unverified_effect",
+      "compatibilityClass": "explosive_impact",
+      "baseline": {
+        "weapon": "E/AT-12 Anti-Tank Emplacement / weapon",
+        "attack": "primary"
+      },
+      "baselineRound": {
+        "velocity": 625,
+        "damage": 226,
+        "mass": 6500
+      }
+    }
+  ],
+  "stratagemHostSummary": {
+    "hosts": 9,
+    "writable": 7
   }
 }

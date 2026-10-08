@@ -124,6 +124,11 @@ local function build()
                         for _,group in ipairs({entry.slotFields,entry.presentationFields})do
                             walk(resource,target,group,1,nil,'output '..tostring(entry.id or name))
                         end
+                    elseif catalogue.resource=='vehicle_weapon'and type(entry.stratagemHost)=='string'then
+                        -- A sentry or emplacement host (0.30.2) is another handle on its stratagem's own deployed
+                        -- entity record (like an attack output on its owner's row), not another consumer.
+                        local owner=type(entry.name)=='string'and entry.name or tostring(name)
+                        walk('stratagem',entry.stratagemHost,entry,1,nil,'sentry host '..owner)
                     else
                         local owner=type(entry.name)=='string'and entry.name or tostring(name)
                         walk(catalogue.resource,owner,entry,1,nil)

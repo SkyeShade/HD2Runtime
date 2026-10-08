@@ -307,7 +307,11 @@ def relationships(tables: dict) -> list[dict]:
                 slot=attack['slot'], weapon=_int(attack['weapon']['resource']))
     for name, weapon in sorted(((tables.get('vehicle_weapon_authoring') or {}).get('weapons') or {}).items()):
         chain = weapon.get('mountChain')
-        if chain:
+        if chain and chain.get('stratagem'):
+            # A sentry or emplacement host (0.30.2): its stratagem's primary payload is the deployed entity.
+            add('stratagem_payload', 'sentry-host:' + name, name, [('vehicle_weapon_authoring', name)],
+                stratagemId=chain['stratagem']['id'], payload=_int(chain['mountPath']))
+        elif chain:
             add('vehicle_mount', 'vehicle-weapon-mount:' + name, name, [('vehicle_weapon_authoring', name)],
                 vehicle=_int(chain['vehicleResource']), slot=chain['slot'], weapon=_int(chain['mountPath']))
     for name, backpack in sorted((entity.get('backpacks') or {}).items()):

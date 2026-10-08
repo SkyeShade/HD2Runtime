@@ -30,6 +30,7 @@ import live_evidence  # noqa: E402
 ROOT = Path(__file__).resolve().parents[1]
 RESEARCH = ROOT / 'research/attack-outputs-F5FEE03DCFDB.json'
 ACTIVE = ROOT / 'research/active-projectile-sources-F5FEE03DCFDB.json'
+SENTRY_HOSTS = ROOT / 'research/sentry-projectile-hosts-F5FEE03DCFDB.json'
 DONORS = ROOT / 'research/stun-field-donors-F5FEE03DCFDB.json'
 MORE_DONORS = ROOT / 'research/projectile-donors-F5FEE03DCFDB.json'
 PRESENTATION = ROOT / 'research/weapon-presentation-F5FEE03DCFDB.json'
@@ -567,6 +568,14 @@ def outputs():
     # weapon entity, so a write there changes both mounts).
     host_items = ([(item, 'support_weapon') for item in builder['supportHosts']]
         + [(item, 'vehicle_weapon') for item in builder.get('mountedHosts', [])])
+    # Sentry and emplacement hosts (0.30.2; research/sentry-projectile-hosts-F5FEE03DCFDB.json): their deployed entity's
+    # own ProjectileWeapon +0, keyed '<stratagem> / weapon' like a mount. The same rule: ACTIVE_DIRECT and magazine-fed.
+    for item in json.loads(SENTRY_HOSTS.read_text(encoding='utf-8'))['hosts']:
+        key = item['weapon'] + ' / weapon'
+        classes[key] = item.get('compatibilityClass')
+        host_items.append(({'weapon': key, 'status': item['status'],
+            'mechanism': 'component' if item['status'] == 'ACTIVE_DIRECT' else None, 'reason': item['reason'],
+            'componentHost': item['status'] == 'ACTIVE_DIRECT' and item['magazineFed']}, 'vehicle_weapon'))
     for item, kind in host_items:
         host = bool(item['componentHost'] and classes.get(item['weapon']))
         if host:

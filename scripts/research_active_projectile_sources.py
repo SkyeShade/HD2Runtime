@@ -49,7 +49,9 @@ import research_attack_outputs as attack_outputs  # noqa: E402
 from research_magazine_attachments import DATALIB, DELTAS_SHA, customization_items, entity_deltas, sha  # noqa: E402
 
 OUTPUT = ROOT / 'research/active-projectile-sources-F5FEE03DCFDB.json'
+SENTRY_OUTPUT = ROOT / 'research/sentry-projectile-hosts-F5FEE03DCFDB.json'
 UNLOCK_LISTS = ROOT / 'research/attachment-unlock-lists-F5FEE03DCFDB.json'
+DEFENSIVE = ROOT / 'research/defensive-stratagem-runtime-F5FEE03DCFDB.json'
 OPTIONS = ROOT / 'sdk/AttachmentOptionCapabilities.json'
 AMMUNITION_SLOT = 6
 COMPONENT_INDEX = {'WeaponMagazineComponentData': 5, 'WeaponRoundsComponentData': 117,
@@ -215,10 +217,12 @@ def build():
 
     weapons, default_users = [], collections.defaultdict(list)
     listed_users = collections.defaultdict(list)
-    for name, kind, resource in attack_outputs.weapons():
+    def classify(name, kind, resource):
+        """One host's fired-projectile classification (its entity components, customization defaults and unlock
+        list), or None when it has no ProjectileWeapon component."""
         components = {c['name']: c for c in native.report(resource)['components'] if c['resolved'] and c['name']}
         if 'ProjectileWeaponComponentData' not in components:
-            continue
+            return None
         pw = native.record('ProjectileWeaponComponentData', components['ProjectileWeaponComponentData']['record_index'])
         entry = {'weapon': name, 'kind': kind, 'resource': resource,
             'components': sorted(c.removesuffix('ComponentData') for c in components
@@ -326,7 +330,34 @@ def build():
         entry.update(status=status, reason=reason, activeSource=source,
             baseMember='ACTIVE' if status == 'ACTIVE_DIRECT' else 'DORMANT' if status in (
                 'INDIRECT', 'DORMANT_OR_METADATA') else 'NOT_SOLE_SOURCE' if status == 'BLOCKED' else 'UNPROVEN')
-        weapons.append(entry)
+        return entry
+
+    for name, kind, resource in attack_outputs.weapons():
+        entry = classify(name, kind, resource)
+        if entry:
+            weapons.append(entry)
+    # Sentry and emplacement hosts (0.30.2): stratagem deployed entities that carry their own ProjectileWeapon
+    # record, classified by the same rules (research/defensive-stratagem-runtime-F5FEE03DCFDB.json).
+    sentry_hosts = []
+    for item in json.loads(DEFENSIVE.read_text(encoding='utf-8'))['stratagems']:
+        entity = item.get('deployedEntity') or {}
+        if 'ProjectileWeaponComponentData' in (entity.get('componentNames') or []):
+            entry = classify(item['name'], 'stratagem', entity['resource'])
+            if entry:
+                entry['family'] = item['family']
+                # What a projectile-reference field on this host needs (the mounted-weapon host model): the
+                # ProjectileWeapon record's identity and the host's own projectile row and class.
+                own = {c['name']: c for c in native.report(entity['resource'])['components']
+                    if c['resolved'] and c['name']}['ProjectileWeaponComponentData']
+                ownership = native.ownership(own)
+                entry['componentIdentity'] = {'recordIndex': own['record_index'], 'indexRow': own['index_row'],
+                    'ownerCount': ownership['ownerCount'], 'uniqueOwner': ownership['uniqueOwner']}
+                sentry_hosts.append(entry)
+    rows = attack_outputs.resolve_settings(sorted({e['base']['projType'] for e in sentry_hosts}), [], [])['projectiles']
+    for entry in sentry_hosts:
+        row = rows.get(str(entry['base']['projType']))
+        entry['output'] = row
+        entry['compatibilityClass'] = attack_outputs.projectile_class(row) if row else None
 
     ammunition_types = sorted({e['activeSource']['value'] for e in weapons
         if e['activeSource'] and e['activeSource']['kind'] == 'ammunition_delta'})
@@ -385,13 +416,30 @@ def build():
             'attackFieldsByStatus': dict(sorted(collections.Counter(a['status'] for a in attacks).items())),
             'previouslyWritableAttackFieldsByStatus': dict(sorted(collections.Counter(
                 a['status'] for a in attacks if a['previouslyWritable']).items()))},
-        'attackFields': attacks, 'ammunitionItems': ammunition, 'weapons': weapons}
+        'attackFields': attacks, 'ammunitionItems': ammunition, 'weapons': weapons}, {
+        'schemaVersion': 1, 'writes': 0, 'fixtureFallback': 'disabled', 'build': 'F5FEE03DCFDB',
+        'proofBasis': ('The same decoded data path and rules as research/active-projectile-sources-F5FEE03DCFDB.json, '
+            'applied to every stratagem deployed entity that carries its own ProjectileWeapon record (sentries and '
+            'emplacements): ACTIVE_DIRECT means every shot is that record\'s ProjectileWeapon +0. No type-level sentry '
+            'swap has been live-tested; the custom-stratagem sentry (a private copy of +0 on one sentry, Gatling '
+            'chassis, pattern off) fired its swapped round live.'),
+        'summary': {'hosts': len(sentry_hosts),
+            'byStatus': dict(sorted(collections.Counter(e['status'] for e in sentry_hosts).items()))},
+        'hosts': sentry_hosts}
 
 
-def main():
-    report = build()
-    OUTPUT.write_text(json.dumps(report, indent=1) + '\n', encoding='utf-8', newline='\n')
-    print(json.dumps(report['summary'], indent=1))
+def main(argv=None):
+    import argparse
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--sentry-hosts', action='store_true',
+        help='write only research/sentry-projectile-hosts-F5FEE03DCFDB.json (the weapon report is left as it is)')
+    args = parser.parse_args(argv)
+    report, sentries = build()
+    SENTRY_OUTPUT.write_text(json.dumps(sentries, indent=1) + '\n', encoding='utf-8', newline='\n')
+    print(json.dumps(sentries['summary'], indent=1))
+    if not args.sentry_hosts:
+        OUTPUT.write_text(json.dumps(report, indent=1) + '\n', encoding='utf-8', newline='\n')
+        print(json.dumps(report['summary'], indent=1))
 
 
 if __name__ == '__main__':

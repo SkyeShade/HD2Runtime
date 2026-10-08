@@ -149,7 +149,7 @@ class CatalogTests(unittest.TestCase):
         self.assertIn('A/M-23 EMS Mortar Sentry', summary['stratagemDonors'])
         self.assertIn('Eagle 500kg Bomb', summary['stratagemDonors'])
         self.assertEqual((summary['selectable'], summary['projectileHosts'], summary['componentHosts'],
-            summary['ammunitionHosts'], summary['directWritableAttackFields']), (112, 52, 46, 6, 54))
+            summary['ammunitionHosts'], summary['directWritableAttackFields']), (112, 59, 53, 6, 61))   # +7 sentry hosts
         # Every selectable projectile output carries its weapon-function mode label and icon (native values only).
         presentation = self.catalog['modePresentation']
         icons = {i['value']: i for i in presentation['icons']}
@@ -248,12 +248,18 @@ class CatalogTests(unittest.TestCase):
         # Support weapons follow the same host rule (research/projectile-builder supportHosts): magazine-fed, every shot
         # their own ProjectileWeapon +0. Ammunition hosts are player weapons only.
         kinds = {w['weapon']: w['kind'] for w in self.active['weapons']}
+        # Sentry and emplacement hosts (0.30.2): '<stratagem> / weapon', research/sentry-projectile-hosts.
+        sentries = sorted(h['weapon'] + ' / weapon' for h in load('research/sentry-projectile-hosts-F5FEE03DCFDB.json')[
+            'hosts'] if h['status'] == 'ACTIVE_DIRECT')
+        kinds.update({name: 'vehicle_weapon' for name in sentries})
+        self.assertEqual(sorted(n for n in hosts['componentHosts'] if n.endswith(' / weapon')), sentries)
+        self.assertEqual(len(sentries), 7)
         support = sorted(n for n in hosts['componentHosts'] if kinds[n] == 'support_weapon')
         self.assertEqual(support, ['APW-1 Anti-Materiel Rifle', 'EAT-17 Expendable Anti-Tank', 'EAT-411 Leveller',
             'EAT-700 Expendable Napalm', 'GL-21 Grenade Launcher', 'M-105 Stalwart', 'MG-206 Heavy Machine Gun',
             'S-11 Speargun'])
         self.assertTrue(all(kinds[n] == 'player_weapon' for n in hosts['ammunitionHosts']))
-        mounted = sorted(n for n in hosts['componentHosts'] if kinds[n] == 'vehicle_weapon')
+        mounted = sorted(n for n in hosts['componentHosts'] if kinds[n] == 'vehicle_weapon' and n not in sentries)
         self.assertEqual(mounted, ['AX/AR-23 Guard Dog / gun', 'EXO-45 Patriot Exosuit / right_gun',
             'EXO-49 Emancipator Exosuit / left_gun', 'EXO-49 Emancipator Exosuit / right_gun',
             'EXO-51 Lumberer Exosuit / right_gun', 'FRV (Super Earth variant) / gun', 'GATER Oil Rig / turret',

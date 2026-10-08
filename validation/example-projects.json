@@ -1,5 +1,5 @@
 {
-  "examples": 119,
+  "examples": 120,
   "failed": [],
   "mode": "snapshot",
   "results": {
@@ -4309,6 +4309,66 @@
       "versionReasons": [
         "stratagem targeting.range -> 0.28.0",
         "typed writes -> 0.23.2"
+      ]
+    },
+    "SentryProjectileSwapTest": {
+      "baselineChanges": 3,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.30.1",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "attack": "primary",
+          "callKind": "ensure",
+          "id": "hmg",
+          "mode": "transaction",
+          "path": "attack",
+          "resource": "vehicle_weapon",
+          "weapon": "E/MG-101 HMG Emplacement / weapon"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "attack": "primary",
+          "callKind": "ensure",
+          "id": "at",
+          "mode": "transaction",
+          "path": "attack",
+          "resource": "vehicle_weapon",
+          "weapon": "E/AT-12 Anti-Tank Emplacement / weapon"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "attack": "primary",
+          "callKind": "ensure",
+          "id": "autocannon",
+          "mode": "transaction",
+          "path": "attack",
+          "resource": "vehicle_weapon",
+          "weapon": "A/AC-8 Autocannon Sentry / weapon"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.30.1",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "sentry / emplacement projectile host A/AC-8 Autocannon Sentry / weapon -> 0.30.1",
+        "sentry / emplacement projectile host E/AT-12 Anti-Tank Emplacement / weapon -> 0.30.1",
+        "sentry / emplacement projectile host E/MG-101 HMG Emplacement / weapon -> 0.30.1",
+        "typed writes -> 0.23.2",
+        "vehicle_weapon attack.primary.projectile -> 0.28.0",
+        "vehicle_weapon target -> 0.26.0"
       ]
     },
     "SentryTuningTest": {

@@ -1123,7 +1123,20 @@ function M.capture_many(runtime,reader,specs)
         end
         local ammunition=spec.kind=='player_weapon'and attack_outputs().ammunition[spec.weapon]
         if ammunition then resolved.ammunition=prove_ammunition(reader,roots,catalog,resolved.candidate,ammunition)end
-        if spec.kind=='vehicle_weapon'then
+        if spec.kind=='vehicle_weapon'and spec.mount_chain and spec.mount_chain.stratagem then
+            -- A sentry or emplacement host (0.30.2): its stratagem's own payload list still names this deployed
+            -- entity (the support weapons' stratagem payload link).
+            local chain=spec.mount_chain
+            assert(chain.mountPath==spec.resource,'sentry chain does not name the weapon owner')
+            local found=false
+            for _,record in ipairs(require('hd2runtime/core/stratagem').capture_all(runtime,reader,profile))do
+                if record.id==chain.stratagem.id and record.package==chain.stratagem.package then
+                    for _,payload in ipairs(record.payloads or{})do if payload==spec.resource then found=true end end
+                end
+            end
+            assert(found,'sentry ownership chain changed: '..tostring(chain.stratagem.name)
+                ..' no longer deploys the reviewed entity')
+        elseif spec.kind=='vehicle_weapon'then
             -- Re-prove the mount chain: the vehicle's own MountComponentData slot still holds this weapon.
             local chain=assert(spec.mount_chain,'vehicle weapon mount chain missing')
             local vehicle=find_candidate(catalog,chain.vehicleResource)

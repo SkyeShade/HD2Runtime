@@ -909,6 +909,97 @@
    "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
   },
   {
+   "weapon": "A/AC-8 Autocannon Sentry / weapon",
+   "kind": "vehicle_weapon",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": false,
+   "sharedEntity": [],
+   "write": "hd2.vehicle(vehicle):weapon(mount):attack(role):projectile_source() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "A/G-16 Gatling Sentry / weapon",
+   "kind": "vehicle_weapon",
+   "attack": "primary",
+   "status": "BLOCKED",
+   "mechanism": null,
+   "member": null,
+   "reason": "Another native selector owns the fired projectile: magazine pattern (WeaponMagazine Projectiles[32] / FirstProjectile).",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "sharedEntity": [],
+   "write": null
+  },
+  {
+   "weapon": "A/GM-17 Gas Mortar Sentry / weapon",
+   "kind": "vehicle_weapon",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": false,
+   "sharedEntity": [],
+   "write": "hd2.vehicle(vehicle):weapon(mount):attack(role):projectile_source() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "A/M-12 Mortar Sentry / weapon",
+   "kind": "vehicle_weapon",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": false,
+   "sharedEntity": [],
+   "write": "hd2.vehicle(vehicle):weapon(mount):attack(role):projectile_source() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "A/M-23 EMS Mortar Sentry / weapon",
+   "kind": "vehicle_weapon",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": false,
+   "sharedEntity": [],
+   "write": "hd2.vehicle(vehicle):weapon(mount):attack(role):projectile_source() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "A/MG-43 Machine Gun Sentry / weapon",
+   "kind": "vehicle_weapon",
+   "attack": "primary",
+   "status": "BLOCKED",
+   "mechanism": null,
+   "member": null,
+   "reason": "Another native selector owns the fired projectile: magazine pattern (WeaponMagazine Projectiles[32] / FirstProjectile).",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "sharedEntity": [],
+   "write": null
+  },
+  {
+   "weapon": "A/MLS-4X Rocket Sentry / weapon",
+   "kind": "vehicle_weapon",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": false,
+   "sharedEntity": [],
+   "write": "hd2.vehicle(vehicle):weapon(mount):attack(role):projectile_source() (hd2.fields.attack.projectile)"
+  },
+  {
    "weapon": "AC-8 Autocannon",
    "kind": "support_weapon",
    "attack": "primary",
@@ -936,6 +1027,32 @@
   },
   {
    "weapon": "AX/AR-23 Guard Dog / gun",
+   "kind": "vehicle_weapon",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": false,
+   "sharedEntity": [],
+   "write": "hd2.vehicle(vehicle):weapon(mount):attack(role):projectile_source() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "E/AT-12 Anti-Tank Emplacement / weapon",
+   "kind": "vehicle_weapon",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": false,
+   "sharedEntity": [],
+   "write": "hd2.vehicle(vehicle):weapon(mount):attack(role):projectile_source() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "E/MG-101 HMG Emplacement / weapon",
    "kind": "vehicle_weapon",
    "attack": "primary",
    "status": "ACTIVE_DIRECT",
@@ -1633,6 +1750,11 @@
  ],
  "hostModel": {
   "componentHosts": [
+   "A/AC-8 Autocannon Sentry / weapon",
+   "A/GM-17 Gas Mortar Sentry / weapon",
+   "A/M-12 Mortar Sentry / weapon",
+   "A/M-23 EMS Mortar Sentry / weapon",
+   "A/MLS-4X Rocket Sentry / weapon",
    "APW-1 Anti-Materiel Rifle",
    "AR-11 Arbitrator",
    "AR-23A Liberator Carbine",
@@ -1644,6 +1766,8 @@
    "AX/AR-23 Guard Dog / gun",
    "BR-14 Adjudicator",
    "CB-9 Exploding Crossbow",
+   "E/AT-12 Anti-Tank Emplacement / weapon",
+   "E/MG-101 HMG Emplacement / weapon",
    "EAT-17 Expendable Anti-Tank",
    "EAT-411 Leveller",
    "EAT-700 Expendable Napalm",
@@ -2017,10 +2141,10 @@
    "TD-220 Bastion MK XVI"
   ],
   "selectable": 112,
-  "projectileHosts": 52,
-  "componentHosts": 46,
+  "projectileHosts": 59,
+  "componentHosts": 53,
   "ammunitionHosts": 6,
-  "directWritableAttackFields": 54
+  "directWritableAttackFields": 61
  },
  "outputs": [
   {

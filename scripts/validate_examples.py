@@ -81,7 +81,8 @@ STRATAGEM_WEAPONS_0_28_0 = {'mine'}   # a mine deployer's launcher owns its mine
 # line; features of the next feature release get their own floor.
 UNRELEASED = '0.30.0'
 # Features added after the last published release need the release that ships them, i.e. the version being built
-# (VERSION); that release pins them like UNRELEASED above. Player-weapon explosion status slots (0.30.2):
+# (VERSION); that release pins them like UNRELEASED above. 0.30.2: player-weapon explosion status slots and the
+# sentry / emplacement projectile hosts ('<stratagem> / weapon').
 NEXT_RELEASE = (ROOT / 'VERSION').read_text().strip()
 PLAYER_EXPLOSION_STATUS = re.compile(r'^explosion\.[^.]+\.(impact|expiry)\.damage\.status_\d+_(type|strength)$')
 UNRELEASED_FIELDS = {'stratagem.calldown_code',   # docs/stratagem-calldown-code.md
@@ -331,6 +332,8 @@ def required_version(report):
             bump(RESOURCE_PATH_FLOORS[(resource, path)], resource + ' ' + path)
         if resource == 'player_weapon' and ' / underbarrel' in (operation.get('weapon') or ''):
             bump(RELEASE_0_28_0, 'underbarrel sub-target')
+        if resource == 'vehicle_weapon' and (operation.get('weapon') or '').endswith(' / weapon'):
+            bump(NEXT_RELEASE, 'sentry / emplacement projectile host ' + operation['weapon'])
         if resource == 'booster' and path in BOOSTER_PATH_FLOORS:
             bump(BOOSTER_PATH_FLOORS[path], 'booster ' + path + '()')
         if resource == 'support_weapon' and operation.get('weapon') in DELIVERY_RESOLVED:

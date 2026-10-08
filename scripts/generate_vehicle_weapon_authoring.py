@@ -22,6 +22,14 @@ RESEARCH = ROOT / 'research/vehicle-weapons-F5FEE03DCFDB.json'
 # and support component hosts.
 BUILDER = ROOT / 'research/projectile-builder-F5FEE03DCFDB.json'
 ATTACK_OUTPUTS = ROOT / 'research/attack-outputs-F5FEE03DCFDB.json'
+SENTRY_HOSTS = ROOT / 'research/sentry-projectile-hosts-F5FEE03DCFDB.json'
+DEFENSIVE = ROOT / 'research/defensive-stratagem-runtime-F5FEE03DCFDB.json'
+SENTRY_UNVERIFIED = ('Replaces the projectile this sentry or emplacement fires (its ProjectileWeapon +0, on the type '
+    'record every deployed one reads). The same structural rule as player, support and mounted component hosts: no '
+    'customization delta patches a projectile member and no other selector exists. A type-level sentry swap is not '
+    'live-tested; a sentry aims for its own round, so a donor with another velocity or arc may miss.')
+SENTRY_PATTERN = ('The magazine names each round (a pattern with tracers), not ProjectileWeapon +0; a swap needs the '
+    'pattern rewritten too (planned).')
 HOST_UNVERIFIED = ('Replaces the projectile this mounted weapon fires (its ProjectileWeapon +0, copied into the weapon '
     'when the vehicle is built). The same structural rule as player and support component hosts: magazine-fed, no '
     'customization delta patches a projectile member and no other selector exists. Shown in game only on the EXO-45 '
@@ -442,6 +450,56 @@ def build(research_path=RESEARCH):
             'shared_arc': 'An ArcSettings row; every arc weapon of that arc type changes.'},
         'vehicles': public_vehicles, 'fieldInstances': instances, 'summary': summary,
         'safety': {'runtimeAddresses': False, 'writesDuringGeneration': 0}}
+    if re.search(r'0x[0-9a-f]{8,}', json.dumps(public).lower()):
+        raise ValueError('public vehicle weapon catalog leaks a native identifier')
+    # Sentry and emplacement hosts (0.30.2): the stratagem's deployed entity carries its own ProjectileWeapon record
+    # (research/sentry-projectile-hosts-F5FEE03DCFDB.json). Only the projectile reference is published here, reached
+    # through hd2.stratagem(name):attack('primary'):projectile_source(); every other sentry field stays on
+    # the stratagem target. The writer re-proves the stratagem's payload link instead of a vehicle mount.
+    roots = {item['name']: item['currentRoot'] for item in json.loads(DEFENSIVE.read_text())['stratagems']}
+    stratagem_hosts = []
+    for host in json.loads(SENTRY_HOSTS.read_text())['hosts']:
+        name = host['weapon']
+        key = name + ' / weapon'
+        identity, output = host['componentIdentity'], host.get('output') or {}
+        assert identity['uniqueOwner'] and identity['ownerCount'] == 1, name + ': ProjectileWeapon record is shared'
+        root = roots[name]
+        assert host['resource'] in root['payloads'], name + ': the stratagem payload does not name the host'
+        semantic = 'vehicle-weapon/v1/' + slug(name) + '/weapon/' + digest({'path': host['resource']})
+        editable = host['status'] == 'ACTIVE_DIRECT' and bool(output.get('settings')) and bool(host['compatibilityClass'])
+        reason = None if editable else SENTRY_PATTERN if host.get('magazinePattern', {}).get('entries') else host['reason']
+        target = {'resource': 'vehicle_weapon', 'path': 'attack', 'weapon': key, 'attack': 'primary'}
+        item = {'semanticFieldId': 'attack.primary.projectile', 'semanticTarget': 'attack.primary.projectile',
+            'displayName': 'Attack projectile reference', 'type': 'projectile_reference', 'unit': None,
+            'currentDefault': {'weapon': key, 'attack': 'primary', 'projectileType': host['base']['projType']},
+            'editable': editable, 'acceptedForWrites': editable, 'derivedReadOnly': False,
+            'backing': {'kind': 'component', 'component': 'ProjectileWeaponComponentData', 'offset': 0,
+                'storage': 'u32', 'width': 4, 'recordIndex': identity['recordIndex'], 'indexRow': identity['indexRow'],
+                'ownerCount': 1, 'uniqueOwner': True},
+            'target': target, 'writeScope': 'weapon_local', 'sharedWithWeapons': [], 'affectsMultipleWeapons': False,
+            'dynamicConsumersPossible': False, 'reason': reason, 'acknowledgement': 'allow_unverified_effect',
+            'acknowledgementReason': SENTRY_UNVERIFIED, 'gameplayEvidence': None, 'referenceKind': 'projectile',
+            'compatibilityClass': host['compatibilityClass'], 'referenceRole': 'primary',
+            'referenceSettings': output.get('settings'),
+            'projectileSource': {'status': host['status'], 'mechanism': 'component' if editable else None,
+                'member': 'ProjectileWeapon +0', 'reason': host['reason']}}
+        runtime_weapons[key] = {'name': key, 'semanticId': semantic, 'supportWeapon': True, 'vehicleWeapon': True,
+            'vehicle': name, 'mount': 'weapon', 'slot': 0, 'resources': [host['resource']],
+            'attackResource': host['resource'], 'ordinaryWritesBlocked': False, 'stratagemHost': name,
+            'mountChain': {'stratagem': {'name': name, 'id': root['id'], 'package': root['package']},
+                'mountPath': host['resource']},
+            'attacks': {'primary': {'role': 'primary', 'kind': 'Projectile', 'targetPath': 'projectile_reference'}},
+            'fields': [item]}
+        stratagem_hosts.append({'stratagem': name, 'family': host['family'], 'key': key, 'semanticId': semantic,
+            'api': "hd2.stratagem('" + name + "'):attack('primary'):projectile_source()",
+            'field': 'hd2.fields.attack.projectile', 'writable': editable, 'reason': reason,
+            'acknowledgement': 'allow_unverified_effect', 'compatibilityClass': host['compatibilityClass'],
+            'baseline': {'weapon': key, 'attack': 'primary'},
+            'baselineRound': {'velocity': output.get('velocity'), 'damage': output.get('damage'),
+                'mass': output.get('mass')}})
+    public['stratagemHosts'] = stratagem_hosts
+    public['stratagemHostSummary'] = {'hosts': len(stratagem_hosts),
+        'writable': sum(1 for h in stratagem_hosts if h['writable'])}
     if re.search(r'0x[0-9a-f]{8,}', json.dumps(public).lower()):
         raise ValueError('public vehicle weapon catalog leaks a native identifier')
     runtime = {'weapons': runtime_weapons, 'byVehicle': by_vehicle, 'summary': summary}

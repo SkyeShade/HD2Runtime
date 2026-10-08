@@ -943,6 +943,30 @@ function M.new(describe)
         function methods.projectile(self)
             assert(attack.kind=='ProjectileSettings','attack is not a projectile settings object');return self
         end
+        -- Where this sentry's or emplacement's fired projectile lives (0.30.2; the mounted-weapon host model): its
+        -- deployed entity's ProjectileWeapon record, writable through hd2.fields.attack.projectile on the target
+        -- this returns. The expect is the returned expect handle (the host's own round), the value a donor.
+        function methods.projectile_source()
+            local key=name..' / weapon'
+            local host=require('hd2runtime/domains/vehicle_weapon_authoring').weapons[key]
+            local result={weapon=key,attack='primary',writable=false,
+                reason='no reviewed projectile host for '..name..' attack '..tostring(role)}
+            if role~='primary'or not host or host.stratagemHost~=name then return result end
+            local field=host.fields[1]
+            result.status=field.projectileSource.status;result.mechanism=field.projectileSource.mechanism
+            result.member=field.projectileSource.member;result.compatibilityClass=field.compatibilityClass
+            result.reason=field.reason or field.projectileSource.reason
+            if field.editable then
+                result.writable=true
+                result.target=setmetatable({resource='vehicle_weapon',path='attack',weapon=key,attack='primary'},
+                    {__index={describe=function()return copy(host.attacks.primary)end}})
+                result.field='attack.projectile'
+                result.expect=setmetatable({resource='vehicle_weapon',path='projectile_reference',weapon=key,
+                    attack='primary'},{__index={describe=function()return copy(host.attacks.primary)end}})
+                result.acknowledgements={'allow_unverified_effect'}
+            end
+            return result
+        end
         function methods.explosion(self)
             assert(attack.kind=='ExplosionSettings','attack is not an explosion settings object');return self
         end

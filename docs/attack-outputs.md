@@ -184,7 +184,8 @@ a projectile pointer exists.
   direct swap.
 - **Cross-class projectile outputs** need `allow_unverified_reference` and `allow_unverified_effect`, on either
   mechanism.
-- **Host eligibility.** 52 hosts: 46 `component` hosts (29 player, 8 support and 9 mounted weapons) and 6
+- **Host eligibility.** 59 hosts: 53 `component` hosts (29 player, 8 support, 9 mounted weapons and 7 sentries or
+  emplacements) and 6
   `ammunition` hosts. Loadout category never decides it: the native output family and the active source do. Each keeps the live controls' structure: magazine-fed, empty magazine pattern, no WeaponRounds,
   WeaponCharge or WeaponHeat. Others fail with `CROSS_CLASS_HOST_REJECTED`, and the magazine structure is re-proven
   live before every write.
@@ -231,6 +232,30 @@ a projectile pointer exists.
     `allow_unverified_reference`. The exception is exactly the three live-proven donors on the Patriot minigun:
     EAT-17, LAS-58 Talon and PLAS-1 Scorcher (VehicleProjectileBuilderTest, `vehicle_projectile_reference`).
   - **Live test.** examples/projects/VehicleProjectileBuilderTest (the Patriot).
+- **Sentry and emplacement hosts (0.30.2; not live-tested).** A stratagem whose deployed entity carries its own
+  ProjectileWeapon record is a host by the same rule (research/sentry-projectile-hosts-F5FEE03DCFDB.json). The seven:
+  A/AC-8 Autocannon, A/M-12 Mortar, A/MLS-4X Rocket, A/M-23 EMS Mortar and A/GM-17 Gas Mortar sentries, E/MG-101 HMG
+  and E/AT-12 Anti-Tank emplacements.
+
+  ```lua
+  local source = hd2.stratagem('A/AC-8 Autocannon Sentry'):attack('primary'):projectile_source()
+  hd2.ensure({patch = {id = 'ac8-scorcher', target = source.target, field = hd2.fields.attack.projectile,
+      expect = source.expect, value = hd2.attack_output('PLAS-1 Scorcher'),
+      allow_unverified_effect = true, allow_unverified_reference = true}})
+  ```
+
+  - **Scope.** The write is type-level: every sentry of that stratagem on this machine fires the donor, teammates'
+    included; other machines keep the stock round (each machine simulates turret shots from its own data).
+  - **Chain.** Every write re-proves that the stratagem's own payload list still names the deployed entity, and the
+    host's magazine structure (empty pattern) and record identity, like a mount.
+  - **Read-only.** The A/MG-43 Machine Gun and A/G-16 Gatling sentries name each round in a magazine pattern
+    (bullets and tracers), so `projectile_source()` reports them read-only until the pattern is written too. The
+    Laser, Flame and Tesla have no ProjectileWeapon.
+  - **Acknowledgements.** Every donor needs `allow_unverified_effect` (no type-level sentry swap is live-tested), and
+    cross-class donors also `allow_unverified_reference`. Restoring the host's own round needs none.
+  - **Aiming.** A sentry aims for its own round. A donor with another speed or gravity may miss moving targets, and a
+    flat round from a mortar may miss entirely; emplacements are aimed by the player.
+  - **Live test.** examples/projects/SentryProjectileSwapTest.
 - **One donor pool.** Any catalogued projectile output (`hd2.attack_output(name)`), whatever loadout slot, stratagem or
   mount owns it. On a support host, and for a support donor on a player host, another weapon's attack projectile
   handle (player, support or mounted) resolves to that weapon's catalogued output and is checked like it
