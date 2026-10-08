@@ -375,6 +375,73 @@ return function(frame,watches,counts,lines)
 end
 '''
 
+# Type-wide Helldiver fields (hd2.helldiver(), docs/helldiver-fields.md): a speed and stamina transaction and a head
+# damage multiplier patch through hd2.ensure, from the packaged archive. Inline: the fields are unreleased. The
+# reference snapshot is aboard the ship, whose avatar carries a private AvatarComponentData copy: the transaction must
+# apply to the type record and log the private-copy note; the zone multiplier (read from the type record) must not.
+HELLDIVER_FIELDS = r'''local hd2=require('mods/skyeshade/hd2runtime')
+local F=hd2.fields
+local operations={}
+operations[#operations+1]=hd2.ensure({transaction={id='helldiver-speed',target=hd2.helldiver(),allow_shared=true,
+    allow_unverified_effect=true,changes={{field=F.helldiver.speed_jog,expect=3.2,value=4.5},
+        {field=F.helldiver.stamina_recover_delay,expect=1.5,value=0.5}}}})
+operations[#operations+1]=hd2.ensure({patch={id='helldiver-head',target=hd2.helldiver():zone('head'),allow_shared=true,
+    allow_unverified_effect=true,field=F.zone.damage_multiplier,expect='normal',value='reduced'}})
+return operations
+'''
+HELLDIVER_FIELDS_LIVE = r'''
+return function(frame,watches,counts,lines)
+ local results={}
+ local function step(name,ok,detail)results[#results+1]={name=name,passed=ok==true,detail=detail}end
+ local function count(text)local n=0;for _,line in ipairs(lines)do if line:find(text,1,true)then n=n+1 end end;return n end
+ local hd2=require('mods/skyeshade/hd2runtime')
+ local F=hd2.fields
+ for _=1,120 do frame()end
+ step('the Helldiver write domain was loaded at startup from the packaged archive',
+  package.loaded['hd2runtime/domains/helldiver_writes']~=nil)
+ step('both operations apply: 3 writes',watches[1].status~='rejected'and watches[2].status~='rejected'
+  and counts.writes==3,tostring(watches[1].status)..' '..tostring(watches[2].status)..' writes='..counts.writes)
+ step('the transaction logs the ship avatar\'s private AvatarComponentData copy; the type-only zone write does not',
+  count('note: helldiver-speed: entity ')==1 and count('private AvatarComponentData copy')==1
+  and count('note: helldiver-head')==0,tostring(count('private AvatarComponentData copy')))
+ local copies=hd2.helldiver():private_copies()
+ local avatar=copies.avatars and copies.avatars[1]
+ step('hd2.helldiver():private_copies() reports the local avatar\'s copy',copies.status=='checked'
+  and copies.simulated==1 and avatar and avatar.avatar_copy==true and avatar['local']==true,
+  tostring(copies.status)..' '..tostring(copies.reason))
+ -- Read back through the domain: the type record now holds the new values (guarded no-ops).
+ local W=require('hd2runtime/domains/helldiver_writes')
+ local Reader=require('hd2runtime/runtime/reader')
+ local world=assert(require('hd2runtime/runtime/event_world').open())
+ local function holds(target,field,expect,value)
+  local spec=W.validate_patch({id='read-back',target=target,field=field,expect=expect,value=value,allow_shared=true,
+   allow_unverified_effect=true})
+  local co=coroutine.create(function()
+   local reader=Reader.new(world.runtime)
+   local plan=W.prepare(W.capture(world.runtime,reader,spec),reader,spec)
+   return plan.changes[1].already_desired
+  end)
+  local ok,out
+  repeat ok,out=coroutine.resume(co)until not ok or coroutine.status(co)=='dead'
+  return ok and out==true,ok and out or out
+ end
+ local jog,why_jog=holds(hd2.helldiver(),F.helldiver.speed_jog,3.2,4.5)
+ local delay,why_delay=holds(hd2.helldiver(),F.helldiver.stamina_recover_delay,1.5,0.5)
+ local head,why_head=holds(hd2.helldiver():zone('head'),F.zone.damage_multiplier,'normal','reduced')
+ step('the type records hold jog 4.5, recover delay 0.5 and the head multiplier reduced',jog and delay and head,
+  tostring(why_jog)..' '..tostring(why_delay)..' '..tostring(why_head))
+ local unshared=hd2.ensure({patch={id='helldiver-no-shared',target=hd2.helldiver(),allow_unverified_effect=true,
+  field=F.helldiver.speed_sprint,expect=5.5,value=8}})
+ local unknown=hd2.ensure({patch={id='helldiver-unknown-multiplier',target=hd2.helldiver():zone('body'),
+  allow_shared=true,allow_unverified_effect=true,field=F.zone.damage_multiplier,expect='normal',value='armoured'}})
+ for _=1,20 do frame()end
+ step('a write without allow_shared and an unknown multiplier name are rejected at registration and write nothing',
+  unshared.status=='rejected'and unknown.status=='rejected'and counts.writes==3,
+  tostring(unshared.error)..' | '..tostring(unknown.error))
+ return results
+end
+'''
+
 # Presentation (hd2.fields.stratagem.presentation_*, docs/stratagem-presentation.md): the 120mm presents as the
 # Orbital Gas Strike (all four members, one transaction) and the Precision Strike takes the Railcannon's icon, each
 # value an existing vanilla resource named by its stratagem. Inline: the fields are unreleased.
@@ -1362,6 +1429,9 @@ EXTRAS = {'options-live': {'menu': MENU_STUB, 'after': OPTIONS_LIVE},
         'calldown-too-long': 'value must be a list of 1 to 9 directions',
         'calldown-equal': 'equals the native code of Orbital Precision Strike',
         'calldown-bad-direction': 'must be "up", "right", "down" or "left", not north'}},
+    'helldiver-fields': {'after': HELLDIVER_FIELDS_LIVE, 'watches': 2, 'rejected': {
+        'helldiver-no-shared': 'shared field requires allow_shared=true',
+        'helldiver-unknown-multiplier': 'UNKNOWN_DAMAGE_MULTIPLIER'}},
     'stratagem-presentation': {'after': STRATAGEM_PRESENTATION_LIVE, 'watches': 2, 'rejected': {
         'presentation-raw': 'raw localization ids and image hashes are not accepted',
         'presentation-unknown': 'No Such Stratagem is not a catalogued stratagem'}},
@@ -4778,6 +4848,7 @@ SCENARIOS = {
     'stratagem-uses-finite': lambda: STRATAGEM_USES,
     'stratagem-calldown-code': lambda: STRATAGEM_CALLDOWN,
     'stratagem-presentation': lambda: STRATAGEM_PRESENTATION,
+    'helldiver-fields': lambda: HELLDIVER_FIELDS,
     'proof-text-write': lambda: proof('CustomStratagemP0Proof'),
     'proof-virtual-slot': lambda: proof('VirtualSlotProof'),
     'proof-virtual-selector': lambda: proof('VirtualSelectorProof'),
