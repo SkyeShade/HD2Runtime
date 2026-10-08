@@ -1,4 +1,4 @@
--- The EXPERIMENTAL multiplayer scope of custom stratagems (0.30.0-dev; docs/custom-stratagem-api.md, "Several players").
+-- The EXPERIMENTAL multiplayer scope of custom stratagems (0.30.0; docs/custom-stratagem-api.md, "Several players").
 -- Not a claim that multiplayer is safe: a test build for live research.
 --
 -- Every custom stratagem write path was solo-only: one stratagem record, or one player. Each of those guards protected

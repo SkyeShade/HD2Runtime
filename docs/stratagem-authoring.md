@@ -120,7 +120,7 @@ Eagle offensive stratagems.
 
 ### Eagle attack fields
 
-Since 0.30.0-dev, each Eagle stratagem also exposes how its jet attacks. The fields live on the stratagem itself
+Since 0.30.0, each Eagle stratagem also exposes how its jet attacks. The fields live on the stratagem itself
 (`hd2.stratagem(name)`), next to `eagle.uses_per_rearm`:
 
 ```lua
@@ -392,7 +392,7 @@ Every turreted sentry (MG-43, G-16, AC-8, M-12, MLS-4X, M-23, LAS-98, FLAM-40, G
 | `turret.pitch_speed` | TurretComponent +8 | 1–720 °/s | wiki "Vertical Turn Speed" on all nine; live-proven |
 | `turret.pitch_min` / `turret.pitch_max` | TurretComponent +20 / +24 | −90…90 ° | wiki "Vertical Limit" on all nine; native clamp read every frame |
 | `turret.yaw_min` / `turret.yaw_max` | TurretComponent +28 / +32 | −180…180 ° | native clamp read every frame; no published table |
-| `turret.pitch_yaw_coupling` | TurretComponent +16 | 0–10 | native read every frame; new in 0.30.0-dev |
+| `turret.pitch_yaw_coupling` | TurretComponent +16 | 0–10 | native read every frame; new in 0.30.0 |
 
 - The values differ enough to prove the members: the Autocannon Sentry turns 20/20 with limits −60…70, the mortars
   55/55 with 35…89 and the Flame Sentry 140/140.
@@ -473,7 +473,7 @@ support weapons, with the same field constants:
 - `SentryDetectionRange` made the MG-43 hold fire until enemies were very close.
 
 `turret.yaw_speed`, `turret.pitch_speed` and `targeting.range` need no acknowledgement and carry a `liveEvidence`
-reference. Every other field above needs `allow_unverified_effect=true`. The new 0.30.0-dev fields belong to the
+reference. Every other field above needs `allow_unverified_effect=true`. The new 0.30.0 fields belong to the
 pending family `sentry_component_fields`. Their live test is `examples/projects/SentryTuningTest`.
 
 `payload.lifetime` is published on every sentry and the Tesla Tower. It is the HellpodPayload member

@@ -70,21 +70,21 @@ HD2Runtime is designed to fail safely when a game structure or ownership relatio
   not ready or moved under a check (`recover`), and report every status change (`on_status`) (see `docs/options.md`)
 - In-game options: sliders, choices and toggles on the MODS tab (CowboyBingus Mod Options Menu)
   that drive one ensured operation live, with the same guards
-- Services for UI and game mods (development line, not live-tested): screen overlays (`hd2.ui.overlay`, see
+- Services for UI and game mods (not live-tested): screen overlays (`hd2.ui.overlay`, see
   `docs/ui-overlay.md`), game sound events (`hd2.sounds.play`; every Wwise event of the game catalogued by family,
   bank and kind, its bank loadable, pause / resume / is_playing / elapsed and per-sound game parameters and switches,
   see `docs/sounds.md`), any key's state
   (`hd2.input.down` / `pressed` / `released`), a per-frame callback (`hd2.on_frame`), per-mod saved data
   (`hd2.store`, see `docs/mod-store.md`), the game build status (`hd2.build()`) and the live values of the weapon in
   hand (`player:weapon_state()`, see `docs/player-equipment.md`)
-- Explosion catalogue (development line, not live-tested): 241 of the game's 422 explosions named from their owners
+- Explosion catalogue (not live-tested): 241 of the game's 422 explosions named from their owners
   (`hd2.explosions.list` / `describe`, `sdk/ExplosionCatalogue.json`); edit any of them (`hd2.explosion(name)`: radii,
   shrapnel count, damage), use one with a known package as a weapon's impact or expiry explosion, and request 141 of
   them at a position (see `docs/explosions.md`)
-- Type-wide Helldiver fields (development line, not live-tested; `hd2.helldiver()`): movement speeds, stamina and
+- Type-wide Helldiver fields (not live-tested; `hd2.helldiver()`): movement speeds, stamina and
   the six body zones' damage multipliers, durable share, damage to main health and health. They change every
   Helldiver this machine simulates, so every write needs `allow_shared` (see `docs/helldiver-fields.md`)
-- Armor rating, speed and stamina (development line, not live-tested; `hd2.armor_stats`): an armor kit's piece weights
+- Armor rating, speed and stamina (not live-tested; `hd2.armor_stats`): an armor kit's piece weights
   (light, medium, heavy) for every player wearing it, the local player's own armor bonus and stamina factor, and the
   per-weight tables and damage curve, written as reviewed executable data (see `docs/armor-stats.md`;
   `sdk/ArmorStatsCapabilities.json`). Armor passives and kits: `sdk/ArmorPassiveCatalog.json`
@@ -92,9 +92,10 @@ HD2Runtime is designed to fail safely when a game structure or ownership relatio
 
 Unsupported or ambiguous values remain read-only rather than being modified speculatively.
 
-The development line 0.30.0-dev (not released) turns custom stratagems into a development API
-(`docs/custom-stratagem-api.md`; solo host only). It adds a startup progress display and a builder-facing
-custom-stratagem schema and project format (`docs/custom-stratagem-builder.md`). See `docs/releases/0.30.0-dev.md`.
+Version 0.30.0 adds custom stratagems (`docs/custom-stratagem-api.md`; solo host first, multiplayer experimental), a
+builder-facing custom-stratagem schema and project format (`docs/custom-stratagem-builder.md`), weapon variants for
+every support weapon, armor stats and passives, the event system, game sounds and icons, and many more mapped fields.
+See `docs/releases/0.30.0.md` (the development log of the test builds is `docs/releases/0.30.0-dev.md`).
 
 Version 0.28.1 is a compatibility and stability release. Mods built with SDK 0.27 keep working: an operation
 that leaves out an `allow_unverified_effect` that 0.28.0 added to a field (the PLAS-101 Purifier and five other

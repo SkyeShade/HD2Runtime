@@ -35,7 +35,7 @@ Terminal explosion slots accept typed explosion handles or `terminal:no_explosio
 is never accepted as a raw public reference.
 
 They also accept any catalogued explosion whose package is known, `hd2.explosion(name)` (docs/explosions.md;
-0.30.0-dev, not live-tested): with `allow_unverified_reference` and `allow_unverified_effect`, its package loaded
+0.30.0, not live-tested): with `allow_unverified_reference` and `allow_unverified_effect`, its package loaded
 before the write (none for the mission effects package), its live ExplosionSettings row re-proven, and a donor whose
 shrapnel chain would release the written projectile again refused (`RECURSIVE_COMPOSITION`). Weapon explosion handles
 keep their rules unchanged.

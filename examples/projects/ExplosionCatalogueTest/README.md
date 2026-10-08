@@ -1,6 +1,6 @@
 # ExplosionCatalogueTest
 
-Opt-in live test for the explosion catalogue (docs/explosions.md). Requires HD2Runtime 0.30.0-dev. Build with
+Opt-in live test for the explosion catalogue (docs/explosions.md). Requires HD2Runtime 0.30.0. Build with
 `python build.py`; do not deploy automatically. Nothing here is live-tested yet: every write carries the
 acknowledgements the catalogue asks for. The log starts with `EXPLOSION CATALOGUE 0.1.0 BUILD`.
 

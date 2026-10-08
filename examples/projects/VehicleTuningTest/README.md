@@ -44,7 +44,7 @@ the left limit always stays below the right one.
 
 ## Checklist
 
-1. Install HD2Runtime 0.30.0-dev (built from this tree), Mod Options Menu and this mod.
+1. Install HD2Runtime 0.30.0, Mod Options Menu and this mod.
 2. Check the log:
    - `VEHICLE TUNING 0.1.0 BUILD: loaded; M-103 traverse 30; Bastion traverse 8, limits -5/5, highest aim 45; ...`;
    - one `APPLIED` line each for `m103-traverse`, `bastion-traverse`, `bastion-cannon-limits`, `patriot-rotation` and

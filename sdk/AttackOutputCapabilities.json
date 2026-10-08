@@ -1,7 +1,7 @@
 {
  "contract": "hd2runtime.attack_outputs.v1",
  "schemaVersion": 2,
- "hd2RuntimeVersion": "0.30.0-dev",
+ "hd2RuntimeVersion": "0.30.0",
  "build": "F5FEE03DCFDB",
  "model": {
   "weaponComposition": "A weapon entity owns exactly one output-family component (ProjectileWeapon, BeamWeapon, ArcWeapon, SprayWeapon or MeleeWeapon) next to fire-control and resource components (WeaponData, WeaponMagazine / WeaponRounds / WeaponHeat / WeaponCharge, WeaponReload).",

@@ -31,7 +31,7 @@ limits and the wind-up are read live, so they also change a sentry that is alrea
 
 ## Before the mission
 
-1. Install this mod, Bingus and the HD2Runtime build being tested (0.30.0-dev or later).
+1. Install this mod, Bingus and the HD2Runtime build being tested (0.30.0 or later).
 2. Take **A/MG-43 Machine Gun Sentry**, **A/AC-8 Autocannon Sentry**, **A/M-12 Mortar Sentry** and
    **A/G-16 Gatling Sentry**. Repeat over several missions if your loadout is full.
 3. Play as the host (solo is simplest). Set the options **before** calling each sentry in.

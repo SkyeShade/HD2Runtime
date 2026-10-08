@@ -282,7 +282,7 @@ class VehicleTuningArtifactTests(unittest.TestCase):
         source = (project / 'src/addon.lua').read_text(encoding='utf-8')
         manifest = json.loads((project / 'hd2runtime.json').read_text(encoding='utf-8'))
         self.assertEqual((project / 'VERSION').read_text().strip(), '0.1.0')
-        self.assertEqual(manifest['requires']['hd2runtime']['min_version'], '0.30.0-dev')
+        self.assertEqual(manifest['requires']['hd2runtime']['min_version'], '0.30.0')
         self.assertIn('mod_options_menu', manifest['optional'])
         self.assertIn("local BANNER='VEHICLE TUNING 0.1.0 BUILD'", source)
         for line in ("values={130,30}", "values={35,8}", "values={-20,-5}", "values={20,5}", "values={25,45}",
@@ -302,7 +302,7 @@ class VehicleTuningArtifactTests(unittest.TestCase):
         report = json.loads((ROOT / 'validation/example-projects.json').read_text(encoding='utf-8'))
         result = report['results']['VehicleTuningTest']
         self.assertEqual((result['status'], result['requiredMinVersion'], len(result['operations'])),
-            ('VALIDATED', '0.30.0-dev', 5))
+            ('VALIDATED', '0.30.0', 5))
 
     def test_docs_state_the_lifecycle(self):
         authoring = (ROOT / 'docs/vehicle-authoring.md').read_text(encoding='utf-8')

@@ -789,7 +789,7 @@ def outputs():
     stub+=['','---@class HD2Runtime','---@field fields HD2Fields','---@field enums HD2Enums',
            '---@field resources HD2Resources',
            '---@field version string the compatibility version, MAJOR.MINOR.PATCH (every SDK wrapper compares it)',
-           '---@field version_label string the full version of this build (e.g. 0.30.0-dev)',
+           '---@field version_label string the full version of this build (e.g. 0.30.0)',
            '---@field api_version integer',
            *event_fields,'local hd2 = {}']
     for method,domain in schema['builders'].items():
@@ -859,7 +859,7 @@ def outputs():
         '---operation of a mod declaring an older SDK wrote without an acknowledgement a later SDK added',
         '---(docs/legacy-sdk-compatibility.md).',
         '---@return table[]','function HD2Diagnostics.operations() end',
-        '---Per-mod CPU time (always on, quiet; HD2Runtime 0.30.0-dev+): every call into a mod (event listeners, timers,',
+        '---Per-mod CPU time (always on, quiet; HD2Runtime 0.30.0+): every call into a mod (event listeners, timers,',
         '---keybinds, its main file, custom stratagem callbacks) and every update the Runtime runs for it, by its own time.',
         '---{timed, single_call_seconds, share_seconds, window_seconds, owners = {owner, total_seconds, calls, max_seconds,',
         '---max_label, last_window}[]}, the most time first. A slow call or a high share is logged as PERFORMANCE.',

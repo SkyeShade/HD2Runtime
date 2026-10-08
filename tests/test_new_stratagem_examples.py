@@ -81,7 +81,7 @@ class ProjectTests(unittest.TestCase):
             self.assertEqual(s['name'], cased.upper())
             meta = json.loads((folder / 'hd2runtime.json').read_text(encoding='utf-8'))
             self.assertNotIn('optional', meta, name + ': no Mod Options')
-            self.assertEqual(meta['requires']['hd2runtime']['min_version'], '0.30.0-dev')
+            self.assertEqual(meta['requires']['hd2runtime']['min_version'], '0.30.0')
             png = (folder / 'images' / (s['icon']['image'] + '.png')).read_bytes()
             self.assertEqual(hd2_image.prepare_icon(png)[1], 'masks (as given)', name + ': the red and green masks')
             readme = (folder / 'README.md').read_text(encoding='utf-8')

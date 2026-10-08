@@ -1,4 +1,4 @@
-# Custom models (HD2Runtime 0.30.0-dev, development)
+# Custom models (HD2Runtime 0.30.0)
 
 A mod can ship its own **model** for a custom weapon: a unit of its own name that the game loads beside the vanilla
 one. The vanilla model is never replaced or edited. The Runtime points the custom weapon at the custom unit for one

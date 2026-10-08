@@ -1,6 +1,6 @@
 # ProjectileHomingTest 0.1.0
 
-Live test for projectile homing (`hd2.projectiles.homing`, `docs/projectile-homing.md`). Requires HD2Runtime 0.30.0-dev+
+Live test for projectile homing (`hd2.projectiles.homing`, `docs/projectile-homing.md`). Requires HD2Runtime 0.30.0+
 / API 1 and Bingus Shared Loader v15+. Mod Options Menu is optional: without it every option keeps its default.
 
 Each option makes the local player's OWN shots of one weapon turn toward a target while they fly: every update Runtime

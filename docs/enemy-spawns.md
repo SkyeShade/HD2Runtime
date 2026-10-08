@@ -10,7 +10,7 @@ local no_titans = hd2.enemies.spawn_weight('Bile Titan', 0, {allow_unverified_ef
 no_titans:stop()   -- the vanilla weights again
 ```
 
-Status: **offline-proven, not live-tested** (0.30.0-dev). Every call needs `allow_unverified_effect = true` until the
+Status: **offline-proven, not live-tested** (0.30.0). Every call needs `allow_unverified_effect = true` until the
 live test (`examples/projects/EnemySpawnMixTest`) passes.
 
 ## What it changes, and what it does not

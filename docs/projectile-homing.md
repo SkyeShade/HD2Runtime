@@ -10,7 +10,7 @@ local stims = hd2.projectiles.homing('P-11 Stim Pistol', {target = 'friendly', m
 rockets:stop()
 ```
 
-Status: **offline-proven, not live-tested** (0.30.0-dev). The steering path is proven on the game's code and on the
+Status: **offline-proven, not live-tested** (0.30.0). The steering path is proven on the game's code and on the
 retained mission snapshot (`validation/projectile-homing-snapshot.json`). Whether a steered shot flies and hits as the
 proofs say still needs a live test (`examples/projects/ProjectileHomingTest`).
 

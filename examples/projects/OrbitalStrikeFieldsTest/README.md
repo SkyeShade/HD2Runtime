@@ -1,7 +1,7 @@
 # OrbitalStrikeFieldsTest 0.1.0
 
 Live test for the orbital bombardment pattern fields and the call-in time (`docs/stratagem-authoring.md`, "Orbital
-bombardment pattern" and "Call-in time"). Requires HD2Runtime 0.30.0-dev+ / API 1 and Bingus Shared Loader v15+.
+bombardment pattern" and "Call-in time"). Requires HD2Runtime 0.30.0+ / API 1 and Bingus Shared Loader v15+.
 Mod Options Menu is optional: without it every option keeps its default.
 
 Every write needs `allow_unverified_effect`: the fields are code-proven offline

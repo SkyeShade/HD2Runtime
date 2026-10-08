@@ -413,7 +413,7 @@ class SnapshotTests(unittest.TestCase):
 class ExampleTests(unittest.TestCase):
     def test_example_is_differentiated_and_acknowledged(self):
         spec = json.loads((EXAMPLE / 'hd2runtime.json').read_text(encoding='utf-8'))
-        self.assertEqual(spec['requires']['hd2runtime']['min_version'], '0.30.0-dev')
+        self.assertEqual(spec['requires']['hd2runtime']['min_version'], '0.30.0')
         self.assertEqual(spec['resource'], 'mods/hd2runtime_examples/epoch_explosions_test')
         self.assertEqual((EXAMPLE / 'VERSION').read_text(encoding='utf-8'), '0.1.0\n')
         source = (EXAMPLE / 'src/addon.lua').read_text(encoding='utf-8')

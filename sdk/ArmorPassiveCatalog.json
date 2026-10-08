@@ -1,7 +1,7 @@
 {
  "contract": "hd2runtime.armor_passives.catalog.v1",
  "schemaVersion": 1,
- "hd2RuntimeVersion": "0.30.0-dev",
+ "hd2RuntimeVersion": "0.30.0",
  "build": "F5FEE03DCFDB",
  "source": {
   "research": [

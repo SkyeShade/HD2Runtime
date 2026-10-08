@@ -1,7 +1,7 @@
 -- A small build label in the bottom-left corner while the player is aboard the ship (docs/getting-started.md, "Version
 -- label"):
 --
---   HD2Runtime 0.30.0-dev
+--   HD2Runtime 0.30.0
 --   Game F5FEE03DCFDB
 --
 -- Diagnostic text, not a watermark: a small dim font at the lowest layer of a Ui World screen GUI, so every native

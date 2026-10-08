@@ -4513,7 +4513,7 @@ for _name, _id, _banner, _extra in (
     EXTRAS[_name] = dict({'after': EXAMPLE_CUSTOM_STRATAGEM % {'id': _id, 'banner': _banner, 'beacon': 'offensive',
         'families': "{'orbital','eagle','sentry','emplacement','mine','support','backpack'}", 'colour_set': 0},
         'readOnly': True}, **_extra)
-# The experimental multiplayer scope of custom stratagems in the PACKAGED runtime (0.30.0-dev; runtime/multiplayer.lua,
+# The experimental multiplayer scope of custom stratagems in the PACKAGED runtime (0.30.0; runtime/multiplayer.lua,
 # runtime/custom_multiplayer.lua), with the HMG Sentry example registered. Read-only: the scope's semantics; the native
 # set from the real stratagem records as first seen; the lobby reader on real memory; and, with a second player's
 # record shown in Lua only (nothing in memory), the executor's solo guard refusing a caller without the scope and

@@ -18,7 +18,7 @@ Strafing Run jets are also used by the Democracy Space Station's Eagle Storm, so
 
 ## Before the mission
 
-1. Install this mod, Bingus and the HD2Runtime build being tested (0.30.0-dev or later).
+1. Install this mod, Bingus and the HD2Runtime build being tested (0.30.0 or later).
 2. Take **Eagle Airstrike**, **Eagle Napalm Airstrike**, **Eagle Strafing Run** and **Eagle 110mm Rocket Pods**
    (one Eagle loadout per mission is fine; repeat for the others).
 3. Play as the host (solo is simplest).

@@ -10,7 +10,7 @@
   {
    "since": "0.30.0",
    "comparedWith": "v0.28.1",
-   "comparedWithCommit": "96ab2d258d867a5df4f22bb7b3321d84d28de21d",
+   "comparedWithCommit": "c34a96345b4464fc33db25c1d11309a267c64a69",
    "rule": "editable without allow_unverified_effect in the SDK published at v0.28.1, editable and requiring it in 0.30.0"
   }
  ],

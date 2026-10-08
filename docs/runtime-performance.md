@@ -63,7 +63,7 @@ protection immediately before `ReadProcessMemory`, however many reads share an
 update.
 
 - A slice (the reads between two yields) may always do the base quantum of 64
-  queries and 64 KiB. This was the only pacing before 0.30.0-dev.
+  queries and 64 KiB. This was the only pacing before 0.30.0.
 - Inside an update tick with a precise clock (the live adapter's
   `QueryPerformanceCounter`), the slice continues while the Runtime's work in that
   update, including every watch ticked before it, stays under `SLICE_SECONDS`
@@ -157,7 +157,7 @@ What remains:
 
 `worst_seconds['scheduler.tick']` is the longest single update-hook tick.
 
-## Which mod is slow (0.30.0-dev)
+## Which mod is slow (0.30.0)
 
 `runtime/perf_watch.lua` times, with the precise clock, everything that runs on the game thread for a mod:
 

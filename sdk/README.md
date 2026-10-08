@@ -1,6 +1,6 @@
 # HD2Runtime SDK and shared runtime
 
-For a first mod, use `HD2Runtime-ModTemplate-0.30.0-dev.zip` (the 0.30.0 development line). It is a standalone
+For a first mod, use `HD2Runtime-ModTemplate-0.30.0.zip`. It is a standalone
 open-folder Rider project with bundled stubs and a Windows builder; Python is not
 required. The CLI workflow below remains available for advanced authors and
 automated project generation. New authors should start with
@@ -23,12 +23,12 @@ see `docs/support-weapon-api.md`.
 `StratagemAuthoringCapabilities.json` is the canonical per-instance contract for
 offensive, support-call-in, sentry, emplacement, and deferred mine authoring; see
 `docs/stratagem-authoring.md`.
-`WeaponSoundCatalogue.json` (0.30.0-dev) lists the weapon firing sounds `hd2.sounds` names (a Pelican gun's
+`WeaponSoundCatalogue.json` (0.30.0) lists the weapon firing sounds `hd2.sounds` names (a Pelican gun's
 `sound`): each sound's name, label, kind (shot or loop), family, the stratagem whose package provides it or
 resident-only, its designed rate and a heuristic range. No Wwise event, bank or package id; see `docs/weapon-sounds.md`.
-`hd2.projectiles.homing(weapon, opts)` (0.30.0-dev, not live-tested) makes the local player's own shots of a weapon
+`hd2.projectiles.homing(weapon, opts)` (0.30.0, not live-tested) makes the local player's own shots of a weapon
 home on enemies or other players in flight; see `docs/projectile-homing.md`.
-`ArmorStatsCapabilities.json` (0.30.0-dev, not live-tested) lists every armor kit with its vanilla piece weights
+`ArmorStatsCapabilities.json` (0.30.0, not live-tested) lists every armor kit with its vanilla piece weights
 and stats, the weight-class tables, the damage curve and one field instance per writable value; see
 `docs/armor-stats.md`. `ArmorPassiveCatalog.json` lists the 32 armor passives, the 411 kits and the
 `hd2.player_passives.set` contract; see `docs/armor-passives.md`.
@@ -103,7 +103,7 @@ New in 0.26.0 (see `docs/releases/0.26.0.md`):
   replacement pickup catalog, and package-risk metadata (`docs/pod-payloads.md`).
 
 Install Bingus Shared Loader v15+ / API 1, then import the separate
-`HD2Runtime-0.30.0-dev-runtime.zip` into your mod manager and enable it once. Each
+`HD2Runtime-0.30.0-runtime.zip` into your mod manager and enable it once. Each
 gameplay mod is its own package. The runtime contains no enabled gameplay preset,
 report addon or timer on load. It loads its guarded adapters only when requested.
 
@@ -157,7 +157,7 @@ Keep the source entry free of discovery headers; the builder adds the correct on
 Every build also writes `build/build-report.json` beside the ZIP: the artifact's name and SHA-256, and each
 image's source digest and build status.
 
-### Custom stratagems as data (development, 0.30.0-dev)
+### Custom stratagems as data (0.30.0)
 
 A project may describe its custom stratagems in `custom_stratagems.json` instead of Lua
 (`docs/custom-stratagem-builder.md`). `py hd2.py build` validates it and compiles it into `src/addon.lua`. A

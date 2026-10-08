@@ -1,7 +1,7 @@
 {
   "contract": "hd2runtime.vehicle_weapon.v1",
   "schemaVersion": 1,
-  "hd2RuntimeVersion": "0.30.0-dev",
+  "hd2RuntimeVersion": "0.30.0",
   "ownershipModel": [
     "vehicle MountComponentData slot path (Guard Dog: the drone the backpack deploys, through its DepositComponent +24)",
     "mounted weapon entity (own component records: weapon-local)",

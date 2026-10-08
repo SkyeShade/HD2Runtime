@@ -260,7 +260,7 @@ a projectile pointer exists.
 - **Mod Options.** A choice option's `values` may be reference handles, so one dropdown can select between complete
   output compositions. Each choice is a single reference value, so switching choices is one atomic write.
 
-## More donors (0.30.0-dev; not live-tested)
+## More donors (0.30.0; not live-tested)
 
 32 more projectiles can be swapped into a weapon (`scripts/research_projectile_donors.py`,
 `research/projectile-donors-F5FEE03DCFDB.json`). They are named projectile types from
@@ -410,7 +410,7 @@ donor output:
   - the LAS-58 Talon row with the GL-21 grenade blast.
 
   `allow_shared` is never dropped by live proof.
-- **Catalogued explosions (0.30.0-dev; not live-tested).** An explosion slot also takes any catalogued explosion with
+- **Catalogued explosions (0.30.0; not live-tested).** An explosion slot also takes any catalogued explosion with
   a known package, `hd2.explosion(name)` (docs/explosions.md: `hd2.explosions.list({payload = true})`), with
   `allow_unverified_reference` and `allow_unverified_effect`. Its package is loaded before the write (none for the
   mission effects package); its live ExplosionSettings row is re-proven, and the recursion rule below applies.

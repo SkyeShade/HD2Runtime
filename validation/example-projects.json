@@ -275,7 +275,7 @@
     "AutoSupplyPackTest": {
       "baselineChanges": null,
       "calls": [],
-      "minVersion": "0.30.0-dev",
+      "minVersion": "0.30.0",
       "operations": {},
       "problems": [],
       "requiredMinVersion": "0.28.0",
@@ -288,7 +288,7 @@
     "AvatarActionsTest": {
       "baselineChanges": null,
       "calls": [],
-      "minVersion": "0.30.0-dev",
+      "minVersion": "0.30.0",
       "operations": {},
       "problems": [],
       "requiredMinVersion": "0.28.0",
@@ -1192,7 +1192,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.30.0-dev",
+      "minVersion": "0.30.0",
       "operations": [
         {
           "acknowledgements": [
@@ -1238,14 +1238,14 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.30.0-dev",
+      "requiredMinVersion": "0.30.0",
       "status": "VALIDATED",
       "usesOptions": true,
       "versionReasons": [
-        "eagle.airstrike_pattern -> 0.30.0-dev",
-        "eagle.drop_interval -> 0.30.0-dev",
-        "eagle.fire_duration -> 0.30.0-dev",
-        "eagle.target_radius -> 0.30.0-dev",
+        "eagle.airstrike_pattern -> 0.30.0",
+        "eagle.drop_interval -> 0.30.0",
+        "eagle.fire_duration -> 0.30.0",
+        "eagle.target_radius -> 0.30.0",
         "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0",
         "in-game options -> 0.25.1",
         "typed writes -> 0.23.2"
@@ -1466,15 +1466,15 @@
     "EnemySpawnMixTest": {
       "baselineChanges": null,
       "calls": [],
-      "minVersion": "0.30.0-dev",
+      "minVersion": "0.30.0",
       "operations": {},
       "problems": [],
-      "requiredMinVersion": "0.30.0-dev",
+      "requiredMinVersion": "0.30.0",
       "status": "VALIDATED",
       "usesOptions": true,
       "versionReasons": [
         "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0",
-        "hd2.enemies spawn weights -> 0.30.0-dev",
+        "hd2.enemies spawn weights -> 0.30.0",
         "in-game options -> 0.25.1"
       ]
     },
@@ -1483,7 +1483,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.30.0-dev",
+      "minVersion": "0.30.0",
       "operations": [
         {
           "acknowledgements": [
@@ -1565,15 +1565,15 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.30.0-dev",
+      "requiredMinVersion": "0.30.0",
       "status": "VALIDATED",
       "usesOptions": true,
       "versionReasons": [
         "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0",
         "in-game options -> 0.25.1",
-        "support attack role full_charge -> 0.30.0-dev",
-        "support attack role full_charge_impact -> 0.30.0-dev",
-        "support attack role overcharge_explosion -> 0.30.0-dev",
+        "support attack role full_charge -> 0.30.0",
+        "support attack role full_charge_impact -> 0.30.0",
+        "support attack role overcharge_explosion -> 0.30.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -1683,7 +1683,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.30.0-dev",
+      "minVersion": "0.30.0",
       "operations": [
         {
           "acknowledgements": [
@@ -1709,13 +1709,13 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.30.0-dev",
+      "requiredMinVersion": "0.30.0",
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
-        "explosion target -> 0.30.0-dev",
+        "explosion target -> 0.30.0",
         "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0",
-        "the explosion catalogue (hd2.explosion, hd2.explosions.list / describe) -> 0.30.0-dev",
+        "the explosion catalogue (hd2.explosion, hd2.explosions.list / describe) -> 0.30.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -1994,7 +1994,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.30.0-dev",
+      "minVersion": "0.30.0",
       "operations": [
         {
           "acknowledgements": [
@@ -2228,13 +2228,13 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.30.0-dev",
+      "requiredMinVersion": "0.30.0",
       "status": "VALIDATED",
       "usesOptions": true,
       "versionReasons": [
         "enemy target -> 0.28.0",
         "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0",
-        "gore.whole_body_gib_damage -> 0.30.0-dev",
+        "gore.whole_body_gib_damage -> 0.30.0",
         "in-game options -> 0.25.1",
         "typed writes -> 0.23.2"
       ]
@@ -2691,7 +2691,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.30.0-dev",
+      "minVersion": "0.30.0",
       "operations": [
         {
           "acknowledgements": [
@@ -2775,23 +2775,23 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.30.0-dev",
+      "requiredMinVersion": "0.30.0",
       "status": "VALIDATED",
       "usesOptions": true,
       "versionReasons": [
         "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0",
-        "hover.fuel_rate_high_speed -> 0.30.0-dev",
-        "hover.fuel_rate_low_speed -> 0.30.0-dev",
-        "hover.max_horizontal_speed -> 0.30.0-dev",
-        "hover.max_vertical_speed -> 0.30.0-dev",
-        "hover.vertical_acceleration_low_speed -> 0.30.0-dev",
+        "hover.fuel_rate_high_speed -> 0.30.0",
+        "hover.fuel_rate_low_speed -> 0.30.0",
+        "hover.max_horizontal_speed -> 0.30.0",
+        "hover.max_vertical_speed -> 0.30.0",
+        "hover.vertical_acceleration_low_speed -> 0.30.0",
         "in-game options -> 0.25.1",
-        "jump.air_control_acceleration -> 0.30.0-dev",
-        "jump.launch_duration -> 0.30.0-dev",
-        "jump.launch_forward_ratio -> 0.30.0-dev",
-        "jump.sustain_duration -> 0.30.0-dev",
-        "jump.sustain_thrust -> 0.30.0-dev",
-        "jump.takeoff_speed -> 0.30.0-dev",
+        "jump.air_control_acceleration -> 0.30.0",
+        "jump.launch_duration -> 0.30.0",
+        "jump.launch_forward_ratio -> 0.30.0",
+        "jump.sustain_duration -> 0.30.0",
+        "jump.sustain_thrust -> 0.30.0",
+        "jump.takeoff_speed -> 0.30.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -3021,7 +3021,7 @@
     "LimbInjuryTest": {
       "baselineChanges": null,
       "calls": [],
-      "minVersion": "0.30.0-dev",
+      "minVersion": "0.30.0",
       "operations": {},
       "problems": [],
       "requiredMinVersion": "0.28.0",
@@ -3456,7 +3456,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.30.0-dev",
+      "minVersion": "0.30.0",
       "operations": [
         {
           "acknowledgements": [
@@ -3520,18 +3520,18 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.30.0-dev",
+      "requiredMinVersion": "0.30.0",
       "status": "VALIDATED",
       "usesOptions": true,
       "versionReasons": [
         "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0",
         "in-game options -> 0.25.1",
-        "orbital.salvo_interval -> 0.30.0-dev",
-        "orbital.salvos -> 0.30.0-dev",
-        "orbital.scatter -> 0.30.0-dev",
-        "orbital.shell_interval -> 0.30.0-dev",
-        "orbital.shells_per_salvo -> 0.30.0-dev",
-        "stratagem.call_in_time -> 0.30.0-dev",
+        "orbital.salvo_interval -> 0.30.0",
+        "orbital.salvos -> 0.30.0",
+        "orbital.scatter -> 0.30.0",
+        "orbital.shell_interval -> 0.30.0",
+        "orbital.shells_per_salvo -> 0.30.0",
+        "stratagem.call_in_time -> 0.30.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -3732,7 +3732,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.30.0-dev",
+      "minVersion": "0.30.0",
       "operations": [
         {
           "acknowledgements": [
@@ -3814,7 +3814,7 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.30.0-dev",
+      "requiredMinVersion": "0.30.0",
       "status": "VALIDATED",
       "usesOptions": true,
       "versionReasons": [
@@ -3822,22 +3822,22 @@
         "MG-206 Heavy Machine Gun -> 0.24.0",
         "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0",
         "in-game options -> 0.25.1",
-        "more projectile donors (docs/attack-outputs.md) -> 0.30.0-dev",
+        "more projectile donors (docs/attack-outputs.md) -> 0.30.0",
         "typed writes -> 0.23.2"
       ]
     },
     "ProjectileHomingTest": {
       "baselineChanges": null,
       "calls": [],
-      "minVersion": "0.30.0-dev",
+      "minVersion": "0.30.0",
       "operations": {},
       "problems": [],
-      "requiredMinVersion": "0.30.0-dev",
+      "requiredMinVersion": "0.30.0",
       "status": "VALIDATED",
       "usesOptions": true,
       "versionReasons": [
         "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0",
-        "hd2.projectiles.homing -> 0.30.0-dev",
+        "hd2.projectiles.homing -> 0.30.0",
         "in-game options -> 0.25.1"
       ]
     },
@@ -3884,7 +3884,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.30.0-dev",
+      "minVersion": "0.30.0",
       "operations": [
         {
           "acknowledgements": {},
@@ -3986,19 +3986,19 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.30.0-dev",
+      "requiredMinVersion": "0.30.0",
       "status": "VALIDATED",
       "usesOptions": true,
       "versionReasons": [
-        "charge.auto_fire_at_full -> 0.30.0-dev",
-        "charge.burst_interval_seconds -> 0.30.0-dev",
-        "charge.burst_shots -> 0.30.0-dev",
-        "charge.damage_multiplier_overcharge -> 0.30.0-dev",
-        "charge.explode_at_overcharge -> 0.30.0-dev",
-        "charge.overcharge_explosion -> 0.30.0-dev",
-        "charge.overcharge_limit_seconds -> 0.30.0-dev",
-        "charge.penetration_multiplier_overcharge -> 0.30.0-dev",
-        "charge.speed_multiplier_min -> 0.30.0-dev",
+        "charge.auto_fire_at_full -> 0.30.0",
+        "charge.burst_interval_seconds -> 0.30.0",
+        "charge.burst_shots -> 0.30.0",
+        "charge.damage_multiplier_overcharge -> 0.30.0",
+        "charge.explode_at_overcharge -> 0.30.0",
+        "charge.overcharge_explosion -> 0.30.0",
+        "charge.overcharge_limit_seconds -> 0.30.0",
+        "charge.penetration_multiplier_overcharge -> 0.30.0",
+        "charge.speed_multiplier_min -> 0.30.0",
         "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0",
         "in-game options -> 0.25.1",
         "typed writes -> 0.23.2"
@@ -4286,7 +4286,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.30.0-dev",
+      "minVersion": "0.30.0",
       "operations": [
         {
           "acknowledgements": [
@@ -4371,7 +4371,7 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.30.0-dev",
+      "requiredMinVersion": "0.30.0",
       "status": "VALIDATED",
       "usesOptions": true,
       "versionReasons": [
@@ -4380,14 +4380,14 @@
         "stratagem targeting.range -> 0.28.0",
         "stratagem turret.yaw_max -> 0.28.0",
         "stratagem turret.yaw_min -> 0.28.0",
-        "stratagem weapon.horizontal_spread -> 0.30.0-dev",
-        "stratagem weapon.recoil_climb_vertical -> 0.30.0-dev",
-        "stratagem weapon.recoil_drift_vertical -> 0.30.0-dev",
-        "stratagem weapon.vertical_spread -> 0.30.0-dev",
-        "stratagem windup.wind_up_seconds -> 0.30.0-dev",
-        "targeting.rear_range -> 0.30.0-dev",
-        "targeting.side_range -> 0.30.0-dev",
-        "turret.pitch_yaw_coupling -> 0.30.0-dev",
+        "stratagem weapon.horizontal_spread -> 0.30.0",
+        "stratagem weapon.recoil_climb_vertical -> 0.30.0",
+        "stratagem weapon.recoil_drift_vertical -> 0.30.0",
+        "stratagem weapon.vertical_spread -> 0.30.0",
+        "stratagem windup.wind_up_seconds -> 0.30.0",
+        "targeting.rear_range -> 0.30.0",
+        "targeting.side_range -> 0.30.0",
+        "turret.pitch_yaw_coupling -> 0.30.0",
         "typed writes -> 0.23.2",
         "windup.wind_up_seconds -> 0.24.0"
       ]
@@ -5118,7 +5118,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.30.0-dev",
+      "minVersion": "0.30.0",
       "operations": [
         {
           "acknowledgements": [
@@ -5175,25 +5175,25 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.30.0-dev",
+      "requiredMinVersion": "0.30.0",
       "status": "VALIDATED",
       "usesOptions": true,
       "versionReasons": [
         "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0",
         "in-game options -> 0.25.1",
-        "rotation.acceleration -> 0.30.0-dev",
-        "rotation.turn_speed -> 0.30.0-dev",
+        "rotation.acceleration -> 0.30.0",
+        "rotation.turn_speed -> 0.30.0",
         "typed writes -> 0.23.2",
-        "vehicle.steering_response_speed -> 0.30.0-dev",
+        "vehicle.steering_response_speed -> 0.30.0",
         "vehicle_weapon target -> 0.26.0",
         "vehicle_weapon turret.pitch_max -> 0.28.0",
-        "vehicle_weapon turret.pitch_max -> 0.30.0-dev",
+        "vehicle_weapon turret.pitch_max -> 0.30.0",
         "vehicle_weapon turret.yaw_max -> 0.28.0",
-        "vehicle_weapon turret.yaw_max -> 0.30.0-dev",
+        "vehicle_weapon turret.yaw_max -> 0.30.0",
         "vehicle_weapon turret.yaw_min -> 0.28.0",
-        "vehicle_weapon turret.yaw_min -> 0.30.0-dev",
+        "vehicle_weapon turret.yaw_min -> 0.30.0",
         "vehicle_weapon turret.yaw_speed -> 0.28.0",
-        "vehicle_weapon turret.yaw_speed -> 0.30.0-dev"
+        "vehicle_weapon turret.yaw_speed -> 0.30.0"
       ]
     },
     "WarpPackTest": {
@@ -5294,7 +5294,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.30.0-dev",
+      "minVersion": "0.30.0",
       "operations": [
         {
           "acknowledgements": {},
@@ -5319,7 +5319,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.30.0-dev",
+      "minVersion": "0.30.0",
       "operations": [
         {
           "acknowledgements": [

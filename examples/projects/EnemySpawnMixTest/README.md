@@ -1,6 +1,6 @@
 # EnemySpawnMixTest 0.1.0
 
-Live test for enemy spawn weights (`hd2.enemies.spawn_weight`, `docs/enemy-spawns.md`). Requires HD2Runtime 0.30.0-dev+ /
+Live test for enemy spawn weights (`hd2.enemies.spawn_weight`, `docs/enemy-spawns.md`). Requires HD2Runtime 0.30.0+ /
 API 1 and Bingus Shared Loader v15+. Mod Options Menu is optional: without it every option keeps its default.
 
 Each option scales one or more enemy types' weights in the game's spawn rosters. The type is then picked more or less

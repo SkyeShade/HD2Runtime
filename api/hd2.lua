@@ -88,7 +88,7 @@ end
 M.resources=resources
 -- hd2.version is the compatibility version, exactly MAJOR.MINOR.PATCH: SDK wrappers before 0.28 parse nothing else
 -- (a prerelease suffix would make every mod they built refuse to start). hd2.version_label is the full version of
--- this build (e.g. 0.30.0-dev, the development line of 0.30.0), as the startup line and the artifact name show it.
+-- this build (e.g. 0.30.0), as the startup line and the artifact name show it.
 M.version=tostring(metadata.version):match('^(%d+%.%d+%.%d+)')or metadata.version
 M.version_label=metadata.version;M.api_version=metadata.api_version
 -- Process-wide work counters and worst durations for performance audits.

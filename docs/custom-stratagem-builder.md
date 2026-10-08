@@ -1,4 +1,4 @@
-# Custom stratagems for builders: the schema and the project format (HD2Runtime 0.30.0-dev)
+# Custom stratagems for builders: the schema and the project format (HD2Runtime 0.30.0)
 
 This page is for tools that create custom stratagems, such as a future ModBuilder, rather than for hand-written Lua.
 The API itself is [custom-stratagem-api.md](custom-stratagem-api.md).

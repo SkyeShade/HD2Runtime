@@ -128,7 +128,7 @@ dropped first; the second return value is `{dropped = n}`).
 (`kind = 'script'`) with their owner, their options' current values and the ensures bound to them
 (docs/options.md "Every mod's options").
 
-## Which mod is slow (always on, quiet; 0.30.0-dev)
+## Which mod is slow (always on, quiet; 0.30.0)
 
 `hd2.diagnostics.performance()` returns the CPU time of every mod, plus the Runtime's own work, the most time first.
 That covers every call into a mod and every update the Runtime runs for its operations. Each entry has the total,

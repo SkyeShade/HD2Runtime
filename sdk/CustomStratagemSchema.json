@@ -7791,7 +7791,7 @@
   }
  },
  "format": "hd2runtime-custom-stratagems/1",
- "hd2RuntimeVersion": "0.30.0-dev",
+ "hd2RuntimeVersion": "0.30.0",
  "limits": {
   "definitions": 16,
   "orbitalShells": 64
@@ -8016,7 +8016,7 @@
   "field": null,
   "status": "live (two players, r43); the r44 default not re-tested"
  },
- "status": "development (0.30.0-dev): every payload family runs on the host; with several players (custom multiplayer: every player runs the same Runtime and mods) a client runs its support, expendable, sentry and silo deliveries and native orbitals, and the host spawns its Pelican and requests its silo blast; Eagles and the Runtime bombardment stay host-only (docs/custom-stratagem-api.md, \"Several players\"). Per family: familyEvidence",
+ "status": "0.30.0: every payload family runs on the host; with several players (custom multiplayer: every player runs the same Runtime and mods) a client runs its support, expendable, sentry and silo deliveries and native orbitals, and the host spawns its Pelican and requests its silo blast; Eagles and the Runtime bombardment stay host-only (docs/custom-stratagem-api.md, \"Several players\"). Per family: familyEvidence",
  "unsupported": [
   {
    "field": "orbital.explosion_scale",

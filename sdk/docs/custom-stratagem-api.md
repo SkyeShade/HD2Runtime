@@ -1,4 +1,4 @@
-# Custom stratagems: the development API (HD2Runtime 0.30.0-dev)
+# Custom stratagems: the API (HD2Runtime 0.30.0)
 
 `hd2.custom_stratagem`, the `hd2.pelican.spawn` gun options and `hd2.ownership` turn the live-proven custom stratagem
 mechanisms into one API. A mod states what its stratagem is and does. The Runtime does the rest:
@@ -11,18 +11,18 @@ mechanisms into one API. A mod states what its stratagem is and does. The Runtim
 - every guarded write;
 - every restore.
 
-**Status: development; the host's calls.** This API is exported for development and testing. It is not part of a
-release contract yet. With several players everything runs in an EXPERIMENTAL scope (see "Several players"): the
-host's calls, and a client's own support deliveries (live-proven with the Gas EAT, r3), native orbitals and Pelican
-requests (r4, not live-tested). The rest of multiplayer is unproven.
+**Status: released in 0.30.0; solo host first, multiplayer EXPERIMENTAL.** With several players everything runs in an
+EXPERIMENTAL scope (see "Several players"): the host's calls, and a client's own support deliveries (live-proven with
+the Gas EAT, r3), native orbitals and Pelican requests (r4, not live-tested). The rest of multiplayer is unproven.
+Custom projectiles (custom projectile rows, projectile replacement, the Pelican gun's rounds, per-shot modification)
+are solo / host-only in 0.30.0: other players never see them (docs/releases/0.30.0.md, "Not in 0.30.0").
 
-**Versions.** The custom stratagem system is the HD2Runtime 0.30 development line (`VERSION` = `0.30.0-dev`; no release
-is tagged).
-- `hd2.version_label` is the full version (`0.30.0-dev`), as the startup line and the artifact names show it.
+**Versions.** The custom stratagem system is new in HD2Runtime 0.30.0.
+- `hd2.version_label` is the full version (`0.30.0`), as the startup line and the artifact names show it.
 - `hd2.version` is the compatibility version (`0.30.0`, MAJOR.MINOR.PATCH): mods built with an SDK before 0.28 parse
   nothing else.
-- A mod using this API requires `"min_version": "0.30.0-dev"` (`hd2runtime.json`). The custom stratagem API is not
-  in 0.28.0.
+- A mod using this API requires `"min_version": "0.30.0"` (`hd2runtime.json`; mods built against the 0.30.0-dev test
+  builds, `"0.30.0-dev"`, load too). The custom stratagem API is not in 0.28.x.
 
 **Builders.** A mod's custom stratagems can also be a data file, `custom_stratagems.json`, that the SDK validates and
 compiles into `src/addon.lua`. The machine-readable schema is `sdk/CustomStratagemSchema.json`. See
@@ -1514,7 +1514,7 @@ field and the stun status).
   Built since (not live-tested): the condensed `expendable` group and the carrier pod (EAT17GExample 0.2.0, "EAT-17G POD
   BUILD").
 
-**New in the 0.30.0-dev pass, NOT live-tested:**
+**New in the 0.30.0 pass, NOT live-tested:**
 
 - **The lobby-shaped carrier allocation** (above).
 - **The experimental multiplayer build:** the selection with several players, the host's calls with several players

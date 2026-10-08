@@ -1,7 +1,7 @@
 # ProjectileDonorTest 0.1.0
 
 Live test of the more projectile donors (`docs/attack-outputs.md`, "More donors"): projectiles that only stratagems,
-emplacements or another weapon mode fired, swapped into ordinary weapons. Needs HD2Runtime 0.30.0-dev (r24 or later)
+emplacements or another weapon mode fired, swapped into ordinary weapons. Needs HD2Runtime 0.30.0
 and the Mod Options Menu. Not live-tested yet.
 
 | Option (Mod Options > Projectile Donor Test) | Default | Swap |

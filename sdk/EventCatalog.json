@@ -1,7 +1,7 @@
 {
  "contract": "hd2runtime.events.v1",
  "schemaVersion": 1,
- "hd2RuntimeVersion": "0.30.0-dev",
+ "hd2RuntimeVersion": "0.30.0",
  "summary": {
   "events": 21,
   "available": [

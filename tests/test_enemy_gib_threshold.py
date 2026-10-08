@@ -261,7 +261,7 @@ class GibThresholdRuntimeTests(unittest.TestCase):
         manifest = json.loads((project / 'hd2runtime.json').read_text(encoding='utf-8'))
         # 0.2.0 EXTREME: every eligible class (23) at 1 or -1, a toggle restores vanilla.
         self.assertEqual((project / 'VERSION').read_text().strip(), '0.2.0')
-        self.assertEqual(manifest['requires']['hd2runtime']['min_version'], '0.30.0-dev')
+        self.assertEqual(manifest['requires']['hd2runtime']['min_version'], '0.30.0')
         self.assertIn('mod_options_menu', manifest['optional'])
         self.assertIn("local BANNER='GIB THRESHOLD 0.2.0 EXTREME BUILD'", source)
         self.assertIn('values={1,-1}', source)

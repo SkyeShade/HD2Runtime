@@ -332,7 +332,7 @@ class SentryLiveTestArtifactTests(unittest.TestCase):
         report = json.loads((ROOT / 'validation/example-projects.json').read_text(encoding='utf-8'))
         result = report['results']['SentryTuningTest']
         self.assertEqual((result['status'], result['minVersion'], result['baselineChanges']),
-            ('VALIDATED', '0.30.0-dev', 12))
+            ('VALIDATED', '0.30.0', 12))
 
 
 if __name__ == '__main__':

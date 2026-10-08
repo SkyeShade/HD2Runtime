@@ -158,7 +158,7 @@ rejection happens before any page is opened) or a captured context, read again
 inside the guarded section. A protection restore that fails after its retries
 logs `protection_restore_failure page=... original=... reason=...`.
 
-**Proton and Wine (0.30.0-dev; GitHub issue #3; not live-tested on Linux).**
+**Proton and Wine (0.30.0; GitHub issue #3; not live-tested on Linux).**
 Proton maps game.dll's data pages PAGE_WRITECOPY (0x8) where Windows reports
 PAGE_READWRITE. The guard used to accept only READONLY and READWRITE everywhere,
 so a read-only proof context in game.dll was refused (MG-43 / MG-206 on Proton).

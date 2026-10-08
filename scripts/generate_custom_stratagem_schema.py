@@ -502,7 +502,7 @@ def build(facts: dict | None = None) -> dict:
                    'Production Unit\'s are two packages of about 300 MB, loaded at mission start',
                    'the blast is credited to the session host\'s player (the request is the host\'s)']},
     ]
-    # 0.30.0-dev additions, beside the families list (unchanged for tools that read it): the carrier pod payload family
+    # 0.30.0 additions, beside the families list (unchanged for tools that read it): the carrier pod payload family
     # and the expendable family's pod option.
     pod_family = (
         {'family': 'pod', 'apiField': 'delivery', 'builder': True,
@@ -515,7 +515,7 @@ def build(facts: dict | None = None) -> dict:
                  'doc': 'each item once (give it a count); at most 8 items in all; the carrier\'s capacity decides'}},
          'notes': ['compiles to delivery = {family = \'support\', items = {{item = ...}}}',
                    'a weapon item goes in a weapon slot, a backpack in a backpack slot (the rack\'s own roles)']})
-    # 0.30.0-dev (r44): the weapon variant family, beside the families list like the pod family.
+    # 0.30.0 (r44): the weapon variant family, beside the families list like the pod family.
     VD = facts['variantDonors']
     variant_family = {
         'family': 'weapon', 'apiField': 'delivery', 'builder': True,
@@ -594,7 +594,7 @@ def build(facts: dict | None = None) -> dict:
         'schemaVersion': 1,
         'hd2RuntimeVersion': version,
         'format': FORMAT,
-        'status': 'development (0.30.0-dev): every payload family runs on the host; with several players (custom '
+        'status': '0.30.0: every payload family runs on the host; with several players (custom '
                   'multiplayer: every player runs the same Runtime and mods) a client runs its support, expendable, '
                   'sentry and silo deliveries and native orbitals, and the host spawns its Pelican and requests its silo '
                   'blast; Eagles and the Runtime bombardment stay host-only (docs/custom-stratagem-api.md, "Several '
