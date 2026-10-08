@@ -4,6 +4,348 @@
   "passed": true,
   "problems": [],
   "report": {
+   "hosts": {
+    "40-K Meltagun": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    },
+    "AC-8 Autocannon": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "APW-1 Anti-Materiel Rifle": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "ARC-3 Arc Thrower": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": true
+    },
+    "B/FLAM-80 Cremator": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    },
+    "B/MD C4 Pack": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    },
+    "CQC-1 One True Flag": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    },
+    "CQC-20 Breaching Hammer": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    },
+    "CQC-9 Defoliation Tool": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    },
+    "EAT-17 Expendable Anti-Tank": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "EAT-411 Leveller": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "EAT-700 Expendable Napalm": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "FAF-14 Spear": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "FLAM-40 Flamethrower": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": true
+    },
+    "GL-21 Grenade Launcher": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "GL-28 Belt-Fed Grenade Launcher": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "GL-52 De-Escalator": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "GR-8 Recoilless Rifle": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "LAS-98 Laser Cannon": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": true
+    },
+    "LAS-99 Quasar Cannon": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "M-1000 Maxigun": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "M-105 Stalwart": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "MG-206 Heavy Machine Gun": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "MG-43 Machine Gun": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "MGX-42 Bullet Storm": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "MLS-4X Commando": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "MS-11 Solo Silo": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    },
+    "PLAS-45 Epoch": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "RL-77 Airburst Rocket Launcher": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "RS-422 Railgun": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "S-11 Speargun": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "SH-20 Ballistic Shield Backpack": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    },
+    "StA-X3 W.A.S.P. Launcher": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "TX-41 Sterilizer": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    }
+   },
    "instances": 0,
    "mission": false,
    "model": {
@@ -33,6 +375,348 @@
   "passed": true,
   "problems": [],
   "report": {
+   "hosts": {
+    "40-K Meltagun": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    },
+    "AC-8 Autocannon": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "APW-1 Anti-Materiel Rifle": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "ARC-3 Arc Thrower": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": true
+    },
+    "B/FLAM-80 Cremator": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    },
+    "B/MD C4 Pack": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    },
+    "CQC-1 One True Flag": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    },
+    "CQC-20 Breaching Hammer": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    },
+    "CQC-9 Defoliation Tool": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    },
+    "EAT-17 Expendable Anti-Tank": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "EAT-411 Leveller": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "EAT-700 Expendable Napalm": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "FAF-14 Spear": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "FLAM-40 Flamethrower": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": true
+    },
+    "GL-21 Grenade Launcher": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "GL-28 Belt-Fed Grenade Launcher": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "GL-52 De-Escalator": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "GR-8 Recoilless Rifle": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "LAS-98 Laser Cannon": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": true
+    },
+    "LAS-99 Quasar Cannon": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "M-1000 Maxigun": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "M-105 Stalwart": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "MG-206 Heavy Machine Gun": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "MG-43 Machine Gun": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "MGX-42 Bullet Storm": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "MLS-4X Commando": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "MS-11 Solo Silo": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    },
+    "PLAS-45 Epoch": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "RL-77 Airburst Rocket Launcher": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "RS-422 Railgun": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "S-11 Speargun": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "SH-20 Ballistic Shield Backpack": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    },
+    "StA-X3 W.A.S.P. Launcher": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "TX-41 Sterilizer": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    }
+   },
    "instances": 0,
    "mission": false,
    "model": {
@@ -62,6 +746,348 @@
   "passed": true,
   "problems": [],
   "report": {
+   "hosts": {
+    "40-K Meltagun": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    },
+    "AC-8 Autocannon": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "APW-1 Anti-Materiel Rifle": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "ARC-3 Arc Thrower": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": true
+    },
+    "B/FLAM-80 Cremator": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    },
+    "B/MD C4 Pack": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    },
+    "CQC-1 One True Flag": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    },
+    "CQC-20 Breaching Hammer": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    },
+    "CQC-9 Defoliation Tool": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    },
+    "EAT-17 Expendable Anti-Tank": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "EAT-411 Leveller": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "EAT-700 Expendable Napalm": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "FAF-14 Spear": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "FLAM-40 Flamethrower": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": true
+    },
+    "GL-21 Grenade Launcher": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "GL-28 Belt-Fed Grenade Launcher": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "GL-52 De-Escalator": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "GR-8 Recoilless Rifle": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "LAS-98 Laser Cannon": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": true
+    },
+    "LAS-99 Quasar Cannon": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "M-1000 Maxigun": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "M-105 Stalwart": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "MG-206 Heavy Machine Gun": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "MG-43 Machine Gun": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "MGX-42 Bullet Storm": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "MLS-4X Commando": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "MS-11 Solo Silo": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    },
+    "PLAS-45 Epoch": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "RL-77 Airburst Rocket Launcher": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "RS-422 Railgun": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "S-11 Speargun": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "SH-20 Ballistic Shield Backpack": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    },
+    "StA-X3 W.A.S.P. Launcher": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "TX-41 Sterilizer": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    }
+   },
    "instances": 0,
    "mission": false,
    "model": {
@@ -111,6 +1137,868 @@
     "status": "refused",
     "thenRestored": "restored",
     "writesWhileRefused": true
+   },
+   "hosts": {
+    "40-K Meltagun": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 0
+      },
+      "status": "applied",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": false
+    },
+    "AC-8 Autocannon": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "APW-1 Anti-Materiel Rifle": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "ARC-3 Arc Thrower": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 0
+      },
+      "status": "applied",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": true
+    },
+    "B/FLAM-80 Cremator": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 0
+      },
+      "status": "applied",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": false
+    },
+    "B/MD C4 Pack": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 0
+      },
+      "status": "applied",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": false
+    },
+    "CQC-1 One True Flag": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 0
+      },
+      "status": "applied",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": false
+    },
+    "CQC-20 Breaching Hammer": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 0
+      },
+      "status": "applied",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": false
+    },
+    "CQC-9 Defoliation Tool": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 0
+      },
+      "status": "applied",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": false
+    },
+    "EAT-17 Expendable Anti-Tank": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "EAT-411 Leveller": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "EAT-700 Expendable Napalm": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "FAF-14 Spear": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "FLAM-40 Flamethrower": {
+     "apply": {
+      "code": "CARRIER_PRESENT",
+      "reason": "1 FLAM-40 Flamethrower entity already exist in this world (a call before this machine's setup, or a join in progress): converting now would leave them vanilla",
+      "status": "refused",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 1,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": true
+    },
+    "GL-21 Grenade Launcher": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "GL-28 Belt-Fed Grenade Launcher": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "GL-52 De-Escalator": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "GR-8 Recoilless Rifle": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "LAS-98 Laser Cannon": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 0
+      },
+      "status": "applied",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": true
+    },
+    "LAS-99 Quasar Cannon": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "M-1000 Maxigun": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "M-105 Stalwart": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "MG-206 Heavy Machine Gun": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "MG-43 Machine Gun": {
+     "apply": {
+      "code": "CARRIER_PRESENT",
+      "reason": "3 MG-43 Machine Gun entities already exist in this world (a call before this machine's setup, or a join in progress): converting now would leave them vanilla",
+      "status": "refused",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 3,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "MGX-42 Bullet Storm": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "MLS-4X Commando": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "MS-11 Solo Silo": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 0
+      },
+      "status": "applied",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": false
+    },
+    "PLAS-45 Epoch": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "RL-77 Airburst Rocket Launcher": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "RS-422 Railgun": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "S-11 Speargun": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "SH-20 Ballistic Shield Backpack": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 0
+      },
+      "status": "applied",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": false
+    },
+    "StA-X3 W.A.S.P. Launcher": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "TX-41 Sterilizer": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 0
+      },
+      "status": "applied",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": false
+    }
    },
    "instances": 0,
    "mission": true,
@@ -223,6 +2111,868 @@
     "thenRestored": "restored",
     "writesWhileRefused": true
    },
+   "hosts": {
+    "40-K Meltagun": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 0
+      },
+      "status": "applied",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": false
+    },
+    "AC-8 Autocannon": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "APW-1 Anti-Materiel Rifle": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "ARC-3 Arc Thrower": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 0
+      },
+      "status": "applied",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": true
+    },
+    "B/FLAM-80 Cremator": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 0
+      },
+      "status": "applied",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": false
+    },
+    "B/MD C4 Pack": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 0
+      },
+      "status": "applied",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": false
+    },
+    "CQC-1 One True Flag": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 0
+      },
+      "status": "applied",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": false
+    },
+    "CQC-20 Breaching Hammer": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 0
+      },
+      "status": "applied",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": false
+    },
+    "CQC-9 Defoliation Tool": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 0
+      },
+      "status": "applied",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": false
+    },
+    "EAT-17 Expendable Anti-Tank": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "EAT-411 Leveller": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "EAT-700 Expendable Napalm": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "FAF-14 Spear": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "FLAM-40 Flamethrower": {
+     "apply": {
+      "code": "CARRIER_PRESENT",
+      "reason": "1 FLAM-40 Flamethrower entity already exist in this world (a call before this machine's setup, or a join in progress): converting now would leave them vanilla",
+      "status": "refused",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 1,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": true
+    },
+    "GL-21 Grenade Launcher": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "GL-28 Belt-Fed Grenade Launcher": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "GL-52 De-Escalator": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "GR-8 Recoilless Rifle": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "LAS-98 Laser Cannon": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 0
+      },
+      "status": "applied",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": true
+    },
+    "LAS-99 Quasar Cannon": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "M-1000 Maxigun": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "M-105 Stalwart": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "MG-206 Heavy Machine Gun": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "MG-43 Machine Gun": {
+     "apply": {
+      "code": "CARRIER_PRESENT",
+      "reason": "3 MG-43 Machine Gun entities already exist in this world (a call before this machine's setup, or a join in progress): converting now would leave them vanilla",
+      "status": "refused",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 3,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "MGX-42 Bullet Storm": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "MLS-4X Commando": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "MS-11 Solo Silo": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 0
+      },
+      "status": "applied",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": false
+    },
+    "PLAS-45 Epoch": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "RL-77 Airburst Rocket Launcher": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "RS-422 Railgun": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "S-11 Speargun": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "SH-20 Ballistic Shield Backpack": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 0
+      },
+      "status": "applied",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": false
+    },
+    "StA-X3 W.A.S.P. Launcher": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "TX-41 Sterilizer": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 0
+      },
+      "status": "applied",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": false
+    }
+   },
    "instances": 0,
    "mission": true,
    "model": {
@@ -334,6 +3084,868 @@
     "thenRestored": "restored",
     "writesWhileRefused": true
    },
+   "hosts": {
+    "40-K Meltagun": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 0
+      },
+      "status": "applied",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": false
+    },
+    "AC-8 Autocannon": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "APW-1 Anti-Materiel Rifle": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "ARC-3 Arc Thrower": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 0
+      },
+      "status": "applied",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": true
+    },
+    "B/FLAM-80 Cremator": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 0
+      },
+      "status": "applied",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": false
+    },
+    "B/MD C4 Pack": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 0
+      },
+      "status": "applied",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": false
+    },
+    "CQC-1 One True Flag": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 0
+      },
+      "status": "applied",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": false
+    },
+    "CQC-20 Breaching Hammer": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 0
+      },
+      "status": "applied",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": false
+    },
+    "CQC-9 Defoliation Tool": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 0
+      },
+      "status": "applied",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": false
+    },
+    "EAT-17 Expendable Anti-Tank": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "EAT-411 Leveller": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "EAT-700 Expendable Napalm": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "FAF-14 Spear": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "FLAM-40 Flamethrower": {
+     "apply": {
+      "code": "CARRIER_PRESENT",
+      "reason": "1 FLAM-40 Flamethrower entity already exist in this world (a call before this machine's setup, or a join in progress): converting now would leave them vanilla",
+      "status": "refused",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 1,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": true
+    },
+    "GL-21 Grenade Launcher": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "GL-28 Belt-Fed Grenade Launcher": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "GL-52 De-Escalator": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "GR-8 Recoilless Rifle": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "LAS-98 Laser Cannon": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 0
+      },
+      "status": "applied",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": true
+    },
+    "LAS-99 Quasar Cannon": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "M-1000 Maxigun": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "M-105 Stalwart": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "MG-206 Heavy Machine Gun": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "MG-43 Machine Gun": {
+     "apply": {
+      "code": "CARRIER_PRESENT",
+      "reason": "3 MG-43 Machine Gun entities already exist in this world (a call before this machine's setup, or a join in progress): converting now would leave them vanilla",
+      "status": "refused",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 3,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "MGX-42 Bullet Storm": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "MLS-4X Commando": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "MS-11 Solo Silo": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 0
+      },
+      "status": "applied",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": false
+    },
+    "PLAS-45 Epoch": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "RL-77 Airburst Rocket Launcher": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "RS-422 Railgun": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "S-11 Speargun": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "SH-20 Ballistic Shield Backpack": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 0
+      },
+      "status": "applied",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": false
+    },
+    "StA-X3 W.A.S.P. Launcher": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 1
+      },
+      "status": "applied",
+      "writes": 1
+     },
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "TX-41 Sterilizer": {
+     "apply": {
+      "identical": true,
+      "nativeAfter": true,
+      "otherBytesChanged": 0,
+      "outside": 0,
+      "protectionRestored": true,
+      "restore": {
+       "exact": true,
+       "status": "restored",
+       "writes": 0
+      },
+      "status": "applied",
+      "writes": 0
+     },
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "noRound": {
+      "code": "NO_ROUND",
+      "status": "refused",
+      "writes": 0
+     },
+     "round": false,
+     "shared": false
+    }
+   },
    "instances": 0,
    "mission": true,
    "model": {
@@ -424,6 +4036,348 @@
   "passed": true,
   "problems": [],
   "report": {
+   "hosts": {
+    "40-K Meltagun": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    },
+    "AC-8 Autocannon": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "APW-1 Anti-Materiel Rifle": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "ARC-3 Arc Thrower": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": true
+    },
+    "B/FLAM-80 Cremator": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    },
+    "B/MD C4 Pack": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    },
+    "CQC-1 One True Flag": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    },
+    "CQC-20 Breaching Hammer": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    },
+    "CQC-9 Defoliation Tool": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    },
+    "EAT-17 Expendable Anti-Tank": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "EAT-411 Leveller": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "EAT-700 Expendable Napalm": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "FAF-14 Spear": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "FLAM-40 Flamethrower": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": true
+    },
+    "GL-21 Grenade Launcher": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "GL-28 Belt-Fed Grenade Launcher": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "GL-52 De-Escalator": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "GR-8 Recoilless Rifle": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "LAS-98 Laser Cannon": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": true
+    },
+    "LAS-99 Quasar Cannon": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "M-1000 Maxigun": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "M-105 Stalwart": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "MG-206 Heavy Machine Gun": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "MG-43 Machine Gun": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "MGX-42 Bullet Storm": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "MLS-4X Commando": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "MS-11 Solo Silo": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    },
+    "PLAS-45 Epoch": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "RL-77 Airburst Rocket Launcher": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "RS-422 Railgun": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": true
+    },
+    "S-11 Speargun": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "SH-20 Ballistic Shield Backpack": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    },
+    "StA-X3 W.A.S.P. Launcher": {
+     "inspect": {
+      "native": true,
+      "records": 4
+     },
+     "instances": 0,
+     "native": true,
+     "round": true,
+     "shared": false
+    },
+    "TX-41 Sterilizer": {
+     "inspect": {
+      "native": true,
+      "records": 3
+     },
+     "instances": 0,
+     "native": true,
+     "round": false,
+     "shared": false
+    }
+   },
    "instances": 0,
    "mission": false,
    "model": {

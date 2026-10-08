@@ -89,6 +89,30 @@ class WeaponVariantResearchTests(unittest.TestCase):
         self.assertEqual(m['lut']['format'], {'width': 23, 'height': 8, 'mips': 5, 'fourcc': 'DX10', 'dxgi': 10})
         self.assertEqual(m['unit']['ownNameAt'], ['0x20', '0x8'])
 
+    def test_every_support_weapon_is_a_host_or_excluded_with_its_reason(self):
+        # 2026-10-08: every support weapon type (equipment/support_weapons/ and every wieldable weapon a stratagem's own
+        # rack holds), not the Maxigun alone.
+        hosts, excluded = RESEARCH['hosts'], RESEARCH['excluded']
+        self.assertEqual((RESEARCH['supportWeapons'], len(hosts), len(excluded)), (35, 34, 1))
+        for name in ('M-105 Stalwart', 'TX-41 Sterilizer', 'CQC-1 One True Flag', 'CQC-9 Defoliation Tool',
+                'CQC-20 Breaching Hammer'):
+            self.assertIn(name, hosts)
+        self.assertEqual(excluded['SG-88 Break-Action Shotgun']['reason'],
+            'no stratagem of its own delivers it (racks: none)')
+        for name, h in hosts.items():
+            self.assertEqual(h['pool'], [name], name)
+            self.assertTrue(all(r['ownerCount'] == 1 for r in h['records'].values()), name)
+            self.assertEqual(h['round'] is None, 'ProjectileWeaponComponentData' not in h['records'], name)
+        self.assertEqual(sorted(n for n, h in hosts.items() if h['shared']), ['APW-1 Anti-Materiel Rifle',
+            'ARC-3 Arc Thrower', 'EAT-17 Expendable Anti-Tank', 'FAF-14 Spear', 'FLAM-40 Flamethrower',
+            'GL-21 Grenade Launcher', 'LAS-98 Laser Cannon', 'M-105 Stalwart', 'MG-43 Machine Gun', 'RS-422 Railgun'])
+        self.assertEqual(sorted(n for n, h in hosts.items() if h['round'] is None), ['40-K Meltagun',
+            'ARC-3 Arc Thrower', 'B/FLAM-80 Cremator', 'B/MD C4 Pack', 'CQC-1 One True Flag', 'CQC-20 Breaching Hammer',
+            'CQC-9 Defoliation Tool', 'FLAM-40 Flamethrower', 'LAS-98 Laser Cannon', 'MS-11 Solo Silo',
+            'SH-20 Ballistic Shield Backpack', 'TX-41 Sterilizer'])
+        self.assertEqual(len(RESEARCH['models']) + len(RESEARCH['modelRefused']), 34)
+        self.assertIn('M-1000 Maxigun', RESEARCH['models'])
+
     def test_the_generated_domain_is_current(self):
         generator = load('generate_weapon_variants', 'scripts/generate_weapon_variants.py')
         self.assertEqual(generator.generate(check=True), [])
@@ -118,7 +142,33 @@ assert(models.issued(d.delivery.model)and d.delivery.model_use=='check')
 assert(d.pod_deps and d.pod_deps[1].package==d.delivery.round.package)
 assert(said('REGISTERED laser_maxigun'):find('VARIANT of the M-1000 Maxigun on its own type',1,true))
 custom.reset_for_tests()
-refused(laser({id='x1',delivery={family='weapon',weapon={resource='support_weapon',weapon='AC-8 Autocannon'}}}),
+-- Every support weapon with exclusively owned records and a stratagem of its own is a host (2026-10-08).
+local function weapon(name,extra)
+    local dl={family='weapon',weapon={resource='support_weapon',weapon=name}}
+    for k,v in pairs(extra or{})do dl[k]=v end
+    return laser({id='v_'..name:gsub('%W','_'):lower(),delivery=dl})
+end
+local ac=custom.register(weapon('AC-8 Autocannon'),OWNER)
+assert(ac.delivery.variant and table.concat(ac.delivery.pool,',')=='AC-8 Autocannon'and ac.group=='weapon')
+custom.reset_for_tests()
+refused(weapon('SG-88 Break-Action Shotgun'),'cannot have a variant: no stratagem of its own delivers it')
+-- A shared type (world loot, another rack): allow_shared is the author's, never added.
+refused(weapon('MG-43 Machine Gun'),'delivery.allow_shared = true is required')
+refused(weapon('MG-43 Machine Gun',{allow_shared=1}),'delivery.allow_shared must be a boolean')
+local mg=custom.register(weapon('MG-43 Machine Gun',{allow_shared=true}),OWNER)
+assert(mg.delivery.variant and table.concat(mg.delivery.pool,',')=='MG-43 Machine Gun')
+custom.reset_for_tests()
+-- A beam weapon has no ProjectileWeapon: no round.
+refused(weapon('LAS-98 Laser Cannon',{allow_shared=true,round=out('output/v1/projectile/eagle-500kg-bomb-projectile-239')}),
+    'fires no projectile')
+local las=custom.register(weapon('LAS-98 Laser Cannon',{allow_shared=true}),OWNER)
+assert(las.delivery.variant and las.delivery.round==nil)
+custom.reset_for_tests()
+-- The EAT-17 is a clone donor AND a variant host: a variant's pool is itself.
+local eat=custom.register(weapon('EAT-17 Expendable Anti-Tank',{allow_shared=true}),OWNER)
+assert(table.concat(eat.delivery.pool,',')=='EAT-17 Expendable Anti-Tank',table.concat(eat.delivery.pool,','))
+custom.reset_for_tests()
+refused(laser({id='x1',delivery={family='weapon',weapon={resource='support_weapon',weapon='MG-101 Nope'}}}),
     'delivery.weapon must name a reviewed variant weapon')
 refused(laser({id='x2',delivery={family='weapon',weapon={resource='support_weapon',weapon=MAXI},
     round=out('output/v1/projectile/eagle-500kg-bomb-projectile-239')}}),'not live-tested yet')
@@ -141,14 +191,38 @@ refused(laser({id='x7',carrier={group='expendable'}}),'carrier.group expendable 
 refused(laser({id='x8',code={'down','left','down','up','right'}}),"is the vanilla MG-43 Machine Gun's own code")
 """)
 
+    def test_every_host_registers_unless_its_pod_is_not_a_support_delivery(self):
+        self.lua(r"""
+local V=require('hd2runtime/domains/weapon_variants')
+local names={}
+for n in pairs(V.hosts)do names[#names+1]=n end
+table.sort(names)
+local ok_n,refused_names={},{}
+for i,n in ipairs(names)do
+    custom.reset_for_tests();require('hd2runtime/runtime/virtual_stratagems').reset_for_tests()
+    local spec=laser({id='v'..i,delivery={family='weapon',weapon={resource='support_weapon',weapon=n},
+        allow_shared=V.hosts[n].shared and true or nil}})
+    local ok,d=pcall(custom.register,spec,OWNER)
+    if ok then
+        assert(d.group=='weapon'and d.delivery.variant and table.concat(d.delivery.pool,',')==n,n)
+        ok_n[#ok_n+1]=n
+    else
+        assert(tostring(d):find('rack has no authored active slot',1,true),n..': '..tostring(d))
+        refused_names[#refused_names+1]=n
+    end
+end
+assert(#ok_n==32,#ok_n)
+assert(table.concat(refused_names,',')=='MS-11 Solo Silo,TX-41 Sterilizer',table.concat(refused_names,','))
+""")
+
     def test_no_fallback_availability_and_blocking(self):
         self.lua(r"""
 local WC=require('hd2runtime/runtime/weapon_carriers')
 local d=custom.register(laser(),OWNER)
 -- Its pool is the Maxigun alone: free -> the Maxigun; picked natively -> UNAVAILABLE (no donor fallback).
-local a=WC.allocate({{id='laser_maxigun',donor=MAXI}},{})
+local a=WC.allocate({{id='laser_maxigun',donor=MAXI,variant=true}},{})
 assert(a.assignments.laser_maxigun.weapon==MAXI)
-local b=WC.allocate({{id='laser_maxigun',donor=MAXI}},{[MAXI_ID]=true},{who={[MAXI_ID]={'peer A'}}})
+local b=WC.allocate({{id='laser_maxigun',donor=MAXI,variant=true}},{[MAXI_ID]=true},{who={[MAXI_ID]={'peer A'}}})
 assert(a and b.assignments.laser_maxigun==nil and b.refused.laser_maxigun:find('^UNAVAILABLE'),tostring(b.refused.laser_maxigun))
 assert(b.refused.laser_maxigun:find('M-1000 Maxigun (picked natively: peer A)',1,true),b.refused.laser_maxigun)
 -- Selected, the Maxigun is its last viable carrier: blocked natively (the policy allocator stubbed).

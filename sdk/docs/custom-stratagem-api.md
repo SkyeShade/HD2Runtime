@@ -352,7 +352,7 @@ use is refused at registration with the reason. `hd2.custom_stratagem.groups()` 
 | `support` | a blue support or backpack carrier whose beacon is REDIRECTED to a donor's vanilla pod (the carrier's own pod never comes) | **support delivery (`donor`)**, also runtime, bombardments, Pelican |
 | `support_pod` | a blue support or backpack carrier delivering its OWN pod: an exclusive rack (one owner, one consumer row) rewritten for the mission; capacity = its usable rack slots (1 or 2); each slot's role (weapon or backpack) takes its kind | **carrier pod (`item`)** |
 | `expendable` | the carrier WEAPON's own stratagem (the EAT-700, then the EAT-411, for the EAT-17's class): one vanilla stratagem is the beacon carrier, the clone and the pod (CONDENSED); a separate blue support/backpack carrier only when that stratagem cannot carry a beacon | **expendable** |
-| `weapon` | a support weapon's OWN stratagem for its variant (the M-1000 Maxigun: its class is itself, so it has no other carrier): its row is the beacon carrier, its own type the variant, its own pod the delivery; a separate blue support/backpack carrier only when that row cannot carry a beacon. A native pick of the weapon makes the variant unavailable; a selected variant blocks the weapon | **weapon** |
+| `weapon` | a support weapon's OWN stratagem for its variant (32 support weapons, see below): its row is the beacon carrier, its own type the variant, its own pod the delivery; a separate blue support/backpack carrier only when that row cannot carry a beacon. A native pick of the weapon makes the variant unavailable; a selected variant blocks the weapon | **weapon** |
 | `sentry` | catalogue family sentry (blue): the donor sentry's pod by redirect | **sentry** |
 | `emplacement` | catalogue family emplacement | (none yet) |
 | `eagle` | catalogue family eagle (red, limited uses; the discovery's Eagle mode) | **eagle** |
@@ -412,7 +412,7 @@ shell) are added automatically.
 | `delivery={family='support', items=...}` | The donor's vanilla support pod; its exact items captured and modified. | `beacon='support'` (group `support`) |
 | `delivery={family='support', items={{item, count, modify}}}` | A CARRIER POD: the carrier's own pod (no redirect), its exclusive rack holding these items for the mission. | group `support_pod` |
 | `delivery={family='expendable', weapon, presentation, modify, level, pod}` | A mission-scoped clone of the donor weapon on an unused carrier weapon of its class, delivered by that weapon's own pod (`pod`: what it holds). | group `expendable` (`beacon='support'`) |
-| `delivery={family='weapon', weapon, round, model, model_use, presentation}` | A mission-scoped variant of a support weapon on its OWN type (its class is itself: the M-1000 Maxigun): its round, its model (the mod's own), its name and icon; delivered by its own pod. | group `weapon` (`beacon='support'`) |
+| `delivery={family='weapon', weapon, round, model, model_use, presentation, allow_shared}` | A mission-scoped variant of a support weapon on its OWN type (any of 32 support weapons): its round, its model (the mod's own), its name and icon; delivered by its own pod. | group `weapon` (`beacon='support'`) |
 | `sentry={donor, weapon}` | The donor sentry's vanilla pod; its exact sentry captured, its own weapon configured. | `beacon='support'`, sentry family only |
 | `eagle={donor, uses, payload}` | The donor Eagle's own strike; its exact jet captured, its rockets' impacts changed. | `beacon='offensive'`, Eagle family only |
 | `orbital={shell, pattern, ...}` | A Runtime bombardment at the activation. | any policy |
@@ -589,10 +589,46 @@ delivery={family='weapon',weapon=hd2.support_weapon('M-1000 Maxigun'),
     presentation={name='LAS-1000 LASER MAXIGUN',icon=hd2.resources.image('laser_maxigun')}}   -- optional
 ```
 
-**What a variant is.** A weapon whose component class is itself (today the **M-1000 Maxigun**: spin-up,
-backpack-fed ammo, the ammo belt; no other support weapon has its components) can be carried by no other type. So its
-variant converts **its own type** for one mission (`runtime/weapon_clone.lua` variant; research
-`research/docs/weapon-variants-F5FEE03DCFDB.md`).
+**What a variant is.** The weapon's **own type** converted for one mission (`runtime/weapon_clone.lua` variant;
+research `research/weapon-variants-F5FEE03DCFDB.json`, `scripts/research_weapon_variants.py`). First the
+**M-1000 Maxigun** (its class is itself: no other type has its components). Since 2026-10-08 **every support weapon**
+qualifies if:
+- every record the variant writes (EncyclopediaEntry, Spottable, UnitComponent, and ProjectileWeapon when it has one)
+  belongs to that type alone;
+- a stratagem of its own delivers it.
+
+The sweep covers 35 weapon types: the `equipment/support_weapons/` ones, plus every wieldable weapon a stratagem's
+own pod holds (the M-105 Stalwart, the TX-41 Sterilizer, the CQC melee support weapons, the C4 detonator, the
+SH-20 shield, the MS-11 Solo Silo). Results:
+- **34 hosts** (`hd2.custom_stratagems.groups()`, the `weapon` group's members; `weapon_clone.variants()`).
+- **32 register.** The TX-41 Sterilizer and the MS-11 Solo Silo are refused at registration: their pods are not
+  reviewed pickup racks (`... rack has no authored active slot ...`). Their group entry says so in `refused`.
+- **Excluded: the SG-88 Break-Action Shotgun.** No stratagem of its own delivers it.
+- **No round** for the 12 hosts without a ProjectileWeapon (beam, arc, spray, melee and the gadgets: the LAS-98,
+  ARC-3, FLAM-40, B/FLAM-80, 40-K, TX-41, the CQC weapons, ...). `round` is refused; presentation and model still
+  apply.
+- **Shared: `allow_shared = true` is required** for the 10 hosts that world loot or another pod also brings: the
+  MG-43, M-105, APW-1, GL-21, RS-422, LAS-98, ARC-3, FLAM-40, FAF-14 and EAT-17. Converting the type converts those
+  copies too. A copy that already exists when the mission starts makes the conversion refuse `CARRIER_PRESENT`,
+  with nothing written: in the retained mission snapshots, loot MG-43s and FLAM-40s already lay in the world.
+- **Models** (`hd2.resources.model`) derive for the 24 hosts in `sdk/ModelBaseCapabilities.json`. For the other 10
+  the body material's LUT lives outside the weapon's own archive (`modelRefused`).
+
+The EAT-17 is both a clone donor (`family='expendable'`) and a variant host: a `family='weapon'` EAT-17 converts the
+EAT-17's own type (shared: world loot, the Surplus EAT booster), never an EAT-700 or EAT-411.
+
+**Clones (`family='expendable'`) stay the EAT-17's.** A full copy of one weapon onto ANOTHER type needs every differing
+member reviewed and the lifecycle contract equal. `scripts/research_clone_classes.py`
+(`research/clone-classes-F5FEE03DCFDB.json`) checked all 46 ordered pairs inside the multi-member component classes:
+- **Eligible: EAT-17 → EAT-700 / EAT-411, and EAT-411 ↔ EAT-700** (not yet exposed as donors).
+- **Every other pair is refused** (MG-43 / MG-206 / APW-1 / GL-21 / S-11 / M-105, Spear / WASP, Recoilless /
+  Airburst, Railgun / Epoch, De-Escalator / Break-Action, FLAM-40 / TX-41) for one or more of:
+  - a different magazine or rounds contract;
+  - a different AI equipment type;
+  - a different backpack link (assisted reload);
+  - the carrier in world loot;
+  - members no one has reviewed (guidance, spray, charge).
+- A variant of the weapon itself is the supported way to customise those.
 
 **The carrier group `weapon`.**
 - The weapon's own stratagem is the beacon carrier, the variant and the pod (condensed): its row presents as the
@@ -629,8 +665,17 @@ variant converts **its own type** for one mission (`runtime/weapon_clone.lua` va
 clone). The round, the model's digest and its `model_use` are part of the registry hash, so every machine needs the
 same mod build and the same choice.
 
-**Not supported** (refused at registration): a weapon that is not a reviewed variant host, `modify`, `pod`, `level`, a
-round of another class, `model_use` without `model`, a carrier group other than `weapon`.
+**Not supported** (refused at registration):
+- a weapon that is not a reviewed variant host (or an excluded one, with its reason);
+- a shared host without `allow_shared = true`;
+- `round` on a host without a ProjectileWeapon, or a round of another class;
+- `modify`, `pod`, `level`;
+- `model_use` without `model`;
+- a carrier group other than `weapon`.
+
+**Not live-tested:** every host but the M-1000 Maxigun (live r25-r27: name, Talon round, model; solo host). The other
+31 are validated offline on every retained snapshot (`scripts/validate_weapon_variant_snapshot.py`): in a mission each
+host with no entity in the world converts in one guarded transaction and restores byte for byte.
 
 ### `sentry`: a custom sentry
 

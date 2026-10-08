@@ -343,11 +343,25 @@ class ValidatorTests(unittest.TestCase):
             "round=hd2.attack_output('output/v1/projectile/las-58-talon'),model='laser_maxigun',model_use='check'}", text)
         # What the validator refuses: another class's round, an unknown host, model_use without a model.
         bad = copy.deepcopy(project)
-        bad['stratagems'][0]['payload'].update(weapon='MG-43 Machine Gun', round='output/v1/projectile/nope')
+        bad['stratagems'][0]['payload'].update(weapon='SG-88 Break-Action Shotgun', round='output/v1/projectile/nope')
         del bad['stratagems'][0]['payload']['model']
         problems = P.validate(bad, schema)
         self.assertTrue(any('.weapon: must be a reviewed variant weapon' in x for x in problems)
             and any('.model_use: needs model' in x for x in problems), problems)
+        # A shared host (world loot) needs allow_shared; a beam weapon has no round; an undeliverable host is refused.
+        bad = copy.deepcopy(project)
+        bad['stratagems'][0]['payload'].update(weapon='MG-43 Machine Gun')
+        del bad['stratagems'][0]['payload']['round']
+        self.assertTrue(any('.allow_shared: must be true' in x for x in P.validate(bad, schema)))
+        bad['stratagems'][0]['payload']['allow_shared'] = True
+        self.assertEqual(P.validate(bad, schema), [])
+        self.assertIn("model_use='check',allow_shared=true}", P.compile_lua(bad))
+        bad['stratagems'][0]['payload'].update(weapon='LAS-98 Laser Cannon', round='output/v1/projectile/las-58-talon')
+        self.assertTrue(any('fires no projectile' in x for x in P.validate(bad, schema)))
+        bad = copy.deepcopy(project)
+        bad['stratagems'][0]['payload'].update(weapon='TX-41 Sterilizer')
+        del bad['stratagems'][0]['payload']['round']
+        self.assertTrue(any('.weapon: cannot be delivered' in x for x in P.validate(bad, schema)))
         bad = copy.deepcopy(project)
         bad['stratagems'][0]['payload']['round'] = 'output/v1/projectile/nope'
         self.assertTrue(any('.round: must be a round of the M-1000 Maxigun' in x for x in P.validate(bad, schema)))
@@ -383,7 +397,11 @@ return 'ok'
         schema = P.load_schema()
         self.assertEqual(schema['schemaVersion'], 1)
         self.assertEqual(schema['variantFamily']['family'], 'weapon')
-        self.assertEqual(schema['catalogs']['variantDonors'][0]['name'], 'M-1000 Maxigun')
+        hosts = {h['name']: h for h in schema['catalogs']['variantDonors']}
+        self.assertEqual(len(hosts), 34)
+        self.assertTrue(hosts['M-1000 Maxigun']['deliverable'] and hosts['M-1000 Maxigun']['round'])
+        self.assertNotIn('shared', hosts['M-1000 Maxigun'])
+        self.assertTrue(hosts['MG-43 Machine Gun']['shared'] and not hosts['TX-41 Sterilizer']['deliverable'])
         # Every payload family a project may use has its live-test record (a builder's badges).
         families = {f['family'] for f in schema['families']} | {schema['podFamily']['family'],
             schema['variantFamily']['family']}

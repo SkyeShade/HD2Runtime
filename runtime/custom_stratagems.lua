@@ -207,7 +207,10 @@ function M.support_delivery(name)
             end
         end
     end
-    if count==0 then return nil,name..'\'s rack has no active item'end
+    if count==0 then
+        return nil,name..'\'s rack has no authored active slot (its pod is not a reviewed pickup rack: an item with no '
+            ..'resolvable pickup name, or a deployable; domains/pod_payload_authoring.lua)'
+    end
     return {stratagem=name,id=entry.root.id,rack=rack.resource,count=count,items=items,family=entry.family}
 end
 M.DELIVERIES=setmetatable({},{__index=function(_,name)
@@ -567,7 +570,7 @@ end
 local EXPENDABLE_KEYS={family=true,weapon=true,presentation=true,modify=true,level=true,pod=true,round=true}
 local function clone_donors()
     local out={}
-    for _,name in ipairs({'EAT-17 Expendable Anti-Tank'})do if weapon_clone.donor(name)then out[#out+1]=name end end
+    for _,name in ipairs(weapon_clone.donors())do out[#out+1]=name end
     return out
 end
 M.clone_donors=clone_donors
@@ -691,10 +694,14 @@ end
 
 -- delivery = {family = 'weapon', weapon = a variant host (hd2.support_weapon(name)), round = hd2.attack_output(name),
 -- model = hd2.resources.model(id) or an id of the mod's models, model_use = 'apply' | 'check' (or a Mod Options choice
--- of those), presentation = {name, icon}}: a mission-scoped VARIANT of a support weapon on its OWN type
--- (runtime/weapon_clone.lua variant; domains/weapon_variants.lua). A weapon whose component class is itself (the
--- M-1000 Maxigun) can be carried by no other type, so its pool is itself: a lobby member bringing it makes the variant
--- unavailable, and the selected variant blocks it in the native picker (the user's rule of 2026-10-06: no fallback).
+-- of those), presentation = {name, icon}, allow_shared}: a mission-scoped VARIANT of a support weapon on its OWN type
+-- (runtime/weapon_clone.lua variant; domains/weapon_variants.lua: every support weapon with exclusively owned records
+-- and a stratagem of its own, 26 of 27 since 2026-10-08; first the M-1000 Maxigun). Its pool is itself: a lobby member
+-- bringing it makes the variant unavailable, and the selected variant blocks it in the native picker (the user's rule
+-- of 2026-10-06: no fallback). A SHARED host (world loot or another hellpod rack also brings the type: the MG-43, the
+-- EAT-17, ...) converts those copies too, so it needs allow_shared = true (the author's consent; never added here). A
+-- host without a ProjectileWeapon (beam, arc, spray: the LAS-98, the ARC-3, the flamethrowers, the Meltagun) has no
+-- round.
 -- Its own vanilla pod delivers it with its own items (the Maxigun's backpack too). The type's presentation, round
 -- (ProjectileWeapon +0: a catalogued attack output of the weapon's own compatibility class, never an unverified donor;
 -- its package loaded first) and model (UnitPath: the mod's Runtime-owned unit, runtime/model_resources.lua) change for
@@ -703,7 +710,7 @@ end
 local variant_spec
 do
     local models=require('hd2runtime/runtime/model_resources')
-    local VARIANT_KEYS={family=true,weapon=true,presentation=true,round=true,model=true,model_use=true}
+    local VARIANT_KEYS={family=true,weapon=true,presentation=true,round=true,model=true,model_use=true,allow_shared=true}
     M.MODEL_USES={apply=true,check=true}
     local function model_use_value(use)
         if use==nil then return'apply'end
@@ -715,12 +722,19 @@ do
     function variant_spec(value,policy,owner)
         for key in pairs(value)do
             assert(VARIANT_KEYS[key],'unsupported weapon delivery field: '..tostring(key)..' (supported: family, weapon, '
-                ..'round, model, model_use, presentation)')
+                ..'round, model, model_use, presentation, allow_shared)')
         end
         local weapon=donor_name(value.weapon)
         local host=weapon and weapon_clone.variant(weapon)
+        local excluded=weapon and weapon_clone.variant_excluded(weapon)
+        assert(not excluded,'delivery.weapon: the '..tostring(weapon)..' cannot have a variant: '..tostring(excluded))
         assert(host,'delivery.weapon must name a reviewed variant weapon (hd2.support_weapon(name)): '
             ..table.concat(weapon_clone.variants(),', '))
+        assert(value.allow_shared==nil or type(value.allow_shared)=='boolean','delivery.allow_shared must be a boolean')
+        if host.shared then
+            assert(value.allow_shared==true,('delivery.allow_shared = true is required: the %s variant converts its '
+                ..'type, which is shared: %s'):format(weapon,table.concat(host.shared,'; ')))
+        end
         assert(policy.beacon=='support','a weapon delivery needs a support (blue beacon) carrier')
         local presentation={}
         if value.presentation~=nil then
@@ -739,6 +753,8 @@ do
         -- reviewed, live-catalogued one (an unverified donor is refused here: no acknowledgement path).
         local round,deps
         if value.round~=nil then
+            assert(host.round,'delivery.round: the '..weapon..' fires no projectile (no ProjectileWeapon): it has no round '
+                ..'to change')
             local A=require('hd2runtime/domains/attack_outputs')
             local r=value.round
             assert(type(r)=='table'and rawget(r,'resource')=='attack_output','delivery.round must be hd2.attack_output(name)')
@@ -1453,7 +1469,7 @@ local function expendable_pass(world,present,list,ids,who,lobby)
     for _,d in ipairs(order)do
         if d.kind=='expendable'and scope[d.id]then
             claims[#claims+1]={id=d.id,donor=d.delivery.donor,slots=d.slots,fits=d.delivery.fits,
-                fallback=d.delivery.fallback~=nil}
+                fallback=d.delivery.fallback~=nil,variant=d.delivery.variant==true}
         end
     end
     local out={assignments={},refused={},fallback={}}
@@ -2548,7 +2564,7 @@ local function availability_step(world,v)
         local d=defs[id]
         if d and d.kind=='expendable'then
             claims[#claims+1]={id=id,donor=d.delivery.donor,slots=d.slots,fits=d.delivery.fits,
-                fallback=d.delivery.fallback~=nil}
+                fallback=d.delivery.fallback~=nil,variant=d.delivery.variant==true}
         end
     end
     local alloc=weapon_carriers.allocate(claims,present,{who=who})
@@ -2561,7 +2577,7 @@ local function availability_step(world,v)
             if alloc.assignments[d.id]then weapon=alloc.assignments[d.id]
             elseif alloc.refused[d.id]then reason=alloc.refused[d.id]
             else reason,weapon=weapon_carriers.unavailable(d.id,d.delivery.donor,present,claims,{who=who,slots=d.slots,
-                fallback=d.delivery.fallback~=nil})end
+                fallback=d.delivery.fallback~=nil,variant=d.delivery.variant==true})end
             local mode
             avail.carrier[d.id]=nil
             if not reason and weapon.donor_self then

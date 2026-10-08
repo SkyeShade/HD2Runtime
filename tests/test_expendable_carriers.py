@@ -117,8 +117,11 @@ assert(table.concat(names,',')=='orbital,any_red,any,support,support_pod,expenda
 local by={}
 for _,e in ipairs(g.catalogue())do
     if e.name=='weapon'then
-        -- the weapon group: each variant host is its own (and only) carrier
-        assert(#e.members==1 and e.members[1].name=='M-1000 Maxigun'and e.members[1].carries[1]=='M-1000 Maxigun')
+        -- the weapon group: each variant host is its own (and only) carrier (34 support weapons since 2026-10-08)
+        assert(#e.members==34,#e.members)
+        for _,m in ipairs(e.members)do
+            assert(#m.carries==0 or(#m.carries==1 and m.carries[1]==m.name),m.name)
+        end
     elseif e.name~='expendable'then assert(e.members==nil,e.name..' gained members')end
     if e.name=='expendable'then for _,m in ipairs(e.members or{})do by[m.name]=m end end
 end

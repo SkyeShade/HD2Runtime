@@ -50,9 +50,9 @@ end
 -- Whether a lifecycle member can carry a donor's clone: true, or false and why.
 function M.compatible(donor,carrier)return clone.compatible(donor,carrier)end
 
--- The pool of a donor: {{name, stable_id, entity}} in order, or nil.
-function M.pool(donor)
-    local list=clone.pool(donor)
+-- The pool of a donor: {{name, stable_id, entity}} in order, or nil. variant = true: a variant's (the weapon itself).
+function M.pool(donor,variant)
+    local list=clone.pool(donor,variant)
     if not list then return nil end
     local out={}
     for k,name in ipairs(list)do
@@ -101,7 +101,7 @@ function M.allocate(defs,present,opts)
         if not seen[d.id]then
             seen[d.id]=true
             out.order[#out.order+1]=d.id
-            local pool=M.pool(d.donor)
+            local pool=M.pool(d.donor,d.variant)
             if not pool then
                 out.refused[d.id]=tostring(d.donor)..' has no reviewed expendable clone class'
             else
@@ -152,7 +152,7 @@ function M.unavailable(id,donor,present,claims,opts)
     local others={}
     for _,d in ipairs(claims or{})do if d.id~=id then others[#others+1]=d end end
     local a=M.allocate(others,present,opts)
-    local pool=M.pool(donor)
+    local pool=M.pool(donor,opts and opts.variant)
     if not pool then return tostring(donor)..' has no reviewed expendable clone class'end
     local taken={}
     local slots=opts and opts.slots

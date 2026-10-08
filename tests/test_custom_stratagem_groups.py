@@ -776,7 +776,12 @@ local hd2=require('hd2runtime/api/hd2')
 assert(type(hd2.custom_stratagem.describe)=='function'and type(hd2.custom_stratagem.groups)=='function')
 local g=hd2.custom_stratagem.groups()
 assert(#g==10 and g[6].name=='expendable'and#g[6].members==5)
-assert(g[7].name=='weapon'and#g[7].members==1 and g[7].members[1].name=='M-1000 Maxigun')
+assert(g[7].name=='weapon'and#g[7].members==34,#g[7].members)
+local wm={}
+for _,m in ipairs(g[7].members)do wm[m.name]=m end
+assert(wm['M-1000 Maxigun']and wm['M-1000 Maxigun'].shared==nil and wm['M-1000 Maxigun'].round==true)
+assert(wm['MG-43 Machine Gun'].shared and wm['LAS-98 Laser Cannon'].round==false and wm['SG-88 Break-Action Shotgun']==nil)
+assert(#wm['TX-41 Sterilizer'].carries==0 and wm['TX-41 Sterilizer'].refused[1]:find('no authored active slot',1,true))
 assert(hd2.custom_stratagem.describe('no such custom stratagem')==nil)
 return 'ok'
 """), b'ok')

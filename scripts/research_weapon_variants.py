@@ -2,8 +2,8 @@
 side" (research/docs/weapon-variants-F5FEE03DCFDB.md)? Read-only, offline.
 
 The expendable clone (scripts/research_carrier_weapon_clone.py) turns an unused weapon type of the donor's component
-class into the donor. A weapon whose class has ONE member (the M-1000 Maxigun: WindUp, LinkedAmmo and the ammo chain)
-can only ever be carried by itself, so its variant converts its own type, only while nobody in the lobby brings it:
+class into the donor. A variant instead converts the weapon's OWN type (every support weapon, 2026-10-08; first the M-1000
+Maxigun, whose class is itself), only while nobody in the lobby brings it:
 * presentation: EncyclopediaEntry +8 (name), +0x30 (weapon panel image), Spottable +0x38 (marker / prompt icon), the
   clone's three members, from the carrier's own native values;
 * round: ProjectileWeapon +0 ProjType := a catalogued attack output of the weapon's own compatibility class (the
@@ -11,10 +11,17 @@ can only ever be carried by itself, so its variant converts its own type, only w
 * model: UnitComponent +0 UnitPath := a Runtime-owned unit resource the mod ships beside the vanilla one (a patch of
   the weapon's own package archive: every dependency co-resident with it, as the vanilla unit's are).
 
-Proves on build F5FEE03DCFDB, from the pinned entity tables, the game.dll image and the installed game data:
-1. The host's component class (every support weapon type with its exact component set): the Maxigun alone.
-2. Its four written records: one owner each, their index rows and an FNV-1a of their native bytes; the presentation
-   members' native bytes; its native ProjType and UnitPath; the marker texture kind.
+Proves on build F5FEE03DCFDB, from the pinned entity tables, the game.dll image and the installed game data, for EVERY
+support weapon type (equipment/support_weapons/, named by the equipment links, and every wieldable weapon a stratagem's
+own hellpod rack holds: the M-105 Stalwart, the CQC melee support weapons, the TX-41 Sterilizer):
+1. The host's component class (every support weapon type with its exact component set), for information: a variant
+   converts its own type whatever its class.
+2. Its written records (EncyclopediaEntry, Spottable, UnitComponent and, when it has one, ProjectileWeapon): one owner
+   each, their index rows and an FNV-1a of their native bytes; the presentation members' native bytes; its native
+   ProjType (no round without a ProjectileWeapon) and UnitPath; the marker texture kind. A weapon with a shared written
+   record, or that no stratagem of its own delivers, is EXCLUDED with the reason.
+3. Who else brings the type into a mission: the world loot tables and every other hellpod rack (pod payloads research).
+   A converted type is converted for every copy, so such a host is SHARED: its variant needs allow_shared.
 3. Every consumer of UnitPath (the UnitComponent type table, slot 0xF12738, is read by exactly three instructions: the
    type lookup 0x4F95C0, the default record getter 0x4F9B40 and the delta copy 0x6EAC90; the lookup has 20 call sites in
    19 functions): each either copies the whole record, reads another member (+0x10 Radius, +0x84 the hot-join corpse
@@ -49,7 +56,9 @@ OUTPUT = ROOT / 'research/weapon-variants-F5FEE03DCFDB.json'
 CACHE = ROOT / 'build/scan-cache/weapon-variants-resources.pkl'
 BUILD = 'F5FEE03DCFDB'
 
-HOSTS = {'M-1000 Maxigun': 0x43A58CB89CFA197C}
+POD_PAYLOADS = ROOT / 'research/pod-payloads-F5FEE03DCFDB.json'
+EQUIPMENT_LINKS = ROOT / 'research/support-equipment-links-F5FEE03DCFDB.json'
+REQUIRED = ('EncyclopediaEntryComponentData', 'SpottableComponentData', 'UnitComponentData')
 UNIT_SLOT = 0xF12738
 UNIT_LOOKUP = 0x4F95C0
 PRESENTATION_MEMBERS = (('EncyclopediaEntryComponentData', 0x8, 4, 'name'),
@@ -93,15 +102,77 @@ def component_class(t: tables.EntityTables, resource: int) -> list[str]:
     return sorted(out)
 
 
-def host_facts(t: tables.EntityTables, name: str, resource: int) -> dict:
+def support_weapons(t: tables.EntityTables) -> dict:
+    """Every support weapon type by its catalog name (the equipment links name the type path's last part)."""
+    links = json.loads(EQUIPMENT_LINKS.read_text(encoding='utf-8'))['supportWeapons']
+    by_label = {}
+    for name, rows in links.items():
+        for row in rows:
+            path = row.get('path') or ''
+            if '/support_weapons/' in path:
+                by_label[path.rsplit('/', 1)[-1]] = name
+    out = {}
+    for resource in t.find('equipment/support_weapons/'):
+        name = by_label.get(t.label(resource))
+        if name:
+            if name in out:
+                raise ValueError('two support weapon types are named ' + name)
+            out[name] = resource
+    # Support weapons outside that path (the M-105 Stalwart under primary_weapons/, the CQC melee support weapons, the
+    # TX-41 Sterilizer with no path name; found by scripts/research_clone_classes.py): a hellpod rack item that is a
+    # wieldable weapon with the written records, named by the one catalogued stratagem whose rack holds it (catalogued
+    # names have spaces; internal racks such as JammedPinata or *_PresidentReward do not).
+    pods = json.loads(POD_PAYLOADS.read_text(encoding='utf-8'))
+    racks = {}
+    for rack in pods['racks']:
+        for slot in rack['slots']:
+            if slot['item']:
+                racks.setdefault(int(slot['item'], 16), set()).update(c['name'] for c in rack['consumers'])
+    known = set(out.values())
+    for resource, consumers in sorted(racks.items()):
+        if resource in known:
+            continue
+        try:
+            rows = t.entity(resource)
+        except KeyError:            # not an entity type of this file (a level-only item: SpireSterilizer)
+            continue
+        if not all(c in rows for c in REQUIRED + ('WieldableComponentData', 'WeaponDataComponentData')):
+            continue
+        names = sorted(n for n in consumers if ' ' in n)
+        if len(names) == 1 and names[0] not in out:
+            out[names[0]] = resource
+    return dict(sorted(out.items()))
+
+
+def who_brings(resources: list[int]) -> dict:
+    """{resource: {'loot': bool, 'racks': [stratagem names whose hellpod rack holds the type]}}."""
+    pods = json.loads(POD_PAYLOADS.read_text(encoding='utf-8'))
+    loot = {int(e, 16) for table in pods['worldLoot']['tables'] for e in table['entries']}
+    racks = {}
+    for rack in pods['racks']:
+        for slot in rack['slots']:
+            if slot['item']:
+                racks.setdefault(int(slot['item'], 16), set()).update(c['name'] for c in rack['consumers'])
+    return {r: {'loot': r in loot, 'racks': sorted(racks.get(r, ()))} for r in resources}
+
+
+def host_facts(t: tables.EntityTables, name: str, resource: int, brings: dict) -> dict:
+    """A variant host's reviewed facts; raises ValueError with the reason a weapon cannot be one."""
     rows = t.entity(resource)
+    missing = [c for c in REQUIRED if c not in rows]
+    if missing:
+        raise ValueError('no ' + ', '.join(missing))
+    if name not in brings['racks']:
+        raise ValueError('no stratagem of its own delivers it (racks: %s)' % (', '.join(brings['racks']) or 'none'))
     records = {}
     for component in WRITTEN:
+        if component not in rows:
+            continue
         comp = t.component(component)
         record = rows[component]
         owners = comp.owners(record)
         if owners != [resource]:
-            raise ValueError('%s %s is not exclusively owned: %r' % (name, component, owners))
+            raise ValueError('its %s record is shared by %d types' % (component, len(owners)))
         index_row = next(row for row, res, _rec in comp.rows() if res == resource)
         records[component] = {'indexRow': index_row, 'recordIndex': record, 'ownerCount': 1,
             'fnv1a': fnv1a(comp.raw(record))}
@@ -109,18 +180,26 @@ def host_facts(t: tables.EntityTables, name: str, resource: int) -> dict:
     def member(component, offset, width):
         return t.component(component).raw(rows[component])[offset:offset + width]
     unit = member('UnitComponentData', 0, 8)
-    proj = member('ProjectileWeaponComponentData', 0, 4)
+    fires = 'ProjectileWeaponComponentData' in rows
+    proj = member('ProjectileWeaponComponentData', 0, 4) if fires else None
     klass = component_class(t, resource)
+    shared = []
+    if brings['loot']:
+        shared.append('world loot: the mission\'s loot tables hold this type, and a found copy is converted too')
+    others = [r for r in brings['racks'] if r != name]
+    if others:
+        shared.append('also delivered by ' + ', '.join(others) + ': those copies are converted too')
     return {
         'entity': hexid(resource), 'stratagem': name, 'path': t.name(resource),
-        'componentClass': klass, 'pool': [name] if len(klass) == 1 else None,
+        'componentClass': klass, 'pool': [name], 'shared': shared,
         'components': sorted(rows),
         'records': records,
         'presentation': [{'component': c, 'offset': o, 'width': w, 'role': role,
             'native': member(c, o, w).hex(), 'donor': member(c, o, w).hex()} for c, o, w, role in PRESENTATION_MEMBERS],
         'markerKind': struct.unpack_from('<I', member('SpottableComponentData', 0x40, 4))[0],
-        'projectile': struct.unpack_from('<I', proj)[0],
-        'round': {'component': 'ProjectileWeaponComponentData', 'offset': 0, 'width': 4, 'native': proj.hex()},
+        'projectile': struct.unpack_from('<I', proj)[0] if fires else None,
+        'round': {'component': 'ProjectileWeaponComponentData', 'offset': 0, 'width': 4, 'native': proj.hex()}
+            if fires else None,
         'model': {'component': 'UnitComponentData', 'offset': 0, 'width': 8, 'native': unit.hex(),
             'unit': hexid(struct.unpack_from('<Q', unit)[0])},
     }
@@ -207,10 +286,11 @@ def consumers(image: xref.CodeImage) -> dict:
 
 # ------------------------------------------------------------------------------------------------- the model
 def read_model(resource: int) -> dict:
-    """The host unit's archive rows and the bytes of the unit, its materials and textures (cached)."""
+    """The host unit's archive rows and the bytes of the unit, its materials and textures (cached per unit)."""
     key = hashlib.sha256(('%016X|v1' % resource).encode()).hexdigest()
-    if CACHE.is_file():
-        cached = pickle.loads(CACHE.read_bytes())
+    cache = CACHE if resource == 0x43A58CB89CFA197C else CACHE.with_name('weapon-variants-%016X.pkl' % resource)
+    if cache.is_file():
+        cached = pickle.loads(cache.read_bytes())
         if cached.get('key') == key:
             return cached
     types = {H(n): n for n in TYPES}
@@ -236,8 +316,8 @@ def read_model(resource: int) -> dict:
     out = {'key': key, 'archive': archive,
         'rows': [(types.get(k, '0x%016X' % k), n, m[1], s[1], g[1]) for _a, n, k, m, s, g in rows],
         'blobs': blobs, 'index': index}
-    CACHE.parent.mkdir(parents=True, exist_ok=True)
-    CACHE.write_bytes(pickle.dumps(out))
+    cache.parent.mkdir(parents=True, exist_ok=True)
+    cache.write_bytes(pickle.dumps(out))
     return out
 
 
@@ -319,11 +399,15 @@ def model_facts(t: tables.EntityTables, resource: int) -> dict:
 
 
 VERDICTS = {
-    'pool': 'the M-1000 Maxigun is the only support weapon with its component set (WeaponWindUp, WeaponLinkedAmmo, '
-        'TwoPointChainAttachTarget): its variant can only ever be carried by its own type, so its pool is itself; '
-        'a native pick of it in the lobby makes the variant unavailable and, selected, the variant blocks it in the '
-        'native picker (the user\'s rule of 2026-10-06: no fallback)',
-    'records': 'the four written records each have one owner (the Maxigun): carrier-local under the carrier rule',
+    'pool': 'a variant converts its host\'s own type, so its pool is that weapon (the M-1000 Maxigun first: the only '
+        'support weapon with its component set; every support weapon since 2026-10-08): a native pick of it in the '
+        'lobby makes the variant unavailable and, selected, the variant blocks it in the native picker (the user\'s '
+        'rule of 2026-10-06: no fallback)',
+    'records': 'every written record has one owner (the host): carrier-local under the carrier rule; a weapon with a '
+        'shared written record is excluded',
+    'shared': 'a type that world loot or another hellpod rack also brings is converted for those copies too: such a '
+        'host is SHARED and its variant needs allow_shared (the author\'s consent; never added by a helper)',
+    'round': 'a host without a ProjectileWeapon (beam, arc, spray) has no round to change: presentation and model only',
     'model': 'every UnitPath consumer copies the record, reads another member, or passes the name to an engine unit '
         'call that resolves it through the resource manager: a resident Runtime-owned unit is found exactly as the '
         'vanilla one; a missing one is refused before any write (the Runtime reads the same resource table)',
@@ -357,10 +441,26 @@ OPEN_QUESTIONS = [
 def generate() -> dict:
     t = tables.pinned()
     image = xref.CodeImage.from_snapshot('game.dll')
-    hosts = {name: host_facts(t, name, res) for name, res in HOSTS.items()}
-    models = {name: model_facts(t, res) for name, res in HOSTS.items()}
+    weapons = support_weapons(t)
+    brings = who_brings(list(weapons.values()))
+    hosts, excluded, models, model_refused = {}, {}, {}, {}
+    for name, res in weapons.items():
+        try:
+            hosts[name] = host_facts(t, name, res, brings[res])
+        except ValueError as why:
+            excluded[name] = {'entity': hexid(res), 'reason': str(why)}
+            continue
+        try:
+            models[name] = model_facts(t, res)
+        except KeyError as why:
+            model_refused[name] = 'a resource of its unit is not in the installed game data: %s' % ', '.join(
+                '0x%016X' % v if isinstance(v, int) else str(v) for v in (why.args[0] if why.args and isinstance(
+                    why.args[0], tuple) else why.args))
+        except (ValueError, struct.error) as why:
+            model_refused[name] = str(why) or type(why).__name__
     uses = consumers(image)
-    return {'build': BUILD, 'writes': 0, 'protectionChanges': 0, 'hosts': hosts, 'models': models,
+    return {'build': BUILD, 'writes': 0, 'protectionChanges': 0, 'supportWeapons': len(weapons), 'hosts': hosts,
+        'excluded': excluded, 'models': models, 'modelRefused': model_refused,
         'unitPathConsumers': uses, 'verdicts': VERDICTS, 'stagedTests': STAGED_TESTS,
         'openQuestions': OPEN_QUESTIONS}
 
@@ -377,8 +477,10 @@ def main(argv=None):
         return
     OUTPUT.write_text(text, encoding='utf-8', newline='\n')
     u = result['unitPathConsumers']
-    print('wrote', OUTPUT.relative_to(ROOT), '; hosts', list(result['hosts']), '; class',
-        result['hosts']['M-1000 Maxigun']['componentClass'], '; consumers', u['callSites'], u['byKind'])
+    print('wrote', OUTPUT.relative_to(ROOT), '; hosts', len(result['hosts']), 'of', result['supportWeapons'],
+        '; shared', sorted(n for n, h in result['hosts'].items() if h['shared']), '; excluded', result['excluded'],
+        '; models', sorted(result['models']), '; model refused', result['modelRefused'], '; consumers',
+        u['callSites'], u['byKind'])
 
 
 if __name__ == '__main__':

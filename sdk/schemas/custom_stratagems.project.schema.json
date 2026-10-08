@@ -1093,6 +1093,9 @@
        {
         "additionalProperties": false,
         "properties": {
+         "allow_shared": {
+          "type": "boolean"
+         },
          "family": {
           "const": "weapon"
          },

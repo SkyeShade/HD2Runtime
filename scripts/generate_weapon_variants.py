@@ -2,10 +2,15 @@
 (research/docs/weapon-variants-F5FEE03DCFDB.md) from research/weapon-variants-F5FEE03DCFDB.json
 (scripts/research_weapon_variants.py):
 
-* each variant HOST (the M-1000 Maxigun): its pool (itself: the only support weapon with its component set), its four
-  written records (index row, record, owner count 1, an FNV-1a of the native bytes), the presentation members (the
-  clone's three, native bytes), its native round (ProjectileWeapon +0) and model (UnitComponent +0 UnitPath) members;
-* the host's MODEL facts a derived Runtime-owned model must match (the SDK build derives it from the same unit):
+* each variant HOST (every support weapon with exclusively owned written records and a stratagem of its own, 2026-10-08;
+  first the M-1000 Maxigun): its pool (itself: a variant converts its own type), its written records (index row,
+  record, owner count 1, an FNV-1a of the native bytes), the presentation members (the clone's three, native bytes),
+  its native round (ProjectileWeapon +0; none for a beam, arc or spray weapon) and model (UnitComponent +0 UnitPath)
+  members, and `shared`: who else brings the type (world loot, another hellpod rack), whose copies a conversion
+  converts too (the variant then needs allow_shared);
+* the EXCLUDED support weapons with the reason (a shared written record, no stratagem of its own);
+* each host's MODEL facts a derived Runtime-owned model must match (the SDK build derives it from the same unit; a host
+  whose body material keeps its LUT outside its own archive has none, `modelRefused` says why):
   the package archive it ships beside, the unit's sizes and SHA-256s, its material list and body material, the
   material LUT texture and its format;
 * the UnitPath consumer pins (every lookup call site and type-table read, reviewed), which runtime/weapon_clone.lua
@@ -39,11 +44,15 @@ def build() -> dict:
     for name, h in research['hosts'].items():
         if any(r['ownerCount'] != 1 for r in h['records'].values()):
             raise ValueError(name + ': a variant host record is shared')
-        if h['pool'] != [name] or len(h['componentClass']) != 1:
-            raise ValueError(name + ': a variant host converts its own type only (its class is itself)')
+        if h['pool'] != [name]:
+            raise ValueError(name + ': a variant host converts its own type only')
+        if (h['round'] is None) != (h['projectile'] is None) or (h['round'] is None) != (
+                'ProjectileWeaponComponentData' not in h['records']):
+            raise ValueError(name + ': a round needs the host\'s own ProjectileWeapon record')
         hosts[name] = {'entity': h['entity'], 'stratagem': h['stratagem'], 'pool': h['pool'],
             'records': h['records'], 'presentation': h['presentation'], 'markerKind': h['markerKind'],
-            'projectile': h['projectile'], 'round': h['round'], 'model': h['model']}
+            'projectile': h['projectile'], 'round': h['round'], 'model': h['model'],
+            'shared': h['shared'] or None, 'componentClass': h['componentClass']}
     models = {}
     for name, m in research['models'].items():
         if m['unit']['resource'] != hosts[name]['model']['unit']:
@@ -60,7 +69,11 @@ def build() -> dict:
     uses = research['unitPathConsumers']
     if any(not s['kind'] for s in uses['sites']):
         raise ValueError('an unreviewed UnitPath consumer')
+    excluded = {name: e['reason'] for name, e in research['excluded'].items()}
+    if set(excluded) & set(hosts):
+        raise ValueError('a weapon is both a host and excluded')
     return {'source': {'research': RESEARCH.name, 'build': research['build']}, 'hosts': hosts, 'models': models,
+        'excluded': excluded, 'modelRefused': research['modelRefused'],
         'unitPins': [{'rva': int(p['rva']) if isinstance(p['rva'], int) else int(str(p['rva']), 0), 'hex': p['hex'],
             'label': p['label']} for p in uses['pins']],
         'types': {'unit': '0xE0A48D0BE9A7453F', 'material': '0xEAC0B497876ADEDF', 'texture': '0xCD4238C6A0C69E32'}}

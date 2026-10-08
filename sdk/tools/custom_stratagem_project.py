@@ -469,8 +469,18 @@ def validate(project: dict, schema: dict) -> list[str]:
             hosts = _names(schema, 'variantDonors')
             host = hosts.get(payload.get('weapon'))
             if not host:
-                problems.add(pw + '.weapon', 'must be a reviewed variant weapon: ' + ', '.join(sorted(hosts)))
-            if 'round' in payload and host is not None:
+                problems.add(pw + '.weapon', 'must be a reviewed variant weapon: ' + ', '.join(sorted(
+                    n for n, h in hosts.items() if h.get('deliverable', True))))
+            elif not host.get('deliverable', True):
+                problems.add(pw + '.weapon', 'cannot be delivered: ' + str(host.get('refused')))
+            if 'allow_shared' in payload and not isinstance(payload['allow_shared'], bool):
+                problems.add(pw + '.allow_shared', 'must be true or false')
+            if host is not None and host.get('shared') and payload.get('allow_shared') is not True:
+                problems.add(pw + '.allow_shared', 'must be true: the %s variant converts a shared type (%s)' % (
+                    host['name'], '; '.join(host['shared'])))
+            if 'round' in payload and host is not None and host.get('round') is False:
+                problems.add(pw + '.round', 'the %s fires no projectile: it has no round' % host['name'])
+            elif 'round' in payload and host is not None:
                 outputs = [r['output'] for r in host.get('rounds', [])]
                 if payload['round'] not in outputs:
                     problems.add(pw + '.round', 'must be a round of the %s\'s own compatibility class: %s' % (
@@ -645,7 +655,7 @@ def _payload_lua(payload: dict) -> tuple[str, str]:
         if 'round' in body:
             body['round'] = _Expr('hd2.attack_output(%s)' % _lua_string(body['round']))
         return 'delivery', _lua_value((('family', 'weapon'),) + _ordered(body, ('weapon', 'presentation', 'round',
-            'model', 'model_use')))
+            'model', 'model_use', 'allow_shared')))
     if family == 'pelican':
         for key, order in (('orbit', ('radius', 'altitude', 'duration', 'period', 'entry')),
                 ('approach', ('distance', 'height')), ('gun', PELICAN_GUN_ORDER)):

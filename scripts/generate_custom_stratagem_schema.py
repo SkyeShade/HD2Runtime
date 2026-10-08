@@ -257,8 +257,13 @@ for _,name in ipairs(WCL.variants())do
         end
     end
     table.sort(rounds,function(a,c)return a.output<c.output end)
+    -- shared: who else brings the type (world loot, another pod): then allow_shared; deliverable: its own pod is an
+    -- authored support delivery (else registration refuses, with the reason); round: whether it has a ProjectileWeapon.
+    local delivery,why=custom.support_delivery(name)
     variant_list[#variant_list+1]={name=name,stableId=catalog.stratagems[name].root.id,projectile=host.projectile,
-        compatibilityClass=own and own.compatibilityClass or nil,rounds=json.array(rounds),packageKnown=package_known(name)}
+        compatibilityClass=own and own.compatibilityClass or nil,rounds=json.array(rounds),packageKnown=package_known(name),
+        round=host.round~=nil,shared=host.shared and json.array(host.shared)or nil,deliverable=delivery~=nil,
+        refused=delivery==nil and tostring(why)or nil}
 end
 out.variantDonors=json.array(variant_list)
 out.uses={min=1,max=custom.MAX_USES}
@@ -514,11 +519,13 @@ def build(facts: dict | None = None) -> dict:
     VD = facts['variantDonors']
     variant_family = {
         'family': 'weapon', 'apiField': 'delivery', 'builder': True,
-        'doc': 'a mission-scoped VARIANT of a support weapon on its OWN type (no clone carrier): its presentation, its '
-               'round (another output of its own compatibility class) and optionally the mod\'s own model change for '
-               'the mission and are restored aboard the ship. Its own vanilla pod delivers it with its own items (the '
-               'Maxigun\'s backpack too). A host no other type can carry has no fallback: while a lobby member brings it '
-               'natively the variant is unavailable, and a selected variant blocks it in the native picker',
+        'doc': 'a mission-scoped VARIANT of a support weapon on its OWN type (no clone carrier; any variantDonors[] '
+               'host whose deliverable is true): its presentation, its round (another output of its own compatibility '
+               'class; none for a host whose round is false) and optionally the mod\'s own model change for the mission '
+               'and are restored aboard the ship. Its own vanilla pod delivers it with its own items (the Maxigun\'s '
+               'backpack too). No fallback: while a lobby member brings it natively the variant is unavailable, and a '
+               'selected variant blocks it in the native picker. A host with shared[] (world loot or another pod also '
+               'brings the type: those copies convert too) needs allow_shared = true',
         'carrier': {'beacon': ['support'], 'groups': ['weapon']},
         'fields': {
             'weapon': {'type': 'variant_donor', 'catalog': 'variantDonors', 'reviewedDonor': True, 'required': True,
@@ -535,12 +542,16 @@ def build(facts: dict | None = None) -> dict:
             'model': {'type': 'model', 'optional': True,
                 'doc': 'the id of one of the mod\'s models (models/<id>.json, a Runtime-owned unit beside the vanilla '
                        'one: docs/custom-models.md); a builder without a model pipeline leaves it out'},
+            'allow_shared': {'type': 'boolean', 'optional': True,
+                'doc': 'required true for a host with shared[] (variantDonors[].shared): the author\'s consent that '
+                       'world loot and other pods\' copies of the type convert too; never added by a builder'},
             'model_use': {'type': 'enum', 'values': ['apply', 'check'], 'optional': True, 'default': 'apply',
                 'doc': 'apply: the weapon shows the model; check: only checks at mission start that the model is '
                        'loaded and exact (the vanilla model stays). Needs model. (A Lua mod may pass a Mod Options '
                        'choice of these.)'}},
-        'notes': ['compiles to delivery = {family = \'weapon\', ...}', 'live-proven solo (the LAS-1000 Laser Maxigun: '
-                  'the LAS-58 Talon\'s round and a debug model on the M-1000 Maxigun); not tried with several players']}
+        'notes': ['compiles to delivery = {family = \'weapon\', ...}', 'live-proven solo on the M-1000 Maxigun (the '
+                  'LAS-1000 Laser Maxigun: the LAS-58 Talon\'s round and a debug model); every other host is offline '
+                  'only; not tried with several players']}
     # How far each payload family is live-tested (a builder's badges; docs/live-evidence.md and
     # docs/custom-stratagem-api.md hold the detail). live: used in real missions; partial: some of it; offline: built and
     # tested offline only.

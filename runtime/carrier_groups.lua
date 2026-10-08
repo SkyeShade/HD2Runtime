@@ -25,8 +25,9 @@
 --                never reloadable: EAT-17, EAT-700, EAT-411, MLS-4X Commando, MGX-42 Bullet Storm;
 --                runtime/weapon_carriers.lua members()); a member carries a donor's clone only when it is
 --                clone-compatible with it (the donor's component class: the EAT-17's pool stays EAT-700, EAT-411)
---   weapon      a support weapon's OWN stratagem for its mission-scoped VARIANT (family 'weapon': the M-1000 Maxigun, the
---                only member of its component class, so its own type is its only carrier): its row presents as the
+--   weapon      a support weapon's OWN stratagem for its mission-scoped VARIANT (family 'weapon': every support weapon
+--                with exclusively owned records and a stratagem of its own, 26 of 27; its own type is its only
+--                carrier, `shared` names who else brings the type: then allow_shared): its row presents as the
 --                custom stratagem and answers to its code, its own type is the variant, its own pod delivers it (with
 --                its backpack); a separate support carrier throws the beacon only when that row cannot (e.g. not
 --                owned). A lobby member bringing the weapon makes the variant unavailable; the selected variant blocks
@@ -184,9 +185,17 @@ function M.catalogue()
         elseif g.variant then
             -- The weapon group: each variant host is its own (and only) carrier.
             local members={}
-            for k,name in ipairs(require('hd2runtime/runtime/weapon_clone').variants())do
+            local clone=require('hd2runtime/runtime/weapon_clone')
+            local custom=require('hd2runtime/runtime/custom_stratagems')
+            for k,name in ipairs(clone.variants())do
+                local h=clone.variant(name)
+                -- A host whose own pod is not an authored support delivery (the TX-41 Sterilizer: its rack item has no
+                -- resolvable pickup name; the MS-11 Solo Silo: it delivers a deployable) cannot be registered: refused
+                -- names why, and carries is empty.
+                local d,why=custom.support_delivery(name)
                 members[k]={name=name,stable_id=require('hd2runtime/runtime/weapon_carriers').stable_id(name),
-                    clone_class={name},carries={name},refused={}}
+                    clone_class={name},carries=d and{name}or{},refused=d and{}or{name..': '..tostring(why)},
+                    shared=h.shared,round=h.round~=nil}
             end
             out[#out].members=members
         end

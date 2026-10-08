@@ -14,7 +14,12 @@ The production module runs against the snapshot's real entity region, game.dll a
 * the MODEL: as the snapshot is, the mod's unit is not loaded (MODEL_NO_BUILD_RECORD / MODEL_NOT_RESIDENT, nothing
   written); with a build record and the three resources simulated loaded, UnitPath = the model's unit name hash, every
   other byte unchanged, exact restore;
-* the guards: CONFLICT on restore, NOT_NATIVE, CARRIER_PRESENT; aboard the ship NOT_IN_MISSION.
+* the guards: CONFLICT on restore, NOT_NATIVE, CARRIER_PRESENT; aboard the ship NOT_IN_MISSION;
+* EVERY variant host (26 support weapons, 2026-10-08): its records where the research found them, one owner each,
+  their exact native bytes (read-only inspect); in a live mission, a host with no entity in the world converts and
+  restores exactly: with a round (the LAS-58 Talon's 144, or the Maxigun's 306 for a host that fires 144; package
+  simulated resident) ProjType alone changes; without a ProjectileWeapon (beam, arc, spray) a round is refused NO_ROUND
+  and the presentation-only variant applies; a host whose entities exist is refused CARRIER_PRESENT, nothing written.
 """
 from __future__ import annotations
 
@@ -42,6 +47,7 @@ local world,why=world_module.open()
 assert(world,why)
 local HOST='M-1000 Maxigun'
 local c=V.hosts[HOST]
+local function use(name)HOST=name;c=V.hosts[name]end
 local out={}
 local proven,pwhy=clone.prove(world)
 local uproven,uwhy=clone.prove_model_consumers(world)
@@ -230,6 +236,45 @@ if out.mission then
   out.present={status=cp.status,code=cp.code,writes=#writes}
  end
 end
+-- 4. Every variant host.
+use('M-1000 Maxigun')
+local names={}
+for name in pairs(V.hosts)do names[#names+1]=name end
+table.sort(names)
+out.hosts={}
+for _,name in ipairs(names)do
+ use(name)
+ reset()
+ local r={round=c.round~=nil,shared=c.shared~=nil}
+ local ins,icode,ireason=clone.inspect(world,name,true)
+ r.inspect=ins and{native=ins.native,records=ins.records}or{code=icode,reason=ireason}
+ r.native=native_all()
+ r.instances=clone.instances(world,c.entity)
+ if out.mission then
+  local round
+  if c.round then
+   round={type=c.projectile==144 and 306 or 144,package='0x0123456789ABCDEF',label='validation round'}
+   adapter.package_state=function(id)if id==round.package then return'resident'end;return real_state(id)end
+  else
+   reset()
+   local nr=settle(clone.apply({carrier=name,variant=true,round={type=144,package='0x0123456789ABCDEF',label='x'},
+    multiplayer=multiplayer}))
+   r.noRound={status=nr.status,code=nr.code,writes=#writes}
+  end
+  reset()
+  local before=snapshot_records()
+  local h=settle(clone.apply({carrier=name,variant=true,round=round,multiplayer=multiplayer}))
+  r.apply={status=h.status,code=h.code,reason=h.reason,writes=#writes}
+  if h.status=='applied'then
+   local e={}
+   if round then e[1]={at=member_at(c.round),value=b.encode(round.type,'u32')}end
+   for k,v in pairs(check(before,e))do r.apply[k]=v end
+  end
+  adapter.package_state=nil
+ end
+ out.hosts[name]=r
+end
+use('M-1000 Maxigun')
 reset()
 return json.encode(out)
 '''
@@ -287,6 +332,39 @@ def problems_of(report: dict, phase: str) -> list[str]:
     cp = report.get('present')
     if cp and not (cp['status'] == 'refused' and cp['code'] == 'CARRIER_PRESENT' and cp['writes'] == 0):
         problems.append('carrier present: %r' % cp)
+    problems += hosts_problems(report, live)
+    return problems
+
+
+def hosts_problems(report: dict, live: bool) -> list[str]:
+    """Every variant host: in place and native; in a live mission, converted and restored exactly (or refused)."""
+    problems = []
+    hosts = report.get('hosts') or {}
+    if len(hosts) < 26:
+        problems.append('only %d variant hosts checked' % len(hosts))
+    for name, h in sorted(hosts.items()):
+        if not (h['inspect'].get('native') and h['native']):
+            problems.append('%s: records not in place or not native: %r' % (name, h['inspect']))
+        if not live:
+            continue
+        a = h['apply']
+        if h['instances'] and h['instances'] > 0:
+            if not (a['status'] == 'refused' and a['code'] == 'CARRIER_PRESENT' and a['writes'] == 0):
+                problems.append('%s: entities present, yet %r' % (name, a))
+            continue
+        if a['status'] != 'applied':
+            problems.append('%s: %r' % (name, a))
+            continue
+        want = 1 if h['round'] else 0
+        if a['writes'] != want or a.get('mismatch') or a['outside'] or a['otherBytesChanged'] \
+                or not a['protectionRestored']:
+            problems.append('%s: the conversion: %r' % (name, a))
+        if not (a['restore']['status'] == 'restored' and a['restore']['exact'] and a['nativeAfter'] and a['identical']):
+            problems.append('%s: the restore: %r' % (name, a['restore']))
+        if not h['round']:
+            nr = h.get('noRound') or {}
+            if not (nr.get('status') == 'refused' and nr.get('code') == 'NO_ROUND' and nr.get('writes') == 0):
+                problems.append('%s: a round on a host without one: %r' % (name, nr))
     return problems
 
 

@@ -4239,7 +4239,7 @@ return function(frame,watches,counts,lines)
  for k,pair in ipairs(saved and saved.pairs or{})do ids[k]=pair.id end
  local present,who=custom.lobby_picks(world,ids)
  local WC=require('hd2runtime/runtime/weapon_carriers')
- local reason2,weapon=WC.unavailable('laser_maxigun','M-1000 Maxigun',present,{},{who=who})
+ local reason2,weapon=WC.unavailable('laser_maxigun','M-1000 Maxigun',present,{},{who=who,variant=true})
  local mine=present[WC.stable_id('M-1000 Maxigun')]
  step('the availability against the real loadout and records (read-only; no fallback): '..tostring(reason2 or
   ('available, carrier weapon '..tostring(weapon and weapon.weapon))),(mine and reason2~=nil)

@@ -70,18 +70,37 @@ local NAMES={}
 for name in pairs(D.components)do NAMES[#NAMES+1]=name end
 table.sort(NAMES)
 
--- The clone hosts of a donor, in pool order (nil: not a clone donor).
-function M.pool(donor)
-    local d=D.donors[donor]or V.hosts[donor]
+-- A carrier's reviewed facts: a variant host's own (variant = true), else a clone carrier's, else a variant host's. A
+-- weapon can be both (the EAT-700: a carrier of the EAT-17 clone, and a variant host), and the two differ: a clone
+-- carrier's presentation borrows the DONOR's values, a variant's its own.
+local function facts(carrier,variant)
+    if variant then return V.hosts[carrier]end
+    return D.carriers[carrier]or V.hosts[carrier]
+end
+-- The clone hosts of a donor, in pool order (nil: not a clone donor). variant = true: a variant's pool (the weapon
+-- itself), even for a weapon that is also a clone donor (the EAT-17).
+function M.pool(donor,variant)
+    local d
+    if variant then d=V.hosts[donor]else d=D.donors[donor]end
     if not d then return nil end
     local out={}
     for k,name in ipairs(d.pool)do out[k]=name end
     return out
 end
-function M.donor(name)return D.donors[name]or V.hosts[name]end
+-- A clone DONOR's reviewed facts (domains/weapon_clone.lua donors), or nil. A variant host is not a clone donor.
+function M.donor(name)return D.donors[name]end
+-- Every clone donor, sorted.
+function M.donors()
+    local out={}
+    for name in pairs(D.donors)do out[#out+1]=name end
+    table.sort(out)
+    return out
+end
 function M.carrier(name)return D.carriers[name]or V.hosts[name]end
 -- A variant host's reviewed facts (its own type is its only carrier), or nil.
 function M.variant(name)return V.hosts[name]end
+-- Why a support weapon can have no variant (a shared written record, no stratagem of its own), or nil.
+function M.variant_excluded(name)return V.excluded and V.excluded[name]end
 function M.variants()
     local out={}
     for name in pairs(V.hosts)do out[#out+1]=name end
@@ -280,8 +299,8 @@ end
 
 -- The carrier's records as the game holds them now: {[component] = record (catalog.record: bytes, owner, offset)}, the
 -- entity region, or nil, code, reason. Inside a coroutine (the reader yields).
-local function capture(world,carrier)
-    local c=D.carriers[carrier]or V.hosts[carrier]
+local function capture(world,carrier,variant)
+    local c=facts(carrier,variant)
     local reader=Reader.new(world.runtime)
     require('hd2runtime/core/fingerprint').require(world.runtime)
     local roots=discover.locate(world.runtime,reader,profile,{entity=true})
@@ -393,7 +412,7 @@ end
 local function presentation_values(world,carrier,spec,donor)
     local out,borrowed={},{}
     local runtime=world.runtime
-    for _,p in ipairs((D.carriers[carrier]or V.hosts[carrier]).presentation)do
+    for _,p in ipairs(facts(carrier,spec.variant==true).presentation)do
         local value=b.unhex(p.donor)
         if p.role=='name'and spec.name then
             local registered,code,reason=texts.ensure(runtime)
@@ -594,6 +613,9 @@ function M.variant_body(spec)
             or type(round.package)~='string'then
             return nil,'INVALID','round must be {type, package, label}'
         end
+        if not c.round then
+            return nil,'NO_ROUND','the '..spec.carrier..' fires no projectile (no ProjectileWeapon): it has no round to change'
+        end
         if round.type==c.projectile then round=nil end
     end
     if spec.model~=nil and not models.issued(spec.model)then
@@ -619,7 +641,7 @@ function M.variant_body(spec)
             ..'or a join in progress): converting now would leave them vanilla'):format(present,spec.carrier,
             present==1 and'y'or'ies')
     end
-    local records,rcode,rreason=capture(world,spec.carrier)
+    local records,rcode,rreason=capture(world,spec.carrier,true)
     if not records then return nil,rcode,rreason end
     for component,r in pairs(c.records)do
         if fnv1a(records[component].bytes)~=r.fnv1a then
@@ -774,11 +796,11 @@ end
 function M.state(carrier)return states[carrier]end
 -- Read-only, within this call: whether a clone host's records are where the research found them (one owner each, the
 -- game's type tables pointing at them) and hold exactly their native bytes. {native, records = n}, or nil, code, reason.
-function M.inspect(world,carrier)
-    local c=D.carriers[carrier]or V.hosts[carrier]
+function M.inspect(world,carrier,variant)
+    local c=facts(carrier,variant)
     if not c then return nil,'UNREVIEWED',tostring(carrier)..' is not a reviewed clone host'end
     return run(function()
-        local records,code,reason=capture(world,carrier)
+        local records,code,reason=capture(world,carrier,variant)
         if not records then return nil,code,reason end
         local native,n=true,0
         for component,r in pairs(c.records)do

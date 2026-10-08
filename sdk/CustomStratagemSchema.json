@@ -4624,7 +4624,7 @@
     "name": "MS-11 Solo Silo",
     "packageKnown": true,
     "rateSelector": false,
-    "reason": "MS-11 Solo Silo's rack has no active item"
+    "reason": "MS-11 Solo Silo's rack has no authored active slot (its pod is not a reviewed pickup rack: an item with no resolvable pickup name, or a deployable; domains/pod_payload_authoring.lua)"
    },
    {
     "count": 1,
@@ -4773,15 +4773,751 @@
     "name": "TX-41 Sterilizer",
     "packageKnown": true,
     "rateSelector": false,
-    "reason": "TX-41 Sterilizer's rack has no active item"
+    "reason": "TX-41 Sterilizer's rack has no authored active slot (its pod is not a reviewed pickup rack: an item with no resolvable pickup name, or a deployable; domains/pod_payload_authoring.lua)"
    }
   ],
   "variantDonors": [
    {
+    "deliverable": true,
+    "name": "40-K Meltagun",
+    "packageKnown": true,
+    "round": false,
+    "rounds": [],
+    "stableId": 774795224
+   },
+   {
+    "compatibilityClass": "explosive_shrapnel",
+    "deliverable": true,
+    "name": "AC-8 Autocannon",
+    "packageKnown": true,
+    "projectile": 115,
+    "round": true,
+    "rounds": [
+     {
+      "label": "EAT-700 Expendable Napalm",
+      "output": "output/v1/projectile/eat-700-expendable-napalm"
+     },
+     {
+      "label": "GL-28 Belt-Fed Grenade Launcher",
+      "output": "output/v1/projectile/gl-28-belt-fed-grenade-launcher"
+     },
+     {
+      "label": "R-36 Eruptor",
+      "output": "output/v1/projectile/r-36-eruptor"
+     },
+     {
+      "label": "RL-77 Airburst Rocket Launcher",
+      "output": "output/v1/projectile/rl-77-airburst-rocket-launcher"
+     }
+    ],
+    "stableId": 875551083
+   },
+   {
     "compatibilityClass": "conventional_plain",
+    "deliverable": true,
+    "name": "APW-1 Anti-Materiel Rifle",
+    "packageKnown": true,
+    "projectile": 226,
+    "round": true,
+    "rounds": [
+     {
+      "label": "AR-11 Arbitrator",
+      "output": "output/v1/projectile/ar-11-arbitrator"
+     },
+     {
+      "label": "AR-2 Coyote",
+      "output": "output/v1/projectile/ar-2-coyote"
+     },
+     {
+      "label": "AR-23 Liberator",
+      "output": "output/v1/projectile/ar-23-liberator"
+     },
+     {
+      "label": "AR-23A Liberator Carbine",
+      "output": "output/v1/projectile/ar-23a-liberator-carbine"
+     },
+     {
+      "label": "AR-23C Liberator Concussive",
+      "output": "output/v1/projectile/ar-23c-liberator-concussive"
+     },
+     {
+      "label": "AR-23P Liberator Penetrator",
+      "output": "output/v1/projectile/ar-23p-liberator-penetrator"
+     },
+     {
+      "label": "AR-32 Pacifier",
+      "output": "output/v1/projectile/ar-32-pacifier"
+     },
+     {
+      "label": "AR-59 Suppressor",
+      "output": "output/v1/projectile/ar-59-suppressor"
+     },
+     {
+      "label": "AR-61 Tenderizer",
+      "output": "output/v1/projectile/ar-61-tenderizer"
+     },
+     {
+      "label": "AR/GL-21 One-Two",
+      "output": "output/v1/projectile/ar-gl-21-one-two"
+     },
+     {
+      "label": "BR-14 Adjudicator",
+      "output": "output/v1/projectile/br-14-adjudicator"
+     },
+     {
+      "label": "EXO-45 Patriot Exosuit / right_gun",
+      "output": "output/v1/projectile/exo-45-patriot-exosuit-right-gun"
+     },
+     {
+      "label": "EXO-55 Breakthrough Exosuit / right_gun",
+      "output": "output/v1/projectile/exo-55-breakthrough-exosuit-right-gun"
+     },
+     {
+      "label": "FRV (Super Earth variant) / gun",
+      "output": "output/v1/projectile/frv-super-earth-variant-gun"
+     },
+     {
+      "label": "JAR-5 Dominator",
+      "output": "output/v1/projectile/jar-5-dominator"
+     },
+     {
+      "label": "LAS-12 Sai",
+      "output": "output/v1/projectile/las-12-sai"
+     },
+     {
+      "label": "LAS-16 Sickle",
+      "output": "output/v1/projectile/las-16-sickle"
+     },
+     {
+      "label": "LAS-58 Talon",
+      "output": "output/v1/projectile/las-58-talon"
+     },
+     {
+      "label": "M-1000 Maxigun",
+      "output": "output/v1/projectile/m-1000-maxigun"
+     },
+     {
+      "label": "M-102 Gunner FRV / gun",
+      "output": "output/v1/projectile/m-102-gunner-frv-gun"
+     },
+     {
+      "label": "M-103 Supply FRV / gun",
+      "output": "output/v1/projectile/m-103-supply-frv-gun"
+     },
+     {
+      "label": "M-105 Stalwart",
+      "output": "output/v1/projectile/m-105-stalwart"
+     },
+     {
+      "label": "M6C/SOCOM Pistol",
+      "output": "output/v1/projectile/m6c-socom-pistol"
+     },
+     {
+      "label": "M7S SMG",
+      "output": "output/v1/projectile/m7s-smg"
+     },
+     {
+      "label": "M90A Shotgun",
+      "output": "output/v1/projectile/m90a-shotgun"
+     },
+     {
+      "label": "MA5C Assault Rifle",
+      "output": "output/v1/projectile/ma5c-assault-rifle"
+     },
+     {
+      "label": "MG-206 Heavy Machine Gun",
+      "output": "output/v1/projectile/mg-206-heavy-machine-gun"
+     },
+     {
+      "label": "MP-98 Knight",
+      "output": "output/v1/projectile/mp-98-knight"
+     },
+     {
+      "label": "P-11 Stim Pistol",
+      "output": "output/v1/projectile/p-11-stim-pistol"
+     },
+     {
+      "label": "P-113 Verdict",
+      "output": "output/v1/projectile/p-113-verdict"
+     },
+     {
+      "label": "P-35 Re-Educator",
+      "output": "output/v1/projectile/p-35-re-educator"
+     },
+     {
+      "label": "P-69 Veto",
+      "output": "output/v1/projectile/p-69-veto"
+     },
+     {
+      "label": "R-2 Amendment",
+      "output": "output/v1/projectile/r-2-amendment"
+     },
+     {
+      "label": "R-4 Hyena",
+      "output": "output/v1/projectile/r-4-hyena"
+     },
+     {
+      "label": "R/40-K Hot-Shot Marksman Rifle",
+      "output": "output/v1/projectile/r-40-k-hot-shot-marksman-rifle"
+     },
+     {
+      "label": "R-6 Deadeye",
+      "output": "output/v1/projectile/r-6-deadeye"
+     },
+     {
+      "label": "R-63 Diligence",
+      "output": "output/v1/projectile/r-63-diligence"
+     },
+     {
+      "label": "R-63CS Diligence Counter Sniper",
+      "output": "output/v1/projectile/r-63cs-diligence-counter-sniper"
+     },
+     {
+      "label": "R-72 Censor",
+      "output": "output/v1/projectile/r-72-censor"
+     },
+     {
+      "label": "RS-422 Railgun",
+      "output": "output/v1/projectile/rs-422-railgun"
+     },
+     {
+      "label": "SG-225 Breaker",
+      "output": "output/v1/projectile/sg-225-breaker"
+     },
+     {
+      "label": "SG-225IE Breaker Incendiary",
+      "output": "output/v1/projectile/sg-225ie-breaker-incendiary"
+     },
+     {
+      "label": "SG-225SP Breaker Spray&Pray",
+      "output": "output/v1/projectile/sg-225sp-breaker-spray-pray"
+     },
+     {
+      "label": "SG-97 Sweeper",
+      "output": "output/v1/projectile/sg-97-sweeper"
+     },
+     {
+      "label": "SMG-203 Gallant",
+      "output": "output/v1/projectile/smg-203-gallant"
+     },
+     {
+      "label": "SMG-32 Reprimand",
+      "output": "output/v1/projectile/smg-32-reprimand"
+     },
+     {
+      "label": "SMG-72 Pummeler",
+      "output": "output/v1/projectile/smg-72-pummeler"
+     },
+     {
+      "label": "SMG/FLAM-34 Stoker",
+      "output": "output/v1/projectile/smg-flam-34-stoker"
+     },
+     {
+      "label": "StA-11 SMG",
+      "output": "output/v1/projectile/sta-11-smg"
+     },
+     {
+      "label": "StA-52 Assault Rifle",
+      "output": "output/v1/projectile/sta-52-assault-rifle"
+     },
+     {
+      "label": "TD-110 Maelstrom / slot_2",
+      "output": "output/v1/projectile/td-110-maelstrom-slot-2"
+     },
+     {
+      "label": "VG-70 Variable",
+      "output": "output/v1/projectile/vg-70-variable"
+     }
+    ],
+    "shared": [
+     "world loot: the mission's loot tables hold this type, and a found copy is converted too",
+     "also delivered by JammedPinata: those copies are converted too"
+    ],
+    "stableId": 2207713849
+   },
+   {
+    "deliverable": true,
+    "name": "ARC-3 Arc Thrower",
+    "packageKnown": true,
+    "round": false,
+    "rounds": [],
+    "shared": [
+     "world loot: the mission's loot tables hold this type, and a found copy is converted too"
+    ],
+    "stableId": 992079466
+   },
+   {
+    "deliverable": true,
+    "name": "B/FLAM-80 Cremator",
+    "packageKnown": true,
+    "round": false,
+    "rounds": [],
+    "stableId": 2271469939
+   },
+   {
+    "deliverable": true,
+    "name": "B/MD C4 Pack",
+    "packageKnown": true,
+    "round": false,
+    "rounds": [],
+    "stableId": 3748434442
+   },
+   {
+    "deliverable": true,
+    "name": "CQC-1 One True Flag",
+    "packageKnown": true,
+    "round": false,
+    "rounds": [],
+    "stableId": 2265180087
+   },
+   {
+    "deliverable": true,
+    "name": "CQC-20 Breaching Hammer",
+    "packageKnown": true,
+    "round": false,
+    "rounds": [],
+    "stableId": 3330450692
+   },
+   {
+    "deliverable": true,
+    "name": "CQC-9 Defoliation Tool",
+    "packageKnown": true,
+    "round": false,
+    "rounds": [],
+    "stableId": 3572024208
+   },
+   {
+    "compatibilityClass": "explosive_impact",
+    "deliverable": true,
+    "name": "EAT-17 Expendable Anti-Tank",
+    "packageKnown": true,
+    "projectile": 132,
+    "round": true,
+    "rounds": [
+     {
+      "label": "CB-9 Exploding Crossbow",
+      "output": "output/v1/projectile/cb-9-exploding-crossbow"
+     },
+     {
+      "label": "EAT-411 Leveller",
+      "output": "output/v1/projectile/eat-411-leveller"
+     },
+     {
+      "label": "EXO-49 Emancipator Exosuit / left_gun",
+      "output": "output/v1/projectile/exo-49-emancipator-exosuit-left-gun"
+     },
+     {
+      "label": "EXO-49 Emancipator Exosuit / right_gun",
+      "output": "output/v1/projectile/exo-49-emancipator-exosuit-right-gun"
+     },
+     {
+      "label": "EXO-51 Lumberer Exosuit / right_gun",
+      "output": "output/v1/projectile/exo-51-lumberer-exosuit-right-gun"
+     },
+     {
+      "label": "GATER Oil Rig / turret",
+      "output": "output/v1/projectile/gater-oil-rig-turret"
+     },
+     {
+      "label": "GP-20 Ultimatum",
+      "output": "output/v1/projectile/gp-20-ultimatum"
+     },
+     {
+      "label": "GR-8 Recoilless Rifle",
+      "output": "output/v1/projectile/gr-8-recoilless-rifle"
+     },
+     {
+      "label": "LAS-99 Quasar Cannon",
+      "output": "output/v1/projectile/las-99-quasar-cannon"
+     },
+     {
+      "label": "P/40-K Bolt Pistol",
+      "output": "output/v1/projectile/p-40-k-bolt-pistol"
+     },
+     {
+      "label": "PLAS-1 Scorcher",
+      "output": "output/v1/projectile/plas-1-scorcher"
+     },
+     {
+      "label": "PLAS-39 Accelerator Rifle",
+      "output": "output/v1/projectile/plas-39-accelerator-rifle"
+     },
+     {
+      "label": "S-11 Speargun",
+      "output": "output/v1/projectile/s-11-speargun"
+     },
+     {
+      "label": "S-11 Speargun (spare twin)",
+      "output": "output/v1/projectile/s-11-speargun-spare-twin"
+     },
+     {
+      "label": "SG-8P Punisher Plasma",
+      "output": "output/v1/projectile/sg-8p-punisher-plasma"
+     },
+     {
+      "label": "TD-220 Bastion MK XVI / attach_tank_gun",
+      "output": "output/v1/projectile/td-220-bastion-mk-xvi-attach-tank-gun"
+     }
+    ],
+    "shared": [
+     "world loot: the mission's loot tables hold this type, and a found copy is converted too",
+     "also delivered by LATOneshot_Booster: those copies are converted too"
+    ],
+    "stableId": 3413606544
+   },
+   {
+    "compatibilityClass": "explosive_impact",
+    "deliverable": true,
+    "name": "EAT-411 Leveller",
+    "packageKnown": true,
+    "projectile": 34,
+    "round": true,
+    "rounds": [
+     {
+      "label": "CB-9 Exploding Crossbow",
+      "output": "output/v1/projectile/cb-9-exploding-crossbow"
+     },
+     {
+      "label": "EAT-17 Expendable Anti-Tank",
+      "output": "output/v1/projectile/eat-17-expendable-anti-tank"
+     },
+     {
+      "label": "EXO-49 Emancipator Exosuit / left_gun",
+      "output": "output/v1/projectile/exo-49-emancipator-exosuit-left-gun"
+     },
+     {
+      "label": "EXO-49 Emancipator Exosuit / right_gun",
+      "output": "output/v1/projectile/exo-49-emancipator-exosuit-right-gun"
+     },
+     {
+      "label": "EXO-51 Lumberer Exosuit / right_gun",
+      "output": "output/v1/projectile/exo-51-lumberer-exosuit-right-gun"
+     },
+     {
+      "label": "GATER Oil Rig / turret",
+      "output": "output/v1/projectile/gater-oil-rig-turret"
+     },
+     {
+      "label": "GP-20 Ultimatum",
+      "output": "output/v1/projectile/gp-20-ultimatum"
+     },
+     {
+      "label": "GR-8 Recoilless Rifle",
+      "output": "output/v1/projectile/gr-8-recoilless-rifle"
+     },
+     {
+      "label": "LAS-99 Quasar Cannon",
+      "output": "output/v1/projectile/las-99-quasar-cannon"
+     },
+     {
+      "label": "P/40-K Bolt Pistol",
+      "output": "output/v1/projectile/p-40-k-bolt-pistol"
+     },
+     {
+      "label": "PLAS-1 Scorcher",
+      "output": "output/v1/projectile/plas-1-scorcher"
+     },
+     {
+      "label": "PLAS-39 Accelerator Rifle",
+      "output": "output/v1/projectile/plas-39-accelerator-rifle"
+     },
+     {
+      "label": "S-11 Speargun",
+      "output": "output/v1/projectile/s-11-speargun"
+     },
+     {
+      "label": "S-11 Speargun (spare twin)",
+      "output": "output/v1/projectile/s-11-speargun-spare-twin"
+     },
+     {
+      "label": "SG-8P Punisher Plasma",
+      "output": "output/v1/projectile/sg-8p-punisher-plasma"
+     },
+     {
+      "label": "TD-220 Bastion MK XVI / attach_tank_gun",
+      "output": "output/v1/projectile/td-220-bastion-mk-xvi-attach-tank-gun"
+     }
+    ],
+    "stableId": 2934950455
+   },
+   {
+    "compatibilityClass": "explosive_shrapnel",
+    "deliverable": true,
+    "name": "EAT-700 Expendable Napalm",
+    "packageKnown": true,
+    "projectile": 259,
+    "round": true,
+    "rounds": [
+     {
+      "label": "AC-8 Autocannon",
+      "output": "output/v1/projectile/ac-8-autocannon"
+     },
+     {
+      "label": "GL-28 Belt-Fed Grenade Launcher",
+      "output": "output/v1/projectile/gl-28-belt-fed-grenade-launcher"
+     },
+     {
+      "label": "R-36 Eruptor",
+      "output": "output/v1/projectile/r-36-eruptor"
+     },
+     {
+      "label": "RL-77 Airburst Rocket Launcher",
+      "output": "output/v1/projectile/rl-77-airburst-rocket-launcher"
+     }
+    ],
+    "stableId": 1813634375
+   },
+   {
+    "deliverable": true,
+    "name": "FAF-14 Spear",
+    "packageKnown": true,
+    "projectile": 225,
+    "round": true,
+    "rounds": [],
+    "shared": [
+     "world loot: the mission's loot tables hold this type, and a found copy is converted too"
+    ],
+    "stableId": 3923676543
+   },
+   {
+    "deliverable": true,
+    "name": "FLAM-40 Flamethrower",
+    "packageKnown": true,
+    "round": false,
+    "rounds": [],
+    "shared": [
+     "world loot: the mission's loot tables hold this type, and a found copy is converted too",
+     "also delivered by JammedPinata: those copies are converted too"
+    ],
+    "stableId": 1432571981
+   },
+   {
+    "compatibilityClass": "explosive_impact_and_expiry",
+    "deliverable": true,
+    "name": "GL-21 Grenade Launcher",
+    "packageKnown": true,
+    "projectile": 280,
+    "round": true,
+    "rounds": [
+     {
+      "label": "A/M-23 EMS Mortar Sentry",
+      "output": "output/v1/projectile/a-m-23-ems-mortar-sentry"
+     },
+     {
+      "label": "GL-15 Evictor",
+      "output": "output/v1/projectile/gl-15-evictor"
+     }
+    ],
+    "shared": [
+     "world loot: the mission's loot tables hold this type, and a found copy is converted too"
+    ],
+    "stableId": 3343676429
+   },
+   {
+    "compatibilityClass": "explosive_shrapnel",
+    "deliverable": true,
+    "name": "GL-28 Belt-Fed Grenade Launcher",
+    "packageKnown": true,
+    "projectile": 89,
+    "round": true,
+    "rounds": [
+     {
+      "label": "AC-8 Autocannon",
+      "output": "output/v1/projectile/ac-8-autocannon"
+     },
+     {
+      "label": "EAT-700 Expendable Napalm",
+      "output": "output/v1/projectile/eat-700-expendable-napalm"
+     },
+     {
+      "label": "R-36 Eruptor",
+      "output": "output/v1/projectile/r-36-eruptor"
+     },
+     {
+      "label": "RL-77 Airburst Rocket Launcher",
+      "output": "output/v1/projectile/rl-77-airburst-rocket-launcher"
+     }
+    ],
+    "stableId": 512147393
+   },
+   {
+    "compatibilityClass": "explosive_arc",
+    "deliverable": true,
+    "name": "GL-52 De-Escalator",
+    "packageKnown": true,
+    "projectile": 222,
+    "round": true,
+    "rounds": [],
+    "stableId": 153819019
+   },
+   {
+    "compatibilityClass": "explosive_impact",
+    "deliverable": true,
+    "name": "GR-8 Recoilless Rifle",
+    "packageKnown": true,
+    "projectile": 153,
+    "round": true,
+    "rounds": [
+     {
+      "label": "CB-9 Exploding Crossbow",
+      "output": "output/v1/projectile/cb-9-exploding-crossbow"
+     },
+     {
+      "label": "EAT-17 Expendable Anti-Tank",
+      "output": "output/v1/projectile/eat-17-expendable-anti-tank"
+     },
+     {
+      "label": "EAT-411 Leveller",
+      "output": "output/v1/projectile/eat-411-leveller"
+     },
+     {
+      "label": "EXO-49 Emancipator Exosuit / left_gun",
+      "output": "output/v1/projectile/exo-49-emancipator-exosuit-left-gun"
+     },
+     {
+      "label": "EXO-49 Emancipator Exosuit / right_gun",
+      "output": "output/v1/projectile/exo-49-emancipator-exosuit-right-gun"
+     },
+     {
+      "label": "EXO-51 Lumberer Exosuit / right_gun",
+      "output": "output/v1/projectile/exo-51-lumberer-exosuit-right-gun"
+     },
+     {
+      "label": "GATER Oil Rig / turret",
+      "output": "output/v1/projectile/gater-oil-rig-turret"
+     },
+     {
+      "label": "GP-20 Ultimatum",
+      "output": "output/v1/projectile/gp-20-ultimatum"
+     },
+     {
+      "label": "LAS-99 Quasar Cannon",
+      "output": "output/v1/projectile/las-99-quasar-cannon"
+     },
+     {
+      "label": "P/40-K Bolt Pistol",
+      "output": "output/v1/projectile/p-40-k-bolt-pistol"
+     },
+     {
+      "label": "PLAS-1 Scorcher",
+      "output": "output/v1/projectile/plas-1-scorcher"
+     },
+     {
+      "label": "PLAS-39 Accelerator Rifle",
+      "output": "output/v1/projectile/plas-39-accelerator-rifle"
+     },
+     {
+      "label": "S-11 Speargun",
+      "output": "output/v1/projectile/s-11-speargun"
+     },
+     {
+      "label": "S-11 Speargun (spare twin)",
+      "output": "output/v1/projectile/s-11-speargun-spare-twin"
+     },
+     {
+      "label": "SG-8P Punisher Plasma",
+      "output": "output/v1/projectile/sg-8p-punisher-plasma"
+     },
+     {
+      "label": "TD-220 Bastion MK XVI / attach_tank_gun",
+      "output": "output/v1/projectile/td-220-bastion-mk-xvi-attach-tank-gun"
+     }
+    ],
+    "stableId": 1298599997
+   },
+   {
+    "deliverable": true,
+    "name": "LAS-98 Laser Cannon",
+    "packageKnown": true,
+    "round": false,
+    "rounds": [],
+    "shared": [
+     "world loot: the mission's loot tables hold this type, and a found copy is converted too"
+    ],
+    "stableId": 2822568285
+   },
+   {
+    "compatibilityClass": "explosive_impact",
+    "deliverable": true,
+    "name": "LAS-99 Quasar Cannon",
+    "packageKnown": true,
+    "projectile": 133,
+    "round": true,
+    "rounds": [
+     {
+      "label": "CB-9 Exploding Crossbow",
+      "output": "output/v1/projectile/cb-9-exploding-crossbow"
+     },
+     {
+      "label": "EAT-17 Expendable Anti-Tank",
+      "output": "output/v1/projectile/eat-17-expendable-anti-tank"
+     },
+     {
+      "label": "EAT-411 Leveller",
+      "output": "output/v1/projectile/eat-411-leveller"
+     },
+     {
+      "label": "EXO-49 Emancipator Exosuit / left_gun",
+      "output": "output/v1/projectile/exo-49-emancipator-exosuit-left-gun"
+     },
+     {
+      "label": "EXO-49 Emancipator Exosuit / right_gun",
+      "output": "output/v1/projectile/exo-49-emancipator-exosuit-right-gun"
+     },
+     {
+      "label": "EXO-51 Lumberer Exosuit / right_gun",
+      "output": "output/v1/projectile/exo-51-lumberer-exosuit-right-gun"
+     },
+     {
+      "label": "GATER Oil Rig / turret",
+      "output": "output/v1/projectile/gater-oil-rig-turret"
+     },
+     {
+      "label": "GP-20 Ultimatum",
+      "output": "output/v1/projectile/gp-20-ultimatum"
+     },
+     {
+      "label": "GR-8 Recoilless Rifle",
+      "output": "output/v1/projectile/gr-8-recoilless-rifle"
+     },
+     {
+      "label": "P/40-K Bolt Pistol",
+      "output": "output/v1/projectile/p-40-k-bolt-pistol"
+     },
+     {
+      "label": "PLAS-1 Scorcher",
+      "output": "output/v1/projectile/plas-1-scorcher"
+     },
+     {
+      "label": "PLAS-39 Accelerator Rifle",
+      "output": "output/v1/projectile/plas-39-accelerator-rifle"
+     },
+     {
+      "label": "S-11 Speargun",
+      "output": "output/v1/projectile/s-11-speargun"
+     },
+     {
+      "label": "S-11 Speargun (spare twin)",
+      "output": "output/v1/projectile/s-11-speargun-spare-twin"
+     },
+     {
+      "label": "SG-8P Punisher Plasma",
+      "output": "output/v1/projectile/sg-8p-punisher-plasma"
+     },
+     {
+      "label": "TD-220 Bastion MK XVI / attach_tank_gun",
+      "output": "output/v1/projectile/td-220-bastion-mk-xvi-attach-tank-gun"
+     }
+    ],
+    "stableId": 2625074523
+   },
+   {
+    "compatibilityClass": "conventional_plain",
+    "deliverable": true,
     "name": "M-1000 Maxigun",
     "packageKnown": true,
     "projectile": 306,
+    "round": true,
     "rounds": [
      {
       "label": "APW-1 Anti-Materiel Rifle",
@@ -4993,6 +5729,846 @@
      }
     ],
     "stableId": 3455841218
+   },
+   {
+    "compatibilityClass": "conventional_plain",
+    "deliverable": true,
+    "name": "M-105 Stalwart",
+    "packageKnown": true,
+    "projectile": 276,
+    "round": true,
+    "rounds": [
+     {
+      "label": "APW-1 Anti-Materiel Rifle",
+      "output": "output/v1/projectile/apw-1-anti-materiel-rifle"
+     },
+     {
+      "label": "AR-11 Arbitrator",
+      "output": "output/v1/projectile/ar-11-arbitrator"
+     },
+     {
+      "label": "AR-2 Coyote",
+      "output": "output/v1/projectile/ar-2-coyote"
+     },
+     {
+      "label": "AR-23 Liberator",
+      "output": "output/v1/projectile/ar-23-liberator"
+     },
+     {
+      "label": "AR-23A Liberator Carbine",
+      "output": "output/v1/projectile/ar-23a-liberator-carbine"
+     },
+     {
+      "label": "AR-23C Liberator Concussive",
+      "output": "output/v1/projectile/ar-23c-liberator-concussive"
+     },
+     {
+      "label": "AR-23P Liberator Penetrator",
+      "output": "output/v1/projectile/ar-23p-liberator-penetrator"
+     },
+     {
+      "label": "AR-32 Pacifier",
+      "output": "output/v1/projectile/ar-32-pacifier"
+     },
+     {
+      "label": "AR-59 Suppressor",
+      "output": "output/v1/projectile/ar-59-suppressor"
+     },
+     {
+      "label": "AR-61 Tenderizer",
+      "output": "output/v1/projectile/ar-61-tenderizer"
+     },
+     {
+      "label": "AR/GL-21 One-Two",
+      "output": "output/v1/projectile/ar-gl-21-one-two"
+     },
+     {
+      "label": "BR-14 Adjudicator",
+      "output": "output/v1/projectile/br-14-adjudicator"
+     },
+     {
+      "label": "EXO-45 Patriot Exosuit / right_gun",
+      "output": "output/v1/projectile/exo-45-patriot-exosuit-right-gun"
+     },
+     {
+      "label": "EXO-55 Breakthrough Exosuit / right_gun",
+      "output": "output/v1/projectile/exo-55-breakthrough-exosuit-right-gun"
+     },
+     {
+      "label": "FRV (Super Earth variant) / gun",
+      "output": "output/v1/projectile/frv-super-earth-variant-gun"
+     },
+     {
+      "label": "JAR-5 Dominator",
+      "output": "output/v1/projectile/jar-5-dominator"
+     },
+     {
+      "label": "LAS-12 Sai",
+      "output": "output/v1/projectile/las-12-sai"
+     },
+     {
+      "label": "LAS-16 Sickle",
+      "output": "output/v1/projectile/las-16-sickle"
+     },
+     {
+      "label": "LAS-58 Talon",
+      "output": "output/v1/projectile/las-58-talon"
+     },
+     {
+      "label": "M-1000 Maxigun",
+      "output": "output/v1/projectile/m-1000-maxigun"
+     },
+     {
+      "label": "M-102 Gunner FRV / gun",
+      "output": "output/v1/projectile/m-102-gunner-frv-gun"
+     },
+     {
+      "label": "M-103 Supply FRV / gun",
+      "output": "output/v1/projectile/m-103-supply-frv-gun"
+     },
+     {
+      "label": "M6C/SOCOM Pistol",
+      "output": "output/v1/projectile/m6c-socom-pistol"
+     },
+     {
+      "label": "M7S SMG",
+      "output": "output/v1/projectile/m7s-smg"
+     },
+     {
+      "label": "M90A Shotgun",
+      "output": "output/v1/projectile/m90a-shotgun"
+     },
+     {
+      "label": "MA5C Assault Rifle",
+      "output": "output/v1/projectile/ma5c-assault-rifle"
+     },
+     {
+      "label": "MG-206 Heavy Machine Gun",
+      "output": "output/v1/projectile/mg-206-heavy-machine-gun"
+     },
+     {
+      "label": "MP-98 Knight",
+      "output": "output/v1/projectile/mp-98-knight"
+     },
+     {
+      "label": "P-11 Stim Pistol",
+      "output": "output/v1/projectile/p-11-stim-pistol"
+     },
+     {
+      "label": "P-113 Verdict",
+      "output": "output/v1/projectile/p-113-verdict"
+     },
+     {
+      "label": "P-35 Re-Educator",
+      "output": "output/v1/projectile/p-35-re-educator"
+     },
+     {
+      "label": "P-69 Veto",
+      "output": "output/v1/projectile/p-69-veto"
+     },
+     {
+      "label": "R-2 Amendment",
+      "output": "output/v1/projectile/r-2-amendment"
+     },
+     {
+      "label": "R-4 Hyena",
+      "output": "output/v1/projectile/r-4-hyena"
+     },
+     {
+      "label": "R/40-K Hot-Shot Marksman Rifle",
+      "output": "output/v1/projectile/r-40-k-hot-shot-marksman-rifle"
+     },
+     {
+      "label": "R-6 Deadeye",
+      "output": "output/v1/projectile/r-6-deadeye"
+     },
+     {
+      "label": "R-63 Diligence",
+      "output": "output/v1/projectile/r-63-diligence"
+     },
+     {
+      "label": "R-63CS Diligence Counter Sniper",
+      "output": "output/v1/projectile/r-63cs-diligence-counter-sniper"
+     },
+     {
+      "label": "R-72 Censor",
+      "output": "output/v1/projectile/r-72-censor"
+     },
+     {
+      "label": "RS-422 Railgun",
+      "output": "output/v1/projectile/rs-422-railgun"
+     },
+     {
+      "label": "SG-225 Breaker",
+      "output": "output/v1/projectile/sg-225-breaker"
+     },
+     {
+      "label": "SG-225IE Breaker Incendiary",
+      "output": "output/v1/projectile/sg-225ie-breaker-incendiary"
+     },
+     {
+      "label": "SG-225SP Breaker Spray&Pray",
+      "output": "output/v1/projectile/sg-225sp-breaker-spray-pray"
+     },
+     {
+      "label": "SG-97 Sweeper",
+      "output": "output/v1/projectile/sg-97-sweeper"
+     },
+     {
+      "label": "SMG-203 Gallant",
+      "output": "output/v1/projectile/smg-203-gallant"
+     },
+     {
+      "label": "SMG-32 Reprimand",
+      "output": "output/v1/projectile/smg-32-reprimand"
+     },
+     {
+      "label": "SMG-72 Pummeler",
+      "output": "output/v1/projectile/smg-72-pummeler"
+     },
+     {
+      "label": "SMG/FLAM-34 Stoker",
+      "output": "output/v1/projectile/smg-flam-34-stoker"
+     },
+     {
+      "label": "StA-11 SMG",
+      "output": "output/v1/projectile/sta-11-smg"
+     },
+     {
+      "label": "StA-52 Assault Rifle",
+      "output": "output/v1/projectile/sta-52-assault-rifle"
+     },
+     {
+      "label": "TD-110 Maelstrom / slot_2",
+      "output": "output/v1/projectile/td-110-maelstrom-slot-2"
+     },
+     {
+      "label": "VG-70 Variable",
+      "output": "output/v1/projectile/vg-70-variable"
+     }
+    ],
+    "shared": [
+     "world loot: the mission's loot tables hold this type, and a found copy is converted too"
+    ],
+    "stableId": 14345846
+   },
+   {
+    "compatibilityClass": "conventional_plain",
+    "deliverable": true,
+    "name": "MG-206 Heavy Machine Gun",
+    "packageKnown": true,
+    "projectile": 275,
+    "round": true,
+    "rounds": [
+     {
+      "label": "APW-1 Anti-Materiel Rifle",
+      "output": "output/v1/projectile/apw-1-anti-materiel-rifle"
+     },
+     {
+      "label": "AR-11 Arbitrator",
+      "output": "output/v1/projectile/ar-11-arbitrator"
+     },
+     {
+      "label": "AR-2 Coyote",
+      "output": "output/v1/projectile/ar-2-coyote"
+     },
+     {
+      "label": "AR-23 Liberator",
+      "output": "output/v1/projectile/ar-23-liberator"
+     },
+     {
+      "label": "AR-23A Liberator Carbine",
+      "output": "output/v1/projectile/ar-23a-liberator-carbine"
+     },
+     {
+      "label": "AR-23C Liberator Concussive",
+      "output": "output/v1/projectile/ar-23c-liberator-concussive"
+     },
+     {
+      "label": "AR-23P Liberator Penetrator",
+      "output": "output/v1/projectile/ar-23p-liberator-penetrator"
+     },
+     {
+      "label": "AR-32 Pacifier",
+      "output": "output/v1/projectile/ar-32-pacifier"
+     },
+     {
+      "label": "AR-59 Suppressor",
+      "output": "output/v1/projectile/ar-59-suppressor"
+     },
+     {
+      "label": "AR-61 Tenderizer",
+      "output": "output/v1/projectile/ar-61-tenderizer"
+     },
+     {
+      "label": "AR/GL-21 One-Two",
+      "output": "output/v1/projectile/ar-gl-21-one-two"
+     },
+     {
+      "label": "BR-14 Adjudicator",
+      "output": "output/v1/projectile/br-14-adjudicator"
+     },
+     {
+      "label": "EXO-45 Patriot Exosuit / right_gun",
+      "output": "output/v1/projectile/exo-45-patriot-exosuit-right-gun"
+     },
+     {
+      "label": "EXO-55 Breakthrough Exosuit / right_gun",
+      "output": "output/v1/projectile/exo-55-breakthrough-exosuit-right-gun"
+     },
+     {
+      "label": "FRV (Super Earth variant) / gun",
+      "output": "output/v1/projectile/frv-super-earth-variant-gun"
+     },
+     {
+      "label": "JAR-5 Dominator",
+      "output": "output/v1/projectile/jar-5-dominator"
+     },
+     {
+      "label": "LAS-12 Sai",
+      "output": "output/v1/projectile/las-12-sai"
+     },
+     {
+      "label": "LAS-16 Sickle",
+      "output": "output/v1/projectile/las-16-sickle"
+     },
+     {
+      "label": "LAS-58 Talon",
+      "output": "output/v1/projectile/las-58-talon"
+     },
+     {
+      "label": "M-1000 Maxigun",
+      "output": "output/v1/projectile/m-1000-maxigun"
+     },
+     {
+      "label": "M-102 Gunner FRV / gun",
+      "output": "output/v1/projectile/m-102-gunner-frv-gun"
+     },
+     {
+      "label": "M-103 Supply FRV / gun",
+      "output": "output/v1/projectile/m-103-supply-frv-gun"
+     },
+     {
+      "label": "M-105 Stalwart",
+      "output": "output/v1/projectile/m-105-stalwart"
+     },
+     {
+      "label": "M6C/SOCOM Pistol",
+      "output": "output/v1/projectile/m6c-socom-pistol"
+     },
+     {
+      "label": "M7S SMG",
+      "output": "output/v1/projectile/m7s-smg"
+     },
+     {
+      "label": "M90A Shotgun",
+      "output": "output/v1/projectile/m90a-shotgun"
+     },
+     {
+      "label": "MA5C Assault Rifle",
+      "output": "output/v1/projectile/ma5c-assault-rifle"
+     },
+     {
+      "label": "MP-98 Knight",
+      "output": "output/v1/projectile/mp-98-knight"
+     },
+     {
+      "label": "P-11 Stim Pistol",
+      "output": "output/v1/projectile/p-11-stim-pistol"
+     },
+     {
+      "label": "P-113 Verdict",
+      "output": "output/v1/projectile/p-113-verdict"
+     },
+     {
+      "label": "P-35 Re-Educator",
+      "output": "output/v1/projectile/p-35-re-educator"
+     },
+     {
+      "label": "P-69 Veto",
+      "output": "output/v1/projectile/p-69-veto"
+     },
+     {
+      "label": "R-2 Amendment",
+      "output": "output/v1/projectile/r-2-amendment"
+     },
+     {
+      "label": "R-4 Hyena",
+      "output": "output/v1/projectile/r-4-hyena"
+     },
+     {
+      "label": "R/40-K Hot-Shot Marksman Rifle",
+      "output": "output/v1/projectile/r-40-k-hot-shot-marksman-rifle"
+     },
+     {
+      "label": "R-6 Deadeye",
+      "output": "output/v1/projectile/r-6-deadeye"
+     },
+     {
+      "label": "R-63 Diligence",
+      "output": "output/v1/projectile/r-63-diligence"
+     },
+     {
+      "label": "R-63CS Diligence Counter Sniper",
+      "output": "output/v1/projectile/r-63cs-diligence-counter-sniper"
+     },
+     {
+      "label": "R-72 Censor",
+      "output": "output/v1/projectile/r-72-censor"
+     },
+     {
+      "label": "RS-422 Railgun",
+      "output": "output/v1/projectile/rs-422-railgun"
+     },
+     {
+      "label": "SG-225 Breaker",
+      "output": "output/v1/projectile/sg-225-breaker"
+     },
+     {
+      "label": "SG-225IE Breaker Incendiary",
+      "output": "output/v1/projectile/sg-225ie-breaker-incendiary"
+     },
+     {
+      "label": "SG-225SP Breaker Spray&Pray",
+      "output": "output/v1/projectile/sg-225sp-breaker-spray-pray"
+     },
+     {
+      "label": "SG-97 Sweeper",
+      "output": "output/v1/projectile/sg-97-sweeper"
+     },
+     {
+      "label": "SMG-203 Gallant",
+      "output": "output/v1/projectile/smg-203-gallant"
+     },
+     {
+      "label": "SMG-32 Reprimand",
+      "output": "output/v1/projectile/smg-32-reprimand"
+     },
+     {
+      "label": "SMG-72 Pummeler",
+      "output": "output/v1/projectile/smg-72-pummeler"
+     },
+     {
+      "label": "SMG/FLAM-34 Stoker",
+      "output": "output/v1/projectile/smg-flam-34-stoker"
+     },
+     {
+      "label": "StA-11 SMG",
+      "output": "output/v1/projectile/sta-11-smg"
+     },
+     {
+      "label": "StA-52 Assault Rifle",
+      "output": "output/v1/projectile/sta-52-assault-rifle"
+     },
+     {
+      "label": "TD-110 Maelstrom / slot_2",
+      "output": "output/v1/projectile/td-110-maelstrom-slot-2"
+     },
+     {
+      "label": "VG-70 Variable",
+      "output": "output/v1/projectile/vg-70-variable"
+     }
+    ],
+    "stableId": 533318241
+   },
+   {
+    "deliverable": true,
+    "name": "MG-43 Machine Gun",
+    "packageKnown": true,
+    "projectile": 148,
+    "round": true,
+    "rounds": [],
+    "shared": [
+     "world loot: the mission's loot tables hold this type, and a found copy is converted too",
+     "also delivered by JammedPinata, Machinegun_PresidentReward: those copies are converted too"
+    ],
+    "stableId": 458198946
+   },
+   {
+    "deliverable": true,
+    "name": "MGX-42 Bullet Storm",
+    "packageKnown": true,
+    "projectile": 61,
+    "round": true,
+    "rounds": [],
+    "stableId": 3288352984
+   },
+   {
+    "deliverable": true,
+    "name": "MLS-4X Commando",
+    "packageKnown": true,
+    "projectile": 245,
+    "round": true,
+    "rounds": [],
+    "stableId": 2232989803
+   },
+   {
+    "deliverable": false,
+    "name": "MS-11 Solo Silo",
+    "packageKnown": true,
+    "refused": "MS-11 Solo Silo's rack has no authored active slot (its pod is not a reviewed pickup rack: an item with no resolvable pickup name, or a deployable; domains/pod_payload_authoring.lua)",
+    "round": false,
+    "rounds": [],
+    "stableId": 1337271929
+   },
+   {
+    "deliverable": true,
+    "name": "PLAS-45 Epoch",
+    "packageKnown": true,
+    "projectile": 165,
+    "round": true,
+    "rounds": [],
+    "stableId": 4261593827
+   },
+   {
+    "compatibilityClass": "explosive_shrapnel",
+    "deliverable": true,
+    "name": "RL-77 Airburst Rocket Launcher",
+    "packageKnown": true,
+    "projectile": 312,
+    "round": true,
+    "rounds": [
+     {
+      "label": "AC-8 Autocannon",
+      "output": "output/v1/projectile/ac-8-autocannon"
+     },
+     {
+      "label": "EAT-700 Expendable Napalm",
+      "output": "output/v1/projectile/eat-700-expendable-napalm"
+     },
+     {
+      "label": "GL-28 Belt-Fed Grenade Launcher",
+      "output": "output/v1/projectile/gl-28-belt-fed-grenade-launcher"
+     },
+     {
+      "label": "R-36 Eruptor",
+      "output": "output/v1/projectile/r-36-eruptor"
+     }
+    ],
+    "stableId": 2007887745
+   },
+   {
+    "compatibilityClass": "conventional_plain",
+    "deliverable": true,
+    "name": "RS-422 Railgun",
+    "packageKnown": true,
+    "projectile": 186,
+    "round": true,
+    "rounds": [
+     {
+      "label": "APW-1 Anti-Materiel Rifle",
+      "output": "output/v1/projectile/apw-1-anti-materiel-rifle"
+     },
+     {
+      "label": "AR-11 Arbitrator",
+      "output": "output/v1/projectile/ar-11-arbitrator"
+     },
+     {
+      "label": "AR-2 Coyote",
+      "output": "output/v1/projectile/ar-2-coyote"
+     },
+     {
+      "label": "AR-23 Liberator",
+      "output": "output/v1/projectile/ar-23-liberator"
+     },
+     {
+      "label": "AR-23A Liberator Carbine",
+      "output": "output/v1/projectile/ar-23a-liberator-carbine"
+     },
+     {
+      "label": "AR-23C Liberator Concussive",
+      "output": "output/v1/projectile/ar-23c-liberator-concussive"
+     },
+     {
+      "label": "AR-23P Liberator Penetrator",
+      "output": "output/v1/projectile/ar-23p-liberator-penetrator"
+     },
+     {
+      "label": "AR-32 Pacifier",
+      "output": "output/v1/projectile/ar-32-pacifier"
+     },
+     {
+      "label": "AR-59 Suppressor",
+      "output": "output/v1/projectile/ar-59-suppressor"
+     },
+     {
+      "label": "AR-61 Tenderizer",
+      "output": "output/v1/projectile/ar-61-tenderizer"
+     },
+     {
+      "label": "AR/GL-21 One-Two",
+      "output": "output/v1/projectile/ar-gl-21-one-two"
+     },
+     {
+      "label": "BR-14 Adjudicator",
+      "output": "output/v1/projectile/br-14-adjudicator"
+     },
+     {
+      "label": "EXO-45 Patriot Exosuit / right_gun",
+      "output": "output/v1/projectile/exo-45-patriot-exosuit-right-gun"
+     },
+     {
+      "label": "EXO-55 Breakthrough Exosuit / right_gun",
+      "output": "output/v1/projectile/exo-55-breakthrough-exosuit-right-gun"
+     },
+     {
+      "label": "FRV (Super Earth variant) / gun",
+      "output": "output/v1/projectile/frv-super-earth-variant-gun"
+     },
+     {
+      "label": "JAR-5 Dominator",
+      "output": "output/v1/projectile/jar-5-dominator"
+     },
+     {
+      "label": "LAS-12 Sai",
+      "output": "output/v1/projectile/las-12-sai"
+     },
+     {
+      "label": "LAS-16 Sickle",
+      "output": "output/v1/projectile/las-16-sickle"
+     },
+     {
+      "label": "LAS-58 Talon",
+      "output": "output/v1/projectile/las-58-talon"
+     },
+     {
+      "label": "M-1000 Maxigun",
+      "output": "output/v1/projectile/m-1000-maxigun"
+     },
+     {
+      "label": "M-102 Gunner FRV / gun",
+      "output": "output/v1/projectile/m-102-gunner-frv-gun"
+     },
+     {
+      "label": "M-103 Supply FRV / gun",
+      "output": "output/v1/projectile/m-103-supply-frv-gun"
+     },
+     {
+      "label": "M-105 Stalwart",
+      "output": "output/v1/projectile/m-105-stalwart"
+     },
+     {
+      "label": "M6C/SOCOM Pistol",
+      "output": "output/v1/projectile/m6c-socom-pistol"
+     },
+     {
+      "label": "M7S SMG",
+      "output": "output/v1/projectile/m7s-smg"
+     },
+     {
+      "label": "M90A Shotgun",
+      "output": "output/v1/projectile/m90a-shotgun"
+     },
+     {
+      "label": "MA5C Assault Rifle",
+      "output": "output/v1/projectile/ma5c-assault-rifle"
+     },
+     {
+      "label": "MG-206 Heavy Machine Gun",
+      "output": "output/v1/projectile/mg-206-heavy-machine-gun"
+     },
+     {
+      "label": "MP-98 Knight",
+      "output": "output/v1/projectile/mp-98-knight"
+     },
+     {
+      "label": "P-11 Stim Pistol",
+      "output": "output/v1/projectile/p-11-stim-pistol"
+     },
+     {
+      "label": "P-113 Verdict",
+      "output": "output/v1/projectile/p-113-verdict"
+     },
+     {
+      "label": "P-35 Re-Educator",
+      "output": "output/v1/projectile/p-35-re-educator"
+     },
+     {
+      "label": "P-69 Veto",
+      "output": "output/v1/projectile/p-69-veto"
+     },
+     {
+      "label": "R-2 Amendment",
+      "output": "output/v1/projectile/r-2-amendment"
+     },
+     {
+      "label": "R-4 Hyena",
+      "output": "output/v1/projectile/r-4-hyena"
+     },
+     {
+      "label": "R/40-K Hot-Shot Marksman Rifle",
+      "output": "output/v1/projectile/r-40-k-hot-shot-marksman-rifle"
+     },
+     {
+      "label": "R-6 Deadeye",
+      "output": "output/v1/projectile/r-6-deadeye"
+     },
+     {
+      "label": "R-63 Diligence",
+      "output": "output/v1/projectile/r-63-diligence"
+     },
+     {
+      "label": "R-63CS Diligence Counter Sniper",
+      "output": "output/v1/projectile/r-63cs-diligence-counter-sniper"
+     },
+     {
+      "label": "R-72 Censor",
+      "output": "output/v1/projectile/r-72-censor"
+     },
+     {
+      "label": "SG-225 Breaker",
+      "output": "output/v1/projectile/sg-225-breaker"
+     },
+     {
+      "label": "SG-225IE Breaker Incendiary",
+      "output": "output/v1/projectile/sg-225ie-breaker-incendiary"
+     },
+     {
+      "label": "SG-225SP Breaker Spray&Pray",
+      "output": "output/v1/projectile/sg-225sp-breaker-spray-pray"
+     },
+     {
+      "label": "SG-97 Sweeper",
+      "output": "output/v1/projectile/sg-97-sweeper"
+     },
+     {
+      "label": "SMG-203 Gallant",
+      "output": "output/v1/projectile/smg-203-gallant"
+     },
+     {
+      "label": "SMG-32 Reprimand",
+      "output": "output/v1/projectile/smg-32-reprimand"
+     },
+     {
+      "label": "SMG-72 Pummeler",
+      "output": "output/v1/projectile/smg-72-pummeler"
+     },
+     {
+      "label": "SMG/FLAM-34 Stoker",
+      "output": "output/v1/projectile/smg-flam-34-stoker"
+     },
+     {
+      "label": "StA-11 SMG",
+      "output": "output/v1/projectile/sta-11-smg"
+     },
+     {
+      "label": "StA-52 Assault Rifle",
+      "output": "output/v1/projectile/sta-52-assault-rifle"
+     },
+     {
+      "label": "TD-110 Maelstrom / slot_2",
+      "output": "output/v1/projectile/td-110-maelstrom-slot-2"
+     },
+     {
+      "label": "VG-70 Variable",
+      "output": "output/v1/projectile/vg-70-variable"
+     }
+    ],
+    "shared": [
+     "world loot: the mission's loot tables hold this type, and a found copy is converted too"
+    ],
+    "stableId": 3078242205
+   },
+   {
+    "compatibilityClass": "explosive_impact",
+    "deliverable": true,
+    "name": "S-11 Speargun",
+    "packageKnown": true,
+    "projectile": 125,
+    "round": true,
+    "rounds": [
+     {
+      "label": "CB-9 Exploding Crossbow",
+      "output": "output/v1/projectile/cb-9-exploding-crossbow"
+     },
+     {
+      "label": "EAT-17 Expendable Anti-Tank",
+      "output": "output/v1/projectile/eat-17-expendable-anti-tank"
+     },
+     {
+      "label": "EAT-411 Leveller",
+      "output": "output/v1/projectile/eat-411-leveller"
+     },
+     {
+      "label": "EXO-49 Emancipator Exosuit / left_gun",
+      "output": "output/v1/projectile/exo-49-emancipator-exosuit-left-gun"
+     },
+     {
+      "label": "EXO-49 Emancipator Exosuit / right_gun",
+      "output": "output/v1/projectile/exo-49-emancipator-exosuit-right-gun"
+     },
+     {
+      "label": "EXO-51 Lumberer Exosuit / right_gun",
+      "output": "output/v1/projectile/exo-51-lumberer-exosuit-right-gun"
+     },
+     {
+      "label": "GATER Oil Rig / turret",
+      "output": "output/v1/projectile/gater-oil-rig-turret"
+     },
+     {
+      "label": "GP-20 Ultimatum",
+      "output": "output/v1/projectile/gp-20-ultimatum"
+     },
+     {
+      "label": "GR-8 Recoilless Rifle",
+      "output": "output/v1/projectile/gr-8-recoilless-rifle"
+     },
+     {
+      "label": "LAS-99 Quasar Cannon",
+      "output": "output/v1/projectile/las-99-quasar-cannon"
+     },
+     {
+      "label": "P/40-K Bolt Pistol",
+      "output": "output/v1/projectile/p-40-k-bolt-pistol"
+     },
+     {
+      "label": "PLAS-1 Scorcher",
+      "output": "output/v1/projectile/plas-1-scorcher"
+     },
+     {
+      "label": "PLAS-39 Accelerator Rifle",
+      "output": "output/v1/projectile/plas-39-accelerator-rifle"
+     },
+     {
+      "label": "S-11 Speargun (spare twin)",
+      "output": "output/v1/projectile/s-11-speargun-spare-twin"
+     },
+     {
+      "label": "SG-8P Punisher Plasma",
+      "output": "output/v1/projectile/sg-8p-punisher-plasma"
+     },
+     {
+      "label": "TD-220 Bastion MK XVI / attach_tank_gun",
+      "output": "output/v1/projectile/td-220-bastion-mk-xvi-attach-tank-gun"
+     }
+    ],
+    "stableId": 336693041
+   },
+   {
+    "deliverable": true,
+    "name": "SH-20 Ballistic Shield Backpack",
+    "packageKnown": true,
+    "round": false,
+    "rounds": [],
+    "stableId": 3353508219
+   },
+   {
+    "deliverable": true,
+    "name": "StA-X3 W.A.S.P. Launcher",
+    "packageKnown": true,
+    "projectile": 43,
+    "round": true,
+    "rounds": [],
+    "stableId": 890972990
+   },
+   {
+    "deliverable": false,
+    "name": "TX-41 Sterilizer",
+    "packageKnown": true,
+    "refused": "TX-41 Sterilizer's rack has no authored active slot (its pod is not a reviewed pickup rack: an item with no resolvable pickup name, or a deployable; domains/pod_payload_authoring.lua)",
+    "round": false,
+    "rounds": [],
+    "stableId": 4152191751
    }
   ]
  },
@@ -6514,9 +8090,14 @@
     "weapon"
    ]
   },
-  "doc": "a mission-scoped VARIANT of a support weapon on its OWN type (no clone carrier): its presentation, its round (another output of its own compatibility class) and optionally the mod's own model change for the mission and are restored aboard the ship. Its own vanilla pod delivers it with its own items (the Maxigun's backpack too). A host no other type can carry has no fallback: while a lobby member brings it natively the variant is unavailable, and a selected variant blocks it in the native picker",
+  "doc": "a mission-scoped VARIANT of a support weapon on its OWN type (no clone carrier; any variantDonors[] host whose deliverable is true): its presentation, its round (another output of its own compatibility class; none for a host whose round is false) and optionally the mod's own model change for the mission and are restored aboard the ship. Its own vanilla pod delivers it with its own items (the Maxigun's backpack too). No fallback: while a lobby member brings it natively the variant is unavailable, and a selected variant blocks it in the native picker. A host with shared[] (world loot or another pod also brings the type: those copies convert too) needs allow_shared = true",
   "family": "weapon",
   "fields": {
+   "allow_shared": {
+    "doc": "required true for a host with shared[] (variantDonors[].shared): the author's consent that world loot and other pods' copies of the type convert too; never added by a builder",
+    "optional": true,
+    "type": "boolean"
+   },
    "model": {
     "doc": "the id of one of the mod's models (models/<id>.json, a Runtime-owned unit beside the vanilla one: docs/custom-models.md); a builder without a model pipeline leaves it out",
     "optional": true,
@@ -6568,7 +8149,7 @@
   },
   "notes": [
    "compiles to delivery = {family = 'weapon', ...}",
-   "live-proven solo (the LAS-1000 Laser Maxigun: the LAS-58 Talon's round and a debug model on the M-1000 Maxigun); not tried with several players"
+   "live-proven solo on the M-1000 Maxigun (the LAS-1000 Laser Maxigun: the LAS-58 Talon's round and a debug model); every other host is offline only; not tried with several players"
   ]
  }
 }
