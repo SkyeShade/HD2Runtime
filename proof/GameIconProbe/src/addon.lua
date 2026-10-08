@@ -7,7 +7,7 @@ local hd2=require('mods/skyeshade/hd2runtime')
 -- bitmapContract), but a GUI's own material instance can be given another texture: Material.set_texture(instance,
 -- 'diffuse_map', IdString64 page) (exe 0x4A0460: the slot name hashed to its upper 32 bits, the texture an IdString64;
 -- the icon material's one slot is 0x3AA8B87E = murmur64('diffuse_map') >> 32, research image-resources). With the page
--- set, Gui.bitmap_uv(gui, material, uv00, uv11, position, size, color) (exe 0x3E31D0: uv00 index 3, uv11 index 4) draws
+-- set, Gui.bitmap_uv(gui, material, uv00, uv11, position, size, color) (exe 0x3E2F10: uv00 index 3, uv11 index 4) draws
 -- only the sprite's rectangle of it. The material is the stratagem's own vanilla icon material (named by the icon hash,
 -- exactly the sprite's name), so the instance is this GUI's own: the game's UI keeps its own instance untouched.
 --

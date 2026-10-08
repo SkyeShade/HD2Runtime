@@ -263,6 +263,62 @@ function M.open(opts)
         end
         return true
     end
+    -- A bitmap of part of a loaded GUI material's texture, the material named by its 64-bit name hash (16 hex digits):
+    -- Gui.bitmap_uv(gui, material, uv00, uv11, position, size, color) (exe 0x3E2F10: the material through the bitmap's
+    -- parser 0x3E0FA0, then uv00 Lua argument 3, uv11 argument 4, position 5, size 6, the colour 7). uv00 is the texture
+    -- coordinate at the bitmap's top-left corner, uv11 at its bottom-right (GameIconProbe 0.1.0). uv = {u0, v0, u1, v1}
+    -- in [0, 1]. Returns its id.
+    local function uv_ok(uv)
+        if type(uv)~='table'then return false end
+        for i=1,4 do if not finite(uv[i],0,1)then return false end end
+        return true
+    end
+    local function id_ok(hex)return type(hex)=='string'and#hex==16 and hex:match('^%x+$')~=nil end
+    function screen.bitmap_uv(hex,uv,x,y,layer,w,h,c,opt)
+        if not(id_ok(hex)and uv_ok(uv)and box_ok(x,y,layer,w,h)and color_ok(c))then return nil,'invalid bitmap'end
+        if not callable(S.Gui.bitmap_uv)then return nil,'stingray.Gui.bitmap_uv is not callable'end
+        if not(type(S.IdString64)=='table'and callable(S.IdString64.from_hex))then
+            return nil,'stingray.IdString64.from_hex is not callable'
+        end
+        return call(function()
+            return S.Gui.bitmap_uv(gui,S.IdString64.from_hex(hex),S.Vector2(uv[1],uv[2]),S.Vector2(uv[3],uv[4]),
+                position(x,y,layer),size(w,h),color(c))
+        end,'create',opt)
+    end
+    -- Moves, resizes, recolours or re-maps such a bitmap: Gui.update_bitmap_uv(gui, id, material, uv00, uv11, position,
+    -- size, color) (exe 0x3E31D0: the id Lua argument 2, then the material and the rest one index later than
+    -- Gui.bitmap_uv; it returns nothing). true when the engine raised no error.
+    function screen.update_bitmap_uv(id,hex,uv,x,y,layer,w,h,c,opt)
+        if id==nil or not(id_ok(hex)and uv_ok(uv)and box_ok(x,y,layer,w,h)and color_ok(c))then
+            return nil,'invalid bitmap'
+        end
+        if not callable(S.Gui.update_bitmap_uv)then return nil,'stingray.Gui.update_bitmap_uv is not callable'end
+        return call(function()
+            return S.Gui.update_bitmap_uv(gui,id,S.IdString64.from_hex(hex),S.Vector2(uv[1],uv[2]),
+                S.Vector2(uv[3],uv[4]),position(x,y,layer),size(w,h),color(c))
+        end,'update',opt)
+    end
+    -- Points a texture slot of a material instance (from screen.material) at a loaded texture named by its 64-bit name
+    -- hash: Material.set_texture(instance, slot, IdString64) (exe 0x4A0460: the slot name hashed to its upper 32 bits,
+    -- argument 3 an IdString64's value at +8). THE CALLER PROVES THE TEXTURE LOADED FIRST: the engine resolves the name
+    -- itself and is never handed one that is not. Returns true, or nil and the reason (never fails the screen).
+    function screen.set_texture(instance,slot,hex)
+        if screen.state~='open'then return nil,'the GUI is '..screen.state end
+        if instance==nil or null_handle(instance)then return nil,'no material instance'end
+        if not(type(slot)=='string'and slot:match('^[%w_]+$')and#slot<=32 and id_ok(hex))then
+            return nil,'invalid texture slot or name'
+        end
+        if not(type(S.Material)=='table'and callable(S.Material.set_texture))then
+            return nil,'stingray.Material.set_texture is not callable'
+        end
+        if not(type(S.IdString64)=='table'and callable(S.IdString64.from_hex))then
+            return nil,'stingray.IdString64.from_hex is not callable'
+        end
+        local done,err=pcall(function()S.Material.set_texture(instance,slot,S.IdString64.from_hex(hex))end)
+        if not done then return nil,'Material.set_texture: '..tostring(err)end
+        screen.calls=screen.calls+1
+        return true
+    end
     -- Text in a loaded font and its material, by resource name (the caller proves both are loaded first); (x, y) is the
     -- baseline start. Returns its id.
     function screen.text(s,font,font_size,material,x,y,layer,c,opt)
@@ -289,7 +345,7 @@ function M.open(opts)
     -- Removes one primitive this GUI created: kind 'rect', 'text' or 'bitmap' -> Gui.destroy_rect / destroy_text /
     -- destroy_bitmap(gui, id) (exe 0x3E2040, 0x3E58E0, 0x3E2EB0: lua_touserdata(1), lua_tointeger(2), the GUI's one
     -- primitive removal 0x267990(gui, id); they return nothing). Only ids this screen returned may be passed.
-    local DESTROY={rect='destroy_rect',text='destroy_text',bitmap='destroy_bitmap'}
+    local DESTROY={rect='destroy_rect',text='destroy_text',bitmap='destroy_bitmap',uvbitmap='destroy_bitmap'}
     function screen.destroy(kind,id,opt)
         local name=DESTROY[kind]
         if not name or type(id)~='number'or id%1~=0 then return nil,'invalid primitive'end

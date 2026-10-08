@@ -70,6 +70,14 @@ for key,value in pairs(metadata.resources)do resources[key]=value end
 -- complete icon family (docs/custom-images.md). A value for hd2.fields.stratagem.presentation_icon. The handle names
 -- the image only; whether it is loaded is checked before each write.
 function resources.image(id)return images.handle(id,require('hd2runtime/runtime/events').owner())end
+-- The game's own HUD icon of a stratagem or booster (docs/game-icons.md): kind 'stratagem' | 'booster' and its name as
+-- the Runtime's catalogues name it ('EXO-45 Patriot Exosuit', 'Vitality Enhancement'). Draw it with d:image like a mod's
+-- own image; it is read from the running game (nothing shipped, nothing written) and drawn only while its atlas page is
+-- loaded (booster icons are not, during a mission). Returns the handle, or nil, code ('UNKNOWN_KIND' | 'UNKNOWN_ICON')
+-- and reason.
+function resources.game_icon(kind,name)return require('hd2runtime/runtime/game_icons').handle(kind,name)end
+-- The names of every game icon of a kind ('stratagem' | 'booster'), sorted.
+function resources.game_icons(kind)return require('hd2runtime/runtime/game_icons').names(kind)end
 -- The calling mod's own model: models/<id>.json in its project, which the SDK build derives from its base weapon's unit
 -- and packs beside the vanilla resources (docs/custom-models.md). A value for a weapon delivery's model
 -- (hd2.custom_stratagem: delivery.family 'weapon'). The handle names the model only; whether it is loaded and exact is

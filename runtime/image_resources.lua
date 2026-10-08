@@ -470,5 +470,47 @@ function M.sprite_record(runtime,high,low)
     if not page or#page~=8 then return nil,'the atlas sprite record is unreadable'end
     return record,hex_at(page,0)
 end
+-- An atlas sprite in full (hd2.resources.game_icon; docs/game-icons.md): the record the sprite map entry points at, as
+-- the game's image setter reads it (research slotIconAtlas, 0x343A66): +0 its name, +8 its atlas page texture, +0x10 its
+-- size in pixels (u32 width, height), +0x18 its rectangle on the page (f32 u, v, width, height; 0..1). Validated: the
+-- record names the sprite, the size is 1..4096 and the rectangle lies on the page and matches the size on a whole
+-- number of page pixels. Returns {page = '%016X', page_high, page_low, w, h, u, v, du, dv}, or nil and why. Read-only.
+local function f32(s,o)
+    local ok,v=pcall(b.value,s,o,'f32')
+    return ok and v or nil
+end
+function M.atlas_sprite(runtime,high,low)
+    local m,why=open(runtime)
+    if not m then return nil,why end
+    local entry=sprite_entry(m,high,low)
+    if not entry then return nil,'no atlas sprite has this name (not loaded)'end
+    local record=m.ptr(entry+D.names.slot)
+    local raw=m.read(record,40)
+    if raw:sub(1,8)~=le(high,low)then return nil,'the atlas sprite record names another sprite'end
+    local w,h=b.u32(raw,16),b.u32(raw,20)
+    local u,v,du,dv=f32(raw,24),f32(raw,28),f32(raw,32),f32(raw,36)
+    if not(w>=1 and w<=4096 and h>=1 and h<=4096)then return nil,'the atlas sprite size is out of range'end
+    for _,x in ipairs({u,v,du,dv})do
+        if not(x and x==x and x>=0 and x<=1)then return nil,'the atlas sprite rectangle is out of range'end
+    end
+    if du<=0 or dv<=0 or u+du>1+1e-6 or v+dv>1+1e-6 then return nil,'the atlas sprite rectangle is off its page'end
+    -- the page in pixels from the size and the rectangle: a whole number (the sprite is a pixel rectangle of its page)
+    local pw,ph=w/du,h/dv
+    if math.abs(pw-math.floor(pw+0.5))>0.01 or math.abs(ph-math.floor(ph+0.5))>0.01 then
+        return nil,'the atlas sprite is not a whole-pixel rectangle of its page'
+    end
+    local page_low,page_high=b.u32(raw,8),b.u32(raw,12)
+    return {page=string.format('%08X%08X',page_high,page_low),page_high=page_high,page_low=page_low,w=w,h=h,u=u,v=v,
+        du=du,dv=dv,page_w=math.floor(pw+0.5),page_h=math.floor(ph+0.5)}
+end
+-- Whether a texture is loaded, by name hash halves: true, or false and why. Read-only.
+function M.texture_loaded(runtime,high,low)return lookup(runtime,high,low)end
+-- Whether the GUI icon material named (high, low) is loaded and exactly the icon material of that name (the vanilla
+-- stratagem icon materials are; research image-resources): true, or false and why. Read-only.
+function M.icon_material(runtime,high,low)
+    local m,why=open(runtime)
+    if not m then return false,why end
+    return material(m,high,low)
+end
 function M.reset_for_tests()proven={};consumers_proven={};records={}end
 return M

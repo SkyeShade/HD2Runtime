@@ -1091,6 +1091,8 @@ function W.icon_resources(spec,opts)
             ah,al=hash(type(item)=='table'and item.atlas or'content/ui/atlas_test_page')
         end
         write(record,u32(low)..u32(high)..u32(al)..u32(ah))
+        -- its size in pixels (+0x10: u32 width, height)
+        if type(item)=='table'and item.size then write(record+0x10,u32(item.size[1])..u32(item.size[2]))end
         if type(item)=='table'and item.rect then
             local r=item.rect
             write(record+0x18,f32(r[1])..f32(r[2])..f32(r[3])..f32(r[4]))

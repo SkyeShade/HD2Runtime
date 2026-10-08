@@ -20,7 +20,7 @@ A `Gui.bitmap` draws a material, never a texture or a sprite. The probe:
 2. points that instance's texture slot at the atlas page: `Material.set_texture(instance, 'diffuse_map', IdString64 page)`
    (exe `0x4A0460`; the icon material's one slot is `0x3AA8B87E`, `murmur64('diffuse_map') >> 32`);
 3. draws only the sprite's rectangle with `Gui.bitmap_uv(gui, material, uv00, uv11, position, size, color)` (exe
-   `0x3E31D0`: uv00 is Lua argument 3, uv11 argument 4).
+   `0x3E2F10`: uv00 is Lua argument 3, uv11 argument 4; `0x3E31D0` is `Gui.update_bitmap_uv`, the id second).
 
 Both argument orders were read from the game executable, not guessed. `set_texture` is only called once the page texture
 is proven loaded.
@@ -39,3 +39,11 @@ Install this probe next to HD2Runtime. Solo, aboard the ship.
 3. For each cell, note what you see (the right icon, upright or upside down, a squashed page, blank).
 
 Send the screenshot, your notes and every `GameIconProbe` line of `HD2Runtime.log`.
+
+## Result (2026-10-08, 3840 x 2160, aboard the ship)
+
+Every step succeeded, both times the panel was built. Columns A drew the Patriot, the C4 Pack and the Vitality
+Enhancement upright and as the game shows them (red category layer and white; the booster's yellow plate with its dark
+glyph); B drew them upside down, so `uv00 = (u, v)` is the top-left. C drew each whole page, proving `set_texture`; D,
+an untouched vanilla icon material, drew the game's "?" placeholder. hd2.resources.game_icon is built on this
+(docs/game-icons.md).

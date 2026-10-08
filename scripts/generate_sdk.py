@@ -771,7 +771,18 @@ def outputs():
            "---weapon's unit and shipped beside the vanilla resources (docs/custom-models.md). A value for a weapon",
            "---delivery's model (hd2.custom_stratagem, delivery.family 'weapon'); never used unless it is loaded and exact.",
            '---@param id string 1 to 64 lowercase letters, digits or underscores','---@return HD2Model',
-           'function HD2Resources.model(id) end']
+           'function HD2Resources.model(id) end',
+           # hd2.resources.game_icon: the game's own HUD icons (docs/game-icons.md); names only, nothing shipped.
+           '','---@class HD2GameIcon','---@field kind "stratagem"|"booster"','---@field name string',
+           "---The game's own HUD icon of a stratagem or booster, for d:image (docs/game-icons.md): drawn from the game's",
+           "---own atlas page with the game's own icon material; nothing shipped, nothing written. Drawn only while its",
+           '---atlas page is loaded (booster icons are not during a mission). nil, code ("UNKNOWN_KIND" | "UNKNOWN_ICON")',
+           '---and reason for an unknown name.',
+           '---@param kind "stratagem"|"booster"','---@param name string the name the Runtime\'s catalogues use',
+           '---@return HD2GameIcon|nil','---@return string? code','---@return string? reason',
+           'function HD2Resources.game_icon(kind, name) end',
+           '---Every game icon name of a kind, sorted.','---@param kind "stratagem"|"booster"','---@return string[]',
+           'function HD2Resources.game_icons(kind) end']
     import generate_events
     event_classes,event_fields,event_functions=generate_events.stub_lines()
     stub+=event_classes

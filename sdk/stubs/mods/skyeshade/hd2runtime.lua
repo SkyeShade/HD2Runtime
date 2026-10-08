@@ -1999,6 +1999,24 @@ function HD2Resources.image(id) end
 ---@return HD2Model
 function HD2Resources.model(id) end
 
+---@class HD2GameIcon
+---@field kind "stratagem"|"booster"
+---@field name string
+---The game's own HUD icon of a stratagem or booster, for d:image (docs/game-icons.md): drawn from the game's
+---own atlas page with the game's own icon material; nothing shipped, nothing written. Drawn only while its
+---atlas page is loaded (booster icons are not during a mission). nil, code ("UNKNOWN_KIND" | "UNKNOWN_ICON")
+---and reason for an unknown name.
+---@param kind "stratagem"|"booster"
+---@param name string the name the Runtime's catalogues use
+---@return HD2GameIcon|nil
+---@return string? code
+---@return string? reason
+function HD2Resources.game_icon(kind, name) end
+---Every game icon name of a kind, sorted.
+---@param kind "stratagem"|"booster"
+---@return string[]
+function HD2Resources.game_icons(kind) end
+
 ---@alias HD2EventName "mission_started"|"mission_ended"|"player_spawned"|"player_died"|"entity_spawned"|"entity_died"|"entity_killed"|"entity_damaged"|"player_damaged"|"player_healed"|"player_fired"|"player_kill_credited"|"player_hit"|"player_damage_dealt"|"weapon_equipped"|"weapon_unequipped"|"weapon_changed"|"explosion"|"entity_damage_pre"|"key_down"|"key_up"
 
 ---A world position snapshot (metres).
@@ -3181,7 +3199,7 @@ function HD2OverlayFrame:rect(x, y, w, h, colour, z) end
 ---@param opts? HD2OverlayTextOptions
 ---@return nil
 function HD2OverlayFrame:text(text, x, y, opts) end
----One of the mod's own images (hd2.resources.image) through the game's icon material; (x, y) its top-left corner. Drawn once its resources are loaded; an image partly off screen is dropped. One colour set per image per overlay (r50).
+---One of the mod's own images (hd2.resources.image) through the game's icon material, or one of the game's own HUD icons (hd2.resources.game_icon; docs/game-icons.md); (x, y) its top-left corner. Drawn once its resources are loaded; an image partly off screen is dropped. One colour set per mod image per overlay (r50); a game icon may take several.
 ---@param image table
 ---@param x number
 ---@param y number

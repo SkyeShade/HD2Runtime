@@ -19,6 +19,12 @@
 -- * A draw function that raises is a frame callback failure of the mod (logged, disabled after 25 in a row); the
 --   overlay hides its primitives on that frame. An engine call that fails closes the GUI (logged once per reason); it
 --   is opened again on a later frame.
+-- * The game's own HUD icons (hd2.resources.game_icon; docs/game-icons.md) draw through d:image like a mod's own image:
+--   a stratagem icon material's instance in this GUI points at the sprite's atlas page (Material.set_texture) and
+--   Gui.bitmap_uv draws the sprite's rectangle. Each frame every icon is given a material: a stratagem its own; a
+--   booster, or a second colour set of one stratagem, a carrier (another stratagem's icon material unused this frame).
+--   set_texture only ever names a page proven loaded this frame; when a page or a material in use unloads, the GUI is
+--   closed (its instances go with it) and opened again without that icon.
 -- Visual only: nothing here writes game memory.
 local engine_gui=require('hd2runtime/runtime/engine_gui')
 local events=require('hd2runtime/runtime/events')
@@ -29,6 +35,7 @@ local slot_overlay=require('hd2runtime/runtime/stratagem_slot_overlay')
 local ui_fonts=require('hd2runtime/runtime/ui_fonts')
 local font_data=require('hd2runtime/domains/ui_fonts')
 local images=require('hd2runtime/runtime/image_resources')
+local game_icons=require('hd2runtime/runtime/game_icons')
 local input=require('hd2runtime/runtime/input')
 local cursor=require('hd2runtime/runtime/mod_cursor')
 local KEY='HD2RuntimeModOverlaysV1'
@@ -89,6 +96,11 @@ function M.hooks.image_ready(world,handle)
     if family and family.complete then return true end
     return false,family and family.reason or'not loaded'
 end
+-- A game icon's drawing needs read from the running game (runtime/game_icons.lua resolve), or nil and why.
+function M.hooks.game_icon(world,handle)return game_icons.resolve(world.runtime,handle)end
+-- Whether an atlas page texture / a stratagem icon material ('%016X') is loaded now.
+function M.hooks.page_loaded(world,page)return game_icons.page_loaded(world.runtime,page)end
+function M.hooks.material_loaded(world,material)return game_icons.material_loaded(world.runtime,material)end
 -- Offline fallback metrics (only for text_width before the first frame): monaco's.
 local function metrics_font()return font_data.fonts.monaco end
 
@@ -197,9 +209,30 @@ end
 -- images (hd2.resources.image), drawn through the game's icon material (docs/custom-images.md: 256 x 256 masks, or a
 -- raw picture shown as a silhouette). Drawn only once the image's resources are proven loaded; an image partly off
 -- screen is dropped (a bitmap is never squashed). One colour set per image per overlay (one material instance).
+-- The default mask colours of a game icon: a stratagem's R and G white and the B shadow (as a mod image); a booster's
+-- picture keeps its yellow plate on R (its other channels unused), the native look (GameIconProbe 0.1.0).
+local BOOSTER_MASKS={r={255,199,43,255},g={0,0,0,0},b={0,0,0,0}}
+function Builder:game_icon(handle,x,y,w,h,opts)
+    local z=opts.z or 0
+    if not(finite(x)and finite(y)and finite(w)and finite(h)and w>0 and h>0 and type(z)=='number'and z%1==0
+        and z>=0 and self.layer+z<=M.MAX_LAYER)then
+        return refuse(self,'invalid image box')
+    end
+    local col=colour(opts.colour or opts.color)
+    if not col then return refuse(self,'invalid colour')end
+    local kind=game_icons.identity(handle).kind
+    local vars,key=mask_vars(opts.colours or(kind=='booster'and BOOSTER_MASKS or nil))
+    if not vars then return refuse(self,'invalid mask colours')end
+    if x<0 or y<0 or x+w>self.width or y+h>self.height then return end
+    local spec,why=self.icon_ready(handle)
+    if not spec then self.waiting_images=(self.waiting_images or 0)+1;self.image_why=why;return end
+    self.items[#self.items+1]={kind='uvbitmap',icon=handle,page=spec.page,own=spec.own,uv=spec.uv,x=x,
+        y=self.height-(y+h),w=w,h=h,layer=self.layer+z,c=col,vars=vars,vkey=spec.page..'|'..key}
+end
 function Builder:image(handle,x,y,w,h,opts)
     if#self.items>=M.MAX_ITEMS then return refuse(self,'more than '..M.MAX_ITEMS..' items in one frame')end
     opts=opts or{}
+    if game_icons.issued(handle)then return self:game_icon(handle,x,y,w,h,opts)end
     if not images.issued(handle)then return refuse(self,'not an image from hd2.resources.image')end
     local z=opts.z or 0
     if not(finite(x)and finite(y)and finite(w)and finite(h)and w>0 and h>0 and type(z)=='number'and z%1==0
@@ -227,17 +260,36 @@ local function same(a,b)
     if a.kind~=b.kind or a.x~=b.x or a.y~=b.y or a.layer~=b.layer or not same_colour(a.c,b.c)then return false end
     if a.kind=='rect'then return a.w==b.w and a.h==b.h end
     if a.kind=='bitmap'then return a.material==b.material and a.w==b.w and a.h==b.h end
+    if a.kind=='uvbitmap'then
+        return a.material==b.material and a.w==b.w and a.h==b.h and a.uv[1]==b.uv[1]and a.uv[2]==b.uv[2]
+            and a.uv[3]==b.uv[3]and a.uv[4]==b.uv[4]
+    end
     return a.s==b.s and a.font==b.font and a.size==b.size
 end
 local function create(screen,item)
     if item.kind=='rect'then return screen.rect(item.x,item.y,item.layer,item.w,item.h,item.c)end
     if item.kind=='bitmap'then return screen.bitmap(item.material,item.x,item.y,item.layer,item.w,item.h,item.c)end
+    if item.kind=='uvbitmap'then
+        return screen.bitmap_uv(item.material,item.uv,item.x,item.y,item.layer,item.w,item.h,item.c)
+    end
     return screen.text(item.s,item.font,item.size,item.font,item.x,item.y,item.layer,item.c)
 end
 local function update(screen,old,item)
     if item.kind=='rect'then return screen.update_rect(old.id,item.x,item.y,item.layer,item.w,item.h,item.c)end
     if item.kind=='bitmap'then
         return screen.update_bitmap(old.id,item.material,item.x,item.y,item.layer,item.w,item.h,item.c)
+    end
+    if item.kind=='uvbitmap'then
+        local ok,why=screen.update_bitmap_uv(old.id,item.material,item.uv,item.x,item.y,item.layer,item.w,item.h,item.c)
+        if ok==nil and tostring(why):find('not callable',1,true)then
+            -- No update_bitmap_uv binding: replace the primitive.
+            if not screen.destroy('uvbitmap',old.id)then return nil,'destroy_bitmap failed'end
+            local id,cwhy=create(screen,item)
+            if id==nil then return nil,cwhy end
+            old.id=id
+            return true
+        end
+        return ok,why
     end
     local ok,why=screen.update_text(old.id,item.s,item.font,item.size,item.font,item.x,item.y,item.layer,item.c)
     if ok==nil and tostring(why):find('not callable',1,true)then
@@ -300,16 +352,67 @@ local function reconcile_and_colour(screen,drawn,items,coloured)
                 calls=calls+1
                 if not ok then coloured[item.material]=false end
             else coloured[item.material]=false end
+        elseif item.kind=='uvbitmap'and coloured[item.material]~=item.vkey then
+            -- a game icon: this GUI's instance of its material gets the colours and the atlas page (proven loaded
+            -- this frame, item.page_ok; a page not proven is never named to the engine)
+            coloured[item.material]=item.vkey
+            local instance=item.page_ok and screen.material(item.material,true)
+            if instance then
+                local ok=screen.set_vectors(instance,item.vars)and screen.set_texture(instance,'diffuse_map',item.page)
+                calls=calls+2
+                if not ok then coloured[item.material]=false end
+            else coloured[item.material]=false end
         end
     end
     return out,calls
 end
+
+-- Gives every game icon of a frame a material (in place; icons left without one are dropped and refused): a
+-- stratagem first its own icon material, a booster or a stratagem whose own material already holds another page or
+-- colour set this frame a carrier: the material that served the same (page, colours) last frame if still free, else
+-- the first free loaded stratagem icon material (sorted, so choices are stable). One instance holds one texture and one
+-- colour set, so no two (page, colours) ever share a material in one frame.
+local function assign_materials(self,items,carrier_ok)
+    local used={}
+    for _,item in ipairs(items)do
+        if item.kind=='uvbitmap'and item.own and(used[item.own]==nil or used[item.own]==item.vkey)then
+            used[item.own]=item.vkey
+            item.material=item.own
+        end
+    end
+    local keep,dropped={},0
+    local carriers=self.carriers or{}
+    local next_carriers={}
+    for _,item in ipairs(items)do
+        if item.kind=='uvbitmap'and not item.material then
+            local m=next_carriers[item.vkey]
+            if not m then
+                local last=carriers[item.vkey]
+                if last and used[last]==nil and carrier_ok(last)then m=last end
+            end
+            if not m then
+                for _,candidate in ipairs(game_icons.carriers())do
+                    if used[candidate]==nil and carrier_ok(candidate)then m=candidate;break end
+                end
+            end
+            if m then
+                used[m]=item.vkey
+                next_carriers[item.vkey]=m
+                item.material=m
+            end
+        end
+        if item.kind~='uvbitmap'or item.material then keep[#keep+1]=item else dropped=dropped+1 end
+    end
+    self.carriers=next_carriers
+    return keep,dropped
+end
+M.assign_materials=assign_materials
 M.reconcile_and_colour=reconcile_and_colour
 
 ---------------------------------------------------------------------------------------------------- overlays --
 local Overlay={};Overlay.__index=Overlay
 local function close_screen(self)
-    self.coloured,self.ready={},{}
+    self.coloured,self.ready,self.icons,self.icon_pages,self.icon_materials,self.carriers={},{},{},nil,nil,nil
     if self.screen then pcall(self.screen.close)end
     self.screen,self.ui_world,self.drawn=nil,nil,{}
 end
@@ -340,6 +443,29 @@ local function frame(self,dt)
         self.screen,self.ui_world,self.drawn=screen,ui_world,{}
         self.opened=self.opened+1
     end
+    -- A game icon page or material in use that unloaded: close the GUI first (its material instances name them), so
+    -- nothing on screen keeps pointing at a resource that is gone; the frame below draws without it.
+    if self.icon_pages then
+        local lost
+        for page in pairs(self.icon_pages)do
+            local ok,loaded=pcall(M.hooks.page_loaded,world,page)
+            if not(ok and loaded)then lost='atlas page '..page;break end
+        end
+        if not lost and self.icon_materials and self.frames%15==0 then
+            for material in pairs(self.icon_materials)do
+                local ok,loaded=pcall(M.hooks.material_loaded,world,material)
+                if not(ok and loaded)then lost='icon material '..material;break end
+            end
+        end
+        if lost then
+            close_screen(self)
+            note(self,'waiting','game icon resource unloaded: '..lost)
+            local ok2,screen2,why2=pcall(M.hooks.open_screen,world,ui_world,M.MAX_LAYER)
+            if not(ok2 and screen2)then note(self,'failed',ok2 and tostring(why2)or tostring(screen2));return end
+            self.screen,self.ui_world,self.drawn=screen2,ui_world,{}
+            self.opened=self.opened+1
+        end
+    end
     local screen=self.screen
     self.width,self.height=screen.width,screen.height
     self.scale=math.min(screen.width/1920,screen.height/1080)
@@ -353,8 +479,29 @@ local function frame(self,dt)
         self.ready[handle]=r
         return r.ok,r.why
     end
+    self.icons=self.icons or{}
+    -- A game icon's needs (runtime/game_icons.lua resolve): kept 30 frames once resolved, retried every 60 frames when
+    -- not (the page itself is checked every frame below).
+    local function icon_ready(handle)
+        local r=self.icons[handle]
+        if r and self.frames-r.frame<(r.spec and 30 or 60)then return r.spec,r.why end
+        local ok,spec,why=pcall(M.hooks.game_icon,world,handle)
+        r={spec=ok and spec or nil,why=ok and why or tostring(spec),frame=self.frames}
+        self.icons[handle]=r
+        return r.spec,r.why
+    end
+    local carrier_cache={}
+    local function carrier_ok(material)
+        local c=carrier_cache[material]
+        if c==nil then
+            local ok,loaded=pcall(M.hooks.material_loaded,world,material)
+            c=ok and loaded==true
+            carrier_cache[material]=c
+        end
+        return c
+    end
     local d=setmetatable({items={},layer=self.layer,width=screen.width,height=screen.height,scale=self.scale,
-        materials={},image_ready=image_ready,
+        materials={},image_ready=image_ready,icon_ready=icon_ready,
         fonts={},refused=0,font_for=function(role)return M.hooks.font(world,role)end},Builder)
     local ok,err=xpcall(self.draw_fn,function(e)return debug.traceback(tostring(e),2)end,d,dt)
     if not ok then
@@ -363,6 +510,32 @@ local function frame(self,dt)
         note(self,'error','the draw function raised')
         error(err,0)
     end
+    -- Game icons: a material each, and every page proven loaded this frame (set_texture names only those).
+    local items,dropped=assign_materials(self,d.items,carrier_ok)
+    if dropped>0 then refuse(d,'no free icon material for '..dropped..' game icon(s)')end
+    local pages,materials,page_ok,shown={},{},{},{}
+    for _,item in ipairs(items)do
+        if item.kind=='uvbitmap'then
+            if page_ok[item.page]==nil then
+                local ok,loaded=pcall(M.hooks.page_loaded,world,item.page)
+                page_ok[item.page]=ok and loaded==true
+            end
+            item.page_ok=page_ok[item.page]
+            if item.page_ok then
+                pages[item.page]=true
+                materials[item.material]=true
+                shown[#shown+1]=item
+            else
+                -- never drawn without its page (the material alone shows the game's placeholder)
+                d.waiting_images=(d.waiting_images or 0)+1
+                d.image_why='its atlas page is not loaded'
+                self.icons[item.icon]=nil
+            end
+        else shown[#shown+1]=item end
+    end
+    d.items=shown
+    self.icon_pages=next(pages)and pages or nil
+    self.icon_materials=next(materials)and materials or nil
     self.refused,self.first_refusal=d.refused,d.first_refusal
     self.waiting_images,self.image_why=d.waiting_images or 0,d.image_why
     local passed,drawn,calls=engine_gui.temp_scope(reconcile_and_colour,screen,self.drawn,d.items,self.coloured)

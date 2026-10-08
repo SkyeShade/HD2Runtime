@@ -29,7 +29,7 @@ end})
 | `d:rect(x, y, w, h, colour, z)` | a filled rectangle; `(x, y)` is its top-left corner |
 | `d:text(text, x, y, {size, colour, font, align, z})` | one line; `(x, y)` is its top-left corner (top-centre / top-right with `align = 'center' / 'right'`) |
 | `d:text_width(text, size, font)` | the width in pixels, with the same metrics |
-| `d:image(image, x, y, w, h, {colours, colour, z})` | one of the mod's own images (`hd2.resources.image`); `(x, y)` is its top-left corner (r50) |
+| `d:image(image, x, y, w, h, {colours, colour, z})` | one of the mod's own images (`hd2.resources.image`), or one of the game's own HUD icons (`hd2.resources.game_icon`, docs/game-icons.md); `(x, y)` is its top-left corner (r50) |
 
 - **Coordinates** are GUI pixels with the origin at the **top-left**, y down (the same corner as
   `hd2.input.mouse()`; `overlay:mouse()` maps the cursor into overlay coordinates). `d.width`, `d.height` are the
@@ -118,6 +118,19 @@ end)
 - One material instance per image per GUI: every draw of one image in one overlay shares one colour set. A second
   set in the same frame is refused (`one colour set per image per overlay`); a new set in a later frame recolours it.
 - An image partly off screen is dropped (a bitmap is never squashed).
+
+### The game's own HUD icons
+
+```lua
+local patriot = hd2.resources.game_icon('stratagem', 'EXO-45 Patriot Exosuit')
+overlay:draw(function(d) d:image(patriot, 40, 40, 64, 64, {colours = {r = '#FF6E5C'}}) end)
+```
+
+Every stratagem and booster HUD icon, drawn from the game's own atlas pages with the game's own icon materials:
+nothing is shipped and nothing is written (docs/game-icons.md). The same `colours` apply. Differences from a mod image:
+- one icon may be drawn in several colour sets in one overlay (each extra set borrows another icon material);
+- an icon is drawn only while its atlas page is loaded: booster icons are not during a mission;
+- when a page or material in use unloads, the overlay closes its GUI and draws again without that icon.
 
 ## The cursor (experimental, r50)
 

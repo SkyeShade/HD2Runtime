@@ -5537,7 +5537,7 @@
        ]
       ],
       "returns": "nil",
-      "doc": "One of the mod's own images (hd2.resources.image) through the game's icon material; (x, y) its top-left corner. Drawn once its resources are loaded; an image partly off screen is dropped. One colour set per image per overlay (r50)."
+      "doc": "One of the mod's own images (hd2.resources.image) through the game's icon material, or one of the game's own HUD icons (hd2.resources.game_icon; docs/game-icons.md); (x, y) its top-left corner. Drawn once its resources are loaded; an image partly off screen is dropped. One colour set per mod image per overlay (r50); a game icon may take several."
      },
      {
       "name": "text_width",
