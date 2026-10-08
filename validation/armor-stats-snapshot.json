@@ -1,0 +1,1397 @@
+{
+ "failed": [],
+ "results": {
+  "F5FEE03DCFDB-20260926T222226Z.hd2snap": {
+   "fixtureFallback": "disabled",
+   "imagePageGuard": {
+    "guardFailure": "guard_failure address=0x? failed=protection region=0x?+0x? state=0x? type=0x? protect=0x? allocation_base=0x? allocation_protect=unknown expected_allocation_base=0x? expected_size=0x? expected_type=0x? expected_protect=0x? module=none expected_bytes=match (1 match, 0 differ, 0 unreadable)",
+    "reason": "[string \"hd2runtime/core/guarded_transaction\"]:98: allocation ownership/protection changed",
+    "status": "REJECTED"
+   },
+   "imagePages": {
+    "armor": {
+     "protect": 64,
+     "regionRva": "2112000",
+     "regionSize": "528000",
+     "type": 16777216
+    },
+    "curve": {
+     "protect": 64,
+     "regionRva": "2112000",
+     "regionSize": "528000",
+     "type": 16777216
+    },
+    "speed": {
+     "protect": 64,
+     "regionRva": "2112000",
+     "regionSize": "528000",
+     "type": 16777216
+    },
+    "stamina": {
+     "protect": 64,
+     "regionRva": "2112000",
+     "regionSize": "528000",
+     "type": 16777216
+    }
+   },
+   "kitCount": 135,
+   "kits": {
+    "pieces": 1644,
+    "statsMatched": 135
+   },
+   "mode": "snapshot-overlay",
+   "player": {
+    "armor_bonus": 0,
+    "avatar": 249,
+    "derived": {
+     "armor_base": 0,
+     "armor_value": 0,
+     "class": "light",
+     "damage_multiplier": 1.25,
+     "display_speed_factor": 1.1,
+     "display_stamina_factor": 0.75,
+     "rating": 50,
+     "speed": 550,
+     "speed_factor": 1.1,
+     "stamina_factor": 0.75,
+     "stamina_regen": 125
+    },
+    "effective": 0,
+    "entity": 5,
+    "kit": "4DD749C6",
+    "slot": 0,
+    "stamina_factor": 0.75,
+    "status": "checked",
+    "written": {
+     "armor_bonus": 2,
+     "effective": 2,
+     "stamina_factor": 0.5
+    }
+   },
+   "problems": [],
+   "proof": {
+    "constants": 7,
+    "pins": 178,
+    "tablesVanilla": true
+   },
+   "protectionChanges": 0,
+   "rejections": {
+    "a slot the kit has no piece in": "field is not exposed for armor kit 4DD749C6 RS-100 SANCTIONER: armor_kit.piece_weight.helmet",
+    "ambiguous kit name": "AMBIGUOUS_ARMOR_KIT: 9 armor kits are named B-01 Tactical: name one by id (250FD6C1, 1D0E3431, 708451E9, 61B31723, 4F7FB2BD, 6351A9AA, 6D30F386, D59566D5, 1369B95B)",
+    "class rating 9": "value outside the reviewed range [-1, 4] for armor_class.rating",
+    "class without allow_shared": "shared field requires allow_shared=true: armor_class.rating (every armor whose pieces have this weight, for every player this machine simulates or hits)",
+    "curve at_0 refused": "WRITE_REFUSED_IMAGE_PAGE: armor_damage_curve.at_0 is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only R",
+    "curve at_1 refused": "WRITE_REFUSED_IMAGE_PAGE: armor_damage_curve.at_1 is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only R",
+    "curve at_2 refused": "WRITE_REFUSED_IMAGE_PAGE: armor_damage_curve.at_2 is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only R",
+    "curve at_3 refused": "WRITE_REFUSED_IMAGE_PAGE: armor_damage_curve.at_3 is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only R",
+    "curve at_minus_1 refused": "WRITE_REFUSED_IMAGE_PAGE: armor_damage_curve.at_minus_1 is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts ",
+    "heavy rating refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.rating is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READON",
+    "heavy speed refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.speed is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READONL",
+    "heavy stamina refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.stamina is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READO",
+    "kit moved": "ARMOR_KIT_MOVED: the kit table no longer holds armor kit 4DD749C6 at index 198",
+    "light rating refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.rating is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READON",
+    "light speed refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.speed is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READONL",
+    "light stamina refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.stamina is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READO",
+    "medium rating refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.rating is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READON",
+    "medium speed refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.speed is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READONL",
+    "medium stamina refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.stamina is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READO",
+    "no allow_shared": "shared field requires allow_shared=true: armor_kit.piece_weight.torso (every player wearing this armor kit reads its pieces (stocky, slim and any-body pieces alike))",
+    "no allow_unverified_effect": "field requires allow_unverified_effect=true: armor_kit.piece_weight.torso (not live-tested (docs/armor-stats.md))",
+    "player third-party stamina": "UNEXPECTED_STATE",
+    "stale expect": "expect differs from the reviewed value of armor_kit.piece_weight.torso: declared=medium reviewed=light",
+    "tampered pin": "native armor code changed (locomotionSpeedMultiplier: smoothing: product of slots 0..4 at game+7C6CE4)",
+    "third-party piece weight": "CONFLICT: armor_kit.piece_weight.torso is neither expected nor desired (target armor kit 4DD749C6 torso piece (body 0); expected light (0); desired heavy (2); observed 1)",
+    "unknown class": "UNKNOWN_ARMOR_CLASS: titanium is not an armor class (light, medium, heavy)",
+    "unknown kit": "UNKNOWN_ARMOR_KIT: DEADBEEF is not an armor kit of this build (hd2.armor_stats.kits())",
+    "unknown weight name": "UNKNOWN_WEIGHT: value must be light, medium, heavy or 0..2: titanium",
+    "weight 3": "UNKNOWN_WEIGHT: value must be light, medium, heavy or 0..2: 3"
+   },
+   "roundTrips": {
+    "ravager_all_heavy": {
+     "effect": {
+      "armor_base": 2,
+      "armor_value": 2,
+      "class": "heavy",
+      "damage_multiplier": 0.75,
+      "display_speed_factor": 0.9,
+      "display_stamina_factor": 1.5,
+      "rating": 150,
+      "speed": 450,
+      "speed_factor": 0.9,
+      "stamina_factor": 1.5,
+      "stamina_regen": 50
+     },
+     "liveAfter": {
+      "armor_base": 2,
+      "armor_value": 2,
+      "class": "heavy",
+      "damage_multiplier": 0.75,
+      "display_speed_factor": 0.9,
+      "display_stamina_factor": 1.5,
+      "rating": 150,
+      "speed": 450,
+      "speed_factor": 0.9,
+      "stamina_factor": 1.5,
+      "stamina_regen": 50
+     },
+     "note": "note: armor-1F9BFA78: armor kit 1F9BFA78 FS-37 Ravager now gives rating 150 (armor value 2, damage x0.75) from the next hit, and speed 450 / stamina regen 50 (factors 0.9 / 1.5) from the next armor apply (a respawn or a kit change); every player wearing it on this machine",
+     "pieceBytesChanged": 13,
+     "piecesCompared": 25,
+     "protectionChanges": 0,
+     "readerBytes": 10350,
+     "restored": true,
+     "source": "live",
+     "writes": 13,
+     "written": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+     ]
+    },
+    "sanctioner_torso_heavy": {
+     "effect": {
+      "armor_base": 0.4,
+      "armor_value": 0.4,
+      "class": "heavy",
+      "damage_multiplier": 1.15,
+      "display_speed_factor": 1.06,
+      "display_stamina_factor": 0.9,
+      "rating": 70,
+      "speed": 530,
+      "speed_factor": 1.071429,
+      "stamina_factor": 0.857143,
+      "stamina_regen": 110
+     },
+     "liveAfter": {
+      "armor_base": 0.4,
+      "armor_value": 0.4,
+      "class": "heavy",
+      "damage_multiplier": 1.15,
+      "display_speed_factor": 1.06,
+      "display_stamina_factor": 0.9,
+      "rating": 70,
+      "speed": 530,
+      "speed_factor": 1.071429,
+      "stamina_factor": 0.857143,
+      "stamina_regen": 110
+     },
+     "note": "note: armor-4DD749C6: armor kit 4DD749C6 RS-100 SANCTIONER now gives rating 70 (armor value 0.4, damage x1.15) from the next hit, and speed 530 / stamina regen 110 (factors 1.071429 / 0.857143) from the next armor apply (a respawn or a kit change); every player wearing it on this machine",
+     "pieceBytesChanged": 2,
+     "piecesCompared": 21,
+     "protectionChanges": 0,
+     "readerBytes": 9582,
+     "restored": true,
+     "source": "live",
+     "writes": 2,
+     "written": [
+      2,
+      2
+     ]
+    }
+   },
+   "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+   "status": "VALIDATED",
+   "writes": 35
+  },
+  "F5FEE03DCFDB-20260927T155654Z.hd2snap": {
+   "fixtureFallback": "disabled",
+   "imagePageGuard": {
+    "guardFailure": "guard_failure address=0x? failed=protection region=0x?+0x? state=0x? type=0x? protect=0x? allocation_base=0x? allocation_protect=unknown expected_allocation_base=0x? expected_size=0x? expected_type=0x? expected_protect=0x? module=none expected_bytes=match (1 match, 0 differ, 0 unreadable)",
+    "reason": "[string \"hd2runtime/core/guarded_transaction\"]:98: allocation ownership/protection changed",
+    "status": "REJECTED"
+   },
+   "imagePages": {
+    "armor": {
+     "protect": 64,
+     "regionRva": "2112000",
+     "regionSize": "528000",
+     "type": 16777216
+    },
+    "curve": {
+     "protect": 64,
+     "regionRva": "2112000",
+     "regionSize": "528000",
+     "type": 16777216
+    },
+    "speed": {
+     "protect": 64,
+     "regionRva": "2112000",
+     "regionSize": "528000",
+     "type": 16777216
+    },
+    "stamina": {
+     "protect": 64,
+     "regionRva": "2112000",
+     "regionSize": "528000",
+     "type": 16777216
+    }
+   },
+   "kitCount": 135,
+   "kits": {
+    "pieces": 1644,
+    "statsMatched": 135
+   },
+   "mode": "snapshot-overlay",
+   "player": {
+    "armor_bonus": 0,
+    "avatar": 249,
+    "derived": {
+     "armor_base": 0,
+     "armor_value": 0,
+     "class": "light",
+     "damage_multiplier": 1.25,
+     "display_speed_factor": 1.1,
+     "display_stamina_factor": 0.75,
+     "rating": 50,
+     "speed": 550,
+     "speed_factor": 1.1,
+     "stamina_factor": 0.75,
+     "stamina_regen": 125
+    },
+    "effective": 0,
+    "entity": 5,
+    "kit": "4DD749C6",
+    "slot": 0,
+    "stamina_factor": 0.75,
+    "status": "checked",
+    "written": {
+     "armor_bonus": 2,
+     "effective": 2,
+     "stamina_factor": 0.5
+    }
+   },
+   "problems": [],
+   "proof": {
+    "constants": 7,
+    "pins": 178,
+    "tablesVanilla": true
+   },
+   "protectionChanges": 0,
+   "rejections": {
+    "a slot the kit has no piece in": "field is not exposed for armor kit 4DD749C6 RS-100 SANCTIONER: armor_kit.piece_weight.helmet",
+    "ambiguous kit name": "AMBIGUOUS_ARMOR_KIT: 9 armor kits are named B-01 Tactical: name one by id (250FD6C1, 1D0E3431, 708451E9, 61B31723, 4F7FB2BD, 6351A9AA, 6D30F386, D59566D5, 1369B95B)",
+    "class rating 9": "value outside the reviewed range [-1, 4] for armor_class.rating",
+    "class without allow_shared": "shared field requires allow_shared=true: armor_class.rating (every armor whose pieces have this weight, for every player this machine simulates or hits)",
+    "curve at_0 refused": "WRITE_REFUSED_IMAGE_PAGE: armor_damage_curve.at_0 is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only R",
+    "curve at_1 refused": "WRITE_REFUSED_IMAGE_PAGE: armor_damage_curve.at_1 is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only R",
+    "curve at_2 refused": "WRITE_REFUSED_IMAGE_PAGE: armor_damage_curve.at_2 is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only R",
+    "curve at_3 refused": "WRITE_REFUSED_IMAGE_PAGE: armor_damage_curve.at_3 is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only R",
+    "curve at_minus_1 refused": "WRITE_REFUSED_IMAGE_PAGE: armor_damage_curve.at_minus_1 is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts ",
+    "heavy rating refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.rating is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READON",
+    "heavy speed refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.speed is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READONL",
+    "heavy stamina refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.stamina is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READO",
+    "kit moved": "ARMOR_KIT_MOVED: the kit table no longer holds armor kit 4DD749C6 at index 198",
+    "light rating refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.rating is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READON",
+    "light speed refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.speed is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READONL",
+    "light stamina refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.stamina is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READO",
+    "medium rating refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.rating is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READON",
+    "medium speed refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.speed is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READONL",
+    "medium stamina refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.stamina is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READO",
+    "no allow_shared": "shared field requires allow_shared=true: armor_kit.piece_weight.torso (every player wearing this armor kit reads its pieces (stocky, slim and any-body pieces alike))",
+    "no allow_unverified_effect": "field requires allow_unverified_effect=true: armor_kit.piece_weight.torso (not live-tested (docs/armor-stats.md))",
+    "player third-party stamina": "UNEXPECTED_STATE",
+    "stale expect": "expect differs from the reviewed value of armor_kit.piece_weight.torso: declared=medium reviewed=light",
+    "tampered pin": "native armor code changed (locomotionSpeedMultiplier: smoothing: product of slots 0..4 at game+7C6CE4)",
+    "third-party piece weight": "CONFLICT: armor_kit.piece_weight.torso is neither expected nor desired (target armor kit 4DD749C6 torso piece (body 0); expected light (0); desired heavy (2); observed 1)",
+    "unknown class": "UNKNOWN_ARMOR_CLASS: titanium is not an armor class (light, medium, heavy)",
+    "unknown kit": "UNKNOWN_ARMOR_KIT: DEADBEEF is not an armor kit of this build (hd2.armor_stats.kits())",
+    "unknown weight name": "UNKNOWN_WEIGHT: value must be light, medium, heavy or 0..2: titanium",
+    "weight 3": "UNKNOWN_WEIGHT: value must be light, medium, heavy or 0..2: 3"
+   },
+   "roundTrips": {
+    "ravager_all_heavy": {
+     "effect": {
+      "armor_base": 2,
+      "armor_value": 2,
+      "class": "heavy",
+      "damage_multiplier": 0.75,
+      "display_speed_factor": 0.9,
+      "display_stamina_factor": 1.5,
+      "rating": 150,
+      "speed": 450,
+      "speed_factor": 0.9,
+      "stamina_factor": 1.5,
+      "stamina_regen": 50
+     },
+     "liveAfter": {
+      "armor_base": 2,
+      "armor_value": 2,
+      "class": "heavy",
+      "damage_multiplier": 0.75,
+      "display_speed_factor": 0.9,
+      "display_stamina_factor": 1.5,
+      "rating": 150,
+      "speed": 450,
+      "speed_factor": 0.9,
+      "stamina_factor": 1.5,
+      "stamina_regen": 50
+     },
+     "note": "note: armor-1F9BFA78: armor kit 1F9BFA78 FS-37 Ravager now gives rating 150 (armor value 2, damage x0.75) from the next hit, and speed 450 / stamina regen 50 (factors 0.9 / 1.5) from the next armor apply (a respawn or a kit change); every player wearing it on this machine",
+     "pieceBytesChanged": 13,
+     "piecesCompared": 25,
+     "protectionChanges": 0,
+     "readerBytes": 10350,
+     "restored": true,
+     "source": "live",
+     "writes": 13,
+     "written": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+     ]
+    },
+    "sanctioner_torso_heavy": {
+     "effect": {
+      "armor_base": 0.4,
+      "armor_value": 0.4,
+      "class": "heavy",
+      "damage_multiplier": 1.15,
+      "display_speed_factor": 1.06,
+      "display_stamina_factor": 0.9,
+      "rating": 70,
+      "speed": 530,
+      "speed_factor": 1.071429,
+      "stamina_factor": 0.857143,
+      "stamina_regen": 110
+     },
+     "liveAfter": {
+      "armor_base": 0.4,
+      "armor_value": 0.4,
+      "class": "heavy",
+      "damage_multiplier": 1.15,
+      "display_speed_factor": 1.06,
+      "display_stamina_factor": 0.9,
+      "rating": 70,
+      "speed": 530,
+      "speed_factor": 1.071429,
+      "stamina_factor": 0.857143,
+      "stamina_regen": 110
+     },
+     "note": "note: armor-4DD749C6: armor kit 4DD749C6 RS-100 SANCTIONER now gives rating 70 (armor value 0.4, damage x1.15) from the next hit, and speed 530 / stamina regen 110 (factors 1.071429 / 0.857143) from the next armor apply (a respawn or a kit change); every player wearing it on this machine",
+     "pieceBytesChanged": 2,
+     "piecesCompared": 21,
+     "protectionChanges": 0,
+     "readerBytes": 9582,
+     "restored": true,
+     "source": "live",
+     "writes": 2,
+     "written": [
+      2,
+      2
+     ]
+    }
+   },
+   "snapshot": "F5FEE03DCFDB-20260927T155654Z.hd2snap",
+   "status": "VALIDATED",
+   "writes": 35
+  },
+  "F5FEE03DCFDB-20260927T160033Z.hd2snap": {
+   "fixtureFallback": "disabled",
+   "imagePageGuard": {
+    "guardFailure": "guard_failure address=0x? failed=protection region=0x?+0x? state=0x? type=0x? protect=0x? allocation_base=0x? allocation_protect=unknown expected_allocation_base=0x? expected_size=0x? expected_type=0x? expected_protect=0x? module=none expected_bytes=match (1 match, 0 differ, 0 unreadable)",
+    "reason": "[string \"hd2runtime/core/guarded_transaction\"]:98: allocation ownership/protection changed",
+    "status": "REJECTED"
+   },
+   "imagePages": {
+    "armor": {
+     "protect": 64,
+     "regionRva": "2112000",
+     "regionSize": "528000",
+     "type": 16777216
+    },
+    "curve": {
+     "protect": 64,
+     "regionRva": "2112000",
+     "regionSize": "528000",
+     "type": 16777216
+    },
+    "speed": {
+     "protect": 64,
+     "regionRva": "2112000",
+     "regionSize": "528000",
+     "type": 16777216
+    },
+    "stamina": {
+     "protect": 64,
+     "regionRva": "2112000",
+     "regionSize": "528000",
+     "type": 16777216
+    }
+   },
+   "kitCount": 135,
+   "kits": {
+    "pieces": 1644,
+    "statsMatched": 135
+   },
+   "mode": "snapshot-overlay",
+   "player": {
+    "armor_bonus": 0,
+    "avatar": 249,
+    "derived": {
+     "armor_base": 0,
+     "armor_value": 0,
+     "class": "light",
+     "damage_multiplier": 1.25,
+     "display_speed_factor": 1.1,
+     "display_stamina_factor": 0.75,
+     "rating": 50,
+     "speed": 550,
+     "speed_factor": 1.1,
+     "stamina_factor": 0.75,
+     "stamina_regen": 125
+    },
+    "effective": 0,
+    "entity": 5,
+    "kit": "4DD749C6",
+    "slot": 0,
+    "stamina_factor": 0.75,
+    "status": "checked",
+    "written": {
+     "armor_bonus": 2,
+     "effective": 2,
+     "stamina_factor": 0.5
+    }
+   },
+   "problems": [],
+   "proof": {
+    "constants": 7,
+    "pins": 178,
+    "tablesVanilla": true
+   },
+   "protectionChanges": 0,
+   "rejections": {
+    "a slot the kit has no piece in": "field is not exposed for armor kit 4DD749C6 RS-100 SANCTIONER: armor_kit.piece_weight.helmet",
+    "ambiguous kit name": "AMBIGUOUS_ARMOR_KIT: 9 armor kits are named B-01 Tactical: name one by id (250FD6C1, 1D0E3431, 708451E9, 61B31723, 4F7FB2BD, 6351A9AA, 6D30F386, D59566D5, 1369B95B)",
+    "class rating 9": "value outside the reviewed range [-1, 4] for armor_class.rating",
+    "class without allow_shared": "shared field requires allow_shared=true: armor_class.rating (every armor whose pieces have this weight, for every player this machine simulates or hits)",
+    "curve at_0 refused": "WRITE_REFUSED_IMAGE_PAGE: armor_damage_curve.at_0 is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only R",
+    "curve at_1 refused": "WRITE_REFUSED_IMAGE_PAGE: armor_damage_curve.at_1 is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only R",
+    "curve at_2 refused": "WRITE_REFUSED_IMAGE_PAGE: armor_damage_curve.at_2 is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only R",
+    "curve at_3 refused": "WRITE_REFUSED_IMAGE_PAGE: armor_damage_curve.at_3 is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only R",
+    "curve at_minus_1 refused": "WRITE_REFUSED_IMAGE_PAGE: armor_damage_curve.at_minus_1 is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts ",
+    "heavy rating refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.rating is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READON",
+    "heavy speed refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.speed is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READONL",
+    "heavy stamina refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.stamina is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READO",
+    "kit moved": "ARMOR_KIT_MOVED: the kit table no longer holds armor kit 4DD749C6 at index 198",
+    "light rating refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.rating is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READON",
+    "light speed refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.speed is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READONL",
+    "light stamina refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.stamina is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READO",
+    "medium rating refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.rating is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READON",
+    "medium speed refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.speed is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READONL",
+    "medium stamina refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.stamina is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READO",
+    "no allow_shared": "shared field requires allow_shared=true: armor_kit.piece_weight.torso (every player wearing this armor kit reads its pieces (stocky, slim and any-body pieces alike))",
+    "no allow_unverified_effect": "field requires allow_unverified_effect=true: armor_kit.piece_weight.torso (not live-tested (docs/armor-stats.md))",
+    "player third-party stamina": "UNEXPECTED_STATE",
+    "stale expect": "expect differs from the reviewed value of armor_kit.piece_weight.torso: declared=medium reviewed=light",
+    "tampered pin": "native armor code changed (locomotionSpeedMultiplier: smoothing: product of slots 0..4 at game+7C6CE4)",
+    "third-party piece weight": "CONFLICT: armor_kit.piece_weight.torso is neither expected nor desired (target armor kit 4DD749C6 torso piece (body 0); expected light (0); desired heavy (2); observed 1)",
+    "unknown class": "UNKNOWN_ARMOR_CLASS: titanium is not an armor class (light, medium, heavy)",
+    "unknown kit": "UNKNOWN_ARMOR_KIT: DEADBEEF is not an armor kit of this build (hd2.armor_stats.kits())",
+    "unknown weight name": "UNKNOWN_WEIGHT: value must be light, medium, heavy or 0..2: titanium",
+    "weight 3": "UNKNOWN_WEIGHT: value must be light, medium, heavy or 0..2: 3"
+   },
+   "roundTrips": {
+    "ravager_all_heavy": {
+     "effect": {
+      "armor_base": 2,
+      "armor_value": 2,
+      "class": "heavy",
+      "damage_multiplier": 0.75,
+      "display_speed_factor": 0.9,
+      "display_stamina_factor": 1.5,
+      "rating": 150,
+      "speed": 450,
+      "speed_factor": 0.9,
+      "stamina_factor": 1.5,
+      "stamina_regen": 50
+     },
+     "liveAfter": {
+      "armor_base": 2,
+      "armor_value": 2,
+      "class": "heavy",
+      "damage_multiplier": 0.75,
+      "display_speed_factor": 0.9,
+      "display_stamina_factor": 1.5,
+      "rating": 150,
+      "speed": 450,
+      "speed_factor": 0.9,
+      "stamina_factor": 1.5,
+      "stamina_regen": 50
+     },
+     "note": "note: armor-1F9BFA78: armor kit 1F9BFA78 FS-37 Ravager now gives rating 150 (armor value 2, damage x0.75) from the next hit, and speed 450 / stamina regen 50 (factors 0.9 / 1.5) from the next armor apply (a respawn or a kit change); every player wearing it on this machine",
+     "pieceBytesChanged": 13,
+     "piecesCompared": 25,
+     "protectionChanges": 0,
+     "readerBytes": 10350,
+     "restored": true,
+     "source": "live",
+     "writes": 13,
+     "written": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+     ]
+    },
+    "sanctioner_torso_heavy": {
+     "effect": {
+      "armor_base": 0.4,
+      "armor_value": 0.4,
+      "class": "heavy",
+      "damage_multiplier": 1.15,
+      "display_speed_factor": 1.06,
+      "display_stamina_factor": 0.9,
+      "rating": 70,
+      "speed": 530,
+      "speed_factor": 1.071429,
+      "stamina_factor": 0.857143,
+      "stamina_regen": 110
+     },
+     "liveAfter": {
+      "armor_base": 0.4,
+      "armor_value": 0.4,
+      "class": "heavy",
+      "damage_multiplier": 1.15,
+      "display_speed_factor": 1.06,
+      "display_stamina_factor": 0.9,
+      "rating": 70,
+      "speed": 530,
+      "speed_factor": 1.071429,
+      "stamina_factor": 0.857143,
+      "stamina_regen": 110
+     },
+     "note": "note: armor-4DD749C6: armor kit 4DD749C6 RS-100 SANCTIONER now gives rating 70 (armor value 0.4, damage x1.15) from the next hit, and speed 530 / stamina regen 110 (factors 1.071429 / 0.857143) from the next armor apply (a respawn or a kit change); every player wearing it on this machine",
+     "pieceBytesChanged": 2,
+     "piecesCompared": 21,
+     "protectionChanges": 0,
+     "readerBytes": 9582,
+     "restored": true,
+     "source": "live",
+     "writes": 2,
+     "written": [
+      2,
+      2
+     ]
+    }
+   },
+   "snapshot": "F5FEE03DCFDB-20260927T160033Z.hd2snap",
+   "status": "VALIDATED",
+   "writes": 35
+  },
+  "F5FEE03DCFDB-20260929T172647Z-mission-host.hd2snap": {
+   "fixtureFallback": "disabled",
+   "imagePageGuard": {
+    "guardFailure": "guard_failure address=0x? failed=protection region=0x?+0x? state=0x? type=0x? protect=0x? allocation_base=0x? allocation_protect=unknown expected_allocation_base=0x? expected_size=0x? expected_type=0x? expected_protect=0x? module=none expected_bytes=match (1 match, 0 differ, 0 unreadable)",
+    "reason": "[string \"hd2runtime/core/guarded_transaction\"]:98: allocation ownership/protection changed",
+    "status": "REJECTED"
+   },
+   "imagePages": {
+    "armor": {
+     "protect": 64,
+     "regionRva": "2112000",
+     "regionSize": "528000",
+     "type": 16777216
+    },
+    "curve": {
+     "protect": 64,
+     "regionRva": "2112000",
+     "regionSize": "528000",
+     "type": 16777216
+    },
+    "speed": {
+     "protect": 64,
+     "regionRva": "2112000",
+     "regionSize": "528000",
+     "type": 16777216
+    },
+    "stamina": {
+     "protect": 64,
+     "regionRva": "2112000",
+     "regionSize": "528000",
+     "type": 16777216
+    }
+   },
+   "kitCount": 135,
+   "kits": {
+    "pieces": 1644,
+    "statsMatched": 135
+   },
+   "mode": "snapshot-overlay",
+   "player": {
+    "armor_bonus": 0,
+    "avatar": 602,
+    "derived": {
+     "armor_base": 0,
+     "armor_value": 0,
+     "class": "light",
+     "damage_multiplier": 1.25,
+     "display_speed_factor": 1.1,
+     "display_stamina_factor": 0.75,
+     "rating": 50,
+     "speed": 550,
+     "speed_factor": 1.1,
+     "stamina_factor": 0.75,
+     "stamina_regen": 125
+    },
+    "effective": 0,
+    "entity": 5,
+    "kit": "4DD749C6",
+    "slot": 0,
+    "stamina_factor": 0.75,
+    "status": "checked",
+    "written": {
+     "armor_bonus": 2,
+     "effective": 2,
+     "stamina_factor": 0.5
+    }
+   },
+   "problems": [],
+   "proof": {
+    "constants": 7,
+    "pins": 178,
+    "tablesVanilla": true
+   },
+   "protectionChanges": 0,
+   "rejections": {
+    "a slot the kit has no piece in": "field is not exposed for armor kit 4DD749C6 RS-100 SANCTIONER: armor_kit.piece_weight.helmet",
+    "ambiguous kit name": "AMBIGUOUS_ARMOR_KIT: 9 armor kits are named B-01 Tactical: name one by id (250FD6C1, 1D0E3431, 708451E9, 61B31723, 4F7FB2BD, 6351A9AA, 6D30F386, D59566D5, 1369B95B)",
+    "class rating 9": "value outside the reviewed range [-1, 4] for armor_class.rating",
+    "class without allow_shared": "shared field requires allow_shared=true: armor_class.rating (every armor whose pieces have this weight, for every player this machine simulates or hits)",
+    "curve at_0 refused": "WRITE_REFUSED_IMAGE_PAGE: armor_damage_curve.at_0 is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only R",
+    "curve at_1 refused": "WRITE_REFUSED_IMAGE_PAGE: armor_damage_curve.at_1 is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only R",
+    "curve at_2 refused": "WRITE_REFUSED_IMAGE_PAGE: armor_damage_curve.at_2 is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only R",
+    "curve at_3 refused": "WRITE_REFUSED_IMAGE_PAGE: armor_damage_curve.at_3 is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only R",
+    "curve at_minus_1 refused": "WRITE_REFUSED_IMAGE_PAGE: armor_damage_curve.at_minus_1 is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts ",
+    "heavy rating refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.rating is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READON",
+    "heavy speed refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.speed is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READONL",
+    "heavy stamina refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.stamina is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READO",
+    "kit moved": "ARMOR_KIT_MOVED: the kit table no longer holds armor kit 4DD749C6 at index 198",
+    "light rating refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.rating is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READON",
+    "light speed refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.speed is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READONL",
+    "light stamina refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.stamina is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READO",
+    "medium rating refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.rating is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READON",
+    "medium speed refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.speed is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READONL",
+    "medium stamina refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.stamina is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READO",
+    "no allow_shared": "shared field requires allow_shared=true: armor_kit.piece_weight.torso (every player wearing this armor kit reads its pieces (stocky, slim and any-body pieces alike))",
+    "no allow_unverified_effect": "field requires allow_unverified_effect=true: armor_kit.piece_weight.torso (not live-tested (docs/armor-stats.md))",
+    "player third-party stamina": "UNEXPECTED_STATE",
+    "stale expect": "expect differs from the reviewed value of armor_kit.piece_weight.torso: declared=medium reviewed=light",
+    "tampered pin": "native armor code changed (locomotionSpeedMultiplier: smoothing: product of slots 0..4 at game+7C6CE4)",
+    "third-party piece weight": "CONFLICT: armor_kit.piece_weight.torso is neither expected nor desired (target armor kit 4DD749C6 torso piece (body 0); expected light (0); desired heavy (2); observed 1)",
+    "unknown class": "UNKNOWN_ARMOR_CLASS: titanium is not an armor class (light, medium, heavy)",
+    "unknown kit": "UNKNOWN_ARMOR_KIT: DEADBEEF is not an armor kit of this build (hd2.armor_stats.kits())",
+    "unknown weight name": "UNKNOWN_WEIGHT: value must be light, medium, heavy or 0..2: titanium",
+    "weight 3": "UNKNOWN_WEIGHT: value must be light, medium, heavy or 0..2: 3"
+   },
+   "roundTrips": {
+    "ravager_all_heavy": {
+     "effect": {
+      "armor_base": 2,
+      "armor_value": 2,
+      "class": "heavy",
+      "damage_multiplier": 0.75,
+      "display_speed_factor": 0.9,
+      "display_stamina_factor": 1.5,
+      "rating": 150,
+      "speed": 450,
+      "speed_factor": 0.9,
+      "stamina_factor": 1.5,
+      "stamina_regen": 50
+     },
+     "liveAfter": {
+      "armor_base": 2,
+      "armor_value": 2,
+      "class": "heavy",
+      "damage_multiplier": 0.75,
+      "display_speed_factor": 0.9,
+      "display_stamina_factor": 1.5,
+      "rating": 150,
+      "speed": 450,
+      "speed_factor": 0.9,
+      "stamina_factor": 1.5,
+      "stamina_regen": 50
+     },
+     "note": "note: armor-1F9BFA78: armor kit 1F9BFA78 FS-37 Ravager now gives rating 150 (armor value 2, damage x0.75) from the next hit, and speed 450 / stamina regen 50 (factors 0.9 / 1.5) from the next armor apply (a respawn or a kit change); every player wearing it on this machine",
+     "pieceBytesChanged": 13,
+     "piecesCompared": 25,
+     "protectionChanges": 0,
+     "readerBytes": 10350,
+     "restored": true,
+     "source": "live",
+     "writes": 13,
+     "written": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+     ]
+    },
+    "sanctioner_torso_heavy": {
+     "effect": {
+      "armor_base": 0.4,
+      "armor_value": 0.4,
+      "class": "heavy",
+      "damage_multiplier": 1.15,
+      "display_speed_factor": 1.06,
+      "display_stamina_factor": 0.9,
+      "rating": 70,
+      "speed": 530,
+      "speed_factor": 1.071429,
+      "stamina_factor": 0.857143,
+      "stamina_regen": 110
+     },
+     "liveAfter": {
+      "armor_base": 0.4,
+      "armor_value": 0.4,
+      "class": "heavy",
+      "damage_multiplier": 1.15,
+      "display_speed_factor": 1.06,
+      "display_stamina_factor": 0.9,
+      "rating": 70,
+      "speed": 530,
+      "speed_factor": 1.071429,
+      "stamina_factor": 0.857143,
+      "stamina_regen": 110
+     },
+     "note": "note: armor-4DD749C6: armor kit 4DD749C6 RS-100 SANCTIONER now gives rating 70 (armor value 0.4, damage x1.15) from the next hit, and speed 530 / stamina regen 110 (factors 1.071429 / 0.857143) from the next armor apply (a respawn or a kit change); every player wearing it on this machine",
+     "pieceBytesChanged": 2,
+     "piecesCompared": 21,
+     "protectionChanges": 0,
+     "readerBytes": 9582,
+     "restored": true,
+     "source": "live",
+     "writes": 2,
+     "written": [
+      2,
+      2
+     ]
+    }
+   },
+   "snapshot": "F5FEE03DCFDB-20260929T172647Z-mission-host.hd2snap",
+   "status": "VALIDATED",
+   "writes": 35
+  },
+  "F5FEE03DCFDB-20260929T172918Z-mission-host-alive.hd2snap": {
+   "fixtureFallback": "disabled",
+   "imagePageGuard": {
+    "guardFailure": "guard_failure address=0x? failed=protection region=0x?+0x? state=0x? type=0x? protect=0x? allocation_base=0x? allocation_protect=unknown expected_allocation_base=0x? expected_size=0x? expected_type=0x? expected_protect=0x? module=none expected_bytes=match (1 match, 0 differ, 0 unreadable)",
+    "reason": "[string \"hd2runtime/core/guarded_transaction\"]:98: allocation ownership/protection changed",
+    "status": "REJECTED"
+   },
+   "imagePages": {
+    "armor": {
+     "protect": 64,
+     "regionRva": "2112000",
+     "regionSize": "528000",
+     "type": 16777216
+    },
+    "curve": {
+     "protect": 64,
+     "regionRva": "2112000",
+     "regionSize": "528000",
+     "type": 16777216
+    },
+    "speed": {
+     "protect": 64,
+     "regionRva": "2112000",
+     "regionSize": "528000",
+     "type": 16777216
+    },
+    "stamina": {
+     "protect": 64,
+     "regionRva": "2112000",
+     "regionSize": "528000",
+     "type": 16777216
+    }
+   },
+   "kitCount": 135,
+   "kits": {
+    "pieces": 1644,
+    "statsMatched": 135
+   },
+   "mode": "snapshot-overlay",
+   "player": {
+    "armor_bonus": 0,
+    "avatar": 602,
+    "derived": {
+     "armor_base": 0,
+     "armor_value": 0,
+     "class": "light",
+     "damage_multiplier": 1.25,
+     "display_speed_factor": 1.1,
+     "display_stamina_factor": 0.75,
+     "rating": 50,
+     "speed": 550,
+     "speed_factor": 1.1,
+     "stamina_factor": 0.75,
+     "stamina_regen": 125
+    },
+    "effective": 0,
+    "entity": 5,
+    "kit": "4DD749C6",
+    "slot": 0,
+    "stamina_factor": 0.75,
+    "status": "checked",
+    "written": {
+     "armor_bonus": 2,
+     "effective": 2,
+     "stamina_factor": 0.5
+    }
+   },
+   "problems": [],
+   "proof": {
+    "constants": 7,
+    "pins": 178,
+    "tablesVanilla": true
+   },
+   "protectionChanges": 0,
+   "rejections": {
+    "a slot the kit has no piece in": "field is not exposed for armor kit 4DD749C6 RS-100 SANCTIONER: armor_kit.piece_weight.helmet",
+    "ambiguous kit name": "AMBIGUOUS_ARMOR_KIT: 9 armor kits are named B-01 Tactical: name one by id (250FD6C1, 1D0E3431, 708451E9, 61B31723, 4F7FB2BD, 6351A9AA, 6D30F386, D59566D5, 1369B95B)",
+    "class rating 9": "value outside the reviewed range [-1, 4] for armor_class.rating",
+    "class without allow_shared": "shared field requires allow_shared=true: armor_class.rating (every armor whose pieces have this weight, for every player this machine simulates or hits)",
+    "curve at_0 refused": "WRITE_REFUSED_IMAGE_PAGE: armor_damage_curve.at_0 is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only R",
+    "curve at_1 refused": "WRITE_REFUSED_IMAGE_PAGE: armor_damage_curve.at_1 is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only R",
+    "curve at_2 refused": "WRITE_REFUSED_IMAGE_PAGE: armor_damage_curve.at_2 is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only R",
+    "curve at_3 refused": "WRITE_REFUSED_IMAGE_PAGE: armor_damage_curve.at_3 is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only R",
+    "curve at_minus_1 refused": "WRITE_REFUSED_IMAGE_PAGE: armor_damage_curve.at_minus_1 is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts ",
+    "heavy rating refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.rating is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READON",
+    "heavy speed refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.speed is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READONL",
+    "heavy stamina refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.stamina is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READO",
+    "kit moved": "ARMOR_KIT_MOVED: the kit table no longer holds armor kit 4DD749C6 at index 198",
+    "light rating refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.rating is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READON",
+    "light speed refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.speed is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READONL",
+    "light stamina refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.stamina is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READO",
+    "medium rating refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.rating is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READON",
+    "medium speed refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.speed is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READONL",
+    "medium stamina refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.stamina is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READO",
+    "no allow_shared": "shared field requires allow_shared=true: armor_kit.piece_weight.torso (every player wearing this armor kit reads its pieces (stocky, slim and any-body pieces alike))",
+    "no allow_unverified_effect": "field requires allow_unverified_effect=true: armor_kit.piece_weight.torso (not live-tested (docs/armor-stats.md))",
+    "player third-party stamina": "UNEXPECTED_STATE",
+    "stale expect": "expect differs from the reviewed value of armor_kit.piece_weight.torso: declared=medium reviewed=light",
+    "tampered pin": "native armor code changed (locomotionSpeedMultiplier: smoothing: product of slots 0..4 at game+7C6CE4)",
+    "third-party piece weight": "CONFLICT: armor_kit.piece_weight.torso is neither expected nor desired (target armor kit 4DD749C6 torso piece (body 0); expected light (0); desired heavy (2); observed 1)",
+    "unknown class": "UNKNOWN_ARMOR_CLASS: titanium is not an armor class (light, medium, heavy)",
+    "unknown kit": "UNKNOWN_ARMOR_KIT: DEADBEEF is not an armor kit of this build (hd2.armor_stats.kits())",
+    "unknown weight name": "UNKNOWN_WEIGHT: value must be light, medium, heavy or 0..2: titanium",
+    "weight 3": "UNKNOWN_WEIGHT: value must be light, medium, heavy or 0..2: 3"
+   },
+   "roundTrips": {
+    "ravager_all_heavy": {
+     "effect": {
+      "armor_base": 2,
+      "armor_value": 2,
+      "class": "heavy",
+      "damage_multiplier": 0.75,
+      "display_speed_factor": 0.9,
+      "display_stamina_factor": 1.5,
+      "rating": 150,
+      "speed": 450,
+      "speed_factor": 0.9,
+      "stamina_factor": 1.5,
+      "stamina_regen": 50
+     },
+     "liveAfter": {
+      "armor_base": 2,
+      "armor_value": 2,
+      "class": "heavy",
+      "damage_multiplier": 0.75,
+      "display_speed_factor": 0.9,
+      "display_stamina_factor": 1.5,
+      "rating": 150,
+      "speed": 450,
+      "speed_factor": 0.9,
+      "stamina_factor": 1.5,
+      "stamina_regen": 50
+     },
+     "note": "note: armor-1F9BFA78: armor kit 1F9BFA78 FS-37 Ravager now gives rating 150 (armor value 2, damage x0.75) from the next hit, and speed 450 / stamina regen 50 (factors 0.9 / 1.5) from the next armor apply (a respawn or a kit change); every player wearing it on this machine",
+     "pieceBytesChanged": 13,
+     "piecesCompared": 25,
+     "protectionChanges": 0,
+     "readerBytes": 10350,
+     "restored": true,
+     "source": "live",
+     "writes": 13,
+     "written": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+     ]
+    },
+    "sanctioner_torso_heavy": {
+     "effect": {
+      "armor_base": 0.4,
+      "armor_value": 0.4,
+      "class": "heavy",
+      "damage_multiplier": 1.15,
+      "display_speed_factor": 1.06,
+      "display_stamina_factor": 0.9,
+      "rating": 70,
+      "speed": 530,
+      "speed_factor": 1.071429,
+      "stamina_factor": 0.857143,
+      "stamina_regen": 110
+     },
+     "liveAfter": {
+      "armor_base": 0.4,
+      "armor_value": 0.4,
+      "class": "heavy",
+      "damage_multiplier": 1.15,
+      "display_speed_factor": 1.06,
+      "display_stamina_factor": 0.9,
+      "rating": 70,
+      "speed": 530,
+      "speed_factor": 1.071429,
+      "stamina_factor": 0.857143,
+      "stamina_regen": 110
+     },
+     "note": "note: armor-4DD749C6: armor kit 4DD749C6 RS-100 SANCTIONER now gives rating 70 (armor value 0.4, damage x1.15) from the next hit, and speed 530 / stamina regen 110 (factors 1.071429 / 0.857143) from the next armor apply (a respawn or a kit change); every player wearing it on this machine",
+     "pieceBytesChanged": 2,
+     "piecesCompared": 21,
+     "protectionChanges": 0,
+     "readerBytes": 9582,
+     "restored": true,
+     "source": "live",
+     "writes": 2,
+     "written": [
+      2,
+      2
+     ]
+    }
+   },
+   "snapshot": "F5FEE03DCFDB-20260929T172918Z-mission-host-alive.hd2snap",
+   "status": "VALIDATED",
+   "writes": 35
+  },
+  "F5FEE03DCFDB-20260929T173206Z-mission-host-after-reinforce.hd2snap": {
+   "fixtureFallback": "disabled",
+   "imagePageGuard": {
+    "guardFailure": "guard_failure address=0x? failed=protection region=0x?+0x? state=0x? type=0x? protect=0x? allocation_base=0x? allocation_protect=unknown expected_allocation_base=0x? expected_size=0x? expected_type=0x? expected_protect=0x? module=none expected_bytes=match (1 match, 0 differ, 0 unreadable)",
+    "reason": "[string \"hd2runtime/core/guarded_transaction\"]:98: allocation ownership/protection changed",
+    "status": "REJECTED"
+   },
+   "imagePages": {
+    "armor": {
+     "protect": 64,
+     "regionRva": "2112000",
+     "regionSize": "528000",
+     "type": 16777216
+    },
+    "curve": {
+     "protect": 64,
+     "regionRva": "2112000",
+     "regionSize": "528000",
+     "type": 16777216
+    },
+    "speed": {
+     "protect": 64,
+     "regionRva": "2112000",
+     "regionSize": "528000",
+     "type": 16777216
+    },
+    "stamina": {
+     "protect": 64,
+     "regionRva": "2112000",
+     "regionSize": "528000",
+     "type": 16777216
+    }
+   },
+   "kitCount": 135,
+   "kits": {
+    "pieces": 1644,
+    "statsMatched": 135
+   },
+   "mode": "snapshot-overlay",
+   "player": {
+    "armor_bonus": 0,
+    "avatar": 852,
+    "derived": {
+     "armor_base": 0,
+     "armor_value": 0,
+     "class": "light",
+     "damage_multiplier": 1.25,
+     "display_speed_factor": 1.1,
+     "display_stamina_factor": 0.75,
+     "rating": 50,
+     "speed": 550,
+     "speed_factor": 1.1,
+     "stamina_factor": 0.75,
+     "stamina_regen": 125
+    },
+    "effective": 0,
+    "entity": 5,
+    "kit": "4DD749C6",
+    "slot": 0,
+    "stamina_factor": 0.75,
+    "status": "checked",
+    "written": {
+     "armor_bonus": 2,
+     "effective": 2,
+     "stamina_factor": 0.5
+    }
+   },
+   "problems": [],
+   "proof": {
+    "constants": 7,
+    "pins": 178,
+    "tablesVanilla": true
+   },
+   "protectionChanges": 0,
+   "rejections": {
+    "a slot the kit has no piece in": "field is not exposed for armor kit 4DD749C6 RS-100 SANCTIONER: armor_kit.piece_weight.helmet",
+    "ambiguous kit name": "AMBIGUOUS_ARMOR_KIT: 9 armor kits are named B-01 Tactical: name one by id (250FD6C1, 1D0E3431, 708451E9, 61B31723, 4F7FB2BD, 6351A9AA, 6D30F386, D59566D5, 1369B95B)",
+    "class rating 9": "value outside the reviewed range [-1, 4] for armor_class.rating",
+    "class without allow_shared": "shared field requires allow_shared=true: armor_class.rating (every armor whose pieces have this weight, for every player this machine simulates or hits)",
+    "curve at_0 refused": "WRITE_REFUSED_IMAGE_PAGE: armor_damage_curve.at_0 is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only R",
+    "curve at_1 refused": "WRITE_REFUSED_IMAGE_PAGE: armor_damage_curve.at_1 is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only R",
+    "curve at_2 refused": "WRITE_REFUSED_IMAGE_PAGE: armor_damage_curve.at_2 is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only R",
+    "curve at_3 refused": "WRITE_REFUSED_IMAGE_PAGE: armor_damage_curve.at_3 is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only R",
+    "curve at_minus_1 refused": "WRITE_REFUSED_IMAGE_PAGE: armor_damage_curve.at_minus_1 is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts ",
+    "heavy rating refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.rating is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READON",
+    "heavy speed refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.speed is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READONL",
+    "heavy stamina refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.stamina is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READO",
+    "kit moved": "ARMOR_KIT_MOVED: the kit table no longer holds armor kit 4DD749C6 at index 198",
+    "light rating refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.rating is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READON",
+    "light speed refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.speed is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READONL",
+    "light stamina refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.stamina is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READO",
+    "medium rating refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.rating is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READON",
+    "medium speed refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.speed is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READONL",
+    "medium stamina refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.stamina is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READO",
+    "no allow_shared": "shared field requires allow_shared=true: armor_kit.piece_weight.torso (every player wearing this armor kit reads its pieces (stocky, slim and any-body pieces alike))",
+    "no allow_unverified_effect": "field requires allow_unverified_effect=true: armor_kit.piece_weight.torso (not live-tested (docs/armor-stats.md))",
+    "player third-party stamina": "UNEXPECTED_STATE",
+    "stale expect": "expect differs from the reviewed value of armor_kit.piece_weight.torso: declared=medium reviewed=light",
+    "tampered pin": "native armor code changed (locomotionSpeedMultiplier: smoothing: product of slots 0..4 at game+7C6CE4)",
+    "third-party piece weight": "CONFLICT: armor_kit.piece_weight.torso is neither expected nor desired (target armor kit 4DD749C6 torso piece (body 0); expected light (0); desired heavy (2); observed 1)",
+    "unknown class": "UNKNOWN_ARMOR_CLASS: titanium is not an armor class (light, medium, heavy)",
+    "unknown kit": "UNKNOWN_ARMOR_KIT: DEADBEEF is not an armor kit of this build (hd2.armor_stats.kits())",
+    "unknown weight name": "UNKNOWN_WEIGHT: value must be light, medium, heavy or 0..2: titanium",
+    "weight 3": "UNKNOWN_WEIGHT: value must be light, medium, heavy or 0..2: 3"
+   },
+   "roundTrips": {
+    "ravager_all_heavy": {
+     "effect": {
+      "armor_base": 2,
+      "armor_value": 2,
+      "class": "heavy",
+      "damage_multiplier": 0.75,
+      "display_speed_factor": 0.9,
+      "display_stamina_factor": 1.5,
+      "rating": 150,
+      "speed": 450,
+      "speed_factor": 0.9,
+      "stamina_factor": 1.5,
+      "stamina_regen": 50
+     },
+     "liveAfter": {
+      "armor_base": 2,
+      "armor_value": 2,
+      "class": "heavy",
+      "damage_multiplier": 0.75,
+      "display_speed_factor": 0.9,
+      "display_stamina_factor": 1.5,
+      "rating": 150,
+      "speed": 450,
+      "speed_factor": 0.9,
+      "stamina_factor": 1.5,
+      "stamina_regen": 50
+     },
+     "note": "note: armor-1F9BFA78: armor kit 1F9BFA78 FS-37 Ravager now gives rating 150 (armor value 2, damage x0.75) from the next hit, and speed 450 / stamina regen 50 (factors 0.9 / 1.5) from the next armor apply (a respawn or a kit change); every player wearing it on this machine",
+     "pieceBytesChanged": 13,
+     "piecesCompared": 25,
+     "protectionChanges": 0,
+     "readerBytes": 10350,
+     "restored": true,
+     "source": "live",
+     "writes": 13,
+     "written": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+     ]
+    },
+    "sanctioner_torso_heavy": {
+     "effect": {
+      "armor_base": 0.4,
+      "armor_value": 0.4,
+      "class": "heavy",
+      "damage_multiplier": 1.15,
+      "display_speed_factor": 1.06,
+      "display_stamina_factor": 0.9,
+      "rating": 70,
+      "speed": 530,
+      "speed_factor": 1.071429,
+      "stamina_factor": 0.857143,
+      "stamina_regen": 110
+     },
+     "liveAfter": {
+      "armor_base": 0.4,
+      "armor_value": 0.4,
+      "class": "heavy",
+      "damage_multiplier": 1.15,
+      "display_speed_factor": 1.06,
+      "display_stamina_factor": 0.9,
+      "rating": 70,
+      "speed": 530,
+      "speed_factor": 1.071429,
+      "stamina_factor": 0.857143,
+      "stamina_regen": 110
+     },
+     "note": "note: armor-4DD749C6: armor kit 4DD749C6 RS-100 SANCTIONER now gives rating 70 (armor value 0.4, damage x1.15) from the next hit, and speed 530 / stamina regen 110 (factors 1.071429 / 0.857143) from the next armor apply (a respawn or a kit change); every player wearing it on this machine",
+     "pieceBytesChanged": 2,
+     "piecesCompared": 21,
+     "protectionChanges": 0,
+     "readerBytes": 9582,
+     "restored": true,
+     "source": "live",
+     "writes": 2,
+     "written": [
+      2,
+      2
+     ]
+    }
+   },
+   "snapshot": "F5FEE03DCFDB-20260929T173206Z-mission-host-after-reinforce.hd2snap",
+   "status": "VALIDATED",
+   "writes": 35
+  },
+  "F5FEE03DCFDB-20260929T173443Z-mission-end-transition.hd2snap": {
+   "fixtureFallback": "disabled",
+   "imagePageGuard": {
+    "guardFailure": "guard_failure address=0x? failed=protection region=0x?+0x? state=0x? type=0x? protect=0x? allocation_base=0x? allocation_protect=unknown expected_allocation_base=0x? expected_size=0x? expected_type=0x? expected_protect=0x? module=none expected_bytes=match (1 match, 0 differ, 0 unreadable)",
+    "reason": "[string \"hd2runtime/core/guarded_transaction\"]:98: allocation ownership/protection changed",
+    "status": "REJECTED"
+   },
+   "imagePages": {
+    "armor": {
+     "protect": 64,
+     "regionRva": "2112000",
+     "regionSize": "528000",
+     "type": 16777216
+    },
+    "curve": {
+     "protect": 64,
+     "regionRva": "2112000",
+     "regionSize": "528000",
+     "type": 16777216
+    },
+    "speed": {
+     "protect": 64,
+     "regionRva": "2112000",
+     "regionSize": "528000",
+     "type": 16777216
+    },
+    "stamina": {
+     "protect": 64,
+     "regionRva": "2112000",
+     "regionSize": "528000",
+     "type": 16777216
+    }
+   },
+   "kitCount": 135,
+   "kits": {
+    "pieces": 1644,
+    "statsMatched": 135
+   },
+   "mode": "snapshot-overlay",
+   "player": {
+    "code": "NO_LOCAL_AVATAR",
+    "reason": "the local player has no avatar now",
+    "status": "unavailable"
+   },
+   "problems": [],
+   "proof": {
+    "constants": 7,
+    "pins": 178,
+    "tablesVanilla": true
+   },
+   "protectionChanges": 0,
+   "rejections": {
+    "a slot the kit has no piece in": "field is not exposed for armor kit 4DD749C6 RS-100 SANCTIONER: armor_kit.piece_weight.helmet",
+    "ambiguous kit name": "AMBIGUOUS_ARMOR_KIT: 9 armor kits are named B-01 Tactical: name one by id (250FD6C1, 1D0E3431, 708451E9, 61B31723, 4F7FB2BD, 6351A9AA, 6D30F386, D59566D5, 1369B95B)",
+    "class rating 9": "value outside the reviewed range [-1, 4] for armor_class.rating",
+    "class without allow_shared": "shared field requires allow_shared=true: armor_class.rating (every armor whose pieces have this weight, for every player this machine simulates or hits)",
+    "curve at_0 refused": "WRITE_REFUSED_IMAGE_PAGE: armor_damage_curve.at_0 is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only R",
+    "curve at_1 refused": "WRITE_REFUSED_IMAGE_PAGE: armor_damage_curve.at_1 is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only R",
+    "curve at_2 refused": "WRITE_REFUSED_IMAGE_PAGE: armor_damage_curve.at_2 is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only R",
+    "curve at_3 refused": "WRITE_REFUSED_IMAGE_PAGE: armor_damage_curve.at_3 is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only R",
+    "curve at_minus_1 refused": "WRITE_REFUSED_IMAGE_PAGE: armor_damage_curve.at_minus_1 is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts ",
+    "heavy rating refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.rating is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READON",
+    "heavy speed refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.speed is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READONL",
+    "heavy stamina refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.stamina is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READO",
+    "kit moved": "ARMOR_KIT_MOVED: the kit table no longer holds armor kit 4DD749C6 at index 198",
+    "light rating refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.rating is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READON",
+    "light speed refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.speed is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READONL",
+    "light stamina refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.stamina is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READO",
+    "medium rating refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.rating is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READON",
+    "medium speed refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.speed is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READONL",
+    "medium stamina refused": "WRITE_REFUSED_IMAGE_PAGE: armor_class.stamina is read-only: the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE (0x40) at run time in every retained snapshot; the guarded write accepts only READO",
+    "no allow_shared": "shared field requires allow_shared=true: armor_kit.piece_weight.torso (every player wearing this armor kit reads its pieces (stocky, slim and any-body pieces alike))",
+    "no allow_unverified_effect": "field requires allow_unverified_effect=true: armor_kit.piece_weight.torso (not live-tested (docs/armor-stats.md))",
+    "stale expect": "expect differs from the reviewed value of armor_kit.piece_weight.torso: declared=medium reviewed=light",
+    "tampered pin": "native armor code changed (locomotionSpeedMultiplier: smoothing: product of slots 0..4 at game+7C6CE4)",
+    "third-party piece weight": "CONFLICT: armor_kit.piece_weight.torso is neither expected nor desired (target armor kit 4DD749C6 torso piece (body 0); expected light (0); desired heavy (2); observed 1)",
+    "unknown class": "UNKNOWN_ARMOR_CLASS: titanium is not an armor class (light, medium, heavy)",
+    "unknown kit": "UNKNOWN_ARMOR_KIT: DEADBEEF is not an armor kit of this build (hd2.armor_stats.kits())",
+    "unknown weight name": "UNKNOWN_WEIGHT: value must be light, medium, heavy or 0..2: titanium",
+    "weight 3": "UNKNOWN_WEIGHT: value must be light, medium, heavy or 0..2: 3"
+   },
+   "roundTrips": {
+    "ravager_all_heavy": {
+     "effect": {
+      "armor_base": 2,
+      "armor_value": 2,
+      "class": "heavy",
+      "damage_multiplier": 0.75,
+      "display_speed_factor": 0.9,
+      "display_stamina_factor": 1.5,
+      "rating": 150,
+      "speed": 450,
+      "speed_factor": 0.9,
+      "stamina_factor": 1.5,
+      "stamina_regen": 50
+     },
+     "liveAfter": {
+      "armor_base": 2,
+      "armor_value": 2,
+      "class": "heavy",
+      "damage_multiplier": 0.75,
+      "display_speed_factor": 0.9,
+      "display_stamina_factor": 1.5,
+      "rating": 150,
+      "speed": 450,
+      "speed_factor": 0.9,
+      "stamina_factor": 1.5,
+      "stamina_regen": 50
+     },
+     "note": "note: armor-1F9BFA78: armor kit 1F9BFA78 FS-37 Ravager now gives rating 150 (armor value 2, damage x0.75) from the next hit, and speed 450 / stamina regen 50 (factors 0.9 / 1.5) from the next armor apply (a respawn or a kit change); every player wearing it on this machine",
+     "pieceBytesChanged": 13,
+     "piecesCompared": 25,
+     "protectionChanges": 0,
+     "readerBytes": 10350,
+     "restored": true,
+     "source": "live",
+     "writes": 13,
+     "written": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+     ]
+    },
+    "sanctioner_torso_heavy": {
+     "effect": {
+      "armor_base": 0.4,
+      "armor_value": 0.4,
+      "class": "heavy",
+      "damage_multiplier": 1.15,
+      "display_speed_factor": 1.06,
+      "display_stamina_factor": 0.9,
+      "rating": 70,
+      "speed": 530,
+      "speed_factor": 1.071429,
+      "stamina_factor": 0.857143,
+      "stamina_regen": 110
+     },
+     "liveAfter": {
+      "armor_base": 0.4,
+      "armor_value": 0.4,
+      "class": "heavy",
+      "damage_multiplier": 1.15,
+      "display_speed_factor": 1.06,
+      "display_stamina_factor": 0.9,
+      "rating": 70,
+      "speed": 530,
+      "speed_factor": 1.071429,
+      "stamina_factor": 0.857143,
+      "stamina_regen": 110
+     },
+     "note": "note: armor-4DD749C6: armor kit 4DD749C6 RS-100 SANCTIONER now gives rating 70 (armor value 0.4, damage x1.15) from the next hit, and speed 530 / stamina regen 110 (factors 1.071429 / 0.857143) from the next armor apply (a respawn or a kit change); every player wearing it on this machine",
+     "pieceBytesChanged": 2,
+     "piecesCompared": 21,
+     "protectionChanges": 0,
+     "readerBytes": 9582,
+     "restored": true,
+     "source": "live",
+     "writes": 2,
+     "written": [
+      2,
+      2
+     ]
+    }
+   },
+   "snapshot": "F5FEE03DCFDB-20260929T173443Z-mission-end-transition.hd2snap",
+   "status": "VALIDATED",
+   "writes": 30
+  }
+ },
+ "snapshots": 7,
+ "status": "VALIDATED"
+}
