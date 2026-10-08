@@ -74,6 +74,10 @@ register (another HD2Runtime copy, or one loaded earlier in the session), or ano
 array only through its own allocator (and frees the old array through it), so the Runtime never grows it with its
 own memory.
 
+A custom stratagem whose text is refused this way still runs (0.30.2): its carrier keeps its own name and
+description and takes the custom icon and code (`carrier presentation TEXT FALLBACK: ...`). Every other text refusal
+still refuses the presentation.
+
 **Ids.** A text's key is `<mod resource id>/text/<id>`, hashed the way the game hashes its own keys:
 - mod-local: another mod's text of the same id has another id;
 - never published.

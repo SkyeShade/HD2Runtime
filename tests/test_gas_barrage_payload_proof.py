@@ -663,18 +663,24 @@ done()
 return 'ok'
 ''')
 
-    def test_a_refused_presentation_refuses_the_test_with_nothing_converted(self):
+    def test_a_full_text_registry_keeps_the_carrier_text_and_the_test_runs(self):
+        # 0.30.2: the game's text registry full at mission start (a report: 18 of 18). The carrier keeps its own name
+        # and description; the custom icon and code are applied and the slot converts (before: the whole test refused).
         self.lua(r'''
 rawset(_G,'ModOptionsMenu',MENU)
 to_mission()
--- The game's text registry full at mission start: the text is refused, nothing written, nothing converted.
 W.text_registry({tables={VANILLA,VANILLA,VANILLA},capacity=3})
 local writes=#W.runtime.writes
 local h=start_mission()
 tick(64)
-assert(count('MISSION START: TEST REFUSED (nothing converted; the carrier keeps its own look and code): the carrier '
-    ..'presentation was refused: REGISTRY_FULL')==1,table.concat(logged,' | '))
-assert(entry_type(h,2)==118 and native106()and#W.runtime.writes==writes and count('] READY TO CALL')==0)
+assert(count('carrier presentation TEXT FALLBACK: Orbital Napalm Barrage keeps its own name and description')==1,
+    table.concat(logged,' | '))
+assert(count('text REGISTRY FULL (read-only diagnostic')==1,'what holds the registry is logged')
+assert(count('MISSION START: carrier presentation APPLIED')>=1,'applied')
+assert(count('] READY TO CALL')==1,'ready: '..count('] READY TO CALL'))
+assert(entry_type(h,2)==106,'converted: '..tostring(entry_type(h,2)))
+assert(#W.runtime.writes>writes,'written')
+assert(count('TEST REFUSED')==0,'not refused')
 done()
 return 'ok'
 ''')

@@ -332,11 +332,20 @@ function M.apply(spec,callback)
             for _,name in ipairs(M.TEXT)do text_spec[name]=spec.text[name]end
             local handle=presentation.apply_text(text_spec)
             while handle.status=='pending'do coroutine.yield()end
-            if handle.status~='applied'then
+            if handle.status~='applied'and handle.code=='REGISTRY_FULL'and(spec.icon or spec.code)then
+                -- 0.30.2: no place for Runtime text (the game's text registry is full; text_resources logs what holds
+                -- it). The carrier keeps its own name and description and still takes the custom icon and code, so
+                -- the custom stratagem runs instead of being refused for the mission. Nothing of the text was written.
+                log(('TEXT FALLBACK: %s keeps its own name and description (%s); the custom icon and code are applied')
+                    :format(spec.carrier,tostring(handle.reason)))
+                spec={carrier=spec.carrier,icon=spec.icon,code=spec.code,uses=spec.uses}
+                state.spec,state.text_fallback=spec,tostring(handle.reason)
+            elseif handle.status~='applied'then
                 states[spec.carrier]=nil
                 return nil,handle.code or'REFUSED','the text: '..tostring(handle.reason)
+            else
+                state.text={applied=true,restored=false,ref=presentation.state(spec.carrier)}
             end
-            state.text={applied=true,restored=false,ref=presentation.state(spec.carrier)}
         end
         -- 3. The icon and the code: one guarded transaction. Refused: the text is restored, nothing stays written.
         if spec.icon or spec.code then
