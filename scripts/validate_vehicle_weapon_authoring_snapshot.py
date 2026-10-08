@@ -55,7 +55,8 @@ local function public_id(field)
 end
 local status_catalog=require('hd2runtime/domains/status_catalog')
 -- A mounted host's projectile reference: its own attack projectile handle (the baseline) and a same-class donor
--- output (no cross-class acknowledgement), chosen deterministically from the catalog.
+-- output (no cross-class acknowledgement, and a live-tested donor: an unverifiedDonor needs allow_unverified_reference,
+-- which this round trip does not give), chosen deterministically from the catalog.
 local outputs=require('hd2runtime/domains/attack_outputs')
 local function own_projectile(field)
  return {resource='vehicle_weapon',path='projectile_reference',weapon=field.target.weapon,attack=field.target.attack}
@@ -64,7 +65,7 @@ local function donor_for(field)
  local ids={}
  for id,output in pairs(outputs.outputs)do
   if output.family=='projectile'and output.editable and output.backing and not output.referenceScope
-   and output.compatibilityClass==field.compatibilityClass and output.owner.name~=field.target.weapon
+   and not output.unverifiedDonor and output.compatibilityClass==field.compatibilityClass and output.owner.name~=field.target.weapon
    and output.currentDefault~=field.currentDefault.projectileType then ids[#ids+1]=id end
  end
  table.sort(ids)

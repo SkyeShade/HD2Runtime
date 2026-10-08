@@ -87,9 +87,13 @@ def outputs(research_path=RESEARCH):
         unnamed = {'explosion_effect_package': 'unnamed objective package (effect) of the ',
             'explosion_sound_package': 'unnamed objective package (sound) of the '}.get(dep['via'],
             'unnamed loadout package of ')
-        packages.setdefault(pid, {'name': name or unnamed + item['label'].replace(' (sound)', '') + (
+        entry_package = {'name': name or unnamed + item['label'].replace(' (sound)', '') + (
             ' explosion' if dep['via'].startswith('explosion_') else ''),
-            'named': bool(name), 'inBundleDatabase': dep['inBundleDatabase']})
+            'named': bool(name), 'inBundleDatabase': dep['inBundleDatabase']}
+        # A package several objects share keeps the name any of them knows (an unnamed explosion item listed first must
+        # not hide the loadout name another dependency of the same package carries).
+        if pid not in packages or (name and not packages[pid]['named']):
+            packages[pid] = entry_package
         dependencies[key] = dict({'package': pid, 'via': dep['via'], 'label': item['label']},
             **({'live': True} if key in live_objects else {}))
         if item['resource']:
