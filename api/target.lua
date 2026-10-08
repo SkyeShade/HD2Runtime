@@ -402,6 +402,41 @@ function M.new(describe)
         return setmetatable({resource='weapon_attachment',attachment=entry.semanticId,path='magazine'},
             {__index=methods})
     end
+    -- Muzzle, optics and underbarrel definitions (sdk/WeaponAttachmentModifierCapabilities.json): their stat
+    -- modifiers are writable shared-definition fields; every other member their delta patches is listed read-only.
+    local ATTACHMENT_SLOTS={magazine=true,muzzle=true,optics=true,underbarrel=true}
+    local function attachment_slot(slot)
+        return assert(ATTACHMENT_SLOTS[slot]and slot,
+            'unknown attachment slot: '..tostring(slot)..' (magazine, muzzle, optics or underbarrel)')
+    end
+    local function modifier_attachment_target(identity,relationship)
+        local entry=assert(attachment_authoring.attachments[identity],'unknown reviewed weapon attachment')
+        local methods={}
+        function methods.describe()
+            local fields={}
+            for field_id,field in pairs(entry.fields)do
+                fields[#fields+1]={semanticFieldId=field_id,instanceKey=field.instanceKey,
+                    statModifier=attachment_authoring.modifierTypes[tostring(field.guard.u32)],currentDefault=field.currentDefault,
+                    min=field.min,max=field.max,editable=true,acknowledgements={'allow_shared','allow_unverified_effect'}}
+            end
+            table.sort(fields,function(a,b)return a.semanticFieldId<b.semanticFieldId end)
+            local patches={}
+            for index,patch in ipairs(entry.readOnly)do
+                patches[index]={component=patch.component,offset=patch.offset,size=patch.size,label=patch.label,
+                    writable=false,status=patch.status}
+            end
+            return {semanticId=entry.semanticId,name=entry.name,slot=entry.slot,relationship=relationship,
+                shared=true,scopeComplete=false,compatibleWeapons=copy(entry.compatibleWeapons),
+                modifiers=copy(entry.modifiers),fields=fields,readOnlyPatches=patches}
+        end
+        return setmetatable({resource='weapon_attachment',attachment=entry.semanticId,path=entry.slot},
+            {__index=methods})
+    end
+    local function attachment_handle(identity,relationship,option_name)
+        local entry=assert(attachment_authoring.attachments[identity],'unknown reviewed weapon attachment')
+        if entry.slot=='magazine'then return magazine_attachment_target(identity,relationship,option_name)end
+        return modifier_attachment_target(identity,relationship)
+    end
     -- Rate-of-fire modes, feeds and presentation (domains/weapon_modes.lua, domains/weapon_presentation.lua): read views
     -- over the weapon's own field descriptors. Writes use the weapon target and hd2.fields.fire_rate.modes,
     -- hd2.fields.weapon_function.*, hd2.fields.function_ammo.projectile and hd2.fields.presentation.*.
@@ -704,6 +739,32 @@ function M.new(describe)
             end
             if identity==slot.default then return magazine_attachment_target(slot.default,'native_resource_default')end
             error('unknown magazine attachment for '..name..': '..tostring(identity),0)
+        end
+        -- Every slot: the magazine functions above, or the muzzle, optics and underbarrel definitions this weapon
+        -- names as its resource default or lists in its unlock list (native default first).
+        function methods.attachments(_,slot)
+            if attachment_slot(slot)=='magazine'then return methods.magazine_attachments()end
+            local entry=(attachment_authoring.slots[name]or{})[slot]
+            local result={}
+            for _,option in ipairs(entry and entry.options or{})do
+                result[#result+1]=attachment_handle(option.attachment,option.relationship)
+            end
+            return result
+        end
+        function methods.attachment_definition(_,slot,identity)
+            if attachment_slot(slot)=='magazine'then return methods.magazine_attachment(nil,identity)end
+            local entry=assert((attachment_authoring.slots[name]or{})[slot],
+                'weapon has no reviewed '..slot..' attachments: '..name)
+            if identity==nil or identity=='default'then
+                return attachment_handle(assert(entry.default,'weapon has no single native default '..slot
+                    ..' attachment: '..name),'native_resource_default')
+            end
+            for _,option in ipairs(entry.options)do
+                if option.attachment==identity or option.name==identity then
+                    return attachment_handle(option.attachment,option.relationship)
+                end
+            end
+            error('unknown '..slot..' attachment for '..name..': '..tostring(identity),0)
         end
         return setmetatable({resource='player_weapon',path='weapon',weapon=name},{__index=methods})
     end
@@ -1201,11 +1262,12 @@ function M.new(describe)
         function methods.mount(_,identity)return mount_target(mount_identity(identity))end
         return setmetatable({resource='vehicle',vehicle=name,path='entity'},{__index=methods})
     end
+    -- Any slot's definition by semantic id or unique native name (magazine, muzzle, optics, underbarrel).
     function builders.weapon_attachment(identity)
-        if attachment_authoring.attachments[identity]then return magazine_attachment_target(identity)end
+        if attachment_authoring.attachments[identity]then return attachment_handle(identity)end
         local semantic=attachment_authoring.names[identity]
-        assert(semantic,'unknown reviewed magazine attachment: '..tostring(identity))
-        return magazine_attachment_target(semantic)
+        assert(semantic,'unknown reviewed weapon attachment: '..tostring(identity))
+        return attachment_handle(semantic)
     end
     function builders.backpack(name)
         local entry=assert(entity_authoring.backpacks[name],'unknown reviewed backpack: '..tostring(name))

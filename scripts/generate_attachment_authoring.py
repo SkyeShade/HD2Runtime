@@ -1,4 +1,9 @@
-"""Generate guarded magazine-attachment authoring metadata from retained native evidence."""
+"""Generate guarded weapon-attachment authoring metadata from retained native evidence.
+
+Magazine definitions (ammo, reload, ergonomics) come from research/magazine-attachments-F5FEE03DCFDB.json; the stat
+modifiers of muzzle, optics and underbarrel definitions from research/weapon-attachments-F5FEE03DCFDB.json
+(statModifierRows). Both kinds share the runtime table domains/attachment_authoring.lua and one guarded write path.
+"""
 from __future__ import annotations
 
 import argparse
@@ -20,9 +25,11 @@ JSON_OUTPUT = ROOT / 'sdk/MagazineAttachmentCapabilities.json'
 LUA_OUTPUT = ROOT / 'domains/attachment_authoring.lua'
 GENERIC_RESEARCH = ROOT / 'research/weapon-attachments-F5FEE03DCFDB.json'
 GENERIC_OUTPUT = ROOT / 'sdk/WeaponAttachmentCatalog.json'
+MODIFIER_OUTPUT = ROOT / 'sdk/WeaponAttachmentModifierCapabilities.json'
 REFERENCE_BLOCKER = 'Resource reference; replacing it is not reviewed as safe.'
 EFFECT_BLOCKERS = {
-    'stat modifiers': 'Stat modifier values are decoded; only magazine Add_Ergonomics is exposed for writes so far.',
+    'stat modifiers': 'Stat modifier values are decoded; writes are exposed for magazine Add_Ergonomics and for muzzle, '
+        'optics and underbarrel modifiers only.',
     'magazine unit': REFERENCE_BLOCKER, 'optics unit': REFERENCE_BLOCKER, 'muzzle unit': REFERENCE_BLOCKER,
     'underbarrel entity': REFERENCE_BLOCKER, 'magazine adjusting nodes': REFERENCE_BLOCKER,
     'material overrides': REFERENCE_BLOCKER,
@@ -40,6 +47,14 @@ UNVERIFIED = ('The owner, live delta bytes and effective value are proven; wheth
 SCOPE_NOTE = ('Every weapon that equips this attachment receives its patch. Known consumers come from native '
     'resource defaults, per-weapon unlock lists observed in memory, and catalog correlation; the native '
     'compatibility set is not proven complete, so allow_shared stays required.')
+# Muzzle, optics and underbarrel definitions: native WeaponCustomizationSlot name -> target path.
+MODIFIER_SLOTS = {'Muzzle': 'muzzle', 'Optics': 'optics', 'Underbarrel': 'underbarrel'}
+MODIFIER_SCOPE_NOTE = ('One attachment definition is used by every weapon that equips it: editing a sight or a muzzle '
+    'brake changes it on all of them. Known consumers come from native resource defaults and per-weapon unlock lists '
+    'observed in memory; the native compatibility set is not proven complete, so allow_shared stays required.')
+PAGE = 4096  # the live delta table is its own page-aligned allocation; a guarded write never crosses a page
+UNPROVEN_BLOCKER = ('Native owner, offset and size are known from the delta; the member is not proven against the type '
+    'library and its meaning is unreviewed, so it stays read-only.')
 
 
 def digest(value, length=16):
@@ -52,6 +67,11 @@ def slug(value):
 
 def attachment_key(item):
     return 'weapon-attachment/v1/magazine/' + slug(item['debugName']) + '/' + digest({'addPath': item['addPath']})
+
+
+def generic_key(item):
+    slot = item['slots'][0] if item['slots'] else 'None'
+    return 'weapon-attachment/v1/' + slug(slot) + '/' + slug(item['debugName']) + '/' + digest({'addPath': item['addPath']})
 
 
 def native_fields(item):
@@ -275,23 +295,192 @@ def build(research_path=RESEARCH):
     return runtime, public
 
 
-def generic_catalog(magazine_public):
+def modifier_build(runtime):
+    """Muzzle, optics and underbarrel stat modifiers, added to the magazine runtime table; returns the public catalog.
+
+    Every pair is decoded from the AddPath-keyed entity delta exactly as the magazine Add_Ergonomics modifier is
+    (research_magazine_attachments.decode_effects). A pair is writable only when its type word and value each sit in
+    their own 4-byte delta row, its type has a reviewed schema field, and the delta belongs to one customization item.
+    """
+    research = json.loads(GENERIC_RESEARCH.read_text())
+    if research.get('deltaDataRowsOverlapping') != 0:
+        raise ValueError('entity delta rows share data bytes; attachment writes would not be isolated')
+    definitions = {item['statModifier']: item for item in json.loads(FIELDS.read_text())['fields']
+        if item.get('statModifier')}
+    constants = {value: f'hd2.fields.{domain}.{constant}' for domain, items in
+        generate_entity_authoring.api_constants().items() for constant, value in items.items()}
+    types = dict(research['statModifierTypes'])   # type word (decimal string) -> WeaponStatModifierType name
+    paths = Counter(item['addPath'] for item in research['items'])
+    names = Counter(item['debugName'] for item in research['items'])
+    for entry in runtime['attachments'].values():
+        entry['slot'] = 'magazine'
+    # The generic decoding must agree with the magazine research on every magazine definition it authors.
+    for item in research['items']:
+        entry = runtime['attachments'].get(generic_key(item))
+        if entry is None:
+            continue
+        if (entry['resource'], entry['hashmapSlot'], entry['settingsIndex']) != (
+                item['addPath'], item['hashmapSlot'], item['settingsIndex']):
+            raise ValueError(item['debugName'] + ': generic delta identity disagrees with the magazine research')
+        ergonomics = entry['fields'].get('attachment.ergonomics_modifier')
+        rows = [row for row in item['statModifierRows'] or [] if row['typeName'] == 'Add_Ergonomics']
+        if ergonomics and not (len(rows) == 1 and rows[0]['dataOffset'] == ergonomics['dataOffset']
+                and rows[0]['typeDataOffset'] == ergonomics['guard']['dataOffset']):
+            raise ValueError(item['debugName'] + ': generic stat modifier rows disagree with the magazine research')
+    attachments, fields, weapons = [], [], {}
+    for item in sorted((item for item in research['items'] if set(item['slots']) & set(MODIFIER_SLOTS)),
+            key=generic_key):
+        if len(item['slots']) != 1:
+            raise ValueError(item['debugName'] + ': customization item has several slots')
+        slot = MODIFIER_SLOTS[item['slots'][0]]
+        semantic = generic_key(item)
+        if semantic in runtime['attachments']:
+            raise ValueError('attachment semantic id collision: ' + semantic)
+        object_key = 'backing:' + digest({'entityDelta': item['addPath']})
+        operation = 'operation:' + digest({'object': object_key, 'target': semantic})
+        known = sorted(set(item['nativeDefaultOf']) | set(item['unlockListedFor']))
+        target = {'resource': 'weapon_attachment', 'attachment': semantic, 'path': slot}
+        modifiers, keys, runtime_fields = [], [], {}
+        for row in item['statModifierRows'] or []:
+            definition = definitions.get(row['typeName'])
+            straddles = row['dataOffset'] % PAGE + 4 > PAGE
+            blocker = (None if definition and row['ownRow'] and row['typeOwnRow'] and paths[item['addPath']] == 1
+                    and not straddles
+                else 'This modifier type has no reviewed field.' if not definition
+                else 'The pair does not sit in its own 4-byte delta rows.' if not (row['ownRow'] and row['typeOwnRow'])
+                else 'The delta is shared by several customization items.' if paths[item['addPath']] != 1
+                else 'The packed value straddles a page boundary of the live delta allocation; guarded writes stay '
+                    'within one page.')
+            field_id = definition['id'] if definition else None
+            modifiers.append({'modifier': row['typeName'], 'index': row['index'], 'value': row['value'],
+                'field': field_id, 'writable': blocker is None, 'blocker': blocker})
+            if blocker:
+                continue
+            instance = semantic.replace('weapon-attachment/v1/', 'attachment:') + ':' + field_id
+            fields.append({'instanceKey': instance, 'semanticFieldId': field_id,
+                'displayName': definition['display_name'], 'type': definition['type'], 'unit': definition['unit'],
+                'currentDefault': row['value'], 'min': definition.get('min'), 'max': definition.get('max'),
+                'editable': True, 'reason': None, 'target': target, 'slot': slot,
+                'statModifier': row['typeName'], 'backingObjectId': object_key,
+                'backingObjectKind': 'EntityDelta:WeaponDataComponentData',
+                'operationGroup': operation, 'planGroup': 'plan:attachment:' + slot + ':' + slug(item['debugName']),
+                'requires': 'patch_or_transaction', 'allowSharedRequired': True, 'shared': True,
+                'sharedConsumers': [{'weapon': name} for name in known],
+                'sharedScopeKey': 'shared-scope:' + digest({'object': object_key, 'consumers': known}),
+                'reviewedScopeComplete': False, 'dynamicConsumersPossible': True,
+                'acknowledgement': 'allow_unverified_effect',
+                'apiFieldConstant': constants[field_id], 'domain': 'attachment', 'planPhase': 1, 'dependsOn': [],
+                'evidence': {'tier': 'native_owner', 'nativeOwner': 'entity delta keyed by the attachment AddPath, '
+                    'patching WeaponDataComponentData.weapon_stat_modifiers (' + row['typeName'] + ' pair '
+                    + str(row['index']) + ')', 'typeGuard': row['typeName'], 'gameplayWriteEffect': 'unproven'},
+                'provenance': 'pinned entity delta table; live read-only allocation byte-identical to the file'})
+            keys.append(instance)
+            runtime_fields[field_id] = {'instanceKey': instance, 'component': COMPONENTS['WeaponDataComponentData'],
+                'storage': 'f32', 'componentOffset': row['componentOffset'], 'dataOffset': row['dataOffset'],
+                'currentDefault': row['value'], 'operationGroup': operation,
+                'min': definition.get('min'), 'max': definition.get('max'),
+                'backing': {'kind': 'entity_delta', 'component': 'WeaponDataComponentData'},
+                'guard': {'componentOffset': row['typeComponentOffset'], 'dataOffset': row['typeDataOffset'],
+                    'u32': row['type']}}
+        patches = [{'component': patched['component'], 'offset': patched['offset'], 'size': patched['size'],
+            'label': patched['label'], 'writable': False,
+            'status': 'resource_reference' if EFFECT_BLOCKERS.get(patched['label']) == REFERENCE_BLOCKER else 'unproven',
+            'blocker': EFFECT_BLOCKERS.get(patched['label']) or UNPROVEN_BLOCKER}
+            for patched in item['patched'] if patched['label'] != 'stat modifiers']
+        attachments.append({'semanticId': semantic, 'name': item['debugName'],
+            'nameUnique': names[item['debugName']] == 1, 'slot': slot, 'nativeSlot': item['slots'][0],
+            'hasEntityDelta': item['hasDelta'], 'modifiers': modifiers, 'fieldInstanceKeys': keys,
+            'readOnlyPatches': patches, 'compatibleWeapons': known,
+            'consumers': {'nativeDefaultOf': item['nativeDefaultOf'], 'unlockListedFor': item['unlockListedFor'],
+                'scopeComplete': False, 'scopeNote': MODIFIER_SCOPE_NOTE}})
+        runtime['attachments'][semantic] = {'semanticId': semantic, 'name': item['debugName'], 'slot': slot,
+            'resource': item['addPath'] if item['hasDelta'] else None, 'hashmapSlot': item['hashmapSlot'],
+            'settingsIndex': item['settingsIndex'], 'fields': runtime_fields,
+            'modifiers': [{'modifier': m['modifier'], 'value': m['value'], 'field': m['field'],
+                'writable': m['writable'], 'blocker': m['blocker']} for m in modifiers],
+            'readOnly': [{'component': p['component'], 'offset': p['offset'], 'size': p['size'], 'label': p['label'],
+                'status': p['status']} for p in patches],
+            'compatibleWeapons': known}
+        if names[item['debugName']] == 1:
+            if item['debugName'] in runtime['names']:
+                raise ValueError('attachment name collision: ' + item['debugName'])
+            runtime['names'][item['debugName']] = semantic
+        for name in known:
+            weapons.setdefault(name, {}).setdefault(slot, []).append({'attachment': semantic,
+                'name': item['debugName'], 'relationship': 'native_resource_default'
+                    if name in item['nativeDefaultOf'] else 'unlock_listed'})
+    public_weapons, runtime_slots = [], {}
+    for name, slots in sorted(weapons.items()):
+        entry, published = {}, []
+        for slot, options in sorted(slots.items()):
+            options.sort(key=lambda option: (option['relationship'] != 'native_resource_default', option['name']))
+            defaults = [option['attachment'] for option in options if option['relationship'] == 'native_resource_default']
+            default = defaults[0] if len(defaults) == 1 else None
+            entry[slot] = {'default': default, 'options': options}
+            published.append({'slot': slot, 'defaultAttachment': default, 'options': options})
+        runtime_slots[name] = entry
+        public_weapons.append({'weapon': name, 'slots': published})
+    runtime['slots'] = runtime_slots
+    runtime['modifierTypes'] = types
+    by_slot = Counter(item['slot'] for item in attachments)
+    summary = {'attachments': len(attachments), 'bySlot': dict(sorted(by_slot.items())),
+        'attachmentsWithWritableModifiers': sum(1 for item in attachments if item['fieldInstanceKeys']),
+        'attachmentsWithWritableModifiersBySlot': dict(sorted(Counter(item['slot'] for item in attachments
+            if item['fieldInstanceKeys']).items())),
+        'fieldInstances': len(fields), 'writableFieldInstances': len(fields),
+        'fieldInstancesByField': dict(sorted(Counter(field['semanticFieldId'] for field in fields).items())),
+        'fieldInstancesBySlot': dict(sorted(Counter(field['slot'] for field in fields).items())),
+        'blockedModifiers': sum(1 for item in attachments for m in item['modifiers'] if not m['writable']),
+        'readOnlyPatches': sum(len(item['readOnlyPatches']) for item in attachments),
+        'weapons': len(public_weapons), 'selectionWritable': False, 'researchWrites': 0, 'protectionChanges': 0,
+        'fixtureFallback': 'disabled'}
+    runtime['modifierSummary'] = summary
+    public = {'contract': 'hd2runtime.weapon_attachment.modifier.v1', 'schemaVersion': 1,
+        'hd2RuntimeVersion': (ROOT / 'VERSION').read_text().strip(), 'canonicalCollection': 'fieldInstances',
+        'slots': {path: {'nativeSlot': native} for native, path in sorted(MODIFIER_SLOTS.items())},
+        'ownershipModel': {'chain': ['weapon customizable item (slot muzzle, optics or underbarrel)',
+                'entity delta keyed by the item AddPath', 'WeaponDataComponentData.weapon_stat_modifiers: eight '
+                '{WeaponStatModifierType, value} pairs; each written value is guarded by its own type word'],
+            'writeScope': 'attachment definition; applies to every weapon that equips the attachment',
+            'distinctFrom': ['the weapon\'s own weapon.* handling fields', 'current or saved preset selection',
+                'the attachment\'s visual unit'],
+            'adding': 'Only modifiers a definition already carries are editable; adding a pair is not supported.'},
+        'acknowledgements': {'allow_shared': 'Required: ' + MODIFIER_SCOPE_NOTE,
+            'allow_unverified_effect': 'Required: ' + UNVERIFIED},
+        'selection': {'writable': False, 'reason': 'Editing an attachment definition never changes which attachment '
+            'is equipped; the player preset/selection owner is unresolved.'},
+        'readOnlyPatches': 'Other members the delta patches: resource references (status resource_reference) and '
+            'members whose meaning is not proven against the type library (status unproven). None is writable.',
+        'attachments': attachments, 'weapons': public_weapons, 'fieldInstances': fields, 'summary': summary,
+        'safety': {'runtimeAddresses': False, 'rawResourceIdentifiers': False, 'writesDuringGeneration': 0,
+            'protectionChangesDuringGeneration': 0, 'fixtureFallback': 'disabled'}}
+    text = json.dumps(public).lower()
+    if re.search(r'\b0x[0-9a-f]{6,}', text) or any(item[key][2:].lower() in text
+            for item in research['items'] for key in ('optionId', 'addPath')):
+        raise ValueError('public attachment modifier capability leaks a native identifier')
+    return public
+
+
+def generic_catalog(magazine_public, modifier_public):
     """Read-only metadata for every weapon customization item (all slots)."""
     research = json.loads(GENERIC_RESEARCH.read_text())
     magazine_ids = {item['name']: item['semanticId'] for item in magazine_public['attachments']}
+    modifier_ids = {item['semanticId'] for item in modifier_public['attachments'] if item['fieldInstanceKeys']}
     attachments, slots = [], Counter()
     for item in research['items']:
         slot = item['slots'][0] if item['slots'] else 'None'
         slots[slot] += 1
         magazine = magazine_ids.get(item['debugName'])
-        semantic = magazine or ('weapon-attachment/v1/' + slug(slot) + '/' + slug(item['debugName']) + '/'
-            + digest({'addPath': item['addPath']}))
+        semantic = magazine or generic_key(item)
+        modifier = semantic if semantic in modifier_ids else None
         effects = []
         for patched in item['patched']:
             name = patched['label']
             if magazine and (name in MAGAZINE_EFFECTS or (name == 'stat modifiers' and any(
                     m['type'] == 'Add_Ergonomics' for m in item['statModifiers']))):
                 blocker = 'Authored through MagazineAttachmentCapabilities.json.'
+            elif modifier and name == 'stat modifiers':
+                blocker = 'Authored through WeaponAttachmentModifierCapabilities.json.'
             else:
                 blocker = EFFECT_BLOCKERS.get(name) or 'Native owner known; effect semantics are not reviewed.'
             effects.append({'component': patched['component'], 'offset': patched['offset'], 'size': patched['size'],
@@ -299,6 +488,7 @@ def generic_catalog(magazine_public):
         compatible = sorted(set(item['nativeDefaultOf']) | set(item['unlockListedFor']))
         attachments.append({'semanticId': semantic, 'name': item['debugName'], 'slot': slot,
             'slots': item['slots'], 'hasEntityDelta': item['hasDelta'], 'magazineAuthoring': magazine,
+            'modifierAuthoring': modifier,
             'statModifiers': item['statModifiers'], 'effects': effects, 'compatibleWeapons': compatible,
             'consumers': {'nativeDefaultOf': item['nativeDefaultOf'], 'unlockListedFor': item['unlockListedFor'],
                 'scopeComplete': False},
@@ -313,7 +503,8 @@ def generic_catalog(magazine_public):
     catalog = {'contract': 'hd2runtime.weapon_attachment.catalog.v1', 'schemaVersion': 1,
         'hd2RuntimeVersion': (ROOT / 'VERSION').read_text().strip(),
         'scope': 'Read-only metadata for every weapon customization item. Writable magazine effects are in '
-            'MagazineAttachmentCapabilities.json; selection (which attachment is equipped) is not writable.',
+            'MagazineAttachmentCapabilities.json, writable muzzle, optics and underbarrel stat modifiers in '
+            'WeaponAttachmentModifierCapabilities.json; selection (which attachment is equipped) is not writable.',
         'consumerSources': {'nativeDefaultOf': 'weapon resource DefaultCustomizations (pinned entity library)',
             'unlockListedFor': 'per-weapon unlock lists observed in the retained snapshot'},
         'attachments': attachments,
@@ -338,9 +529,11 @@ def lua(value):
 
 def outputs(research_path=RESEARCH):
     runtime, public = build(research_path)
+    modifiers = modifier_build(runtime)
     return {LUA_OUTPUT: '-- Generated by scripts/generate_attachment_authoring.py; do not edit.\nreturn ' + lua(migration_overlay.apply('attachment_authoring', runtime)) + '\n',
         JSON_OUTPUT: json.dumps(public, indent=2) + '\n',
-        GENERIC_OUTPUT: json.dumps(generic_catalog(public), indent=2) + '\n'}
+        MODIFIER_OUTPUT: json.dumps(modifiers, indent=2) + '\n',
+        GENERIC_OUTPUT: json.dumps(generic_catalog(public, modifiers), indent=2) + '\n'}
 
 
 def generate(check=False, research_path=RESEARCH):

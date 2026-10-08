@@ -1,8 +1,11 @@
--- Guarded magazine-attachment authoring. An attachment's effects live in the entity delta
--- keyed by its AddPath: ammo values patch WeaponMagazineComponentData, reload duration patches
--- WeaponReloadComponentData, and its ergonomics is an Add_Ergonomics stat modifier patched onto
--- WeaponDataComponentData. Every write re-proves the complete delta chain inside the live,
--- uniquely owned delta allocation before touching the reviewed data bytes.
+-- Guarded weapon-attachment authoring. An attachment's effects live in the entity delta
+-- keyed by its AddPath: magazine ammo values patch WeaponMagazineComponentData, reload duration
+-- patches WeaponReloadComponentData, and the stat modifiers of every slot (Add_Ergonomics on
+-- magazines; Add_Ergonomics and the Mul_* sway, recoil, climb and spread pairs on muzzles, optics
+-- and underbarrels) are {WeaponStatModifierType, value} pairs patched onto WeaponDataComponentData.
+-- One definition is used by every weapon that equips it. Every write re-proves the complete delta
+-- chain inside the live, uniquely owned delta allocation, and for a stat modifier also the pair's
+-- type word, before touching the reviewed data bytes.
 local ownership=require('hd2runtime/core/ownership')
 local b=require('hd2runtime/core/bytes')
 local discover=require('hd2runtime/runtime/discover')
@@ -10,6 +13,8 @@ local profile=require('hd2runtime/schemas/current')
 local database=require('hd2runtime/domains/attachment_authoring')
 local M={}
 local MAX_CHANGES=6
+-- Target paths: the definition's customization slot (WeaponCustomizationSlot Magazine, Muzzle, Optics, Underbarrel).
+local SLOTS={magazine=true,muzzle=true,optics=true,underbarrel=true}
 
 local function valid_id(value)
     assert(type(value)=='string'and#value>0 and#value<=64
@@ -17,11 +22,14 @@ local function valid_id(value)
 end
 local function entry_for(target)
     assert(type(target)=='table'and target.resource=='weapon_attachment','unsupported attachment target')
-    assert(target.path=='magazine','unsupported attachment target path')
+    assert(SLOTS[target.path],'unsupported attachment target path')
     for key in pairs(target)do assert(key=='resource'or key=='attachment'or key=='path',
         'unsupported attachment target identity')end
-    return assert(type(target.attachment)=='string'and database.attachments[target.attachment],
-        'unknown reviewed magazine attachment: '..tostring(target.attachment))
+    local entry=assert(type(target.attachment)=='string'and database.attachments[target.attachment],
+        'unknown reviewed '..target.path..' attachment: '..tostring(target.attachment))
+    assert(entry.slot==target.path,'attachment '..entry.name..' is a '..tostring(entry.slot)..' attachment, not '
+        ..target.path)
+    return entry
 end
 local function same(a,c,storage)
     if storage=='f32'then return math.abs(a-c)<=math.max(0.000001,math.abs(c)*0.000001)end
@@ -40,12 +48,25 @@ local function validate_change(entry,item,request)
     assert(type(item)=='table','change must be a descriptor')
     for key in pairs(item)do assert(key=='field'or key=='expect'or key=='value',
         'unsupported change option: '..tostring(key))end
-    local field=assert(entry.fields[item.field],'field is not exposed for '..entry.name..': '..tostring(item.field))
+    local field=entry.fields[item.field]
+    if not field then
+        -- Only the stat modifiers a definition carries are editable; a pair is never added.
+        local present={}
+        for _,m in ipairs(entry.modifiers or{})do
+            if m.field==item.field then
+                error('field is read-only for '..entry.name..': '..item.field..' ('..tostring(m.blocker)..')',0)
+            end
+            present[#present+1]=m.modifier
+        end
+        error('field is not exposed for '..entry.name..': '..tostring(item.field)..(entry.slot~='magazine'and
+            ' (this '..entry.slot..' definition carries '..(#present>0 and table.concat(present,', ')or'no stat modifiers')
+            ..'; adding a modifier is not supported)'or''),0)
+    end
     assert(field.editable~=false,'field is read-only: '..item.field..' ('..tostring(field.reason)..')')
     assert(request.allow_shared==true,
-        'magazine attachments apply to every weapon that equips them; allow_shared=true is required')
+        entry.slot..' attachments apply to every weapon that equips them; allow_shared=true is required')
     assert(request.allow_unverified_effect==true,
-        'magazine attachment writes require allow_unverified_effect=true (re-application is not gameplay-proven)')
+        entry.slot..' attachment writes require allow_unverified_effect=true (re-application is not gameplay-proven)')
     validate_value(field,item.expect,'expect');validate_value(field,item.value,'value')
     assert(same(item.expect,field.currentDefault,field.storage),'expect differs from reviewed current value for '..item.field)
     return {field=item.field,canonical_field=item.field,descriptor=field,
@@ -62,7 +83,7 @@ local function validate(request,multiple)
     local items=multiple and request.changes or{{field=request.field,expect=request.expect,value=request.value}}
     assert(type(items)=='table'and#items>=1 and#items<=MAX_CHANGES,
         'transaction requires one to '..MAX_CHANGES..' changes')
-    local result={kind='attachment',id=request.id,attachment=entry.semanticId,target_path='magazine',
+    local result={kind='attachment',id=request.id,attachment=entry.semanticId,target_path=entry.slot,
         diagnostic=request.diagnostic==true,allow_shared=true,changes={}}
     local seen={}
     for index,item in ipairs(items)do
@@ -120,7 +141,8 @@ local function check_field(reader,region,offsets,field,label)
     if field.guard then
         assert(rows[field.guard.componentOffset]==field.guard.dataOffset,'attachment stat modifier layout changed: '..label)
         local kind=reader.read(region,field.guard.dataOffset,4,true)
-        assert(b.u32(kind,0)==field.guard.u32,'attachment stat modifier is no longer Add_Ergonomics: '..label)
+        assert(b.u32(kind,0)==field.guard.u32,'attachment stat modifier is no longer '
+            ..tostring(database.modifierTypes[tostring(field.guard.u32)])..': '..label)
     end
 end
 function M.capture_many(runtime,reader,specs)

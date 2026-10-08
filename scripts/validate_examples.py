@@ -99,6 +99,10 @@ UNRELEASED_FIELDS |= {'charge.speed_multiplier_min', 'charge.speed_multiplier_ov
 # the turret ids already shipped for sentries (0.28.0) but are new on mounted weapons.
 UNRELEASED_FIELDS |= {'rotation.turn_speed', 'rotation.acceleration', 'rotation.deceleration',
     'vehicle.steering_response_speed'}
+# Muzzle, optics and underbarrel stat modifiers (docs/weapon-attachments.md). attachment.ergonomics_modifier shipped in
+# 0.26.0 for magazines; its muzzle, optics and underbarrel targets are new (hd2.weapon_attachment handles).
+UNRELEASED_FIELDS |= {'attachment.modifier.' + name for name in ('sway', 'recoil_horizontal', 'recoil_vertical',
+    'climb_horizontal', 'climb_vertical', 'spread_horizontal', 'spread_vertical')}
 KIND_FIELD_FLOORS.update({('vehicle_weapon', 'turret.' + name): UNRELEASED for name in ('yaw_speed', 'pitch_speed',
     'pitch_min', 'pitch_max', 'yaw_min', 'yaw_max')})
 # Sentry component fields (docs/stratagem-authoring.md "Sentry turret motion, targeting and weapon handling"): three new

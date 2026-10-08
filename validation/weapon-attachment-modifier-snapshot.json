@@ -1,0 +1,46 @@
+{
+  "absentModifierRejections": 451,
+  "acknowledgementRejections": 264,
+  "alreadyDesired": 132,
+  "attachments": 73,
+  "attachmentsWithFields": 44,
+  "blockedModifierRejections": 1,
+  "byField": {
+    "attachment.ergonomics_modifier": 38,
+    "attachment.modifier.climb_horizontal": 15,
+    "attachment.modifier.climb_vertical": 14,
+    "attachment.modifier.recoil_horizontal": 16,
+    "attachment.modifier.recoil_vertical": 13,
+    "attachment.modifier.spread_horizontal": 6,
+    "attachment.modifier.spread_vertical": 6,
+    "attachment.modifier.sway": 24
+  },
+  "bySlot": {
+    "muzzle": 99,
+    "optics": 6,
+    "underbarrel": 27
+  },
+  "changedWrites": 132,
+  "conflictRejections": 132,
+  "fieldChecks": 132,
+  "fixtureFallback": "disabled",
+  "guardRejections": 132,
+  "isolatedLocations": 365,
+  "isolationChecks": 132,
+  "mode": "snapshot-overlay",
+  "protectionChanges": 532,
+  "rangeRejections": 264,
+  "rollbacks": 132,
+  "slotRejections": 264,
+  "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "status": "VALIDATED",
+  "transaction": {
+    "applied": true,
+    "attachment": "5,5mm. Flash Hider",
+    "changes": 6,
+    "rolledBack": true,
+    "slot": "muzzle"
+  },
+  "unalignedPackedFields": 77,
+  "writes": 276
+}

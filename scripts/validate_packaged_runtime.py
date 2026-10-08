@@ -247,6 +247,23 @@ operations[#operations+1]=hd2.ensure({transaction={id='liberator-drum-handling',
         {field=hd2.fields.attachment.ergonomics_modifier,expect=-15,value=-5}}}})
 return operations
 '''
+# Muzzle, optics and underbarrel stat modifiers (docs/weapon-attachments.md): shared definitions, every slot path.
+WEAPON_ATTACHMENT_MODIFIERS = r'''local hd2=require('mods/skyeshade/hd2runtime')
+local liberator=hd2.weapon('AR-23 Liberator')
+local flash=liberator:attachment_definition('muzzle','5,5mm. Flash Hider')
+local operations={}
+operations[#operations+1]=hd2.ensure({transaction={id='flash-hider-recoil',target=flash,
+    allow_shared=true,allow_unverified_effect=true,changes={
+        {field=hd2.fields.attachment.modifier_recoil_horizontal,expect=0.8,value=0.5},
+        {field=hd2.fields.attachment.modifier_recoil_vertical,expect=0.9,value=0.6},
+        {field=hd2.fields.attachment.ergonomics_modifier,expect=-3,value=0}}}})
+operations[#operations+1]=hd2.ensure({patch={id='reddot-ergonomics',target=liberator:attachment_definition('optics'),
+    allow_shared=true,allow_unverified_effect=true,field=hd2.fields.attachment.ergonomics_modifier,expect=-1,value=2}})
+operations[#operations+1]=hd2.ensure({patch={id='vertical-grip-climb',target=hd2.weapon_attachment('Vertical Grip'),
+    allow_shared=true,allow_unverified_effect=true,field=hd2.fields.attachment.modifier_climb_vertical,expect=0.8,
+    value=0.5}})
+return operations
+'''
 # A player weapon's crosshair policy (the schema is shared with support weapons).
 PLAYER_RETICLE = r'''local hd2=require('mods/skyeshade/hd2runtime')
 return hd2.ensure({patch={id='diligence-reticle-off',target=hd2.weapon('R-63 Diligence'),
@@ -4742,6 +4759,7 @@ SCENARIOS = {
     'shield-relay': lambda: example('ShieldRelayRecreation'),
     'magazine-attachment': lambda: example('ConcussiveDrumMagazine'),
     'magazine-attachment-options': lambda: MAGAZINE_OPTIONS,
+    'weapon-attachment-modifiers': lambda: WEAPON_ATTACHMENT_MODIFIERS,
     'booster-deployed-entity': lambda: example('ArmedResupplyTurret'),
     'booster-status-effect': lambda: example('CombatStimBoost'),
     'booster-tuning': lambda: example('BoosterTuning'),

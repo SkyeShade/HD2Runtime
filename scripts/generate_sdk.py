@@ -47,6 +47,7 @@ def outputs():
     asset_dependencies=json.loads((ROOT/'sdk/AssetDependencyCapabilities.json').read_text())
     weapon_movement=json.loads((ROOT/'sdk/WeaponMovementCapabilities.json').read_text())
     attachment_authoring=json.loads((ROOT/'sdk/MagazineAttachmentCapabilities.json').read_text())
+    modifier_authoring=json.loads((ROOT/'sdk/WeaponAttachmentModifierCapabilities.json').read_text())
     composition_plan=json.loads((ROOT/'schemas/composition_plan.json').read_text())
     player_aliases={item['alias']:item['canonical'] for item in player_capabilities['semanticAliases']}
     digest=hashlib.sha256(raw).hexdigest()
@@ -149,6 +150,8 @@ def outputs():
               'weapon_movement_summary':weapon_movement['summary'],
               'magazine_attachment_contract':attachment_authoring['contract'],
               'magazine_attachment_summary':attachment_authoring['summary'],
+              'weapon_attachment_modifier_contract':modifier_authoring['contract'],
+              'weapon_attachment_modifier_summary':modifier_authoring['summary'],
               'support_weapon_inspection_contract':support['contract'],
               'composition_plan_contract':composition_plan,
               'resources':{k:{n:v for n,v in r.items() if n!='fields'} for k,r in resources.items()}}
@@ -666,13 +669,26 @@ def outputs():
     alias('HD2StatusId',[item['semanticId'] for item in event_actions['status']['allowlist']])
     alias('HD2MagazineAttachmentId',[item['semanticId'] for item in attachment_authoring['attachments']]
         +[item['name'] for item in attachment_authoring['attachments'] if item['nameUnique']])
-    stub+=['','---@class HD2WeaponAttachment','---@field resource "weapon_attachment"','---@field path "magazine"',
-        '---@field attachment string','local HD2WeaponAttachment = {}','---@return table',
-        'function HD2WeaponAttachment:describe() end',
+    # Muzzle, optics and underbarrel definitions (sdk/WeaponAttachmentModifierCapabilities.json; docs/weapon-attachments.md).
+    modifier_attachments=modifier_authoring['attachments']
+    alias('HD2ModifierAttachmentId',[item['semanticId'] for item in modifier_attachments]
+        +[item['name'] for item in modifier_attachments if item['nameUnique']])
+    stub+=['','---@alias HD2AttachmentSlot "magazine"|"muzzle"|"optics"|"underbarrel"',
+        '---@alias HD2WeaponAttachmentId HD2MagazineAttachmentId|HD2ModifierAttachmentId',
+        '','---@class HD2WeaponAttachment','---@field resource "weapon_attachment"',
+        '---@field path HD2AttachmentSlot','---@field attachment string','local HD2WeaponAttachment = {}',
+        '---Slot, relationship and fields; muzzle/optics/underbarrel also list compatibleWeapons, modifiers and the',
+        '---unproven readOnlyPatches. One definition is shared by every weapon that equips it.',
+        '---@return table','function HD2WeaponAttachment:describe() end',
         '---Native default and uniquely proven magazine attachments for this weapon.',
         '---@return HD2WeaponAttachment[]','function HD2Weapon:magazine_attachments() end',
         '---@param identity? string Catalog option name, attachment semanticId, or "default".',
-        '---@return HD2WeaponAttachment','function HD2Weapon:magazine_attachment(identity) end']
+        '---@return HD2WeaponAttachment','function HD2Weapon:magazine_attachment(identity) end',
+        '---Attachment definitions of one slot for this weapon (magazine: magazine_attachments()).',
+        '---@param slot HD2AttachmentSlot','---@return HD2WeaponAttachment[]','function HD2Weapon:attachments(slot) end',
+        '---One slot\'s definition: native name, semanticId, or "default"/nil for the native resource default.',
+        '---@param slot HD2AttachmentSlot','---@param identity? string','---@return HD2WeaponAttachment',
+        'function HD2Weapon:attachment_definition(slot, identity) end']
     for domain,names in fields.items():
         stub+=['','---@class HD2Fields_'+domain]
         for constant,name in names.items():
@@ -734,7 +750,8 @@ def outputs():
         '---@param name HD2BoosterName','---@return HD2Booster','function hd2.booster(name) end',
         '---A throwable-slot item by name or semantic ID (see sdk/ThrowableAuthoringCapabilities.json).',
         '---@param name HD2ThrowableName','---@return HD2Throwable','function hd2.throwable(name) end',
-        '---@param identity HD2MagazineAttachmentId','---@return HD2WeaponAttachment',
+        '---Any slot\'s attachment definition by semanticId or unique native name.',
+        '---@param identity HD2WeaponAttachmentId','---@return HD2WeaponAttachment',
         'function hd2.weapon_attachment(identity) end',
         '---A drop-pod rack by name or semantic ID (see sdk/PodPayloadCapabilities.json).',
         '---@param identity string','---@return HD2PodRack','function hd2.pod_rack(identity) end',
@@ -845,6 +862,7 @@ def outputs():
             'sdk/docs/live-evidence.md':(ROOT/'docs/live-evidence.md').read_text(encoding='utf-8'),
             'sdk/docs/attack-outputs.md':(ROOT/'docs/attack-outputs.md').read_text(encoding='utf-8'),
             'sdk/docs/magazine-attachments.md':(ROOT/'docs/magazine-attachments.md').read_text(encoding='utf-8'),
+            'sdk/docs/weapon-attachments.md':(ROOT/'docs/weapon-attachments.md').read_text(encoding='utf-8'),
             'sdk/docs/getting-started.md':(ROOT/'docs/getting-started.md').read_text(encoding='utf-8'),
             'sdk/docs/events.md':(ROOT/'docs/events.md').read_text(encoding='utf-8'),
             'sdk/docs/event-scripting.md':(ROOT/'docs/event-scripting.md').read_text(encoding='utf-8'),

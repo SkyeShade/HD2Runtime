@@ -114,8 +114,10 @@ local function changed(field)
  return candidate
 end
 
--- Every reviewed field location, to prove a write touches nothing else.
-local ids={};for id in pairs(database.attachments)do ids[#ids+1]=id end;table.sort(ids)
+-- Every reviewed field location, to prove a write touches nothing else. Muzzle, optics and underbarrel
+-- definitions are exercised by scripts/validate_attachment_modifier_snapshot.py.
+local ids={};for id,entry in pairs(database.attachments)do if entry.slot=='magazine'then ids[#ids+1]=id end end
+table.sort(ids)
 local locations={}
 for _,id in ipairs(ids)do
  local names={};for name in pairs(database.attachments[id].fields)do names[#names+1]=name end;table.sort(names)

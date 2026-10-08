@@ -285,6 +285,10 @@ def main():
         (ROOT/'sdk/MagazineAttachmentCapabilities.json').read_text())['summary']
     report['magazine_attachment_snapshot_validation']=json.loads(
         (ROOT/'validation/magazine-attachment-snapshot.json').read_text())
+    report['weapon_attachment_modifier_authoring']=json.loads(
+        (ROOT/'sdk/WeaponAttachmentModifierCapabilities.json').read_text())['summary']
+    report['weapon_attachment_modifier_snapshot_validation']=json.loads(
+        (ROOT/'validation/weapon-attachment-modifier-snapshot.json').read_text())
     report['booster_authoring']=json.loads(
         (ROOT/'sdk/BoosterAuthoringCapabilities.json').read_text())['summary']
     report['reticle_authoring_validation']={key:value for key,value in json.loads(
