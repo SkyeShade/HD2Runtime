@@ -126,8 +126,9 @@ local patriot = hd2.resources.game_icon('stratagem', 'EXO-45 Patriot Exosuit')
 overlay:draw(function(d) d:image(patriot, 40, 40, 64, 64, {colours = {r = '#FF6E5C'}}) end)
 ```
 
-Every stratagem and booster HUD icon, drawn from the game's own atlas pages with the game's own icon materials:
-nothing is shipped and nothing is written (docs/game-icons.md). The same `colours` apply. Differences from a mod image:
+Every stratagem and booster HUD icon, drawn from the game's own atlas pages with the game's own materials: nothing is
+shipped and nothing is written (docs/game-icons.md). Stratagem icons take the same `colours`; booster icons are drawn
+in their own colours. Differences from a mod image:
 - one icon may be drawn in several colour sets in one overlay (each extra set borrows another icon material);
 - an icon is drawn only while its atlas page is loaded: booster icons are not during a mission;
 - when a page or material in use unloads, the overlay closes its GUI and draws again without that icon.

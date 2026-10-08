@@ -20,9 +20,10 @@
 --   overlay hides its primitives on that frame. An engine call that fails closes the GUI (logged once per reason); it
 --   is opened again on a later frame.
 -- * The game's own HUD icons (hd2.resources.game_icon; docs/game-icons.md) draw through d:image like a mod's own image:
---   a stratagem icon material's instance in this GUI points at the sprite's atlas page (Material.set_texture) and
---   Gui.bitmap_uv draws the sprite's rectangle. Each frame every icon is given a material: a stratagem its own; a
---   booster, or a second colour set of one stratagem, a carrier (another stratagem's icon material unused this frame).
+--   a material instance in this GUI points at the sprite's atlas page (Material.set_texture) and Gui.bitmap_uv draws
+--   the sprite's rectangle. Each frame every icon is given a material: a stratagem its own icon material (a second
+--   colour set of it a carrier: another stratagem's icon material unused this frame); a booster a UI image material
+--   (its own colours with its alpha; runtime/game_icons.lua).
 --   set_texture only ever names a page proven loaded this frame; when a page or a material in use unloads, the GUI is
 --   closed (its instances go with it) and opened again without that icon.
 -- Visual only: nothing here writes game memory.
@@ -101,6 +102,8 @@ function M.hooks.game_icon(world,handle)return game_icons.resolve(world.runtime,
 -- Whether an atlas page texture / a stratagem icon material ('%016X') is loaded now.
 function M.hooks.page_loaded(world,page)return game_icons.page_loaded(world.runtime,page)end
 function M.hooks.material_loaded(world,material)return game_icons.material_loaded(world.runtime,material)end
+-- The loaded UI image materials booster icons are drawn through ('%016X' list), or nil and why.
+function M.hooks.image_materials(world)return game_icons.image_materials(world.runtime)end
 -- Offline fallback metrics (only for text_width before the first frame): monaco's.
 local function metrics_font()return font_data.fonts.monaco end
 
@@ -209,9 +212,9 @@ end
 -- images (hd2.resources.image), drawn through the game's icon material (docs/custom-images.md: 256 x 256 masks, or a
 -- raw picture shown as a silhouette). Drawn only once the image's resources are proven loaded; an image partly off
 -- screen is dropped (a bitmap is never squashed). One colour set per image per overlay (one material instance).
--- The default mask colours of a game icon: a stratagem's R and G white and the B shadow (as a mod image); a booster's
--- picture keeps its yellow plate on R (its other channels unused), the native look (GameIconProbe 0.1.0).
-local BOOSTER_MASKS={r={255,199,43,255},g={0,0,0,0},b={0,0,0,0}}
+-- A game icon: a stratagem through icon materials with mask colours (default R and G white and the B shadow, as a
+-- mod image); a booster through a UI image material in its own colours (opts.colours does not apply; opts.colour, the
+-- vertex colour, still tints it).
 function Builder:game_icon(handle,x,y,w,h,opts)
     local z=opts.z or 0
     if not(finite(x)and finite(y)and finite(w)and finite(h)and w>0 and h>0 and type(z)=='number'and z%1==0
@@ -221,15 +224,19 @@ function Builder:game_icon(handle,x,y,w,h,opts)
     local col=colour(opts.colour or opts.color)
     if not col then return refuse(self,'invalid colour')end
     local kind=game_icons.identity(handle).kind
-    local vars,key=mask_vars(opts.colours or(kind=='booster'and BOOSTER_MASKS or nil))
-    if not vars then return refuse(self,'invalid mask colours')end
+    local vars,key
+    if kind=='stratagem'then
+        vars,key=mask_vars(opts.colours)
+        if not vars then return refuse(self,'invalid mask colours')end
+    end
     if x<0 or y<0 or x+w>self.width or y+h>self.height then return end
     local spec,why=self.icon_ready(handle)
     if not spec then self.waiting_images=(self.waiting_images or 0)+1;self.image_why=why;return end
     -- the sprite's UVs for this box (inset by one texel of the mip level it samples; runtime/game_icons.lua uv)
     local uv=spec.rect and game_icons.uv(spec,w,h)or spec.uv
-    self.items[#self.items+1]={kind='uvbitmap',icon=handle,page=spec.page,own=spec.own,uv=uv,x=x,
-        y=self.height-(y+h),w=w,h=h,layer=self.layer+z,c=col,vars=vars,vkey=spec.page..'|'..key}
+    self.items[#self.items+1]={kind='uvbitmap',icon=handle,page=spec.page,own=spec.own,pool=spec.pool or'icon',uv=uv,
+        x=x,y=self.height-(y+h),w=w,h=h,layer=self.layer+z,c=col,vars=vars,
+        vkey=spec.page..'|'..(key or'image')}
 end
 function Builder:image(handle,x,y,w,h,opts)
     if#self.items>=M.MAX_ITEMS then return refuse(self,'more than '..M.MAX_ITEMS..' items in one frame')end
@@ -360,7 +367,8 @@ local function reconcile_and_colour(screen,drawn,items,coloured)
             coloured[item.material]=item.vkey
             local instance=item.page_ok and screen.material(item.material,true)
             if instance then
-                local ok=screen.set_vectors(instance,item.vars)and screen.set_texture(instance,'diffuse_map',item.page)
+                local ok=(item.vars==nil or screen.set_vectors(instance,item.vars))
+                    and screen.set_texture(instance,'diffuse_map',item.page)
                 calls=calls+2
                 if not ok then coloured[item.material]=false end
             else coloured[item.material]=false end
@@ -370,11 +378,12 @@ local function reconcile_and_colour(screen,drawn,items,coloured)
 end
 
 -- Gives every game icon of a frame a material (in place; icons left without one are dropped and refused): a
--- stratagem first its own icon material, a booster or a stratagem whose own material already holds another page or
--- colour set this frame a carrier: the material that served the same (page, colours) last frame if still free, else
--- the first free loaded stratagem icon material (sorted, so choices are stable). One instance holds one texture and one
--- colour set, so no two (page, colours) ever share a material in one frame.
-local function assign_materials(self,items,carrier_ok)
+-- stratagem first its own icon material, else (its own material already holds another page or colour set this frame)
+-- a carrier from the stratagem icon materials; a booster a material from the UI image materials (image_pool). A carrier
+-- is the material that served the same (page, colours) last frame if still free, else the first free loaded one of its
+-- pool (sorted, so choices are stable). One instance holds one texture and one colour set, so no two (page, colours)
+-- ever share a material in one frame.
+local function assign_materials(self,items,carrier_ok,image_pool)
     local used={}
     for _,item in ipairs(items)do
         if item.kind=='uvbitmap'and item.own and(used[item.own]==nil or used[item.own]==item.vkey)then
@@ -393,7 +402,8 @@ local function assign_materials(self,items,carrier_ok)
                 if last and used[last]==nil and carrier_ok(last)then m=last end
             end
             if not m then
-                for _,candidate in ipairs(game_icons.carriers())do
+                local pool=item.pool=='image'and(image_pool or{})or game_icons.carriers()
+                for _,candidate in ipairs(pool)do
                     if used[candidate]==nil and carrier_ok(candidate)then m=candidate;break end
                 end
             end
@@ -513,7 +523,15 @@ local function frame(self,dt)
         error(err,0)
     end
     -- Game icons: a material each, and every page proven loaded this frame (set_texture names only those).
-    local items,dropped=assign_materials(self,d.items,carrier_ok)
+    local image_pool
+    for _,item in ipairs(d.items)do
+        if item.kind=='uvbitmap'and item.pool=='image'then
+            local ok,pool=pcall(M.hooks.image_materials,world)
+            image_pool=ok and pool or nil
+            break
+        end
+    end
+    local items,dropped=assign_materials(self,d.items,carrier_ok,image_pool)
     if dropped>0 then refuse(d,'no free icon material for '..dropped..' game icon(s)')end
     local pages,materials,page_ok,shown={},{},{},{}
     for _,item in ipairs(items)do

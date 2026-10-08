@@ -512,5 +512,78 @@ function M.icon_material(runtime,high,low)
     if not m then return false,why end
     return material(m,high,low)
 end
+-- Whether any material named (high, low) is loaded: true, or false and why. Read-only.
+function M.material_present(runtime,high,low)
+    local m,why=open(runtime)
+    if not m then return false,why end
+    local at,reason=resource(m,MATERIAL_HIGH,MATERIAL_KEY,'material',high,low)
+    if not at then return false,reason end
+    return true
+end
+-- The game's UI image shader (template 0xBA25DE35, the most used GUI material shader: 664 materials aboard the ship,
+-- 259 loaded in every retained snapshot): the diffuse_map slot and the UI variables, no mask layers. It draws a
+-- texture's own colours with its alpha (GameIconProbe 0.2.0, live: the Vitality Enhancement booster's hexagon exactly,
+-- where the stratagem icon shader drew its whole square). docs/game-icons.md.
+M.UI_IMAGE_SHADER=0xBA25DE35
+-- A loaded material's shape (the material layout the icon material check reads: +4 the kind, +0x20 its object, +0x30
+-- its slot ids, body +0x28 the slot count; the object's shader at +0x30): kind, shader, slots, or nil.
+local function material_shape(m,at)
+    local MA=D.material
+    local head=m.read(at,64)
+    local object,ids=qword(head,MA.fixups.object),qword(head,MA.fixups.slotIds)
+    if object==0 or ids==0 then return nil end
+    local count=m.u32(at+MA.body+0x28)
+    if count<1 or count>16 then return nil end
+    local slots={}
+    local raw=m.read(ids,4*count)
+    for i=0,count-1 do slots[#slots+1]=b.u32(raw,i*4)end
+    return {kind=b.u32(head,4),shader=m.u32(object+MA.object.shader),slots=slots}
+end
+local function is_ui_image(shape)
+    return shape~=nil and shape.kind~=0 and shape.shader==M.UI_IMAGE_SHADER and#shape.slots==1
+        and shape.slots[1]==D.material.imageSlot
+end
+-- Whether the material named (high, low) is loaded and a UI image material (one diffuse_map slot, not a material
+-- set): true, or false and why. Read-only.
+function M.ui_image_material(runtime,high,low)
+    local m,why=open(runtime)
+    if not m then return false,why end
+    local at,reason=resource(m,MATERIAL_HIGH,MATERIAL_KEY,'material',high,low)
+    if not at then return false,reason end
+    if not is_ui_image(material_shape(m,at))then return false,'not a UI image material'end
+    return true
+end
+-- Up to `limit` loaded UI image materials, by name ('%016X', sorted, so choices are stable), found by reading the
+-- game's material table as its lookups do. Read-only; the game decides which are loaded, none is named here.
+function M.ui_image_materials(runtime,limit)
+    local m,why=open(runtime)
+    if not m then return nil,why end
+    local T,R,N,L,K=D.typeMap,D.record,D.names,D.limits,D.markers
+    local record=find(m.read,m.u32,m.ptr(m.manager+T.records),m.buckets,m.capacity,T.stride,T.next,MATERIAL_HIGH,
+        MATERIAL_KEY)
+    if not record then return nil,'no material type'end
+    local capacity=m.u32(record+R.capacity)
+    if capacity==0 or capacity>L.nameBuckets then busy('material name map shape changed')end
+    local entries,resources=m.ptr(record+R.entries),m.ptr(record+R.resources)
+    local raw=m.read(entries,capacity*N.stride)
+    local found={}
+    for i=0,capacity-1 do
+        local o=i*N.stride
+        local slot,nxt=b.u32(raw,o+N.slot),b.u32(raw,o+N.next)
+        if nxt~=K.empty and slot~=K.absent and slot<L.slots then
+            local value=m.read(resources+slot*R.resourceStride,8)
+            if value~=ZERO8 then
+                local ok,shape=pcall(material_shape,m,qword(value,0))
+                if ok and is_ui_image(shape)then
+                    found[#found+1]=string.format('%08X%08X',b.u32(raw,o+4),b.u32(raw,o))
+                end
+            end
+        end
+    end
+    table.sort(found)
+    local out={}
+    for i=1,math.min(#found,limit or 8)do out[i]=found[i]end
+    return out
+end
 function M.reset_for_tests()proven={};consumers_proven={};records={}end
 return M

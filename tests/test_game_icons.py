@@ -97,9 +97,31 @@ local small=G.uv(spec,90,90)
 assert(math.abs(small[1]-(0.5+4/4096))<1e-12,'256 / 90 samples mip 2 too')
 local tiny=G.uv(spec,4,4)
 assert(math.abs(tiny[1]-(0.5+16/4096))<1e-12,'at most 16 page pixels')
+assert(spec.pool=='icon')
 W.icon_resources({materials={V},sprites={{name=V,atlas=PAGE,size={256,256},rect={0.5,0.25,0.0625,0.0625}}}})
 local none,nwhy=G.resolve(W.runtime,icon)
 assert(none==nil and nwhy:find('atlas page is not loaded',1,true),nwhy)
+assert(writes()==0)
+return 'ok'
+''')
+
+    def test_ui_image_materials_are_found_by_their_shader(self):
+        self.check(r'''
+-- two materials of the UI image shader, one icon material and one with two slots: only the two are UI image materials
+local A,B,C='content/ui/image_a','content/ui/image_b','content/ui/icon_c'
+local ah,al=images.hash(A)
+local bh,bl=images.hash(B)
+local ch,cl=images.hash(C)
+W.icon_resources({materials={{name=A,object={shader=images.UI_IMAGE_SHADER}},{name=B,object={shader=images.UI_IMAGE_SHADER}},C}})
+local list=assert(images.ui_image_materials(W.runtime,8))
+local want={string.format('%08X%08X',ah,al),string.format('%08X%08X',bh,bl)}
+table.sort(want)
+assert(#list==2 and list[1]==want[1]and list[2]==want[2],table.concat(list,','))
+assert(images.ui_image_material(W.runtime,ah,al)==true)
+local ok,why=images.ui_image_material(W.runtime,ch,cl)
+assert(ok==false and why=='not a UI image material',tostring(why))
+assert(images.material_present(W.runtime,ch,cl)==true)
+assert(#assert(images.ui_image_materials(W.runtime,1))==1,'the limit')
 assert(writes()==0)
 return 'ok'
 ''')
@@ -125,12 +147,18 @@ O.hooks.game_icon=function(world,h)
 end
 O.hooks.page_loaded=function(world,page)return PAGES[page]==true end
 O.hooks.material_loaded=function(world,m)return MATERIALS[m]==true end
+-- the loaded UI image materials (shader 0xBA25DE35) boosters are drawn through
+local IMAGE={'1111111111111111','2222222222222222'}
+for _,m in ipairs(IMAGE)do MATERIALS[m]=true end
+O.hooks.image_materials=function(world)return IMAGE end
 local patriot=hd2.resources.game_icon('stratagem','EXO-45 Patriot Exosuit')
 local c4=hd2.resources.game_icon('stratagem','B/MD C4 Pack')
 local vitality=hd2.resources.game_icon('booster','Vitality Enhancement')
-SPECS['EXO-45 Patriot Exosuit']={sprite='396ECA60A6E80E17',own='396ECA60A6E80E17',page='5207684C3952B0CC',uv={0.1,0.2,0.3,0.4}}
-SPECS['B/MD C4 Pack']={sprite='286AD42DBC7314D0',own='286AD42DBC7314D0',page='6E09D5A15DEC6F79',uv={0.5,0.5,0.6,0.6}}
-SPECS['Vitality Enhancement']={sprite='A9C52A2333DFCB68',page='18EDBED388A3D706',uv={0.7,0.1,0.75,0.2}}
+SPECS['EXO-45 Patriot Exosuit']={sprite='396ECA60A6E80E17',own='396ECA60A6E80E17',page='5207684C3952B0CC',
+    pool='icon',uv={0.1,0.2,0.3,0.4}}
+SPECS['B/MD C4 Pack']={sprite='286AD42DBC7314D0',own='286AD42DBC7314D0',page='6E09D5A15DEC6F79',pool='icon',
+    uv={0.5,0.5,0.6,0.6}}
+SPECS['Vitality Enhancement']={sprite='A9C52A2333DFCB68',page='18EDBED388A3D706',pool='image',uv={0.7,0.1,0.75,0.2}}
 local function textures()
     local out={}
     for _,c in ipairs(calls)do if c.name=='set_texture'then out[#out+1]={c.args[1].material.id,c.args[2],c.args[3].id}end end
@@ -164,51 +192,67 @@ assert(called('update_bitmap_uv')==1 and called('bitmap_uv')==1 and #textures()=
 return 'ok'
 ''')
 
-    def test_boosters_and_second_colour_sets_borrow_a_carrier(self):
+    def test_boosters_draw_through_a_ui_image_material_and_colour_sets_borrow_a_carrier(self):
         self.lua(r'''
 local ov=hd2.ui.overlay({owner='mods/t/arcade'})
 ov:draw(function(d)
     d:image(patriot,10,10,64,64,{colours={r='#FF0000'}})
     d:image(patriot,90,10,64,64,{colours={r='#00FF00'}})     -- a second colour set of one stratagem
-    d:image(vitality,170,10,64,64)                           -- a booster: no material of its own
-    d:image(vitality,250,10,64,64)                           -- the same booster again: the same carrier
+    d:image(vitality,170,10,64,64,{colours={r='#FF0000'}})   -- a booster: a UI image material, its own colours
+    d:image(vitality,250,10,64,64)                           -- the same booster again: the same material
 end)
 frames(1)
 assert(called('bitmap_uv')==4 and ov:status().refused==0,tostring(ov:status().first_refusal))
 local mats={}
 for _,c in ipairs(calls)do if c.name=='bitmap_uv'then mats[#mats+1]=c.args[2].id end end
 assert(mats[1]=='396ECA60A6E80E17','the first colour set keeps the own material')
-assert(mats[2]~=mats[1]and mats[3]~=mats[1]and mats[3]~=mats[2],'carriers are other icon materials')
-assert(mats[4]==mats[3],'one carrier per (page, colours)')
+assert(mats[2]~=mats[1]and G.identity(patriot).sprite~=mats[2],'the second colour set borrows another icon material')
+assert(mats[3]==IMAGE[1]and mats[4]==IMAGE[1],'boosters: the first UI image material, one per page')
 local seen={}
 for _,t in ipairs(textures())do
     assert(seen[t[1]]==nil or seen[t[1]]==t[3],'one page per material')
     seen[t[1]]=t[3]
 end
-assert(seen[mats[3]]=='18EDBED388A3D706'and seen[mats[1]]=='5207684C3952B0CC'and seen[mats[2]]=='5207684C3952B0CC')
+assert(seen[IMAGE[1]]=='18EDBED388A3D706'and seen[mats[1]]=='5207684C3952B0CC'and seen[mats[2]]=='5207684C3952B0CC')
+for _,c in ipairs(calls)do
+    if c.name=='set_vector4'then assert(c.args[1].material.id~=IMAGE[1],'no mask colours on a UI image material')end
+end
+assert(called('set_vector4')==8,'mask colours for the two stratagem colour sets only')
 -- stable: the same frame again changes nothing
 local n=#calls;frames(3)
 assert(#calls==n)
--- a carrier needed by its own stratagem: the stratagem takes its material back, the booster moves to another carrier
-local first=G.carriers()[1]
+-- a carrier needed by its own stratagem: the stratagem takes its material back, the colour set moves on
+local carrier=mats[2]
 local owner
-for name,sprite in pairs(require('hd2runtime/domains/hud_icons').stratagems)do if sprite==first then owner=name end end
-SPECS[owner]={sprite=first,own=first,page='5207684C3952B0CC',uv={0.2,0.2,0.3,0.3}}
+for name,sprite in pairs(require('hd2runtime/domains/hud_icons').stratagems)do if sprite==carrier then owner=name end end
+SPECS[owner]={sprite=carrier,own=carrier,page='5207684C3952B0CC',pool='icon',uv={0.2,0.2,0.3,0.3}}
 local owner_icon=hd2.resources.game_icon('stratagem',owner)
-ov:draw(function(d)d:image(vitality,170,10,64,64)end)
+ov:draw(function(d)
+    d:image(owner_icon,10,10,64,64)
+    d:image(patriot,90,10,64,64,{colours={r='#FF0000'}})
+    d:image(patriot,170,10,64,64,{colours={r='#00FF00'}})
+end)
 frames(1)
-assert(last('bitmap_uv')and(function()for i=#calls,1,-1 do local c=calls[i]
-    if c.name=='bitmap_uv'or c.name=='update_bitmap_uv'then return true end end end)())
-local booster_carrier
-ov:draw(function(d)d:image(owner_icon,10,10,64,64);d:image(vitality,170,10,64,64)end)
+assert(ov:status().items==3,'all drawn: '..tostring(ov:status().first_refusal))
+local now={}
+for i=#calls,1,-1 do
+    local c=calls[i]
+    if(c.name=='bitmap_uv'or c.name=='update_bitmap_uv')and#now<3 then
+        table.insert(now,1,c.name=='bitmap_uv'and c.args[2].id or c.args[3].id)
+    end
+end
+assert(now[1]==carrier,'the stratagem has its own material back')
+assert(now[3]~=carrier and now[3]~=now[2],'the second colour set moved to another carrier')
+return 'ok'
+''')
+
+    def test_without_a_ui_image_material_boosters_are_refused(self):
+        self.lua(r'''
+O.hooks.image_materials=function()return nil,'no UI image material is loaded'end
+local ov=hd2.ui.overlay({owner='mods/t/arcade'})
+ov:draw(function(d)d:image(patriot,10,10,64,64);d:image(vitality,90,10,64,64)end)
 frames(1)
-local drawn=ov:status().items
-assert(drawn==2,'both drawn: '..tostring(ov:status().first_refusal))
-local last_page={}
-for _,t in ipairs(textures())do last_page[t[1]]=t[3]end
-assert(last_page[first]=='5207684C3952B0CC','the stratagem got its own material back, on its own page')
-for m,page in pairs(last_page)do if page=='18EDBED388A3D706'and m~=first then booster_carrier=m end end
-assert(booster_carrier,'the booster drawn through another carrier on the booster page')
+assert(called('bitmap_uv')==1 and ov:status().refused==1,'the stratagem drawn, the booster refused')
 return 'ok'
 ''')
 

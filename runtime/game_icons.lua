@@ -9,8 +9,11 @@
 --   * Material.set_texture(instance, 'diffuse_map', page) points that instance at the sprite's atlas page (exe 0x4A0460;
 --     the icon material's one slot is murmur64('diffuse_map') >> 32);
 --   * Gui.bitmap_uv draws the sprite's rectangle of the page (exe 0x3E2F10: uv00 = (u, v) is the top-left).
--- A stratagem's icon uses its own material; a booster (no icon material of its own) and a second colour set of one
--- stratagem in one overlay borrow a CARRIER: another stratagem's icon material this overlay does not use this frame.
+-- A stratagem's icon uses its own material (a second colour set of one stratagem in one overlay borrows a CARRIER:
+-- another stratagem's icon material this overlay does not use this frame). A booster sprite is a full-colour picture
+-- whose hexagon is its ALPHA, which the icon shader (R, G, B and A stacked as colour masks) cannot cut out: a booster is
+-- drawn through a UI IMAGE material instead (shader 0xBA25DE35: the texture's own colours with its alpha; GameIconProbe
+-- 0.2.0), found among the loaded materials by image_resources.ui_image_materials (none is named here).
 -- The sprite record (page and rectangle) is read from the running game's atlas sprite map every time it is resolved
 -- (runtime/image_resources.lua atlas_sprite), never assumed: an icon whose sprite or page is not loaded (booster icons
 -- during a mission) is not drawn.
@@ -65,9 +68,11 @@ function M.carriers()
     return carriers
 end
 
--- What drawing a handle needs now, read from the running game: {sprite, page, own = the icon's own material ('%016X')
--- or nil (a booster), w, h (the sprite in pixels), rect = {u, v, du, dv}, page_w, page_h}, or nil and why. Read-only:
--- the atlas sprite record, the page texture and (a stratagem) its icon material. M.uv turns it into the UVs for a box.
+-- What drawing a handle needs now, read from the running game: {sprite, page, pool = 'icon' (a stratagem: drawn
+-- through icon materials with mask colours) | 'image' (a booster: a UI image material, its own colours), own = the
+-- icon's own material ('%016X') or nil, w, h (the sprite in pixels), rect = {u, v, du, dv}, page_w, page_h}, or nil
+-- and why. Read-only: the atlas sprite record, the page texture and (a stratagem) its icon material. M.uv turns it into
+-- the UVs for a box.
 function M.resolve(runtime,handle)
     local id=M.identity(handle)
     local ok,s,why=pcall(images.atlas_sprite,runtime,id.high,id.low)
@@ -83,8 +88,8 @@ function M.resolve(runtime,handle)
         end
         own=id.sprite
     end
-    return {sprite=id.sprite,page=s.page,own=own,w=s.w,h=s.h,rect={s.u,s.v,s.du,s.dv},page_w=s.page_w,
-        page_h=s.page_h}
+    return {sprite=id.sprite,page=s.page,own=own,pool=id.kind=='stratagem'and'icon'or'image',w=s.w,h=s.h,
+        rect={s.u,s.v,s.du,s.dv},page_w=s.page_w,page_h=s.page_h}
 end
 -- The UVs {u0, v0, u1, v1} that draw a resolved sprite in a w x h pixel box, inset so texture filtering never reaches a
 -- neighbouring sprite of the page. Drawn smaller than its pixels, the sprite is sampled from a smaller mip level of the
@@ -109,12 +114,24 @@ function M.page_loaded(runtime,page)
     if not ok then return false,tostring(loaded)end
     return loaded==true,why
 end
--- Whether a stratagem icon material ('%016X') is loaded and exactly an icon material (a carrier must be): true, or
--- false and why. Read-only.
+-- Whether a material ('%016X') this overlay draws with is still loaded: true, or false and why. Read-only.
 function M.material_loaded(runtime,material)
-    local ok,loaded,why=pcall(images.icon_material,runtime,tonumber(material:sub(1,8),16),
+    local ok,loaded,why=pcall(images.material_present,runtime,tonumber(material:sub(1,8),16),
         tonumber(material:sub(9,16),16))
     if not ok then return false,tostring(loaded)end
     return loaded==true,why
 end
+-- Up to 8 loaded UI image materials ('%016X', sorted) for booster icons: found again every 10 s (or when one of them
+-- is gone), else the last list. nil and why when none is loaded.
+local image_pool,image_pool_at
+function M.image_materials(runtime)
+    local now=os.clock()
+    if image_pool and image_pool_at and now-image_pool_at<10 then return image_pool end
+    local ok,list,why=pcall(images.ui_image_materials,runtime,8)
+    if not ok then return nil,tostring(list)end
+    if not list or#list==0 then return nil,why or'no UI image material is loaded'end
+    image_pool,image_pool_at=list,now
+    return list
+end
+function M.reset_for_tests()image_pool,image_pool_at=nil,nil end
 return M
