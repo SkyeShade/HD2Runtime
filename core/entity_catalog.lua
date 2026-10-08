@@ -26,8 +26,8 @@ function M.capture(reader,owner,profile,names)
         if resource~=ZERO then
             local count=b.pointer(map,at+16)
             assert(count>0 and count<=1024,'membership count bounds')
-            local offset=b.relative(b.pointer(map,at+8),owner.base+28,count*2,
-                size-28,profile.map_rows*32)
+            local offset=b.membership(b.pointer(map,at+8),owner.base+28,count*2,
+                size-28,profile.map_rows*32,row,resource,count)
             -- Every row's pointer and bounds are still validated here; the membership
             -- list itself is scanned lazily and only for component candidates.
             local rows=entities[resource] or {}

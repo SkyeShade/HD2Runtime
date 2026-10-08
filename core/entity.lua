@@ -21,7 +21,8 @@ function M.new(reader,owner,profile)
                 found=row
                 local count=b.pointer(map,at+16)
                 assert(count>0 and count<=1024,'membership count bounds')
-                local offset=b.relative(b.pointer(map,at+8),owner.base+28,count*2,size-28,profile.map_rows*32)
+                local offset=b.membership(b.pointer(map,at+8),owner.base+28,count*2,size-28,profile.map_rows*32,row,
+                    resource.resource,count)
                 assert(row==resource.owner_row and offset==resource.membership_offset,'entity identity changed')
                 local members=map:sub(29+offset,28+offset+count*2)
                 assert(members==b.unhex(resource.membership),'membership changed')

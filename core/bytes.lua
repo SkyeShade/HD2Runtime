@@ -77,4 +77,13 @@ function M.relative(value,base,start,length,minimum)
     assert(rel~=absolute,'invalid/ambiguous bounded pointer')
     return rel and value or delta
 end
+-- M.relative for an entity map row's membership pointer, its refusal naming the row (0.30.2: the bare message named
+-- nothing, and a stray row of another resource refuses the whole capture). No address is put in the message.
+function M.membership(value,base,start,length,minimum,row,resource,count)
+    local ok,result=pcall(M.relative,value,base,start,length,minimum)
+    if ok then return result end
+    error(('invalid/ambiguous bounded pointer: entity map row %d (resource %s, %d members) has a membership list '
+        ..'outside the map body; the entity map of the game is not as reviewed (another mod may have loaded or changed '
+        ..'entities), so this write is refused'):format(row,tostring(resource),count),0)
+end
 return M

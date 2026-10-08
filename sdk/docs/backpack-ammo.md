@@ -82,6 +82,12 @@ weapon: call-in, weapon, then backpack ammo.
   deposits too, but through `assisted_reload_weapon_path`. Their weapons also own magazines, and their
   start amount is the `-1` sentinel. The C4 pack's deposit refills its detonator the same way. These are
   a different mechanism and stay read-only.
+  Their weapons' own stock rows are 0 natively, because the backpack holds the ammunition:
+  `rounds.spare_rounds`, `rounds.starting_rounds` and `rounds.rounds_from_supply` on the AC-8, and
+  `magazine.starting_magazines` and `magazine.spare_magazines` on the GR-8, FAF-14, RL-77 and StA-X3.
+  Since 0.30.2 each of these rows carries `noEffect.reason` in `SupportWeaponAuthoringCapabilities.json`.
+  A write is still accepted, so older mods keep working, but it is not expected to change anything in
+  game. Editors should show these rows read-only with that reason.
 - **The Cremator's weapon-side fields:** they remain blocked, because the weapon still resolves to two
   native roots. Its backpack is reached only through its own call-in rack, so its ammunition is
   authorable.

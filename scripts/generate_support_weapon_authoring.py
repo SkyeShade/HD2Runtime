@@ -37,6 +37,9 @@ ATTACK_OUTPUTS=ROOT/'research/attack-outputs-F5FEE03DCFDB.json'
 HOST_UNVERIFIED=('Replaces the projectile this support weapon fires (its ProjectileWeapon +0, copied into the weapon '
     'when it is built). The same structural rule as player component hosts: no customization delta patches a projectile '
     'member and no other selector exists. Not yet shown in game for a support weapon.')
+BACKPACK_STOCK=('This team-reload weapon keeps no ammunition of its own: its backpack holds it (the deposit that the '
+    'wearer or a teammate reloads from). The row is 0 natively; a write is accepted but is not expected to change anything in game. '
+    'See docs/backpack-ammo.md "Not covered".')
 UNVERIFIED_REASONS={
     'reload.duration':'Schema-labelled native reload duration; scraped reload times agree only approximately '
         '(they include animation), and the gameplay effect of an edit is not yet confirmed.',
@@ -481,14 +484,23 @@ def build(catalog_path=CATALOG):
                 blocked.append({'field':'weapon.fire_rate','reason':
                     'Charge-controlled or diagnostic selector; native sentinel/default is not exposed as ordinary RPM.'})
             ammo=candidate.get('ammo')or{};kind=ammo.get('kind')
+            # 0.30.2 (stats-editor R6): a team-reload weapon's own stock rows are 0 because its backpack's deposit
+            # holds the ammunition (docs/backpack-ammo.md "Not covered"); a write there is accepted (older mods keep
+            # working) but is not expected to change anything, so the row says so.
+            team_reload=weapon['backpackDependent']and not fed_backpacks.get(weapon['name'])
+            def stock(field,value):
+                if team_reload and value==0:
+                    field['noEffect']=BACKPACK_STOCK
+                return field
             if kind=='magazine'and'WeaponMagazineComponentData'in ownership:
                 for field_id,key,offset in (
                     ('weapon.capacity','capacity_value',136),
                     ('magazine.starting_magazines','starting_magazines',140),
                     ('magazine.magazines_from_supply','magazines_from_supply',144),
                     ('magazine.spare_magazines','spare_magazines',148)):
-                    fields.append(make_field(field_id,ammo.get(key),
-                        component(candidate,'WeaponMagazineComponentData',offset,'u32'),target))
+                    field=make_field(field_id,ammo.get(key),
+                        component(candidate,'WeaponMagazineComponentData',offset,'u32'),target)
+                    fields.append(stock(field,ammo.get(key))if field_id!='weapon.capacity'else field)
             elif kind=='rounds'and'WeaponRoundsComponentData'in ownership:
                 for field_id,key,offset,storage in (
                     ('rounds.feed_capacity_1','feed_capacity_1',72,'f32'),
@@ -496,8 +508,10 @@ def build(catalog_path=CATALOG):
                     ('rounds.spare_rounds','spare_rounds',80,'u32'),
                     ('rounds.rounds_from_supply','rounds_from_supply',84,'u32'),
                     ('rounds.starting_rounds','starting_rounds',88,'u32')):
-                    fields.append(make_field(field_id,ammo.get(key),
-                        component(candidate,'WeaponRoundsComponentData',offset,storage),target))
+                    field=make_field(field_id,ammo.get(key),
+                        component(candidate,'WeaponRoundsComponentData',offset,storage),target)
+                    fields.append(stock(field,ammo.get(key))if field_id.startswith(('rounds.spare','rounds.rounds_from',
+                        'rounds.starting'))else field)
             extra=coverage['weapons'].get(weapon['name'])or{}
             reload=extra.get('reload')
             if reload and reload['resource']==weapon['attackResource']:
@@ -964,6 +978,7 @@ def build(catalog_path=CATALOG):
                 **({'liveEvidence':field['liveEvidence']}if field.get('liveEvidence')else
                     {'liveEvidence':live_targets[(weapon_name,field['semanticFieldId'])]}
                     if(weapon_name,field['semanticFieldId'])in live_targets else{}),
+                **({'noEffect':{'reason':field['noEffect']}}if field.get('noEffect')else{}),
                 'resolution':resolution_metadata(weapon_name,field),
                 'provenance':{'identity':'unique reviewed support-weapon runtime identity',
                     'semantics':'shared player/support field schema',

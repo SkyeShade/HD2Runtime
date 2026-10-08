@@ -97,8 +97,26 @@ local function sorted_names(root)
     table.sort(names,function(a,c)return tostring(a)<tostring(c)end)
     return names
 end
+local build_index
+-- The index, built once from every catalogue on first use (0.30.2: timed; M.build_seconds and one log line say what
+-- the first use cost, the catalogue modules' loading included).
 local function build()
     if index then return index end
+    local started=os.clock()
+    build_index()
+    M.build_seconds=os.clock()-started
+    local keys=0
+    for _ in pairs(index)do keys=keys+1 end
+    local ok_m,metrics=pcall(require,'hd2runtime/runtime/metrics')
+    if ok_m then metrics.count('shared_records.build_ms',math.floor(M.build_seconds*1000+0.5))end
+    local ok_l,log=pcall(require,'hd2runtime/runtime/log')
+    if ok_l and log.emit then
+        pcall(log.emit,('[HD2Runtime] shared records index built in %.1f ms CPU (%d keys, %d catalogues)'):format(
+            M.build_seconds*1000,keys,#CATALOGUES))
+    end
+    return index
+end
+function build_index()
     index,by_descriptor={},setmetatable({},{__mode='k'})
     for _,catalogue in ipairs(CATALOGUES)do
         local ok,data=pcall(require,catalogue.module)

@@ -14169,6 +14169,9 @@
         "acknowledgement": null,
         "acknowledgementReason": null
       },
+      "noEffect": {
+        "reason": "This team-reload weapon keeps no ammunition of its own: its backpack holds it (the deposit that the wearer or a teammate reloads from). The row is 0 natively; a write is accepted but is not expected to change anything in game. See docs/backpack-ammo.md \"Not covered\"."
+      },
       "resolution": {
         "rootChain": [
           "weapon_entity"
@@ -14273,6 +14276,9 @@
         "acknowledgement": null,
         "acknowledgementReason": null
       },
+      "noEffect": {
+        "reason": "This team-reload weapon keeps no ammunition of its own: its backpack holds it (the deposit that the wearer or a teammate reloads from). The row is 0 natively; a write is accepted but is not expected to change anything in game. See docs/backpack-ammo.md \"Not covered\"."
+      },
       "resolution": {
         "rootChain": [
           "weapon_entity"
@@ -14376,6 +14382,9 @@
         "allowSharedRequired": false,
         "acknowledgement": null,
         "acknowledgementReason": null
+      },
+      "noEffect": {
+        "reason": "This team-reload weapon keeps no ammunition of its own: its backpack holds it (the deposit that the wearer or a teammate reloads from). The row is 0 natively; a write is accepted but is not expected to change anything in game. See docs/backpack-ammo.md \"Not covered\"."
       },
       "resolution": {
         "rootChain": [
@@ -69453,6 +69462,9 @@
         "acknowledgement": null,
         "acknowledgementReason": null
       },
+      "noEffect": {
+        "reason": "This team-reload weapon keeps no ammunition of its own: its backpack holds it (the deposit that the wearer or a teammate reloads from). The row is 0 natively; a write is accepted but is not expected to change anything in game. See docs/backpack-ammo.md \"Not covered\"."
+      },
       "resolution": {
         "rootChain": [
           "weapon_entity"
@@ -69660,6 +69672,9 @@
         "allowSharedRequired": false,
         "acknowledgement": null,
         "acknowledgementReason": null
+      },
+      "noEffect": {
+        "reason": "This team-reload weapon keeps no ammunition of its own: its backpack holds it (the deposit that the wearer or a teammate reloads from). The row is 0 natively; a write is accepted but is not expected to change anything in game. See docs/backpack-ammo.md \"Not covered\"."
       },
       "resolution": {
         "rootChain": [
@@ -97672,6 +97687,9 @@
         "acknowledgement": null,
         "acknowledgementReason": null
       },
+      "noEffect": {
+        "reason": "This team-reload weapon keeps no ammunition of its own: its backpack holds it (the deposit that the wearer or a teammate reloads from). The row is 0 natively; a write is accepted but is not expected to change anything in game. See docs/backpack-ammo.md \"Not covered\"."
+      },
       "resolution": {
         "rootChain": [
           "weapon_entity"
@@ -97879,6 +97897,9 @@
         "allowSharedRequired": false,
         "acknowledgement": null,
         "acknowledgementReason": null
+      },
+      "noEffect": {
+        "reason": "This team-reload weapon keeps no ammunition of its own: its backpack holds it (the deposit that the wearer or a teammate reloads from). The row is 0 natively; a write is accepted but is not expected to change anything in game. See docs/backpack-ammo.md \"Not covered\"."
       },
       "resolution": {
         "rootChain": [
@@ -163805,6 +163826,9 @@
         "acknowledgement": null,
         "acknowledgementReason": null
       },
+      "noEffect": {
+        "reason": "This team-reload weapon keeps no ammunition of its own: its backpack holds it (the deposit that the wearer or a teammate reloads from). The row is 0 natively; a write is accepted but is not expected to change anything in game. See docs/backpack-ammo.md \"Not covered\"."
+      },
       "resolution": {
         "rootChain": [
           "weapon_entity"
@@ -164012,6 +164036,9 @@
         "allowSharedRequired": false,
         "acknowledgement": null,
         "acknowledgementReason": null
+      },
+      "noEffect": {
+        "reason": "This team-reload weapon keeps no ammunition of its own: its backpack holds it (the deposit that the wearer or a teammate reloads from). The row is 0 natively; a write is accepted but is not expected to change anything in game. See docs/backpack-ammo.md \"Not covered\"."
       },
       "resolution": {
         "rootChain": [
@@ -193316,6 +193343,9 @@
         "acknowledgement": null,
         "acknowledgementReason": null
       },
+      "noEffect": {
+        "reason": "This team-reload weapon keeps no ammunition of its own: its backpack holds it (the deposit that the wearer or a teammate reloads from). The row is 0 natively; a write is accepted but is not expected to change anything in game. See docs/backpack-ammo.md \"Not covered\"."
+      },
       "resolution": {
         "rootChain": [
           "weapon_entity"
@@ -193523,6 +193553,9 @@
         "allowSharedRequired": false,
         "acknowledgement": null,
         "acknowledgementReason": null
+      },
+      "noEffect": {
+        "reason": "This team-reload weapon keeps no ammunition of its own: its backpack holds it (the deposit that the wearer or a teammate reloads from). The row is 0 natively; a write is accepted but is not expected to change anything in game. See docs/backpack-ammo.md \"Not covered\"."
       },
       "resolution": {
         "rootChain": [
