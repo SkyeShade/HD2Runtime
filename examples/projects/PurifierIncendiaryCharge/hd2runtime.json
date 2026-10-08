@@ -1,0 +1,1 @@
+{"format":1,"name":"PurifierIncendiaryCharge","resource":"mods/hd2runtime_examples/purifier_incendiary_charge","guid":"ec00d923-bf22-56d5-b6cf-6db6dccbcbac","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.30.1","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../../sdk","ide_library":"../../../sdk/stubs"}

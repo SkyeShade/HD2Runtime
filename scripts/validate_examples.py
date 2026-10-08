@@ -80,6 +80,10 @@ STRATAGEM_WEAPONS_0_28_0 = {'mine'}   # a mine deployer's launcher owns its mine
 # Features new in 0.30.0 (published; pinned for 0.30.1, which adds none). The names keep "UNRELEASED" from the 0.30.0
 # line; features of the next feature release get their own floor.
 UNRELEASED = '0.30.0'
+# Features added after the last published release need the release that ships them, i.e. the version being built
+# (VERSION); that release pins them like UNRELEASED above. Player-weapon explosion status slots (0.30.2):
+NEXT_RELEASE = (ROOT / 'VERSION').read_text().strip()
+PLAYER_EXPLOSION_STATUS = re.compile(r'^explosion\.[^.]+\.(impact|expiry)\.damage\.status_\d+_(type|strength)$')
 UNRELEASED_FIELDS = {'stratagem.calldown_code',   # docs/stratagem-calldown-code.md
     'stratagem.presentation.name', 'stratagem.presentation.name_cased', 'stratagem.presentation.description',
     'stratagem.presentation.icon',                  # docs/stratagem-presentation.md
@@ -352,6 +356,8 @@ def required_version(report):
                     bump(RELEASE_0_28_0, field + ' through the generic ' + generic)
                 if generic in UNRELEASED_FIELDS:
                     bump(UNRELEASED, field)
+                if spec['kind'] == 'player_weapon' and PLAYER_EXPLOSION_STATUS.match(field):
+                    bump(NEXT_RELEASE, 'player weapon explosion status ' + field)
                 if (spec['kind'], field) in KIND_FIELD_FLOORS:
                     bump(KIND_FIELD_FLOORS[(spec['kind'], field)], spec['kind'] + ' ' + field)
     return need, sorted(set(reasons))

@@ -1,5 +1,5 @@
 {
-  "examples": 118,
+  "examples": 119,
   "failed": [],
   "mode": "snapshot",
   "results": {
@@ -3876,6 +3876,36 @@
         "attack_output projectile.impact_explosion -> 0.28.0",
         "attack_output target -> 0.28.0",
         "in-game options -> 0.25.1",
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "PurifierIncendiaryCharge": {
+      "baselineChanges": 2,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.30.1",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "attack": "primary",
+          "callKind": "ensure",
+          "id": "fire",
+          "mode": "transaction",
+          "path": "explosion",
+          "resource": "player_weapon",
+          "weapon": "PLAS-101 Purifier"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.30.1",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "player weapon explosion status explosion.primary.impact.damage.status_1_strength -> 0.30.1",
+        "player weapon explosion status explosion.primary.impact.damage.status_1_type -> 0.30.1",
         "typed writes -> 0.23.2"
       ]
     },

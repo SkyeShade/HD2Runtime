@@ -133,6 +133,8 @@
     {"id":"explosion.damage.demolition","display_name":"Explosion demolition","type":"integer","unit":"force","derived":false,"writable":true,"settings":"explosion_damage","offset":28,"storage":"u32"},
     {"id":"explosion.damage.stagger","display_name":"Explosion stagger","type":"integer","unit":"force","derived":false,"writable":true,"settings":"explosion_damage","offset":32,"storage":"u32"},
     {"id":"explosion.damage.push_force","display_name":"Explosion push force","type":"integer","unit":"force","derived":false,"writable":true,"settings":"explosion_damage","offset":36,"storage":"u32"},
+    {"id":"explosion.damage.status_type","display_name":"Explosion status applied","type":"status_reference","unit":null,"derived":false,"writable":true,"settings":"explosion_damage"},
+    {"id":"explosion.damage.status_strength","display_name":"Explosion status strength","type":"number","unit":"factor","derived":false,"writable":true,"settings":"explosion_damage"},
     {"id":"explosion.shrapnel_count","display_name":"Explosion shrapnel count","type":"integer","unit":"projectiles","derived":false,"writable":false,"reason":"Structurally correlated for one current projectile; native consumer confirmation is incomplete."},
     {"id":"explosion.shrapnel_projectile","display_name":"Explosion shrapnel projectile","type":"projectile_reference","unit":null,"derived":false,"writable":false,"reason":"Typed shrapnel linkage is readable; replacement compatibility is not yet proven."},
     {"id":"heat.level_1_threshold","display_name":"Heat level 1 threshold","type":"number","unit":"heat_units","derived":false,"writable":true,"component":"WeaponHeatComponentData","offset":0,"storage":"f32"},

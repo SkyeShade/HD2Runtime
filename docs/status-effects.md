@@ -56,7 +56,18 @@ Everything else is catalogued read-only:
 
 Each damage object has `damage.status_<k>_type` for every used slot, plus `damage.status_<k>_type` and
 `damage.status_<k>_strength` for its first empty slot. Explosion damage objects have the same fields as
-`explosion.damage.status_<k>_*`.
+`explosion.damage.status_<k>_*`. Player-weapon explosions have them since 0.30.2 (before, only support-weapon
+explosions did): for example the PLAS-101 Purifier's charged-shot blast, through its explosion handle.
+
+```lua
+-- Charged Purifier shots set what their blast hits on fire (no bigger blast, nothing lingers on the ground).
+local blast=hd2.weapon('PLAS-101 Purifier'):attack('primary'):projectile():terminal_action('impact'):explosion()
+hd2.ensure({plan={id='purifier-incendiary-charge',operations={
+    {id='fire',target=blast,allow_unverified_effect=true,changes={
+        {field=hd2.fields.explosion.damage_status_1_type,expect='none',value='fire'},
+        {field=hd2.fields.explosion.damage_status_1_strength,expect=0,value=2}}},
+}}})
+```
 
 ```lua
 local bullets=hd2.support_weapon('M-1000 Maxigun'):attack('primary'):projectile()
@@ -131,5 +142,5 @@ found that target-side status processing exists:
 So a shorter effective stun is consistent with target-side processing, but nothing is proven. `status.duration` keeps
 its meaning: the duration the status definition stores.
 
-An explosion-status swap was not built as a separate test: explosions apply statuses through the same slots of their
-own DamageInfo row, so there is no distinct mechanism to test.
+No explosion status has been live-tested yet. Explosions apply statuses through the same slots of their own
+DamageInfo row, so the mechanism is the same; the pending live test is `PurifierIncendiaryCharge` (0.30.2).

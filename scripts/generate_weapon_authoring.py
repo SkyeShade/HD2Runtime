@@ -494,6 +494,26 @@ def build(catalog_path=CATALOG):
                     scalar['terminalPhases']=[candidate['phase'] for candidate in
                         attack['terminalActions'] if candidate['referenceType']==explosion['explosionType']]
                     fields.append(scalar)
+                # The explosion's DamageInfo status slots (0.30.2): every used slot's status as a typed reference, and
+                # the first empty slot, which can take one. Same native slots and writer as a direct-hit row's; the row
+                # is the explosion's own (its sharing travels with it). A status on an explosion is not live-proven.
+                record=explosion['damageSettings']
+                for spec in status_fields.slot_specs(record['recordType']):
+                    if spec['role']=='strength'and not spec['attach']:continue
+                    backend=settings_backend('explosion_damage',record,spec['offset'],spec['storage'],attack['role'])
+                    backend['phase']=phase
+                    backend.update(status_fields.backing_extra(spec))
+                    slot_field=make_field(f"explosion.{attack['role']}.{phase}.damage.{spec['suffix']}",spec['current'],
+                        backend,editable=unique and explosion['writable'],reason=blocked or explosion.get('reason'))
+                    if spec['role']=='type':slot_field['type']='status_reference'
+                    slot_field['sharedWithWeapons']=sorted({consumer['weapon'] for consumer in
+                        explosion['playerConsumers'] if consumer['weapon']!=name})
+                    slot_field['sharedWithResources']=sorted({str(value) for value in explosion['consumers']})
+                    slot_field['affectsMultipleWeapons']=explosion['shared']
+                    slot_field['writeScope']=explosion['writeScope']
+                    slot_field['explosionType']=explosion['explosionType']
+                    slot_field.update(status_fields.type_extra(spec))
+                    fields.append(slot_field)
                 shrapnel=explosion['shrapnel']
                 for suffix,value in (('shrapnel_count',shrapnel['count']),
                         ('shrapnel_projectile',shrapnel['projectileType'])):
