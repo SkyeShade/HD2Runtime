@@ -6,8 +6,13 @@ For each WeaponCustomizableItem in the pinned customization settings table:
     and offset, with decoded WeaponDataComponent stat modifiers (type names checked against the type
     library) and reference labels for a reviewed set of offsets;
   * weapons whose resource default names it (per slot) and weapons whose unlock list names it
-    (research/attachment-unlock-lists-F5FEE03DCFDB.json).
-Nothing here is writable; magazine attachments are authored through MagazineAttachmentCapabilities.json.
+    (research/attachment-unlock-lists-F5FEE03DCFDB.json);
+  * the delta's identity (hashmap slot, settings index) and, for every stat modifier pair, the proof data the
+    guarded writes re-check: pair index, type word, the component and data offsets of the type and the value, and
+    whether each sits in its own 4-byte delta row (research_magazine_attachments.decode_effects).
+The table-wide check that no two delta rows share data bytes is recorded as deltaDataRowsOverlapping. Nothing here
+writes; magazine attachments are authored through MagazineAttachmentCapabilities.json, muzzle, optics and
+underbarrel stat modifiers through WeaponAttachmentModifierCapabilities.json.
 
 Output: research/weapon-attachments-F5FEE03DCFDB.json.
 """
@@ -25,7 +30,7 @@ sys.path.insert(0, str(ROOT / 'scripts'))
 import research_entity_authoring as entity_research
 from research_booster_authoring import TypeLibrary
 from research_magazine_attachments import (DATALIB, DELTAS_SHA, MODIFIERS, MODIFIER_COUNT, MODIFIER_STRIDE,
-    customization_items, entity_deltas, native_layout, sha)
+    customization_items, decode_effects, entity_deltas, native_layout, sha)
 
 OUTPUT = ROOT / 'research/weapon-attachments-F5FEE03DCFDB.json'
 UNLOCK_LISTS = ROOT / 'research/attachment-unlock-lists-F5FEE03DCFDB.json'
@@ -151,13 +156,24 @@ def main():
                 break
             modifiers.append({'type': modifier_names[kind],
                 'value': round(struct.unpack('<f', value)[0], 6) if value else None})
+        rows = decode_effects(delta['entries'], modifier_names)['statModifiers'] if delta else None
+        if rows and len({row['type'] for row in rows}) != len(rows):
+            raise ValueError(item['debugName'] + ': one stat modifier type patched twice')
         result.append({'debugName': item['debugName'], 'optionId': f"0x{item['optionId']:08X}",
             'addPath': f"0x{item['addPath']:016X}", 'slots': [slots[s] for s in item['slots']],
             'hasDelta': delta is not None, 'patched': patched, 'statModifiers': modifiers,
+            'hashmapSlot': delta['hashmapSlot'] if delta else None,
+            'settingsIndex': delta['settingsIndex'] if delta else None, 'statModifierRows': rows,
             'nativeDefaultOf': sorted(default_of.get(item['optionId'], ())),
             'unlockListedFor': sorted(listed_for.get(item['optionId'], ()))})
+    # Delta data bytes are never shared between rows (so never between definitions), across the whole table.
+    spans = sorted((entry['dataOffset'], entry['dataOffset'] + entry['size'])
+        for value in deltas.values() for entry in value['entries'])
+    overlapping = sum(1 for a, b in zip(spans, spans[1:]) if b[0] < a[1])
     OUTPUT.write_text(json.dumps({'schemaVersion': 1, 'customizationSettingsSha256': sha(custom),
         'entityDeltasSha256': DELTAS_SHA, 'slots': {str(k): v for k, v in slots.items()},
+        'statModifierTypes': {str(k): v for k, v in sorted(modifier_names.items())},
+        'deltaDataRows': len(spans), 'deltaDataRowsOverlapping': overlapping,
         'components': {str(k): v for k, v in sorted(names.items())}, 'items': result}, indent=1) + '\n', newline='\n')
     print(json.dumps({'items': len(result), 'bySlot': collections.Counter(s for r in result for s in r['slots']),
         'components': names}, indent=1, default=str))
