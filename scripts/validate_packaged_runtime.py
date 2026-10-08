@@ -1224,6 +1224,11 @@ end
 
 # Equipment coverage live tests (research/equipment-coverage-F5FEE03DCFDB.json).
 EQUIPMENT_TOGGLES = {
+    # 0.30.2: the seven weapons resolved to their proven roots (research/weapon-roots), one change each.
+    'example-weapon-roots-test': [('weapon_roots_test.dagger', [1], 1, True), ('weapon_roots_test.scythe', [2], 1, True),
+        ('weapon_roots_test.gp31', [3], 2, True), ('weapon_roots_test.crisper', [4], 1, True),
+        ('weapon_roots_test.defender', [5], 1, True), ('weapon_roots_test.machete', [6], 1, True),
+        ('weapon_roots_test.etool', [7], 1, True)],
     'example-double-edge-overheat-test': [('double_edge_overheat.later_levels', [1], 3, True),
         ('double_edge_overheat.no_ignition', [2], 1, True), ('double_edge_overheat.overheat_lock', [3], 1, False)],
     'example-warp-pack-test': [('warp_pack_test.long_warp', [1], 1, True), ('warp_pack_test.cool_pack', [2], 1, True),

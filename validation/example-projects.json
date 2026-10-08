@@ -1,5 +1,5 @@
 {
-  "examples": 120,
+  "examples": 121,
   "failed": [],
   "mode": "snapshot",
   "results": {
@@ -5376,6 +5376,87 @@
       "versionReasons": [
         "in-game options -> 0.25.1",
         "player_weapon presentation.armor_penetration -> 0.28.0",
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "WeaponRootsTest": {
+      "baselineChanges": 8,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.30.1",
+      "operations": [
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "weapon-roots-dagger",
+          "mode": "transaction",
+          "path": "weapon",
+          "resource": "player_weapon",
+          "weapon": "LAS-7 Dagger"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "weapon-roots-scythe",
+          "mode": "transaction",
+          "path": "weapon",
+          "resource": "player_weapon",
+          "weapon": "LAS-5 Scythe"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "weapon-roots-gp31",
+          "mode": "transaction",
+          "path": "weapon",
+          "resource": "player_weapon",
+          "weapon": "GP-31 Grenade Pistol"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "weapon-roots-crisper",
+          "mode": "transaction",
+          "path": "weapon",
+          "resource": "player_weapon",
+          "weapon": "P-72 Crisper"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "weapon-roots-defender",
+          "mode": "transaction",
+          "path": "weapon",
+          "resource": "player_weapon",
+          "weapon": "SMG-37 Defender"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "weapon-roots-machete",
+          "mode": "transaction",
+          "path": "weapon",
+          "resource": "player_weapon",
+          "weapon": "CQC-42 Machete"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "weapon-roots-etool",
+          "mode": "transaction",
+          "path": "weapon",
+          "resource": "player_weapon",
+          "weapon": "CQC-73 Entrenchment Tool"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.28.0",
+      "status": "VALIDATED",
+      "usesOptions": true,
+      "versionReasons": [
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0",
+        "in-game options -> 0.25.1",
         "typed writes -> 0.23.2"
       ]
     },
