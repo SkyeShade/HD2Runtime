@@ -92,6 +92,9 @@ HD2Runtime is designed to fail safely when a game structure or ownership relatio
 
 Unsupported or ambiguous values remain read-only rather than being modified speculatively.
 
+Version 0.30.1 allows Public lobbies and Quickplay again: HD2Runtime warns (log and screen) instead of switching
+privacy to Friends Only and cancelling Quickplay. See `docs/releases/0.30.1.md`.
+
 Version 0.30.0 adds custom stratagems (`docs/custom-stratagem-api.md`; solo host first, multiplayer experimental), a
 builder-facing custom-stratagem schema and project format (`docs/custom-stratagem-builder.md`), weapon variants for
 every support weapon, armor stats and passives, the event system, game sounds and icons, and many more mapped fields.

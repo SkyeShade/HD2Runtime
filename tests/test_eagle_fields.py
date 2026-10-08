@@ -241,7 +241,7 @@ class EagleLiveTestArtifactTests(unittest.TestCase):
         source = (project / 'src/addon.lua').read_text(encoding='utf-8')
         self.assertIn("local BANNER='EAGLE FIELDS 0.1.0 BUILD'", source)
         manifest = json.loads((project / 'hd2runtime.json').read_text())
-        self.assertEqual(manifest['requires']['hd2runtime']['min_version'], (ROOT / 'VERSION').read_text().strip())
+        self.assertEqual(manifest['requires']['hd2runtime']['min_version'], '0.30.0')   # the release that added these fields
         self.assertIn('mod_options_menu', manifest['optional'])
         catalog = json.loads((ROOT / 'sdk/StratagemAuthoringCapabilities.json').read_text())
         baseline = {(f['target']['stratagem'], f['semanticFieldId']): f['currentDefault']

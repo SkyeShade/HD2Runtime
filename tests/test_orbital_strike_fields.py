@@ -217,7 +217,7 @@ class StrikeFieldLiveTestArtifactTests(unittest.TestCase):
         source = (project / 'src/addon.lua').read_text(encoding='utf-8')
         self.assertIn("local BANNER='ORBITAL STRIKE FIELDS 0.1.0 BUILD'", source)
         manifest = json.loads((project / 'hd2runtime.json').read_text())
-        self.assertEqual(manifest['requires']['hd2runtime']['min_version'], (ROOT / 'VERSION').read_text().strip())
+        self.assertEqual(manifest['requires']['hd2runtime']['min_version'], '0.30.0')   # the release that added these fields
         self.assertIn('mod_options_menu', manifest['optional'])
         baseline = {(f['target']['stratagem'], f['semanticFieldId']): f['currentDefault']
             for f in catalog()['fieldInstances']}

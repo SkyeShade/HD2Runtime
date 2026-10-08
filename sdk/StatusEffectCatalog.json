@@ -1,7 +1,7 @@
 {
   "contract": "hd2runtime.status_effects.v1",
   "schemaVersion": 1,
-  "hd2RuntimeVersion": "0.30.0",
+  "hd2RuntimeVersion": "0.30.1",
   "source": {
     "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
     "mode": "snapshot",

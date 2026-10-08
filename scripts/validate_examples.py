@@ -69,7 +69,7 @@ KIND_FIELDS_0_28_0 = {
         'beam.primary.length', 'beam.primary.radius', 'heat.capacity', 'heat.cool_per_second', 'heat.heat_per_shot'}
         | STATUS_SLOTS}
 RESOURCE_FLOORS = {'booster': '0.24.0', 'vehicle_weapon': '0.26.0', 'pod_rack': '0.26.0', 'throwable': '0.27.0',
-    'explosion': (ROOT / 'VERSION').read_text().strip(),
+    'explosion': '0.30.0',
     'enemy': RELEASE_0_28_0, 'attack_output': RELEASE_0_28_0}
 RESOURCE_PATH_FLOORS = {('backpack', 'damage_zone'): RELEASE_0_28_0, ('player_weapon', 'ammunition'): RELEASE_0_28_0}
 BOOSTER_PATH_FLOORS = {'tuning': '0.25.0', 'explosion': '0.25.0', 'status_damage': '0.25.0',
@@ -77,9 +77,9 @@ BOOSTER_PATH_FLOORS = {'tuning': '0.25.0', 'explosion': '0.25.0', 'status_damage
 DELIVERY_RESOLVED = {'MG-43 Machine Gun', 'M-105 Stalwart', 'MG-206 Heavy Machine Gun', 'CQC-20 Breaching Hammer'}
 SUPPORT_WEAPONS_0_28_0 = {'EAT-17 Expendable Anti-Tank', 'LAS-98 Laser Cannon', 'B/FLAM-80 Cremator'}
 STRATAGEM_WEAPONS_0_28_0 = {'mine'}   # a mine deployer's launcher owns its mine attacks
-# Features not in any published release yet need the release that ships them, i.e. the version being built. Empty
-# right after a release; the next release pins them like the 0.28.0 sets above.
-UNRELEASED = (ROOT / 'VERSION').read_text().strip()
+# Features new in 0.30.0 (published; pinned for 0.30.1, which adds none). The names keep "UNRELEASED" from the 0.30.0
+# line; features of the next feature release get their own floor.
+UNRELEASED = '0.30.0'
 UNRELEASED_FIELDS = {'stratagem.calldown_code',   # docs/stratagem-calldown-code.md
     'stratagem.presentation.name', 'stratagem.presentation.name_cased', 'stratagem.presentation.description',
     'stratagem.presentation.icon',                  # docs/stratagem-presentation.md

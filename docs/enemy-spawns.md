@@ -116,7 +116,8 @@ Enemies are spawned by the mission host's AI.
 - **You host:** your multipliers decide.
 - **Someone else hosts:** your multipliers do nothing (the log says so once); theirs decide.
 
-Public matchmaking is off while HD2Runtime runs.
+Since 0.30.1 Public lobbies and Quickplay are allowed (HD2Runtime warns about them), so the host may not run
+HD2Runtime at all; then nobody's multipliers apply.
 
 ## Guards
 

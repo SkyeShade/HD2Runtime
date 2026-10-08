@@ -29,6 +29,7 @@ local safety=require('hd2runtime/runtime/matchmaking_safety')
 local MS=require('hd2runtime/domains/matchmaking_safety')
 local scheduler=require('hd2runtime/runtime/scheduler')
 safety.reset_for_tests()
+safety.ENFORCE=true      -- the 0.30.0 enforcement, kept behind the switch (0.30.1 default: WarningsOnlyTests)
 local function unhex(h)return(h:gsub('..',function(p)return string.char(tonumber(p,16))end))end
 local function ptr(a)local s=W.read(a,8);local lo=s:byte(1)+s:byte(2)*256+s:byte(3)*65536+s:byte(4)*16777216
     local hi=s:byte(5)+s:byte(6)*256+s:byte(7)*65536+s:byte(8)*16777216;return lo+hi*4294967296 end
@@ -183,6 +184,7 @@ local safety=require('hd2runtime/runtime/matchmaking_safety')
 local MS=require('hd2runtime/domains/matchmaking_safety')
 local scheduler=require('hd2runtime/runtime/scheduler')
 safety.reset_for_tests()
+safety.ENFORCE=true      -- the 0.30.0 enforcement, kept behind the switch (0.30.1 default: WarningsOnlyTests)
 local function in_update(fn)
     local out
     local w={status='active'}
@@ -290,6 +292,70 @@ assert(seen==nil,'a refused call never reaches the function')
 setter:free();stop:free()
 return 'ok'
 ''').encode()), b'ok')
+
+
+class WarningsOnlyTests(unittest.TestCase):
+    """0.30.1 default (M.ENFORCE=false): Public lobbies and Quickplay are allowed and warned about; nothing is called."""
+    def lua(self, body):
+        self.assertEqual(run(HARNESS + 'safety.ENFORCE=false\n' + body + "\nreturn 'ok'"), b'ok')
+
+    def test_the_default_is_warnings_only(self):
+        self.assertIn('M.ENFORCE=false', SOURCE)
+
+    def test_a_public_setting_is_warned_once_per_choice_and_never_changed(self):
+        self.lua(r"""
+set_privacy(0)
+seconds(2)
+assert(#calls==0 and privacy()==0)
+assert(count('MATCHMAKING SAFETY ACTIVE (warnings only)')==1 and count('MATCHMAKING SAFETY ACTIVE:')==0)
+assert(count('MATCHMAKING SAFETY WARNING: lobby privacy is Public (setting Public, advertised -, host)')==1)
+local t=screens[#screens].texts
+assert(t[2]=='Lobby privacy is Public: strangers can join.'and t[3]=='Players without your mods can join.')
+assert(t[4]=='Friends Only / Invite Only keeps it to compatible Runtime users.')
+seconds(30)
+assert(#calls==0 and count('lobby privacy is Public')==1,'one warning while it stays Public')
+-- Friends Only, then Public chosen again: warned again.
+set_privacy(1);seconds(1);set_privacy(0);seconds(1)
+assert(#calls==0 and count('lobby privacy is Public')==2)
+-- A host lobby advertising Open with a Friends Only setting is warned too, not corrected.
+set_privacy(1);host_lobby();key(PRIVACY_KEY,'1');key(SOS_KEY,'0')
+seconds(1);key(PRIVACY_KEY,'0');seconds(1)
+assert(#calls==0 and read_key(PRIVACY_KEY)=='0')
+assert(count('lobby privacy is Public (setting Friends Only, advertised "0", host)')==1)
+""")
+
+    def test_quickplay_is_warned_once_per_run_and_never_cancelled(self):
+        self.lua(r"""
+set_privacy(1);quickplay(true,false)
+seconds(5)
+assert(#calls==0 and quickplaying())
+assert(count('MATCHMAKING SAFETY WARNING: Quickplay is running (searching)')==1)
+assert(screens[#screens].texts[2]=='Quickplay joins public games with strangers.')
+quickplay(false);seconds(1);quickplay(true,true);seconds(1)
+assert(#calls==0 and count('Quickplay is running (joining a found lobby)')==1)
+""")
+
+    def test_friends_only_and_sos_and_singleplayer_behave_as_before(self):
+        self.lua(r"""
+for _,v in ipairs({1,2,3})do set_privacy(v);host_lobby();key(PRIVACY_KEY,tostring(v));key(SOS_KEY,'0');seconds(2)end
+assert(#calls==0 and count('WARNING')==0 and #screens==0)
+key(SOS_KEY,'1');key(PRIVACY_KEY,'0')
+seconds(2)
+assert(#calls==0 and count('an SOS Beacon is active and the game made this lobby PUBLIC')==1)
+assert(count('lobby privacy is Public')==0)
+key(SOS_KEY,'0');key(PRIVACY_KEY,'1');singleplayer(true);set_privacy(0);quickplay(true)
+seconds(2)
+assert(#calls==0 and count('lobby privacy is Public')==0 and count('Quickplay is running')==0)
+""")
+
+    def test_an_unproven_pin_is_logged_without_a_notice(self):
+        self.lua(r"""
+W.write(W.GAME+MS.pins[1].rva,'\204')
+set_privacy(0)
+seconds(3)
+assert(#calls==0 and count('MATCHMAKING SAFETY UNAVAILABLE (UNSUPPORTED_BUILD: game.dll+')==1)
+assert(count('no warning for Public lobbies or Quickplay this session')==1 and #screens==0)
+""")
 
 
 class MatchmakingSafetyTests(unittest.TestCase):
