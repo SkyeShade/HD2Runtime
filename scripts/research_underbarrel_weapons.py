@@ -131,15 +131,18 @@ def main():
                 'underbarrel': found})
     catalog = json.loads(CATALOG.read_text(encoding='utf-8'))
     ub = {item['underbarrel']['resource'] for item in underbarrels}
-    host_names = {r: w['name'] for w in catalog['weapons'] for r in w['resources'] if r not in ub}
+    # A corrected weapon (research/weapon-roots) keeps its two candidate roots: the correction is derived from them.
+    roots = {w['name']: w.get('candidateRoots') or w['resources'] for w in catalog['weapons']}
+    host_names = {r: w['name'] for w in catalog['weapons'] for r in roots[w['name']] if r not in ub}
     corrections = []
     for item in underbarrels:
         item['hosts'] = sorted({host_names[h['resource']] for h in item['hostsByDefault']
             if h['resource'] in host_names})
         resource = item['underbarrel']['resource']
         for weapon in catalog['weapons']:
-            if resource in weapon['resources'] and len(weapon['resources']) > 1:
-                kept = [r for r in weapon['resources'] if r != resource]
+            candidates = roots[weapon['name']]
+            if resource in candidates and len(candidates) > 1:
+                kept = [r for r in candidates if r != resource]
                 corrections.append({'weapon': weapon['name'], 'dropRoot': resource, 'underbarrelOf': item['hosts'],
                     'keptRoots': kept, 'resolution': 'UNIQUE' if len(kept) == 1 else weapon['resolution']})
     result = {'schemaVersion': 1, 'mode': 'offline', 'writes': 0,

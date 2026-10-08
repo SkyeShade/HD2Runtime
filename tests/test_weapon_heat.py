@@ -14,8 +14,11 @@ class WeaponHeatAuthoringTests(unittest.TestCase):
         self.assertEqual(summary['weapons'], 80)
         self.assertEqual(summary['weaponsWithHeatMechanism'], 7)
         self.assertEqual(summary['weaponsWithHeatsinkMechanism'], 7)
-        self.assertEqual(summary['writableFieldInstances'], 30)
-        self.assertEqual(summary['weaponsWithWritableHeatFields'], 5)
+        # 0.30.2: the LAS-5 Scythe and LAS-7 Dagger read from their proven roots (research/weapon-roots). The
+        # research counts their members; the SDK then keeps the Scythe's four members its default Laser Heatsink
+        # overwrites read-only (test_public_fields_and_duplicate_identities_fail_closed).
+        self.assertEqual(summary['writableFieldInstances'], 42)
+        self.assertEqual(summary['weaponsWithWritableHeatFields'], 7)
         self.assertEqual(summary['sharedComponentGroups'], 0)
         self.assertEqual(summary['heatsinkOptionIdentities'], 9)
         self.assertEqual(HEAT['safety'], {
@@ -28,12 +31,11 @@ class WeaponHeatAuthoringTests(unittest.TestCase):
         self.assertEqual(sickle['heat.cool_per_second']['value'], 8)
         self.assertEqual(sickle['heatsink.starting']['value'], 2)
         self.assertEqual(sickle['heatsink.spare']['value'], 3)
+        # The Dagger's old 2000 / 12 came from the wrong root (a non-loadout beam entity); its proven root agrees.
         dagger = {field['id']: field for field in by_name['LAS-7 Dagger']['fields']}
-        self.assertEqual((dagger['heat.capacity']['value'], dagger['heat.capacity']['wikiValue']),
-                         (2000, 100))
-        self.assertFalse(dagger['heat.capacity']['writable'])
-        self.assertEqual((dagger['heatsink.spare']['value'], dagger['heatsink.spare']['wikiValue']),
-                         (12, 3))
+        self.assertEqual((dagger['heat.capacity']['value'], dagger['heat.capacity']['wikiValue']), (100, 100))
+        self.assertTrue(dagger['heat.capacity']['correlationMatches'])
+        self.assertTrue(dagger['heat.capacity']['writable'])
 
     def test_public_fields_and_duplicate_identities_fail_closed(self):
         by_name = {weapon['name']: weapon for weapon in CAPABILITIES['weapons']}
@@ -45,12 +47,17 @@ class WeaponHeatAuthoringTests(unittest.TestCase):
             self.assertEqual(sickle[field_id]['writeScope'], 'weapon_local')
         self.assertTrue(sickle['heat.cool_per_second_cold']['derivedReadOnly'])
         self.assertFalse(sickle['heat.warmup']['editable'])
+        # 0.30.2: both resolve to their proven roots. The Dagger's heat is its own; the Scythe's capacity and
+        # heatsinks are overwritten by its default Laser Heatsink at every build, so they stay read-only.
         for name in ('LAS-5 Scythe', 'LAS-7 Dagger'):
-            self.assertTrue(by_name[name]['ordinaryWritesBlocked'])
-            self.assertFalse(any(field['editable'] and
-                (field['semanticFieldId'].startswith('heat.') or
-                 field['semanticFieldId'].startswith('heatsink.'))
-                for field in by_name[name]['fields']))
+            self.assertFalse(by_name[name]['ordinaryWritesBlocked'])
+        dagger = {f['semanticFieldId']: f for f in by_name['LAS-7 Dagger']['fields']}
+        self.assertTrue(dagger['heat.capacity']['editable'])
+        scythe = {f['semanticFieldId']: f for f in by_name['LAS-5 Scythe']['fields']}
+        for field_id in ('heat.capacity', 'heatsink.starting', 'heatsink.from_supply', 'heatsink.spare'):
+            self.assertFalse(scythe[field_id]['editable'], field_id)
+            self.assertIn('Laser Heatsink', scythe[field_id]['reason'])
+        self.assertTrue(scythe['heat.heat_per_second']['editable'])
 
     def test_guarded_heat_transaction_uses_owned_exact_width_fields(self):
         script = modules() + r'''
@@ -115,9 +122,9 @@ assert(patch.changes[1].descriptor.backing.offset==96)
 local ok,why=pcall(writes.validate_patch,{id='warmup',target=target,
  field=session.fields.heat.warmup,expect=0.5,value=0})
 assert(not ok and tostring(why):find('field is read-only',1,true))
-local duplicate_ok=pcall(writes.validate_patch,{id='scythe',target=session.weapon('LAS-5 Scythe'),
+local overridden_ok,overridden_why=pcall(writes.validate_patch,{id='scythe',target=session.weapon('LAS-5 Scythe'),
  field=session.fields.heat.capacity,expect=100,value=120})
-assert(not duplicate_ok)
+assert(not overridden_ok and tostring(overridden_why):find('Laser Heatsink',1,true),tostring(overridden_why))
 return'ok'
 '''
         self.assertEqual(execute(script.encode()), b'ok')

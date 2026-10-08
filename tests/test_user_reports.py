@@ -294,13 +294,13 @@ class EffectModelTests(unittest.TestCase):
 
     def test_ownership_audit(self):
         summary = self.ownership['summary']
-        self.assertEqual(summary['byStatus'], {'ACTIVE_AT_INSTANTIATION': 2356, 'AMBIGUOUS': 33, 'OVERRIDDEN': 42})
-        self.assertEqual(summary['editableByStatus'], {'ACTIVE_AT_INSTANTIATION': 1581, 'AMBIGUOUS': 24})
+        self.assertEqual(summary['byStatus'], {'ACTIVE_AT_INSTANTIATION': 2368, 'AMBIGUOUS': 33, 'OVERRIDDEN': 42})   # 0.30.2: the seven DUPLICATE weapons resolved to their proven roots
+        self.assertEqual(summary['editableByStatus'], {'ACTIVE_AT_INSTANTIATION': 1696, 'AMBIGUOUS': 25})
         self.assertEqual(summary['editableOverriddenByField'], {})
 
     def test_published_effects(self):
-        self.assertEqual(self.summary['editableFieldInstances'], {'ACTIVE_AT_INSTANTIATION': 1438,
-            'ACTIVE_DIRECT': 1489, 'AMBIGUOUS': 144, 'DORMANT_OR_METADATA': 53})
+        self.assertEqual(self.summary['editableFieldInstances'], {'ACTIVE_AT_INSTANTIATION': 1543,
+            'ACTIVE_DIRECT': 1620, 'AMBIGUOUS': 145, 'DORMANT_OR_METADATA': 53})   # 0.30.2: the seven DUPLICATE weapons resolved to their proven roots
         self.assertNotIn('OVERRIDDEN', self.summary['editableFieldInstances'])
         magazine = self.fields[('MA5C Assault Rifle', 'magazine.capacity')]['effect']
         self.assertEqual((magazine['activeSource'], magazine['appliesWhen'], magazine['instantiationOnly']),

@@ -29,8 +29,8 @@ class WeaponReticleTests(unittest.TestCase):
 
     def test_coverage_is_derived_from_native_values(self):
         states = Counter((row['kind'], row['reticle']) for row in self.research['weapons'])
-        self.assertEqual(states[('player', 'shown')], 73)
-        self.assertEqual(states[('player', 'read_only')], 7)
+        self.assertEqual(states[('player', 'shown')], 75)   # 0.30.2: the seven DUPLICATE weapons resolved to their proven roots
+        self.assertEqual(states[('player', 'read_only')], 5)
         self.assertEqual(states[('support', 'hidden')], 1)
         self.assertEqual(states[('support', 'shown')], 14)
         self.assertEqual(states[('support', 'absent')], 2)
@@ -45,7 +45,7 @@ class WeaponReticleTests(unittest.TestCase):
             if field['semanticFieldId'] == FIELD]
         self.assertEqual(len(fields), 80)
         writable = [field for field in fields if field['editable']]
-        self.assertEqual(len(writable), 70)
+        self.assertEqual(len(writable), 75)   # 0.30.2: the seven DUPLICATE weapons resolved to their proven roots
         for field in writable:
             self.assertIs(field['currentDefault'], True)
             self.assertEqual(field['encoding']['off'], 3)

@@ -100,9 +100,10 @@ class ResearchTests(unittest.TestCase):
         self.assertNotIn(RESEARCH['maxigun']['firedProjectile']['type'], projectile['rowsAt820'])
         self.assertEqual(RESEARCH['maxigun']['firedProjectile']['velocity'], 920)
 
-    def test_scythe_identity_finding_is_recorded_not_applied(self):
+    def test_scythe_identity_finding_is_recorded_and_applied(self):
+        # 0.30.2: applied (research/weapon-roots: the equipped Scythe is the laser_rifle root).
         scythe = RESEARCH['scytheIdentity']
-        self.assertEqual(scythe['catalogResolution'], 'DUPLICATE')
+        self.assertEqual(scythe['catalogResolution'], 'UNIQUE')
         self.assertEqual([c['matchesPublishedHeat'] for c in scythe['candidates']], [True, False])
 
 

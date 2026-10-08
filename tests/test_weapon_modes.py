@@ -130,7 +130,7 @@ class WeaponModeCatalogTests(unittest.TestCase):
             text = (ROOT / path).read_text(encoding='utf-8')
             self.assertNotIn('0x', text, path)
         rates = load('sdk/WeaponFireRateCapabilities.json')
-        self.assertEqual(rates['summary']['writable'], 61)   # the wind-up Maxigun included
+        self.assertEqual(rates['summary']['writable'], 63)   # the wind-up Maxigun included; 0.30.2 roots
         self.assertEqual(rates['maxSlots'], 3)
         feeds = load('sdk/WeaponFeedCapabilities.json')['summary']
         self.assertEqual(feeds['roundsDualFeeds'], ['SG-20 Halt'])
@@ -140,7 +140,7 @@ class WeaponModeCatalogTests(unittest.TestCase):
         presentation = load('sdk/WeaponPresentationCapabilities.json')
         self.assertEqual([c['value'] for c in presentation['penetrationChoices']],
             ['none', 'light', 'medium', 'heavy', 'light_anti_tank', 'anti_tank'])
-        self.assertEqual(presentation['summary']['armorPenetrationWritable'], 100)
+        self.assertEqual(presentation['summary']['armorPenetrationWritable'], 105)   # 0.30.2 roots
         composition = load('sdk/OutputCompositionCapabilities.json')
         self.assertFalse(composition['beamAction']['available'])
 

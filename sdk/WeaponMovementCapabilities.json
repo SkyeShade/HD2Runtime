@@ -295,7 +295,39 @@
       "movementRestriction": "none"
     },
     {
+      "weapon": "CQC-42 Machete",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": null,
+      "movementRestriction": "none"
+    },
+    {
       "weapon": "CQC-5 Combat Hatchet",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": null,
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "CQC-73 Entrenchment Tool",
       "kind": "player",
       "accessor": "hd2.weapon",
       "stationaryWhileFiring": {
@@ -372,6 +404,22 @@
       "firingStance": null,
       "firingStanceEvents": null,
       "perShotWielderAnimation": "fire_sniperrifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "GP-31 Grenade Pistol",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_pistol",
       "movementRestriction": "none"
     },
     {
@@ -455,6 +503,22 @@
       "movementRestriction": "none"
     },
     {
+      "weapon": "LAS-5 Scythe",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": null,
+      "movementRestriction": "none"
+    },
+    {
       "weapon": "LAS-58 Talon",
       "kind": "player",
       "accessor": "hd2.weapon",
@@ -468,6 +532,22 @@
       "firingStance": null,
       "firingStanceEvents": null,
       "perShotWielderAnimation": "fire_pistol",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "LAS-7 Dagger",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_rifle",
       "movementRestriction": "none"
     },
     {
@@ -692,6 +772,22 @@
       "firingStance": null,
       "firingStanceEvents": null,
       "perShotWielderAnimation": "fire_pistol",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "P-72 Crisper",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_flamethrower",
       "movementRestriction": "none"
     },
     {
@@ -1124,6 +1220,22 @@
       "firingStance": null,
       "firingStanceEvents": null,
       "perShotWielderAnimation": "fire_rifle",
+      "movementRestriction": "none"
+    },
+    {
+      "weapon": "SMG-37 Defender",
+      "kind": "player",
+      "accessor": "hd2.weapon",
+      "stationaryWhileFiring": {
+        "field": "hd2.fields.weapon.stationary_while_firing",
+        "baseline": false,
+        "writable": true,
+        "acknowledgement": "allow_unverified_effect",
+        "reason": null
+      },
+      "firingStance": null,
+      "firingStanceEvents": null,
+      "perShotWielderAnimation": "fire_pdw",
       "movementRestriction": "none"
     },
     {
@@ -1758,8 +1870,8 @@
     }
   ],
   "summary": {
-    "weapons": 107,
-    "writable": 105,
+    "weapons": 114,
+    "writable": 112,
     "stationaryWhileFiring": [
       "M-1000 Maxigun"
     ],

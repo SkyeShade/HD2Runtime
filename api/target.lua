@@ -84,6 +84,10 @@ function M.new(describe)
     local function attack_output_handle(identity)
         local catalog=require('hd2runtime/domains/attack_outputs')
         local id=catalog.outputs[identity]and identity or catalog.aliases[identity]
+        -- A published name a later correction removed: refused with why (catalog.retired), not "unknown".
+        if not id and(catalog.retired or{})[identity]then
+            error('retired attack output '..tostring(identity)..': '..catalog.retired[identity],2)
+        end
         local output=assert(id and catalog.outputs[id],'unknown attack output: '..tostring(identity))
         local methods={}
         -- The weapon-function mode label and icon this output's projectile shows (hd2.fields.presentation.*):

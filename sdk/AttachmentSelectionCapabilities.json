@@ -3022,8 +3022,7 @@
     {
       "weapon": "LAS-5 Scythe",
       "resources": [
-        "0x27EE1ED8F6FB6356",
-        "0x7E3145A5BAA4B948"
+        "0x27EE1ED8F6FB6356"
       ],
       "category": "Magazine",
       "option": "Standard Heatsink",
@@ -3044,8 +3043,7 @@
     {
       "weapon": "LAS-5 Scythe",
       "resources": [
-        "0x27EE1ED8F6FB6356",
-        "0x7E3145A5BAA4B948"
+        "0x27EE1ED8F6FB6356"
       ],
       "category": "Magazine",
       "option": "High Capacity Heatsink",
@@ -3062,8 +3060,7 @@
     {
       "weapon": "LAS-5 Scythe",
       "resources": [
-        "0x27EE1ED8F6FB6356",
-        "0x7E3145A5BAA4B948"
+        "0x27EE1ED8F6FB6356"
       ],
       "category": "Magazine",
       "option": "High Dissipation Heatsink",
@@ -3080,8 +3077,7 @@
     {
       "weapon": "LAS-5 Scythe",
       "resources": [
-        "0x27EE1ED8F6FB6356",
-        "0x7E3145A5BAA4B948"
+        "0x27EE1ED8F6FB6356"
       ],
       "category": "Optics",
       "option": "2x Tube Red Dot",
@@ -3098,8 +3094,7 @@
     {
       "weapon": "LAS-5 Scythe",
       "resources": [
-        "0x27EE1ED8F6FB6356",
-        "0x7E3145A5BAA4B948"
+        "0x27EE1ED8F6FB6356"
       ],
       "category": "Optics",
       "option": "1.5x Tube Red Dot",
@@ -3116,8 +3111,7 @@
     {
       "weapon": "LAS-5 Scythe",
       "resources": [
-        "0x27EE1ED8F6FB6356",
-        "0x7E3145A5BAA4B948"
+        "0x27EE1ED8F6FB6356"
       ],
       "category": "Optics",
       "option": "Reflex Sight",
@@ -3134,8 +3128,7 @@
     {
       "weapon": "LAS-5 Scythe",
       "resources": [
-        "0x27EE1ED8F6FB6356",
-        "0x7E3145A5BAA4B948"
+        "0x27EE1ED8F6FB6356"
       ],
       "category": "Optics",
       "option": "Reflex Sight Mk2",
@@ -3152,8 +3145,7 @@
     {
       "weapon": "LAS-5 Scythe",
       "resources": [
-        "0x27EE1ED8F6FB6356",
-        "0x7E3145A5BAA4B948"
+        "0x27EE1ED8F6FB6356"
       ],
       "category": "Optics",
       "option": "Holographic Sight",
@@ -3170,8 +3162,7 @@
     {
       "weapon": "LAS-5 Scythe",
       "resources": [
-        "0x27EE1ED8F6FB6356",
-        "0x7E3145A5BAA4B948"
+        "0x27EE1ED8F6FB6356"
       ],
       "category": "Underbarrel",
       "option": "Laser Sight W/ Flashlight",
@@ -3188,8 +3179,7 @@
     {
       "weapon": "LAS-5 Scythe",
       "resources": [
-        "0x27EE1ED8F6FB6356",
-        "0x7E3145A5BAA4B948"
+        "0x27EE1ED8F6FB6356"
       ],
       "category": "Underbarrel",
       "option": "No Underbarrel",
@@ -3206,8 +3196,7 @@
     {
       "weapon": "LAS-5 Scythe",
       "resources": [
-        "0x27EE1ED8F6FB6356",
-        "0x7E3145A5BAA4B948"
+        "0x27EE1ED8F6FB6356"
       ],
       "category": "Underbarrel",
       "option": "Angled Foregrip",
@@ -7073,8 +7062,7 @@
     {
       "weapon": "SMG-37 Defender",
       "resources": [
-        "0x4E4A613EB9BF5C24",
-        "0xCA4BBEF63C869C18"
+        "0x4E4A613EB9BF5C24"
       ],
       "category": "Magazine",
       "option": "Extended Magazine",
@@ -7095,8 +7083,7 @@
     {
       "weapon": "SMG-37 Defender",
       "resources": [
-        "0x4E4A613EB9BF5C24",
-        "0xCA4BBEF63C869C18"
+        "0x4E4A613EB9BF5C24"
       ],
       "category": "Magazine",
       "option": "Short Magazine",
@@ -7113,8 +7100,7 @@
     {
       "weapon": "SMG-37 Defender",
       "resources": [
-        "0x4E4A613EB9BF5C24",
-        "0xCA4BBEF63C869C18"
+        "0x4E4A613EB9BF5C24"
       ],
       "category": "Magazine",
       "option": "Drum Magazine",
@@ -7131,8 +7117,7 @@
     {
       "weapon": "SMG-37 Defender",
       "resources": [
-        "0x4E4A613EB9BF5C24",
-        "0xCA4BBEF63C869C18"
+        "0x4E4A613EB9BF5C24"
       ],
       "category": "Muzzle",
       "option": "No Attachment",
@@ -7149,8 +7134,7 @@
     {
       "weapon": "SMG-37 Defender",
       "resources": [
-        "0x4E4A613EB9BF5C24",
-        "0xCA4BBEF63C869C18"
+        "0x4E4A613EB9BF5C24"
       ],
       "category": "Muzzle",
       "option": "Flash Hider",
@@ -7167,8 +7151,7 @@
     {
       "weapon": "SMG-37 Defender",
       "resources": [
-        "0x4E4A613EB9BF5C24",
-        "0xCA4BBEF63C869C18"
+        "0x4E4A613EB9BF5C24"
       ],
       "category": "Muzzle",
       "option": "Muzzle Brake",
@@ -7185,8 +7168,7 @@
     {
       "weapon": "SMG-37 Defender",
       "resources": [
-        "0x4E4A613EB9BF5C24",
-        "0xCA4BBEF63C869C18"
+        "0x4E4A613EB9BF5C24"
       ],
       "category": "Muzzle",
       "option": "Compensator",
@@ -7203,8 +7185,7 @@
     {
       "weapon": "SMG-37 Defender",
       "resources": [
-        "0x4E4A613EB9BF5C24",
-        "0xCA4BBEF63C869C18"
+        "0x4E4A613EB9BF5C24"
       ],
       "category": "Optics",
       "option": "Reflex Sight",
@@ -7221,8 +7202,7 @@
     {
       "weapon": "SMG-37 Defender",
       "resources": [
-        "0x4E4A613EB9BF5C24",
-        "0xCA4BBEF63C869C18"
+        "0x4E4A613EB9BF5C24"
       ],
       "category": "Optics",
       "option": "1.5x Tube Red Dot",
@@ -7239,8 +7219,7 @@
     {
       "weapon": "SMG-37 Defender",
       "resources": [
-        "0x4E4A613EB9BF5C24",
-        "0xCA4BBEF63C869C18"
+        "0x4E4A613EB9BF5C24"
       ],
       "category": "Optics",
       "option": "Reflex Sight Mk2",
@@ -7257,8 +7236,7 @@
     {
       "weapon": "SMG-37 Defender",
       "resources": [
-        "0x4E4A613EB9BF5C24",
-        "0xCA4BBEF63C869C18"
+        "0x4E4A613EB9BF5C24"
       ],
       "category": "Optics",
       "option": "Holographic Sight",
@@ -7275,8 +7253,7 @@
     {
       "weapon": "SMG-37 Defender",
       "resources": [
-        "0x4E4A613EB9BF5C24",
-        "0xCA4BBEF63C869C18"
+        "0x4E4A613EB9BF5C24"
       ],
       "category": "Optics",
       "option": "2x Tube Red Dot",
@@ -7293,8 +7270,7 @@
     {
       "weapon": "SMG-37 Defender",
       "resources": [
-        "0x4E4A613EB9BF5C24",
-        "0xCA4BBEF63C869C18"
+        "0x4E4A613EB9BF5C24"
       ],
       "category": "Underbarrel",
       "option": "Laser Sight W/ Flashlight",
@@ -7311,8 +7287,7 @@
     {
       "weapon": "SMG-37 Defender",
       "resources": [
-        "0x4E4A613EB9BF5C24",
-        "0xCA4BBEF63C869C18"
+        "0x4E4A613EB9BF5C24"
       ],
       "category": "Underbarrel",
       "option": "No Underbarrel",
@@ -7329,8 +7304,7 @@
     {
       "weapon": "SMG-37 Defender",
       "resources": [
-        "0x4E4A613EB9BF5C24",
-        "0xCA4BBEF63C869C18"
+        "0x4E4A613EB9BF5C24"
       ],
       "category": "Underbarrel",
       "option": "Vertical Foregrip",
@@ -7347,8 +7321,7 @@
     {
       "weapon": "SMG-37 Defender",
       "resources": [
-        "0x4E4A613EB9BF5C24",
-        "0xCA4BBEF63C869C18"
+        "0x4E4A613EB9BF5C24"
       ],
       "category": "Underbarrel",
       "option": "Angled Foregrip",
@@ -7365,8 +7338,7 @@
     {
       "weapon": "SMG-37 Defender",
       "resources": [
-        "0x4E4A613EB9BF5C24",
-        "0xCA4BBEF63C869C18"
+        "0x4E4A613EB9BF5C24"
       ],
       "category": "Underbarrel",
       "option": "Flashlight Vertical Foregrip",
@@ -7383,8 +7355,7 @@
     {
       "weapon": "SMG-37 Defender",
       "resources": [
-        "0x4E4A613EB9BF5C24",
-        "0xCA4BBEF63C869C18"
+        "0x4E4A613EB9BF5C24"
       ],
       "category": "Underbarrel",
       "option": "Laser Sight Angled Foregrip",

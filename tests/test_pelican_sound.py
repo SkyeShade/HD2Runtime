@@ -146,7 +146,9 @@ class SoundResearchTests(unittest.TestCase):
         self.assertEqual(d['instance']['midi'], 0x38)
         import generate_weapon_sounds
         catalogue = generate_weapon_sounds.build()
-        self.assertEqual(catalogue['aliases'], {'maelstrom_main_gun': 'vehicle/maelstrom/main_gun'})
+        self.assertEqual(catalogue['aliases'], {'maelstrom_main_gun': 'vehicle/maelstrom/main_gun',
+            # 0.30.2: names published before the Defender and GP-31 roots were proven
+            'primary/smg37/seaf': 'seaf/3', 'secondary/gp31/alt': 'other/wep_grenadier_rifle/1'})
         s = catalogue['sounds']['vehicle/maelstrom/main_gun']
         self.assertEqual((s['event'], s['midi'], s['resource'], s['stratagem']),
             ('E5CA1945', 1, 'D58AE6A04EDB10DE', 'TD-110 Maelstrom'))

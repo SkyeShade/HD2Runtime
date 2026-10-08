@@ -29,7 +29,10 @@ RESEARCH = ROOT / 'research/weapon-sounds-F5FEE03DCFDB.json'
 LUA_OUTPUT = 'domains/weapon_sounds.lua'
 JSON_OUTPUT = 'sdk/WeaponSoundCatalogue.json'
 # Older names kept working (r7: the reviewed allowlist's only sound).
-ALIASES = {'maelstrom_main_gun': 'vehicle/maelstrom/main_gun'}
+ALIASES = {'maelstrom_main_gun': 'vehicle/maelstrom/main_gun',
+    # 0.30.2: the Defender and GP-31 resolved to their proven roots (research/weapon-roots), so the sounds of their
+    # former second roots (the SEAF SMG, the One-Two underbarrel) lost the weapon name. The published names stay.
+    'primary/smg37/seaf': 'seaf/3', 'secondary/gp31/alt': 'other/wep_grenadier_rifle/1'}
 # How many packages an entry's residency check reads (the requested call-in packages first, then the smallest).
 MAX_PACKAGES = 12
 NOT_MISSION_PACKAGES = ('packages/content/audio_test_level',)

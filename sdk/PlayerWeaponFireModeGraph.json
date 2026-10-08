@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "sourceSnapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
-  "hd2RuntimeVersion": "0.19.0",
+  "hd2RuntimeVersion": "0.30.1",
   "gameFingerprints": {
     "dll": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
     "exe": "F5FEE03DCFDB2E553A4752C283590950AC13316B376D8196AA556FF0400D5F06"
@@ -18,7 +18,7 @@
     "weapons": 80,
     "nativePrimaryValueReadable": 80,
     "allowedModeListsProven": 80,
-    "writableWeapons": 21
+    "writableWeapons": 22
   },
   "nativeValueGroups": {
     "1": [
@@ -738,8 +738,7 @@
     {
       "weapon": "CQC-42 Machete",
       "resources": [
-        "0x792D5D2A340FD6E6",
-        "0x5F3EC9BDA2BD8553"
+        "0x792D5D2A340FD6E6"
       ],
       "implementationFamilies": [
         "melee"
@@ -797,8 +796,7 @@
     {
       "weapon": "CQC-73 Entrenchment Tool",
       "resources": [
-        "0x7E1F76163C667E4B",
-        "0xE85E623F93F96FB3"
+        "0x7E1F76163C667E4B"
       ],
       "implementationFamilies": [
         "melee"
@@ -951,7 +949,6 @@
     {
       "weapon": "GP-31 Grenade Pistol",
       "resources": [
-        "0x02CD7321CD8445F5",
         "0x52E4334E6A128CAF"
       ],
       "implementationFamilies": [
@@ -964,8 +961,8 @@
         "offset": 144,
         "width": 4,
         "storage": "u32",
-        "recordIndex": 250,
-        "indexRow": 202
+        "recordIndex": 315,
+        "indexRow": 343
       },
       "nativeModeVector": [
         2,
@@ -1137,8 +1134,7 @@
     {
       "weapon": "LAS-5 Scythe",
       "resources": [
-        "0x27EE1ED8F6FB6356",
-        "0x7E3145A5BAA4B948"
+        "0x27EE1ED8F6FB6356"
       ],
       "implementationFamilies": [
         "beam"
@@ -1198,7 +1194,6 @@
     {
       "weapon": "LAS-7 Dagger",
       "resources": [
-        "0x2B3C367B280F4094",
         "0x7B06196E90154C88"
       ],
       "implementationFamilies": [
@@ -1210,8 +1205,8 @@
         "offset": 144,
         "width": 4,
         "storage": "u32",
-        "recordIndex": 99,
-        "indexRow": 622
+        "recordIndex": 317,
+        "indexRow": 186
       },
       "nativeModeVector": [
         1,
@@ -1666,8 +1661,7 @@
     {
       "weapon": "P-72 Crisper",
       "resources": [
-        "0x3F92BA65EF65CCA9",
-        "0x992B6F65A5BAB53D"
+        "0x3F92BA65EF65CCA9"
       ],
       "implementationFamilies": [
         "spray_flame"
@@ -2542,8 +2536,7 @@
     {
       "weapon": "SMG-37 Defender",
       "resources": [
-        "0x4E4A613EB9BF5C24",
-        "0xCA4BBEF63C869C18"
+        "0x4E4A613EB9BF5C24"
       ],
       "implementationFamilies": [
         "conventional_projectile"
@@ -2568,9 +2561,9 @@
       ],
       "defaultModeSemantics": "full_auto",
       "selectedRuntimeMode": null,
-      "writable": false,
-      "writeKind": null,
-      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
+      "writable": true,
+      "writeKind": "reorder_native_mode_vector",
+      "reason": null
     },
     {
       "weapon": "SMG-72 Pummeler",

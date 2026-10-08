@@ -113,7 +113,9 @@ class CatalogueTests(unittest.TestCase):
     def test_names_coverage_and_aliases(self):
         d = catalogue()
         sounds = d['sounds']
-        self.assertEqual(d['aliases'], {'maelstrom_main_gun': 'vehicle/maelstrom/main_gun'})
+        self.assertEqual(d['aliases'], {'maelstrom_main_gun': 'vehicle/maelstrom/main_gun',
+            # 0.30.2: names published before the Defender and GP-31 roots were proven
+            'primary/smg37/seaf': 'seaf/3', 'secondary/gp31/alt': 'other/wep_grenadier_rifle/1'})
         for name, s in sounds.items():
             self.assertRegex(name, NAME)
             self.assertEqual(name.split('/')[0], s['family'])

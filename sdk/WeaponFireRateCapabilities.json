@@ -943,7 +943,7 @@
     {
       "kind": "player",
       "weapon": "GP-31 Grenade Pistol",
-      "state": "blocked",
+      "state": "addable",
       "modes": [
         {
           "slot": "y",
@@ -967,7 +967,7 @@
       "selectorOrder": [
         "y"
       ],
-      "maxModes": null,
+      "maxModes": 3,
       "selector": {
         "bound": false,
         "input": null,
@@ -977,10 +977,19 @@
         ]
       },
       "overriddenWhenEquipped": [],
-      "writable": false,
-      "reason": "The weapon's three native rate-of-fire slots in the order the weapon menu lists them {X, Y, Z} (rpm; 0 = no mode in that slot). The middle one (Y, weapon.fire_rate) is the default and never 0; the ROF selector visits the filled slots Y -> Z -> X. X and Z are filled only where a selector is bound or bindable.",
-      "fields": null,
-      "acknowledgements": null,
+      "writable": true,
+      "reason": null,
+      "fields": {
+        "modes": "fire_rate.modes",
+        "default": "weapon.fire_rate",
+        "binding": [
+          "weapon_function.left",
+          "weapon_function.right"
+        ]
+      },
+      "acknowledgements": [
+        "allow_unverified_effect"
+      ],
       "liveEvidence": null
     },
     {
@@ -3272,7 +3281,7 @@
     {
       "kind": "player",
       "weapon": "SMG-37 Defender",
-      "state": "blocked",
+      "state": "addable",
       "modes": [
         {
           "slot": "y",
@@ -3296,7 +3305,7 @@
       "selectorOrder": [
         "y"
       ],
-      "maxModes": null,
+      "maxModes": 3,
       "selector": {
         "bound": false,
         "input": null,
@@ -3305,10 +3314,18 @@
         ]
       },
       "overriddenWhenEquipped": [],
-      "writable": false,
-      "reason": "The weapon's three native rate-of-fire slots in the order the weapon menu lists them {X, Y, Z} (rpm; 0 = no mode in that slot). The middle one (Y, weapon.fire_rate) is the default and never 0; the ROF selector visits the filled slots Y -> Z -> X. X and Z are filled only where a selector is bound or bindable.",
-      "fields": null,
-      "acknowledgements": null,
+      "writable": true,
+      "reason": null,
+      "fields": {
+        "modes": "fire_rate.modes",
+        "default": "weapon.fire_rate",
+        "binding": [
+          "weapon_function.left"
+        ]
+      },
+      "acknowledgements": [
+        "allow_unverified_effect"
+      ],
       "liveEvidence": null
     },
     {
@@ -4942,15 +4959,15 @@
     "weapons": 115,
     "byState": {
       "player:absent": 12,
-      "player:addable": 48,
-      "player:blocked": 19,
+      "player:addable": 50,
+      "player:blocked": 17,
       "player:selectable": 1,
       "support:absent": 12,
       "support:addable": 9,
       "support:blocked": 11,
       "support:selectable": 3
     },
-    "writable": 61,
+    "writable": 63,
     "nativeSelectors": [
       "AR-61 Tenderizer",
       "GL-28 Belt-Fed Grenade Launcher",
@@ -4959,6 +4976,6 @@
       "MG-43 Machine Gun",
       "VG-70 Variable"
     ],
-    "addableSelectors": 57
+    "addableSelectors": 59
   }
 }

@@ -37,21 +37,23 @@ class WeaponCompositionTests(unittest.TestCase):
         self.assertEqual(MAGAZINES['summary']['writableAttachmentSelections'], 0)
         self.assertEqual(MAGAZINES['summary']['alternateAllowedRelationshipsProven'], 0)
         self.assertEqual(PROJECTILES['summary']['projectileAttacks'], 67)
-        self.assertEqual(PROJECTILES['summary']['writableTargetAttacks'], 57)
-        self.assertEqual(PROJECTILES['summary']['writableExplosiveSelectors'], 12)
+        self.assertEqual(PROJECTILES['summary']['writableTargetAttacks'], 59)   # 0.30.2: the seven DUPLICATE weapons resolved to their proven roots
+        self.assertEqual(PROJECTILES['summary']['writableExplosiveSelectors'], 13)   # 0.30.2 roots
         self.assertEqual(FIRE_MODES['summary']['nativePrimaryValueReadable'], 80)
-        self.assertEqual(FIRE_MODES['summary']['writableWeapons'], 21)
+        self.assertEqual(FIRE_MODES['summary']['writableWeapons'], 22)   # 0.30.2 roots
         self.assertEqual(TERMINALS['summary']['readableActions'], 134)
-        self.assertEqual(TERMINALS['summary']['writableActions'], 130)
+        self.assertEqual(TERMINALS['summary']['writableActions'], 134)   # every readable action (0.30.2 roots)
         self.assertEqual((TERMINALS['summary']['writableImpactRefs'],
-                          TERMINALS['summary']['writableExpiryRefs']),(65,65))
+                          TERMINALS['summary']['writableExpiryRefs']),(67,67))
         self.assertEqual(EXPLOSIONS['summary']['explosionSettingsResolved'],13)
-        self.assertEqual(EXPLOSIONS['summary']['explosionScalarFieldsWritable'],144)
+        self.assertEqual(EXPLOSIONS['summary']['explosionScalarFieldsWritable'],156)   # 0.30.2 roots
         self.assertEqual(EXPLOSIONS['summary']['shrapnelGraphsResolved'],1)
         self.assertEqual(HEAT['summary']['weaponsWithHeatMechanism'], 7)
         self.assertEqual(HEAT['summary']['weaponsWithHeatsinkMechanism'], 7)
-        self.assertEqual(HEAT['summary']['writableFieldInstances'], 30)
-        self.assertEqual(HEAT['summary']['weaponsWithWritableHeatFields'], 5)
+        # 0.30.2 roots: the research counts the Scythe and Dagger members; the SDK keeps the Scythe's four
+        # members its default Laser Heatsink overwrites read-only (generate_weapon_authoring block_overridden).
+        self.assertEqual(HEAT['summary']['writableFieldInstances'], 42)
+        self.assertEqual(HEAT['summary']['weaponsWithWritableHeatFields'], 7)
 
     def test_magazine_default_is_proven_but_option_values_fail_closed(self):
         weapons={item['weapon']:item for item in MAGAZINES['weapons']}

@@ -59,11 +59,11 @@ class PlayerCoverageTests(unittest.TestCase):
         self.assertEqual({f['semanticFieldId'] for f in subs['SMG/FLAM-34 Stoker / underbarrel']['fields']},
             {'weapon.horizontal_spread', 'weapon.vertical_spread'})
 
-    def test_misattributed_duplicate_roots_stay_fail_closed_with_the_proven_reason(self):
+    def test_misattributed_duplicate_roots_resolve_to_the_proven_root(self):
+        # 0.30.2: the underbarrel root is dropped and the weapon is writable (research/weapon-roots).
         for name, host in (('GP-31 Grenade Pistol', 'AR/GL-21 One-Two'), ('P-72 Crisper', 'SMG/FLAM-34 Stoker')):
             weapon = self.weapons[name]
-            self.assertTrue(weapon['ordinaryWritesBlocked'], name)
-            self.assertIn(host + ' underbarrel weapon', weapon['blockReason'], name)
+            self.assertFalse(weapon['ordinaryWritesBlocked'], name)
         research = json.loads((ROOT / 'research/underbarrel-weapons-F5FEE03DCFDB.json').read_text(encoding='utf-8'))
         self.assertEqual([(c['weapon'], c['dropRoot'], c['keptRoots']) for c in research['catalogCorrections']],
             [('GP-31 Grenade Pistol', '0x02CD7321CD8445F5', ['0x52E4334E6A128CAF']),

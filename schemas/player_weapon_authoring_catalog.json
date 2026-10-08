@@ -11727,11 +11727,21 @@
       "name": "CQC-42 Machete",
       "slot": "secondary",
       "category": "Melee",
-      "resolution": "DUPLICATE",
+      "resolution": "UNIQUE",
       "resources": [
+        "0x792D5D2A340FD6E6"
+      ],
+      "candidateRoots": [
         "0x792D5D2A340FD6E6",
         "0x5F3EC9BDA2BD8553"
-      ]
+      ],
+      "rootCorrection": {
+        "source": "weapon-roots-F5FEE03DCFDB.json",
+        "evidence": "call_in_rack",
+        "droppedRoots": [
+          "0x5F3EC9BDA2BD8553"
+        ]
+      }
     },
     {
       "name": "CQC-5 Combat Hatchet",
@@ -11746,11 +11756,21 @@
       "name": "CQC-73 Entrenchment Tool",
       "slot": "secondary",
       "category": "Melee",
-      "resolution": "DUPLICATE",
+      "resolution": "UNIQUE",
       "resources": [
+        "0x7E1F76163C667E4B"
+      ],
+      "candidateRoots": [
         "0x7E1F76163C667E4B",
         "0xE85E623F93F96FB3"
-      ]
+      ],
+      "rootCorrection": {
+        "source": "weapon-roots-F5FEE03DCFDB.json",
+        "evidence": "equipped_snapshot",
+        "droppedRoots": [
+          "0xE85E623F93F96FB3"
+        ]
+      }
     },
     {
       "name": "DBS-2 Double Freedom",
@@ -11792,11 +11812,21 @@
       "name": "GP-31 Grenade Pistol",
       "slot": "secondary",
       "category": "Special",
-      "resolution": "DUPLICATE",
+      "resolution": "UNIQUE",
       "resources": [
+        "0x52E4334E6A128CAF"
+      ],
+      "candidateRoots": [
         "0x02CD7321CD8445F5",
         "0x52E4334E6A128CAF"
-      ]
+      ],
+      "rootCorrection": {
+        "source": "weapon-roots-F5FEE03DCFDB.json",
+        "evidence": "underbarrel",
+        "droppedRoots": [
+          "0x02CD7321CD8445F5"
+        ]
+      }
     },
     {
       "name": "JAR-5 Dominator",
@@ -11847,11 +11877,21 @@
       "name": "LAS-5 Scythe",
       "slot": "primary",
       "category": "Energy-Based",
-      "resolution": "DUPLICATE",
+      "resolution": "UNIQUE",
       "resources": [
+        "0x27EE1ED8F6FB6356"
+      ],
+      "candidateRoots": [
         "0x27EE1ED8F6FB6356",
         "0x7E3145A5BAA4B948"
-      ]
+      ],
+      "rootCorrection": {
+        "source": "weapon-roots-F5FEE03DCFDB.json",
+        "evidence": "equipped_snapshot",
+        "droppedRoots": [
+          "0x7E3145A5BAA4B948"
+        ]
+      }
     },
     {
       "name": "LAS-58 Talon",
@@ -11866,11 +11906,21 @@
       "name": "LAS-7 Dagger",
       "slot": "secondary",
       "category": "Special",
-      "resolution": "DUPLICATE",
+      "resolution": "UNIQUE",
       "resources": [
+        "0x7B06196E90154C88"
+      ],
+      "candidateRoots": [
         "0x2B3C367B280F4094",
         "0x7B06196E90154C88"
-      ]
+      ],
+      "rootCorrection": {
+        "source": "weapon-roots-F5FEE03DCFDB.json",
+        "evidence": "equipped_snapshot",
+        "droppedRoots": [
+          "0x2B3C367B280F4094"
+        ]
+      }
     },
     {
       "name": "M6C/SOCOM Pistol",
@@ -12002,11 +12052,21 @@
       "name": "P-72 Crisper",
       "slot": "secondary",
       "category": "Special",
-      "resolution": "DUPLICATE",
+      "resolution": "UNIQUE",
       "resources": [
+        "0x3F92BA65EF65CCA9"
+      ],
+      "candidateRoots": [
         "0x3F92BA65EF65CCA9",
         "0x992B6F65A5BAB53D"
-      ]
+      ],
+      "rootCorrection": {
+        "source": "weapon-roots-F5FEE03DCFDB.json",
+        "evidence": "underbarrel",
+        "droppedRoots": [
+          "0x992B6F65A5BAB53D"
+        ]
+      }
     },
     {
       "name": "P-92 Warrant",
@@ -12255,11 +12315,21 @@
       "name": "SMG-37 Defender",
       "slot": "primary",
       "category": "Submachine Gun",
-      "resolution": "DUPLICATE",
+      "resolution": "UNIQUE",
       "resources": [
+        "0x4E4A613EB9BF5C24"
+      ],
+      "candidateRoots": [
         "0x4E4A613EB9BF5C24",
         "0xCA4BBEF63C869C18"
-      ]
+      ],
+      "rootCorrection": {
+        "source": "weapon-roots-F5FEE03DCFDB.json",
+        "evidence": "equipped_snapshot",
+        "droppedRoots": [
+          "0xCA4BBEF63C869C18"
+        ]
+      }
     },
     {
       "name": "SMG-72 Pummeler",

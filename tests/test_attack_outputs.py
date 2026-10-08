@@ -143,13 +143,13 @@ class CatalogTests(unittest.TestCase):
         summary = self.catalog['summary']
         # 107 player, support and stratagem outputs plus the 23 mounted-weapon outputs, and the 32 more projectile
         # donors (research/projectile-donors-F5FEE03DCFDB.json, tests/test_projectile_donors.py).
-        self.assertEqual(summary['outputs'], 162)
-        self.assertEqual(summary['byFamily'], {'projectile': 140, 'beam': 4, 'arc': 3, 'spray': 8, 'melee': 7})
+        self.assertEqual(summary['outputs'], 161)   # the retired Defender donor (projectile 150)
+        self.assertEqual(summary['byFamily'], {'projectile': 139, 'beam': 4, 'arc': 3, 'spray': 8, 'melee': 7})   # the retired Defender donor
         self.assertEqual(len(summary['stratagemDonors']), 23)
         self.assertIn('A/M-23 EMS Mortar Sentry', summary['stratagemDonors'])
         self.assertIn('Eagle 500kg Bomb', summary['stratagemDonors'])
         self.assertEqual((summary['selectable'], summary['projectileHosts'], summary['componentHosts'],
-            summary['ammunitionHosts'], summary['directWritableAttackFields']), (112, 59, 53, 6, 61))   # +7 sentry hosts
+            summary['ammunitionHosts'], summary['directWritableAttackFields']), (111, 59, 53, 6, 61))   # +7 sentry hosts; -1 the retired Defender donor
         # Every selectable projectile output carries its weapon-function mode label and icon (native values only).
         presentation = self.catalog['modePresentation']
         icons = {i['value']: i for i in presentation['icons']}
@@ -404,7 +404,11 @@ rejects(function()patches.validate{id='x',target=evictor,field=hd2.fields.attack
 -- A weapon whose only projectile is its ammunition (no catalogued attack member).
 assert(hd2.weapon('P-2 Peacemaker'):projectile_source().mechanism=='ammunition')
 -- 80 catalogued outputs and the 32 more donors (research/projectile-donors-F5FEE03DCFDB.json).
-assert(#hd2.attack_outputs({selectable=true})==112,#hd2.attack_outputs({selectable=true}))
+-- 111 since 0.30.2: the SMG-37 Defender donor (projectile 150, the SEAF SMG round) is retired with its reason.
+assert(#hd2.attack_outputs({selectable=true})==111,#hd2.attack_outputs({selectable=true}))
+do local ok,why=pcall(hd2.attack_output,'SMG-37 Defender (projectile 150)')
+ assert(not ok and tostring(why):find('retired attack output',1,true)
+  and tostring(why):find('round of the SEAF SMG',1,true),tostring(why))end
 -- The stratagem-owned stun-field donor is scoped to function_ammo.projectile and names its field and presentation.
 local ems=hd2.attack_output('A/M-23 EMS Mortar Sentry'):describe()
 assert(ems.owner.kind=='stratagem'and ems.referenceScope[1]=='function_ammo.projectile'and#ems.referenceScope==1)

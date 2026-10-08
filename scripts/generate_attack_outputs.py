@@ -39,6 +39,12 @@ MODE_UNVERIFIED = ('The label and icon are the fired projectile\'s own Projectil
     'gameplay-tested. Only native strings and native weapon-function icons are offered.')
 ASSETS = ROOT / 'sdk/AssetDependencyCapabilities.json'
 LUA_OUTPUT = ROOT / 'domains/attack_outputs.lua'
+# Published names whose output a later correction removed: name -> why (api/target.lua refuses them with it).
+_DEFENDER_150 = ('Projectile 150 is the round of the SEAF SMG, not of the SMG-37 Defender: 0.30.2 resolved the Defender '
+    'to its own weapon root (research/weapon-roots-F5FEE03DCFDB.json), so this donor no longer exists. Pick another '
+    'projectile (hd2.attack_output names) or an attack of the Defender itself.')
+RETIRED = {'SMG-37 Defender (projectile 150)': _DEFENDER_150,
+    'output/v1/projectile/smg-37-defender-projectile-150': _DEFENDER_150}
 JSON_OUTPUT = ROOT / 'sdk/AttackOutputCapabilities.json'
 CONTRACT = 'hd2runtime.attack_outputs.v1'
 FAMILY_EMITTER = {'beam': 'BeamWeaponComponent', 'arc': 'ArcWeaponComponent', 'spray': 'SprayWeaponComponent',
@@ -611,8 +617,11 @@ def outputs():
         'iconSource': item['iconSource']} for key, item in mode_labels.items()}
     runtime_icons = {key: (dict(item) if item.get('auto') else {'resource': item['resource'], 'offered': item['offered']})
         for key, item in mode_icons.items()}
+    for name in RETIRED:
+        if name in aliases or name in runtime_outputs:
+            raise ValueError(f'retired attack output {name} is catalogued again')
     runtime = migration_overlay.apply('attack_outputs', {'outputs': runtime_outputs, 'aliases': aliases,
-        'modeLabels': runtime_labels, 'modeIcons': runtime_icons,
+        'retired': RETIRED, 'modeLabels': runtime_labels, 'modeIcons': runtime_icons,
         'hosts': hosts, 'sources': sources, 'supportSources': support_sources, 'ammunition': ammunition,
         'provenCompositions': compositions, 'crossClassReason': UNVERIFIED_REFERENCE})
     cases = research['liberatorCases']

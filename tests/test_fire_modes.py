@@ -33,11 +33,11 @@ class FireModeTests(unittest.TestCase):
 
     def test_coverage_and_blockers(self):
         states = Counter((row['kind'], row['state']) for row in self.catalog['weapons'])
-        self.assertEqual(states[('player', 'selectable')], 30)
-        self.assertEqual(states[('player', 'single_mode')], 19)
+        self.assertEqual(states[('player', 'selectable')], 31)   # + the SMG-37 Defender (0.30.2: the seven DUPLICATE weapons resolved to their proven roots, research/weapon-roots)
+        self.assertEqual(states[('player', 'single_mode')], 20)   # 0.30.2: the seven DUPLICATE weapons resolved to their proven roots
         self.assertEqual(states[('support', 'selectable')], 3)
         self.assertEqual(states[('support', 'single_mode')], 10)
-        self.assertEqual(self.catalog['summary']['writable'], 62)
+        self.assertEqual(self.catalog['summary']['writable'], 64)   # 0.30.2 roots
         blocked = {('player', 'PLAS-15 Loyalist'): 'charge or safety', ('support', 'RS-422 Railgun'): 'charge or safety',
             ('support', 'M-1000 Maxigun'): 'conventional projectile', ('player', 'P-92 Warrant'): 'ProgrammableAmmo',
             ('player', 'AR-11 Arbitrator'): 'special fire-control', ('player', 'SG-8 Punisher'): 'weapon-function'}

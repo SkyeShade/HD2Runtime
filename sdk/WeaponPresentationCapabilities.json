@@ -748,8 +748,8 @@
       ],
       "armorPenetration": "medium",
       "writable": {
-        "traits": false,
-        "armorPenetration": false
+        "traits": true,
+        "armorPenetration": true
       },
       "reason": {
         "traits": null,
@@ -880,12 +880,12 @@
       ],
       "armorPenetration": "light",
       "writable": {
-        "traits": false,
-        "armorPenetration": false
+        "traits": true,
+        "armorPenetration": true
       },
       "reason": {
-        "traits": "The trait labels the armory and loadout menus show (five localization string IDs); presentation only, independent of gameplay.",
-        "armorPenetration": "The penetration label the armory shows (LIGHT/MEDIUM/HEAVY ARMOR PENETRATING, LIGHT ANTI-TANK, ANTI-TANK); presentation only. Gameplay penetration is damage.ap_* on the projectile."
+        "traits": null,
+        "armorPenetration": null
       }
     },
     {
@@ -928,8 +928,8 @@
       ],
       "armorPenetration": "light",
       "writable": {
-        "traits": false,
-        "armorPenetration": false
+        "traits": true,
+        "armorPenetration": true
       },
       "reason": {
         "traits": null,
@@ -1263,12 +1263,12 @@
       ],
       "armorPenetration": "none",
       "writable": {
-        "traits": false,
-        "armorPenetration": false
+        "traits": true,
+        "armorPenetration": true
       },
       "reason": {
-        "traits": "The trait labels the armory and loadout menus show (five localization string IDs); presentation only, independent of gameplay.",
-        "armorPenetration": "The penetration label the armory shows (LIGHT/MEDIUM/HEAVY ARMOR PENETRATING, LIGHT ANTI-TANK, ANTI-TANK); presentation only. Gameplay penetration is damage.ap_* on the projectile."
+        "traits": null,
+        "armorPenetration": null
       }
     },
     {
@@ -1855,12 +1855,12 @@
       ],
       "armorPenetration": "light",
       "writable": {
-        "traits": false,
-        "armorPenetration": false
+        "traits": true,
+        "armorPenetration": true
       },
       "reason": {
-        "traits": "The trait labels the armory and loadout menus show (five localization string IDs); presentation only, independent of gameplay.",
-        "armorPenetration": "The penetration label the armory shows (LIGHT/MEDIUM/HEAVY ARMOR PENETRATING, LIGHT ANTI-TANK, ANTI-TANK); presentation only. Gameplay penetration is damage.ap_* on the projectile."
+        "traits": null,
+        "armorPenetration": null
       }
     },
     {
@@ -2622,8 +2622,8 @@
   ],
   "summary": {
     "weapons": 115,
-    "traitsWritable": 103,
-    "armorPenetrationWritable": 100,
+    "traitsWritable": 108,
+    "armorPenetrationWritable": 105,
     "namedTraits": 24,
     "unnamedTraits": 2,
     "byPenetration": {

@@ -649,13 +649,13 @@ def beam_section(native, layouts, wiki):
 
 
 def scythe_identity(native, wiki):
-    """Why the LAS-5 Scythe has no authorable fields: its catalog identity is DUPLICATE. Records which of the two
-    candidates the published heat data selects; the identity itself is not changed in this pass."""
+    """The LAS-5 Scythe's two candidate roots and which one the published heat data selects (0.30.2: the catalog
+    resolves the Scythe to that root, research/weapon-roots, proven by an equipped snapshot)."""
     catalog = json.loads((ROOT / 'schemas/player_weapon_authoring_catalog.json').read_text())
     entry = next(w for w in catalog['weapons'] if w['name'] == 'LAS-5 Scythe')
     facts = {key: fact['value'] for key, fact in wiki['LAS-5 Scythe']['facts'].items()}
     rows = []
-    for resource in entry['resources']:
+    for resource in entry.get('candidateRoots') or entry['resources']:
         heat = record_of(native, resource, 'WeaponHeatComponentData')
         beam = record_of(native, resource, 'BeamWeaponComponentData')
         cool = f32(heat, 128)
@@ -670,10 +670,10 @@ def scythe_identity(native, wiki):
         raise ValueError('LAS-5 Scythe candidate heat correlation changed: ' + json.dumps(rows))
     return {'catalogResolution': entry['resolution'], 'candidates': rows,
         'finding': ('Both candidates fire the same BeamSettings type, so the shared weapon mapper cannot separate them '
-            'and the catalog blocks the Scythe (DUPLICATE). The published heat data (12.5 heat/s, cooling 12.8 - 8.5 - '
-            '6.4) matches laser_rifle only; laser_rifle_charge (30 heat/s, cooling 15) is another weapon.'),
-        'decision': ('Not changed in this pass: the weapon identity feeds about 45 generated catalogs (attachments, '
-            'residency, ownership, composition). A reviewed disambiguation that selects laser_rifle is the follow-up.')}
+            '(DUPLICATE). The published heat data (12.5 heat/s, cooling 12.8 - 8.5 - 6.4) matches laser_rifle only; '
+            'laser_rifle_charge (30 heat/s, cooling 15) is another weapon.'),
+        'decision': ('0.30.2: resolved to laser_rifle (research/weapon-roots-F5FEE03DCFDB.json: the equipped Scythe is '
+            'that root in a retained snapshot); every generated catalog follows the corrected identity.')}
 
 
 def maxigun_section(native):

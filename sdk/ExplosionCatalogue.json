@@ -214,15 +214,15 @@
       "enemy": 94,
       "entity": 22,
       "stratagem": 42,
-      "support_weapon": 32,
+      "support_weapon": 33,
       "throwable": 23,
       "vehicle": 6,
-      "weapon": 20
+      "weapon": 19
     },
     "shared": 108,
-    "packageKnown": 141,
-    "payload": 140,
-    "spawn": 141,
+    "packageKnown": 139,
+    "payload": 138,
+    "spawn": 139,
     "reviewedSpawn": 16,
     "unnamed": {
       "its owners carry no name in the Runtime catalogues or the resource paths": 37,
@@ -846,27 +846,27 @@
       "damageShared": false
     },
     {
-      "name": "weapon/cqc42_machete/ability",
-      "label": "CQC-42 Machete (ability)",
-      "family": "weapon",
+      "name": "support_weapon/cqc20_breaching_hammer/ability",
+      "label": "CQC-20 Breaching Hammer (ability)",
+      "family": "support_weapon",
       "evidence": "code",
       "shared": false,
       "owners": [
         {
-          "category": "player weapon",
-          "name": "CQC-42 Machete",
+          "category": "support weapon",
+          "name": "CQC-20 Breaching Hammer",
           "role": "ability",
           "reference": "code"
         }
       ],
       "package": {
-        "known": true,
-        "name": "packages/generated/loadout/melee_sledge_hammer",
-        "via": "effect_loadout_package",
+        "known": false,
+        "name": null,
+        "via": null,
         "mission": false
       },
-      "payload": true,
-      "spawn": true,
+      "payload": false,
+      "spawn": false,
       "reviewedSpawn": false,
       "legacyName": null,
       "stats": {
@@ -14716,16 +14716,28 @@
       "damageShared": true
     },
     {
-      "name": "weapon/gp31_grenade_pistol/impact",
-      "label": "GP-31 Grenade Pistol (impact)",
+      "name": "weapon/argl21_onetwo_underbarrel/impact",
+      "label": "AR/GL-21 One-Two / underbarrel (impact)",
       "family": "weapon",
       "evidence": "data",
       "shared": true,
       "owners": [
         {
+          "category": "player weapon underbarrel",
+          "name": "AR/GL-21 One-Two / underbarrel",
+          "role": "impact",
+          "reference": "projectile"
+        },
+        {
           "category": "player weapon",
           "name": "GP-31 Grenade Pistol",
           "role": "impact",
+          "reference": "projectile"
+        },
+        {
+          "category": "player weapon underbarrel",
+          "name": "AR/GL-21 One-Two / underbarrel",
+          "role": "rounds_impact",
           "reference": "projectile"
         },
         {
@@ -14735,9 +14747,21 @@
           "reference": "projectile"
         },
         {
+          "category": "player weapon underbarrel",
+          "name": "AR/GL-21 One-Two / underbarrel",
+          "role": "expiry",
+          "reference": "projectile"
+        },
+        {
           "category": "player weapon",
           "name": "GP-31 Grenade Pistol",
           "role": "expiry",
+          "reference": "projectile"
+        },
+        {
+          "category": "player weapon underbarrel",
+          "name": "AR/GL-21 One-Two / underbarrel",
+          "role": "rounds_expiry",
           "reference": "projectile"
         },
         {
@@ -14748,13 +14772,13 @@
         }
       ],
       "package": {
-        "known": true,
-        "name": "packages/generated/loadout/autocannon_turret",
-        "via": "effect_loadout_package",
+        "known": false,
+        "name": null,
+        "via": null,
         "mission": false
       },
-      "payload": true,
-      "spawn": true,
+      "payload": false,
+      "spawn": false,
       "reviewedSpawn": true,
       "legacyName": "GP-31 Grenade Pistol",
       "stats": {

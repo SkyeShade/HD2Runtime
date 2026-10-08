@@ -140,13 +140,25 @@ hd2.transaction({
 })
 ```
 
-`heat.cool_per_second_cold`, `heat.cool_per_second_hot`, and `heatsink.from_ammo_box` are derived read-only conveniences. Warmup and overheat cooldown remain unresolved. Scythe and Dagger retain duplicate-resource blocking, and Dagger also has unresolved native/wiki scaling disagreements.
+`heat.cool_per_second_cold`, `heat.cool_per_second_hot`, and `heatsink.from_ammo_box` are derived read-only conveniences. Warmup and overheat cooldown remain unresolved. Since 0.30.2 the Scythe and Dagger resolve to their proven roots; the Dagger's old 2000-vs-100 heat disagreement came from the wrong root, and its own root agrees with the published values.
 
 `WeaponMagazineComponentData` stores capacity at offset 136, starting magazines at 140, supply refill at 144, and maximum spare magazines at 148. `WeaponRoundsComponentData` stores two feed capacities at 72/76, spare rounds at 80, supply refill at 84, and starting rounds at 88. These offsets are internal metadata; mod declarations use semantic field constants.
 
 Displayed recoil and rounds-feed total capacity are derived read-only values. Edit the four drift/climb recoil inputs or the two feed capacities separately. Projectile and DamageInfo identifiers remain read-only because reference replacement is outside this release. P-2 Peacemaker and P-19 Redeemer expose their weapon-level fields; their customization-supplied projectile, damage, and effective magazine override paths remain unavailable and fail closed.
 
-The seven ambiguous identities are CQC-42 Machete, CQC-73 Entrenchment Tool, GP-31 Grenade Pistol, LAS-5 Scythe, LAS-7 Dagger, P-72 Crisper, and SMG-37 Defender. Their catalog entries remain visible to tools, but ordinary `hd2.weapon(name)` writes are blocked until runtime ownership can select one resource without guessing.
+Seven weapons tie on every compared stat with a second root: CQC-42 Machete, CQC-73 Entrenchment Tool, GP-31 Grenade Pistol, LAS-5 Scythe, LAS-7 Dagger, P-72 Crisper, and SMG-37 Defender. Until 0.30.2 they were blocked (DUPLICATE). Since 0.30.2 each resolves to its proven root (`research/weapon-roots-F5FEE03DCFDB.json`, applied by `scripts/generate_weapon_authoring.py`):
+
+| Weapon | Root | The other root | Proof |
+|---|---|---|---|
+| GP-31 Grenade Pistol | `0x52E4334E6A128CAF` | the AR/GL-21 One-Two underbarrel | underbarrel host |
+| P-72 Crisper | `0x3F92BA65EF65CCA9` | the SMG/FLAM-34 Stoker underbarrel | underbarrel host |
+| LAS-5 Scythe | `0x27EE1ED8F6FB6356` | `laser_rifle_charge` | equipped snapshot |
+| LAS-7 Dagger | `0x7B06196E90154C88` | a non-loadout beam entity | equipped snapshot |
+| SMG-37 Defender | `0x4E4A613EB9BF5C24` | the SEAF SMG | equipped snapshot |
+| CQC-73 Entrenchment Tool | `0x7E1F76163C667E4B` | the CQC-72 support shovel | equipped snapshot |
+| CQC-42 Machete | `0x792D5D2A340FD6E6` | the CQC-20 Breaching Hammer | its call-in rack attaches the other |
+
+Each catalog entry keeps both `candidateRoots` and a `rootCorrection` (the proof kind). The GP-31 and the Dagger read different values than before, because the first-listed root was the wrong weapon. A field that a default customization item overwrites at every build stays read-only, whatever its own research says.
 
 ## Firing sound (`weapon.sound`, offline only)
 
@@ -188,7 +200,7 @@ Not offered: redirecting the ignition to another status. That would be the level
 which only this weapon uses, and it is not authored in this release.
 `examples/projects/DoubleEdgeOverheatTest` is the live test.
 
-The LAS-5 Scythe still has no writable fields. Its catalog identity is DUPLICATE: `laser_rifle` and
-`laser_rifle_charge` fire the same BeamSettings row. The published Scythe heat data (12.5 heat/s, cooling
-12.8 - 8.5 - 6.4) matches `laser_rifle` only. Changing the identity would touch about 45 generated catalogs, so it
-is left for a reviewed disambiguation after this release.
+The LAS-5 Scythe resolves to `laser_rifle` since 0.30.2: an equipped snapshot holds that root, and the published
+Scythe heat data (12.5 heat/s, cooling 12.8 - 8.5 - 6.4) matches it only (`laser_rifle_charge` is another weapon).
+Its heat rates are writable. Its heat capacity and heatsinks stay read-only: its default Laser Heatsink overwrites
+them every time the weapon is built, so a write there would never show.

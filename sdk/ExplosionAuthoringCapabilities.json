@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "sourceSnapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
-  "hd2RuntimeVersion": "0.19.0",
+  "hd2RuntimeVersion": "0.30.1",
   "gameFingerprints": {
     "dll": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
     "exe": "F5FEE03DCFDB2E553A4752C283590950AC13316B376D8196AA556FF0400D5F06"
@@ -18,7 +18,7 @@
     "weaponsWithExplosions": 13,
     "explosiveProjectileAttacksResolved": 13,
     "explosionSettingsResolved": 13,
-    "explosionScalarFieldsWritable": 144,
+    "explosionScalarFieldsWritable": 156,
     "sharedExplosionGroups": 4,
     "shrapnelGraphsResolved": 1,
     "shrapnelWrites": 0
@@ -1365,9 +1365,9 @@
       ],
       "shared": false,
       "writeScope": "projectile_terminal_actions",
-      "writable": false,
-      "writableScalarFields": 0,
-      "reason": "Ambiguous weapon resource identity blocks ordinary writes.",
+      "writable": true,
+      "writableScalarFields": 12,
+      "reason": null,
       "shrapnel": {
         "count": 0,
         "projectileType": null,
@@ -2555,9 +2555,9 @@
           ],
           "shared": false,
           "writeScope": "projectile_terminal_actions",
-          "writable": false,
-          "writableScalarFields": 0,
-          "reason": "Ambiguous weapon resource identity blocks ordinary writes.",
+          "writable": true,
+          "writableScalarFields": 12,
+          "reason": null,
           "shrapnel": {
             "count": 0,
             "projectileType": null,

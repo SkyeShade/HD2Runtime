@@ -295,6 +295,8 @@ end
 local function output_selector(value,label)
     for key in pairs(value)do assert(key=='resource'or key=='output',
         label..' contains unsupported attack output identity')end
+    local retired=(attack_outputs().retired or{})[value.output]
+    assert(not retired,label..' names a retired attack output: '..tostring(value.output)..': '..tostring(retired))
     local output=assert(type(value.output)=='string'and attack_outputs().outputs[value.output],
         label..' names an unknown attack output: '..tostring(value.output))
     return {output=output.id,entry=output}

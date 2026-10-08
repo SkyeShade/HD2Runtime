@@ -344,7 +344,7 @@ class PlayerProjectileMemberTests(unittest.TestCase):
         fields = [f for w in catalog['weapons'] for f in w['fields']
             if re.match(r'^projectile\.(primary\.|alternate\.)?(penetration_slowdown|lifetime)$', f['semanticFieldId'])]
         self.assertEqual(len(fields), 77)
-        self.assertEqual(sum(1 for f in fields if f['editable']), 75)
+        self.assertEqual(sum(1 for f in fields if f['editable']), 77)   # + GP-31 and P-72 (0.30.2: the seven DUPLICATE weapons resolved to their proven roots, research/weapon-roots)
         self.assertTrue(all(f['writeScope'] == 'shared_projectile_definition' and f['backing']['offset'] in (52, 64)
             for f in fields))
         self.assertFalse([f for f in fields if f['semanticFieldId'].endswith('lifetime') and not f['currentDefault']])

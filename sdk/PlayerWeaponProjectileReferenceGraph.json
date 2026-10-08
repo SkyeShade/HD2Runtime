@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "sourceSnapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
-  "hd2RuntimeVersion": "0.19.0",
+  "hd2RuntimeVersion": "0.30.1",
   "gameFingerprints": {
     "dll": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
     "exe": "F5FEE03DCFDB2E553A4752C283590950AC13316B376D8196AA556FF0400D5F06"
@@ -18,14 +18,14 @@
     "weapons": 80,
     "weaponsWithProjectileAttack": 66,
     "projectileAttacks": 67,
-    "writableTargetAttacks": 57,
-    "compatibleSourceAttacks": 57,
-    "writableExplosiveSelectors": 12,
+    "writableTargetAttacks": 59,
+    "compatibleSourceAttacks": 59,
+    "writableExplosiveSelectors": 13,
     "sharedProjectileGroups": 4,
     "compatibilityClasses": {
-      "conventional_plain": 45,
+      "conventional_plain": 46,
       "explosive_impact": 8,
-      "explosive_impact_and_expiry": 3,
+      "explosive_impact_and_expiry": 4,
       "explosive_shrapnel": 1
     }
   },
@@ -251,6 +251,11 @@
         "projectileType": 123
       },
       {
+        "weapon": "SMG-37 Defender",
+        "role": "primary",
+        "projectileType": 3
+      },
+      {
         "weapon": "SMG/FLAM-34 Stoker",
         "role": "primary",
         "projectileType": 38
@@ -318,6 +323,11 @@
         "weapon": "GL-15 Evictor",
         "role": "primary",
         "projectileType": 297
+      },
+      {
+        "weapon": "GP-31 Grenade Pistol",
+        "role": "primary",
+        "projectileType": 263
       },
       {
         "weapon": "P-33 Missile Pistol",
@@ -1351,10 +1361,9 @@
     {
       "weapon": "CQC-42 Machete",
       "resources": [
-        "0x792D5D2A340FD6E6",
-        "0x5F3EC9BDA2BD8553"
+        "0x792D5D2A340FD6E6"
       ],
-      "resolution": "DUPLICATE",
+      "resolution": "UNIQUE",
       "implementationFamilies": [
         "melee"
       ],
@@ -1374,10 +1383,9 @@
     {
       "weapon": "CQC-73 Entrenchment Tool",
       "resources": [
-        "0x7E1F76163C667E4B",
-        "0xE85E623F93F96FB3"
+        "0x7E1F76163C667E4B"
       ],
-      "resolution": "DUPLICATE",
+      "resolution": "UNIQUE",
       "implementationFamilies": [
         "melee"
       ],
@@ -1599,10 +1607,9 @@
     {
       "weapon": "GP-31 Grenade Pistol",
       "resources": [
-        "0x02CD7321CD8445F5",
         "0x52E4334E6A128CAF"
       ],
-      "resolution": "DUPLICATE",
+      "resolution": "UNIQUE",
       "implementationFamilies": [
         "conventional_projectile",
         "rounds_feed"
@@ -1666,15 +1673,15 @@
             "offset": 64,
             "width": 4,
             "storage": "u32",
-            "recordIndex": 13,
-            "indexRow": 1,
+            "recordIndex": 19,
+            "indexRow": 44,
             "ownerCount": 1,
             "uniqueOwner": true
           },
-          "sourceIdentityResolvable": false,
+          "sourceIdentityResolvable": true,
           "targetOwnershipProven": true,
-          "writableReferenceSwap": false,
-          "reason": "ambiguous weapon identity"
+          "writableReferenceSwap": true,
+          "reason": null
         }
       ]
     },
@@ -1962,10 +1969,9 @@
     {
       "weapon": "LAS-5 Scythe",
       "resources": [
-        "0x27EE1ED8F6FB6356",
-        "0x7E3145A5BAA4B948"
+        "0x27EE1ED8F6FB6356"
       ],
-      "resolution": "DUPLICATE",
+      "resolution": "UNIQUE",
       "implementationFamilies": [
         "beam"
       ],
@@ -2039,10 +2045,9 @@
     {
       "weapon": "LAS-7 Dagger",
       "resources": [
-        "0x2B3C367B280F4094",
         "0x7B06196E90154C88"
       ],
-      "resolution": "DUPLICATE",
+      "resolution": "UNIQUE",
       "implementationFamilies": [
         "beam"
       ],
@@ -2887,10 +2892,9 @@
     {
       "weapon": "P-72 Crisper",
       "resources": [
-        "0x3F92BA65EF65CCA9",
-        "0x992B6F65A5BAB53D"
+        "0x3F92BA65EF65CCA9"
       ],
-      "resolution": "DUPLICATE",
+      "resolution": "UNIQUE",
       "implementationFamilies": [
         "spray_flame"
       ],
@@ -4785,10 +4789,9 @@
     {
       "weapon": "SMG-37 Defender",
       "resources": [
-        "0x4E4A613EB9BF5C24",
-        "0xCA4BBEF63C869C18"
+        "0x4E4A613EB9BF5C24"
       ],
-      "resolution": "DUPLICATE",
+      "resolution": "UNIQUE",
       "implementationFamilies": [
         "conventional_projectile"
       ],
@@ -4841,10 +4844,10 @@
             "ownerCount": 1,
             "uniqueOwner": true
           },
-          "sourceIdentityResolvable": false,
+          "sourceIdentityResolvable": true,
           "targetOwnershipProven": true,
-          "writableReferenceSwap": false,
-          "reason": "ambiguous weapon identity"
+          "writableReferenceSwap": true,
+          "reason": null
         }
       ]
     },

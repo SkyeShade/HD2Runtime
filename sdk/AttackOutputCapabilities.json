@@ -2107,9 +2107,9 @@
   ]
  },
  "summary": {
-  "outputs": 162,
+  "outputs": 161,
   "byFamily": {
-   "projectile": 140,
+   "projectile": 139,
    "beam": 4,
    "arc": 3,
    "spray": 8,
@@ -2140,7 +2140,7 @@
    "Orbital Walking Barrage",
    "TD-220 Bastion MK XVI"
   ],
-  "selectable": 112,
+  "selectable": 111,
   "projectileHosts": 59,
   "componentHosts": 53,
   "ammunitionHosts": 6,
@@ -12714,59 +12714,6 @@
     "SMG-37 Defender (projectile 3)"
    ],
    "projectileType": 3,
-   "emitter": "ProjectileWeapon",
-   "member": 0,
-   "compatibilityClass": "conventional_plain",
-   "selectableAsProjectileReference": true,
-   "compatibleHostFamilies": [
-    "projectile"
-   ],
-   "requiredCoordinatedReferences": [],
-   "blockedReason": null,
-   "chain": {
-    "impactExplosion": false,
-    "expiryExplosion": false,
-    "submunition": false,
-    "arcOnImpact": false
-   },
-   "flight": {
-    "velocity": 285,
-    "mass": 15,
-    "unitDriven": true
-   },
-   "ownerFireResource": [],
-   "package": {
-    "name": null,
-    "known": true,
-    "autoLoad": true,
-    "via": "owner weapon"
-   },
-   "acknowledgements": {
-    "sameClass": [
-     "allow_unverified_reference",
-     "allow_unverified_effect"
-    ],
-    "crossClass": [
-     "allow_unverified_reference",
-     "allow_unverified_effect"
-    ]
-   },
-   "ownerFiresThisProjectile": "fires_reference",
-   "liveProof": null
-  },
-  {
-   "semanticId": "output/v1/projectile/smg-37-defender-projectile-150",
-   "family": "projectile",
-   "kind": "projectile_donor",
-   "owner": {
-    "kind": "player_weapon",
-    "name": "SMG-37 Defender"
-   },
-   "role": "fired projectile",
-   "names": [
-    "SMG-37 Defender (projectile 150)"
-   ],
-   "projectileType": 150,
    "emitter": "ProjectileWeapon",
    "member": 0,
    "compatibilityClass": "conventional_plain",

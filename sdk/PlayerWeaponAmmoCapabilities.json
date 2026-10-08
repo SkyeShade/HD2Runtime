@@ -8,14 +8,14 @@
   "sourceSnapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
   "summary": {
     "weapons": 80,
-    "effectiveCapacityResolved": 66,
+    "effectiveCapacityResolved": 67,
     "effectiveCapacityNativeResolved": 47,
     "customizationCorrelated": 19,
     "notApplicable": 13,
     "roundsFeedWeapons": 15,
     "directMagazineWeapons": 33,
     "defaultMagazineOptions": 19,
-    "weaponsWithWritableAmmoFields": 45,
+    "weaponsWithWritableAmmoFields": 48,
     "nativeMagazineOptionsCataloged": 52,
     "sharedDefaultOptionGroups": 1
   },
@@ -79,7 +79,7 @@
     "directMagazineCatalogDiscrepancies": 2,
     "directMagazineStartingSupplySpareMatches": 33,
     "roundsFeedUnambiguousMatches": 14,
-    "roundsFeedAmbiguousIdentities": 1,
+    "roundsFeedAmbiguousIdentities": 0,
     "defaultCustomizationIdentities": 19,
     "nativeMagazineOptionsCataloged": 52
   },
@@ -1417,10 +1417,9 @@
       "name": "CQC-42 Machete",
       "slot": "secondary",
       "resources": [
-        "0x792D5D2A340FD6E6",
-        "0x5F3EC9BDA2BD8553"
+        "0x792D5D2A340FD6E6"
       ],
-      "ordinaryWritesBlocked": true,
+      "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
       "effectiveCapacity": {
         "status": "RESOLVED",
@@ -1435,25 +1434,25 @@
         "capacity": {
           "value": 1,
           "direct": true,
-          "writable": false,
+          "writable": true,
           "shared": false
         },
         "startingMagazines": {
           "value": 7,
           "direct": true,
-          "writable": false,
+          "writable": true,
           "shared": false
         },
         "magazinesFromSupply": {
           "value": 7,
           "direct": true,
-          "writable": false,
+          "writable": true,
           "shared": false
         },
         "spareMagazines": {
           "value": 7,
           "direct": true,
-          "writable": false,
+          "writable": true,
           "shared": false
         },
         "magazinesFromAmmoBox": {
@@ -1463,8 +1462,12 @@
         }
       },
       "shared": false,
-      "writable": false,
-      "diagnostics": []
+      "writable": true,
+      "diagnostics": [],
+      "candidateRoots": [
+        "0x792D5D2A340FD6E6",
+        "0x5F3EC9BDA2BD8553"
+      ]
     },
     {
       "name": "CQC-5 Combat Hatchet",
@@ -1490,10 +1493,9 @@
       "name": "CQC-73 Entrenchment Tool",
       "slot": "secondary",
       "resources": [
-        "0x7E1F76163C667E4B",
-        "0xE85E623F93F96FB3"
+        "0x7E1F76163C667E4B"
       ],
-      "ordinaryWritesBlocked": true,
+      "ordinaryWritesBlocked": false,
       "backingDomain": "none",
       "effectiveCapacity": {
         "status": "NOT_APPLICABLE"
@@ -1505,7 +1507,11 @@
       "fields": {},
       "shared": false,
       "writable": false,
-      "diagnostics": []
+      "diagnostics": [],
+      "candidateRoots": [
+        "0x7E1F76163C667E4B",
+        "0xE85E623F93F96FB3"
+      ]
     },
     {
       "name": "DBS-2 Double Freedom",
@@ -1741,14 +1747,13 @@
       "name": "GP-31 Grenade Pistol",
       "slot": "secondary",
       "resources": [
-        "0x02CD7321CD8445F5",
         "0x52E4334E6A128CAF"
       ],
-      "ordinaryWritesBlocked": true,
+      "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponRoundsComponentData",
       "effectiveCapacity": {
-        "status": "AMBIGUOUS_RUNTIME_IDENTITY",
-        "value": null,
+        "status": "RESOLVED",
+        "value": 1,
         "source": "sum of feed capacities"
       },
       "alternateMagazineOptions": {
@@ -1757,72 +1762,52 @@
       },
       "fields": {
         "feedCapacity1": {
-          "value": null,
+          "value": 1.0,
           "direct": true,
-          "writable": false,
+          "writable": true,
           "shared": false
         },
         "feedCapacity2": {
-          "value": null,
+          "value": 0.0,
           "direct": true,
-          "writable": false,
+          "writable": true,
           "shared": false
         },
         "spareRounds": {
-          "value": null,
+          "value": 6,
           "direct": true,
-          "writable": false,
+          "writable": true,
           "shared": false
         },
         "roundsFromSupply": {
-          "value": null,
+          "value": 4,
           "direct": true,
-          "writable": false,
+          "writable": true,
           "shared": false
         },
         "startingRounds": {
-          "value": null,
+          "value": 4,
           "direct": true,
-          "writable": false,
+          "writable": true,
           "shared": false
         },
         "capacity": {
-          "value": null,
+          "value": 1,
           "derived": true,
           "writable": false
         },
         "roundsFromAmmoBox": {
-          "value": null,
+          "value": 2,
           "derived": true,
           "writable": false
         }
       },
       "shared": false,
-      "writable": false,
-      "diagnostics": [
-        "duplicate runtime resources have different rounds-feed values"
-      ],
-      "resourceValues": [
-        {
-          "resource": "0x02CD7321CD8445F5",
-          "values": {
-            "feedCapacity1": 1.0,
-            "feedCapacity2": 0.0,
-            "spareRounds": 5,
-            "roundsFromSupply": 5,
-            "startingRounds": 3
-          }
-        },
-        {
-          "resource": "0x52E4334E6A128CAF",
-          "values": {
-            "feedCapacity1": 1.0,
-            "feedCapacity2": 0.0,
-            "spareRounds": 6,
-            "roundsFromSupply": 4,
-            "startingRounds": 4
-          }
-        }
+      "writable": true,
+      "diagnostics": [],
+      "candidateRoots": [
+        "0x02CD7321CD8445F5",
+        "0x52E4334E6A128CAF"
       ]
     },
     {
@@ -1961,10 +1946,9 @@
       "name": "LAS-5 Scythe",
       "slot": "primary",
       "resources": [
-        "0x27EE1ED8F6FB6356",
-        "0x7E3145A5BAA4B948"
+        "0x27EE1ED8F6FB6356"
       ],
-      "ordinaryWritesBlocked": true,
+      "ordinaryWritesBlocked": false,
       "backingDomain": "none",
       "effectiveCapacity": {
         "status": "NOT_APPLICABLE"
@@ -1976,7 +1960,11 @@
       "fields": {},
       "shared": false,
       "writable": false,
-      "diagnostics": []
+      "diagnostics": [],
+      "candidateRoots": [
+        "0x27EE1ED8F6FB6356",
+        "0x7E3145A5BAA4B948"
+      ]
     },
     {
       "name": "LAS-58 Talon",
@@ -2002,10 +1990,9 @@
       "name": "LAS-7 Dagger",
       "slot": "secondary",
       "resources": [
-        "0x2B3C367B280F4094",
         "0x7B06196E90154C88"
       ],
-      "ordinaryWritesBlocked": true,
+      "ordinaryWritesBlocked": false,
       "backingDomain": "none",
       "effectiveCapacity": {
         "status": "NOT_APPLICABLE"
@@ -2017,7 +2004,11 @@
       "fields": {},
       "shared": false,
       "writable": false,
-      "diagnostics": []
+      "diagnostics": [],
+      "candidateRoots": [
+        "0x2B3C367B280F4094",
+        "0x7B06196E90154C88"
+      ]
     },
     {
       "name": "M6C/SOCOM Pistol",
@@ -2861,10 +2852,9 @@
       "name": "P-72 Crisper",
       "slot": "secondary",
       "resources": [
-        "0x3F92BA65EF65CCA9",
-        "0x992B6F65A5BAB53D"
+        "0x3F92BA65EF65CCA9"
       ],
-      "ordinaryWritesBlocked": true,
+      "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
       "effectiveCapacity": {
         "status": "RESOLVED",
@@ -2879,25 +2869,25 @@
         "capacity": {
           "value": 50,
           "direct": true,
-          "writable": false,
+          "writable": true,
           "shared": false
         },
         "startingMagazines": {
           "value": 2,
           "direct": true,
-          "writable": false,
+          "writable": true,
           "shared": false
         },
         "magazinesFromSupply": {
           "value": 6,
           "direct": true,
-          "writable": false,
+          "writable": true,
           "shared": false
         },
         "spareMagazines": {
           "value": 4,
           "direct": true,
-          "writable": false,
+          "writable": true,
           "shared": false
         },
         "magazinesFromAmmoBox": {
@@ -2907,8 +2897,12 @@
         }
       },
       "shared": false,
-      "writable": false,
-      "diagnostics": []
+      "writable": true,
+      "diagnostics": [],
+      "candidateRoots": [
+        "0x3F92BA65EF65CCA9",
+        "0x992B6F65A5BAB53D"
+      ]
     },
     {
       "name": "P-92 Warrant",
@@ -4560,10 +4554,9 @@
       "name": "SMG-37 Defender",
       "slot": "primary",
       "resources": [
-        "0x4E4A613EB9BF5C24",
-        "0xCA4BBEF63C869C18"
+        "0x4E4A613EB9BF5C24"
       ],
-      "ordinaryWritesBlocked": true,
+      "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
       "effectiveCapacity": {
         "status": "CORRELATED_CUSTOMIZATION",
@@ -4629,7 +4622,11 @@
         "reason": "Option identity is proven; override-record ownership is not sufficiently proven for guarded writes.",
         "sharedWithWeapons": [],
         "shared": false
-      }
+      },
+      "candidateRoots": [
+        "0x4E4A613EB9BF5C24",
+        "0xCA4BBEF63C869C18"
+      ]
     },
     {
       "name": "SMG-72 Pummeler",

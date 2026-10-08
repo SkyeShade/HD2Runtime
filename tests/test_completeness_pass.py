@@ -29,15 +29,15 @@ class WeaponMovementTests(unittest.TestCase):
         self.assertEqual(self.catalog['contract'], 'hd2runtime.weapon_movement.v1')
         self.assertNotRegex(json.dumps(self.catalog), re.compile(r'0x[0-9a-fA-F]{8,}'))
         self.assertFalse(self.catalog['liveTested'])
-        self.assertEqual(self.catalog['summary']['weapons'], 107)
-        self.assertEqual(self.catalog['summary']['writable'], 105)
+        self.assertEqual(self.catalog['summary']['weapons'], 114)   # 7 more (0.30.2: the seven DUPLICATE weapons resolved to their proven roots, research/weapon-roots)
+        self.assertEqual(self.catalog['summary']['writable'], 112)
 
     def test_native_model(self):
         summary = self.research['summary']
         self.assertEqual(summary['stationaryWhileFiring'], ['M-1000 Maxigun'])
         self.assertEqual(summary['braceEvents'], ['GL-28 Belt-Fed Grenade Launcher', 'M-1000 Maxigun'])
-        self.assertEqual(summary['withWeaponData'], 105)
-        self.assertEqual(summary['uniqueWeaponDataOwners'], 105)
+        self.assertEqual(summary['withWeaponData'], 112)
+        self.assertEqual(summary['uniqueWeaponDataOwners'], 112)
         fingerprint = {(m['offset'], m['size'], m['storage'], m['nameLength'])
             for m in self.research['model']['fingerprint']}
         self.assertIn((387, 1, 'UINT8', 23), fingerprint)
@@ -94,7 +94,7 @@ return 'ok'
         player = json.loads((ROOT / 'sdk/PlayerWeaponAuthoringCapabilities.json').read_text())
         fields = [f for w in player['weapons'] for f in w['fields']
             if f['semanticFieldId'] == 'weapon.stationary_while_firing']
-        self.assertEqual(len(fields), 73)
+        self.assertEqual(len(fields), 80)
         self.assertTrue(all(f['writeScope'] == 'weapon_local' and f['acknowledgement'] == 'allow_unverified_effect'
             for f in fields))
         support = json.loads((ROOT / 'sdk/SupportWeaponAuthoringCapabilities.json').read_text())

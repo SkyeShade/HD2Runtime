@@ -39,6 +39,9 @@ OWNERSHIP=ROOT/'research/field-ownership-F5FEE03DCFDB.json'
 # Underbarrel weapons (research/underbarrel-weapons-F5FEE03DCFDB.json): separate weapon entities a host's default
 # underbarrel item names. Published as nested sub-targets with only the members the field schema proves.
 UNDERBARREL=ROOT/'research/underbarrel-weapons-F5FEE03DCFDB.json'
+# 0.30.2: the proven real root of each weapon the stat-fingerprint mapper resolves to two roots
+# (scripts/research_weapon_roots.py: equipped snapshots, underbarrel hosts, a call-in rack).
+WEAPON_ROOTS=ROOT/'research/weapon-roots-F5FEE03DCFDB.json'
 UNDERBARREL_UNVERIFIED=('The underbarrel is its own weapon entity, created when the host weapon is set up; the member '
     'is proven (the same component member as this field on every weapon), but whether a built underbarrel keeps a '
     'copy of it and the gameplay effect of an edit are not yet shown in game.')
@@ -62,6 +65,57 @@ def lua(value):
     return json.dumps(str(value),ensure_ascii=True)
 
 
+def apply_root_corrections(value):
+    """Each DUPLICATE weapon with a proven root (WEAPON_ROOTS) resolves to that root alone: resources = [root],
+    resolution UNIQUE; the two candidate roots and the evidence kind are kept on the entry. Idempotent."""
+    corrections={item['weapon']:item for item in json.loads(WEAPON_ROOTS.read_text())['corrections']}
+    for entry in value['weapons']:
+        item=corrections.pop(entry['name'],None)
+        if not item:continue
+        candidates=entry.get('candidateRoots')or entry['resources']
+        assert entry['resolution']in('DUPLICATE','UNIQUE')and item['provenRoot']in candidates,entry['name']
+        entry['candidateRoots']=candidates
+        entry['resources']=[item['provenRoot']]
+        entry['resolution']='UNIQUE'
+        entry['rootCorrection']={'source':WEAPON_ROOTS.name,'evidence':item['evidence']['kind'],
+            'droppedRoots':item['droppedRoots']}
+    assert not corrections,'root corrections for weapons not in the catalog: %r'%sorted(corrections)
+    return value
+
+
+def apply_root_corrections_ammo(ammo):
+    """The same corrections on the ammo catalog: the proven root's own values (resourceValues, when the two roots
+    differed), the identity block lifted (direct fields writable again; customization-owned ones stay read-only).
+    Idempotent."""
+    corrections={item['weapon']:item for item in json.loads(WEAPON_ROOTS.read_text())['corrections']}
+    for entry in ammo['weapons']:
+        item=corrections.get(entry['name'])
+        if not item:continue
+        entry['candidateRoots']=entry.get('candidateRoots')or entry['resources']
+        entry['resources']=[item['provenRoot']]
+        entry['ordinaryWritesBlocked']=False
+        own=next((r['values']for r in entry.pop('resourceValues',[])if r['resource']==item['provenRoot']),None)
+        if own:
+            entry['diagnostics']=[d for d in entry['diagnostics']if not d.startswith('duplicate runtime resources')]
+            for key,value in own.items():entry['fields'][key]['value']=value
+            fields=entry['fields']
+            if'feedCapacity1'in own:
+                capacity=int(own['feedCapacity1']+own['feedCapacity2'])
+                fields['capacity']['value']=capacity
+                fields['roundsFromAmmoBox']['value']=own['roundsFromSupply']//2   # half the supply, as every feed
+                entry['effectiveCapacity']=dict(entry['effectiveCapacity'],status='RESOLVED',value=capacity)
+        for field in entry['fields'].values():
+            if field.get('direct')and'reason'not in field:field['writable']=True
+        entry['writable']=any(f.get('writable')for f in entry['fields'].values())
+    weapons=ammo['weapons']
+    ammo['summary']['effectiveCapacityResolved']=sum(1 for w in weapons
+        if w['effectiveCapacity'].get('status')in('RESOLVED','CORRELATED_CUSTOMIZATION'))
+    ammo['summary']['weaponsWithWritableAmmoFields']=sum(1 for w in weapons if w['writable'])
+    ammo['evidenceCounts']['roundsFeedAmbiguousIdentities']=sum(1 for w in weapons
+        if w['effectiveCapacity'].get('status')=='AMBIGUOUS_RUNTIME_IDENTITY')
+    return ammo
+
+
 def refresh_catalog(report_path=DEFAULT_REPORT,identities_path=DEFAULT_IDENTITIES,catalog_path=CATALOG):
     report=json.loads(Path(report_path).read_text());identities=json.loads(Path(identities_path).read_text())
     candidates={item['resourceHash']:item for item in report['runtimeCandidates']}
@@ -81,6 +135,7 @@ def refresh_catalog(report_path=DEFAULT_REPORT,identities_path=DEFAULT_IDENTITIE
                     'implementationFamilies':candidate.get('implementationFamilies')}
         value['weapons'].append({'name':name,'slot':identity.get('slot'),'category':identity.get('category'),
             'resolution':identity['resolution'],'resources':resources})
+    apply_root_corrections(value)
     Path(catalog_path).write_text(json.dumps(value,indent=2)+'\n',newline='\n')
 
 
@@ -770,6 +825,22 @@ OWN_EFFECT_FIELDS={'heat.level_1_threshold','heat.level_2_threshold','heat.level
     weapon_sound_fields.FIELD}
 
 
+def block_overridden(value):
+    """A component field a default customization item overwrites at every build (research/field-ownership
+    OVERRIDDEN) is read-only whatever its own research says: a write could never show. 0.30.2: the LAS-5 Scythe's
+    heat and heatsinks (its default Laser Heatsink), exposed once its identity was proven. Runs before the runtime
+    table is built, so the runtime refuses the same fields the SDK marks read-only."""
+    ownership={(row['weapon'],row['field']):row for row in json.loads(OWNERSHIP.read_text())['fields']}
+    for weapon in value['weapons']:
+        for field in weapon['fields']:
+            row=ownership.get((weapon['name'],field['semanticFieldId']))
+            if(field.get('editable')and(field.get('backing')or{}).get('kind')=='component'and row
+                    and row['status']=='OVERRIDDEN'):
+                field['editable']=field['acceptedForWrites']=False
+                field['reason']=('A default customization item ('+str(row['owner']['item'])+') overwrites this '
+                    'member when the weapon is built, so a write here would not show.')
+
+
 def annotate_effects(value,rows):
     """Public proof model per field: APPLIED only means the guarded write was verified; `effect` says whether the
     written definition is the one gameplay uses (active source), when it takes effect, and what is live-proven."""
@@ -891,6 +962,7 @@ def outputs(catalog_path=CATALOG):
         for field in weapon['fields']:
             field['apiFieldConstant']=api_constant(field['semanticFieldId'],legacy)
     ammo_source=json.loads(AMMO_CATALOG.read_text())
+    block_overridden(value)
     constants={}
     for weapon in value['weapons']:
         for field in weapon['fields']:
@@ -939,8 +1011,16 @@ if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--check',action='store_true');parser.add_argument('--catalog',type=Path,default=CATALOG)
     parser.add_argument('--refresh-catalog',action='store_true')
+    parser.add_argument('--apply-root-corrections',action='store_true',
+        help='apply research/weapon-roots to the existing catalog (no snapshot inputs needed)')
     parser.add_argument('--report',type=Path,default=DEFAULT_REPORT)
     parser.add_argument('--identities',type=Path,default=DEFAULT_IDENTITIES)
     args=parser.parse_args()
     if args.refresh_catalog:refresh_catalog(args.report,args.identities,args.catalog)
+    elif args.apply_root_corrections:
+        value=apply_root_corrections(json.loads(args.catalog.read_text()))
+        args.catalog.write_text(json.dumps(value,indent=2)+'\n',newline='\n')
+    if args.refresh_catalog or args.apply_root_corrections:
+        AMMO_CATALOG.write_text(json.dumps(apply_root_corrections_ammo(json.loads(AMMO_CATALOG.read_text())),
+            indent=2)+'\n',newline='\n')
     print('\n'.join(str(p) for p in generate(args.check,args.catalog)) or'up to date')

@@ -139,9 +139,9 @@ player weapons own records. Capacity (`+96`), shot heat (`+116`), continuous hea
 (`+120`), base cooling (`+128`), starting heatsinks (`+84`), supply heatsinks
 (`+88`), and spare heatsinks (`+92`) correlate across the complete energy cohort.
 The neighboring `0.75` and `1.5` multipliers derive the cold and hot cooling rates.
-Five uniquely resolved weapons expose 30 direct guarded field instances. LAS-5
-Scythe and LAS-7 Dagger remain blocked by duplicate identities; Dagger also has
-unresolved scale/count disagreements. The nine named heatsink attachment identities
+Seven weapons expose 42 direct guarded field instances since 0.30.2, when the LAS-5
+Scythe and LAS-7 Dagger resolved to their proven roots. The Scythe's capacity and heatsinks
+stay read-only in the SDK, because its default Laser Heatsink overwrites them. The nine named heatsink attachment identities
 do not expose option-owned override records in this snapshot.
 
 The GL-28 `160 / 240 / 320` rate selector is a separate support-weapon rate vector;
@@ -222,6 +222,6 @@ hd2.ensure({patch={id='one-two-grenades',target=launcher,field=hd2.fields.rounds
   - the projectile reference (ProjectileWeapon +0 and WeaponRounds +64 both hold the grenade; which one fires is
     unproven).
 - **Shared rows.** The grenade's projectile and explosion rows are shared with the GP-31 Grenade Pistol.
-- **Catalog correction pending.** The GP-31 Grenade Pistol and the P-72 Crisper list the One-Two launcher and the
-  Stoker flamer as second runtime roots. Their duplicate identity stays fail-closed, with that reason, until they are
-  re-mapped on their own roots (`catalogCorrections` in the research).
+- **Catalog correction applied (0.30.2).** The GP-31 Grenade Pistol and the P-72 Crisper listed the One-Two launcher
+  and the Stoker flamer as second runtime roots. They now resolve to their own roots (`catalogCorrections` here,
+  applied through `research/weapon-roots-F5FEE03DCFDB.json`).

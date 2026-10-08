@@ -2529,13 +2529,9 @@
           "blocker": "Resource reference; replacing it is not reviewed as safe."
         }
       ],
-      "compatibleWeapons": [
-        "LAS-5 Scythe"
-      ],
+      "compatibleWeapons": [],
       "consumers": {
-        "nativeDefaultOf": [
-          "LAS-5 Scythe"
-        ],
+        "nativeDefaultOf": [],
         "unlockListedFor": [],
         "scopeComplete": false,
         "scopeNote": "One attachment definition is used by every weapon that equips it: editing a sight or a muzzle brake changes it on all of them. Known consumers come from native resource defaults and per-weapon unlock lists observed in memory; the native compatibility set is not proven complete, so allow_shared stays required."
@@ -7583,13 +7579,8 @@
       "slots": [
         {
           "slot": "muzzle",
-          "defaultAttachment": null,
+          "defaultAttachment": "weapon-attachment/v1/muzzle/laser-standard-prism/46d19d5c80239703",
           "options": [
-            {
-              "attachment": "weapon-attachment/v1/muzzle/laser-charge-standard/999bbb1342467088",
-              "name": "Laser. Charge Standard",
-              "relationship": "native_resource_default"
-            },
             {
               "attachment": "weapon-attachment/v1/muzzle/laser-standard-prism/46d19d5c80239703",
               "name": "Laser. Standard Prism",
@@ -15177,12 +15168,8 @@
       "requires": "patch_or_transaction",
       "allowSharedRequired": true,
       "shared": true,
-      "sharedConsumers": [
-        {
-          "weapon": "LAS-5 Scythe"
-        }
-      ],
-      "sharedScopeKey": "shared-scope:e8102a8051f1a496",
+      "sharedConsumers": [],
+      "sharedScopeKey": "shared-scope:28e89307c9bb5e36",
       "reviewedScopeComplete": false,
       "dynamicConsumersPossible": true,
       "acknowledgement": "allow_unverified_effect",

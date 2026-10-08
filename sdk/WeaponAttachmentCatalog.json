@@ -20877,13 +20877,9 @@
           "blocker": "Native owner known; effect semantics are not reviewed."
         }
       ],
-      "compatibleWeapons": [
-        "LAS-5 Scythe"
-      ],
+      "compatibleWeapons": [],
       "consumers": {
-        "nativeDefaultOf": [
-          "LAS-5 Scythe"
-        ],
+        "nativeDefaultOf": [],
         "unlockListedFor": [],
         "scopeComplete": false
       },
@@ -26386,13 +26382,9 @@
           "blocker": "Resource reference; replacing it is not reviewed as safe."
         }
       ],
-      "compatibleWeapons": [
-        "LAS-5 Scythe"
-      ],
+      "compatibleWeapons": [],
       "consumers": {
-        "nativeDefaultOf": [
-          "LAS-5 Scythe"
-        ],
+        "nativeDefaultOf": [],
         "unlockListedFor": [],
         "scopeComplete": false
       },
@@ -28581,7 +28573,6 @@
         "DBS-2 Double Freedom",
         "FLAM-66 Torcher",
         "GL-15 Evictor",
-        "GP-31 Grenade Pistol",
         "JAR-5 Dominator",
         "LAS-12 Sai",
         "LAS-13 Trident",
@@ -28633,7 +28624,6 @@
           "DBS-2 Double Freedom",
           "FLAM-66 Torcher",
           "GL-15 Evictor",
-          "GP-31 Grenade Pistol",
           "JAR-5 Dominator",
           "LAS-12 Sai",
           "LAS-13 Trident",
@@ -38422,17 +38412,6 @@
               "unlockListed": false
             }
           ]
-        },
-        {
-          "slot": "PaintScheme",
-          "options": [
-            {
-              "attachment": "weapon-attachment/v1/paintscheme/default/130bcbe4af666b12",
-              "name": "Default",
-              "default": true,
-              "unlockListed": false
-            }
-          ]
         }
       ]
     },
@@ -39327,12 +39306,6 @@
               "name": "Laser Heatsink. Medium Improved Cooldown",
               "default": false,
               "unlockListed": true
-            },
-            {
-              "attachment": "weapon-attachment/v1/magazine/laser-heatsink-charge-standard-heatsink/8c0846d3976ee4de",
-              "name": "Laser Heatsink (Charge). Standard Heatsink",
-              "default": true,
-              "unlockListed": false
             }
           ]
         },
@@ -39344,12 +39317,6 @@
               "name": "Laser. Standard Prism",
               "default": true,
               "unlockListed": true
-            },
-            {
-              "attachment": "weapon-attachment/v1/muzzle/laser-charge-standard/999bbb1342467088",
-              "name": "Laser. Charge Standard",
-              "default": true,
-              "unlockListed": false
             }
           ]
         },
@@ -45326,7 +45293,7 @@
       "Underbarrel": 19
     },
     "withEntityDelta": 237,
-    "withKnownConsumers": 216,
+    "withKnownConsumers": 214,
     "withStatModifiers": 166,
     "weapons": 69,
     "writableEffects": 0

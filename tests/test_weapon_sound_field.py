@@ -33,12 +33,27 @@ def player_fields():
     return {w['name']: f for w in PLAYER['weapons'] for f in w['fields'] if f['semanticFieldId'] == 'weapon.sound'}
 
 
+class RenamedSoundTests(unittest.TestCase):
+    def test_names_published_before_the_0_30_2_roots_resolve_to_the_same_sound(self):
+        # The Defender and GP-31 resolved to their proven roots, so their former second roots' sounds (the SEAF SMG,
+        # the One-Two underbarrel) lost the weapon name; the published names stay as aliases of the same sound.
+        self.assertEqual(run(r'''
+local sounds=require('hd2runtime/runtime/weapon_sounds')
+for old,new in pairs({['primary/smg37/seaf']='seaf/3',['secondary/gp31/alt']='other/wep_grenadier_rifle/1'})do
+    local canonical,entry=sounds.resolve(old)
+    assert(canonical==new and entry==sounds.entry(new),old)
+end
+assert(sounds.entry('primary/smg37/seaf').resource=='CA4BBEF63C869C18')   -- the SEAF SMG root
+return 'ok'
+'''), b'ok')
+
+
 class MetadataTests(unittest.TestCase):
     def test_player_weapons(self):
         fields = player_fields()
         self.assertEqual(len(fields), 80)
         editable = {name for name, f in fields.items() if f['editable']}
-        self.assertEqual(len(editable), 53)
+        self.assertEqual(len(editable), 55)   # + the SMG-37 Defender and P-72 Crisper (0.30.2: the seven DUPLICATE weapons resolved to their proven roots, research/weapon-roots)
         sounds = generate_weapon_sounds.build()['sounds']
         for name, field in fields.items():
             if field['currentDefault'] is not None:
@@ -174,7 +189,7 @@ rejected(function()patch(hd2.weapon('SG-8 Punisher'),'primary/sg8','sentry/gatli
 rejected(function()patch(hd2.support_weapon('FLAM-40 Flamethrower'),'x','sentry/gatling',true)end,
  'no ProjectileWeapon record')
 rejected(function()patch(hd2.weapon('LAS-13 Trident'),'x','sentry/gatling',true)end,'no ProjectileWeapon record')
-rejected(function()patch(hd2.weapon('SMG-37 Defender'),'primary/smg37','sentry/gatling',true)end,'Ambiguous')
+-- (No player weapon resolves to two roots since 0.30.2, so the Ambiguous refusal has no catalogued example.)
 -- The asset gate: a sound's package is requested before the write, and a runtime that cannot request packages
 -- refuses the operation (nothing is written); the weapon's own sound needs none.
 local gate=assets.gate({mode='offline'},loop,nil)

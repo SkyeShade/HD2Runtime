@@ -19,8 +19,10 @@ class ProjectileDonorResearchTests(unittest.TestCase):
     def test_the_research(self):
         self.assertEqual((RESEARCH['writes'], RESEARCH['protectionChanges']), (0, 0))
         s = RESEARCH['summary']
-        self.assertEqual((s['named'], s['donors']), (224, 32))
-        self.assertEqual(s['byOwnerKind'], {'player_weapon': 5, 'stratagem': 23, 'support_weapon': 4})
+        # 31 since 0.30.2: projectile 150 is the SEAF SMG round, not the SMG-37 Defender's (its proven root).
+        self.assertEqual((s['named'], s['donors']), (224, 31))
+        self.assertEqual(s['byOwnerKind'], {'player_weapon': 4, 'stratagem': 23, 'support_weapon': 4})
+        self.assertNotIn(150, {d['projectileType'] for d in RESEARCH['donors']})
         by_type = {d['projectileType']: d for d in RESEARCH['donors']}
         # The Eagle 500kg Bomb: EagleComponentData +24 of its own record; the Railcannon: OrbitalAbility +532.
         self.assertEqual((by_type[239]['component'], by_type[239]['member'], by_type[239]['owner']),
@@ -57,7 +59,7 @@ for _,o in pairs(A.outputs)do
         assert(o.dependencyKey or o.owner.kind=='player_weapon'or o.owner.kind=='support_weapon',o.id)
     end
 end
-assert(n==32,n)
+assert(n==31,n)
 local bomb=A.outputs[A.aliases['Eagle 500kg Bomb']]
 assert(bomb.currentDefault==239 and bomb.backing.component=='EagleComponentData'and bomb.backing.offset==24)
 assert(bomb.dependencyKey=='projectile_donor/Eagle 500kg Bomb (projectile 239)')
@@ -69,7 +71,7 @@ return 'ok'
 """), b'ok')
         sdk = json.loads((ROOT / 'sdk/AttackOutputCapabilities.json').read_text(encoding='utf-8'))
         rows = [o for o in sdk['outputs'] if o.get('kind') == 'projectile_donor']
-        self.assertEqual(len(rows), 32)
+        self.assertEqual(len(rows), 31)
         for o in rows:
             self.assertEqual(o['acknowledgements']['sameClass'], ['allow_unverified_reference', 'allow_unverified_effect'])
 

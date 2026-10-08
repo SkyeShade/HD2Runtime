@@ -535,7 +535,7 @@
     {
       "kind": "player",
       "weapon": "GP-31 Grenade Pistol",
-      "state": "blocked",
+      "state": "single_mode",
       "modes": [
         "single"
       ],
@@ -545,11 +545,14 @@
         "right": "None"
       },
       "selectorBound": false,
-      "maxModes": null,
+      "maxModes": 1,
       "burstRounds": 1,
-      "writable": false,
-      "reason": "The weapon's runtime identity is ambiguous; ordinary writes fail closed.",
-      "fields": null
+      "writable": true,
+      "reason": null,
+      "fields": {
+        "modes": "fire_mode.modes",
+        "burstRounds": "fire_mode.burst_rounds"
+      }
     },
     {
       "kind": "player",
@@ -1619,7 +1622,7 @@
     {
       "kind": "player",
       "weapon": "SMG-37 Defender",
-      "state": "blocked",
+      "state": "selectable",
       "modes": [
         "automatic",
         "single",
@@ -1631,11 +1634,14 @@
         "right": "Firemode"
       },
       "selectorBound": true,
-      "maxModes": null,
+      "maxModes": 4,
       "burstRounds": 3,
-      "writable": false,
-      "reason": "The weapon's runtime identity is ambiguous; ordinary writes fail closed.",
-      "fields": null
+      "writable": true,
+      "reason": null,
+      "fields": {
+        "modes": "fire_mode.modes",
+        "burstRounds": "fire_mode.burst_rounds"
+      }
     },
     {
       "kind": "player",
@@ -2453,17 +2459,17 @@
   "summary": {
     "weapons": 115,
     "byState": {
-      "player:blocked": 31,
-      "player:selectable": 30,
-      "player:single_mode": 19,
+      "player:blocked": 29,
+      "player:selectable": 31,
+      "player:single_mode": 20,
       "support:absent": 2,
       "support:blocked": 20,
       "support:selectable": 3,
       "support:single_mode": 10
     },
     "resolvedModeSets": 112,
-    "writable": 62,
-    "fullAutoPossible": 62,
+    "writable": 64,
+    "fullAutoPossible": 64,
     "fullAutoAlreadyPresent": 60
   }
 }

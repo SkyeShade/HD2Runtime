@@ -17,8 +17,8 @@ class PlayerWeaponAuthoringTests(unittest.TestCase):
 
     def test_matrix_covers_catalog_without_runtime_addresses(self):
         self.assertEqual(CAPABILITIES['summary']['weapons'], 80)
-        self.assertEqual(CAPABILITIES['summary']['uniqueWeapons'], 73)
-        self.assertEqual(CAPABILITIES['summary']['duplicateWeapons'], 7)
+        self.assertEqual(CAPABILITIES['summary']['uniqueWeapons'], 80)   # (0.30.2: the seven DUPLICATE weapons resolved to their proven roots, research/weapon-roots)
+        self.assertEqual(CAPABILITIES['summary']['duplicateWeapons'], 0)
         encoded=json.dumps(CAPABILITIES).lower()
         self.assertNotIn('absoluteaddress', encoded)
         self.assertNotIn('baseaddress', encoded)
@@ -45,9 +45,19 @@ class PlayerWeaponAuthoringTests(unittest.TestCase):
                 else:self.assertIsNone(field['enumValues'])
 
     def test_duplicates_and_customization_projectiles_fail_closed(self):
+        # 0.30.2: no weapon is blocked by its identity; each corrected one names its proof.
         blocked={w['name'] for w in CAPABILITIES['weapons'] if w['ordinaryWritesBlocked']}
-        self.assertEqual(blocked,{'CQC-42 Machete','CQC-73 Entrenchment Tool',
+        self.assertEqual(blocked,set())
+        catalog=json.loads((ROOT/'schemas/player_weapon_authoring_catalog.json').read_text())
+        corrected={w['name']:w for w in catalog['weapons'] if w.get('rootCorrection')}
+        self.assertEqual(set(corrected),{'CQC-42 Machete','CQC-73 Entrenchment Tool',
             'GP-31 Grenade Pistol','LAS-5 Scythe','LAS-7 Dagger','P-72 Crisper','SMG-37 Defender'})
+        for name,entry in corrected.items():
+            self.assertEqual(len(entry['resources']),1,name)
+            self.assertEqual(len(entry['candidateRoots']),2,name)
+            self.assertIn(entry['rootCorrection']['evidence'],('equipped_snapshot','underbarrel','call_in_rack'))
+        self.assertEqual(corrected['GP-31 Grenade Pistol']['resources'],['0x52E4334E6A128CAF'])
+        self.assertEqual(corrected['LAS-7 Dagger']['resources'],['0x7B06196E90154C88'])
         by_name={w['name']:w for w in CAPABILITIES['weapons']}
         for name in ('P-2 Peacemaker','P-19 Redeemer'):
             editable=[f['semanticFieldId'] for f in by_name[name]['fields'] if f['editable']]
@@ -112,8 +122,11 @@ class PlayerWeaponAuthoringTests(unittest.TestCase):
         self.assertEqual(ammo_by_name['P-2 Peacemaker']['defaultMagazineOption']['name'],
             'Pistol 12x20mm. Standard')
         gp=next(w for w in AMMO_CAPABILITIES['weapons'] if w['name']=='GP-31 Grenade Pistol')
-        self.assertEqual(gp['effectiveCapacity']['status'],'AMBIGUOUS_RUNTIME_IDENTITY')
-        self.assertEqual(len(gp['resourceValues']),2)
+        # 0.30.2: the GP-31's own root (the other was the One-Two underbarrel) and its own values.
+        self.assertEqual((gp['effectiveCapacity']['status'],gp['effectiveCapacity']['value']),('RESOLVED',1))
+        self.assertNotIn('resourceValues',gp)
+        self.assertEqual({k:gp['fields'][k]['value'] for k in ('spareRounds','roundsFromSupply','startingRounds')},
+            {'spareRounds':6,'roundsFromSupply':4,'startingRounds':4})
 
     def test_semantic_alias_metadata_and_complete_backing_audit(self):
         aliases={(item['alias'],item['canonical']):item

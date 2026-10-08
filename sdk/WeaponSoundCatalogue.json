@@ -14,11 +14,11 @@
    "emplacement": 2,
    "illuminate": 7,
    "objective": 2,
-   "other": 4,
+   "other": 5,
    "pelican": 1,
-   "primary": 52,
-   "seaf": 2,
-   "secondary": 18,
+   "primary": 51,
+   "seaf": 3,
+   "secondary": 17,
    "sentry": 7,
    "support": 25,
    "vehicle": 13
@@ -32,7 +32,9 @@
  },
  "rangeIsHeuristic": true,
  "aliases": {
-  "maelstrom_main_gun": "vehicle/maelstrom/main_gun"
+  "maelstrom_main_gun": "vehicle/maelstrom/main_gun",
+  "primary/smg37/seaf": "seaf/3",
+  "secondary/gp31/alt": "other/wep_grenadier_rifle/1"
  },
  "sounds": [
   {
@@ -1310,6 +1312,35 @@
     }
    ],
    "bank": "content/audio/wep_ar_risk",
+   "alsoTypes": 0
+  },
+  {
+   "name": "other/wep_grenadier_rifle/1",
+   "label": "Other wep grenadier rifle weapon 1 (unidentified; bank wep_grenadier_rifle)",
+   "family": "other",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": false,
+   "designedRpm": 900.0,
+   "fireMode": 2,
+   "rangeM": 650.0,
+   "layers": [
+    {
+     "distance": 650.0,
+     "count": 1
+    },
+    {
+     "distance": 240.0,
+     "count": 3
+    },
+    {
+     "distance": 4.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/wep_grenadier_rifle",
    "alsoTypes": 0
   },
   {
@@ -2712,31 +2743,6 @@
    "alsoTypes": 0
   },
   {
-   "name": "primary/smg37/seaf",
-   "label": "SMG-37 Defender (SEAF trooper)",
-   "family": "primary",
-   "kind": "shot",
-   "stratagem": null,
-   "residentOnly": true,
-   "pelicanDefault": false,
-   "midi": true,
-   "designedRpm": 520.0,
-   "fireMode": 1,
-   "rangeM": 120.0,
-   "layers": [
-    {
-     "distance": 120.0,
-     "count": 1
-    },
-    {
-     "distance": 64.0,
-     "count": 1
-    }
-   ],
-   "bank": "content/audio/foley_seafs",
-   "alsoTypes": 0
-  },
-  {
    "name": "primary/smg72",
    "label": "SMG-72 Pummeler",
    "family": "primary",
@@ -2940,6 +2946,31 @@
    "alsoTypes": 0
   },
   {
+   "name": "seaf/3",
+   "label": "SEAF weapon 3 (unidentified; bank foley_seafs)",
+   "family": "seaf",
+   "kind": "shot",
+   "stratagem": null,
+   "residentOnly": true,
+   "pelicanDefault": false,
+   "midi": true,
+   "designedRpm": 520.0,
+   "fireMode": 1,
+   "rangeM": 120.0,
+   "layers": [
+    {
+     "distance": 120.0,
+     "count": 1
+    },
+    {
+     "distance": 64.0,
+     "count": 1
+    }
+   ],
+   "bank": "content/audio/foley_seafs",
+   "alsoTypes": 0
+  },
+  {
    "name": "secondary/gp20",
    "label": "GP-20 Ultimatum",
    "family": "secondary",
@@ -2995,35 +3026,6 @@
     }
    ],
    "bank": "content/audio/gp_31_grenade_pistol",
-   "alsoTypes": 0
-  },
-  {
-   "name": "secondary/gp31/alt",
-   "label": "GP-31 Grenade Pistol (alternate)",
-   "family": "secondary",
-   "kind": "shot",
-   "stratagem": null,
-   "residentOnly": true,
-   "pelicanDefault": false,
-   "midi": false,
-   "designedRpm": 900.0,
-   "fireMode": 2,
-   "rangeM": 650.0,
-   "layers": [
-    {
-     "distance": 650.0,
-     "count": 1
-    },
-    {
-     "distance": 240.0,
-     "count": 3
-    },
-    {
-     "distance": 4.0,
-     "count": 1
-    }
-   ],
-   "bank": "content/audio/wep_grenadier_rifle",
    "alsoTypes": 0
   },
   {

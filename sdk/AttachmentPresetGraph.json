@@ -1866,8 +1866,7 @@
     {
       "weapon": "CQC-42 Machete",
       "resources": [
-        "0x792D5D2A340FD6E6",
-        "0x5F3EC9BDA2BD8553"
+        "0x792D5D2A340FD6E6"
       ],
       "componentDefault": null,
       "categories": []
@@ -1883,8 +1882,7 @@
     {
       "weapon": "CQC-73 Entrenchment Tool",
       "resources": [
-        "0x7E1F76163C667E4B",
-        "0xE85E623F93F96FB3"
+        "0x7E1F76163C667E4B"
       ],
       "componentDefault": null,
       "categories": []
@@ -2024,7 +2022,6 @@
     {
       "weapon": "GP-31 Grenade Pistol",
       "resources": [
-        "0x02CD7321CD8445F5",
         "0x52E4334E6A128CAF"
       ],
       "componentDefault": null,
@@ -2288,8 +2285,7 @@
     {
       "weapon": "LAS-5 Scythe",
       "resources": [
-        "0x27EE1ED8F6FB6356",
-        "0x7E3145A5BAA4B948"
+        "0x27EE1ED8F6FB6356"
       ],
       "componentDefault": {
         "optionId": "0xF3D0DF39",
@@ -2427,7 +2423,6 @@
     {
       "weapon": "LAS-7 Dagger",
       "resources": [
-        "0x2B3C367B280F4094",
         "0x7B06196E90154C88"
       ],
       "componentDefault": null,
@@ -2774,8 +2769,7 @@
     {
       "weapon": "P-72 Crisper",
       "resources": [
-        "0x3F92BA65EF65CCA9",
-        "0x992B6F65A5BAB53D"
+        "0x3F92BA65EF65CCA9"
       ],
       "componentDefault": null,
       "categories": []
@@ -5132,8 +5126,7 @@
     {
       "weapon": "SMG-37 Defender",
       "resources": [
-        "0x4E4A613EB9BF5C24",
-        "0xCA4BBEF63C869C18"
+        "0x4E4A613EB9BF5C24"
       ],
       "componentDefault": {
         "optionId": "0x01B37BEC",

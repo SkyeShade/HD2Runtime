@@ -328,13 +328,14 @@ live-tested yet and requires allow_unverified_reference=true`.
 - guided-missile components and objective shells;
 - second shell types that a different, unnamed record holds.
 
+Retired in 0.30.2: `SMG-37 Defender (projectile 150)`. Projectile 150 is the round of the SEAF SMG, the second root the Defender was mapped to before its identity was proven. The name now refuses with that reason (`retired attack output ...`) instead of resolving.
+
 | `hd2.attack_output(...)` | Projectile | From | Class |
 |---|---|---|---|
 | `GP-31 Grenade Pistol (projectile 263)` | 263 | fired projectile | explodes on impact and expiry |
 | `P-33 Missile Pistol (projectile 127)` | 127 | second projectile (+576) | explodes on impact and expiry |
 | `P-92 Warrant (projectile 319)` | 319 | second projectile (+576) | plain |
 | `SMG-37 Defender (projectile 3)` | 3 | fired projectile | plain |
-| `SMG-37 Defender (projectile 150)` | 150 | fired projectile | plain |
 | `A/GM-17 Gas Mortar Sentry` or `A/GM-17 Gas Mortar Sentry (projectile 342)` | 342 | fired projectile | explodes on impact |
 | `A/M-12 Mortar Sentry` or `A/M-12 Mortar Sentry (projectile 346)` | 346 | fired projectile | shrapnel |
 | `A/MLS-4X Rocket Sentry` or `A/MLS-4X Rocket Sentry (projectile 320)` | 320 | fired projectile | explodes on impact |
