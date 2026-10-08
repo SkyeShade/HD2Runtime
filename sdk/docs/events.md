@@ -638,7 +638,8 @@ hd2.input.block(false)                                                      -- s
 
 The game takes its keyboard and mouse input from the window messages of its own window thread. While a mod renews the
 block, the Runtime's native message hook (docs/ui-overlay.md "The mouse wheel") turns these into `WM_NULL` before the
-game's window procedure sees them:
+game's window procedure sees them. **Since 0.30.2 the hook is off unless the player turns it on** (MODS > HD2Runtime >
+*Native mouse wheel / input hook*); off, `hd2.input.block()` returns `false` and the reason and blocks nothing.
 
 - **`keyboard`:** key presses and characters (`WM_KEYDOWN`, `WM_SYSKEYDOWN`, `WM_CHAR`, `WM_SYSCHAR`, raw keyboard
   makes). Key releases always pass, so a key held when a window opens is not left down.

@@ -156,6 +156,14 @@ Tests: `tests/test_ui_overlay.py` (a recording fake of the engine GUI API).
 `hd2.input.wheel()` is the wheel this update tick in notches (+ up, - down; fractions for smooth wheels), 0 when it
 did not move. The editor's scroll lists read it once per frame.
 
+**The native hook is off by default (0.30.2).** It is the player's choice: MODS > HD2Runtime > *Native mouse wheel /
+input hook* (default off; without Mod Options Menu it stays off). GameGuard error 1015 ("Suspicious program
+detected") was reported with 0.30.x, and a window hook running generated code is what anti-cheat looks for. Off,
+nothing native is built or installed: `hd2.input.wheel()` reads the engine axis only (it scrolls wherever the game
+itself reads the wheel, for example the loadout screen), `hd2.input.block()` returns `false` and the reason, and
+`hd2.input.wheel_status().native` is `false`. The API is unchanged, so mods need no update; a mod that wants the wheel
+in its own window everywhere can tell the player about the option.
+
 - `GetAsyncKeyState` cannot see the wheel, and the engine's `stingray.Mouse` `wheel` axis read nothing while the
   overlay held the mouse focus (live test of r50). Two sources are sampled once per tick while someone queries:
   the engine axis, and a `WH_GETMESSAGE` hook on the game window's thread counting `WM_MOUSEWHEEL` and the wheel

@@ -213,6 +213,7 @@ class WheelTests(unittest.TestCase):
         self.assertEqual(run(HARNESS + r'''
 local wheel=require('hd2runtime/runtime/mouse_wheel')
 wheel.reset_for_tests()
+wheel.native_allowed=function()return true end    -- the player turned the native hook on (default off: below)
 local axis=0
 rawset(_G,'stingray',{Mouse={axis=function()return {y=axis}end,axis_index=function(name)assert(name=='wheel')return 1 end}})
 -- the native hook's counters, as the procedure accumulates them: legacy delta, raw delta, messages
@@ -265,6 +266,37 @@ wheel.reset_for_tests()
 wheel.hooks.install=function()error('boom')end
 hd2.input.wheel()
 assert(wheel.status().disabled:find('boom'),'disabled')
+return 'ok'
+'''), b'ok')
+
+    def test_by_default_nothing_native_is_built_and_the_api_still_answers(self):
+        # 0.30.2 (GameGuard error 1015 with 0.30.x): the hook is the player's choice, off by default. Off, the wheel is
+        # the engine axis, block() refuses with the reason, and no hook is installed or native page built.
+        self.assertEqual(run(HARNESS + r'''
+local wheel=require('hd2runtime/runtime/mouse_wheel')
+wheel.reset_for_tests()
+local axis=0
+rawset(_G,'stingray',{Mouse={axis=function()return {y=axis}end,axis_index=function()return 1 end}})
+local installs,pages=0,0
+wheel.hooks.install=function()installs=installs+1;return nil,'never'end
+local real_pages=wheel.pages
+wheel.pages=function()pages=pages+1;return real_pages()end
+local function tick()events.tick(1/60)end
+assert(wheel.native_allowed()==false,'off by default (no Mod Options Menu: its default)')
+assert(hd2.input.wheel()==0)
+axis=1;tick()
+assert(hd2.input.wheel()==1,'the engine axis still scrolls')
+for _=1,200 do hd2.input.wheel();tick()end
+assert(installs==0 and pages==0,'no hook, no native page')
+local ok,why=hd2.input.block({keyboard=true,mouse=true})
+assert(ok==false and why:find('MODS > HD2Runtime',1,true),tostring(why))
+assert(hd2.input.block(false)==true,'stopping is always fine')
+local status=hd2.input.wheel_status()
+assert(status.native==false and status.hooked==false and status.source=='engine')
+-- The option is on the HD2Runtime page, default off.
+local page=require('hd2runtime/api/options').page({id='hd2runtime',title='HD2Runtime'}):describe()
+assert(page.options[1].id=='native_input_hook'or page.options[1].option=='native_input_hook',
+    'the toggle is declared')
 return 'ok'
 '''), b'ok')
 

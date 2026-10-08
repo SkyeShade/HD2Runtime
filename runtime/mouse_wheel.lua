@@ -14,6 +14,12 @@
 -- The hook is removed one second after the last query (the code and counter pages stay, so a message already inside
 -- the procedure finishes safely). Any error turns the hook off for the session (logged once). It is never installed
 -- outside the game on Windows x64. The first source that delivers a notch is logged, so a live test tells which works.
+--
+-- 0.30.2: the native hook is OFF unless the PLAYER turns it on (MODS > HD2Runtime > "Native mouse wheel / input
+-- hook", default off; M.native_allowed). A window hook running generated code is what anti-cheat looks for, and
+-- GameGuard error 1015 was reported with 0.30.x. Off, nothing native is built or installed (no executable page, no
+-- hook): hd2.input.wheel() reads the engine axis only and hd2.input.block() returns false with the reason, which every
+-- caller already handles. The API is unchanged, so no mod needs an update.
 local events=require('hd2runtime/runtime/events')
 local KEY='HD2RuntimeMouseWheelV2'
 local existing=rawget(_G,KEY)
@@ -250,9 +256,34 @@ local function disable(why)
     log('the message hook is off for this session: '..tostring(why))
 end
 local function now()return events.state.now or 0 end
+-- The player's choice (MODS > HD2Runtime), registered on the first wheel or block query only, so a game whose mods
+-- never ask shows no such page. Without Mod Options Menu it keeps its default: off.
+M.NATIVE_OFF='the native input hook is off (MODS > HD2Runtime > Native mouse wheel / input hook); the wheel is the '
+    ..'engine axis'
+local option
+function M.native_allowed()
+    if option==nil then
+        local ok,handle=pcall(function()
+            local page=require('hd2runtime/api/options').page({id='hd2runtime',title='HD2Runtime'})
+            return page:toggle({id='native_input_hook',label='Native mouse wheel / input hook',default=false,
+                description='Lets mod windows read the mouse wheel everywhere and keep clicks from reaching the '
+                    ..'game, through a Windows message hook running native code. Off by default: anti-cheat '
+                    ..'(GameGuard) may treat it as a suspicious program. Off, the wheel works where the game reads it.'})
+        end)
+        option=ok and handle or false
+        if not ok then log('the native input hook option is unavailable: '..tostring(handle))end
+    end
+    if not option then return false end
+    local ok,value=pcall(function()return option:get()end)
+    return ok and value==true
+end
 local function ensure_hook()
     if state.hook or state.disabled or now()<state.next_try then return end
     if type(rawget(_G,'stingray'))~='table'then return end   -- only in the game
+    if not M.native_allowed()then
+        log(M.NATIVE_OFF)
+        return
+    end
     state.next_try=now()+RETRY_SECONDS                        -- at most one attempt per RETRY_SECONDS
     local ok,hook,why=pcall(M.hooks.install)
     if not ok then return disable(hook)end
@@ -287,6 +318,10 @@ local function sample()
     local frame=events.state.frame
     if state.frame==frame then return end
     state.frame=frame
+    if state.hook and not M.native_allowed()then
+        remove()
+        log('the native message hook was removed: the player turned it off')
+    end
     local h=hooked()
     local engine=engine_axis()
     if h~=0 then state.value=h
@@ -332,6 +367,7 @@ function M.block(spec)
         events.set_poller('wheel',sample)
     end
     local hook=state.hook
+    if not hook and flags~=0 and not M.native_allowed()then return false,M.NATIVE_OFF end
     if not hook or not hook.block then return flags==0,'no message hook (yet)'end
     local ok,why=pcall(function()hook.block(flags,flags~=0 and hook.now()+LEASE_MS or 0)end)
     if not ok then disable(why);return false,tostring(why)end
@@ -340,7 +376,8 @@ end
 function M.status()
     local blocked
     if state.hook and state.hook.blocked then local ok,n=pcall(state.hook.blocked);blocked=ok and n or nil end
-    return {hooked=state.hook~=nil,disabled=state.disabled,source=state.source,engine=state.engine_ok,
+    return {hooked=state.hook~=nil,native=M.native_allowed(),disabled=state.disabled,source=state.source,
+        engine=state.engine_ok,
         thread=state.hook and state.hook.thread or nil,blocking=state.block_flags or 0,blocked=blocked}
 end
 function M.reset_for_tests()
