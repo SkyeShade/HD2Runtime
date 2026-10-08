@@ -226,7 +226,9 @@ function Builder:game_icon(handle,x,y,w,h,opts)
     if x<0 or y<0 or x+w>self.width or y+h>self.height then return end
     local spec,why=self.icon_ready(handle)
     if not spec then self.waiting_images=(self.waiting_images or 0)+1;self.image_why=why;return end
-    self.items[#self.items+1]={kind='uvbitmap',icon=handle,page=spec.page,own=spec.own,uv=spec.uv,x=x,
+    -- the sprite's UVs for this box (inset by one texel of the mip level it samples; runtime/game_icons.lua uv)
+    local uv=spec.rect and game_icons.uv(spec,w,h)or spec.uv
+    self.items[#self.items+1]={kind='uvbitmap',icon=handle,page=spec.page,own=spec.own,uv=uv,x=x,
         y=self.height-(y+h),w=w,h=h,layer=self.layer+z,c=col,vars=vars,vkey=spec.page..'|'..key}
 end
 function Builder:image(handle,x,y,w,h,opts)

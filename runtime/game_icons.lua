@@ -65,9 +65,9 @@ function M.carriers()
     return carriers
 end
 
--- What drawing a handle needs now, read from the running game: {sprite, page, uv = {u0, v0, u1, v1} (inset by half a
--- page pixel, so filtering never reaches a neighbouring sprite), own = the icon's own material ('%016X') or nil (a
--- booster)}, or nil and why. Read-only: the atlas sprite record, the page texture and (a stratagem) its icon material.
+-- What drawing a handle needs now, read from the running game: {sprite, page, own = the icon's own material ('%016X')
+-- or nil (a booster), w, h (the sprite in pixels), rect = {u, v, du, dv}, page_w, page_h}, or nil and why. Read-only:
+-- the atlas sprite record, the page texture and (a stratagem) its icon material. M.uv turns it into the UVs for a box.
 function M.resolve(runtime,handle)
     local id=M.identity(handle)
     local ok,s,why=pcall(images.atlas_sprite,runtime,id.high,id.low)
@@ -83,8 +83,25 @@ function M.resolve(runtime,handle)
         end
         own=id.sprite
     end
-    local iu,iv=0.5/s.page_w,0.5/s.page_h
-    return {sprite=id.sprite,page=s.page,own=own,w=s.w,h=s.h,uv={s.u+iu,s.v+iv,s.u+s.du-iu,s.v+s.dv-iv}}
+    return {sprite=id.sprite,page=s.page,own=own,w=s.w,h=s.h,rect={s.u,s.v,s.du,s.dv},page_w=s.page_w,
+        page_h=s.page_h}
+end
+-- The UVs {u0, v0, u1, v1} that draw a resolved sprite in a w x h pixel box, inset so texture filtering never reaches a
+-- neighbouring sprite of the page. Drawn smaller than its pixels, the sprite is sampled from a smaller mip level of the
+-- page, whose texels at the sprite's edge already average in its neighbours (sprites are packed edge to edge; booster
+-- plates fill their whole square, live 0.30.0-dev r58): the inset is one texel of the mip level the box samples
+-- (2^k page pixels, k = ceil(log2(sprite / box))), half a page pixel at full size or larger, at most 16 page pixels.
+function M.uv(spec,w,h)
+    local function inset(sprite,box)
+        local ratio=sprite/math.max(box,1)
+        if ratio<=1 then return 0.5 end
+        local k=math.ceil(math.log(ratio)/math.log(2)-1e-9)
+        return math.min(16,2^k)
+    end
+    local r=spec.rect
+    local iu=inset(spec.w,w)/spec.page_w
+    local iv=inset(spec.h,h)/spec.page_h
+    return {r[1]+iu,r[2]+iv,r[1]+r[3]-iu,r[2]+r[4]-iv}
 end
 -- Whether an atlas page texture ('%016X') is loaded: true, or false and why. Read-only.
 function M.page_loaded(runtime,page)

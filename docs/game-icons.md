@@ -51,7 +51,12 @@ A screen GUI draws a **material**, never a texture or a sprite (`docs/custom-str
    and colour. `uv00` is the texture coordinate at the bitmap's top-left corner. `Gui.update_bitmap_uv(gui, id, material,
    uv00, uv11, position, size, color)` (exe `0x3E31D0`) moves one.
 
-The UVs are inset by half a page pixel on every side, so texture filtering never reaches a neighbouring sprite.
+The UVs are inset so texture filtering never reaches a neighbouring sprite. Sprites are packed edge to edge, and an
+icon drawn smaller than its 256 pixels is sampled from a smaller mip level of the page, whose texels at the sprite's
+edge already average in its neighbours: the booster plates, which fill their whole square, showed strips of their
+neighbours at their edges with a half-pixel inset (0.30.0-dev r58). The inset is one texel of the mip level the box
+samples: 2^k page pixels with k = ceil(log2(sprite / box)), half a page pixel at full size or larger, at most 16 page
+pixels (an icon drawn at a quarter of its size loses 4 of its 256 pixels on each side, about 1.5 %).
 
 **The sprite's page and rectangle are read from the running game** (`runtime/image_resources.lua` `atlas_sprite`):
 the resource manager's atlas sprite map (+0x2A0, the map the image setter's GUI API +0x348 reads) holds, per sprite
