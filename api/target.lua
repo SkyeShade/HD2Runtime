@@ -1593,6 +1593,67 @@ function M.new(describe)
         table.sort(names)
         return names
     end
+    -- The Helldiver TYPE (avatar_helldiver; docs/helldiver-fields.md): movement speeds, stamina and the six body zones
+    -- that every Helldiver this machine simulates reads. Writes change all of them: allow_shared and
+    -- allow_unverified_effect, always. A Helldiver holding a private copy keeps its copied values (:private_copies()).
+    function builders.helldiver(identity)
+        local writes=require('hd2runtime/domains/helldiver_writes')
+        local database=require('hd2runtime/domains/helldiver_fields')
+        assert(identity==nil or identity==database.name or identity==database.owner or identity=='avatar_helldiver',
+            'unknown Helldiver type: '..tostring(identity)..' (hd2.helldiver() is the avatar_helldiver type)')
+        local name=database.name
+        local function public(path,zone)
+            local result={}
+            for _,field in ipairs(writes.fields(path,zone))do
+                local names
+                if field.allowedValues then
+                    names={}
+                    for value,native in pairs(field.allowedValues)do names[native+1]=value end
+                end
+                result[#result+1]={semanticFieldId=field.semanticFieldId,type=field.type,unit=field.unit,
+                    currentDefault=field.currentDefault,editable=true,min=field.min,max=field.max,allowedValues=names,
+                    grade=field.grade,lifecycle=field.lifecycle,reads=field.reads,privateCopy=field.copyReader,
+                    semantics=field.semantics,shared=true,acknowledgements={'allow_shared','allow_unverified_effect'}}
+            end
+            return result
+        end
+        local function zone_target(zone)
+            local sub={}
+            function sub.describe()
+                return {name=name,zone=zone.id,index=zone.index,fields=public('damage_zone',zone.id)}
+            end
+            return setmetatable({resource='helldiver',helldiver=name,path='damage_zone',zone=zone.id},{__index=sub})
+        end
+        local methods={}
+        function methods.describe()
+            local zones={}
+            for _,zone in ipairs(database.zones)do zones[#zones+1]={id=zone.id,index=zone.index}end
+            return {name=name,type=database.owner,scope=database.sharedReason,liveTested=false,
+                acknowledgements={'allow_shared','allow_unverified_effect'},speedCap=database.speedCap,
+                privateCopies='A Helldiver spawned with an entity delta (the ship\'s avatar always is) reads a private '
+                    ..'copy of these records instead of the type: a write does not reach it until it spawns again '
+                    ..'without one. hd2.helldiver():private_copies() checks the Helldivers this machine simulates.',
+                zones=zones,fields=public('entity')}
+        end
+        function methods.zones()
+            local result={}
+            for _,zone in ipairs(database.zones)do result[#result+1]=zone_target(zone)end
+            return result
+        end
+        function methods.zone(_,identity_)
+            local zone=writes.zone(identity_)
+            if not zone then
+                error('UNKNOWN_ZONE: unknown Helldiver damage zone: '..tostring(identity_)..' ('
+                    ..table.concat(writes.ZONES,', ')..')',0)
+            end
+            return zone_target(zone)
+        end
+        methods.damage_zone=methods.zone
+        methods.damage_zones=methods.zones
+        -- Read-only: the Helldivers this machine simulates and which of them carries a private copy now.
+        function methods.private_copies()return writes.private_copies()end
+        return setmetatable({resource='helldiver',helldiver=name,path='entity'},{__index=methods})
+    end
     function builders.throwable(identity)
         local throwable_authoring=require('hd2runtime/domains/throwable_authoring')
         local entry=throwable_authoring.throwables[identity]

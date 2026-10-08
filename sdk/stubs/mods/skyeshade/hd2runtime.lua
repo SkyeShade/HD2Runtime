@@ -1213,6 +1213,46 @@ function HD2EnemyAttack:describe() end
 function HD2Enemy:attack(identity) end
 ---@return HD2EnemyAttack[]
 function HD2Enemy:attacks() end
+---@alias HD2HelldiverZoneName "arm_left"|"arm_right"|"body"|"head"|"leg_left"|"leg_right"
+---@alias HD2DamageMultiplierName "critical"|"none"|"normal"|"reduced"|"symbolic"
+
+---@class HD2HelldiverZone
+---@field resource "helldiver"
+---@field path "damage_zone"
+---@field helldiver "Helldiver"
+---@field zone HD2HelldiverZoneName
+local HD2HelldiverZone = {}
+---Zone fields: zone.damage_multiplier / zone.damage_multiplier_dps (by name: HD2DamageMultiplierName; for
+---damage over time "inherit" instead of "none"), zone.durable_resistance, zone.affects_main_health and
+---zone.health (from the next spawn). Writes need allow_shared=true and allow_unverified_effect=true.
+---@return table
+function HD2HelldiverZone:describe() end
+
+---@class HD2Helldiver
+---@field resource "helldiver"
+---@field path "entity"
+---@field helldiver "Helldiver"
+local HD2Helldiver = {}
+---The type, its scope (every Helldiver this machine simulates), zones and fields: hd2.fields.helldiver.speed_*,
+---hd2.fields.helldiver.stamina_* and hd2.fields.entity.explosive_damage_percentage, each with its vanilla value,
+---reviewed range, research grade and lifecycle (docs/helldiver-fields.md).
+---@return table
+function HD2Helldiver:describe() end
+---@return HD2HelldiverZone[]
+function HD2Helldiver:zones() end
+---@param identity HD2HelldiverZoneName|integer Zone name or index (0 = head).
+---@return HD2HelldiverZone
+function HD2Helldiver:zone(identity) end
+---@return HD2HelldiverZone[]
+function HD2Helldiver:damage_zones() end
+---@param identity HD2HelldiverZoneName|integer
+---@return HD2HelldiverZone
+function HD2Helldiver:damage_zone(identity) end
+---Read-only: the Helldivers this machine simulates and which carries a private copy that a type write does
+---not reach: {status="checked", simulated, avatars={{entity, local, avatar_copy, health_copy}}} or
+---{status="unavailable", reason}.
+---@return table
+function HD2Helldiver:private_copies() end
 ---@alias HD2AttackOutputId "40-K Meltagun"|"A/GM-17 Gas Mortar Sentry"|"A/M-12 Mortar Sentry"|"A/M-23 EMS Mortar Sentry"|"A/MLS-4X Rocket Sentry"|"AC-8 Autocannon"|"APW-1 Anti-Materiel Rifle"|"AR-11 Arbitrator"|"AR-2 Coyote"|"AR-23 Liberator"|"AR-23A Liberator Carbine"|"AR-23C Liberator Concussive"|"AR-23P Liberator Penetrator"|"AR-32 Pacifier"|"AR-59 Suppressor"|"AR-61 Tenderizer"|"AR/GL-21 One-Two"|"ARC-12 Blitzer"|"ARC-3 Arc Thrower"|"AX/AR-23 Guard Dog / gun"|"AX/ARC-3 K-9 / gun"|"AX/FLAM-75 Hot Dog / gun"|"AX/LAS-5 Rover / gun"|"AX/TX-13 Dog Breath / gun"|"B/FLAM-80 Cremator"|"BR-14 Adjudicator"|"CB-9 Exploding Crossbow"|"CQC-1 One True Flag"|"CQC-19 Stun Lance"|"CQC-2 Saber"|"CQC-20 Breaching Hammer"|"CQC-30 Stun Baton"|"CQC-5 Combat Hatchet"|"CQC-9 Defoliation Tool"|"DBS-2 Double Freedom"|"E/MG-101 HMG Emplacement"|"EAT-17 Expendable Anti-Tank"|"EAT-411 Leveller"|"EAT-700 Expendable Napalm"|"EXO-45 Patriot Exosuit / left_gun"|"EXO-45 Patriot Exosuit / right_gun"|"EXO-49 Emancipator Exosuit / left_gun"|"EXO-49 Emancipator Exosuit / right_gun"|"EXO-51 Lumberer Exosuit / left_gun"|"EXO-51 Lumberer Exosuit / right_gun"|"EXO-55 Breakthrough Exosuit / right_gun"|"Eagle 110mm Rocket Pods"|"Eagle 500kg Bomb"|"Eagle Airstrike"|"Eagle Cluster Bomb"|"Eagle Gas Airstrike"|"Eagle Napalm Airstrike"|"Eagle Smoke Strike"|"FAF-14 Spear"|"FLAM-40 Flamethrower"|"FLAM-66 Torcher"|"FRV (Super Earth variant) / gun"|"GATER Oil Rig / turret"|"GL-15 Evictor"|"GL-21 Grenade Launcher"|"GL-28 Belt-Fed Grenade Launcher"|"GL-52 De-Escalator"|"GP-20 Ultimatum"|"GP-31 Grenade Pistol"|"GR-8 Recoilless Rifle"|"JAR-5 Dominator"|"LAS-12 Sai"|"LAS-13 Trident"|"LAS-16 Sickle"|"LAS-17 Double-Edge Sickle"|"LAS-58 Talon"|"LAS-98 Laser Cannon"|"LAS-99 Quasar Cannon"|"M-1000 Maxigun"|"M-102 Gunner FRV / gun"|"M-103 Supply FRV / gun"|"M-104 Incinerator FRV / gun"|"M-105 Stalwart"|"M6C/SOCOM Pistol"|"M7S SMG"|"M90A Shotgun"|"MA5C Assault Rifle"|"MG-206 Heavy Machine Gun"|"MG-43 Machine Gun"|"MGX-42 Bullet Storm"|"MLS-4X Commando"|"MP-98 Knight"|"Orbital 120mm HE Barrage"|"Orbital Airburst Strike"|"Orbital EMS Strike"|"Orbital Gas Strike"|"Orbital Gatling Barrage"|"Orbital Napalm Barrage"|"Orbital Precision Strike"|"Orbital Railcannon Strike"|"Orbital Smoke Strike"|"Orbital Walking Barrage"|"P-11 Stim Pistol"|"P-113 Verdict"|"P-19 Redeemer"|"P-2 Peacemaker"|"P-33 Missile Pistol"|"P-34 Breacher"|"P-35 Re-Educator"|"P-4 Senator"|"P-69 Veto"|"P-92 Warrant"|"P/40-K Bolt Pistol"|"PLAS-1 Scorcher"|"PLAS-101 Purifier"|"PLAS-15 Loyalist"|"PLAS-39 Accelerator Rifle"|"PLAS-45 Epoch"|"R-2 Amendment"|"R-2124 Constitution"|"R-36 Eruptor"|"R-4 Hyena"|"R-6 Deadeye"|"R-63 Diligence"|"R-63CS Diligence Counter Sniper"|"R-72 Censor"|"R/40-K Hot-Shot Marksman Rifle"|"RL-77 Airburst Rocket Launcher"|"RS-422 Railgun"|"S-11 Speargun"|"S-11 Speargun (spare twin)"|"SG-20 Halt"|"SG-22 Bushwhacker"|"SG-225 Breaker"|"SG-225IE Breaker Incendiary"|"SG-225SP Breaker Spray&Pray"|"SG-451 Cookout"|"SG-8 Punisher"|"SG-88 Break-Action Shotgun"|"SG-8P Punisher Plasma"|"SG-8S Slugger"|"SG-97 Sweeper"|"SMG-203 Gallant"|"SMG-32 Reprimand"|"SMG-37 Defender"|"SMG-72 Pummeler"|"SMG/FLAM-34 Stoker"|"StA-11 SMG"|"StA-52 Assault Rifle"|"StA-X3 W.A.S.P. Launcher"|"TD-110 Maelstrom / attach_tank_gun"|"TD-110 Maelstrom / slot_2"|"TD-110 Maelstrom / slot_3"|"TD-110 Maelstrom / slot_4"|"TD-220 Bastion MK XVI"|"TD-220 Bastion MK XVI / attach_tank_gun"|"TD-220 Bastion MK XVI / attach_tank_gun_mg"|"TX-41 Sterilizer"|"VG-70 Variable"|"output/v1/arc/arc-12-blitzer"|"output/v1/arc/arc-3-arc-thrower"|"output/v1/arc/ax-arc-3-k-9-gun"|"output/v1/beam/40-k-meltagun"|"output/v1/beam/ax-las-5-rover-gun"|"output/v1/beam/las-13-trident"|"output/v1/beam/las-98-laser-cannon"|"output/v1/melee/cqc-1-one-true-flag"|"output/v1/melee/cqc-19-stun-lance"|"output/v1/melee/cqc-2-saber"|"output/v1/melee/cqc-20-breaching-hammer"|"output/v1/melee/cqc-30-stun-baton"|"output/v1/melee/cqc-5-combat-hatchet"|"output/v1/melee/cqc-9-defoliation-tool"|"output/v1/projectile/a-gm-17-gas-mortar-sentry-projectile-342"|"output/v1/projectile/a-m-12-mortar-sentry-projectile-346"|"output/v1/projectile/a-m-23-ems-mortar-sentry"|"output/v1/projectile/a-mls-4x-rocket-sentry-projectile-320"|"output/v1/projectile/ac-8-autocannon"|"output/v1/projectile/ac-8-autocannon-projectile-284"|"output/v1/projectile/apw-1-anti-materiel-rifle"|"output/v1/projectile/ar-11-arbitrator"|"output/v1/projectile/ar-2-coyote"|"output/v1/projectile/ar-23-liberator"|"output/v1/projectile/ar-23a-liberator-carbine"|"output/v1/projectile/ar-23c-liberator-concussive"|"output/v1/projectile/ar-23p-liberator-penetrator"|"output/v1/projectile/ar-32-pacifier"|"output/v1/projectile/ar-59-suppressor"|"output/v1/projectile/ar-61-tenderizer"|"output/v1/projectile/ar-gl-21-one-two"|"output/v1/projectile/ax-ar-23-guard-dog-gun"|"output/v1/projectile/br-14-adjudicator"|"output/v1/projectile/cb-9-exploding-crossbow"|"output/v1/projectile/dbs-2-double-freedom"|"output/v1/projectile/e-mg-101-hmg-emplacement-projectile-83"|"output/v1/projectile/eagle-110mm-rocket-pods-projectile-82"|"output/v1/projectile/eagle-500kg-bomb-projectile-239"|"output/v1/projectile/eagle-airstrike-projectile-170"|"output/v1/projectile/eagle-cluster-bomb-projectile-286"|"output/v1/projectile/eagle-gas-airstrike-projectile-188"|"output/v1/projectile/eagle-napalm-airstrike-projectile-141"|"output/v1/projectile/eagle-smoke-strike-projectile-130"|"output/v1/projectile/eagle-smoke-strike-projectile-16"|"output/v1/projectile/eat-17-expendable-anti-tank"|"output/v1/projectile/eat-411-leveller"|"output/v1/projectile/eat-700-expendable-napalm"|"output/v1/projectile/exo-45-patriot-exosuit-left-gun"|"output/v1/projectile/exo-45-patriot-exosuit-right-gun"|"output/v1/projectile/exo-49-emancipator-exosuit-left-gun"|"output/v1/projectile/exo-49-emancipator-exosuit-right-gun"|"output/v1/projectile/exo-51-lumberer-exosuit-right-gun"|"output/v1/projectile/exo-55-breakthrough-exosuit-right-gun"|"output/v1/projectile/faf-14-spear"|"output/v1/projectile/frv-super-earth-variant-gun"|"output/v1/projectile/gater-oil-rig-turret"|"output/v1/projectile/gl-15-evictor"|"output/v1/projectile/gl-21-grenade-launcher"|"output/v1/projectile/gl-28-belt-fed-grenade-launcher"|"output/v1/projectile/gl-52-de-escalator"|"output/v1/projectile/gp-20-ultimatum"|"output/v1/projectile/gp-31-grenade-pistol-projectile-263"|"output/v1/projectile/gr-8-recoilless-rifle"|"output/v1/projectile/jar-5-dominator"|"output/v1/projectile/las-12-sai"|"output/v1/projectile/las-16-sickle"|"output/v1/projectile/las-17-double-edge-sickle"|"output/v1/projectile/las-58-talon"|"output/v1/projectile/las-99-quasar-cannon"|"output/v1/projectile/m-1000-maxigun"|"output/v1/projectile/m-102-gunner-frv-gun"|"output/v1/projectile/m-103-supply-frv-gun"|"output/v1/projectile/m-105-stalwart"|"output/v1/projectile/m6c-socom-pistol"|"output/v1/projectile/m7s-smg"|"output/v1/projectile/m90a-shotgun"|"output/v1/projectile/ma5c-assault-rifle"|"output/v1/projectile/mg-206-heavy-machine-gun"|"output/v1/projectile/mg-43-machine-gun"|"output/v1/projectile/mg-43-machine-gun-projectile-49"|"output/v1/projectile/mgx-42-bullet-storm"|"output/v1/projectile/mls-4x-commando"|"output/v1/projectile/mp-98-knight"|"output/v1/projectile/orbital-120mm-he-barrage-projectile-194"|"output/v1/projectile/orbital-airburst-strike-projectile-158"|"output/v1/projectile/orbital-ems-strike-projectile-74"|"output/v1/projectile/orbital-gas-strike-projectile-197"|"output/v1/projectile/orbital-gatling-barrage-projectile-77"|"output/v1/projectile/orbital-napalm-barrage-projectile-234"|"output/v1/projectile/orbital-precision-strike-projectile-100"|"output/v1/projectile/orbital-railcannon-strike-projectile-277"|"output/v1/projectile/orbital-smoke-strike-projectile-247"|"output/v1/projectile/orbital-walking-barrage-projectile-80"|"output/v1/projectile/p-11-stim-pistol"|"output/v1/projectile/p-113-verdict"|"output/v1/projectile/p-19-redeemer"|"output/v1/projectile/p-2-peacemaker"|"output/v1/projectile/p-33-missile-pistol"|"output/v1/projectile/p-33-missile-pistol-projectile-127"|"output/v1/projectile/p-34-breacher"|"output/v1/projectile/p-35-re-educator"|"output/v1/projectile/p-4-senator"|"output/v1/projectile/p-40-k-bolt-pistol"|"output/v1/projectile/p-69-veto"|"output/v1/projectile/p-92-warrant"|"output/v1/projectile/p-92-warrant-projectile-319"|"output/v1/projectile/plas-1-scorcher"|"output/v1/projectile/plas-101-purifier"|"output/v1/projectile/plas-15-loyalist"|"output/v1/projectile/plas-39-accelerator-rifle"|"output/v1/projectile/plas-45-epoch"|"output/v1/projectile/r-2-amendment"|"output/v1/projectile/r-2124-constitution"|"output/v1/projectile/r-36-eruptor"|"output/v1/projectile/r-4-hyena"|"output/v1/projectile/r-40-k-hot-shot-marksman-rifle"|"output/v1/projectile/r-6-deadeye"|"output/v1/projectile/r-63-diligence"|"output/v1/projectile/r-63cs-diligence-counter-sniper"|"output/v1/projectile/r-72-censor"|"output/v1/projectile/rl-77-airburst-rocket-launcher"|"output/v1/projectile/rl-77-airburst-rocket-launcher-projectile-96"|"output/v1/projectile/rs-422-railgun"|"output/v1/projectile/s-11-speargun"|"output/v1/projectile/s-11-speargun-spare-twin"|"output/v1/projectile/sg-20-halt"|"output/v1/projectile/sg-22-bushwhacker"|"output/v1/projectile/sg-225-breaker"|"output/v1/projectile/sg-225ie-breaker-incendiary"|"output/v1/projectile/sg-225sp-breaker-spray-pray"|"output/v1/projectile/sg-451-cookout"|"output/v1/projectile/sg-8-punisher"|"output/v1/projectile/sg-88-break-action-shotgun"|"output/v1/projectile/sg-8p-punisher-plasma"|"output/v1/projectile/sg-8s-slugger"|"output/v1/projectile/sg-97-sweeper"|"output/v1/projectile/smg-203-gallant"|"output/v1/projectile/smg-32-reprimand"|"output/v1/projectile/smg-37-defender-projectile-150"|"output/v1/projectile/smg-37-defender-projectile-3"|"output/v1/projectile/smg-72-pummeler"|"output/v1/projectile/smg-flam-34-stoker"|"output/v1/projectile/sta-11-smg"|"output/v1/projectile/sta-52-assault-rifle"|"output/v1/projectile/sta-x3-w-a-s-p-launcher"|"output/v1/projectile/sta-x3-w-a-s-p-launcher-projectile-330"|"output/v1/projectile/td-110-maelstrom-attach-tank-gun"|"output/v1/projectile/td-110-maelstrom-slot-2"|"output/v1/projectile/td-110-maelstrom-slot-3"|"output/v1/projectile/td-110-maelstrom-slot-4"|"output/v1/projectile/td-220-bastion-mk-xvi-attach-tank-gun"|"output/v1/projectile/td-220-bastion-mk-xvi-attach-tank-gun-mg"|"output/v1/projectile/td-220-bastion-mk-xvi-projectile-36"|"output/v1/projectile/vg-70-variable"|"output/v1/spray/ax-flam-75-hot-dog-gun"|"output/v1/spray/ax-tx-13-dog-breath-gun"|"output/v1/spray/b-flam-80-cremator"|"output/v1/spray/exo-51-lumberer-exosuit-left-gun"|"output/v1/spray/flam-40-flamethrower"|"output/v1/spray/flam-66-torcher"|"output/v1/spray/m-104-incinerator-frv-gun"|"output/v1/spray/tx-41-sterilizer"
 
 ---@class HD2AttackOutput
@@ -1705,6 +1745,8 @@ function HD2Weapon:attachment_definition(slot, identity) end
 ---@field constitution "zone.constitution"
 ---@field durable_resistance "zone.durable_resistance"
 ---@field explosive_damage_percentage "zone.explosive_damage_percentage"
+---@field damage_multiplier "zone.damage_multiplier"
+---@field damage_multiplier_dps "zone.damage_multiplier_dps"
 
 ---@class HD2Fields_jump
 ---@field vertical_launch_velocity "jump.vertical_launch_velocity"
@@ -1792,6 +1834,29 @@ function HD2Weapon:attachment_definition(slot, identity) end
 ---@class HD2Fields_gore
 ---@field whole_body_gib_damage "gore.whole_body_gib_damage"
 
+---@class HD2Fields_helldiver
+---@field speed_direction_factor "helldiver.speed.direction_factor"
+---@field speed_aim "helldiver.speed.aim"
+---@field speed_walk "helldiver.speed.walk"
+---@field speed_jog "helldiver.speed.jog"
+---@field speed_sprint "helldiver.speed.sprint"
+---@field speed_sprint_exhausted "helldiver.speed.sprint_exhausted"
+---@field speed_crouch_aim "helldiver.speed.crouch_aim"
+---@field speed_crouch_walk "helldiver.speed.crouch_walk"
+---@field speed_crouch_jog "helldiver.speed.crouch_jog"
+---@field speed_crouch_sprint "helldiver.speed.crouch_sprint"
+---@field speed_prone "helldiver.speed.prone"
+---@field speed_swim "helldiver.speed.swim"
+---@field stamina_sprint_duration "helldiver.stamina.sprint_duration"
+---@field stamina_recover_time_standing "helldiver.stamina.recover_time_standing"
+---@field stamina_recover_time_crouching "helldiver.stamina.recover_time_crouching"
+---@field stamina_recover_time_prone "helldiver.stamina.recover_time_prone"
+---@field stamina_recover_delay "helldiver.stamina.recover_delay"
+---@field stamina_cost_jump "helldiver.stamina.cost_jump"
+---@field stamina_cost_dodge "helldiver.stamina.cost_dodge"
+---@field stamina_cost_climb "helldiver.stamina.cost_climb"
+---@field stamina_cost_slide "helldiver.stamina.cost_slide"
+
 ---@class HD2Fields_throwable
 ---@field starting_count "throwable.starting_count"
 ---@field max_count "throwable.max_count"
@@ -1847,6 +1912,7 @@ function HD2Weapon:attachment_definition(slot, identity) end
 ---@field attachment HD2Fields_attachment
 ---@field booster HD2Fields_booster
 ---@field gore HD2Fields_gore
+---@field helldiver HD2Fields_helldiver
 ---@field throwable HD2Fields_throwable
 ---@field ammunition HD2Fields_ammunition
 
@@ -3726,6 +3792,11 @@ function hd2.structure(name) end
 ---and how often each enemy type spawns (hd2.enemies.spawn_weight; docs/enemy-spawns.md).
 ---@type HD2Enemies|fun(filter?: {kind?: "enemy"|"structure", faction?: "terminids"|"automatons"|"illuminate"|"neutral"}): string[]
 hd2.enemies = {}
+---The Helldiver type (avatar_helldiver; docs/helldiver-fields.md): movement speeds, stamina and body zones of every
+---Helldiver this machine simulates. Every write needs allow_shared=true and allow_unverified_effect=true.
+---@param name? "Helldiver"
+---@return HD2Helldiver
+function hd2.helldiver(name) end
 ---A catalogued attack output by semantic ID or owner weapon name (see docs/attack-outputs.md).
 ---@param identity HD2AttackOutputId
 ---@return HD2AttackOutput

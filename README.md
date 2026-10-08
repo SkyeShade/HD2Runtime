@@ -81,6 +81,9 @@ HD2Runtime is designed to fail safely when a game structure or ownership relatio
   (`hd2.explosions.list` / `describe`, `sdk/ExplosionCatalogue.json`); edit any of them (`hd2.explosion(name)`: radii,
   shrapnel count, damage), use one with a known package as a weapon's impact or expiry explosion, and request 141 of
   them at a position (see `docs/explosions.md`)
+- Type-wide Helldiver fields (development line, not live-tested; `hd2.helldiver()`): movement speeds, stamina and
+  the six body zones' damage multipliers, durable share, damage to main health and health. They change every
+  Helldiver this machine simulates, so every write needs `allow_shared` (see `docs/helldiver-fields.md`)
 - Generated SDK metadata for tools such as HD2RuntimeGUI
 
 Unsupported or ambiguous values remain read-only rather than being modified speculatively.

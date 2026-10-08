@@ -539,6 +539,9 @@ local function hash_value(world,header_address,key)
     end
     return nil
 end
+-- Read-only, for other modules that look an entity up in one of these hashes (domains/helldiver_writes.lua: the avatar
+-- manager's private-copy maps).
+M.hash_value=hash_value
 -- An entity's descriptor through the game's own entity map, only when it names that same entity; nil otherwise.
 local function entity_descriptor(world,entity)
     local manager=world.view.pointer(world.game+WI.entities)

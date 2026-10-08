@@ -112,6 +112,14 @@ def outputs():
         field_id=definition['id'];domain,name=field_id.split('.',1)
         if field_id in fields.setdefault(domain,{}).values():continue
         fields[domain].setdefault(ident(name),field_id)
+    # Type-wide Helldiver fields (domains/helldiver_writes.lua; docs/helldiver-fields.md): hd2.fields.helldiver.* and
+    # the zone damage multipliers; the zone and entity ids it shares with enemies keep their constants.
+    for definition in json.loads((ROOT/'schemas/helldiver_fields.json').read_text())['fields']:
+        field_id=definition['id'];domain,name=field_id.split('.',1)
+        if field_id in fields.setdefault(domain,{}).values():continue
+        constant=ident(name)
+        assert constant not in fields[domain],'Helldiver field constant collision: '+field_id
+        fields[domain][constant]=field_id
     for definition in json.loads((ROOT/'schemas/throwable_fields.json').read_text())['fields']:
         field_id=definition['id'];domain,name=field_id.split('.',1)
         if field_id in fields.setdefault(domain,{}).values():continue
@@ -629,6 +637,31 @@ def outputs():
         '---@param identity string Attack id ("slot_0", "slot_0_impact", "slot_0_projectile", "slot_0_impact_explosion") or an exactly matched wiki attack name.',
         '---@return HD2EnemyAttack','function HD2Enemy:attack(identity) end',
         '---@return HD2EnemyAttack[]','function HD2Enemy:attacks() end']
+    helldiver=json.loads((ROOT/'sdk/HelldiverFieldCapabilities.json').read_text(encoding='utf-8'))
+    alias('HD2HelldiverZoneName',[zone['id'] for zone in helldiver['target']['zones']])
+    alias('HD2DamageMultiplierName',helldiver['enums']['damage_multiplier']['values'])
+    stub+=['','---@class HD2HelldiverZone','---@field resource "helldiver"','---@field path "damage_zone"',
+        '---@field helldiver "Helldiver"','---@field zone HD2HelldiverZoneName','local HD2HelldiverZone = {}',
+        '---Zone fields: zone.damage_multiplier / zone.damage_multiplier_dps (by name: HD2DamageMultiplierName; for',
+        '---damage over time "inherit" instead of "none"), zone.durable_resistance, zone.affects_main_health and',
+        '---zone.health (from the next spawn). Writes need allow_shared=true and allow_unverified_effect=true.',
+        '---@return table','function HD2HelldiverZone:describe() end',
+        '','---@class HD2Helldiver','---@field resource "helldiver"','---@field path "entity"',
+        '---@field helldiver "Helldiver"','local HD2Helldiver = {}',
+        '---The type, its scope (every Helldiver this machine simulates), zones and fields: hd2.fields.helldiver.speed_*,',
+        '---hd2.fields.helldiver.stamina_* and hd2.fields.entity.explosive_damage_percentage, each with its vanilla value,',
+        '---reviewed range, research grade and lifecycle (docs/helldiver-fields.md).',
+        '---@return table','function HD2Helldiver:describe() end',
+        '---@return HD2HelldiverZone[]','function HD2Helldiver:zones() end',
+        '---@param identity HD2HelldiverZoneName|integer Zone name or index (0 = head).',
+        '---@return HD2HelldiverZone','function HD2Helldiver:zone(identity) end',
+        '---@return HD2HelldiverZone[]','function HD2Helldiver:damage_zones() end',
+        '---@param identity HD2HelldiverZoneName|integer','---@return HD2HelldiverZone',
+        'function HD2Helldiver:damage_zone(identity) end',
+        '---Read-only: the Helldivers this machine simulates and which carries a private copy that a type write does',
+        '---not reach: {status="checked", simulated, avatars={{entity, local, avatar_copy, health_copy}}} or',
+        '---{status="unavailable", reason}.',
+        '---@return table','function HD2Helldiver:private_copies() end']
     alias('HD2AttackOutputId',sorted({o['semanticId'] for o in attack_outputs['outputs']}
         |{o['owner']['name'] for o in attack_outputs['outputs']}))
     stub+=['','---@class HD2AttackOutput','---@field resource "attack_output"','---@field output string',
@@ -767,6 +800,9 @@ def outputs():
         '---and how often each enemy type spawns (hd2.enemies.spawn_weight; docs/enemy-spawns.md).',
         '---@type HD2Enemies|fun(filter?: {kind?: "enemy"|"structure", faction?: "terminids"|"automatons"|"illuminate"|"neutral"}): string[]',
         'hd2.enemies = {}',
+        '---The Helldiver type (avatar_helldiver; docs/helldiver-fields.md): movement speeds, stamina and body zones of every',
+        '---Helldiver this machine simulates. Every write needs allow_shared=true and allow_unverified_effect=true.',
+        '---@param name? "Helldiver"','---@return HD2Helldiver','function hd2.helldiver(name) end',
         '---A catalogued attack output by semantic ID or owner weapon name (see docs/attack-outputs.md).',
         '---@param identity HD2AttackOutputId','---@return HD2AttackOutput','function hd2.attack_output(identity) end',
         '---A catalogued explosion by semantic id or label (docs/explosions.md, sdk/ExplosionCatalogue.json): the target',
@@ -886,6 +922,7 @@ def outputs():
             'sdk/docs/projectile-homing.md':(ROOT/'docs/projectile-homing.md').read_text(encoding='utf-8'),
             'sdk/docs/projectile-shots.md':(ROOT/'docs/projectile-shots.md').read_text(encoding='utf-8'),
             'sdk/docs/enemy-spawns.md':(ROOT/'docs/enemy-spawns.md').read_text(encoding='utf-8'),
+            'sdk/docs/helldiver-fields.md':(ROOT/'docs/helldiver-fields.md').read_text(encoding='utf-8'),
             'sdk/docs/ui-overlay.md':(ROOT/'docs/ui-overlay.md').read_text(encoding='utf-8'),
             'sdk/docs/sounds.md':(ROOT/'docs/sounds.md').read_text(encoding='utf-8'),
             'sdk/docs/mod-store.md':(ROOT/'docs/mod-store.md').read_text(encoding='utf-8'),
