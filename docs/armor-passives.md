@@ -15,7 +15,7 @@ for _, m in ipairs(mine.effective) do
     hd2.mod():log(('%s %s %g (%s)'):format(m.key_name, m.type, m.value, m.source))
 end
 
-local h = hd2.player_passives.set({armor = 'SERVO-ASSISTED', second = 'SCOUT'})
+local h = hd2.player_passives.set({armor = 'SERVO-ASSISTED', second = 'SCOUT', allow_unverified_effect = true})
 if h.status == 'refused' then hd2.mod():log(h.code .. ': ' .. h.reason) end
 h:stop()                                    -- the kit's own passives again
 ```
@@ -50,7 +50,7 @@ A modifier row is `{key, type, value}`:
 
 ## The write API
 
-`hd2.player_passives.set({armor = <name or id>, second = <name or id | false>})` returns a handle
+`hd2.player_passives.set({armor = <name or id>, second = <name or id | false>, allow_unverified_effect = true})` returns a handle
 `{kind, owner, status, code, reason, armor, second}` with `stop()` and `describe()`.
 
 - **`armor`** replaces the armor passive (applied record +0x3C). nil keeps the kit's own.

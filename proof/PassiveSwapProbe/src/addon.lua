@@ -56,7 +56,7 @@ local function apply(why)
         passives_line('after '..why)
         return
     end
-    handle=hd2.player_passives.set({armor=m.passive,second=state.second and SECOND or false})
+    handle=hd2.player_passives.set({armor=m.passive,second=state.second and SECOND or false,allow_unverified_effect=true})
     mod:log(('MODE %s%s (%s): handle %s%s'):format(m.name,state.second and(' + second '..SECOND)or'',why,
         tostring(handle.status),handle.code and(': '..handle.code..': '..tostring(handle.reason))or''))
     if handle.status=='refused'then handle=nil;return end

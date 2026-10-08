@@ -2589,6 +2589,7 @@ local HD2PlayerPassives = {}
 ---@field armor HD2PassiveName|integer|nil The armor passive (name or id); nil: the kit's own.
 ---@field second HD2PassiveName|integer|false|nil A second passive in the helmet slot; nil or false: none (the kit's).
 ---@field owner string|nil Mod id (defaults to the calling mod).
+---@field allow_unverified_effect boolean Required (true): an override is not live-tested yet; without it set() is refused ACKNOWLEDGEMENT_REQUIRED.
 local HD2PlayerPassiveSpec = {}
 
 ---An armor passive override. A refusal never raises: status is refused with a code and a reason.

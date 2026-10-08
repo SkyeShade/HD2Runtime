@@ -3,7 +3,7 @@
 --
 --   for _, p in ipairs(hd2.passives.list()) do print(p.id, p.name) end
 --   local mine = hd2.player_passives()           -- {armor_kit, armor_passive, helmet_passive, effective, ...} or nil, code, reason
---   local h = hd2.player_passives.set({armor = 'SERVO-ASSISTED', second = 'SCOUT'})
+--   local h = hd2.player_passives.set({armor = 'SERVO-ASSISTED', second = 'SCOUT', allow_unverified_effect = true})
 --   h:stop()                                      -- the kit's own passives again
 --
 -- A passive is named by its game name (any case) or its id. armor replaces the armor passive (record +0x3C); second
@@ -16,7 +16,7 @@ local events=require('hd2runtime/runtime/events')
 local passives=require('hd2runtime/runtime/player_passives')
 local D=require('hd2runtime/domains/player_passives')
 local M={}
-local OPTIONS={armor=true,second=true,owner=true}
+local OPTIONS={armor=true,second=true,owner=true,allow_unverified_effect=true}
 local UNUSED={}
 for _,id in ipairs(D.unused)do UNUSED[id]=true end
 
@@ -99,6 +99,10 @@ function M.set(spec)
     if type(spec)~='table'then return refuse(handle,'INVALID_OPTION','spec must be a table {armor, second}')end
     for key in pairs(spec)do
         if not OPTIONS[key]then return refuse(handle,'INVALID_OPTION','unsupported option: '..tostring(key))end
+    end
+    if spec.allow_unverified_effect~=true then
+        return refuse(handle,'ACKNOWLEDGEMENT_REQUIRED','a passive override is not yet shown in game: pass '
+            ..'allow_unverified_effect = true')
     end
     local ok,armor,reason=slot_value(handle,spec,'armor')
     if not ok then return refuse(handle,armor,reason)end

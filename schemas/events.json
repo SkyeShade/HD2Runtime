@@ -3698,6 +3698,11 @@
       "owner",
       "string|nil",
       "Mod id (defaults to the calling mod)."
+     ],
+     [
+      "allow_unverified_effect",
+      "boolean",
+      "Required (true): an override is not live-tested yet; without it set() is refused ACKNOWLEDGEMENT_REQUIRED."
      ]
     ],
     "methods": []

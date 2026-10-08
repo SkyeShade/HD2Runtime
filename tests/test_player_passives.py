@@ -133,7 +133,7 @@ return 'ok'
 
     def test_override_reapply_after_a_kit_change_and_restore(self):
         self.check(r'''
-local h=hd2.player_passives.set({armor='SERVO-ASSISTED',second='SCOUT'})
+local h=hd2.player_passives.set({armor='SERVO-ASSISTED',second='SCOUT',allow_unverified_effect=true})
 assert(h.status=='active',tostring(h.code)..' '..tostring(h.reason))
 assert(armor()==8 and second()==2 and writes()==2,'one 4-byte write per slot: '..writes())
 for _,w in ipairs(W.runtime.writes)do assert(#w.bytes==4)end
@@ -170,15 +170,15 @@ return 'ok'
 
     def test_stop_leaves_values_the_game_rederived_and_a_second_set_replaces(self):
         self.check(r'''
-local h=hd2.player_passives.set({armor=6,owner='mods/a'})       -- ENGINEERING KIT
+local h=hd2.player_passives.set({armor=6,owner='mods/a',allow_unverified_effect=true})       -- ENGINEERING KIT
 assert(h.status=='active'and armor()==6 and second()==0 and writes()==1)
 -- The same mod again: replaced in place (no restore in between).
-local h2=hd2.player_passives.set({armor=8,second=7,owner='mods/a'})
+local h2=hd2.player_passives.set({armor=8,second=7,owner='mods/a',allow_unverified_effect=true})
 assert(h2.status=='active'and h.status=='replaced'and armor()==8 and second()==7 and writes()==3,writes())
 h:stop()
 assert(armor()==8 and writes()==3,'stopping the replaced handle writes nothing')
 -- Another mod is refused while it is held.
-local other=hd2.player_passives.set({armor=2,owner='mods/b'})
+local other=hd2.player_passives.set({armor=2,owner='mods/b',allow_unverified_effect=true})
 assert(other.status=='refused'and other.code=='ALREADY_SET',tostring(other.code))
 assert(hd2.player_passives.status().owner=='mods/a'and hd2.player_passives.status().second.name=='MED-KIT')
 -- The kit changes and stop() comes before the Runtime looked again: the armor slot is the game's (left alone); the
@@ -187,7 +187,7 @@ game_sets({FORTIFIED_KIT,3})
 h2:stop()
 assert(armor()==3 and second()==0 and writes()==4,armor()..' '..second()..' '..writes())
 -- Now another mod may.
-local h3=hd2.player_passives.set({second='SCOUT',owner='mods/b'})
+local h3=hd2.player_passives.set({second='SCOUT',owner='mods/b',allow_unverified_effect=true})
 assert(h3.status=='active'and second()==2,tostring(h3.code))
 h3:stop()
 return 'ok'
@@ -196,6 +196,7 @@ return 'ok'
     def test_every_refusal(self):
         self.check(r'''
 local function refused(spec,code)
+    if type(spec)=='table'and spec.allow_unverified_effect==nil then spec.allow_unverified_effect=true end
     local h=hd2.player_passives.set(spec)
     assert(h.status=='refused'and h.code==code,code..': got '..tostring(h.code)..' '..tostring(h.reason))
     return h
@@ -203,6 +204,8 @@ end
 refused(5,'INVALID_OPTION')
 refused({},'INVALID_OPTION')
 refused({armor=8,colour='red'},'INVALID_OPTION')
+-- The acknowledgement: an override is not live-tested yet.
+refused({armor=8,allow_unverified_effect=false},'ACKNOWLEDGEMENT_REQUIRED')
 refused({second=0},'INVALID_OPTION')
 refused({armor='NOPE'},'UNKNOWN_PASSIVE')
 refused({armor=4},'UNKNOWN_PASSIVE')
@@ -252,14 +255,14 @@ return 'ok'
         self.check(r'''
 -- The armor kit carries INTEGRATED EXPLOSIVES (17): its package is resident, so it may become the second passive.
 game_sets({EXPLOSIVE_KIT,17})
-local h=hd2.player_passives.set({armor='SERVO-ASSISTED',second='INTEGRATED EXPLOSIVES'})
+local h=hd2.player_passives.set({armor='SERVO-ASSISTED',second='INTEGRATED EXPLOSIVES',allow_unverified_effect=true})
 assert(h.status=='active'and armor()==8 and second()==17,tostring(h.code)..' '..tostring(h.reason))
 h:stop()
 assert(armor()==17 and second()==0)
 game_sets({SANCTIONER,32})
 -- No record yet: waiting, applied when it appears.
 map(nil)
-local w=hd2.player_passives.set({armor=8})
+local w=hd2.player_passives.set({armor=8,allow_unverified_effect=true})
 assert(w.status=='waiting'and w.code=='NO_RECORD'and writes()==4,tostring(w.status)..' '..tostring(w.code))
 tick(4)
 assert(w.status=='waiting'and armor()==32)
