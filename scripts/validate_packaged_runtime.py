@@ -4659,6 +4659,63 @@ return function(frame,watches,counts,lines)
 end
 """
 EXTRAS['proof-passive-swap'] = {'after': PROOF_PASSIVE_SWAP, 'readOnly': True}
+# The armor stats live test (proof/ArmorStatProbe 0.1.0; runtime/armor_stats.lua, domains/armor_stats_writes.lua): it
+# loads from the archive and logs the snapshot's state; the packaged module proves the research's pins, the 12 slot-map
+# pins and the constants on the snapshot's game.dll; the local player reads as avatar slot 0 with stamina factor 0.75 =
+# the RS-100 Sanctioner's (all light) and armor bonus 0; the kit's live stats are the research's (rating 50, speed 550,
+# stamina regen 125); the heavy class reads 2 / 0.9 / 1.5 and its pages are PAGE_EXECUTE_READWRITE (the reason the class
+# fields are read-only); the members and pieces a write would target are private read-write memory (a guarded kit
+# resolution on the packaged modules is a no-op). No key is pressed: nothing is written.
+PROOF_ARMOR_STATS = r"""
+return function(frame,watches,counts,lines)
+ local results={}
+ local function step(name,ok,detail)results[#results+1]={name=name,passed=ok==true,detail=detail}end
+ local function count(text)local n=0;for _,line in ipairs(lines)do if line:find(text,1,true)then n=n+1 end end;return n end
+ for _=1,60 do frame()end
+ step('the probe loads from the archive and logs the snapshot\'s state',
+  count('ArmorStatProbe 0.1.0 ARMOR STAT PROBE BUILD')==1
+  and count('armor kit 4DD749C6 RS-100 SANCTIONER; STAMINA FACTOR 0.75 (the kit gives 0.75); ARMOR BONUS 0')==1,
+  table.concat(lines,' | '):sub(-700))
+ local world=require('hd2runtime/runtime/event_world').open()
+ local A=require('hd2runtime/runtime/armor_stats')
+ local ok,why=A.prove(world)
+ step('the packaged armor module proves every pin and constant on the snapshot\'s game.dll',ok==true,tostring(why))
+ local hd2=require('mods/skyeshade/hd2runtime')
+ local me,code,reason=hd2.armor_stats.player():describe()
+ step('the local player: avatar slot 0, stamina factor 0.75 = the kit\'s, armor bonus 0',me~=nil and me.slot==0
+  and me.stamina_factor==0.75 and me.armor_bonus==0 and me.armor_kit~=nil and me.armor_kit.id=='4DD749C6'
+  and me.derived~=nil and me.derived.stamina_factor==0.75 and me.overridden==false,tostring(code)..' '..tostring(reason))
+ local kit=hd2.armor_stats.kit('4DD749C6'):describe()
+ step('the worn kit\'s live stats are the research\'s: rating 50, speed 550, stamina regen 125',kit.source=='live'
+  and kit.stats.rating==50 and kit.stats.speed==550 and kit.stats.stamina_regen==125 and kit.tables_vanilla==true
+  and kit.pieces.torso~=nil and kit.pieces.torso.weight==0,tostring(kit.source)..' '..tostring(kit.reason))
+ local heavy=hd2.armor_class('heavy'):describe()
+ local r=world.runtime.query(world.game+require('hd2runtime/domains/armor_stats').tables.armor.rva)
+ step('the heavy class reads 2 / 0.9 / 1.5, read-only: its page is PAGE_EXECUTE_READWRITE',heavy.source=='live'
+  and heavy.rating.value==2 and heavy.speed.value==0.9 and heavy.stamina.value==1.5 and heavy.editable==false
+  and r~=nil and r.protect==0x40,tostring(r and r.protect))
+ local s=A.read_player(world)
+ local q1=s and world.runtime.query(s.stamina.address)
+ local resolved,plan=pcall(function()
+  local W=require('hd2runtime/domains/armor_stats_writes')
+  local spec=W.validate_patch({id='probe-check',target={resource='armor_kit',armor_kit='4DD749C6'},
+   field='armor_kit.piece_weight.torso',expect='light',value='light',allow_shared=true,allow_unverified_effect=true})
+  local reader=require('hd2runtime/runtime/reader').new(world.runtime)
+  local co=coroutine.create(function()return W.prepare(W.capture(world.runtime,reader,spec),reader,spec)end)
+  local fine,out
+  repeat fine,out=coroutine.resume(co)until not fine or coroutine.status(co)=='dead'
+  assert(fine,out)
+  return out
+ end)
+ local target=resolved and plan.changes[1]
+ step('the members and the pieces a write would target are committed private read-write memory',q1~=nil
+  and q1.type==0x20000 and q1.protect==4 and target~=nil and target.owner.type==0x20000 and target.owner.protect==4
+  and target.already_desired==true,tostring(resolved and#plan.changes or plan))
+ step('nothing is written',counts.writes==0,tostring(counts.writes))
+ return results
+end
+"""
+EXTRAS['proof-armor-stats'] = {'after': PROOF_ARMOR_STATS, 'readOnly': True}
 # The client-write proof (runtime/multiplayer.lua host_guard; research/docs/runtime-peer-messaging-F5FEE03DCFDB.md
 # section 10), with the Gas EAT example, on the shipped artifact and a real MISSION snapshot whose host condition is
 # overlaid as absent (seed_client: the game mode's authority bit cleared) and whose first unlimited loadout entry is the
@@ -4949,6 +5006,7 @@ SCENARIOS = {
     'proof-peer-hello': lambda: proof('RuntimePeerHelloProof'),
     'proof-liberator-shots': lambda: proof('LiberatorShotProbe'),
     'proof-passive-swap': lambda: proof('PassiveSwapProbe'),
+    'proof-armor-stats': lambda: proof('ArmorStatProbe'),
     'client-write-proof': lambda: proof('GasEatExample'),
     'proof-text-write-refused': lambda: proof('CustomStratagemP0Proof'),
     'backpack-ammo-maxigun': lambda: example('MaxigunBackpackAmmo'),
