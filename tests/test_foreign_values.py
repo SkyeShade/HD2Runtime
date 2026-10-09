@@ -77,6 +77,20 @@ assert(inspect.classify({field='x'},'TARGET_UNAVAILABLE: entity allocation absen
 return 'ok'
 '''), b'ok')
 
+    def test_untracked_bytes_are_never_called_an_unknown_mods(self):
+        # An attachment delta row (an ammunition, a muzzle) has no native record identity in core/shared_records: two
+        # HD2Runtime mods colliding there are a plain CONFLICT, never "owner: unknown mod".
+        self.assertEqual(run(r'''
+local ownership=require('hd2runtime/core/ownership')
+local b=require('hd2runtime/core/bytes')
+local change={field='attack.beam',expect=8,value=6,expected=b.encode(8,'u32'),desired=b.encode(6,'u32'),
+ descriptor={backing={kind='entity_delta',offset=4,width=4,storage='u32'}}}
+local ok,why=pcall(ownership.expected,change,b.encode(9,'u32'))
+assert(not ok and tostring(why):find('CONFLICT',1,true)and not ownership.foreign(tostring(why)),tostring(why))
+assert(ownership.state(change,b.encode(9,'u32'))=='changed')
+return 'ok'
+'''), b'ok')
+
     def test_inspect_request_validation(self):
         self.assertEqual(run(r'''
 local inspect=require('hd2runtime/api/inspect')

@@ -107,6 +107,9 @@ same record included, stays writable.
   `owner='unknown'` and `foreign=true`, its reason ends with `owner: unknown mod, not HD2Runtime`, and the log line
   reads `REJECTED code=CONFLICT owner=unknown ...` (`ensure ... stopped code=CONFLICT owner=unknown ...` for an
   ensure). A conflict with another HD2Runtime mod has no `owner` and names the holder (`held by ...`, above).
+- **Only tracked bytes.** A value with no native record identity (an attachment delta row: an ammunition, a muzzle)
+  cannot be traced to its writer, so a conflict there is a plain `CONFLICT` and `hd2.inspect` says `changed`, never
+  an unknown mod's.
 - **`hd2.diagnostics.foreign_values()`** lists every value found so this session, in the order found:
   `{target, field, observed, expected, owner='unknown', seen}`. At most 256 are kept.
 

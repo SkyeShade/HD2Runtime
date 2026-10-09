@@ -60,20 +60,23 @@ function M.describe(change,current,context)
 end
 -- The HD2Runtime operation whose applied bytes are `current` ({mod, kind, id, ...}), or nil: no patch, transaction,
 -- plan or ensure applied them this session (or they changed since), so a mod outside HD2Runtime owns them.
+-- A second result true: the bytes are not tracked at all (no native record identity: an attachment delta row, for one),
+-- so who holds them cannot be told; they are never called an unknown mod's.
 function M.holder(change,current)
     local records=shared_records()
-    if not records then return nil end
+    if not records then return nil,true end
     local ok,holders=pcall(records.holders,change.descriptor or{},current)
-    if not ok or type(holders)~='table'then return nil end
+    if not ok or type(holders)~='table'then return nil,true end
     for _,item in ipairs(holders)do if item.holds then return item end end
-    return nil
+    return nil,false
 end
 -- Who owns `current`: 'vanilla' (the reviewed baseline), 'runtime' (bytes an HD2Runtime operation applied: owner is
 -- its mod, operation its id) or 'foreign' (owner 'unknown': a mod outside HD2Runtime).
 function M.state(change,current)
     if current==change.expected then return 'vanilla'end
-    local holder=M.holder(change,current)
+    local holder,untracked=M.holder(change,current)
     if holder then return 'runtime',holder.mod,holder.id end
+    if untracked then return 'changed'end
     return 'foreign','unknown'
 end
 -- The marker every refusal of a value owned by an unknown mod carries (results and logs: owner=unknown).
@@ -100,7 +103,8 @@ function M.expected(change,current,label,context)
     local ok,detail=pcall(M.describe,change,current,context)
     -- Nobody in HD2Runtime holds these bytes: a mod outside HD2Runtime changed this value. Only this value is
     -- refused; it is remembered and logged once (core/foreign_values.lua).
-    local foreign=M.holder(change,current)==nil
+    local holder,untracked=M.holder(change,current)
+    local foreign=holder==nil and not untracked
     if foreign then
         pcall(function()
             local storage=((change.descriptor or{}).backing or{}).storage
