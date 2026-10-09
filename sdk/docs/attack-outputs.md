@@ -262,7 +262,8 @@ a projectile pointer exists.
   (`UNKNOWN_DONOR` if it has none).
   Liberator → EAT-700 / Talon (ammunition), support ← primary, primary ← support and support ← support all go through
   the one path; examples/projects/UnifiedProjectileSwapTest exercises each.
-- **Beam, arc, spray and melee outputs** fail closed with `INCOMPATIBLE_OUTPUT_FAMILY` and the structural reason.
+- **Beam, arc, spray and melee outputs** fail closed with `INCOMPATIBLE_OUTPUT_FAMILY` and the structural reason. Beam
+  outputs are donors for beam hosts only (see "Beam swaps").
 - **Donor outputs** are selectable only when their owner is established to fire that row (66 of 89 weapon
   outputs). Owners that fire a spawned entity, charge or heat levels or a magazine pattern do not offer their +0 row
   as their output.
@@ -284,6 +285,120 @@ a projectile pointer exists.
   The donor weapon never needs to be equipped.
 - **Mod Options.** A choice option's `values` may be reference handles, so one dropdown can select between complete
   output compositions. Each choice is a single reference value, so switching choices is one atomic write.
+
+## Beam swaps (0.30.4; not live-tested)
+
+A beam weapon can fire another weapon's beam. Research: `scripts/research_beam_outputs.py` →
+`research/beam-outputs-F5FEE03DCFDB.json` (write-up: `research/docs/beam-outputs-F5FEE03DCFDB.md`). A beam is fired only
+by a BeamWeaponComponent, and its +0 (typed BeamType) names the BeamSettings row the weapon fires: length, radius, the
+damage row, hit effects and the beam's visuals. A beam swap re-points that one reference. **No component is ever
+added**, so a projectile weapon never gains a beam (see "Lasers everywhere" below).
+
+**Beam outputs.** Every beam a Helldiver-side weapon fires is a catalogued output of family `beam`, a donor for beam hosts
+only (`selectableAsBeamReference`; a projectile host refuses it with `INCOMPATIBLE_OUTPUT_FAMILY`):
+
+| `hd2.attack_output(...)` | BeamType | Class | Length | Package (loaded before the swap) |
+| --- | ---: | --- | ---: | --- |
+| `LAS-5 Scythe` | 8 | continuous | 1000 m | laser_rifle |
+| `LAS-7 Dagger` | 11 | continuous | 1000 m | laser_pistol |
+| `LAS-13 Trident` | 6 | pulsed (the only pulse row) | 200 m | laser_shotgun |
+| `LAS-98 Laser Cannon` | 1 | continuous | 1000 m | laser_cannon |
+| `40-K Meltagun` | 18 | charged | 15 m | energy_weapon_shark |
+| `A/LAS-98 Laser Sentry` | 10 | continuous | 200 m | laser_cannon_turret |
+
+Each owner's own loadout package lists the beam row's resources (checked against the installed game data:
+`packages[].listsBeamResources`). Listed read-only, with the reason:
+- `AX/LAS-5 Rover / gun`: which beam the drone fires is not proven (below).
+- The five Illuminate beams (`Illuminate tripod beam`, `Illuminate tripod second beam`, `Illuminate war machine cannon
+  beam`, `Illuminate turret beam`, `Illuminate objective turret beam`): no catalogued package ships their effects.
+- Not catalogued at all: the dropped roots (`laser_rifle_charge`, the Dagger's second root), the LAS-98's
+  non-delivered root (`manned_turret_laser`), the shoulder-mounted objective camera and six unnamed entities.
+
+**Active beam source.** As for projectiles, the written member must be the one the weapon fires. Five entity deltas patch
+BeamWeapon +0, each in its own 4-byte row; one of them is a default:
+
+| Host | Status | Written member | `beam_source()` |
+| --- | --- | --- | --- |
+| LAS-13 Trident, LAS-7 Dagger | ACTIVE_DIRECT | its own BeamWeapon +0 | writable (`component`) |
+| LAS-98 Laser Cannon, 40-K Meltagun | ACTIVE_DIRECT | its own BeamWeapon +0 | writable (`component`) |
+| A/LAS-98 Laser Sentry | ACTIVE_DIRECT | its deployed entity's BeamWeapon +0 (type-level, like sentry projectile swaps) | writable (`component`) |
+| LAS-5 Scythe | INDIRECT | its default muzzle **Laser. Standard Prism** patches +0 at weapon build: its delta row | writable (`attachment`, `allow_shared`) |
+| AX/LAS-5 Rover / gun | AMBIGUOUS | its record names BeamType 25, its default muzzle (the same Standard Prism) BeamType 8 | read-only |
+
+The Scythe's record member is dormant (`attack.beam` on the weapon itself refuses with `DORMANT_BEAM_REFERENCE` and the
+redirect). The Rover is the open case: applying default customization deltas when a weapon is built is live-proven
+for player weapons only (the Liberator ammunition), and the wiki publishes the Rover's record row (its damage, 200 /
+40), not the muzzle's (the Scythe's, 350 / 70). Its beam swap stays read-only until a live test shows which one it
+fires; its own beam row and damage fields are unchanged.
+
+```lua
+local source = hd2.weapon('LAS-5 Scythe'):beam_source()
+-- {status='INDIRECT', mechanism='attachment', item='Laser. Standard Prism', target=..., field='attack.beam',
+--  expect=hd2.weapon('LAS-5 Scythe'):beam(), acknowledgements={'allow_shared','allow_unverified_reference',
+--  'allow_unverified_effect'}, sharedWithWeapons={'AX/LAS-5 Rover / gun'}}
+hd2.ensure({patch = {id = 'scythe-trident', target = source.target, field = hd2.fields.attack.beam,
+    expect = source.expect, value = hd2.attack_output('LAS-13 Trident'),
+    allow_shared = true, allow_unverified_reference = true, allow_unverified_effect = true}})
+
+local las98 = hd2.support_weapon('LAS-98 Laser Cannon'):beam_source()        -- the weapon itself
+local sentry = hd2.stratagem('A/LAS-98 Laser Sentry'):attack('primary'):beam_source()
+hd2.ensure({patch = {id = 'sentry-trident', target = sentry.target, field = hd2.fields.attack.beam,
+    expect = sentry.expect, value = hd2.weapon('LAS-13 Trident'):beam(),
+    allow_unverified_reference = true, allow_unverified_effect = true}})
+```
+
+- **API.** `weapon:beam_source()` on player, support and mounted weapons (`hd2.vehicle(...):weapon(...)`, the Rover's
+  `hd2.backpack('AX/LAS-5 Rover'):drone():weapon()`), and `hd2.stratagem(name):attack('primary'):beam_source()` for the
+  Laser Sentry (its host is `A/LAS-98 Laser Sentry / weapon`, the sentry host model). A weapon without a BeamWeapon
+  component returns `writable=false` and why. `weapon:beam()` is the weapon's own beam: the expect, the value that
+  restores it, and a donor handle (another beam weapon's `beam()` resolves to the output of the beam it fires).
+- **Acknowledgements.** Every donor needs `allow_unverified_reference` and `allow_unverified_effect`; restoring the host's
+  own beam (its `beam()`, or the output naming the row it fires) needs neither. The Scythe's muzzle is a shared
+  definition: `allow_shared` always.
+- **Assets.** The donor owner's package is the write's asset dependency; a donor without one is not catalogued
+  (`ASSET_UNAVAILABLE`).
+- **Guards.** Each write re-proves the host record (or the muzzle's delta chain and the Scythe's default customization
+  still naming it: `BEAM_SOURCE_CHANGED`), the donor owner's record still naming the reviewed BeamType (`CONFLICT`) and
+  the BeamSettings row identity. A sentry write re-proves the stratagem's payload link.
+- **What changes and what stays.** The host keeps its fire mode, rate, pulse, heat or charge, magazine, handling and
+  sounds; the donor brings its row. Combine with `beam.fire_mode` / `fire_rate` / `pulse_*` for a Trident-like pulse
+  (docs/player-weapon-authoring.md). A continuous host with the Trident's pulse row, or the Trident with a continuous row,
+  is a combination the game never ships: that is what the live test checks.
+- **After a swap** the host's own beam and damage fields refuse with `COMPOSITION_TARGET_CHANGED` (they would edit a row
+  it no longer fires); edit the donor weapon's fields (which every weapon firing that row shares), or restore first.
+- **Scope.** Like projectile swaps: a data write on this machine, applied when a weapon is built (re-equip, resupply or a
+  new call-in); other players need the same mod. Nothing about the entity, its components or its network layout changes.
+- **Live test.** `proof/BeamSwapProof`.
+
+## Lasers everywhere
+
+What each kind of weapon can fire, and through which mechanism:
+
+| Host | Beam (continuous / pulsed / charged) | Laser bolts (projectile) |
+| --- | --- | --- |
+| Beam weapons: LAS-5 Scythe, LAS-7 Dagger, LAS-13 Trident, LAS-98, 40-K Meltagun, A/LAS-98 Laser Sentry | yes: any beam donor (`attack.beam`), plus the Trident's pulse on its own record (`beam.fire_mode` ...) | no (no ProjectileWeapon) |
+| AX/LAS-5 Rover drone gun | not yet (its beam source is unproven); fire mode / pulse fields are writable | no |
+| Projectile weapons (player, support, mounted, sentry projectile hosts) | **no** | yes: LAS-58 Talon, LAS-16 Sickle, LAS-12 Sai bolts (plain, same class as bullets), LAS-99 Quasar (explosive bolt, cross-class); PLAS bolts too |
+| Enemy beams | not donors (no package) | - |
+
+The LAS-17 Double-Edge Sickle's bolts are chosen by its heat levels, so its row is not a donor. The LAS-58 Talon is the
+live-proven laser donor (the Reprimand, the Liberator's ammunition, the Patriot minigun).
+
+**Why a projectile weapon cannot fire a beam** (no route is offered; each is refused by evidence, not by policy):
+- **References.** A BeamType is referenced only by BeamWeaponComponent, BeamInfo and the unembedded BeamPrisms type: no
+  projectile, explosion, status or event member can name a beam (the type library scan above).
+- **Adding the component** (the third-party LAS mod's route) means relocating packed entity membership lists and the
+  component table, and the replicated object layout of the entity; vanilla peers create the entity without it. Refused
+  (research/las-beam-overhaul-comparison, research/component-membership).
+- **Even with both components** the trigger dispatch (0x742550) sends a weapon with the projectile flag to its
+  projectile trigger only; the beam trigger (0x83F750) is reached only by a weapon without one.
+- **No beam request.** 0x83F750 only sets the firing flag of the entity's own beam instance: no beam type, origin or
+  direction, and out of bounds for an entity without one. Events run after the game fired, at 10 Hz.
+- **No hitscan projectile.** Every projectile is integrated per substep (research/projectile-ballistics); the closest
+  to a beam is a fast laser bolt (the Talon and Sickle bolts fly at 1300 m/s).
+- **Spawned entities.** ProjectileWeapon +40 (ProjectileEntity) makes a shot spawn an entity (the P-33's missile).
+  No vanilla weapon spawns a beam entity, a spawned beam weapon has no wielder to fire it, and the member is not a
+  reviewed field: not offered.
 
 ## More donors (0.30.0; not live-tested)
 
@@ -524,6 +639,9 @@ rows), UnifiedProjectileSwapTest.
 `sdk/AttackOutputCapabilities.json` lists 130 outputs:
 - 108 projectile, among them the stratagem-owned EMS Mortar shell, the Speargun spare twin and 17 mounted weapons;
 - 4 beam, 3 arc, 8 spray and 7 melee.
+
+0.30.4 brings the beam outputs to 12 (six donors, the Rover drone gun and five enemy beams, read-only): see "Beam swaps"
+(`beamSources` and `beamModel` in the catalog).
 
 80 projectile outputs are selectable. Each selectable projectile output publishes its `presentation` (mode label,
 icon, whether the row is shared) and its `slots`. The catalog also publishes:

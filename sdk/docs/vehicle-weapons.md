@@ -188,6 +188,19 @@ hd2.ensure({patch={id='dog-drum',target=gun,field=hd2.fields.weapon.capacity,exp
 | AX/ARC-3 K-9 | arc | magazine 100, arc range 55 / chain 2 / split 5, damage, Stun Small |
 | AX/TX-13 Dog Breath | spray | magazine 100, spray damage, Gas and Gas Confusion |
 
+**Rover beam (0.30.4).** The Rover gun's own BeamWeapon record carries `beam.fire_mode`, `beam.pulse_beams` and
+`beam.pulse_seconds` too (the player fields; `allow_unverified_effect`). Its beam reference is read-only: its record names
+BeamType 25, but its default muzzle (Laser. Standard Prism, the LAS-5 Scythe's) patches BeamWeapon +0 to the Scythe's
+beam when a weapon is built, and that is live-proven for player weapons only. `rover:beam_source()` says so; the
+Scythe's beam swap (its muzzle) may reach the Rover too, which `proof/BeamSwapProof` checks. See
+[attack outputs](attack-outputs.md) "Beam swaps".
+
+**A/LAS-98 Laser Sentry (0.30.4).** Its deployed entity is a beam host on the sentry host model (`A/LAS-98 Laser Sentry
+/ weapon`, `stratagemBeamHosts`): `hd2.stratagem('A/LAS-98 Laser Sentry'):attack('primary'):beam_source()` returns the
+target for `hd2.fields.attack.beam` (any catalogued beam output) and `beam.fire_mode` / `beam.pulse_beams` /
+`beam.pulse_seconds`; `beam.fire_rate` stays on `hd2.stratagem(name):deployed_entity():weapon()`. Type-level: every
+Laser Sentry on this machine fires the donor beam.
+
 The drone reloads from its backpack (`hd2.backpack(name)` `deposit.*`, the published drone magazines), so the
 drone weapon's own spare-magazine counts are not exposed. The drone's health and body zone are backpack fields
 (`hd2.backpack(name):drone()`, see [Backpack authoring](backpack-authoring.md)). Every drone field needs

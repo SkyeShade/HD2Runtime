@@ -226,6 +226,19 @@ hd2.ensure({transaction={id='eat-scorcher',target=source.target,allow_unverified
     changes={{field=source.field,expect=source.expect,value=hd2.weapon('PLAS-1 Scorcher'):attack('primary'):projectile()}}}})
 ```
 
+## Beam swaps (LAS-98, 40-K Meltagun; 0.30.4, offline only)
+
+The LAS-98 Laser Cannon and the 40-K Meltagun write their own BeamWeapon +0 (no customization patches it): any
+catalogued beam output, through `support:beam_source()` and `hd2.fields.attack.beam` on the weapon itself, with
+`allow_unverified_reference` and `allow_unverified_effect`; `support:beam()` restores the weapon's own beam. The donor
+owner's package is loaded first. See [attack outputs](attack-outputs.md) "Beam swaps".
+
+```lua
+local source=hd2.support_weapon('LAS-98 Laser Cannon'):beam_source()
+hd2.ensure({patch={id='las98-melta',target=source.target,field=hd2.fields.attack.beam,expect=source.expect,
+    value=hd2.attack_output('40-K Meltagun'),allow_unverified_reference=true,allow_unverified_effect=true}})
+```
+
 ## 0.24 coverage
 
 Evidence: `research/support-weapon-coverage-F5FEE03DCFDB.json`, produced by

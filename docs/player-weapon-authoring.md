@@ -246,6 +246,24 @@ hd2.ensure({transaction={id='trident-scythe',target=scythe,allow_unverified_effe
   third-party mod's labels; the live tests decide them (`proof/BeamBlastProof`): a Trident-like Scythe; the Trident
   with +112 1.0 and with +108 1 and 6; a Sickle with no wind-up and with a 2 s wind-up.
 
+**Beam swaps** (0.30.4, offline only; [attack outputs](attack-outputs.md) "Beam swaps"): the LAS-5 Scythe, LAS-7 Dagger
+and LAS-13 Trident fire any catalogued beam output through `weapon:beam_source()` and `hd2.fields.attack.beam`
+(`allow_unverified_reference` and `allow_unverified_effect`). The Dagger and Trident write their own BeamWeapon +0; the
+Scythe's default muzzle (Laser. Standard Prism) patches that member when the weapon is built, so its swap writes the
+muzzle's delta row (`allow_shared`: the AX/LAS-5 Rover drone gun defaults to the same muzzle). A Trident-like Scythe
+with the Trident's own beam is the transaction above plus this swap:
+
+```lua
+local source=hd2.weapon('LAS-5 Scythe'):beam_source()
+hd2.ensure({patch={id='scythe-trident-beam',target=source.target,field=hd2.fields.attack.beam,expect=source.expect,
+    value=hd2.attack_output('LAS-13 Trident'),allow_shared=true,allow_unverified_reference=true,
+    allow_unverified_effect=true}})
+```
+
+Projectile weapons (the Sickles, the Sai, the Talon, every ballistic weapon) never fire a beam: they have no BeamWeapon
+component and Runtime does not add one. They fire laser bolts through projectile swaps instead (the Talon, Sickle,
+Sai and Quasar outputs; see "Lasers everywhere").
+
 The LAS-5 Scythe resolves to `laser_rifle` since 0.30.2: an equipped snapshot holds that root, and the published
 Scythe heat data (12.5 heat/s, cooling 12.8 - 8.5 - 6.4) matches it only (`laser_rifle_charge` is another weapon).
 Its heat rates are writable. Its heat capacity and heatsinks stay read-only: its default Laser Heatsink overwrites
