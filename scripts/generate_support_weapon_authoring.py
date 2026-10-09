@@ -553,6 +553,16 @@ def build(catalog_path=CATALOG):
                 beam_rate=equipment_fields.beam_rate_field(equipment_make,weapon['name'],
                     lambda offset,storage:component(candidate,'BeamWeaponComponentData',offset,storage))
                 if beam_rate:fields.append(beam_rate)
+            # 0.30.4: the firing charge (wind-up) and the beam fire mode / pulse (research/las-beam-overhaul-comparison).
+            if 'WeaponHeatComponentData'in ownership:
+                fields+=equipment_fields.firing_charge_fields(equipment_make,
+                    ownership['WeaponHeatComponentData']['recordIndex'],
+                    lambda offset,storage:component(candidate,'WeaponHeatComponentData',offset,storage))
+            if 'BeamWeaponComponentData'in ownership:
+                fields+=equipment_fields.beam_pulse_fields(equipment_make,
+                    ownership['BeamWeaponComponentData']['recordIndex'],
+                    lambda offset,storage:component(candidate,'BeamWeaponComponentData',offset,storage),
+                    skip=('beam.fire_rate',)if weapon['name']in equipment_fields.BEAM_RATE_WEAPONS else())
             if weapon['name'] in equipment_fields.RECOIL_MULTIPLIER_WEAPONS and'WeaponDataComponentData'in ownership:
                 fields+=equipment_fields.recoil_multiplier_fields(equipment_make,
                     lambda offset,storage:component(candidate,'WeaponDataComponentData',offset,storage))

@@ -20,18 +20,18 @@
       "CQC-72 Entrenchment Tool"
     ],
     "writableSupportWeapons": 34,
-    "writableFieldInstances": 1475,
+    "writableFieldInstances": 1490,
     "fieldInstancesByDomain": {
       "arc": 6,
       "attack": 8,
-      "beam": 5,
+      "beam": 12,
       "charge": 53,
       "damage": 347,
       "explosion": 298,
       "fire_mode": 26,
       "fire_rate": 12,
       "function_ammo": 13,
-      "heat": 8,
+      "heat": 16,
       "heatsink": 6,
       "magazine": 63,
       "presentation": 60,
@@ -108,12 +108,12 @@
       ]
     },
     "sharedFieldInstances": 807,
-    "internalSupportAuthoringInstances": 1475,
-    "publishedSupportFieldInstances": 1475,
-    "legacyFlattenedFieldEntries": 1364,
+    "internalSupportAuthoringInstances": 1490,
+    "publishedSupportFieldInstances": 1490,
+    "legacyFlattenedFieldEntries": 1379,
     "branchSpecificFieldInstances": 815,
-    "backingObjectCount": 234,
-    "operationGroupingCount": 273,
+    "backingObjectCount": 235,
+    "operationGroupingCount": 274,
     "sharedBackingObjectCount": 102,
     "sharedConsumerScopeCount": 102,
     "duplicateSemanticFieldGroups": 50,
@@ -172,7 +172,11 @@
       ],
       "writableFieldsByDomain": {
         "beam": [
+          "beam.fire_mode",
+          "beam.fire_rate",
           "beam.length",
+          "beam.pulse_beams",
+          "beam.pulse_seconds",
           "beam.radius"
         ],
         "charge": [
@@ -312,7 +316,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 38,
+      "writableFieldCount": 42,
       "fieldInstanceKeys": [
         "support-field/v1/40-k-meltagun/weapon/root/weapon-ergonomics/8b83cb34a0c62696",
         "support-field/v1/40-k-meltagun/weapon/root/weapon-sway/bc43e73be1243d1b",
@@ -335,6 +339,10 @@
         "support-field/v1/40-k-meltagun/weapon/root/charge-minimum-seconds/9e4c1878333440a5",
         "support-field/v1/40-k-meltagun/weapon/root/charge-maximum-seconds/fc6883f368b6810a",
         "support-field/v1/40-k-meltagun/weapon/root/charge-auto-fire-at-full/10eb6f23f87bd493",
+        "support-field/v1/40-k-meltagun/weapon/root/beam-fire-mode/fc39684b3fec854c",
+        "support-field/v1/40-k-meltagun/weapon/root/beam-fire-rate/50bd5f96d524b6ab",
+        "support-field/v1/40-k-meltagun/weapon/root/beam-pulse-beams/053b277c2e851a03",
+        "support-field/v1/40-k-meltagun/weapon/root/beam-pulse-seconds/288c439115fa417d",
         "support-field/v1/40-k-meltagun/attack/primary/beam-radius/f1252b32883af499",
         "support-field/v1/40-k-meltagun/attack/primary/beam-length/c409eb408c1cbddd",
         "support-field/v1/40-k-meltagun/attack/primary/damage-standard-damage/def2e718c3a85a2f",
@@ -4031,8 +4039,11 @@
       ],
       "writableFieldsByDomain": {
         "beam": [
+          "beam.fire_mode",
           "beam.fire_rate",
           "beam.length",
+          "beam.pulse_beams",
+          "beam.pulse_seconds",
           "beam.radius"
         ],
         "damage": [
@@ -4050,9 +4061,13 @@
         ],
         "heat": [
           "heat.capacity",
+          "heat.charge_gain_per_second",
+          "heat.charge_loss_per_second",
           "heat.cool_per_second",
+          "heat.firing_charge",
           "heat.heat_per_second",
-          "heat.heat_per_shot"
+          "heat.heat_per_shot",
+          "heat.reset_charge_after_shot"
         ],
         "heatsink": [
           "heatsink.from_supply",
@@ -4148,7 +4163,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 36,
+      "writableFieldCount": 43,
       "fieldInstanceKeys": [
         "support-field/v1/las-98-laser-cannon/weapon/root/weapon-ergonomics/52074142a65e4909",
         "support-field/v1/las-98-laser-cannon/weapon/root/weapon-sway/5b5fe09b0b689242",
@@ -4170,6 +4185,13 @@
         "support-field/v1/las-98-laser-cannon/weapon/root/heatsink-from-supply/8a35948604594968",
         "support-field/v1/las-98-laser-cannon/weapon/root/heatsink-spare/3832b2c9eca87c6e",
         "support-field/v1/las-98-laser-cannon/weapon/root/beam-fire-rate/4808990f7d7cae25",
+        "support-field/v1/las-98-laser-cannon/weapon/root/heat-firing-charge/04165f9b08b1a82d",
+        "support-field/v1/las-98-laser-cannon/weapon/root/heat-charge-gain-per-second/fb1f6dcc339911db",
+        "support-field/v1/las-98-laser-cannon/weapon/root/heat-charge-loss-per-second/a9e7eacb6c9e486f",
+        "support-field/v1/las-98-laser-cannon/weapon/root/heat-reset-charge-after-shot/73d1eadb1dfe28dc",
+        "support-field/v1/las-98-laser-cannon/weapon/root/beam-fire-mode/c3e2b032c13bc15d",
+        "support-field/v1/las-98-laser-cannon/weapon/root/beam-pulse-beams/1bb20784bc176a8f",
+        "support-field/v1/las-98-laser-cannon/weapon/root/beam-pulse-seconds/8a807dc9aadbea20",
         "support-field/v1/las-98-laser-cannon/attack/primary/beam-radius/296916b190280768",
         "support-field/v1/las-98-laser-cannon/attack/primary/beam-length/51dbc2a2fced7e3b",
         "support-field/v1/las-98-laser-cannon/attack/primary/damage-standard-damage/9800d96cc796b008",
@@ -4255,9 +4277,13 @@
         ],
         "heat": [
           "heat.capacity",
+          "heat.charge_gain_per_second",
+          "heat.charge_loss_per_second",
           "heat.cool_per_second",
+          "heat.firing_charge",
           "heat.heat_per_second",
-          "heat.heat_per_shot"
+          "heat.heat_per_shot",
+          "heat.reset_charge_after_shot"
         ],
         "heatsink": [
           "heatsink.from_supply",
@@ -4343,7 +4369,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 58,
+      "writableFieldCount": 62,
       "fieldInstanceKeys": [
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-ergonomics/e76385bed42a009f",
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-sway/258e397d3054ee09",
@@ -4371,6 +4397,10 @@
         "support-field/v1/las-99-quasar-cannon/weapon/root/heatsink-starting/8759d8febaf38353",
         "support-field/v1/las-99-quasar-cannon/weapon/root/heatsink-from-supply/bf1dbec1cbe51a1b",
         "support-field/v1/las-99-quasar-cannon/weapon/root/heatsink-spare/02a544ddf7e16712",
+        "support-field/v1/las-99-quasar-cannon/weapon/root/heat-firing-charge/3cdee3d03235f118",
+        "support-field/v1/las-99-quasar-cannon/weapon/root/heat-charge-gain-per-second/cd31740653b5fa49",
+        "support-field/v1/las-99-quasar-cannon/weapon/root/heat-charge-loss-per-second/7dc4273a74b3ed68",
+        "support-field/v1/las-99-quasar-cannon/weapon/root/heat-reset-charge-after-shot/171b89076fc8b9c8",
         "support-field/v1/las-99-quasar-cannon/projectile-reference/primary/projectile-velocity/d15fab9dfd09d768",
         "support-field/v1/las-99-quasar-cannon/projectile-reference/primary/projectile-mass/bfdf240d10cc2dcc",
         "support-field/v1/las-99-quasar-cannon/projectile-reference/primary/projectile-drag/00bbfe7dbbdd6388",
@@ -9800,6 +9830,450 @@
           "gameplayEffectProven": false,
           "lifecycle": "Read live every frame from the weapon's own WeaponChargeComponent record (one owner): a write takes effect on the next frame, including weapons already in hand. No customization or per-instance copy exists."
         }
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/40-k-meltagun/weapon/root/beam-fire-mode/fc39684b3fec854c",
+      "supportWeapon": "40-K Meltagun",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/40-k-meltagun/3ce05d7d133179e0",
+        "name": "40-K Meltagun",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "beam.fire_mode",
+      "qualifiedSemanticFieldId": "beam.fire_mode",
+      "apiFieldConstant": "hd2.fields.beam.fire_mode",
+      "display": {
+        "name": "Beam fire mode",
+        "domain": "beam",
+        "group": "BeamWeaponComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "integer",
+        "baseline": 5,
+        "expected": 5,
+        "unit": "enum",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/beamweaponcomponentdata/2b8f8eeeb906743ef807",
+        "kind": "component",
+        "semanticType": "BeamWeaponComponentData",
+        "domain": "BeamWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/4f055627d5d6d6e250b2",
+        "runtimeBackingScope": "component:BeamWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/dbab3fe7d504d2aaa7fd",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "40-K Meltagun",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/40-k-meltagun/weapon/root/fd67c2b6dd90ba9b"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/4f055627d5d6d6e250b2",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/40-k-meltagun/3ce05d7d1331",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Beam fire mode and pulse (BeamWeapon +100 typed enum, +108 INT32, +112 FP32): the LAS-13 Trident is the only weapon in mode 6 (300 rpm, 2 beams per pulse, 0.15 s); continuous beams are mode 4 (1, 0), the 40-K Meltagun mode 5 (1, 1.4 s). The game branches on mode 6. Live test pending: a Scythe in mode 6 with the Trident's rate and pulse fires Trident-like blasts; the Trident's +112 / +108 changed."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": false,
+        "reason": "The member is copied into the weapon when it is built; no attachment option patches it. Whether the game reads it for this behaviour is not yet shown in game."
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/40-k-meltagun/weapon/root/beam-fire-rate/50bd5f96d524b6ab",
+      "supportWeapon": "40-K Meltagun",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/40-k-meltagun/3ce05d7d133179e0",
+        "name": "40-K Meltagun",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "beam.fire_rate",
+      "qualifiedSemanticFieldId": "beam.fire_rate",
+      "apiFieldConstant": "hd2.fields.beam.fire_rate",
+      "display": {
+        "name": "Beam fire rate",
+        "domain": "beam",
+        "group": "BeamWeaponComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "integer",
+        "baseline": 50,
+        "expected": 50,
+        "unit": "rpm",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/beamweaponcomponentdata/2b8f8eeeb906743ef807",
+        "kind": "component",
+        "semanticType": "BeamWeaponComponentData",
+        "domain": "BeamWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/4f055627d5d6d6e250b2",
+        "runtimeBackingScope": "component:BeamWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/dbab3fe7d504d2aaa7fd",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "40-K Meltagun",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/40-k-meltagun/weapon/root/fd67c2b6dd90ba9b"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/4f055627d5d6d6e250b2",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/40-k-meltagun/3ce05d7d1331",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Beam fire mode and pulse (BeamWeapon +100 typed enum, +108 INT32, +112 FP32): the LAS-13 Trident is the only weapon in mode 6 (300 rpm, 2 beams per pulse, 0.15 s); continuous beams are mode 4 (1, 0), the 40-K Meltagun mode 5 (1, 1.4 s). The game branches on mode 6. Live test pending: a Scythe in mode 6 with the Trident's rate and pulse fires Trident-like blasts; the Trident's +112 / +108 changed."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": false,
+        "reason": "The member is copied into the weapon when it is built; no attachment option patches it. Whether the game reads it for this behaviour is not yet shown in game."
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/40-k-meltagun/weapon/root/beam-pulse-beams/053b277c2e851a03",
+      "supportWeapon": "40-K Meltagun",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/40-k-meltagun/3ce05d7d133179e0",
+        "name": "40-K Meltagun",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "beam.pulse_beams",
+      "qualifiedSemanticFieldId": "beam.pulse_beams",
+      "apiFieldConstant": "hd2.fields.beam.pulse_beams",
+      "display": {
+        "name": "Beams per pulse",
+        "domain": "beam",
+        "group": "BeamWeaponComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "integer",
+        "baseline": 1,
+        "expected": 1,
+        "unit": "beams",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/beamweaponcomponentdata/2b8f8eeeb906743ef807",
+        "kind": "component",
+        "semanticType": "BeamWeaponComponentData",
+        "domain": "BeamWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/4f055627d5d6d6e250b2",
+        "runtimeBackingScope": "component:BeamWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/dbab3fe7d504d2aaa7fd",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "40-K Meltagun",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/40-k-meltagun/weapon/root/fd67c2b6dd90ba9b"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/4f055627d5d6d6e250b2",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/40-k-meltagun/3ce05d7d1331",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Beam fire mode and pulse (BeamWeapon +100 typed enum, +108 INT32, +112 FP32): the LAS-13 Trident is the only weapon in mode 6 (300 rpm, 2 beams per pulse, 0.15 s); continuous beams are mode 4 (1, 0), the 40-K Meltagun mode 5 (1, 1.4 s). The game branches on mode 6. Live test pending: a Scythe in mode 6 with the Trident's rate and pulse fires Trident-like blasts; the Trident's +112 / +108 changed."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": false,
+        "reason": "The member is copied into the weapon when it is built; no attachment option patches it. Whether the game reads it for this behaviour is not yet shown in game."
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/40-k-meltagun/weapon/root/beam-pulse-seconds/288c439115fa417d",
+      "supportWeapon": "40-K Meltagun",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/40-k-meltagun/3ce05d7d133179e0",
+        "name": "40-K Meltagun",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "beam.pulse_seconds",
+      "qualifiedSemanticFieldId": "beam.pulse_seconds",
+      "apiFieldConstant": "hd2.fields.beam.pulse_seconds",
+      "display": {
+        "name": "Pulse duration",
+        "domain": "beam",
+        "group": "BeamWeaponComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "number",
+        "baseline": 1.4,
+        "expected": 1.4,
+        "unit": "seconds",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/beamweaponcomponentdata/2b8f8eeeb906743ef807",
+        "kind": "component",
+        "semanticType": "BeamWeaponComponentData",
+        "domain": "BeamWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/4f055627d5d6d6e250b2",
+        "runtimeBackingScope": "component:BeamWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/dbab3fe7d504d2aaa7fd",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "40-K Meltagun",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/40-k-meltagun/weapon/root/fd67c2b6dd90ba9b"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/4f055627d5d6d6e250b2",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/40-k-meltagun/3ce05d7d1331",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Beam fire mode and pulse (BeamWeapon +100 typed enum, +108 INT32, +112 FP32): the LAS-13 Trident is the only weapon in mode 6 (300 rpm, 2 beams per pulse, 0.15 s); continuous beams are mode 4 (1, 0), the 40-K Meltagun mode 5 (1, 1.4 s). The game branches on mode 6. Live test pending: a Scythe in mode 6 with the Trident's rate and pulse fires Trident-like blasts; the Trident's +112 / +108 changed."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": false,
+        "reason": "The member is copied into the weapon when it is built; no attachment option patches it. Whether the game reads it for this behaviour is not yet shown in game."
       }
     },
     {
@@ -104710,6 +105184,797 @@
       }
     },
     {
+      "instanceKey": "support-field/v1/las-98-laser-cannon/weapon/root/heat-firing-charge/04165f9b08b1a82d",
+      "supportWeapon": "LAS-98 Laser Cannon",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/las-98-laser-cannon/7d66ab30f2190028",
+        "name": "LAS-98 Laser Cannon",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "heat.firing_charge",
+      "qualifiedSemanticFieldId": "heat.firing_charge",
+      "apiFieldConstant": "hd2.fields.heat.firing_charge",
+      "display": {
+        "name": "Firing charge (wind-up)",
+        "domain": "heat",
+        "group": "WeaponHeatComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "number",
+        "baseline": 100.0,
+        "expected": 100.0,
+        "unit": "charge",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weaponheatcomponentdata/8f009ba733fbfd2c9097",
+        "kind": "component",
+        "semanticType": "WeaponHeatComponentData",
+        "domain": "WeaponHeatComponentData",
+        "operationGroupingKey": "support-operation/v1/6c2f6c04dd09574bc168",
+        "runtimeBackingScope": "component:WeaponHeatComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/81a1cffb5d9369b04253",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "LAS-98 Laser Cannon",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/las-98-laser-cannon/weapon/root/f042d4976055cf9f"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/6c2f6c04dd09574bc168",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/las-98-laser-cannon/7d66ab30f219",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": false,
+        "reason": "The member is copied into the weapon when it is built; no attachment option patches it. Whether the game reads it for this behaviour is not yet shown in game."
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/las-98-laser-cannon/weapon/root/heat-charge-gain-per-second/fb1f6dcc339911db",
+      "supportWeapon": "LAS-98 Laser Cannon",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/las-98-laser-cannon/7d66ab30f2190028",
+        "name": "LAS-98 Laser Cannon",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "heat.charge_gain_per_second",
+      "qualifiedSemanticFieldId": "heat.charge_gain_per_second",
+      "apiFieldConstant": "hd2.fields.heat.charge_gain_per_second",
+      "display": {
+        "name": "Charge gained per second",
+        "domain": "heat",
+        "group": "WeaponHeatComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "number",
+        "baseline": 200.0,
+        "expected": 200.0,
+        "unit": "charge_per_second",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weaponheatcomponentdata/8f009ba733fbfd2c9097",
+        "kind": "component",
+        "semanticType": "WeaponHeatComponentData",
+        "domain": "WeaponHeatComponentData",
+        "operationGroupingKey": "support-operation/v1/6c2f6c04dd09574bc168",
+        "runtimeBackingScope": "component:WeaponHeatComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/81a1cffb5d9369b04253",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "LAS-98 Laser Cannon",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/las-98-laser-cannon/weapon/root/f042d4976055cf9f"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/6c2f6c04dd09574bc168",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/las-98-laser-cannon/7d66ab30f219",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": false,
+        "reason": "The member is copied into the weapon when it is built; no attachment option patches it. Whether the game reads it for this behaviour is not yet shown in game."
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/las-98-laser-cannon/weapon/root/heat-charge-loss-per-second/a9e7eacb6c9e486f",
+      "supportWeapon": "LAS-98 Laser Cannon",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/las-98-laser-cannon/7d66ab30f2190028",
+        "name": "LAS-98 Laser Cannon",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "heat.charge_loss_per_second",
+      "qualifiedSemanticFieldId": "heat.charge_loss_per_second",
+      "apiFieldConstant": "hd2.fields.heat.charge_loss_per_second",
+      "display": {
+        "name": "Charge lost per second",
+        "domain": "heat",
+        "group": "WeaponHeatComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "number",
+        "baseline": 500.0,
+        "expected": 500.0,
+        "unit": "charge_per_second",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weaponheatcomponentdata/8f009ba733fbfd2c9097",
+        "kind": "component",
+        "semanticType": "WeaponHeatComponentData",
+        "domain": "WeaponHeatComponentData",
+        "operationGroupingKey": "support-operation/v1/6c2f6c04dd09574bc168",
+        "runtimeBackingScope": "component:WeaponHeatComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/81a1cffb5d9369b04253",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "LAS-98 Laser Cannon",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/las-98-laser-cannon/weapon/root/f042d4976055cf9f"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/6c2f6c04dd09574bc168",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/las-98-laser-cannon/7d66ab30f219",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": false,
+        "reason": "The member is copied into the weapon when it is built; no attachment option patches it. Whether the game reads it for this behaviour is not yet shown in game."
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/las-98-laser-cannon/weapon/root/heat-reset-charge-after-shot/73d1eadb1dfe28dc",
+      "supportWeapon": "LAS-98 Laser Cannon",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/las-98-laser-cannon/7d66ab30f2190028",
+        "name": "LAS-98 Laser Cannon",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "heat.reset_charge_after_shot",
+      "qualifiedSemanticFieldId": "heat.reset_charge_after_shot",
+      "apiFieldConstant": "hd2.fields.heat.reset_charge_after_shot",
+      "display": {
+        "name": "Charge resets after each shot",
+        "domain": "heat",
+        "group": "WeaponHeatComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "boolean",
+        "baseline": false,
+        "expected": false,
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weaponheatcomponentdata/8f009ba733fbfd2c9097",
+        "kind": "component",
+        "semanticType": "WeaponHeatComponentData",
+        "domain": "WeaponHeatComponentData",
+        "operationGroupingKey": "support-operation/v1/6c2f6c04dd09574bc168",
+        "runtimeBackingScope": "component:WeaponHeatComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/81a1cffb5d9369b04253",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "LAS-98 Laser Cannon",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/las-98-laser-cannon/weapon/root/f042d4976055cf9f"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/6c2f6c04dd09574bc168",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/las-98-laser-cannon/7d66ab30f219",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": false,
+        "reason": "The member is copied into the weapon when it is built; no attachment option patches it. Whether the game reads it for this behaviour is not yet shown in game."
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/las-98-laser-cannon/weapon/root/beam-fire-mode/c3e2b032c13bc15d",
+      "supportWeapon": "LAS-98 Laser Cannon",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/las-98-laser-cannon/7d66ab30f2190028",
+        "name": "LAS-98 Laser Cannon",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "beam.fire_mode",
+      "qualifiedSemanticFieldId": "beam.fire_mode",
+      "apiFieldConstant": "hd2.fields.beam.fire_mode",
+      "display": {
+        "name": "Beam fire mode",
+        "domain": "beam",
+        "group": "BeamWeaponComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "integer",
+        "baseline": 4,
+        "expected": 4,
+        "unit": "enum",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/beamweaponcomponentdata/ab92fbfd9dd981db17db",
+        "kind": "component",
+        "semanticType": "BeamWeaponComponentData",
+        "domain": "BeamWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/a1895ca0e139e6fa1896",
+        "runtimeBackingScope": "component:BeamWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/ec566178a028bd9e3f26",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "LAS-98 Laser Cannon",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/las-98-laser-cannon/weapon/root/f042d4976055cf9f"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/a1895ca0e139e6fa1896",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/las-98-laser-cannon/7d66ab30f219",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Beam fire mode and pulse (BeamWeapon +100 typed enum, +108 INT32, +112 FP32): the LAS-13 Trident is the only weapon in mode 6 (300 rpm, 2 beams per pulse, 0.15 s); continuous beams are mode 4 (1, 0), the 40-K Meltagun mode 5 (1, 1.4 s). The game branches on mode 6. Live test pending: a Scythe in mode 6 with the Trident's rate and pulse fires Trident-like blasts; the Trident's +112 / +108 changed."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": false,
+        "reason": "The member is copied into the weapon when it is built; no attachment option patches it. Whether the game reads it for this behaviour is not yet shown in game."
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/las-98-laser-cannon/weapon/root/beam-pulse-beams/1bb20784bc176a8f",
+      "supportWeapon": "LAS-98 Laser Cannon",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/las-98-laser-cannon/7d66ab30f2190028",
+        "name": "LAS-98 Laser Cannon",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "beam.pulse_beams",
+      "qualifiedSemanticFieldId": "beam.pulse_beams",
+      "apiFieldConstant": "hd2.fields.beam.pulse_beams",
+      "display": {
+        "name": "Beams per pulse",
+        "domain": "beam",
+        "group": "BeamWeaponComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "integer",
+        "baseline": 1,
+        "expected": 1,
+        "unit": "beams",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/beamweaponcomponentdata/ab92fbfd9dd981db17db",
+        "kind": "component",
+        "semanticType": "BeamWeaponComponentData",
+        "domain": "BeamWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/a1895ca0e139e6fa1896",
+        "runtimeBackingScope": "component:BeamWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/ec566178a028bd9e3f26",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "LAS-98 Laser Cannon",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/las-98-laser-cannon/weapon/root/f042d4976055cf9f"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/a1895ca0e139e6fa1896",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/las-98-laser-cannon/7d66ab30f219",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Beam fire mode and pulse (BeamWeapon +100 typed enum, +108 INT32, +112 FP32): the LAS-13 Trident is the only weapon in mode 6 (300 rpm, 2 beams per pulse, 0.15 s); continuous beams are mode 4 (1, 0), the 40-K Meltagun mode 5 (1, 1.4 s). The game branches on mode 6. Live test pending: a Scythe in mode 6 with the Trident's rate and pulse fires Trident-like blasts; the Trident's +112 / +108 changed."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": false,
+        "reason": "The member is copied into the weapon when it is built; no attachment option patches it. Whether the game reads it for this behaviour is not yet shown in game."
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/las-98-laser-cannon/weapon/root/beam-pulse-seconds/8a807dc9aadbea20",
+      "supportWeapon": "LAS-98 Laser Cannon",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/las-98-laser-cannon/7d66ab30f2190028",
+        "name": "LAS-98 Laser Cannon",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "beam.pulse_seconds",
+      "qualifiedSemanticFieldId": "beam.pulse_seconds",
+      "apiFieldConstant": "hd2.fields.beam.pulse_seconds",
+      "display": {
+        "name": "Pulse duration",
+        "domain": "beam",
+        "group": "BeamWeaponComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "number",
+        "baseline": 0.0,
+        "expected": 0.0,
+        "unit": "seconds",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/beamweaponcomponentdata/ab92fbfd9dd981db17db",
+        "kind": "component",
+        "semanticType": "BeamWeaponComponentData",
+        "domain": "BeamWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/a1895ca0e139e6fa1896",
+        "runtimeBackingScope": "component:BeamWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/ec566178a028bd9e3f26",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "LAS-98 Laser Cannon",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/las-98-laser-cannon/weapon/root/f042d4976055cf9f"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/a1895ca0e139e6fa1896",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/las-98-laser-cannon/7d66ab30f219",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Beam fire mode and pulse (BeamWeapon +100 typed enum, +108 INT32, +112 FP32): the LAS-13 Trident is the only weapon in mode 6 (300 rpm, 2 beams per pulse, 0.15 s); continuous beams are mode 4 (1, 0), the 40-K Meltagun mode 5 (1, 1.4 s). The game branches on mode 6. Live test pending: a Scythe in mode 6 with the Trident's rate and pulse fires Trident-like blasts; the Trident's +112 / +108 changed."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": false,
+        "reason": "The member is copied into the weapon when it is built; no attachment option patches it. Whether the game reads it for this behaviour is not yet shown in game."
+      }
+    },
+    {
       "instanceKey": "support-field/v1/las-98-laser-cannon/attack/primary/beam-radius/296916b190280768",
       "supportWeapon": "LAS-98 Laser Cannon",
       "supportWeaponIdentity": {
@@ -110043,6 +111308,450 @@
         "baseline": "exact retained-snapshot value",
         "validation": "production resolver guarded ALREADY_DESIRED no-op",
         "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/las-99-quasar-cannon/weapon/root/heat-firing-charge/3cdee3d03235f118",
+      "supportWeapon": "LAS-99 Quasar Cannon",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/las-99-quasar-cannon/c4a24078efd3219b",
+        "name": "LAS-99 Quasar Cannon",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "heat.firing_charge",
+      "qualifiedSemanticFieldId": "heat.firing_charge",
+      "apiFieldConstant": "hd2.fields.heat.firing_charge",
+      "display": {
+        "name": "Firing charge (wind-up)",
+        "domain": "heat",
+        "group": "WeaponHeatComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "number",
+        "baseline": 100.0,
+        "expected": 100.0,
+        "unit": "charge",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weaponheatcomponentdata/fe8818607bb9e5cac608",
+        "kind": "component",
+        "semanticType": "WeaponHeatComponentData",
+        "domain": "WeaponHeatComponentData",
+        "operationGroupingKey": "support-operation/v1/e6742d7ae98fdc081d15",
+        "runtimeBackingScope": "component:WeaponHeatComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/9d175290eec25e4825d0",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "LAS-99 Quasar Cannon",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/las-99-quasar-cannon/weapon/root/0925e3034cd3e06f"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/e6742d7ae98fdc081d15",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/las-99-quasar-cannon/c4a24078efd3",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": false,
+        "reason": "The member is copied into the weapon when it is built; no attachment option patches it. Whether the game reads it for this behaviour is not yet shown in game."
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/las-99-quasar-cannon/weapon/root/heat-charge-gain-per-second/cd31740653b5fa49",
+      "supportWeapon": "LAS-99 Quasar Cannon",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/las-99-quasar-cannon/c4a24078efd3219b",
+        "name": "LAS-99 Quasar Cannon",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "heat.charge_gain_per_second",
+      "qualifiedSemanticFieldId": "heat.charge_gain_per_second",
+      "apiFieldConstant": "hd2.fields.heat.charge_gain_per_second",
+      "display": {
+        "name": "Charge gained per second",
+        "domain": "heat",
+        "group": "WeaponHeatComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "number",
+        "baseline": 33.0,
+        "expected": 33.0,
+        "unit": "charge_per_second",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weaponheatcomponentdata/fe8818607bb9e5cac608",
+        "kind": "component",
+        "semanticType": "WeaponHeatComponentData",
+        "domain": "WeaponHeatComponentData",
+        "operationGroupingKey": "support-operation/v1/e6742d7ae98fdc081d15",
+        "runtimeBackingScope": "component:WeaponHeatComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/9d175290eec25e4825d0",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "LAS-99 Quasar Cannon",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/las-99-quasar-cannon/weapon/root/0925e3034cd3e06f"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/e6742d7ae98fdc081d15",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/las-99-quasar-cannon/c4a24078efd3",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": false,
+        "reason": "The member is copied into the weapon when it is built; no attachment option patches it. Whether the game reads it for this behaviour is not yet shown in game."
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/las-99-quasar-cannon/weapon/root/heat-charge-loss-per-second/7dc4273a74b3ed68",
+      "supportWeapon": "LAS-99 Quasar Cannon",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/las-99-quasar-cannon/c4a24078efd3219b",
+        "name": "LAS-99 Quasar Cannon",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "heat.charge_loss_per_second",
+      "qualifiedSemanticFieldId": "heat.charge_loss_per_second",
+      "apiFieldConstant": "hd2.fields.heat.charge_loss_per_second",
+      "display": {
+        "name": "Charge lost per second",
+        "domain": "heat",
+        "group": "WeaponHeatComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "number",
+        "baseline": 500.0,
+        "expected": 500.0,
+        "unit": "charge_per_second",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weaponheatcomponentdata/fe8818607bb9e5cac608",
+        "kind": "component",
+        "semanticType": "WeaponHeatComponentData",
+        "domain": "WeaponHeatComponentData",
+        "operationGroupingKey": "support-operation/v1/e6742d7ae98fdc081d15",
+        "runtimeBackingScope": "component:WeaponHeatComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/9d175290eec25e4825d0",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "LAS-99 Quasar Cannon",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/las-99-quasar-cannon/weapon/root/0925e3034cd3e06f"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/e6742d7ae98fdc081d15",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/las-99-quasar-cannon/c4a24078efd3",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": false,
+        "reason": "The member is copied into the weapon when it is built; no attachment option patches it. Whether the game reads it for this behaviour is not yet shown in game."
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/las-99-quasar-cannon/weapon/root/heat-reset-charge-after-shot/171b89076fc8b9c8",
+      "supportWeapon": "LAS-99 Quasar Cannon",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/las-99-quasar-cannon/c4a24078efd3219b",
+        "name": "LAS-99 Quasar Cannon",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "heat.reset_charge_after_shot",
+      "qualifiedSemanticFieldId": "heat.reset_charge_after_shot",
+      "apiFieldConstant": "hd2.fields.heat.reset_charge_after_shot",
+      "display": {
+        "name": "Charge resets after each shot",
+        "domain": "heat",
+        "group": "WeaponHeatComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "boolean",
+        "baseline": true,
+        "expected": true,
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weaponheatcomponentdata/fe8818607bb9e5cac608",
+        "kind": "component",
+        "semanticType": "WeaponHeatComponentData",
+        "domain": "WeaponHeatComponentData",
+        "operationGroupingKey": "support-operation/v1/e6742d7ae98fdc081d15",
+        "runtimeBackingScope": "component:WeaponHeatComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/9d175290eec25e4825d0",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "LAS-99 Quasar Cannon",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/las-99-quasar-cannon/weapon/root/0925e3034cd3e06f"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/e6742d7ae98fdc081d15",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/las-99-quasar-cannon/c4a24078efd3",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": false,
+        "reason": "The member is copied into the weapon when it is built; no attachment option patches it. Whether the game reads it for this behaviour is not yet shown in game."
       }
     },
     {
@@ -200144,6 +201853,38 @@
       ]
     },
     {
+      "objectKey": "support-object/v1/beamweaponcomponentdata/2b8f8eeeb906743ef807",
+      "kind": "component",
+      "semanticType": "BeamWeaponComponentData",
+      "domains": [
+        "beam"
+      ],
+      "shared": false,
+      "requiresSharedAcknowledgement": false,
+      "sharedScopeKey": "support-scope/v1/dbab3fe7d504d2aaa7fd",
+      "reviewedConsumerCount": 1,
+      "affectedSemanticConsumers": [
+        {
+          "weapon": "40-K Meltagun",
+          "targetPath": "weapon",
+          "attackRole": null,
+          "attackKind": null,
+          "parentAttackRole": null,
+          "catalogBranches": [],
+          "writableCatalogBranches": [],
+          "consumerKey": "support-consumer/v1/40-k-meltagun/weapon/root/fd67c2b6dd90ba9b"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "fieldInstanceKeys": [
+        "support-field/v1/40-k-meltagun/weapon/root/beam-fire-mode/fc39684b3fec854c",
+        "support-field/v1/40-k-meltagun/weapon/root/beam-fire-rate/50bd5f96d524b6ab",
+        "support-field/v1/40-k-meltagun/weapon/root/beam-pulse-beams/053b277c2e851a03",
+        "support-field/v1/40-k-meltagun/weapon/root/beam-pulse-seconds/288c439115fa417d"
+      ]
+    },
+    {
       "objectKey": "support-object/v1/beamweaponcomponentdata/ab92fbfd9dd981db17db",
       "kind": "component",
       "semanticType": "BeamWeaponComponentData",
@@ -200169,7 +201910,10 @@
       "reviewedScopeComplete": true,
       "dynamicConsumersPossible": false,
       "fieldInstanceKeys": [
-        "support-field/v1/las-98-laser-cannon/weapon/root/beam-fire-rate/4808990f7d7cae25"
+        "support-field/v1/las-98-laser-cannon/weapon/root/beam-fire-rate/4808990f7d7cae25",
+        "support-field/v1/las-98-laser-cannon/weapon/root/beam-fire-mode/c3e2b032c13bc15d",
+        "support-field/v1/las-98-laser-cannon/weapon/root/beam-pulse-beams/1bb20784bc176a8f",
+        "support-field/v1/las-98-laser-cannon/weapon/root/beam-pulse-seconds/8a807dc9aadbea20"
       ]
     },
     {
@@ -208893,7 +210637,11 @@
         "support-field/v1/las-98-laser-cannon/weapon/root/heat-cool-per-second/cd4eee1d5457beb8",
         "support-field/v1/las-98-laser-cannon/weapon/root/heatsink-starting/39a7a24157ea1c87",
         "support-field/v1/las-98-laser-cannon/weapon/root/heatsink-from-supply/8a35948604594968",
-        "support-field/v1/las-98-laser-cannon/weapon/root/heatsink-spare/3832b2c9eca87c6e"
+        "support-field/v1/las-98-laser-cannon/weapon/root/heatsink-spare/3832b2c9eca87c6e",
+        "support-field/v1/las-98-laser-cannon/weapon/root/heat-firing-charge/04165f9b08b1a82d",
+        "support-field/v1/las-98-laser-cannon/weapon/root/heat-charge-gain-per-second/fb1f6dcc339911db",
+        "support-field/v1/las-98-laser-cannon/weapon/root/heat-charge-loss-per-second/a9e7eacb6c9e486f",
+        "support-field/v1/las-98-laser-cannon/weapon/root/heat-reset-charge-after-shot/73d1eadb1dfe28dc"
       ]
     },
     {
@@ -208929,7 +210677,11 @@
         "support-field/v1/las-99-quasar-cannon/weapon/root/heat-cool-per-second/09a9c47ffac1f67e",
         "support-field/v1/las-99-quasar-cannon/weapon/root/heatsink-starting/8759d8febaf38353",
         "support-field/v1/las-99-quasar-cannon/weapon/root/heatsink-from-supply/bf1dbec1cbe51a1b",
-        "support-field/v1/las-99-quasar-cannon/weapon/root/heatsink-spare/02a544ddf7e16712"
+        "support-field/v1/las-99-quasar-cannon/weapon/root/heatsink-spare/02a544ddf7e16712",
+        "support-field/v1/las-99-quasar-cannon/weapon/root/heat-firing-charge/3cdee3d03235f118",
+        "support-field/v1/las-99-quasar-cannon/weapon/root/heat-charge-gain-per-second/cd31740653b5fa49",
+        "support-field/v1/las-99-quasar-cannon/weapon/root/heat-charge-loss-per-second/7dc4273a74b3ed68",
+        "support-field/v1/las-99-quasar-cannon/weapon/root/heat-reset-charge-after-shot/171b89076fc8b9c8"
       ]
     },
     {
@@ -213009,6 +214761,34 @@
       "dependencies": []
     },
     {
+      "operationGroupingKey": "support-operation/v1/4f055627d5d6d6e250b2",
+      "backingObjectKey": "support-object/v1/beamweaponcomponentdata/2b8f8eeeb906743ef807",
+      "runtimeBackingScope": "component:BeamWeaponComponentData",
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "fieldInstanceKeys": [
+        "support-field/v1/40-k-meltagun/weapon/root/beam-fire-mode/fc39684b3fec854c",
+        "support-field/v1/40-k-meltagun/weapon/root/beam-fire-rate/50bd5f96d524b6ab",
+        "support-field/v1/40-k-meltagun/weapon/root/beam-pulse-beams/053b277c2e851a03",
+        "support-field/v1/40-k-meltagun/weapon/root/beam-pulse-seconds/288c439115fa417d"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false,
+      "planGroupingKey": "support-plan/v1/40-k-meltagun/3ce05d7d1331",
+      "phase": 1,
+      "dependencies": []
+    },
+    {
       "operationGroupingKey": "support-operation/v1/4f05d245f7e14628e6d5",
       "backingObjectKey": "support-object/v1/projectileweaponcomponentdata/d0dfb1122dfc08d37211",
       "runtimeBackingScope": "component:ProjectileWeaponComponentData",
@@ -214081,7 +215861,11 @@
         "support-field/v1/las-98-laser-cannon/weapon/root/heat-cool-per-second/cd4eee1d5457beb8",
         "support-field/v1/las-98-laser-cannon/weapon/root/heatsink-starting/39a7a24157ea1c87",
         "support-field/v1/las-98-laser-cannon/weapon/root/heatsink-from-supply/8a35948604594968",
-        "support-field/v1/las-98-laser-cannon/weapon/root/heatsink-spare/3832b2c9eca87c6e"
+        "support-field/v1/las-98-laser-cannon/weapon/root/heatsink-spare/3832b2c9eca87c6e",
+        "support-field/v1/las-98-laser-cannon/weapon/root/heat-firing-charge/04165f9b08b1a82d",
+        "support-field/v1/las-98-laser-cannon/weapon/root/heat-charge-gain-per-second/fb1f6dcc339911db",
+        "support-field/v1/las-98-laser-cannon/weapon/root/heat-charge-loss-per-second/a9e7eacb6c9e486f",
+        "support-field/v1/las-98-laser-cannon/weapon/root/heat-reset-charge-after-shot/73d1eadb1dfe28dc"
       ],
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
@@ -216519,9 +218303,12 @@
         "writableCatalogBranches": []
       },
       "fieldInstanceKeys": [
-        "support-field/v1/las-98-laser-cannon/weapon/root/beam-fire-rate/4808990f7d7cae25"
+        "support-field/v1/las-98-laser-cannon/weapon/root/beam-fire-rate/4808990f7d7cae25",
+        "support-field/v1/las-98-laser-cannon/weapon/root/beam-fire-mode/c3e2b032c13bc15d",
+        "support-field/v1/las-98-laser-cannon/weapon/root/beam-pulse-beams/1bb20784bc176a8f",
+        "support-field/v1/las-98-laser-cannon/weapon/root/beam-pulse-seconds/8a807dc9aadbea20"
       ],
-      "recommendedApi": "hd2.patch",
+      "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
       "planGroupingKey": "support-plan/v1/las-98-laser-cannon/7d66ab30f219",
       "phase": 1,
@@ -219209,7 +220996,11 @@
         "support-field/v1/las-99-quasar-cannon/weapon/root/heat-cool-per-second/09a9c47ffac1f67e",
         "support-field/v1/las-99-quasar-cannon/weapon/root/heatsink-starting/8759d8febaf38353",
         "support-field/v1/las-99-quasar-cannon/weapon/root/heatsink-from-supply/bf1dbec1cbe51a1b",
-        "support-field/v1/las-99-quasar-cannon/weapon/root/heatsink-spare/02a544ddf7e16712"
+        "support-field/v1/las-99-quasar-cannon/weapon/root/heatsink-spare/02a544ddf7e16712",
+        "support-field/v1/las-99-quasar-cannon/weapon/root/heat-firing-charge/3cdee3d03235f118",
+        "support-field/v1/las-99-quasar-cannon/weapon/root/heat-charge-gain-per-second/cd31740653b5fa49",
+        "support-field/v1/las-99-quasar-cannon/weapon/root/heat-charge-loss-per-second/7dc4273a74b3ed68",
+        "support-field/v1/las-99-quasar-cannon/weapon/root/heat-reset-charge-after-shot/171b89076fc8b9c8"
       ],
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
@@ -224331,8 +226122,8 @@
     "fixtureFallback": "disabled"
   },
   "instanceAudit": {
-    "internalInstances": 1475,
-    "publishedInstances": 1475,
+    "internalInstances": 1490,
+    "publishedInstances": 1490,
     "missingInstances": 0,
     "unexpectedInstances": 0,
     "identityCoverage": "exact"

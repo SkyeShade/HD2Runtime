@@ -1565,8 +1565,11 @@ function HD2Weapon:attachment_definition(slot, identity) end
 ---@field projectile "attack.projectile"
 
 ---@class HD2Fields_beam
+---@field fire_mode "beam.fire_mode"
 ---@field fire_rate "beam.fire_rate"
 ---@field length "beam.length"
+---@field pulse_beams "beam.pulse_beams"
+---@field pulse_seconds "beam.pulse_seconds"
 ---@field radius "beam.radius"
 
 ---@class HD2Fields_charge
@@ -1641,9 +1644,12 @@ function HD2Weapon:attachment_definition(slot, identity) end
 
 ---@class HD2Fields_heat
 ---@field capacity "heat.capacity"
+---@field charge_gain_per_second "heat.charge_gain_per_second"
+---@field charge_loss_per_second "heat.charge_loss_per_second"
 ---@field cool_per_second "heat.cool_per_second"
 ---@field cool_per_second_cold "heat.cool_per_second_cold"
 ---@field cool_per_second_hot "heat.cool_per_second_hot"
+---@field firing_charge "heat.firing_charge"
 ---@field heat_per_second "heat.heat_per_second"
 ---@field heat_per_shot "heat.heat_per_shot"
 ---@field level_1_self_status "heat.level_1_self_status"
@@ -1654,6 +1660,7 @@ function HD2Weapon:attachment_definition(slot, identity) end
 ---@field level_3_threshold "heat.level_3_threshold"
 ---@field overheat_cooldown "heat.overheat_cooldown"
 ---@field overheat_lock "heat.overheat_lock"
+---@field reset_charge_after_shot "heat.reset_charge_after_shot"
 ---@field warmup "heat.warmup"
 
 ---@class HD2Fields_heatsink

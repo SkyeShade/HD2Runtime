@@ -1,0 +1,1 @@
+{"format":1,"name":"BeamBlastProof","resource":"mods/skyeshade/hd2runtime_beam_blast_proof","guid":"c3f7a2e1-5b8d-4c6e-9a10-2d4b6e8f0a13","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.30.3","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../sdk","ide_library":"../../sdk/stubs"}

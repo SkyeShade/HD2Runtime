@@ -145,6 +145,13 @@
     {"id":"heat.level_3_self_status","display_name":"Heat level 3 status on the wielder","type":"status_reference","unit":null,"derived":false,"writable":true,"component":"WeaponHeatComponentData","offset":68,"storage":"u32"},
     {"id":"heat.overheat_lock","display_name":"Locks at maximum heat","type":"boolean","unit":null,"derived":false,"writable":true,"component":"WeaponHeatComponentData","offset":80,"storage":"u8"},
     {"id":"beam.fire_rate","display_name":"Beam fire rate","type":"integer","unit":"rpm","derived":false,"writable":true,"component":"BeamWeaponComponentData","offset":104,"storage":"i32"},
+    {"id":"heat.firing_charge","display_name":"Firing charge (wind-up)","type":"number","unit":"charge","derived":false,"writable":true,"component":"WeaponHeatComponentData","offset":148,"storage":"f32"},
+    {"id":"heat.charge_gain_per_second","display_name":"Charge gained per second","type":"number","unit":"charge_per_second","derived":false,"writable":true,"component":"WeaponHeatComponentData","offset":152,"storage":"f32"},
+    {"id":"heat.charge_loss_per_second","display_name":"Charge lost per second","type":"number","unit":"charge_per_second","derived":false,"writable":true,"component":"WeaponHeatComponentData","offset":156,"storage":"f32"},
+    {"id":"heat.reset_charge_after_shot","display_name":"Charge resets after each shot","type":"boolean","unit":null,"derived":false,"writable":true,"component":"WeaponHeatComponentData","offset":160,"storage":"u8"},
+    {"id":"beam.fire_mode","display_name":"Beam fire mode","type":"integer","unit":"enum","derived":false,"writable":true,"component":"BeamWeaponComponentData","offset":100,"storage":"u32"},
+    {"id":"beam.pulse_beams","display_name":"Beams per pulse","type":"integer","unit":"beams","derived":false,"writable":true,"component":"BeamWeaponComponentData","offset":108,"storage":"i32"},
+    {"id":"beam.pulse_seconds","display_name":"Pulse duration","type":"number","unit":"seconds","derived":false,"writable":true,"component":"BeamWeaponComponentData","offset":112,"storage":"f32"},
     {"id":"weapon.recoil_multiplier_horizontal","display_name":"Horizontal recoil multiplier","type":"number","unit":"multiplier","derived":false,"writable":true,"component":"WeaponDataComponentData","offset":60,"storage":"f32"},
     {"id":"weapon.recoil_multiplier_vertical","display_name":"Vertical recoil multiplier","type":"number","unit":"multiplier","derived":false,"writable":true,"component":"WeaponDataComponentData","offset":64,"storage":"f32"}
   ]

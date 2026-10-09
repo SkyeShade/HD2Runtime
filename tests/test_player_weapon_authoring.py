@@ -11,6 +11,10 @@ CAPABILITIES = json.loads((ROOT/'sdk/PlayerWeaponAuthoringCapabilities.json').re
 AMMO_CAPABILITIES = json.loads((ROOT/'sdk/PlayerWeaponAmmoCapabilities.json').read_text())
 
 
+RANGED_0_30_4={'heat.firing_charge':(0,10000),'heat.charge_gain_per_second':(0,100000),
+    'heat.charge_loss_per_second':(0,100000),'beam.fire_mode':(4,6),'beam.fire_rate':(1,6000),
+    'beam.pulse_beams':(1,8),'beam.pulse_seconds':(0,10)}
+
 class PlayerWeaponAuthoringTests(unittest.TestCase):
     def test_generated_capabilities_are_current(self):
         generate_weapon_authoring.generate(check=True)
@@ -38,6 +42,8 @@ class PlayerWeaponAuthoringTests(unittest.TestCase):
                     self.assertEqual((field['min'],field['max']),(0,1000))
                 elif field['semanticFieldId'].startswith('heat.level_')and field['type']=='number':
                     self.assertEqual((field['min'],field['max']),(0,10000))   # LAS-17 heat levels
+                elif field['semanticFieldId'] in RANGED_0_30_4:   # 0.30.4 firing charge and beam pulse
+                    self.assertEqual((field['min'],field['max']),RANGED_0_30_4[field['semanticFieldId']])
                 else:
                     self.assertIsNone(field['min']);self.assertIsNone(field['max'])
                 if field['semanticFieldId']=='weapon.default_fire_mode':

@@ -200,6 +200,52 @@ Not offered: redirecting the ignition to another status. That would be the level
 which only this weapon uses, and it is not authored in this release.
 `examples/projects/DoubleEdgeOverheatTest` is the live test.
 
+## Wind-up and Trident-like beam blasts (0.30.4, offline only)
+
+Research: `research/docs/las-beam-overhaul-comparison.md` (a third-party LAS mod was the lead; every member is proven
+from the type library and the retained snapshot). All fields need `allow_unverified_effect`.
+
+**Wind-up (the firing charge), `WeaponHeatComponent`**, on every heat weapon (LAS-16 / LAS-17 Sickles, LAS-5 Scythe,
+LAS-7 Dagger, LAS-12 Sai, LAS-13 Trident, LAS-58 Talon; support: LAS-98, LAS-99 Quasar):
+
+| Field | Member | Meaning (lead) | Sickle | Quasar |
+| --- | --- | --- | --- | --- |
+| `heat.firing_charge` | +148 FP32 | charge needed before the first shot | 100 | 100 |
+| `heat.charge_gain_per_second` | +152 FP32 | charge gained per second while the trigger is held | 200 | 33 |
+| `heat.charge_loss_per_second` | +156 FP32 | charge lost per second after release | 75 | 500 |
+| `heat.reset_charge_after_shot` | +160 UINT8 | the charge starts over after every shot | false | true |
+
++148 / +152 reproduces every published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident and Talon 0; the Quasar about
+3 s). So the Sickles' wind-up is `heat.firing_charge` 0 (instant) or a lower `heat.charge_gain_per_second` (longer).
+
+**The Trident's beam blast, `BeamWeaponComponent`**, on every beam weapon (LAS-5 Scythe, LAS-7 Dagger, LAS-13
+Trident; support: LAS-98, 40-K Meltagun):
+
+| Field | Member | Trident | Continuous beams | 40-K |
+| --- | --- | --- | --- | --- |
+| `beam.fire_mode` | +100 typed enum | 6 (pulsed; the game's code branches on it) | 4 | 5 |
+| `beam.fire_rate` | +104 INT32 rpm | 300 | 60 | 50 |
+| `beam.pulse_beams` | +108 INT32 | 2 | 1 | 1 |
+| `beam.pulse_seconds` | +112 FP32 | 0.15 | 0 | 1.4 |
+
+The Trident is a beam weapon (a BeamWeapon component, no ProjectileWeapon), not a projectile: each pulse is the same
+instant ray query every beam makes. A Trident-like Scythe is one transaction on the Scythe's own record:
+
+```lua
+local scythe=hd2.weapon('LAS-5 Scythe')
+hd2.ensure({transaction={id='trident-scythe',target=scythe,allow_unverified_effect=true,changes={
+    {field='beam.fire_mode',expect=4,value=6},{field='beam.fire_rate',expect=60,value=300},
+    {field='beam.pulse_beams',expect=1,value=2},{field='beam.pulse_seconds',expect=0,value=0.15}}}})
+```
+
+- **Only weapons that already have a BeamWeapon component.** Turning a projectile weapon (a Sickle, the Sai) into a
+  beam weapon means adding a component to its entity, as LAS Beam Enhanced Overhaul does by moving the weapon's entity
+  map membership list. HD2Runtime does not: it is the entity map change the 0.30.3 stray-row diagnostic reports, other
+  players' games would not have the component, and the saved state would differ.
+- **Names are leads.** `beam.pulse_beams` and `beam.pulse_seconds` are named from the Trident's values and a
+  third-party mod's labels; the live tests decide them (`proof/BeamBlastProof`): a Trident-like Scythe; the Trident
+  with +112 1.0 and with +108 1 and 6; a Sickle with no wind-up and with a 2 s wind-up.
+
 The LAS-5 Scythe resolves to `laser_rifle` since 0.30.2: an equipped snapshot holds that root, and the published
 Scythe heat data (12.5 heat/s, cooling 12.8 - 8.5 - 6.4) matches it only (`laser_rifle_charge` is another weapon).
 Its heat rates are writable. Its heat capacity and heatsinks stay read-only: its default Laser Heatsink overwrites

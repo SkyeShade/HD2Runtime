@@ -103,3 +103,70 @@ def recoil_multiplier_fields(make, backend):
             'min': 0, 'max': 50, 'effect': effect()})
         fields.append(field)
     return fields
+
+
+# 0.30.4 (research/las-beam-overhaul-comparison-F5FEE03DCFDB.json, research/docs/las-beam-overhaul-comparison.md):
+# the firing charge (wind-up) of heat weapons and the Trident's pulsed beam. Typed members by offset and storage;
+# names are leads (unproven): every write needs allow_unverified_effect until the live tests below pass.
+CHARGE_RESEARCH = ROOT / 'research/las-beam-overhaul-comparison-F5FEE03DCFDB.json'
+CHARGE_REASON = ('Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must '
+    'build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. '
+    '+148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone '
+    'resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s.')
+PULSE_REASON = ('Beam fire mode and pulse (BeamWeapon +100 typed enum, +108 INT32, +112 FP32): the LAS-13 Trident is '
+    'the only weapon in mode 6 (300 rpm, 2 beams per pulse, 0.15 s); continuous beams are mode 4 (1, 0), the 40-K '
+    'Meltagun mode 5 (1, 1.4 s). The game branches on mode 6. Live test pending: a Scythe in mode 6 with the '
+    "Trident's rate and pulse fires Trident-like blasts; the Trident's +112 / +108 changed.")
+CHARGE_FIELDS = (('heat.firing_charge', '148', 148, 'f32', 0, 10000), ('heat.charge_gain_per_second', '152', 152, 'f32',
+    0, 100000), ('heat.charge_loss_per_second', '156', 156, 'f32', 0, 100000),
+    ('heat.reset_charge_after_shot', '160', 160, 'u8', None, None))
+PULSE_FIELDS = (('beam.fire_mode', '100', 100, 'u32', 4, 6), ('beam.fire_rate', '104', 104, 'i32', 1, 6000),
+    ('beam.pulse_beams', '108', 108, 'i32', 1, 8), ('beam.pulse_seconds', '112', 112, 'f32', 0, 10))
+
+
+def charge_research():
+    return json.loads(CHARGE_RESEARCH.read_text(encoding='utf-8'))
+
+
+def _named(records, weapon):
+    """A research record by its component record index (an int: the weapon's own record, as its ownership names it)
+    or by the weapon name the research resolved (a str)."""
+    for record in records:
+        if isinstance(weapon, int) and record['record'] == weapon:
+            return record
+        if isinstance(weapon, str) and any(owner.get('name') == weapon for owner in record['owners']):
+            return record
+    return None
+
+
+def firing_charge_fields(make, weapon, backend):
+    """The firing-charge fields of a heat weapon the research names (its own WeaponHeat record), or []."""
+    record = _named(charge_research()['heat148']['records'], weapon)
+    if not record:
+        return []
+    fields = []
+    for field_id, key, offset, storage, low, high in CHARGE_FIELDS:
+        value = record['values'][key]
+        field = make(field_id, bool(value) if storage == 'u8' else value, backend(offset, storage))
+        field.update({'acknowledgement': 'allow_unverified_effect', 'acknowledgementReason': CHARGE_REASON,
+            'effect': effect()})
+        if low is not None:
+            field.update({'min': low, 'max': high})
+        fields.append(field)
+    return fields
+
+
+def beam_pulse_fields(make, weapon, backend, skip=()):
+    """The beam fire mode, rate and pulse of a beam weapon the research names (its own BeamWeapon record), or []."""
+    record = _named(charge_research()['beams']['records'], weapon)
+    if not record:
+        return []
+    fields = []
+    for field_id, key, offset, storage, low, high in PULSE_FIELDS:
+        if field_id in skip:
+            continue
+        field = make(field_id, record['values'][key], backend(offset, storage))
+        field.update({'acknowledgement': 'allow_unverified_effect', 'acknowledgementReason': PULSE_REASON,
+            'min': low, 'max': high, 'effect': effect()})
+        fields.append(field)
+    return fields

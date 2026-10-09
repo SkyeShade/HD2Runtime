@@ -480,6 +480,19 @@ def build(catalog_path=CATALOG):
                 lambda field_id,value,backend:make_field(field_id,value,backend,editable=unique,reason=blocked),
                 lambda offset,storage:component_backend(candidate,'WeaponHeatComponentData',offset,storage))
 
+        # 0.30.4 (research/las-beam-overhaul-comparison): the firing charge (wind-up) of the weapon's own heat record,
+        # and the fire mode, rate and pulse of its own beam record (the LAS-13 Trident's pulsed beam).
+        def charge_make(field_id,value,backend):
+            return make_field(field_id,value,backend,editable=unique,reason=blocked)
+        if 'WeaponHeatComponentData' in ownership:
+            fields+=equipment_fields.firing_charge_fields(charge_make,
+                ownership['WeaponHeatComponentData']['recordIndex'],
+                lambda offset,storage:component_backend(candidate,'WeaponHeatComponentData',offset,storage))
+        if 'BeamWeaponComponentData' in ownership:
+            fields+=equipment_fields.beam_pulse_fields(charge_make,
+                ownership['BeamWeaponComponentData']['recordIndex'],
+                lambda offset,storage:component_backend(candidate,'BeamWeaponComponentData',offset,storage))
+
         attacks=candidate.get('attacks') or []
         for attack in composition['attacks']:
             backing=attack.get('targetBacking')
