@@ -148,7 +148,10 @@ the Runtime loads the one a text needs, in any game language (below).
   `?`. **Greek is not available**: no game font has it.
 - `hd2.ui.can_draw(text, font)` (and `d:can_draw` inside a frame) tells before drawing: `true`, or `false`, the number
   of distinct characters that would show as `?` and up to three of them. `hd2.ui.game_fonts()` lists the fonts:
-  `{key, label, languages, glyphs, resident, reason}`.
+  `{key, label, languages, glyphs, resident, reason}`. `hd2.ui.unsupported(text, font)` (0.30.4) counts only the
+  characters no font can ever draw (in no game font at all): the number of distinct characters that always show as
+  `?`, and up to three of them; 0 means everything draws once its font is loaded. A translation tool should warn on
+  this, not on `can_draw` (which is false for a moment while a font package loads).
 - **How it is drawn.** Text is split into runs: the role's font draws every character it has, exactly as before (text
   it fully covers is one item, unchanged); a character it lacks goes to a loaded game font that has it (a space
   between two such characters stays with them); each run is one engine text on the same baseline. A game font is an

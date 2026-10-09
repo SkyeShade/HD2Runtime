@@ -5294,10 +5294,25 @@
       "doc": "Whether every character of text can be drawn now in overlays (the font role's own font or one of the game's language fonts loaded now; docs/ui-overlay.md, Other scripts): true, or false, the number of distinct characters that would show as '?' and up to three of them."
      },
      {
+      "name": "unsupported",
+      "params": [
+       [
+        "text",
+        "string"
+       ],
+       [
+        "font",
+        "\"body\"|\"title\"|\"mono\"|nil"
+       ]
+      ],
+      "returns": "integer, string[]",
+      "doc": "HD2Runtime 0.30.4+: the characters of text no font can ever draw (neither the font role's own font nor any game language font; the Runtime loads the font a text needs in any game language): the number of distinct characters that always show as '?' and up to three of them. 0: everything draws once its font is loaded (can_draw says when)."
+     },
+     {
       "name": "game_fonts",
       "params": [],
       "returns": "table[]",
-      "doc": "The game's language fonts overlays draw with: {key, label, languages (the game language codes that load it), glyphs, resident, reason}. The game loads only the selected language's."
+      "doc": "The game's language fonts overlays draw with: {key, label, languages (the game language codes that load it), glyphs, resident, reason}. The game loads only the selected language's; the Runtime loads the one a text needs."
      }
     ],
     "fields": [

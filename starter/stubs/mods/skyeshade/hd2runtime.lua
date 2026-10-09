@@ -3144,7 +3144,12 @@ function HD2UI:cursor() end
 ---@param font? "body"|"title"|"mono"
 ---@return boolean, integer|nil, string[]|nil
 function HD2UI:can_draw(text, font) end
----The game's language fonts overlays draw with: {key, label, languages (the game language codes that load it), glyphs, resident, reason}. The game loads only the selected language's.
+---HD2Runtime 0.30.4+: the characters of text no font can ever draw (neither the font role's own font nor any game language font; the Runtime loads the font a text needs in any game language): the number of distinct characters that always show as '?' and up to three of them. 0: everything draws once its font is loaded (can_draw says when).
+---@param text string
+---@param font? "body"|"title"|"mono"
+---@return integer, string[]
+function HD2UI:unsupported(text, font) end
+---The game's language fonts overlays draw with: {key, label, languages (the game language codes that load it), glyphs, resident, reason}. The game loads only the selected language's; the Runtime loads the one a text needs.
 ---@return table[]
 function HD2UI:game_fonts() end
 

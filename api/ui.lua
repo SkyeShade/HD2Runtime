@@ -33,6 +33,13 @@ function M.can_draw(text,font)
     if font~=nil and not overlays.FONT_ROLES[font]then error("font must be 'body', 'title' or 'mono'",2)end
     return overlays.can_draw(tostring(text),font)
 end
+-- The characters of text that no font can ever draw (0.30.4): the number of distinct characters that always show as
+-- '?' (no game language font has them; the Runtime loads the one a text needs in any game language), and up to three.
+function M.unsupported(text,font)
+    if type(text)~='string'and type(text)~='number'then error('hd2.ui.unsupported takes a string',2)end
+    if font~=nil and not overlays.FONT_ROLES[font]then error("font must be 'body', 'title' or 'mono'",2)end
+    return overlays.unsupported(tostring(text),font)
+end
 -- The game's language fonts overlays draw with: {key, label, languages, glyphs, resident, reason}.
 function M.game_fonts()return overlays.game_fonts()end
 -- The layer range an overlay may use and the default base.

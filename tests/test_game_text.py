@@ -102,6 +102,25 @@ assert(out[1]=='Pelican Gas'and out[2]=='Support...',table.concat(out,'|'))
 return 'ok'
 '''), b'ok')
 
+    def test_unsupported_counts_only_what_no_font_can_ever_draw(self):
+        self.assertEqual(run(r'''
+local ui=require('hd2runtime/api/ui')
+local overlay=require('hd2runtime/runtime/mod_overlay')
+overlay.hooks.runtime=function()return nil end
+-- Every character some game font has: 0, whatever is loaded now (Chinese brackets 「」 are in the Traditional Chinese
+-- and Japanese fonts, not the Simplified one).
+for _,text in ipairs({'Latin only','简体中文：模组窗口测试','「设置」','모드 창','Русский','zażółć'})do
+    local n=ui.unsupported(text)
+    assert(n==0,text..' '..n)
+end
+-- Greek, and a rare ideograph no game font has: counted, with a sample.
+local n,sample=ui.unsupported('αβγ 齉')
+assert(n==4 and #sample==3,n)
+assert(not pcall(ui.unsupported,{}),'a string')
+assert(not pcall(ui.unsupported,'x','comic'),'a font role')
+return 'ok'
+'''), b'ok')
+
 
 if __name__ == '__main__':
     unittest.main()

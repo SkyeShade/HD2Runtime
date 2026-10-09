@@ -846,6 +846,23 @@ function M.can_draw(text,role)
     end
     return ui_fonts.drawable(font,tostring(text),extra)
 end
+-- The characters of text that no font can draw, loaded or not (the role's font and every game language font the
+-- Runtime can load; docs/ui-overlay.md "Other scripts"): the number of distinct characters that always show as '?'
+-- and up to three of them. 0 means everything draws once its game font is loaded. Asks for the fonts the text needs,
+-- like can_draw. Offline data only; no memory read.
+function M.unsupported(text,role)
+    role=role or'body'
+    local font=(role~='mono'and font_data.fonts[role])or font_data.fonts.monaco
+    local all={}
+    for _,entry in ipairs(ui_fonts.GAME)do
+        local g=ui_fonts.game_font(entry)
+        if g then all[#all+1]=g end
+    end
+    local runtime=M.hooks.runtime()
+    if runtime then pcall(M.hooks.want_fonts,{runtime=runtime},font,tostring(text),{})end
+    local _,n,sample=ui_fonts.drawable(font,tostring(text),all)
+    return n or 0,sample or{}
+end
 -- The game's language fonts the overlay can draw with and whether each is loaded now: {key, label, languages (the
 -- game language codes that load it), glyphs, resident, reason}.
 function M.game_fonts()
