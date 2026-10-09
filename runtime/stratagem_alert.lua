@@ -63,7 +63,7 @@ end
 
 local function close_screen()
     if state.screen then pcall(state.screen.close)end
-    state.screen,state.timer=nil,nil
+    state.screen,state.timer,state.game_text=nil,nil,nil
 end
 -- The alert on screen: the most severe, the newest of equal severity.
 local function pick()
@@ -80,8 +80,9 @@ local function clean(s)
     return s
 end
 -- The card's layout for a width x height screen: {x, y, w, h, u} and the drawing list (each {kind, ...}), from the
--- alert and the fonts (their metrics wrap the lines). Pure: no engine call.
-function M.layout(alert,W,H,title_font,body_font)
+-- alert and the fonts (their metrics wrap the lines; `extra`, the loaded game fonts, measure the characters the fonts
+-- lack: runtime/game_text.lua). Pure: no engine call.
+function M.layout(alert,W,H,title_font,body_font,extra)
     local u=H/1080
     local margin=24*u
     local k=math.min(M.SCALE,(W*0.9-margin)/(520*u))
@@ -93,7 +94,7 @@ function M.layout(alert,W,H,title_font,body_font)
     local ops={}
     local function text(s,font,cap,x,top,colour)
         local size=fonts.size_for_cap(font,cap*u)
-        ops[#ops+1]={kind='text',s=s,font=font.name,size=size,x=x,y=top-cap*u,colour=colour}
+        ops[#ops+1]={kind='text',s=s,font=font.name,size=size,x=x,y=top-cap*u,colour=colour,font_obj=font}
         return size
     end
     -- Laid out top-down from y = 0 (the card's top); moved to the screen at the end.
@@ -121,7 +122,7 @@ function M.layout(alert,W,H,title_font,body_font)
         local item=alert.items[i]
         if i>1 then y=y-10*u end
         ops[#ops+1]={kind='rect',x=left+1*u,y=y-body_cap*u+0.5*u,w=6*u,h=6*u,colour=accent}
-        for n,line in ipairs(fonts.wrap(body_font,clean(item.line),bsize,w-pad-tx,2))do
+        for n,line in ipairs(fonts.wrap(body_font,clean(item.line),bsize,w-pad-tx,2,extra))do
             if n>1 then y=y-body_cap*u*1.75 end
             text(line,body_font,body_cap,tx,y,M.COLOURS.text)
         end
@@ -130,7 +131,7 @@ function M.layout(alert,W,H,title_font,body_font)
         if fix~=''then
             y=y-7*u
             text('FIX',title_font,fix_cap,tx,y,accent)
-            for n,line in ipairs(fonts.wrap(body_font,fix,fsize,w-pad-tx-label_w,2))do
+            for n,line in ipairs(fonts.wrap(body_font,fix,fsize,w-pad-tx-label_w,2,extra))do
                 if n>1 then y=y-fix_cap*u*1.75 end
                 text(line,body_font,fix_cap,tx+label_w,y,M.COLOURS.fix)
             end
@@ -145,7 +146,7 @@ function M.layout(alert,W,H,title_font,body_font)
     end
     if alert.footer and alert.footer~=''then
         y=y-12*u
-        for n,line in ipairs(fonts.wrap(body_font,clean(alert.footer),fonts.size_for_cap(body_font,7*u),inner,1))do
+        for n,line in ipairs(fonts.wrap(body_font,clean(alert.footer),fonts.size_for_cap(body_font,7*u),inner,1,extra))do
             if n==1 then text(line,body_font,7,left,y,M.COLOURS.dim)end
         end
         y=y-7*u
@@ -171,12 +172,19 @@ local function draw(world,alert)
     local screen,why=M.hooks.open_screen(world)
     if not screen then return nil,why end
     state.screen=screen
-    local L=M.layout(alert,screen.width,screen.height,title_font,body_font)
+    -- A custom stratagem's name in the card may be in any script (runtime/game_text.lua).
+    local GT=require('hd2runtime/runtime/game_text')
+    local ctx=GT.context(world.runtime)
+    state.game_text=ctx
+    local okx,extra=pcall(fonts.resident_game_fonts,world.runtime)
+    local L=M.layout(alert,screen.width,screen.height,title_font,body_font,okx and extra or nil)
     local ok,err=pcall(function()
         for _,op in ipairs(L.ops)do
             local layer=M.LAYER+(op.layer or 2)
             local id
             if op.kind=='rect'then id=screen.rect(op.x,op.y,layer,op.w,op.h,op.colour)
+            elseif op.font_obj and op.font_obj.advances then
+                id=GT.text(ctx,screen,op.s,op.font_obj,op.size,op.x,op.y,layer,op.colour)
             else id=screen.text(op.s,op.font,op.size,op.font,op.x,op.y,layer,op.colour)end
             if id==nil then error(('the card %s was refused (%s)'):format(op.kind,tostring(op.s or'')),0)end
             if op.timer then state.timer={id=id,op=op,layer=layer,frac=1}end
@@ -213,6 +221,11 @@ local function tick(dt)
     if a.shown_at then
         if state.clock-a.shown_at>=a.seconds then
             close_screen();state.alerts[a.key]=nil;state.current=nil
+        elseif state.game_text and not require('hd2runtime/runtime/game_text').still_ready(state.game_text)then
+            -- a game font its text uses was unloaded (a language switch): drawn again without it, the time it had left
+            local left=a.seconds-(state.clock-a.shown_at)
+            close_screen();a.shown_at=nil;a.next_try=0;a.queued=state.clock;a.seconds=math.max(1,left)
+            return 'waiting'
         else step_timer(a)end
         return 'shown'
     end

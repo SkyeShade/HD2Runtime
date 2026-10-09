@@ -121,6 +121,70 @@ function M.resident_game_fonts(runtime,max_age)
     return list
 end
 
+-- On demand (0.30.4, issue #8): the game loads only its selected language's font, so a mod window drawing Chinese in
+-- an English game showed '?'. Text with characters neither its font nor a loaded game font has asks for the game font
+-- package that covers the most of them (then the next, at most two per text), through the game's own reference-
+-- counted package system (core/assets: proven pins, a catalogued package, residency read back, kept for the session).
+-- Nothing is drawn with a font until the per-frame residency proof finds it loaded (resident_game_fonts): until then
+-- the characters keep showing '?'. One request per font per session; a refusal is logged once and not retried.
+M.requests={}            -- font key -> {state = 'requested' | 'refused', why}
+local asked={}           -- text -> true (texts already looked at), bounded
+local asked_count=0
+local function emit(message)
+    local ok,log=pcall(require,'hd2runtime/runtime/log')
+    if ok and log and log.emit then pcall(log.emit,'[HD2Runtime] '..message)end
+end
+-- The game fonts (not loaded now) that cover the characters of text that `font` and `extra` lack: the font covering
+-- most of them first (ties in the domain's order), then the next for what remains; at most two.
+function M.fonts_for(font,text,extra)
+    local missing,count={},0
+    for _,cp in utf8_codes(text)do
+        if cp>32 and not missing[cp]and not font.advances[cp]then
+            local ok=false
+            for _,g in ipairs(extra or{})do if g.advances[cp]then ok=true;break end end
+            if not ok then missing[cp]=true;count=count+1 end
+        end
+    end
+    local chosen={}
+    while count>0 and#chosen<2 do
+        local best,best_n
+        for _,entry in ipairs(M.GAME)do
+            local g=M.game_font(entry)
+            local taken=false
+            for _,c in ipairs(chosen)do if c==g then taken=true end end
+            for _,e in ipairs(extra or{})do if e==g then taken=true end end
+            if g and not taken then
+                local n=0
+                for cp in pairs(missing)do if g.advances[cp]then n=n+1 end end
+                if n>0 and(not best_n or n>best_n)then best,best_n=g,n end
+            end
+        end
+        if not best then break end
+        chosen[#chosen+1]=best
+        for cp in pairs(missing)do if best.advances[cp]then missing[cp]=nil;count=count-1 end end
+    end
+    return chosen
+end
+function M.want(runtime,font,text,extra)
+    if asked[text]or type(runtime)~='table'then return end
+    if asked_count<512 then asked[text]=true;asked_count=asked_count+1 end
+    for _,g in ipairs(M.fonts_for(font,text,extra))do
+        if not M.requests[g.key]then
+            local ok,why=pcall(function()
+                local assets=require('hd2runtime/core/assets')
+                local dependency=assert(assets.font_dependency(g.key),'no package for the '..g.label..' font')
+                assets.request(runtime,dependency,'hd2runtime-ui-fonts')
+            end)
+            M.requests[g.key]=ok and{state='requested'}or{state='refused',why=tostring(why)}
+            emit(ok and('ui fonts: loading the game\'s '..g.label..' font package for mod window text (it draws once '
+                ..'loaded; until then those characters show "?")')
+                or('ui fonts: the game\'s '..g.label..' font package could not be requested: '..tostring(why)))
+            -- the next residency check looks again soon
+            cache_at=nil
+        end
+    end
+end
+
 -------------------------------------------------------------------------------------------------------- runs --
 -- Splits text into runs {font, text} (byte-exact pieces of text, in order): the role `font` draws every character it
 -- has; a character it lacks goes to the first font of `extra` (the resident game fonts) that has it; a space stays in
@@ -276,5 +340,6 @@ utf8_codes=function(s)
     end
 end
 M.utf8_codes=utf8_codes
-function M.reset_for_tests()resident={};metrics={};objects={};cache,cache_at,cache_runtime={},nil,nil end
+function M.reset_for_tests()resident={};metrics={};objects={};cache,cache_at,cache_runtime={},nil,nil
+    M.requests={};asked={};asked_count=0 end
 return M

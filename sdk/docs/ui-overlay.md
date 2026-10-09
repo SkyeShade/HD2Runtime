@@ -122,10 +122,11 @@ end)
 ```
 
 The Runtime's FS Sinclair fonts hold ASCII, Latin-1, the call-in arrows and a few punctuation marks. Any other
-character is drawn in **the game's own font for that script, when the game has it loaded**: nothing is shipped
-(the Runtime ZIP carries one 288-byte material per font) and nothing is written to the game.
+character is drawn in **the game's own font for that script**: nothing is shipped (the Runtime ZIP carries one
+288-byte material per font) and nothing is written to the game. The game loads only its selected language's font;
+the Runtime loads the one a text needs, in any game language (below).
 
-| key | script | loaded when the game language is | characters |
+| key | script | loaded by the game when its language is | characters |
 |---|---|---|---|
 | `default` | Latin extras | English, German, French, Italian, Spanish, Portuguese, Polish (the game's codes us, gb, bp, de, es, fr, it, ms, pl, pt) | Latin-1, 23 Latin Extended-A (Polish ...), 13 Cyrillic letters |
 | `ru` | Cyrillic | Russian | the Russian alphabet |
@@ -134,9 +135,15 @@ character is drawn in **the game's own font for that script, when the game has i
 | `ja` | Japanese | Japanese | kana, 1781 ideographs |
 | `ko` | Korean | Korean | 1202 Hangul syllables |
 
-- **The game loads only the selected language's fonts** (game.dll's language records name one font package per
-  language). So Chinese text draws when the game runs in Chinese, Korean in Korean, and so on: the natural case for a
-  mod's translation, which follows the game's language. In any other language those characters show as `?`, as before.
+- **In any game language** (0.30.4, issue #8). The game loads only its selected language's font package (game.dll's
+  language records name one per language). Text with characters neither its font nor a loaded game font has asks for
+  the game font package that has the most of them (then the next; at most two per text), through the same
+  reference-counted package system the Runtime loads item packages with (`core/assets`: proven native pins, a
+  catalogued package, residency read back, kept for the session; the six font packages are bundles of the build's
+  `bundle_database.data`). Until it is loaded those characters show `?`; then they draw (the per-frame residency proof
+  picks the font up within a second). One request per font per session, logged once
+  (`ui fonts: loading the game's Simplified Chinese font package ...`); `hd2.ui.can_draw` asks too, so a mod that
+  checks its text first starts the load. A Chinese font package is about 25 MB of GPU memory per weight.
 - The fonts are **the characters the game itself uses**, not whole scripts: a rare character outside them shows as
   `?`. **Greek is not available**: no game font has it.
 - `hd2.ui.can_draw(text, font)` (and `d:can_draw` inside a frame) tells before drawing: `true`, or `false`, the number
@@ -154,8 +161,13 @@ character is drawn in **the game's own font for that script, when the game has i
   atlas and the Runtime material are all proven loaded in the same frame (the resource manager, read-only); a run
   whose font is not loaded is skipped (`status().waiting_text`). When a font in use unloads (a language switch), the
   GUI is closed first, so no material instance keeps naming its atlas, and opened again without it.
-- **Not live-tested yet** (0.30.4). Research: game-font-text (build F5FEE03DCFDB), proof mod
-  `proof/GameFontTextProof`.
+- **The Runtime's own panels** use the same path (`runtime/game_text.lua`): the custom stratagem panel's details and
+  tooltip (a custom stratagem's name, description and traits) and the alert card. Each re-proves its game fonts every
+  frame it stays on screen and is drawn again without one that unloaded.
+- **Live-proven** (2026-10-09, 0.30.4-dev3, `proof/GameFontTextProof`): each language's own text drew in the game's
+  font with the game in that language; characters a font only lists (other languages' names) are left out
+  (`hd2_font.undrawable_glyphs`). **Not live-tested yet:** loading another language's font package on demand, and the
+  panels. Research: game-font-text (build F5FEE03DCFDB).
 
 ## Images (r50)
 

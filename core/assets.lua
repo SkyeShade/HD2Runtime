@@ -148,6 +148,29 @@ end
 -- A stratagem's call-in package, by the StratagemInfo stable id (domains/stratagem_slots.lua), or nil (never guessed).
 -- This is the row's own root package (+0xA8) only; a support weapon's comes from its weapon (+0xF8): use
 -- dependencies_for_stratagem for everything the mission loader requests.
+-- The game's language font packages (0.30.4; research/docs/game-font-text.md): one per language, each a bundle in
+-- this build's bundle_database.data, named by domains/ui_fonts.lua (generated from the installed game). The game loads
+-- only its selected language's; a mod window that draws text only another language's font has asks for that package
+-- (runtime/ui_fonts.lua want), through the same reference-counted system, so its text draws in any game language.
+local font_packages={}
+do
+    local ok,fonts=pcall(require,'hd2runtime/domains/ui_fonts')
+    for _,entry in ipairs(ok and type(fonts)=='table'and fonts.game or{})do
+        if type(entry.package)=='string'and entry.package:match('^%x+$')and#entry.package==16 then
+            font_packages['0x'..entry.package:upper()]={key=entry.key,label=entry.label}
+        end
+    end
+end
+-- A language font package as a dependency, by its font key ('zh_hans', 'ko', ...), or nil.
+function M.font_dependency(key)
+    for id,item in pairs(font_packages)do
+        if item.key==key then
+            return {key='font/'..key,package=id,label=item.label,name='the game font package of '..item.label,
+                via='game_font'}
+        end
+    end
+    return nil
+end
 local stratagem_ids={}
 for id,package in pairs(stratagem_packages)do stratagem_ids[package]=tonumber(id)end
 for id,list in pairs(call_in_packages)do
@@ -213,8 +236,8 @@ function M.held_count()return held_count end
 
 -- Takes (once per session) Runtime's own reference on a catalog package through the native system.
 function M.request(runtime,dependency,owner)
-    assert(type(dependency)=='table'and(database.packages[dependency.package]or stratagem_ids[dependency.package]),
-        'package is not in the catalog')
+    assert(type(dependency)=='table'and(database.packages[dependency.package]or stratagem_ids[dependency.package]
+        or font_packages[dependency.package]),'package is not in the catalog')
     local entry=held[dependency.package]
     if entry then entry.holders[owner]=true;return entry end
     assert(held_count<policy.maxHeldPackages,'ASSET_UNAVAILABLE: Runtime package budget reached ('

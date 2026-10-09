@@ -1,28 +1,30 @@
 local hd2=require('mods/skyeshade/hd2runtime')
--- GameFontTextProof 0.1.0: THE GAME'S OWN FONTS IN A MOD WINDOW (HD2Runtime 0.30.4 development build; docs/ui-overlay.md
+-- GameFontTextProof 0.2.0: THE GAME'S OWN FONTS IN A MOD WINDOW (HD2Runtime 0.30.4 development build; docs/ui-overlay.md
 -- "Other scripts"). A mod window with one line each of Latin, Polish, Simplified Chinese, Traditional Chinese, Japanese,
 -- Korean and Russian, and a wrapped Chinese paragraph. Characters FS Sinclair lacks are drawn in the game's own
--- language font when the game has it loaded: the game loads only the selected language's fonts, so each CJK / Russian
--- line needs the game set to that language (the Polish line uses the Latin set, loaded in English). Visual only:
--- nothing of the game is written.
+-- language font. 0.2.0 (issue #8): the game loads only its selected language's font; the Runtime now loads the font
+-- package a line needs, in ANY game language, so every line should draw a second or two after the window opens (each
+-- shows '?' until its font is loaded). The log says 'ui fonts: loading the game's ... font package' once per font.
+-- Visual only: nothing of the game is written (the font packages are loaded like item packages).
 --   Ctrl+F7  show / hide the window
 --   Ctrl+F8  log the window's state again (every line's runs, fonts and residency)
 local mod=hd2.mod()
-local BUILD='0.1.0 GAME FONT TEXT'
+local BUILD='0.2.0 FONTS IN ANY LANGUAGE'
 local fonts=require('hd2runtime/runtime/ui_fonts')
-mod:log('GameFontTextProof '..BUILD..' BUILD: a mod window at the top left shows seven sample lines. Report for each '
-    ..'game language you try (English, then Simplified Chinese, Japanese, Korean, Russian): which lines are readable, '
-    ..'which show "?", whether the lines sit on one baseline, and anything that looks wrong. Ctrl+F7 hides / shows it, '
+mod:log('GameFontTextProof '..BUILD..' BUILD: a mod window at the top left shows seven sample lines. EVERY line should '
+    ..'draw in ANY game language a second or two after it opens. Report for each game language you try (English first, '
+    ..'then one or two others): which lines are readable, which still show "?", whether the lines sit on one baseline, '
+    ..'and anything that looks wrong. Ctrl+F7 hides / shows it, '
     ..'Ctrl+F8 logs its state again.')
 
 local LINES={
     {label='Latin',text='Latin: HELLDIVERS 2 - Super Earth, café façade',needs='any language (FS Sinclair)'},
-    {label='Polish',text='Polski: zażółć gęślą jaźń',needs='a European language (the Latin set)'},
-    {label='Simplified Chinese',text='简体中文：模组窗口测试',needs='Simplified Chinese'},
-    {label='Traditional Chinese',text='繁體中文：模組視窗測試',needs='Traditional Chinese'},
-    {label='Japanese',text='日本語：モッドのウィンドウ表示テスト',needs='Japanese'},
-    {label='Korean',text='한국어: 모드 창 테스트입니다',needs='Korean'},
-    {label='Russian',text='Русский: окно мода, проверка шрифта',needs='Russian'},
+    {label='Polish',text='Polski: zażółć gęślą jaźń',needs='a European language font, loaded on demand'},
+    {label='Simplified Chinese',text='简体中文：模组窗口测试',needs='Simplified Chinese font, loaded on demand'},
+    {label='Traditional Chinese',text='繁體中文：模組視窗測試',needs='Traditional Chinese font, loaded on demand'},
+    {label='Japanese',text='日本語：モッドのウィンドウ表示テスト',needs='Japanese font, loaded on demand'},
+    {label='Korean',text='한국어: 모드 창 테스트입니다',needs='Korean font, loaded on demand'},
+    {label='Russian',text='Русский: окно мода, проверка шрифта',needs='Russian font, loaded on demand'},
 }
 local PARAGRAPH='简体中文换行测试：这一段文字没有空格，应该在任意两个汉字之间换行，而且句号和逗号不会出现在一行的开头。'
 

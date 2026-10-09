@@ -67,6 +67,49 @@ assert(not BODY.advances[0x4E2D]and BODY.advances[65],'FS Sinclair has Latin, no
 return 'ok'
 ''')
 
+    def test_a_font_no_loaded_font_has_is_requested_once_in_any_game_language(self):
+        # Issue #8: Chinese in an English game. The text asks for the game font package covering most of its missing
+        # characters (then the next), through core/assets, once per font per session; nothing draws until loaded.
+        self.lua(r'''
+local assets=require('hd2runtime/core/assets')
+assets.reset()
+assets.prove=function()return {instance=0x1000,request=2,capacity=16}end
+local REQUESTS={}
+local runtime={mode='test'}
+function runtime.read(at,n)return string.rep(string.char(0),n)end
+function runtime.package_request(entry,instance,id)
+    REQUESTS[#REQUESTS+1]='0x'..(id:reverse():gsub('.',function(c)return string.format('%02X',c:byte())end))
+end
+local function keys(list)local t={};for i,g in ipairs(list)do t[i]=g.key end;return table.concat(t,',')end
+-- The font covering most missing characters first: Simplified Chinese text -> zh_hans; Japanese with kana -> ja;
+-- Korean -> ko; Russian -> ru; mixed Chinese and Korean -> zh_hans then ko; a loaded font is never asked again.
+assert(keys(F.fonts_for(BODY,'简体中文：模组窗口测试'))=='zh_hans',keys(F.fonts_for(BODY,'简体中文：模组窗口测试')))
+assert(keys(F.fonts_for(BODY,'モッドのウィンドウ表示テスト'))=='ja')
+assert(keys(F.fonts_for(BODY,'모드 창 테스트입니다'))=='ko')
+assert(keys(F.fonts_for(BODY,'окно мода, проверка шрифта'))=='ru')
+assert(keys(F.fonts_for(BODY,'设置测试 한국어'))=='zh_hans,ko',keys(F.fonts_for(BODY,'设置测试 한국어')))
+assert(keys(F.fonts_for(BODY,'设置',{ZH}))=='')
+assert(keys(F.fonts_for(BODY,'Latin only'))=='')
+-- Requests: once per font, whatever the number of texts or frames.
+F.want(runtime,BODY,'344 条文本，zh-CN.txt',{})
+F.want(runtime,BODY,'344 条文本，zh-CN.txt',{})
+F.want(runtime,BODY,'设置',{})
+assert(#REQUESTS==1 and REQUESTS[1]=='0x09CAA46BC556E38F',table.concat(REQUESTS,','))
+assert(F.requests.zh_hans.state=='requested')
+F.want(runtime,BODY,'한국어',{})
+assert(#REQUESTS==2 and REQUESTS[2]=='0x9212D7034DC5D55A')
+assert(assets.held('0x09CAA46BC556E38F')and assets.held('0x9212D7034DC5D55A'))
+-- A runtime that cannot request packages: refused once, logged, never retried.
+F.reset_for_tests();assets.reset();assets.prove=function()return {instance=0x1000,request=2,capacity=16}end
+local plain={mode='read-only',read=runtime.read}
+F.want(plain,BODY,'日本語のテスト',{})
+F.want(plain,BODY,'日本語のテスト2',{})
+assert(F.requests.ja.state=='refused'and F.requests.ja.why:find('cannot request packages',1,true),F.requests.ja.why)
+-- Only the catalogued font packages are accepted (core/assets refuses any other identity).
+assert(assets.font_dependency('zh_hant').package=='0xC0B7644CC5C4AAA8'and not assets.font_dependency('el'))
+return 'ok'
+''')
+
     def test_runs_keep_latin_in_the_role_font(self):
         self.lua(r'''
 -- Text the role font fully covers: one run, the role font, whatever is resident.
@@ -376,7 +419,7 @@ for _,a in ipairs(t)do
 end
 assert(zh>=3,'the Simplified Chinese line and the wrapped paragraph in the game font: '..zh)
 assert(latin>=7,'every Latin part in FS Sinclair: '..latin)
-assert(count('GameFontTextProof 0.1.0 GAME FONT TEXT BUILD')==1)
+assert(count('GameFontTextProof 0.2.0 FONTS IN ANY LANGUAGE BUILD')==1)
 assert(count('game fonts loaded now: zh_hans')==1,'the state is logged once the window drew')
 assert(count('[zh_hans] 简体中文：模组窗口测试')==1)
 assert(count('Japanese')>=1 and count('can_draw=false')>=4)

@@ -130,21 +130,38 @@ function M.layout(width,height,opts)
     return out
 end
 
--- Splits text into at most `lines` lines of at most `chars` characters at spaces; the last is cut with '...'.
+-- Splits text into at most `lines` lines of at most `chars` character widths at spaces (a CJK character is two); the
+-- last is cut with '...'. Cuts never split a UTF-8 character (0.30.4: text in any script).
+local function widths(s)
+    local fonts=require('hd2runtime/runtime/ui_fonts')
+    local n=0
+    for _,cp in fonts.utf8_codes(s)do n=n+(fonts.wide(cp)and 2 or 1)end
+    return n
+end
+local function cut(s,chars)
+    local fonts=require('hd2runtime/runtime/ui_fonts')
+    local n,last=0,0
+    for at,cp in fonts.utf8_codes(s)do
+        n=n+(fonts.wide(cp)and 2 or 1)
+        if n>chars then break end
+        last=at+fonts.char_length(s,at)-1
+    end
+    return s:sub(1,math.max(last,math.min(#s,fonts.char_length(s,1))))
+end
 function M.wrap(text,chars,lines)
     local out,line={},''
     for word in tostring(text):gmatch('%S+')do
         local candidate=line==''and word or(line..' '..word)
-        if #candidate<=chars then line=candidate
+        if widths(candidate)<=chars then line=candidate
         else
             out[#out+1]=line
             line=word
         end
     end
     if line~=''then out[#out+1]=line end
-    for k=1,#out do if #out[k]>chars then out[k]=out[k]:sub(1,math.max(1,chars-3))..'...'end end
+    for k=1,#out do if widths(out[k])>chars then out[k]=cut(out[k],math.max(1,chars-3))..'...'end end
     if #out>lines then
-        out[lines]=(out[lines]:sub(1,math.max(1,chars-3)))..'...'
+        out[lines]=cut(out[lines],math.max(1,chars-3))..'...'
         for k=#out,lines+1,-1 do out[k]=nil end
     end
     return out
@@ -177,6 +194,15 @@ function M.draw(runtime,layout,entries,state)
     if not screen then return nil,open_why end
     local u=layout.unit
     local px=function(n)return math.max(1,math.floor(n*u+0.5))end
+    local GT=require('hd2runtime/runtime/game_text')
+    local ctx=GT.context(runtime)
+    local mono=require('hd2runtime/domains/ui_fonts').fonts.monaco
+    screen.game_text=ctx
+    -- a mod's text: its characters monaco lacks in a loaded game font (runtime/game_text.lua)
+    local function mod_text(s,size,x,y,colour)
+        if mono.name==font then return GT.text(ctx,screen,s,mono,size,x,y,17,colour)end
+        return screen.text(s,font,size,font,x,y,17,colour)
+    end
     local ok,err=pcall(function()
         local function need(value,what)if value==nil then error(what..' was refused: '..tostring(screen.reason),0)end end
         local function rect(r,layer,colour,what)need(screen.rect(r.x,r.y,layer,r.w,r.h,colour),what)end
@@ -218,13 +244,12 @@ function M.draw(runtime,layout,entries,state)
         if shown then
             local chars=math.max(4,math.floor(A.w/(layout.sizes.name*0.62)))
             local name=M.wrap(shown.name,chars,1)[1]
-            need(screen.text(name,font,layout.sizes.name,font,A.x,A.y+A.h-layout.sizes.name*1.2,17,COLOURS.name),
-                'the name')
+            need(mod_text(name,layout.sizes.name,A.x,A.y+A.h-layout.sizes.name*1.2,COLOURS.name),'the name')
             if state.focus then
                 local text_chars=math.max(4,math.floor(A.w/(layout.sizes.text*0.62)))
                 for k,line in ipairs(M.wrap(shown.description,text_chars,3))do
-                    need(screen.text(line,font,layout.sizes.text,font,A.x,
-                        A.y+A.h-layout.sizes.name*1.2-k*layout.sizes.text*1.45,17,COLOURS.text),'the description')
+                    need(mod_text(line,layout.sizes.text,A.x,
+                        A.y+A.h-layout.sizes.name*1.2-k*layout.sizes.text*1.45,COLOURS.text),'the description')
                 end
             end
         end
@@ -475,6 +500,10 @@ function M.draw_focus(runtime,layout,entry,index)
     local tip=M.tooltip_rect(layout,index,#lines,#names)
     local screen,open_why=open_screen()
     if not screen then return nil,open_why end
+    local GT=require('hd2runtime/runtime/game_text')
+    local ctx=GT.context(runtime)
+    local mono=require('hd2runtime/domains/ui_fonts').fonts.monaco
+    screen.game_text=ctx
     local ok,err=pcall(function()
         local function need(v,what)if v==nil then error(what..' was refused: '..tostring(screen.reason),0)end end
         local r=tile.rect
@@ -489,10 +518,12 @@ function M.draw_focus(runtime,layout,entry,index)
         local x,y=tip.x+T.pad*u,tip.y+tip.h-(T.pad+T.name)*u
         for k,name in ipairs(names)do
             if k>1 then y=y-T.name*1.3*u end
-            need(screen.text(name,font,T.name*u,font,x,y,BASE+17,COLOURS.name),'the tooltip name')
+            need(mono.name==font and GT.text(ctx,screen,name,mono,T.name*u,x,y,BASE+17,COLOURS.name)
+                or screen.text(name,font,T.name*u,font,x,y,BASE+17,COLOURS.name),'the tooltip name')
         end
         for k,line in ipairs(lines)do
-            need(screen.text(line,font,T.text*u,font,x,y-k*T.text*1.45*u,BASE+17,COLOURS.text),'the tooltip text')
+            need(mono.name==font and GT.text(ctx,screen,line,mono,T.text*u,x,y-k*T.text*1.45*u,BASE+17,COLOURS.text)
+                or screen.text(line,font,T.text*u,font,x,y-k*T.text*1.45*u,BASE+17,COLOURS.text),'the tooltip text')
         end
     end)
     if not ok then screen.close();return nil,tostring(err)end
@@ -998,6 +1029,10 @@ function M.draw_native_focus(runtime,layout,entry,index,info)
     local function Y(units)return d.y+d.h-units*du end
     local screen,open_why=open_screen()
     if not screen then return nil,open_why end
+    -- Text a mod gives (a name, a description, traits) may be in any script: drawn through runtime/game_text.lua.
+    local GT=require('hd2runtime/runtime/game_text')
+    local ctx=GT.context(runtime)
+    screen.game_text=ctx
     local ok,err=pcall(function()
         local function need(v,what)if v==nil then error(what..' was refused: '..tostring(screen.reason),0)end end
         local u=layout.unit
@@ -1007,7 +1042,7 @@ function M.draw_native_focus(runtime,layout,entry,index,info)
         need(screen.rect(X(p[1]),Y(p[2]+p[4]),BASE+20,p[3]*du,p[4]*du,NCOLOURS.plate),'the details plate')
         local function text(s,font,cap,x,baseline,colour,what)
             local size=fonts.size_for_cap(font,cap*du)
-            need(screen.text(s,font.name,size,font.name,x,Y(baseline),BASE+24,colour),what)
+            need(GT.text(ctx,screen,s,font,size,x,Y(baseline),BASE+24,colour),what)
             return size
         end
         text(string.upper(info.category or'CUSTOM STRATAGEM'),title_font,DT.category.cap,X(DT.textX),DT.category.baseline,
@@ -1015,10 +1050,10 @@ function M.draw_native_focus(runtime,layout,entry,index,info)
         text(string.upper(info.name or entry.name or entry.id),title_font,DT.name.cap,X(DT.textX),DT.name.baseline,
             NCOLOURS.name,'the name')
         local dsize=fonts.size_for_cap(body_font,DT.description.cap*du)
-        local lines=fonts.wrap(body_font,info.description or entry.description or'',dsize,(DT.description.right-DT.textX)*du,
-            DT.description.lines)
+        local lines=GT.wrap(ctx,body_font,info.description or entry.description or'',dsize,
+            (DT.description.right-DT.textX)*du,DT.description.lines)
         for k,line in ipairs(lines)do
-            need(screen.text(line,body_font.name,dsize,body_font.name,X(DT.textX),Y(DT.description.baseline+(k-1)
+            need(GT.text(ctx,screen,line,body_font,dsize,X(DT.textX),Y(DT.description.baseline+(k-1)
                 *DT.description.pitch),BASE+24,NCOLOURS.text),'the description')
         end
         local t=math.max(1,math.floor(du+0.5))
@@ -1068,7 +1103,7 @@ function M.draw_native_focus(runtime,layout,entry,index,info)
             if rows[k]then
                 need(screen.rect(X(DT.traits.bulletX),Y(rows[k]),BASE+24,math.max(1,2.5*du),DT.rowCap*du,
                     NCOLOURS.bullet),'a trait bullet')
-                need(screen.text(string.upper(trait),title_font.name,rsize,title_font.name,X(DT.traits.textX),Y(rows[k]),
+                need(GT.text(ctx,screen,string.upper(trait),title_font,rsize,X(DT.traits.textX),Y(rows[k]),
                     BASE+24,NCOLOURS.value),'a trait')
             end
         end
@@ -1331,6 +1366,14 @@ function M.panel(opts)
         if S.renderer=='native'and equipped_key()~=S.equipped then
             show(view,world,'the loadout picks changed')
             return
+        end
+        -- A game font its text uses was unloaded (a language switch): redrawn without it (runtime/game_text.lua).
+        for _,name in ipairs({'focus','panel'})do
+            local drawn=screens[name]
+            if drawn and drawn.game_text and not require('hd2runtime/runtime/game_text').still_ready(drawn.game_text)then
+                if name=='focus'then draw_focus()else show(view,world,'a game font of its text was unloaded')end
+                return
+            end
         end
         track.poll=track.poll+(dt or 0)
         if track.poll<0.5 then return end

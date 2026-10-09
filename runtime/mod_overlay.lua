@@ -116,6 +116,8 @@ function M.hooks.image_materials(world)return game_icons.image_materials(world.r
 function M.hooks.game_fonts(world)return ui_fonts.resident_game_fonts(world.runtime)end
 -- Whether one game font (its font, atlas and Runtime material) is loaded THIS frame: true, or false and why.
 function M.hooks.game_font_ready(world,font)return ui_fonts.game_font_ready(world.runtime,font.game)end
+-- Text with characters no loaded font has: ask for the game font package that has them (runtime/ui_fonts.lua want).
+function M.hooks.want_fonts(world,font,text,extra)return ui_fonts.want(world.runtime,font,text,extra)end
 -- The Runtime reader for queries outside a frame (hd2.ui.can_draw, hd2.ui.fonts): the proven event world's runtime,
 -- or nil and why.
 function M.hooks.runtime()
@@ -192,6 +194,7 @@ end
 local function text_runs(self,font,text)
     if ui_fonts.has(font,text)then return {{font=font,text=text}}end
     local extra=self.extra_fonts and self.extra_fonts()
+    if self.want_fonts then self.want_fonts(font,text,extra)end
     return ui_fonts.runs(font,text,extra)
 end
 -- opts: {size = pixels (default 18), colour, font = 'body' | 'title' | 'mono', align = 'left' | 'center' | 'right',
@@ -642,6 +645,7 @@ local function frame(self,dt)
     self.world_ref=world
     local d=setmetatable({items={},layer=self.layer,width=screen.width,height=screen.height,scale=self.scale,
         materials={},image_ready=image_ready,icon_ready=icon_ready,extra_fonts=extra_fonts,
+        want_fonts=function(font,text,list)pcall(M.hooks.want_fonts,world,font,text,list)end,
         fonts={},refused=0,font_for=function(role)return M.hooks.font(world,role)end},Builder)
     local ok,err=xpcall(self.draw_fn,function(e)return debug.traceback(tostring(e),2)end,d,dt)
     if not ok then
@@ -837,6 +841,8 @@ function M.can_draw(text,role)
     if world then
         local ok,list=pcall(M.hooks.game_fonts,world)
         if ok and type(list)=='table'then extra=list end
+        -- asking is enough to start loading the font it needs (it draws, and can_draw says so, once loaded)
+        pcall(M.hooks.want_fonts,world,font,tostring(text),extra)
     end
     return ui_fonts.drawable(font,tostring(text),extra)
 end
