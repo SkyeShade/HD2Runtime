@@ -266,7 +266,7 @@ for _,name in ipairs(WCL.variants())do
         refused=delivery==nil and tostring(why)or nil}
 end
 out.variantDonors=json.array(variant_list)
-out.uses={min=1,max=custom.MAX_USES}
+out.uses={min=-1,max=custom.MAX_USES}   -- 0 / -1: unlimited (0.30.3)
 out.maxPerPlayer=custom.MAX_PER_PLAYER
 out.traits={max=custom.MAX_TRAITS,length=custom.TRAIT_LENGTH}
 return json.encode(out)
@@ -620,7 +620,8 @@ def build(facts: dict | None = None) -> dict:
             'uses': dict(rng(facts['uses']['min'], facts['uses']['max'], integer=True, unit='calls per mission'),
                 optional=True, default='unlimited',
                 doc='each player\'s own calls: the game\'s own per-slot uses (its HUD counter, its depleted look, its '
-                    'refusal at 0) on the slot that holds the carrier; refused for an Eagle, whose uses are per rearm'),
+                    'refusal at 0) on the slot that holds the carrier; 0 or -1 (or none) means unlimited; refused for an '
+                    'Eagle, whose uses are per rearm'),
             'max_per_player': dict(rng(1, facts['maxPerPlayer'], integer=True, unit='loadout slots per player'),
                 optional=True, default='no limit',
                 doc='at most this many of each player\'s loadout slots hold it: a further pick is refused (its tile '

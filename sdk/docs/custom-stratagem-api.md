@@ -128,11 +128,14 @@ hd2.custom_stratagem.untune('pelican_gas_support')                              
 ```
 
 For in-game editors: any mod may tune a registered custom stratagem's `cooldown` (seconds, above 0 and at most 600)
-and `uses` (1 to 100; not for an Eagle, whose uses are per rearm) on this machine. Both are each player's own, armed
+and `uses` (1 to 100, or `0` / `-1` for unlimited since 0.30.3; not for an Eagle, whose uses are per rearm) on this
+machine. Both are each player's own, armed
 when a call lands, and neither is in the lobby registry hash, so tuning changes this player's next call and nothing
 other machines agree on. Nothing else can change after registration (the code, texts and icon are fixed; payload
 fields would change the registry). `describe(id)` also reports `label`, `code`, `code_values`, `cooldown`, `uses`,
-`eagle_uses`, `icon`, `tuned`, `registered = {cooldown, uses}` and `limits`. Each tune is logged
+`eagle_uses`, `icon`, `tuned`, `registered = {cooldown, uses}`, `unlimited_uses` (true when there is no per-mission
+count: `uses` is then nil) and `limits` (with `unlimited_uses = {0, -1}`, the values that mean unlimited). Each tune is
+logged
 (`custom stratagem TUNED <id> by <mod>`).
 
 ### `max_per_player`: loadout slots per player (r45)

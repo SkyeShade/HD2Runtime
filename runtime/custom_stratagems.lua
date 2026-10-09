@@ -1026,8 +1026,8 @@ function M.register(spec,owner)
         'cooldown must be seconds above 0 and at most '..M.MAX_COOLDOWN)
     -- Calls per mission, each player's own (runtime/slot_cooldown.lua: the call that uses the last of them ends with a
     -- cooldown longer than any mission).
-    assert(spec.uses==nil or(type(spec.uses)=='number'and spec.uses%1==0 and spec.uses>=1 and spec.uses<=M.MAX_USES),
-        'uses must be a whole number of calls per mission from 1 to '..M.MAX_USES)
+    assert(spec.uses==nil or(type(spec.uses)=='number'and spec.uses%1==0 and spec.uses>=-1 and spec.uses<=M.MAX_USES),
+        'uses must be a whole number of calls per mission from 1 to '..M.MAX_USES..', or 0 / -1 for unlimited')
     -- The loadout slot holds the carrier itself (runtime/carrier_in_slot.lua; the default since r44); 'token' is a
     -- development option (the Orbital Precision Strike token, the Runtime's own fallback path).
     assert(spec.selection==nil or spec.selection=='token'or spec.selection=='carrier',
@@ -1135,7 +1135,7 @@ function M.register(spec,owner)
     for _,asset in ipairs(assets)do exclude[#exclude+1]=asset end
     if delivery~='runtime'then exclude[#exclude+1]=delivery.stratagem end
     local definition={id=id,owner=owner,label=name_cased,texts=t,icon=icon,code=spec.code,code_values=values,
-        code_text=calldown.text(values),cooldown=cooldown,uses=spec.uses,traits=M.traits_of(spec.traits),
+        code_text=calldown.text(values),cooldown=cooldown,uses=M.uses_value(spec.uses),traits=M.traits_of(spec.traits),
         -- The loadout slot holds the carrier itself (the default since r44); 'token' (development, Lua only): the
         -- Orbital Precision Strike token, converted at mission start.
         selection=(spec.selection or M.default_selection)=='carrier'and'carrier'or nil,
@@ -1291,18 +1291,24 @@ function M.tune(id,values,by)
     end
     if uses~=nil then
         if d.eagle then return nil,'an Eagle\'s uses are per rearm (eagle.uses) and cannot be tuned'end
-        if not(type(uses)=='number'and uses%1==0 and uses>=1 and uses<=M.MAX_USES)then
-            return nil,'uses must be a whole number of calls per mission from 1 to '..M.MAX_USES
+        if not(type(uses)=='number'and uses%1==0 and uses>=-1 and uses<=M.MAX_USES)then
+            return nil,'uses must be a whole number of calls per mission from 1 to '..M.MAX_USES..', or 0 / -1 for unlimited'
         end
     end
     d.registered_values=d.registered_values or{cooldown=d.cooldown,uses=d.uses}
     if cooldown~=nil then d.cooldown=cooldown end
-    if uses~=nil then d.uses=uses end
+    if uses~=nil then d.uses=M.uses_value(uses)end
     d.tuned_by=by
     log(('TUNED %s by %s: cooldown %s, uses %s (registered: %s, %s); from its next call')
         :format(id,tostring(by or'unknown'),tostring(d.cooldown),tostring(d.uses or'unlimited'),
         tostring(d.registered_values.cooldown),tostring(d.registered_values.uses or'unlimited')))
     return true
+end
+-- 0.30.3 (for the stats editor): uses 0 or -1 mean unlimited (no count: the carrier's slot keeps the game's own
+-- unlimited -1, and no last-call cooldown), as an absent uses always did. Anything else is the count itself.
+function M.uses_value(uses)
+    if uses==0 or uses==-1 then return nil end
+    return uses
 end
 function M.untune(id)
     local d=defs[id]
@@ -5821,7 +5827,9 @@ function M.describe(id)
         cooldown=d.cooldown,uses=d.uses,eagle_uses=d.eagle and d.eagle.uses or nil,icon=d.icon,
         tuned=d.registered_values~=nil,registered=d.registered_values and{cooldown=d.registered_values.cooldown,
             uses=d.registered_values.uses}or{cooldown=d.cooldown,uses=d.uses},
-        limits={cooldown={0,M.MAX_COOLDOWN},uses={1,M.MAX_USES}}}
+        -- unlimited_uses: no per-mission count (0 / -1 in tune and register, or none given); not an Eagle's.
+        unlimited_uses=d.uses==nil and d.eagle==nil,
+        limits={cooldown={0,M.MAX_COOLDOWN},uses={1,M.MAX_USES},unlimited_uses={0,-1}}}
     if a then
         out.carrier={name=a.carrier,stable_id=a.stable_id,type=a.type,family=a.family,beacon=a.beacon,beam=a.beam,
             condensed=a.condensed==true,fallback=a.fallback,local_refused=a.local_refused}

@@ -467,6 +467,19 @@ assert(custom.describe('kit').registered.cooldown==90,'kept')
 assert(custom.untune('kit')==true,'untune')
 d=custom.describe('kit')
 assert(d.cooldown==90 and d.uses==nil and not d.tuned,'restored')
+-- 0.30.3 (the stats editor): uses 0 or -1 mean unlimited (no count, as an absent uses); -2 is refused
+assert(d.unlimited_uses==true and d.limits.unlimited_uses[1]==0 and d.limits.unlimited_uses[2]==-1,J(d))
+assert(custom.tune('kit',{uses=5})==true and custom.describe('kit').uses==5)
+assert(custom.describe('kit').unlimited_uses==false)
+for _,value in ipairs({0,-1})do
+    custom.tune('kit',{uses=5})
+    assert(custom.tune('kit',{uses=value})==true,'tune uses '..value)
+    local u=custom.describe('kit')
+    assert(u.uses==nil and u.unlimited_uses==true and custom.get('kit').uses==nil,'unlimited by '..value)
+end
+assert(count('TUNED kit by unknown: cooldown 90, uses unlimited')>=1,said('TUNED'))
+no('kit',{uses=-2},'or 0 / -1 for unlimited')
+custom.untune('kit')
 -- the public table
 local hd2=require('hd2runtime/api/hd2')
 assert(type(hd2.custom_stratagem.tune)=='function'and type(hd2.custom_stratagem.untune)=='function','public')

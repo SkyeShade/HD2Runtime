@@ -182,7 +182,8 @@ local function refused(over,text)
     local ok,why=pcall(custom.register,spec(over),'mods/test/t')
     assert(not ok and tostring(why):find(text,1,true),tostring(why))
 end
-refused({uses=0},'uses must be a whole number of calls per mission from 1 to 100')
+-- 0.30.3: 0 and -1 mean unlimited (as no uses); below -1 is refused
+refused({uses=-2},'uses must be a whole number of calls per mission from 1 to 100, or 0 / -1 for unlimited')
 refused({uses=2.5},'uses must be a whole number')
 refused({uses=101},'from 1 to 100')
 refused({traits={'A','B','C','D','E'}},'traits: at most 4 after CUSTOM STRATAGEM')
