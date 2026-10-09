@@ -312,13 +312,25 @@ seconds(1)
 assert(count('MATCHMAKING SAFETY NOTICE: public lobbies can cause issues or crashes due to mods')==1)
 local t=screens[#screens].texts
 assert(t[1]=='HD2Runtime multiplayer safety'and t[2]=='Public lobbies can cause issues or crashes due to mods.')
-assert(t[3]=='Friends Only / Invite Only is safest when playing with mods.'and t[4]==nil,'no fourth line since 0.30.2')
+assert(t[3]=='Friends Only / Invite Only is safest when playing with mods.')
+assert(t[4]=='Press F10 for HD2Runtime settings: turn this and other messages off.',tostring(t[4]))
 -- Public privacy, Quickplay and an SOS Beacon: no call, no warning, no other notice.
 set_privacy(0);quickplay(true,false);host_lobby();key(PRIVACY_KEY,'0');key(SOS_KEY,'1')
 seconds(30)
 assert(#calls==0 and privacy()==0 and quickplaying())
 assert(count('MATCHMAKING SAFETY NOTICE')==1 and count('WARNING')==0 and#screens==1,#screens)
 assert(count('strangers')==0)
+""")
+
+    def test_the_settings_can_turn_the_notice_off(self):
+        self.lua(r"""
+local settings=require('hd2runtime/runtime/runtime_settings')
+settings.reset_for_tests()
+settings.set('startup_notice',false)
+seconds(1)
+assert(count('MATCHMAKING SAFETY NOTICE: public lobbies can cause issues or crashes due to mods')==1,'still logged')
+assert(#screens==0,'not shown')
+settings.reset_for_tests()
 """)
 
     def test_no_notice_before_the_ship(self):

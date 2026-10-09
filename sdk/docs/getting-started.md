@@ -496,6 +496,24 @@ Game F5FEE03DCFDB
   and height/1080. It is the same share of the screen at every resolution: 36 px at 4K, 12 px at 720p. The GUI is created when the label appears and destroyed when it hides; nothing is
   redrawn while it shows (`runtime/version_label.lua`).
 
+### Settings (F10, 0.30.2)
+
+Press **F10** in game to open the HD2Runtime settings. The window has the HD2R Editor's look and frees the mouse cursor
+while it is open; F10 again, Esc or the x close it. Each thing the Runtime shows on screen can be turned off there:
+
+| Setting | What it hides |
+|---|---|
+| Startup notice | the notice about public lobbies when you first board the ship |
+| Custom stratagem alerts | the alert cards: problems before a launch and how to fix them, DISABLED, vanilla names |
+| Version label | the HD2Runtime and game build in the bottom-left corner aboard the ship |
+| Startup progress | the asset loading panel in the top-right corner while mods load |
+
+- Everything is on by default. A change applies at once and is saved for every later game session (in
+  `%LOCALAPPDATA%\HD2Runtime\mod_data\hd2runtime.json`).
+- Turning something off only hides it: the log keeps every line.
+- F10 is the Runtime's own key. A mod that binds F10 is left unbound and logs the conflict; it can be rebound.
+- The startup notice says where to find the panel.
+
 ## 11. Common problems
 
 | You see | Meaning | What to do |

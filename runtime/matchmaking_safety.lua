@@ -72,10 +72,18 @@ M.TEXT={
     -- the startup notice (warnings only, M.ENFORCE=false)
     notice_issues='Public lobbies can cause issues or crashes due to mods.',
     notice_advice='Friends Only / Invite Only is safest when playing with mods.',
+    notice_settings='Press F10 for HD2Runtime settings: turn this and other messages off.',
 }
 
 local state
 local adapter_override,native
+-- Whether an on-screen item is on in the HD2Runtime settings (F10; on when the settings cannot be read).
+local function shown(key)
+    local ok,settings=pcall(require,'hd2runtime/runtime/runtime_settings')
+    if not(ok and type(settings)=='table'and settings.enabled)then return true end
+    local okv,on=pcall(settings.enabled,key)
+    return not okv or on~=false
+end
 local function fresh()
     return {clock=0,next_check=0,proven=nil,announced=false,said={},notices={},enforced=0,readvertised=0,
         readvertise_logged=-math.huge,
@@ -474,7 +482,9 @@ function M.check(world,quickplay_only)
         state.announced=true
         log('MATCHMAKING SAFETY NOTICE: public lobbies can cause issues or crashes due to mods; Friends Only / Invite '
             ..'Only is safest when playing with mods. HD2Runtime does not change the lobby or Quickplay.')
-        notify(M.TEXT.notice_issues,M.TEXT.notice_advice,'')
+        -- The F10 settings panel (runtime/runtime_settings.lua) can turn the notice off: then only the log line.
+        if not shown('startup_notice')then return {status='notice_off'}end
+        notify(M.TEXT.notice_issues,M.TEXT.notice_advice,M.TEXT.notice_settings)
         return {status='notice'}
     end
     local ok,why=M.prove(world)

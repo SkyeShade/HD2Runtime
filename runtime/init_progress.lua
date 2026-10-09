@@ -270,7 +270,15 @@ local function tick(dt)
         return 'complete'
     end
     -- The panel: aboard the ship or in a mission, once work is still pending M.SHOW_AFTER s after the world appeared.
-    if world and not state.disabled and state.world_at and(t-state.world_at)>=M.SHOW_AFTER then
+    -- Turned off in the HD2Runtime settings (F10): the panel is not shown (the stages are still logged).
+    local okset,settings=pcall(require,'hd2runtime/runtime/runtime_settings')
+    local panel_on=true
+    if okset and type(settings)=='table'and settings.enabled then
+        local okv,on=pcall(settings.enabled,'startup_progress')
+        panel_on=not okv or on~=false
+    end
+    if not panel_on and state.screen then close_screen();state.drawn_key=nil end
+    if world and panel_on and not state.disabled and state.world_at and(t-state.world_at)>=M.SHOW_AFTER then
         if key~=state.drawn_key and(t-state.drawn_at)>=M.REDRAW then
             local ok,drawn,why=pcall(draw,world,percent,label)
             if not ok then fail(drawn)

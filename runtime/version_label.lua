@@ -91,6 +91,12 @@ local function tick(dt)
     label.acc=0
     local state=M.hooks.state()
     local aboard=state~=nil and state.name=='Ship'and not state.mission
+    -- Turned off in the HD2Runtime settings (F10): hidden at once, shown again when turned on.
+    local okset,settings=pcall(require,'hd2runtime/runtime/runtime_settings')
+    if okset and type(settings)=='table'and settings.enabled then
+        local okv,on=pcall(settings.enabled,'version_label')
+        if okv and on==false then aboard=false end
+    end
     if aboard and not label.screen then
         local ok,shown,why=pcall(show)
         if not ok then

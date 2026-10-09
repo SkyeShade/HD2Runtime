@@ -29,6 +29,13 @@ M.COLOURS={plate={232,10,11,12},edge={255,54,56,58},rule={255,40,42,44},title={2
 local function fresh()return {clock=0,alerts={},order=0,shown={},current=nil,screen=nil,timer=nil,gui_disabled=false,
     watch=nil}end
 local state=fresh()
+-- Whether an on-screen item is on in the HD2Runtime settings (F10; on when the settings cannot be read).
+local function shown(key)
+    local ok,settings=pcall(require,'hd2runtime/runtime/runtime_settings')
+    if not(ok and type(settings)=='table'and settings.enabled)then return true end
+    local okv,on=pcall(settings.enabled,key)
+    return not okv or on~=false
+end
 local function log(text)log_module.emit('[HD2Runtime] '..text)end
 
 -- The hooks the card is drawn through (tests replace them): the screen, and the title and body fonts (nil and why while
@@ -193,6 +200,8 @@ end
 
 local function tick(dt)
     state.clock=state.clock+(type(dt)=='number'and dt>=0 and dt<10 and dt or 0)
+    -- Turned off while a card shows: it goes at once, and every queued card with it.
+    if not shown('alert_cards')then state.alerts={};close_screen();state.current=nil;return 'idle'end
     local a=pick()
     if not a then close_screen();state.current=nil;return 'idle'end
     if state.current~=a or a.dirty then
@@ -251,6 +260,8 @@ end
 -- seconds}. The same key and text is not shown again within M.REPEAT s unless force. Returns whether it was queued.
 function M.post(alert,force)
     if type(alert)~='table'or type(alert.key)~='string'or type(alert.title)~='string'then return false end
+    -- Turned off in the HD2Runtime settings (F10): nothing is shown (the callers log every problem anyway).
+    if not shown('alert_cards')then return false end
     local items={}
     for _,i in ipairs(alert.items or{})do items[#items+1]={line=clean(i.line),fix=i.fix and clean(i.fix)or nil}end
     local a={key=alert.key,severity=M.SEVERITY[alert.severity]and alert.severity or'warn',title=clean(alert.title),
