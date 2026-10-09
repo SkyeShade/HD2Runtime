@@ -134,6 +134,12 @@ class GameFontTests(unittest.TestCase):
             self.assertIn((hd2_font.FONT_TYPE, resource_hash(name)), arc)
             self.assertIn((hd2_font.MATERIAL_TYPE, resource_hash(name)), arc)
             self.assertIn((hd2_font.TEXTURE_TYPE, resource_hash(name + '/atlas')), arc)
+        # The game language fonts' Runtime materials (monaco's bytes naming the placeholder) and the placeholder.
+        for key, _label, _package, _langs, _font, _atlas in hd2_font.GAME_FONTS:
+            material, _ = arc[(hd2_font.MATERIAL_TYPE, resource_hash(hd2_font.GAME_FONT_MATERIAL + key))]
+            self.assertEqual(struct.unpack_from('<Q', material, 0x8C)[0], resource_hash(hd2_font.GAME_FONT_PLACEHOLDER))
+        self.assertEqual(arc[(hd2_font.TEXTURE_TYPE, resource_hash(hd2_font.GAME_FONT_PLACEHOLDER))],
+            hd2_font.placeholder_texture())
         import generate_ui_fonts
         fonts = {k: v for k, v in arc.items() if k[0] != 0xA14E8DFA2CD117E2}
         self.assertEqual(generate_ui_fonts._digest(fonts), digest)
