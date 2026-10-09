@@ -1,0 +1,1 @@
+{"format":1,"name":"BeamSwapProof","resource":"mods/skyeshade/hd2runtime_beam_swap_proof","guid":"9b50fadf-f878-4153-aef0-c30f654e5a6b","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.30.3","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../sdk","ide_library":"../../sdk/stubs"}
