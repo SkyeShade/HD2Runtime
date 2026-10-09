@@ -80,10 +80,12 @@ STRATAGEM_WEAPONS_0_28_0 = {'mine'}   # a mine deployer's launcher owns its mine
 # Features new in 0.30.0 (published; pinned for 0.30.1, which adds none). The names keep "UNRELEASED" from the 0.30.0
 # line; features of the next feature release get their own floor.
 UNRELEASED = '0.30.0'
-# Features added after the last published release need the release that ships them, i.e. the version being built
-# (VERSION); that release pins them like UNRELEASED above. 0.30.2: player-weapon explosion status slots and the
-# sentry / emplacement projectile hosts ('<stratagem> / weapon').
-NEXT_RELEASE = (ROOT / 'VERSION').read_text().strip()
+# Features new in 0.30.2 (pinned at its release): player-weapon explosion status slots, the sentry / emplacement
+# projectile hosts ('<stratagem> / weapon') and the seven weapons resolved to their proven roots (WEAPON_ROOTS_0_30_2).
+# Features after 0.30.2 get their own floor (the version being built) the same way.
+NEXT_RELEASE = '0.30.2'
+WEAPON_ROOTS_0_30_2 = {'GP-31 Grenade Pistol', 'P-72 Crisper', 'LAS-5 Scythe', 'LAS-7 Dagger', 'CQC-42 Machete',
+    'CQC-73 Entrenchment Tool', 'SMG-37 Defender'}
 PLAYER_EXPLOSION_STATUS = re.compile(r'^explosion\.[^.]+\.(impact|expiry)\.damage\.status_\d+_(type|strength)$')
 UNRELEASED_FIELDS = {'stratagem.calldown_code',   # docs/stratagem-calldown-code.md
     'stratagem.presentation.name', 'stratagem.presentation.name_cased', 'stratagem.presentation.description',
@@ -332,6 +334,8 @@ def required_version(report):
             bump(RESOURCE_PATH_FLOORS[(resource, path)], resource + ' ' + path)
         if resource == 'player_weapon' and ' / underbarrel' in (operation.get('weapon') or ''):
             bump(RELEASE_0_28_0, 'underbarrel sub-target')
+        if resource == 'player_weapon' and operation.get('weapon') in WEAPON_ROOTS_0_30_2:
+            bump(NEXT_RELEASE, operation['weapon'] + ' (blocked as a duplicate identity before 0.30.2)')
         if resource == 'vehicle_weapon' and (operation.get('weapon') or '').endswith(' / weapon'):
             bump(NEXT_RELEASE, 'sentry / emplacement projectile host ' + operation['weapon'])
         if resource == 'booster' and path in BOOSTER_PATH_FLOORS:

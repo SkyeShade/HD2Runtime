@@ -3884,7 +3884,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.30.1",
+      "minVersion": "0.30.2",
       "operations": [
         {
           "acknowledgements": [
@@ -3900,12 +3900,12 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.30.1",
+      "requiredMinVersion": "0.30.2",
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
-        "player weapon explosion status explosion.primary.impact.damage.status_1_strength -> 0.30.1",
-        "player weapon explosion status explosion.primary.impact.damage.status_1_type -> 0.30.1",
+        "player weapon explosion status explosion.primary.impact.damage.status_1_strength -> 0.30.2",
+        "player weapon explosion status explosion.primary.impact.damage.status_1_type -> 0.30.2",
         "typed writes -> 0.23.2"
       ]
     },
@@ -4316,7 +4316,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.30.1",
+      "minVersion": "0.30.2",
       "operations": [
         {
           "acknowledgements": [
@@ -4359,13 +4359,13 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.30.1",
+      "requiredMinVersion": "0.30.2",
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
-        "sentry / emplacement projectile host A/AC-8 Autocannon Sentry / weapon -> 0.30.1",
-        "sentry / emplacement projectile host E/AT-12 Anti-Tank Emplacement / weapon -> 0.30.1",
-        "sentry / emplacement projectile host E/MG-101 HMG Emplacement / weapon -> 0.30.1",
+        "sentry / emplacement projectile host A/AC-8 Autocannon Sentry / weapon -> 0.30.2",
+        "sentry / emplacement projectile host E/AT-12 Anti-Tank Emplacement / weapon -> 0.30.2",
+        "sentry / emplacement projectile host E/MG-101 HMG Emplacement / weapon -> 0.30.2",
         "typed writes -> 0.23.2",
         "vehicle_weapon attack.primary.projectile -> 0.28.0",
         "vehicle_weapon target -> 0.26.0"
@@ -5384,7 +5384,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.30.1",
+      "minVersion": "0.30.2",
       "operations": [
         {
           "acknowledgements": {},
@@ -5451,10 +5451,17 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.28.0",
+      "requiredMinVersion": "0.30.2",
       "status": "VALIDATED",
       "usesOptions": true,
       "versionReasons": [
+        "CQC-42 Machete (blocked as a duplicate identity before 0.30.2) -> 0.30.2",
+        "CQC-73 Entrenchment Tool (blocked as a duplicate identity before 0.30.2) -> 0.30.2",
+        "GP-31 Grenade Pistol (blocked as a duplicate identity before 0.30.2) -> 0.30.2",
+        "LAS-5 Scythe (blocked as a duplicate identity before 0.30.2) -> 0.30.2",
+        "LAS-7 Dagger (blocked as a duplicate identity before 0.30.2) -> 0.30.2",
+        "P-72 Crisper (blocked as a duplicate identity before 0.30.2) -> 0.30.2",
+        "SMG-37 Defender (blocked as a duplicate identity before 0.30.2) -> 0.30.2",
         "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.28.0",
         "in-game options -> 0.25.1",
         "typed writes -> 0.23.2"
@@ -5465,7 +5472,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.30.1",
+      "minVersion": "0.30.2",
       "operations": [
         {
           "acknowledgements": {},
@@ -5490,7 +5497,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.30.1",
+      "minVersion": "0.30.2",
       "operations": [
         {
           "acknowledgements": [
