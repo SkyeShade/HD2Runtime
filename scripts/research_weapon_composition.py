@@ -252,6 +252,20 @@ def _i32(data, offset):
     return struct.unpack_from('<i', data, offset)[0]
 
 
+WARMUP_REASON = ('Derived: heat.firing_charge / heat.charge_gain_per_second (the charge built before the first shot, '
+    'at the charge gained per second); edit heat.firing_charge or heat.charge_gain_per_second.')
+OVERHEAT_COOLDOWN_REASON = ('No proven member of its own: after an overheat the weapon cools from heat.capacity at '
+    'heat.cool_per_second (before the native cold / hot multipliers, heat.cool_per_second_cold / _hot); edit '
+    'heat.capacity or heat.cool_per_second.')
+
+
+def warmup_seconds(charge, gain):
+    """Seconds of charge before the first shot: firing charge / charge gain per second (0 without a charge)."""
+    if charge <= 0:
+        return 0.0
+    return charge / gain if gain > 0 else None
+
+
 def _f32(data, offset):
     return struct.unpack_from('<f', data, offset)[0]
 
@@ -500,13 +514,17 @@ def analyze(raw):
             {'id': 'heatsink.from_ammo_box', 'value': math.floor(_u32(body, 88) / 2),
                 'wikiValue': wiki_heat.get('magsFromAmmoBox'), 'derived': True,
                 'writable': False, 'reason': 'Derived from heatsink.from_supply.'},
-            {'id': 'heat.warmup', 'value': None,
-                'wikiValue': (wiki_heat.get('Warmup') or [None])[0], 'derived': False,
-                'writable': False, 'reason': 'No owned WeaponHeat scalar reproduced warmup across beam and projectile heat families.'},
+            # 0.30.4 (research/las-beam-overhaul-comparison, heat148): the warm-up is the quotient of two members of
+            # the weapon's own record, heat.firing_charge (+148) / heat.charge_gain_per_second (+152); no member of
+            # its own. 0 when the weapon needs no charge.
+            {'id': 'heat.warmup', 'value': warmup_seconds(_f32(body, 148), _f32(body, 152)),
+                'wikiValue': (wiki_heat.get('Warmup') or [None])[0], 'derived': True,
+                'writable': False, 'reason': WARMUP_REASON},
+            # No dedicated overheat-lockout member: an overheated weapon cools from heat.capacity at
+            # heat.cool_per_second (x the native cold / hot multipliers).
             {'id': 'heat.overheat_cooldown', 'value': None,
                 'wikiValue': 'reload_needed' if 'Cooldown After Overheat' in wiki_heat else None,
-                'derived': False, 'writable': False,
-                'reason': 'The qualitative reload-needed behavior has no proven scalar owner.'},
+                'derived': False, 'writable': False, 'reason': OVERHEAT_COOLDOWN_REASON},
         ])
         heat_weapons.append({'weapon': name, 'resources': identity['resources'],
             'heatMechanismPresent': True, 'heatsinkMechanismPresent': True,

@@ -488,11 +488,11 @@
         },
         {
           "id": "heat.warmup",
-          "value": null,
+          "value": 0.0,
           "wikiValue": 0.0,
-          "derived": false,
+          "derived": true,
           "writable": false,
-          "reason": "No owned WeaponHeat scalar reproduced warmup across beam and projectile heat families."
+          "reason": "Derived: heat.firing_charge / heat.charge_gain_per_second (the charge built before the first shot, at the charge gained per second); edit heat.firing_charge or heat.charge_gain_per_second."
         },
         {
           "id": "heat.overheat_cooldown",
@@ -500,7 +500,7 @@
           "wikiValue": "reload_needed",
           "derived": false,
           "writable": false,
-          "reason": "The qualitative reload-needed behavior has no proven scalar owner."
+          "reason": "No proven member of its own: after an overheat the weapon cools from heat.capacity at heat.cool_per_second (before the native cold / hot multipliers, heat.cool_per_second_cold / _hot); edit heat.capacity or heat.cool_per_second."
         }
       ],
       "reason": null
@@ -704,11 +704,11 @@
         },
         {
           "id": "heat.warmup",
-          "value": null,
+          "value": 0.0,
           "wikiValue": 0.0,
-          "derived": false,
+          "derived": true,
           "writable": false,
-          "reason": "No owned WeaponHeat scalar reproduced warmup across beam and projectile heat families."
+          "reason": "Derived: heat.firing_charge / heat.charge_gain_per_second (the charge built before the first shot, at the charge gained per second); edit heat.firing_charge or heat.charge_gain_per_second."
         },
         {
           "id": "heat.overheat_cooldown",
@@ -716,7 +716,7 @@
           "wikiValue": "reload_needed",
           "derived": false,
           "writable": false,
-          "reason": "The qualitative reload-needed behavior has no proven scalar owner."
+          "reason": "No proven member of its own: after an overheat the weapon cools from heat.capacity at heat.cool_per_second (before the native cold / hot multipliers, heat.cool_per_second_cold / _hot); edit heat.capacity or heat.cool_per_second."
         }
       ],
       "reason": null
@@ -911,11 +911,11 @@
         },
         {
           "id": "heat.warmup",
-          "value": null,
+          "value": 0.5,
           "wikiValue": 0.5,
-          "derived": false,
+          "derived": true,
           "writable": false,
-          "reason": "No owned WeaponHeat scalar reproduced warmup across beam and projectile heat families."
+          "reason": "Derived: heat.firing_charge / heat.charge_gain_per_second (the charge built before the first shot, at the charge gained per second); edit heat.firing_charge or heat.charge_gain_per_second."
         },
         {
           "id": "heat.overheat_cooldown",
@@ -923,7 +923,7 @@
           "wikiValue": "reload_needed",
           "derived": false,
           "writable": false,
-          "reason": "The qualitative reload-needed behavior has no proven scalar owner."
+          "reason": "No proven member of its own: after an overheat the weapon cools from heat.capacity at heat.cool_per_second (before the native cold / hot multipliers, heat.cool_per_second_cold / _hot); edit heat.capacity or heat.cool_per_second."
         }
       ],
       "reason": null
@@ -1118,11 +1118,11 @@
         },
         {
           "id": "heat.warmup",
-          "value": null,
+          "value": 0.5,
           "wikiValue": 0.5,
-          "derived": false,
+          "derived": true,
           "writable": false,
-          "reason": "No owned WeaponHeat scalar reproduced warmup across beam and projectile heat families."
+          "reason": "Derived: heat.firing_charge / heat.charge_gain_per_second (the charge built before the first shot, at the charge gained per second); edit heat.firing_charge or heat.charge_gain_per_second."
         },
         {
           "id": "heat.overheat_cooldown",
@@ -1130,7 +1130,7 @@
           "wikiValue": "reload_needed",
           "derived": false,
           "writable": false,
-          "reason": "The qualitative reload-needed behavior has no proven scalar owner."
+          "reason": "No proven member of its own: after an overheat the weapon cools from heat.capacity at heat.cool_per_second (before the native cold / hot multipliers, heat.cool_per_second_cold / _hot); edit heat.capacity or heat.cool_per_second."
         }
       ],
       "reason": null
@@ -1328,11 +1328,11 @@
         },
         {
           "id": "heat.warmup",
-          "value": null,
+          "value": 0.25,
           "wikiValue": 0.2,
-          "derived": false,
+          "derived": true,
           "writable": false,
-          "reason": "No owned WeaponHeat scalar reproduced warmup across beam and projectile heat families."
+          "reason": "Derived: heat.firing_charge / heat.charge_gain_per_second (the charge built before the first shot, at the charge gained per second); edit heat.firing_charge or heat.charge_gain_per_second."
         },
         {
           "id": "heat.overheat_cooldown",
@@ -1340,7 +1340,7 @@
           "wikiValue": "reload_needed",
           "derived": false,
           "writable": false,
-          "reason": "The qualitative reload-needed behavior has no proven scalar owner."
+          "reason": "No proven member of its own: after an overheat the weapon cools from heat.capacity at heat.cool_per_second (before the native cold / hot multipliers, heat.cool_per_second_cold / _hot); edit heat.capacity or heat.cool_per_second."
         }
       ],
       "reason": null
@@ -1535,11 +1535,11 @@
         },
         {
           "id": "heat.warmup",
-          "value": null,
+          "value": 0.0,
           "wikiValue": 0.0,
-          "derived": false,
+          "derived": true,
           "writable": false,
-          "reason": "No owned WeaponHeat scalar reproduced warmup across beam and projectile heat families."
+          "reason": "Derived: heat.firing_charge / heat.charge_gain_per_second (the charge built before the first shot, at the charge gained per second); edit heat.firing_charge or heat.charge_gain_per_second."
         },
         {
           "id": "heat.overheat_cooldown",
@@ -1547,7 +1547,7 @@
           "wikiValue": "reload_needed",
           "derived": false,
           "writable": false,
-          "reason": "The qualitative reload-needed behavior has no proven scalar owner."
+          "reason": "No proven member of its own: after an overheat the weapon cools from heat.capacity at heat.cool_per_second (before the native cold / hot multipliers, heat.cool_per_second_cold / _hot); edit heat.capacity or heat.cool_per_second."
         }
       ],
       "reason": null
@@ -1745,11 +1745,11 @@
         },
         {
           "id": "heat.warmup",
-          "value": null,
+          "value": 0.25,
           "wikiValue": 0.2,
-          "derived": false,
+          "derived": true,
           "writable": false,
-          "reason": "No owned WeaponHeat scalar reproduced warmup across beam and projectile heat families."
+          "reason": "Derived: heat.firing_charge / heat.charge_gain_per_second (the charge built before the first shot, at the charge gained per second); edit heat.firing_charge or heat.charge_gain_per_second."
         },
         {
           "id": "heat.overheat_cooldown",
@@ -1757,7 +1757,7 @@
           "wikiValue": "reload_needed",
           "derived": false,
           "writable": false,
-          "reason": "The qualitative reload-needed behavior has no proven scalar owner."
+          "reason": "No proven member of its own: after an overheat the weapon cools from heat.capacity at heat.cool_per_second (before the native cold / hot multipliers, heat.cool_per_second_cold / _hot); edit heat.capacity or heat.cool_per_second."
         }
       ],
       "reason": null

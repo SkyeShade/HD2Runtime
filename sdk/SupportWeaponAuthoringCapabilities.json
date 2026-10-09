@@ -121,7 +121,7 @@
     "deduplicationLossPrevented": 111,
     "referenceFieldInstances": 97,
     "readOnlyFieldInstances": 0,
-    "blockedFieldDeclarations": 214,
+    "blockedFieldDeclarations": 218,
     "intentionallyOmittedInstances": 0,
     "safety": {
       "writes": 0,
@@ -4127,6 +4127,14 @@
           "reason": "The weapon roots disagree on crosshair_type."
         },
         {
+          "field": "heat.warmup",
+          "reason": "Derived: heat.firing_charge / heat.charge_gain_per_second = 100 / 200 = 0.50 s; edit heat.firing_charge or heat.charge_gain_per_second."
+        },
+        {
+          "field": "heat.overheat_cooldown",
+          "reason": "No proven member of its own: after an overheat the weapon cools from heat.capacity (100) at heat.cool_per_second (5 per second), about 20.0 s before the native cold / hot multipliers; edit heat.capacity or heat.cool_per_second."
+        },
+        {
           "field": "linked stratagem scalars",
           "reason": "Cooldown and uses are owned by the linked stratagem view (linkedStratagem.semanticId); call-in scalar ownership through the support weapon is not reviewed."
         },
@@ -4340,6 +4348,14 @@
         {
           "field": "fire_rate.modes",
           "reason": "Dormant rate slots (z) hold values a bound selector would visit."
+        },
+        {
+          "field": "heat.warmup",
+          "reason": "Derived: heat.firing_charge / heat.charge_gain_per_second = 100 / 33 = 3.03 s; edit heat.firing_charge or heat.charge_gain_per_second."
+        },
+        {
+          "field": "heat.overheat_cooldown",
+          "reason": "No proven member of its own: after an overheat the weapon cools from heat.capacity (100) at heat.cool_per_second (6.66 per second), about 15.0 s before the native cold / hot multipliers; edit heat.capacity or heat.cool_per_second."
         }
       ],
       "backpackDependency": false,

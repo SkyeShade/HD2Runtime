@@ -559,6 +559,10 @@ def build(catalog_path=CATALOG):
                 fields+=equipment_fields.firing_charge_fields(equipment_make,
                     ownership['WeaponHeatComponentData']['recordIndex'],
                     lambda offset,storage:component(candidate,'WeaponHeatComponentData',offset,storage))
+                # The wiki's Warmup and Cooldown After Overheat have no member of their own: say which fields to edit.
+                blocked.extend(equipment_fields.warmup_cooldown_declarations(
+                    ownership['WeaponHeatComponentData']['recordIndex'],resolved.get('heat_capacity'),
+                    resolved.get('heat_cool_per_second')))
             if 'BeamWeaponComponentData'in ownership:
                 fields+=equipment_fields.beam_pulse_fields(equipment_make,
                     ownership['BeamWeaponComponentData']['recordIndex'],

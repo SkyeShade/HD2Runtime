@@ -156,6 +156,27 @@ def firing_charge_fields(make, weapon, backend):
     return fields
 
 
+def warmup_cooldown_declarations(weapon, capacity, cool):
+    """Blocked declarations for the wiki's Warmup and Cooldown After Overheat of a heat weapon the research names: no
+    member of their own; each names the fields to edit and this weapon's values (the Quasar: 100 / 33 = 3.03 s warm-up;
+    100 heat at 6.66 per second = about 15 s of cooling)."""
+    record = _named(charge_research()['heat148']['records'], weapon)
+    if not record:
+        return []
+    charge, gain = record['values']['148'], record['values']['152']
+    warmup = 0.0 if charge <= 0 else (charge / gain if gain > 0 else None)
+    out = [{'field': 'heat.warmup',
+        'reason': ('Derived: heat.firing_charge / heat.charge_gain_per_second = %g / %g = %s; edit heat.firing_charge '
+            'or heat.charge_gain_per_second.') % (charge, gain,
+            'never (no charge gain)' if warmup is None else '%.2f s' % warmup)}]
+    if capacity and cool:
+        out.append({'field': 'heat.overheat_cooldown',
+            'reason': ('No proven member of its own: after an overheat the weapon cools from heat.capacity (%g) at '
+                'heat.cool_per_second (%g per second), about %.1f s before the native cold / hot multipliers; edit '
+                'heat.capacity or heat.cool_per_second.') % (capacity, cool, capacity / cool)})
+    return out
+
+
 def beam_pulse_fields(make, weapon, backend, skip=()):
     """The beam fire mode, rate and pulse of a beam weapon the research names (its own BeamWeapon record), or []."""
     record = _named(charge_research()['beams']['records'], weapon)

@@ -13,7 +13,7 @@
     "semanticFieldDefinitions": 146,
     "writableSemanticFieldDefinitions": 127,
     "readOnlySemanticFieldDefinitions": 19,
-    "derivedSemanticFieldDefinitions": 9,
+    "derivedSemanticFieldDefinitions": 10,
     "fieldInstances": 4715,
     "writableFieldInstances": 3407,
     "weaponsWithWritableFields": 80,
@@ -151,7 +151,7 @@
         "ACTIVE_AT_INSTANTIATION": 2210,
         "ACTIVE_DIRECT": 1691,
         "AMBIGUOUS": 197,
-        "DORMANT_OR_METADATA": 427,
+        "DORMANT_OR_METADATA": 434,
         "OVERRIDDEN": 43
       },
       "editableFieldInstances": {
@@ -713,9 +713,9 @@
       "display_name": "Heat warmup",
       "type": "number",
       "unit": "seconds",
-      "derived": false,
+      "derived": true,
       "writable": false,
-      "reason": "No owned WeaponHeat scalar reproduced warmup across beam and projectile heat families."
+      "reason": "Derived: heat.firing_charge / heat.charge_gain_per_second (the charge built before the first shot, at the charge gained per second); edit heat.firing_charge or heat.charge_gain_per_second."
     },
     {
       "id": "heat.overheat_cooldown",
@@ -724,7 +724,7 @@
       "unit": null,
       "derived": false,
       "writable": false,
-      "reason": "The qualitative reload-needed behavior has no proven scalar owner."
+      "reason": "No proven member of its own: after an overheat the weapon cools from heat.capacity at heat.cool_per_second (before the native cold / hot multipliers, heat.cool_per_second_cold / _hot); edit heat.capacity or heat.cool_per_second."
     },
     {
       "id": "heatsink.starting",
@@ -87431,9 +87431,9 @@
           "semanticFieldId": "heat.warmup",
           "type": "number",
           "unit": "seconds",
-          "currentDefault": null,
+          "currentDefault": 0.0,
           "editable": false,
-          "derivedReadOnly": false,
+          "derivedReadOnly": true,
           "semanticTarget": "heat.warmup",
           "canonical": true,
           "preferred": true,
@@ -87455,9 +87455,19 @@
           "writeScope": "unknown",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "No owned WeaponHeat scalar reproduced warmup across beam and projectile heat families.",
+          "reason": "Derived: heat.firing_charge / heat.charge_gain_per_second (the charge built before the first shot, at the charge gained per second); edit heat.firing_charge or heat.charge_gain_per_second.",
           "acceptedForWrites": false,
-          "apiFieldConstant": "hd2.fields.heat.warmup"
+          "apiFieldConstant": "hd2.fields.heat.warmup",
+          "effect": {
+            "activeSource": "DORMANT_OR_METADATA",
+            "appliesWhen": null,
+            "instantiationOnly": null,
+            "activeSourceProven": true,
+            "reason": "Derived or descriptive; the gameplay path does not read this value.",
+            "writeVerifiedOnApply": false,
+            "gameplayEffectProven": false,
+            "unverifiedEffect": false
+          }
         },
         {
           "displayName": "Cooldown after overheat",
@@ -87488,7 +87498,7 @@
           "writeScope": "unknown",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "The qualitative reload-needed behavior has no proven scalar owner.",
+          "reason": "No proven member of its own: after an overheat the weapon cools from heat.capacity at heat.cool_per_second (before the native cold / hot multipliers, heat.cool_per_second_cold / _hot); edit heat.capacity or heat.cool_per_second.",
           "acceptedForWrites": false,
           "apiFieldConstant": "hd2.fields.heat.overheat_cooldown"
         },
@@ -91035,9 +91045,9 @@
           "semanticFieldId": "heat.warmup",
           "type": "number",
           "unit": "seconds",
-          "currentDefault": null,
+          "currentDefault": 0.0,
           "editable": false,
-          "derivedReadOnly": false,
+          "derivedReadOnly": true,
           "semanticTarget": "heat.warmup",
           "canonical": true,
           "preferred": true,
@@ -91059,9 +91069,19 @@
           "writeScope": "unknown",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "No owned WeaponHeat scalar reproduced warmup across beam and projectile heat families.",
+          "reason": "Derived: heat.firing_charge / heat.charge_gain_per_second (the charge built before the first shot, at the charge gained per second); edit heat.firing_charge or heat.charge_gain_per_second.",
           "acceptedForWrites": false,
-          "apiFieldConstant": "hd2.fields.heat.warmup"
+          "apiFieldConstant": "hd2.fields.heat.warmup",
+          "effect": {
+            "activeSource": "DORMANT_OR_METADATA",
+            "appliesWhen": null,
+            "instantiationOnly": null,
+            "activeSourceProven": true,
+            "reason": "Derived or descriptive; the gameplay path does not read this value.",
+            "writeVerifiedOnApply": false,
+            "gameplayEffectProven": false,
+            "unverifiedEffect": false
+          }
         },
         {
           "displayName": "Cooldown after overheat",
@@ -91092,7 +91112,7 @@
           "writeScope": "unknown",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "The qualitative reload-needed behavior has no proven scalar owner.",
+          "reason": "No proven member of its own: after an overheat the weapon cools from heat.capacity at heat.cool_per_second (before the native cold / hot multipliers, heat.cool_per_second_cold / _hot); edit heat.capacity or heat.cool_per_second.",
           "acceptedForWrites": false,
           "apiFieldConstant": "hd2.fields.heat.overheat_cooldown"
         },
@@ -94764,9 +94784,9 @@
           "semanticFieldId": "heat.warmup",
           "type": "number",
           "unit": "seconds",
-          "currentDefault": null,
+          "currentDefault": 0.5,
           "editable": false,
-          "derivedReadOnly": false,
+          "derivedReadOnly": true,
           "semanticTarget": "heat.warmup",
           "canonical": true,
           "preferred": true,
@@ -94788,9 +94808,19 @@
           "writeScope": "unknown",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "No owned WeaponHeat scalar reproduced warmup across beam and projectile heat families.",
+          "reason": "Derived: heat.firing_charge / heat.charge_gain_per_second (the charge built before the first shot, at the charge gained per second); edit heat.firing_charge or heat.charge_gain_per_second.",
           "acceptedForWrites": false,
-          "apiFieldConstant": "hd2.fields.heat.warmup"
+          "apiFieldConstant": "hd2.fields.heat.warmup",
+          "effect": {
+            "activeSource": "DORMANT_OR_METADATA",
+            "appliesWhen": null,
+            "instantiationOnly": null,
+            "activeSourceProven": true,
+            "reason": "Derived or descriptive; the gameplay path does not read this value.",
+            "writeVerifiedOnApply": false,
+            "gameplayEffectProven": false,
+            "unverifiedEffect": false
+          }
         },
         {
           "displayName": "Cooldown after overheat",
@@ -94821,7 +94851,7 @@
           "writeScope": "unknown",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "The qualitative reload-needed behavior has no proven scalar owner.",
+          "reason": "No proven member of its own: after an overheat the weapon cools from heat.capacity at heat.cool_per_second (before the native cold / hot multipliers, heat.cool_per_second_cold / _hot); edit heat.capacity or heat.cool_per_second.",
           "acceptedForWrites": false,
           "apiFieldConstant": "hd2.fields.heat.overheat_cooldown"
         },
@@ -98843,9 +98873,9 @@
           "semanticFieldId": "heat.warmup",
           "type": "number",
           "unit": "seconds",
-          "currentDefault": null,
+          "currentDefault": 0.5,
           "editable": false,
-          "derivedReadOnly": false,
+          "derivedReadOnly": true,
           "semanticTarget": "heat.warmup",
           "canonical": true,
           "preferred": true,
@@ -98867,9 +98897,19 @@
           "writeScope": "unknown",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "No owned WeaponHeat scalar reproduced warmup across beam and projectile heat families.",
+          "reason": "Derived: heat.firing_charge / heat.charge_gain_per_second (the charge built before the first shot, at the charge gained per second); edit heat.firing_charge or heat.charge_gain_per_second.",
           "acceptedForWrites": false,
-          "apiFieldConstant": "hd2.fields.heat.warmup"
+          "apiFieldConstant": "hd2.fields.heat.warmup",
+          "effect": {
+            "activeSource": "DORMANT_OR_METADATA",
+            "appliesWhen": null,
+            "instantiationOnly": null,
+            "activeSourceProven": true,
+            "reason": "Derived or descriptive; the gameplay path does not read this value.",
+            "writeVerifiedOnApply": false,
+            "gameplayEffectProven": false,
+            "unverifiedEffect": false
+          }
         },
         {
           "displayName": "Cooldown after overheat",
@@ -98900,7 +98940,7 @@
           "writeScope": "unknown",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "The qualitative reload-needed behavior has no proven scalar owner.",
+          "reason": "No proven member of its own: after an overheat the weapon cools from heat.capacity at heat.cool_per_second (before the native cold / hot multipliers, heat.cool_per_second_cold / _hot); edit heat.capacity or heat.cool_per_second.",
           "acceptedForWrites": false,
           "apiFieldConstant": "hd2.fields.heat.overheat_cooldown"
         },
@@ -103002,9 +103042,9 @@
           "semanticFieldId": "heat.warmup",
           "type": "number",
           "unit": "seconds",
-          "currentDefault": null,
+          "currentDefault": 0.25,
           "editable": false,
-          "derivedReadOnly": false,
+          "derivedReadOnly": true,
           "semanticTarget": "heat.warmup",
           "canonical": true,
           "preferred": true,
@@ -103026,9 +103066,19 @@
           "writeScope": "unknown",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "No owned WeaponHeat scalar reproduced warmup across beam and projectile heat families.",
+          "reason": "Derived: heat.firing_charge / heat.charge_gain_per_second (the charge built before the first shot, at the charge gained per second); edit heat.firing_charge or heat.charge_gain_per_second.",
           "acceptedForWrites": false,
-          "apiFieldConstant": "hd2.fields.heat.warmup"
+          "apiFieldConstant": "hd2.fields.heat.warmup",
+          "effect": {
+            "activeSource": "DORMANT_OR_METADATA",
+            "appliesWhen": null,
+            "instantiationOnly": null,
+            "activeSourceProven": true,
+            "reason": "Derived or descriptive; the gameplay path does not read this value.",
+            "writeVerifiedOnApply": false,
+            "gameplayEffectProven": false,
+            "unverifiedEffect": false
+          }
         },
         {
           "displayName": "Cooldown after overheat",
@@ -103059,7 +103109,7 @@
           "writeScope": "unknown",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "The qualitative reload-needed behavior has no proven scalar owner.",
+          "reason": "No proven member of its own: after an overheat the weapon cools from heat.capacity at heat.cool_per_second (before the native cold / hot multipliers, heat.cool_per_second_cold / _hot); edit heat.capacity or heat.cool_per_second.",
           "acceptedForWrites": false,
           "apiFieldConstant": "hd2.fields.heat.overheat_cooldown"
         },
@@ -106879,9 +106929,9 @@
           "semanticFieldId": "heat.warmup",
           "type": "number",
           "unit": "seconds",
-          "currentDefault": null,
+          "currentDefault": 0.0,
           "editable": false,
-          "derivedReadOnly": false,
+          "derivedReadOnly": true,
           "semanticTarget": "heat.warmup",
           "canonical": true,
           "preferred": true,
@@ -106903,9 +106953,19 @@
           "writeScope": "unknown",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "No owned WeaponHeat scalar reproduced warmup across beam and projectile heat families.",
+          "reason": "Derived: heat.firing_charge / heat.charge_gain_per_second (the charge built before the first shot, at the charge gained per second); edit heat.firing_charge or heat.charge_gain_per_second.",
           "acceptedForWrites": false,
-          "apiFieldConstant": "hd2.fields.heat.warmup"
+          "apiFieldConstant": "hd2.fields.heat.warmup",
+          "effect": {
+            "activeSource": "DORMANT_OR_METADATA",
+            "appliesWhen": null,
+            "instantiationOnly": null,
+            "activeSourceProven": true,
+            "reason": "Derived or descriptive; the gameplay path does not read this value.",
+            "writeVerifiedOnApply": false,
+            "gameplayEffectProven": false,
+            "unverifiedEffect": false
+          }
         },
         {
           "displayName": "Cooldown after overheat",
@@ -106936,7 +106996,7 @@
           "writeScope": "unknown",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "The qualitative reload-needed behavior has no proven scalar owner.",
+          "reason": "No proven member of its own: after an overheat the weapon cools from heat.capacity at heat.cool_per_second (before the native cold / hot multipliers, heat.cool_per_second_cold / _hot); edit heat.capacity or heat.cool_per_second.",
           "acceptedForWrites": false,
           "apiFieldConstant": "hd2.fields.heat.overheat_cooldown"
         },
@@ -110489,9 +110549,9 @@
           "semanticFieldId": "heat.warmup",
           "type": "number",
           "unit": "seconds",
-          "currentDefault": null,
+          "currentDefault": 0.25,
           "editable": false,
-          "derivedReadOnly": false,
+          "derivedReadOnly": true,
           "semanticTarget": "heat.warmup",
           "canonical": true,
           "preferred": true,
@@ -110513,9 +110573,19 @@
           "writeScope": "unknown",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "No owned WeaponHeat scalar reproduced warmup across beam and projectile heat families.",
+          "reason": "Derived: heat.firing_charge / heat.charge_gain_per_second (the charge built before the first shot, at the charge gained per second); edit heat.firing_charge or heat.charge_gain_per_second.",
           "acceptedForWrites": false,
-          "apiFieldConstant": "hd2.fields.heat.warmup"
+          "apiFieldConstant": "hd2.fields.heat.warmup",
+          "effect": {
+            "activeSource": "DORMANT_OR_METADATA",
+            "appliesWhen": null,
+            "instantiationOnly": null,
+            "activeSourceProven": true,
+            "reason": "Derived or descriptive; the gameplay path does not read this value.",
+            "writeVerifiedOnApply": false,
+            "gameplayEffectProven": false,
+            "unverifiedEffect": false
+          }
         },
         {
           "displayName": "Cooldown after overheat",
@@ -110546,7 +110616,7 @@
           "writeScope": "unknown",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "The qualitative reload-needed behavior has no proven scalar owner.",
+          "reason": "No proven member of its own: after an overheat the weapon cools from heat.capacity at heat.cool_per_second (before the native cold / hot multipliers, heat.cool_per_second_cold / _hot); edit heat.capacity or heat.cool_per_second.",
           "acceptedForWrites": false,
           "apiFieldConstant": "hd2.fields.heat.overheat_cooldown"
         },
