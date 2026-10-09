@@ -20,10 +20,10 @@
       "CQC-72 Entrenchment Tool"
     ],
     "writableSupportWeapons": 34,
-    "writableFieldInstances": 1490,
+    "writableFieldInstances": 1492,
     "fieldInstancesByDomain": {
       "arc": 6,
-      "attack": 8,
+      "attack": 10,
       "beam": 12,
       "charge": 53,
       "damage": 347,
@@ -45,7 +45,7 @@
     },
     "weaponsWithDomain": {
       "arc": 1,
-      "attack": 8,
+      "attack": 10,
       "beam": 2,
       "charge": 4,
       "damage": 34,
@@ -108,9 +108,9 @@
       ]
     },
     "sharedFieldInstances": 807,
-    "internalSupportAuthoringInstances": 1490,
-    "publishedSupportFieldInstances": 1490,
-    "legacyFlattenedFieldEntries": 1379,
+    "internalSupportAuthoringInstances": 1492,
+    "publishedSupportFieldInstances": 1492,
+    "legacyFlattenedFieldEntries": 1381,
     "branchSpecificFieldInstances": 815,
     "backingObjectCount": 235,
     "operationGroupingCount": 274,
@@ -119,7 +119,7 @@
     "duplicateSemanticFieldGroups": 50,
     "duplicateSemanticFieldInstances": 114,
     "deduplicationLossPrevented": 111,
-    "referenceFieldInstances": 95,
+    "referenceFieldInstances": 97,
     "readOnlyFieldInstances": 0,
     "blockedFieldDeclarations": 214,
     "intentionallyOmittedInstances": 0,
@@ -171,6 +171,9 @@
         }
       ],
       "writableFieldsByDomain": {
+        "attack": [
+          "attack.beam"
+        ],
         "beam": [
           "beam.fire_mode",
           "beam.fire_rate",
@@ -316,7 +319,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 42,
+      "writableFieldCount": 43,
       "fieldInstanceKeys": [
         "support-field/v1/40-k-meltagun/weapon/root/weapon-ergonomics/8b83cb34a0c62696",
         "support-field/v1/40-k-meltagun/weapon/root/weapon-sway/bc43e73be1243d1b",
@@ -343,6 +346,7 @@
         "support-field/v1/40-k-meltagun/weapon/root/beam-fire-rate/50bd5f96d524b6ab",
         "support-field/v1/40-k-meltagun/weapon/root/beam-pulse-beams/053b277c2e851a03",
         "support-field/v1/40-k-meltagun/weapon/root/beam-pulse-seconds/288c439115fa417d",
+        "support-field/v1/40-k-meltagun/weapon/root/attack-beam/40425e7482aca453",
         "support-field/v1/40-k-meltagun/attack/primary/beam-radius/f1252b32883af499",
         "support-field/v1/40-k-meltagun/attack/primary/beam-length/c409eb408c1cbddd",
         "support-field/v1/40-k-meltagun/attack/primary/damage-standard-damage/def2e718c3a85a2f",
@@ -4038,6 +4042,9 @@
         }
       ],
       "writableFieldsByDomain": {
+        "attack": [
+          "attack.beam"
+        ],
         "beam": [
           "beam.fire_mode",
           "beam.fire_rate",
@@ -4163,7 +4170,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 43,
+      "writableFieldCount": 44,
       "fieldInstanceKeys": [
         "support-field/v1/las-98-laser-cannon/weapon/root/weapon-ergonomics/52074142a65e4909",
         "support-field/v1/las-98-laser-cannon/weapon/root/weapon-sway/5b5fe09b0b689242",
@@ -4192,6 +4199,7 @@
         "support-field/v1/las-98-laser-cannon/weapon/root/beam-fire-mode/c3e2b032c13bc15d",
         "support-field/v1/las-98-laser-cannon/weapon/root/beam-pulse-beams/1bb20784bc176a8f",
         "support-field/v1/las-98-laser-cannon/weapon/root/beam-pulse-seconds/8a807dc9aadbea20",
+        "support-field/v1/las-98-laser-cannon/weapon/root/attack-beam/486310f1e28677fb",
         "support-field/v1/las-98-laser-cannon/attack/primary/beam-radius/296916b190280768",
         "support-field/v1/las-98-laser-cannon/attack/primary/beam-length/51dbc2a2fced7e3b",
         "support-field/v1/las-98-laser-cannon/attack/primary/damage-standard-damage/9800d96cc796b008",
@@ -10274,6 +10282,132 @@
         "instantiationOnly": true,
         "activeSourceProven": false,
         "reason": "The member is copied into the weapon when it is built; no attachment option patches it. Whether the game reads it for this behaviour is not yet shown in game."
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/40-k-meltagun/weapon/root/attack-beam/40425e7482aca453",
+      "supportWeapon": "40-K Meltagun",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/40-k-meltagun/3ce05d7d133179e0",
+        "name": "40-K Meltagun",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "attack.beam",
+      "qualifiedSemanticFieldId": "attack.beam",
+      "apiFieldConstant": "hd2.fields.attack.beam",
+      "display": {
+        "name": "Attack beam reference",
+        "domain": "attack",
+        "group": "BeamWeaponComponentData"
+      },
+      "value": {
+        "kind": "reference",
+        "type": "beam_reference",
+        "baseline": {
+          "weapon": "40-K Meltagun",
+          "beamType": 18
+        },
+        "expected": {
+          "weapon": "40-K Meltagun",
+          "beamType": 18
+        },
+        "unit": null,
+        "reference": {
+          "expectedSemanticReference": {
+            "weapon": "40-K Meltagun",
+            "beamType": 18
+          },
+          "sourceClass": "beam_reference",
+          "typedIdentityOnly": true
+        }
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/beamweaponcomponentdata/2b8f8eeeb906743ef807",
+        "kind": "component",
+        "semanticType": "BeamWeaponComponentData",
+        "domain": "BeamWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/4f055627d5d6d6e250b2",
+        "runtimeBackingScope": "component:BeamWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/dbab3fe7d504d2aaa7fd",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "40-K Meltagun",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/40-k-meltagun/weapon/root/fd67c2b6dd90ba9b"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/4f055627d5d6d6e250b2",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/40-k-meltagun/3ce05d7d1331",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Re-points this weapon's BeamType (BeamWeapon +0): it fires the donor's BeamSettings row (length, radius, damage row, hit effects and beam visuals) with its own fire mode, rate, heat and sounds. The written member is the weapon's active beam source (research/beam-outputs-F5FEE03DCFDB.json: no customization delta patches it, or the patching delta row itself), but no beam swap has been shown in game yet."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": true,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true,
+        "reason": "A component member (or customization delta) the game applies when it builds the weapon: a weapon built after the write fires the new beam; one already in hand keeps its copy until it is rebuilt (re-equip, resupply or a new call-in)."
       }
     },
     {
@@ -105972,6 +106106,134 @@
         "instantiationOnly": true,
         "activeSourceProven": false,
         "reason": "The member is copied into the weapon when it is built; no attachment option patches it. Whether the game reads it for this behaviour is not yet shown in game."
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/las-98-laser-cannon/weapon/root/attack-beam/486310f1e28677fb",
+      "supportWeapon": "LAS-98 Laser Cannon",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/las-98-laser-cannon/7d66ab30f2190028",
+        "name": "LAS-98 Laser Cannon",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "attack.beam",
+      "qualifiedSemanticFieldId": "attack.beam",
+      "apiFieldConstant": "hd2.fields.attack.beam",
+      "display": {
+        "name": "Attack beam reference",
+        "domain": "attack",
+        "group": "BeamWeaponComponentData"
+      },
+      "value": {
+        "kind": "reference",
+        "type": "beam_reference",
+        "baseline": {
+          "weapon": "LAS-98 Laser Cannon",
+          "beamType": 1
+        },
+        "expected": {
+          "weapon": "LAS-98 Laser Cannon",
+          "beamType": 1
+        },
+        "unit": null,
+        "reference": {
+          "expectedSemanticReference": {
+            "weapon": "LAS-98 Laser Cannon",
+            "beamType": 1
+          },
+          "sourceClass": "beam_reference",
+          "typedIdentityOnly": true
+        }
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/beamweaponcomponentdata/ab92fbfd9dd981db17db",
+        "kind": "component",
+        "semanticType": "BeamWeaponComponentData",
+        "domain": "BeamWeaponComponentData",
+        "operationGroupingKey": "support-operation/v1/a1895ca0e139e6fa1896",
+        "runtimeBackingScope": "component:BeamWeaponComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/ec566178a028bd9e3f26",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "LAS-98 Laser Cannon",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/las-98-laser-cannon/weapon/root/f042d4976055cf9f"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/a1895ca0e139e6fa1896",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/las-98-laser-cannon/7d66ab30f219",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Re-points this weapon's BeamType (BeamWeapon +0): it fires the donor's BeamSettings row (length, radius, damage row, hit effects and beam visuals) with its own fire mode, rate, heat and sounds. The written member is the weapon's active beam source (research/beam-outputs-F5FEE03DCFDB.json: no customization delta patches it, or the patching delta row itself), but no beam swap has been shown in game yet."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": true,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true,
+        "reason": "A component member (or customization delta) the game applies when it builds the weapon: a weapon built after the write fires the new beam; one already in hand keeps its copy until it is rebuilt (re-equip, resupply or a new call-in)."
       }
     },
     {
@@ -201857,6 +202119,7 @@
       "kind": "component",
       "semanticType": "BeamWeaponComponentData",
       "domains": [
+        "attack",
         "beam"
       ],
       "shared": false,
@@ -201881,7 +202144,8 @@
         "support-field/v1/40-k-meltagun/weapon/root/beam-fire-mode/fc39684b3fec854c",
         "support-field/v1/40-k-meltagun/weapon/root/beam-fire-rate/50bd5f96d524b6ab",
         "support-field/v1/40-k-meltagun/weapon/root/beam-pulse-beams/053b277c2e851a03",
-        "support-field/v1/40-k-meltagun/weapon/root/beam-pulse-seconds/288c439115fa417d"
+        "support-field/v1/40-k-meltagun/weapon/root/beam-pulse-seconds/288c439115fa417d",
+        "support-field/v1/40-k-meltagun/weapon/root/attack-beam/40425e7482aca453"
       ]
     },
     {
@@ -201889,6 +202153,7 @@
       "kind": "component",
       "semanticType": "BeamWeaponComponentData",
       "domains": [
+        "attack",
         "beam"
       ],
       "shared": false,
@@ -201913,7 +202178,8 @@
         "support-field/v1/las-98-laser-cannon/weapon/root/beam-fire-rate/4808990f7d7cae25",
         "support-field/v1/las-98-laser-cannon/weapon/root/beam-fire-mode/c3e2b032c13bc15d",
         "support-field/v1/las-98-laser-cannon/weapon/root/beam-pulse-beams/1bb20784bc176a8f",
-        "support-field/v1/las-98-laser-cannon/weapon/root/beam-pulse-seconds/8a807dc9aadbea20"
+        "support-field/v1/las-98-laser-cannon/weapon/root/beam-pulse-seconds/8a807dc9aadbea20",
+        "support-field/v1/las-98-laser-cannon/weapon/root/attack-beam/486310f1e28677fb"
       ]
     },
     {
@@ -214780,7 +215046,8 @@
         "support-field/v1/40-k-meltagun/weapon/root/beam-fire-mode/fc39684b3fec854c",
         "support-field/v1/40-k-meltagun/weapon/root/beam-fire-rate/50bd5f96d524b6ab",
         "support-field/v1/40-k-meltagun/weapon/root/beam-pulse-beams/053b277c2e851a03",
-        "support-field/v1/40-k-meltagun/weapon/root/beam-pulse-seconds/288c439115fa417d"
+        "support-field/v1/40-k-meltagun/weapon/root/beam-pulse-seconds/288c439115fa417d",
+        "support-field/v1/40-k-meltagun/weapon/root/attack-beam/40425e7482aca453"
       ],
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
@@ -218306,7 +218573,8 @@
         "support-field/v1/las-98-laser-cannon/weapon/root/beam-fire-rate/4808990f7d7cae25",
         "support-field/v1/las-98-laser-cannon/weapon/root/beam-fire-mode/c3e2b032c13bc15d",
         "support-field/v1/las-98-laser-cannon/weapon/root/beam-pulse-beams/1bb20784bc176a8f",
-        "support-field/v1/las-98-laser-cannon/weapon/root/beam-pulse-seconds/8a807dc9aadbea20"
+        "support-field/v1/las-98-laser-cannon/weapon/root/beam-pulse-seconds/8a807dc9aadbea20",
+        "support-field/v1/las-98-laser-cannon/weapon/root/attack-beam/486310f1e28677fb"
       ],
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
@@ -222873,7 +223141,7 @@
     "expectedValueProperty": "value.reference.expectedSemanticReference",
     "sourceClassProperty": "value.reference.sourceClass",
     "rawNativeIdentifiersPublished": false,
-    "currentReferenceFieldInstances": 95
+    "currentReferenceFieldInstances": 97
   },
   "supportCallInLinks": {
     "contract": "hd2runtime.support_callin_linkage.v1",
@@ -226122,8 +226390,8 @@
     "fixtureFallback": "disabled"
   },
   "instanceAudit": {
-    "internalInstances": 1490,
-    "publishedInstances": 1490,
+    "internalInstances": 1492,
+    "publishedInstances": 1492,
     "missingInstances": 0,
     "unexpectedInstances": 0,
     "identityCoverage": "exact"

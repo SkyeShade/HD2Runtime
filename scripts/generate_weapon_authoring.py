@@ -20,6 +20,7 @@ import weapon_sound_fields
 import presentation_fields
 import status_fields
 import equipment_fields
+import beam_fields
 
 ROOT=Path(__file__).resolve().parents[1]
 DEFAULT_REPORT=ROOT/'build/snapshot-results-authoring/PlayerWeaponRuntimeMap.json'
@@ -492,6 +493,15 @@ def build(catalog_path=CATALOG):
             fields+=equipment_fields.beam_pulse_fields(charge_make,
                 ownership['BeamWeaponComponentData']['recordIndex'],
                 lambda offset,storage:component_backend(candidate,'BeamWeaponComponentData',offset,storage))
+            # 0.30.4 beam swaps (scripts/beam_fields.py, research/beam-outputs): the weapon's own BeamType reference,
+            # writable where it is the active beam source (the Scythe's is its default muzzle delta: weapon:beam_source()).
+            if unique:
+                beam=beam_fields.reference_field(
+                    lambda field_id,current,backing,editable,reason:make_field(field_id,current,backing,
+                        editable,reason),
+                    candidate['resourceHash'],name,
+                    lambda offset,storage:component_backend(candidate,'BeamWeaponComponentData',offset,storage))
+                if beam:fields.append(beam)
 
         attacks=candidate.get('attacks') or []
         for attack in composition['attacks']:
@@ -835,7 +845,7 @@ OWN_EFFECT_FIELDS={'heat.level_1_threshold','heat.level_2_threshold','heat.level
     'heat.level_1_self_status','heat.level_2_self_status','heat.level_3_self_status','heat.overheat_lock',
     weapon_mode_fields.RATES_FIELD,*weapon_mode_fields.INPUT_FIELDS.values(),
     weapon_mode_fields.FUNCTION_PROJECTILE_FIELD,presentation_fields.TRAITS_FIELD,presentation_fields.PENETRATION_FIELD,
-    weapon_sound_fields.FIELD}
+    weapon_sound_fields.FIELD,beam_fields.FIELD}
 
 
 def block_overridden(value):

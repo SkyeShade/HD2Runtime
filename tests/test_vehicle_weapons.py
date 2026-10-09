@@ -61,13 +61,23 @@ class VehicleWeaponTests(unittest.TestCase):
         # 0.30.2: the sentry and emplacement hosts (stratagemHosts) are validated too: their projectile swaps, each
         # needing the acknowledgement; they have no mount chain.
         hosts = self.catalog['stratagemHostSummary']
-        self.assertEqual(result['vehicleFields'], self.catalog['summary']['writableFieldInstances'] + hosts['writable'])
-        self.assertEqual(result['vehicleWeapons'], self.catalog['summary']['weaponMounts'] + hosts['hosts'])
+        # 0.30.4: the sentry beam host (the A/LAS-98 Laser Sentry: its beam reference and fire mode / pulse fields,
+        # stratagemBeamHosts) is validated the same way, its beam swap with a catalogued beam donor.
+        beam_hosts = self.catalog['stratagemBeamHosts']
+        beam_fields = sum(len(h['fields']) for h in beam_hosts)
+        self.assertEqual(result['vehicleFields'], self.catalog['summary']['writableFieldInstances'] + hosts['writable']
+            + beam_fields)
+        self.assertEqual(result['vehicleWeapons'], self.catalog['summary']['weaponMounts'] + hosts['hosts']
+            + len(beam_hosts))
         for key in ('noOps', 'changedWrites', 'rollbacks', 'conflictRejections'):
             self.assertEqual(result[key], result['vehicleFields'], key)
         self.assertEqual(result['sharedRejections'], self.catalog['summary']['sharedFields'])
+        # Only writable fields are rejected without the acknowledgement: the Rover gun's beam reference is listed
+        # read-only (its beam source is AMBIGUOUS) and still carries allow_unverified_effect.
+        read_only = sum(1 for item in self.catalog['fieldInstances']
+            if not item['writable'] and item['acknowledgement'] == 'allow_unverified_effect')
         self.assertEqual(result['acknowledgementRejections'],
-            self.catalog['summary']['unverifiedEffectFields'] + hosts['writable'])
+            self.catalog['summary']['unverifiedEffectFields'] - read_only + hosts['writable'] + beam_fields)
         self.assertEqual(result['mountChainRejections'], self.catalog['summary']['weaponMounts'])
         self.assertTrue(result['independentArms'])
         uses = result['stratagemUses']

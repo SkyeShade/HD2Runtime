@@ -17,6 +17,7 @@ local function database_for(kind)
 end
 local M={}
 local catalogued_explosion_change
+local beam_restores,beam_change
 -- Catalogued attack outputs, projectile sources and ammunition sources (domains/attack_outputs.lua).
 local function attack_outputs()return require('hd2runtime/domains/attack_outputs')end
 -- Package the source weapon's projectile/explosion assets live in (its generated loadout package), when the
@@ -93,6 +94,13 @@ local function target_name(target)
             'unsupported player weapon target identity')end
         return target.weapon,nil,'weapon',nil,kind
     end
+    if target.path=='beam_attachment'then
+        -- 0.30.4: the default muzzle whose delta row is a beam weapon's active beam source (weapon:beam_source()).
+        assert(kind=='player_weapon'or kind=='vehicle_weapon','beam attachment targets are player or mounted weapons')
+        for key in pairs(target)do assert(key=='resource'or key=='path'or key=='weapon',
+            'unsupported beam attachment target identity')end
+        return target.weapon,nil,'beam_attachment',nil,kind
+    end
     assert((target.path=='attack'or target.path=='projectile_reference'
         or target.path=='terminal_action'or target.path=='explosion')
         and type(target.attack)=='string','unsupported weapon target')
@@ -135,6 +143,14 @@ local function not_exposed(weapon,id)
 end
 local function field_for(weapon,id,role,path,phase)
     local resolved=id
+    if path=='beam_attachment'then
+        -- research/beam-outputs: the muzzle delta row that patches BeamWeapon +0 at weapon build (attack_outputs
+        -- beamAttachments), shared by every weapon that defaults to it.
+        assert(id=='attack.beam','beam attachment targets only accept hd2.fields.attack.beam')
+        local kind=weapon.vehicleWeapon and'vehicle_weapon'or weapon.supportWeapon and'support_weapon'or'player_weapon'
+        return assert((attack_outputs().beamAttachments or{})[kind..':'..weapon.name],'NO_BEAM_ATTACHMENT: '
+            ..weapon.name..' has no default muzzle that owns its fired beam (see weapon:beam_source())')
+    end
     if path=='ammunition'then
         assert(id=='ammunition.projectile','ammunition targets only accept hd2.fields.ammunition.projectile')
         return assert(attack_outputs().ammunition[weapon.name],'NO_AMMUNITION_SOURCE: '..weapon.name
@@ -426,6 +442,82 @@ function catalogued_explosion_change(item,field,expected,desired,allow_unverifie
         semantic_aliases={item.field},expect=item.expect,value=item.value,
         expected_selector=expected,desired_selector=desired,catalogue_explosion=entry,asset_dependency=dependency}
 end
+-- Beam swaps (0.30.4; research/beam-outputs-F5FEE03DCFDB.json, docs/attack-outputs.md "Beam swaps"). A beam host's
+-- BeamType reference (BeamWeapon +0 of its own record, or the default muzzle delta row that patches it) takes a
+-- catalogued beam output: hd2.attack_output(name) of family beam, or another beam weapon's weapon:beam() handle (its
+-- fired beam, attack_outputs beamAliases). Projectile outputs are refused (a projectile weapon has no BeamWeapon and
+-- Runtime never adds one). Every donor needs allow_unverified_reference and allow_unverified_effect; the host's own
+-- beam is its reviewed baseline. The donor owner's package is loaded before the write (ASSET_UNAVAILABLE without one).
+local function beam_selector(value,label)
+    assert(type(value)=='table',label..' must be a beam handle (weapon:beam()) or hd2.attack_output(name)')
+    if value.resource=='attack_output'then return output_selector(value,label)end
+    for key in pairs(value)do assert(key=='resource'or key=='path'or key=='weapon',
+        label..' contains unsupported beam reference identity')end
+    assert((value.resource=='player_weapon'or value.resource=='support_weapon'or value.resource=='vehicle_weapon')
+        and value.path=='beam_reference'and type(value.weapon)=='string',
+        label..' must come from weapon:beam() or hd2.attack_output(name)')
+    return {weapon=value.weapon,resource=value.resource}
+end
+-- The catalogued beam output a value names: an output handle, or a beam weapon's handle through the beam it fires.
+local function beam_output(selector)
+    if selector.output then return selector end
+    local id=(attack_outputs().beamAliases or{})[selector.resource..':'..selector.weapon]
+    assert(id,'UNKNOWN_DONOR: '..selector.weapon..' fires no catalogued beam output (see sdk/AttackOutputCapabilities.json '
+        ..'beamSources)')
+    return {output=id,entry=attack_outputs().outputs[id]}
+end
+function beam_restores(weapon,value,field)
+    local ok,selector=pcall(beam_selector,value,'value')
+    if not ok then return false end
+    if selector.weapon then return selector.weapon==weapon.name and selector.resource==host_resource(weapon)end
+    local entry=selector.entry
+    return entry.family=='beam'and entry.editable==true and entry.currentDefault==field.currentDefault.beamType
+end
+function beam_change(weapon,item,field,allow_unverified_reference,allow_unverified_effect)
+    assert(field.referenceKind=='beam','beam reference kind changed')
+    local resource=host_resource(weapon)
+    local expected=beam_selector(item.expect,'expect')
+    assert(not expected.output and expected.weapon==weapon.name and expected.resource==resource,
+        'expect must be the target weapon current beam handle (weapon:beam())')
+    local change={field=item.field,canonical_field=field.semanticFieldId,descriptor=field,semantic_aliases={item.field},
+        expect=item.expect,value=item.value,expected_selector=expected}
+    local desired=beam_selector(item.value,'value')
+    if desired.weapon==weapon.name and desired.resource==resource then
+        change.desired_selector=desired;change.self_reference=true;change.source_descriptor=field
+        return change
+    end
+    desired=beam_output(desired)
+    change.desired_selector=desired
+    local output=desired.entry
+    if output.family~='beam'then
+        error('INCOMPATIBLE_OUTPUT_FAMILY: '..output.id..' is a '..output.family..' output; a beam host fires only a '
+            ..'BeamType (BeamWeapon +0), and a projectile weapon never gains a beam (docs/attack-outputs.md "Lasers '
+            ..'everywhere")',0)
+    end
+    assert(output.editable==true and output.backing,'attack output is not selectable as a beam: '..output.id..' ('
+        ..tostring(output.reason)..')')
+    if output.currentDefault==field.currentDefault.beamType then
+        -- The output names the row this host fires already: its reviewed baseline.
+        change.self_reference=true;change.source_descriptor=field
+        return change
+    end
+    local catalog=attack_outputs()
+    assert(allow_unverified_reference==true,'a beam donor is not live-tested yet and requires '
+        ..'allow_unverified_reference=true: '..output.id..' ('..tostring(catalog.beamDonorReason)..')')
+    assert(allow_unverified_effect==true,'a beam donor is not live-tested yet and requires allow_unverified_effect=true: '
+        ..output.id..' ('..tostring(catalog.beamDonorReason)..')')
+    local dependency
+    if output.owner.name~=weapon.name and output.hostWeapon~=weapon.name then
+        dependency=require('hd2runtime/core/assets').dependency(output.dependencyKey)
+        if not dependency then
+            error('ASSET_UNAVAILABLE: no catalogued package ships the beam of '..output.id,0)
+        end
+    end
+    change.source_descriptor={referenceKind='beam',backing=output.backing,
+        currentDefault={beamType=output.currentDefault},referenceSettings=output.referenceSettings}
+    change.source_resource=output.resource;change.asset_dependency=dependency
+    return change
+end
 -- Fields of the original fixed JAR-5 resource. Typed weapon targets use per-angle AP and the
 -- player_* damage constants; say so instead of a generic rejection.
 local LEGACY_DAMAGE={armor_penetration='hd2.fields.damage.ap_direct, ap_slight, ap_large and ap_extreme '
@@ -449,6 +541,8 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
             'support attack target accepts only its projectile reference and reviewed damage/family/status fields')
     elseif path=='ammunition'then
         assert(item.field=='ammunition.projectile','ammunition targets only accept hd2.fields.ammunition.projectile')
+    elseif path=='beam_attachment'then
+        assert(item.field=='attack.beam','beam attachment targets only accept hd2.fields.attack.beam')
     elseif path=='attack'then
         assert(item.field=='attack.projectile'or item.field=='attack.'..role..'.projectile',
             'COMPOSITION_TARGET_CHANGED: attack transactions only replace the projectile reference; edit the freshly resolved source projectile object in a separate guarded operation with allow_shared=true')
@@ -497,6 +591,9 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
     if field.type=='projectile_reference'and type(item.value)=='table'and item.value.path=='projectile_reference'
         and item.value.weapon==weapon.name and item.value.attack==role
         and item.value.resource==host_resource(weapon)then live_value=true end
+    -- Restoring a beam host's own beam (its weapon:beam() handle, or the output naming the row it fires) is its
+    -- reviewed baseline.
+    if field.type=='beam_reference'and beam_restores(weapon,item.value,field)then live_value=true end
     -- Restoring a weapon's own catalogued firing sound writes its reviewed baseline bytes.
     if field.type=='weapon_sound'and type(item.value)=='string'
         and weapon_sounds().resolve(item.value)==field.currentDefault then live_value=true end
@@ -558,7 +655,7 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
             local output=desired.entry
             if output.family~='projectile'then
                 error('INCOMPATIBLE_OUTPUT_FAMILY: '..output.id..' is a '..output.family..' output. '
-                    ..tostring(output.reason),0)
+                    ..tostring(output.familyReason or output.reason),0)
             end
             require_output_scope(output,field.semanticFieldId)
             assert(output.editable~=false and output.backing,'attack output is not selectable: '..output.id)
@@ -612,6 +709,9 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
             -- The host's own projectile: the reviewed baseline, whatever another output currently holds.
             self_reference=not ammunition and expected.weapon==desired.weapon and expected.attack==desired.attack,
             asset_dependency=dependency}
+    end
+    if field.type=='beam_reference'then
+        return beam_change(weapon,item,field,allow_unverified_reference,allow_unverified_effect)
     end
     if field.type=='explosion_reference'then
         assert(field.referenceKind=='explosion'and field.referenceRole==role
@@ -746,7 +846,7 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
             local output=desired.entry
             if output.family~='projectile'then
                 error('INCOMPATIBLE_OUTPUT_FAMILY: '..output.id..' is a '..output.family..' output. '
-                    ..tostring(output.reason),0)
+                    ..tostring(output.familyReason or output.reason),0)
             end
             assert(output.editable~=false and(output.backing or output.spare),'attack output is not selectable: '
                 ..output.id)
@@ -1025,11 +1125,44 @@ local function prove_ammunition(reader,roots,catalog,candidate,ammunition)
     return {entry=ammunition,region=region,bytes=bytes,projectile_type=b.u32(bytes,0)}
 end
 
+-- The beam twin of prove_ammunition: the muzzle delta chain (component 270, BeamWeapon +0 in its own 4-byte row) and
+-- the weapon's own default customization still naming that muzzle. Returns the beam type the weapon is built with.
+local function prove_beam_attachment(reader,roots,catalog,candidate,entry)
+    local region=assert(roots.entity_deltas,'entity delta table was not located')
+    reader.stage='domains/player_weapon_writes:beam_delta'
+    local offsets=require('hd2runtime/domains/attachment_writes').prove(reader,region,entry)
+    local rows=assert(offsets[entry.component],
+        'BEAM_SOURCE_CHANGED: the muzzle delta no longer patches BeamWeaponComponentData')
+    assert(rows[entry.componentOffset]==entry.dataOffset,'BEAM_SOURCE_CHANGED: reviewed beam delta data offset changed')
+    local custom=catalog.record(candidate,'WeaponCustomizationComponentData')
+    local pair=entry.defaultCustomization
+    assert(b.u32(custom.bytes,pair.offset)==pair.slot and b.u32(custom.bytes,pair.offset+4)==pair.optionId,
+        'BEAM_SOURCE_CHANGED: '..entry.weapon..' no longer defaults to '..entry.item)
+    local bytes=reader.read(region,entry.dataOffset,4,true)
+    return {entry=entry,region=region,bytes=bytes,beam_type=b.u32(bytes,0)}
+end
+
 local function add_need(needed,name,value)
     if value==true or needed[name]==nil then needed[name]=value end
 end
+-- A beam weapon whose default muzzle delta is its active beam source (the LAS-5 Scythe): its beam reference and its
+-- beam / damage row fields resolve through that delta, re-proven in the live delta allocation.
+local function beam_attachment_of(spec)
+    return(attack_outputs().beamAttachments or{})[tostring(spec.kind)..':'..tostring(spec.weapon)]
+end
+local function needs_beam_source(spec)
+    if not beam_attachment_of(spec)then return false end
+    for _,change in ipairs(spec.changes)do
+        local backing=change.descriptor.backing or{}
+        if change.descriptor.type=='beam_reference'or backing.settings=='beam'or backing.settings=='damage'then
+            return true
+        end
+    end
+    return false
+end
 local function collect_needs(needed,spec)
     add_need(needed,'entity',true)
+    if needs_beam_source(spec)then add_need(needed,'entity_deltas',true);add_need(needed,'beam',true)end
     if spec.kind=='player_weapon'and attack_outputs().ammunition[spec.weapon]then
         -- The weapon's fired projectile is its ammunition delta: projectile resolution and ammunition writes use it.
         add_need(needed,'entity_deltas',true);add_need(needed,'projectile',true)
@@ -1048,6 +1181,10 @@ local function collect_needs(needed,spec)
         end
         if change.descriptor.type=='projectile_reference'or change.descriptor.type=='function_projectile_reference'then
             add_need(needed,'projectile',true)
+        end
+        if change.descriptor.type=='beam_reference'then
+            add_need(needed,'beam',true)
+            if backing.kind=='entity_delta'then add_need(needed,'entity_deltas',true)end
         end
         if change.descriptor.type=='status_reference'then add_need(needed,'status',true)end
         if change.descriptor.type=='overcharge_explosion_reference'then add_need(needed,'explosion',true)end
@@ -1126,6 +1263,10 @@ function M.capture_many(runtime,reader,specs)
         end
         local ammunition=spec.kind=='player_weapon'and attack_outputs().ammunition[spec.weapon]
         if ammunition then resolved.ammunition=prove_ammunition(reader,roots,catalog,resolved.candidate,ammunition)end
+        if needs_beam_source(spec)then
+            resolved.beam_attachment=prove_beam_attachment(reader,roots,catalog,resolved.candidate,
+                beam_attachment_of(spec))
+        end
         if spec.kind=='vehicle_weapon'and spec.mount_chain and spec.mount_chain.stratagem then
             -- A sentry or emplacement host (0.30.2): its stratagem's own payload list still names this deployed
             -- entity (the support weapons' stratagem payload link).
@@ -1207,6 +1348,11 @@ local function projectile_for_candidate(resolved,candidate,branch)
     return assert(resolved.roots.projectile.records[projectile_type],
         'linked ProjectileSettings absent'),projectile_type
 end
+-- The beam type a beam weapon fires: its muzzle delta when that is its proven active source, else its record +0.
+local function beam_type_of(resolved,candidate)
+    if resolved.beam_attachment and candidate==resolved.candidate then return resolved.beam_attachment.beam_type end
+    return b.u32(resolved.catalog.record(candidate,'BeamWeaponComponentData').bytes,0)
+end
 local function linked(resolved,kind,branch,phase)
     local ownership=resolved.candidate.ownership
     if kind=='projectile'or kind=='explosion'or kind=='explosion_damage'
@@ -1235,8 +1381,8 @@ local function linked(resolved,kind,branch,phase)
         return assert(resolved.roots.damage.records[b.u32(record.bytes,36)],'linked arc DamageInfo absent'),resolved.roots.damage.owner
     end
     if kind=='beam'or(kind=='damage'and ownership.BeamWeaponComponentData)then
-        local component=resolved.catalog.record(resolved.candidate,'BeamWeaponComponentData')
-        local record=assert(resolved.roots.beam.records[b.u32(component.bytes,0)],'linked BeamSettings absent')
+        local record=assert(resolved.roots.beam.records[beam_type_of(resolved,resolved.candidate)],
+            'linked BeamSettings absent')
         if kind=='beam'then return record,resolved.roots.beam.owner end
         return assert(resolved.roots.damage.records[b.u32(record.bytes,12)],'linked beam DamageInfo absent'),resolved.roots.damage.owner
     end
@@ -1319,8 +1465,8 @@ local function support_damage(resolved,backing,linkage)
         return assert(resolved.roots.damage.records[b.u32(arc.bytes,36)],'linked arc DamageInfo absent')
     end
     if linkage=='beam_damage'then
-        local component=resolved.catalog.record(resolved.candidate,'BeamWeaponComponentData')
-        local beam=assert(resolved.roots.beam.records[b.u32(component.bytes,0)],'linked BeamSettings absent')
+        local beam=assert(resolved.roots.beam.records[beam_type_of(resolved,resolved.candidate)],
+            'linked BeamSettings absent')
         return assert(resolved.roots.damage.records[b.u32(beam.bytes,12)],'linked beam DamageInfo absent')
     end
     if linkage=='spray_damage'then
@@ -1354,8 +1500,7 @@ local function support_linked(resolved,backing)
             resolved.roots.arc.owner
     end
     if linkage=='beam'then
-        local component=resolved.catalog.record(resolved.candidate,'BeamWeaponComponentData')
-        return assert(resolved.roots.beam.records[b.u32(component.bytes,0)],'linked BeamSettings absent'),
+        return assert(resolved.roots.beam.records[beam_type_of(resolved,resolved.candidate)],'linked BeamSettings absent'),
             resolved.roots.beam.owner
     end
     if linkage=='status'then
@@ -1378,9 +1523,12 @@ function M.prepare(resolved,reader,spec)
         local backing=change.descriptor.backing;local record,owner
         if backing.kind=='component'then record=component_record(resolved,backing);owner=record.owner
         elseif backing.kind=='entity_delta'then
-            local ammunition=assert(resolved.ammunition,'ammunition source was not freshly proven')
-            assert(ammunition.entry.dataOffset==change.descriptor.dataOffset,'ammunition source changed')
-            record={bytes=ammunition.bytes,offset=change.descriptor.dataOffset};owner=ammunition.region
+            -- The delta row of the weapon's active source: its default ammunition, or its default muzzle's beam.
+            local beam=change.descriptor.type=='beam_reference'
+            local source=assert(beam and resolved.beam_attachment or not beam and resolved.ammunition,
+                (beam and'beam'or'ammunition')..' source was not freshly proven')
+            assert(source.entry.dataOffset==change.descriptor.dataOffset,(beam and'beam'or'ammunition')..' source changed')
+            record={bytes=source.bytes,offset=change.descriptor.dataOffset};owner=source.region
         elseif(spec.kind=='support_weapon'or spec.kind=='vehicle_weapon')and backing.linkage then
             record,owner=support_linked(resolved,backing)
             assert(record.group==backing.group and record.row==backing.row
@@ -1392,6 +1540,10 @@ function M.prepare(resolved,reader,spec)
                 and record.kind==backing.recordType and record.settings_type==backing.settingsType,
                 (spec.target_path=='projectile_reference'
                     and 'COMPOSITION_TARGET_CHANGED: projectile fields now belong to the newly referenced object; target that source projectile handle and acknowledge shared ownership'
+                    or(backing.settings=='beam'or backing.settings=='damage')
+                        and resolved.candidate.ownership.BeamWeaponComponentData
+                    and 'COMPOSITION_TARGET_CHANGED: this weapon now fires another beam row (a beam swap, hd2.fields.attack.beam); '
+                        ..'edit the beam and damage fields of the donor weapon, or restore its own beam first'
                     or 'settings record identity changed'))
         end
         assert(backing.offset+backing.width<=#record.bytes,'field outside reviewed record')
@@ -1473,6 +1625,33 @@ function M.prepare(resolved,reader,spec)
                 projectile_type=source_type,settings_group=settings.group,
                 settings_row=settings.row,settings_type=settings.settings_type,
                 scope='projectile_reference_source'}
+        elseif change.descriptor.type=='beam_reference'then
+            -- The host's own beam (its reviewed row) or a donor output: the donor owner's record still names the
+            -- reviewed BeamType, and that BeamSettings row is the reviewed row.
+            local reviewed=change.descriptor.currentDefault.beamType
+            local source_type,reviewed_settings
+            if change.self_reference then
+                source_type=reviewed;reviewed_settings=change.descriptor.referenceSettings
+            else
+                local source_candidate=assert(resolved.reference_sources[change.canonical_field],
+                    'beam source was not freshly resolved')
+                local source_record=component_record_for(resolved,source_candidate,change.source_descriptor.backing)
+                source_type=b.u32(source_record.bytes,0)
+                assert(source_type==change.source_descriptor.currentDefault.beamType,
+                    'CONFLICT: source beam reference changed')
+                reviewed_settings=change.source_descriptor.referenceSettings
+            end
+            local settings=assert(resolved.roots.beam and resolved.roots.beam.records[source_type],
+                'source BeamSettings record absent')
+            assert(reviewed_settings and settings.group==reviewed_settings.group and settings.row==reviewed_settings.row
+                and settings.kind==reviewed_settings.recordType and settings.settings_type==reviewed_settings.settingsType,
+                'source BeamSettings identity changed')
+            change.expected=b.encode(reviewed,'u32');change.desired=b.encode(source_type,'u32')
+            source_identity={component=change.self_reference and'BeamSettings'or change.source_descriptor.backing.component,
+                record_index=change.self_reference and settings.row or change.source_descriptor.backing.recordIndex,
+                index_row=not change.self_reference and change.source_descriptor.backing.indexRow or nil,
+                beam_type=source_type,settings_group=settings.group,settings_row=settings.row,
+                settings_type=settings.settings_type,scope='beam_reference_source'}
         elseif change.descriptor.type=='function_projectile_reference'then
             -- The host must still have the shape the research saw (the same rounds feed or none, no spawned entity, no
             -- magazine pattern), so the ProgrammableAmmo override replaces exactly the projectile it fires.

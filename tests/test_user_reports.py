@@ -299,8 +299,8 @@ class EffectModelTests(unittest.TestCase):
         self.assertEqual(summary['editableOverriddenByField'], {})
 
     def test_published_effects(self):
-        self.assertEqual(self.summary['editableFieldInstances'], {'ACTIVE_AT_INSTANTIATION': 1543,
-            'ACTIVE_DIRECT': 1620, 'AMBIGUOUS': 185, 'DORMANT_OR_METADATA': 53})   # 0.30.2: the seven DUPLICATE weapons; 0.30.4: 40 firing charge and beam pulse fields
+        self.assertEqual(self.summary['editableFieldInstances'], {'ACTIVE_AT_INSTANTIATION': 1545,
+            'ACTIVE_DIRECT': 1620, 'AMBIGUOUS': 185, 'DORMANT_OR_METADATA': 53})   # 0.30.2: the seven DUPLICATE weapons; 0.30.4: 40 firing charge and beam pulse fields, +2 beam references (Trident, Dagger)
         self.assertNotIn('OVERRIDDEN', self.summary['editableFieldInstances'])
         magazine = self.fields[('MA5C Assault Rifle', 'magazine.capacity')]['effect']
         self.assertEqual((magazine['activeSource'], magazine['appliesWhen'], magazine['instantiationOnly']),

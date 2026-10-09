@@ -26,6 +26,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from migration import overlay as migration_overlay  # noqa: E402  build-migration hook
 import live_evidence  # noqa: E402
+import beam_fields  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 RESEARCH = ROOT / 'research/attack-outputs-F5FEE03DCFDB.json'
@@ -354,6 +355,209 @@ def promote(row, fields):
     return fields
 
 
+# Beam outputs and beam swaps (0.30.4; research/beam-outputs-F5FEE03DCFDB.json, scripts/beam_fields.py). A beam output is
+# the BeamSettings row a named Helldiver-side owner fires (its active beam source); it is a donor for beam hosts only
+# (hd2.fields.attack.beam), never for projectile hosts. Enemy beams are catalogued read-only: their effects ship in
+# faction content no catalogued package names.
+BEAM_DONOR_KINDS = {'player_weapon': 'player_weapon', 'support_weapon': 'support_weapon', 'sentry': 'stratagem'}
+BEAM_HOST_KINDS = {'player_weapon': 'player_weapon', 'support_weapon': 'support_weapon',
+    'vehicle_weapon': 'vehicle_weapon', 'sentry': 'vehicle_weapon'}
+# Enemy beams by BeamType: a stable public name, checked against the research owners below.
+ENEMY_BEAMS = {12: ('Illuminate tripod beam', 'tripod'), 23: ('Illuminate tripod second beam', 'tripod'),
+    22: ('Illuminate war machine cannon beam', 'war_machine'), 14: ('Illuminate turret beam', 'turret_01'),
+    29: ('Illuminate objective turret beam', 'turret_tactical_obj')}
+ENEMY_BEAM_REASON = ('An enemy beam: no catalogued package ships its effect (Illuminate faction content), so Runtime '
+    'cannot load its assets before a swap, and its owner is not a Helldiver weapon. Listed read-only.')
+BEAM_OTHER_REASON = ('Not a donor: which beam the {name} fires is not proven. {reason} The two candidates are its '
+    "record's BeamType {base} and the {fires} beam (BeamType {value}); for the latter use hd2.attack_output('{fires}').")
+BEAM_ATTACHMENT_EFFECT = ("The muzzle definition's delta row is the beam the weapon is built with (its BeamWeapon +0 is "
+    'overwritten by it, research/beam-outputs-F5FEE03DCFDB.json), but no live test has confirmed an edited beam delta '
+    'yet: the delta is applied when the weapon is built (re-equip or a new call-in after the write).')
+BEAM_ATTACHMENT_SHARED = ('A muzzle definition applies to every weapon that equips it: sharedWithWeapons lists the other '
+    'catalogued weapons that default to it. The AX/LAS-5 Rover drone gun also defaults to Laser. Standard Prism; whether '
+    'a drone weapon applies it is not proven (its beam source is AMBIGUOUS), so a write may change the Rover\'s beam too. '
+    'allow_shared is required.')
+
+
+def beam_outputs(runtime_outputs, aliases, public, assets):
+    """Beam outputs (donors and read-only listings), beam hosts and beam attachment sources."""
+    data = beam_fields.research()
+    owners = [(record, item) for record in data['records'] for item in record['owners']]
+    host_name = {}
+    for record, item in owners:
+        if item['kind'] in BEAM_HOST_KINDS:
+            host_name[item['resource']] = item['name'] + (' / weapon' if item['kind'] == 'sentry' else '')
+    donors, by_type = {}, {}
+    for record, item in owners:
+        if item['kind'] not in BEAM_DONOR_KINDS or not item['componentIdentity']['uniqueOwner']:
+            continue
+        source = item['activeSource'] or {}
+        if item['status'] not in ('ACTIVE_DIRECT', 'INDIRECT') or source.get('value') != record['beamType']:
+            continue
+        package = next((p for p in item['packages'] if p['listsBeamResources'] and not p['key'].startswith(
+            ('pickup/', 'mounted_weapon/'))), None)
+        dependency = assets.get(package['key']) if package else None
+        if not dependency or not dependency.get('autoLoadSupported'):
+            raise ValueError(item['name'] + ': a beam donor needs a loadable package that lists its beam resources')
+        row = beam_fields.row(record['beamType'])
+        semantic = 'output/v1/beam/' + slug(item['name'])
+        identity = item['componentIdentity']
+        runtime_outputs[semantic] = {'id': semantic, 'family': 'beam',
+            'owner': {'kind': BEAM_DONOR_KINDS[item['kind']], 'name': item['name']},
+            'resource': item['resource'], 'entityRow': item['entityRow'],
+            'backing': {'kind': 'component', 'component': beam_fields.BEAM, 'offset': 0, 'storage': 'u32', 'width': 4,
+                'recordIndex': identity['recordIndex'], 'indexRow': identity['indexRow'],
+                'ownerCount': identity['ownerCount'], 'uniqueOwner': identity['uniqueOwner']},
+            'currentDefault': record['beamType'], 'editable': True, 'selectableAs': 'beam',
+            'referenceSettings': row['settings'], 'beamClass': beam_fields.CLASSES.get(record['fireMode']),
+            'dependencyKey': package['key'], 'hostWeapon': host_name.get(item['resource']),
+            'familyReason': CROSS_FAMILY.format(family='Beam', emitter=FAMILY_EMITTER['beam'], extra=EXTRA['beam'])}
+        for alias in (item['name'], item['name'] + '/primary'):
+            if alias in aliases:
+                raise ValueError('duplicate attack output alias ' + alias)
+            aliases[alias] = semantic
+        donors[semantic] = (record, item, row, package)
+        by_type[record['beamType']] = semantic
+    for semantic, (record, item, row, package) in sorted(donors.items()):
+        public.append({'semanticId': semantic, 'family': 'beam',
+            'kind': 'pulsed_multi_beam' if record['fireMode'] == 6 else 'continuous_beam',
+            'beamClass': beam_fields.CLASSES.get(record['fireMode']),
+            'owner': {'kind': BEAM_DONOR_KINDS[item['kind']], 'name': item['name']}, 'emitter': 'BeamWeapon',
+            'beamType': record['beamType'], 'compatibilityClass': None,
+            'selectableAsProjectileReference': False, 'selectableAsBeamReference': True,
+            'compatibleHostFamilies': ['beam'], 'requiredCoordinatedReferences': [],
+            'blockedReason': CROSS_FAMILY.format(family='Beam', emitter=FAMILY_EMITTER['beam'], extra=EXTRA['beam']),
+            'row': {'length': row['length'], 'radius': round(row['radius'], 4), 'explosion': bool(row['explosion']),
+                'pulseRow': bool(row['pulseRowFlag'])},
+            'ownerFireResource': item['fireResource'], 'ownerFiresThisBeam': item['status'],
+            'package': {'name': package['name'].rsplit('/', 1)[-1], 'known': True, 'autoLoad': True,
+                'listsBeamResources': True},
+            'acknowledgements': {'donor': ['allow_unverified_reference', 'allow_unverified_effect'],
+                'restoreOwn': []},
+            'liveProof': None})
+    # Owners that are not donors but fire a beam a Runtime catalogue names: the Rover drone gun (another weapon's beam)
+    # and the enemy beams (read-only with the reason).
+    for record, item in owners:
+        source = item['activeSource'] or {}
+        if item['kind'] == 'vehicle_weapon' and item['status'] == 'AMBIGUOUS' and source.get('item'):
+            fires = by_type.get(source['value'])
+            if not fires:
+                raise ValueError(item['name'] + ' names a candidate beam no donor output names')
+            semantic = 'output/v1/beam/' + slug(item['name'])
+            fires_name = runtime_outputs[fires]['owner']['name']
+            reason = BEAM_OTHER_REASON.format(name=item['name'], fires=fires_name, reason=item['reason'],
+                base=record['beamType'], value=source['value'])
+            runtime_outputs[semantic] = {'id': semantic, 'family': 'beam',
+                'owner': {'kind': 'vehicle_weapon', 'name': item['name']}, 'editable': False, 'reason': reason,
+                'familyReason': reason}
+            for alias in (item['name'], item['name'] + '/primary'):
+                if alias in aliases:
+                    raise ValueError('duplicate attack output alias ' + alias)
+                aliases[alias] = semantic
+            public.append({'semanticId': semantic, 'family': 'beam', 'kind': 'continuous_beam',
+                'beamClass': beam_fields.CLASSES.get(record['fireMode']),
+                'owner': {'kind': 'vehicle_weapon', 'name': item['name']}, 'emitter': 'BeamWeapon',
+                'beamType': record['beamType'], 'candidateBeamTypes': [record['beamType'], source['value']],
+                'compatibilityClass': None, 'selectableAsProjectileReference': False,
+                'selectableAsBeamReference': False, 'candidateOutput': fires, 'compatibleHostFamilies': [],
+                'requiredCoordinatedReferences': None, 'blockedReason': reason,
+                'ownerFireResource': item['fireResource'], 'ownerFiresThisBeam': item['status'],
+                'package': {'name': None, 'known': False, 'autoLoad': False}, 'acknowledgements': None,
+                'liveProof': None})
+    for beam_type, (name, needle) in sorted(ENEMY_BEAMS.items()):
+        fired = [item for record, item in owners if record['beamType'] == beam_type]
+        if not fired or not any(needle in (item['name'] or '') and item['kind'] in ('enemy', 'enemy_structure')
+                for item in fired):
+            raise ValueError(f'enemy beam {beam_type} no longer matches the research owners')
+        semantic = 'output/v1/beam/' + slug(name)
+        label = name + ' (beam ' + str(beam_type) + ')'
+        runtime_outputs[semantic] = {'id': semantic, 'family': 'beam', 'owner': {'kind': 'enemy', 'name': name},
+            'editable': False, 'reason': ENEMY_BEAM_REASON, 'familyReason': ENEMY_BEAM_REASON}
+        for alias in (name, label):
+            if alias in aliases:
+                raise ValueError('duplicate attack output alias ' + alias)
+            aliases[alias] = semantic
+        row = beam_fields.row(beam_type)
+        public.append({'semanticId': semantic, 'family': 'beam', 'kind': 'continuous_beam', 'beamClass': 'continuous',
+            'owner': {'kind': 'enemy', 'name': name}, 'names': [name, label], 'emitter': 'BeamWeapon',
+            'beamType': beam_type, 'compatibilityClass': None, 'selectableAsProjectileReference': False,
+            'selectableAsBeamReference': False, 'compatibleHostFamilies': [], 'requiredCoordinatedReferences': None,
+            'blockedReason': ENEMY_BEAM_REASON, 'row': {'length': row['length'], 'radius': round(row['radius'], 4),
+                'explosion': bool(row['explosion']), 'pulseRow': bool(row['pulseRowFlag'])},
+            'firedBy': sorted(item['name'] for item in fired if item['name']), 'ownerFireResource': [],
+            'package': {'name': None, 'known': False, 'autoLoad': False}, 'acknowledgements': None, 'liveProof': None})
+    # Hosts: every catalogued beam weapon, by the member its beam swap writes.
+    hosts, attachments, beam_aliases, public_hosts = {}, {}, {}, []
+    sharers = {}
+    for record, item in owners:
+        source = item['activeSource'] or {}
+        # Every catalogued beam weapon that defaults to a muzzle patching BeamWeapon +0, proven source or not.
+        if item['kind'] in BEAM_HOST_KINDS and source.get('addPath'):
+            sharers.setdefault(source['addPath'], []).append(host_name[item['resource']])
+    for record, item in owners:
+        if item['kind'] not in BEAM_HOST_KINDS:
+            continue
+        kind, name = BEAM_HOST_KINDS[item['kind']], host_name[item['resource']]
+        key = kind + ':' + name
+        source = item['activeSource'] or {}
+        fired_type = beam_fields.active_type(record, item)
+        mechanism = {'ACTIVE_DIRECT': 'component', 'INDIRECT': 'attachment'}.get(item['status'])
+        if mechanism and not item['componentIdentity']['uniqueOwner']:
+            mechanism = None
+        hosts[key] = {'kind': kind, 'weapon': name, 'status': item['status'], 'mechanism': mechanism,
+            'member': 'BeamWeapon +0' if mechanism != 'attachment' else source['item'] + ' delta (BeamWeapon +0)',
+            'reason': item['reason'], 'beamType': fired_type, 'beamClass': beam_fields.CLASSES.get(record['fireMode']),
+            'fires': by_type.get(fired_type), 'stratagem': item['name'] if item['kind'] == 'sentry' else None}
+        beam_aliases[key] = by_type.get(fired_type)
+        if mechanism == 'attachment':
+            others = sorted(set(sharers[source['addPath']]) - {name})
+            attachments[key] = {'id': 'beam-attachment/v1/' + slug(name) + '/' + slug(source['item']), 'weapon': name,
+                'kind': kind, 'item': source['item'], 'semanticFieldId': beam_fields.FIELD, 'type': 'beam_reference',
+                'displayName': 'Attack beam reference', 'referenceKind': 'beam',
+                'currentDefault': {'weapon': name, 'beamType': fired_type},
+                'referenceSettings': beam_fields.row(fired_type)['settings'],
+                'beamClass': beam_fields.CLASSES.get(record['fireMode']), 'editable': True,
+                'acknowledgement': 'allow_unverified_effect', 'acknowledgementReason': BEAM_ATTACHMENT_EFFECT,
+                'affectsMultipleWeapons': True, 'sharedWithWeapons': others, 'sharedReason': BEAM_ATTACHMENT_SHARED,
+                'writeScope': 'attachment_definition', 'appliesWhen': 'weapon_build',
+                'resource': source['addPath'], 'hashmapSlot': source['hashmapSlot'],
+                'settingsIndex': source['settingsIndex'], 'component': beam_fields.BEAM_INDEX, 'componentOffset': 0,
+                'dataOffset': source['dataOffset'],
+                'backing': {'kind': 'entity_delta', 'component': beam_fields.BEAM, 'offset': 0, 'width': 4,
+                    'storage': 'u32'},
+                'defaultCustomization': {'offset': source['defaultPairOffset'], 'slot': source['slot'],
+                    'optionId': int(source['optionId'], 16)}}
+        public_hosts.append({'weapon': name, 'kind': kind, 'stratagem': hosts[key]['stratagem'],
+            'status': item['status'], 'mechanism': mechanism, 'member': hosts[key]['member'], 'reason': item['reason'],
+            'writable': mechanism is not None, 'beamClass': hosts[key]['beamClass'], 'fires': hosts[key]['fires'],
+            'sharedWithWeapons': attachments[key]['sharedWithWeapons'] if key in attachments else [],
+            'acknowledgements': (['allow_shared'] if key in attachments else []) + ['allow_unverified_reference',
+                'allow_unverified_effect'],
+            'write': ('beam_source()' + (' (the muzzle definition: hd2.fields.attack.beam)' if mechanism == 'attachment'
+                else ' (hd2.fields.attack.beam on the weapon itself)')) if mechanism else None})
+    public_hosts.sort(key=lambda h: (h['kind'], h['weapon']))
+    model = {'rule': ('A beam swap re-points the BeamType (BeamWeapon +0) a weapon that already owns a BeamWeapon '
+            'component fires; no component is ever added, so a projectile weapon cannot fire a beam (docs/attack-'
+            "outputs.md \"Lasers everywhere\"). The written member is the active beam source: the weapon's own record "
+            "(component) or, where a default customization item patches BeamWeapon +0 at weapon build, that item's "
+            'delta row (attachment, shared by every weapon that equips it).'),
+        'api': {'source': ("weapon:beam_source() (player, support and mounted weapons; "
+                "hd2.stratagem(name):attack('primary'):beam_source() for a sentry)"),
+            'field': 'hd2.fields.attack.beam', 'expect': "weapon:beam() (the host's own beam; also the restore value)",
+            'value': "hd2.attack_output(donor) or another beam weapon's weapon:beam()"},
+        'acknowledgements': beam_fields.REFERENCE_REASON,
+        'assets': ("The donor owner's own loadout package (it lists the beam row's resources: research/beam-outputs "
+            'packages[].listsBeamResources) is loaded before the write; a donor without one is not catalogued.'),
+        'hostKeeps': 'its fire mode, rate, pulse, heat or charge, magazine, handling and sounds',
+        'donorBrings': 'its BeamSettings row: length, radius, damage row, hit effects and the beam visuals',
+        'research': 'research/beam-outputs-F5FEE03DCFDB.json',
+        'counts': {'records': data['summary']['records'], 'owners': data['summary']['owners'],
+            'donors': len(donors), 'hosts': len(public_hosts),
+            'writableHosts': sum(1 for h in public_hosts if h['writable'])}}
+    return {'hosts': hosts, 'attachments': attachments, 'aliases': beam_aliases, 'public': public_hosts,
+        'model': model}
+
+
 def outputs():
     research = json.loads(RESEARCH.read_text(encoding='utf-8'))
     mode_labels, mode_icons, mode_projectiles = mode_catalog()
@@ -365,6 +569,10 @@ def outputs():
     builder_owners = {item['type']: item['consumerOwners'] for item in builder['projectileOutputs']}
     builder_references = {item['type']: item['consumerCount'] for item in builder['projectileOutputs']}
     for entry in sorted(research['weapons'], key=lambda e: (e['kind'], e['weapon'])):
+        if entry['family'] == 'beam':
+            # Beam outputs come from research/beam-outputs-F5FEE03DCFDB.json (beam_outputs above): every beam row a
+            # weapon fires, by its active source.
+            continue
         semantic = f"output/v1/{entry['family']}/{slug(entry['weapon'])}"
         owner = {'kind': entry['kind'], 'name': entry['weapon']}
         fires, owner_reason = owner_source(by_weapon.get(entry['weapon'])) if entry['family'] == 'projectile' else (
@@ -563,6 +771,7 @@ def outputs():
                 'crossClass': ['allow_unverified_reference', 'allow_unverified_effect']},
             'ownerFiresThisProjectile': 'spare_row', 'presentation': public_presentation(row),
             'slots': public_slots(row), 'liveProof': None})
+    beams = beam_outputs(runtime_outputs, aliases, public, assets)
     # Hosts: a player attack whose fired projectile Runtime can write. `component`: the attack's own ProjectileWeapon
     # +0 is its active source; `ammunition`: the default ammunition delta is. Both keep the live controls' structure
     # (magazine-fed; no rounds, charge or heat). Support weapons have no guarded projectile reference target.
@@ -623,6 +832,8 @@ def outputs():
     runtime = migration_overlay.apply('attack_outputs', {'outputs': runtime_outputs, 'aliases': aliases,
         'retired': RETIRED, 'modeLabels': runtime_labels, 'modeIcons': runtime_icons,
         'hosts': hosts, 'sources': sources, 'supportSources': support_sources, 'ammunition': ammunition,
+        'beamHosts': beams['hosts'], 'beamAttachments': beams['attachments'], 'beamAliases': beams['aliases'],
+        'beamDonorReason': beam_fields.REFERENCE_REASON,
         'provenCompositions': compositions, 'crossClassReason': UNVERIFIED_REFERENCE})
     cases = research['liberatorCases']
     public_sources = []
@@ -685,6 +896,8 @@ def outputs():
                 'attackFields': classified['attackFields'], 'attackFieldsByStatus': classified['attackFieldsByStatus'],
                 'previouslyWritableAttackFieldsByStatus': classified['previouslyWritableAttackFieldsByStatus']}},
         'projectileSources': public_sources,
+        'beamSources': beams['public'],
+        'beamModel': beams['model'],
         'ammunitionSources': public_ammunition,
         'provenCompositions': [{'host': host, 'output': output, 'mechanism': mechanism,
             'acknowledgementsRequired': []} for host, output, mechanism in proven_host_pairs()],
@@ -738,8 +951,11 @@ def outputs():
             'examples': ['SpeargunProjectileBuilderTest', 'HMGSpecialAmmoTest', 'UnifiedProjectileSwapTest']},
         'summary': {'outputs': len(public), 'byFamily': {family: sum(1 for o in public if o['family'] == family)
                 for family in research['summary']['byFamily']},
-            'stratagemDonors': sorted({o['owner']['name'] for o in public if o['owner']['kind'] == 'stratagem'}),
+            'stratagemDonors': sorted({o['owner']['name'] for o in public if o['owner']['kind'] == 'stratagem'
+                and o['family'] == 'projectile'}),
             'selectable': sum(1 for o in public if o['selectableAsProjectileReference']),
+            'beamDonors': sum(1 for o in public if o.get('selectableAsBeamReference')),
+            'beamHosts': sum(1 for h in beams['public'] if h['writable']),
             'projectileHosts': len(hosts),
             'componentHosts': sum(1 for h in hosts.values() if h['mechanism'] == 'component'),
             'ammunitionHosts': sum(1 for h in hosts.values() if h['mechanism'] == 'ammunition'),

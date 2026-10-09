@@ -279,6 +279,15 @@ def normalize(tables: dict, source_view=None) -> list[dict]:
                 'dataOffset': ammunition['dataOffset'], 'storage': 'u32', 'width': 4},
             ammunition['currentDefault']['projectileType'], ammunition.get('editable', True), True,
             {'path': ['ammunition', weapon], 'guard': {'id': ammunition['id']}}))
+    # Beam attachment sources (0.30.4): a default muzzle's entity delta row patching BeamWeapon +0 (the beam the weapon
+    # is built with, the LAS-5 Scythe's Laser. Standard Prism). Rebound like an ammunition source.
+    for key, source in sorted(((tables.get('attack_outputs') or {}).get('beamAttachments') or {}).items()):
+        records.append(_record('attack_outputs', 'beam-attachment:' + key, source['weapon'], 'attack.beam',
+            {'kind': 'delta', 'resource': _int(source['resource']), 'component': source['backing']['component'],
+                'componentIndex': source['component'], 'componentOffset': source['componentOffset'],
+                'dataOffset': source['dataOffset'], 'storage': 'u32', 'width': 4},
+            source['currentDefault']['beamType'], source.get('editable', True), True,
+            {'path': ['beamAttachments', key], 'guard': {'id': source['id']}}))
     keys = [record['key'] for record in records]
     if len(keys) != len(set(keys)):
         raise ValueError('migration field keys are not unique')
@@ -383,6 +392,16 @@ def relationships(tables: dict) -> list[dict]:
         if resources:
             pair = ammunition['defaultCustomization']
             add('component_value', 'ammunition-default:' + weapon, weapon, [('attack_outputs', weapon)],
+                resource=_int(resources[0]), component='WeaponCustomizationComponentData',
+                offset=pair['offset'] + 4, expect=pair['optionId'])
+    # A beam attachment source holds only while the weapon's own default customization still names that muzzle.
+    vehicles = (tables.get('vehicle_weapon_authoring') or {}).get('weapons') or {}
+    for key, source in sorted(((tables.get('attack_outputs') or {}).get('beamAttachments') or {}).items()):
+        owner = (player if source['kind'] == 'player_weapon' else vehicles).get(source['weapon']) or {}
+        resources = owner.get('resources') or []
+        if resources:
+            pair = source['defaultCustomization']
+            add('component_value', 'beam-attachment-default:' + key, source['weapon'], [('attack_outputs', key)],
                 resource=_int(resources[0]), component='WeaponCustomizationComponentData',
                 offset=pair['offset'] + 4, expect=pair['optionId'])
     return links

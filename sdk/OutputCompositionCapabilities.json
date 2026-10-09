@@ -44,7 +44,7 @@
     {
       "host": "AR-23 Liberator",
       "donor": "LAS-5 Scythe",
-      "outputId": null,
+      "outputId": "output/v1/beam/las-5-scythe",
       "beamKind": null,
       "status": "blocked",
       "routes": {

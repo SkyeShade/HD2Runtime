@@ -20,6 +20,7 @@ import weapon_sound_fields
 import presentation_fields
 import status_fields
 import equipment_fields
+import beam_fields
 import charge_fields
 import support_callin_linkage
 import live_evidence
@@ -563,6 +564,14 @@ def build(catalog_path=CATALOG):
                     ownership['BeamWeaponComponentData']['recordIndex'],
                     lambda offset,storage:component(candidate,'BeamWeaponComponentData',offset,storage),
                     skip=('beam.fire_rate',)if weapon['name']in equipment_fields.BEAM_RATE_WEAPONS else())
+                # 0.30.4 beam swaps (scripts/beam_fields.py, research/beam-outputs): the weapon's own BeamType
+                # reference on its own BeamWeapon record (the LAS-98 and the 40-K are ACTIVE_DIRECT).
+                beam=beam_fields.reference_field(
+                    lambda field_id,current,backing,editable,reason:make_field(field_id,current,backing,target,
+                        editable,reason,acknowledgement='allow_unverified_effect'),
+                    candidate['resourceHash'],weapon['name'],
+                    lambda offset,storage:component(candidate,'BeamWeaponComponentData',offset,storage))
+                if beam:fields.append(beam)
             if weapon['name'] in equipment_fields.RECOIL_MULTIPLIER_WEAPONS and'WeaponDataComponentData'in ownership:
                 fields+=equipment_fields.recoil_multiplier_fields(equipment_make,
                     lambda offset,storage:component(candidate,'WeaponDataComponentData',offset,storage))

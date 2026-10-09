@@ -10,12 +10,12 @@
     "weapons": 80,
     "uniqueWeapons": 80,
     "duplicateWeapons": 0,
-    "semanticFieldDefinitions": 145,
-    "writableSemanticFieldDefinitions": 126,
+    "semanticFieldDefinitions": 146,
+    "writableSemanticFieldDefinitions": 127,
     "readOnlySemanticFieldDefinitions": 19,
     "derivedSemanticFieldDefinitions": 9,
-    "fieldInstances": 4712,
-    "writableFieldInstances": 3405,
+    "fieldInstances": 4715,
+    "writableFieldInstances": 3407,
     "weaponsWithWritableFields": 80,
     "weaponsWithProjectileDamageWrites": 78,
     "weaponsRestrictedToWeaponLevelWrites": 0,
@@ -148,14 +148,14 @@
     },
     "effect": {
       "fieldInstances": {
-        "ACTIVE_AT_INSTANTIATION": 2208,
+        "ACTIVE_AT_INSTANTIATION": 2210,
         "ACTIVE_DIRECT": 1691,
         "AMBIGUOUS": 197,
         "DORMANT_OR_METADATA": 427,
-        "OVERRIDDEN": 42
+        "OVERRIDDEN": 43
       },
       "editableFieldInstances": {
-        "ACTIVE_AT_INSTANTIATION": 1543,
+        "ACTIVE_AT_INSTANTIATION": 1545,
         "ACTIVE_DIRECT": 1620,
         "AMBIGUOUS": 185,
         "DORMANT_OR_METADATA": 53
@@ -777,6 +777,16 @@
       "writable": true,
       "semantic_target": "attack_projectile_reference",
       "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted."
+    },
+    {
+      "id": "attack.beam",
+      "display_name": "Attack beam reference",
+      "type": "beam_reference",
+      "unit": null,
+      "derived": false,
+      "writable": true,
+      "semantic_target": "attack_beam_reference",
+      "reason": "Guarded typed BeamType reference replacement on the weapon's own active beam source (BeamWeapon +0 or the default muzzle delta); only catalogued beam outputs with a known package are accepted."
     },
     {
       "id": "projectile.type",
@@ -1779,7 +1789,7 @@
     }
   ],
   "backingCollisionAudit": {
-    "fieldInstancesAudited": 4712,
+    "fieldInstancesAudited": 4715,
     "exactBackingCollisionGroups": 289,
     "aliasPairInstances": 62,
     "distinctSemanticPairInstances": 291,
@@ -91535,6 +91545,79 @@
           "apiFieldConstant": "hd2.fields.beam.pulse_seconds"
         },
         {
+          "displayName": "Attack beam reference",
+          "semanticFieldId": "attack.beam",
+          "type": "beam_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "LAS-13 Trident",
+            "beamType": 6
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_beam_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "BeamWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 18,
+            "indexRow": 20,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed BeamType reference replacement on the weapon's own active beam source (BeamWeapon +0 or the default muzzle delta); only catalogued beam outputs with a known package are accepted.",
+          "acceptedForWrites": true,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "Re-points this weapon's BeamType (BeamWeapon +0): it fires the donor's BeamSettings row (length, radius, damage row, hit effects and beam visuals) with its own fire mode, rate, heat and sounds. The written member is the weapon's active beam source (research/beam-outputs-F5FEE03DCFDB.json: no customization delta patches it, or the patching delta row itself), but no beam swap has been shown in game yet.",
+          "referenceKind": "beam",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 6,
+            "row": 26,
+            "settingsType": "0xC5085606"
+          },
+          "beamClass": "pulsed",
+          "effect": {
+            "activeSource": "ACTIVE_AT_INSTANTIATION",
+            "appliesWhen": "weapon_build",
+            "instantiationOnly": true,
+            "activeSourceProven": true,
+            "gameplayEffectProven": false,
+            "unverifiedEffect": true,
+            "reason": "A component member (or customization delta) the game applies when it builds the weapon: a weapon built after the write fires the new beam; one already in hand keeps its copy until it is rebuilt (re-equip, resupply or a new call-in).",
+            "writeVerifiedOnApply": true
+          },
+          "beamSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "BeamWeapon +0",
+            "reason": "No default or equippable customization patches BeamWeapon +0 and nothing else references a BeamType: the record's +0 is the beam it fires."
+          },
+          "apiFieldConstant": "hd2.fields.attack.beam"
+        },
+        {
           "displayName": "DamageInfo type",
           "semanticFieldId": "damage.type",
           "type": "integer",
@@ -103429,6 +103512,80 @@
           "apiFieldConstant": "hd2.fields.beam.pulse_seconds"
         },
         {
+          "displayName": "Attack beam reference",
+          "semanticFieldId": "attack.beam",
+          "type": "beam_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "LAS-5 Scythe",
+            "beamType": 8
+          },
+          "editable": false,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_beam_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "BeamWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 16,
+            "indexRow": 6,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "DORMANT_BEAM_REFERENCE: the default customization item Laser. Standard Prism patches BeamWeapon +0 when the weapon is built, so this member is dormant (the delta is the active beam source). Write the target weapon:beam_source() returns (the muzzle definition's beam, hd2.fields.attack.beam) instead.",
+          "acceptedForWrites": false,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "Re-points this weapon's BeamType (BeamWeapon +0): it fires the donor's BeamSettings row (length, radius, damage row, hit effects and beam visuals) with its own fire mode, rate, heat and sounds. The written member is the weapon's active beam source (research/beam-outputs-F5FEE03DCFDB.json: no customization delta patches it, or the patching delta row itself), but no beam swap has been shown in game yet.",
+          "referenceKind": "beam",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 8,
+            "row": 1,
+            "settingsType": "0xC5085606"
+          },
+          "beamClass": "continuous",
+          "effect": {
+            "activeSource": "OVERRIDDEN",
+            "appliesWhen": "weapon_build",
+            "instantiationOnly": true,
+            "activeSourceProven": true,
+            "reason": "DORMANT_BEAM_REFERENCE: the default customization item Laser. Standard Prism patches BeamWeapon +0 when the weapon is built, so this member is dormant (the delta is the active beam source). Write the target weapon:beam_source() returns (the muzzle definition's beam, hd2.fields.attack.beam) instead.",
+            "overriddenBy": "Laser. Standard Prism",
+            "writeVerifiedOnApply": false,
+            "gameplayEffectProven": false,
+            "unverifiedEffect": true
+          },
+          "beamSource": {
+            "status": "INDIRECT",
+            "mechanism": "attachment",
+            "member": "BeamWeapon +0",
+            "reason": "The default customization item Laser. Standard Prism (slot 4) patches BeamWeapon +0 (to BeamType 8) when the weapon is built, so the base member is dormant; that delta row is the active beam source."
+          },
+          "apiFieldConstant": "hd2.fields.attack.beam"
+        },
+        {
           "displayName": "DamageInfo type",
           "semanticFieldId": "damage.type",
           "type": "integer",
@@ -110840,6 +110997,79 @@
             "unverifiedEffect": true
           },
           "apiFieldConstant": "hd2.fields.beam.pulse_seconds"
+        },
+        {
+          "displayName": "Attack beam reference",
+          "semanticFieldId": "attack.beam",
+          "type": "beam_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "LAS-7 Dagger",
+            "beamType": 11
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_beam_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "BeamWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 20,
+            "indexRow": 34,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed BeamType reference replacement on the weapon's own active beam source (BeamWeapon +0 or the default muzzle delta); only catalogued beam outputs with a known package are accepted.",
+          "acceptedForWrites": true,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "Re-points this weapon's BeamType (BeamWeapon +0): it fires the donor's BeamSettings row (length, radius, damage row, hit effects and beam visuals) with its own fire mode, rate, heat and sounds. The written member is the weapon's active beam source (research/beam-outputs-F5FEE03DCFDB.json: no customization delta patches it, or the patching delta row itself), but no beam swap has been shown in game yet.",
+          "referenceKind": "beam",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 11,
+            "row": 0,
+            "settingsType": "0xC5085606"
+          },
+          "beamClass": "continuous",
+          "effect": {
+            "activeSource": "ACTIVE_AT_INSTANTIATION",
+            "appliesWhen": "weapon_build",
+            "instantiationOnly": true,
+            "activeSourceProven": true,
+            "gameplayEffectProven": false,
+            "unverifiedEffect": true,
+            "reason": "A component member (or customization delta) the game applies when it builds the weapon: a weapon built after the write fires the new beam; one already in hand keeps its copy until it is rebuilt (re-equip, resupply or a new call-in).",
+            "writeVerifiedOnApply": true
+          },
+          "beamSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "BeamWeapon +0",
+            "reason": "No default or equippable customization patches BeamWeapon +0 and nothing else references a BeamType: the record's +0 is the beam it fires."
+          },
+          "apiFieldConstant": "hd2.fields.attack.beam"
         },
         {
           "displayName": "DamageInfo type",

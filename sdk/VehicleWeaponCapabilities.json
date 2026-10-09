@@ -1922,6 +1922,10 @@
               "local": [
                 "vehicle-field/v1/ax-las-5-rover-gun/reload-duration/d0807c60773d401f",
                 "vehicle-field/v1/ax-las-5-rover-gun/beam-fire-rate/c89d2d48249d8e1e",
+                "vehicle-field/v1/ax-las-5-rover-gun/beam-fire-mode/f2cb6bf87cd962b5",
+                "vehicle-field/v1/ax-las-5-rover-gun/beam-pulse-beams/24f01b74bb31daaf",
+                "vehicle-field/v1/ax-las-5-rover-gun/beam-pulse-seconds/bc3a3cbfb2b738d6",
+                "vehicle-field/v1/ax-las-5-rover-gun/attack-beam/c65099f80682adb1",
                 "vehicle-field/v1/ax-las-5-rover-gun/heat-capacity/5b12f9f598e079e4",
                 "vehicle-field/v1/ax-las-5-rover-gun/heat-heat-per-shot/0e8dec604ab1d9cd",
                 "vehicle-field/v1/ax-las-5-rover-gun/heat-cool-per-second/0b9a238417e139a8"
@@ -18418,6 +18422,101 @@
       "backingComponent": "BeamWeaponComponentData"
     },
     {
+      "instanceKey": "vehicle-field/v1/ax-las-5-rover-gun/beam-fire-mode/f2cb6bf87cd962b5",
+      "weapon": "AX/LAS-5 Rover / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-las-5-rover/gun/e2fce6f92c3d7a55",
+      "semanticFieldId": "beam.fire_mode",
+      "apiFieldConstant": "hd2.fields.beam.fire_mode",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "AX/LAS-5 Rover / gun"
+      },
+      "displayName": "Beam fire mode",
+      "unit": "enum",
+      "type": "integer",
+      "baseline": 4,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "BeamWeaponComponentData"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-las-5-rover-gun/beam-pulse-beams/24f01b74bb31daaf",
+      "weapon": "AX/LAS-5 Rover / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-las-5-rover/gun/e2fce6f92c3d7a55",
+      "semanticFieldId": "beam.pulse_beams",
+      "apiFieldConstant": "hd2.fields.beam.pulse_beams",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "AX/LAS-5 Rover / gun"
+      },
+      "displayName": "Beams per pulse",
+      "unit": "beams",
+      "type": "integer",
+      "baseline": 1,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "BeamWeaponComponentData"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-las-5-rover-gun/beam-pulse-seconds/bc3a3cbfb2b738d6",
+      "weapon": "AX/LAS-5 Rover / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-las-5-rover/gun/e2fce6f92c3d7a55",
+      "semanticFieldId": "beam.pulse_seconds",
+      "apiFieldConstant": "hd2.fields.beam.pulse_seconds",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "AX/LAS-5 Rover / gun"
+      },
+      "displayName": "Pulse duration",
+      "unit": "seconds",
+      "type": "number",
+      "baseline": 0.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "BeamWeaponComponentData"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-las-5-rover-gun/attack-beam/c65099f80682adb1",
+      "weapon": "AX/LAS-5 Rover / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-las-5-rover/gun/e2fce6f92c3d7a55",
+      "semanticFieldId": "attack.beam",
+      "apiFieldConstant": "hd2.fields.attack.beam",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "AX/LAS-5 Rover / gun"
+      },
+      "displayName": "Attack beam reference",
+      "unit": null,
+      "type": "beam_reference",
+      "baseline": {
+        "weapon": "AX/LAS-5 Rover / gun",
+        "beamType": 25
+      },
+      "writable": false,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "BeamWeaponComponentData"
+    },
+    {
       "instanceKey": "vehicle-field/v1/ax-las-5-rover-gun/heat-capacity/5b12f9f598e079e4",
       "weapon": "AX/LAS-5 Rover / gun",
       "weaponSemanticId": "vehicle-weapon/v1/ax-las-5-rover/gun/e2fce6f92c3d7a55",
@@ -20003,13 +20102,13 @@
   "summary": {
     "vehicles": 16,
     "weaponMounts": 23,
-    "fieldInstances": 662,
-    "writableFieldInstances": 662,
-    "weaponLocalFields": 154,
+    "fieldInstances": 666,
+    "writableFieldInstances": 665,
+    "weaponLocalFields": 158,
     "sharedMountedWeaponFields": 28,
     "sharedFields": 508,
     "gameplayProvenFields": 27,
-    "unverifiedEffectFields": 635,
+    "unverifiedEffectFields": 639,
     "byField": {
       "arc.primary.chain_count": 1,
       "arc.primary.distance_at_max_spread": 1,
@@ -20017,10 +20116,14 @@
       "arc.primary.max_split": 1,
       "arc.primary.range": 1,
       "arc.primary.velocity": 1,
+      "attack.beam": 1,
       "attack.primary.projectile": 9,
+      "beam.fire_mode": 1,
       "beam.fire_rate": 1,
       "beam.primary.length": 1,
       "beam.primary.radius": 1,
+      "beam.pulse_beams": 1,
+      "beam.pulse_seconds": 1,
       "damage.primary.ap_direct": 22,
       "damage.primary.ap_extreme": 22,
       "damage.primary.ap_large": 22,
@@ -20278,5 +20381,24 @@
   "stratagemHostSummary": {
     "hosts": 9,
     "writable": 7
-  }
+  },
+  "stratagemBeamHosts": [
+    {
+      "stratagem": "A/LAS-98 Laser Sentry",
+      "key": "A/LAS-98 Laser Sentry / weapon",
+      "semanticId": "vehicle-weapon/v1/a-las-98-laser-sentry/weapon/a768da209d37c211",
+      "api": "hd2.stratagem('A/LAS-98 Laser Sentry'):attack('primary'):beam_source()",
+      "fields": [
+        "hd2.fields.attack.beam",
+        "hd2.fields.beam.fire_mode",
+        "hd2.fields.beam.pulse_beams",
+        "hd2.fields.beam.pulse_seconds"
+      ],
+      "writable": true,
+      "reason": null,
+      "beamClass": "continuous",
+      "acknowledgement": "allow_unverified_effect",
+      "note": "beam.fire_rate is on hd2.stratagem(name):deployed_entity():weapon() (sentry fields)."
+    }
+  ]
 }

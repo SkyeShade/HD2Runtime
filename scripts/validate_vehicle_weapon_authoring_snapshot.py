@@ -71,8 +71,23 @@ local function donor_for(field)
  table.sort(ids)
  return {resource='attack_output',output=assert(ids[1],'no same-class donor for '..field.target.weapon)}
 end
+-- A beam host's BeamType reference (0.30.4): its own beam handle (the baseline) and the first catalogued beam donor
+-- that names another row (every beam donor needs allow_unverified_reference).
+local function own_beam(field)
+ return {resource='vehicle_weapon',path='beam_reference',weapon=field.target.weapon}
+end
+local function beam_donor_for(field)
+ local ids={}
+ for id,output in pairs(outputs.outputs)do
+  if output.family=='beam'and output.editable and output.backing and output.currentDefault~=field.currentDefault.beamType
+   then ids[#ids+1]=id end
+ end
+ table.sort(ids)
+ return {resource='attack_output',output=assert(ids[1],'no beam donor for '..field.target.weapon)}
+end
 local function changed_value(field)
  if field.type=='projectile_reference'then return donor_for(field)end
+ if field.type=='beam_reference'then return beam_donor_for(field)end
  local value=field.currentDefault
  if field.type=='status_reference'then
   -- Another attachable status (a used slot) or the first one (the empty attachment slot).
@@ -86,7 +101,9 @@ local function changed_value(field)
 end
 -- A third-party value that is neither the reviewed nor the desired bytes.
 local function third_party(field)
- if field.type=='status_reference'or field.type=='projectile_reference'then return b.encode(9999,'u32')end
+ if field.type=='status_reference'or field.type=='projectile_reference'or field.type=='beam_reference'then
+  return b.encode(9999,'u32')
+ end
  return b.encode(field.currentDefault+7,field.backing.storage)
 end
 local function round_trip(domain,spec,label)
@@ -123,10 +140,12 @@ local worker=coroutine.create(function()
    local ack=field.acknowledgement=='allow_unverified_effect'
    local function request(expect,value,with_shared,with_ack)
     return {id='vehicle-weapon-check',target=field.target,field=public_id(field),expect=expect,value=value,
-     allow_shared=with_shared or nil,allow_unverified_effect=with_ack or nil}
+     allow_shared=with_shared or nil,allow_unverified_effect=with_ack or nil,
+     allow_unverified_reference=field.type=='beam_reference'or nil}
    end
    reset()
-   local baseline=field.type=='projectile_reference'and own_projectile(field)or field.currentDefault
+   local baseline=field.type=='projectile_reference'and own_projectile(field)
+    or field.type=='beam_reference'and own_beam(field)or field.currentDefault
    local plan=resolve(weapons,weapons.validate_patch(request(baseline,baseline,shared,ack)))
    local checked=guarded.apply(runtime,plan)
    assert(checked.status=='ALREADY_DESIRED'and checked.writes==0,label..' no-op changed state')
@@ -156,7 +175,8 @@ local worker=coroutine.create(function()
   -- The mount chain is re-proven: a vehicle whose slot no longer holds this weapon is rejected.
   local first
   for _,field in ipairs(weapon.fields)do if field.editable and field.target.path=='weapon'then first=field;break end end
-  if first then
+  -- A sentry host (its stratagem's payload link, not a vehicle mount) has no mount chain to move.
+  if first and not weapon.stratagemHost then
    reset()
    local spec=weapons.validate_patch({id='mount-chain',target=first.target,field=public_id(first),
     expect=first.currentDefault,value=first.currentDefault,allow_shared=first.affectsMultipleWeapons or nil,

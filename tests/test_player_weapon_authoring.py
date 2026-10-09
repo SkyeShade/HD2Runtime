@@ -247,7 +247,7 @@ local writes=require('hd2runtime/domains/player_weapon_writes')
 for name,weapon in pairs(db.weapons)do
     local changes={}
     for _,field in ipairs(weapon.fields)do
-        if field.editable and field.type~='projectile_reference'
+        if field.editable and field.type~='projectile_reference'and field.type~='beam_reference'
             and field.type~='explosion_reference'and field.type~='function_projectile_reference'
             and not field.semanticFieldId:match('^explosion%.') then
             local value=field.currentDefault

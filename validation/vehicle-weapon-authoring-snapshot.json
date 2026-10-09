@@ -1,5 +1,5 @@
 {
-  "acknowledgementRejections": 642,
+  "acknowledgementRejections": 649,
   "byScope": {
     "shared_arc": 6,
     "shared_beam": 2,
@@ -7,16 +7,16 @@
     "shared_explosion": 24,
     "shared_mounted_weapon": 28,
     "shared_projectile": 105,
-    "weapon_local": 161
+    "weapon_local": 168
   },
-  "changedWrites": 669,
-  "conflictRejections": 669,
+  "changedWrites": 676,
+  "conflictRejections": 676,
   "fixtureFallback": "disabled",
   "independentArms": true,
   "mode": "snapshot-overlay",
   "mountChainRejections": 23,
-  "noOps": 669,
-  "rollbacks": 669,
+  "noOps": 676,
+  "rollbacks": 676,
   "scenarios": {
     "bastion_cannon_damage": {
       "after": "88130000",
@@ -167,6 +167,6 @@
       "unlimited_to_finite": 81
     }
   },
-  "vehicleFields": 669,
-  "vehicleWeapons": 32
+  "vehicleFields": 676,
+  "vehicleWeapons": 33
 }

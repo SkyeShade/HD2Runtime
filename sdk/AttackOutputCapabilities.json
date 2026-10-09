@@ -1554,6 +1554,158 @@
    "write": null
   }
  ],
+ "beamSources": [
+  {
+   "weapon": "LAS-13 Trident",
+   "kind": "player_weapon",
+   "stratagem": null,
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "BeamWeapon +0",
+   "reason": "No default or equippable customization patches BeamWeapon +0 and nothing else references a BeamType: the record's +0 is the beam it fires.",
+   "writable": true,
+   "beamClass": "pulsed",
+   "fires": "output/v1/beam/las-13-trident",
+   "sharedWithWeapons": [],
+   "acknowledgements": [
+    "allow_unverified_reference",
+    "allow_unverified_effect"
+   ],
+   "write": "beam_source() (hd2.fields.attack.beam on the weapon itself)"
+  },
+  {
+   "weapon": "LAS-5 Scythe",
+   "kind": "player_weapon",
+   "stratagem": null,
+   "status": "INDIRECT",
+   "mechanism": "attachment",
+   "member": "Laser. Standard Prism delta (BeamWeapon +0)",
+   "reason": "The default customization item Laser. Standard Prism (slot 4) patches BeamWeapon +0 (to BeamType 8) when the weapon is built, so the base member is dormant; that delta row is the active beam source.",
+   "writable": true,
+   "beamClass": "continuous",
+   "fires": "output/v1/beam/las-5-scythe",
+   "sharedWithWeapons": [
+    "AX/LAS-5 Rover / gun"
+   ],
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_reference",
+    "allow_unverified_effect"
+   ],
+   "write": "beam_source() (the muzzle definition: hd2.fields.attack.beam)"
+  },
+  {
+   "weapon": "LAS-7 Dagger",
+   "kind": "player_weapon",
+   "stratagem": null,
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "BeamWeapon +0",
+   "reason": "No default or equippable customization patches BeamWeapon +0 and nothing else references a BeamType: the record's +0 is the beam it fires.",
+   "writable": true,
+   "beamClass": "continuous",
+   "fires": "output/v1/beam/las-7-dagger",
+   "sharedWithWeapons": [],
+   "acknowledgements": [
+    "allow_unverified_reference",
+    "allow_unverified_effect"
+   ],
+   "write": "beam_source() (hd2.fields.attack.beam on the weapon itself)"
+  },
+  {
+   "weapon": "40-K Meltagun",
+   "kind": "support_weapon",
+   "stratagem": null,
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "BeamWeapon +0",
+   "reason": "No default or equippable customization patches BeamWeapon +0 and nothing else references a BeamType: the record's +0 is the beam it fires.",
+   "writable": true,
+   "beamClass": "charged",
+   "fires": "output/v1/beam/40-k-meltagun",
+   "sharedWithWeapons": [],
+   "acknowledgements": [
+    "allow_unverified_reference",
+    "allow_unverified_effect"
+   ],
+   "write": "beam_source() (hd2.fields.attack.beam on the weapon itself)"
+  },
+  {
+   "weapon": "LAS-98 Laser Cannon",
+   "kind": "support_weapon",
+   "stratagem": null,
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "BeamWeapon +0",
+   "reason": "No default or equippable customization patches BeamWeapon +0 and nothing else references a BeamType: the record's +0 is the beam it fires.",
+   "writable": true,
+   "beamClass": "continuous",
+   "fires": "output/v1/beam/las-98-laser-cannon",
+   "sharedWithWeapons": [],
+   "acknowledgements": [
+    "allow_unverified_reference",
+    "allow_unverified_effect"
+   ],
+   "write": "beam_source() (hd2.fields.attack.beam on the weapon itself)"
+  },
+  {
+   "weapon": "A/LAS-98 Laser Sentry / weapon",
+   "kind": "vehicle_weapon",
+   "stratagem": "A/LAS-98 Laser Sentry",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "BeamWeapon +0",
+   "reason": "No default or equippable customization patches BeamWeapon +0 and nothing else references a BeamType: the record's +0 is the beam it fires.",
+   "writable": true,
+   "beamClass": "continuous",
+   "fires": "output/v1/beam/a-las-98-laser-sentry",
+   "sharedWithWeapons": [],
+   "acknowledgements": [
+    "allow_unverified_reference",
+    "allow_unverified_effect"
+   ],
+   "write": "beam_source() (hd2.fields.attack.beam on the weapon itself)"
+  },
+  {
+   "weapon": "AX/LAS-5 Rover / gun",
+   "kind": "vehicle_weapon",
+   "stratagem": null,
+   "status": "AMBIGUOUS",
+   "mechanism": null,
+   "member": "BeamWeapon +0",
+   "reason": "Its default customization item Laser. Standard Prism patches BeamWeapon +0 to BeamType 8, but its record names BeamType 25. That the game applies customization deltas when it builds a weapon is live-proven for player weapons only (the AR-23 Liberator ammunition), not for a vehicle weapon, and the wiki publishes the record's row (its damage), not the delta's. Which beam it fires is not proven offline.",
+   "writable": false,
+   "beamClass": "continuous",
+   "fires": null,
+   "sharedWithWeapons": [],
+   "acknowledgements": [
+    "allow_unverified_reference",
+    "allow_unverified_effect"
+   ],
+   "write": null
+  }
+ ],
+ "beamModel": {
+  "rule": "A beam swap re-points the BeamType (BeamWeapon +0) a weapon that already owns a BeamWeapon component fires; no component is ever added, so a projectile weapon cannot fire a beam (docs/attack-outputs.md \"Lasers everywhere\"). The written member is the active beam source: the weapon's own record (component) or, where a default customization item patches BeamWeapon +0 at weapon build, that item's delta row (attachment, shared by every weapon that equips it).",
+  "api": {
+   "source": "weapon:beam_source() (player, support and mounted weapons; hd2.stratagem(name):attack('primary'):beam_source() for a sentry)",
+   "field": "hd2.fields.attack.beam",
+   "expect": "weapon:beam() (the host's own beam; also the restore value)",
+   "value": "hd2.attack_output(donor) or another beam weapon's weapon:beam()"
+  },
+  "acknowledgements": "Every beam donor other than the weapon's own beam is not live-tested: allow_unverified_reference and allow_unverified_effect are both required (restoring the weapon's own beam needs neither).",
+  "assets": "The donor owner's own loadout package (it lists the beam row's resources: research/beam-outputs packages[].listsBeamResources) is loaded before the write; a donor without one is not catalogued.",
+  "hostKeeps": "its fire mode, rate, pulse, heat or charge, magazine, handling and sounds",
+  "donorBrings": "its BeamSettings row: length, radius, damage row, hit effects and the beam visuals",
+  "research": "research/beam-outputs-F5FEE03DCFDB.json",
+  "counts": {
+   "records": 24,
+   "owners": 23,
+   "donors": 6,
+   "hosts": 7,
+   "writableHosts": 6
+  }
+ },
  "ammunitionSources": [
   {
    "weapon": "AR-23 Liberator",
@@ -2107,10 +2259,10 @@
   ]
  },
  "summary": {
-  "outputs": 161,
+  "outputs": 169,
   "byFamily": {
    "projectile": 139,
-   "beam": 4,
+   "beam": 12,
    "arc": 3,
    "spray": 8,
    "melee": 7
@@ -2141,6 +2293,8 @@
    "TD-220 Bastion MK XVI"
   ],
   "selectable": 111,
+  "beamDonors": 6,
+  "beamHosts": 6,
   "projectileHosts": 59,
   "componentHosts": 53,
   "ammunitionHosts": 6,
@@ -4118,38 +4272,6 @@
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
-   "liveProof": null
-  },
-  {
-   "semanticId": "output/v1/beam/las-13-trident",
-   "family": "beam",
-   "kind": "pulsed_multi_beam",
-   "owner": {
-    "kind": "player_weapon",
-    "name": "LAS-13 Trident"
-   },
-   "emitter": "BeamWeapon",
-   "compatibilityClass": null,
-   "selectableAsProjectileReference": false,
-   "compatibleHostFamilies": [],
-   "requiredCoordinatedReferences": null,
-   "blockedReason": "A projectile host references only ProjectileType. Beam outputs are fired by their own BeamWeaponComponent (which also owns their cadence, beam fire mode and heat buildup); no projectile or explosion member can reference them, and adding the component to another weapon entity changes its composition, which Runtime does not do.",
-   "chain": null,
-   "ownerFireResource": [
-    "WeaponCustomization",
-    "WeaponData",
-    "WeaponHeat",
-    "WeaponReload"
-   ],
-   "package": {
-    "name": "laser_shotgun",
-    "known": true,
-    "autoLoad": true
-   },
-   "acknowledgements": null,
-   "ownerFiresThisProjectile": null,
-   "presentation": null,
-   "slots": null,
    "liveProof": null
   },
   {
@@ -8405,39 +8527,6 @@
    "liveProof": null
   },
   {
-   "semanticId": "output/v1/beam/40-k-meltagun",
-   "family": "beam",
-   "kind": "continuous_beam",
-   "owner": {
-    "kind": "support_weapon",
-    "name": "40-K Meltagun"
-   },
-   "emitter": "BeamWeapon",
-   "compatibilityClass": null,
-   "selectableAsProjectileReference": false,
-   "compatibleHostFamilies": [],
-   "requiredCoordinatedReferences": null,
-   "blockedReason": "A projectile host references only ProjectileType. Beam outputs are fired by their own BeamWeaponComponent (which also owns their cadence, beam fire mode and heat buildup); no projectile or explosion member can reference them, and adding the component to another weapon entity changes its composition, which Runtime does not do.",
-   "chain": null,
-   "ownerFireResource": [
-    "WeaponCharge",
-    "WeaponCustomization",
-    "WeaponData",
-    "WeaponMagazine",
-    "WeaponReload"
-   ],
-   "package": {
-    "name": "energy_weapon_shark",
-    "known": true,
-    "autoLoad": true
-   },
-   "acknowledgements": null,
-   "ownerFiresThisProjectile": null,
-   "presentation": null,
-   "slots": null,
-   "liveProof": null
-  },
-  {
    "semanticId": "output/v1/projectile/ac-8-autocannon",
    "family": "projectile",
    "kind": "explosive_submunition",
@@ -9662,38 +9751,6 @@
    "liveProof": null
   },
   {
-   "semanticId": "output/v1/beam/las-98-laser-cannon",
-   "family": "beam",
-   "kind": "continuous_beam",
-   "owner": {
-    "kind": "support_weapon",
-    "name": "LAS-98 Laser Cannon"
-   },
-   "emitter": "BeamWeapon",
-   "compatibilityClass": null,
-   "selectableAsProjectileReference": false,
-   "compatibleHostFamilies": [],
-   "requiredCoordinatedReferences": null,
-   "blockedReason": "A projectile host references only ProjectileType. Beam outputs are fired by their own BeamWeaponComponent (which also owns their cadence, beam fire mode and heat buildup); no projectile or explosion member can reference them, and adding the component to another weapon entity changes its composition, which Runtime does not do.",
-   "chain": null,
-   "ownerFireResource": [
-    "WeaponCustomization",
-    "WeaponData",
-    "WeaponHeat",
-    "WeaponReload"
-   ],
-   "package": {
-    "name": "manned_turret_laser",
-    "known": true,
-    "autoLoad": true
-   },
-   "acknowledgements": null,
-   "ownerFiresThisProjectile": null,
-   "presentation": null,
-   "slots": null,
-   "liveProof": null
-  },
-  {
    "semanticId": "output/v1/projectile/las-99-quasar-cannon",
    "family": "projectile",
    "kind": "explosive",
@@ -10890,38 +10947,6 @@
     "name": null,
     "known": false,
     "autoLoad": false
-   },
-   "acknowledgements": null,
-   "ownerFiresThisProjectile": null,
-   "presentation": null,
-   "slots": null,
-   "liveProof": null
-  },
-  {
-   "semanticId": "output/v1/beam/ax-las-5-rover-gun",
-   "family": "beam",
-   "kind": "continuous_beam",
-   "owner": {
-    "kind": "vehicle_weapon",
-    "name": "AX/LAS-5 Rover / gun"
-   },
-   "emitter": "BeamWeapon",
-   "compatibilityClass": null,
-   "selectableAsProjectileReference": false,
-   "compatibleHostFamilies": [],
-   "requiredCoordinatedReferences": null,
-   "blockedReason": "A projectile host references only ProjectileType. Beam outputs are fired by their own BeamWeaponComponent (which also owns their cadence, beam fire mode and heat buildup); no projectile or explosion member can reference them, and adding the component to another weapon entity changes its composition, which Runtime does not do.",
-   "chain": null,
-   "ownerFireResource": [
-    "WeaponCustomization",
-    "WeaponData",
-    "WeaponHeat",
-    "WeaponReload"
-   ],
-   "package": {
-    "name": "laser_rifle_mount",
-    "known": true,
-    "autoLoad": true
    },
    "acknowledgements": null,
    "ownerFiresThisProjectile": null,
@@ -14321,6 +14346,516 @@
      "valueHandle": "hd2.attack_output(donor):expiry_explosion()"
     }
    },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/beam/40-k-meltagun",
+   "family": "beam",
+   "kind": "continuous_beam",
+   "beamClass": "charged",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "40-K Meltagun"
+   },
+   "emitter": "BeamWeapon",
+   "beamType": 18,
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "selectableAsBeamReference": true,
+   "compatibleHostFamilies": [
+    "beam"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": "A projectile host references only ProjectileType. Beam outputs are fired by their own BeamWeaponComponent (which also owns their cadence, beam fire mode and heat buildup); no projectile or explosion member can reference them, and adding the component to another weapon entity changes its composition, which Runtime does not do.",
+   "row": {
+    "length": 15,
+    "radius": 0,
+    "explosion": false,
+    "pulseRow": false
+   },
+   "ownerFireResource": [
+    "WeaponCharge",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "ownerFiresThisBeam": "ACTIVE_DIRECT",
+   "package": {
+    "name": "energy_weapon_shark",
+    "known": true,
+    "autoLoad": true,
+    "listsBeamResources": true
+   },
+   "acknowledgements": {
+    "donor": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "restoreOwn": []
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/beam/a-las-98-laser-sentry",
+   "family": "beam",
+   "kind": "continuous_beam",
+   "beamClass": "continuous",
+   "owner": {
+    "kind": "stratagem",
+    "name": "A/LAS-98 Laser Sentry"
+   },
+   "emitter": "BeamWeapon",
+   "beamType": 10,
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "selectableAsBeamReference": true,
+   "compatibleHostFamilies": [
+    "beam"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": "A projectile host references only ProjectileType. Beam outputs are fired by their own BeamWeaponComponent (which also owns their cadence, beam fire mode and heat buildup); no projectile or explosion member can reference them, and adding the component to another weapon entity changes its composition, which Runtime does not do.",
+   "row": {
+    "length": 200,
+    "radius": 0,
+    "explosion": false,
+    "pulseRow": false
+   },
+   "ownerFireResource": [
+    "WeaponData",
+    "WeaponHeat",
+    "WeaponWielder"
+   ],
+   "ownerFiresThisBeam": "ACTIVE_DIRECT",
+   "package": {
+    "name": "laser_cannon_turret",
+    "known": true,
+    "autoLoad": true,
+    "listsBeamResources": true
+   },
+   "acknowledgements": {
+    "donor": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "restoreOwn": []
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/beam/las-13-trident",
+   "family": "beam",
+   "kind": "pulsed_multi_beam",
+   "beamClass": "pulsed",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "LAS-13 Trident"
+   },
+   "emitter": "BeamWeapon",
+   "beamType": 6,
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "selectableAsBeamReference": true,
+   "compatibleHostFamilies": [
+    "beam"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": "A projectile host references only ProjectileType. Beam outputs are fired by their own BeamWeaponComponent (which also owns their cadence, beam fire mode and heat buildup); no projectile or explosion member can reference them, and adding the component to another weapon entity changes its composition, which Runtime does not do.",
+   "row": {
+    "length": 200,
+    "radius": 0,
+    "explosion": false,
+    "pulseRow": true
+   },
+   "ownerFireResource": [
+    "WeaponData",
+    "WeaponHeat",
+    "WeaponReload"
+   ],
+   "ownerFiresThisBeam": "ACTIVE_DIRECT",
+   "package": {
+    "name": "laser_shotgun",
+    "known": true,
+    "autoLoad": true,
+    "listsBeamResources": true
+   },
+   "acknowledgements": {
+    "donor": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "restoreOwn": []
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/beam/las-5-scythe",
+   "family": "beam",
+   "kind": "continuous_beam",
+   "beamClass": "continuous",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "LAS-5 Scythe"
+   },
+   "emitter": "BeamWeapon",
+   "beamType": 8,
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "selectableAsBeamReference": true,
+   "compatibleHostFamilies": [
+    "beam"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": "A projectile host references only ProjectileType. Beam outputs are fired by their own BeamWeaponComponent (which also owns their cadence, beam fire mode and heat buildup); no projectile or explosion member can reference them, and adding the component to another weapon entity changes its composition, which Runtime does not do.",
+   "row": {
+    "length": 1000,
+    "radius": 0,
+    "explosion": false,
+    "pulseRow": false
+   },
+   "ownerFireResource": [
+    "WeaponData",
+    "WeaponHeat",
+    "WeaponReload"
+   ],
+   "ownerFiresThisBeam": "INDIRECT",
+   "package": {
+    "name": "laser_rifle",
+    "known": true,
+    "autoLoad": true,
+    "listsBeamResources": true
+   },
+   "acknowledgements": {
+    "donor": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "restoreOwn": []
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/beam/las-7-dagger",
+   "family": "beam",
+   "kind": "continuous_beam",
+   "beamClass": "continuous",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "LAS-7 Dagger"
+   },
+   "emitter": "BeamWeapon",
+   "beamType": 11,
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "selectableAsBeamReference": true,
+   "compatibleHostFamilies": [
+    "beam"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": "A projectile host references only ProjectileType. Beam outputs are fired by their own BeamWeaponComponent (which also owns their cadence, beam fire mode and heat buildup); no projectile or explosion member can reference them, and adding the component to another weapon entity changes its composition, which Runtime does not do.",
+   "row": {
+    "length": 1000,
+    "radius": 0,
+    "explosion": false,
+    "pulseRow": false
+   },
+   "ownerFireResource": [
+    "WeaponData",
+    "WeaponHeat",
+    "WeaponReload"
+   ],
+   "ownerFiresThisBeam": "ACTIVE_DIRECT",
+   "package": {
+    "name": "laser_pistol",
+    "known": true,
+    "autoLoad": true,
+    "listsBeamResources": true
+   },
+   "acknowledgements": {
+    "donor": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "restoreOwn": []
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/beam/las-98-laser-cannon",
+   "family": "beam",
+   "kind": "continuous_beam",
+   "beamClass": "continuous",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "LAS-98 Laser Cannon"
+   },
+   "emitter": "BeamWeapon",
+   "beamType": 1,
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "selectableAsBeamReference": true,
+   "compatibleHostFamilies": [
+    "beam"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": "A projectile host references only ProjectileType. Beam outputs are fired by their own BeamWeaponComponent (which also owns their cadence, beam fire mode and heat buildup); no projectile or explosion member can reference them, and adding the component to another weapon entity changes its composition, which Runtime does not do.",
+   "row": {
+    "length": 1000,
+    "radius": 0,
+    "explosion": false,
+    "pulseRow": false
+   },
+   "ownerFireResource": [
+    "WeaponData",
+    "WeaponHeat",
+    "WeaponReload"
+   ],
+   "ownerFiresThisBeam": "ACTIVE_DIRECT",
+   "package": {
+    "name": "laser_cannon",
+    "known": true,
+    "autoLoad": true,
+    "listsBeamResources": true
+   },
+   "acknowledgements": {
+    "donor": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ],
+    "restoreOwn": []
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/beam/ax-las-5-rover-gun",
+   "family": "beam",
+   "kind": "continuous_beam",
+   "beamClass": "continuous",
+   "owner": {
+    "kind": "vehicle_weapon",
+    "name": "AX/LAS-5 Rover / gun"
+   },
+   "emitter": "BeamWeapon",
+   "beamType": 25,
+   "candidateBeamTypes": [
+    25,
+    8
+   ],
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "selectableAsBeamReference": false,
+   "candidateOutput": "output/v1/beam/las-5-scythe",
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "Not a donor: which beam the AX/LAS-5 Rover / gun fires is not proven. Its default customization item Laser. Standard Prism patches BeamWeapon +0 to BeamType 8, but its record names BeamType 25. That the game applies customization deltas when it builds a weapon is live-proven for player weapons only (the AR-23 Liberator ammunition), not for a vehicle weapon, and the wiki publishes the record's row (its damage), not the delta's. Which beam it fires is not proven offline. The two candidates are its record's BeamType 25 and the LAS-5 Scythe beam (BeamType 8); for the latter use hd2.attack_output('LAS-5 Scythe').",
+   "ownerFireResource": [
+    "WeaponData",
+    "WeaponHeat",
+    "WeaponReload"
+   ],
+   "ownerFiresThisBeam": "AMBIGUOUS",
+   "package": {
+    "name": null,
+    "known": false,
+    "autoLoad": false
+   },
+   "acknowledgements": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/beam/illuminate-tripod-beam",
+   "family": "beam",
+   "kind": "continuous_beam",
+   "beamClass": "continuous",
+   "owner": {
+    "kind": "enemy",
+    "name": "Illuminate tripod beam"
+   },
+   "names": [
+    "Illuminate tripod beam",
+    "Illuminate tripod beam (beam 12)"
+   ],
+   "emitter": "BeamWeapon",
+   "beamType": 12,
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "selectableAsBeamReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "An enemy beam: no catalogued package ships its effect (Illuminate faction content), so Runtime cannot load its assets before a swap, and its owner is not a Helldiver weapon. Listed read-only.",
+   "row": {
+    "length": 1000,
+    "radius": 0,
+    "explosion": false,
+    "pulseRow": false
+   },
+   "firedBy": [
+    "beam weapon of tripod / tripod_tier_2 (illuminate enemy)"
+   ],
+   "ownerFireResource": [],
+   "package": {
+    "name": null,
+    "known": false,
+    "autoLoad": false
+   },
+   "acknowledgements": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/beam/illuminate-turret-beam",
+   "family": "beam",
+   "kind": "continuous_beam",
+   "beamClass": "continuous",
+   "owner": {
+    "kind": "enemy",
+    "name": "Illuminate turret beam"
+   },
+   "names": [
+    "Illuminate turret beam",
+    "Illuminate turret beam (beam 14)"
+   ],
+   "emitter": "BeamWeapon",
+   "beamType": 14,
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "selectableAsBeamReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "An enemy beam: no catalogued package ships its effect (Illuminate faction content), so Runtime cannot load its assets before a swap, and its owner is not a Helldiver weapon. Listed read-only.",
+   "row": {
+    "length": 1000,
+    "radius": 0,
+    "explosion": false,
+    "pulseRow": false
+   },
+   "firedBy": [
+    "turret_01 (illuminate structure)"
+   ],
+   "ownerFireResource": [],
+   "package": {
+    "name": null,
+    "known": false,
+    "autoLoad": false
+   },
+   "acknowledgements": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/beam/illuminate-war-machine-cannon-beam",
+   "family": "beam",
+   "kind": "continuous_beam",
+   "beamClass": "continuous",
+   "owner": {
+    "kind": "enemy",
+    "name": "Illuminate war machine cannon beam"
+   },
+   "names": [
+    "Illuminate war machine cannon beam",
+    "Illuminate war machine cannon beam (beam 22)"
+   ],
+   "emitter": "BeamWeapon",
+   "beamType": 22,
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "selectableAsBeamReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "An enemy beam: no catalogued package ships its effect (Illuminate faction content), so Runtime cannot load its assets before a swap, and its owner is not a Helldiver weapon. Listed read-only.",
+   "row": {
+    "length": 1000,
+    "radius": 0,
+    "explosion": false,
+    "pulseRow": false
+   },
+   "firedBy": [
+    "beam weapon of illuminate_war_machine (illuminate enemy)",
+    "beam weapon of illuminate_war_machine (illuminate enemy)",
+    "illuminate_turret_wm_cannon (illuminate enemy)"
+   ],
+   "ownerFireResource": [],
+   "package": {
+    "name": null,
+    "known": false,
+    "autoLoad": false
+   },
+   "acknowledgements": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/beam/illuminate-tripod-second-beam",
+   "family": "beam",
+   "kind": "continuous_beam",
+   "beamClass": "continuous",
+   "owner": {
+    "kind": "enemy",
+    "name": "Illuminate tripod second beam"
+   },
+   "names": [
+    "Illuminate tripod second beam",
+    "Illuminate tripod second beam (beam 23)"
+   ],
+   "emitter": "BeamWeapon",
+   "beamType": 23,
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "selectableAsBeamReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "An enemy beam: no catalogued package ships its effect (Illuminate faction content), so Runtime cannot load its assets before a swap, and its owner is not a Helldiver weapon. Listed read-only.",
+   "row": {
+    "length": 1000,
+    "radius": 0,
+    "explosion": false,
+    "pulseRow": false
+   },
+   "firedBy": [
+    "beam weapon of tripod / tripod_tier_2 (illuminate enemy)"
+   ],
+   "ownerFireResource": [],
+   "package": {
+    "name": null,
+    "known": false,
+    "autoLoad": false
+   },
+   "acknowledgements": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/beam/illuminate-objective-turret-beam",
+   "family": "beam",
+   "kind": "continuous_beam",
+   "beamClass": "continuous",
+   "owner": {
+    "kind": "enemy",
+    "name": "Illuminate objective turret beam"
+   },
+   "names": [
+    "Illuminate objective turret beam",
+    "Illuminate objective turret beam (beam 29)"
+   ],
+   "emitter": "BeamWeapon",
+   "beamType": 29,
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "selectableAsBeamReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "An enemy beam: no catalogued package ships its effect (Illuminate faction content), so Runtime cannot load its assets before a swap, and its owner is not a Helldiver weapon. Listed read-only.",
+   "row": {
+    "length": 1000,
+    "radius": 0,
+    "explosion": false,
+    "pulseRow": false
+   },
+   "firedBy": [
+    "turret_tactical_obj (illuminate structure)"
+   ],
+   "ownerFireResource": [],
+   "package": {
+    "name": null,
+    "known": false,
+    "autoLoad": false
+   },
+   "acknowledgements": null,
    "liveProof": null
   }
  ],

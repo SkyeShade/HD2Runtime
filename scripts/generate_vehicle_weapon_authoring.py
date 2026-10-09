@@ -15,6 +15,8 @@ import generate_entity_authoring
 import live_evidence  # noqa: E402
 import vehicle_tuning_fields  # noqa: E402
 import status_fields  # noqa: E402
+import beam_fields  # noqa: E402
+import equipment_fields  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 RESEARCH = ROOT / 'research/vehicle-weapons-F5FEE03DCFDB.json'
@@ -119,6 +121,31 @@ def consumer_label(item):
     return item.get('name') or item.get('path') or 'unnamed entity'
 
 
+def beam_mount_fields(field, component, weapon_target, definitions, key, record_index, resource, skip=()):
+    """The beam fire mode / pulse fields and the attack.beam reference of a mount's (or sentry's) own BeamWeapon record,
+    through the generator's field(); returns the added items."""
+    added = []
+
+    def make(field_id, value, backing):
+        spec = definitions[field_id]
+        item = field(field_id, spec['display_name'], spec.get('unit'), spec['type'], value, backing, weapon_target,
+            'weapon_local', ack='allow_unverified_effect')
+        added.append(item)
+        return item
+    equipment_fields.beam_pulse_fields(make, record_index, lambda offset, storage: component(
+        'BeamWeaponComponentData', offset, storage), skip=skip)
+
+    def make_reference(field_id, current, backing, editable, reason):
+        spec = definitions[field_id]
+        item = field(field_id, spec['display_name'], None, spec['type'], current, backing, weapon_target,
+            'weapon_local', ack='allow_unverified_effect', reason=reason, editable=editable)
+        added.append(item)
+        return item
+    beam_fields.reference_field(make_reference, resource, key, lambda offset, storage: component(
+        'BeamWeaponComponentData', offset, storage))
+    return added
+
+
 def build(research_path=RESEARCH):
     research = json.loads(Path(research_path).read_text())
     constants = {value: f'hd2.fields.{domain}.{constant}' for domain, items in
@@ -128,6 +155,8 @@ def build(research_path=RESEARCH):
         public = re.sub(r'^(projectile|damage|explosion|beam|arc)\.(primary|impact|expiry)\.', r'\1.', field_id)
         return constants.get(public)
     runtime_weapons, by_vehicle, public_vehicles, instances = {}, {}, [], []
+    definitions = {item['id']: item for item in json.loads((ROOT / 'schemas/player_weapon_fields.json').read_text(
+        encoding='utf-8'))['fields']}
     tuning = vehicle_tuning_fields.load()
     mounted_hosts = {item['weapon']: item for item in json.loads(BUILDER.read_text())['mountedHosts']}
     output_research = {item['weapon']: item for item in json.loads(ATTACK_OUTPUTS.read_text())['weapons']
@@ -246,6 +275,13 @@ def build(research_path=RESEARCH):
             if values.get('beamFireRate'):
                 field('beam.fire_rate', 'Beam fire rate', 'rpm', 'integer', values['beamFireRate'],
                     component('BeamWeaponComponentData', 104, 'i32'), weapon_target, 'weapon_local')
+            if 'BeamWeaponComponentData' in own:
+                # 0.30.4: the beam fire mode and pulse members of the mount's own BeamWeapon record (the player fields
+                # of research/las-beam-overhaul-comparison) and its BeamType reference (scripts/beam_fields.py; the
+                # Rover gun's is read-only: its default muzzle delta is the active beam source).
+                beam_fields_list = beam_mount_fields(field, component, weapon_target, definitions, key,
+                    own['BeamWeaponComponentData']['recordIndex'], slot['path'],
+                    skip=('beam.fire_rate',) if values.get('beamFireRate') else ())
             heat = values.get('heat') or {}
             for field_id, heat_key, offset, name, unit in HEAT:
                 if heat.get(heat_key):
@@ -500,6 +536,56 @@ def build(research_path=RESEARCH):
     public['stratagemHosts'] = stratagem_hosts
     public['stratagemHostSummary'] = {'hosts': len(stratagem_hosts),
         'writable': sum(1 for h in stratagem_hosts if h['writable'])}
+    # Sentry beam hosts (0.30.4, research/beam-outputs-F5FEE03DCFDB.json): a stratagem whose deployed entity owns its
+    # own BeamWeapon record (the A/LAS-98 Laser Sentry), on the sentry host model above: its BeamType reference
+    # (attack.beam) and fire mode / pulse members, reached through hd2.stratagem(name):attack('primary'):beam_source().
+    # beam.fire_rate stays on the stratagem's own weapon target (sentry fields), so it is not repeated here.
+    beam_hosts = []
+    for record in beam_fields.research()['records']:
+        for owner in record['owners']:
+            if owner['kind'] != 'sentry':
+                continue
+            name = owner['name']
+            key = name + ' / weapon'
+            identity = owner['componentIdentity']
+            assert identity['uniqueOwner'], name + ': BeamWeapon record is shared'
+            root = roots[name]
+            assert owner['resource'] in root['payloads'], name + ': the stratagem payload does not name the host'
+            semantic = 'vehicle-weapon/v1/' + slug(name) + '/weapon/' + digest({'path': owner['resource']})
+            weapon_target = {'resource': 'vehicle_weapon', 'path': 'weapon', 'weapon': key}
+            fields = []
+
+            def sentry_field(field_id, display, unit, kind, current, backing, target, scope, consumers=None, ack=None,
+                             reason=None, editable=True, fields=fields):
+                item = {'semanticFieldId': field_id, 'semanticTarget': field_id, 'displayName': display, 'type': kind,
+                    'unit': unit, 'currentDefault': current, 'editable': editable, 'acceptedForWrites': editable,
+                    'derivedReadOnly': False, 'backing': backing, 'target': target, 'writeScope': scope,
+                    'sharedWithWeapons': consumers or [], 'affectsMultipleWeapons': False,
+                    'dynamicConsumersPossible': False, 'reason': reason, 'acknowledgement': ack,
+                    'acknowledgementReason': None, 'gameplayEvidence': None}
+                fields.append(item)
+                return item
+
+            def sentry_component(component, offset, storage, identity=identity):
+                return {'kind': 'component', 'component': component, 'offset': offset, 'storage': storage,
+                    'width': 4, 'recordIndex': identity['recordIndex'], 'indexRow': identity['indexRow'],
+                    'ownerCount': identity['ownerCount'], 'uniqueOwner': True}
+            beam_mount_fields(sentry_field, sentry_component, weapon_target, definitions, key, record['record'],
+                owner['resource'], skip=('beam.fire_rate',))
+            runtime_weapons[key] = {'name': key, 'semanticId': semantic, 'supportWeapon': True, 'vehicleWeapon': True,
+                'vehicle': name, 'mount': 'weapon', 'slot': 0, 'resources': [owner['resource']],
+                'attackResource': owner['resource'], 'ordinaryWritesBlocked': False, 'stratagemHost': name,
+                'mountChain': {'stratagem': {'name': name, 'id': root['id'], 'package': root['package']},
+                    'mountPath': owner['resource']},
+                'attacks': {}, 'fields': fields}
+            reference = next(f for f in fields if f['semanticFieldId'] == beam_fields.FIELD)
+            beam_hosts.append({'stratagem': name, 'key': key, 'semanticId': semantic,
+                'api': "hd2.stratagem('" + name + "'):attack('primary'):beam_source()",
+                'fields': sorted('hd2.fields.' + f['semanticFieldId'] for f in fields),
+                'writable': reference['editable'], 'reason': reference['reason'], 'beamClass': reference['beamClass'],
+                'acknowledgement': 'allow_unverified_effect',
+                'note': 'beam.fire_rate is on hd2.stratagem(name):deployed_entity():weapon() (sentry fields).'})
+    public['stratagemBeamHosts'] = beam_hosts
     if re.search(r'0x[0-9a-f]{8,}', json.dumps(public).lower()):
         raise ValueError('public vehicle weapon catalog leaks a native identifier')
     runtime = {'weapons': runtime_weapons, 'byVehicle': by_vehicle, 'summary': summary}

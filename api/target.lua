@@ -138,6 +138,9 @@ function M.new(describe)
             end
             return {id=output.id,family=output.family,owner=copy(output.owner),
                 compatibilityClass=output.compatibilityClass,selectable=output.editable==true,reason=output.reason,
+                -- beam outputs (0.30.4): a donor for beam hosts only (hd2.fields.attack.beam)
+                selectableAs=output.selectableAs,beamClass=output.beamClass,
+                beamType=output.family=='beam'and output.currentDefault or nil,firesOutput=output.firesOutput,
                 referenceScope=copy(output.referenceScope),fieldEffect=copy(output.fieldEffect),
                 spare=output.spare and{twinOf=output.spare.twinOf,independent=true,borrowedVanillaRow=true,
                     interim=true}or nil,slots=slots,
@@ -649,6 +652,46 @@ function M.new(describe)
         end
         return setmetatable({resource='player_weapon',path='weapon',weapon=name},{__index=methods})
     end
+    -- Beam swaps (0.30.4; docs/attack-outputs.md "Beam swaps"): a beam weapon's own beam handle (the expect, and the
+    -- value that restores it) and its active beam source (domains/attack_outputs.lua beamHosts): the weapon itself
+    -- (component: its own BeamWeapon +0) or its default muzzle (attachment: the muzzle delta row, shared by every
+    -- weapon that defaults to it). A weapon without a BeamWeapon component has no beam source: Runtime never adds one.
+    local function beam_host(resource,name)
+        return(require('hd2runtime/domains/attack_outputs').beamHosts or{})[resource..':'..tostring(name)]
+    end
+    local function beam_handle(resource,name)
+        local host=beam_host(resource,name)
+        assert(host,tostring(name)..' fires no beam (it owns no BeamWeapon component; see weapon:beam_source())')
+        local methods={}
+        function methods.describe()
+            return {weapon=name,kind=resource,beamType=host.beamType,beamClass=host.beamClass,fires=host.fires}
+        end
+        return setmetatable({resource=resource,path='beam_reference',weapon=name},{__index=methods})
+    end
+    local function beam_source(resource,name)
+        local catalog=require('hd2runtime/domains/attack_outputs')
+        local host=beam_host(resource,name)
+        local result={weapon=name,writable=false,reason=tostring(name)..' owns no BeamWeapon component, so it fires no '
+            ..'beam; Runtime never adds one (docs/attack-outputs.md "Lasers everywhere": laser bolts are projectile '
+            ..'swaps)'}
+        if not host then return result end
+        result.status=host.status;result.mechanism=host.mechanism;result.member=host.member;result.reason=host.reason
+        result.beamClass=host.beamClass;result.fires=host.fires;result.stratagem=host.stratagem
+        if host.mechanism=='component'then
+            result.writable=true
+            result.target=setmetatable({resource=resource,path='weapon',weapon=name},
+                {__index={describe=function()return copy(host)end}})
+            result.acknowledgements={'allow_unverified_reference','allow_unverified_effect'}
+        elseif host.mechanism=='attachment'then
+            local entry=assert(catalog.beamAttachments[resource..':'..name],'beam attachment source missing')
+            result.writable=true;result.item=entry.item;result.sharedWithWeapons=copy(entry.sharedWithWeapons)
+            result.target=setmetatable({resource=resource,path='beam_attachment',weapon=name},
+                {__index={describe=function()return copy(entry)end}})
+            result.acknowledgements={'allow_shared','allow_unverified_reference','allow_unverified_effect'}
+        end
+        if result.writable then result.field='attack.beam';result.expect=beam_handle(resource,name)end
+        return result
+    end
     local function player_target(name,legacy)
         local weapon=player_weapons.weapons[name]
         if weapon.subweaponOf then return subweapon_target(name)end
@@ -681,6 +724,9 @@ function M.new(describe)
         -- The default ammunition that owns this weapon's fired projectile (weapons classified INDIRECT only).
         function methods.ammunition()return ammunition_target(name)end
         function methods.projectile_source(_,role)return projectile_source(name,role or'primary')end
+        -- The beam this weapon fires and where it lives (beam weapons only; 0.30.4 beam swaps).
+        function methods.beam()return beam_handle('player_weapon',name)end
+        function methods.beam_source()return beam_source('player_weapon',name)end
         function methods.fire_modes()
             local result=copy(graph.fire_mode)
             result.modeSet=copy(fire_mode_table.weapons['player:'..name])
@@ -945,6 +991,8 @@ function M.new(describe)
         function methods.projectile(_,identity)return methods.attack(nil,identity):projectile()end
         function methods.explosion(_,identity)return methods.attack(nil,identity):explosion()end
         function methods.projectile_source(_,role)return support_projectile_source(name,role or'primary')end
+        function methods.beam()return beam_handle('support_weapon',name)end
+        function methods.beam_source()return beam_source('support_weapon',name)end
         function methods.fire_modes()return {modeSet=copy(fire_mode_table.weapons['support:'..name])}end
         function methods.fire_rate_modes()return rate_modes(support_authoring.weapons[name],'support',name)end
         function methods.fire_rate_mode(_,index)return rate_mode(support_authoring.weapons[name],'support',name,index)end
@@ -991,8 +1039,12 @@ function M.new(describe)
             local host=require('hd2runtime/domains/vehicle_weapon_authoring').weapons[key]
             local result={weapon=key,attack='primary',writable=false,
                 reason='no reviewed projectile host for '..name..' attack '..tostring(role)}
-            if role~='primary'or not host or host.stratagemHost~=name then return result end
-            local field=host.fields[1]
+            local field
+            for _,item in ipairs(host and host.fields or{})do
+                if item.semanticFieldId=='attack.primary.projectile'then field=item end
+            end
+            -- A sentry host without a projectile reference (the Laser Sentry's beam host) has no projectile source.
+            if role~='primary'or not host or host.stratagemHost~=name or not field then return result end
             result.status=field.projectileSource.status;result.mechanism=field.projectileSource.mechanism
             result.member=field.projectileSource.member;result.compatibilityClass=field.compatibilityClass
             result.reason=field.reason or field.projectileSource.reason
@@ -1006,6 +1058,15 @@ function M.new(describe)
                 result.acknowledgements={'allow_unverified_effect'}
             end
             return result
+        end
+        -- Where a sentry's beam lives (0.30.4): its deployed entity's own BeamWeapon record ('<stratagem> / weapon',
+        -- the sentry host model), writable through hd2.fields.attack.beam on the target this returns.
+        function methods.beam_source()
+            local key=name..' / weapon'
+            if role~='primary'or not beam_host('vehicle_weapon',key)then
+                return {weapon=key,writable=false,reason='no catalogued beam host for '..name..' attack '..tostring(role)}
+            end
+            return beam_source('vehicle_weapon',key)
         end
         function methods.explosion(self)
             assert(attack.kind=='ExplosionSettings','attack is not an explosion settings object');return self
@@ -1180,6 +1241,8 @@ function M.new(describe)
             return {name=key,semanticId=weapon.semanticId,vehicle=weapon.vehicle,mount=weapon.mount,slot=weapon.slot,
                 attacks=attacks,fields=fields}
         end
+        function methods.beam()return beam_handle('vehicle_weapon',key)end
+        function methods.beam_source()return beam_source('vehicle_weapon',key)end
         function methods.attacks()
             local result={}
             for role in pairs(weapon.attacks)do result[#result+1]=methods.attack(nil,role)end
