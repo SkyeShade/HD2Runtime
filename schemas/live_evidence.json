@@ -1264,11 +1264,21 @@
       "runtime": "HD2Runtime 0.30.4 development dev2 (build/0.30.4-dev2/HD2Runtime-0.30.3-runtime.zip, C6D04DD2...44AC; commit d4f8314), GameFontTextProof 0.1.0 (976EA38B...5F58), StatusForeignProof 0.1.0 (77DBE811...CA2F). Solo, aboard the ship; the game language switched through Simplified Chinese, Japanese, Traditional Chinese, Korean and English. The user's screenshots and HD2Runtime.log.",
       "logSignals": ["state (the window drew; can_draw per line ...): game fonts loaded now: <key>", "transaction proof-fire-damage APPLIED", "status.duration 3 -> 10", "inspect status fire status.duration: state=runtime owner=mods/skyeshade/hd2runtime_status_foreign_proof value=10 vanilla=3"],
       "tests": [
-        {"mod": "GameFontTextProof", "operation": "game-font-runs", "result": "PARTIAL", "family": "overlay_game_font_text_0_30_4", "writes": [],
+        {"mod": "GameFontTextProof", "operation": "game-font-runs", "result": "PARTIAL", "family": "overlay_game_font_text_0_30_4", "writes": [], "supersededBy": "game-fonts-0-30-4-dev3-2026-10-09",
          "observation": "Each language's own line drew in the game's font in that language (Simplified Chinese with the wrapped paragraph, Traditional Chinese, Japanese, Korean; Polish in English), on one baseline with its Latin part; characters outside the game's subset showed '?' (e.g. 逗 in Simplified Chinese). Defect: the other languages' names (简体中文, 한국어, Русский in another language's font) drew as crossed or plain boxes, or blank: each language font lists them but its atlas holds a box or an empty cell. Fixed offline in c5ec4fa (those characters left out of the metrics); re-test pending. The game did not crash on any language switch. Russian was not shown."},
         {"mod": "StatusForeignProof", "operation": "status-effect-definition-writes", "result": "NOT_TESTED", "family": "status_effect_definition_0_30_4",
          "writes": [{"target": "status_effect fire", "field": "status.duration", "from": 3, "to": 10}, {"target": "status_effect fire damage", "field": "damage.standard_damage", "from": 100, "to": 300}, {"target": "status_effect fire damage", "field": "damage.durable_damage", "from": 100, "to": 300}, {"target": "status_effect gas damage", "field": "damage.standard_damage", "from": 25, "to": 100}, {"target": "status_effect gas damage", "field": "damage.durable_damage", "from": 25, "to": 100}],
          "observation": "All three operations APPLIED and verified; hd2.inspect read the written values back as state=runtime with the proof mod as owner and every other inspected value as vanilla. The gameplay effect (longer, harder fire; harder gas) was not reported. Cost: repeated inspects cost up to 20 ms in one call (one resolution per field); fixed offline in 0333578 (one capture per request)."}
+      ]
+    },
+    {
+      "id": "game-fonts-0-30-4-dev3-2026-10-09",
+      "date": "2026-10-09",
+      "runtime": "HD2Runtime 0.30.4 development dev3 (build/0.30.4-dev3/HD2Runtime-0.30.3-runtime.zip, 4946412F...E8DD; commit 0b94883), GameFontTextProof 0.1.0 (976EA38B...5F58). Solo, aboard the ship; the game language switched through Spanish, Traditional Chinese, Korean, Russian, Japanese and Simplified Chinese. The user's screenshots and HD2Runtime.log.",
+      "logSignals": ["state (the window drew; can_draw per line ...): game fonts loaded now: zh_hans | zh_hant | ja | ko | ru | default"],
+      "tests": [
+        {"mod": "GameFontTextProof", "operation": "game-font-runs", "result": "PASS", "family": "overlay_game_font_text_0_30_4", "writes": [],
+         "observation": "In every language the line of that language drew in the game's font on one baseline with its Latin part (Russian included, and Polish in Spanish); the Simplified Chinese paragraph wrapped between characters; every character the loaded font lacks showed '?' and no box or blank remained (the c5ec4fa fix); can_draw in the log matched what drew for every line. No crash on any language switch."}
       ]
     }
   ],
@@ -2318,15 +2328,15 @@
       "notPromoted": ["the CQC-42 Machete and CQC-73 Entrenchment Tool damage (not tried live)", "every other field of these seven weapons"]
     },
     "overlay_game_font_text_0_30_4": {
-      "status": "live_partial",
+      "status": "live_proven",
       "domain": "ui",
       "fields": [],
       "scope": "Mod window text in the game's own language fonts (FONT by hash, a Runtime material pointed at the game atlas): the characters FS Sinclair lacks, drawn while the game's font for them is loaded (only the selected game language's).",
       "provenTargets": [],
       "tests": ["GameFontTextProof"],
       "acknowledgementRemoved": null,
-      "observations": ["0.1.0 on 0.30.4-dev2: each language's own text drew in that language; the other languages' names drew as boxes or blanks (fixed offline in c5ec4fa, re-test pending); no crash on language switches."],
-      "notPromoted": ["Russian (not shown)", "the box and blank fix (c5ec4fa)", "multiplayer"]
+      "observations": ["0.1.0 on 0.30.4-dev2: each language's own text drew in that language; the other languages' names drew as boxes or blanks (fixed in c5ec4fa).", "0.1.0 on 0.30.4-dev3: every language (Simplified and Traditional Chinese, Japanese, Korean, Russian, a European language) drew its own text, no boxes remained, and missing characters showed '?' (live-proven, 2026-10-09)."],
+      "notPromoted": ["characters outside the game's own subset (they stay '?')", "a language other than the one the game is set to (its font is not loaded)", "Greek (no game font has it)"]
     },
     "status_effect_definition_0_30_4": {
       "status": "not_tested",

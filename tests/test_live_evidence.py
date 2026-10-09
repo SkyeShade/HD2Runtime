@@ -60,7 +60,7 @@ class LiveEvidenceTests(unittest.TestCase):
                 'enemy_zone_armor',
                 'event_action_explosion_named', 'event_action_heal', 'event_action_projectile', 'event_action_status',
                 'event_damage_source_attribution', 'event_player_died_position', 'event_weapon_in_hand',
-                'minefield_salvos', 'player_armor_passive_swap', 'pod_payload_pair', 'projectile_slot_composition', 'sentry_targeting_range',
+                'minefield_salvos', 'overlay_game_font_text_0_30_4', 'player_armor_passive_swap', 'pod_payload_pair', 'projectile_slot_composition', 'sentry_targeting_range',
                 'sentry_turret_turn_speed', 'stratagem_calldown_code', 'stratagem_carrier_bombardment_pattern',
                 'stratagem_carrier_presentation_lifecycle', 'stratagem_carrier_shell_redirect',
                 'stratagem_custom_panel_icon',
@@ -81,7 +81,7 @@ class LiveEvidenceTests(unittest.TestCase):
                 'weapon_rounds_feed_capacity'],
             'live_partial': ['backpack_deposit_ammo', 'custom_stratagem_carrier_in_slot',
                 'custom_stratagem_expendable_delivery', 'custom_stratagem_native_panel',
-                'custom_stratagem_pelican_native_gun', 'custom_stratagem_silo', 'overlay_game_font_text_0_30_4'],
+                'custom_stratagem_pelican_native_gun', 'custom_stratagem_silo'],
             'not_tested': ['enemy_attack_damage', 'status_effect_definition_0_30_4'],
             'inconclusive': ['stratagem_selector_grid_placement', 'structure_health'],
             'live_failed': ['backpack_shield_default_armor', 'runtime_gui_render_order',
@@ -94,7 +94,7 @@ class LiveEvidenceTests(unittest.TestCase):
                 'orbital_pattern_fields', 'projectile_homing', 'projectile_more_donors', 'sentry_component_fields', 'stratagem_call_in_time', 'support_charge_level_rows',
                 'support_overcharge_explosion_rows', 'weapon_fire_rate_wind_up', 'weapon_presentation_traits',
                 'weapon_sound_template']})
-        self.assertEqual((catalog['summary']['tests'], catalog['summary']['passed']), (133, 104))   # + WeaponRootsTest (5), 0.30.4-dev2 (2)
+        self.assertEqual((catalog['summary']['tests'], catalog['summary']['passed']), (134, 105))   # + WeaponRootsTest (5), 0.30.4 dev2 (2) and dev3 (1)
         for name, entry in self.registry['families'].items():
             if entry['status'] == 'live_proven':
                 self.assertTrue(any(t['result'] == 'PASS' for t in live_evidence.tests(name)), name)
