@@ -5462,6 +5462,10 @@ rawset(_G,'update',nil)
 local watches={}
 local ok,why=pcall(require,ENTRY)
 if not ok then return json.encode({startup_error=tostring(why),log=lines})end
+-- Every saved store (hd2.store, the Runtime's own settings) in an empty folder of this run, never the player's
+-- %LOCALAPPDATA%\HD2Runtime\mod_data: a setting turned off in the game must not change what a scenario sees.
+assert(type(STORE_FOLDER)=='string'and pcall(function()require('hd2runtime/runtime/mod_store').set_folder(STORE_FOLDER)end),
+ 'mod store isolation')
 local chunk=assert(loadstring(ADDON,'@'..SCENARIO..'/addon.lua'))
 local ok_addon,returned=pcall(chunk)
 if not ok_addon then return json.encode({startup_error=tostring(returned),log=lines})end
@@ -5550,9 +5554,21 @@ def prelude(resources, names, snapshot):
         + '\nlocal DLL_SHA=' + lua(dll_sha) + '\nlocal ENTRY=' + lua(ENTRY) + '\nlocal WRITE_ADAPTER=' + lua(WRITE_ADAPTER))
 
 
+def store_folder():
+    """An empty folder for one scenario's saved stores (hd2.store, the Runtime's settings; removed at exit). Never the
+    player's %LOCALAPPDATA%\\HD2Runtime\\mod_data: a setting turned off in the game must not change what a scenario
+    sees, and no example may write into the player's mod data."""
+    import atexit
+    import shutil
+    import tempfile
+    path = tempfile.mkdtemp(prefix='hd2rt-store-')
+    atexit.register(shutil.rmtree, path, True)
+    return path
+
+
 def scenario_program(scenario, addon, seed=None):
     """The scenario-specific tail that follows the prelude. seed: {address: bytes} under the write overlay."""
-    return ('\nlocal SEED=' + ('{' + ','.join('[%d]=%s' % (k, lua_bytes(v)) for k, v in sorted(seed.items())) + '}'
+    return ('\nlocal STORE_FOLDER=' + lua(store_folder()) + '\nlocal SEED=' + ('{' + ','.join('[%d]=%s' % (k, lua_bytes(v)) for k, v in sorted(seed.items())) + '}'
         if seed else 'nil')
         + '\nlocal SCENARIO=' + lua(scenario) + '\nlocal ADDON=' + lua(addon)
         + '\nlocal MENU=' + (lua(EXTRAS.get(scenario, {}).get('menu')) if EXTRAS.get(scenario, {}).get('menu') else 'nil')

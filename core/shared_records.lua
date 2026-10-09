@@ -363,7 +363,7 @@ function M.conflict_text(descriptor,current)
         elseif #earlier>0 then parts[#parts+1]='last applied by '..earlier[1]
             ..', changed since outside HD2Runtime patch/transaction/plan/ensure'
         else parts[#parts+1]='no HD2Runtime patch, transaction, plan or ensure applied these bytes this session '
-            ..'(another program or a mod writing game memory directly)'end
+            ..'(another program writing game memory, or a mod whose own data files change this value)'end
     end
     local others=M.others(descriptor)
     if #others>0 then parts[#parts+1]='the same native record is also used by '..M.others_text(others)end

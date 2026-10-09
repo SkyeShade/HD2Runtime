@@ -54,7 +54,7 @@ is also used by stratagem A/ARC-3 Tesla Tower status.duration)
 - **last applied by ..., changed since outside HD2Runtime** means a Runtime operation wrote these bytes and something
   that is not a Runtime patch, transaction, plan or ensure changed them afterwards.
 - **no HD2Runtime patch, transaction, plan or ensure applied these bytes this session** means the observed value
-  came from another program or a mod writing game memory directly.
+  came from another program writing game memory, or from a mod whose own data files change that value.
 - **the same native record is also used by** lists every other catalogued target (any catalogue: player, support and
   mounted weapons, stratagems, backpacks, vehicles, throwables, enemies, boosters) that uses the same settings row or
   component record. Each catalogue lists only its own consumers in `shared with N other weapons`; this part adds the
