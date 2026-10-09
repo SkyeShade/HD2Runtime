@@ -1,7 +1,7 @@
 {
  "contract": "hd2runtime.armor_stats.capabilities.v1",
  "schemaVersion": 1,
- "hd2RuntimeVersion": "0.30.2",
+ "hd2RuntimeVersion": "0.30.3",
  "build": "F5FEE03DCFDB",
  "source": {
   "research": "armor-stats-F5FEE03DCFDB.json",

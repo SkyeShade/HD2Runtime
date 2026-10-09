@@ -1,7 +1,7 @@
 {
   "contract": "hd2runtime.backpack.guarded_authoring.v1",
   "schemaVersion": 1,
-  "hd2RuntimeVersion": "0.30.2",
+  "hd2RuntimeVersion": "0.30.3",
   "canonicalCollection": "fieldInstances",
   "backpacks": [
     {

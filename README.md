@@ -92,6 +92,9 @@ HD2Runtime is designed to fail safely when a game structure or ownership relatio
 
 Unsupported or ambiguous values remain read-only rather than being modified speculatively.
 
+Version 0.30.3 fixes a false "Another mod changed the stratagem data" warning in busy games, and one odd entity in
+the game's entity map no longer blocks every mod's writes. See `docs/releases/0.30.3.md`.
+
 Version 0.30.2 adds an in-game settings panel (F10), shows custom stratagem problems and their fixes before a launch,
 gives your picked custom stratagems their carriers first, and unlocks seven weapons that were refused as duplicate
 identities. See `docs/releases/0.30.2.md`.

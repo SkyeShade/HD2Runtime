@@ -1146,7 +1146,7 @@
      },
      "uses": {
       "maximum": 100,
-      "minimum": 1,
+      "minimum": -1,
       "type": "integer"
      }
     },

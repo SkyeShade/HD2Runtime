@@ -1,7 +1,7 @@
 {
  "contract": "hd2runtime.live_evidence.v1",
  "schemaVersion": 1,
- "hd2RuntimeVersion": "0.30.2",
+ "hd2RuntimeVersion": "0.30.3",
  "build": "F5FEE03DCFDB",
  "statusLevels": {
   "live_proven": "A user-run in-game test showed the intended effect; the acknowledgement requirement is removed for exactly the family scope.",

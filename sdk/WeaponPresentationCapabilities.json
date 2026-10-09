@@ -1,7 +1,7 @@
 {
   "contract": "hd2runtime.weapon.presentation.v1",
   "schemaVersion": 1,
-  "hd2RuntimeVersion": "0.30.2",
+  "hd2RuntimeVersion": "0.30.3",
   "nativeModel": {
     "traits": "LoadoutEntryComponent +12: five localization string IDs, shown in slot order; 0 = empty. The armory localizes each non-zero ID; nothing derives a label from gameplay values.",
     "refresh": "Traits are built into the item view model when a menu presenter builds its items (on enter); an open menu keeps the labels it built.",

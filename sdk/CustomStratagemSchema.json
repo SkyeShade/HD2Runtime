@@ -7791,7 +7791,7 @@
   }
  },
  "format": "hd2runtime-custom-stratagems/1",
- "hd2RuntimeVersion": "0.30.2",
+ "hd2RuntimeVersion": "0.30.3",
  "limits": {
   "definitions": 16,
   "orbitalShells": 64
@@ -7887,9 +7887,9 @@
   },
   "uses": {
    "default": "unlimited",
-   "doc": "each player's own calls: the game's own per-slot uses (its HUD counter, its depleted look, its refusal at 0) on the slot that holds the carrier; refused for an Eagle, whose uses are per rearm",
+   "doc": "each player's own calls: the game's own per-slot uses (its HUD counter, its depleted look, its refusal at 0) on the slot that holds the carrier; 0 or -1 (or none) means unlimited; refused for an Eagle, whose uses are per rearm",
    "max": 100,
-   "min": 1,
+   "min": -1,
    "optional": true,
    "type": "integer",
    "unit": "calls per mission"
