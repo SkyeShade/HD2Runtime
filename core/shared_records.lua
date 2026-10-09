@@ -59,6 +59,7 @@ local CATALOGUES={
     {module='hd2runtime/domains/enemy_authoring',root='enemies',resource='enemy',enemy=true},
     {module='hd2runtime/domains/booster_authoring',root='boosters',resource='booster'},
     {module='hd2runtime/domains/attack_outputs',root='outputs',resource='attack_output',output=true},
+    {module='hd2runtime/domains/status_effect_authoring',root='statuses',resource='status_effect'},
 }
 local MAX_DEPTH=5
 local index,by_descriptor
@@ -148,7 +149,9 @@ function build_index()
                         local owner=type(entry.name)=='string'and entry.name or tostring(name)
                         walk('stratagem',entry.stratagemHost,entry,1,nil,'sentry host '..owner)
                     else
-                        local owner=type(entry.name)=='string'and entry.name or tostring(name)
+                        -- a status effect is named by its id (hd2.status_effect(id)), not its display name
+                        local owner=catalogue.resource=='status_effect'and tostring(name)
+                            or type(entry.name)=='string'and entry.name or tostring(name)
                         walk(catalogue.resource,owner,entry,1,nil)
                     end
                 end
@@ -167,7 +170,7 @@ end
 -- The (resource, target) a runtime descriptor belongs to when it is not a catalogue table itself (enemy writes
 -- build their descriptor per request): from its target identity.
 local NAME_KEYS={'weapon','stratagem','backpack','vehicle','throwable','enemy','booster','explosion','helldiver',
-    'armor_kit'}
+    'armor_kit','status'}
 local function own_identity(descriptor)
     local entry=by_descriptor[descriptor]
     if entry then return entry.resource,entry.target end

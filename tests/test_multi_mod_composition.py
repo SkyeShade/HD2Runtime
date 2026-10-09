@@ -123,9 +123,11 @@ return json.encode(out)
         self.assertFalse(result['others']['rover_gun'])
         self.assertFalse(result['others']['rover'])
         self.assertFalse(result['others']['k9_gun'])
-        # The Arc Thrower's only cross-catalogue record is its stun status row: the A/ARC-3 Tesla Tower's.
+        # The Arc Thrower's only cross-catalogue record is its stun status row: the A/ARC-3 Tesla Tower's, and the
+        # status's own definition (hd2.status_effect('stun_small'), 0.30.4).
         self.assertEqual(result['others']['arc'],
-                         ['status.primary_status_37.duration -> stratagem A/ARC-3 Tesla Tower'])
+                         ['status.primary_status_37.duration -> status_effect stun_small',
+                          'status.primary_status_37.duration -> stratagem A/ARC-3 Tesla Tower'])
         self.assertIn('A/ARC-3 Tesla Tower', result['sentries'])
         self.assertIn('A/LAS-98 Laser Sentry', result['sentries'])
         self.assertGreater(result['turret'], 40)
@@ -166,7 +168,7 @@ for _,n in ipairs({'stratagem A/MG-43 Machine Gun Sentry','support_weapon MG-43 
   'vehicle_weapon EXO-45 Patriot Exosuit / right_gun'})do assert(gatling:find(','..n..',',1,true),gatling)end
 -- The Tesla Tower's stun row is the Arc Thrower's.
 local tesla=names(field(strat['A/ARC-3 Tesla Tower'],'status.duration'))
-assert(tesla==',support_weapon ARC-3 Arc Thrower,',tesla)
+assert(tesla==',status_effect stun_small,support_weapon ARC-3 Arc Thrower,',tesla)
 -- An attack output's slot is another handle on its owner weapon's own row, never another user.
 local arbitrator=names(field(require('hd2runtime/domains/player_weapon_authoring').weapons['AR-11 Arbitrator'],
  'terminal.primary.impact.explosion'))
@@ -197,7 +199,8 @@ why=tostring(why)
 assert(not ok and why:find('CONFLICT: status.duration is neither expected nor desired',1,true),why)
 assert(why:find('target support_weapon ARC-3 Arc Thrower',1,true),why)
 assert(why:find('no HD2Runtime patch, transaction, plan or ensure applied these bytes this session',1,true),why)
-assert(why:find('the same native record is also used by stratagem A/ARC-3 Tesla Tower status.duration',1,true),why)
+assert(why:find('the same native record is also used by status_effect stun_small status.duration, stratagem A/ARC-3 '
+ ..'Tesla Tower status.duration',1,true),why)
 -- Another mod's operation applied them: it is named, with its target and value.
 records.claim(tesla,'ensure','mods/carol/sentries')
 ok,why=pcall(ownership.expected,change,b.encode(2,'f32'))
@@ -564,7 +567,8 @@ return json.encode(out)
         self.assertIn('observed 2', conflict)
         self.assertIn('held by mods/carol/sentries ensure stun (stratagem A/ARC-3 Tesla Tower status.duration = 2)',
                       conflict)
-        self.assertIn('the same native record is also used by stratagem A/ARC-3 Tesla Tower status.duration', conflict)
+        self.assertIn('the same native record is also used by status_effect stun_small status.duration, '
+                      'stratagem A/ARC-3 Tesla Tower status.duration', conflict)
         self.assertEqual(result['writes'], 1)
 
     def test_catalogue_shared_records_are_one_native_address(self):

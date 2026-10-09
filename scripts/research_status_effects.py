@@ -85,15 +85,21 @@ def fingerprint(library, type_name: str) -> set:
 
 
 def rows(region: bytes, base: int, stride: int, group_type: int) -> list[bytes]:
+    return rows_and_group(region, base, stride, group_type)[0]
+
+
+def rows_and_group(region: bytes, base: int, stride: int, group_type: int) -> tuple[list[bytes], int]:
+    """The rows of the settings group of `group_type`, and that group's index in its allocation (core/settings.lua
+    numbers groups from 0 in allocation order: a record's `group`)."""
     count = struct.unpack_from('<I', region, 0)[0]
     at = 4
-    for _ in range(count):
+    for index in range(count):
         magic, _, kind, size, _, _ = struct.unpack_from('<4s5I', region, at)
         root = at + 24
         if kind == group_type:
             pointer, entries = struct.unpack_from('<QQ', region, root)
             start = pointer - base
-            return [region[start + i * stride:start + (i + 1) * stride] for i in range(entries)]
+            return [region[start + i * stride:start + (i + 1) * stride] for i in range(entries)], index
         at = root + size
     raise ValueError('settings group absent')
 
@@ -147,8 +153,8 @@ def build() -> dict:
         raise ValueError('StatusEffectInfo layout fingerprint changed')
     status_base, status_region = snapshot_regions.region_bytes('status')
     damage_base, damage_region = snapshot_regions.region_bytes('damage')
-    status_rows = rows(status_region, status_base, ROW_SIZE, dl_hash('StatusEffectSettings'))
-    damage_rows = rows(damage_region, damage_base, DAMAGE_ROW, dl_hash('DamageSettings'))
+    status_rows, status_group = rows_and_group(status_region, status_base, ROW_SIZE, dl_hash('StatusEffectSettings'))
+    damage_rows, damage_group = rows_and_group(damage_region, damage_base, DAMAGE_ROW, dl_hash('DamageSettings'))
     tables = source.load_tables(source.resolve_ref('current'))
     consumers = domain_consumers(tables)
 
@@ -186,14 +192,23 @@ def build() -> dict:
         damage_type = struct.unpack_from('<I', raw, 44)[0]
         damage = None
         if damage_type:
-            match = [r for r in damage_rows if struct.unpack_from('<I', r, 0)[0] == damage_type]
+            match = [(i, r) for i, r in enumerate(damage_rows) if struct.unpack_from('<I', r, 0)[0] == damage_type]
             if len(match) == 1:
-                d = match[0]
+                index, d = match[0]
                 damage = {'damageType': damage_type, 'standardDamage': struct.unpack_from('<i', d, 4)[0],
                     'durableDamage': struct.unpack_from('<i', d, 8)[0],
-                    'armorPenetration': list(struct.unpack_from('<4I', d, 12))}
+                    'armorPenetration': list(struct.unpack_from('<4I', d, 12)),
+                    # 0.30.4 (status effect authoring): the row's identity and every DamageInfo member the weapon
+                    # catalogues author, so the row can be re-proven and edited as the status's own tick damage
+                    'group': damage_group, 'row': index, 'demolition': struct.unpack_from('<I', d, 28)[0],
+                    'stagger': struct.unpack_from('<I', d, 32)[0], 'pushForce': struct.unpack_from('<I', d, 36)[0],
+                    'statusSlots': [[struct.unpack_from('<I', d, 44 + 8 * n)[0], f32(d, 48 + 8 * n)]
+                        for n in range(SLOTS)],
+                    'consumers': sorted(({'domain': c['domain'], 'object': c['object']}
+                        for c in consumers.get(damage_type, [])), key=lambda c: (c['domain'], c['object']))}
         strengths = sorted(u['strength'] for u in users)
-        statuses.append({'semanticId': semantic, 'name': name, 'nativeType': kind, 'row': row, 'family': family,
+        statuses.append({'semanticId': semantic, 'name': name, 'nativeType': kind, 'row': row, 'group': status_group,
+            'family': family,
             'duration': f32(raw, 40), 'member36': f32(raw, 36), 'tickDamage': damage,
             'slotUsers': len(users), 'weaponSlotUsers': len(weapon_users),
             'knownConsumers': sorted({(c['domain'], c['object']) for u in users for c in u['consumers']}),

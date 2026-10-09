@@ -256,6 +256,14 @@
         },
         {
           "domain": "vehicle_weapon_authoring",
+          "object": "AX/FLAM-75 Hot Dog / gun"
+        },
+        {
+          "domain": "vehicle_weapon_authoring",
+          "object": "AX/LAS-5 Rover / gun"
+        },
+        {
+          "domain": "vehicle_weapon_authoring",
           "object": "EXO-51 Lumberer Exosuit / left_gun"
         },
         {
@@ -343,6 +351,10 @@
         {
           "domain": "support_weapon_authoring",
           "object": "FLAM-40 Flamethrower"
+        },
+        {
+          "domain": "vehicle_weapon_authoring",
+          "object": "AX/FLAM-75 Hot Dog / gun"
         },
         {
           "domain": "vehicle_weapon_authoring",
@@ -994,6 +1006,10 @@
         {
           "domain": "support_weapon_authoring",
           "object": "CQC-9 Defoliation Tool"
+        },
+        {
+          "domain": "vehicle_weapon_authoring",
+          "object": "AX/ARC-3 K-9 / gun"
         }
       ],
       "slotUsers": 23,
@@ -1212,6 +1228,10 @@
         {
           "domain": "support_weapon_authoring",
           "object": "TX-41 Sterilizer"
+        },
+        {
+          "domain": "vehicle_weapon_authoring",
+          "object": "AX/TX-13 Dog Breath / gun"
         }
       ],
       "slotUsers": 2,
@@ -1286,6 +1306,10 @@
         {
           "domain": "support_weapon_authoring",
           "object": "TX-41 Sterilizer"
+        },
+        {
+          "domain": "vehicle_weapon_authoring",
+          "object": "AX/TX-13 Dog Breath / gun"
         }
       ],
       "slotUsers": 2,
@@ -1724,6 +1748,10 @@
         {
           "domain": "support_weapon_authoring",
           "object": "FLAM-40 Flamethrower"
+        },
+        {
+          "domain": "vehicle_weapon_authoring",
+          "object": "AX/FLAM-75 Hot Dog / gun"
         },
         {
           "domain": "vehicle_weapon_authoring",

@@ -302,6 +302,42 @@ function M.new(describe)
     -- A catalogued explosion (api/explosion_catalogue.lua; docs/explosions.md) by its semantic id or label: the target
     -- of the explosion.* fields and a payload value for impact / expiry explosion references.
     function builders.explosion(name)return require('hd2runtime/api/explosion_catalogue').handle(name)end
+    -- A status effect's own definition (0.30.4; docs/status-effects.md "Status effect stats") by its id
+    -- (sdk/StatusEffectCatalog.json: 'fire', 'gas', 'stun_medium', ...): status.duration, and through :damage() the
+    -- DamageInfo row it deals while active. Global rows: every attack applying the status uses them.
+    local function status_effect_handle(id,path)
+        local database=require('hd2runtime/domains/status_effect_authoring')
+        local entry=database.statuses[id]
+        assert(entry,'unknown status effect: '..tostring(id)..' (hd2.status_effects() lists every id)')
+        local function fields_of(owned)
+            local result={}
+            for _,field in pairs(owned and owned.fields or{})do result[#result+1]=copy(field)end
+            table.sort(result,function(a,c)return a.semanticFieldId<c.semanticFieldId end)
+            return result
+        end
+        local methods={}
+        function methods.describe()
+            local owned=entry.targets[path]
+            local damage=entry.targets.damage
+            return {id=entry.semanticId,name=entry.name,family=entry.family,path=path,fields=fields_of(owned),
+                tickDamage=damage~=nil,sharedWithStatuses=damage and copy(damage.sharedWithStatuses)or nil,
+                otherUsers=damage and copy(damage.otherUsers)or nil}
+        end
+        if path=='status'then
+            function methods.damage()
+                assert(entry.targets.damage,'status effect '..id..' deals no tick damage')
+                return status_effect_handle(id,'damage')
+            end
+        end
+        return setmetatable({resource='status_effect',status=id,path=path},{__index=methods})
+    end
+    function builders.status_effect(id)return status_effect_handle(id,'status')end
+    -- Every status effect id, sorted.
+    function builders.status_effects()
+        local ids={}
+        for id in pairs(require('hd2runtime/domains/status_effect_authoring').statuses)do ids[#ids+1]=id end
+        table.sort(ids);return ids
+    end
     -- Catalogued output IDs ({family=..., selectable=true} filters).
     function builders.attack_outputs(filter)
         local catalog=require('hd2runtime/domains/attack_outputs')

@@ -27,6 +27,7 @@ import generate_throwable_authoring
 import generate_package_residency
 import apply_projectile_residency
 import generate_status_catalog
+import generate_status_effect_authoring
 import generate_weapon_movement
 import generate_enemy_authoring
 import generate_helldiver_fields
@@ -222,6 +223,7 @@ def main():
     out=args.output;out.mkdir(parents=True,exist_ok=True)
     apply_projectile_residency.generate(check=True)
     generate_status_catalog.generate(check=True)
+    generate_status_effect_authoring.generate(check=True)
     generate_weapon_composition.generate(check=True)
     generate_support_weapon_sdk.generate(check=True)
     generate_support_weapon_authoring.generate(check=True)

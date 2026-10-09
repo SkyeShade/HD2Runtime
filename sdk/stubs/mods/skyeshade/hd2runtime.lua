@@ -4141,6 +4141,16 @@ function hd2.attack_output(identity) end
 ---@param name HD2CatalogueExplosionName|string
 ---@return HD2CatalogueExplosion
 function hd2.explosion(name) end
+---The definition of a status effect (HD2Runtime 0.30.4+; docs/status-effects.md "Status effect stats") by its id
+---(sdk/StatusEffectCatalog.json: "fire", "gas", "stun_medium", ...): the target of status.duration; :damage() is
+---the DamageInfo row the status deals while active (damage.*). Both rows are global: every write needs
+---allow_shared, the tick damage also allow_unverified_effect (sdk/StatusEffectAuthoringCapabilities.json).
+---@param id string
+---@return HD2StatusEffect
+function hd2.status_effect(id) end
+---Every status effect id, sorted.
+---@return string[]
+function hd2.status_effects() end
 ---Mods that need a newer HD2Runtime (HD2Runtime 0.28.0+). The SDK wrapper of every mod reports here before its
 ---own version check fails closed; HD2Runtime logs each mod and shows one update warning per session on the ship.
 hd2.compatibility = {}
@@ -4166,6 +4176,18 @@ function hd2.compatibility.status() end
 ---@param filter? {family?: "projectile"|"beam"|"arc"|"spray"|"melee", selectable?: boolean}
 ---@return string[]
 function hd2.attack_outputs(filter) end
+
+---@class HD2StatusEffect
+---@field resource "status_effect"
+---@field status string
+---@field path "status"|"damage"
+local HD2StatusEffect = {}
+---{id, name, family, path, fields, tickDamage, sharedWithStatuses, otherUsers}
+---@return table
+function HD2StatusEffect:describe() end
+---The DamageInfo row this status deals while active (statuses without tick damage raise).
+---@return HD2StatusEffect
+function HD2StatusEffect:damage() end
 
 ---@class HD2Diagnostics
 local HD2Diagnostics = {}

@@ -15,7 +15,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-ORDER = ('apply_projectile_residency', 'generate_live_evidence', 'generate_stratagem_calldown', 'generate_image_resources', 'generate_text_resources', 'generate_stratagem_slots', 'generate_support_delivery', 'generate_custom_payloads', 'generate_bombardment_payload', 'generate_slot_cooldown', 'generate_beacon_redirect', 'generate_pelican', 'generate_weapon_sounds', 'generate_sound_events', 'generate_wwise_plugin', 'generate_stratagem_selector', 'generate_stratagem_blocking', 'generate_peer_messaging', 'generate_matchmaking_safety', 'generate_player_equipment','generate_status_catalog', 'generate_weapon_composition', 'generate_support_weapon_sdk',
+ORDER = ('apply_projectile_residency', 'generate_live_evidence', 'generate_stratagem_calldown', 'generate_image_resources', 'generate_text_resources', 'generate_stratagem_slots', 'generate_support_delivery', 'generate_custom_payloads', 'generate_bombardment_payload', 'generate_slot_cooldown', 'generate_beacon_redirect', 'generate_pelican', 'generate_weapon_sounds', 'generate_sound_events', 'generate_wwise_plugin', 'generate_stratagem_selector', 'generate_stratagem_blocking', 'generate_peer_messaging', 'generate_matchmaking_safety', 'generate_player_equipment','generate_status_catalog', 'generate_status_effect_authoring', 'generate_weapon_composition', 'generate_support_weapon_sdk',
     'generate_support_weapon_authoring', 'generate_entity_authoring', 'generate_attachment_authoring',
     'generate_booster_authoring',
     'generate_stratagem_authoring', 'generate_weapon_authoring', 'generate_fire_mode_authoring',

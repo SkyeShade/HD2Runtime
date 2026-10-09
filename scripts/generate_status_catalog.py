@@ -65,8 +65,8 @@ def build():
     public = []
     for s in statuses:
         public.append({'semanticId': s['semanticId'], 'name': s['name'], 'family': s['family'],
-            'duration': s['duration'], 'tickDamage': ({k: v for k, v in s['tickDamage'].items() if k != 'damageType'}
-                if s['tickDamage'] else None),
+            'duration': s['duration'], 'tickDamage': ({k: s['tickDamage'][k] for k in ('standardDamage',
+                'durableDamage', 'armorPenetration')} if s['tickDamage'] else None),
             'appliedBy': s['knownConsumers'], 'slotUsers': s['slotUsers'],
             'strengthObserved': s['strength'],
             'attachable': attachable(s), 'attachTier': tier(s),
