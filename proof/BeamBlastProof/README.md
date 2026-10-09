@@ -15,3 +15,5 @@ are copied into a weapon when it is built.
 
 Report each: what you saw, and whether anything looked broken. Solo first; then, if you can, a friend in the lobby
 with and without the mod (the beam blasts must look the same on their screen).
+
+Credit: the laser research these tests check started from [Bans](https://ayakamods.com/members/bans.388863/)'s [True Lasgun Beam Overhaul](https://ayakamods.com/mods/true-lasgun-beam-overhaul.4681/).

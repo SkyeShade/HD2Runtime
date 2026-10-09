@@ -242,3 +242,10 @@ HD2Runtime is free to use for building mods; see [LICENSE](LICENSE) for the full
 code or research findings (offsets, field names, identities, catalogues) into another project is
 allowed only with visible credit to [HD2Runtime by SkyeShade](https://github.com/SkyeShade/HD2Runtime).
 Redistributing HD2Runtime itself needs permission.
+
+### Thanks
+
+- [Bans](https://ayakamods.com/members/bans.388863/), author of [True Lasgun Beam Overhaul](https://ayakamods.com/mods/true-lasgun-beam-overhaul.4681/) (LAS Beam Enhanced Overhaul): his mod was the research lead for the
+  0.30.4 laser work: the heat weapons' wind-up (firing charge), the LAS-13 Trident's pulsed beam and its fire mode,
+  and the pass that made every laser beam swappable. HD2Runtime proves each member itself from the game's data; none
+  of his code is used.

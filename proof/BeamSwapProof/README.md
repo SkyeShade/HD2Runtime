@@ -21,3 +21,5 @@ beam source as unproven until this is seen). If it does not change, say so.
 
 Report each: what you saw, whether anything looked broken, and the log lines (`... -> APPLIED`). Solo first; then, if
 you can, a friend in the lobby with and without the mod (what the beam looks like on their screen).
+
+Credit: the laser research these tests check started from [Bans](https://ayakamods.com/members/bans.388863/)'s [True Lasgun Beam Overhaul](https://ayakamods.com/mods/true-lasgun-beam-overhaul.4681/).

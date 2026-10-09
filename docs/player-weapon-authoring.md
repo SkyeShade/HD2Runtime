@@ -202,7 +202,7 @@ which only this weapon uses, and it is not authored in this release.
 
 ## Wind-up and Trident-like beam blasts (0.30.4, offline only)
 
-Research: `research/docs/las-beam-overhaul-comparison.md` (a third-party LAS mod was the lead; every member is proven
+Research: `research/docs/las-beam-overhaul-comparison.md` (credit: [Bans](https://ayakamods.com/members/bans.388863/)'s [True Lasgun Beam Overhaul](https://ayakamods.com/mods/true-lasgun-beam-overhaul.4681/) was the lead; every member is proven
 from the type library and the retained snapshot). All fields need `allow_unverified_effect`.
 
 **Wind-up (the firing charge), `WeaponHeatComponent`**, on every heat weapon (LAS-16 / LAS-17 Sickles, LAS-5 Scythe,
@@ -239,7 +239,7 @@ hd2.ensure({transaction={id='trident-scythe',target=scythe,allow_unverified_effe
 ```
 
 - **Only weapons that already have a BeamWeapon component.** Turning a projectile weapon (a Sickle, the Sai) into a
-  beam weapon means adding a component to its entity, as LAS Beam Enhanced Overhaul does by moving the weapon's entity
+  beam weapon means adding a component to its entity, as Bans's True Lasgun Beam Overhaul does by moving the weapon's entity
   map membership list. HD2Runtime does not: it is the entity map change the 0.30.3 stray-row diagnostic reports, other
   players' games would not have the component, and the saved state would differ.
 - **Names are leads.** `beam.pulse_beams` and `beam.pulse_seconds` are named from the Trident's values and a

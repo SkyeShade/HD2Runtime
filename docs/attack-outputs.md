@@ -387,7 +387,7 @@ live-proven laser donor (the Reprimand, the Liberator's ammunition, the Patriot 
 **Why a projectile weapon cannot fire a beam** (no route is offered; each is refused by evidence, not by policy):
 - **References.** A BeamType is referenced only by BeamWeaponComponent, BeamInfo and the unembedded BeamPrisms type: no
   projectile, explosion, status or event member can name a beam (the type library scan above).
-- **Adding the component** (the third-party LAS mod's route) means relocating packed entity membership lists and the
+- **Adding the component** (the route of [Bans](https://ayakamods.com/members/bans.388863/)'s [True Lasgun Beam Overhaul](https://ayakamods.com/mods/true-lasgun-beam-overhaul.4681/), the lead for this laser pass) means relocating packed entity membership lists and the
   component table, and the replicated object layout of the entity; vanilla peers create the entity without it. Refused
   (research/las-beam-overhaul-comparison, research/component-membership).
 - **Even with both components** the trigger dispatch (0x742550) sends a weapon with the projectile flag to its
