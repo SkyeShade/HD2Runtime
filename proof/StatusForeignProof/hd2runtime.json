@@ -1,0 +1,1 @@
+{"format":1,"name":"StatusForeignProof","resource":"mods/skyeshade/hd2runtime_status_foreign_proof","guid":"7b1e2c4d-9a63-4f0e-8d55-3c6a1f0b9e27","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.30.3","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../sdk","ide_library":"../../sdk/stubs"}
