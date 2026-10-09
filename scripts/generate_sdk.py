@@ -864,6 +864,10 @@ def outputs():
         '---{timed, single_call_seconds, share_seconds, window_seconds, owners = {owner, total_seconds, calls, max_seconds,',
         '---max_label, last_window}[]}, the most time first. A slow call or a high share is logged as PERFORMANCE.',
         '---@return table','function HD2Diagnostics.performance() end',
+        '---Values owned by an unknown mod (HD2Runtime 0.30.4+): game values that are neither the reviewed value of HD2Runtime',
+        '---nor bytes an HD2Runtime operation applied, found by a refused write or by hd2.inspect. HD2Runtime never writes',
+        '---them. {target, field, observed, expected, owner = "unknown", seen}[], in the order found (docs/diagnostics.md).',
+        '---@return table[]','function HD2Diagnostics.foreign_values() end',
         '---@type HD2Diagnostics','hd2.diagnostics = {}']
     stub+=event_functions
     for method,spec in schema['api']['functions'].items():

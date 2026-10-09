@@ -87,6 +87,91 @@ write goes ahead (invalid/ambiguous bounded pointer: entity map row 329 ...)
   of every mod (`VALIDATION_FAILED ... invalid/ambiguous bounded pointer`), even writes to other weapons.
 - The row's resource names the entity (`0xC85F576D5E086147` is the LAS-12 Sai). Look for a mod that changes it.
 
+## Values changed by mods outside HD2Runtime (0.30.4)
+
+Mods that are not HD2Runtime mods change game values too: data-file mods (patched game archives) and programs that
+write game memory. HD2Runtime cannot see them, only their values. A value that is neither HD2Runtime's reviewed
+(vanilla) value nor bytes any HD2Runtime patch, transaction, plan or ensure applied this session is **owned by an
+unknown mod**. HD2Runtime leaves it as it is and refuses writes to that value only. Every other value, the rest of the
+same record included, stays writable.
+
+- **The log says so once per value:**
+
+  ```text
+  [HD2Runtime] FOREIGN VALUE: stratagem A/G-16 Gatling Sentry turret.yaw_speed is 95, not HD2Runtime's reviewed 80:
+  owner unknown mod (a mod outside HD2Runtime: a data-file mod or another program writing game memory). HD2Runtime
+  leaves it as it is and refuses writes to this value only; every other value is unaffected
+  ```
+
+- **The refused operation** keeps `code=CONFLICT`, unchanged for older mods. Its result also carries
+  `owner='unknown'` and `foreign=true`, its reason ends with `owner: unknown mod, not HD2Runtime`, and the log line
+  reads `REJECTED code=CONFLICT owner=unknown ...` (`ensure ... stopped code=CONFLICT owner=unknown ...` for an
+  ensure). A conflict with another HD2Runtime mod has no `owner` and names the holder (`held by ...`, above).
+- **`hd2.diagnostics.foreign_values()`** lists every value found so this session, in the order found:
+  `{target, field, observed, expected, owner='unknown', seen}`. At most 256 are kept.
+
+### Asking before writing: `hd2.inspect`
+
+A stats editor needs to know which values it may edit before it registers anything. `hd2.inspect` runs the same
+guarded resolution a patch runs (discovery, ownership, identity, the reviewed expected bytes), read only: it writes
+nothing and changes no page protection.
+
+```lua
+local job=hd2.inspect({target=hd2.stratagem('A/G-16 Gatling Sentry'):deployed_entity():turret(),
+    fields={hd2.fields.turret.yaw_speed, hd2.fields.turret.pitch_speed},
+    on_result=function(result)
+        for _,f in ipairs(result.fields)do print(f.field, f.state, f.owner, f.value)end
+    end})
+-- or poll: job.status == 'complete', job.result.by_field[hd2.fields.turret.yaw_speed].state
+```
+
+- **Arguments:** `target` is a typed handle. `fields` holds one to 64 field ids. Each entry is a string, or
+  `{field=id, expect=value}` when the field's reviewed value cannot be read from the target's `describe()` (a
+  reference field, for example). `on_result` is optional.
+- **When it finishes:** the job's status becomes `complete`. `job.result.fields` lists one entry per field, in
+  request order, and `job.result.by_field[id]` gives the same entries by id. Each entry is
+  `{field, state, owner, operation, value, vanilla, bytes, reason}`.
+- **Cost:** one guarded resolution per field, spread over frames like any write's. Inspect the fields a page shows,
+  not every catalogue.
+- **Bad requests:** a request that is not valid (no typed target, no fields, more than 64, an unknown option)
+  raises.
+
+| `state` | Meaning | `owner` |
+|---|---|---|
+| `vanilla` | the reviewed value (the catalogue's `currentDefault`) | |
+| `runtime` | bytes an HD2Runtime operation applied; `operation` is its id | that operation's mod |
+| `foreign` | owned by an unknown mod: writes to it are refused. Show it read-only. | `'unknown'` |
+| `changed` | a structural part this value depends on (a graph link, a status slot, a native array) is not as reviewed, and no writer can be named; writes to it are refused | |
+| `unavailable` | the target could not be resolved now (`reason`), e.g. its data is not loaded yet | |
+| `invalid` | the request names no exposed field, or no reviewed value was found (`reason`) | |
+
+`value` is the live value when the field stores it plainly (the reviewed value reads back from its own bytes), else
+nil. `bytes` is the live value's bytes in hex.
+
+### Stratagem graph links: a changed link refuses only the values below it
+
+A stratagem's projectile, damage, explosion, status, arc and beam rows are reached through links: the payload
+projectile list, a projectile's damage and explosion rows, a DamageInfo row's status slots. Before 0.30.4, every write
+to a stratagem's attack checked **every** link of its graph. One link another mod had changed, for example a status
+slot type a data-file mod swapped, refused every attack value of that stratagem, and so did a status swap by another
+HD2Runtime mod. Now a write checks the chain from the root to its own row: every node above it and the link into it.
+A changed link refuses only the values below it, which are the rows the stratagem may no longer reach.
+
+Why this is safe (`domains/stratagem_writes.lua` `graph_paths`):
+- A settings row is located by its own identity (group, row and kind in the settings table, `selected_record`), and
+  that is still checked before every write. The links never locate it; they only prove that this stratagem reaches
+  the row the reviewed way.
+- That proof is still made in full for the row written: its whole chain from the payload root.
+- The root link (the payload projectile list, the Eagle payload, the orbital's projectile or damage link) is still
+  checked for every write.
+- A component-backed value (turret, weapon, shield records) is located and proven through the entity catalogue, so
+  it needs no graph link.
+- If a settings row names no path in this stratagem's graph, every link is checked, as before. Every one of the 1,178
+  writable settings fields of the current catalogue names its path.
+- Test: `tests/test_foreign_values.py` swaps the A/ARC-3 Tesla Tower's status slot on a copy-on-write overlay of the
+  retained snapshot. The status row's duration is refused (`damage status link changed`); the DamageInfo row's damage
+  and the arc's range apply. Before, both were refused.
+
 ## Telemetry (off by default)
 
 ```lua

@@ -58,15 +58,67 @@ function M.describe(change,current,context)
     end
     return table.concat(parts,'; ')
 end
+-- The HD2Runtime operation whose applied bytes are `current` ({mod, kind, id, ...}), or nil: no patch, transaction,
+-- plan or ensure applied them this session (or they changed since), so a mod outside HD2Runtime owns them.
+function M.holder(change,current)
+    local records=shared_records()
+    if not records then return nil end
+    local ok,holders=pcall(records.holders,change.descriptor or{},current)
+    if not ok or type(holders)~='table'then return nil end
+    for _,item in ipairs(holders)do if item.holds then return item end end
+    return nil
+end
+-- Who owns `current`: 'vanilla' (the reviewed baseline), 'runtime' (bytes an HD2Runtime operation applied: owner is
+-- its mod, operation its id) or 'foreign' (owner 'unknown': a mod outside HD2Runtime).
+function M.state(change,current)
+    if current==change.expected then return 'vanilla'end
+    local holder=M.holder(change,current)
+    if holder then return 'runtime',holder.mod,holder.id end
+    return 'foreign','unknown'
+end
+-- The marker every refusal of a value owned by an unknown mod carries (results and logs: owner=unknown).
+M.FOREIGN_MARKER='owner: unknown mod'
+function M.foreign(reason)return type(reason)=='string'and reason:find(M.FOREIGN_MARKER,1,true)~=nil end
+-- A rejected operation's result: owner='unknown' when the refusal was a value owned by an unknown mod.
+function M.annotate(result,reason)
+    if type(result)=='table'and M.foreign(reason)then result.owner='unknown';result.foreign=true end
+    return result
+end
 -- Returns the bytes the guarded transaction must find before writing.
 function M.expected(change,current,label,context)
+    -- hd2.inspect (api/inspect.lua): a read-only pass records what it found and never writes.
+    if type(change.inspect)=='table'then
+        local found=change.inspect
+        found[#found+1]={current=current,expected=change.expected,label=label,context=context}
+        return change.expected
+    end
     if current==change.expected or current==change.desired then return change.expected end
     if type(change.owned)=='string'and current==change.owned then
         metrics.count('options.owned_transitions')
         return current
     end
     local ok,detail=pcall(M.describe,change,current,context)
+    -- Nobody in HD2Runtime holds these bytes: a mod outside HD2Runtime changed this value. Only this value is
+    -- refused; it is remembered and logged once (core/foreign_values.lua).
+    local foreign=M.holder(change,current)==nil
+    if foreign then
+        pcall(function()
+            local storage=((change.descriptor or{}).backing or{}).storage
+            local records=shared_records()
+            local target=context and context.target
+            if not target and records then
+                local found,name=pcall(records.describe,change.descriptor or{})
+                target=found and name or nil
+            end
+            local field=tostring(label or change.field)
+            -- records.describe ends with the catalogue's field id (an attack's own alias of the field, too)
+            if target and not(context and context.target)then target=target:match('^(.*) %S+$')or target end
+            require('hd2runtime/core/foreign_values').note({target=target,field=field,
+                observed=decoded(current,storage),expected=text(change.expect)})
+        end)
+    end
     error('CONFLICT: '..tostring(label or change.field)..' is neither expected nor desired'
-        ..(ok and' ('..detail..')'or''),0)
+        ..(ok and' ('..detail..(foreign and'; '..M.FOREIGN_MARKER..', not HD2Runtime'or'')..')'
+            or(foreign and' ('..M.FOREIGN_MARKER..', not HD2Runtime)'or'')),0)
 end
 return M

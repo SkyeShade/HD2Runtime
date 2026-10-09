@@ -1,6 +1,6 @@
 ---@meta
 -- Generated authoring definitions. Never package or execute this file.
--- Schema SHA256 5cc452e205ccae42ff5e116f321bb29783eddee2d7c9aab679af676bb7c2ee4f
+-- Schema SHA256 52df83d29bfc928fbbe74f56f6cfef7a9c22b9c0dccad537a0394d828f33b003
 
 ---@alias HD2Resource "0x16474112801385B6"|"0x59C5CA839449B379"|"0x80F1A156D9FA1E36"|"0x89C5493E08CA4207"|"0xB0C9FAF4AF8903F9"|"0xEC3575E7A93793BB"|"0xED13DDC480EC6910"|"amr"|"bastion"|"jar5"|"jump_pack"|"maelstrom"|"orbital_laser"|"shield_relay"
 ---@alias HD2PatchField "armor_penetration"
@@ -200,6 +200,11 @@
 ---@field id string
 ---@field target? table
 ---@field targets? table[]
+
+---@class HD2InspectRequest
+---@field target table
+---@field fields (string|table)[]
+---@field on_result? fun(result: table)
 
 ---@class HD2AssetDependency
 ---@field known boolean
@@ -4186,6 +4191,11 @@ function HD2Diagnostics.operations() end
 ---max_label, last_window}[]}, the most time first. A slow call or a high share is logged as PERFORMANCE.
 ---@return table
 function HD2Diagnostics.performance() end
+---Values owned by an unknown mod (HD2Runtime 0.30.4+): game values that are neither the reviewed value of HD2Runtime
+---nor bytes an HD2Runtime operation applied, found by a refused write or by hd2.inspect. HD2Runtime never writes
+---them. {target, field, observed, expected, owner = "unknown", seen}[], in the order found (docs/diagnostics.md).
+---@return table[]
+function HD2Diagnostics.foreign_values() end
 ---@type HD2Diagnostics
 hd2.diagnostics = {}
 ---Run once after a delay in game seconds (fractions work; 0 = the next update tick; math.random(1, 10) gives a random delay). The timer belongs to the calling mod; scope=mission cancels it when the mission ends.
@@ -4296,6 +4306,10 @@ function hd2.require_assets(request) end
 ---@param target table
 ---@return HD2AssetDependency
 function hd2.asset_dependency(target) end
+---Read only (HD2Runtime 0.30.4+): who owns the live value of one to 64 fields of a typed target, through the same guarded resolution a patch runs; nothing is written. request = {target, fields = {id | {field, expect}}, on_result?}. When complete, result.fields (request order) and result.by_field[id] hold {field, state, owner, operation, value, vanilla, bytes, reason}: state 'vanilla' (the reviewed value), 'runtime' (an HD2Runtime operation applied it; owner = its mod), 'foreign' (owned by an unknown mod outside HD2Runtime, owner 'unknown': writes to it are refused, show it read-only), 'changed' (a link or slot it depends on is not as reviewed), 'unavailable' or 'invalid' (reason). docs/diagnostics.md.
+---@param request HD2InspectRequest
+---@return HD2Watch
+function hd2.inspect(request) end
 
 if rawget(_G,'CowboyBingusModLoader') then
     error("HD2Runtime SDK stubs are authoring-only; install the runtime package in-game")

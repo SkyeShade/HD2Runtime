@@ -42,7 +42,10 @@ function M.start_spec(runtime,emit,spec,startup_delay)
         watch.result.reason=watch.error
         watch.result.code=watch.error:find('CONFLICT:',1,true) and 'CONFLICT'
             or watch.error:find('ASSET_UNAVAILABLE',1,true) and 'ASSET_UNAVAILABLE' or 'VALIDATION_FAILED'
-        log('transaction '..spec.id..' REJECTED code='..watch.result.code..' reason='..watch.error)
+        -- A value owned by an unknown mod (a mod outside HD2Runtime): owner='unknown' (core/ownership.lua).
+        require('hd2runtime/core/ownership').annotate(watch.result,watch.error)
+        log('transaction '..spec.id..' REJECTED code='..watch.result.code
+            ..(watch.result.owner and' owner='..watch.result.owner or'')..' reason='..watch.error)
     end
     -- One place decides between a bounded transient retry and a terminal rejection.
     local function fail(reason,result)

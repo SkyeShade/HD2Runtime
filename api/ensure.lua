@@ -487,6 +487,7 @@ function M.start(runtime,emit,request)
         if child.status=='rejected' then
             watch.status='rejected';watch.error=child.error;watch.result=child.result;child=nil
             log('ensure '..spec.id..' stopped code='..tostring(watch.result and watch.result.code)
+                ..(watch.result and watch.result.owner and' owner='..watch.result.owner or'')
                 ..' reason='..tostring(watch.error))
             return
         end

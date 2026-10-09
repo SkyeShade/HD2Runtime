@@ -277,8 +277,42 @@ local function graph_record(roots,node)
         node.kind..' identity changed')
     return record,roots[kind].owner
 end
-local function validate_graph(entry,roots,component)
+-- The graph nodes a spec's changes reach, and every node on the way there from the root: the links a write depends on
+-- (0.30.4). A settings row is located by its own identity (selected_record: group, row and kind), never through these
+-- links; the links prove that this stratagem's graph reaches the row the reviewed way. So a write is checked against
+-- the chain from the root to its own node (every consumer path of its row in this stratagem), and a link elsewhere in
+-- the graph that another mod changed refuses only the values below that link. A component-backed change (turret,
+-- weapon, shield records: located and proven through the entity catalogue) needs no graph link. nil (check every
+-- link, as before) when a settings change names no path of this stratagem.
+local SETTINGS_KINDS={ProjectileSettings=true,DamageInfo=true,ExplosionSettings=true,StatusEffectSettings=true,
+    ArcSettings=true,BeamSettings=true}
+local function graph_paths(entry,spec)
+    local needed={}
+    for _,change in ipairs(spec.changes)do
+        local backing=change.descriptor.backing
+        if SETTINGS_KINDS[backing.kind]then
+            local found=false
+            for _,consumer in ipairs(backing.consumers or{})do
+                if consumer.stratagem==entry.name and type(consumer.path)=='string'then
+                    found=true
+                    local prefix
+                    for part in consumer.path:gmatch('[^/]+')do
+                        prefix=prefix and(prefix..'/'..part)or part
+                        needed[prefix]=true
+                    end
+                end
+            end
+            if not found then return nil end
+        end
+    end
+    return needed
+end
+M.graph_paths=graph_paths
+local function validate_graph(entry,roots,component,needed)
     local nodes={};for _,node in ipairs(entry.graph or{})do nodes[node.path]=node end
+    -- needed: the node paths to check (graph_paths); nil checks every node and link
+    local function checked(path)return needed==nil or needed[path]==true end
+    local function child_of(path)return checked(path)and nodes[path]or nil end
     if entry.rootLink and entry.rootLink.component=='BombardmentComponentData'then
         for index,value in ipairs(entry.rootProjectiles)do
             assert(b.u32(component.bytes,64+(index-1)*4)==value,'bombardment projectile list changed')
@@ -294,28 +328,28 @@ local function validate_graph(entry,roots,component)
         assert(b.u32(component.bytes,476)==damage.recordType,'orbital laser damage link changed')
     end
     for _,node in ipairs(entry.graph or{})do
-        local record=graph_record(roots,node)
+        local record=checked(node.path)and graph_record(roots,node)
         if record then
             if node.kind=='ProjectileSettings'then
-                local child=nodes[node.path..'/damage'];if child then
+                local child=child_of(node.path..'/damage');if child then
                     assert(b.u32(record.bytes,60)==child.recordType,'projectile damage link changed')end
-                for _,phase in ipairs({'impact','expiry'})do child=nodes[node.path..'/'..phase]
+                for _,phase in ipairs({'impact','expiry'})do child=child_of(node.path..'/'..phase)
                     if child then assert(b.u32(record.bytes,phase=='impact'and 144 or 156)==child.recordType,
                         'projectile explosion link changed')end end
             elseif node.kind=='ExplosionSettings'then
-                local child=nodes[node.path..'/damage'];if child then
+                local child=child_of(node.path..'/damage');if child then
                     assert(b.u32(record.bytes,4)==child.recordType,'explosion damage link changed')end
-                child=nodes[node.path..'/shrapnel'];if child then
+                child=child_of(node.path..'/shrapnel');if child then
                     assert(b.u32(record.bytes,84)==child.recordType,'explosion shrapnel link changed')end
             elseif node.kind=='DamageInfo'then
-                for slot=1,4 do local child=nodes[node.path..'/status:'..slot]
+                for slot=1,4 do local child=child_of(node.path..'/status:'..slot)
                     if child then assert(b.u32(record.bytes,44+(slot-1)*8)==child.recordType,
                         'damage status link changed')end end
             elseif node.kind=='ArcSettings'then
-                local child=nodes[node.path..'/damage'];if child then
+                local child=child_of(node.path..'/damage');if child then
                     assert(b.u32(record.bytes,36)==child.recordType,'arc damage link changed')end
             elseif node.kind=='BeamSettings'then
-                local child=nodes[node.path..'/damage'];if child then
+                local child=child_of(node.path..'/damage');if child then
                     assert(b.u32(record.bytes,12)==child.recordType,'beam damage link changed')end
             end
         end
@@ -388,7 +422,7 @@ function M.capture_many(runtime,reader,specs)
                 assert(node and node.recordType==link.expect,'deployer root node changed')
             end
             if GRAPH_PATHS[spec.target_path] and entry.graph and #entry.graph>0 then
-                validate_graph(entry,roots,component)end
+                validate_graph(entry,roots,component,graph_paths(entry,spec))end
         end
         results[index]={entry=entry,root=root,stratagem_owner=stratagem_owner,roots=roots,
             catalog=catalog,candidate=candidate,component=component,records=records,runtime=runtime}

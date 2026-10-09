@@ -266,6 +266,17 @@ function M.require_assets(request)
     return require('hd2runtime/runtime/scheduler').attach(
         require('hd2runtime/api/assets').start(adapter.create(),require('hd2runtime/runtime/log').emit,request))
 end
+-- Read only: who owns each field's live value: vanilla, an HD2Runtime mod, or an unknown mod outside HD2Runtime
+-- (api/inspect.lua; docs/diagnostics.md). A request that fails validation raises.
+function M.inspect(request)
+    local ok,adapter=pcall(require,'hd2runtime/runtime/windows_write')
+    if not ok then return disabled()end
+    return require('hd2runtime/runtime/scheduler').attach(
+        require('hd2runtime/api/inspect').start(adapter.create(),log.emit,request))
+end
+-- Values found owned by an unknown mod this session (core/foreign_values.lua): {target, field, observed, expected,
+-- owner = 'unknown', seen}.
+M.diagnostics.foreign_values=function()return require('hd2runtime/core/foreign_values').list()end
 -- Offline: is this target's package dependency known and auto-loadable? (no IDs)
 function M.asset_dependency(target)return require('hd2runtime/api/assets').describe(target)end
 function M.ensure(request)return register('ensure','hd2runtime/api/ensure',request)end
