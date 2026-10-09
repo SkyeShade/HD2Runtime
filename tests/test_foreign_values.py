@@ -61,6 +61,22 @@ records.reset_claims();foreign.reset()
 return 'ok'
 '''), b'ok')
 
+    def test_a_weapon_whose_entity_row_another_mod_rebuilt_reads_changed_owner_unknown(self):
+        # LAS Beam Enhanced Overhaul 1.5 repoints the LAS-12 Sai's (and the Sickles') entity map membership to its
+        # own allocation: every typed write to them is refused (0.30.3); inspect says another mod changed them.
+        self.assertEqual(run(r'''
+local inspect=require('hd2runtime/api/inspect')
+local b=require('hd2runtime/core/bytes')
+local ok,why=pcall(b.membership,0x7FF000000,0x10000,28,66,0,329,'0xC85F576D5E086147',3)
+assert(not ok)
+local out=inspect.classify({field='magazine.capacity',expect=10},tostring(why))
+assert(out.state=='changed'and out.owner=='unknown'and out.reason:find('membership list outside the map body',1,true),
+ tostring(out.state))
+-- a read that is merely not ready stays unavailable
+assert(inspect.classify({field='x'},'TARGET_UNAVAILABLE: entity allocation absent').state=='unavailable')
+return 'ok'
+'''), b'ok')
+
     def test_inspect_request_validation(self):
         self.assertEqual(run(r'''
 local inspect=require('hd2runtime/api/inspect')

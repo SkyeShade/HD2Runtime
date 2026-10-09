@@ -8,8 +8,9 @@
 --         'foreign'     neither: a mod outside HD2Runtime changed it (owner = 'unknown': a data-file mod or another
 --                       program writing game memory). Writes to it are refused (CONFLICT, owner=unknown); a stats
 --                       editor shows it read-only;
---         'changed'     a structural part this field depends on (a link, a status slot, a native array) is not as
---                       reviewed, and no single writer can be named (reason);
+--         'changed'     a structural part this field depends on (a link, a status slot, a native array, its
+--                       weapon's entity map row) is not as reviewed (reason); owner 'unknown' when another mod
+--                       changed the entity map row;
 --         'unavailable' the target could not be resolved now (reason), e.g. its data is not loaded yet;
 --         'invalid'     the request names no exposed field (reason).
 -- plus value (the live value, when the field stores it plainly), vanilla (the reviewed value) and reason.
@@ -73,6 +74,11 @@ local function classify(change,error_text)
     if error_text then
         local holder=error_text:find('CONFLICT:',1,true)and error_text:match('held by (%S+)')
         if ownership.foreign(error_text)then out.state,out.owner='foreign','unknown'
+        -- the weapon's entity map row was changed outside HD2Runtime (a mod that rebuilds its components, e.g. one
+        -- converting the LAS-12 Sai to a magazine): every field of it is another mod's now (0.30.3 stray rows)
+        elseif error_text:find('membership list outside the map body',1,true)
+            or error_text:find('entity map of the game is not as reviewed',1,true)then
+            out.state,out.owner='changed','unknown'
         elseif holder then out.state,out.owner='runtime',holder
         -- a structural guard (a link, a slot, a native array) is not as reviewed, by a writer it cannot name
         elseif error_text:find('CONFLICT:',1,true)or error_text:find('link changed',1,true)
@@ -105,6 +111,7 @@ local function classify(change,error_text)
     end
     return out
 end
+M.classify=classify
 
 -- request = {target = typed handle, fields = {field id | {field = id, expect = reviewed value}, ...},
 --            on_result = function(result) (optional)}. Returns a job: status 'running' | 'complete' | 'rejected',
