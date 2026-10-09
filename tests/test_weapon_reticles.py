@@ -92,8 +92,8 @@ return 'ok'
         snapshot = json.loads((ROOT / 'validation/reticle-authoring-snapshot.json').read_text())
         self.assertEqual(snapshot['status'], 'VALIDATED')
         for key in ('fieldChecks', 'changedWrites', 'rollbacks', 'conflictRejections'):
-            self.assertEqual(snapshot[key], 84, key)
-        self.assertEqual((snapshot['acknowledgementRejections'], snapshot['gameplayProven']), (83, 1))
+            self.assertEqual(snapshot[key], 89, key)   # 0.30.2: the seven weapons resolved to their proven roots
+        self.assertEqual((snapshot['acknowledgementRejections'], snapshot['gameplayProven']), (88, 1))
         recreations = json.loads((ROOT / 'validation/reference-mod-recreations.json').read_text())
         amr = recreations['recreations']['ReticleAmrRecreation']
         self.assertEqual((amr['status'], amr['physicalWrites'], amr['referenceWrites']), ('EXACT_MATCH', 1, 1))

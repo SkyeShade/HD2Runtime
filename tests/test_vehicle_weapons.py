@@ -58,12 +58,17 @@ class VehicleWeaponTests(unittest.TestCase):
     def test_snapshot_overlay_validation(self):
         result = json.loads((ROOT / 'validation/vehicle-weapon-authoring-snapshot.json').read_text())
         self.assertEqual(result['status'], 'VALIDATED')
-        self.assertEqual(result['vehicleFields'], self.catalog['summary']['writableFieldInstances'])
+        # 0.30.2: the sentry and emplacement hosts (stratagemHosts) are validated too: their projectile swaps, each
+        # needing the acknowledgement; they have no mount chain.
+        hosts = self.catalog['stratagemHostSummary']
+        self.assertEqual(result['vehicleFields'], self.catalog['summary']['writableFieldInstances'] + hosts['writable'])
+        self.assertEqual(result['vehicleWeapons'], self.catalog['summary']['weaponMounts'] + hosts['hosts'])
         for key in ('noOps', 'changedWrites', 'rollbacks', 'conflictRejections'):
             self.assertEqual(result[key], result['vehicleFields'], key)
         self.assertEqual(result['sharedRejections'], self.catalog['summary']['sharedFields'])
-        self.assertEqual(result['acknowledgementRejections'], self.catalog['summary']['unverifiedEffectFields'])
-        self.assertEqual(result['mountChainRejections'], result['vehicleWeapons'])
+        self.assertEqual(result['acknowledgementRejections'],
+            self.catalog['summary']['unverifiedEffectFields'] + hosts['writable'])
+        self.assertEqual(result['mountChainRejections'], self.catalog['summary']['weaponMounts'])
         self.assertTrue(result['independentArms'])
         uses = result['stratagemUses']
         self.assertEqual(uses['checked'], 86)  # every writable use count, Resupply included

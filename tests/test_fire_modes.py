@@ -86,9 +86,9 @@ return 'ok'
         result = json.loads((ROOT / 'validation/fire-mode-authoring-snapshot.json').read_text())
         self.assertEqual(result['status'], 'VALIDATED')
         # 62 writable fire-mode sets since the EAT-17 was delivery-resolved.
-        self.assertEqual((result['modeSetChecks'], result['burstChecks']), (62, 62))
+        self.assertEqual((result['modeSetChecks'], result['burstChecks']), (64, 64))   # (0.30.2: the seven weapons resolved to their proven roots)
         for key in ('changedWrites', 'rollbacks', 'conflictRejections', 'acknowledgementRejections'):
-            self.assertEqual(result[key], 124, key)
+            self.assertEqual(result[key], 128, key)
         self.assertEqual(result['jar5'], {'after': '01000000', 'before': '00000000', 'bytesWritten': 4,
             'changedSlot': 'tertiary_fire_mode (+152)', 'fieldOffset': 152, 'owner': 'WeaponDataComponentData',
             'record': 290, 'uniqueOwner': True})

@@ -349,7 +349,7 @@ class PlayerProjectileMemberTests(unittest.TestCase):
             for f in fields))
         self.assertFalse([f for f in fields if f['semanticFieldId'].endswith('lifetime') and not f['currentDefault']])
         record = json.loads((ROOT / 'validation/coverage-pass-snapshot.json').read_text())['playerProjectileMembers']
-        self.assertEqual((record['fields'], record['weapons']), (75, 64))
+        self.assertEqual((record['fields'], record['weapons']), (77, 66))   # (0.30.2: the seven weapons resolved to their proven roots)
 
 
 PROVEN = {'entity.health', 'entity.armor', 'zone.health', 'zone.armor', 'zone.affects_main_health'}

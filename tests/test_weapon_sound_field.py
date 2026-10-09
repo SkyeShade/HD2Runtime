@@ -105,8 +105,8 @@ class SnapshotValidationTests(unittest.TestCase):
         self.assertEqual(result['fixtureFallback'], 'disabled')
         # Every writable sound restores as an ALREADY_DESIRED no-op without the acknowledgement: the reviewed
         # baseline is the snapshot's record.
-        self.assertEqual(result['checked'], {'player': 53, 'support': 21})
-        self.assertEqual((result['noops'], result['acknowledgementRejections']), (74, 74))
+        self.assertEqual(result['checked'], {'player': 55, 'support': 21})   # (0.30.2: the seven weapons resolved to their proven roots)
+        self.assertEqual((result['noops'], result['acknowledgementRejections']), (76, 76))
         self.assertEqual((result['rollbacks'], result['conflictRejections'], result['adversarialRejections']),
             (4, 2, 9))
         self.assertTrue(result['ownedTransition'])

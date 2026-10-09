@@ -275,9 +275,9 @@ return 'ok'
     def test_validation_and_scenarios(self):
         result = load('validation/weapon-modes-snapshot.json')
         self.assertEqual(result['status'], 'VALIDATED')
-        self.assertEqual((result['rates']['checked'], result['rates']['added']), (61, 57))
+        self.assertEqual((result['rates']['checked'], result['rates']['added']), (63, 59))   # (0.30.2: the seven weapons resolved to their proven roots)
         self.assertEqual((result['functions']['checked'], result['functions']['native']), (52, 3))
-        self.assertEqual((result['presentation']['checked'], result['presentation']['traits']), (100, 103))
+        self.assertEqual((result['presentation']['checked'], result['presentation']['traits']), (105, 108))
         self.assertEqual(result['hmg']['slots'], ['0000e143>0000af44', '00001644>00004843', '00803b44>00002f44'])
         self.assertIn('WeaponDataComponentData+184=02000000', result['liberator']['written'])
         self.assertEqual(result['speargun']['written'],

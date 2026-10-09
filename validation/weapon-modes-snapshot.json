@@ -1,6 +1,6 @@
 {
-  "acknowledgementRejections": 218,
-  "adversarialRejections": 1562,
+  "acknowledgementRejections": 220,
+  "adversarialRejections": 1606,
   "blockedRejections": 9,
   "concussive": {
     "record": 104,
@@ -12,7 +12,7 @@
       }
     ]
   },
-  "conflictRejections": 241,
+  "conflictRejections": 248,
   "fixtureFallback": "disabled",
   "functions": {
     "checked": 52,
@@ -59,30 +59,30 @@
       "row": 321
     }
   },
-  "neighbourChecks": 100,
+  "neighbourChecks": 105,
   "overlapRejected": true,
   "presentation": {
-    "added": 19,
-    "checked": 100,
+    "added": 20,
+    "checked": 105,
     "outputs": 80,
-    "removed": 81,
-    "replaced": 81,
-    "traits": 103
+    "removed": 85,
+    "replaced": 85,
+    "traits": 108
   },
   "rates": {
-    "added": 57,
-    "checked": 61,
-    "edited": 61,
+    "added": 59,
+    "checked": 63,
+    "edited": 63,
     "liveProven": [
       "AR-23 Liberator",
       "MG-206 Heavy Machine Gun"
     ],
-    "noops": 61,
+    "noops": 63,
     "windUp": [
       "M-1000 Maxigun"
     ]
   },
-  "rollbacks": 534,
+  "rollbacks": 552,
   "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
   "speargun": {
     "assetDependency": {
@@ -246,6 +246,12 @@
     },
     {
       "armorPenetration": "medium",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "GP-31 Grenade Pistol"
+    },
+    {
+      "armorPenetration": "medium",
       "functionAmmo": "addable",
       "kind": "player_weapon",
       "rates": "addable",
@@ -276,11 +282,21 @@
       "weapon": "LAS-17 Double-Edge Sickle"
     },
     {
+      "armorPenetration": "light",
+      "kind": "player_weapon",
+      "weapon": "LAS-5 Scythe"
+    },
+    {
       "armorPenetration": "medium",
       "functionAmmo": "addable",
       "kind": "player_weapon",
       "rates": "addable",
       "weapon": "LAS-58 Talon"
+    },
+    {
+      "armorPenetration": "light",
+      "kind": "player_weapon",
+      "weapon": "LAS-7 Dagger"
     },
     {
       "armorPenetration": "light",
@@ -365,6 +381,11 @@
       "kind": "player_weapon",
       "rates": "addable",
       "weapon": "P-69 Veto"
+    },
+    {
+      "armorPenetration": "none",
+      "kind": "player_weapon",
+      "weapon": "P-72 Crisper"
     },
     {
       "armorPenetration": "medium",
@@ -527,6 +548,12 @@
       "kind": "player_weapon",
       "rates": "addable",
       "weapon": "SMG-32 Reprimand"
+    },
+    {
+      "armorPenetration": "light",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "SMG-37 Defender"
     },
     {
       "armorPenetration": "light",

@@ -1,18 +1,18 @@
 {
-  "acknowledgementRejections": 74,
+  "acknowledgementRejections": 76,
   "adversarialRejections": 9,
   "assetGate": {
     "dependencies": 1,
     "refused": "ASSET_UNAVAILABLE"
   },
   "checked": {
-    "player": 53,
+    "player": 55,
     "support": 21
   },
   "conflictRejections": 2,
   "fixtureFallback": "disabled",
   "mode": "snapshot-overlay",
-  "noops": 74,
+  "noops": 76,
   "ownedTransition": true,
   "pins": {
     "gl15_maelstrom": {

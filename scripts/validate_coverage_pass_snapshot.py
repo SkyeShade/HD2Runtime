@@ -113,9 +113,10 @@ local worker=coroutine.create(function()
  rejects(function()transaction(flamer,{{field='damage.status_1_type',expect='fire',value='none'}})end,
   'cannot be cleared','clearing a middle slot')
  s.rejections.middleSlotClear=1
- -- A status no player-side attack applies.
- rejects(function()transaction(coyote,{{field='damage.status_1_type',expect='fire',value='electric'}})end,
-  'not attachable','electric')
+ -- A status that is never attachable (schemas/status_attachment_policy.json neverAttachable; since 0.30.2 electric is
+ -- an attachable other_system status, so it is no longer the example).
+ rejects(function()transaction(coyote,{{field='damage.status_1_type',expect='fire',value='smoke_covered'}})end,
+  'not attachable','smoke_covered')
  s.rejections.notAttachable=1
  -- A hole in the packing: a third party empties slot 1 before slot 2 is attached.
  reset()

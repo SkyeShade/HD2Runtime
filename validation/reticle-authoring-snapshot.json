@@ -1,12 +1,12 @@
 {
-  "acknowledgementRejections": 83,
-  "changedWrites": 84,
-  "conflictRejections": 84,
-  "fieldChecks": 84,
+  "acknowledgementRejections": 88,
+  "changedWrites": 89,
+  "conflictRejections": 89,
+  "fieldChecks": 89,
   "fixtureFallback": "disabled",
   "gameplayProven": 1,
   "mode": "snapshot-overlay",
-  "rollbacks": 84,
+  "rollbacks": 89,
   "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
   "status": "VALIDATED",
   "weapons": [
@@ -144,7 +144,23 @@
       "from": 17,
       "kind": "player_weapon",
       "to": 3,
+      "weapon": "CQC-42 Machete"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 17,
+      "kind": "player_weapon",
+      "to": 3,
       "weapon": "CQC-5 Combat Hatchet"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 17,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "CQC-73 Entrenchment Tool"
     },
     {
       "acknowledgement": "allow_unverified_effect",
@@ -213,10 +229,26 @@
     {
       "acknowledgement": "allow_unverified_effect",
       "baseline": true,
+      "from": 10,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "LAS-5 Scythe"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
       "from": 9,
       "kind": "player_weapon",
       "to": 3,
       "weapon": "LAS-58 Talon"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 10,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "LAS-7 Dagger"
     },
     {
       "acknowledgement": "allow_unverified_effect",
@@ -529,6 +561,14 @@
       "kind": "player_weapon",
       "to": 3,
       "weapon": "SMG-32 Reprimand"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "SMG-37 Defender"
     },
     {
       "acknowledgement": "allow_unverified_effect",

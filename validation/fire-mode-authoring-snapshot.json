@@ -1,10 +1,10 @@
 {
-  "acknowledgementRejections": 124,
+  "acknowledgementRejections": 128,
   "addedAutomatic": 11,
   "blockedRejections": 5,
-  "burstChecks": 62,
-  "changedWrites": 124,
-  "conflictRejections": 124,
+  "burstChecks": 64,
+  "changedWrites": 128,
+  "conflictRejections": 128,
   "fixtureFallback": "disabled",
   "jar5": {
     "after": "01000000",
@@ -17,11 +17,11 @@
     "uniqueOwner": true
   },
   "mode": "snapshot-overlay",
-  "modeSetChecks": 62,
+  "modeSetChecks": 64,
   "overlapRejected": true,
-  "removedModes": 12,
-  "replacedSingleMode": 29,
-  "rollbacks": 124,
+  "removedModes": 13,
+  "replacedSingleMode": 30,
+  "rollbacks": 128,
   "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
   "status": "VALIDATED",
   "weapons": [
@@ -172,6 +172,16 @@
         "automatic"
       ],
       "weapon": "GP-20 Ultimatum"
+    },
+    {
+      "from": [
+        "single"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "automatic"
+      ],
+      "weapon": "GP-31 Grenade Pistol"
     },
     {
       "from": [
@@ -554,6 +564,19 @@
         "single"
       ],
       "weapon": "SMG-32 Reprimand"
+    },
+    {
+      "from": [
+        "automatic",
+        "single",
+        "burst"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "automatic",
+        "single"
+      ],
+      "weapon": "SMG-37 Defender"
     },
     {
       "from": [
