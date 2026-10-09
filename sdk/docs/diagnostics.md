@@ -113,6 +113,52 @@ same record included, stays writable.
 - **`hd2.diagnostics.foreign_values()`** lists every value found so this session, in the order found:
   `{target, field, observed, expected, owner='unknown', seen}`. At most 256 are kept.
 
+### Component tables another mod moved
+
+The game keeps one pointer per component type (WeaponHeat, BeamWeapon, WeaponMagazine, ...) to the table its
+lookups read that component's records from. In vanilla that table is the one in the game's entity data, which is the
+table HD2Runtime reads and writes. A mod can copy a table and point the game at its copy. The game then reads the
+copy, and a write to the original has no effect and raises no error.
+
+This is the cause of the LAS-12 Sai report: "editing the Heat Per Shot and Cool Per Sec for the LAS-12 Sai has no
+effect", and "after changing a few values the overheat mechanic for the SAI gets wonky". True Lasgun Beam Overhaul
+points the game at its own copies of the BeamWeapon, WeaponHeat and WeaponMagazine tables, and it runs its own Sai
+heat logic every frame. With it installed, the Sai's heat values are that mod's, not the ones HD2Runtime edits.
+
+Since 0.30.4, before every typed write to a component record, HD2Runtime checks that the game reads that component
+from exactly the table it is about to write (`core/component_tables.lua`). The check is read-only and runs on every
+entity capture. If the pointer differs:
+
+- Only writes to that component are refused, as a `CONFLICT` with `owner='unknown'`. Every other component of the same
+  weapon goes ahead, for example the Sai's ergonomics (WeaponData) or fire rate (ProjectileWeapon), and so do all
+  other weapons and values.
+
+  ```text
+  CONFLICT: the game reads its WeaponHeatComponentData table from another place (another mod moved it); HD2Runtime
+  leaves it alone, writes to WeaponHeat records are refused and every other component goes ahead (owner: unknown mod,
+  not HD2Runtime)
+  ```
+
+- The log says so once per component per session:
+
+  ```text
+  [HD2Runtime] COMPONENT TABLE MOVED: the game reads its WeaponHeatComponentData table from another place, not the
+  entity file's own table (another mod moved it, e.g. one that rebuilds laser weapons): HD2Runtime leaves it alone and
+  refuses writes to WeaponHeat records only; every other component and value goes ahead. owner: unknown mod
+  ```
+
+- `hd2.inspect` reports each field of that component as `foreign`, owner `'unknown'`, with no value.
+  `hd2.diagnostics.foreign_values()` lists the table once (`target='WeaponHeatComponentData table'`).
+- If the other mod points the game back at the original table, writes go ahead again on the next capture.
+- If the pointer cannot be read, every component of that capture is refused as `TARGET_UNAVAILABLE` (transient: the
+  operation waits and retries).
+
+Proof: `research/docs/entity-component-table-pointers.md`. The pointer is `[game.dll + 0x346BF98] + 0xF12478 + 8 x the
+component index`. The constructor stores the entity manager there, and the entity file loader is the only code that
+writes it. Every lookup of all 43 components HD2Runtime uses reads through it. In the retained vanilla snapshots
+every pointer is the table HD2Runtime writes. The code pins (exact bytes) are checked once per loaded game.dll, after
+the build fingerprint.
+
 ### Asking before writing: `hd2.inspect`
 
 A stats editor needs to know which values it may edit before it registers anything. `hd2.inspect` runs the same

@@ -140,7 +140,7 @@ hd2.transaction({
 })
 ```
 
-`heat.cool_per_second_cold`, `heat.cool_per_second_hot`, and `heatsink.from_ammo_box` are derived read-only conveniences. Warmup and overheat cooldown remain unresolved. Since 0.30.2 the Scythe and Dagger resolve to their proven roots; the Dagger's old 2000-vs-100 heat disagreement came from the wrong root, and its own root agrees with the published values.
+`heat.cool_per_second_cold`, `heat.cool_per_second_hot`, `heat.warmup` and `heatsink.from_ammo_box` are derived read-only conveniences. `heat.overheat_cooldown` has no value of its own; see "Warm-up and cooldown after overheat" below for the fields to edit. Since 0.30.2 the Scythe and Dagger resolve to their proven roots; the Dagger's old 2000-vs-100 heat disagreement came from the wrong root, and its own root agrees with the published values.
 
 `WeaponMagazineComponentData` stores capacity at offset 136, starting magazines at 140, supply refill at 144, and maximum spare magazines at 148. `WeaponRoundsComponentData` stores two feed capacities at 72/76, spare rounds at 80, supply refill at 84, and starting rounds at 88. These offsets are internal metadata; mod declarations use semantic field constants.
 
@@ -217,6 +217,39 @@ LAS-7 Dagger, LAS-12 Sai, LAS-13 Trident, LAS-58 Talon; support: LAS-98, LAS-99 
 
 +148 / +152 reproduces every published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident and Talon 0; the Quasar about
 3 s). So the Sickles' wind-up is `heat.firing_charge` 0 (instant) or a lower `heat.charge_gain_per_second` (longer).
+
+### Warm-up and cooldown after overheat
+
+Stats editors and the wiki list a weapon's **Warmup** and **Cooldown After Overheat**. Neither is a member of the
+weapon's records; each follows from fields you can edit.
+
+- **Warm-up** is `heat.firing_charge / heat.charge_gain_per_second`, the charge built before the first shot divided by
+  the charge gained per second. The catalogue publishes it as the read-only `heat.warmup`: derived, with the reason
+  "edit heat.firing_charge or heat.charge_gain_per_second". Examples: Sickle 100 / 200 = 0.5 s; LAS-99 Quasar
+  Cannon 100 / 33 = about 3 s; Sai, Trident and Talon 0. To shorten the Quasar's charge to 1.5 s, set
+  `heat.charge_gain_per_second` 33 -> 66, or `heat.firing_charge` 100 -> 50. Both fields need
+  `allow_unverified_effect` (their names are leads, see above).
+- **Cooldown after overheat** has no proven member of its own. `heat.overheat_lock` is only the flag that locks the
+  weapon at maximum heat. An overheated weapon cools from `heat.capacity` at `heat.cool_per_second`, scaled by the
+  game's cold and hot multipliers (`heat.cool_per_second_cold` / `_hot`). `heat.overheat_cooldown` stays read-only,
+  and its reason names those two fields. Example: the Quasar's one 100-heat shot fills its 100 capacity, and
+  100 / 6.66 per second = about 15 s before the multipliers. To halve it, double `heat.cool_per_second`
+  (6.66 -> 13.32), or lower `heat.capacity` together with `heat.heat_per_shot`.
+- **Open lead, not exposed:** WeaponHeat +140 (FP32, unnamed) is 400 on every other player heat weapon. On the
+  Quasar it is 6.66, the same as its cooling rate, and the Quasar is the only player heat weapon with +144 (lead
+  name `needs_reload_after_overheat`) 0. It may be the cooling rate while overheated. If a live test shows that the Quasar's cooldown does not follow
+  `heat.cool_per_second`, this member is the next thing to prove (`research/docs/entity-component-table-pointers.md`).
+
+```lua
+local quasar=hd2.support_weapon('LAS-99 Quasar Cannon')
+hd2.ensure({transaction={id='quick-quasar',target=quasar,allow_unverified_effect=true,changes={
+    {field=hd2.fields.heat.charge_gain_per_second,expect=33,value=66},          -- warm-up about 1.5 s
+    {field=hd2.fields.heat.cool_per_second,expect=6.659999847412109,value=13.32}, -- cooldown about 7.5 s
+}}})
+```
+
+If these writes are refused with "the game reads its WeaponHeatComponentData table from another place", another mod
+has moved the heat table ([diagnostics](diagnostics.md) "Component tables another mod moved").
 
 **The Trident's beam blast, `BeamWeaponComponent`**, on every beam weapon (LAS-5 Scythe, LAS-7 Dagger, LAS-13
 Trident; support: LAS-98, 40-K Meltagun):

@@ -239,6 +239,38 @@ hd2.ensure({patch={id='las98-melta',target=source.target,field=hd2.fields.attack
     value=hd2.attack_output('40-K Meltagun'),allow_unverified_reference=true,allow_unverified_effect=true}})
 ```
 
+## Warm-up and cooldown after overheat
+
+The wiki's **Warmup** and **Cooldown After Overheat** of the LAS-98 Laser Cannon and the LAS-99 Quasar Cannon are not
+members of the weapon's records. Each follows from fields you can edit, and each weapon's `blockedFields` lists
+`heat.warmup` and `heat.overheat_cooldown` with the fields to edit and this weapon's values:
+
+| | Edit | LAS-98 | LAS-99 Quasar |
+| --- | --- | --- | --- |
+| Warm-up | `heat.firing_charge` / `heat.charge_gain_per_second` | 100 / 200 = 0.5 s | 100 / 33 = about 3 s |
+| Cooldown after overheat | `heat.capacity` / `heat.cool_per_second` | 100 / 5 = 20 s | 100 / 6.66 = about 15 s |
+
+- The warm-up fields are WeaponHeat +148 / +152 (0.30.4). They need `allow_unverified_effect` because their names are
+  leads ([player weapon authoring](player-weapon-authoring.md) "Wind-up and Trident-like beam blasts"). The Quasar
+  also has `heat.reset_charge_after_shot` true: it charges again before every shot.
+- The cooldown is the time to cool from full heat. The Quasar's one shot adds 100 heat (`heat.heat_per_shot`), which
+  fills its 100 capacity, so every shot overheats it. The game scales the rate by its cold and hot multipliers
+  (`heat.cool_per_second_cold` / `_hot`, derived). No overheat-lockout duration member is proven.
+  `heat.overheat_lock` is only the flag that locks a weapon at maximum heat. One lead is not exposed: WeaponHeat +140
+  (FP32, unnamed) is 400 on every other player heat weapon and 6.66 on the Quasar, the same as its cooling rate. It may be
+  the cooling rate while overheated. A live test of `heat.cool_per_second` on the Quasar decides it.
+
+```lua
+local quasar=hd2.support_weapon('LAS-99 Quasar Cannon')
+hd2.ensure({transaction={id='quick-quasar',target=quasar,allow_unverified_effect=true,changes={
+    {field=hd2.fields.heat.charge_gain_per_second,expect=33,value=66},          -- warm-up about 1.5 s
+    {field=hd2.fields.heat.cool_per_second,expect=6.659999847412109,value=13.32}, -- cooldown about 7.5 s
+}}})
+```
+
+If a heat write is refused with "the game reads its WeaponHeatComponentData table from another place", another mod
+has moved the game's heat table ([diagnostics](diagnostics.md) "Component tables another mod moved").
+
 ## 0.24 coverage
 
 Evidence: `research/support-weapon-coverage-F5FEE03DCFDB.json`, produced by
@@ -383,8 +415,8 @@ explosions. Edits still persist through the original target types.
   300, 40-K Meltagun 50). Already authored before this pass: beam length and radius, damage and armor
   penetration, heat, cooling, heatsinks, reload, handling, stationary firing and the Fire status. The published
   cooling triple (7.5 - 5 - 3.8) is the cool rate times the native 1.5 / 0.75 multipliers
-  (`heat.cool_per_second_cold` / `_hot`, derived and read-only). The published 0.5 s warmup is stored in no common
-  member: not located.
+  (`heat.cool_per_second_cold` / `_hot`, derived and read-only). The published 0.5 s warmup is
+  `heat.firing_charge / heat.charge_gain_per_second` = 100 / 200 (0.30.4; see "Warm-up and cooldown after overheat").
 - **M-1000 Maxigun `weapon.recoil_multiplier_horizontal` / `weapon.recoil_multiplier_vertical`**
   (`WeaponDataComponentData` +60 / +64): the first pair of the typed `RecoilModifiers` struct. It is 1.0 on 364
   of 366 weapon records, and no attachment patches it.
