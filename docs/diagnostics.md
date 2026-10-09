@@ -73,6 +73,20 @@ and another mod editing it conflicts
 Operation ids are per mod: two mods may both use `op-1`, and both operations run. The CONFLICT line names the holding
 operation's mod, so the two stay distinguishable in the log.
 
+## Stray entity map rows (0.30.3)
+
+Every typed write reads the game's entity map, the table that says which entity owns which component records. When
+one row of it is not as reviewed, usually because another mod changed that entity, the log says so once per session:
+
+```text
+[HD2Runtime] entity map row 329 (resource 0xC85F576D5E086147) is not as reviewed: writes to it are refused, every other
+write goes ahead (invalid/ambiguous bounded pointer: entity map row 329 ...)
+```
+
+- Only writes to that entity are refused, with the same reason. Before 0.30.3, one such row refused every typed write
+  of every mod (`VALIDATION_FAILED ... invalid/ambiguous bounded pointer`), even writes to other weapons.
+- The row's resource names the entity (`0xC85F576D5E086147` is the LAS-12 Sai). Look for a mod that changes it.
+
 ## Telemetry (off by default)
 
 ```lua

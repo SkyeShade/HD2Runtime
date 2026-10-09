@@ -4,6 +4,7 @@ local b=require('hd2runtime/core/bytes')
 local metrics=require('hd2runtime/runtime/metrics')
 local M={}
 local ZERO='0x0000000000000000'
+local logged_strays={}
 
 local function sorted_keys(values)
     local out={};for key in pairs(values)do out[#out+1]=key end
@@ -19,19 +20,43 @@ function M.capture(reader,owner,profile,names)
     local size=28+b.u32(header,16)
     assert(size<=owner.size and size>=28+profile.map_rows*32,'entity map extent')
     local map=reader.read(owner,0,size,true)
-    local entities={}
+    local entities,stray,strays={},{},{}
     for row=0,profile.map_rows-1 do
         local at=28+row*32
         local resource=b.resource(map,at)
         if resource~=ZERO then
-            local count=b.pointer(map,at+16)
-            assert(count>0 and count<=1024,'membership count bounds')
-            local offset=b.membership(b.pointer(map,at+8),owner.base+28,count*2,
-                size-28,profile.map_rows*32,row,resource,count)
-            -- Every row's pointer and bounds are still validated here; the membership
-            -- list itself is scanned lazily and only for component candidates.
-            local rows=entities[resource] or {}
-            rows[#rows+1]={row=row,offset=offset,count=count};entities[resource]=rows
+            -- Every row's count, pointer and bounds are validated here. A row that fails is STRAY (0.30.3): only its
+            -- own resource is refused (a write targeting it fails with this reason through its candidate's
+            -- diagnostics); every other row reads as before. Before, one stray row of a resource no write touched
+            -- refused every typed write (0.30.2 live: the LAS-12 Sai's row outside the map body, likely another
+            -- mod's change). The membership list itself is scanned lazily and only for component candidates.
+            local ok,offset,count=pcall(function()
+                local n=b.pointer(map,at+16)
+                assert(n>0 and n<=1024,'membership count bounds')
+                return b.membership(b.pointer(map,at+8),owner.base+28,n*2,size-28,profile.map_rows*32,row,resource,n),n
+            end)
+            if ok then
+                local rows=entities[resource] or {}
+                rows[#rows+1]={row=row,offset=offset,count=count};entities[resource]=rows
+            else
+                stray[resource]=tostring(offset):gsub('^[^%s:]+:%d+: ','')
+                strays[#strays+1]={row=row,resource=resource,reason=stray[resource]}
+            end
+        end
+    end
+    if #strays>0 then
+        metrics.count('entity_catalog.stray_rows',#strays)
+        -- One log line per stray row and session: writes to that resource are refused, every other write goes ahead.
+        for _,s in ipairs(strays)do
+            local key=s.row..'|'..s.resource
+            if not logged_strays[key]then
+                logged_strays[key]=true
+                local okl,log=pcall(require,'hd2runtime/runtime/log')
+                if okl and log.emit then
+                    pcall(log.emit,('[HD2Runtime] entity map row %d (resource %s) is not as reviewed: writes to it are '
+                        ..'refused, every other write goes ahead (%s)'):format(s.row,s.resource,s.reason))
+                end
+            end
         end
     end
 
@@ -71,7 +96,9 @@ function M.capture(reader,owner,profile,names)
     for _,resource in ipairs(sorted_keys(candidates))do
         local candidate=candidates[resource]
         local rows=entities[resource]
-        if not rows or #rows~=1 then
+        if stray[resource]then
+            candidate.diagnostics[#candidate.diagnostics+1]=stray[resource]
+        elseif not rows or #rows~=1 then
             candidate.diagnostics[#candidate.diagnostics+1]=not rows and
                 'entity owner absent' or 'entity owner ambiguous'
         else
@@ -87,7 +114,8 @@ function M.capture(reader,owner,profile,names)
         ordered[#ordered+1]=candidate
     end
 
-    local catalog={candidates=ordered}
+    -- strays: {row, resource, reason} of every row refused above (no write to them; diagnostics for a log).
+    local catalog={candidates=ordered,strays=strays}
     metrics.elapsed('entity_catalog.build',started)
     function catalog.record(candidate,name)
         local identity=assert(candidate.ownership[name],name..' ownership absent')

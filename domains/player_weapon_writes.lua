@@ -1001,7 +1001,8 @@ local function find_candidate(catalog,resource)
     for _,candidate in ipairs(catalog.candidates)do
         if candidate.resourceHash==resource then assert(not found,'duplicate resource candidate');found=candidate end
     end
-    assert(found and found.entityRow and#found.diagnostics==0,'weapon resource ownership unresolved')
+    assert(found and found.entityRow and#found.diagnostics==0,'weapon resource ownership unresolved'
+        ..(found and found.diagnostics[1]and(': '..found.diagnostics[1])or''))
     return found
 end
 

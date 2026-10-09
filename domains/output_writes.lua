@@ -222,7 +222,8 @@ local function find_candidate(catalog_,output)
     local found
     for _,candidate in ipairs(catalog_.candidates)do if candidate.resourceHash==output.resource then
         assert(not found,'attack output owner identity ambiguous');found=candidate end end
-    assert(found and found.entityRow and#found.diagnostics==0,'attack output owner entity absent: '..output.id)
+    assert(found and found.entityRow and#found.diagnostics==0,'attack output owner entity absent: '..output.id
+        ..(found and found.diagnostics[1]and(': '..found.diagnostics[1])or''))
     assert(found.entityRow==output.entityRow,'attack output owner row changed: '..output.id)
     return found
 end
