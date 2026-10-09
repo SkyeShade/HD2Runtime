@@ -81,8 +81,8 @@ class LiveEvidenceTests(unittest.TestCase):
                 'weapon_rounds_feed_capacity'],
             'live_partial': ['backpack_deposit_ammo', 'custom_stratagem_carrier_in_slot',
                 'custom_stratagem_expendable_delivery', 'custom_stratagem_native_panel',
-                'custom_stratagem_pelican_native_gun', 'custom_stratagem_silo'],
-            'not_tested': ['enemy_attack_damage'],
+                'custom_stratagem_pelican_native_gun', 'custom_stratagem_silo', 'overlay_game_font_text_0_30_4'],
+            'not_tested': ['enemy_attack_damage', 'status_effect_definition_0_30_4'],
             'inconclusive': ['stratagem_selector_grid_placement', 'structure_health'],
             'live_failed': ['backpack_shield_default_armor', 'runtime_gui_render_order',
                 'weapon_projectile_reference_dormant_member'],
@@ -94,7 +94,7 @@ class LiveEvidenceTests(unittest.TestCase):
                 'orbital_pattern_fields', 'projectile_homing', 'projectile_more_donors', 'sentry_component_fields', 'stratagem_call_in_time', 'support_charge_level_rows',
                 'support_overcharge_explosion_rows', 'weapon_fire_rate_wind_up', 'weapon_presentation_traits',
                 'weapon_sound_template']})
-        self.assertEqual((catalog['summary']['tests'], catalog['summary']['passed']), (131, 104))   # + WeaponRootsTest (5)
+        self.assertEqual((catalog['summary']['tests'], catalog['summary']['passed']), (133, 104))   # + WeaponRootsTest (5), 0.30.4-dev2 (2)
         for name, entry in self.registry['families'].items():
             if entry['status'] == 'live_proven':
                 self.assertTrue(any(t['result'] == 'PASS' for t in live_evidence.tests(name)), name)

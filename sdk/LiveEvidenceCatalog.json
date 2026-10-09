@@ -19,8 +19,8 @@
   "note": "A failed host is host-path evidence, never evidence against the donor output. null means the test did not establish that part."
  },
  "summary": {
-  "sessions": 49,
-  "tests": 131,
+  "sessions": 50,
+  "tests": 133,
   "passed": 104,
   "families": {
    "live_proven": [
@@ -90,10 +90,12 @@
     "custom_stratagem_expendable_delivery",
     "custom_stratagem_native_panel",
     "custom_stratagem_pelican_native_gun",
-    "custom_stratagem_silo"
+    "custom_stratagem_silo",
+    "overlay_game_font_text_0_30_4"
    ],
    "not_tested": [
-    "enemy_attack_damage"
+    "enemy_attack_damage",
+    "status_effect_definition_0_30_4"
    ],
    "inconclusive": [
     "stratagem_selector_grid_placement",
@@ -2241,6 +2243,46 @@
    "notPromoted": [
     "the CQC-42 Machete and CQC-73 Entrenchment Tool damage (not tried live)",
     "every other field of these seven weapons"
+   ]
+  },
+  "overlay_game_font_text_0_30_4": {
+   "status": "live_partial",
+   "domain": "ui",
+   "fields": [],
+   "scope": "Mod window text in the game's own language fonts (FONT by hash, a Runtime material pointed at the game atlas): the characters FS Sinclair lacks, drawn while the game's font for them is loaded (only the selected game language's).",
+   "provenTargets": [],
+   "tests": [
+    "GameFontTextProof"
+   ],
+   "acknowledgementRemoved": null,
+   "observations": [
+    "0.1.0 on 0.30.4-dev2: each language's own text drew in that language; the other languages' names drew as boxes or blanks (fixed offline in c5ec4fa, re-test pending); no crash on language switches."
+   ],
+   "notPromoted": [
+    "Russian (not shown)",
+    "the box and blank fix (c5ec4fa)",
+    "multiplayer"
+   ]
+  },
+  "status_effect_definition_0_30_4": {
+   "status": "not_tested",
+   "domain": "status_effect",
+   "fields": [
+    "status.duration",
+    "damage.standard_damage",
+    "damage.durable_damage"
+   ],
+   "scope": "hd2.status_effect(id): a status definition's duration and the DamageInfo row it deals while active.",
+   "provenTargets": [],
+   "tests": [
+    "StatusForeignProof"
+   ],
+   "acknowledgementRemoved": null,
+   "observations": [
+    "0.1.0 on 0.30.4-dev2: fire 3 -> 10 s and 100 -> 300 per tick, gas 25 -> 100 per tick applied cleanly and read back through hd2.inspect; the effect in play was not reported."
+   ],
+   "notPromoted": [
+    "every field: the gameplay effect is not reported yet"
    ]
   }
  },
@@ -5010,6 +5052,66 @@
       }
      ],
      "observation": "The user: as predicted."
+    }
+   ]
+  },
+  {
+   "id": "status-fonts-inspect-0-30-4-dev2-2026-10-09",
+   "date": "2026-10-09",
+   "runtime": "HD2Runtime 0.30.4 development dev2 (build/0.30.4-dev2/HD2Runtime-0.30.3-runtime.zip, C6D04DD2...44AC; commit d4f8314), GameFontTextProof 0.1.0 (976EA38B...5F58), StatusForeignProof 0.1.0 (77DBE811...CA2F). Solo, aboard the ship; the game language switched through Simplified Chinese, Japanese, Traditional Chinese, Korean and English. The user's screenshots and HD2Runtime.log.",
+   "logSignals": [
+    "state (the window drew; can_draw per line ...): game fonts loaded now: <key>",
+    "transaction proof-fire-damage APPLIED",
+    "status.duration 3 -> 10",
+    "inspect status fire status.duration: state=runtime owner=mods/skyeshade/hd2runtime_status_foreign_proof value=10 vanilla=3"
+   ],
+   "tests": [
+    {
+     "mod": "GameFontTextProof",
+     "operation": "game-font-runs",
+     "result": "PARTIAL",
+     "family": "overlay_game_font_text_0_30_4",
+     "writes": [],
+     "observation": "Each language's own line drew in the game's font in that language (Simplified Chinese with the wrapped paragraph, Traditional Chinese, Japanese, Korean; Polish in English), on one baseline with its Latin part; characters outside the game's subset showed '?' (e.g. \u9017 in Simplified Chinese). Defect: the other languages' names (\u7b80\u4f53\u4e2d\u6587, \ud55c\uad6d\uc5b4, \u0420\u0443\u0441\u0441\u043a\u0438\u0439 in another language's font) drew as crossed or plain boxes, or blank: each language font lists them but its atlas holds a box or an empty cell. Fixed offline in c5ec4fa (those characters left out of the metrics); re-test pending. The game did not crash on any language switch. Russian was not shown."
+    },
+    {
+     "mod": "StatusForeignProof",
+     "operation": "status-effect-definition-writes",
+     "result": "NOT_TESTED",
+     "family": "status_effect_definition_0_30_4",
+     "writes": [
+      {
+       "target": "status_effect fire",
+       "field": "status.duration",
+       "from": 3,
+       "to": 10
+      },
+      {
+       "target": "status_effect fire damage",
+       "field": "damage.standard_damage",
+       "from": 100,
+       "to": 300
+      },
+      {
+       "target": "status_effect fire damage",
+       "field": "damage.durable_damage",
+       "from": 100,
+       "to": 300
+      },
+      {
+       "target": "status_effect gas damage",
+       "field": "damage.standard_damage",
+       "from": 25,
+       "to": 100
+      },
+      {
+       "target": "status_effect gas damage",
+       "field": "damage.durable_damage",
+       "from": 25,
+       "to": 100
+      }
+     ],
+     "observation": "All three operations APPLIED and verified; hd2.inspect read the written values back as state=runtime with the proof mod as owner and every other inspected value as vanilla. The gameplay effect (longer, harder fire; harder gas) was not reported. Cost: repeated inspects cost up to 20 ms in one call (one resolution per field); fixed offline in 0333578 (one capture per request)."
     }
    ]
   }

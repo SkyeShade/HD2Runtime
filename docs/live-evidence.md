@@ -100,6 +100,8 @@ Composition tests record four separate facts: the donor output works, the refere
 | `custom_stratagem_silo` | live-partial | `hd2.custom_stratagem silo` | The silo payload family (runtime/custom_silos.lua): the donor silo's own vanilla pod by the support redirect, its rack's missile and laser remote captured read-only (runtime/support_pods.lua), the missile's own detonation read from the explosion queue (its type 135 and its own entity as the source) or inferred from its removal after it left the silo, and the blast (a catalogued explosion) requested there by the session host; with several players the caller publishes its missile and the host watches its own copy. The Cyborg Production Unit's explosion (ExplosionType 293) and its two objective packages (effect and sound, about 300 MB) as mission-start assets. Code-proven offline (tests/test_custom_silo.py; the packaged scenario example-shredder-silo on the real snapshot). | unchanged |
 | `custom_stratagem_carrier_in_slot` | live-partial | `hd2.custom_stratagem selection (the carrier itself, the default since r44)` | The pick writes the custom stratagem's carrier itself into the loadout slot (runtime/carrier_in_slot.lua): no conversion in the mission, the presentation applied on the loading screen, the slot locked until it is ready to call, native per-slot uses, the moves when another player picks the carrier, the doubles (the game's own per-card grey helper), the launch fallback, and with several players the same carrier per id on every machine and every player's slot presented natively on every machine. The Orbital Precision Strike token stays the fallback (several players without custom multiplayer, a pick while it is waiting, no carrier known). Code-proven offline (tests/test_carrier_in_slot.py). | unchanged |
 | `weapon_roots_0_30_2` | live-proven | `heat.capacity`, `heat.heat_per_second`, `rounds.starting_rounds`, `rounds.spare_rounds`, `magazine.capacity`, `weapon.fire_rate` | The weapons 0.30.2 resolved to their proven roots (research/weapon-roots-F5FEE03DCFDB.json), one weapon-local component member each, copied into the weapon when it is built (ACTIVE_AT_INSTANTIATION). | unchanged |
+| `overlay_game_font_text_0_30_4` | live-partial |  | Mod window text in the game's own language fonts (FONT by hash, a Runtime material pointed at the game atlas): the characters FS Sinclair lacks, drawn while the game's font for them is loaded (only the selected game language's). | unchanged |
+| `status_effect_definition_0_30_4` | not-tested | `status.duration`, `damage.standard_damage`, `damage.durable_damage` | hd2.status_effect(id): a status definition's duration and the DamageInfo row it deals while active. | unchanged |
 
 ## Notes
 
@@ -399,6 +401,14 @@ Composition tests record four separate facts: the donor output works, the refere
 - Observation: WeaponRootsTest 0.1.0 on 0.30.2-dev5 solo (reported 2026-10-09): the user tested every weapon but the melee tools, and each change was as predicted (the two LAS weapons: a really, really long time before overheating; Dagger heat capacity 100 -> 400, Scythe heat per second 12.5 -> 3).
 - Observation: CQC-73 Entrenchment Tool: the write was refused (CONFLICT): its damage row 548 read 2 live, 165 in the game files, and no HD2Runtime write made it (another program or mod in that session); nothing was written.
 - Not promoted (still need `allow_unverified_effect`): the CQC-42 Machete and CQC-73 Entrenchment Tool damage (not tried live), every other field of these seven weapons.
+
+**`overlay_game_font_text_0_30_4`**
+- Observation: 0.1.0 on 0.30.4-dev2: each language's own text drew in that language; the other languages' names drew as boxes or blanks (fixed offline in c5ec4fa, re-test pending); no crash on language switches.
+- Not promoted (still need `allow_unverified_effect`): Russian (not shown), the box and blank fix (c5ec4fa), multiplayer.
+
+**`status_effect_definition_0_30_4`**
+- Observation: 0.1.0 on 0.30.4-dev2: fire 3 -> 10 s and 100 -> 300 per tick, gas 25 -> 100 per tick applied cleanly and read back through hd2.inspect; the effect in play was not reported.
+- Not promoted (still need `allow_unverified_effect`): every field: the gameplay effect is not reported yet.
 
 ## Session coverage-pass-2026-09-29
 
@@ -961,3 +971,14 @@ Every operation logged: `transaction weapon-roots-<weapon> APPLIED`, `ensure wea
 | WeaponRootsTest (GP-31: 12 grenades, 20 spare) | pass | GP-31 Grenade Pistol: `rounds.starting_rounds / rounds.spare_rounds` 4 / 6 → 12 / 20 |  | The user: as predicted. |
 | WeaponRootsTest (P-72 Crisper: 150 fuel) | pass | P-72 Crisper: `magazine.capacity` 50 → 150 |  | The user: as predicted. |
 | WeaponRootsTest (SMG-37 Defender: 1100 rpm) | pass | SMG-37 Defender: `weapon.fire_rate` 520 → 1100 |  | The user: as predicted. |
+
+## Session status-fonts-inspect-0-30-4-dev2-2026-10-09
+
+Runtime: HD2Runtime 0.30.4 development dev2 (build/0.30.4-dev2/HD2Runtime-0.30.3-runtime.zip, C6D04DD2...44AC; commit d4f8314), GameFontTextProof 0.1.0 (976EA38B...5F58), StatusForeignProof 0.1.0 (77DBE811...CA2F). Solo, aboard the ship; the game language switched through Simplified Chinese, Japanese, Traditional Chinese, Korean and English. The user's screenshots and HD2Runtime.log..
+
+Every operation logged: `state (the window drew; can_draw per line ...): game fonts loaded now: <key>`, `transaction proof-fire-damage APPLIED`, `status.duration 3 -> 10`, `inspect status fire status.duration: state=runtime owner=mods/skyeshade/hd2runtime_status_foreign_proof value=10 vanilla=3`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| GameFontTextProof | partial |  |  | Each language's own line drew in the game's font in that language (Simplified Chinese with the wrapped paragraph, Traditional Chinese, Japanese, Korean; Polish in English), on one baseline with its Latin part; characters outside the game's subset showed '?' (e.g. 逗 in Simplified Chinese). Defect: the other languages' names (简体中文, 한국어, Русский in another language's font) drew as crossed or plain boxes, or blank: each language font lists them but its atlas holds a box or an empty cell. Fixed offline in c5ec4fa (those characters left out of the metrics); re-test pending. The game did not crash on any language switch. Russian was not shown. |
+| StatusForeignProof | not tested | status_effect fire: `status.duration` 3 → 10; status_effect fire damage: `damage.standard_damage` 100 → 300; status_effect fire damage: `damage.durable_damage` 100 → 300; status_effect gas damage: `damage.standard_damage` 25 → 100; status_effect gas damage: `damage.durable_damage` 25 → 100 |  | All three operations APPLIED and verified; hd2.inspect read the written values back as state=runtime with the proof mod as owner and every other inspected value as vanilla. The gameplay effect (longer, harder fire; harder gas) was not reported. Cost: repeated inspects cost up to 20 ms in one call (one resolution per field); fixed offline in 0333578 (one capture per request). |
