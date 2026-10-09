@@ -30,6 +30,7 @@ TTF_TYPE = 0xCBAE3394881E3D1B
 FONT_ARCHIVE = '6728ac296c9eab7b'
 SOURCES = {'regular': 0xA4EA96E59644F60D, 'medium': 0x6DECA49EA82C82EC}      # FS Sinclair, FS Sinclair Medium (TTF)
 MONACO = 0x3DC65B5A76FCE8F9                                                   # core/performance_hud/monaco
+MONACO_ATLAS = 0x35FCB2056C9C789E                                             # its material's atlas texture
 NAMES = {'regular': 'hd2runtime_fonts/fs_sinclair', 'medium': 'hd2runtime_fonts/fs_sinclair_medium'}
 EM = 56                      # the em size in atlas pixels
 PAD = 4                      # cell padding in atlas pixels (the header's 8 = both sides)
@@ -257,6 +258,175 @@ def preview(font: dict, atlas: np.ndarray, text: str, size: float) -> np.ndarray
             region[:] = np.maximum(region, alpha[:region.shape[0], :region.shape[1]])
         pen += adv * k
     return (out * 255).astype(np.uint8)
+
+
+# ------------------------------------------------------------------------------------------------ the game's fonts
+# The game's own language fonts (research/docs/game-font-text.md): one engine FONT resource per language font package,
+# the regular weight of each pair, with the atlas texture its glyph records were proven to sample (every glyph cell's
+# border lies outside the glyph in that atlas and inside glyphs in the other one). The game loads exactly one of these
+# packages, the selected language's (game.dll 0x37C4B70[language] + 0x18, research languagePackages). Each entry:
+# key, label, the font package (archive), the game language codes that load it, the FONT and its atlas TEXTURE.
+GAME_FONTS = [
+    ('default', 'Latin (the European game languages)', 0x41C8EFF8188E4862,
+        ['us', 'gb', 'bp', 'de', 'es', 'fr', 'it', 'ms', 'pl', 'pt'], 0x5E83C5F2A9B02110, 0xE732CCB97E7E201A),
+    ('ru', 'Russian', 0x0DE4B81E19A79AA8, ['ru'], 0xE6944ADE8A140216, 0x529A0FF67A1C8A0B),
+    ('zh_hans', 'Simplified Chinese', 0x09CAA46BC556E38F, ['cn'], 0xFBB35BEE675F2295, 0xF14DAED0A7D38271),
+    ('zh_hant', 'Traditional Chinese', 0xC0B7644CC5C4AAA8, ['tc'], 0x7C63FEA1F706EEC4, 0x3454C1D97F395663),
+    ('ja', 'Japanese', 0xF7B9C03FFF72FFD3, ['jp'], 0xD5A757787D7DCB0F, 0x9C753F055238D29A),
+    ('ko', 'Korean', 0x9212D7034DC5D55A, ['ko'], 0xE007454455E2D2BB, 0x8D346DCDD08459D5),
+]
+GAME_FONT_MATERIAL = 'hd2runtime_fonts/game/'                # + key: the Runtime-owned material of each game font
+GAME_FONT_PLACEHOLDER = 'hd2runtime_fonts/game/placeholder'   # its texture until the overlay points it at the atlas
+# What every game font must be for the overlay's measuring and placement to hold (else the build refuses it): em 32,
+# the cell padding 8 and the msdfgen distance encoding -3.2 / 1.6 (0.5 at the edge, 3.2 atlas pixels of range).
+GAME_FONT_SHAPE = {'em': 32.0, 'pad': 8.0, 'scale': -3.2, 'bias': 1.6}
+
+
+def font_header(main: bytes) -> dict:
+    """A font resource's header fields (scripts/hd2_font.py layout) and its kerning pair count."""
+    f = parse_font(main)
+    kerning = struct.unpack_from('<I', main, 0x4C)[0]
+    return {'self': struct.unpack_from('<Q', main, 0)[0], 'em': f['em'], 'line': f['line'], 'offset': f['offset'],
+        'texel': f['texel'], 'scale': f['scale'], 'bias': f['bias'], 'pad': f['pad'], 'kerning': kerning,
+        'glyphs': f['glyphs'], 'atlas': (round(1 / f['texel'][0]), round(1 / f['texel'][1]))}
+
+
+def atlas_top_mip(texture_main: bytes, texture_gpu: bytes) -> np.ndarray:
+    """The top mip level of an R8G8B8A8 atlas texture (H x W x 4)."""
+    dds = texture_main.find(b'DDS ')
+    if dds < 0:
+        raise ValueError('not a texture resource')
+    height, width = struct.unpack_from('<II', texture_main, dds + 12)
+    if texture_main[dds + 84:dds + 88] != b'DX10' or struct.unpack_from('<I', texture_main, dds + 128)[0] != 28:
+        raise ValueError('the atlas is not R8G8B8A8')
+    if len(texture_gpu) < width * height * 4:
+        raise ValueError('the atlas pixels are missing')
+    return np.frombuffer(texture_gpu[:width * height * 4], dtype=np.uint8).reshape(height, width, 4)
+
+
+def msdf_median(rgba: np.ndarray) -> np.ndarray:
+    return np.sort(rgba[:, :, :3], axis=2)[:, :, 1]
+
+
+def atlas_fit(font: dict, rgba: np.ndarray, limit: int = 400) -> dict:
+    """How well a font's glyph records fit an atlas: the share of glyph-cell border pixels inside a glyph (0 for the
+    font's own atlas: the padding surrounds every glyph) and of cell pixels inside one."""
+    if rgba.shape[1] != round(1 / font['texel'][0]) or rgba.shape[0] != round(1 / font['texel'][1]):
+        return {'size': False}
+    med = msdf_median(rgba)
+    border = inside = cells = 0
+    for cp in sorted(font['glyphs'])[:limit]:
+        x, y, w, h = font['glyphs'][cp][:4]
+        if w < 4 or h < 4:
+            continue
+        x0, y0, x1, y1 = int(x), int(y), int(x + w) - 1, int(y + h) - 1
+        edge = np.concatenate([med[y0, x0:x1 + 1], med[y1, x0:x1 + 1], med[y0:y1 + 1, x0], med[y0:y1 + 1, x1]])
+        border += float((edge > 140).mean())
+        inside += float((med[y0:y1 + 1, x0:x1 + 1] > 128).mean())
+        cells += 1
+    return {'size': True, 'borderInside': round(border / max(cells, 1), 4), 'cellInside': round(inside / max(cells, 1), 4),
+        'cells': cells}
+
+
+def ink_rows(font: dict, rgba: np.ndarray, cp: int) -> tuple[float, float]:
+    """The ink top and bottom of a glyph in its atlas cell, in atlas pixels from the cell top (the 0.5 crossing of the
+    MSDF median, the row maxima interpolated)."""
+    x, y, w, h = font['glyphs'][cp][:4]
+    med = msdf_median(rgba)[int(y):int(y + h), int(x):int(x + w)].astype(np.float64) / 255
+    rows = med.max(axis=1)
+    edge = font['bias'] / -font['scale'] if font['scale'] else 0.5   # the encoded value at the glyph edge
+    ink = np.nonzero(rows > edge)[0]
+    if not len(ink):
+        raise ValueError('glyph %d has no ink' % cp)
+    top, bottom = int(ink[0]), int(ink[-1])
+    def crossing(inner, outer):
+        a, b = rows[inner], rows[outer] if 0 <= outer < len(rows) else 0.0
+        return (a - edge) / (a - b) if a != b else 0.5
+    return top + 0.5 - crossing(top, top - 1), bottom + 0.5 + crossing(bottom, bottom + 1)
+
+
+def baseline_drop(font: dict, rgba: np.ndarray, cp: int = ord('H')) -> dict:
+    """Where Gui.text draws a font's baseline against the y it is given, from the engine's glyph placement (exe
+    0x173310: scale = size / em; a cell's top at y + (offset - by - pad) x scale, y up) and the ink of a glyph that
+    sits on the baseline: {drop (the baseline's distance below y, a fraction of the size), cap (the glyph's ink height,
+    a fraction of the size)}."""
+    top, bottom = ink_rows(font, rgba, cp)
+    by = font['glyphs'][cp][5]
+    cell_top = font['offset'] - by - font['pad']                      # above y, in font units (y up)
+    return {'drop': round((bottom - cell_top) / font['em'], 4), 'cap': round((bottom - top) / font['em'], 4)}
+
+
+def game_font_material(key: str, monaco_material: bytes) -> tuple[str, bytes]:
+    """The Runtime-owned material of a game font: monaco's font material (the MSDF text shader the game's own font
+    materials compile to, research fontShaders) with its msdf_texture naming the Runtime placeholder; the overlay
+    points this GUI's instance at the game atlas (Material.set_texture) once the atlas is proven loaded."""
+    try:
+        from hd2_archive import resource_hash
+    except ImportError:
+        from tools.hd2_archive import resource_hash
+    if monaco_material[0x8C:0x94] != struct.pack('<Q', 0x35FCB2056C9C789E) \
+            or monaco_material[0x88:0x8C] != struct.pack('<I', 0x88BAC99B):
+        raise ValueError('the monaco font material is not the reviewed one (+0x88 msdf_texture, +0x8C its texture)')
+    name = GAME_FONT_MATERIAL + key
+    return name, monaco_material[:0x8C] + struct.pack('<Q', resource_hash(GAME_FONT_PLACEHOLDER)) + monaco_material[0x94:]
+
+
+def placeholder_texture() -> tuple[bytes, bytes]:
+    """The game font materials' own texture: 4 x 4 R8G8B8A8, every texel 0 (outside every glyph: nothing is drawn
+    through a material whose instance was never pointed at a game atlas)."""
+    levels = [bytes(4 * 4 * 4), bytes(2 * 2 * 4), bytes(4)]
+    return texture_header(4, 4, len(levels)), b''.join(levels)
+
+
+def read_game_fonts(data) -> dict:
+    """{key: {font main, atlas main, atlas gpu, archive}} of GAME_FONTS from the installed game (read-only)."""
+    want = set()
+    for _key, _label, _package, _langs, font, atlas in GAME_FONTS:
+        want |= {(font, FONT_TYPE), (atlas, TEXTURE_TYPE)}
+    found = data.find(want)
+    out = {}
+    for key, _label, package, _langs, font, atlas in GAME_FONTS:
+        if (font, FONT_TYPE) not in found or (atlas, TEXTURE_TYPE) not in found:
+            raise ValueError('the installed game lacks the %s font or its atlas' % key)
+        archive, main, _s, _g = found[(font, FONT_TYPE)]
+        t_archive, t_main, _ts, t_gpu = found[(atlas, TEXTURE_TYPE)]
+        if archive != '%016x' % package or t_archive != archive:
+            raise ValueError('the %s font is no longer in its language package %016x' % (key, package))
+        out[key] = {'font': data.read(archive, main), 'atlasMain': data.read(t_archive, t_main),
+            'atlasGpu': data.read(t_archive, t_gpu, '.gpu_resources'), 'archive': archive}
+    return out
+
+
+def game_font_metrics(key: str, src: dict) -> dict:
+    """One game font's checked metrics: the header, its fit to its atlas, its baseline drop and every advance."""
+    header = font_header(src['font'])
+    for field, value in GAME_FONT_SHAPE.items():
+        if abs(header[field] - value) > 1e-4:
+            raise ValueError('the %s font has %s %r, not %r' % (key, field, header[field], value))
+    font = parse_font(src['font'])
+    rgba = atlas_top_mip(src['atlasMain'], src['atlasGpu'])
+    fit = atlas_fit(font, rgba)
+    if not fit['size'] or fit['borderInside'] > 0.002 or fit['cellInside'] < 0.05:
+        raise ValueError('the %s font does not fit its atlas: %r' % (key, fit))
+    placement = baseline_drop(font, rgba)
+    return {'header': header, 'fit': fit, 'drop': placement['drop'], 'cap': placement['cap'],
+        'advances': {cp: round(rec[6], 3) for cp, rec in sorted(font['glyphs'].items())},
+        'kerning': kerning_pairs(src['font'])}
+
+
+def kerning_pairs(main: bytes) -> dict:
+    """A font resource's kerning pairs {(previous, codepoint): font units}: +0x4C their count, +0x50 the offset of the
+    keys (u64, the previous codepoint in the high half: exe 0x173250 builds (edx << 32) | r8d, r8d the codepoint the
+    glyph lookup 0x173310 searches) followed by the values (f32). The engine adds the value to the glyph's position and
+    to the pen advance (0x173485..0x1734A1)."""
+    n, at = struct.unpack_from('<2I', main, 0x4C)
+    if not n:
+        return {}
+    if at + 12 * n > len(main):
+        raise ValueError('the kerning table runs past the font resource')
+    keys = struct.unpack_from('<%dQ' % n, main, at)
+    values = struct.unpack_from('<%df' % n, main, at + 8 * n)
+    return {(k >> 32, k & 0xFFFFFFFF): round(v, 6) for k, v in zip(keys, values)}
 
 
 def game_fonts(folder=None) -> dict:

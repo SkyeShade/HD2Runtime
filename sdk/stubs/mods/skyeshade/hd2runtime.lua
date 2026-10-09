@@ -3139,6 +3139,14 @@ function HD2UI:colour(c) end
 ---The cursor capture's state: holders, disabled, the game's saved values and what the engine reports now.
 ---@return table
 function HD2UI:cursor() end
+---Whether every character of text can be drawn now in overlays (the font role's own font or one of the game's language fonts loaded now; docs/ui-overlay.md, Other scripts): true, or false, the number of distinct characters that would show as '?' and up to three of them.
+---@param text string
+---@param font? "body"|"title"|"mono"
+---@return boolean, integer|nil, string[]|nil
+function HD2UI:can_draw(text, font) end
+---The game's language fonts overlays draw with: {key, label, languages (the game language codes that load it), glyphs, resident, reason}. The game loads only the selected language's.
+---@return table[]
+function HD2UI:game_fonts() end
 
 ---@class HD2OverlayOptions
 ---@field id string|nil 1 to 48 letters, digits, _ . - (default 'main').
@@ -3201,7 +3209,7 @@ local HD2OverlayFrame = {}
 ---@param z? integer
 ---@return nil
 function HD2OverlayFrame:rect(x, y, w, h, colour, z) end
----A line of text (1-160 printable bytes); (x, y) its top-left corner (or top-centre / top-right with align).
+---A line of text (1-512 printable bytes, UTF-8); (x, y) its top-left corner (or top-centre / top-right with align). A character the font lacks is drawn in the game's own language font when that font is loaded (docs/ui-overlay.md, Other scripts), else as '?'.
 ---@param text string|number
 ---@param x number
 ---@param y number
@@ -3222,6 +3230,17 @@ function HD2OverlayFrame:image(image, x, y, w, h, opts) end
 ---@param font? "body"|"title"|"mono"
 ---@return number
 function HD2OverlayFrame:text_width(text, size, font) end
+---Whether every character of text can be drawn this frame (the font role's own font or a loaded game language font): true, or false, the number of distinct characters that would show as '?' and up to three of them.
+---@param text string
+---@param font? "body"|"title"|"mono"
+---@return boolean, integer|nil, string[]|nil
+function HD2OverlayFrame:can_draw(text, font) end
+---Lines no wider than width pixels, measured as d:text draws them: broken at spaces and between CJK characters, never inside a character; at most opts.lines lines (the last ends with '...').
+---@param text string
+---@param width number
+---@param opts? {size: number|nil, font: string|nil, lines: integer|nil}
+---@return string[]
+function HD2OverlayFrame:wrap(text, width, opts) end
 
 ---@class HD2OverlayTextOptions
 ---@field size number|nil Pixels (4-256, default 18).

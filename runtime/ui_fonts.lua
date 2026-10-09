@@ -4,10 +4,21 @@
 -- own archive (a patch of the boot package, where the game's own engine fonts are) and load at startup. A role whose
 -- font and material are not both loaded draws in monaco, the engine font the panel used before (never guessed: the
 -- same resource-table lookup as every other Runtime resource). Read-only.
+--
+-- The game's own language fonts (research/docs/game-font-text.md; docs/ui-overlay.md "Other scripts"): the regular
+-- engine FONT of each language font package (Latin, Russian, Simplified and Traditional Chinese, Japanese, Korean),
+-- named by its hash, drawn through a Runtime-owned material per font whose GUI instance the overlay points at the
+-- font's atlas. The game loads only the selected language's package, so a game font is used only while its font, its
+-- atlas and its Runtime material are all proven loaded. Text is split into runs: the role font draws every character
+-- it has (text it fully covers is one run, exactly as before); a character it lacks goes to a resident game font that
+-- has it; a character no font has stays with the role font (the engine draws its '?').
 local images=require('hd2runtime/runtime/image_resources')
 local D=require('hd2runtime/domains/ui_fonts')
 local M={}
 M.ROLES={'title','body'}
+M.MAX_TEXT_BYTES=512      -- one text item (about 170 CJK characters): Builder:text and engine_gui refuse longer text
+M.GAME=D.game or{}
+M.KERN_KEY=4294967296     -- a kerning pair's key: previous * 2^32 + codepoint (domains/ui_fonts_<key>.lua)
 local utf8_codes
 
 local resident={}
@@ -31,12 +42,17 @@ function M.font(runtime,role)
     local m=D.fonts.monaco
     return setmetatable({fallback=true},{__index=m}),(f and(f.name..' is not loaded')or('no font role '..tostring(role)))
 end
--- The width of text at `size` pixels in a font (its glyph advances; an unknown character counts as the '?').
+-- The width of text at `size` pixels in a font (its glyph advances, and its kerning pairs as the engine adds them; an
+-- unknown character counts as the '?').
 function M.width(font,text,size)
-    local adv,em=font.advances,font.em
+    local adv,em,kern=font.advances,font.em,font.kerning
     local q=adv[63]or em*0.5
-    local w=0
-    for _,cp in utf8_codes(text)do w=w+(adv[cp]or q)end
+    local w,prev=0,nil
+    for _,cp in utf8_codes(text)do
+        w=w+(adv[cp]or q)
+        if kern and prev then w=w+(kern[prev*M.KERN_KEY+cp]or 0)end
+        prev=cp
+    end
     return w*size/em
 end
 -- Whether a font has a glyph for every character of text (the Runtime-owned fonts have the call-in code's arrows,
@@ -47,19 +63,188 @@ function M.has(font,text)
 end
 -- The cap height of a font at `size` (the size that gives a cap height: size = cap_px * em / cap).
 function M.size_for_cap(font,cap_px)return cap_px*font.em/font.cap end
--- Splits text into lines no wider than `width` pixels at `size`, at spaces (a word wider than a line is cut); at most
--- `lines` lines, the last ending with '...' when text remains.
-function M.wrap(font,text,size,width,lines)
+
+---------------------------------------------------------------------------------------------------- game fonts --
+-- A game font's metrics module (its advances and kerning), loaded on first use; nil and why when it cannot be.
+local metrics={}
+local function game_metrics(entry)
+    local m=metrics[entry.key]
+    if m==nil then
+        local ok,data=pcall(require,entry.module)
+        m=ok and type(data)=='table'and type(data.advances)=='table'and data or false
+        metrics[entry.key]=m
+    end
+    return m or nil
+end
+-- The measuring and drawing font of a game font entry: {key, game = entry, name = '#' .. its hash (the engine font,
+-- named by IdString64), material, atlas, em, drop, advances, kerning}. nil when its metrics are missing.
+local objects={}
+function M.game_font(entry)
+    local o=objects[entry.key]
+    if o then return o end
+    local m=game_metrics(entry)
+    if not m then return nil end
+    o={key=entry.key,game=entry,name='#'..entry.font,material=entry.material,atlas=entry.atlas,em=entry.em,
+        drop=entry.drop or 0,cap=(entry.cap or 0.7)*entry.em,advances=m.advances,
+        kerning=next(m.kerning or{})and m.kerning or nil,label=entry.label,languages=entry.languages}
+    objects[entry.key]=o
+    return o
+end
+-- Whether a game font can be drawn now: its FONT and atlas (by hash) and its Runtime material (by name) are all loaded,
+-- read as the game's lookup reads them. true, or false and why. Not cached: the overlay asks it every frame a font is
+-- used (a language switch unloads it).
+function M.game_font_ready(runtime,entry)
+    local checks={{D.types.font,entry.font,'its font'},{D.types.texture,entry.atlas,'its atlas'}}
+    for _,c in ipairs(checks)do
+        local done,ok,why=pcall(images.loaded_hex,runtime,c[1],c[2])
+        if not(done and ok==true)then return false,entry.label..': '..c[3]..' is not loaded ('..tostring(done and why or ok)..')'end
+    end
+    local done,ok,why=pcall(images.loaded,runtime,D.types.material,entry.material)
+    if not(done and ok==true)then return false,entry.label..': the Runtime material is not loaded ('..tostring(done and why or ok)..')'end
+    return true
+end
+-- The game fonts loaded now, in the domain's order, as drawing fonts (M.game_font): proven at most `max_age` seconds
+-- ago (default 1; 0 asks again). Callers that draw re-prove each font they use in the same frame (M.game_font_ready).
+local cache,cache_at,cache_runtime={},nil,nil
+M.clock=os.clock
+function M.resident_game_fonts(runtime,max_age)
+    local now=M.clock()
+    if cache_at and cache_runtime==runtime and now-cache_at<(max_age or 1)and now>=cache_at then return cache end
+    local list={}
+    for _,entry in ipairs(M.GAME)do
+        if M.game_font_ready(runtime,entry)then
+            local o=M.game_font(entry)
+            if o then list[#list+1]=o end
+        end
+    end
+    cache,cache_at,cache_runtime=list,now,runtime
+    return list
+end
+
+-------------------------------------------------------------------------------------------------------- runs --
+-- Splits text into runs {font, text} (byte-exact pieces of text, in order): the role `font` draws every character it
+-- has; a character it lacks goes to the first font of `extra` (the resident game fonts) that has it; a space stays in
+-- the run before it when that run's font has one (so a CJK phrase with spaces is one run); a character no font has
+-- stays with the role font (its '?'). Text the role font fully covers, or no extra font, is a single run.
+function M.runs(font,text,extra)
+    if not extra or#extra==0 or M.has(font,text)then return {{font=font,text=text}}end
+    local runs,cur,start={},nil,1
+    for at,cp in utf8_codes(text)do
+        local f
+        if cur and cp==32 and cur.advances[32]then f=cur
+        elseif font.advances[cp]then f=font
+        else
+            for _,g in ipairs(extra)do if g.advances[cp]then f=g;break end end
+            f=f or font
+        end
+        if f~=cur then
+            if cur then runs[#runs+1]={font=cur,text=text:sub(start,at-1)}end
+            cur,start=f,at
+        end
+    end
+    if cur then runs[#runs+1]={font=cur,text=text:sub(start)}end
+    return runs
+end
+-- The width of text at `size` drawn as M.runs splits it.
+function M.measure(font,text,size,extra)
+    local w=0
+    for _,run in ipairs(M.runs(font,text,extra))do w=w+M.width(run.font,run.text,size)end
+    return w
+end
+-- Whether every character of text can be drawn by `font` or one of `extra`: true, or false, the number of distinct
+-- characters none of them has and up to three of them (as UTF-8 strings).
+function M.drawable(font,text,extra)
+    local seen,n,sample={},0,{}
+    for at,cp in utf8_codes(text)do
+        if cp>=32 and not seen[cp]and not font.advances[cp]then
+            local ok=false
+            for _,g in ipairs(extra or{})do if g.advances[cp]then ok=true;break end end
+            if not ok then
+                seen[cp]=true;n=n+1
+                if#sample<3 then sample[#sample+1]=text:sub(at,at+M.char_length(text,at)-1)end
+            end
+        end
+    end
+    return n==0,n,sample
+end
+
+-------------------------------------------------------------------------------------------------------- wrap --
+-- Characters a line may break between with no space: CJK ideographs, kana, Hangul syllables, CJK punctuation and
+-- fullwidth forms. Closing punctuation never starts a line (it stays with the character before it).
+local function wide(cp)
+    return(cp>=0x3000 and cp<=0x30FF)or(cp>=0x3400 and cp<=0x4DBF)or(cp>=0x4E00 and cp<=0x9FFF)
+        or(cp>=0xAC00 and cp<=0xD7A3)or(cp>=0xF900 and cp<=0xFAFF)or(cp>=0xFF00 and cp<=0xFFEF)
+        or(cp>=0x1100 and cp<=0x11FF)or(cp>=0x3130 and cp<=0x318F)
+end
+M.wide=wide
+local CLOSING={[0x3001]=true,[0x3002]=true,[0xFF0C]=true,[0xFF0E]=true,[0xFF01]=true,[0xFF1F]=true,[0xFF1A]=true,
+    [0xFF1B]=true,[0xFF09]=true,[0x300D]=true,[0x300F]=true,[0x3011]=true,[0x3009]=true,[0x300B]=true,[0x30FC]=true,
+    [0x3063]=true,[0x30C3]=true,[0x3083]=true,[0x3085]=true,[0x3087]=true,[0x30E3]=true,[0x30E5]=true,[0x30E7]=true,
+    [0x2026]=true,[0x2025]=true,[0x2019]=true,[0x201D]=true,[44]=true,[46]=true,[33]=true,[63]=true,[58]=true,[59]=true,
+    [41]=true}
+-- The byte length of the UTF-8 character at byte i of s (1 for a stray byte).
+function M.char_length(s,i)
+    local c=s:byte(i)
+    if not c then return 0 end
+    local n=c>=0xF0 and 4 or c>=0xE0 and 3 or c>=0xC0 and 2 or 1
+    if i+n-1>#s then return 1 end
+    for k=1,n-1 do local b=s:byte(i+k);if b<0x80 or b>0xBF then return 1 end end
+    return n
+end
+-- Text without its last UTF-8 character.
+local function drop_last(s)
+    local i,last=1,0
+    while i<=#s do last=i;i=i+M.char_length(s,i)end
+    return s:sub(1,last-1)
+end
+M.drop_last=drop_last
+-- The tokens a line is built from: {text, space} where space tells that a space came before it. A token is a run of
+-- non-space characters, except that a wide character is a token of its own (closing punctuation joins the one before).
+local function tokens(text)
+    local out,cur,space,prev_wide={},nil,false,false
+    local i=1
+    while i<=#text do
+        local n=M.char_length(text,i)
+        local ch=text:sub(i,i+n-1)
+        local cp
+        for _,c in utf8_codes(ch)do cp=c end
+        if cp<=32 then   -- a space or any other whitespace / control byte separates tokens, as %S+ did
+            if cur then out[#out+1]=cur;cur=nil end
+            space=true
+        elseif cur and CLOSING[cp]then cur.text=cur.text..ch
+        elseif wide(cp)then
+            if cur then out[#out+1]=cur end
+            cur={text=ch,space=space,wide=true};space=false
+        else
+            if cur and cur.wide then out[#out+1]=cur;cur=nil end
+            if cur then cur.text=cur.text..ch else cur={text=ch,space=space};space=false end
+        end
+        i=i+n
+    end
+    if cur then out[#out+1]=cur end
+    return out
+end
+-- Splits text into lines no wider than `width` pixels at `size`: at spaces, and between any two wide (CJK)
+-- characters; a token wider than a line is cut between characters (never inside a UTF-8 sequence). At most `lines`
+-- lines, the last ending with '...' when text remains. `extra`: the resident game fonts the text is measured with
+-- (M.runs); nil measures with `font` alone, as before.
+function M.wrap(font,text,size,width,lines,extra)
+    local function w(s)return extra and M.measure(font,s,size,extra)or M.width(font,s,size)end
     local out,line={},''
-    for word in tostring(text):gmatch('%S+')do
-        local candidate=line==''and word or(line..' '..word)
-        if M.width(font,candidate,size)<=width then line=candidate
+    for _,token in ipairs(tokens(tostring(text)))do
+        local candidate=line==''and token.text or(line..(token.space and' 'or'')..token.text)
+        if w(candidate)<=width then line=candidate
         else
             if line~=''then out[#out+1]=line end
-            line=word
-            while M.width(font,line,size)>width and#line>1 do
-                local cut=#line-1
-                while cut>1 and M.width(font,line:sub(1,cut),size)>width do cut=cut-1 end
+            line=token.text
+            while w(line)>width and M.char_length(line,1)<#line do
+                -- the longest prefix of whole characters that fits (at least one character)
+                local cut,i=M.char_length(line,1),1+M.char_length(line,1)
+                while i<=#line do
+                    local n=M.char_length(line,i)
+                    if w(line:sub(1,i+n-1))>width then break end
+                    cut,i=i+n-1,i+n
+                end
                 out[#out+1]=line:sub(1,cut)
                 line=line:sub(cut+1)
             end
@@ -68,12 +253,13 @@ function M.wrap(font,text,size,width,lines)
     if line~=''then out[#out+1]=line end
     if lines and#out>lines then
         local last=out[lines]
-        while#last>1 and M.width(font,last..'...',size)>width do last=last:sub(1,-2)end
+        while M.char_length(last,1)<#last and w(last..'...')>width do last=drop_last(last)end
         out[lines]=last..'...'
         for k=#out,lines+1,-1 do out[k]=nil end
     end
     return out
 end
+
 -- UTF-8 codepoints of a string (ASCII and two/three-byte sequences; anything else byte by byte).
 utf8_codes=function(s)
     local i,n=1,#s
@@ -90,5 +276,5 @@ utf8_codes=function(s)
     end
 end
 M.utf8_codes=utf8_codes
-function M.reset_for_tests()resident={}end
+function M.reset_for_tests()resident={};metrics={};objects={};cache,cache_at,cache_runtime={},nil,nil end
 return M

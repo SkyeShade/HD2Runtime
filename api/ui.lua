@@ -25,6 +25,16 @@ function M.colour(c)
     return engine and{engine[2],engine[3],engine[4],engine[1]}or nil
 end
 M.color=M.colour
+-- Whether every character of text can be drawn now in a font role ('body' default, 'title', 'mono'): the role's font
+-- or one of the game's language fonts loaded now (docs/ui-overlay.md "Other scripts"). true, or false, the number of
+-- distinct characters that would show as '?' and up to three of them.
+function M.can_draw(text,font)
+    if type(text)~='string'and type(text)~='number'then error('hd2.ui.can_draw takes a string',2)end
+    if font~=nil and not overlays.FONT_ROLES[font]then error("font must be 'body', 'title' or 'mono'",2)end
+    return overlays.can_draw(tostring(text),font)
+end
+-- The game's language fonts overlays draw with: {key, label, languages, glyphs, resident, reason}.
+function M.game_fonts()return overlays.game_fonts()end
 -- The layer range an overlay may use and the default base.
 M.MAX_LAYER=overlays.MAX_LAYER
 M.DEFAULT_LAYER=overlays.DEFAULT_LAYER
