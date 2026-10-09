@@ -22,8 +22,8 @@
    "ok": true,
    "tail": [
     "checked generate_sdk",
-    "[HD2Runtime] HD2Runtime 0.30.2 initialized (API 1)",
-    "[HD2Runtime] log unavailable: offline-resource-fixture:33856: Bingus logging unavailable"
+    "[HD2Runtime] HD2Runtime 0.30.3 initialized (API 1)",
+    "[HD2Runtime] log unavailable: offline-resource-fixture:33914: Bingus logging unavailable"
    ]
   },
   {
@@ -49,7 +49,7 @@
    "ok": true,
    "tail": [
     "}",
-    "[HD2Runtime] shared records index built in 197.0 ms CPU (1474 keys, 10 catalogues)",
+    "[HD2Runtime] shared records index built in 143.0 ms CPU (1474 keys, 10 catalogues)",
     "[HD2Runtime] log unavailable: [string \"hd2runtime/runtime/log\"]:24: Bingus logging unavailable"
    ]
   },
@@ -58,7 +58,7 @@
    "ok": true,
    "tail": [
     "}",
-    "[HD2Runtime] shared records index built in 201.0 ms CPU (1474 keys, 10 catalogues)",
+    "[HD2Runtime] shared records index built in 134.0 ms CPU (1474 keys, 10 catalogues)",
     "[HD2Runtime] log unavailable: [string \"hd2runtime/runtime/log\"]:24: Bingus logging unavailable"
    ]
   },
@@ -67,7 +67,7 @@
    "ok": true,
    "tail": [
     "}",
-    "[HD2Runtime] shared records index built in 232.0 ms CPU (1474 keys, 10 catalogues)",
+    "[HD2Runtime] shared records index built in 128.0 ms CPU (1474 keys, 10 catalogues)",
     "[HD2Runtime] log unavailable: [string \"hd2runtime/runtime/log\"]:24: Bingus logging unavailable"
    ]
   },
@@ -76,7 +76,7 @@
    "ok": true,
    "tail": [
     "}",
-    "[HD2Runtime] shared records index built in 186.0 ms CPU (1474 keys, 10 catalogues)",
+    "[HD2Runtime] shared records index built in 106.0 ms CPU (1474 keys, 10 catalogues)",
     "[HD2Runtime] log unavailable: [string \"hd2runtime/runtime/log\"]:24: Bingus logging unavailable"
    ]
   },
@@ -84,8 +84,8 @@
    "name": "validate_options_binding_snapshot",
    "ok": true,
    "tail": [
-    "[HD2Runtime] HD2Runtime 0.30.2 initialized (API 1)",
-    "[HD2Runtime] shared records index built in 153.0 ms CPU (1474 keys, 10 catalogues)",
+    "[HD2Runtime] HD2Runtime 0.30.3 initialized (API 1)",
+    "[HD2Runtime] shared records index built in 74.0 ms CPU (1474 keys, 10 catalogues)",
     "[HD2Runtime] patch one-shot rejected: option-bound values require hd2.ensure"
    ]
   },
@@ -94,7 +94,7 @@
    "ok": true,
    "tail": [
     "}",
-    "[HD2Runtime] shared records index built in 235.0 ms CPU (1474 keys, 10 catalogues)",
+    "[HD2Runtime] shared records index built in 150.0 ms CPU (1474 keys, 10 catalogues)",
     "[HD2Runtime] log unavailable: [string \"hd2runtime/runtime/log\"]:24: Bingus logging unavailable"
    ]
   },
@@ -103,7 +103,7 @@
    "ok": true,
    "tail": [
     "}",
-    "[HD2Runtime] shared records index built in 184.0 ms CPU (1474 keys, 10 catalogues)",
+    "[HD2Runtime] shared records index built in 111.0 ms CPU (1474 keys, 10 catalogues)",
     "[HD2Runtime] log unavailable: [string \"hd2runtime/runtime/log\"]:24: Bingus logging unavailable"
    ]
   },
@@ -148,7 +148,7 @@
    "ok": true,
    "tail": [
     "}",
-    "[HD2Runtime] HD2Runtime 0.30.2 initialized (API 1)",
+    "[HD2Runtime] HD2Runtime 0.30.3 initialized (API 1)",
     "[HD2Runtime] log unavailable: [string \"hd2runtime/runtime/log\"]:24: Bingus logging unavailable"
    ]
   },
@@ -157,7 +157,7 @@
    "ok": true,
    "tail": [
     "}",
-    "[HD2Runtime] shared records index built in 128.0 ms CPU (1474 keys, 10 catalogues)",
+    "[HD2Runtime] shared records index built in 51.0 ms CPU (1474 keys, 10 catalogues)",
     "[HD2Runtime] log unavailable: [string \"hd2runtime/runtime/log\"]:24: Bingus logging unavailable"
    ]
   },
@@ -166,7 +166,7 @@
    "ok": true,
    "tail": [
     "}",
-    "[HD2Runtime] shared records index built in 173.0 ms CPU (1474 keys, 10 catalogues)",
+    "[HD2Runtime] shared records index built in 86.0 ms CPU (1474 keys, 10 catalogues)",
     "[HD2Runtime] log unavailable: [string \"hd2runtime/runtime/log\"]:24: Bingus logging unavailable"
    ]
   },
@@ -175,7 +175,7 @@
    "ok": true,
    "tail": [
     "}",
-    "[HD2Runtime] shared records index built in 214.0 ms CPU (1474 keys, 10 catalogues)",
+    "[HD2Runtime] shared records index built in 94.0 ms CPU (1474 keys, 10 catalogues)",
     "[HD2Runtime] log unavailable: [string \"hd2runtime/runtime/log\"]:24: Bingus logging unavailable"
    ]
   },
@@ -184,7 +184,7 @@
    "ok": true,
    "tail": [
     "}",
-    "[HD2Runtime] shared records index built in 217.0 ms CPU (1474 keys, 10 catalogues)",
+    "[HD2Runtime] shared records index built in 112.0 ms CPU (1474 keys, 10 catalogues)",
     "[HD2Runtime] log unavailable: [string \"hd2runtime/runtime/log\"]:24: Bingus logging unavailable"
    ]
   },
@@ -193,7 +193,7 @@
    "ok": true,
    "tail": [
     "}",
-    "[HD2Runtime] HD2Runtime 0.30.2 initialized (API 1)",
+    "[HD2Runtime] HD2Runtime 0.30.3 initialized (API 1)",
     "[HD2Runtime] log unavailable: [string \"hd2runtime/runtime/log\"]:24: Bingus logging unavailable"
    ]
   },
@@ -202,7 +202,7 @@
    "ok": true,
    "tail": [
     "}",
-    "[HD2Runtime] shared records index built in 280.0 ms CPU (1474 keys, 10 catalogues)",
+    "[HD2Runtime] shared records index built in 78.0 ms CPU (1474 keys, 10 catalogues)",
     "[HD2Runtime] log unavailable: [string \"hd2runtime/runtime/log\"]:24: Bingus logging unavailable"
    ]
   },
@@ -210,9 +210,9 @@
    "name": "examples",
    "ok": true,
    "tail": [
-    "[HD2Runtime] PERFORMANCE: mod mods/hd2runtime_examples/incendiary_fire: its main file ([string \"IncendiaryFire\"]) took 27.8 ms in one call",
-    "[HD2Runtime] PERFORMANCE: mod mods/hd2runtime_examples/incendiary_hellpods: its main file ([string \"IncendiaryHellpods\"]) took 27.1 ms in one call",
-    "[HD2Runtime] PERFORMANCE: mod mods/hd2runtime_examples/minefield_tuning: its main file ([string \"MinefieldTuning\"]) took 161.4 ms in one call"
+    "[HD2Runtime] PERFORMANCE: mod mods/hd2runtime_examples/incendiary_fire: its main file ([string \"IncendiaryFire\"]) took 17.6 ms in one call",
+    "[HD2Runtime] PERFORMANCE: mod mods/hd2runtime_examples/incendiary_hellpods: its main file ([string \"IncendiaryHellpods\"]) took 16.4 ms in one call",
+    "[HD2Runtime] PERFORMANCE: mod mods/hd2runtime_examples/minefield_tuning: its main file ([string \"MinefieldTuning\"]) took 17.4 ms in one call"
    ]
   },
   {
@@ -237,7 +237,7 @@
    "name": "full test suite",
    "ok": true,
    "tail": [
-    "Ran 2058 tests in 69.759s",
+    "Ran 2060 tests in 159.326s",
     "",
     "OK"
    ]
