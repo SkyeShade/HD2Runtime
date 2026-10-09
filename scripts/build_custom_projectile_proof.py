@@ -75,7 +75,9 @@ PROJECTS = [ROOT / 'proof/CustomProjectileRowProof', ROOT / 'proof/ReprimandCust
     ROOT / 'proof/PelicanCasExample', ROOT / 'proof/GasBarrageExample', ROOT / 'proof/GasEatExample',
     ROOT / 'proof/HmgSentryExample', ROOT / 'proof/EagleStunRocketPodsExample',
     # The Runtime-to-Runtime peer channel's first live proof (research/docs/runtime-peer-messaging-F5FEE03DCFDB.md).
-    ROOT / 'proof/RuntimePeerHelloProof']
+    ROOT / 'proof/RuntimePeerHelloProof',
+    # The game's own language fonts in a mod window (docs/ui-overlay.md "Other scripts"; research game-font-text).
+    ROOT / 'proof/GameFontTextProof']
 # proof/CustomStratagemP0Proof 0.10.0 is the read-only custom icon family probe (it writes nothing). Its 0.9.0 (a custom
 # icon written into presentation_icon) crashed the game and is kept only in live-2026-10-01-custom-icon-CRASHED.
 OUTPUT = ROOT / 'build/test-artifacts'

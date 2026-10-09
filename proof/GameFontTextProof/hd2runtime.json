@@ -1,0 +1,1 @@
+{"format":1,"name":"GameFontTextProof","resource":"mods/skyeshade/hd2runtime_game_font_text_proof","guid":"bae3fc32-baa8-4e58-becc-eea1b98cb23c","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.30.3","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../sdk","ide_library":"../../sdk/stubs"}
