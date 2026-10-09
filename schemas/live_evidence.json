@@ -1244,6 +1244,19 @@
          "writes": [{"target": "the own type records of the AC-8 Autocannon, the GR-8 Recoilless Rifle, the MG-206 Heavy Machine Gun and the LAS-98 Laser Cannon (each its variant host; condensed: its own beacon and pod)", "field": "presentation (EncyclopediaEntry +8 / +0x30, Spottable +0x38) and round (ProjectileWeaponComponentData +0)", "from": "their native records (projectiles 284, 228, 33; the LAS-98 has no ProjectileWeapon)", "to": "the custom names and icon; the EAT-700's napalm round 259 (AC-8N), the EAT-411 Leveller's 34 (GR-8L), the APW-1's 226 (MG-206X); the LAS-98S presentation only"}],
          "observation": "The user: each was as expected (the AC-8N's napalm, the GR-8L's Leveller blast, the MG-206X's anti-materiel rounds, the LAS-98S's name). The log: all four APPLIED condensed, called, their own pods captured, RESTORED aboard the ship with every record native. First runs (r56, r57): the MG-206X was refused NOT_NATIVE with nothing written, in both missions; r57's diagnostic named the HMG's two rate-of-fire words (600 / 750 -> 750 / 1200 rpm), written by a third-party HMG buff mod made on 0.28.1 that this Runtime did not log. With that mod removed it applied. Solo host."}
       ]
+    },
+    {
+      "id": "weapon-roots-dev5-2026-10-09",
+      "date": "2026-10-09",
+      "runtime": "HD2Runtime 0.30.2-dev5 (build/test-artifacts/0.30.2-dev5/HD2Runtime-0.30.2-dev5-runtime.zip, EB770149...1BC587; commit 8b5e148), WeaponRootsTest 0.1.0 (758D498E...94AA). Solo. The user's report and HD2Runtime.log.",
+      "logSignals": ["transaction weapon-roots-<weapon> APPLIED", "ensure weapon-roots-<weapon> verified status=APPLIED"],
+      "tests": [
+        {"mod": "WeaponRootsTest", "operation": "weapon-roots-dagger", "choice": "LAS-7 Dagger: 4x heat capacity", "result": "PASS", "family": "weapon_roots_0_30_2", "writes": [{"target": "LAS-7 Dagger", "field": "heat.capacity", "from": 100, "to": 400}], "observation": "The user: as predicted (a really, really long time before it overheats)."},
+        {"mod": "WeaponRootsTest", "operation": "weapon-roots-scythe", "choice": "LAS-5 Scythe: a quarter of the heat", "result": "PASS", "family": "weapon_roots_0_30_2", "writes": [{"target": "LAS-5 Scythe", "field": "heat.heat_per_second", "from": 12.5, "to": 3}], "observation": "The user: as predicted (a really, really long time before it overheats)."},
+        {"mod": "WeaponRootsTest", "operation": "weapon-roots-gp31", "choice": "GP-31: 12 grenades, 20 spare", "result": "PASS", "family": "weapon_roots_0_30_2", "writes": [{"target": "GP-31 Grenade Pistol", "field": "rounds.starting_rounds / rounds.spare_rounds", "from": "4 / 6", "to": "12 / 20"}], "observation": "The user: as predicted."},
+        {"mod": "WeaponRootsTest", "operation": "weapon-roots-crisper", "choice": "P-72 Crisper: 150 fuel", "result": "PASS", "family": "weapon_roots_0_30_2", "writes": [{"target": "P-72 Crisper", "field": "magazine.capacity", "from": 50, "to": 150}], "observation": "The user: as predicted."},
+        {"mod": "WeaponRootsTest", "operation": "weapon-roots-defender", "choice": "SMG-37 Defender: 1100 rpm", "result": "PASS", "family": "weapon_roots_0_30_2", "writes": [{"target": "SMG-37 Defender", "field": "weapon.fire_rate", "from": 520, "to": 1100}], "observation": "The user: as predicted."}
+      ]
     }
   ],
   "families": {
@@ -2279,6 +2292,17 @@
       "observations": ["r37 solo (CarrierSlotProbe 0.3.1): the look, the moves and the doubles; the user: it worked well.", "r41 two players (CarrierSlotProbe 0.4.2): both machines READY, the remote presentation and the native teammate card, the barrages converted, no desync; the user: everything worked except the use counts in the TAB menu.", "r42 two players, four example mods in this mode at once: every call landed, but the HUD and TAB showed carriers (early presentations refusing each other; fixed in r43).", "r43 two players, the same four mods: the user: it works perfectly."],
       "notPromoted": ["a teammate's TAB menu use count for a slot with native uses", "the Eagle pods, the sentries and the other expendables in this mode (not tried live)", "the r44 default for every definition (the same code path as r43's switch; not re-tested)"],
       "nextTests": ["r44 with two players and every installed custom stratagem mod: each pick's SELECTED line names the CARRIER itself; on the loading screen every slot logs presentation on <carrier> APPLIED; HUD, TAB and CTRL show the custom stratagems on both machines; the Eagle Stun Rocket Pods and the HMG sentry in particular."]
+    },
+    "weapon_roots_0_30_2": {
+      "status": "live_proven",
+      "domain": "player_weapon",
+      "fields": ["heat.capacity", "heat.heat_per_second", "rounds.starting_rounds", "rounds.spare_rounds", "magazine.capacity", "weapon.fire_rate"],
+      "scope": "The weapons 0.30.2 resolved to their proven roots (research/weapon-roots-F5FEE03DCFDB.json), one weapon-local component member each, copied into the weapon when it is built (ACTIVE_AT_INSTANTIATION).",
+      "provenTargets": [{"target": "LAS-7 Dagger", "field": "heat.capacity"}, {"target": "LAS-5 Scythe", "field": "heat.heat_per_second"}, {"target": "GP-31 Grenade Pistol", "field": "rounds.starting_rounds"}, {"target": "GP-31 Grenade Pistol", "field": "rounds.spare_rounds"}, {"target": "P-72 Crisper", "field": "magazine.capacity"}, {"target": "SMG-37 Defender", "field": "weapon.fire_rate"}],
+      "tests": ["WeaponRootsTest"],
+      "acknowledgementRemoved": null,
+      "observations": ["WeaponRootsTest 0.1.0 on 0.30.2-dev5 solo (reported 2026-10-09): the user tested every weapon but the melee tools, and each change was as predicted (the two LAS weapons: a really, really long time before overheating; Dagger heat capacity 100 -> 400, Scythe heat per second 12.5 -> 3).", "CQC-73 Entrenchment Tool: the write was refused (CONFLICT): its damage row 548 read 2 live, 165 in the game files, and no HD2Runtime write made it (another program or mod in that session); nothing was written."],
+      "notPromoted": ["the CQC-42 Machete and CQC-73 Entrenchment Tool damage (not tried live)", "every other field of these seven weapons"]
     }
   }
 }

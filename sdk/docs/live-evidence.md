@@ -99,6 +99,7 @@ Composition tests record four separate facts: the donor output works, the refere
 | `custom_stratagem_pelican_native_gun` | live-partial | `hd2.custom_stratagem pelican.gun.round native` | A Runtime Pelican with its own chin autocannon and its own burst AI (gun = {round = 'native'}: no Gatling AI, no other change), its kills credited to its caller. | unchanged |
 | `custom_stratagem_silo` | live-partial | `hd2.custom_stratagem silo` | The silo payload family (runtime/custom_silos.lua): the donor silo's own vanilla pod by the support redirect, its rack's missile and laser remote captured read-only (runtime/support_pods.lua), the missile's own detonation read from the explosion queue (its type 135 and its own entity as the source) or inferred from its removal after it left the silo, and the blast (a catalogued explosion) requested there by the session host; with several players the caller publishes its missile and the host watches its own copy. The Cyborg Production Unit's explosion (ExplosionType 293) and its two objective packages (effect and sound, about 300 MB) as mission-start assets. Code-proven offline (tests/test_custom_silo.py; the packaged scenario example-shredder-silo on the real snapshot). | unchanged |
 | `custom_stratagem_carrier_in_slot` | live-partial | `hd2.custom_stratagem selection (the carrier itself, the default since r44)` | The pick writes the custom stratagem's carrier itself into the loadout slot (runtime/carrier_in_slot.lua): no conversion in the mission, the presentation applied on the loading screen, the slot locked until it is ready to call, native per-slot uses, the moves when another player picks the carrier, the doubles (the game's own per-card grey helper), the launch fallback, and with several players the same carrier per id on every machine and every player's slot presented natively on every machine. The Orbital Precision Strike token stays the fallback (several players without custom multiplayer, a pick while it is waiting, no carrier known). Code-proven offline (tests/test_carrier_in_slot.py). | unchanged |
+| `weapon_roots_0_30_2` | live-proven | `heat.capacity`, `heat.heat_per_second`, `rounds.starting_rounds`, `rounds.spare_rounds`, `magazine.capacity`, `weapon.fire_rate` | The weapons 0.30.2 resolved to their proven roots (research/weapon-roots-F5FEE03DCFDB.json), one weapon-local component member each, copied into the weapon when it is built (ACTIVE_AT_INSTANTIATION). | unchanged |
 
 ## Notes
 
@@ -393,6 +394,11 @@ Composition tests record four separate facts: the donor output works, the refere
 - Observation: r43 two players, the same four mods: the user: it works perfectly.
 - Not promoted (still need `allow_unverified_effect`): a teammate's TAB menu use count for a slot with native uses, the Eagle pods, the sentries and the other expendables in this mode (not tried live), the r44 default for every definition (the same code path as r43's switch; not re-tested).
 - Next tests: `r44 with two players and every installed custom stratagem mod: each pick's SELECTED line names the CARRIER itself; on the loading screen every slot logs presentation on <carrier> APPLIED; HUD, TAB and CTRL show the custom stratagems on both machines; the Eagle Stun Rocket Pods and the HMG sentry in particular.`.
+
+**`weapon_roots_0_30_2`**
+- Observation: WeaponRootsTest 0.1.0 on 0.30.2-dev5 solo (reported 2026-10-09): the user tested every weapon but the melee tools, and each change was as predicted (the two LAS weapons: a really, really long time before overheating; Dagger heat capacity 100 -> 400, Scythe heat per second 12.5 -> 3).
+- Observation: CQC-73 Entrenchment Tool: the write was refused (CONFLICT): its damage row 548 read 2 live, 165 in the game files, and no HD2Runtime write made it (another program or mod in that session); nothing was written.
+- Not promoted (still need `allow_unverified_effect`): the CQC-42 Machete and CQC-73 Entrenchment Tool damage (not tried live), every other field of these seven weapons.
 
 ## Session coverage-pass-2026-09-29
 
@@ -941,3 +947,17 @@ Every operation logged: `weapon clone APPLIED (showcase_ac8n): AC-8 Autocannon i
 | Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
 | --- | --- | --- | --- | --- |
 | WeaponVariantShowcase | pass | the own type records of the AC-8 Autocannon, the GR-8 Recoilless Rifle, the MG-206 Heavy Machine Gun and the LAS-98 Laser Cannon (each its variant host; condensed: its own beacon and pod): `presentation (EncyclopediaEntry +8 / +0x30, Spottable +0x38) and round (ProjectileWeaponComponentData +0)` their native records (projectiles 284, 228, 33; the LAS-98 has no ProjectileWeapon) → the custom names and icon; the EAT-700's napalm round 259 (AC-8N), the EAT-411 Leveller's 34 (GR-8L), the APW-1's 226 (MG-206X); the LAS-98S presentation only |  | The user: each was as expected (the AC-8N's napalm, the GR-8L's Leveller blast, the MG-206X's anti-materiel rounds, the LAS-98S's name). The log: all four APPLIED condensed, called, their own pods captured, RESTORED aboard the ship with every record native. First runs (r56, r57): the MG-206X was refused NOT_NATIVE with nothing written, in both missions; r57's diagnostic named the HMG's two rate-of-fire words (600 / 750 -> 750 / 1200 rpm), written by a third-party HMG buff mod made on 0.28.1 that this Runtime did not log. With that mod removed it applied. Solo host. |
+
+## Session weapon-roots-dev5-2026-10-09
+
+Runtime: HD2Runtime 0.30.2-dev5 (build/test-artifacts/0.30.2-dev5/HD2Runtime-0.30.2-dev5-runtime.zip, EB770149...1BC587; commit 8b5e148), WeaponRootsTest 0.1.0 (758D498E...94AA). Solo. The user's report and HD2Runtime.log..
+
+Every operation logged: `transaction weapon-roots-<weapon> APPLIED`, `ensure weapon-roots-<weapon> verified status=APPLIED`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| WeaponRootsTest (LAS-7 Dagger: 4x heat capacity) | pass | LAS-7 Dagger: `heat.capacity` 100 → 400 |  | The user: as predicted (a really, really long time before it overheats). |
+| WeaponRootsTest (LAS-5 Scythe: a quarter of the heat) | pass | LAS-5 Scythe: `heat.heat_per_second` 12.5 → 3 |  | The user: as predicted (a really, really long time before it overheats). |
+| WeaponRootsTest (GP-31: 12 grenades, 20 spare) | pass | GP-31 Grenade Pistol: `rounds.starting_rounds / rounds.spare_rounds` 4 / 6 → 12 / 20 |  | The user: as predicted. |
+| WeaponRootsTest (P-72 Crisper: 150 fuel) | pass | P-72 Crisper: `magazine.capacity` 50 → 150 |  | The user: as predicted. |
+| WeaponRootsTest (SMG-37 Defender: 1100 rpm) | pass | SMG-37 Defender: `weapon.fire_rate` 520 → 1100 |  | The user: as predicted. |

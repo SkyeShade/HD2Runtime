@@ -516,7 +516,7 @@ local writes=#(W.runtime.writes or{})
 local v={status='unavailable',peers={A={state='missing'},B={state='compatible'}}}
 custom.readiness_step(world,v)
 assert(#notices==1 and notices[1]:find('warn | Check before launch | 1 player without HD2Runtime: your custom slots '
-    ..'will be locked. | Fix: everyone needs the same mods (or play Friends Only), or pick vanilla.',1,true),notices[1])
+    ..'will be locked. | Fix: everyone needs the same custom stratagem mods.',1,true),notices[1])
 assert(count('READINESS: 1 problem: 1 player without HD2Runtime')==1)
 custom.readiness_step(world,v)
 assert(#notices==1,'the same problem is not shown again within a minute')
@@ -562,6 +562,41 @@ assert(#(W.runtime.writes or{})==writes,'nothing written')
 return 'ok'
 """)
 
+
+    def test_the_stratagem_table_is_read_once_while_no_runtime_presentation_is_applied(self):
+        # 0.30.2-dev5 live: picking Orbital Gas Barrage solo showed "Another mod changed the stratagem data" at once,
+        # because the read saw the Runtime's own presentation on its carrier. Now it waits for a clean moment.
+        self.mp(r"""
+local notices={}
+custom.hooks.alert=function()return {post=function(a)notices[#notices+1]=a.items[1].line;return true end,
+    clear=function()end}end
+rawset(_G,'ModOptionsMenu',MENU)
+examples()
+local wm=require('hd2runtime/runtime/event_world')
+local sel=require('hd2runtime/runtime/stratagem_selector')
+wm.game_state=function()return {name='Ship',host=true}end
+wm.players=function()return {{peer='P1'}}end
+sel.virtual_slots=function()return {slots={[3]={definition='orbital_gas_barrage',carrier=true,token=1}}}end
+custom.internals_for_tests().ship().status.orbital_gas_barrage='READY: carrier Orbital Gatling Barrage'
+custom.reset_readiness_for_tests()
+local reads,applied=0,true
+custom.hooks.presentation_applied=function()return applied end
+custom.hooks.stratagem_table=function()reads=reads+1;return 'payload list pointer outside/ambiguous in owning group'end
+local world={runtime={}}
+custom.readiness_step(world,{status='enabled',peers={}})
+assert(reads==0 and#notices==0,'no read and no warning while the Runtime presentation is applied')
+-- A clean moment: read once; a real difference is shown and logged with its reason.
+applied=false
+custom.readiness_step(world,{status='enabled',peers={}})
+assert(reads==1 and notices[#notices]=='Another mod changed the stratagem data: custom names/looks will fail.')
+assert(count('READINESS: the stratagem table does not read as reviewed')==1)
+applied=true
+custom.readiness_step(world,{status='enabled',peers={}})
+applied=false
+custom.readiness_step(world,{status='enabled',peers={}})
+assert(reads==1,'read once per session: '..reads)
+return 'ok'
+""")
 
 if __name__ == '__main__':
     unittest.main()

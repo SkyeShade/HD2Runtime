@@ -266,6 +266,10 @@ default) is reported as incompatible.
   multiplayer (every lobby member a
   compatible Runtime with the same custom stratagem registry); without it the pick writes the token, as before.
   - The pick writes the carrier the lobby gives that custom id (one carrier per id, whoever selects it).
+  - Picked custom stratagems get their carriers first (0.30.2). One that nobody picked is given a carrier only
+    tentatively: the first one no pick (custom or native) holds. It reserves nothing, and it never takes a carrier from
+    a pick or from another unpicked one. So a tile is dimmed only when picking it now would leave it without a carrier,
+    even when more custom stratagems of one group are installed than you own carriers for.
   - Aboard the ship, while a carrier-mode custom stratagem is selected in the lobby, the preview counts ONLY real
     native picks (r40; `CUSTOM MP NATIVE PICKS`): this player's own loadout and each other player's, as the loadout
     screen shows that player (when it holds a record of that player) or else as that player's stratagem record here
@@ -1039,11 +1043,11 @@ green `READY` card confirms it.
 
 | Problem | Fix shown |
 | --- | --- |
-| As a client, a lobby member has no HD2Runtime (or another custom stratagem setup): your custom slots will be locked | Everyone needs the same mods (or play Friends Only), or pick vanilla |
+| As a client, a lobby member has no HD2Runtime (or another custom stratagem setup): your custom slots will be locked | Everyone needs the same custom stratagem mods |
 | As a client, the lobby's state does not arrive within 20 s, or your picks differ from the host's for 20 s | Wait a moment / re-pick the slot |
 | A selected custom stratagem has no free carrier, or its code collides | Free its carrier or pick another custom stratagem |
 | A carrier slot must switch carrier (another player picked it) and has not yet | Open the stratagem selection, stay un-Ready, and let it switch |
-| Another mod changed the stratagem data (the table does not read as reviewed) | Disable mods that change stratagems or hellpods, then restart |
+| Another mod changed the stratagem data (the table does not read as reviewed; read once per session, at a moment when no Runtime presentation is applied, because a custom stratagem's own presentation on its carrier also changes the table) | Disable mods that change stratagems or hellpods, then restart |
 
 `hd2.custom_stratagem` has no new API for this; a mod sees the same lines in the log.
 

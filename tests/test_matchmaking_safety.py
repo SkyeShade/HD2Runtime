@@ -312,7 +312,7 @@ seconds(1)
 assert(count('MATCHMAKING SAFETY NOTICE: public lobbies can cause issues or crashes due to mods')==1)
 local t=screens[#screens].texts
 assert(t[1]=='HD2Runtime multiplayer safety'and t[2]=='Public lobbies can cause issues or crashes due to mods.')
-assert(t[3]=='Friends Only / Invite Only is safest when playing with mods.'and t[4]=='Shown once per game start.')
+assert(t[3]=='Friends Only / Invite Only is safest when playing with mods.'and t[4]==nil,'no fourth line since 0.30.2')
 -- Public privacy, Quickplay and an SOS Beacon: no call, no warning, no other notice.
 set_privacy(0);quickplay(true,false);host_lobby();key(PRIVACY_KEY,'0');key(SOS_KEY,'1')
 seconds(30)

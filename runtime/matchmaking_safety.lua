@@ -72,7 +72,6 @@ M.TEXT={
     -- the startup notice (warnings only, M.ENFORCE=false)
     notice_issues='Public lobbies can cause issues or crashes due to mods.',
     notice_advice='Friends Only / Invite Only is safest when playing with mods.',
-    notice_once='Shown once per game start.',
 }
 
 local state
@@ -292,7 +291,8 @@ local function draw(world,lines)
         need(screen.text(lines[1],font,12*u,font,x+pad,y+h-18*u,LAYER+2,COLOURS.title),'the title')
         need(screen.text(lines[2],font,10*u,font,x+pad,y+h-35*u,LAYER+2,COLOURS.event),'the event')
         need(screen.text(lines[3],font,9*u,font,x+pad,y+22*u,LAYER+2,COLOURS.text),'the rule')
-        need(screen.text(lines[4],font,9*u,font,x+pad,y+8*u,LAYER+2,COLOURS.text),'the advice')
+        -- An empty fourth line is not drawn (the startup notice has none since 0.30.2).
+        if lines[4]~=''then need(screen.text(lines[4],font,9*u,font,x+pad,y+8*u,LAYER+2,COLOURS.text),'the advice')end
     end)
     if not ok then return nil,err,true end      -- a refused primitive: the GUI path does not work here
     return true
@@ -474,7 +474,7 @@ function M.check(world,quickplay_only)
         state.announced=true
         log('MATCHMAKING SAFETY NOTICE: public lobbies can cause issues or crashes due to mods; Friends Only / Invite '
             ..'Only is safest when playing with mods. HD2Runtime does not change the lobby or Quickplay.')
-        notify(M.TEXT.notice_issues,M.TEXT.notice_advice,M.TEXT.notice_once)
+        notify(M.TEXT.notice_issues,M.TEXT.notice_advice,'')
         return {status='notice'}
     end
     local ok,why=M.prove(world)

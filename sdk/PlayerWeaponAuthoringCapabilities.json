@@ -78846,6 +78846,16 @@
           "reason": null,
           "acceptedForWrites": true,
           "apiFieldConstant": "hd2.fields.rounds.spare_rounds",
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "weapon_roots_0_30_2",
+            "tests": [
+              "WeaponRootsTest"
+            ],
+            "date": "2026-10-09",
+            "target": "GP-31 Grenade Pistol",
+            "field": "rounds.spare_rounds"
+          },
           "effect": {
             "activeSource": "ACTIVE_AT_INSTANTIATION",
             "appliesWhen": "weapon_build",
@@ -78853,7 +78863,7 @@
             "activeSourceProven": true,
             "reason": "A component member the game copies into the weapon when it builds it (base plus customization deltas, observed in snapshot memory): weapons built after the write use it; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip).",
             "writeVerifiedOnApply": true,
-            "gameplayEffectProven": false,
+            "gameplayEffectProven": true,
             "unverifiedEffect": false
           }
         },
@@ -78954,6 +78964,16 @@
           "reason": null,
           "acceptedForWrites": true,
           "apiFieldConstant": "hd2.fields.rounds.starting_rounds",
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "weapon_roots_0_30_2",
+            "tests": [
+              "WeaponRootsTest"
+            ],
+            "date": "2026-10-09",
+            "target": "GP-31 Grenade Pistol",
+            "field": "rounds.starting_rounds"
+          },
           "effect": {
             "activeSource": "ACTIVE_AT_INSTANTIATION",
             "appliesWhen": "weapon_build",
@@ -78961,7 +78981,7 @@
             "activeSourceProven": true,
             "reason": "A component member the game copies into the weapon when it builds it (base plus customization deltas, observed in snapshot memory): weapons built after the write use it; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip).",
             "writeVerifiedOnApply": true,
-            "gameplayEffectProven": false,
+            "gameplayEffectProven": true,
             "unverifiedEffect": false
           }
         },
@@ -101325,6 +101345,16 @@
           "reason": null,
           "acceptedForWrites": true,
           "apiFieldConstant": "hd2.fields.heat.heat_per_second",
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "weapon_roots_0_30_2",
+            "tests": [
+              "WeaponRootsTest"
+            ],
+            "date": "2026-10-09",
+            "target": "LAS-5 Scythe",
+            "field": "heat.heat_per_second"
+          },
           "effect": {
             "activeSource": "ACTIVE_AT_INSTANTIATION",
             "appliesWhen": "weapon_build",
@@ -101332,7 +101362,7 @@
             "activeSourceProven": true,
             "reason": "A component member the game copies into the weapon when it builds it (base plus customization deltas, observed in snapshot memory): weapons built after the write use it; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip).",
             "writeVerifiedOnApply": true,
-            "gameplayEffectProven": false,
+            "gameplayEffectProven": true,
             "unverifiedEffect": false
           }
         },
@@ -107954,6 +107984,16 @@
           "reason": null,
           "acceptedForWrites": true,
           "apiFieldConstant": "hd2.fields.heat.capacity",
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "weapon_roots_0_30_2",
+            "tests": [
+              "WeaponRootsTest"
+            ],
+            "date": "2026-10-09",
+            "target": "LAS-7 Dagger",
+            "field": "heat.capacity"
+          },
           "effect": {
             "activeSource": "ACTIVE_AT_INSTANTIATION",
             "appliesWhen": "weapon_build",
@@ -107961,7 +108001,7 @@
             "activeSourceProven": true,
             "reason": "A component member the game copies into the weapon when it builds it (base plus customization deltas, observed in snapshot memory): weapons built after the write use it; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip).",
             "writeVerifiedOnApply": true,
-            "gameplayEffectProven": false,
+            "gameplayEffectProven": true,
             "unverifiedEffect": false
           }
         },
@@ -160288,6 +160328,16 @@
           "reason": null,
           "acceptedForWrites": true,
           "apiFieldConstant": "hd2.fields.magazine.capacity",
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "weapon_roots_0_30_2",
+            "tests": [
+              "WeaponRootsTest"
+            ],
+            "date": "2026-10-09",
+            "target": "P-72 Crisper",
+            "field": "magazine.capacity"
+          },
           "effect": {
             "activeSource": "ACTIVE_AT_INSTANTIATION",
             "appliesWhen": "weapon_build",
@@ -160295,7 +160345,7 @@
             "activeSourceProven": true,
             "reason": "A component member the game copies into the weapon when it builds it (base plus customization deltas, observed in snapshot memory): weapons built after the write use it; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip).",
             "writeVerifiedOnApply": true,
-            "gameplayEffectProven": false,
+            "gameplayEffectProven": true,
             "unverifiedEffect": false
           }
         },
@@ -269446,6 +269496,16 @@
           "reason": null,
           "acceptedForWrites": true,
           "apiFieldConstant": "hd2.fields.weapon.fire_rate",
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "weapon_roots_0_30_2",
+            "tests": [
+              "WeaponRootsTest"
+            ],
+            "date": "2026-10-09",
+            "target": "SMG-37 Defender",
+            "field": "weapon.fire_rate"
+          },
           "effect": {
             "activeSource": "ACTIVE_AT_INSTANTIATION",
             "appliesWhen": "weapon_build",
@@ -269453,7 +269513,7 @@
             "activeSourceProven": true,
             "reason": "A component member the game copies into the weapon when it builds it (base plus customization deltas, observed in snapshot memory): weapons built after the write use it; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip).",
             "writeVerifiedOnApply": true,
-            "gameplayEffectProven": false,
+            "gameplayEffectProven": true,
             "unverifiedEffect": false
           }
         },

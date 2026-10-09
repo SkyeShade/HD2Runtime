@@ -241,6 +241,11 @@ end
 -- hold): while that carrier is in its pool (eligible, never a native pick) the definition keeps it, ahead of every
 -- unpinned definition; otherwise it is allocated as any other (its slot then moves to that carrier). Pinned
 -- definitions are allocated first, by id.
+-- d.selected == false (0.30.2): a custom stratagem nobody picked. It is allocated after every picked one and only
+-- TENTATIVELY: it gets the first carrier no picked custom stratagem (and no native pick) holds, takes nothing from
+-- another unpicked one, and reserves nothing (assignment.tentative; never in reservations). So a tile is unavailable
+-- only when picking it now would leave it without a carrier, and picks never compete with registered-but-unpicked
+-- definitions. nil counts as picked (the synced lobby table passes only picked ids).
 function M.allocate_policies(world,definitions,present,global_exclude,opts)
     opts=opts or{}
     local out={ready=true,assignments={},refused={},verdicts={},candidates={},order={}}
@@ -309,7 +314,7 @@ function M.allocate_policies(world,definitions,present,global_exclude,opts)
     local order={}
     for k,d in ipairs(definitions)do order[k]=d end
     table.sort(order,function(a,c)
-        local pa,pc=pinned[a.id]and 0 or 1,pinned[c.id]and 0 or 1
+        local pa,pc=pinned[a.id]and 0 or(a.selected==false and 2 or 1),pinned[c.id]and 0 or(c.selected==false and 2 or 1)
         if pa~=pc then return pa<pc end
         local na,nc=#pools[a.id],#pools[c.id]
         if na~=nc then return na<nc end
@@ -330,12 +335,15 @@ function M.allocate_policies(world,definitions,present,global_exclude,opts)
                 or'eligible, ranked after the selected one'end
         end
         if chosen then
-            taken[chosen.id]=d.label
-            verdicts[chosen.id]=chosen==pin and'SELECTED (its loadout slot already holds it)'or'SELECTED'
+            local tentative=d.selected==false and not pin
+            if not tentative then taken[chosen.id]=d.label end
+            verdicts[chosen.id]=chosen==pin and'SELECTED (its loadout slot already holds it)'
+                or tentative and'SELECTED (tentative: nobody picked it; reserves nothing)'or'SELECTED'
             local owned=chosen.eligible==true
             out.assignments[d.id]={label=d.label,carrier=chosen.name,stable_id=chosen.id,type=chosen.type,
                 class=chosen.class,family=chosen.family,beacon=chosen.beaconCategory,beam=chosen.beamColour,
                 ping=chosen.pingColour,eligible=#pool,skipped=skipped,owned=owned,pinned=chosen==pin or nil,
+                tentative=tentative or nil,
                 local_refused=not owned and('the lobby\'s carrier for it is '..chosen.name..', which this account does '
                     ..'not own: unavailable to this player (never remapped: every player must agree)')or nil}
         else
@@ -349,7 +357,7 @@ function M.allocate_policies(world,definitions,present,global_exclude,opts)
     local parts,seen,distinct={},{},true
     for _,id in ipairs(out.order)do
         local a=out.assignments[id]
-        if a then
+        if a and not a.tentative then
             if seen[a.stable_id]then distinct=false end
             seen[a.stable_id]=true
         end
@@ -408,7 +416,9 @@ function M.allocate_lobby(world,definitions,lobby,global_exclude,opts)
     local a=M.allocate_policies(world,definitions,lobby.present or{},global_exclude,
         {lobby=(lobby.players or 1)>1,report=opts.report})
     a.reservations={}
-    for id,assignment in pairs(a.assignments)do a.reservations[assignment.stable_id]=id end
+    for id,assignment in pairs(a.assignments)do
+        if not assignment.tentative then a.reservations[assignment.stable_id]=id end
+    end
     a.mapping=M.lobby_mapping(a,lobby.selections)
     return a
 end

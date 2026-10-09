@@ -1588,13 +1588,16 @@ local function allocate(world,present,list,where,ids,who,quiet,pins_given)
     -- (the allocator's pin); never with the synced lobby table (every peer must allocate alike).
     -- With several players the caller gives them (M.ship_pins aboard the ship; the first-seen records at mission start).
     local pins=pins_given or(not ids and M.probe_pins()or{})
+    for _,d in ipairs(list)do report[d.id]=true end
     for _,d in ipairs(order)do
         if(not only or only[d.id])and(d.kind~='expendable'or ex.fallback[d.id])then
+            -- 0.30.2: without the synced table every registered one is allocated, the picked ones (list, or a pinned
+            -- carrier slot) first; the others only tentatively (carrier_allocator: they reserve nothing).
             definitions[#definitions+1]={id=d.id,label=d.label,token=M.TOKEN,policy=d.alloc_policy or d.policy,
-                eagle=d.eagle~=nil,filter=d.filter,pin=pins[d.id]}
+                eagle=d.eagle~=nil,filter=d.filter,pin=pins[d.id],
+                selected=not(not only and not report[d.id]and not pins[d.id])}
         end
     end
-    for _,d in ipairs(list)do report[d.id]=true end
     local a=allocator.allocate_lobby(world,definitions,{present=present,players=#players},global_exclude(),
         {report=report})
     if not a.ready then return nil,a.reason end
@@ -2452,20 +2455,23 @@ end
 -- carriers the carrier-in-slot probe's slots hold (as the ship allocation's: a held carrier is never given to a tile
 -- nobody picked).
 local group_view={key=nil,at=-math.huge}
-local function group_allocation(world,present,players,pins)
-    pins=pins or{}
-    local keys,pin_keys={},{}
+local function group_allocation(world,present,players,pins,picked)
+    pins,picked=pins or{},picked or{}
+    local keys,pin_keys,picked_keys={},{},{}
     for id in pairs(present)do keys[#keys+1]=tostring(id)end
     table.sort(keys)
     for id,stable in pairs(pins)do pin_keys[#pin_keys+1]=id..'='..tostring(stable)end
     table.sort(pin_keys)
-    local key=table.concat(keys,',')..'|'..players..'|'..table.concat(pin_keys,',')
+    for id in pairs(picked)do picked_keys[#picked_keys+1]=id end
+    table.sort(picked_keys)
+    local key=table.concat(keys,',')..'|'..players..'|'..table.concat(pin_keys,',')..'|'..table.concat(picked_keys,',')
     if group_view.key==key and clock<group_view.at+M.REVALIDATE_EVERY then return group_view.a end
     local definitions={}
     for _,d in ipairs(order)do
         if d.kind~='expendable'then
+            -- A tile nobody picked is tentative (0.30.2): it competes only with the picked ones and the natives.
             definitions[#definitions+1]={id=d.id,label=d.label,token=M.TOKEN,policy=d.alloc_policy or d.policy,
-                eagle=d.eagle~=nil,filter=d.filter,pin=pins[d.id]}
+                eagle=d.eagle~=nil,filter=d.filter,pin=pins[d.id],selected=(picked[d.id]or pins[d.id])and true or false}
         end
     end
     local ok,a=pcall(allocator.allocate_lobby,world,definitions,{present=present,players=players},global_exclude())
@@ -2564,7 +2570,25 @@ do
         return ok or tostring(why)
     end
     -- The problems of the selected custom stratagems now: a list of {line (what fails), advice (how to fix it)}.
+    -- The stratagem table read (problem 4): once per session, at the first check made while no Runtime presentation
+    -- is applied to it. The Runtime's own carrier presentation (a custom's code, icon and payload on its carrier) also
+    -- changes what the table holds, so a read while one is applied would blame "another mod" for the Runtime's own
+    -- writes (0.30.2-dev5: the warning came right after picking Orbital Gas Barrage, solo). Another mod changes the
+    -- table when the game loads, so the first clean read stands for the session. No clean read yet: no problem shown.
+    M.hooks.presentation_applied=function()
+        local ok,cp=pcall(require,'hd2runtime/runtime/carrier_presentation')
+        return ok and type(cp)=='table'and cp.applied and cp.applied()or false
+    end
+    local function table_step(world)
+        if readiness.table_ok~=nil or M.hooks.presentation_applied()then return end
+        readiness.table_ok=M.hooks.stratagem_table(world)
+        if readiness.table_ok~=true then
+            log('READINESS: the stratagem table does not read as reviewed (read while no Runtime presentation was '
+                ..'applied): '..tostring(readiness.table_ok))
+        end
+    end
     function M.readiness(world,v)
+        table_step(world)
         local list=selected()
         if#list==0 then return {},list end
         local problems={}
@@ -2580,10 +2604,10 @@ do
                 if missing>0 then
                     add(('%d player%s without HD2Runtime: your custom slots will be locked.'):format(missing,
                         missing==1 and''or's'),
-                        'Fix: everyone needs the same mods (or play Friends Only), or pick vanilla.')
+                        'Fix: everyone needs the same custom stratagem mods.')
                 else
                     add('A player has other custom stratagem mods: your custom slots will be locked.',
-                        'Fix: everyone needs the same HD2Runtime and custom stratagem mods.')
+                        'Fix: everyone needs the same custom stratagem mods.')
                 end
             end
             if v.status=='waiting'then
@@ -2619,15 +2643,9 @@ do
                     'Fix: open the stratagem selection, stay un-Ready, and let it switch.')
             end
         end
-        -- 4. The stratagem table as the presentation reads it (another mod may have changed it): once per selection.
-        local ids={}
-        for _,d in ipairs(list)do ids[#ids+1]=d.id end
-        local key=table.concat(ids,',')
-        if readiness.table_key~=key then
-            readiness.table_key=key
-            readiness.table_ok=M.hooks.stratagem_table(world)
-        end
-        if readiness.table_ok~=true then
+        -- 4. The stratagem table as the presentation reads it (another mod may have changed it): the session's clean
+        -- read (table_step).
+        if readiness.table_ok~=nil and readiness.table_ok~=true then
             add('Another mod changed the stratagem data: custom names/looks will fail.',
                 'Fix: disable mods that change stratagems or hellpods, then restart.')
         end
@@ -2773,7 +2791,9 @@ local function availability_step(world,v)
             -- the synced table's ids with every player's pins); a tile nobody picked: the view of every registered one.
             local a=ship.alloc
             if not(selected[d.id]and a and(a.assignments[d.id]or a.refused[d.id]))then
-                a=group_allocation(world,present,players,pins)
+                local picked={}
+                for _,id in ipairs(source)do picked[id]=true end
+                a=group_allocation(world,present,players,pins,picked)
             end
             local x=a and a.assignments[d.id]
             if x then

@@ -77,7 +77,7 @@ class LiveEvidenceTests(unittest.TestCase):
                 'vehicle_projectile_reference', 'weapon_ammunition_projectile_reference', 'weapon_fire_rate_modes_native',
                 'weapon_fire_rate_selector_added', 'weapon_heat_per_shot', 'weapon_magazine_capacity',
                 'weapon_mode_presentation', 'weapon_presentation_penetration_label', 'weapon_programmable_ammo_added',
-                'weapon_projectile_damage', 'weapon_projectile_reference_direct', 'weapon_projectile_status_reference',
+                'weapon_projectile_damage', 'weapon_projectile_reference_direct', 'weapon_projectile_status_reference', 'weapon_roots_0_30_2',
                 'weapon_rounds_feed_capacity'],
             'live_partial': ['backpack_deposit_ammo', 'custom_stratagem_carrier_in_slot',
                 'custom_stratagem_expendable_delivery', 'custom_stratagem_native_panel',
@@ -94,7 +94,7 @@ class LiveEvidenceTests(unittest.TestCase):
                 'orbital_pattern_fields', 'projectile_homing', 'projectile_more_donors', 'sentry_component_fields', 'stratagem_call_in_time', 'support_charge_level_rows',
                 'support_overcharge_explosion_rows', 'weapon_fire_rate_wind_up', 'weapon_presentation_traits',
                 'weapon_sound_template']})
-        self.assertEqual((catalog['summary']['tests'], catalog['summary']['passed']), (126, 99))
+        self.assertEqual((catalog['summary']['tests'], catalog['summary']['passed']), (131, 104))   # + WeaponRootsTest (5)
         for name, entry in self.registry['families'].items():
             if entry['status'] == 'live_proven':
                 self.assertTrue(any(t['result'] == 'PASS' for t in live_evidence.tests(name)), name)
@@ -237,7 +237,12 @@ class LiveEvidenceTests(unittest.TestCase):
         ('Orbital 120mm HE Barrage', 'stratagem.presentation.name_cased'),
         ('Orbital 120mm HE Barrage', 'stratagem.presentation.description'),
         ('Orbital 120mm HE Barrage', 'stratagem.presentation.icon'),
-            ('SG-20 Halt', 'damage.primary.standard_damage')] + TASK3_TARGETS + COMPOSITION_TARGETS
+            ('SG-20 Halt', 'damage.primary.standard_damage'),
+            # WeaponRootsTest on 0.30.2-dev5 (2026-10-09): the weapons resolved to their proven roots.
+            ('LAS-7 Dagger', 'heat.capacity'), ('LAS-5 Scythe', 'heat.heat_per_second'),
+            ('GP-31 Grenade Pistol', 'rounds.starting_rounds'), ('GP-31 Grenade Pistol', 'rounds.spare_rounds'),
+            ('P-72 Crisper', 'magazine.capacity'), ('SMG-37 Defender', 'weapon.fire_rate')]
+            + TASK3_TARGETS + COMPOSITION_TARGETS
             + PROJECTILE_BUILDER_TARGETS + VEHICLE_TARGETS))
         weapons = load('PlayerWeaponAuthoringCapabilities.json')
         promoted = sorted((w['name'], f['semanticFieldId']) for w in weapons['weapons'] for f in w['fields']
