@@ -529,7 +529,7 @@ assert(#notices==2 and notices[2]:find('fail | Will fail',1,true)
 -- The host runs its own customs: no multiplayer problem; a table another mod changed and a refused carrier are.
 state,host='Ship',true
 custom.reset_readiness_for_tests()
-custom.hooks.stratagem_table=function()return 'payload list pointer outside/ambiguous in owning group'end
+custom.hooks.stratagem_table=function()return 'hd2runtime/core/stratagem.lua:12: payload list pointer outside/ambiguous in owning group'end
 custom.internals_for_tests().ship().status.pelican_close_air_support='NOT READY: no free member of its carrier group'
 local problems=custom.readiness(world,v)
 assert(#problems==2,#problems)
@@ -581,7 +581,7 @@ custom.internals_for_tests().ship().status.orbital_gas_barrage='READY: carrier O
 custom.reset_readiness_for_tests()
 local reads,applied=0,true
 custom.hooks.presentation_applied=function()return applied end
-custom.hooks.stratagem_table=function()reads=reads+1;return 'payload list pointer outside/ambiguous in owning group'end
+custom.hooks.stratagem_table=function()reads=reads+1;return 'hd2runtime/core/stratagem.lua:12: payload list pointer outside/ambiguous in owning group'end
 local world={runtime={}}
 custom.readiness_step(world,{status='enabled',peers={}})
 assert(reads==0 and#notices==0,'no read and no warning while the Runtime presentation is applied')
@@ -595,6 +595,43 @@ custom.readiness_step(world,{status='enabled',peers={}})
 applied=false
 custom.readiness_step(world,{status='enabled',peers={}})
 assert(reads==1,'read once per session: '..reads)
+return 'ok'
+""")
+
+    def test_a_yielding_read_finishes_and_a_failed_read_is_no_verdict(self):
+        # 0.30.2 live (a busy update): the table read yielded inside a pcall ("attempt to yield across C-call
+        # boundary") and was reported as another mod's change. The read runs in its own coroutine now, and only the
+        # table's own shape errors (core/stratagem.lua) count as a change.
+        self.mp(r"""
+local notices={}
+custom.hooks.alert=function()return {post=function(a)notices[#notices+1]=a.items[1].line;return true end,
+    clear=function()end}end
+rawset(_G,'ModOptionsMenu',MENU)
+examples()
+local wm=require('hd2runtime/runtime/event_world')
+local sel=require('hd2runtime/runtime/stratagem_selector')
+wm.game_state=function()return {name='Ship',host=true}end
+wm.players=function()return {{peer='P1'}}end
+sel.virtual_slots=function()return {slots={[3]={definition='orbital_gas_barrage',carrier=true,token=1}}}end
+custom.internals_for_tests().ship().status.orbital_gas_barrage='READY: carrier Orbital Gatling Barrage'
+custom.hooks.presentation_applied=function()return false end
+-- The real hook over a capture that yields three times (a reader out of its time slice) and then succeeds.
+local S=require('hd2runtime/core/stratagem')
+local real=S.capture_all
+local yields=0
+S.capture_all=function()for _=1,3 do yields=yields+1;coroutine.yield()end;return {}end
+assert(custom.hooks.stratagem_table({runtime={}})==true and yields==3,'a yielding read finishes')
+S.capture_all=real
+-- A read that fails for another reason: no card, logged once, tried again later.
+custom.reset_readiness_for_tests()
+local reads=0
+custom.hooks.stratagem_table=function()reads=reads+1;return 'hd2runtime/runtime/reader.lua:29: memory query failed'end
+local world={runtime={}}
+custom.readiness_step(world,{status='enabled',peers={}})
+custom.readiness_step(world,{status='enabled',peers={}})
+assert(reads==1 and#notices==0,'no verdict and no card: '..reads..' '..#notices)
+assert(count('READINESS: the stratagem table could not be read now')==1)
+assert(count('does not read as reviewed')==0)
 return 'ok'
 """)
 

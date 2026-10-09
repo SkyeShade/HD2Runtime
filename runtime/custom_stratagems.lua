@@ -2561,14 +2561,25 @@ do
     end
     -- The stratagem table read as the presentation reads it (core/stratagem.capture_all): true, or why it cannot be.
     M.hooks=M.hooks or{}
+    -- true, or the error. The reader yields when a busy update has spent its time slice, and a yield cannot cross a
+    -- pcall (0.30.2 live: "attempt to yield across C-call boundary" reported as another mod's change), so the read
+    -- runs in its own coroutine, resumed until it finishes (a one-time read).
     M.hooks.stratagem_table=function(world)
-        local ok,why=pcall(function()
+        local co=coroutine.create(function()
             local reader=require('hd2runtime/runtime/reader').new(world.runtime)
             local profile=require('hd2runtime/schemas/current')
             return require('hd2runtime/core/stratagem').capture_all(world.runtime,reader,profile)
         end)
-        return ok or tostring(why)
+        for _=1,100000 do
+            local ok,why=coroutine.resume(co)
+            if not ok then return tostring(why)end
+            if coroutine.status(co)=='dead'then return true end
+        end
+        return 'the stratagem table read did not finish'
     end
+    -- Whether a read error is the table's own shape (core/stratagem.lua's checks: what another mod changes), not the
+    -- read itself failing (memory, the reader): only the shape counts as "another mod changed the stratagem data".
+    function M.table_changed(why)return type(why)=='string'and why:find('core/stratagem',1,true)~=nil end
     -- The problems of the selected custom stratagems now: a list of {line (what fails), advice (how to fix it)}.
     -- The stratagem table read (problem 4): once per session, at the first check made while no Runtime presentation
     -- is applied to it. The Runtime's own carrier presentation (a custom's code, icon and payload on its carrier) also
@@ -2581,10 +2592,21 @@ do
     end
     local function table_step(world)
         if readiness.table_ok~=nil or M.hooks.presentation_applied()then return end
-        readiness.table_ok=M.hooks.stratagem_table(world)
-        if readiness.table_ok~=true then
+        if clock<(readiness.table_retry or 0)then return end
+        local result=M.hooks.stratagem_table(world)
+        if result~=true and not M.table_changed(result)then
+            -- The read itself failed: no verdict; tried again in M.READINESS_TRANSIENT s (logged once).
+            readiness.table_retry=clock+M.READINESS_TRANSIENT
+            if not readiness.table_said then
+                readiness.table_said=true
+                log('READINESS: the stratagem table could not be read now ('..tostring(result)..'); tried again later')
+            end
+            return
+        end
+        readiness.table_ok=result
+        if result~=true then
             log('READINESS: the stratagem table does not read as reviewed (read while no Runtime presentation was '
-                ..'applied): '..tostring(readiness.table_ok))
+                ..'applied): '..tostring(result))
         end
     end
     function M.readiness(world,v)
