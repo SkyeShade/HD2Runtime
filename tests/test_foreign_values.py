@@ -197,6 +197,26 @@ return json.encode({state=d.state,reason=d.reason})
         self.assertEqual(result['state'], 'changed', result)
         self.assertIn('damage status link changed', result['reason'])
 
+    def test_one_capture_serves_every_field_of_a_request(self):
+        # Live 2026-10-09: one resolution per field cost up to 20 ms a call. Eight fields now read what one reads.
+        result = snapshot_run(r'''
+update=update or function()end
+local metrics=require('hd2runtime/runtime/metrics')
+local w=hd2.stratagem('A/ARC-3 Tesla Tower'):deployed_entity():weapon('primary'):attack('primary_damage')
+local f8={'damage.standard_damage','damage.durable_damage','damage.ap_direct','damage.ap_slight','damage.ap_large',
+ 'damage.ap_extreme','damage.demolition','damage.stagger'}
+local function q()local s=metrics.snapshot();return(s.counters and s.counters['reader.queries'])or s['reader.queries']or 0 end
+local warm=hd2.inspect({target=w,fields={f8[1]}});settle({warm})
+local a=q();local one=hd2.inspect({target=w,fields={f8[1]}});settle({one});local cost_one=q()-a
+a=q();local eight=hd2.inspect({target=w,fields=f8});settle({eight});local cost_eight=q()-a
+local states={}
+for _,f in ipairs(eight.result.fields)do states[#states+1]=f.state end
+return json.encode({one=cost_one,eight=cost_eight,states=states})
+''')
+        self.assertGreater(result['one'], 0)
+        self.assertEqual(result['eight'], result['one'])
+        self.assertEqual(result['states'], ['vanilla'] * 8)
+
 
 if __name__ == '__main__':
     unittest.main()

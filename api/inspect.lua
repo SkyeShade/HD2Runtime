@@ -131,59 +131,123 @@ function M.validate(request)
     end
     return items
 end
+-- Cost (live 2026-10-09: one resolution per field cost up to 20 ms a call when a mod inspected often): every field
+-- of the request is captured once (the domain's capture_many: one discovery, one transaction context per address),
+-- then each field's prepare runs in its own coroutine, so one field's refusal never fails another, and one stable
+-- re-read verifies them all. A capture or a re-read that fails (the data moved) falls back to one full resolution per
+-- field. Coroutines, never pcall, around code that reads: a read may yield (0.30.3: no yield across a C call).
 function M.start(runtime,emit,request)
     local items=M.validate(request)
     local target,on_result=request.target,request.on_result
     local job={status='running',kind='inspect',perf_label='inspect '..tostring(target.resource)}
-    local results,by_field={},{}
-    local index,worker,spent=0,nil,0
-    local function finish(item,out)
-        out.field=item.field
-        results[#results+1]=out;by_field[item.field]=out
-    end
-    function job.cancel()if job.status=='running'then job.status='cancelled'end end
-    function job.tick(dt)
-        if job.status~='running'then return end
-        spent=spent+(dt or 0)
-        if not worker then
-            index=index+1
-            local item=items[index]
-            if not item then
-                job.status='complete';job.result={fields=results,by_field=by_field}
-                if on_result then
-                    local ok,why=pcall(on_result,job.result)
-                    if not ok then pcall(emit,'[HD2Runtime] inspect on_result failed: '..tostring(why))end
-                end
-                return
-            end
-            if item.expect==nil then
-                return finish(item,{state='invalid',reason='no reviewed value for this field: pass {field, expect}'})
-            end
+    local results,pending={},{}
+    for index,item in ipairs(items)do
+        if item.expect==nil then
+            results[index]={state='invalid',reason='no reviewed value for this field: pass {field, expect}'}
+        else
             local spec,why=spec_for(target,item.field,item.expect)
-            if not spec then return finish(item,{state='invalid',reason=why})end
-            for _,change in ipairs(spec.changes or{})do change.inspect={}end
-            worker=coroutine.create(function()
-                local domains=require('hd2runtime/domains/write_domains')
-                local reader=Reader.new(runtime)
-                local domain=domains.for_kind(spec.kind)
-                local resolved=domain.capture(runtime,reader,spec)
-                domain.prepare(resolved,reader,spec)
-                reader.verify()
-                return spec
-            end)
-            job.current={item=item,spec=spec,steps=0}
+            if spec then pending[#pending+1]={index=index,item=item,spec=spec}
+            else results[index]={state='invalid',reason=why}end
         end
-        local current=job.current
-        current.steps=current.steps+1
+    end
+    local function reset(entry)for _,change in ipairs(entry.spec.changes or{})do change.inspect={}end end
+    for _,entry in ipairs(pending)do reset(entry)end
+    local domain=#pending>0 and require('hd2runtime/domains/write_domains').for_kind(pending[1].spec.kind)
+    local stage=#pending>0 and'capture'or'done'
+    local worker,steps,cursor,reader,resolved=nil,0,0,nil,nil
+    local prepared={}
+    local function change_of(entry)return(entry.spec.changes or{})[1]or{field=entry.item.field}end
+    local function reason_of(result)return(tostring(result):gsub('^[^%s:]+:%d+: ',''))end
+    local function begin(fn)worker=coroutine.create(fn);steps=0 end
+    -- Resumes the worker once: nil while it runs, else true and its result or false and why.
+    local function step()
+        steps=steps+1
         local ok,result=coroutine.resume(worker)
         if ok and coroutine.status(worker)~='dead'then
-            if current.steps<=10000 then return end
+            if steps<=10000 then return nil end
             ok,result=false,'inspect resolution budget exhausted'
         end
-        worker=nil;job.current=nil
-        local change=(current.spec.changes or{})[1]or{field=current.item.field}
-        local reason=not ok and tostring(result):gsub('^[^%s:]+:%d+: ','')or nil
-        finish(current.item,classify(change,reason))
+        worker=nil
+        return ok,result
+    end
+    local function single()
+        stage,cursor='single',0
+        for _,entry in ipairs(pending)do reset(entry)end
+    end
+    local function finish()
+        job.status='complete'
+        local fields,by_field={},{}
+        for index,item in ipairs(items)do
+            local out=results[index]or{state='unavailable',reason='not resolved'}
+            out.field=item.field;fields[index]=out;by_field[item.field]=out
+        end
+        job.result={fields=fields,by_field=by_field}
+        if on_result then
+            local ok,why=pcall(on_result,job.result)
+            if not ok then pcall(emit,'[HD2Runtime] inspect on_result failed: '..tostring(why))end
+        end
+    end
+    function job.cancel()if job.status=='running'then job.status='cancelled'end end
+    function job.tick()
+        if job.status~='running'then return end
+        if stage=='done'then return finish()end
+        if stage=='capture'then
+            if not worker then
+                local specs={}
+                for index,entry in ipairs(pending)do specs[index]=entry.spec end
+                begin(function()
+                    reader=Reader.new(runtime)
+                    return domain.capture_many(runtime,reader,specs)
+                end)
+            end
+            local ok,result=step()
+            if ok==nil then return end
+            if not ok then return single()end
+            resolved,stage,cursor=result,'prepare',0
+            return
+        end
+        if stage=='prepare'or stage=='verify'then
+            if not worker then
+                cursor=cursor+1
+                local entry=pending[cursor]
+                if not entry then
+                    stage='verify'
+                    begin(function()reader.verify()end)
+                else
+                    begin(function()domain.prepare(resolved[cursor],reader,entry.spec)end)
+                end
+            end
+            local ok,result=step()
+            if ok==nil then return end
+            if stage=='verify'then
+                if not ok then return single()end
+                for index,entry in ipairs(pending)do
+                    if prepared[index]~=nil then
+                        results[entry.index]=classify(change_of(entry),prepared[index]~=true and prepared[index]or nil)
+                    end
+                end
+                stage='done'
+                return
+            end
+            prepared[cursor]=ok and true or reason_of(result)
+            return
+        end
+        -- single: one full guarded resolution per field
+        if not worker then
+            cursor=cursor+1
+            local entry=pending[cursor]
+            if not entry then stage='done';return end
+            begin(function()
+                local own=Reader.new(runtime)
+                local captured=domain.capture(runtime,own,entry.spec)
+                domain.prepare(captured,own,entry.spec)
+                own.verify()
+            end)
+        end
+        local entry=pending[cursor]
+        local ok,result=step()
+        if ok==nil then return end
+        results[entry.index]=classify(change_of(entry),not ok and reason_of(result)or nil)
     end
     return job
 end
