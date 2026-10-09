@@ -345,6 +345,53 @@ def ink_rows(font: dict, rgba: np.ndarray, cp: int) -> tuple[float, float]:
     return top + 0.5 - crossing(top, top - 1), bottom + 0.5 + crossing(bottom, bottom + 1)
 
 
+def _invisible(cp: int) -> bool:
+    """A character that draws nothing by design (spaces, format and control characters)."""
+    import unicodedata
+    return unicodedata.category(chr(cp)) in ('Zs', 'Zl', 'Zp', 'Cf', 'Cc')
+
+
+def _crossed_box(mask: np.ndarray) -> bool:
+    """The game's 'no glyph' drawing: a rectangle frame, empty inside or crossed by its two diagonals (live
+    2026-10-09: the language names each language font lists, 简体中文 in the Korean font and 한국어 in the Chinese one,
+    drew as these boxes). Inside the frame nothing may be inked off the diagonals (a B or a 日 has strokes there)."""
+    ys, xs = np.nonzero(mask)
+    if len(ys) < 16:
+        return False
+    box = mask[ys.min():ys.max() + 1, xs.min():xs.max() + 1]
+    h, w = box.shape
+    if h < 8 or w < 8:
+        return False
+    sides = (box[:2].any(axis=0), box[-2:].any(axis=0), box[:, :2].any(axis=1), box[:, -2:].any(axis=1))
+    if min(side.mean() for side in sides) < 0.75:
+        return False
+    def inked(fy, fx):
+        y, x = int(h * fy), int(w * fx)
+        return bool(box[max(0, y - 1):y + 2, max(0, x - 1):x + 2].any())
+    # the points between the frame and the diagonals, on each side: empty in both box drawings
+    return not any(inked(fy, fx) for fy, fx in ((0.5, 0.25), (0.5, 0.75), (0.25, 0.5), (0.75, 0.5)))
+
+
+def undrawable_glyphs(font: dict, rgba: np.ndarray) -> list[int]:
+    """The codepoints a game font lists but cannot draw. A language font also lists the characters of the other
+    languages' names (the language menu's), baked from a typeface without them: its atlas holds an empty cell, or the
+    crossed box, for each. A glyph is undrawable when its cell has no ink and the character is not one that draws
+    nothing by design, or when two or more characters share one identical crossed-box cell. Shared cells alone are
+    never enough (Latin E and Cyrillic Е, l and I legitimately share one), nor is a box alone (口 is a box)."""
+    med = msdf_median(rgba)
+    edge = font['bias'] / -font['scale'] if font['scale'] else 0.5
+    groups = {}
+    for cp, rec in font['glyphs'].items():
+        x, y, w, h = (int(v) for v in rec[:4])
+        mask = (med[y:y + h, x:x + w].astype(np.float64) / 255 > edge) if w > 0 and h > 0 else np.zeros((0, 0), bool)
+        groups.setdefault((mask.shape, hashlib.sha256(np.packbits(mask).tobytes()).hexdigest()), (mask, []))[1].append(cp)
+    out = []
+    for mask, cps in groups.values():
+        if not mask.any() or (len(cps) >= 2 and _crossed_box(mask)):
+            out += [cp for cp in cps if not _invisible(cp)]
+    return sorted(out)
+
+
 def baseline_drop(font: dict, rgba: np.ndarray, cp: int = ord('H')) -> dict:
     """Where Gui.text draws a font's baseline against the y it is given, from the engine's glyph placement (exe
     0x173310: scale = size / em; a cell's top at y + (offset - by - pad) x scale, y up) and the ink of a glyph that
@@ -409,8 +456,12 @@ def game_font_metrics(key: str, src: dict) -> dict:
     if not fit['size'] or fit['borderInside'] > 0.002 or fit['cellInside'] < 0.05:
         raise ValueError('the %s font does not fit its atlas: %r' % (key, fit))
     placement = baseline_drop(font, rgba)
+    # Characters the font lists but draws as an empty cell or the crossed box are left out: the overlay then draws
+    # them with another resident font that has them, or as '?' like any other missing character.
+    missing = set(undrawable_glyphs(font, rgba))
     return {'header': header, 'fit': fit, 'drop': placement['drop'], 'cap': placement['cap'],
-        'advances': {cp: round(rec[6], 3) for cp, rec in sorted(font['glyphs'].items())},
+        'undrawable': sorted(missing),
+        'advances': {cp: round(rec[6], 3) for cp, rec in sorted(font['glyphs'].items()) if cp not in missing},
         'kerning': kerning_pairs(src['font'])}
 
 

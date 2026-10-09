@@ -453,6 +453,36 @@ class BuildTests(unittest.TestCase):
             self.assertEqual(m['fit']['borderInside'], 0.0, key)
             self.assertEqual(m['drop'], 0.0, key)
         self.assertIn(0x4E2D, hd2_font.parse_font(src['zh_hans']['font'])['glyphs'])
+        # Live 2026-10-09: each language font lists the other languages' names but draws them as boxes or blanks.
+        undrawable = {key: set(hd2_font.game_font_metrics(key, src[key])['undrawable'])
+            for key in ('default', 'zh_hans', 'ko')}
+        self.assertTrue({ord(c) for c in '简体中文日本語한국어Р'} <= undrawable['default'])
+        self.assertEqual(undrawable['zh_hans'], {ord(c) for c in '한국어'})
+        self.assertEqual(undrawable['ko'], {ord(c) for c in '简体'})
+
+    def test_undrawable_glyphs_are_the_boxes_and_blanks_only(self):
+        # A synthetic atlas: inked pixels 255 (the MSDF median), the edge at 0.5.
+        rgba = np.zeros((40, 200, 4), np.uint8)
+        def frame(x, cross=False):
+            cell = np.zeros((20, 16), bool)
+            cell[2, 2:14] = cell[17, 2:14] = True
+            cell[2:18, 2] = cell[2:18, 13] = True
+            if cross:
+                for i in range(16):
+                    cell[2 + i, 2 + int(i * 11 / 15)] = cell[2 + i, 13 - int(i * 11 / 15)] = True
+            rgba[0:20, x:x + 16][cell] = 255
+        frame(0, cross=True)           # the crossed box, shared by two characters
+        frame(20)                      # a plain box, shared by two characters
+        frame(40)                      # a plain box only one character draws (口: its own, slightly taller, drawing)
+        rgba[18, 42:54] = 255
+        rgba[0:20, 62:64] = 255; rgba[0:20, 70:72] = 255; rgba[9:11, 62:72] = 255   # an H, shared (H, Cyrillic Н)
+        glyphs = {0x7B80: (0, 0, 16, 20), 0xD55C: (0, 0, 16, 20),        # 简, 한: the crossed box
+                  0xAD6D: (20, 0, 16, 20), 0xC5B4: (20, 0, 16, 20),      # 국, 어: the plain box
+                  0x53E3: (40, 0, 16, 20),                               # 口
+                  ord('H'): (60, 0, 16, 20), 0x041D: (60, 0, 16, 20),    # H and Н
+                  0x4E2D: (100, 0, 16, 20), 0x20: (100, 0, 16, 20), 0xFEFF: (100, 0, 16, 20)}  # 中 blank, space, BOM
+        font = {'glyphs': {cp: rec + (0, 0, 10) for cp, rec in glyphs.items()}, 'bias': 0.5, 'scale': -1.0}
+        self.assertEqual(hd2_font.undrawable_glyphs(font, rgba), sorted([0x7B80, 0xD55C, 0xAD6D, 0xC5B4, 0x4E2D]))
 
 
 if __name__ == '__main__':
