@@ -215,3 +215,32 @@ return json.encode({heat=row(h.heat),cool=row(h.cool),erg=row(h.erg),rate=row(h.
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class YieldSafetyTests(unittest.TestCase):
+    def test_the_check_never_yields_across_a_pcall(self):
+        # 0.30.2 live: the game's LuaJIT cannot yield across a pcall. The reader yields mid-check; protected() passes
+        # each yield up to the capture's coroutine and finishes the call; outside a coroutine it resumes at once.
+        from support import run
+        self.assertEqual(run(r'''
+local T=require('hd2runtime/core/component_tables')
+local yields=0
+local function reads(n)for i=1,n do coroutine.yield()end;return 'done',n end
+-- inside a coroutine: every inner yield reaches the outer resumer
+local co=coroutine.create(function()return T.protected(reads,3)end)
+local results
+while true do
+    local r={coroutine.resume(co)}
+    assert(r[1],tostring(r[2]))
+    if coroutine.status(co)=='dead'then results=r;break end
+    yields=yields+1
+end
+assert(yields==3 and results[2]==true and results[3]=='done'and results[4]==3,yields)
+-- outside a coroutine: resumed at once, no yield escapes
+local ok,a,b=T.protected(reads,2)
+assert(ok==true and a=='done'and b==2)
+-- an error is returned like pcall's
+local okx,why=T.protected(function()error('boom',0)end)
+assert(okx==false and why=='boom')
+return 'ok'
+'''), b'ok')

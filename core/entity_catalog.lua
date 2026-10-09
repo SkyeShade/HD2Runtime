@@ -97,9 +97,20 @@ function M.capture(reader,owner,profile,names,options)
     reader.stage='core/entity_catalog:component_tables'
     local checked,refused=true,{}
     if not(type(options)=='table'and options.identity_scan==true)then
-        checked,refused=pcall(function()
+        -- Its own coroutine, never a pcall: the reader yields when a busy update has spent its slice, and a yield
+        -- cannot cross a pcall in the game's LuaJIT (0.30.2 live: "attempt to yield across C-call boundary"). Each
+        -- inner yield is passed up when this capture runs in a coroutine (the read pacing holds); otherwise the check
+        -- is resumed at once.
+        local co=coroutine.create(function()
             return require('hd2runtime/core/component_tables').check(reader,owner,profile,schemas)
         end)
+        local outer=coroutine.running()
+        while true do
+            local ok,result=coroutine.resume(co)
+            if not ok then checked,refused=false,result;break end
+            if coroutine.status(co)=='dead'then refused=result;break end
+            if outer then coroutine.yield()end
+        end
     end
     if not checked then
         local why='TARGET_UNAVAILABLE: the component table pointers could not be checked ('

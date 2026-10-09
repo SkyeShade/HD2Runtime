@@ -53,6 +53,24 @@ local function note_moved(name)
     end)
 end
 
+-- pcall for code that reads through the reader: the reader yields when a busy update has spent its slice, and a yield
+-- cannot cross a pcall in the game's LuaJIT (0.30.2 live: "attempt to yield across C-call boundary"). The function runs
+-- in its own coroutine; each of its yields is passed up when the caller runs in a coroutine (the read pacing holds),
+-- else it is resumed at once. Returns what pcall would.
+local unpack=unpack or table.unpack
+local function protected(fn,...)
+    local args,n={...},select('#',...)
+    local co=coroutine.create(function()return fn(unpack(args,1,n))end)
+    local outer=coroutine.running()
+    while true do
+        local result={coroutine.resume(co)}
+        if not result[1]then return false,result[2]end
+        if coroutine.status(co)=='dead'then return unpack(result,1,table.maxn(result))end
+        if outer then coroutine.yield()end
+    end
+end
+M.protected=protected
+
 -- Exact bytes of every pin, once per loaded game.dll: true, or false and why.
 local function prove(reader,image,profile)
     local key=tostring(image.base)
@@ -105,17 +123,17 @@ function M.check(reader,owner,profile,components)
     local dll=reader.module('game.dll')
     if not dll then return all('TARGET_UNAVAILABLE: game.dll not loaded (component table pointers unreadable)')end
     if reader.fingerprint then
-        local ok,why=pcall(reader.fingerprint)
+        local ok,why=protected(reader.fingerprint)
         if not ok then return all((tostring(why):gsub('^[^%s:]+:%d+: ','')))end
     end
     reader.stage='core/component_tables:pins'
     local image={base=dll,size=D.imageExtent,type=IMAGE}
-    local ok,proved,why=pcall(prove,reader,image,profile)
+    local ok,proved,why=protected(prove,reader,image,profile)
     if not ok then return all('TARGET_UNAVAILABLE: the entity manager code is unreadable ('..tostring(proved)..')')end
     if not proved then return all('component table pointers unproven: '..tostring(why))end
     reader.stage='core/component_tables:pointers'
     local slots,reason=nil,nil
-    ok,reason=pcall(function()
+    ok,reason=protected(function()
         local manager=b.pointer(reader.read(image,D.global,8),0)
         assert(manager and manager~=0,'the entity manager is not initialised')
         local at=manager+D.slotBase
