@@ -74,7 +74,27 @@ def _fixture():
     spans += [{'at':base,'bytes':bytes(buffer)}, {'at':0x10000000,'bytes':bytes(image)},
               {'at':0x10000000+0x348E8F8,'bytes':struct.pack('<Q',base)},
               {'at':0x10000000+0x37CB600,'bytes':bytes(pointers)}]
-    return 'local spans='+lua(spans)+'\nlocal cooldown_offset='+str(target_offset)+'\n'+(ROOT/'tests/memory.lua').read_text()
+    spans += component_table_spans(0x10000000, 0x100000)
+    return'local spans='+lua(spans)+'\nlocal cooldown_offset='+str(target_offset)+'\n'+(ROOT/'tests/memory.lua').read_text()
+
+
+# The game's entity manager in the fixture (core/component_tables.lua): its global, the reviewed code pins and one
+# table pointer per component index, each at the entity region's own table (as in every vanilla snapshot).
+FIXTURE_SLOTS = 0x20000000
+
+
+def component_table_spans(dll, entity):
+    import re
+    import generate_component_tables
+    domain = generate_component_tables.build()
+    profile = (ROOT/'schemas/current.lua').read_text(encoding='utf-8')
+    slots = bytearray(8*domain['slots'])
+    for offset, index in re.findall(r'\["offset"\]=(\d+),\["header"\]="[0-9a-f]+",\["index"\]=(\d+)', profile):
+        struct.pack_into('<Q', slots, 8*int(index), entity+int(offset)+domain['tableFromProfileOffset'])
+    pins = domain['pins'] + [pin for rows in domain['lookups'].values() for pin in rows]
+    return ([{'at': dll+domain['global'], 'bytes': struct.pack('<Q', FIXTURE_SLOTS-domain['slotBase'])},
+             {'at': FIXTURE_SLOTS, 'bytes': bytes(slots)}]
+            + [{'at': dll+pin['rva'], 'bytes': bytes.fromhex(pin['hex'])} for pin in pins])
 
 
 _BUNDLE = {}

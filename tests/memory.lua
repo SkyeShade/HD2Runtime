@@ -6,6 +6,7 @@ local regions={
     {base=0x5000000,size=0xD000},
     {base=0x6000000,size=0x14000},
     {base=0x10000000,size=0x3800000,type=0x1000000},
+    {base=0x20000000,size=0x1000},  -- the entity manager's component table pointers (tests/support.py)
 }
 local runtime={mode='fixture',reads=0}
 function runtime.module(name)return name or 'exe'end

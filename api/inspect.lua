@@ -7,7 +7,10 @@
 --                       its id);
 --         'foreign'     neither: a mod outside HD2Runtime changed it (owner = 'unknown': a data-file mod or another
 --                       program writing game memory). Writes to it are refused (CONFLICT, owner=unknown); a stats
---                       editor shows it read-only;
+--                       editor shows it read-only. Also every field of a component whose table the game reads from
+--                       another place (another mod moved it, core/component_tables.lua: the LAS-12 Sai's WeaponHeat
+--                       with True Lasgun Beam Overhaul); no value is reported then (HD2Runtime's table is not the
+--                       game's);
 --         'changed'     a structural part this field depends on (a link, a status slot, a native array, its
 --                       weapon's entity map row) is not as reviewed (reason); owner 'unknown' when another mod
 --                       changed the entity map row;

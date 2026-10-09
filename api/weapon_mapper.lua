@@ -164,7 +164,9 @@ function M.start(runtime,emit,request)
         local needed={entity=true,projectile=true,damage=true,arc='optional',beam='optional'}
         if request.support_graph then needed.explosion=true;needed.status=true end
         local roots=discover.locate(runtime,reader,profile,needed)
-        local catalog=entities.capture(reader,roots.entity,profile,component_names)
+        -- An identity scan (no write, historical snapshots included): the records' own bytes, wherever the game reads
+        -- them from now (core/component_tables.lua guards the writes).
+        local catalog=entities.capture(reader,roots.entity,profile,component_names,{identity_scan=true})
         local weapon_candidates={}
         for _,candidate in ipairs(catalog.candidates)do
             if candidate.ownership.ProjectileWeaponComponentData

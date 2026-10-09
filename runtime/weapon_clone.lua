@@ -313,6 +313,10 @@ local function capture(world,carrier,variant)
     local records={}
     local em=world.view.pointer(world.game+D.entityManager)
     for component,r in pairs(c.records)do
+        -- another mod moved this component's table (core/component_tables.lua): the game reads its copy, not these
+        if catalog.tables and require('hd2runtime/core/component_tables').is_moved(catalog.tables[component])then
+            return nil,'TABLE_ELSEWHERE',carrier..' '..component..': '..catalog.tables[component]
+        end
         local ok,record=pcall(catalog.record,candidate,component)
         if not ok then return nil,'IDENTITY_CHANGED',carrier..' '..component..': '..tostring(record)end
         local id=record.identity

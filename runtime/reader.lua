@@ -69,6 +69,13 @@ function M.new(runtime)
         if capture then self.snapshots[#self.snapshots+1]={owner=owner,offset=start,bytes=bytes} end
         return bytes
     end
+    -- Read-only identity helpers for pinned image reads (core/component_tables.lua): a loaded module's base address
+    -- (nil when it is not loaded) and the build fingerprint check (raises like core/fingerprint.require).
+    function self.module(name)
+        local handle=runtime.module and runtime.module(name)
+        return handle and runtime.address(handle)or nil
+    end
+    function self.fingerprint()require('hd2runtime/core/fingerprint').require(runtime)end
     function self.verify()
         for _,s in ipairs(self.snapshots)do
             assert(self.read(s.owner,s.offset,#s.bytes)==s.bytes,'unstable ownership/data snapshot')

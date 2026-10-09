@@ -13,7 +13,8 @@ local function emit(message)
     local ok,log=pcall(require,'hd2runtime/runtime/log')
     if ok and log and log.emit then pcall(log.emit,message)end
 end
--- info = {target = readable target, field = field id, observed = text, expected = text}. Returns the entry.
+-- info = {target = readable target, field = field id, observed = text, expected = text, silent = no log line}.
+-- Returns the entry.
 function M.note(info)
     if type(info)~='table'then return nil end
     local target,field=tostring(info.target or'unknown target'),tostring(info.field or'?')
@@ -26,10 +27,11 @@ function M.note(info)
     if #order>=M.MAX then return nil end
     entry={target=target,field=field,observed=info.observed,expected=info.expected,owner='unknown',seen=1}
     entries[key]=entry;order[#order+1]=key
-    emit('[HD2Runtime] FOREIGN VALUE: '..target..' '..field..' is '..tostring(info.observed)
+    -- silent: the caller already logged its own line (core/component_tables.lua: a moved component table)
+    if not info.silent then emit('[HD2Runtime] FOREIGN VALUE: '..target..' '..field..' is '..tostring(info.observed)
         ..', not HD2Runtime\'s reviewed '..tostring(info.expected)..': owner unknown mod (a mod outside HD2Runtime: '
         ..'a data-file mod or another program writing game memory). HD2Runtime leaves it as it is and refuses writes '
-        ..'to this value only; every other value is unaffected')
+        ..'to this value only; every other value is unaffected')end
     return entry
 end
 -- Every value found so, in the order found: {target, field, observed, expected, owner = 'unknown', seen}.

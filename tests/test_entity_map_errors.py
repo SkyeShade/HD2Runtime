@@ -36,6 +36,8 @@ return 'ok'
         # stray row is a diagnostic of its own resource; every other resource resolves as before; logged once.
         self.assertEqual(run(r"""
 local catalog=require('hd2runtime/core/entity_catalog')
+-- This hand-built map has no game.dll: the table pointers read as in place (tests/test_component_tables.py covers them).
+package.loaded['hd2runtime/core/component_tables']={check=function()return{}end}
 local logged={}
 require('hd2runtime/runtime/log').emit=function(t)logged[#logged+1]=t end
 local function le(n,w)local t={};for i=1,w do t[i]=string.char(n%256);n=math.floor(n/256)end;return table.concat(t)end

@@ -11,7 +11,9 @@ local function sorted_keys(values)
     table.sort(out);return out
 end
 
-function M.capture(reader,owner,profile,names)
+-- options.identity_scan: a read-only identity scan (api/weapon_mapper.lua only; it never writes) reads the records'
+-- own bytes without the table pointer check. Every write path omits it.
+function M.capture(reader,owner,profile,names,options)
     metrics.count('entity_catalog.captures')
     local started=metrics.now()
     reader.stage='core/entity_catalog:entity_map'
@@ -87,6 +89,24 @@ function M.capture(reader,owner,profile,names)
         end
         components[name]={schema=c,by_record=by_record,records={}}
     end
+    -- 0.30.4: the game must read each captured component from exactly this table (core/component_tables.lua). A
+    -- component another mod repointed to its own copy is refused alone (its records raise the CONFLICT below); every
+    -- other component reads and writes as before. Read-only, per capture.
+    local schemas={}
+    for name,component in pairs(components)do schemas[name]=component.schema end
+    reader.stage='core/entity_catalog:component_tables'
+    local checked,refused=true,{}
+    if not(type(options)=='table'and options.identity_scan==true)then
+        checked,refused=pcall(function()
+            return require('hd2runtime/core/component_tables').check(reader,owner,profile,schemas)
+        end)
+    end
+    if not checked then
+        local why='TARGET_UNAVAILABLE: the component table pointers could not be checked ('
+            ..tostring(refused):gsub('^[^%s:]+:%d+: ','')..')'
+        refused={}
+        for name in pairs(components)do refused[name]=why end
+    end
 
     local function member(entry,index)
         for n=0,entry.count-1 do if b.u16(map,28+entry.offset+n*2)==index then return true end end
@@ -115,11 +135,14 @@ function M.capture(reader,owner,profile,names)
     end
 
     -- strays: {row, resource, reason} of every row refused above (no write to them; diagnostics for a log).
-    local catalog={candidates=ordered,strays=strays}
+    -- tables: {[component] = reason} of every component whose records are refused (the game reads its table from
+    -- another place, or the pointer could not be read).
+    local catalog={candidates=ordered,strays=strays,tables=refused}
     metrics.elapsed('entity_catalog.build',started)
     function catalog.record(candidate,name)
         local identity=assert(candidate.ownership[name],name..' ownership absent')
         assert(candidate.entityRow~=nil,name..' entity ownership unproven')
+        if refused[name]then error(refused[name],0)end
         local component=components[name]
         local cached=component.records[identity.recordIndex]
         if cached then return cached end
