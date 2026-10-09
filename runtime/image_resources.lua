@@ -308,6 +308,17 @@ function M.loaded(runtime,type_hex,name)
     if not at then return false,reason end
     return true
 end
+-- The same by the resource's 64-bit name hash (16 hex digits) when its name string is unknown (the game's own language
+-- fonts and their atlases, runtime/ui_fonts.lua): true, or false and why. Read-only.
+function M.loaded_hex(runtime,type_hex,hex)
+    if not(type(hex)=='string'and#hex==16 and hex:match('^%x+$'))then return false,'invalid resource hash'end
+    local m,why=open(runtime)
+    if not m then return false,why end
+    local type_high,type_bytes=type_key(type_hex)
+    local at,reason=resource(m,type_high,type_bytes,'resource',tonumber(hex:sub(1,8),16),tonumber(hex:sub(9,16),16))
+    if not at then return false,reason end
+    return true
+end
 
 -- The GUI icon material named (high, low): loaded, and exactly the icon material for that name (D.material.template
 -- with the name) as the loader leaves it: its three fix-ups point into itself and at its material object, whose magic,

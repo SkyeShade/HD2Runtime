@@ -13,7 +13,14 @@
 -- * Temporaries: every pass that calls the engine runs inside engine_gui.temp_scope (Script.temp_count /
 --   set_temp_count), so the Vector3 / Vector2 / Color values it builds never move the temporaries ring on.
 -- * Every value is validated before it reaches the engine (the bindings check nothing): finite pixel boxes inside the
---   screen, integer layers inside the band, colours 0..255, printable text of at most 160 bytes, MAX_ITEMS a frame.
+--   screen, integer layers inside the band, colours 0..255, printable text of at most 512 bytes, MAX_ITEMS a frame.
+-- * Other scripts (research/docs/game-font-text.md): a character the role's font lacks is drawn in the game's own
+--   language font that has it, when that font is loaded (the game loads the selected language's): the text is split
+--   into runs (runtime/ui_fonts.lua runs), one engine text each; a game font is named by its hash and drawn through
+--   its Runtime-owned material, whose instance in this GUI is pointed at the font's atlas (Material.set_texture) once
+--   the font, its atlas and the material are proven loaded this frame. Text the role font fully covers is one item,
+--   drawn exactly as before. When a game font in use unloads (a language switch), the GUI is closed first and opened
+--   again without it.
 -- * Coordinates are GUI pixels with the origin at the TOP-LEFT (y down), like hd2.input.mouse(); overlay.scale is the
 --   screen against 1920 x 1080 (the smaller ratio), to size a layout made at 1080p.
 -- * A draw function that raises is a frame callback failure of the mod (logged, disabled after 25 in a row); the
@@ -104,6 +111,19 @@ function M.hooks.page_loaded(world,page)return game_icons.page_loaded(world.runt
 function M.hooks.material_loaded(world,material)return game_icons.material_loaded(world.runtime,material)end
 -- The loaded UI image materials booster icons are drawn through ('%016X' list), or nil and why.
 function M.hooks.image_materials(world)return game_icons.image_materials(world.runtime)end
+-- The game's language fonts loaded now (runtime/ui_fonts.lua resident_game_fonts; proven at most a second ago), as
+-- drawing fonts, in the domain's order.
+function M.hooks.game_fonts(world)return ui_fonts.resident_game_fonts(world.runtime)end
+-- Whether one game font (its font, atlas and Runtime material) is loaded THIS frame: true, or false and why.
+function M.hooks.game_font_ready(world,font)return ui_fonts.game_font_ready(world.runtime,font.game)end
+-- The Runtime reader for queries outside a frame (hd2.ui.can_draw, hd2.ui.fonts): the proven event world's runtime,
+-- or nil and why.
+function M.hooks.runtime()
+    local ok,world,why=pcall(world_module.open)
+    if not ok then return nil,tostring(world)end
+    if not world then return nil,why end
+    return world.runtime
+end
 -- Offline fallback metrics (only for text_width before the first frame): monaco's.
 local function metrics_font()return font_data.fonts.monaco end
 
@@ -150,6 +170,30 @@ function Builder:rect(x,y,w,h,c,z)
     if x1<=x0 or y1<=y0 then return end
     self.items[#self.items+1]={kind='rect',x=x0,y=self.height-y1,w=x1-x0,h=y1-y0,layer=self.layer+z,c=col}
 end
+-- Where a font's baseline lands below the y Gui.text is given, a fraction of the size: the Runtime's FS Sinclair fonts
+-- by the live calibration (M.TEXT_DROP), monaco and the game's fonts as measured on their atlases (domains/ui_fonts.lua
+-- drop; research game-font-text: the game fonts' is 0).
+local function drop_of(font)
+    if type(font.name)=='string'and font.name:find('^hd2runtime_fonts/')then return M.TEXT_DROP end
+    return font.drop or 0
+end
+-- The role's font of this frame, or nil and why.
+local function role_font(self,role)
+    local font=self.fonts[role]
+    if font==nil then
+        local f,why=self.font_for(role)
+        font=f or false
+        self.fonts[role]=font
+        if not f then self.font_why=why end
+    end
+    return font or nil,self.font_why
+end
+-- The runs text is drawn in (runtime/ui_fonts.lua runs): one run in the role font when it has every character.
+local function text_runs(self,font,text)
+    if ui_fonts.has(font,text)then return {{font=font,text=text}}end
+    local extra=self.extra_fonts and self.extra_fonts()
+    return ui_fonts.runs(font,text,extra)
+end
 -- opts: {size = pixels (default 18), colour, font = 'body' | 'title' | 'mono', align = 'left' | 'center' | 'right',
 -- z}. (x, y) is the top-left corner of the line (the text's ascent below y), or its top-centre / top-right.
 function Builder:text(text,x,y,opts)
@@ -158,7 +202,9 @@ function Builder:text(text,x,y,opts)
     if type(text)=='number'then text=tostring(text)end
     if type(text)~='string'then return refuse(self,'text must be a string')end
     if text==''then return end
-    if#text>160 or text:find('[%z\1-\31\127]')then return refuse(self,'text must be 1-160 printable bytes')end
+    if#text>ui_fonts.MAX_TEXT_BYTES or text:find('[%z\1-\31\127]')then
+        return refuse(self,'text must be 1-'..ui_fonts.MAX_TEXT_BYTES..' printable bytes')
+    end
     local size=opts.size or 18
     local z=opts.z or 0
     local role=opts.font or'body'
@@ -168,27 +214,59 @@ function Builder:text(text,x,y,opts)
     end
     local col=colour(opts.colour or opts.color)
     if not col then return refuse(self,'invalid colour')end
-    local font=self.fonts[role]
-    if font==nil then
-        local f,why=self.font_for(role)
-        font=f or false
-        self.fonts[role]=font
-        if not f then self.font_why=why end
-    end
-    if not font then return refuse(self,'text not drawn: '..tostring(self.font_why))end
+    local font,why=role_font(self,role)
+    if not font then return refuse(self,'text not drawn: '..tostring(why))end
+    local runs=text_runs(self,font,text)
     if opts.align=='center'or opts.align=='right'then
-        local w=ui_fonts.width(font,text,size)
+        local w=0
+        for _,run in ipairs(runs)do w=w+ui_fonts.width(run.font,run.text,size)end
         x=x-(opts.align=='center'and w/2 or w)
     end
     local baseline=self.height-(y+font.ascent*size/font.em)
     if type(font.name)=='string'and font.name:find('^hd2runtime_fonts/')then baseline=baseline+M.TEXT_DROP*size end
     if x<0 or x>self.width or baseline<0 or baseline>self.height then return end
-    self.items[#self.items+1]={kind='text',s=text,font=font.name,size=size,x=x,y=baseline,layer=self.layer+z,c=col}
+    if#runs==1 and runs[1].font==font then
+        -- every character in the role's font: one item, exactly as before
+        self.items[#self.items+1]={kind='text',s=text,font=font.name,material=font.name,size=size,x=x,y=baseline,
+            layer=self.layer+z,c=col}
+        return
+    end
+    if#self.items+#runs>M.MAX_ITEMS then return refuse(self,'more than '..M.MAX_ITEMS..' items in one frame')end
+    -- Each run on the role font's visual baseline: a font whose glyphs land `drop` x size below the y it is given is
+    -- given that much higher.
+    local visual=baseline-drop_of(font)*size
+    local pen=x
+    for _,run in ipairs(runs)do
+        if pen>self.width then break end
+        local y_run=run.font==font and baseline or visual+drop_of(run.font)*size
+        if y_run>=0 and y_run<=self.height then
+            self.items[#self.items+1]={kind='text',s=run.text,font=run.font.name,material=run.font.material or run.font.name,
+                size=size,x=pen,y=y_run,layer=self.layer+z,c=col,game=run.font.game and run.font or nil}
+        end
+        pen=pen+ui_fonts.width(run.font,run.text,size)
+    end
 end
--- The width in pixels of text at size in a font role (the same metrics the drawing uses).
+-- The width in pixels of text at size in a font role (the same metrics and runs the drawing uses).
 function Builder:text_width(text,size,role)
-    local font=self.fonts[role or'body']or self.font_for(role or'body')or metrics_font()
-    return ui_fonts.width(font,tostring(text),size or 18)
+    local font=role_font(self,role or'body')or metrics_font()
+    text=tostring(text)
+    local w=0
+    for _,run in ipairs(text_runs(self,font,text))do w=w+ui_fonts.width(run.font,run.text,size or 18)end
+    return w
+end
+-- Whether every character of text can be drawn now in a font role (its own font or a loaded game font): true, or
+-- false, the number of distinct characters that would show as '?' and up to three of them.
+function Builder:can_draw(text,role)
+    local font=role_font(self,role or'body')or metrics_font()
+    return ui_fonts.drawable(font,tostring(text),self.extra_fonts and self.extra_fonts())
+end
+-- Lines of text no wider than `width` pixels (runtime/ui_fonts.lua wrap: at spaces and between CJK characters, never
+-- inside a character), measured as d:text draws them. opts: {size = 18, font = 'body', lines = the most lines (the
+-- last ends with '...')}.
+function Builder:wrap(text,width,opts)
+    opts=opts or{}
+    local font=role_font(self,opts.font or'body')or metrics_font()
+    return ui_fonts.wrap(font,tostring(text),opts.size or 18,width,opts.lines,self.extra_fonts and self.extra_fonts()or{})
 end
 
 -- Mask colours of an image (the icon material's c0-c2 for the R, G and B masks; c3 is always zero, because the BC1
@@ -273,7 +351,7 @@ local function same(a,b)
         return a.material==b.material and a.w==b.w and a.h==b.h and a.uv[1]==b.uv[1]and a.uv[2]==b.uv[2]
             and a.uv[3]==b.uv[3]and a.uv[4]==b.uv[4]
     end
-    return a.s==b.s and a.font==b.font and a.size==b.size
+    return a.s==b.s and a.font==b.font and a.size==b.size and a.material==b.material
 end
 local function create(screen,item)
     if item.kind=='rect'then return screen.rect(item.x,item.y,item.layer,item.w,item.h,item.c)end
@@ -281,7 +359,7 @@ local function create(screen,item)
     if item.kind=='uvbitmap'then
         return screen.bitmap_uv(item.material,item.uv,item.x,item.y,item.layer,item.w,item.h,item.c)
     end
-    return screen.text(item.s,item.font,item.size,item.font,item.x,item.y,item.layer,item.c)
+    return screen.text(item.s,item.font,item.size,item.material or item.font,item.x,item.y,item.layer,item.c)
 end
 local function update(screen,old,item)
     if item.kind=='rect'then return screen.update_rect(old.id,item.x,item.y,item.layer,item.w,item.h,item.c)end
@@ -300,7 +378,8 @@ local function update(screen,old,item)
         end
         return ok,why
     end
-    local ok,why=screen.update_text(old.id,item.s,item.font,item.size,item.font,item.x,item.y,item.layer,item.c)
+    local ok,why=screen.update_text(old.id,item.s,item.font,item.size,item.material or item.font,item.x,item.y,item.layer,
+        item.c)
     if ok==nil and tostring(why):find('not callable',1,true)then
         -- No update_text binding: replace the primitive.
         if not screen.destroy('text',old.id)then return nil,'destroy_text failed'end
@@ -372,6 +451,18 @@ local function reconcile_and_colour(screen,drawn,items,coloured)
                 calls=calls+2
                 if not ok then coloured[item.material]=false end
             else coloured[item.material]=false end
+        elseif item.kind=='text'and item.game and item.font_ok and coloured[item.material]~=item.game.atlas then
+            -- a game font run: this GUI's instance of the font's Runtime material (created by the text just made)
+            -- samples the font's atlas, proven loaded this frame (item.font_ok); until then it shows nothing (its
+            -- own texture is an empty placeholder)
+            coloured[item.material]=item.game.atlas
+            local instance,why=screen.material(item.material)
+            local ok
+            if instance then ok,why=screen.set_texture(instance,'msdf_texture',item.game.atlas);calls=calls+1 end
+            if not ok then
+                coloured[item.material]=false
+                coloured.text_reason=item.game.key..': '..tostring(why)
+            end
         end
     end
     return out,calls
@@ -425,6 +516,7 @@ M.reconcile_and_colour=reconcile_and_colour
 local Overlay={};Overlay.__index=Overlay
 local function close_screen(self)
     self.coloured,self.ready,self.icons,self.icon_pages,self.icon_materials,self.carriers={},{},{},nil,nil,nil
+    self.text_fonts=nil
     if self.screen then pcall(self.screen.close)end
     self.screen,self.ui_world,self.drawn=nil,nil,{}
 end
@@ -478,6 +570,32 @@ local function frame(self,dt)
             self.opened=self.opened+1
         end
     end
+    -- A game font in use that unloaded (a language switch): close the GUI first (its material instances name the
+    -- font's atlas), so nothing keeps sampling a texture that is gone; the frame below draws without it.
+    local font_ready={}
+    local function game_font_ready(font)
+        local r=font_ready[font.key]
+        if r==nil then
+            local ok,ready,why=pcall(M.hooks.game_font_ready,world,font)
+            r={ok=ok and ready==true,why=ok and why or tostring(ready)}
+            font_ready[font.key]=r
+        end
+        return r.ok,r.why
+    end
+    if self.text_fonts then
+        local lost
+        for _,font in pairs(self.text_fonts)do
+            if not game_font_ready(font)then lost=font.key;break end
+        end
+        if lost then
+            close_screen(self)
+            note(self,'waiting','game font unloaded: '..lost)
+            local ok2,screen2,why2=pcall(M.hooks.open_screen,world,ui_world,M.MAX_LAYER)
+            if not(ok2 and screen2)then note(self,'failed',ok2 and tostring(why2)or tostring(screen2));return end
+            self.screen,self.ui_world,self.drawn=screen2,ui_world,{}
+            self.opened=self.opened+1
+        end
+    end
     local screen=self.screen
     self.width,self.height=screen.width,screen.height
     self.scale=math.min(screen.width/1920,screen.height/1080)
@@ -512,8 +630,18 @@ local function frame(self,dt)
         end
         return c
     end
+    -- The game fonts loaded now (asked once a frame, and only when a text has a character its role font lacks).
+    local extra
+    local function extra_fonts()
+        if extra==nil then
+            local ok,list=pcall(M.hooks.game_fonts,world)
+            extra=ok and type(list)=='table'and list or false
+        end
+        return extra or nil
+    end
+    self.world_ref=world
     local d=setmetatable({items={},layer=self.layer,width=screen.width,height=screen.height,scale=self.scale,
-        materials={},image_ready=image_ready,icon_ready=icon_ready,
+        materials={},image_ready=image_ready,icon_ready=icon_ready,extra_fonts=extra_fonts,
         fonts={},refused=0,font_for=function(role)return M.hooks.font(world,role)end},Builder)
     local ok,err=xpcall(self.draw_fn,function(e)return debug.traceback(tostring(e),2)end,d,dt)
     if not ok then
@@ -533,7 +661,7 @@ local function frame(self,dt)
     end
     local items,dropped=assign_materials(self,d.items,carrier_ok,image_pool)
     if dropped>0 then refuse(d,'no free icon material for '..dropped..' game icon(s)')end
-    local pages,materials,page_ok,shown={},{},{},{}
+    local pages,materials,page_ok,shown,text_fonts={},{},{},{},{}
     for _,item in ipairs(items)do
         if item.kind=='uvbitmap'then
             if page_ok[item.page]==nil then
@@ -551,11 +679,25 @@ local function frame(self,dt)
                 d.image_why='its atlas page is not loaded'
                 self.icons[item.icon]=nil
             end
+        elseif item.kind=='text'and item.game then
+            -- a game font run: drawn only when its font, atlas and material are proven loaded this frame (a font that
+            -- is not loaded must never reach Gui.text: the engine does not check, research game-font-text)
+            local ready,why=game_font_ready(item.game)
+            if ready then
+                item.font_ok=true
+                text_fonts[item.game.key]=item.game
+                shown[#shown+1]=item
+            else
+                d.waiting_text=(d.waiting_text or 0)+1
+                d.text_why=why
+            end
         else shown[#shown+1]=item end
     end
     d.items=shown
     self.icon_pages=next(pages)and pages or nil
     self.icon_materials=next(materials)and materials or nil
+    self.text_fonts=next(text_fonts)and text_fonts or nil
+    self.waiting_text,self.text_why=d.waiting_text or 0,d.text_why
     self.refused,self.first_refusal=d.refused,d.first_refusal
     self.waiting_images,self.image_why=d.waiting_images or 0,d.image_why
     local passed,drawn,calls=engine_gui.temp_scope(reconcile_and_colour,screen,self.drawn,d.items,self.coloured)
@@ -613,7 +755,13 @@ function Overlay:text_width(text,size,role)
         local own=font_data.fonts[role or'body']
         if own then font=own end
     end
-    return ui_fonts.width(font,tostring(text),size or 18)
+    -- the game fonts loaded at the last frame's world (none before the first frame)
+    local extra
+    if self.world_ref then
+        local ok,list=pcall(M.hooks.game_fonts,self.world_ref)
+        extra=ok and type(list)=='table'and list or nil
+    end
+    return ui_fonts.measure(font,tostring(text),size or 18,extra)
 end
 -- Removes the overlay: its primitives, its GUI and its frame callback.
 function Overlay:close()
@@ -630,7 +778,15 @@ function Overlay:status()
         width=self.width,height=self.height,scale=self.scale,items=#self.drawn,frames=self.frames,
         engine_calls=self.calls,opened=self.opened,refused=self.refused,first_refusal=self.first_refusal,
         waiting_images=self.waiting_images or 0,image_reason=self.image_why,callback=self.ticker and self.ticker.state,
-        cursor=self.cursor and(self.cursor_reason or'free')or nil}
+        cursor=self.cursor and(self.cursor_reason or'free')or nil,game_fonts=self:game_fonts_in_use(),
+        waiting_text=self.waiting_text or 0,text_reason=self.text_why or(self.coloured and self.coloured.text_reason)}
+end
+-- The keys of the game fonts this overlay drew text in last frame (sorted).
+function Overlay:game_fonts_in_use()
+    local out={}
+    for key in pairs(self.text_fonts or{})do out[#out+1]=key end
+    table.sort(out)
+    return out
 end
 
 -- The overlay `opts.id` (default 'main') of `owner`, created on first use; the same object afterwards (its layer
@@ -662,6 +818,43 @@ function M.list()
     local out={}
     for _,o in pairs(overlays)do out[#out+1]=o:status()end
     table.sort(out,function(a,b)return a.owner..a.id<b.owner..b.id end)
+    return out
+end
+-- Whether every character of text can be drawn now in a font role (default 'body'): the role's font, or a game
+-- language font loaded now. Returns true, or false, the number of distinct characters that would show as '?' and up
+-- to three of them. Without a proven game process only the role's own font counts.
+function M.can_draw(text,role)
+    role=role or'body'
+    local runtime=M.hooks.runtime()
+    local world=runtime and{runtime=runtime}
+    local font
+    if world then
+        local ok,f=pcall(M.hooks.font,world,role)
+        font=ok and f or nil
+    end
+    font=font or(role~='mono'and font_data.fonts[role])or font_data.fonts.monaco
+    local extra={}
+    if world then
+        local ok,list=pcall(M.hooks.game_fonts,world)
+        if ok and type(list)=='table'then extra=list end
+    end
+    return ui_fonts.drawable(font,tostring(text),extra)
+end
+-- The game's language fonts the overlay can draw with and whether each is loaded now: {key, label, languages (the
+-- game language codes that load it), glyphs, resident, reason}.
+function M.game_fonts()
+    local runtime,why=M.hooks.runtime()
+    local world=runtime and{runtime=runtime}
+    local out={}
+    for _,entry in ipairs(ui_fonts.GAME)do
+        local ready,reason=false,why
+        if world then
+            local ok,r,w=pcall(M.hooks.game_font_ready,world,{key=entry.key,game=entry})
+            ready,reason=ok and r==true,ok and w or r
+        end
+        out[#out+1]={key=entry.key,label=entry.label,languages=entry.languages,glyphs=entry.glyphs,resident=ready,
+            reason=not ready and tostring(reason)or nil}
+    end
     return out
 end
 function M.reset_for_tests()

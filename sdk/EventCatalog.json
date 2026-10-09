@@ -5277,6 +5277,27 @@
       "params": [],
       "returns": "table",
       "doc": "The cursor capture's state: holders, disabled, the game's saved values and what the engine reports now."
+     },
+     {
+      "name": "can_draw",
+      "params": [
+       [
+        "text",
+        "string"
+       ],
+       [
+        "font",
+        "\"body\"|\"title\"|\"mono\"|nil"
+       ]
+      ],
+      "returns": "boolean, integer|nil, string[]|nil",
+      "doc": "Whether every character of text can be drawn now in overlays (the font role's own font or one of the game's language fonts loaded now; docs/ui-overlay.md, Other scripts): true, or false, the number of distinct characters that would show as '?' and up to three of them."
+     },
+     {
+      "name": "game_fonts",
+      "params": [],
+      "returns": "table[]",
+      "doc": "The game's language fonts overlays draw with: {key, label, languages (the game language codes that load it), glyphs, resident, reason}. The game loads only the selected language's."
      }
     ],
     "fields": [
@@ -5506,7 +5527,7 @@
        ]
       ],
       "returns": "nil",
-      "doc": "A line of text (1-160 printable bytes); (x, y) its top-left corner (or top-centre / top-right with align)."
+      "doc": "A line of text (1-512 printable bytes, UTF-8); (x, y) its top-left corner (or top-centre / top-right with align). A character the font lacks is drawn in the game's own language font when that font is loaded (docs/ui-overlay.md, Other scripts), else as '?'."
      },
      {
       "name": "image",
@@ -5557,6 +5578,40 @@
       ],
       "returns": "number",
       "doc": ""
+     },
+     {
+      "name": "can_draw",
+      "params": [
+       [
+        "text",
+        "string"
+       ],
+       [
+        "font",
+        "\"body\"|\"title\"|\"mono\"|nil"
+       ]
+      ],
+      "returns": "boolean, integer|nil, string[]|nil",
+      "doc": "Whether every character of text can be drawn this frame (the font role's own font or a loaded game language font): true, or false, the number of distinct characters that would show as '?' and up to three of them."
+     },
+     {
+      "name": "wrap",
+      "params": [
+       [
+        "text",
+        "string"
+       ],
+       [
+        "width",
+        "number"
+       ],
+       [
+        "opts",
+        "{size: number|nil, font: string|nil, lines: integer|nil}|nil"
+       ]
+      ],
+      "returns": "string[]",
+      "doc": "Lines no wider than width pixels, measured as d:text draws them: broken at spaces and between CJK characters, never inside a character; at most opts.lines lines (the last ends with '...')."
      }
     ]
    },

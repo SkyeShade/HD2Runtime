@@ -112,7 +112,7 @@ ov:draw(function(d)
     d:rect(0,0,10,10,{1,2,3},13)           -- 1011 + 13 > 1023
     d:rect(0,0,10,10,'#12345')             -- bad colour
     d:text('line\nbreak',0,0)              -- control character
-    d:text(string.rep('x',161),0,0)        -- too long
+    d:text(string.rep('x',513),0,0)        -- too long (512 bytes at most)
     d:text('ok',0,0,{font='comic'})        -- unknown font role
     d:rect(5000,5000,10,10)                -- fully off screen: dropped quietly
     d:rect(-50,-50,100,100,{9,9,9})        -- clipped to the screen

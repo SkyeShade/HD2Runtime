@@ -95,8 +95,17 @@ function M.index_of(world)
 end
 
 local function finite(n,low,high)return type(n)=='number'and n==n and n>=low and n<=high end
-local function text_ok(s)return type(s)=='string'and#s>=1 and#s<=160 and not s:find('[%z\1-\31\127]')end
+-- Text: 1-512 bytes (about 170 CJK characters; Gui.text decodes UTF-8 into a growing codepoint list, exe 0x26D430..),
+-- no control byte.
+M.MAX_TEXT_BYTES=512
+local function text_ok(s)return type(s)=='string'and#s>=1 and#s<=M.MAX_TEXT_BYTES and not s:find('[%z\1-\31\127]')end
 local function name_ok(s)return type(s)=='string'and#s>=1 and#s<=128 and s:match('^[%w_/%.%-]+$')~=nil end
+-- A font: a resource name, or '#' and its 64-bit name hash (16 hex digits) for a font whose name string is unknown (the
+-- game's language fonts): Gui.text reads a non-string font as an IdString64's value at +8 (exe 0x3E51D7, update_text
+-- 0x3E55A1; research game-font-text).
+local function font_ok(s)
+    return name_ok(s)or(type(s)=='string'and#s==17 and s:match('^#%x+$')~=nil)
+end
 local function color_ok(c)
     if type(c)~='table'then return false end
     for i=1,4 do if not(finite(c[i],0,255)and c[i]%1==0)then return false end end
@@ -319,28 +328,46 @@ function M.open(opts)
         screen.calls=screen.calls+1
         return true
     end
-    -- Text in a loaded font and its material, by resource name (the caller proves both are loaded first); (x, y) is the
-    -- baseline start. Returns its id.
+    -- The font argument: a name as it is, '#' .. hash as an IdString64 (nil and why when the binding is missing).
+    local function font_arg(font)
+        if font:sub(1,1)~='#'then return font end
+        if not(type(S.IdString64)=='table'and callable(S.IdString64.from_hex))then
+            return nil,'stingray.IdString64.from_hex is not callable'
+        end
+        return true
+    end
+    local function font_value(font)
+        if font:sub(1,1)~='#'then return font end
+        return S.IdString64.from_hex(font:sub(2))
+    end
+    -- Text in a loaded font and its material, by resource name (the caller proves both are loaded first); the font may
+    -- also be '#' and its 16-hex-digit name hash. (x, y) is the baseline start. Returns its id.
     function screen.text(s,font,font_size,material,x,y,layer,c,opt)
-        if not(text_ok(s)and name_ok(font)and name_ok(material)and finite(font_size,4,256)
+        if not(text_ok(s)and font_ok(font)and name_ok(material)and finite(font_size,4,256)
                 and box_ok(x,y,layer,0,0)and color_ok(c))then
             return nil,'invalid text'
         end
-        return call(function()return S.Gui.text(gui,s,font,font_size,material,position(x,y,layer),color(c))end,'create',
-            opt)
+        local usable,why=font_arg(font)
+        if not usable then return nil,why end
+        return call(function()
+            return S.Gui.text(gui,s,font_value(font),font_size,material,position(x,y,layer),color(c))
+        end,'create',opt)
     end
     -- Changes a text's string, font, size, place or colour: Gui.update_text(gui, id, text, font, size, material,
     -- position, color) (exe 0x3E5860 -> 0x3E54D0: Gui.text's own parser with the id read second, lua_tointeger(2),
     -- then text 3, font 4, size 5, material 6, the position 7 and the colour 8, the indices Gui.text reads one lower;
     -- it returns nothing). true when the engine raised no error. Nil and why when the binding is missing.
     function screen.update_text(id,s,font,font_size,material,x,y,layer,c,opt)
-        if id==nil or not(text_ok(s)and name_ok(font)and name_ok(material)and finite(font_size,4,256)
+        if id==nil or not(text_ok(s)and font_ok(font)and name_ok(material)and finite(font_size,4,256)
                 and box_ok(x,y,layer,0,0)and color_ok(c))then
             return nil,'invalid text'
         end
         if not callable(S.Gui.update_text)then return nil,'stingray.Gui.update_text is not callable'end
-        return call(function()return S.Gui.update_text(gui,id,s,font,font_size,material,position(x,y,layer),color(c))end,
-            'update',opt)
+        local usable,why=font_arg(font)
+        if not usable then return nil,why end
+        return call(function()
+            return S.Gui.update_text(gui,id,s,font_value(font),font_size,material,position(x,y,layer),color(c))
+        end,'update',opt)
     end
     -- Removes one primitive this GUI created: kind 'rect', 'text' or 'bitmap' -> Gui.destroy_rect / destroy_text /
     -- destroy_bitmap(gui, id) (exe 0x3E2040, 0x3E58E0, 0x3E2EB0: lua_touserdata(1), lua_tointeger(2), the GUI's one

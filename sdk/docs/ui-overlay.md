@@ -29,6 +29,8 @@ end})
 | `d:rect(x, y, w, h, colour, z)` | a filled rectangle; `(x, y)` is its top-left corner |
 | `d:text(text, x, y, {size, colour, font, align, z})` | one line; `(x, y)` is its top-left corner (top-centre / top-right with `align = 'center' / 'right'`) |
 | `d:text_width(text, size, font)` | the width in pixels, with the same metrics |
+| `d:can_draw(text, font)` | whether every character can be drawn this frame (see [Other scripts](#other-scripts-chinese-japanese-korean-russian-0304)) |
+| `d:wrap(text, width, {size, font, lines})` | the lines of text no wider than `width`, measured as `d:text` draws them |
 | `d:image(image, x, y, w, h, {colours, colour, z})` | one of the mod's own images (`hd2.resources.image`), or one of the game's own HUD icons (`hd2.resources.game_icon`, docs/game-icons.md); `(x, y)` is its top-left corner (r50) |
 
 - **Coordinates** are GUI pixels with the origin at the **top-left**, y down (the same corner as
@@ -37,7 +39,8 @@ end})
 - **Colours**: `{r, g, b[, a]}` 0-255 (alpha defaults to 255) or `'#RRGGBB'` / `'#RRGGBBAA'`; default white.
 - **Fonts**: `'body'` (FS Sinclair, the loadout screen's typeface) and `'title'` (FS Sinclair Medium), shipped in the
   Runtime's archive; `'mono'` is the engine's `monaco`. A role whose font is not loaded falls back to `monaco`.
-  Text is 1-160 printable bytes (UTF-8 accepted), size 4-256 px.
+  Text is 1-512 printable bytes (UTF-8; 0.30.3 and earlier: 160), size 4-256 px. Characters the font lacks are drawn
+  in the game's own language fonts when the game has them loaded (next section), else as `?`.
 - **Text placement (r50 calibration).** The Runtime's FS Sinclair fonts draw their glyphs 0.41 x size below the
   baseline `Gui.text` is given. Measured live on 2026-10-07 (HD2Runtime Editor at 3838 x 2158): text at sizes 12-22
   landed 0.37-0.45 x size low. The font build measures glyph records from the baseline but writes the header offset
@@ -46,6 +49,9 @@ end})
   (`runtime/mod_overlay.lua` `M.TEXT_DROP`), so `(x, y)` is the line's top-left as documented. The custom stratagem
   panel and the other Runtime GUIs pass baselines directly and are not corrected yet.
 - **Layers**: every overlay has a band starting at its `layer` (default 1011); an item's `z` (default 0) is added.
+- **Wrapping** (`d:wrap`, and the Runtime's own panels): lines break at spaces and between any two CJK characters
+  (ideographs, kana, Hangul, CJK punctuation); closing punctuation (`、。，！？」` ...) never starts a line; a word wider
+  than a line is cut between characters, never inside a UTF-8 sequence.
   The engine orders all GUIs of one world by layer, and the layer's depth key is `0.1 * (1023 - layer) / 1023`
   (exe 0x2693E3), so 1023 is the top: an item past it is refused. The default band sits above the native HUD's own
   top layers (991-1018 are used by native GUIs; the Runtime's slot overlays use 940, its panel 920-944).
@@ -97,8 +103,59 @@ end})
   state = 'waiting' | 'drawing' | 'hidden' | 'error' | 'failed' | 'closed', reason, layer, visible, width, height,
   scale, items, frames, engine_calls, opened, refused, first_refusal}`).
 - `hd2.ui.overlays()`: every overlay's status. `hd2.ui.colour(c)`: a colour as `{r, g, b, a}`, or nil.
+- `hd2.ui.can_draw(text, font)` and `hd2.ui.game_fonts()`: see [Other scripts](#other-scripts-chinese-japanese-korean-russian-0304).
 - `overlay:free_cursor(on, {camera = true})` and `hd2.ui.cursor()`: see [The cursor](#the-cursor-experimental-r50).
-  `status()` also reports `waiting_images`, `image_reason` and `cursor`.
+  `status()` also reports `waiting_images`, `image_reason`, `cursor`, and for game fonts `game_fonts` (the keys drawn
+  last frame), `waiting_text` and `text_reason`.
+
+## Other scripts: Chinese, Japanese, Korean, Russian (0.30.4)
+
+```lua
+local description = '...'                        -- a translated paragraph
+overlay:draw(function(d)
+    local title = hd2.ui.can_draw('模组设置') and '模组设置' or 'MOD SETTINGS'   -- fall back when it cannot be drawn
+    d:text(title, 40, 40, {size = 24, font = 'title'})
+    for i, line in ipairs(d:wrap(description, 400, {size = 18, lines = 4})) do
+        d:text(line, 40, 70 + 24 * (i - 1), {size = 18})
+    end
+end)
+```
+
+The Runtime's FS Sinclair fonts hold ASCII, Latin-1, the call-in arrows and a few punctuation marks. Any other
+character is drawn in **the game's own font for that script, when the game has it loaded**: nothing is shipped
+(the Runtime ZIP carries one 288-byte material per font) and nothing is written to the game.
+
+| key | script | loaded when the game language is | characters |
+|---|---|---|---|
+| `default` | Latin extras | English, German, French, Italian, Spanish, Portuguese, Polish (the game's codes us, gb, bp, de, es, fr, it, ms, pl, pt) | Latin-1, 23 Latin Extended-A (Polish ...), 13 Cyrillic letters |
+| `ru` | Cyrillic | Russian | the Russian alphabet |
+| `zh_hans` | Simplified Chinese | Simplified Chinese | 2809 ideographs |
+| `zh_hant` | Traditional Chinese | Traditional Chinese | 2815 ideographs |
+| `ja` | Japanese | Japanese | kana, 1781 ideographs |
+| `ko` | Korean | Korean | 1202 Hangul syllables |
+
+- **The game loads only the selected language's fonts** (game.dll's language records name one font package per
+  language). So Chinese text draws when the game runs in Chinese, Korean in Korean, and so on: the natural case for a
+  mod's translation, which follows the game's language. In any other language those characters show as `?`, as before.
+- The fonts are **the characters the game itself uses**, not whole scripts: a rare character outside them shows as
+  `?`. **Greek is not available**: no game font has it.
+- `hd2.ui.can_draw(text, font)` (and `d:can_draw` inside a frame) tells before drawing: `true`, or `false`, the number
+  of distinct characters that would show as `?` and up to three of them. `hd2.ui.game_fonts()` lists the fonts:
+  `{key, label, languages, glyphs, resident, reason}`.
+- **How it is drawn.** Text is split into runs: the role's font draws every character it has, exactly as before (text
+  it fully covers is one item, unchanged); a character it lacks goes to a loaded game font that has it (a space
+  between two such characters stays with them); each run is one engine text on the same baseline. A game font is an
+  engine FONT resource named by its 64-bit hash (`IdString64`; Gui.text reads a non-string font that way, exe
+  `0x3E51D7`), drawn through a Runtime-owned material (`hd2runtime_fonts/game/<key>`: monaco's font material, the same
+  MSDF text shader the game's font materials compile to); that material's instance in the overlay's GUI is pointed at
+  the font's atlas with `Material.set_texture`, the technique the game icons proved live. Widths, alignment and
+  wrapping use the fonts' own advances and kerning, generated from the game files into `domains/ui_fonts_<key>.lua`.
+- **Safety.** The engine uses a text's font without checking it exists, so a game font is drawn only when its font, its
+  atlas and the Runtime material are all proven loaded in the same frame (the resource manager, read-only); a run
+  whose font is not loaded is skipped (`status().waiting_text`). When a font in use unloads (a language switch), the
+  GUI is closed first, so no material instance keeps naming its atlas, and opened again without it.
+- **Not live-tested yet** (0.30.4). Research: game-font-text (build F5FEE03DCFDB), proof mod
+  `proof/GameFontTextProof`.
 
 ## Images (r50)
 
