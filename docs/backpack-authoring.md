@@ -127,7 +127,8 @@ that name: head 10, `l_hand` / `r_hand` 35, `l_knee` / `r_knee` 45 (`warp.head_i
 The Hover Pack and both jump packs share `JumppackComponent` (280 bytes, three records).
 
 - `hover.duration` (+156) holds the published six seconds, and only the Hover Pack record sets it: both jump-pack
-  records hold the -1 sentinel.
+  records hold the -1 sentinel. It is the **climb window**, not the hover time (see
+  [How high the Hover Pack flies](#how-high-the-hover-pack-flies)).
 - **The Hover Pack does not read the launch thrust** (`jump.vertical_launch_velocity`, +0). Its activation sets the
   replicated hover-launch flag (+153 and +154 are set), and the flight code skips the launch thrust when that flag is
   set (research/hoverpack-components-F5FEE03DCFDB.json). The Hover Pack instance stays writable for compatibility and
@@ -162,7 +163,8 @@ How the flight works:
   with bounded acceleration; the vertical acceleration blends from `hover.vertical_acceleration_low_speed` to
   `hover.vertical_acceleration_high_speed` over 0..`hover.vertical_speed_range_end` m/s. Hover fuel is the recharge
   meter: every hovering second fills the cooldown by 1 + `hover.fuel_rate_low_speed`..`hover.fuel_rate_high_speed`
-  seconds (blended the same way), capped at `recharge.time`; the pack shuts off when it is full.
+  seconds (blended the same way), capped at `recharge.time`; the pack shuts off when it is full. The climb input and
+  gravity are described in [How high the Hover Pack flies](#how-high-the-hover-pack-flies).
 
 | Field | Unit, range | Jump Pack | Hover Pack |
 | --- | --- | --- | --- |
@@ -184,6 +186,45 @@ How the flight works:
 `jump.vertical_launch_velocity` keeps its id; its unit is corrected to m/s^2 (a thrust, not a velocity). The Dark
 Fluid vessel backpack shares the component but is not a call-in backpack: not offered. Live test:
 `examples/projects/JumpHoverTest`.
+
+### How high the Hover Pack flies
+
+Research: `scripts/research_hover_height.py` -> `research/hover-height-F5FEE03DCFDB.json`,
+[research/docs/hover-height-F5FEE03DCFDB.md](research/hover-height-F5FEE03DCFDB.md). There is **no height, altitude or
+ceiling member**: the hover code reads none. The height comes from three things:
+
+1. **The climb input.** Each frame the hover's vertical input is "climb" while the wearer has been airborne (off
+   walkable ground) for less than `hover.duration` seconds, and for the rest of the flight once the sustain phase has
+   started; otherwise it is "hold". `hover.duration` is this climb window, not the hover time: the pack shuts off when
+   its fuel meter is full (`recharge.time`, `hover.fuel_rate_*`). (Lead, not verified: at `hover.duration` 0 the climb
+   follows a held player input instead, the action the take-off code also reads, likely jump.)
+2. **The lift.** The hover pushes toward climb x `hover.max_vertical_speed` (or 0 when holding) with at most
+   `hover.vertical_acceleration_low_speed`, blended to `_high_speed` over 0..`hover.vertical_speed_range_end` m/s of
+   vertical speed.
+3. **Gravity keeps acting** while hovering (9.82 m/s^2, the motion update). The vanilla lift is 9.8: it only holds the
+   height the activation reached (with a 0.02 m/s^2 sink). The pack never climbs by itself.
+
+So, to fly higher, **raise `hover.vertical_acceleration_low_speed` above 9.82**. With the climb input on, the pack then
+climbs at about `hover.vertical_speed_range_end` x (lift - 9.82) / (lift - `hover.vertical_acceleration_high_speed`)
+m/s, capped at `hover.max_vertical_speed`:
+
+| Change (rest vanilla) | Climb speed | Height gained in the 6 s window (decoded model, activation at rest) |
+| --- | --- | --- |
+| vanilla, or `max_vertical_speed` 10 -> 30, or `duration` 6 -> 12 | 0 m/s | none (holds, slow sink) |
+| `vertical_acceleration_low_speed` 9.8 -> 15 | about 2.8 m/s | about 15 m |
+| `vertical_acceleration_low_speed` 9.8 -> 20 | about 4.1 m/s | about 23 m |
+| ... and `vertical_speed_range_end` 8 -> 16 | about 8.1 m/s | about 43 m |
+
+Then `hover.duration` sets for how long it climbs, `hover.vertical_speed_range_end` and `hover.max_vertical_speed`
+how fast, and the fuel fields how long it can stay up (climbing at speed v burns 1 + lerp(1.6, 0, v / 8) s per s of
+the 11.5 s meter). Why the obvious edits do nothing: `hover.max_vertical_speed` and `hover.duration` act only through
+the lift, which in vanilla never beats gravity; `jump.vertical_launch_velocity` is dormant on the Hover Pack.
+
+The record HD2Runtime writes is the one the flight code reads: the resolver takes the type record from entity-manager
+component slot 264, the slot `core/component_tables.lua` re-proves before every write. Multiplayer: a per-type record
+on each machine; each machine flies its own avatar, so a write changes the pack for the players on the machine that
+runs the mod. Live test: `proof/RebalanceFixesProof` "Hover: climb higher" (lift 15) and `examples/projects/JumpHoverTest`
+"Hover: snappy climb" (lift 40, about 6 m/s).
 
 ## Guard Dogs
 

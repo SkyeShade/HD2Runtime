@@ -450,7 +450,8 @@ support weapons, with the same field constants:
 | `weapon.recoil_drift_horizontal` / `_vertical` | WeaponData +0 / +4 | 0–100 | the seven projectile sentries |
 | `weapon.recoil_climb_horizontal` / `_vertical` | WeaponData +28 / +32 | 0–100 | the seven projectile sentries |
 | `weapon.recoil`, `weapon.horizontal_recoil`, `weapon.vertical_recoil` | derived means | read-only | the seven projectile sentries |
-| `windup.wind_up_seconds` / `windup.wind_down_seconds` | WeaponWindUp +0 / +4 | 0–30 s | G-16 Gatling Sentry |
+| `windup.wind_up_seconds` / `windup.wind_down_seconds` | WeaponWindUp +0 / +4 | 0–30 s (`wind_down_seconds` is a switch: 0 stops the barrels at once, any positive value spins down over the wind-up time) | G-16 Gatling Sentry |
+| `heat.firing_charge` / `heat.charge_gain_per_second` / `heat.charge_loss_per_second` (0.30.4) | WeaponHeat +148 / +152 / +156 | 0–10000 / 0–100000 / 0–100000; read live | A/LAS-98 Laser Sentry: its wind-up, 100 / 200 = 0.5 s before each beam (`allow_unverified_effect`; research/windup-controls-F5FEE03DCFDB.json) |
 | `beam.fire_rate` | BeamWeapon +104 | 1–3000 rpm | LAS-98 Laser Sentry |
 
 - **The seven projectile sentries** are the MG-43, G-16, AC-8, M-12, MLS-4X, M-23 and GM-17.

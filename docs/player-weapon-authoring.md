@@ -229,6 +229,43 @@ LAS-7 Dagger, LAS-12 Sai, LAS-13 Trident, LAS-58 Talon; support: LAS-98, LAS-99 
 +148 / +152 reproduces every published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident and Talon 0; the Quasar about
 3 s). So the Sickles' wind-up is `heat.firing_charge` 0 (instant) or a lower `heat.charge_gain_per_second` (longer).
 
+The members are no longer only leads by value: the charge update (game.dll 0x763780) adds `heat.charge_gain_per_second`
+x dt while the trigger is held, capped at `heat.firing_charge`, and removes `heat.charge_loss_per_second` x dt after
+release; the fire gate (0x77EAD0) lets the weapon fire only once the charge reaches `heat.firing_charge`
+(`scripts/research_windup_controls.py` -> `research/docs/windup-controls-F5FEE03DCFDB.md`). The acknowledgement stays
+until a live test (`proof/RebalanceFixesProof`). The three "Laser Heatsink (Charge)" attachment options set their own
+charge values while equipped; no Sickle option does.
+
+### Which field reduces a weapon's wind-up
+
+Every weapon whose first shot waits has a writable control (all `allow_unverified_effect` unless noted):
+
+| Weapon | Target | Wind-up now | Reduce it with |
+| --- | --- | --- | --- |
+| LAS-16 Sickle, LAS-17 Double-Edge Sickle | `hd2.weapon(name)` | 100 / 200 = 0.5 s | `heat.firing_charge` (0 = instant) or a higher `heat.charge_gain_per_second` |
+| LAS-5 Scythe, LAS-7 Dagger | `hd2.weapon(name)` | 100 / 400 = 0.25 s | the same |
+| LAS-98 Laser Cannon | `hd2.support_weapon(name)` | 100 / 200 = 0.5 s | the same |
+| LAS-99 Quasar Cannon | `hd2.support_weapon(name)` | 100 / 33 = 3.03 s, every shot | the same (`heat.reset_charge_after_shot` makes every shot charge again) |
+| AX/LAS-5 Rover gun | `hd2.backpack('AX/LAS-5 Rover'):drone():weapon()` | 100 / 400 = 0.25 s | the same ([vehicle weapons](vehicle-weapons.md)) |
+| A/LAS-98 Laser Sentry | `hd2.stratagem(name):deployed_entity():weapon('primary')` | 100 / 200 = 0.5 s | the same |
+| M-1000 Maxigun | `hd2.support_weapon(name)` | spin-up 0.5 s | `windup.wind_up_seconds` (0 = instant; no acknowledgement: exact published value) |
+| A/G-16 Gatling Sentry | `hd2.stratagem(name):deployed_entity():weapon('primary')` | spin-up 0.5 s | `windup.wind_up_seconds` |
+| EXO-45 Patriot minigun | `hd2.vehicle('EXO-45 Patriot Exosuit'):weapon('right_gun')` | spin-up 1 s | `windup.wind_up_seconds` |
+| TD-110 Maelstrom tank gun | `hd2.vehicle('TD-110 Maelstrom'):weapon('attach_tank_gun')` | spin-up 0.5 s | `windup.wind_up_seconds` |
+| LAS-12 Sai, LAS-13 Trident, LAS-58 Talon | - | none (`heat.firing_charge` 0) | - |
+| MG-43, M-105 Stalwart, MGX-42 Bullet Storm, FRV guns | - | none: no wind-up member | - |
+
+- **Spin-up (`WeaponWindUpComponent`).** The barrels must reach full spin before the first round: the spin advances
+  by dt / `windup.wind_up_seconds` every frame the trigger is held (game.dll 0x78A420, every frame; the fire gate
+  waits for full spin). Range 0..30 s.
+- **`windup.wind_down_seconds` is a switch, not a time.** 0 stops the barrels at once when you let go (the next burst
+  needs the whole spin-up again); any positive value spins them down over `windup.wind_up_seconds`, because the
+  game divides by the wind-up time (0x78A52C). Its own magnitude is never read; the Editor labels it "Spin-down
+  (0 = stop at once)".
+- **Hold-to-charge is not a wind-up.** The PLAS-101 Purifier, PLAS-15 Loyalist and PLAS-39 Accelerator Rifle charge
+  through `WeaponChargeComponent` on purpose; their charge times are not offered on player weapons yet (the support
+  charge weapons have `charge.level_1..3`).
+
 ### Warm-up and cooldown after overheat
 
 Stats editors and the wiki list a weapon's **Warmup** and **Cooldown After Overheat**. Neither is a member of the

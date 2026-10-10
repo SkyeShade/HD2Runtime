@@ -210,6 +210,42 @@ Each field instance in `sdk/SupportWeaponAuthoringCapabilities.json` carries `ch
 phases, read timing, shared consumers, self-damage, multiplayer) and `effect`. Live test:
 `examples/projects/EpochExplosionsTest` (harmless overcharge explosions by default).
 
+## CQC-20 Breaching Hammer blast (0.30.4, offline only)
+
+The hammer has two damage rows. Its swing is the melee attack (`attack('primary')`: 300 / 150, AP 3). Its charged
+hit's blast is an explosion (published "CQC-20 BREACHING HAMMER IE": 2200 / 2200, Anti-Tank II, radii 0.5 / 3 / 12 m,
+demolition 30, stagger 50, push 40). The blast is neither a projectile's nor a placed charge's explosion: the hammer's
+own `MeleeWeaponComponent` +160 ability slot names AbilityId 38, and the ability's code requests the explosion
+(`research/explosion-identities-F5FEE03DCFDB.json`, `scripts/ability_explosion_fields.py`). No other entity names that
+ability; the explosion row and its damage row have no other user.
+
+```lua
+local blast=hd2.support_weapon('CQC-20 Breaching Hammer'):attack('ability'):explosion()
+hd2.ensure({transaction={id='hammer-blast',target=blast,allow_shared=true,allow_unverified_effect=true,changes={
+    {field=hd2.fields.explosion.damage_standard_damage,expect=2200,value=3000},
+    {field=hd2.fields.explosion.damage_durable_damage,expect=2200,value=3000},
+    {field=hd2.fields.explosion.outer_radius,expect=3,value=5}}}})
+```
+
+- Fields: `explosion.inner_radius`, `outer_radius`, `shockwave_radius`, and `explosion.damage.*` (standard and durable
+  damage, the four AP values, demolition, stagger, push, the status slots), the same set as every support explosion.
+- Acknowledgements: `allow_unverified_effect` (not yet shown in game) and `allow_shared`, like every support settings
+  row. It is the same row as `hd2.explosion('support_weapon/cqc20_breaching_hammer/ability')` ([explosions](explosions.md)),
+  which needs only `allow_unverified_effect`; use one of the two.
+- Every write re-proves that the hammer's melee record still names AbilityId 38 exactly once in its ability slots,
+  and that the explosion row and its damage link are the reviewed rows. If another mod changed the ability, the write is
+  refused with `ABILITY_CHANGED` and nothing is written.
+- Multiplayer: a per-type row on each machine; the machine that simulates the blast (the host, for the damage it deals)
+  reads its own copy.
+- Live test: `proof/RebalanceFixesProof` ("Hammer: big blast", "Hammer: gentle blast").
+
+## Wind-up (Maxigun, LAS-98, Quasar; 0.30.4)
+
+`windup.wind_up_seconds` is the M-1000 Maxigun's spin-up (0.5 s; 0 = instant), `windup.wind_down_seconds` only a switch
+(0 = the barrels stop at once; any positive value spins down over the wind-up time). The LAS-98 and the Quasar wind up
+through their firing charge (`heat.firing_charge` / `heat.charge_gain_per_second`). The table of every weapon is in
+[player weapons](player-weapon-authoring.md#which-field-reduces-a-weapons-wind-up).
+
 ## Projectile swaps (support hosts)
 
 Eight support weapons are projectile hosts: APW-1, EAT-17, EAT-411, EAT-700, GL-21, M-105 Stalwart, MG-206 HMG and
@@ -428,7 +464,7 @@ table is byte-identical to the pinned reference; scraped values are fingerprints
 | `projectile.penetration_slowdown` | `ProjectileInfo` +64 | Name length 20; 27/27 exact matches, 1/27 at +56 | Every resolved projectile branch |
 | `reload.duration` | `WeaponReloadComponentData` +56 | Name length 8 (`duration`); scraped reload times agree only approximately | Native duration is non-zero (14 weapons). **Requires `allow_unverified_effect=true`.** A 0 duration means the reload ability's default applies and stays read-only. |
 | `windup.wind_up_seconds` | `WeaponWindUpComponentData` +0 | Name length 12; exact scraped match (Maxigun 0.5 s) | M-1000 Maxigun |
-| `windup.wind_down_seconds` | `WeaponWindUpComponentData` +4 | Name length 14; no scraped value | M-1000 Maxigun. **Requires `allow_unverified_effect=true`.** |
+| `windup.wind_down_seconds` | `WeaponWindUpComponentData` +4 | Name length 14; no scraped value. A switch, not a time (0.30.4): 0 stops the barrels at once, any positive value spins down over the wind-up time | M-1000 Maxigun. **Requires `allow_unverified_effect=true`.** |
 
 Projectile fields live on shared definitions and need `allow_shared=true`, like the other
 `projectile.*` fields. Filediver labels +56 as `LifeTime`; the type library and the correlation

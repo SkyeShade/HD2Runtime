@@ -130,7 +130,9 @@ hd2.ensure({transaction = {id = 'barrage-wider', target = shell, allow_unverifie
 - Not offered: re-pointing the damage link (+4) or the shrapnel projectile (+84), the particle and sound, the status
   and fire templates, the arc. A row without a damage link (smoke) has read-only damage fields.
 - The same rows are also reachable through their owners' own targets (a weapon's `terminal_action(phase):explosion()`,
-  throwables, stratagem attacks, enemy attacks): those keep their own rules.
+  throwables, stratagem attacks, enemy attacks): those keep their own rules. Since 0.30.4 the CQC-20 Breaching
+  Hammer's charge blast (`support_weapon/cqc20_breaching_hammer/ability`) is also its support weapon's
+  `attack('ability'):explosion()` ([support weapons](support-weapon-api.md#cqc-20-breaching-hammer-blast-0304-offline-only)).
 
 ## Explosions as payloads
 

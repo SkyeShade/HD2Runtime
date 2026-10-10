@@ -145,7 +145,8 @@ hd2.transaction({
 - **What is proven offline.** The three rate slots and the ROF selector record (the projectile_weapon manager keeps one
   record per built projectile weapon, seeded from the settings' three slots; the selector and the weapon-function value
   reader are data-driven over it), and the wind-up routine (0x78A420, research/sentry-components) reads only its own
-  settings: +0 wind-up time, +4 wind-down time, +12 barrel-spin multiplier.
+  settings: +0 wind-up time, +4 a spin-down switch (0.30.4: 0 stops the barrels at once, any positive value spins
+  down over the +0 wind-up time; research/windup-controls-F5FEE03DCFDB.json), +12 barrel-spin multiplier.
 - **What is not.** That the wind-up trigger path fires at the selected slot's rate once spun up: no built wind-up weapon
   is in a retained mission snapshot, and the research shows no reader of the current rate on that path. A third-party
   mod that writes the Maxigun's rate menu is reported to work in game; that is a lead, not proof. Hence the

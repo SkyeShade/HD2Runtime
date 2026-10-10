@@ -55,6 +55,8 @@ weapon-local records.
 | `hd2.fields.entity.health`, `hd2.fields.entity.armor` | weapon | The mount's own `HealthComponentData` +0 / +280 |
 | `hd2.fields.beam.fire_rate` | weapon | `BeamWeaponComponentData` +104 (rpm: how often the beam applies damage) |
 | `hd2.fields.heat.capacity`, `heat_per_shot`, `heat_per_second`, `cool_per_second` | weapon | `WeaponHeatComponentData` +96 / +116 / +120 / +128 |
+| `hd2.fields.heat.firing_charge`, `charge_gain_per_second`, `charge_loss_per_second` (0.30.4) | weapon (the AX/LAS-5 Rover gun: wind-up 100 / 400 = 0.25 s) | `WeaponHeatComponentData` +148 / +152 / +156 (see Wind-up) |
+| `hd2.fields.windup.wind_up_seconds`, `wind_down_seconds` (0.30.4) | weapon (EXO-45 Patriot minigun 1 s, TD-110 Maelstrom tank gun 0.5 s) | `WeaponWindUpComponentData` +0 / +4 (see Wind-up) |
 | `hd2.fields.beam.radius`, `beam.length` | `weapon:attack('primary')` (beam) | Shared `BeamSettings` +4 / +8 |
 | `hd2.fields.arc.velocity`, `range`, `distance_at_max_spread`, `max_angle_spread`, `chain_count`, `max_split` | `weapon:attack('primary')` (arc) | Shared `ArcSettings` |
 | `hd2.fields.zone.health`, `hd2.fields.zone.armor` | weapon | The mount's single hit zone (Exosuit arms) |
@@ -105,6 +107,27 @@ hd2.ensure({transaction={id='bastion-arc',target=cannon,allow_unverified_effect=
     {field=hd2.fields.turret.yaw_min,expect=-20,value=-5},{field=hd2.fields.turret.yaw_max,expect=20,value=5},
     {field=hd2.fields.turret.pitch_max,expect=25,value=45}}}})
 ```
+
+## Wind-up (0.30.4)
+
+Research: `scripts/research_windup_controls.py` -> `research/docs/windup-controls-F5FEE03DCFDB.md`. Both read live
+every frame from the mount's own record, so a write also changes a vehicle already deployed. All need
+`allow_unverified_effect` (not yet shown in game).
+
+- **Spin-up** (EXO-45 Patriot minigun `right_gun` 1 s, TD-110 Maelstrom `attach_tank_gun` 0.5 s):
+  `windup.wind_up_seconds` (0..30; 0 = instant). The barrels must reach full spin before the first round.
+  `windup.wind_down_seconds` is a switch: 0 stops the barrels at once on release, any positive value spins them down
+  over the wind-up time (the game never reads its magnitude).
+- **Firing charge** (the AX/LAS-5 Rover gun, `hd2.backpack('AX/LAS-5 Rover'):drone():weapon()`): the gun fires once
+  its charge reaches `heat.firing_charge` (100), gaining `heat.charge_gain_per_second` (400) while firing: 0.25 s.
+  `heat.firing_charge` 0 removes the wind-up. The reset switch (+160, 0) is not offered on mounts.
+
+```lua
+hd2.ensure({patch={id='patriot-instant-spin',target=hd2.vehicle('EXO-45 Patriot Exosuit'):weapon('right_gun'),
+    field=hd2.fields.windup.wind_up_seconds,expect=1,value=0,allow_unverified_effect=true}})
+```
+
+Live test: `proof/RebalanceFixesProof` ("Patriot minigun: instant spin-up", "Rover drone: no wind-up").
 
 ## Spread (0.30.4)
 
