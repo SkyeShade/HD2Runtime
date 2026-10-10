@@ -34,6 +34,8 @@
 -- After a write each weapon is recorded in core/reviewed_edits.lua (its dormant ProjectileWeapon fields and record 23
 -- refused; everything else writable). A weapon spawned while swapped may leave a ProjectileWeapon private copy nothing
 -- removes (the Liberator's default ammunition; a Reprimand muzzle): RESTART THE GAME after using the experiment.
+-- 0.2.0: per-weapon beam damage (runtime/experiment_beam_damage.lua) keys on the states this module reports
+-- (M.weapon_states, read-only and quiet); a restore forgets the restored weapons' damage settings.
 if rawget(_G,'jit')then jit.off(true,true)end
 local world_module=require('hd2runtime/runtime/event_world')
 local transaction=require('hd2runtime/core/guarded_transaction')
@@ -45,7 +47,7 @@ local D=require('hd2runtime/domains/beam_swap')
 local CT=require('hd2runtime/domains/component_tables')
 local unpack=unpack or table.unpack
 local M={}
-M.VERSION='0.1.0-experimental'
+M.VERSION='0.2.0-experimental'
 M.OWNER='HD2Runtime multi-weapon beam swap experiment'
 local PRIVATE,COMMIT,READONLY,PAGE=0x20000,0x1000,0x2,4096
 local BW,MG,MZ,PJ=D.beam,D.manager,D.magazine,D.projectile
@@ -547,6 +549,19 @@ function M.status()
     end)
 end
 
+-- Read-only and quiet (no log line): {liberator = 'vanilla' | 'applied' | 'partial' | 'foreign', ...}, or nil and why.
+function M.weapon_states()
+    local ok,result=pcall(function()
+        local world=open()
+        local s=locate(world)
+        local out={}
+        for _,w in ipairs(D.weapons)do out[w.id]=s.weapons[w.id].state end
+        return out
+    end)
+    if ok then return result end
+    return nil,clean(result)
+end
+
 -- Applies the swap to the weapons in ids (nil = all three) in one transaction.
 function M.apply(ids)
     local want=select_ids(ids)
@@ -646,6 +661,8 @@ function M.restore(ids)
         if record_back and s.record~='vanilla'then fail('after the restore record 23 is '..s.record)end
         for _,w in ipairs(D.weapons)do record_edit(w,s.weapons[w.id].state)end
         for _,id in ipairs(targets_ids)do log(BY[id].name..' RESTORED: every byte is vanilla again')end
+        local has_damage,damage=pcall(require,'hd2runtime/runtime/experiment_beam_damage')
+        if has_damage and#targets_ids>0 then damage.forget(targets_ids,'its swap was restored')end
         log('RESTORED ('..s.detail..')'..(used and'; RESTART THE GAME before playing on (stale ProjectileWeapon '
             ..'copies of swapped weapons may remain until the game exits)'or''))
         return {ok=true,writes=report.writes,restored=targets_ids,record_restored=record_back}

@@ -1846,15 +1846,27 @@ EXTRAS['proof-virtual-slot'] = {'menu': MENU_STUB, 'after': PROOF_VIRTUAL_SLOT, 
 # after startup the experiment proves its pins on the packaged runtime, runs its real solo and live-instance gates (its
 # lazy requires resolve after startup), applies the Trident beam to the Liberator, Talon and Reprimand in one guarded
 # transaction on the overlay and restores every byte. Only the Trident package state is forced (the ship snapshot does
-# not hold laser_shotgun resident).
+# not hold laser_shotgun resident). 0.2.0: the per-weapon beam damage module (runtime/experiment_beam_damage.lua) loads
+# from the archive, proves its pins on the packaged runtime, refuses a weapon that is not swapped, accepts each swapped
+# weapon's own settings (nothing is written aboard the ship: shots exist only in a mission) and forgets them at the
+# restore.
 PROOF_MULTI_BEAM = r"""
 return function(frame,watches,counts,lines)
  local results={}
  local function step(name,ok,detail)results[#results+1]={name=name,passed=ok==true,detail=detail}end
  local ok,X=pcall(require,'hd2runtime/runtime/experiment_beam_swap')
  step('the experiment module is loaded from the packaged archive',ok and type(X)=='table'
-  and tostring(X.VERSION):find('^0%.1%.')~=nil,tostring(ok and X.VERSION or X))
+  and tostring(X.VERSION):find('^0%.2%.')~=nil,tostring(ok and X.VERSION or X))
  if not ok then return results end
+ local dok,BD=pcall(require,'hd2runtime/runtime/experiment_beam_damage')
+ step('the per-weapon beam damage module is loaded from the packaged archive',dok and type(BD)=='table'
+  and tostring(BD.VERSION):find('^0%.1%.')~=nil,tostring(dok and BD.VERSION or BD))
+ if not dok then return results end
+ local pok,pwhy=BD.prove_pins()
+ step('the beam damage pins and the beam system prove on the packaged runtime',pok==true,tostring(pwhy))
+ local early=BD.set('liberator',{damage_multiplier=10})
+ step('beam damage refuses a weapon that is not swapped',not early.ok and tostring(early.reason):find('not swapped',1,true)
+  ~=nil,tostring(early.reason))
  local lok,L=pcall(require,'hd2runtime/runtime/experiment_liberator_beam')
  step('the live-proven Liberator experiment is in the archive too',lok and type(L)=='table',tostring(lok and L.VERSION or L))
  local s=X.status()
@@ -1874,8 +1886,16 @@ return function(frame,watches,counts,lines)
  local applied=s2.ok and s2.record=='copy'
  for _,w in ipairs(s2.weapons or{})do applied=applied and w.state=='applied'end
  step('all three applied, record 23 the Trident copy',applied,tostring(s2.detail or s2.reason))
+ local d1=BD.set('liberator',{damage_multiplier=10})
+ local d2=BD.set('talon',{damage=6})
+ local d3=BD.set('reprimand',{armor_penetration=6})
+ step('each swapped weapon takes its own beam damage',d1.ok and d2.ok and d3.ok,
+  tostring(d1.reason or d2.reason or d3.reason or d1.detail))
  local r=X.restore()
  step('restore returns every byte',r.ok and r.record_restored==true,tostring(r.reason))
+ local forgotten=true
+ for _,w in ipairs(BD.status().weapons)do forgotten=forgotten and not w.active end
+ step('the restore forgets every weapon beam damage setting',forgotten,'forgotten '..tostring(forgotten))
  local s3=X.status()
  local back=s3.ok and s3.record=='vanilla'
  for _,w in ipairs(s3.weapons or{})do back=back and w.state=='vanilla'end

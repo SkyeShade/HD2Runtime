@@ -10,7 +10,11 @@ Sources (read-only research, never trusted at run time without re-proof):
   * research/component-swap-liberator-beam-F5FEE03DCFDB.json and research/liberator-beam-chamber-F5FEE03DCFDB.json:
     the live-proven Liberator swap (its 63 + 69 pins and its write set, which the Liberator entry here must equal);
   * research/component-membership-F5FEE03DCFDB.json: the loader, spawn and destroy pins;
-  * scripts/generate_liberator_beam.py EXTRA_PINS: the lookups and descriptor writes the module re-derives addresses from.
+  * scripts/generate_liberator_beam.py EXTRA_PINS: the lookups and descriptor writes the module re-derives addresses from;
+  * research/beam-damage-per-weapon-F5FEE03DCFDB.json (research/docs/beam-damage-per-weapon-F5FEE03DCFDB.md): the beam
+    shot's own ring entry (its DamageInfo id and its damage / penetration multipliers, copied from the BeamInfo row at
+    BeamFire and read only by the hit processing), the timing window and the code pins, for the per-weapon damage of
+    runtime/experiment_beam_damage.lua (the `damage` section).
 
 NOT a Runtime feature: not exported by api/hd2.lua, not part of the 0.30.x line (branch exp/multi-beam only).
 """
@@ -27,6 +31,13 @@ from reference_format import lua  # noqa: E402
 import generate_liberator_beam as liberator  # noqa: E402
 
 MULTI = ROOT / 'research/multi-beam-swap-F5FEE03DCFDB.json'
+DAMAGE = ROOT / 'research/beam-damage-per-weapon-F5FEE03DCFDB.json'
+RESIDENCY = ROOT / 'domains/package_residency.lua'
+# Damage rows a swapped weapon's shot may name instead of the Trident's (each a player beam weapon's own BeamInfo row's
+# DamageInfo, so its package is that weapon's loadout package): label, the asset dependency key, the package name.
+# (The LAS-7 Dagger's row is not offered: hd2.weapon('LAS-7 Dagger') has no asset dependency key of its own.)
+DONORS = (('LAS-13 Trident', 'player_weapon/LAS-13 Trident', 'laser_shotgun'),
+          ('LAS-5 Scythe', 'player_weapon/LAS-5 Scythe', 'laser_rifle'))
 OUTPUT = ROOT / 'domains/beam_swap.lua'
 ORDER = ('liberator', 'talon', 'reprimand')      # write order; restore runs in reverse
 RESOURCES = {'liberator': '0x968211C0033DCE64', 'talon': '0x416D053372C4E433', 'reprimand': '0x94BD931B5FB4EE95'}
@@ -166,6 +177,81 @@ def build() -> dict:
         'order': list(ORDER),
         'weapons': weapons,
         'pins': [pins[rva] for rva in sorted(pins)],
+        'damage': damage_domain(),
+    }
+
+
+def damage_domain() -> dict:
+    """The per-weapon beam damage section: re-checks the research verdicts it depends on."""
+    r = json.loads(DAMAGE.read_text(encoding='utf-8'))
+    if r['writes'] or r['protectionChanges'] or r['build'] != 'F5FEE03DCFDB':
+        raise ValueError('the beam damage research must be read-only research of build F5FEE03DCFDB')
+    for name, mismatches in r['pinnedBytesMismatchPerSnapshot'].items():
+        if mismatches:
+            raise ValueError('a beam damage pin differs in snapshot ' + name)
+    if len(r['pinnedBytesMismatchPerSnapshot']) < 9:
+        raise ValueError('the beam damage pins must be checked in every retained snapshot')
+    order = r['order']
+    if not order['fireReachesHitProcessing'] or order['fireReachesRaySubmission'] or not order['entryReachesAll']:
+        raise ValueError('the world update order is not submit -> fire -> process')
+    if r['soleCallers']['0x13BAE20'] != ['0x13F7654'] or r['soleCallers']['0x13F73F0'] != ['0xAB55AF']:
+        raise ValueError('the beam ray submission has another caller')
+    writers = sorted(a['rva'] for a in r['entryCensus']['accesses'] if a['write'])
+    readers = sorted(a['rva'] for a in r['entryCensus']['accesses'] if not a['write'])
+    if writers != ['0x13B96C2', '0x13B96DA', '0x13B96E2', '0x13B96EA', '0x13B96F2'] or readers != [
+            '0x13BB831', '0x13BBAC5', '0x13BBACF', '0x13BBADD', '0x13BBAE7', '0x13BBB43', '0x13BC114']:
+        raise ValueError('the shot entry census changed')
+    for o in r['observations']:
+        if not (o['systemIsWorldPlusOffset'] and o['beamTableNullSlots'] == [0] and o['damageTableNullSlots'] == [0]
+                and o['ringProtect'] == '0x4'):
+            raise ValueError('snapshot ' + o['snapshot'] + ': unexpected beam system or tables')
+    beam6, dmg508 = r['observations'][0]['tridentBeamRow'], r['observations'][0]['tridentDamageRow']
+    if not (beam6['damageInfo'] == 508 and beam6['falloff'] == [0.0, 0.0] and beam6['damageMultipliers'] == [1.0, 1.0]
+            and beam6['penetrationMultipliers'] == [1.0, 1.0] and beam6['pulseFlag'] == 1):
+        raise ValueError('the Trident BeamInfo row 6 is not the reviewed pulse row')
+    residency = RESIDENCY.read_text(encoding='utf-8')
+    donors = []
+    for label, key, package in DONORS:
+        d = r['donors'][label]
+        dmg = d['damage']
+        lanes = [v for v in dmg['armorPenetration'] if v]
+        if len(set(lanes)) != 1:
+            raise ValueError(label + ': its non-zero penetration lanes differ')
+        at = residency.find('["' + key + '"]={')
+        pid = residency[at:at + 200].split('["package"]="')[1].split('"')[0] if at >= 0 else None
+        name_at = residency.find('["' + str(pid) + '"]={')
+        if at < 0 or name_at < 0 or ('loadout/' + package + '"') not in residency[name_at:name_at + 200]:
+            raise ValueError(label + ': the asset dependency ' + key + ' is not the ' + package + ' package')
+        donors.append({'label': label, 'damageInfo': dmg['id'], 'beamType': d['beamType'], 'dependency': key,
+                       'package': package, 'standard': dmg['standard'], 'durable': dmg['durable'],
+                       'armorPenetration': dmg['armorPenetration'], 'demolition': dmg['demolition'],
+                       'stagger': dmg['stagger'], 'push': dmg['push'],
+                       'statuses': [st for st in dmg['statuses'] if st[0]], 'rowHex': dmg['bytes']})
+    if donors[0]['damageInfo'] != 508 or donors[0]['rowHex'] != dmg508['bytes']:
+        raise ValueError('the first donor must be the Trident\'s own DamageInfo 508')
+    pins = []
+    for group, rows in r['proofs'].items():
+        for pin in rows:
+            pins.append({'rva': pin['rva'], 'hex': pin['bytes'], 'label': 'beam damage: ' + group + ': ' + pin['role']})
+    for c in r['constants']:
+        pins.append({'rva': c['rva'], 'hex': c['bytes'], 'label': 'beam damage: constant: ' + c['role']})
+    ring, row = r['ring'], r['beamInfoRow']
+    return {
+        'source': {'research': DAMAGE.name, 'build': r['build'], 'gameDllSha256': r['gameDllSha256']},
+        'system': {'global': int(ring['system']['global'], 16), 'world': int(ring['system']['world'], 16),
+                   'inWorld': int(ring['system']['inWorld'], 16)},
+        'ring': {'base': ring['base'], 'stride': ring['stride'], 'slots': ring['slots'],
+                 'read': ring['indices']['read'], 'write': ring['indices']['write']},
+        'entry': ring['entry'],
+        'beamTable': {'table': int(row['table'], 16), 'slots': row['slots'], 'stride': row['stride'],
+                      'members': row['members']},
+        'damageTable': {'table': int(r['damageInfoRow']['table'], 16), 'slots': r['damageInfoRow']['slots'],
+                        'stride': r['damageInfoRow']['stride']},
+        'trident': {'beamType': 6, 'damageInfo': 508, 'beamRowHex': beam6['bytes']},
+        'donors': donors,
+        'limits': {'damageMultiplier': [0.01, 100], 'armorPenetration': [1, 10],
+                   'armorPenetrationMultiplier': [0.1, 10]},
+        'pins': pins,
     }
 
 
