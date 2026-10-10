@@ -17,7 +17,7 @@ hd2.ensure({plan={id='emancipator-ammo',operations={
 | --- | --- | --- |
 | Vehicle | `MountComponentData`: 5 slots × 24 bytes, with the mounted entity path at `slot*24` | Re-proven on every write |
 | Mounted weapon | The slot's entity, which owns its own component records | Weapon-local |
-| Local settings | `ProjectileWeaponComponentData` (fire rate), `WeaponMagazineComponentData`, `WeaponReloadComponentData`, `HealthComponentData` (the mount's health, armor and hit zone) | Weapon-local |
+| Local settings | `ProjectileWeaponComponentData` (fire rate), `WeaponDataComponentData` (spread), `WeaponMagazineComponentData`, `WeaponReloadComponentData`, `HealthComponentData` (the mount's health, armor and hit zone) | Weapon-local |
 | Attack | `ProjectileWeaponComponentData.projectile_type` → `ProjectileSettings`; `SprayWeaponComponentData` → `DamageInfo`; `BeamWeaponComponentData` → `BeamSettings` → `DamageInfo`; `ArcWeaponComponentData` → `ArcSettings` → `DamageInfo` | Shared rows |
 | Damage | `DamageInfo` from the projectile or the spray | Shared rows |
 | Explosion | The projectile's impact `ExplosionSettings` and its `DamageInfo` | Shared rows |
@@ -33,6 +33,8 @@ fails.
   label (such as `'left_gun'` or `'attach_tank_gun'`), the weapon key (`'<vehicle> / <label>'`) or
   its `semanticId`.
 - `hd2.vehicle(name):mount(label):weapon()`: the weapon in that mount.
+- `hd2.vehicle('EXO-55 Breakthrough Exosuit'):shield()`: the Breakthrough's shield arm (its left mount, no weapon
+  component; see EXO-55 Breakthrough shield arm).
 - `weapon:projectile()`, `weapon:explosion('impact')` and `weapon:attack(role)`: the weapon's shared
   attack objects. `weapon:describe()` lists every field with its baseline, scope and required
   acknowledgements.
@@ -46,6 +48,7 @@ weapon-local records.
 | Field constant | Target | Backing |
 | --- | --- | --- |
 | `hd2.fields.weapon.fire_rate` | weapon | `ProjectileWeaponComponentData` +8 (rpm) |
+| `hd2.fields.weapon.horizontal_spread`, `vertical_spread` | weapon (projectile mounts) | `WeaponDataComponentData` +84 / +88 (mrad, full width; see Spread) |
 | `hd2.fields.weapon.capacity` | weapon | `WeaponMagazineComponentData` +136 |
 | `hd2.fields.magazine.starting_magazines`, `magazines_from_supply`, `spare_magazines` | weapon | `WeaponMagazineComponentData` +140 / +144 / +148 |
 | `hd2.fields.reload.duration` | weapon | `WeaponReloadComponentData` +56 (only where the value is non-zero) |
@@ -103,6 +106,90 @@ hd2.ensure({transaction={id='bastion-arc',target=cannon,allow_unverified_effect=
     {field=hd2.fields.turret.pitch_max,expect=25,value=45}}}})
 ```
 
+## Spread (0.30.4)
+
+Every projectile mount carries the player weapons' spread pair, `hd2.fields.weapon.horizontal_spread` and
+`hd2.fields.weapon.vertical_spread`, on its own `WeaponDataComponentData` (+84 / +88). That covers 17 mounts:
+
+- every Exosuit gun (Patriot minigun and missile pod, both Emancipator autocannons, the Lumberer cannon and the
+  Breakthrough flak cannon);
+- the M-102 / Super Earth FRV gun (one entity: `allow_shared`) and the M-103 gun;
+- the Bastion and Maelstrom guns and launchers (Maelstrom slots 3 and 4 are one entity: `allow_shared`);
+- the GATER turret and the AX/AR-23 Guard Dog gun.
+
+The values are the full width in milliradians; a shot turns by up to half of it each way. The range is 0 to 1000
+(1000 = ±28.6 degrees). The widest native value is the Breakthrough flak cannon's 200.
+
+```lua
+-- EXO-55 Breakthrough: flak cannon spread x5 (200 -> 1000 mrad); call in a new Exosuit after the write.
+local flak=hd2.vehicle('EXO-55 Breakthrough Exosuit'):weapon('right_gun')
+hd2.ensure({transaction={id='breakthrough-spread',target=flak,allow_unverified_effect=true,changes={
+    {field=hd2.fields.weapon.horizontal_spread,expect=200,value=1000},
+    {field=hd2.fields.weapon.vertical_spread,expect=200,value=1000}}}})
+```
+
+Why the mounted guns read it (`scripts/research_mounted_spread_shield.py`, `research/mounted-spread-shield-*.json`):
+
+- **Instance.** WeaponData's post-create callback (game.dll 0x54026D → 0x752370) builds every WeaponData instance
+  from its type record when the entity is created. The spread pair lands at instance +0x58 (0x75263D/0x752643). The
+  callback belongs to the component, whatever wields the weapon.
+- **Shot.** The projectile shot (0x615940) looks up the firing weapon entity's own WeaponData instance (component
+  map game+0x3326CE0, 0x3F0 per instance, 0x615976..0x615A3A). It passes instance +0x58 to the turn at 0x759740 on
+  every shot (0x615BAB/0x615BBA). No branch tests the wielder. This is the read sentries and the Pelican chin gun
+  already rely on.
+- **Pellets.** For a plain projectile, the fire routine 0x6128B0 calls the shot once per pellet: `pellet_count` of the
+  projectile row, 0x614445..0x6144F3. So every one of the flak round's 40 pellets is turned by the spread.
+- **No other route.** The shot is called only from 0x6128B0, and none of the 74 game.dll functions that touch the
+  ProjectileWeapon component spawns a projectile row itself.
+- **Published values.** The wiki spread of all 13 published mounted weapons equals their +84/+88.
+
+Notes:
+- **Timing.** The instance is a copy, so an edit reaches vehicles called in after it. A vehicle already in the world
+  keeps its spread.
+- **Scope.** Each WeaponData record has one owner (weapon-local). The FRV gun and the Maelstrom launchers are shared
+  mounted weapons.
+- **Multiplayer.** This is a type-record edit: it reaches every vehicle created on this machine. A shot's spread is
+  drawn by the machine that fires it.
+- **Acknowledgement.** Every spread field needs `allow_unverified_effect` (not live-tested on a mount).
+- **Not exposed.** Spray, beam and arc mounts (M-104, Lumberer flamethrower, Hot Dog, Dog Breath, Rover, K-9) keep
+  their WeaponData spread unexposed: the shot's read is not on their attack path. This is the sentry rule.
+
+## EXO-55 Breakthrough shield arm (0.30.4)
+
+The Breakthrough's left mount (`left_gun`, slot 0) holds `combat_walker_shield`. It is a wieldable unit with its own
+`HealthComponent`, `WeaponData`, `MeleeShield` and `AbilityWeapon` (the shield bash). It has no projectile, spray,
+beam or arc component and **no `ShieldComponent`**: it is a physical shield, not an energy barrier. So there is no
+capacity, recharge delay, broken delay or recharge rate to tune (those are the SH-32 / SH-51 barrier fields in
+[Backpack authoring](backpack-authoring.md)).
+
+Its health record (one owner) is exactly the wiki anatomy of the Breakthrough:
+
+| Zone | Hit actors | Armor | Health | Field on `hd2.vehicle('EXO-55 Breakthrough Exosuit'):shield()` |
+| --- | --- | --- | --- | --- |
+| ShieldArm (zone 0) | `damageable_base`, `damageable_arm`, one unnamed | 3 (Medium) | the arm pool, 800 | `entity.health` (800, at least 1) |
+| Shield (zone 1) | `damageable_shield` | 4 (Heavy) | its own 5000, does not count toward the arm | `zone.health` (5000, at least 1), `zone.armor` (4, 0 to 10) |
+
+```lua
+-- Breakthrough shield plate 5x health (5000 -> 25000); call in a new Exosuit after the write.
+local shield=hd2.vehicle('EXO-55 Breakthrough Exosuit'):shield()
+hd2.ensure({patch={id='breakthrough-plate',target=shield,field=hd2.fields.zone.health,expect=5000,value=25000,
+    allow_unverified_effect=true}})
+```
+
+Notes:
+- **Zone lookup.** A hit resolves to the zone that lists the hit actor (0x922060, see the SH-20 armor section of
+  Backpack authoring). Plate hits use the Shield zone; arm and base hits use the ShieldArm zone, whose damage goes to
+  the 800 pool.
+- **Mount chain.** Every write re-proves the Exosuit's mount slot 0 like a mounted weapon's.
+- **Timing.** The health instance copies the values when the Exosuit is created: an edit reaches Exosuits called in
+  after it.
+- **Acknowledgement.** All three fields need `allow_unverified_effect`: they use the arms' mount-health model, but
+  they are not live-tested on the shield arm.
+- **Read-only.**
+  - `entity.armor` (+280, the default zone) is only the fallback for an actor no zone lists.
+  - The ShieldArm zone's armor (3) is a second zone; the target carries the plate zone only.
+- **`:shield()`** errors on vehicles without a reviewed shield mount. `:weapons()` does not list the shield arm.
+
 ## Projectile swaps
 
 Mounted projectile weapons are projectile hosts by the same rule as player and support weapons
@@ -158,8 +245,14 @@ hd2.ensure({transaction={id='patriot-eat',target=source.target,allow_unverified_
 - **ProjectileWeapon damage/armor-penetration addends (+128/+136):** the type library names +128
   `damage_addends` and +136 `ap_addends`. The M-103 turret reference mod reports them the other way
   round in game. They stay read-only until one in-game test settles it.
-- **Mounts without a weapon component:** the Maelstrom turret ring, the Breakthrough's left mount and
-  seats are listed with a reason.
+- **Mounts without a weapon component:** the Maelstrom turret ring, the M-103 rack and the seats are listed with a
+  reason. The Breakthrough's left mount is the shield arm (0.30.4): its arm health and plate health and armor are
+  fields, while its default-zone armor, its arm-zone armor and any `shield.*` field (no ShieldComponent) are
+  read-only (see EXO-55 Breakthrough shield arm).
+- **Spread of spray, beam and arc mounts:** no read on their attack path is shown (the sentry rule).
+- **Recoil, sway and ergonomics (WeaponData +0..+32, +104, +356):** each shot kicks the wielder's aim (0x784CE2).
+  Which aim a mounted weapon's wielder is (the Exosuit, a seat or the vehicle) is not traced, and no read of sway or
+  ergonomics on the mounted fire path is shown.
 - **Health "max armor" values (+288, zone +224):** their meaning is not established.
 
 `sdk/VehicleWeaponCapabilities.json` lists every vehicle, mount and field instance. For each field it
