@@ -29,10 +29,11 @@ class SupportWeaponAuthoringTests(unittest.TestCase):
         # +33 charge instances (scripts/charge_fields.py: speed/damage/penetration/arc multipliers, auto fire, overcharge
         # explosion, limit and burst on the RS-422, PLAS-45, ARC-3 and 40-K); +60 charge-level instances (the Epoch
         # full-charge shot 18, its explosion 14 and its overcharge explosion 14, the RS-422 overcharge explosion 14).
-        # 0.30.4: +2 beam references (attack.beam on the LAS-98 and the 40-K Meltagun, research/beam-outputs).
-        self.assertEqual(self.capabilities['summary']['internalSupportAuthoringInstances'],1492)
-        self.assertEqual(self.capabilities['summary']['publishedSupportFieldInstances'],1492)
-        self.assertEqual(self.capabilities['summary']['legacyFlattenedFieldEntries'],1381)
+        # 0.30.4: +2 beam references (attack.beam on the LAS-98 and the 40-K Meltagun, research/beam-outputs); +34
+        # missile fields (research/wasp-rocket: W.A.S.P. 9 missile + 9 function_missile, Spear 8, Commando 8).
+        self.assertEqual(self.capabilities['summary']['internalSupportAuthoringInstances'],1526)
+        self.assertEqual(self.capabilities['summary']['publishedSupportFieldInstances'],1526)
+        self.assertEqual(self.capabilities['summary']['legacyFlattenedFieldEntries'],1415)   # +34 missile fields
         self.assertEqual(self.capabilities['summary']['deduplicationLossPrevented'],111)
         self.assertEqual(self.capabilities['summary']['duplicateSemanticFieldGroups'],50)
         self.assertEqual(self.capabilities['summary']['duplicateSemanticFieldInstances'],114)
@@ -58,19 +59,21 @@ class SupportWeaponAuthoringTests(unittest.TestCase):
     def test_canonical_instances_exactly_cover_internal_descriptors(self):
         runtime,generated=generate_support_weapon_authoring.build()
         audit=generate_support_weapon_authoring.audit_instance_coverage(runtime,generated)
-        self.assertEqual(audit,{'internalInstances':1492,'publishedInstances':1492,
+        self.assertEqual(audit,{'internalInstances':1526,'publishedInstances':1526,   # 0.30.4: +34 missile fields
             'missingInstances':0,'unexpectedInstances':0,'identityCoverage':'exact'})
         instances=self.capabilities['fieldInstances']
-        self.assertEqual(len(instances),1492)
-        self.assertEqual(len({item['instanceKey'] for item in instances}),1492)
+        self.assertEqual(len(instances),1526)
+        self.assertEqual(len({item['instanceKey'] for item in instances}),1526)
         objects={item['objectKey']:item for item in self.capabilities['backingObjects']}
         operations={item['operationGroupingKey']:item
             for item in self.capabilities['operationGroups']}
         # + the LAS-98 BeamWeapon record (beam.fire_rate); + 7 charge-level rows (the Epoch full-charge projectile, its
         # damage, its explosion, the overcharge explosion and their shared damage row; the RS-422 overcharge explosion
         # and its damage row).
-        self.assertEqual(len(objects),235)   # 0.30.4: + the 40-K Meltagun BeamWeapon record (beam fire mode and pulse)
-        self.assertEqual(len(operations),274)
+        # 0.30.4: + the 40-K Meltagun BeamWeapon record (beam fire mode and pulse); + 4 missile SeekingMissile records
+        # (the W.A.S.P.'s two, the Spear's, the Commando's: research/wasp-rocket), one operation group each.
+        self.assertEqual(len(objects),239)
+        self.assertEqual(len(operations),278)
         required={'instanceKey','supportWeapon','supportWeaponIdentity','target','semanticFieldId',
             'qualifiedSemanticFieldId','apiFieldConstant','display','value','writable',
             'readOnly','blockedReason','backing','sharedScope','operation','resolution',
@@ -85,7 +88,7 @@ class SupportWeaponAuthoringTests(unittest.TestCase):
             self.assertEqual(instance['operation']['phase'],1)
             self.assertEqual(instance['target']['accessor'][0],'support_weapon')
         self.assertEqual(sum(len(weapon['fieldInstanceKeys'])
-            for weapon in self.capabilities['weapons']),1492)
+            for weapon in self.capabilities['weapons']),1526)
 
     def test_gui_can_group_recoilless_instances_without_native_layout_knowledge(self):
         instances=[item for item in self.capabilities['fieldInstances']

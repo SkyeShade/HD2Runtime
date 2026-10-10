@@ -739,6 +739,18 @@ class Engine:
             return 'BROKEN', 'deposit assisted_reload_weapon_path no longer names the weapon', None
         return 'INTACT', 'deposit assisted_reload_weapon_path names the weapon', None
 
+    def _rel_weapon_spawns_entity(self, view, link):
+        """0.30.4 (research/wasp-rocket): the weapon's ProjectileWeapon member still names the missile it spawns, and
+        the missile still owns the component its fields write."""
+        record = view.record('ProjectileWeaponComponentData', link['weapon'])
+        if record is None:
+            return 'BROKEN', 'weapon no longer owns a ProjectileWeaponComponent', None
+        if struct.unpack_from('<Q', record['bytes'], link['offset'])[0] != link['entity']:
+            return 'BROKEN', f"ProjectileWeapon +{link['offset']} no longer names the missile", None
+        if view.record(link['component'], link['entity']) is None:
+            return 'BROKEN', f"the missile no longer owns {link['component']}", None
+        return 'INTACT', f"ProjectileWeapon +{link['offset']} names the missile that owns {link['component']}", None
+
     def _rel_stratagem_rack(self, view, link):
         if view.stratagems is None:
             return 'UNCHECKED', 'stratagem rows need a snapshot of a runtime-profiled game.dll', None

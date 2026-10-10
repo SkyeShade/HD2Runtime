@@ -32,6 +32,7 @@ ROOT = Path(__file__).resolve().parents[1]
 RESEARCH = ROOT / 'research/attack-outputs-F5FEE03DCFDB.json'
 ACTIVE = ROOT / 'research/active-projectile-sources-F5FEE03DCFDB.json'
 SENTRY_HOSTS = ROOT / 'research/sentry-projectile-hosts-F5FEE03DCFDB.json'
+SPAWNED = ROOT / 'research/wasp-rocket-F5FEE03DCFDB.json'
 DONORS = ROOT / 'research/stun-field-donors-F5FEE03DCFDB.json'
 MORE_DONORS = ROOT / 'research/projectile-donors-F5FEE03DCFDB.json'
 PRESENTATION = ROOT / 'research/weapon-presentation-F5FEE03DCFDB.json'
@@ -115,14 +116,68 @@ def proven_host_pairs():
     return sorted(set(pairs))
 
 
+def spawned_entity_reasons():
+    """weapon name -> (source reason, output reason) of every weapon whose shot spawns an entity instead of a projectile
+    (ProjectileWeapon +40; research/wasp-rocket-F5FEE03DCFDB.json): what it spawns, where its flight is authored and why
+    its fired projectile is not swapped. Replaces the generic "Another native selector owns the fired projectile"."""
+    research = json.loads(SPAWNED.read_text(encoding='utf-8'))
+    exposed = {'player_weapon', 'support_weapon'}
+    out = {}
+    for weapon in research['weapons']:
+        first = next((item for item in weapon['spawns'] if item['member'] == 40), None)
+        if not first:
+            continue
+        for name in weapon['names']:
+            if first['exposable']:
+                fields = 'missile.*' + (' (and function_missile.* for the ProgrammableAmmo missile)'
+                    if any(item['member'] == 584 and item['exposable'] for item in weapon['spawns']) else '')
+                where = ('edit it with the ' + fields + ' fields of this weapon' if name['kind'] in exposed else
+                    'its fields are not offered on mounted weapons yet')
+                source = ('The shot spawns a missile entity (ProjectileWeapon +40, ProjectileEntity), not a projectile (research/wasp-rocket: '
+                    '0x6143CD, 0x615B15). The missile flies by its own SeekingMissile record: ' + where + '. '
+                    'ProjectileWeapon +0 (projectile %d) reaches the missile only as its hit row (damage, impact '
+                    'explosion) through the shooter\'s spawn info (0x61604F -> 0x6414E0): a swap would change neither its '
+                    'flight nor its model, and how another machine\'s copy of the missile gets its type is not traced, '
+                    'so the fired projectile is not swapped.') % weapon['projectileType']
+                output = ('The owner does not fire this row as a projectile: its shot spawns a missile entity that carries '
+                    'it as its hit row and flies by its own SeekingMissile record (research/wasp-rocket); the row\'s own '
+                    'flight is not established as its attack output.')
+            elif first.get('seekingMissile'):
+                source = ('The shot spawns a missile entity (ProjectileWeapon +40, ProjectileEntity) that is not run by the projectile '
+                    'system (SeekingMissile +173 = 0): it explodes by its own ExplosiveComponent and carries no projectile '
+                    'row, so there is no fired projectile to swap (research/wasp-rocket).')
+                output = ('The owner does not fire this row: its shot spawns a missile entity with its own explosive '
+                    '(research/wasp-rocket).')
+            else:
+                source = ('The shot spawns an entity (ProjectileWeapon +40, ProjectileEntity) that is not a missile (' + ', '.join(
+                    c.removesuffix('ComponentData') for c in first['components'] if c in ('ExplosiveComponentData',
+                    'StickyComponentData', 'ThrowableComponentData')) + '): no projectile row is fired, so there is '
+                    'nothing to swap (research/wasp-rocket).')
+                output = 'The owner does not fire this row: its shot spawns an entity (research/wasp-rocket).'
+            out[name['name']] = (source, output)
+    return out
+
+
+def only_spawned_entity(row_or_entry):
+    """True when the spawned entity is the only selector that blocks the source."""
+    return row_or_entry.get('status') == 'BLOCKED' and row_or_entry.get('reason', '').endswith(
+        ': ProjectileEntity (spawns an entity instead of a projectile).')
+
+
 def active_sources():
     """(research, sources, ammunition, by_weapon) from the active projectile source research."""
     active = json.loads(ACTIVE.read_text(encoding='utf-8'))
-    by_weapon = {e['weapon']: e for e in active['weapons']}
+    spawned = spawned_entity_reasons()
+    by_weapon = {}
+    for e in active['weapons']:
+        if e['weapon'] in spawned and only_spawned_entity(e):
+            e = dict(e, reason=spawned[e['weapon']][0], spawnedEntityOutputReason=spawned[e['weapon']][1])
+        by_weapon[e['weapon']] = e
     sources = {}
     for row in active['attackFields']:
+        reason = spawned[row['weapon']][0] if row['weapon'] in spawned and only_spawned_entity(row) else row['reason']
         sources.setdefault(row['weapon'], {})[row['role']] = {'status': row['status'], 'mechanism': row['mechanism'],
-            'member': row['backing'], 'reason': row['reason'], 'previouslyWritable': row['previouslyWritable'],
+            'member': row['backing'], 'reason': reason, 'previouslyWritable': row['previouslyWritable'],
             'compatibilityClass': row['compatibilityClass'], 'candidatesAgree': row.get('candidatesAgree', False)}
     ammunition = {}
     for entry in active['weapons']:
@@ -190,6 +245,8 @@ def owner_source(entry):
             'names a different row.')
     if status == 'AMBIGUOUS':
         return 'default_projectile', None
+    if entry.get('spawnedEntityOutputReason'):
+        return 'not_established', entry['spawnedEntityOutputReason']
     selectors = entry.get('selectors') or []
     if selectors and all(s.startswith('WeaponRounds') for s in selectors) and entry.get('rounds') \
             and entry['rounds'][0] == entry['base']['projType']:
@@ -562,6 +619,7 @@ def outputs():
     research = json.loads(RESEARCH.read_text(encoding='utf-8'))
     mode_labels, mode_icons, mode_projectiles = mode_catalog()
     active, sources, ammunition, by_weapon = active_sources()
+    spawned = spawned_entity_reasons()
     runtime_outputs, aliases, public = {}, {}, []
     builder = builder_research()
     builder_slots = {item['type']: item['slots'] for item in builder['projectileOutputs']}
@@ -798,6 +856,8 @@ def outputs():
             if item.get('sharedEntity'):
                 hosts[item['weapon']]['sharedEntity'] = item['sharedEntity']
         reason = item['reason']
+        if item['weapon'] in spawned and only_spawned_entity(item):
+            reason = spawned[item['weapon']][0]
         if not host and item['status'] == 'ACTIVE_DIRECT':
             reason = ('Every shot is ProjectileWeapon +0, but the weapon is not magazine-fed: the host rule the live '
                 'controls established covers magazine-fed weapons only (no rounds feed, charge or heat), so its '

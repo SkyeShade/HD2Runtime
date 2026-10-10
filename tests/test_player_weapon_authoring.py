@@ -44,6 +44,8 @@ class PlayerWeaponAuthoringTests(unittest.TestCase):
                     self.assertEqual((field['min'],field['max']),(0,10000))   # LAS-17 heat levels
                 elif field['semanticFieldId'] in RANGED_0_30_4:   # 0.30.4 firing charge and beam pulse
                     self.assertEqual((field['min'],field['max']),RANGED_0_30_4[field['semanticFieldId']])
+                elif field.get('spawnedEntity'):   # 0.30.4 missile fields (research/wasp-rocket)
+                    self.assertIsNotNone(field['min']);self.assertGreater(field['max'],field['min'])
                 else:
                     self.assertIsNone(field['min']);self.assertIsNone(field['max'])
                 if field['semanticFieldId']=='weapon.default_fire_mode':

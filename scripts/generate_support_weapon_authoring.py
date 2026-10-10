@@ -21,6 +21,7 @@ import presentation_fields
 import status_fields
 import equipment_fields
 import beam_fields
+import missile_fields
 import charge_fields
 import support_callin_linkage
 import live_evidence
@@ -625,6 +626,11 @@ def build(catalog_path=CATALOG):
 
             host_field=projectile_host_field(weapon,candidate,target)
             if host_field:fields.append(host_field)
+            # 0.30.4 (research/wasp-rocket): the missile the weapon spawns per shot (ProjectileWeapon +40) and that of
+            # its ProgrammableAmmo function (+584): their own SeekingMissile records, through the re-proven link.
+            if 'ProjectileWeaponComponentData'in ownership:
+                fields+=missile_fields.fields(equipment_make,candidate['resourceHash'],
+                    ownership['ProjectileWeaponComponentData'])
             # Charge-level roles: the existing attacks the charge record selects (their rows resolve live through the
             # WeaponCharge record) and the new ones (full-charge shot, its explosion, the overcharge explosion).
             levels_by_role=charge_fields.level_attacks(weapon['name'],charge_levels,candidate)
@@ -1097,6 +1103,11 @@ def build(catalog_path=CATALOG):
                     'armorPenetrationState')if key in field}
             if field.get('effect'):
                 instance['effect']=field['effect']
+            if field.get('spawnedEntity'):
+                # The missile the weapon spawns per shot (scripts/missile_fields.py): which one, range, multiplayer.
+                instance['missile']=dict({'spawned':'programmable_function'if field_id.startswith('function_missile.')
+                    else'default','research':field['spawnedEntity']['research']},
+                    **{key:field[key] for key in('min','max','rangeReason','multiplayer')if field.get(key)is not None})
             if field.get('chargeLevel'):
                 # Charge-level shots and overcharge explosions (scripts/charge_fields.py annotate_levels).
                 instance['chargeLevel']=field['chargeLevel']

@@ -1689,6 +1689,17 @@ function HD2Weapon:attachment_definition(slot, identity) end
 ---@class HD2Fields_function_ammo
 ---@field projectile "function_ammo.projectile"
 
+---@class HD2Fields_function_missile
+---@field acceleration "function_missile.acceleration"
+---@field guidance_delay "function_missile.guidance_delay"
+---@field max_angle_to_target "function_missile.max_angle_to_target"
+---@field max_lifetime "function_missile.max_lifetime"
+---@field minimum_speed "function_missile.minimum_speed"
+---@field preferred_speed "function_missile.preferred_speed"
+---@field starting_speed "function_missile.starting_speed"
+---@field turn_rate_aligned "function_missile.turn_rate_aligned"
+---@field turn_rate_at_max_angle "function_missile.turn_rate_at_max_angle"
+
 ---@class HD2Fields_heat
 ---@field capacity "heat.capacity"
 ---@field charge_gain_per_second "heat.charge_gain_per_second"
@@ -1722,6 +1733,17 @@ function HD2Weapon:attachment_definition(slot, identity) end
 ---@field magazines_from_supply "magazine.magazines_from_supply"
 ---@field spare_magazines "magazine.spare_magazines"
 ---@field starting_magazines "magazine.starting_magazines"
+
+---@class HD2Fields_missile
+---@field acceleration "missile.acceleration"
+---@field guidance_delay "missile.guidance_delay"
+---@field max_angle_to_target "missile.max_angle_to_target"
+---@field max_lifetime "missile.max_lifetime"
+---@field minimum_speed "missile.minimum_speed"
+---@field preferred_speed "missile.preferred_speed"
+---@field starting_speed "missile.starting_speed"
+---@field turn_rate_aligned "missile.turn_rate_aligned"
+---@field turn_rate_at_max_angle "missile.turn_rate_at_max_angle"
 
 ---@class HD2Fields_presentation
 ---@field armor_penetration "presentation.armor_penetration"
@@ -1974,9 +1996,11 @@ function HD2Weapon:attachment_definition(slot, identity) end
 ---@field fire_mode HD2Fields_fire_mode
 ---@field fire_rate HD2Fields_fire_rate
 ---@field function_ammo HD2Fields_function_ammo
+---@field function_missile HD2Fields_function_missile
 ---@field heat HD2Fields_heat
 ---@field heatsink HD2Fields_heatsink
 ---@field magazine HD2Fields_magazine
+---@field missile HD2Fields_missile
 ---@field presentation HD2Fields_presentation
 ---@field reload HD2Fields_reload
 ---@field rounds HD2Fields_rounds

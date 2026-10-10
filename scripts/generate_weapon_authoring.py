@@ -21,6 +21,7 @@ import presentation_fields
 import status_fields
 import equipment_fields
 import beam_fields
+import missile_fields
 
 ROOT=Path(__file__).resolve().parents[1]
 DEFAULT_REPORT=ROOT/'build/snapshot-results-authoring/PlayerWeaponRuntimeMap.json'
@@ -53,7 +54,9 @@ EFFECT_REASON={
         'built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip).'),
     'AMBIGUOUS':'The effective value depends on state Runtime cannot prove offline.',
     'OVERRIDDEN':'A default customization item overwrites this member when the weapon is built.',
-    'DORMANT_OR_METADATA':'Derived or descriptive; the gameplay path does not read this value.'}
+    'DORMANT_OR_METADATA':'Derived or descriptive; the gameplay path does not read this value.',
+    'SPAWNED_ENTITY_RECORD':('A member of the record of the missile the weapon spawns per shot (research/wasp-rocket), '
+        'read by the missile itself (most on every update, its starting speed when it spawns).')}
 
 
 def lua(value):
@@ -489,6 +492,11 @@ def build(catalog_path=CATALOG):
             fields+=equipment_fields.firing_charge_fields(charge_make,
                 ownership['WeaponHeatComponentData']['recordIndex'],
                 lambda offset,storage:component_backend(candidate,'WeaponHeatComponentData',offset,storage))
+        # 0.30.4 (research/wasp-rocket): the missile the weapon spawns per shot (ProjectileWeapon +40: P-33, P-92) and
+        # that of its ProgrammableAmmo function (+584: P-33), their own SeekingMissile records through the link.
+        if unique and 'ProjectileWeaponComponentData' in ownership:
+            fields+=missile_fields.fields(charge_make,candidate['resourceHash'],
+                ownership['ProjectileWeaponComponentData'])
         if 'BeamWeaponComponentData' in ownership:
             fields+=equipment_fields.beam_pulse_fields(charge_make,
                 ownership['BeamWeaponComponentData']['recordIndex'],
@@ -877,7 +885,7 @@ def annotate_effects(value,rows):
             if promoted and field.get('editable')and not field.get('liveEvidence'):
                 field['liveEvidence']=promoted
             backing=field.get('backing')or{}
-            if field['semanticFieldId'] in OWN_EFFECT_FIELDS and field.get('effect'):
+            if(field['semanticFieldId'] in OWN_EFFECT_FIELDS or field.get('spawnedEntity'))and field.get('effect'):
                 # Fields whose own research established the effect (rate slots, bindings, function projectile,
                 # presentation) keep it; only the write and live-proof flags are refreshed below.
                 effect=dict(field['effect'])

@@ -485,7 +485,7 @@
    "status": "BLOCKED",
    "mechanism": null,
    "member": "ProjectileWeapon +0",
-   "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile).",
+   "reason": "The shot spawns a missile entity (ProjectileWeapon +40, ProjectileEntity), not a projectile (research/wasp-rocket: 0x6143CD, 0x615B15). The missile flies by its own SeekingMissile record: edit it with the missile.* (and function_missile.* for the ProgrammableAmmo missile) fields of this weapon. ProjectileWeapon +0 (projectile 152) reaches the missile only as its hit row (damage, impact explosion) through the shooter's spawn info (0x61604F -> 0x6414E0): a swap would change neither its flight nor its model, and how another machine's copy of the missile gets its type is not traced, so the fired projectile is not swapped.",
    "directWritable": false,
    "previouslyWritable": true,
    "write": null
@@ -496,7 +496,7 @@
    "status": "BLOCKED",
    "mechanism": null,
    "member": "ProjectileWeapon +0",
-   "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile).",
+   "reason": "The shot spawns an entity (ProjectileWeapon +40, ProjectileEntity) that is not a missile (Explosive, Sticky, Throwable): no projectile row is fired, so there is nothing to swap (research/wasp-rocket).",
    "directWritable": false,
    "previouslyWritable": true,
    "write": null
@@ -540,7 +540,7 @@
    "status": "BLOCKED",
    "mechanism": null,
    "member": "ProjectileWeapon +0",
-   "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile).",
+   "reason": "The shot spawns a missile entity (ProjectileWeapon +40, ProjectileEntity), not a projectile (research/wasp-rocket: 0x6143CD, 0x615B15). The missile flies by its own SeekingMissile record: edit it with the missile.* fields of this weapon. ProjectileWeapon +0 (projectile 326) reaches the missile only as its hit row (damage, impact explosion) through the shooter's spawn info (0x61604F -> 0x6414E0): a swap would change neither its flight nor its model, and how another machine's copy of the missile gets its type is not traced, so the fired projectile is not swapped.",
    "directWritable": false,
    "previouslyWritable": true,
    "write": null
@@ -1110,7 +1110,7 @@
    "status": "BLOCKED",
    "mechanism": null,
    "member": null,
-   "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile).",
+   "reason": "The shot spawns a missile entity (ProjectileWeapon +40, ProjectileEntity), not a projectile (research/wasp-rocket: 0x6143CD, 0x615B15). The missile flies by its own SeekingMissile record: its fields are not offered on mounted weapons yet. ProjectileWeapon +0 (projectile 128) reaches the missile only as its hit row (damage, impact explosion) through the shooter's spawn info (0x61604F -> 0x6414E0): a swap would change neither its flight nor its model, and how another machine's copy of the missile gets its type is not traced, so the fired projectile is not swapped.",
    "directWritable": false,
    "previouslyWritable": false,
    "sharedEntity": [],
@@ -1188,7 +1188,7 @@
    "status": "BLOCKED",
    "mechanism": null,
    "member": null,
-   "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile).",
+   "reason": "The shot spawns a missile entity (ProjectileWeapon +40, ProjectileEntity), not a projectile (research/wasp-rocket: 0x6143CD, 0x615B15). The missile flies by its own SeekingMissile record: edit it with the missile.* fields of this weapon. ProjectileWeapon +0 (projectile 225) reaches the missile only as its hit row (damage, impact explosion) through the shooter's spawn info (0x61604F -> 0x6414E0): a swap would change neither its flight nor its model, and how another machine's copy of the missile gets its type is not traced, so the fired projectile is not swapped.",
    "directWritable": false,
    "previouslyWritable": false,
    "sharedEntity": [],
@@ -1387,7 +1387,7 @@
    "status": "BLOCKED",
    "mechanism": null,
    "member": null,
-   "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile).",
+   "reason": "The shot spawns a missile entity (ProjectileWeapon +40, ProjectileEntity), not a projectile (research/wasp-rocket: 0x6143CD, 0x615B15). The missile flies by its own SeekingMissile record: edit it with the missile.* fields of this weapon. ProjectileWeapon +0 (projectile 245) reaches the missile only as its hit row (damage, impact explosion) through the shooter's spawn info (0x61604F -> 0x6414E0): a swap would change neither its flight nor its model, and how another machine's copy of the missile gets its type is not traced, so the fired projectile is not swapped.",
    "directWritable": false,
    "previouslyWritable": false,
    "sharedEntity": [],
@@ -1465,7 +1465,7 @@
    "status": "BLOCKED",
    "mechanism": null,
    "member": null,
-   "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile).",
+   "reason": "The shot spawns a missile entity (ProjectileWeapon +40, ProjectileEntity), not a projectile (research/wasp-rocket: 0x6143CD, 0x615B15). The missile flies by its own SeekingMissile record: edit it with the missile.* (and function_missile.* for the ProgrammableAmmo missile) fields of this weapon. ProjectileWeapon +0 (projectile 43) reaches the missile only as its hit row (damage, impact explosion) through the shooter's spawn info (0x61604F -> 0x6414E0): a swap would change neither its flight nor its model, and how another machine's copy of the missile gets its type is not traced, so the fired projectile is not swapped.",
    "directWritable": false,
    "previouslyWritable": false,
    "sharedEntity": [],
@@ -1504,7 +1504,7 @@
    "status": "BLOCKED",
    "mechanism": null,
    "member": null,
-   "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile).",
+   "reason": "The shot spawns a missile entity (ProjectileWeapon +40, ProjectileEntity) that is not run by the projectile system (SeekingMissile +173 = 0): it explodes by its own ExplosiveComponent and carries no projectile row, so there is no fired projectile to swap (research/wasp-rocket).",
    "directWritable": false,
    "previouslyWritable": false,
    "sharedEntity": [
@@ -1519,7 +1519,7 @@
    "status": "BLOCKED",
    "mechanism": null,
    "member": null,
-   "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile).",
+   "reason": "The shot spawns a missile entity (ProjectileWeapon +40, ProjectileEntity) that is not run by the projectile system (SeekingMissile +173 = 0): it explodes by its own ExplosiveComponent and carries no projectile row, so there is no fired projectile to swap (research/wasp-rocket).",
    "directWritable": false,
    "previouslyWritable": false,
    "sharedEntity": [
@@ -5384,7 +5384,7 @@
    "selectableAsProjectileReference": false,
    "compatibleHostFamilies": [],
    "requiredCoordinatedReferences": null,
-   "blockedReason": "The owner fires through another selector, so this row is not established as its attack output: ProjectileEntity (spawns an entity instead of a projectile).",
+   "blockedReason": "The owner does not fire this row as a projectile: its shot spawns a missile entity that carries it as its hit row and flies by its own SeekingMissile record (research/wasp-rocket); the row's own flight is not established as its attack output.",
    "chain": {
     "impactExplosion": true,
     "expiryExplosion": true,
@@ -5421,7 +5421,7 @@
    "selectableAsProjectileReference": false,
    "compatibleHostFamilies": [],
    "requiredCoordinatedReferences": null,
-   "blockedReason": "The owner fires through another selector, so this row is not established as its attack output: ProjectileEntity (spawns an entity instead of a projectile).",
+   "blockedReason": "The owner does not fire this row: its shot spawns an entity (research/wasp-rocket).",
    "chain": {
     "impactExplosion": true,
     "expiryExplosion": true,
@@ -5719,7 +5719,7 @@
    "selectableAsProjectileReference": false,
    "compatibleHostFamilies": [],
    "requiredCoordinatedReferences": null,
-   "blockedReason": "The owner fires through another selector, so this row is not established as its attack output: ProjectileEntity (spawns an entity instead of a projectile).",
+   "blockedReason": "The owner does not fire this row as a projectile: its shot spawns a missile entity that carries it as its hit row and flies by its own SeekingMissile record (research/wasp-rocket); the row's own flight is not established as its attack output.",
    "chain": {
     "impactExplosion": false,
     "expiryExplosion": false,
@@ -9257,7 +9257,7 @@
    "selectableAsProjectileReference": false,
    "compatibleHostFamilies": [],
    "requiredCoordinatedReferences": null,
-   "blockedReason": "The owner fires through another selector, so this row is not established as its attack output: ProjectileEntity (spawns an entity instead of a projectile).",
+   "blockedReason": "The owner does not fire this row as a projectile: its shot spawns a missile entity that carries it as its hit row and flies by its own SeekingMissile record (research/wasp-rocket); the row's own flight is not established as its attack output.",
    "chain": {
     "impactExplosion": true,
     "expiryExplosion": false,
@@ -10283,7 +10283,7 @@
    "selectableAsProjectileReference": false,
    "compatibleHostFamilies": [],
    "requiredCoordinatedReferences": null,
-   "blockedReason": "The owner fires through another selector, so this row is not established as its attack output: ProjectileEntity (spawns an entity instead of a projectile).",
+   "blockedReason": "The owner does not fire this row as a projectile: its shot spawns a missile entity that carries it as its hit row and flies by its own SeekingMissile record (research/wasp-rocket); the row's own flight is not established as its attack output.",
    "chain": {
     "impactExplosion": true,
     "expiryExplosion": false,
@@ -10721,7 +10721,7 @@
    "selectableAsProjectileReference": false,
    "compatibleHostFamilies": [],
    "requiredCoordinatedReferences": null,
-   "blockedReason": "The owner fires through another selector, so this row is not established as its attack output: ProjectileEntity (spawns an entity instead of a projectile).",
+   "blockedReason": "The owner does not fire this row as a projectile: its shot spawns a missile entity that carries it as its hit row and flies by its own SeekingMissile record (research/wasp-rocket); the row's own flight is not established as its attack output.",
    "chain": {
     "impactExplosion": true,
     "expiryExplosion": false,
@@ -10999,7 +10999,7 @@
    "selectableAsProjectileReference": false,
    "compatibleHostFamilies": [],
    "requiredCoordinatedReferences": null,
-   "blockedReason": "The owner fires through another selector, so this row is not established as its attack output: ProjectileEntity (spawns an entity instead of a projectile).",
+   "blockedReason": "The owner does not fire this row as a projectile: its shot spawns a missile entity that carries it as its hit row and flies by its own SeekingMissile record (research/wasp-rocket); the row's own flight is not established as its attack output.",
    "chain": {
     "impactExplosion": true,
     "expiryExplosion": false,
@@ -12260,7 +12260,7 @@
    "selectableAsProjectileReference": false,
    "compatibleHostFamilies": [],
    "requiredCoordinatedReferences": null,
-   "blockedReason": "The owner fires through another selector, so this row is not established as its attack output: ProjectileEntity (spawns an entity instead of a projectile).",
+   "blockedReason": "The owner does not fire this row: its shot spawns a missile entity with its own explosive (research/wasp-rocket).",
    "chain": {
     "impactExplosion": true,
     "expiryExplosion": false,
@@ -12295,7 +12295,7 @@
    "selectableAsProjectileReference": false,
    "compatibleHostFamilies": [],
    "requiredCoordinatedReferences": null,
-   "blockedReason": "The owner fires through another selector, so this row is not established as its attack output: ProjectileEntity (spawns an entity instead of a projectile).",
+   "blockedReason": "The owner does not fire this row: its shot spawns a missile entity with its own explosive (research/wasp-rocket).",
    "chain": {
     "impactExplosion": true,
     "expiryExplosion": false,

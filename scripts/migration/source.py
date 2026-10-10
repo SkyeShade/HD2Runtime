@@ -150,7 +150,10 @@ def _weapon_fields(module, weapons, source_view):
                 backing = _settings(b['settings'], b, anchors)
             else:
                 continue
-            yield _record(module, key, name, field_id, backing, field.get('currentDefault'),
+            # A field of the missile the weapon spawns (0.30.4, research/wasp-rocket) is its own object: a broken
+            # weapon -> missile link (relationships(): weapon_spawns_entity) blocks only the missile's fields.
+            obj = name + ' / ' + field_id.split('.')[0] if b.get('link') else name
+            yield _record(module, key, obj, field_id, backing, field.get('currentDefault'),
                 field.get('editable') and not blocked, field.get('affectsMultipleWeapons'),
                 {'path': ['weapons', name, 'fields', index], 'guard': {'semanticFieldId': field_id}},
                 field.get('reason'))
@@ -340,6 +343,20 @@ def relationships(tables: dict) -> list[dict]:
                 [('entity_authoring', name), ('support_weapon_authoring', feeds['weapon'])],
                 backpack=_int(backpack['resource']), weapon=_int(feeds['weaponResource']),
                 tag=_int(feeds['tag']['value']))
+    # 0.30.4 (research/wasp-rocket): a weapon's ProjectileWeapon +40 / +584 still names the missile whose SeekingMissile
+    # record its missile.* / function_missile.* fields write.
+    for module in ('player_weapon_authoring', 'support_weapon_authoring'):
+        for name, weapon in sorted(((tables.get(module) or {}).get('weapons') or {}).items()):
+            seen = set()
+            for field in weapon.get('fields') or []:
+                link = (field.get('backing') or {}).get('link')
+                domain = field['semanticFieldId'].split('.')[0]
+                if not link or domain in seen:
+                    continue
+                seen.add(domain)
+                add('weapon_spawns_entity', 'spawned-entity:' + module + ':' + name + ':' + domain, name,
+                    [(module, name + ' / ' + domain)], weapon=_int(link['weapon']), offset=link['offset'],
+                    entity=_int(link['entity']), component=field['backing']['component'])
     pods = tables.get('pod_payload_authoring') or {}
     racks = pods.get('racks') or {}
     for name, rack in sorted(racks.items()):

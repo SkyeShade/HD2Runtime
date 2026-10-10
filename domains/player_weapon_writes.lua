@@ -66,7 +66,7 @@ local component_names={'ProjectileWeaponComponentData','WeaponDataComponentData'
     'WeaponHeatComponentData','WeaponChargeComponentData','ExplosiveComponentData',
     'HellpodRackComponentData','WeaponLinkedAmmoComponentData','WeaponReloadComponentData',
     'WeaponWindUpComponentData','HealthComponentData','MountComponentData','LoadoutEntryComponentData',
-    'DepositComponentData'}
+    'DepositComponentData','SeekingMissileComponentData'}
 -- Weapons whose default ammunition owns the fired projectile also re-prove their default customization.
 local ammunition_component_names={}
 for index,name in ipairs(component_names)do ammunition_component_names[index]=name end
@@ -1321,12 +1321,31 @@ function M.capture(runtime,reader,spec)
     return M.capture_many(runtime,reader,{spec})[1]
 end
 
-local function component_record_for(resolved,candidate,backing)
+local function owned_component_record(resolved,candidate,backing)
     local record=resolved.catalog.record(candidate,backing.component)
     local identity=record.identity
     assert(identity.recordIndex==backing.recordIndex and identity.indexRow==backing.indexRow
         and identity.ownerCount==backing.ownerCount,'component ownership identity changed')
     return record
+end
+-- A record of the entity the weapon spawns per shot (0.30.4, research/wasp-rocket-F5FEE03DCFDB.json: the
+-- W.A.S.P.'s missile): backing.link names the weapon's own ProjectileWeapon member that holds the entity (+40, or +584
+-- for the ProgrammableAmmo function). Before the missile's record is read or written, the weapon's record must still
+-- be the reviewed one, that member must still name exactly the reviewed missile, and the missile must still be one
+-- entity row that owns exactly the reviewed record.
+local function spawned_entity(resolved,link)
+    local weapon_record=owned_component_record(resolved,resolved.candidate,link)
+    assert(b.resource(weapon_record.bytes,link.offset)==link.entity,'SPAWNED_ENTITY_CHANGED: '
+        ..link.component..' +'..link.offset..' no longer names the reviewed spawned entity '..link.entity
+        ..' (another mod changed what the weapon spawns); its fields are refused')
+    local candidate=find_candidate(resolved.catalog,link.entity)
+    assert(candidate.entityRow==link.entityRow,'SPAWNED_ENTITY_CHANGED: the spawned entity '..link.entity
+        ..' moved to another entity row')
+    return candidate
+end
+local function component_record_for(resolved,candidate,backing)
+    if backing.link and candidate==resolved.candidate then candidate=spawned_entity(resolved,backing.link)end
+    return owned_component_record(resolved,candidate,backing)
 end
 local function component_record(resolved,backing)
     return component_record_for(resolved,resolved.candidate,backing)
