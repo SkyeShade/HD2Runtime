@@ -1,0 +1,1 @@
+{"format":1,"name":"BreakthroughProof","resource":"mods/skyeshade/hd2runtime_breakthrough_proof","guid":"40e7d5fa-5742-414f-9a33-793ed9578e1c","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.30.3","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../sdk","ide_library":"../../sdk/stubs"}
