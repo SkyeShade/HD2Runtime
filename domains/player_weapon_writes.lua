@@ -81,6 +81,8 @@ local function target_name(target)
         or target.resource=='support_weapon'or target.resource=='vehicle_weapon')and type(target.weapon)=='string',
         'unsupported weapon target')
     local kind=target.resource
+    assert(target.path~='original_projectile'or kind=='player_weapon',
+        'original_projectile is only supported for player weapons')
     if target.path=='ammunition'then
         -- A weapon's default ammunition: the active projectile source when its delta patches ProjectileWeapon +0.
         assert(kind=='player_weapon','ammunition targets are player weapons')
@@ -93,7 +95,7 @@ local function target_name(target)
             'unsupported player weapon target identity')end
         return target.weapon,nil,'weapon',nil,kind
     end
-    assert((target.path=='attack'or target.path=='projectile_reference'
+    assert((target.path=='attack'or target.path=='projectile_reference'or target.path=='original_projectile'
         or target.path=='terminal_action'or target.path=='explosion')
         and type(target.attack)=='string','unsupported weapon target')
     if target.path=='terminal_action'or(target.path=='explosion'and kind=='player_weapon')then
@@ -134,6 +136,7 @@ local function not_exposed(weapon,id)
     error('field is not exposed for '..weapon.name..': '..tostring(id)..(reason and(' ('..reason..')')or''),0)
 end
 local function field_for(weapon,id,role,path,phase)
+    if path=='original_projectile'then path='projectile_reference'end
     local resolved=id
     if path=='ammunition'then
         assert(id=='ammunition.projectile','ammunition targets only accept hd2.fields.ammunition.projectile')
@@ -177,6 +180,16 @@ local function field_for(weapon,id,role,path,phase)
     end
     for _,field in ipairs(weapon.fields)do if field.semanticFieldId==resolved then return field end end
     not_exposed(weapon,id)
+end
+local function original_descriptor(weapon,role)
+    local field=field_for(weapon,'attack.projectile',role,'attack')
+    assert(not weapon.supportWeapon and not weapon.vehicleWeapon and not weapon.ordinaryWritesBlocked
+        and field.referenceKind=='projectile'and field.compatibilityClass=='conventional_plain'
+        and field.editable and field.backing.kind=='component'
+        and field.backing.component=='ProjectileWeaponComponentData'
+        and field.backing.offset==0 and not attack_outputs().ammunition[weapon.name],
+        'original_projectile requires a reviewed direct conventional plain player projectile')
+    return field
 end
 local function identical_backing(a,c)
     if type(a)~='table'or type(c)~='table'or a.kind~=c.kind
@@ -326,10 +339,10 @@ local function reference_selector(value,label)
     end
     for key in pairs(value)do assert(key=='resource'or key=='path'or key=='weapon'or key=='attack',
         label..' contains unsupported projectile reference identity')end
-    assert(value.resource=='player_weapon'and value.path=='projectile_reference'
+    assert(value.resource=='player_weapon'and(value.path=='projectile_reference'or value.path=='original_projectile')
         and type(value.weapon)=='string'and type(value.attack)=='string',
         label..' must come from weapon:attack(role):projectile()')
-    return {weapon=value.weapon,attack=value.attack}
+    return {weapon=value.weapon,attack=value.attack,original=value.path=='original_projectile'}
 end
 local function explosion_selector(value,label)
     assert(type(value)=='table',label..' must be an explosion reference handle')
@@ -433,6 +446,7 @@ local LEGACY_DAMAGE={armor_penetration='hd2.fields.damage.ap_direct, ap_slight, 
     durable_damage='hd2.fields.damage.player_durable_damage'}
 local function validate_change(weapon,item,allow_shared,role,path,phase,allow_unverified_effect,
         allow_unverified_reference)
+    if path=='original_projectile'then original_descriptor(weapon,role)end
     assert(type(item)=='table','change must be a descriptor')
     for key in pairs(item)do assert(key=='field'or key=='expect'or key=='value',
         'unsupported change option: '..tostring(key))end
@@ -457,7 +471,7 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
             'terminal targets only accept the typed terminal.explosion reference field')
     elseif path=='explosion'then
         assert(item.field:match('^explosion%.'),'explosion targets only accept explosion fields')
-    elseif path=='projectile_reference'then
+    elseif path=='projectile_reference'or path=='original_projectile'then
         assert(item.field:match('^projectile%.')or item.field:match('^damage%.'),
             'projectile objects only accept projectile or linked damage fields')
     else
@@ -466,6 +480,12 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
             and not item.field:match('^terminal%.'),'typed reference field requires its semantic target')
     end
     local requested=field_for(weapon,item.field,role,path,phase);local field=requested
+    if path=='original_projectile'then
+        local branch=role:match('^feed_(.+)$')or role
+        assert(requested.backing and requested.backing.kind=='settings'
+            and(requested.backing.settings=='projectile'or requested.backing.settings=='damage')
+            and requested.backing.branch==branch,'original_projectile field belongs to another object')
+    end
     if requested.aliasOf then
         field=field_for(weapon,requested.aliasOf,role,path,phase)
         assert(requested.deprecated and not requested.canonical and not requested.preferred
@@ -511,7 +531,7 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
         'field requires allow_unverified_effect=true: '..item.field..' ('..tostring(field.acknowledgementReason)..')'
         ..(field.liveProvenValues and' (live-proven without it: '..table.concat(field.liveProvenValues,', ')..')'or'')
         ..(legacy_detail and' ['..legacy_detail..']'or''))
-    if path=='projectile_reference'and field.backing.settings then
+    if(path=='projectile_reference'or path=='original_projectile')and field.backing.settings then
         assert(allow_shared,'projectile object edits require allow_shared=true because definitions are shared')
     end
     if field.type=='projectile_reference'then
@@ -522,7 +542,9 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
         local ammunition=path=='ammunition'
         local support=weapon.supportWeapon==true
         local resource=host_resource(weapon)
-        assert(not expected.output and expected.weapon==weapon.name and expected.attack==role
+        assert(not desired.original or(resource=='player_weapon'and not ammunition),
+            'original_projectile donors require a direct player projectile host')
+        assert(not expected.output and not expected.original and expected.weapon==weapon.name and expected.attack==role
             and(expected.resource or'player_weapon')==resource and(expected.ammunition==true)==ammunition,ammunition
             and'expect must be the weapon ammunition current projectile handle (weapon:ammunition():projectile())'
             or'expect must be the target attack current projectile handle')
@@ -593,6 +615,7 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
         assert(not source_weapon.ordinaryWritesBlocked,
             'projectile source identity is ambiguous: '..desired.weapon)
         local source=field_for(source_weapon,'attack.'..desired.attack..'.projectile',desired.attack)
+        if desired.original then source=original_descriptor(source_weapon,desired.attack)end
         assert(source.referenceKind=='projectile'and source.compatibilityClass==field.compatibilityClass,
             'incompatible projectile reference class')
         assert(source.compatibilityClass=='conventional_plain'
@@ -968,6 +991,7 @@ function M.validate_transaction(request)
             local same_expected=prior.expected==change.expected
             if prior.desired_selector or change.desired_selector then
                 same_desired=prior.desired_selector and change.desired_selector
+                    and prior.desired_selector.original==change.desired_selector.original
                     and prior.desired_selector.output==change.desired_selector.output
                     and prior.desired_selector.weapon==change.desired_selector.weapon
                     and prior.desired_selector.attack==change.desired_selector.attack
@@ -1193,7 +1217,15 @@ end
 local function projectile_for_candidate(resolved,candidate,branch)
     local ownership=candidate.ownership
     local projectile_type
-    if resolved.ammunition and candidate==resolved.candidate then
+    if resolved.original_projectile and candidate==resolved.candidate then
+        local descriptor=resolved.original_projectile
+        component_record_for(resolved,candidate,descriptor.backing)
+        projectile_type=descriptor.currentDefault.projectileType
+        local record=assert(resolved.roots.projectile.records[projectile_type],'original ProjectileSettings absent')
+        local reviewed=descriptor.referenceSettings
+        assert(record.group==reviewed.group and record.row==reviewed.row and record.kind==reviewed.recordType
+            and record.settings_type==reviewed.settingsType,'original ProjectileSettings identity changed')
+    elseif resolved.ammunition and candidate==resolved.candidate then
         -- The weapon fires its default ammunition delta; ProjectileWeapon +0 is dormant.
         projectile_type=resolved.ammunition.projectile_type
     elseif ownership.WeaponRoundsComponentData then
@@ -1373,6 +1405,9 @@ local function support_linked(resolved,backing)
 end
 
 function M.prepare(resolved,reader,spec)
+    if spec.target_path=='original_projectile'then
+        resolved.original_projectile=original_descriptor(database.weapons[spec.weapon],spec.attack)
+    end
     local plan={changes={},snapshots=reader.snapshots};local physical={}
     for _,change in ipairs(spec.changes)do
         local backing=change.descriptor.backing;local record,owner
@@ -1446,9 +1481,15 @@ function M.prepare(resolved,reader,spec)
                     'projectile source was not freshly resolved')
                 local source_record=component_record_for(resolved,source_candidate,
                     change.source_descriptor.backing)
-                source_type=b.u32(source_record.bytes,change.source_descriptor.backing.offset)
-                assert(source_type==change.source_descriptor.currentDefault.projectileType,
-                    'CONFLICT: source projectile reference changed')
+                if change.desired_selector.original then
+                    -- Explicit original handles select the reviewed definition after proving the owner's
+                    -- component identity. The current selector is not the identity of this definition.
+                    source_type=change.source_descriptor.currentDefault.projectileType
+                else
+                    source_type=b.u32(source_record.bytes,change.source_descriptor.backing.offset)
+                    assert(source_type==change.source_descriptor.currentDefault.projectileType,
+                        'CONFLICT: source projectile reference changed')
+                end
             end
             local settings=assert(resolved.roots.projectile.records[source_type],
                 'source ProjectileSettings record absent')

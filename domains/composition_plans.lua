@@ -19,10 +19,11 @@ local function target_from(dependency,path)
         'target_from operation must reference a projectile replacement operation')
     local selector=assert(change.desired_selector,'projectile replacement destination missing')
     if path=='projectile'then
-        return {resource='player_weapon',path='projectile_reference',
+        return {resource='player_weapon',path=selector.original and'original_projectile'or'projectile_reference',
             weapon=selector.weapon,attack=selector.attack}
     end
     local phase=path:match('^terminal%.(impact)$')or path:match('^terminal%.(expiry)$')
+    assert(not selector.original,'original_projectile does not expose terminal targets')
     assert(phase,'unsupported target_from path: '..tostring(path))
     return {resource='player_weapon',path='terminal_action',
         weapon=selector.weapon,attack=selector.attack,phase=phase}

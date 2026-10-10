@@ -383,6 +383,9 @@ function HD2OrbitalAbility:describe() end
 local HD2PlayerAttack = {}
 ---@return HD2ProjectileReference
 function HD2PlayerAttack:projectile() end
+---Reviewed direct plain bullet definition; independent of later ammo swaps.
+---@return HD2OriginalProjectile
+function HD2PlayerAttack:original_projectile() end
 ---@return table
 function HD2PlayerAttack:describe() end
 ---The output this attack emits, by native family (see sdk/AttackOutputCapabilities.json).
@@ -426,6 +429,13 @@ function HD2WeaponAmmunition:describe() end
 local HD2AmmunitionProjectile = {}
 ---@return table
 function HD2AmmunitionProjectile:describe() end
+
+---@class HD2OriginalProjectile
+---@field resource "player_weapon"
+---@field path "original_projectile"
+---@field weapon HD2WeaponName
+---@field attack HD2AttackRole
+local HD2OriginalProjectile = {}
 
 ---@class HD2ProjectileReference
 ---@field resource "player_weapon"
@@ -494,7 +504,7 @@ local HD2AttachmentOption = {}
 ---@return table
 function HD2AttachmentOption:describe() end
 
----@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2StratagemAttack|HD2EagleRearm|HD2PlayerAttack|HD2WeaponAmmunition|HD2ProjectileReference|HD2TerminalAction|HD2Explosion|HD2SupportWeapon|HD2SupportAttack|HD2SupportProjectile|HD2SupportExplosion|HD2DeployedEntity|HD2DeployedShield|HD2DeployedZone|HD2MountedWeapon|HD2VehicleEntity|HD2VehicleZone|HD2VehicleMount|HD2VehicleWeapon|HD2VehicleWeaponAttack|HD2Backpack|HD2BackpackZone|HD2BackpackLinked|HD2BackpackLinkedZone|HD2BoosterTarget|HD2WeaponAttachment|HD2PodRack|HD2PodSlot|HD2CatalogueExplosion
+---@alias HD2AuthoringTarget HD2OriginalProjectile|HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2StratagemAttack|HD2EagleRearm|HD2PlayerAttack|HD2WeaponAmmunition|HD2ProjectileReference|HD2TerminalAction|HD2Explosion|HD2SupportWeapon|HD2SupportAttack|HD2SupportProjectile|HD2SupportExplosion|HD2DeployedEntity|HD2DeployedShield|HD2DeployedZone|HD2MountedWeapon|HD2VehicleEntity|HD2VehicleZone|HD2VehicleMount|HD2VehicleWeapon|HD2VehicleWeaponAttack|HD2Backpack|HD2BackpackZone|HD2BackpackLinked|HD2BackpackLinkedZone|HD2BoosterTarget|HD2WeaponAttachment|HD2PodRack|HD2PodSlot|HD2CatalogueExplosion
 
 ---@param role HD2AttackRole
 ---@return HD2PlayerAttack

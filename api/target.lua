@@ -342,6 +342,11 @@ function M.new(describe)
         local methods={}
         function methods.describe()return copy(attack)end
         function methods.projectile()return projectile_reference(name,attack.role)end
+        -- The reviewed definition, independent of this weapon's current selector. Unlike projectile(),
+        -- this handle deliberately does not follow a later ammo swap. Plain player bullets only.
+        function methods.original_projectile()
+            return {resource='player_weapon',path='original_projectile',weapon=name,attack=attack.role}
+        end
         -- Where this attack's fired projectile lives, and the target/field that changes it (if any).
         function methods.projectile_source()return projectile_source(name,attack.role)end
         -- The output this weapon's attack emits (its family component's reference), as a typed handle.
