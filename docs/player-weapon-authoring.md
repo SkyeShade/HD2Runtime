@@ -307,7 +307,7 @@ Trident; support: LAS-98, 40-K Meltagun):
 | `beam.fire_mode` | +100 typed enum | 6 (pulsed; the game's code branches on it) | 4 | 5 |
 | `beam.fire_rate` | +104 INT32 rpm | 300 | 60 | 50 |
 | `beam.pulse_beams` | +108 INT32 | 2 | 1 | 1 |
-| `beam.pulse_seconds` | +112 FP32 | 0.15 | 0 | 1.4 |
+| `beam.pulse_seconds` ("Pulse duration (limits the fire rate)") | +112 FP32 | 0.15 | 0 | 1.4 |
 
 The Trident is a beam weapon (a BeamWeapon component, no ProjectileWeapon), not a projectile: each pulse is the same
 instant ray query every beam makes. A Trident-like Scythe is one transaction on the Scythe's own record:
@@ -328,7 +328,9 @@ hd2.ensure({transaction={id='trident-scythe',target=scythe,allow_unverified_effe
   with +112 1.0 and with +108 1 and 6; a Sickle with no wind-up and with a 2 s wind-up. Since then the beam update's
   code shows +112 is how long a pulse lasts; +108 is a factor of the beam-shot loop at a pulse start, all in the same
   frame, so it never costs time (research `docs/beam-pulse-rate-F5FEE03DCFDB.md`).
-- **`beam.pulse_seconds` limits `beam.fire_rate`** (mode 6). The game counts in updates (frames). A new pulse starts
+- **`beam.pulse_seconds` limits `beam.fire_rate`** (mode 6; the field's display name says so, and both fields carry
+  `beamPulse` in the capabilities and `describe()`: the formula, the effective rate of the weapon's own values at 60 fps
+  and the pulse that reaches 300 / 450 / 600 / 750 / 900 rpm). The game counts in updates (frames). A new pulse starts
   only in the update **after** the previous pulse ended, and only once `60 / fire_rate` seconds have passed since the
   last start. In updates between pulses, with frame time dt:
   `n = max(ceil(60 / (fire_rate x dt)), max(1, ceil(pulse_seconds / dt)) + 1)`; the effective rate is `60 / (n x dt)`.
