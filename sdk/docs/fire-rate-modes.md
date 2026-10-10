@@ -86,7 +86,7 @@ AR-61 Tenderizer (0/600/850: two modes, left input) and VG-70 Variable (read-onl
 | Field | Value |
 | --- | --- |
 | `hd2.fields.fire_rate.modes` | The three slots in weapon-menu order `{X, Y, Z}` (rpm, 1 to 3000; 0 = no mode in that slot). Y, the middle one, is the default and is never 0 |
-| `hd2.fields.weapon_function.left` / `.right` | `'none'`, or on an unbound input a selector this weapon can host: `'rate_of_fire'` (or `'programmable_ammo'`, see [weapon feeds](weapon-feeds.md)) |
+| `hd2.fields.weapon_function.left` / `.right` | `'none'`, or on an unbound input a selector this weapon can host: `'rate_of_fire'` (or `'programmable_ammo'`, see [weapon feeds](weapon-feeds.md); or `'fire_mode'`, see [fire modes](fire-modes.md#adding-the-selector-0304)) |
 
 - **Writing.** The list is written as its three aligned slots in one atomic transaction; every slot is
   conflict-checked and only changed slots are written, so editing one mode never touches the others.

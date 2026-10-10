@@ -256,7 +256,8 @@ Vanilla patterns (salvos x shells per salvo, delay between shells / salvos, scat
   not exactly vanilla. A native custom orbital (`orbital={native=true}`) whose donor is this orbital fires the edited
   pattern, because it is that orbital's own barrage.
 - **Not mapped.** The aim walk (+0x10/+0x14) and the barrage drift (+0x60, the Walking Barrage's walk) have code-proven
-  readers but no proven unit; they stay unpublished. The Orbital Laser and Railcannon have no bombardment record.
+  readers but no proven unit; they stay unpublished. The Orbital Laser and Railcannon have no bombardment record (their
+  targeting is the next section).
 
 Every field needs `allow_unverified_effect = true` until a live test passes (OrbitalStrikeFieldsTest). Values outside the
 range, non-finite numbers and non-integer counts are refused. Evidence: `research/bombardment-payload-F5FEE03DCFDB.json`
@@ -270,6 +271,60 @@ hd2.transaction({id='ems-barrage',target=hd2.stratagem('Orbital EMS Strike'),all
     {field=hd2.fields.orbital.salvo_interval,expect=2,value=1.5},
     {field=hd2.fields.orbital.scatter,expect=1,value=20}}})
 ```
+
+### Orbital targeting (Railcannon and Laser)
+
+Since 0.30.4 the Orbital Railcannon Strike exposes how it picks and tracks its target, and the Orbital Laser how often
+it looks for a new one. Each field is a member of the strike's **own** `OrbitalAbilityComponentData` record (its
+payload's; one owner each). Every member was proven by the code that reads it
+(`scripts/research_orbital_targeting.py`, `research/orbital-targeting-F5FEE03DCFDB.json`).
+
+| Field | Stratagem | Unit | Range | Native | Read |
+| --- | --- | --- | --- | --- | --- |
+| `orbital.search_radius` | Railcannon (`hd2.stratagem(name)`) | m | 1..300 | 30 | at the target search |
+| `orbital.movement_speed` | Railcannon | per second | 1..1000 | 90 | every frame |
+| `orbital.duration` | Railcannon | s | 1.5..10 | 2 | when the strike starts |
+| `orbital.fire_delay` | Railcannon | s | 0..2.4 | 1.7 | when the strike starts |
+| `orbital.retarget_interval` | Laser (`:attack('beam')`) | s | 0.1..60 | 1 | every frame |
+
+- **Search radius** (+472). This is the radius around the strike in which it picks its target. The search
+  (game.dll 0x5F0FC0) truncates it to whole metres, and a radius below 1 searches nothing. It returns at most 512
+  candidates, and the enemies' own priority decides among them. The Railcannon searches once, when the strike starts;
+  the Laser searches again every `retarget_interval`.
+- **Tracking speed** (+468, `movement_speed`). Each frame the beam covers min(1, distance / 10) x this x dt of the
+  remaining distance to its target (0x5F4229). It is a rate, not metres per second: higher closes faster, and above
+  about 1 / frame time it snaps.
+- **Duration** (+460). On the Railcannon this is how long the targeting beam stays active. The strike lives this plus
+  1 s (+464, never written) after its start delay.
+- **Shot delay** (+540, `fire_delay`). The time from the strike's start to the Railcannon's one shot; its countdown
+  fires the projectile (+532, row 277) once. The ranges keep the shot before the end (fire_delay at most 2.4 s, below
+  the shortest lifetime of 1.5 + 1 s).
+- **Re-search interval** (+544, `retarget_interval`, the Laser). How often the laser looks for a new target. It is 0
+  on the Railcannon, which keeps its first target, so it is not offered there.
+- **Not exposed.** There is no shot-count member: the Railcannon fires once per call, and more shots are impossible
+  without a second strike. Target priority lives in the enemies' records, not the strike's. The Laser's existing
+  `orbital.duration` / `movement_speed` / `search_radius` / `tick_interval` beam fields are unchanged.
+
+Every field needs `allow_unverified_effect = true` until a live test passes (proof/UserRequestsProof). It is a
+type-record write: every call of that strike on this machine, by any player, until it is restored. The target is
+searched by the machine that builds the strike and replicated; tracking and the countdowns run on every machine from
+its own record, so every machine should run the same mod. Write scenario: `tests/test_user_requests.py`.
+
+```lua
+-- Orbital Railcannon Strike: finds a target within 200 m, swings onto it five times faster, fires after 0.5 s.
+hd2.ensure({transaction={id='railcannon-targeting',target=hd2.stratagem('Orbital Railcannon Strike'),
+    allow_unverified_effect=true,changes={
+    {field=hd2.fields.orbital.search_radius,expect=30,value=200},
+    {field=hd2.fields.orbital.movement_speed,expect=90,value=450},
+    {field=hd2.fields.orbital.fire_delay,expect=1.7,value=0.5}}}})
+```
+
+### Charges before cooldown
+
+`hd2.fields.stratagem.rearm_pool` (StratagemInfo +200) puts a stratagem into the Eagle Rearm pool: its
+`stratagem.max_uses` become charges refilled together by Eagle Rearm, and `stratagem.cooldown` becomes the time between
+charges, shared with the Eagles. This is the only native charge mechanism. See
+[Stratagem mission uses](stratagem-uses.md#charges-before-cooldown-0304).
 
 ### Call-in time
 
