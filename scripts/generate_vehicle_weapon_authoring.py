@@ -424,8 +424,13 @@ def build(research_path=RESEARCH):
             if 'ProjectileWeaponComponentData' in own:
                 blocked.append({'field': 'weapon damage/armor-penetration addends', 'reason': ADDENDS_BLOCKER})
             if values.get('beamFireRate'):
-                field('beam.fire_rate', 'Beam fire rate', 'rpm', 'integer', values['beamFireRate'],
+                item = field('beam.fire_rate', 'Beam fire rate', 'rpm', 'integer', values['beamFireRate'],
                     component('BeamWeaponComponentData', 104, 'i32'), weapon_target, 'weapon_local')
+                # the same reviewed range as the player beam field (equipment_fields.PULSE_FIELDS): without one, 0,
+                # negative and absurd rates validated on the AX/LAS-5 Rover gun
+                low, high = next((lo, hi) for fid, _, _, _, lo, hi in equipment_fields.PULSE_FIELDS
+                    if fid == 'beam.fire_rate')
+                item.update({'min': low, 'max': high, 'rangeReason': 'the player beam fire-rate range'})
             if 'BeamWeaponComponentData' in own:
                 # 0.30.4: the beam fire mode and pulse members of the mount's own BeamWeapon record (the player fields
                 # of research/las-beam-overhaul-comparison) and its BeamType reference (scripts/beam_fields.py; the
