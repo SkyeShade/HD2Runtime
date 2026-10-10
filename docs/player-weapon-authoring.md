@@ -325,7 +325,24 @@ hd2.ensure({transaction={id='trident-scythe',target=scythe,allow_unverified_effe
   players' games would not have the component, and the saved state would differ.
 - **Names are leads.** `beam.pulse_beams` and `beam.pulse_seconds` are named from the Trident's values and a
   third-party mod's labels; the live tests decide them (`proof/BeamBlastProof`): a Trident-like Scythe; the Trident
-  with +112 1.0 and with +108 1 and 6; a Sickle with no wind-up and with a 2 s wind-up.
+  with +112 1.0 and with +108 1 and 6; a Sickle with no wind-up and with a 2 s wind-up. Since then the beam update's
+  code shows +112 is how long a pulse lasts; +108 is a factor of the beam-shot loop at a pulse start, all in the same
+  frame, so it never costs time (research `docs/beam-pulse-rate-F5FEE03DCFDB.md`).
+- **`beam.pulse_seconds` limits `beam.fire_rate`** (mode 6). The game counts in updates (frames). A new pulse starts
+  only in the update **after** the previous pulse ended, and only once `60 / fire_rate` seconds have passed since the
+  last start. In updates between pulses, with frame time dt:
+  `n = max(ceil(60 / (fire_rate x dt)), max(1, ceil(pulse_seconds / dt)) + 1)`; the effective rate is `60 / (n x dt)`.
+  - The Trident's own 0.15 s pulse caps **any** rate at about 330-360 rpm at 60 fps (about 380 at 120 fps). A faster
+    Trident (or a Trident-like Scythe) needs a shorter pulse too: `pulse_seconds <= 60 / fire_rate - 1/30` reaches the
+    rate at every frame rate from 30 fps, `<= 60 / (2 x fire_rate)` at every frame rate. Examples: 600 rpm 0.067 s,
+    900 rpm 0.033 s, 1200 rpm 0.025 s. `beam.fire_rate` does not fit the pulse for you: set `beam.pulse_seconds` with it.
+  - A pulse no longer than one frame deals **no damage**: the game ends it before its first hit. So a pulse that hits
+    allows at most one pulse every 3 frames (1200 rpm at 60 fps, 2400 at 120 fps), and a 0.025 s pulse hits only above
+    40 fps.
+  - Each interval rounds up to whole frames (the timer restarts at `60 / fire_rate`; the extra time of the last frame
+    is dropped): with a varying frame rate expect a little less, for example about 550 for 600 rpm at around 60 fps.
+  - Seen live (2026-10-10, an experimental build with per-weapon beam records): fast rates with the 0.15 s pulse were
+    capped as above.
 
 **Beam swaps** (0.30.4, offline only; [attack outputs](attack-outputs.md) "Beam swaps"): the LAS-5 Scythe, LAS-7 Dagger
 and LAS-13 Trident fire any catalogued beam output through `weapon:beam_source()` and `hd2.fields.attack.beam`
