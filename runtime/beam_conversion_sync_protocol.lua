@@ -1,54 +1,78 @@
--- The beam conversion sync protocol hd2bc/1 (DEVELOPMENT; docs/beam-conversion.md "Multiplayer";
--- research/docs/beam-conversion-mp-sync-F5FEE03DCFDB.md): the one value each machine publishes under its third lobby
--- member key, `hd2bc` (runtime/peer_channel.lua), naming the beam conversions applied on it (runtime/beam_conversion_
--- sync.lua). Pure: no game access.
+-- The beam conversion sync protocol hd2bc/2 (DEVELOPMENT; docs/beam-conversion.md "Multiplayer";
+-- research/docs/beam-conversion-mp-sync-F5FEE03DCFDB.md, research/docs/beam-conversion-add-layout-F5FEE03DCFDB.md):
+-- the one value each machine publishes under its third lobby member key, `hd2bc` (runtime/peer_channel.lua), naming
+-- the beam conversions applied on it (runtime/beam_conversion_sync.lua). Pure: no game access.
 --
---   hd2bc/1;<runtime version>;<build>;<catalogue hash>;<seq>;<digest>;<entries>
+--   hd2bc/2;<runtime version>;<build>;<catalogue hash>;<seq>;<digest>;<entries>
 --
 -- <runtime version>: domains/metadata.lua's version (1-32 of [A-Za-z0-9.+-]). <build>: the first 12 uppercase hex
 -- digits of the game executable's SHA-256 (schemas/current.lua exe_sha). <catalogue hash>: 8 uppercase hex digits, the
 -- FNV-1a 32 of the beam conversion catalogue (runtime/beam_conversion_sync.lua catalogue_hash). <seq>: 1..2^31-1
 -- without leading zeros, raised on every change of the set. <entries>: `-` (nothing converted), or 1..MAX_ENTRIES
 -- entries separated by `,`, strictly ascending (sorted by resource, no duplicates), each
---   <resource>.<path>.<record>.<pair>.<rows>
--- <resource>: the converted root resource, 16 uppercase hex digits without 0x. <path>: `o` (the Runtime-owned table),
--- `s` (the shared record 23 fallback) or `x` (lists converted, no BeamWeapon row: orphaned). <record>: 8 uppercase hex,
--- the FNV-1a 32 of the weapon's BeamWeapon record bytes (rate, beams, pulse, the BeamType it names; `00000000` for x).
--- <pair>: 0 (no borrowed rows) or 1..MAX_PAIR, the borrowed BeamType / DamageInfo pair in research order. <rows>: 8
--- uppercase hex, the FNV-1a 32 of the pair's beam row bytes followed by its damage row bytes (range, damage, AP ...);
--- `00000000` exactly when <pair> is 0. <digest>: 8 uppercase hex, the FNV-1a 32 of the <entries> text: two values
--- with the same version, build, catalogue and digest describe the same conversions, byte for byte. At most MAX bytes.
--- It is STATE, not a message: the last value a member published is what every member reads (a joiner included).
--- Nothing in it is an address or a value to write: a receiver only compares it and names catalogued weapons from it.
--- decode accepts nothing else: a value that does not match the grammar exactly (the digest included) is refused whole.
+--   <resource>.<layout>.<path>.<record>.<rows>
+-- <resource>: the converted root resource, 16 uppercase hex digits without 0x. <layout>: `a` (the add layout:
+-- ProjectileWeapon kept, BeamWeapon added) or `w` (the swap layout: ProjectileWeapon swapped out, solo only). <path>:
+-- `o` (the Runtime-owned table), `s` (the shared record 23 fallback) or `x` (orphaned: no BeamWeapon row, or a list
+-- the loader put back). <record>: 8 uppercase hex, the FNV-1a 32 of the weapon's BeamWeapon record bytes with its
+-- BeamType (+0, which names a locally borrowed slot) zeroed: rate, beams, pulse and every other member;
+-- `00000000` for x. <rows>: 8 uppercase hex, the FNV-1a 32 of the weapon's own beam row followed by its own damage
+-- row, each with the row ids a local borrow puts in them zeroed (beam +0 and +12, damage +0): range, damage, AP ...;
+-- `00000000` when it has no own rows (and for x). So two machines that converted a weapon the same way post the same
+-- entry whichever spare slots they borrowed (the ids never leave a machine: research/docs/beam-rows-borrowed-
+-- F5FEE03DCFDB.md). <digest>: 8 uppercase hex, the FNV-1a 32 of the <entries> text: two values with the same version,
+-- build, catalogue and digest describe the same conversions. At most MAX bytes. It is STATE, not a message: the last
+-- value a member published is what every member reads (a joiner included). Nothing in it is an address or a value to
+-- write: a receiver only compares it and names catalogued weapons from it. decode accepts nothing else: a value that
+-- does not match the grammar exactly (the digest included) is refused whole. hd2bc/1 values (an older Runtime) are not
+-- this protocol: malformed.
 local fnv1a=require('hd2runtime/runtime/peer_protocol').fnv1a
 local M={}
-M.PROTOCOL='hd2bc/1'
+M.PROTOCOL='hd2bc/2'
 M.MAX=512
 M.MAX_ENTRIES=11
-M.MAX_PAIR=6
 M.MAX_SEQ=2147483647
 M.NONE='-'
+M.ZERO='00000000'
 M.PATHS={o='owned table',s='shared record',x='orphaned'}
+M.LAYOUTS={a='add',w='swap'}
+M.LAYOUT_CODE={add='a',swap='w'}
 
 local function version_ok(v)return type(v)=='string'and#v>=1 and#v<=32 and v:match('^[%w%.%+%-]+$')~=nil end
 local function hex_ok(h,n)return type(h)=='string'and#h==n and not h:find('[^0-9A-F]')end
 local function seq_ok(n)return type(n)=='number'and n%1==0 and n>=1 and n<=M.MAX_SEQ end
 M.hex_ok=hex_ok
 
--- One entry {resource (16 hex), path, record (8 hex), pair (0..MAX_PAIR), rows (8 hex)} as text, or nil, reason.
+-- The digests (pure). record: the 120 record bytes. beam, damage: the own row bytes, or nil (no own rows).
+local function zero(bytes,from,to)return bytes:sub(1,from)..string.rep('\0',to-from)..bytes:sub(to+1)end
+function M.record_digest(record)
+    assert(type(record)=='string'and#record>=4,'record bytes')
+    return fnv1a(zero(record,0,4))
+end
+function M.rows_digest(beam,damage)
+    if beam==nil and damage==nil then return M.ZERO end
+    assert(type(beam)=='string'and#beam>=16 and type(damage)=='string'and#damage>=4,'row bytes')
+    local digest=fnv1a(zero(zero(beam,0,4),12,16)..zero(damage,0,4))
+    if digest==M.ZERO then digest='00000001'end   -- never the "no own rows" value
+    return digest
+end
+
+-- One entry {resource (16 hex), layout, path, record (8 hex), rows (8 hex)} as text, or nil, reason.
 local function entry_text(e)
     if type(e)~='table'then return nil,'invalid entry'end
     if not hex_ok(e.resource,16)then return nil,'invalid resource'end
+    if not M.LAYOUTS[e.layout]then return nil,'invalid layout'end
     if not M.PATHS[e.path]then return nil,'invalid path'end
     if not hex_ok(e.record,8)then return nil,'invalid record digest'end
-    if not(type(e.pair)=='number'and e.pair%1==0 and e.pair>=0 and e.pair<=M.MAX_PAIR)then
-        return nil,'invalid pair'
-    end
     if not hex_ok(e.rows,8)then return nil,'invalid rows digest'end
-    if(e.pair==0)~=(e.rows=='00000000')then return nil,'rows digest without a pair, or a pair without one'end
-    if e.path=='x'and(e.record~='00000000'or e.pair~=0)then return nil,'an orphaned root has no record or pair'end
-    return ('%s.%s.%s.%d.%s'):format(e.resource,e.path,e.record,e.pair,e.rows)
+    if e.path=='x'and(e.record~=M.ZERO or e.rows~=M.ZERO)then return nil,'an orphaned root has no record or rows'end
+    return ('%s.%s.%s.%s.%s'):format(e.resource,e.layout,e.path,e.record,e.rows)
+end
+M.entry_text=entry_text
+-- Whether two entries describe the same conversion of the same root.
+function M.same(a,c)
+    return a~=nil and c~=nil and a.resource==c.resource and a.layout==c.layout and a.path==c.path
+        and a.record==c.record and a.rows==c.rows
 end
 
 -- The canonical <entries> text of a set (any order; sorted here) and its digest, or nil, reason.
@@ -116,8 +140,8 @@ function M.decode(text)
         local parts=split(list,',')
         if#parts>M.MAX_ENTRIES then return nil,'more than '..M.MAX_ENTRIES..' entries'end
         for i,p in ipairs(parts)do
-            local resource,path,record,pair,rows=p:match('^(%x+)%.(%a)%.(%x+)%.(%d)%.(%x+)$')
-            local e={resource=resource,path=path,record=record,pair=tonumber(pair),rows=rows}
+            local resource,layout,path,record,rows=p:match('^(%x+)%.(%a)%.(%a)%.(%x+)%.(%x+)$')
+            local e={resource=resource,layout=layout,path=path,record=record,rows=rows}
             local canon,why=entry_text(resource and e or nil)
             if not canon or canon~=p then return nil,'invalid entry ('..tostring(why or'not canonical')..')'end
             if i>1 and not(parts[i-1]<p and entries[i-1].resource<resource)then

@@ -1933,7 +1933,7 @@ return function(frame,watches,counts,lines)
 end
 """
 EXTRAS['proof-multi-beam'] = {'after': PROOF_MULTI_BEAM}
-# Beam conversion (docs/beam-conversion.md): BeamConversionProof 0.1.0 loads from its built form (every toggle off, so
+# Beam conversion (docs/beam-conversion.md): BeamConversionProof 0.2.0 loads from its built form (every toggle off, so
 # its ensures stay disabled); runtime/beam_conversion.lua and runtime/beam_conversion_rows.lua load from the archive.
 # After startup, through the public API (hd2.transaction on weapon:beam_conversion()) with the real pins, census and
 # lobby gates of the packaged runtime: a weapon with no live instance (a projectile LAS weapon) converts with its own
@@ -1985,6 +1985,11 @@ return function(frame,watches,counts,lines)
   and s.path=='owned table'and s.settings and s.settings.fire_rate==600 and s.settings.pulse_seconds<0.07
   and s.rows and s.rows['damage.standard_damage']==600 and s.rows['beam.length']==100 and s.pair~=nil,
   tostring(s.reason or s.state))
+ local W=require('hd2runtime/domains/beam_conversion')
+ local layout
+ for _,w in ipairs(W.weapons)do if w.name==name then layout=w.layout end end
+ step('the add layout where the catalogue takes the weapon (the row names the Runtime-owned list)',
+  layout=='swap'or(s.layout=='add'and s.multiplayer=='identical conversions only'),tostring(s.layout))
  h=run('validate-beam-off',{{field=F.beam_conversion.enabled,expect=false,value=false}})
  local s2=hd2.weapon(name):beam_conversion():status()
  step('the restore returns the weapon, the slot and both borrowed slots',h.status=='complete'and s2.ok
@@ -1998,14 +2003,16 @@ end
 # not applicable here; the after step converts and restores through the public API instead.
 EXTRAS['proof-beam-conversion'] = {'menu': MENU_STUB, 'after': PROOF_BEAM_CONVERSION, 'unavailable': tuple(
     'beamconv-' + t for t in ('sickle', 'double_edge', 'sai', 'talon_600', 'liberator_x10', 'reprimand_range',
-                              'trident_fast', 'trident_capped'))}
-# Beam conversion sync (docs/beam-conversion.md "Multiplayer"; research/docs/beam-conversion-mp-sync-F5FEE03DCFDB.md):
-# BeamConversionSyncProof 0.1.0 loads from its built form (both toggles off); runtime/beam_conversion_sync.lua and its
-# protocol load from the archive. After startup, through the public API with the real pins, census and lobby gates: a
-# weapon with no live instance converts, and the set the sync would publish under `hd2bc` decodes with this archive's
-# version, the build and the catalogue, naming that weapon on the owned path; the decision for members that all post
-# the identical set is still REFUSED (REMOTE_APPLY_UNSAFE: no build is proven), a missing member is NO_RUNTIME, a
-# refusal while another player is present is never SOLO, and the restore publishes the empty set.
+                              'penetrator', 'trident_fast', 'trident_capped'))}
+# Beam conversion sync (docs/beam-conversion.md "Multiplayer"; research/docs/beam-conversion-mp-sync-F5FEE03DCFDB.md,
+# research/docs/beam-conversion-add-layout-F5FEE03DCFDB.md): BeamConversionSyncProof 0.2.0 loads from its built form
+# (every toggle off); runtime/beam_conversion_sync.lua and its protocol (hd2bc/2) load from the archive. After startup,
+# through the public API with the real pins, census and lobby gates: an add-layout weapon with no live instance
+# converts, and the set the sync would publish under `hd2bc` decodes with this archive's version, the build and the
+# catalogue, naming that weapon on the owned path with the add layout; members that all post the identical set are
+# ALLOWED (ALL_MATCH) and a member holding the identical conversion lets the apply through (ALL_AGREE), one holding
+# nothing or a missing member refuses it (MISMATCH, NO_RUNTIME), a swap entry is never allowed, a refusal while another
+# player is present is never SOLO, and the restore publishes the empty set.
 PROOF_BEAM_CONVERSION_SYNC = r"""
 return function(frame,watches,counts,lines)
  local results={}
@@ -2013,7 +2020,7 @@ return function(frame,watches,counts,lines)
  local ok,S=pcall(require,'hd2runtime/runtime/beam_conversion_sync')
  local pok,P=pcall(require,'hd2runtime/runtime/beam_conversion_sync_protocol')
  step('the sync and its protocol are loaded from the packaged archive',ok and pok and type(S)=='table'
-  and P.PROTOCOL=='hd2bc/1',tostring(ok and pok or S))
+  and P.PROTOCOL=='hd2bc/2',tostring(ok and pok or S))
  if not(ok and pok)then return results end
  local channel=require('hd2runtime/runtime/peer_channel')
  step('the channel accepts the hd2bc key',channel.KEYS.hd2bc==true,'')
@@ -2049,14 +2056,25 @@ return function(frame,watches,counts,lines)
  local value=S.value()
  local d=value and P.decode(value)
  local named=false
- for _,e in ipairs(d and d.entries or{})do named=named or(S.weapon_of(e.resource)==name and e.path=='o')end
+ for _,e in ipairs(d and d.entries or{})do
+  named=named or(S.weapon_of(e.resource)==name and e.path=='o'and e.layout=='a')
+ end
  step('the published set decodes with this archive\'s version, build and catalogue and names the weapon',d~=nil
   and d.version==S.version()and d.build==S.build()and d.catalog==S.catalogue_hash()and named
   and d.digest==S.digest(),tostring(value))
- local all=S.decide({members={{peer='A',state='match',host=true}}})
+ local all=S.decide({members={{peer='A',state='match',host=true}},entries=d and d.entries or{}})
  local missing=S.decide({members={{peer='A',state='match'},{peer='B',state='no_runtime'}}})
- step('identical members are still refused; a missing member is NO_RUNTIME',not all.allowed
-  and all.code=='REMOTE_APPLY_UNSAFE'and missing.code=='NO_RUNTIME'and next(S.REMOTE_APPLY_SAFE)==nil,all.code)
+ local swap=S.decide({members={{peer='A',state='match'}},entries={{resource='0',layout='w'}}})
+ step('identical add-layout members are allowed; a missing member is NO_RUNTIME; a swap entry never',all.allowed
+  and all.code=='ALL_MATCH'and missing.code=='NO_RUNTIME'and swap.code=='REMOTE_APPLY_UNSAFE'
+  and S.ADD_LAYOUT_SAFE[S.build()]==true,all.code..' '..missing.code..' '..swap.code)
+ local holder={peer='H',state='match',host=true,d=d}
+ local empty_member={peer='E',state='mismatch',d=P.decode(assert(P.encode({version=S.version(),build=S.build(),
+  catalog=S.catalogue_hash(),seq=1,entries={}})))}
+ local agree=S.allow_apply(d and d.entries or{},{members={holder}})
+ local lack=S.allow_apply(d and d.entries or{},{members={holder,empty_member}})
+ step('an add apply in a lobby needs every member to hold the identical conversion',agree.allowed
+  and agree.code=='ALL_AGREE'and not lack.allowed and lack.code=='MISMATCH',agree.code..' '..lack.code)
  step('a refusal with another player present is never SOLO',S.describe(true):find('REFUSED (PENDING',1,true)~=nil,
   S.describe(true))
  h=run('validate-beamsync-off',{{field=F.beam_conversion.enabled,expect=false,value=false}})
@@ -2070,7 +2088,7 @@ return function(frame,watches,counts,lines)
 end
 """
 EXTRAS['proof-beam-conversion-sync'] = {'menu': MENU_STUB, 'after': PROOF_BEAM_CONVERSION_SYNC, 'unavailable': (
-    'beamsync-sickle', 'beamsync-liberator')}
+    'beamsync-sickle', 'beamsync-talon', 'beamsync-liberator')}
 # The build label (runtime/version_label.lua) from the archive on the snapshot's real game state and engine font, with
 # a stand-in for the engine GUI API over the snapshot's own world list (the Ui World by its position): aboard the ship
 # it is one Ui World GUI with "HD2Runtime <version>" over "Game <build>" in the bottom-left corner at the lowest layer,

@@ -321,9 +321,10 @@ hd2.ensure({transaction={id='trident-scythe',target=scythe,allow_unverified_effe
 
 - **Only weapons that already have a BeamWeapon component.** These fields never add one. A projectile weapon (a
   Sickle, the Sai, the Talon, the Liberator, ...) fires Trident pulses only through a **beam conversion**
-  ([beam conversion](beam-conversion.md), solo only): `weapon:beam_conversion()` swaps ProjectileWeapon for BeamWeapon in
-  place in this game only and gives the weapon its own record (own `beam.fire_rate` / `beam.pulse_seconds`) and,
-  optionally, its own damage, AP and range.
+  ([beam conversion](beam-conversion.md)): `weapon:beam_conversion()` adds BeamWeapon in this game only. The add
+  layout keeps ProjectileWeapon (its type set to 0) and works with players who hold the identical conversion; the swap
+  layout swaps ProjectileWeapon out and is solo only. Either way the weapon gets its own record (own
+  `beam.fire_rate` / `beam.pulse_seconds`) and, optionally, its own damage, AP and range.
 - **Names are leads.** `beam.pulse_beams` and `beam.pulse_seconds` are named from the Trident's values and a
   third-party mod's labels; the live tests decide them (`proof/BeamBlastProof`): a Trident-like Scythe; the Trident
   with +112 1.0 and with +108 1 and 6; a Sickle with no wind-up and with a 2 s wind-up. Since then the beam update's

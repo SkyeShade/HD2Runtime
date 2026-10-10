@@ -23,6 +23,12 @@ function M.capture(reader,owner,profile,names,options)
     assert(size<=owner.size and size>=28+profile.map_rows*32,'entity map extent')
     local map=reader.read(owner,0,size,true)
     local entities,stray,strays={},{},{}
+    -- core/owned_tables.lua membership lists (the beam conversion's add layout): optional, so the SDK's offline
+    -- scanner, which bundles only the modules it reads with, captures exactly as before. Empty: nothing changes.
+    local lists_ok,owned_lists=pcall(require,'hd2runtime/core/owned_tables')
+    if not(lists_ok and type(owned_lists)=='table'and owned_lists.lists_active and owned_lists.lists_active())then
+        owned_lists=nil
+    end
     for row=0,profile.map_rows-1 do
         local at=28+row*32
         local resource=b.resource(map,at)
@@ -32,12 +38,31 @@ function M.capture(reader,owner,profile,names,options)
             -- diagnostics); every other row reads as before. Before, one stray row of a resource no write touched
             -- refused every typed write (0.30.2 live: the LAS-12 Sai's row outside the map body, likely another
             -- mod's change). The membership list itself is scanned lazily and only for component candidates.
-            local ok,offset,count=pcall(function()
-                local n=b.pointer(map,at+16)
-                assert(n>0 and n<=1024,'membership count bounds')
-                return b.membership(b.pointer(map,at+8),owner.base+28,n*2,size-28,profile.map_rows*32,row,resource,n),n
-            end)
-            if ok then
+            -- The one exception: a row naming exactly HD2Runtime's own relocated list (core/owned_tables.lua), whose
+            -- bytes are read back from its block and must be exactly the ones it built.
+            local own=owned_lists and owned_lists.list_accepts(resource,row,b.pointer(map,at+8),b.pointer(map,at+16))
+            local ok,offset,count
+            if own then
+                ok,offset=pcall(function()
+                    local block={base=own.allocation,size=own.size,type=0x20000,protect=0x2}
+                    local bytes=reader.read(block,own.list-own.allocation,own.count*2,true)
+                    assert(bytes==own.bytes,'entity map row '..row..' (resource '..resource..') names HD2Runtime\'s '
+                        ..'relocated membership list, but the list is not as HD2Runtime built it')
+                    return bytes
+                end)
+                count=own.count
+            else
+                ok,offset,count=pcall(function()
+                    local n=b.pointer(map,at+16)
+                    assert(n>0 and n<=1024,'membership count bounds')
+                    return b.membership(b.pointer(map,at+8),owner.base+28,n*2,size-28,profile.map_rows*32,row,resource,
+                        n),n
+                end)
+            end
+            if ok and own then
+                local rows=entities[resource] or {}
+                rows[#rows+1]={row=row,count=count,members=offset,owned_list=true};entities[resource]=rows
+            elseif ok then
                 local rows=entities[resource] or {}
                 rows[#rows+1]={row=row,offset=offset,count=count};entities[resource]=rows
             else
@@ -144,6 +169,10 @@ function M.capture(reader,owner,profile,names,options)
     local edits_ok,edits=pcall(require,'hd2runtime/core/reviewed_edits')
     if not(edits_ok and type(edits)=='table'and edits.active)then edits=nil end
     local function member(entry,index)
+        if entry.members then
+            for n=0,entry.count-1 do if b.u16(entry.members,n*2)==index then return true end end
+            return false
+        end
         for n=0,entry.count-1 do if b.u16(map,28+entry.offset+n*2)==index then return true end end
         return false
     end
@@ -170,7 +199,7 @@ function M.capture(reader,owner,profile,names,options)
             -- any other state of that entity is foreign. Empty registry: nothing changes.
             if edits and edits.active()then
                 local e=rows[1]
-                edits.review(candidate,map:sub(29+e.offset,28+e.offset+e.count*2))
+                edits.review(candidate,e.members or map:sub(29+e.offset,28+e.offset+e.count*2))
             end
         end
         ordered[#ordered+1]=candidate

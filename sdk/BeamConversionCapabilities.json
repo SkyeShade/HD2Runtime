@@ -1,8 +1,9 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "contract": "hd2.weapon(name):beam_conversion() / hd2.support_weapon(name):beam_conversion(); hd2.ensure transaction; allow_component_swap and allow_unverified_effect",
   "docs": "docs/beam-conversion.md",
   "research": "research/docs/beam-conversion-coverage-F5FEE03DCFDB.md",
+  "addResearch": "research/docs/beam-conversion-add-layout-F5FEE03DCFDB.md",
   "donor": {
     "name": "LAS-13 Trident",
     "mode": 6,
@@ -14,7 +15,7 @@
       "displayName": "Fires LAS-13 Trident pulses (beam conversion)",
       "type": "boolean",
       "default": false,
-      "note": "false = the weapon as shipped. true: from its next spawn the weapon fires Trident pulses (its ProjectileWeapon component out, BeamWeapon in); written only with zero live instances of it, solo only; restart the game after using it."
+      "note": "false = the weapon as shipped. true: from its next spawn the weapon fires Trident pulses. Add layout (the default where supported): ProjectileWeapon kept with its type set to 0, BeamWeapon added through a Runtime-owned list; with other players only when every member posts the identical conversions. Swap layout (the rest): ProjectileWeapon out, BeamWeapon in; solo only, restart the game after using it. Written only with zero live instances of the weapon."
     },
     {
       "id": "beam.fire_rate",
@@ -205,19 +206,22 @@
   "lifecycle": {
     "appliesWhen": "weapon_spawn",
     "liveInstances": "written only while ZERO instances of every converted root exist on this machine (the ship preview, the armory, any loadout, pickups, other players' weapons of that type): otherwise the request waits (TARGET_UNAVAILABLE: BUSY; an ensure with recover keeps trying)",
-    "settings": "rate / beams / pulse of a converted weapon are written at once (read at every shot)",
-    "restartAfterUse": "restart the game after using a conversion: a weapon spawned while converted may leave a ProjectileWeapon private copy nothing removes",
+    "settings": "rate / beams / pulse of a converted weapon are written at once (read at every shot); on a heat weapon of the add layout its ProjectileWeapon rate follows (from its next spawn)",
+    "restartAfterUse": "swap layout only: restart the game after using it (a weapon spawned while converted may leave a ProjectileWeapon private copy nothing removes); the add layout keeps ProjectileWeapon, whose destroy frees the copy",
+    "lists": "add layout: each converted root's entity map row names a Runtime-owned list (its own list plus BeamWeapon, sorted; one never-freed read-only block per game process); only the row's list pointer and count are written (pointer first, count second; the restore in reverse)",
     "assets": "the LAS-13 Trident's package (laser_shotgun) is loaded and held before any write",
     "table": "a Runtime-owned copy of the BeamWeapon table (never freed; at most 16 per game process); a table another mod moved is refused (True Lasgun Beam Overhaul)",
     "fallback": "without the owned table: the shared record 23 (every converted weapon fires the Trident's own rate and pulse; other settings refused)"
   },
   "multiplayer": {
-    "apply": "solo only: refused (waits) while another player is in the game or the lobby",
+    "apply": "add layout: with other players only when every other member is a Runtime of the same version, build and catalogue whose posted set already holds this weapon's identical conversion (NOT_AGREED otherwise; solo always). Swap layout: solo only (NOT_SOLO)",
     "restore": "allowed with other players present (it makes this machine agree with them)",
-    "join": "docs/beam-conversion.md \"Multiplayer\": when another lobby member appears, every converted weapon with no live instance is restored at once (a remote weapon of a converted type crashes this game); one in use stays, with a loud warning and the safety notice",
-    "sync": "the lobby key hd2bc (hd2bc/1): each Runtime posts its conversion set and reads every other member's (match, mismatch, incompatible, malformed, pending, no runtime); the decision with other members is always REFUSED: REMOTE_APPLY_UNSAFE even when every member posts the identical set (the network apply is chosen by the type alone, so identical conversions crash both machines)",
+    "join": "docs/beam-conversion.md \"Multiplayer\": swap conversions with no live instance are restored at once when another member appears (a remote weapon of a swap-converted type crashes this game); add conversions stay while every member posts the identical conversion of that weapon or is still pending (30 s), and are restored (no live instance) once a member is settled without it (after a 30 s grace for a Runtime member whose set changed); one in use stays, with a loud warning",
+    "sync": "the lobby key hd2bc (hd2bc/2): each Runtime posts its conversion set (layout, path, digests of its record and own rows, pair-independent) and reads every other member's (match, mismatch, incompatible, malformed, pending, no runtime)",
+    "addLayout": "no crash in any combination (every machine keeps a ProjectileWeapon instance: the network apply never takes the -1 store); health damage of a remote player's simulated shot is discarded (0x924D22), but zone health and shields follow each machine's own simulation, so every machine must convert the weapon identically: no player without the Runtime",
     "research": "research/docs/beam-conversion-mp-F5FEE03DCFDB.md",
-    "syncResearch": "research/docs/beam-conversion-mp-sync-F5FEE03DCFDB.md"
+    "syncResearch": "research/docs/beam-conversion-mp-sync-F5FEE03DCFDB.md",
+    "addResearch": "research/docs/beam-conversion-add-layout-F5FEE03DCFDB.md"
   },
   "pulse": {
     "formula": "n = max(ceil(60 / (fire_rate x dt)), max(1, ceil(pulse_seconds / dt)) + 1); rpm = 60 / (n x dt)",
@@ -283,10 +287,15 @@
   "summary": {
     "weapons": 115,
     "verdicts": {
-      "supported_with_caveats": 64,
+      "supported_with_caveats": 65,
       "out_of_scope": 24,
       "refused": 25,
-      "supported": 2
+      "supported": 1
+    },
+    "layouts": {
+      "add": 42,
+      "swap": 24,
+      "None": 49
     },
     "emptyBeamRows": 23,
     "maxSimultaneous": 22
@@ -296,14 +305,11 @@
       "name": "AR-11 Arbitrator",
       "kind": "primary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_CHAMBER_FIX",
-      "reason": "magazine with a chamber: record 211 +156 1 -> 0 (owned alone), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
-        {
-          "code": "OPTION_LEAKS_PROJECTILE_COPY",
-          "text": "options patching ProjectileWeapon (5,5mm. Compensator, 5,5mm. Flash Hider, 5,5mm. Muzzle break) leak a private copy when equipped"
-        },
         {
           "code": "SELECTABLE_NON_AUTO_MODES",
           "text": "automatic by default; its selectable single / burst modes (WeaponData +144 = [1, 3, 0, 0]) are untested on the pulse beam"
@@ -318,46 +324,70 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 211 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"AR-11 Arbitrator\"):beam_conversion()",
       "roots": [
         "0xA8A91EB54892B6B2"
       ],
-      "restartAfterUse": true,
+      "restartAfterUse": false,
       "chamberFix": true
     },
     {
       "name": "AR-2 Coyote",
       "kind": "primary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_CHAMBER_FIX",
-      "reason": "magazine with a chamber: record 207 +156 1 -> 0 (owned alone), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
-        {
-          "code": "RESTART_AFTER_USE",
-          "text": "default 8mm. Muzzle brake Custom Assault Rifle Large Calibre patch ProjectileWeapon: a ProjectileWeapon private copy leaks per spawn"
-        },
-        {
-          "code": "OPTION_LEAKS_PROJECTILE_COPY",
-          "text": "options patching ProjectileWeapon (8mm. Compensator, 8mm. Flash Hider, 8mm. Naked) leak a private copy when equipped"
-        },
         {
           "code": "SELECTABLE_NON_AUTO_MODES",
           "text": "automatic by default; its selectable single / burst modes (WeaponData +144 = [1, 2, 0, 0]) are untested on the pulse beam"
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 207 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"AR-2 Coyote\"):beam_conversion()",
       "roots": [
         "0x84354339522C932D"
       ],
-      "restartAfterUse": true,
+      "restartAfterUse": false,
       "chamberFix": true
     },
     {
       "name": "AR-23 Liberator",
       "kind": "primary",
       "supported": true,
+      "layout": "swap",
       "verdict": "supported_with_caveats",
       "reasonCode": "LIVE_PROVEN",
       "reason": "magazine with a chamber: record 201 +156 1 -> 0 (owned alone), one round per pulse; live-proven solo 2026-10-10",
@@ -376,6 +406,26 @@
         }
       ],
       "liveProven": true,
+      "liveProvenLayout": "swap",
+      "multiplayer": "solo only",
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "AMMUNITION_SETS_PROJECTILE",
+        "reason": "its default ammunition set ProjectileWeapon +0 in the weapon's private copy (RIFLE 5,5x50mm. DEVASTATOR, RIFLE 5,5x50mm. DOUBLE POWER, RIFLE 5,5x50mm. EXPLOSIVE, RIFLE 5,5x50mm. FULL METAL JACKET), which overrides the record: with one equipped its bullets fire as well",
+        "allReasons": [
+          {
+            "code": "AMMUNITION_SETS_PROJECTILE",
+            "text": "its default ammunition set ProjectileWeapon +0 in the weapon's private copy (RIFLE 5,5x50mm. DEVASTATOR, RIFLE 5,5x50mm. DOUBLE POWER, RIFLE 5,5x50mm. EXPLOSIVE, RIFLE 5,5x50mm. FULL METAL JACKET), which overrides the record: with one equipped its bullets fire as well"
+          }
+        ]
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "LIVE_PROVEN",
+        "reason": "magazine with a chamber: record 201 +156 1 -> 0 (owned alone), one round per pulse; live-proven solo 2026-10-10"
+      },
       "target": "hd2.weapon(\"AR-23 Liberator\"):beam_conversion()",
       "roots": [
         "0x968211C0033DCE64"
@@ -387,34 +437,47 @@
       "name": "AR-23A Liberator Carbine",
       "kind": "primary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_CHAMBER_FIX",
-      "reason": "magazine with a chamber: record 209 +156 1 -> 0 (owned alone), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
-        {
-          "code": "OPTION_LEAKS_PROJECTILE_COPY",
-          "text": "options patching ProjectileWeapon (5,5mm. Compensator, 5,5mm. Flash Hider, 5,5mm. Muzzle break, 5.5mm. Naked, Recoil Spring Patriot) leak a private copy when equipped"
-        },
         {
           "code": "SELECTABLE_NON_AUTO_MODES",
           "text": "automatic by default; its selectable single / burst modes (WeaponData +144 = [1, 2, 3, 0]) are untested on the pulse beam"
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 209 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"AR-23A Liberator Carbine\"):beam_conversion()",
       "roots": [
         "0xA7EE1EBF58FCDF1F"
       ],
-      "restartAfterUse": true,
+      "restartAfterUse": false,
       "chamberFix": true
     },
     {
       "name": "AR-23C Liberator Concussive",
       "kind": "primary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_CHAMBER_FIX",
-      "reason": "magazine with a chamber: record 203 +156 1 -> 0 (owned alone), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
         {
           "code": "SELECTABLE_NON_AUTO_MODES",
@@ -422,6 +485,21 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 203 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"AR-23C Liberator Concussive\"):beam_conversion()",
       "roots": [
         "0xCF5F176E0E322BE1"
@@ -433,67 +511,84 @@
       "name": "AR-23P Liberator Penetrator",
       "kind": "primary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_CHAMBER_FIX",
-      "reason": "magazine with a chamber: record 202 +156 1 -> 0 (owned alone), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
-        {
-          "code": "RESTART_AFTER_USE",
-          "text": "default 5,5mm. Muzzle brake Custom Penetrator patch ProjectileWeapon: a ProjectileWeapon private copy leaks per spawn"
-        },
-        {
-          "code": "OPTION_LEAKS_PROJECTILE_COPY",
-          "text": "options patching ProjectileWeapon (5,5mm. Compensator, 5,5mm. Flash Hider, 5.5mm. Naked) leak a private copy when equipped"
-        },
         {
           "code": "SELECTABLE_NON_AUTO_MODES",
           "text": "automatic by default; its selectable single / burst modes (WeaponData +144 = [1, 2, 3, 0]) are untested on the pulse beam"
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 202 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"AR-23P Liberator Penetrator\"):beam_conversion()",
       "roots": [
         "0x43CB1033961A2276"
       ],
-      "restartAfterUse": true,
+      "restartAfterUse": false,
       "chamberFix": true
     },
     {
       "name": "AR-32 Pacifier",
       "kind": "primary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_CHAMBER_FIX",
-      "reason": "magazine with a chamber: record 206 +156 1 -> 0 (owned alone), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
-        {
-          "code": "RESTART_AFTER_USE",
-          "text": "default 5mm. Muzzle brake Custom Karbin patch ProjectileWeapon: a ProjectileWeapon private copy leaks per spawn"
-        },
-        {
-          "code": "OPTION_LEAKS_PROJECTILE_COPY",
-          "text": "options patching ProjectileWeapon (5,5mm. Compensator, 5,5mm. Flash Hider, 5.5mm. Naked) leak a private copy when equipped"
-        },
         {
           "code": "SELECTABLE_NON_AUTO_MODES",
           "text": "automatic by default; its selectable single / burst modes (WeaponData +144 = [1, 2, 3, 0]) are untested on the pulse beam"
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 206 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"AR-32 Pacifier\"):beam_conversion()",
       "roots": [
         "0xBC29613666DF696B"
       ],
-      "restartAfterUse": true,
+      "restartAfterUse": false,
       "chamberFix": true
     },
     {
       "name": "AR-59 Suppressor",
       "kind": "primary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_CHAMBER_FIX",
-      "reason": "magazine with a chamber: record 212 +156 1 -> 0 (owned alone), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
         {
           "code": "SELECTABLE_NON_AUTO_MODES",
@@ -501,6 +596,21 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 212 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"AR-59 Suppressor\"):beam_conversion()",
       "roots": [
         "0x708EA298C82093D0"
@@ -512,51 +622,52 @@
       "name": "AR-61 Tenderizer",
       "kind": "primary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_CHAMBER_FIX",
-      "reason": "magazine with a chamber: record 210 +156 1 -> 0 (owned alone), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
-        {
-          "code": "RESTART_AFTER_USE",
-          "text": "default 8mm. Muzzle brake Custom Tenderdizer patch ProjectileWeapon: a ProjectileWeapon private copy leaks per spawn"
-        },
-        {
-          "code": "OPTION_LEAKS_PROJECTILE_COPY",
-          "text": "options patching ProjectileWeapon (8mm. Compensator, 8mm. Flash Hider, 8mm. Naked) leak a private copy when equipped"
-        },
         {
           "code": "SELECTABLE_NON_AUTO_MODES",
           "text": "automatic by default; its selectable single / burst modes (WeaponData +144 = [1, 2, 3, 0]) are untested on the pulse beam"
         },
         {
           "code": "ROF_SELECTOR_INERT",
-          "text": "its rate-of-fire selector switches ProjectileWeapon +4 slots, which the beam ignores (the beam rate is BeamWeapon +104)"
+          "text": "its rate-of-fire selector switches ProjectileWeapon +4 slots: only the projectile timer follows it (every projectile shot ends at type 0); the beam rate is BeamWeapon +104"
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 210 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"AR-61 Tenderizer\"):beam_conversion()",
       "roots": [
         "0xCE063AA33D95A812"
       ],
-      "restartAfterUse": true,
+      "restartAfterUse": false,
       "chamberFix": true
     },
     {
       "name": "AR/GL-21 One-Two",
       "kind": "primary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_CHAMBER_FIX",
-      "reason": "magazine with a chamber: record 204 +156 1 -> 0 (owned alone), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
-        {
-          "code": "RESTART_AFTER_USE",
-          "text": "default 8mm. Naked patch ProjectileWeapon: a ProjectileWeapon private copy leaks per spawn"
-        },
-        {
-          "code": "OPTION_LEAKS_PROJECTILE_COPY",
-          "text": "options patching ProjectileWeapon (8mm. Compensator, 8mm. Flash Hider, 8mm. Muzzle break) leak a private copy when equipped"
-        },
         {
           "code": "SELECTABLE_NON_AUTO_MODES",
           "text": "automatic by default; its selectable single / burst modes (WeaponData +144 = [1, 2, 3, 0]) are untested on the pulse beam"
@@ -571,60 +682,99 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 204 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"AR/GL-21 One-Two\"):beam_conversion()",
       "roots": [
         "0xA955C4EA6F6D4203"
       ],
-      "restartAfterUse": true,
+      "restartAfterUse": false,
       "chamberFix": true
     },
     {
       "name": "ARC-12 Blitzer",
       "kind": "primary",
       "supported": false,
+      "layout": null,
       "verdict": "out_of_scope",
       "reasonCode": "NO_PROJECTILE_WEAPON",
       "reason": "the loadout root lists no ProjectileWeapon (ArcWeapon)",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (ArcWeapon)"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (ArcWeapon)"
+      },
       "target": "hd2.weapon(\"ARC-12 Blitzer\"):beam_conversion()"
     },
     {
       "name": "BR-14 Adjudicator",
       "kind": "primary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_CHAMBER_FIX",
-      "reason": "magazine with a chamber: record 216 +156 1 -> 0 (owned alone), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
-        {
-          "code": "RESTART_AFTER_USE",
-          "text": "default 8mm. Muzzle brake Custom Adjudicator patch ProjectileWeapon: a ProjectileWeapon private copy leaks per spawn"
-        },
-        {
-          "code": "OPTION_LEAKS_PROJECTILE_COPY",
-          "text": "options patching ProjectileWeapon (8mm. Compensator, 8mm. Flash Hider, 8mm. Naked) leak a private copy when equipped"
-        },
         {
           "code": "SELECTABLE_NON_AUTO_MODES",
           "text": "automatic by default; its selectable single / burst modes (WeaponData +144 = [1, 2, 0, 0]) are untested on the pulse beam"
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 216 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"BR-14 Adjudicator\"):beam_conversion()",
       "roots": [
         "0x5FECAB819F96A3E8"
       ],
-      "restartAfterUse": true,
+      "restartAfterUse": false,
       "chamberFix": true
     },
     {
       "name": "CB-9 Exploding Crossbow",
       "kind": "primary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_CHAMBER_FIX",
-      "reason": "magazine with a chamber: record 218 +156 1 -> 0 (owned alone), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
         {
           "code": "TRIGGER_MODE_NOT_AUTOMATIC",
@@ -632,6 +782,21 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 218 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"CB-9 Exploding Crossbow\"):beam_conversion()",
       "roots": [
         "0xF49227A0630A3F7F"
@@ -643,39 +808,85 @@
       "name": "DBS-2 Double Freedom",
       "kind": "primary",
       "supported": false,
+      "layout": null,
       "verdict": "refused",
       "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
       "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "still refused: with a BeamWeapon instance the reload check takes the beam branch (0x775F1F -> 0x83F810), which reloads only by heat or magazine, and the fired type comes from the WeaponRounds record (0x74585A), not ProjectileWeapon +0"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload"
+      },
       "target": "hd2.weapon(\"DBS-2 Double Freedom\"):beam_conversion()"
     },
     {
       "name": "FLAM-66 Torcher",
       "kind": "primary",
       "supported": false,
+      "layout": null,
       "verdict": "out_of_scope",
       "reasonCode": "NO_PROJECTILE_WEAPON",
       "reason": "the loadout root lists no ProjectileWeapon (SprayWeapon)",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (SprayWeapon)"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (SprayWeapon)"
+      },
       "target": "hd2.weapon(\"FLAM-66 Torcher\"):beam_conversion()"
     },
     {
       "name": "GL-15 Evictor",
       "kind": "primary",
       "supported": false,
+      "layout": null,
       "verdict": "refused",
       "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
       "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "still refused: with a BeamWeapon instance the reload check takes the beam branch (0x775F1F -> 0x83F810), which reloads only by heat or magazine, and the fired type comes from the WeaponRounds record (0x74585A), not ProjectileWeapon +0"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload"
+      },
       "target": "hd2.weapon(\"GL-15 Evictor\"):beam_conversion()"
     },
     {
       "name": "JAR-5 Dominator",
       "kind": "primary",
       "supported": true,
+      "layout": "swap",
       "verdict": "supported_with_caveats",
       "reasonCode": "MAGAZINE_CHAMBER_FIX",
       "reason": "magazine with a chamber: record 220 +156 1 -> 0 (owned alone), one round per pulse",
@@ -694,6 +905,26 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "solo only",
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "AMMUNITION_SETS_PROJECTILE",
+        "reason": "its default ammunition set ProjectileWeapon +0 in the weapon's private copy (ROCKET 15x100mm. EMP-ROUNDS, ROCKET 15x100mm. FRAGMENTATION, ROCKET 15x100mm. HIGH EXPLOSIVE, ROCKET 15x100mm. HIGH VELOCITY), which overrides the record: with one equipped its bullets fire as well",
+        "allReasons": [
+          {
+            "code": "AMMUNITION_SETS_PROJECTILE",
+            "text": "its default ammunition set ProjectileWeapon +0 in the weapon's private copy (ROCKET 15x100mm. EMP-ROUNDS, ROCKET 15x100mm. FRAGMENTATION, ROCKET 15x100mm. HIGH EXPLOSIVE, ROCKET 15x100mm. HIGH VELOCITY), which overrides the record: with one equipped its bullets fire as well"
+          }
+        ]
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 220 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"JAR-5 Dominator\"):beam_conversion()",
       "roots": [
         "0x80F1A156D9FA1E36"
@@ -705,29 +936,41 @@
       "name": "LAS-12 Sai",
       "kind": "primary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "HEAT_PULSE",
-      "reason": "heat: +116 = 2.0 heat per pulse from its own WeaponHeat record 23",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
         {
-          "code": "RESTART_AFTER_USE",
-          "text": "default Laser. Blaster Standard patch ProjectileWeapon: a ProjectileWeapon private copy leaks per spawn"
+          "code": "HEAT_PROJECTILE_TIMER",
+          "text": "the heat step also runs on every projectile-update shot: the conversion sets the ProjectileWeapon rate (+8) below the slowest pulse cadence, so the beam pulses keep the projectile timer ahead and heat comes once per pulse"
         },
         {
-          "code": "OPTION_LEAKS_PROJECTILE_COPY",
-          "text": "options patching ProjectileWeapon (Laser. Blaster Focus) leak a private copy when equipped"
-        },
-        {
-          "code": "WINDOW_CROSSES_PAGE",
-          "text": "0xC85F576D5E086147: the 4-aligned list window (8 bytes at page offset 4092) crosses a page in every snapshot: write it as two aligned windows (4 + 4 bytes), one per page"
+          "code": "HEAT_RATE_ATTACHMENT",
+          "text": "with Laser. Blaster Focus equipped the private copy sets the projectile rate (ProjectileWeapon +8), so heat steps come at the faster of that rate and the pulse rate"
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": true
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "HEAT_PULSE",
+        "reason": "heat: +116 = 2.0 heat per pulse from its own WeaponHeat record 23"
+      },
       "target": "hd2.weapon(\"LAS-12 Sai\"):beam_conversion()",
       "roots": [
         "0xC85F576D5E086147"
       ],
-      "restartAfterUse": true,
+      "restartAfterUse": false,
       "chamberFix": false,
       "heatPerPulse": 2.0
     },
@@ -735,22 +978,58 @@
       "name": "LAS-13 Trident",
       "kind": "primary",
       "supported": false,
+      "layout": null,
       "verdict": "out_of_scope",
       "reasonCode": "ALREADY_BEAM",
       "reason": "already a BeamWeapon weapon",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "ALREADY_BEAM",
+        "reason": "already a BeamWeapon weapon"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "ALREADY_BEAM",
+        "reason": "already a BeamWeapon weapon"
+      },
       "target": "hd2.weapon(\"LAS-13 Trident\"):beam_conversion()"
     },
     {
       "name": "LAS-16 Sickle",
       "kind": "primary",
       "supported": true,
-      "verdict": "supported",
-      "reasonCode": "HEAT_PULSE",
-      "reason": "heat: +116 = 1.15 heat per pulse from its own WeaponHeat record 20",
-      "caveats": [],
+      "layout": "add",
+      "verdict": "supported_with_caveats",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+      "caveats": [
+        {
+          "code": "HEAT_PROJECTILE_TIMER",
+          "text": "the heat step also runs on every projectile-update shot: the conversion sets the ProjectileWeapon rate (+8) below the slowest pulse cadence, so the beam pulses keep the projectile timer ahead and heat comes once per pulse"
+        }
+      ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": true
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported",
+        "reasonCode": "HEAT_PULSE",
+        "reason": "heat: +116 = 1.15 heat per pulse from its own WeaponHeat record 20"
+      },
       "target": "hd2.weapon(\"LAS-16 Sickle\"):beam_conversion()",
       "roots": [
         "0x8645F167B3C813A2"
@@ -763,6 +1042,7 @@
       "name": "LAS-17 Double-Edge Sickle",
       "kind": "primary",
       "supported": true,
+      "layout": "swap",
       "verdict": "supported_with_caveats",
       "reasonCode": "HEAT_PULSE",
       "reason": "heat: +116 = 1.15 heat per pulse from its own WeaponHeat record 21",
@@ -773,6 +1053,26 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "solo only",
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "HEAT_STAGE_PROJECTILES",
+        "reason": "heat stages fire their own projectile types [185, 219, 25] through the generic fire (0x762B31 -> 0x762B52), served again by the kept ProjectileWeapon instance",
+        "allReasons": [
+          {
+            "code": "HEAT_STAGE_PROJECTILES",
+            "text": "heat stages fire their own projectile types [185, 219, 25] through the generic fire (0x762B31 -> 0x762B52), served again by the kept ProjectileWeapon instance"
+          }
+        ]
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "HEAT_PULSE",
+        "reason": "heat: +116 = 1.15 heat per pulse from its own WeaponHeat record 21"
+      },
       "target": "hd2.weapon(\"LAS-17 Double-Edge Sickle\"):beam_conversion()",
       "roots": [
         "0x295BEB26DC4F8FF1"
@@ -785,20 +1085,36 @@
       "name": "LAS-5 Scythe",
       "kind": "primary",
       "supported": false,
+      "layout": null,
       "verdict": "out_of_scope",
       "reasonCode": "ALREADY_BEAM",
       "reason": "already a BeamWeapon weapon",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "ALREADY_BEAM",
+        "reason": "already a BeamWeapon weapon"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "ALREADY_BEAM",
+        "reason": "already a BeamWeapon weapon"
+      },
       "target": "hd2.weapon(\"LAS-5 Scythe\"):beam_conversion()"
     },
     {
       "name": "M7S SMG",
       "kind": "primary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_CHAMBER_FIX",
-      "reason": "magazine with a chamber: record 138 +156 1 -> 0 (owned alone), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
         {
           "code": "SELECTABLE_NON_AUTO_MODES",
@@ -806,6 +1122,21 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 138 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"M7S SMG\"):beam_conversion()",
       "roots": [
         "0xBE70EE0D8D44028E"
@@ -817,20 +1148,36 @@
       "name": "M90A Shotgun",
       "kind": "primary",
       "supported": false,
+      "layout": null,
       "verdict": "refused",
       "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
       "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "still refused: with a BeamWeapon instance the reload check takes the beam branch (0x775F1F -> 0x83F810), which reloads only by heat or magazine, and the fired type comes from the WeaponRounds record (0x74585A), not ProjectileWeapon +0"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload"
+      },
       "target": "hd2.weapon(\"M90A Shotgun\"):beam_conversion()"
     },
     {
       "name": "MA5C Assault Rifle",
       "kind": "primary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_CHAMBER_FIX",
-      "reason": "magazine with a chamber: record 208 +156 1 -> 0 (owned alone), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
         {
           "code": "SELECTABLE_NON_AUTO_MODES",
@@ -838,6 +1185,21 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 208 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"MA5C Assault Rifle\"):beam_conversion()",
       "roots": [
         "0x4DBD74F49C8FFC13"
@@ -849,6 +1211,7 @@
       "name": "MP-98 Knight",
       "kind": "primary",
       "supported": true,
+      "layout": "swap",
       "verdict": "supported_with_caveats",
       "reasonCode": "MAGAZINE_CHAMBER_FIX",
       "reason": "magazine with a chamber: record 135 +156 1 -> 0 (owned alone), one round per pulse",
@@ -863,6 +1226,26 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "solo only",
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "AMMUNITION_SETS_PROJECTILE",
+        "reason": "its ammunition options set ProjectileWeapon +0 in the weapon's private copy (PISTOL-SMG 9x20mm. EXPLOSIVE, PISTOL-SMG 9x20mm. FULL METAL JACKET, PISTOL-SMG 9x20mm. HIGH VELOCITY, PISTOL-SMG 9x20mm. HOLLOW POINT), which overrides the record: with one equipped its bullets fire as well",
+        "allReasons": [
+          {
+            "code": "AMMUNITION_SETS_PROJECTILE",
+            "text": "its ammunition options set ProjectileWeapon +0 in the weapon's private copy (PISTOL-SMG 9x20mm. EXPLOSIVE, PISTOL-SMG 9x20mm. FULL METAL JACKET, PISTOL-SMG 9x20mm. HIGH VELOCITY, PISTOL-SMG 9x20mm. HOLLOW POINT), which overrides the record: with one equipped its bullets fire as well"
+          }
+        ]
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 135 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"MP-98 Knight\"):beam_conversion()",
       "roots": [
         "0x9571CA51F0DAF35B"
@@ -874,9 +1257,10 @@
       "name": "PLAS-1 Scorcher",
       "kind": "primary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_NO_CHAMBER",
-      "reason": "magazine without a chamber (+156 = 0, the Meltagun model), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
         {
           "code": "TRIGGER_MODE_NOT_AUTOMATIC",
@@ -884,6 +1268,21 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_NO_CHAMBER",
+        "reason": "magazine without a chamber (+156 = 0, the Meltagun model), one round per pulse"
+      },
       "target": "hd2.weapon(\"PLAS-1 Scorcher\"):beam_conversion()",
       "roots": [
         "0xEEA5E3CEF1E12C14"
@@ -895,31 +1294,62 @@
       "name": "PLAS-101 Purifier",
       "kind": "primary",
       "supported": false,
+      "layout": null,
       "verdict": "refused",
       "reasonCode": "CHARGE_WEAPON",
       "reason": "WeaponCharge: on the beam path the pulse waits only for the charge level to reach stage 0 (+0 = 0.01 s, beam update 0x83E3DF) and then pulses while held; the weapon's own model (charge stages [0.01, 1.0, 1.0] with their projectile types [129, 296, 296], fire on release, overcharge +208 = 0.0) is the projectile path, and the only vanilla beam+charge weapon (40-K Meltagun) uses beam mode 5, not 6. Not proven to break; not proven to work.",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "CHARGE_WEAPON",
+        "reason": "still refused: with ProjectileWeapon kept, the charged release is served again by the generic fire 0x741DF0 with its own type, and the beam fires on the charge level (0x83E3DF): the combination is untested"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "CHARGE_WEAPON",
+        "reason": "WeaponCharge: on the beam path the pulse waits only for the charge level to reach stage 0 (+0 = 0.01 s, beam update 0x83E3DF) and then pulses while held; the weapon's own model (charge stages [0.01, 1.0, 1.0] with their projectile types [129, 296, 296], fire on release, overcharge +208 = 0.0) is the projectile path, and the only vanilla beam+charge weapon (40-K Meltagun) uses beam mode 5, not 6. Not proven to break; not proven to work."
+      },
       "target": "hd2.weapon(\"PLAS-101 Purifier\"):beam_conversion()"
     },
     {
       "name": "PLAS-39 Accelerator Rifle",
       "kind": "primary",
       "supported": false,
+      "layout": null,
       "verdict": "refused",
       "reasonCode": "CHARGE_WEAPON",
       "reason": "WeaponCharge: on the beam path the pulse waits only for the charge level to reach stage 0 (+0 = 0.45 s, beam update 0x83E3DF) and then pulses while held; the weapon's own model (charge stages [0.45, 0.5, 0.9] with their projectile types [0, 0, 0], fire on release, overcharge +208 = 0.0) is the projectile path, and the only vanilla beam+charge weapon (40-K Meltagun) uses beam mode 5, not 6. Not proven to break; not proven to work.",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "CHARGE_WEAPON",
+        "reason": "still refused: with ProjectileWeapon kept, the charged release is served again by the generic fire 0x741DF0 with its own type, and the beam fires on the charge level (0x83E3DF): the combination is untested"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "CHARGE_WEAPON",
+        "reason": "WeaponCharge: on the beam path the pulse waits only for the charge level to reach stage 0 (+0 = 0.45 s, beam update 0x83E3DF) and then pulses while held; the weapon's own model (charge stages [0.45, 0.5, 0.9] with their projectile types [0, 0, 0], fire on release, overcharge +208 = 0.0) is the projectile path, and the only vanilla beam+charge weapon (40-K Meltagun) uses beam mode 5, not 6. Not proven to break; not proven to work."
+      },
       "target": "hd2.weapon(\"PLAS-39 Accelerator Rifle\"):beam_conversion()"
     },
     {
       "name": "R-2 Amendment",
       "kind": "primary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_CHAMBER_FIX",
-      "reason": "magazine with a chamber: record 217 +156 1 -> 0 (owned alone), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
         {
           "code": "TRIGGER_MODE_NOT_AUTOMATIC",
@@ -927,6 +1357,21 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 217 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"R-2 Amendment\"):beam_conversion()",
       "roots": [
         "0x0F83639AB8C86165"
@@ -938,20 +1383,36 @@
       "name": "R-2124 Constitution",
       "kind": "primary",
       "supported": false,
+      "layout": null,
       "verdict": "refused",
       "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
       "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "still refused: with a BeamWeapon instance the reload check takes the beam branch (0x775F1F -> 0x83F810), which reloads only by heat or magazine, and the fired type comes from the WeaponRounds record (0x74585A), not ProjectileWeapon +0"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload"
+      },
       "target": "hd2.weapon(\"R-2124 Constitution\"):beam_conversion()"
     },
     {
       "name": "R-36 Eruptor",
       "kind": "primary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_CHAMBER_FIX",
-      "reason": "magazine with a chamber: record 221 +156 1 -> 0 (owned alone), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
         {
           "code": "TRIGGER_MODE_NOT_AUTOMATIC",
@@ -959,6 +1420,21 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 221 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"R-36 Eruptor\"):beam_conversion()",
       "roots": [
         "0xB6AFF2195568767F"
@@ -970,46 +1446,70 @@
       "name": "R-4 Hyena",
       "kind": "primary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_CHAMBER_FIX",
-      "reason": "magazine with a chamber: record 223 +156 1 -> 0 (owned alone), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
-        {
-          "code": "RESTART_AFTER_USE",
-          "text": "default Muzzle brake Custom Drake patch ProjectileWeapon: a ProjectileWeapon private copy leaks per spawn"
-        },
-        {
-          "code": "OPTION_LEAKS_PROJECTILE_COPY",
-          "text": "options patching ProjectileWeapon (9mm. Compensator, 9mm. Flash Hider) leak a private copy when equipped"
-        },
         {
           "code": "TRIGGER_MODE_NOT_AUTOMATIC",
           "text": "default fire mode 2 (WeaponData +144 = [2, 0, 0, 0]; 2 single, 3 burst): how a non-automatic trigger drives the pulse beam is not traced (the live Talon, single, pulsed)"
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 223 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"R-4 Hyena\"):beam_conversion()",
       "roots": [
         "0xE5796355A8FD67E0"
       ],
-      "restartAfterUse": true,
+      "restartAfterUse": false,
       "chamberFix": true
     },
     {
       "name": "R-6 Deadeye",
       "kind": "primary",
       "supported": false,
+      "layout": null,
       "verdict": "refused",
       "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
       "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "still refused: with a BeamWeapon instance the reload check takes the beam branch (0x775F1F -> 0x83F810), which reloads only by heat or magazine, and the fired type comes from the WeaponRounds record (0x74585A), not ProjectileWeapon +0"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload"
+      },
       "target": "hd2.weapon(\"R-6 Deadeye\"):beam_conversion()"
     },
     {
       "name": "R-63 Diligence",
       "kind": "primary",
       "supported": true,
+      "layout": "swap",
       "verdict": "supported_with_caveats",
       "reasonCode": "MAGAZINE_CHAMBER_FIX",
       "reason": "magazine with a chamber: record 226 +156 1 -> 0 (owned alone), one round per pulse",
@@ -1028,6 +1528,26 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "solo only",
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "AMMUNITION_SETS_PROJECTILE",
+        "reason": "its default ammunition set ProjectileWeapon +0 in the weapon's private copy (RIFLE 9x70mm. Full Metal Jacket, RIFLE 9x70mm. High Velocity, RIFLE 9x70mm. PENETRATOR, RIFLE 9x70mm. SELF PROPELLED), which overrides the record: with one equipped its bullets fire as well",
+        "allReasons": [
+          {
+            "code": "AMMUNITION_SETS_PROJECTILE",
+            "text": "its default ammunition set ProjectileWeapon +0 in the weapon's private copy (RIFLE 9x70mm. Full Metal Jacket, RIFLE 9x70mm. High Velocity, RIFLE 9x70mm. PENETRATOR, RIFLE 9x70mm. SELF PROPELLED), which overrides the record: with one equipped its bullets fire as well"
+          }
+        ]
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 226 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"R-63 Diligence\"):beam_conversion()",
       "roots": [
         "0x03E67A19B07C6523"
@@ -1039,38 +1559,47 @@
       "name": "R-63CS Diligence Counter Sniper",
       "kind": "primary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_CHAMBER_FIX",
-      "reason": "magazine with a chamber: record 227 +156 1 -> 0 (owned alone), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
-        {
-          "code": "RESTART_AFTER_USE",
-          "text": "default 9mm. Muzzle brake Custom Diligence Counter Sniper patch ProjectileWeapon: a ProjectileWeapon private copy leaks per spawn"
-        },
-        {
-          "code": "OPTION_LEAKS_PROJECTILE_COPY",
-          "text": "options patching ProjectileWeapon (9mm. Compensator, 9mm. Flash Hider, 9mm. Naked) leak a private copy when equipped"
-        },
         {
           "code": "TRIGGER_MODE_NOT_AUTOMATIC",
           "text": "default fire mode 2 (WeaponData +144 = [2, 0, 0, 0]; 2 single, 3 burst): how a non-automatic trigger drives the pulse beam is not traced (the live Talon, single, pulsed)"
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 227 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"R-63CS Diligence Counter Sniper\"):beam_conversion()",
       "roots": [
         "0x4C786785C79D44E7"
       ],
-      "restartAfterUse": true,
+      "restartAfterUse": false,
       "chamberFix": true
     },
     {
       "name": "R-72 Censor",
       "kind": "primary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_CHAMBER_FIX",
-      "reason": "magazine with a chamber: record 224 +156 1 -> 0 (owned alone), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
         {
           "code": "TRIGGER_MODE_NOT_AUTOMATIC",
@@ -1078,6 +1607,21 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 224 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"R-72 Censor\"):beam_conversion()",
       "roots": [
         "0xF0338468DCDB6A6C"
@@ -1089,9 +1633,10 @@
       "name": "R/40-K Hot-Shot Marksman Rifle",
       "kind": "primary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_NO_CHAMBER",
-      "reason": "magazine without a chamber (+156 = 0, the Meltagun model), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
         {
           "code": "TRIGGER_MODE_NOT_AUTOMATIC",
@@ -1099,6 +1644,21 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_NO_CHAMBER",
+        "reason": "magazine without a chamber (+156 = 0, the Meltagun model), one round per pulse"
+      },
       "target": "hd2.weapon(\"R/40-K Hot-Shot Marksman Rifle\"):beam_conversion()",
       "roots": [
         "0x1ABBFF60D26BA391"
@@ -1110,17 +1670,33 @@
       "name": "SG-20 Halt",
       "kind": "primary",
       "supported": false,
+      "layout": null,
       "verdict": "refused",
       "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
       "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "still refused: with a BeamWeapon instance the reload check takes the beam branch (0x775F1F -> 0x83F810), which reloads only by heat or magazine, and the fired type comes from the WeaponRounds record (0x74585A), not ProjectileWeapon +0"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload"
+      },
       "target": "hd2.weapon(\"SG-20 Halt\"):beam_conversion()"
     },
     {
       "name": "SG-225 Breaker",
       "kind": "primary",
       "supported": true,
+      "layout": "swap",
       "verdict": "supported_with_caveats",
       "reasonCode": "MAGAZINE_CHAMBER_FIX",
       "reason": "magazine with a chamber: record 213 +156 1 -> 0 (owned alone), one round per pulse",
@@ -1139,6 +1715,26 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "solo only",
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "AMMUNITION_SETS_PROJECTILE",
+        "reason": "its default ammunition set ProjectileWeapon +0 in the weapon's private copy (SHOTGUN 12g. BIRDSHOT, SHOTGUN 12g. BUGSHOT, SHOTGUN 12g. FLECHETTES, SHOTGUN 12g. LIBERTY FIRE), which overrides the record: with one equipped its bullets fire as well",
+        "allReasons": [
+          {
+            "code": "AMMUNITION_SETS_PROJECTILE",
+            "text": "its default ammunition set ProjectileWeapon +0 in the weapon's private copy (SHOTGUN 12g. BIRDSHOT, SHOTGUN 12g. BUGSHOT, SHOTGUN 12g. FLECHETTES, SHOTGUN 12g. LIBERTY FIRE), which overrides the record: with one equipped its bullets fire as well"
+          }
+        ]
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 213 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"SG-225 Breaker\"):beam_conversion()",
       "roots": [
         "0x46183B50961D1328"
@@ -1150,82 +1746,133 @@
       "name": "SG-225IE Breaker Incendiary",
       "kind": "primary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_CHAMBER_FIX",
-      "reason": "magazine with a chamber: record 215 +156 1 -> 0 (owned alone), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
-        {
-          "code": "OPTION_LEAKS_PROJECTILE_COPY",
-          "text": "options patching ProjectileWeapon (12g. Duckbill, 12g. Full Choke, 12g. Half Choke) leak a private copy when equipped"
-        },
         {
           "code": "TRIGGER_MODE_NOT_AUTOMATIC",
           "text": "default fire mode 3 (WeaponData +144 = [3, 2, 0, 0]; 2 single, 3 burst): how a non-automatic trigger drives the pulse beam is not traced (the live Talon, single, pulsed)"
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 215 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"SG-225IE Breaker Incendiary\"):beam_conversion()",
       "roots": [
         "0xC12A34F375BD5A87"
       ],
-      "restartAfterUse": true,
+      "restartAfterUse": false,
       "chamberFix": true
     },
     {
       "name": "SG-225SP Breaker Spray&Pray",
       "kind": "primary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_CHAMBER_FIX",
-      "reason": "magazine with a chamber: record 214 +156 1 -> 0 (owned alone), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
-        {
-          "code": "RESTART_AFTER_USE",
-          "text": "default 12g. Duckbill patch ProjectileWeapon: a ProjectileWeapon private copy leaks per spawn"
-        },
-        {
-          "code": "OPTION_LEAKS_PROJECTILE_COPY",
-          "text": "options patching ProjectileWeapon (12g. Full Choke, 12g. Half Choke, 12g. Standard Choke) leak a private copy when equipped"
-        },
         {
           "code": "SELECTABLE_NON_AUTO_MODES",
           "text": "automatic by default; its selectable single / burst modes (WeaponData +144 = [1, 2, 0, 0]) are untested on the pulse beam"
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 214 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"SG-225SP Breaker Spray&Pray\"):beam_conversion()",
       "roots": [
         "0x5EBAEA70C0D060B9"
       ],
-      "restartAfterUse": true,
+      "restartAfterUse": false,
       "chamberFix": true
     },
     {
       "name": "SG-451 Cookout",
       "kind": "primary",
       "supported": false,
+      "layout": null,
       "verdict": "refused",
       "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
       "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "still refused: with a BeamWeapon instance the reload check takes the beam branch (0x775F1F -> 0x83F810), which reloads only by heat or magazine, and the fired type comes from the WeaponRounds record (0x74585A), not ProjectileWeapon +0"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload"
+      },
       "target": "hd2.weapon(\"SG-451 Cookout\"):beam_conversion()"
     },
     {
       "name": "SG-8 Punisher",
       "kind": "primary",
       "supported": false,
+      "layout": null,
       "verdict": "refused",
       "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
       "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "still refused: with a BeamWeapon instance the reload check takes the beam branch (0x775F1F -> 0x83F810), which reloads only by heat or magazine, and the fired type comes from the WeaponRounds record (0x74585A), not ProjectileWeapon +0"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload"
+      },
       "target": "hd2.weapon(\"SG-8 Punisher\"):beam_conversion()"
     },
     {
       "name": "SG-8P Punisher Plasma",
       "kind": "primary",
       "supported": true,
+      "layout": "swap",
       "verdict": "supported_with_caveats",
       "reasonCode": "MAGAZINE_NO_CHAMBER",
       "reason": "magazine without a chamber (+156 = 0, the Meltagun model), one round per pulse",
@@ -1236,6 +1883,26 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "solo only",
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "NETWORKED_SHOTS",
+        "reason": "ProjectileWeapon +148 = 1: the owner sends every shot as an RPC before the type test (0x612EA4 -> 0x612F1E / 0x612F6E), so other players would still be sent its shots",
+        "allReasons": [
+          {
+            "code": "NETWORKED_SHOTS",
+            "text": "ProjectileWeapon +148 = 1: the owner sends every shot as an RPC before the type test (0x612EA4 -> 0x612F1E / 0x612F6E), so other players would still be sent its shots"
+          }
+        ]
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_NO_CHAMBER",
+        "reason": "magazine without a chamber (+156 = 0, the Meltagun model), one round per pulse"
+      },
       "target": "hd2.weapon(\"SG-8P Punisher Plasma\"):beam_conversion()",
       "roots": [
         "0x05D8D8C073B9D502"
@@ -1247,78 +1914,133 @@
       "name": "SG-8S Slugger",
       "kind": "primary",
       "supported": false,
+      "layout": null,
       "verdict": "refused",
       "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
       "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "still refused: with a BeamWeapon instance the reload check takes the beam branch (0x775F1F -> 0x83F810), which reloads only by heat or magazine, and the fired type comes from the WeaponRounds record (0x74585A), not ProjectileWeapon +0"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload"
+      },
       "target": "hd2.weapon(\"SG-8S Slugger\"):beam_conversion()"
     },
     {
       "name": "SG-97 Sweeper",
       "kind": "primary",
       "supported": false,
+      "layout": null,
       "verdict": "refused",
       "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
       "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "still refused: with a BeamWeapon instance the reload check takes the beam branch (0x775F1F -> 0x83F810), which reloads only by heat or magazine, and the fired type comes from the WeaponRounds record (0x74585A), not ProjectileWeapon +0"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload"
+      },
       "target": "hd2.weapon(\"SG-97 Sweeper\"):beam_conversion()"
     },
     {
       "name": "SMG-203 Gallant",
       "kind": "primary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_CHAMBER_FIX",
-      "reason": "magazine with a chamber: record 140 +156 1 -> 0 (owned alone), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
-        {
-          "code": "OPTION_LEAKS_PROJECTILE_COPY",
-          "text": "options patching ProjectileWeapon (9mm. Compensator, 9mm. Flash Hider, 9mm. Muzzle break) leak a private copy when equipped"
-        },
         {
           "code": "SELECTABLE_NON_AUTO_MODES",
           "text": "automatic by default; its selectable single / burst modes (WeaponData +144 = [1, 2, 3, 0]) are untested on the pulse beam"
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 140 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"SMG-203 Gallant\"):beam_conversion()",
       "roots": [
         "0x186EA95DE7306B1A"
       ],
-      "restartAfterUse": true,
+      "restartAfterUse": false,
       "chamberFix": true
     },
     {
       "name": "SMG-32 Reprimand",
       "kind": "primary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "LIVE_PROVEN",
-      "reason": "magazine with a chamber: record 139 +156 1 -> 0 (owned alone), one round per pulse; live-proven solo 2026-10-10",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
-        {
-          "code": "OPTION_LEAKS_PROJECTILE_COPY",
-          "text": "options patching ProjectileWeapon (12mm. Compensator, 12mm. Flash Hider, 12mm. Muzzle break) leak a private copy when equipped"
-        },
         {
           "code": "SELECTABLE_NON_AUTO_MODES",
           "text": "automatic by default; its selectable single / burst modes (WeaponData +144 = [1, 2, 3, 0]) are untested on the pulse beam"
         }
       ],
       "liveProven": true,
+      "liveProvenLayout": "swap",
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "LIVE_PROVEN",
+        "reason": "magazine with a chamber: record 139 +156 1 -> 0 (owned alone), one round per pulse; live-proven solo 2026-10-10"
+      },
       "target": "hd2.weapon(\"SMG-32 Reprimand\"):beam_conversion()",
       "roots": [
         "0x94BD931B5FB4EE95"
       ],
-      "restartAfterUse": true,
+      "restartAfterUse": false,
       "chamberFix": true
     },
     {
       "name": "SMG-37 Defender",
       "kind": "primary",
       "supported": true,
+      "layout": "swap",
       "verdict": "supported_with_caveats",
       "reasonCode": "MAGAZINE_CHAMBER_FIX",
       "reason": "magazine with a chamber: record 228 +156 1 -> 0 (owned alone), one round per pulse",
@@ -1337,6 +2059,26 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "solo only",
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "AMMUNITION_SETS_PROJECTILE",
+        "reason": "its default ammunition set ProjectileWeapon +0 in the weapon's private copy (PISTOL-SMG 12x25mm. Explosive, PISTOL-SMG 12x25mm. FULL METAL JACKET, PISTOL-SMG 12x25mm. HIGH VELOCITY, PISTOL-SMG 12x25mm. HOLLOW POINT), which overrides the record: with one equipped its bullets fire as well",
+        "allReasons": [
+          {
+            "code": "AMMUNITION_SETS_PROJECTILE",
+            "text": "its default ammunition set ProjectileWeapon +0 in the weapon's private copy (PISTOL-SMG 12x25mm. Explosive, PISTOL-SMG 12x25mm. FULL METAL JACKET, PISTOL-SMG 12x25mm. HIGH VELOCITY, PISTOL-SMG 12x25mm. HOLLOW POINT), which overrides the record: with one equipped its bullets fire as well"
+          }
+        ]
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 228 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"SMG-37 Defender\"):beam_conversion()",
       "roots": [
         "0x4E4A613EB9BF5C24"
@@ -1348,39 +2090,48 @@
       "name": "SMG-72 Pummeler",
       "kind": "primary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_CHAMBER_FIX",
-      "reason": "magazine with a chamber: record 229 +156 1 -> 0 (owned alone), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
-        {
-          "code": "OPTION_LEAKS_PROJECTILE_COPY",
-          "text": "options patching ProjectileWeapon (12mm. Compensator, 12mm. Flash Hider, 12mm. Muzzle break) leak a private copy when equipped"
-        },
         {
           "code": "SELECTABLE_NON_AUTO_MODES",
           "text": "automatic by default; its selectable single / burst modes (WeaponData +144 = [1, 2, 3, 0]) are untested on the pulse beam"
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 229 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"SMG-72 Pummeler\"):beam_conversion()",
       "roots": [
         "0x0807AEA5217E4767"
       ],
-      "restartAfterUse": true,
+      "restartAfterUse": false,
       "chamberFix": true
     },
     {
       "name": "SMG/FLAM-34 Stoker",
       "kind": "primary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_CHAMBER_FIX",
-      "reason": "magazine with a chamber: record 136 +156 1 -> 0 (owned alone), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
-        {
-          "code": "OPTION_LEAKS_PROJECTILE_COPY",
-          "text": "options patching ProjectileWeapon (12mm. Compensator, 12mm. Muzzle break) leak a private copy when equipped"
-        },
         {
           "code": "SPECIAL_FIRE_CONTROL",
           "text": "WeaponData +160 special fire-control structure (semantics unknown) on the beam path"
@@ -1391,22 +2142,53 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 136 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"SMG/FLAM-34 Stoker\"):beam_conversion()",
       "roots": [
         "0x8A307BD1811A5FE9"
       ],
-      "restartAfterUse": true,
+      "restartAfterUse": false,
       "chamberFix": true
     },
     {
       "name": "StA-11 SMG",
       "kind": "primary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported",
-      "reasonCode": "MAGAZINE_CHAMBER_FIX",
-      "reason": "magazine with a chamber: record 137 +156 1 -> 0 (owned alone), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 137 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"StA-11 SMG\"):beam_conversion()",
       "roots": [
         "0x4BA41B6F9F405CC2"
@@ -1418,9 +2200,10 @@
       "name": "StA-52 Assault Rifle",
       "kind": "primary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_CHAMBER_FIX",
-      "reason": "magazine with a chamber: record 205 +156 1 -> 0 (owned alone), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
         {
           "code": "SELECTABLE_NON_AUTO_MODES",
@@ -1428,6 +2211,21 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 205 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"StA-52 Assault Rifle\"):beam_conversion()",
       "roots": [
         "0xCDF28BE026BB7D84"
@@ -1439,9 +2237,10 @@
       "name": "VG-70 Variable",
       "kind": "primary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_NO_CHAMBER",
-      "reason": "magazine without a chamber (+156 = 0, the Meltagun model), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
         {
           "code": "UNNAMED_FIRE_MODES",
@@ -1449,10 +2248,25 @@
         },
         {
           "code": "ROF_SELECTOR_INERT",
-          "text": "its rate-of-fire selector switches ProjectileWeapon +4 slots, which the beam ignores (the beam rate is BeamWeapon +104)"
+          "text": "its rate-of-fire selector switches ProjectileWeapon +4 slots: only the projectile timer follows it (every projectile shot ends at type 0); the beam rate is BeamWeapon +104"
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_NO_CHAMBER",
+        "reason": "magazine without a chamber (+156 = 0, the Meltagun model), one round per pulse"
+      },
       "target": "hd2.weapon(\"VG-70 Variable\"):beam_conversion()",
       "roots": [
         "0xF992CE97577C8A7F"
@@ -1464,75 +2278,166 @@
       "name": "CQC-19 Stun Lance",
       "kind": "secondary",
       "supported": false,
+      "layout": null,
       "verdict": "out_of_scope",
       "reasonCode": "NO_PROJECTILE_WEAPON",
       "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)"
+      },
       "target": "hd2.weapon(\"CQC-19 Stun Lance\"):beam_conversion()"
     },
     {
       "name": "CQC-2 Saber",
       "kind": "secondary",
       "supported": false,
+      "layout": null,
       "verdict": "out_of_scope",
       "reasonCode": "NO_PROJECTILE_WEAPON",
       "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)"
+      },
       "target": "hd2.weapon(\"CQC-2 Saber\"):beam_conversion()"
     },
     {
       "name": "CQC-30 Stun Baton",
       "kind": "secondary",
       "supported": false,
+      "layout": null,
       "verdict": "out_of_scope",
       "reasonCode": "NO_PROJECTILE_WEAPON",
       "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)"
+      },
       "target": "hd2.weapon(\"CQC-30 Stun Baton\"):beam_conversion()"
     },
     {
       "name": "CQC-42 Machete",
       "kind": "secondary",
       "supported": false,
+      "layout": null,
       "verdict": "out_of_scope",
       "reasonCode": "NO_PROJECTILE_WEAPON",
       "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)"
+      },
       "target": "hd2.weapon(\"CQC-42 Machete\"):beam_conversion()"
     },
     {
       "name": "CQC-5 Combat Hatchet",
       "kind": "secondary",
       "supported": false,
+      "layout": null,
       "verdict": "out_of_scope",
       "reasonCode": "NO_PROJECTILE_WEAPON",
       "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)"
+      },
       "target": "hd2.weapon(\"CQC-5 Combat Hatchet\"):beam_conversion()"
     },
     {
       "name": "CQC-73 Entrenchment Tool",
       "kind": "secondary",
       "supported": false,
+      "layout": null,
       "verdict": "out_of_scope",
       "reasonCode": "NO_PROJECTILE_WEAPON",
       "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)"
+      },
       "target": "hd2.weapon(\"CQC-73 Entrenchment Tool\"):beam_conversion()"
     },
     {
       "name": "GP-20 Ultimatum",
       "kind": "secondary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_CHAMBER_FIX",
-      "reason": "magazine with a chamber: record 237 +156 1 -> 0 (owned alone), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
         {
           "code": "ONE_ROUND_MAGAZINE",
@@ -1544,6 +2449,21 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 237 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"GP-20 Ultimatum\"):beam_conversion()",
       "roots": [
         "0x9EB160830321BFD6"
@@ -1555,27 +2475,62 @@
       "name": "GP-31 Grenade Pistol",
       "kind": "secondary",
       "supported": false,
+      "layout": null,
       "verdict": "refused",
       "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
       "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "still refused: with a BeamWeapon instance the reload check takes the beam branch (0x775F1F -> 0x83F810), which reloads only by heat or magazine, and the fired type comes from the WeaponRounds record (0x74585A), not ProjectileWeapon +0"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload"
+      },
       "target": "hd2.weapon(\"GP-31 Grenade Pistol\"):beam_conversion()"
     },
     {
       "name": "LAS-58 Talon",
       "kind": "secondary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "LIVE_PROVEN",
-      "reason": "heat: +116 = 15.0 heat per pulse from its own WeaponHeat record 25; live-proven solo 2026-10-10",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
         {
           "code": "TRIGGER_MODE_NOT_AUTOMATIC",
           "text": "default fire mode 2 (WeaponData +144 = [2, 0, 0, 0]; 2 single, 3 burst): how a non-automatic trigger drives the pulse beam is not traced (the live Talon, single, pulsed)"
+        },
+        {
+          "code": "HEAT_PROJECTILE_TIMER",
+          "text": "the heat step also runs on every projectile-update shot: the conversion sets the ProjectileWeapon rate (+8) below the slowest pulse cadence, so the beam pulses keep the projectile timer ahead and heat comes once per pulse"
         }
       ],
       "liveProven": true,
+      "liveProvenLayout": "swap",
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": true
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "LIVE_PROVEN",
+        "reason": "heat: +116 = 15.0 heat per pulse from its own WeaponHeat record 25; live-proven solo 2026-10-10"
+      },
       "target": "hd2.weapon(\"LAS-58 Talon\"):beam_conversion()",
       "roots": [
         "0x416D053372C4E433"
@@ -1588,20 +2543,36 @@
       "name": "LAS-7 Dagger",
       "kind": "secondary",
       "supported": false,
+      "layout": null,
       "verdict": "out_of_scope",
       "reasonCode": "ALREADY_BEAM",
       "reason": "already a BeamWeapon weapon",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "ALREADY_BEAM",
+        "reason": "already a BeamWeapon weapon"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "ALREADY_BEAM",
+        "reason": "already a BeamWeapon weapon"
+      },
       "target": "hd2.weapon(\"LAS-7 Dagger\"):beam_conversion()"
     },
     {
       "name": "M6C/SOCOM Pistol",
       "kind": "secondary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_CHAMBER_FIX",
-      "reason": "magazine with a chamber: record 238 +156 1 -> 0 (owned alone), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
         {
           "code": "TRIGGER_MODE_NOT_AUTOMATIC",
@@ -1609,6 +2580,21 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 238 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"M6C/SOCOM Pistol\"):beam_conversion()",
       "roots": [
         "0x4D58C77087B774C5"
@@ -1620,20 +2606,36 @@
       "name": "P-11 Stim Pistol",
       "kind": "secondary",
       "supported": false,
+      "layout": null,
       "verdict": "refused",
       "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
       "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "still refused: with a BeamWeapon instance the reload check takes the beam branch (0x775F1F -> 0x83F810), which reloads only by heat or magazine, and the fired type comes from the WeaponRounds record (0x74585A), not ProjectileWeapon +0"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload"
+      },
       "target": "hd2.weapon(\"P-11 Stim Pistol\"):beam_conversion()"
     },
     {
       "name": "P-113 Verdict",
       "kind": "secondary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_CHAMBER_FIX",
-      "reason": "magazine with a chamber: record 236 +156 1 -> 0 (owned alone), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
         {
           "code": "TRIGGER_MODE_NOT_AUTOMATIC",
@@ -1641,6 +2643,21 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 236 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"P-113 Verdict\"):beam_conversion()",
       "roots": [
         "0x1A437158E1B8D2A1"
@@ -1652,6 +2669,7 @@
       "name": "P-19 Redeemer",
       "kind": "secondary",
       "supported": true,
+      "layout": "swap",
       "verdict": "supported_with_caveats",
       "reasonCode": "MAGAZINE_CHAMBER_FIX",
       "reason": "magazine with a chamber: record 232 +156 1 -> 0 (owned alone), one round per pulse",
@@ -1670,6 +2688,26 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "solo only",
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "AMMUNITION_SETS_PROJECTILE",
+        "reason": "its default ammunition set ProjectileWeapon +0 in the weapon's private copy (PISTOL-SMG 9x20mm. EXPLOSIVE, PISTOL-SMG 9x20mm. FULL METAL JACKET, PISTOL-SMG 9x20mm. HIGH VELOCITY, PISTOL-SMG 9x20mm. HOLLOW POINT), which overrides the record: with one equipped its bullets fire as well",
+        "allReasons": [
+          {
+            "code": "AMMUNITION_SETS_PROJECTILE",
+            "text": "its default ammunition set ProjectileWeapon +0 in the weapon's private copy (PISTOL-SMG 9x20mm. EXPLOSIVE, PISTOL-SMG 9x20mm. FULL METAL JACKET, PISTOL-SMG 9x20mm. HIGH VELOCITY, PISTOL-SMG 9x20mm. HOLLOW POINT), which overrides the record: with one equipped its bullets fire as well"
+          }
+        ]
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 232 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"P-19 Redeemer\"):beam_conversion()",
       "roots": [
         "0x3575AABC5F1F9326"
@@ -1681,6 +2719,7 @@
       "name": "P-2 Peacemaker",
       "kind": "secondary",
       "supported": true,
+      "layout": "swap",
       "verdict": "supported_with_caveats",
       "reasonCode": "MAGAZINE_CHAMBER_FIX",
       "reason": "magazine with a chamber: record 145 +156 1 -> 0 (owned alone), one round per pulse",
@@ -1699,6 +2738,26 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "solo only",
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "AMMUNITION_SETS_PROJECTILE",
+        "reason": "its default ammunition set ProjectileWeapon +0 in the weapon's private copy (PISTOL-SMG 12x25mm. Explosive, PISTOL-SMG 12x25mm. FULL METAL JACKET, PISTOL-SMG 12x25mm. HIGH VELOCITY, PISTOL-SMG 12x25mm. HOLLOW POINT), which overrides the record: with one equipped its bullets fire as well",
+        "allReasons": [
+          {
+            "code": "AMMUNITION_SETS_PROJECTILE",
+            "text": "its default ammunition set ProjectileWeapon +0 in the weapon's private copy (PISTOL-SMG 12x25mm. Explosive, PISTOL-SMG 12x25mm. FULL METAL JACKET, PISTOL-SMG 12x25mm. HIGH VELOCITY, PISTOL-SMG 12x25mm. HOLLOW POINT), which overrides the record: with one equipped its bullets fire as well"
+          }
+        ]
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 145 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"P-2 Peacemaker\"):beam_conversion()",
       "roots": [
         "0x05E4E5C2DB6E44A2"
@@ -1710,6 +2769,7 @@
       "name": "P-33 Missile Pistol",
       "kind": "secondary",
       "supported": true,
+      "layout": "swap",
       "verdict": "supported_with_caveats",
       "reasonCode": "MAGAZINE_CHAMBER_FIX",
       "reason": "magazine with a chamber: record 144 +156 1 -> 0 (owned alone), one round per pulse",
@@ -1728,6 +2788,26 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "solo only",
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "FUNCTION_AMMO",
+        "reason": "its weapon-function ammunition (ProjectileWeapon +576 = 127) is fired with its own projectile type, which ProjectileWeapon +0 does not suppress",
+        "allReasons": [
+          {
+            "code": "FUNCTION_AMMO",
+            "text": "its weapon-function ammunition (ProjectileWeapon +576 = 127) is fired with its own projectile type, which ProjectileWeapon +0 does not suppress"
+          }
+        ]
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 144 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"P-33 Missile Pistol\"):beam_conversion()",
       "roots": [
         "0x14D5D4506056C7A4"
@@ -1739,9 +2819,10 @@
       "name": "P-34 Breacher",
       "kind": "secondary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_NO_CHAMBER",
-      "reason": "magazine without a chamber (+156 = 0, the Meltagun model), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
         {
           "code": "ONE_ROUND_MAGAZINE",
@@ -1753,6 +2834,21 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_NO_CHAMBER",
+        "reason": "magazine without a chamber (+156 = 0, the Meltagun model), one round per pulse"
+      },
       "target": "hd2.weapon(\"P-34 Breacher\"):beam_conversion()",
       "roots": [
         "0xE91F569C2AD8AF01"
@@ -1764,9 +2860,10 @@
       "name": "P-35 Re-Educator",
       "kind": "secondary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_NO_CHAMBER",
-      "reason": "magazine without a chamber (+156 = 0, the Meltagun model), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
         {
           "code": "TRIGGER_MODE_NOT_AUTOMATIC",
@@ -1774,6 +2871,21 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_NO_CHAMBER",
+        "reason": "magazine without a chamber (+156 = 0, the Meltagun model), one round per pulse"
+      },
       "target": "hd2.weapon(\"P-35 Re-Educator\"):beam_conversion()",
       "roots": [
         "0x0B882808C6F498E8"
@@ -1785,39 +2897,85 @@
       "name": "P-4 Senator",
       "kind": "secondary",
       "supported": false,
+      "layout": null,
       "verdict": "refused",
       "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
       "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "still refused: with a BeamWeapon instance the reload check takes the beam branch (0x775F1F -> 0x83F810), which reloads only by heat or magazine, and the fired type comes from the WeaponRounds record (0x74585A), not ProjectileWeapon +0"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload"
+      },
       "target": "hd2.weapon(\"P-4 Senator\"):beam_conversion()"
     },
     {
       "name": "P-69 Veto",
       "kind": "secondary",
       "supported": false,
+      "layout": null,
       "verdict": "refused",
       "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
       "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "still refused: with a BeamWeapon instance the reload check takes the beam branch (0x775F1F -> 0x83F810), which reloads only by heat or magazine, and the fired type comes from the WeaponRounds record (0x74585A), not ProjectileWeapon +0"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload"
+      },
       "target": "hd2.weapon(\"P-69 Veto\"):beam_conversion()"
     },
     {
       "name": "P-72 Crisper",
       "kind": "secondary",
       "supported": false,
+      "layout": null,
       "verdict": "out_of_scope",
       "reasonCode": "NO_PROJECTILE_WEAPON",
       "reason": "the loadout root lists no ProjectileWeapon (SprayWeapon)",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (SprayWeapon)"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (SprayWeapon)"
+      },
       "target": "hd2.weapon(\"P-72 Crisper\"):beam_conversion()"
     },
     {
       "name": "P-92 Warrant",
       "kind": "secondary",
       "supported": true,
+      "layout": "swap",
       "verdict": "supported_with_caveats",
       "reasonCode": "MAGAZINE_CHAMBER_FIX",
       "reason": "magazine with a chamber: record 143 +156 1 -> 0 (owned alone), one round per pulse",
@@ -1832,6 +2990,26 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "solo only",
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "FUNCTION_AMMO",
+        "reason": "its weapon-function ammunition (ProjectileWeapon +576 = 319) is fired with its own projectile type, which ProjectileWeapon +0 does not suppress",
+        "allReasons": [
+          {
+            "code": "FUNCTION_AMMO",
+            "text": "its weapon-function ammunition (ProjectileWeapon +576 = 319) is fired with its own projectile type, which ProjectileWeapon +0 does not suppress"
+          }
+        ]
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 143 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"P-92 Warrant\"):beam_conversion()",
       "roots": [
         "0xCF8934FF6567A42D"
@@ -1843,9 +3021,10 @@
       "name": "P/40-K Bolt Pistol",
       "kind": "secondary",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_CHAMBER_FIX",
-      "reason": "magazine with a chamber: record 239 +156 1 -> 0 (owned alone), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
         {
           "code": "TRIGGER_MODE_NOT_AUTOMATIC",
@@ -1853,6 +3032,21 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 239 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.weapon(\"P/40-K Bolt Pistol\"):beam_conversion()",
       "roots": [
         "0xDBB6C961C59FADC1"
@@ -1864,50 +3058,111 @@
       "name": "PLAS-15 Loyalist",
       "kind": "secondary",
       "supported": false,
+      "layout": null,
       "verdict": "refused",
       "reasonCode": "CHARGE_WEAPON",
       "reason": "WeaponCharge: on the beam path the pulse waits only for the charge level to reach stage 0 (+0 = 0.01 s, beam update 0x83E3DF) and then pulses while held; the weapon's own model (charge stages [0.01, 0.75, 3.0] with their projectile types [70, 341, 341], fire on release, overcharge +208 = 0.0) is the projectile path, and the only vanilla beam+charge weapon (40-K Meltagun) uses beam mode 5, not 6. Not proven to break; not proven to work.",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "CHARGE_WEAPON",
+        "reason": "still refused: with ProjectileWeapon kept, the charged release is served again by the generic fire 0x741DF0 with its own type, and the beam fires on the charge level (0x83E3DF): the combination is untested"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "CHARGE_WEAPON",
+        "reason": "WeaponCharge: on the beam path the pulse waits only for the charge level to reach stage 0 (+0 = 0.01 s, beam update 0x83E3DF) and then pulses while held; the weapon's own model (charge stages [0.01, 0.75, 3.0] with their projectile types [70, 341, 341], fire on release, overcharge +208 = 0.0) is the projectile path, and the only vanilla beam+charge weapon (40-K Meltagun) uses beam mode 5, not 6. Not proven to break; not proven to work."
+      },
       "target": "hd2.weapon(\"PLAS-15 Loyalist\"):beam_conversion()"
     },
     {
       "name": "SG-22 Bushwhacker",
       "kind": "secondary",
       "supported": false,
+      "layout": null,
       "verdict": "refused",
       "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
       "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "still refused: with a BeamWeapon instance the reload check takes the beam branch (0x775F1F -> 0x83F810), which reloads only by heat or magazine, and the fired type comes from the WeaponRounds record (0x74585A), not ProjectileWeapon +0"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload"
+      },
       "target": "hd2.weapon(\"SG-22 Bushwhacker\"):beam_conversion()"
     },
     {
       "name": "40-K Meltagun",
       "kind": "support",
       "supported": false,
+      "layout": null,
       "verdict": "out_of_scope",
       "reasonCode": "ALREADY_BEAM",
       "reason": "already a BeamWeapon weapon",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "ALREADY_BEAM",
+        "reason": "already a BeamWeapon weapon"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "ALREADY_BEAM",
+        "reason": "already a BeamWeapon weapon"
+      },
       "target": "hd2.support_weapon(\"40-K Meltagun\"):beam_conversion()"
     },
     {
       "name": "AC-8 Autocannon",
       "kind": "support",
       "supported": false,
+      "layout": null,
       "verdict": "refused",
       "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
       "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "still refused: with a BeamWeapon instance the reload check takes the beam branch (0x775F1F -> 0x83F810), which reloads only by heat or magazine, and the fired type comes from the WeaponRounds record (0x74585A), not ProjectileWeapon +0"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload"
+      },
       "target": "hd2.support_weapon(\"AC-8 Autocannon\"):beam_conversion()"
     },
     {
       "name": "APW-1 Anti-Materiel Rifle",
       "kind": "support",
       "supported": true,
+      "layout": "swap",
       "verdict": "supported_with_caveats",
       "reasonCode": "MAGAZINE_CHAMBER_FIX",
       "reason": "magazine with a chamber: record 259 +156 1 -> 0 (owned alone), one round per pulse",
@@ -1918,6 +3173,26 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "solo only",
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "NETWORKED_SHOTS",
+        "reason": "ProjectileWeapon +148 = 1: the owner sends every shot as an RPC before the type test (0x612EA4 -> 0x612F1E / 0x612F6E), so other players would still be sent its shots",
+        "allReasons": [
+          {
+            "code": "NETWORKED_SHOTS",
+            "text": "ProjectileWeapon +148 = 1: the owner sends every shot as an RPC before the type test (0x612EA4 -> 0x612F1E / 0x612F6E), so other players would still be sent its shots"
+          }
+        ]
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 259 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.support_weapon(\"APW-1 Anti-Materiel Rifle\"):beam_conversion()",
       "roots": [
         "0x89C5493E08CA4207"
@@ -1929,83 +3204,189 @@
       "name": "ARC-3 Arc Thrower",
       "kind": "support",
       "supported": false,
+      "layout": null,
       "verdict": "out_of_scope",
       "reasonCode": "NO_PROJECTILE_WEAPON",
       "reason": "the loadout root lists no ProjectileWeapon (ArcWeapon)",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (ArcWeapon)"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (ArcWeapon)"
+      },
       "target": "hd2.support_weapon(\"ARC-3 Arc Thrower\"):beam_conversion()"
     },
     {
       "name": "B/FLAM-80 Cremator",
       "kind": "support",
       "supported": false,
+      "layout": null,
       "verdict": "out_of_scope",
       "reasonCode": "NO_PROJECTILE_WEAPON",
       "reason": "the loadout root lists no ProjectileWeapon (SprayWeapon)",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (SprayWeapon)"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (SprayWeapon)"
+      },
       "target": "hd2.support_weapon(\"B/FLAM-80 Cremator\"):beam_conversion()"
     },
     {
       "name": "B/MD C4 Pack",
       "kind": "support",
       "supported": false,
+      "layout": null,
       "verdict": "out_of_scope",
       "reasonCode": "NO_PROJECTILE_WEAPON",
       "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)"
+      },
       "target": "hd2.support_weapon(\"B/MD C4 Pack\"):beam_conversion()"
     },
     {
       "name": "CQC-1 One True Flag",
       "kind": "support",
       "supported": false,
+      "layout": null,
       "verdict": "out_of_scope",
       "reasonCode": "NO_PROJECTILE_WEAPON",
       "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)"
+      },
       "target": "hd2.support_weapon(\"CQC-1 One True Flag\"):beam_conversion()"
     },
     {
       "name": "CQC-20 Breaching Hammer",
       "kind": "support",
       "supported": false,
+      "layout": null,
       "verdict": "out_of_scope",
       "reasonCode": "NO_PROJECTILE_WEAPON",
       "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)"
+      },
       "target": "hd2.support_weapon(\"CQC-20 Breaching Hammer\"):beam_conversion()"
     },
     {
       "name": "CQC-72 Entrenchment Tool",
       "kind": "support",
       "supported": false,
+      "layout": null,
       "verdict": "out_of_scope",
       "reasonCode": "NO_PROJECTILE_WEAPON",
       "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)"
+      },
       "target": "hd2.support_weapon(\"CQC-72 Entrenchment Tool\"):beam_conversion()"
     },
     {
       "name": "CQC-9 Defoliation Tool",
       "kind": "support",
       "supported": false,
+      "layout": null,
       "verdict": "out_of_scope",
       "reasonCode": "NO_PROJECTILE_WEAPON",
       "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)"
+      },
       "target": "hd2.support_weapon(\"CQC-9 Defoliation Tool\"):beam_conversion()"
     },
     {
       "name": "EAT-17 Expendable Anti-Tank",
       "kind": "support",
       "supported": true,
+      "layout": "swap",
       "verdict": "supported_with_caveats",
       "reasonCode": "MAGAZINE_NO_CHAMBER",
       "reason": "magazine without a chamber (+156 = 0, the Meltagun model), one round per pulse",
@@ -2032,6 +3413,26 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "solo only",
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "NETWORKED_SHOTS",
+        "reason": "ProjectileWeapon +148 = 1: the owner sends every shot as an RPC before the type test (0x612EA4 -> 0x612F1E / 0x612F6E), so other players would still be sent its shots",
+        "allReasons": [
+          {
+            "code": "NETWORKED_SHOTS",
+            "text": "ProjectileWeapon +148 = 1: the owner sends every shot as an RPC before the type test (0x612EA4 -> 0x612F1E / 0x612F6E), so other players would still be sent its shots"
+          }
+        ]
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_NO_CHAMBER",
+        "reason": "magazine without a chamber (+156 = 0, the Meltagun model), one round per pulse"
+      },
       "target": "hd2.support_weapon(\"EAT-17 Expendable Anti-Tank\"):beam_conversion()",
       "roots": [
         "0x80932FA0ED6901D3",
@@ -2044,6 +3445,7 @@
       "name": "EAT-411 Leveller",
       "kind": "support",
       "supported": true,
+      "layout": "swap",
       "verdict": "supported_with_caveats",
       "reasonCode": "MAGAZINE_NO_CHAMBER",
       "reason": "magazine without a chamber (+156 = 0, the Meltagun model), one round per pulse",
@@ -2066,6 +3468,26 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "solo only",
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "NETWORKED_SHOTS",
+        "reason": "ProjectileWeapon +148 = 1: the owner sends every shot as an RPC before the type test (0x612EA4 -> 0x612F1E / 0x612F6E), so other players would still be sent its shots",
+        "allReasons": [
+          {
+            "code": "NETWORKED_SHOTS",
+            "text": "ProjectileWeapon +148 = 1: the owner sends every shot as an RPC before the type test (0x612EA4 -> 0x612F1E / 0x612F6E), so other players would still be sent its shots"
+          }
+        ]
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_NO_CHAMBER",
+        "reason": "magazine without a chamber (+156 = 0, the Meltagun model), one round per pulse"
+      },
       "target": "hd2.support_weapon(\"EAT-411 Leveller\"):beam_conversion()",
       "roots": [
         "0x7617642765AC38C7"
@@ -2077,6 +3499,7 @@
       "name": "EAT-700 Expendable Napalm",
       "kind": "support",
       "supported": true,
+      "layout": "swap",
       "verdict": "supported_with_caveats",
       "reasonCode": "MAGAZINE_NO_CHAMBER",
       "reason": "magazine without a chamber (+156 = 0, the Meltagun model), one round per pulse",
@@ -2099,6 +3522,26 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "solo only",
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "NETWORKED_SHOTS",
+        "reason": "ProjectileWeapon +148 = 1: the owner sends every shot as an RPC before the type test (0x612EA4 -> 0x612F1E / 0x612F6E), so other players would still be sent its shots",
+        "allReasons": [
+          {
+            "code": "NETWORKED_SHOTS",
+            "text": "ProjectileWeapon +148 = 1: the owner sends every shot as an RPC before the type test (0x612EA4 -> 0x612F1E / 0x612F6E), so other players would still be sent its shots"
+          }
+        ]
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_NO_CHAMBER",
+        "reason": "magazine without a chamber (+156 = 0, the Meltagun model), one round per pulse"
+      },
       "target": "hd2.support_weapon(\"EAT-700 Expendable Napalm\"):beam_conversion()",
       "roots": [
         "0xB2B5E0D185605F9E"
@@ -2110,9 +3553,10 @@
       "name": "FAF-14 Spear",
       "kind": "support",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_CHAMBER_FIX",
-      "reason": "magazine with a chamber: record 247 +156 1 -> 0 (owned alone), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
         {
           "code": "ONE_ROUND_MAGAZINE",
@@ -2128,6 +3572,21 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 247 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.support_weapon(\"FAF-14 Spear\"):beam_conversion()",
       "roots": [
         "0x25AA2FD4643CF4EE"
@@ -2139,17 +3598,33 @@
       "name": "FLAM-40 Flamethrower",
       "kind": "support",
       "supported": false,
+      "layout": null,
       "verdict": "out_of_scope",
       "reasonCode": "NO_PROJECTILE_WEAPON",
       "reason": "the loadout root lists no ProjectileWeapon (SprayWeapon)",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (SprayWeapon)"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (SprayWeapon)"
+      },
       "target": "hd2.support_weapon(\"FLAM-40 Flamethrower\"):beam_conversion()"
     },
     {
       "name": "GL-21 Grenade Launcher",
       "kind": "support",
       "supported": true,
+      "layout": "swap",
       "verdict": "supported_with_caveats",
       "reasonCode": "MAGAZINE_CHAMBER_FIX",
       "reason": "magazine with a chamber: record 250 +156 1 -> 0 (owned alone), one round per pulse",
@@ -2160,6 +3635,26 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "solo only",
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "NETWORKED_SHOTS",
+        "reason": "ProjectileWeapon +148 = 1: the owner sends every shot as an RPC before the type test (0x612EA4 -> 0x612F1E / 0x612F6E), so other players would still be sent its shots",
+        "allReasons": [
+          {
+            "code": "NETWORKED_SHOTS",
+            "text": "ProjectileWeapon +148 = 1: the owner sends every shot as an RPC before the type test (0x612EA4 -> 0x612F1E / 0x612F6E), so other players would still be sent its shots"
+          }
+        ]
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 250 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.support_weapon(\"GL-21 Grenade Launcher\"):beam_conversion()",
       "roots": [
         "0x02EECD0B1FA49630"
@@ -2171,28 +3666,59 @@
       "name": "GL-28 Belt-Fed Grenade Launcher",
       "kind": "support",
       "supported": false,
+      "layout": null,
       "verdict": "refused",
       "reasonCode": "LINKED_AMMO_NO_BEAM_RELOAD",
       "reason": "WeaponLinkedAmmo (backpack-fed): can-fire and spend are ProjectileWeapon-free (0x7725B0, 0x772470), but the beam reload check 0x83F810 refuses a weapon with neither WeaponHeat nor WeaponMagazine (0x83F8D0); it lists WeaponReload, so its vanilla reload is lost",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "LINKED_AMMO_NO_BEAM_RELOAD",
+        "reason": "still refused: the beam reload check refuses linked ammunition, and the fired type comes from the linked-ammunition model (0x74591C)"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "LINKED_AMMO_NO_BEAM_RELOAD",
+        "reason": "WeaponLinkedAmmo (backpack-fed): can-fire and spend are ProjectileWeapon-free (0x7725B0, 0x772470), but the beam reload check 0x83F810 refuses a weapon with neither WeaponHeat nor WeaponMagazine (0x83F8D0); it lists WeaponReload, so its vanilla reload is lost"
+      },
       "target": "hd2.support_weapon(\"GL-28 Belt-Fed Grenade Launcher\"):beam_conversion()"
     },
     {
       "name": "GL-52 De-Escalator",
       "kind": "support",
       "supported": false,
+      "layout": null,
       "verdict": "refused",
       "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
       "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "still refused: with a BeamWeapon instance the reload check takes the beam branch (0x775F1F -> 0x83F810), which reloads only by heat or magazine, and the fired type comes from the WeaponRounds record (0x74585A), not ProjectileWeapon +0"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload"
+      },
       "target": "hd2.support_weapon(\"GL-52 De-Escalator\"):beam_conversion()"
     },
     {
       "name": "GR-8 Recoilless Rifle",
       "kind": "support",
       "supported": true,
+      "layout": "swap",
       "verdict": "supported_with_caveats",
       "reasonCode": "MAGAZINE_CHAMBER_FIX",
       "reason": "magazine with a chamber: record 258 +156 1 -> 0 (owned alone), one round per pulse",
@@ -2215,6 +3741,30 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "solo only",
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "NETWORKED_SHOTS",
+        "reason": "ProjectileWeapon +148 = 1: the owner sends every shot as an RPC before the type test (0x612EA4 -> 0x612F1E / 0x612F6E), so other players would still be sent its shots",
+        "allReasons": [
+          {
+            "code": "NETWORKED_SHOTS",
+            "text": "ProjectileWeapon +148 = 1: the owner sends every shot as an RPC before the type test (0x612EA4 -> 0x612F1E / 0x612F6E), so other players would still be sent its shots"
+          },
+          {
+            "code": "FUNCTION_AMMO",
+            "text": "its weapon-function ammunition (ProjectileWeapon +576 = 36) is fired with its own projectile type, which ProjectileWeapon +0 does not suppress"
+          }
+        ]
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 258 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.support_weapon(\"GR-8 Recoilless Rifle\"):beam_conversion()",
       "roots": [
         "0x9F80D67A12A7E40F"
@@ -2226,17 +3776,33 @@
       "name": "LAS-98 Laser Cannon",
       "kind": "support",
       "supported": false,
+      "layout": null,
       "verdict": "out_of_scope",
       "reasonCode": "ALREADY_BEAM",
       "reason": "already a BeamWeapon weapon",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "ALREADY_BEAM",
+        "reason": "already a BeamWeapon weapon"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "ALREADY_BEAM",
+        "reason": "already a BeamWeapon weapon"
+      },
       "target": "hd2.support_weapon(\"LAS-98 Laser Cannon\"):beam_conversion()"
     },
     {
       "name": "LAS-99 Quasar Cannon",
       "kind": "support",
       "supported": true,
+      "layout": "swap",
       "verdict": "supported_with_caveats",
       "reasonCode": "HEAT_PULSE",
       "reason": "heat: +116 = 100.0 heat per pulse from its own WeaponHeat record 28",
@@ -2259,6 +3825,30 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "solo only",
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "NETWORKED_SHOTS",
+        "reason": "ProjectileWeapon +148 = 1: the owner sends every shot as an RPC before the type test (0x612EA4 -> 0x612F1E / 0x612F6E), so other players would still be sent its shots",
+        "allReasons": [
+          {
+            "code": "NETWORKED_SHOTS",
+            "text": "ProjectileWeapon +148 = 1: the owner sends every shot as an RPC before the type test (0x612EA4 -> 0x612F1E / 0x612F6E), so other players would still be sent its shots"
+          },
+          {
+            "code": "HEAT_RATE_SELECTOR",
+            "text": "a heat weapon with a rate selector (ProjectileWeapon +4 / +12 = [0.0, 10.0]): the projectile timer would follow the selected slot"
+          }
+        ]
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "HEAT_PULSE",
+        "reason": "heat: +116 = 100.0 heat per pulse from its own WeaponHeat record 28"
+      },
       "target": "hd2.support_weapon(\"LAS-99 Quasar Cannon\"):beam_conversion()",
       "roots": [
         "0x35A61296619CC47E"
@@ -2271,24 +3861,40 @@
       "name": "M-1000 Maxigun",
       "kind": "support",
       "supported": false,
+      "layout": null,
       "verdict": "refused",
       "reasonCode": "LINKED_AMMO_NO_BEAM_RELOAD",
       "reason": "WeaponLinkedAmmo (backpack-fed): can-fire and spend are ProjectileWeapon-free (0x7725B0, 0x772470), but the beam reload check 0x83F810 refuses a weapon with neither WeaponHeat nor WeaponMagazine (0x83F8D0); it lists WeaponReload, so its vanilla reload is lost",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "LINKED_AMMO_NO_BEAM_RELOAD",
+        "reason": "still refused: the beam reload check refuses linked ammunition, and the fired type comes from the linked-ammunition model (0x74591C)"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "LINKED_AMMO_NO_BEAM_RELOAD",
+        "reason": "WeaponLinkedAmmo (backpack-fed): can-fire and spend are ProjectileWeapon-free (0x7725B0, 0x772470), but the beam reload check 0x83F810 refuses a weapon with neither WeaponHeat nor WeaponMagazine (0x83F8D0); it lists WeaponReload, so its vanilla reload is lost"
+      },
       "target": "hd2.support_weapon(\"M-1000 Maxigun\"):beam_conversion()"
     },
     {
       "name": "M-105 Stalwart",
       "kind": "support",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_CHAMBER_FIX",
-      "reason": "magazine with a chamber: record 222 +156 1 -> 0 (owned alone), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
         {
           "code": "ROF_SELECTOR_INERT",
-          "text": "its rate-of-fire selector switches ProjectileWeapon +4 slots, which the beam ignores (the beam rate is BeamWeapon +104)"
+          "text": "its rate-of-fire selector switches ProjectileWeapon +4 slots: only the projectile timer follows it (every projectile shot ends at type 0); the beam rate is BeamWeapon +104"
         },
         {
           "code": "OTHER_ROOTS_UNCONVERTED",
@@ -2296,6 +3902,21 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 222 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.support_weapon(\"M-105 Stalwart\"):beam_conversion()",
       "roots": [
         "0xA6A735ACCB4A327F",
@@ -2310,13 +3931,14 @@
       "name": "MG-206 Heavy Machine Gun",
       "kind": "support",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_CHAMBER_FIX",
-      "reason": "magazine with a chamber: record 252 +156 1 -> 0 (owned alone), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
         {
           "code": "ROF_SELECTOR_INERT",
-          "text": "its rate-of-fire selector switches ProjectileWeapon +4 slots, which the beam ignores (the beam rate is BeamWeapon +104)"
+          "text": "its rate-of-fire selector switches ProjectileWeapon +4 slots: only the projectile timer follows it (every projectile shot ends at type 0); the beam rate is BeamWeapon +104"
         },
         {
           "code": "OTHER_ROOTS_UNCONVERTED",
@@ -2324,6 +3946,21 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 252 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.support_weapon(\"MG-206 Heavy Machine Gun\"):beam_conversion()",
       "roots": [
         "0x2152D5147B0AC418",
@@ -2336,6 +3973,7 @@
       "name": "MG-43 Machine Gun",
       "kind": "support",
       "supported": true,
+      "layout": "swap",
       "verdict": "supported_with_caveats",
       "reasonCode": "MAGAZINE_CHAMBER_FIX",
       "reason": "magazine with a chamber: record 255 +156 1 -> 0 (owned alone), one round per pulse",
@@ -2350,6 +3988,26 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "solo only",
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUND_LIST_MAGAZINE",
+        "reason": "its magazine (WeaponMagazine record 255) has a round list (+0 = 1): the fired type comes from the list, not ProjectileWeapon +0",
+        "allReasons": [
+          {
+            "code": "ROUND_LIST_MAGAZINE",
+            "text": "its magazine (WeaponMagazine record 255) has a round list (+0 = 1): the fired type comes from the list, not ProjectileWeapon +0"
+          }
+        ]
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 255 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.support_weapon(\"MG-43 Machine Gun\"):beam_conversion()",
       "roots": [
         "0x11C27D3BABB38956",
@@ -2362,6 +4020,7 @@
       "name": "MGX-42 Bullet Storm",
       "kind": "support",
       "supported": true,
+      "layout": "swap",
       "verdict": "supported_with_caveats",
       "reasonCode": "MAGAZINE_CHAMBER_FIX",
       "reason": "magazine with a chamber: record 244 +156 1 -> 0 (owned alone), one round per pulse",
@@ -2376,6 +4035,26 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "solo only",
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUND_LIST_MAGAZINE",
+        "reason": "its magazine (WeaponMagazine record 244) has a round list (+0 = 1): the fired type comes from the list, not ProjectileWeapon +0",
+        "allReasons": [
+          {
+            "code": "ROUND_LIST_MAGAZINE",
+            "text": "its magazine (WeaponMagazine record 244) has a round list (+0 = 1): the fired type comes from the list, not ProjectileWeapon +0"
+          }
+        ]
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 244 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.support_weapon(\"MGX-42 Bullet Storm\"):beam_conversion()",
       "roots": [
         "0xB16C9D490AA59B77"
@@ -2387,6 +4066,7 @@
       "name": "MLS-4X Commando",
       "kind": "support",
       "supported": true,
+      "layout": "swap",
       "verdict": "supported_with_caveats",
       "reasonCode": "MAGAZINE_NO_CHAMBER",
       "reason": "magazine without a chamber (+156 = 0, the Meltagun model), one round per pulse",
@@ -2405,6 +4085,26 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "solo only",
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "PROJECTILE_HOOK",
+        "reason": "ProjectileWeapon +68 = 1: an engine call before the type test (0x613038), untested on the add layout",
+        "allReasons": [
+          {
+            "code": "PROJECTILE_HOOK",
+            "text": "ProjectileWeapon +68 = 1: an engine call before the type test (0x613038), untested on the add layout"
+          }
+        ]
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_NO_CHAMBER",
+        "reason": "magazine without a chamber (+156 = 0, the Meltagun model), one round per pulse"
+      },
       "target": "hd2.support_weapon(\"MLS-4X Commando\"):beam_conversion()",
       "roots": [
         "0x5990123D142B16CB"
@@ -2416,28 +4116,59 @@
       "name": "MS-11 Solo Silo",
       "kind": "support",
       "supported": false,
+      "layout": null,
       "verdict": "out_of_scope",
       "reasonCode": "NO_PROJECTILE_WEAPON",
       "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (melee / tool / carrier)"
+      },
       "target": "hd2.support_weapon(\"MS-11 Solo Silo\"):beam_conversion()"
     },
     {
       "name": "PLAS-45 Epoch",
       "kind": "support",
       "supported": false,
+      "layout": null,
       "verdict": "refused",
       "reasonCode": "CHARGE_WEAPON",
       "reason": "WeaponCharge: on the beam path the pulse waits only for the charge level to reach stage 0 (+0 = 1.0 s, beam update 0x83E3DF) and then pulses while held; the weapon's own model (charge stages [1.0, 2.5, 2.6] with their projectile types [165, 193, 193], fire on release, overcharge +208 = 3.25) is the projectile path, and the only vanilla beam+charge weapon (40-K Meltagun) uses beam mode 5, not 6. Not proven to break; not proven to work.",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "CHARGE_WEAPON",
+        "reason": "still refused: with ProjectileWeapon kept, the charged release is served again by the generic fire 0x741DF0 with its own type, and the beam fires on the charge level (0x83E3DF): the combination is untested"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "CHARGE_WEAPON",
+        "reason": "WeaponCharge: on the beam path the pulse waits only for the charge level to reach stage 0 (+0 = 1.0 s, beam update 0x83E3DF) and then pulses while held; the weapon's own model (charge stages [1.0, 2.5, 2.6] with their projectile types [165, 193, 193], fire on release, overcharge +208 = 3.25) is the projectile path, and the only vanilla beam+charge weapon (40-K Meltagun) uses beam mode 5, not 6. Not proven to break; not proven to work."
+      },
       "target": "hd2.support_weapon(\"PLAS-45 Epoch\"):beam_conversion()"
     },
     {
       "name": "RL-77 Airburst Rocket Launcher",
       "kind": "support",
       "supported": true,
+      "layout": "swap",
       "verdict": "supported_with_caveats",
       "reasonCode": "MAGAZINE_CHAMBER_FIX",
       "reason": "magazine with a chamber: record 241 +156 1 -> 0 (owned alone), one round per pulse",
@@ -2460,6 +4191,30 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "solo only",
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "NETWORKED_SHOTS",
+        "reason": "ProjectileWeapon +148 = 1: the owner sends every shot as an RPC before the type test (0x612EA4 -> 0x612F1E / 0x612F6E), so other players would still be sent its shots",
+        "allReasons": [
+          {
+            "code": "NETWORKED_SHOTS",
+            "text": "ProjectileWeapon +148 = 1: the owner sends every shot as an RPC before the type test (0x612EA4 -> 0x612F1E / 0x612F6E), so other players would still be sent its shots"
+          },
+          {
+            "code": "FUNCTION_AMMO",
+            "text": "its weapon-function ammunition (ProjectileWeapon +576 = 96) is fired with its own projectile type, which ProjectileWeapon +0 does not suppress"
+          }
+        ]
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 241 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.support_weapon(\"RL-77 Airburst Rocket Launcher\"):beam_conversion()",
       "roots": [
         "0x26E40437EA275296"
@@ -2471,20 +4226,36 @@
       "name": "RS-422 Railgun",
       "kind": "support",
       "supported": false,
+      "layout": null,
       "verdict": "refused",
       "reasonCode": "CHARGE_WEAPON",
       "reason": "WeaponCharge: on the beam path the pulse waits only for the charge level to reach stage 0 (+0 = 0.45 s, beam update 0x83E3DF) and then pulses while held; the weapon's own model (charge stages [0.45, 0.5, 3.0] with their projectile types [0, 0, 0], fire on release, overcharge +208 = 0.0) is the projectile path, and the only vanilla beam+charge weapon (40-K Meltagun) uses beam mode 5, not 6. Not proven to break; not proven to work.",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "CHARGE_WEAPON",
+        "reason": "still refused: with ProjectileWeapon kept, the charged release is served again by the generic fire 0x741DF0 with its own type, and the beam fires on the charge level (0x83E3DF): the combination is untested"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "CHARGE_WEAPON",
+        "reason": "WeaponCharge: on the beam path the pulse waits only for the charge level to reach stage 0 (+0 = 0.45 s, beam update 0x83E3DF) and then pulses while held; the weapon's own model (charge stages [0.45, 0.5, 3.0] with their projectile types [0, 0, 0], fire on release, overcharge +208 = 0.0) is the projectile path, and the only vanilla beam+charge weapon (40-K Meltagun) uses beam mode 5, not 6. Not proven to break; not proven to work."
+      },
       "target": "hd2.support_weapon(\"RS-422 Railgun\"):beam_conversion()"
     },
     {
       "name": "S-11 Speargun",
       "kind": "support",
       "supported": true,
+      "layout": "add",
       "verdict": "supported_with_caveats",
-      "reasonCode": "MAGAZINE_NO_CHAMBER",
-      "reason": "magazine without a chamber (+156 = 0, the Meltagun model), one round per pulse",
+      "reasonCode": "ADD_LAYOUT",
+      "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
       "caveats": [
         {
           "code": "ONE_ROUND_MAGAZINE",
@@ -2496,6 +4267,21 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "identical conversions only",
+      "add": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "ADD_LAYOUT",
+        "reason": "keeps ProjectileWeapon (its type set to 0: every projectile shot ends at 0x614076) and gains BeamWeapon through a Runtime-owned list",
+        "heat": false
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_NO_CHAMBER",
+        "reason": "magazine without a chamber (+156 = 0, the Meltagun model), one round per pulse"
+      },
       "target": "hd2.support_weapon(\"S-11 Speargun\"):beam_conversion()",
       "roots": [
         "0x3828E2051AA9E897"
@@ -2507,17 +4293,33 @@
       "name": "SG-88 Break-Action Shotgun",
       "kind": "support",
       "supported": false,
+      "layout": null,
       "verdict": "refused",
       "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
       "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "still refused: with a BeamWeapon instance the reload check takes the beam branch (0x775F1F -> 0x83F810), which reloads only by heat or magazine, and the fired type comes from the WeaponRounds record (0x74585A), not ProjectileWeapon +0"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "ROUNDS_NO_BEAM_RELOAD",
+        "reason": "WeaponRounds: pulses spend rounds (0x7449EA) and can fire (0x744E75) without ProjectileWeapon, but a beam weapon reloads only through 0x83F810, which accepts WeaponHeat or WeaponMagazine and refuses everything else (0x83F8D0): the weapon empties and can never reload"
+      },
       "target": "hd2.support_weapon(\"SG-88 Break-Action Shotgun\"):beam_conversion()"
     },
     {
       "name": "StA-X3 W.A.S.P. Launcher",
       "kind": "support",
       "supported": true,
+      "layout": "swap",
       "verdict": "supported_with_caveats",
       "reasonCode": "MAGAZINE_CHAMBER_FIX",
       "reason": "magazine with a chamber: record 248 +156 1 -> 0 (owned alone), one round per pulse",
@@ -2532,6 +4334,26 @@
         }
       ],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": "solo only",
+      "add": {
+        "supported": false,
+        "verdict": "refused",
+        "reasonCode": "FUNCTION_AMMO",
+        "reason": "its weapon-function ammunition (ProjectileWeapon +576 = 330) is fired with its own projectile type, which ProjectileWeapon +0 does not suppress",
+        "allReasons": [
+          {
+            "code": "FUNCTION_AMMO",
+            "text": "its weapon-function ammunition (ProjectileWeapon +576 = 330) is fired with its own projectile type, which ProjectileWeapon +0 does not suppress"
+          }
+        ]
+      },
+      "swap": {
+        "supported": true,
+        "verdict": "supported_with_caveats",
+        "reasonCode": "MAGAZINE_CHAMBER_FIX",
+        "reason": "magazine with a chamber: record 248 +156 1 -> 0 (owned alone), one round per pulse"
+      },
       "target": "hd2.support_weapon(\"StA-X3 W.A.S.P. Launcher\"):beam_conversion()",
       "roots": [
         "0xCC786F6491FE7E65"
@@ -2543,11 +4365,26 @@
       "name": "TX-41 Sterilizer",
       "kind": "support",
       "supported": false,
+      "layout": null,
       "verdict": "out_of_scope",
       "reasonCode": "NO_PROJECTILE_WEAPON",
       "reason": "the loadout root lists no ProjectileWeapon (SprayWeapon)",
       "caveats": [],
       "liveProven": false,
+      "liveProvenLayout": null,
+      "multiplayer": null,
+      "add": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (SprayWeapon)"
+      },
+      "swap": {
+        "supported": false,
+        "verdict": "out_of_scope",
+        "reasonCode": "NO_PROJECTILE_WEAPON",
+        "reason": "the loadout root lists no ProjectileWeapon (SprayWeapon)"
+      },
       "target": "hd2.support_weapon(\"TX-41 Sterilizer\"):beam_conversion()"
     }
   ]

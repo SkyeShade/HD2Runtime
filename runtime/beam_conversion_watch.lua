@@ -1,30 +1,29 @@
 -- The lobby watch of beam conversions (docs/beam-conversion.md "Multiplayer"; research/docs/beam-conversion-mp-
--- F5FEE03DCFDB.md). A conversion is applied only while this machine plays alone (runtime/beam_conversion.lua gates).
--- Another player can still join afterwards, or this machine can join another lobby with a conversion applied. Every
--- peer builds a weapon from its OWN membership list, so the converted weapon is a beam weapon here and a projectile
--- weapon on every other machine. Worse, a weapon of a converted type that ANOTHER machine owns (a joiner's Liberator)
--- is built here without the ProjectileWeapon instance its network apply step 0x6190C0 looks up: it gets -1 and writes
--- 12 bytes at an unmapped address, so THIS game crashes when that weapon spawns (research/docs/beam-conversion-mp-
--- F5FEE03DCFDB.md). The same conversion on the other machine does not help: the apply is chosen by the network type
--- alone (research/docs/beam-conversion-mp-sync-F5FEE03DCFDB.md; runtime/beam_conversion_sync.lua publishes this
--- machine's set and logs every member's state, and its decision is always REFUSED with others present). So while any
--- conversion is applied this watch reads the lobby every CHECK second (memory reads only) and, when another player is
--- present (a joiner, or this machine joining another lobby):
---   * logs a loud warning and shows the Runtime's safety notice (leave the lobby; quit if a converted weapon is in use);
---   * RESTORES at once (on the first read that sees the other player, then every RESTORE_EVERY s) every converted
---     weapon with ZERO live instances on this machine (one guarded transaction each, the same restore an ensure
---     makes), so a joiner's weapon of that type spawns as vanilla. A member appears in the PlayFab lobby long before
---     its session loads and its weapons spawn. A converted weapon that
---     is live cannot be restored (changing its list under a live instance corrupts the BeamWeapon destroy): it stays,
---     for the shooter, and the warning repeats until the player count changes.
--- The mods' ensures stay registered: their apply waits (NOT_SOLO) and converts again once the game is solo.
+-- F5FEE03DCFDB.md, research/docs/beam-conversion-add-layout-F5FEE03DCFDB.md). Every peer builds a weapon from its OWN
+-- membership list, so another player can join after a conversion was applied, or this machine can join another lobby
+-- with one applied. While any conversion is applied this watch reads the lobby every CHECK second (memory reads only)
+-- and, when another player is present (a joiner, or this machine joining another lobby):
+--   * SWAP layout conversions (ProjectileWeapon swapped out): a weapon of that type that ANOTHER machine owns is built
+--     here without the ProjectileWeapon instance its network apply looks up, and THIS game crashes when it spawns,
+--     whatever the other machine converted. They are RESTORED at once (on the first read that sees the other player,
+--     then every RESTORE_EVERY s) when they have ZERO live instances here; a live one cannot be (its list cannot change
+--     under a live instance) and stays, with a loud warning and the safety notice (leave the lobby / quit).
+--   * ADD layout conversions (ProjectileWeapon kept, BeamWeapon added): no crash in any combination, but every machine
+--     simulates every player's beam, so a machine that does not hold the identical conversion sees bullets where this
+--     one sees beams, and zone health and shields of the targets each owns follow its own simulation. They are kept
+--     while runtime/beam_conversion_sync.lua says so (every member holds the identical conversion, or a member is still
+--     pending, or a Runtime member is converging), and restored (no live instance) once a member is settled without it.
+--     Before the sync has read any member (the first PENDING_WINDOW s) they are kept too.
+-- The mods' ensures stay registered: a swap apply waits (NOT_SOLO), an add apply waits until every member agrees
+-- (NOT_AGREED), and converts again then.
 local scheduler=require('hd2runtime/runtime/scheduler')
 local log_module=require('hd2runtime/runtime/log')
 local world_module=require('hd2runtime/runtime/event_world')
 local M={}
 M.CHECK=1
 M.RESTORE_EVERY=5
-local KEY='HD2RuntimeBeamConversionWatchV1'
+M.PENDING_WINDOW=30
+local KEY='HD2RuntimeBeamConversionWatchV2'
 local function state()
     local s=rawget(_G,KEY)
     if not s then s={converted={},clock=0,next_check=0,next_restore=0,others=false,warned=nil};rawset(_G,KEY,s)end
@@ -32,11 +31,14 @@ local function state()
 end
 local function log(text)log_module.emit('BEAM CONVERSION: '..text)end
 M.TEXT={title='BEAM CONVERSION: NOT SOLO',
-    rule='A beam-converted weapon type carried by another player can crash this game when it spawns.',
-    advice='Leave the lobby. Unequipped converted weapons were restored; quit the game if one is still in use.'}
+    rule='A swap-converted weapon type carried by another player can crash this game when it spawns; an add-layout '
+        ..'conversion the other players do not hold identically puts beams on one screen and bullets on the other.',
+    advice='Leave the lobby, or convert the same weapons the same way on every machine (add layout). Unequipped '
+        ..'converted weapons were restored; quit the game if a swap-converted one is still in use.'}
 
--- Restores every converted weapon whose census is zero; returns restored names and the ones left (live).
-local function restore_idle(E)
+-- Restores every converted weapon in `only` (names; nil: every one) whose census is zero; returns restored names and
+-- the ones left (live).
+local function restore_idle(E,only)
     local exclusive=require('hd2runtime/runtime/exclusive')
     local token={}
     if not exclusive.acquire(token)then return {},{},'another guarded operation is running'end
@@ -46,7 +48,9 @@ local function restore_idle(E)
         local world=E.open()
         local s=E.locate(world)
         local names={}
-        for name,W in pairs(s.weapons)do if W.state=='converted'or W.state=='orphaned'then names[#names+1]=name end end
+        for name,W in pairs(s.weapons)do
+            if(W.state=='converted'or W.state=='orphaned')and(only==nil or only[name])then names[#names+1]=name end
+        end
         table.sort(names)
         for _,name in ipairs(names)do
             local okp,prepared=pcall(E.prepare,world,s,{weapon=E.weapon(name),enabled=false})
@@ -67,6 +71,41 @@ local function restore_idle(E)
 end
 M.restore_idle=restore_idle
 
+-- Which converted weapons to restore now: {[name] = reason} (swap: always; add: per the sync), and the kept add ones.
+local function to_restore(E,world,st)
+    local sync=require('hd2runtime/runtime/beam_conversion_sync')
+    local s=E.locate(world)
+    local entries=sync.entries_of(s)
+    local by_weapon={}
+    for _,e in ipairs(entries)do
+        local name=sync.weapon_of(e.resource)
+        if name then by_weapon[name]=by_weapon[name]or{};table.insert(by_weapon[name],e)end
+    end
+    local restore,kept={},{}
+    local add={}
+    for name,W in pairs(s.weapons)do
+        if W.state=='converted'or W.state=='orphaned'then
+            if W.layout~='add'then restore[name]='swap layout: solo only'
+            elseif W.state=='orphaned'then restore[name]='an orphaned conversion'
+            else add[name]=by_weapon[name]or{}end
+        end
+    end
+    if next(add)then
+        if not sync.members_known()then
+            if st.clock-st.others_since<M.PENDING_WINDOW then
+                for name in pairs(add)do kept[name]='PENDING: the lobby members\' conversion sets are not read yet'end
+            else
+                for name in pairs(add)do restore[name]='the lobby members\' conversion sets could not be read'end
+            end
+        else
+            for name,v in pairs(sync.keep(add))do
+                if v.keep then kept[name]=v.code..': '..v.reason else restore[name]=v.code..': '..v.reason end
+            end
+        end
+    end
+    return restore,kept
+end
+
 local function tick(dt)
     local st=state()
     st.clock=st.clock+(type(dt)=='number'and dt>=0 and dt<10 and dt or 0)
@@ -78,31 +117,44 @@ local function tick(dt)
     local E=require('hd2runtime/runtime/beam_conversion')
     local lobby,why=E.lobby(world)
     if lobby=='others'then
-        -- The first sight of another player restores at once; while they stay, again every RESTORE_EVERY s.
-        if st.others and st.clock<st.next_restore then return end
-        st.others=true
+        -- The first sight of another player decides at once; while they stay, again every RESTORE_EVERY s.
+        if not st.others then st.others=true;st.others_since=st.clock;st.next_restore=0 end
+        if st.clock<st.next_restore then return end
         st.next_restore=st.clock+M.RESTORE_EVERY
-        local restored,left,err=restore_idle(E)
+        local okr,restore,kept=pcall(to_restore,E,world,st)
+        if not okr then log('lobby watch: the conversions could not be read ('..tostring(restore)..')');return end
+        local restored,left,err={},{},nil
+        if next(restore)then restored,left,err=restore_idle(E,restore)end
         if#restored>0 then
-            log('ANOTHER PLAYER IS PRESENT ('..tostring(why)..'): restored '..table.concat(restored,', ')
-                ..' (no live instance): a joiner\'s weapon of that type now spawns as vanilla')
+            local why_list={}
+            for _,name in ipairs(restored)do why_list[#why_list+1]=name..' ('..tostring(restore[name])..')'end
+            log('ANOTHER PLAYER IS PRESENT ('..tostring(why)..'): restored '..table.concat(why_list,', ')
+                ..' (no live instance)')
         end
         if#st.converted==0 then return end
-        local key=table.concat(st.converted,', ')..'|'..tostring(why)
+        local kept_names={}
+        for name in pairs(kept)do kept_names[#kept_names+1]=name end
+        table.sort(kept_names)
+        local key=table.concat(st.converted,', ')..'|'..tostring(why)..'|'..table.concat(left,';')
         if st.warned~=key then
             st.warned=key
-            log(('WARNING: ANOTHER PLAYER IS PRESENT (%s) while %s %s converted to Trident beams. Each machine builds '
-                ..'weapons from its own lists: a weapon of a converted type that another player carries is built here '
-                ..'without its ProjectileWeapon and CRASHES THIS GAME when it spawns; your own converted weapon fires '
-                ..'nothing visible on their machines. The same conversion on their machine does not prevent it '
-                ..'(BEAM CONVERSION SYNC). Converted weapons with no live instance are restored at once; '
-                ..'one in use cannot be (%s). LEAVE THE LOBBY, or quit the game (docs/beam-conversion.md '
-                ..'"Multiplayer")'):format(tostring(why),table.concat(st.converted,', '),
-                #st.converted==1 and'is'or'are',#left>0 and table.concat(left,'; ')or tostring(err or'none left')))
-            pcall(function()
-                require('hd2runtime/runtime/matchmaking_safety').notice(M.TEXT.title,
-                    table.concat(st.converted,', ')..' converted; '..tostring(why)..'.',M.TEXT.rule,M.TEXT.advice)
-            end)
+            if#left>0 then
+                log(('WARNING: ANOTHER PLAYER IS PRESENT (%s) while %s cannot be restored (%s). A SWAP-converted '
+                    ..'weapon type that another player carries CRASHES THIS GAME when it spawns; an ADD-layout one the '
+                    ..'others do not hold identically is a beam here and bullets there (no crash; zone health and '
+                    ..'shields out of step). LEAVE THE LOBBY, or quit if a swap conversion is in use '
+                    ..'(docs/beam-conversion.md "Multiplayer")'):format(tostring(why),table.concat(st.converted,', '),
+                    table.concat(left,'; ')..(err and('; '..err)or'')))
+                pcall(function()
+                    require('hd2runtime/runtime/matchmaking_safety').notice(M.TEXT.title,
+                        table.concat(st.converted,', ')..' converted; '..tostring(why)..'.',M.TEXT.rule,M.TEXT.advice)
+                end)
+            elseif#kept_names>0 then
+                local parts={}
+                for _,name in ipairs(kept_names)do parts[#parts+1]=name..' ('..kept[name]..')'end
+                log(('another player is present (%s): add-layout conversions kept: %s'):format(tostring(why),
+                    table.concat(parts,', ')))
+            end
         end
     elseif lobby=='solo'then
         st.others=false
@@ -135,7 +187,7 @@ function M.sync(s)
     end
 end
 function M.status()local st=state();return {converted=st.converted,warned=st.warned,active=st.watch
-    and st.watch.status=='active'or false}end
+    and st.watch.status=='active'or false,others=st.others}end
 function M.reset_for_tests()
     local st=rawget(_G,KEY)
     if st and st.watch then st.watch.status='cancelled'end

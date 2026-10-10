@@ -121,9 +121,20 @@ local function changed()
  end
  return count
 end
+-- The list the root's entity map row names now (its pointer and count) and the file's own list.
+local function row_of(root)return ESH+32*root.membership.row end
 local function list_of(root)
- return b.hex(runtime.read(ptr(ESH+32*root.membership.row+8),root.membership.count*2))
+ local r=row_of(root)
+ return b.hex(runtime.read(ptr(r+8),b.u32(runtime.read(r+16,4),0)*2))
 end
+local function file_list_of(root)
+ return b.hex(runtime.read(ESH+root.membership.listOffsetInBody,root.membership.count*2))
+end
+local PTABLE=ptr(manager+C.manager.slotBase+8*321)
+local function pw_of(root)
+ return runtime.read(PTABLE+C.projectile.recordBase+root.projectile.record*C.projectile.recordStride,12)
+end
+local function added(root)return ptr(row_of(root)+8)~=ESH+root.membership.listOffsetInBody end
 -- Settles a handle to an end state (a transaction resolves over several updates).
 local function done(h,limit)
  local n=0
@@ -163,7 +174,12 @@ local function disable(id,name)return tx(id,name,{{field=F.beam_conversion.enabl
 local function converted_ok(w)
  local rows=rows_now()
  for _,root in ipairs(w.roots)do
-  if list_of(root)~=root.membership.after then return false,'list of '..root.resource end
+  if added(root)then
+   -- The add layout: the row names the grown list; the file list, the neighbours, stay as shipped.
+   if list_of(root)~=root.add.listHex then return false,'grown list of '..root.resource end
+   if file_list_of(root)~=root.membership.before then return false,'file list of '..root.resource end
+   if b.hex(pw_of(root):sub(1,4))~='00000000'then return false,'projectile type of '..root.resource end
+  elseif list_of(root)~=root.membership.after then return false,'list of '..root.resource end
   if lookup(rows,root.resource)~=(ptr(SLOT)==TABLE and 23 or w.record)then return false,'row of '..root.resource end
   if root.magazine and b.hex(runtime.read(MAGTABLE+root.magazine.windowOffset,4))~='00000000'then
    return false,'magazine of '..root.resource end
@@ -173,7 +189,9 @@ end
 local function vanilla_ok(w)
  local rows=rows_now()
  for _,root in ipairs(w.roots)do
-  if list_of(root)~=root.membership.before then return false,'list of '..root.resource end
+  if added(root)or list_of(root)~=root.membership.before then return false,'list of '..root.resource end
+  if root.add and(b.hex(pw_of(root):sub(1,4))~=root.add.typeBefore or b.hex(pw_of(root):sub(9,12))~=root.add.rateBefore)
+  then return false,'projectile record of '..root.resource end
   if lookup(rows,root.resource)then return false,'row of '..root.resource end
   if root.magazine and b.hex(runtime.read(MAGTABLE+root.magazine.windowOffset,4))~='01000000'then
    return false,'magazine of '..root.resource end
@@ -189,15 +207,65 @@ class DomainTests(unittest.TestCase):
         domain = generate_beam_conversion.build()
         by = {w['name']: w for w in domain['weapons']}
         self.assertEqual(len(domain['weapons']), 115)
-        # The projectile LAS weapons.
-        for name, verdict, code in (('LAS-16 Sickle', 'supported', 'HEAT_PULSE'),
-                                    ('LAS-17 Double-Edge Sickle', 'supported_with_caveats', 'HEAT_PULSE'),
-                                    ('LAS-12 Sai', 'supported_with_caveats', 'HEAT_PULSE'),
-                                    ('LAS-58 Talon', 'supported_with_caveats', 'LIVE_PROVEN'),
-                                    ('PLAS-101 Purifier', 'refused', 'CHARGE_WEAPON')):
-            self.assertEqual((by[name]['verdict'], by[name]['reasonCode']), (verdict, code), name)
+        # The projectile LAS weapons: the swap verdict, and the add layout where it takes them.
+        for name, layout, verdict, code, swap_code in (
+                ('LAS-16 Sickle', 'add', 'supported_with_caveats', 'ADD_LAYOUT', 'HEAT_PULSE'),
+                ('LAS-17 Double-Edge Sickle', 'swap', 'supported_with_caveats', 'HEAT_PULSE', 'HEAT_PULSE'),
+                ('LAS-12 Sai', 'add', 'supported_with_caveats', 'ADD_LAYOUT', 'HEAT_PULSE'),
+                ('LAS-58 Talon', 'add', 'supported_with_caveats', 'ADD_LAYOUT', 'LIVE_PROVEN'),
+                ('LAS-99 Quasar Cannon', 'swap', 'supported_with_caveats', 'HEAT_PULSE', 'HEAT_PULSE'),
+                ('PLAS-101 Purifier', None, 'refused', 'CHARGE_WEAPON', 'CHARGE_WEAPON')):
+            w = by[name]
+            self.assertEqual((w['layout'], w['verdict'], w['reasonCode'], w['swap']['reasonCode']),
+                             (layout, verdict, code, swap_code), name)
+        self.assertEqual(by['LAS-17 Double-Edge Sickle']['add']['reasonCode'], 'HEAT_STAGE_PROJECTILES')
+        self.assertEqual(by['LAS-99 Quasar Cannon']['add']['reasonCode'], 'NETWORKED_SHOTS')
         for name in ('AR-23 Liberator', 'LAS-58 Talon', 'SMG-32 Reprimand'):
-            self.assertTrue(by[name]['liveProven'] and by[name]['supported'], name)
+            self.assertTrue(by[name]['liveProven'] and by[name]['supported'] and by[name]['liveProvenLayout'] == 'swap',
+                            name)
+        # Coverage re-classification (research/docs/beam-conversion-add-layout-F5FEE03DCFDB.md section 6).
+        layouts = {}
+        for w in domain['weapons']:
+            layouts[w['layout']] = layouts.get(w['layout'], 0) + 1
+        self.assertEqual(layouts, {'add': 42, 'swap': 24, None: 49})
+        add_refusals = {}
+        for w in domain['weapons']:
+            if w['layout'] == 'swap':
+                add_refusals[w['add']['reasonCode']] = add_refusals.get(w['add']['reasonCode'], 0) + 1
+        self.assertEqual(add_refusals, {'AMMUNITION_SETS_PROJECTILE': 8, 'NETWORKED_SHOTS': 9, 'FUNCTION_AMMO': 3,
+                                        'ROUND_LIST_MAGAZINE': 2, 'HEAT_STAGE_PROJECTILES': 1, 'PROJECTILE_HOOK': 1})
+        self.assertEqual(by['AR-23 Liberator']['add']['reasonCode'], 'AMMUNITION_SETS_PROJECTILE')
+        for w in domain['weapons']:
+            if w['layout'] == 'add':
+                self.assertFalse(w['restartAfterUse'], w['name'])
+                for code in ('RESTART_AFTER_USE', 'OPTION_LEAKS_PROJECTILE_COPY', 'WINDOW_CROSSES_PAGE'):
+                    self.assertNotIn(code, [c['code'] for c in w['caveats']], w['name'])
+            if w['layout'] is None:
+                self.assertFalse(w['supported'], w['name'])
+        # Every add root: its own list plus BeamWeapon, sorted and unique, ProjectileWeapon kept; the slots are packed
+        # 4-aligned in one block after the magic.
+        slots, end = [], domain['lists']['framing']
+        for w in domain['weapons']:
+            if w['layout'] != 'add':
+                continue
+            for r in w['roots']:
+                a = r['add']
+                before = bytes.fromhex(r['membership']['before'])
+                after = bytes.fromhex(a['listHex'])
+                eb = [int.from_bytes(before[i:i + 2], 'little') for i in range(0, len(before), 2)]
+                ea = [int.from_bytes(after[i:i + 2], 'little') for i in range(0, len(after), 2)]
+                self.assertEqual(ea, sorted(eb + [270]), w['name'])
+                self.assertEqual(a['count'], r['membership']['count'] + 1)
+                self.assertEqual(a['slot'] % 4, 0)
+                self.assertNotEqual(a['typeBefore'], '00000000', w['name'])
+                slots.append((a['slot'], a['slot'] + 2 * a['count']))
+        slots.sort()
+        for (a0, a1), (b0, _) in zip(slots, slots[1:]):
+            self.assertLessEqual(a1, b0)
+        self.assertGreaterEqual(slots[0][0], domain['lists']['framing'])
+        self.assertLessEqual(slots[-1][1], domain['lists']['bytes'])
+        self.assertLessEqual(domain['lists']['bytes'], 4096)
+        self.assertEqual((domain['projectile']['recordBase'], domain['projectile']['recordStride']), (8672, 616))
         self.assertEqual(by['SG-8 Punisher']['reasonCode'], 'ROUNDS_NO_BEAM_RELOAD')
         self.assertEqual(by['M-1000 Maxigun']['reasonCode'], 'LINKED_AMMO_NO_BEAM_RELOAD')
         self.assertEqual(by['LAS-13 Trident']['reasonCode'], 'ALREADY_BEAM')
@@ -340,12 +408,45 @@ class ConversionSnapshotTests(unittest.TestCase):
     def test_sickle_converts_with_its_own_rate_and_restores_byte_exact(self):
         result = snapshot_run(PRELUDE + r'''
 local sickle=weapon('LAS-16 Sickle')
+check(sickle.layout=='add','the Sickle takes the add layout')
+local root=sickle.roots[1]
 local resources={}
 for row=0,45 do local k=b.resource(FILE_ROWS,row*16)if k~='0x0000000000000000'then resources[#resources+1]=k end end
+-- Every entity map row and list before (the neighbours of the converted row must stay byte-identical).
+local MAP_ROWS=runtime.read(ESH,4096*32)
 local h=enable('sickle','LAS-16 Sickle',{{field=F.beam.fire_rate,expect=300,value=600}})
 check(h.status=='complete'and h.result.status=='APPLIED','apply '..tostring(h.error))
 check(ptr(SLOT)~=TABLE,'the slot names the copy')
 local ok,why=converted_ok(sickle);check(ok,why)
+-- The add layout's writes in the entity allocation: only the row's pointer and count and the record's +0 / +8.
+local R0=row_of(root)
+local PW=PTABLE+C.projectile.recordBase+root.projectile.record*C.projectile.recordStride
+local allowed={}
+for i=8,19 do allowed[R0+i]=true end
+for i=0,3 do allowed[PW+i]=true;allowed[PW+8+i]=true end
+for i=0,7 do allowed[SLOT+i]=true end
+for address,value in pairs(overlay)do
+ local original=source.read(address,#value)
+ for i=1,#value do
+  if value:byte(i)~=original:byte(i)then check(allowed[address+i-1],('a byte outside the write set changed: %X')
+   :format(address+i-1))end
+ end
+end
+local rows_after=runtime.read(ESH,4096*32)
+for row=0,4095 do
+ if row~=root.membership.row then
+  check(rows_after:sub(row*32+1,row*32+32)==MAP_ROWS:sub(row*32+1,row*32+32),'entity map row '..row..' changed')
+ end
+end
+check(b.u32(runtime.read(R0+16,4),0)==root.add.count,'count N+1')
+-- The heat bound: the Sickle's projectile rate is below its slowest pulse cadence.
+local rate=b.value(pw_of(root),8,'f32')
+local pulse=b.value(runtime.read(ptr(SLOT)+0x2E0+sickle.record*0x78+112,4),0,'f32')
+check(rate==E.heat_projectile_rate(600,pulse),'heat bound '..rate)
+for fps=30,240 do check(rate<=E.effective_rate(600,pulse,fps),'bound at '..fps)end
+check(rate<=0.9*E.effective_rate(600,pulse,30)+1,'a 10 % margin')
+check(OT.get_list(root.resource)and OT.get_list(root.resource).count==root.add.count,'owned list registered')
+check(not E.restart_required(),'the add layout needs no restart')
 local rows=rows_now()
 for _,r in ipairs(resources)do check(lookup(rows,r)==lookup(FILE_ROWS,r),'lookup of '..r..' changed')end
 -- Its own record: the Trident's but for +104 = 600 and the fitted +112.
@@ -358,12 +459,13 @@ check(OT.get('BeamWeaponComponentData').owner==E.OWNER,'owned registry')
 check(edits.get(sickle.roots[1].resource).owner==E.OWNER,'reviewed edit recorded')
 local st=hd2.beam_conversion('LAS-16 Sickle'):status()
 check(st.state=='converted'and st.settings.fire_rate==600,'status')
--- A settings-only change: only its record, no gate.
+-- A settings-only change: its record and, on this heat weapon, its projectile rate (the new bound), no gate.
 LIVE[sickle.roots[1].resource]=1
 local h2=tx('sickle-pulse','LAS-16 Sickle',{{field=F.beam.pulse_seconds,expect=0.15,value=0.05}})
 check(h2.status=='complete','settings with a live weapon: '..tostring(h2.error))
 rec=runtime.read(copy+0x2E0+sickle.record*0x78,0x78)
 check(math.abs(b.value(rec,112,'f32')-0.05)<1e-6 and b.value(rec,104,'i32')==600,'pulse written, rate kept')
+check(b.value(pw_of(root),8,'f32')==E.heat_projectile_rate(600,b.value(rec,112,'f32')),'the heat bound follows')
 -- The restore waits for zero live Sickles.
 local h3=disable('sickle-off','LAS-16 Sickle')
 check(waiting(h3,'BUSY'),'live sickle: '..tostring(h3.status))
@@ -375,7 +477,12 @@ ok,why=vanilla_ok(sickle);check(ok,why)
 check(changed()==0,'every snapshot byte vanilla again: '..changed())
 check(OT.get('BeamWeaponComponentData')==nil,'registry cleared')
 check(edits.get(sickle.roots[1].resource)==nil,'edit cleared')
-check(E.restart_required(),'restart notice')
+check(OT.get_list(root.resource)==nil,'owned list cleared')
+check(not E.restart_required(),'no restart notice')
+-- The swap layout (the Liberator) still asks for the restart.
+check(enable('lib','AR-23 Liberator').status=='complete','liberator')
+check(disable('liboff','AR-23 Liberator').status=='complete','liberator off')
+check(E.restart_required()and changed()==0,'swap: restart notice')
 return json.encode({ok=true})''')
         self.assertTrue(result['ok'])
 
@@ -643,28 +750,194 @@ return json.encode(out)''')
         for key, value in result.items():
             self.assertTrue(value, (key, result))
 
+    def test_the_catalogue_accepts_exactly_its_own_lists_and_nothing_else_changes(self):
+        result = snapshot_run(PRELUDE + r'''
+local Reader=require('hd2runtime/runtime/reader')
+local discover=require('hd2runtime/runtime/discover')
+local catalog=require('hd2runtime/core/entity_catalog')
+local profile=require('hd2runtime/schemas/current')
+local NAMES={'BeamWeaponComponentData','ProjectileWeaponComponentData','WeaponDataComponentData',
+ 'WeaponMagazineComponentData','WeaponHeatComponentData'}
+-- Every candidate of the catalogue: its diagnostics, refused components and ownership, by resource.
+local function capture()
+ local out={strays={},by={}}
+ local co=coroutine.create(function()
+  local reader=Reader.new(runtime)
+  local roots=discover.locate(runtime,reader,profile,{entity=true})
+  local cat=catalog.capture(reader,roots.entity,profile,NAMES)
+  for _,x in ipairs(cat.strays)do out.strays[#out.strays+1]=x.resource..': '..x.reason end
+  for _,c in ipairs(cat.candidates)do
+   local own={}
+   for _,name in ipairs(NAMES)do
+    local o=c.ownership[name]
+    if o then own[#own+1]=name..'='..o.indexRow..'/'..o.recordIndex end
+   end
+   local refused={};for k in pairs(c.refused or{})do refused[#refused+1]=k end;table.sort(refused)
+   out.by[c.resourceHash]={own=table.concat(own,','),diag=table.concat(c.diagnostics,'|'),
+    refused=table.concat(refused,','),heat=c.ownership.WeaponHeatComponentData and pcall(cat.record,c,
+     'WeaponHeatComponentData')or nil}
+  end
+ end)
+ repeat local ok,why=coroutine.resume(co);check(ok,why)until coroutine.status(co)=='dead'
+ return out
+end
+local sickle,talon=weapon('LAS-16 Sickle'),weapon('LAS-58 Talon')
+local before=capture()
+check(#before.strays==0,'no stray row before')
+check(enable('sickle','LAS-16 Sickle').status=='complete','sickle')
+check(enable('talon','LAS-58 Talon').status=='complete','talon')
+local after=capture()
+local out={}
+out.no_stray=#after.strays==0
+local mine={[sickle.roots[1].resource]=true,[talon.roots[1].resource]=true}
+local same=true
+for resource,c in pairs(before.by)do
+ local a=after.by[resource]
+ if not mine[resource]and not(a and a.own==c.own and a.diag==c.diag and a.refused==c.refused)then
+  same=false;out['changed '..resource]=tostring(a and(a.own..' / '..a.diag))
+ end
+end
+out.others_unchanged=same
+-- The converted roots: no diagnostic (their lists are accepted), BeamWeapon owned in the copy, the ProjectileWeapon
+-- and BeamWeapon records refused (their conversion's), the heat record still readable.
+for resource in pairs(mine)do
+ local a=after.by[resource]
+ out['clean '..resource]=a.diag==''and a.refused=='BeamWeaponComponentData,ProjectileWeaponComponentData'and a.heat
+ out['beam '..resource]=a.own:find('BeamWeaponComponentData=',1,true)~=nil
+end
+-- Typed writes: the Sickle's heat goes ahead, its fire rate is refused; another weapon writes as before. (Their bytes
+-- are put back afterwards from the overlay as it was: a transaction's expect is the shipped value.)
+local kept={}
+for address,value in pairs(overlay)do kept[address]=value end
+local r=hd2.transaction({id='heat',target=hd2.weapon('LAS-16 Sickle'),changes={
+ {field=F.heat.heat_per_shot,expect=1.15,value=1.2}}})
+done(r);out.heat_write=r.status=='complete'
+r=hd2.transaction({id='rate',target=hd2.weapon('LAS-16 Sickle'),changes={{field=F.weapon.fire_rate,expect=750,value=700}}})
+done(r);out.rate_refused=r.status=='rejected'and tostring(r.error):find('add layout',1,true)~=nil
+r=hd2.transaction({id='ergo',target=hd2.weapon('AR-23 Liberator'),changes={{field=F.weapon.ergonomics,expect=65,value=70}}})
+done(r);out.other_weapon=r.status=='complete'
+for address,value in pairs(overlay)do
+ if kept[address]~=value then writable(address,kept[address]or source.read(address,#value))end
+end
+-- Another program changes a byte of HD2Runtime's list block: the row is no longer accepted (stray, its own resource
+-- only) and the conversion is refused until it is back.
+local blk=require('hd2runtime/runtime/beam_conversion').list_block_bytes()
+local root=sickle.roots[1]
+local at=ptr(row_of(root)+8)
+local old=runtime.read(at,2)
+writable(at,'\255\255')
+local t=capture()
+local stray_only=#t.strays==1 and t.strays[1]:find(root.resource,1,true)~=nil
+ and t.strays[1]:find('not as HD2Runtime built it',1,true)~=nil
+out.tampered_block_stray=stray_only
+local h=tx('touch','LAS-16 Sickle',{{field=F.beam.fire_rate,expect=300,value=310}})
+out.tampered_block_refused=h.status=='rejected'
+writable(at,old)
+-- Another program repoints the row to an identical list elsewhere: not HD2Runtime's pointer, refused.
+local fake=runtime.permanent_block(runtime.read(at,2*root.add.count))
+writable(row_of(root)+8,b.encode(fake%TWO32,'u32')..b.encode(math.floor(fake/TWO32),'u32'))
+t=capture()
+out.repointed_stray=#t.strays==1 and t.strays[1]:find(root.resource,1,true)~=nil
+h=disable('repointed','LAS-16 Sickle')
+out.repointed_conflict=h.status=='rejected'and tostring(h.error):find('CONFLICT',1,true)~=nil
+writable(row_of(root)+8,b.encode(at%TWO32,'u32')..b.encode(math.floor(at/TWO32),'u32'))
+-- Restored: the lists are the file's again, nothing registered, every byte vanilla.
+check(disable('off1','LAS-16 Sickle').status=='complete','sickle off')
+check(disable('off2','LAS-58 Talon').status=='complete','talon off')
+local final=capture()
+out.back=#final.strays==0 and not OT.lists_active()and changed()==0
+for resource,c in pairs(before.by)do
+ local a=final.by[resource]
+ if not(a and a.own==c.own and a.diag==c.diag)then out.back=false end
+end
+return json.encode(out)''')
+        for key, value in result.items():
+            self.assertTrue(value, (key, result))
+
+    def test_a_loader_reload_and_a_foreign_list_are_detected(self):
+        result = snapshot_run(PRELUDE + r'''
+local out={}
+local sickle=weapon('LAS-16 Sickle')
+local root=sickle.roots[1]
+check(enable('sickle','LAS-16 Sickle').status=='complete','sickle')
+-- The entity loader reloads the file (0xFDB860): the row names the file's list again (as shipped); the BeamWeapon row
+-- and the record's type 0 are left: orphaned, restored as a whole.
+local slot_at=ptr(row_of(root)+8)
+local file=ESH+root.membership.listOffsetInBody
+writable(row_of(root)+8,b.encode(file%TWO32,'u32')..b.encode(math.floor(file/TWO32),'u32'))
+writable(row_of(root)+16,b.encode(root.membership.count,'u32'))
+local st=hd2.beam_conversion('LAS-16 Sickle'):status()
+out.orphaned=st.state=='orphaned'
+local h=enable('again','LAS-16 Sickle')
+out.enable_refused=h.status=='rejected'and tostring(h.error):find('disable the conversion first',1,true)~=nil
+h=disable('off','LAS-16 Sickle')
+out.restored=h.status=='complete'and vanilla_ok(sickle)and changed()==0
+-- The list block is reused by the next conversion (one per game process; only a new BeamWeapon copy is built).
+local blocks=counts.permanent_blocks
+check(enable('sickle2','LAS-16 Sickle').status=='complete','sickle again')
+out.reused=ptr(row_of(root)+8)==slot_at and counts.permanent_blocks==blocks+1
+check(disable('off2','LAS-16 Sickle').status=='complete','off2')
+-- Another mod grows the list itself (a bigger list elsewhere, count + 1, as True Lasgun Beam Overhaul does): the
+-- conversion never chains onto it.
+local grown=runtime.permanent_block(runtime.read(file,2*root.membership.count)..'')
+writable(row_of(root)+8,b.encode(grown%TWO32,'u32')..b.encode(math.floor(grown/TWO32),'u32'))
+writable(row_of(root)+16,b.encode(root.membership.count+1,'u32'))
+h=enable('foreign','LAS-16 Sickle')
+out.foreign=h.status=='rejected'and tostring(h.error):find('another membership list',1,true)~=nil
+writable(row_of(root)+8,b.encode(file%TWO32,'u32')..b.encode(math.floor(file/TWO32),'u32'))
+writable(row_of(root)+16,b.encode(root.membership.count,'u32'))
+-- A heat weapon whose fire rate another write changed: the add layout pins it.
+local PW=PTABLE+C.projectile.recordBase+root.projectile.record*C.projectile.recordStride
+writable(PW+8,b.encode(700,'f32'))
+h=enable('pinned','LAS-16 Sickle')
+out.rate_pinned=h.status=='rejected'and tostring(h.error):find('fire rate is not its vanilla value',1,true)~=nil
+writable(PW+8,b.unhex(root.add.rateBefore))
+-- Another projectile type in its record: foreign.
+writable(PW,b.encode(1,'u32'))
+h=enable('type','LAS-16 Sickle')
+out.type_foreign=h.status=='rejected'and tostring(h.error):find('CONFLICT',1,true)~=nil
+writable(PW,b.unhex(root.add.typeBefore))
+-- Without permanent blocks (and no block yet) the add layout falls back to the swap layout, solo only.
+E.reset_for_tests()
+E.set_hooks_for_tests({census=function()return {live=0,tridents=0,by={}}end,solo=function()return true,'test'end,
+ assets=function()return'resident','test'end})
+local pb=runtime.permanent_block;runtime.permanent_block=nil
+h=enable('fallback','SMG-32 Reprimand')
+out.fallback_swap=h.status=='complete'and list_of(weapon('SMG-32 Reprimand').roots[1])==
+ weapon('SMG-32 Reprimand').roots[1].membership.after
+check(disable('fallbackoff','SMG-32 Reprimand').status=='complete','fallback off')
+runtime.permanent_block=pb
+out.clean=changed()==0
+return json.encode(out)''')
+        for key, value in result.items():
+            self.assertTrue(value, (key, result))
+
     def test_a_join_after_apply_restores_idle_conversions_and_warns(self):
         result = snapshot_run(PRELUDE + r'''
 local W=require('hd2runtime/runtime/beam_conversion_watch')
 local sickle,lib=weapon('LAS-16 Sickle'),weapon('AR-23 Liberator')
 check(enable('sickle','LAS-16 Sickle').status=='complete','sickle')
 check(enable('lib','AR-23 Liberator').status=='complete','liberator')
--- The Liberator is in use (live), the Sickle is not; then another player joins.
+-- The swap-converted Liberator is in use (live), the add-converted Sickle is not; then another player joins and no
+-- lobby value can be read.
 LIVE[lib.roots[1].resource]=1
 LOBBY.solo=false
 W.tick_for_tests(6)
 local out={}
-out.idle_restored=vanilla_ok(sickle)
-out.live_kept=converted_ok(lib)
+out.live_swap_kept=converted_ok(lib)
 out.warned=W.status().warned~=nil
--- The player count is unchanged: no new warning, but the Liberator is restored once it is no longer live.
+out.add_kept_while_pending=converted_ok(sickle)
+-- After the pending window, the idle add conversion is restored too (nothing could be read: fail closed).
+for _=1,7 do W.tick_for_tests(5)end
+out.add_restored_after_window=vanilla_ok(sickle)
+-- The Liberator is restored once it is no longer live.
 LIVE[lib.roots[1].resource]=nil
 W.tick_for_tests(6)
 out.later_restored=vanilla_ok(lib)and ptr(SLOT)==TABLE
 out.watch_done=not W.status().active or#W.status().converted==0
--- Apply waits while not solo.
-local h=enable('again','LAS-16 Sickle')
-out.waits=waiting(h,'NOT_SOLO')
+-- Apply waits while not solo: the swap layout NOT_SOLO, the add layout NOT_AGREED.
+out.swap_waits=waiting(enable('again','AR-23 Liberator'),'NOT_SOLO')
+out.add_waits=waiting(enable('again2','LAS-16 Sickle'),'NOT_AGREED')
 LOBBY.solo=true
 out.clean=changed()==0
 return json.encode(out)''')

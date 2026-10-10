@@ -1,14 +1,17 @@
 local hd2=require('mods/skyeshade/hd2runtime')
--- BeamConversionProof 0.1.0 (HD2Runtime beam conversion, development only; docs/beam-conversion.md). Public API only:
+-- BeamConversionProof 0.2.0 (HD2Runtime beam conversion, development only; docs/beam-conversion.md). Public API only:
 -- hd2.weapon(name):beam_conversion() and hd2.ensure. One toggle per test on the MODS tab (page "Beam Conversion
--- Proof"), all off by default. SOLO ONLY. A conversion is written only while NO instance of that weapon exists on this
--- machine: equip OTHER weapons and keep the armory closed, turn the toggle on, wait for "APPLIED" in the log (or the
--- toggle's status line), then equip the converted weapon and deploy. To turn a test off, unequip the weapon first.
--- Restart the game after the session (a weapon spawned while converted can leave a stale private copy behind).
+-- Proof"), all off by default. Play SOLO for this proof (BeamConversionSyncProof covers two machines). A conversion is
+-- written only while NO instance of that weapon exists on this machine: equip OTHER weapons and keep the armory closed,
+-- turn the toggle on, wait for "APPLIED" in the log (or the toggle's status line), then equip the converted weapon and
+-- deploy. To turn a test off, unequip the weapon first.
+-- Two layouts (the catalogue picks): the ADD layout (Sickle, Sai, Talon, Reprimand, Liberator Penetrator: the weapon
+-- keeps ProjectileWeapon, its projectile type set to 0, and gains BeamWeapon; no restart needed) and the SWAP layout
+-- (Double-Edge Sickle, Liberator: ProjectileWeapon swapped out; restart the game after using it).
 local mod=hd2.mod()
-local BUILD='0.1.0 BEAM CONVERSION'
-mod:log('BeamConversionProof '..BUILD..' BUILD: every test is off; SOLO ONLY; unequip a weapon before its toggle, '
-    ..'restart the game after the session.')
+local BUILD='0.2.0 BEAM CONVERSION'
+mod:log('BeamConversionProof '..BUILD..' BUILD: every test is off; play solo; unequip a weapon before its toggle; '
+    ..'restart the game after a SWAP-layout test (Double-Edge Sickle, Liberator).')
 local page=hd2.options({id='beam_conversion_proof',title='Beam Conversion Proof'})
 local F=hd2.fields
 local function report(label)
@@ -36,6 +39,9 @@ local tests={
     {id='reprimand_range',label='Reprimand: Trident pulses, range 100 m',
         target=hd2.weapon('SMG-32 Reprimand'):beam_conversion(),changes={ON,
         {field=F.beam.length,expect=200,value=100}}},
+    -- An add-layout chamber magazine (0.2.0): no bullets, one round per pulse, a normal reload.
+    {id='penetrator',label='Liberator Penetrator: Trident pulses (add layout)',
+        target=hd2.weapon('AR-23P Liberator Penetrator'):beam_conversion(),changes={ON}},
     -- The real LAS-13 Trident's own pulse (not a conversion): the pulse caps the rate.
     {id='trident_fast',label='Trident: 600 rpm with a 0.05 s pulse',
         target=hd2.weapon('LAS-13 Trident'),transaction_ack={allow_unverified_effect=true},changes={
@@ -63,7 +69,8 @@ hd2.on_frame(function(dt)
         if not t.transaction_ack and t.toggle:get()==true then
             local st=t.target:status()
             if st.ok and st.state~='vanilla'then
-                parts[#parts+1]=t.target.weapon..' '..tostring(st.state)..(st.settings and(' '..st.settings.fire_rate
+                parts[#parts+1]=t.target.weapon..' '..tostring(st.state)..' ['..tostring(st.layout)..' layout]'
+                    ..(st.settings and(' '..st.settings.fire_rate
                     ..' rpm, '..string.format('%.3g',st.settings.pulse_seconds)..' s')or'')
                     ..(st.pair and(' own rows '..st.pair.beamType..'/'..st.pair.damageInfo)or'')
                     ..(st.live and(' live '..st.live)or'')

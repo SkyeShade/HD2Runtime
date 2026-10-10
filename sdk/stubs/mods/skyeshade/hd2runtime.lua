@@ -444,19 +444,21 @@ local HD2BeamReference = {}
 function HD2BeamReference:describe() end
 
 ---A beam conversion (docs/beam-conversion.md, sdk/BeamConversionCapabilities.json): a projectile weapon made to
----fire LAS-13 Trident pulses in this game only (solo). The target of hd2.fields.beam_conversion.enabled and of
----the converted weapon (its own record): hd2.fields.beam.fire_rate / pulse_beams / pulse_seconds; every request needs
+---fire LAS-13 Trident pulses in this game only. Add layout (the default where supported): ProjectileWeapon kept
+---(type 0), BeamWeapon added; with other players only when every member holds the identical conversion. Swap
+---layout (the rest): solo only. The target of hd2.fields.beam_conversion.enabled and of the converted weapon
+---(its own record): hd2.fields.beam.fire_rate / pulse_beams / pulse_seconds; every request needs
 ---allow_component_swap and allow_unverified_effect. Written only with zero live instances of the weapon.
 ---@class HD2BeamConversion
 ---@field resource "beam_conversion"
 ---@field weapon string
 local HD2BeamConversion = {}
----{weapon, kind, supported, verdict, reasonCode, reason, caveats, liveProven, roots, record, fields,
----acknowledgements, lifecycle, multiplayer, pulse, donor}
+---{weapon, kind, supported, layout, verdict, reasonCode, reason, caveats, add, swap, liveProven, roots, record,
+---fields, acknowledgements, lifecycle, multiplayer, pulse, donor}
 ---@return table
 function HD2BeamConversion:describe() end
----The live state: {ok, state = "vanilla"|"converted"|"orphaned"|"foreign", settings, live, path, lobby,
----restart_required}, or {ok = false, reason}.
+---The live state: {ok, state = "vanilla"|"converted"|"orphaned"|"foreign", layout = "add"|"swap", multiplayer,
+---settings, live, path, lobby, restart_required}, or {ok = false, reason}.
 ---@return table
 function HD2BeamConversion:status() end
 

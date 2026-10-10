@@ -1,43 +1,41 @@
 # BeamConversionSyncProof
 
 Development proof for the HD2Runtime beam conversion sync (`docs/beam-conversion.md`, "Multiplayer";
-`research/docs/beam-conversion-mp-sync-F5FEE03DCFDB.md`). It uses only the public API:
-`hd2.weapon(name):beam_conversion()` and `hd2.ensure`. The Runtime itself does the sync: it posts this machine's
-conversions under the lobby key `hd2bc`, reads every other member's, and logs `BEAM CONVERSION SYNC:` lines.
+`research/docs/beam-conversion-add-layout-F5FEE03DCFDB.md`, `research/docs/beam-conversion-mp-sync-F5FEE03DCFDB.md`).
+It uses only the public API: `hd2.weapon(name):beam_conversion()` and `hd2.ensure`. The Runtime itself does the sync:
+it posts this machine's conversions under the lobby key `hd2bc` (`hd2bc/2`), reads every other member's, and logs
+`BEAM CONVERSION SYNC:` lines.
 
-## What this proof can and cannot show
+## What changed in 0.2.0
 
-**Multiplayer conversions stay refused, even with identical options on both machines.** The research proved that the
-game applies another player's weapon through its network type alone. A weapon built from a converted list therefore
-crashes the game when it belongs to someone else, whatever that player converted. If both of you convert the Liberator
-and both carry it, **both games crash**.
+The **add layout** keeps ProjectileWeapon and adds BeamWeapon, so every machine has the instance the game's network
+apply looks up. The swap layout crashed the game when another player's weapon of a converted type spawned; the add
+layout has no such path. The research's verdict:
 
-This test therefore checks that:
+- **Identical conversions on every machine: allowed.** Both players may carry the converted weapon. Every machine draws
+  every player's beam from the replicated trigger. Health damage is applied once, by the shooter's machine.
+- **Different conversions, or a player without the Runtime: refused.** No crash, but one machine draws beams where the
+  other draws bullets. Zone health and shields follow each machine's own simulation, so they would drift.
+- **The swap layout stays solo only.** That is the Liberator here.
 
-- the sync channel works between two machines;
-- every member state and decision is correct;
-- the restores happen before anything can crash;
-- the warnings reach the right player.
-
-It never puts a converted weapon type in two players' hands.
+Not live-tested yet. This proof is that test.
 
 ## Options
 
 MODS tab, page **Beam Conversion Sync Proof**. Everything is off by default.
 
-| Option | Effect |
-|---|---|
-| Sickle: Trident pulses | converts the LAS-16 Sickle |
-| Liberator: Trident pulses | converts the AR-23 Liberator at the rate below |
-| Liberator rate | 600 rpm (the same on both machines) or 450 rpm (deliberately different: another digest). **Choose it before turning the Liberator on.** |
+| Option | Layout | Effect |
+|---|---|---|
+| Sickle: Trident pulses | add | converts the LAS-16 Sickle at the rate below |
+| Sickle rate | | 600 rpm (the same on both machines) or 450 rpm (deliberately different: another digest). **Choose it before turning the Sickle on.** |
+| Talon: Trident pulses | add | converts the LAS-58 Talon |
+| Liberator: Trident pulses | swap | converts the AR-23 Liberator (solo only) |
 
-A conversion applies **only solo**, and only while no instance of that weapon exists on your machine:
+A conversion is written only while no instance of that weapon exists on your machine, other players' included:
 
 1. Unequip it and keep the armory closed.
 2. Turn the option on and wait for `APPLIED`.
 3. Then equip it.
-
-Restart the game after the session.
 
 ## Two-machine test plan (players A = host, B = client)
 
@@ -45,63 +43,91 @@ Both install the **same** HD2Runtime build and this proof. Keep `HD2Runtime.log`
 
 **Step 1: solo, identical options, the same digest.**
 
-1. Each player alone: turn on Sickle and Liberator (600 rpm) with both unequipped, and wait for two `APPLIED`.
-2. Optionally equip each weapon and fire it at the ship's range. Each fires Trident pulses; the Liberator is faster.
-3. **Unequip both again.**
-4. Compare the two logs. The lines `BEAM CONVERSION SYNC: posting seq 2: AR-23 Liberator, LAS-16 Sickle (hd2bc/1;...)`
-   must carry the **same** digest (the 6th `;` field) and the same entries on both machines.
-5. Then B, still solo: turn the Liberator off (unequipped; wait for the restore), set the Liberator rate to 450, and
-   turn it on again. B's new posting line must show a **different** Liberator record digest and a different set
-   digest. Set it back to 600 the same way.
+1. Each player alone, with the weapons unequipped: Sickle rate 600, Sickle on, Talon on. Wait for two `APPLIED`, each
+   logged as `CONVERTED [add layout, ...]`.
+2. Compare the two logs. The lines `BEAM CONVERSION SYNC: posting seq 2: LAS-16 Sickle, LAS-58 Talon (hd2bc/2;...)`
+   must carry the **same** digest (the 6th `;` field) and the same entries (`....a.o.....`) on both machines.
 
-**Step 2: B joins A's lobby, nothing converted in hand.**
+**Step 2: B joins A's lobby, identical conversions, nothing in hand.**
 
-1. A equips weapons **other than** the Sickle and the Liberator.
-2. B joins A's lobby with both converted weapons unequipped.
-3. Expected on both machines, within about a second of the lobby showing two members:
-   - `BEAM CONVERSION: ANOTHER PLAYER IS PRESENT (...): restored AR-23 Liberator, LAS-16 Sickle`;
-   - then `BEAM CONVERSION SYNC: posting seq N: nothing converted`;
-   - `member <peer>: pending` (the other machine has not posted in this lobby yet), then, 10 to 30 s after the join,
-     `member <peer>: match (the same conversions (...))`, with `(host)` on B's side;
-   - `decision REFUSED (PENDING)`, then `decision REFUSED (REMOTE_APPLY_UNSAFE)`.
-4. The proof's ensures log `NOT_SOLO ... BEAM CONVERSION SYNC: REFUSED (...)` and keep waiting. No crash.
-5. Both may now equip any weapon. Everything is vanilla again.
+1. Both keep the Sickle and the Talon unequipped. B joins A's lobby.
+2. Expected on both machines:
+   - `member <peer>: pending`, then 10 to 30 s after the join `member <peer>: match (the same conversions (...))`;
+   - then `decision ALLOWED (ALL_MATCH)`;
+   - **no** `restored` line: add conversions are kept while the other player is pending or matching;
+   - with nothing in hand, the Runtime may log `another player is present (...): add-layout conversions kept: ...`.
+3. No crash.
 
-**Step 3: the mismatch path, one converted weapon in hand on each side.**
+**Step 3: both carry the converted Sickle (the case the swap layout could never allow).**
 
-1. B leaves. Both players are solo; the ensures convert again.
-2. Each player, solo, with weapons unequipped:
-   - A turns the **Sickle off** (the Liberator stays on);
-   - B turns the **Liberator off** (the Sickle stays on).
-3. A equips the converted Liberator. B equips the converted Sickle.
-4. B joins A's lobby. **Neither player may carry, call in or pick up the other's weapon type.**
-5. Expected on both machines:
-   - `member <peer>: mismatch (...)` and `decision REFUSED (MISMATCH)`;
-   - the loud `WARNING: ANOTHER PLAYER IS PRESENT` (your converted weapon is in use and stays converted);
-   - `BEAM CONVERSION SYNC: WARNING: member <peer> has <their weapon> converted`, plus the notice, naming the **other**
-     player's weapon: AR-23 Liberator on B, LAS-16 Sickle on A.
-6. No crash. Each machine builds the other's weapon from its own vanilla list.
+1. Both equip the converted Sickle and deploy together on an easy mission.
+2. Each player fires at enemies. On **both** screens:
+   - each player's Sickle fires Trident pulses, never bullets;
+   - the other player's pulses are drawn too.
+3. Damage: shoot the same enemies. They should die as fast as with one shooter's pulses per hit. No double damage,
+   and no enemy that dies on one screen but not the other.
+4. Lifecycle:
+   - one player drops their Sickle and the other picks it up;
+   - die and reinforce;
+   - call a resupply.
 
-**Step 4: a player without the Runtime joins.**
+   No crash at any of these steps.
+5. Heat: each Sickle overheats and changes heat sinks as solo.
+6. Extract.
 
-1. A keeps the converted Liberator in hand.
-2. C (no HD2Runtime) joins A's lobby **without a Liberator**.
-3. Expected on A:
-   - the warnings;
-   - `member <C>: pending`, then after 30 s `no runtime` and `decision REFUSED (NO_RUNTIME)`.
-4. No crash. A C carrying a Liberator **would** crash A's game. That case is documented as unsafe; do not test it.
+**Step 4: a converging Runtime (the Talon converts in the lobby).**
+
+1. Back on the ship, B leaves. B, solo, with the Talon unequipped, turns the **Talon off** and waits for the restore.
+   A keeps the Talon converted, also unequipped.
+2. B joins A's lobby with the Talon still off. Expected on A: `another player is present (...): add-layout
+   conversions kept: LAS-58 Talon (CONVERGING: ...)`. B is a Runtime whose set is still changing, so A waits 30 s.
+3. Within those 30 s, B turns the Talon on, still unequipped. Expected:
+   - B: `APPLIED` without leaving the lobby. A already holds the identical Talon, so the lobby agrees.
+   - A: `member B: match`. A **never** logs `restored LAS-58 Talon`.
+4. If B is too late, A restores the idle Talon after the grace. Then both ensures wait `NOT_AGREED`: **a weapon converts
+   in a lobby only when every other player already holds it.** Leave, convert solo, join again.
+
+**Step 5: the mismatch path.**
+
+1. B leaves. B, solo, with the Sickle unequipped: Sickle off, wait for the restore, Sickle rate 450, Sickle on. B's
+   posting line must show a **different** Sickle record digest.
+2. Both keep the Sickle unequipped. B joins.
+3. Expected on both machines:
+   - `member <peer>: mismatch`;
+   - `has LAS-16 Sickle converted (add layout) differently from this machine`;
+   - after the 30 s grace, `restored LAS-16 Sickle (MISMATCH: ...)`.
+   - The proof's Sickle ensure then waits `NOT_AGREED (MISMATCH ...)`. No crash.
+
+**Step 6: the swap layout stays solo.**
+
+1. Both players solo. A turns the Liberator on, with it unequipped. `APPLIED`, logged `CONVERTED [swap layout, ...]`.
+2. B joins A's lobby. Expected on A:
+   - `restored AR-23 Liberator (swap layout: solo only)` within about a second;
+   - the Liberator ensure waits `NOT_SOLO`.
+3. **Neither player may carry the Liberator until A's restore line is logged.**
+
+**Step 7 (optional): a player without the Runtime.**
+
+1. A keeps the Sickle converted and in hand. C (no HD2Runtime) joins A's lobby.
+2. Expected on A:
+   - `member <C>: pending`, then after 30 s `no runtime` and `decision REFUSED (NO_RUNTIME)`;
+   - the warning that the Sickle cannot be restored while it is in use.
+3. If C carries a Sickle, there is still no crash on either side. A draws pulses for C's Sickle and C draws bullets for
+   A's. Report what each player sees.
 
 ## What to report
 
 For each step:
 
 - the `BEAM CONVERSION`, `BEAM CONVERSION SYNC`, `PEER CHANNEL` and `[BeamConversionSyncProof]` lines of both logs;
+- what each player saw of the other's weapon;
 - any notice shown;
-- any crash, with the newest dump.
+- any crash, with the newest dump from both machines.
 
 What would show the model wrong:
 
-- a different digest for identical options (step 1);
-- a `match` with different options;
-- a restore that does not happen within a few seconds of the join;
-- any crash in steps 2 to 4.
+- any crash in steps 2 to 7;
+- a bullet from a converted Sickle on either screen in step 3;
+- double damage, or enemies dying on one screen only (step 3);
+- a different digest for identical options (step 1), or a `match` with different options (step 5);
+- an add conversion restored while the other player matches (step 2).

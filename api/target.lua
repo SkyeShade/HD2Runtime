@@ -693,7 +693,8 @@ function M.new(describe)
         return result
     end
     -- Beam conversions (docs/beam-conversion.md; runtime/beam_conversion.lua, domains/beam_conversion_writes.lua): a
-    -- projectile weapon made to fire LAS-13 Trident pulses, solo only. The target of its guarded writes
+    -- projectile weapon made to fire LAS-13 Trident pulses (the add layout: with other players only when every member
+    -- holds the identical conversion; the swap layout: solo only). The target of its guarded writes
     -- (beam_conversion.enabled and the converted weapon's own beam.fire_rate / pulse_beams / pulse_seconds); describe()
     -- is the static catalogue entry (verdict, caveats, fields, acknowledgements, lifecycle), status() the live state.
     local function beam_conversion_target(name)
@@ -714,8 +715,9 @@ function M.new(describe)
                 research='research/docs/beam-rows-borrowed-F5FEE03DCFDB.md'}
             return out
         end
-        -- The live state: {state = 'vanilla' | 'converted' | 'orphaned' | 'foreign', settings, live, roots} plus the
-        -- path, the table, the lobby and restart_required; or {ok = false, reason}.
+        -- The live state: {state = 'vanilla' | 'converted' | 'orphaned' | 'foreign', layout ('add' | 'swap'),
+        -- multiplayer, settings, live, roots} plus the path, the table, the lobby and restart_required; or
+        -- {ok = false, reason}.
         function methods.status()
             local st=require('hd2runtime/runtime/beam_conversion').status()
             if not st.ok then return st end

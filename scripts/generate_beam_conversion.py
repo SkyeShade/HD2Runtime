@@ -11,7 +11,11 @@ Sources (read-only research, never trusted at run time without re-proof):
     entity manager layout (the descriptor census, the entity map slot);
   * domains/beam_table.lua (scripts/generate_beam_table.py): the owned-table relocation pins (slot 270 readers, the
     lookup's capacity and record base, the default record sites);
-  * research/beam-pulse-rate-F5FEE03DCFDB.json: the pulse / rate model the settings ranges follow.
+  * research/beam-pulse-rate-F5FEE03DCFDB.json: the pulse / rate model the settings ranges follow;
+  * research/beam-conversion-add-layout-F5FEE03DCFDB.json (research/docs/beam-conversion-add-layout-F5FEE03DCFDB.md):
+    the ADD layout (ProjectileWeapon kept, BeamWeapon added through a Runtime-owned list, ProjectileWeapon +0 = 0), its
+    per-weapon verdict, each root's grown list and ProjectileWeapon record, and its pins. A weapon the add layout
+    supports uses it by default; the others keep the swap layout (solo only).
 Every live-proven write set (the three experiment weapons) must equal its coverage entry byte for byte.
 """
 from __future__ import annotations
@@ -29,6 +33,7 @@ import generate_beam_swap  # noqa: E402
 import generate_beam_table  # noqa: E402
 
 COVERAGE = ROOT / 'research/beam-conversion-coverage-F5FEE03DCFDB.json'
+ADD = ROOT / 'research/beam-conversion-add-layout-F5FEE03DCFDB.json'
 ROWS = ROOT / 'research/beam-rows-borrowed-F5FEE03DCFDB.json'
 DAMAGE = ROOT / 'research/beam-damage-per-weapon-F5FEE03DCFDB.json'
 OUTPUT = ROOT / 'domains/beam_conversion.lua'
@@ -219,7 +224,7 @@ def _root(w: dict, s: dict) -> dict:
             'magazine': magazine}
 
 
-def _pins(coverage: dict, swap: dict, table: dict) -> list[dict]:
+def _pins(coverage: dict, swap: dict, table: dict, add_layout: dict | None = None) -> list[dict]:
     pins: dict[int, dict] = {}
 
     def add(rva: int, hexbytes: str, label: str) -> None:
@@ -236,7 +241,58 @@ def _pins(coverage: dict, swap: dict, table: dict) -> list[dict]:
     for group, rows in (groups.items() if isinstance(groups, dict) else [('coverage', groups)]):
         for pin in rows:
             add(pin['rva'], pin['bytes'], 'coverage: ' + group.split(':')[0] + ': ' + pin['role'])
+    for group, rows in (add_layout or {}).get('pins', {}).items():
+        for pin in rows:
+            add(pin['rva'], pin['bytes'], 'add layout: ' + group.split(':')[0] + ': ' + pin['role'])
     return [pins[rva] for rva in sorted(pins)]
+
+
+LIST_MAGIC = 'HD2RT-BEAM-LIST1'
+LIST_FRAMING = 16
+
+
+def load_add() -> dict:
+    a = json.loads(ADD.read_text(encoding='utf-8'))
+    if a['writes'] or a['protectionChanges'] or a['build'] != 'F5FEE03DCFDB':
+        raise ValueError('the add layout research must be read-only research of build F5FEE03DCFDB')
+    if len(a['pinnedBytesMismatchPerSnapshot']) < 9 or any(a['pinnedBytesMismatchPerSnapshot'].values()):
+        raise ValueError('the add layout pins must hold in every retained snapshot')
+    if a['vanillaEntitiesWithBothComponents'] or not a['vanillaListsSortedUnique'] or not a['zeroTypeRow']['allZero']:
+        raise ValueError('the add layout premises (no vanilla entity with both, sorted lists, the zero row) changed')
+    return a
+
+
+def _add_entry(add: dict) -> dict:
+    """A weapon's add-layout verdict."""
+    a = add['add']
+    out = {'supported': a['verdict'] in ('supported', 'supported_with_caveats'), 'verdict': a['verdict'],
+           'reasonCode': a['reasonCode'], 'reason': a['reason'],
+           'caveats': [{'code': c['code'], 'text': c['text']} for c in a.get('caveats', [])]}
+    if a.get('allReasons'):
+        out['allReasons'] = [{'code': c['code'], 'text': c['text']} for c in a['allReasons']]
+    if out['supported']:
+        out['heat'] = bool(a.get('heat'))
+    return out
+
+
+def _add_root(root: dict, a: dict) -> dict:
+    """One root's add-layout write data: the grown list and its ProjectileWeapon record's pinned bytes."""
+    lst, pw = a['list'], a['projectile']
+    if int(a['resource'], 16) != int(root['resource'], 16):
+        raise ValueError(root['resource'] + ': the add layout root differs')
+    if lst['row'] != root['membership']['row'] or lst['beforeHex'] != root['membership']['before'] \
+            or lst['count'] != root['membership']['count']:
+        raise ValueError(root['resource'] + ': the add layout list differs from the coverage list')
+    after = bytes.fromhex(lst['afterHex'])
+    entries = [int.from_bytes(after[i:i + 2], 'little') for i in range(0, len(after), 2)]
+    if entries != sorted(set(entries)) or 270 not in entries or 321 not in entries or len(entries) != lst['count'] + 1:
+        raise ValueError(root['resource'] + ': the grown list is not the sorted list plus BeamWeapon')
+    if pw['row'] != root['projectile']['row'] or pw['record'] != root['projectile']['record']:
+        raise ValueError(root['resource'] + ': the add layout ProjectileWeapon row differs')
+    if pw['networked148'] or pw['type'] == 0:
+        raise ValueError(root['resource'] + ': an add root must fire its own type, without networked shots')
+    return {'count': lst['countAfter'], 'listHex': lst['afterHex'], 'typeBefore': pw['typeBefore'],
+            'rateBefore': pw['rateBefore'], 'rate': pw['rate'], 'recordOffset': pw['recordOffset']}
 
 
 def build() -> dict:
@@ -265,25 +321,53 @@ def build() -> dict:
     if trident_row[:8] != bytes.fromhex(TRIDENT[2:])[::-1] or int.from_bytes(trident_row[8:12], 'little') != 18:
         raise ValueError('vanilla row 20 is not the Trident\'s')
     swap_by_name = {w['name']: w for w in swap['weapons']}
+    add_layout = load_add()
+    add_by_name = {x['name']: x for x in add_layout['weapons']}
     weapons, seen = [], set()
     record = 24
+    list_at = LIST_FRAMING
     for w in sorted(coverage['weapons'] + coverage['outOfScope'], key=lambda x: (x['kind'], x['name'])):
         name = w['name']
         if name in seen:
             raise ValueError('duplicate catalogue name ' + name)
         seen.add(name)
         supported = w['verdict'] in ('supported', 'supported_with_caveats')
-        entry = {'id': slug(name), 'name': name, 'kind': w['kind'], 'resource': '0x%016X' % int(w['resource'], 16) if w.get('resource') else None,
-                 'supported': supported, 'verdict': w['verdict'], 'reasonCode': w['reasonCode'], 'reason': w['reason'],
-                 'caveats': [{'code': c['code'], 'text': c['text']} for c in w.get('caveats', [])],
-                 'confidence': w.get('confidence'), 'liveProven': name in LIVE_PROVEN}
+        if name not in add_by_name:
+            raise ValueError(name + ': no add layout verdict')
+        swap_layout = {'supported': supported, 'verdict': w['verdict'], 'reasonCode': w['reasonCode'],
+                       'reason': w['reason'],
+                       'caveats': [{'code': c['code'], 'text': c['text']} for c in w.get('caveats', [])]}
+        add_entry = _add_entry(add_by_name[name])
+        if add_entry['supported'] and not supported:
+            raise ValueError(name + ': the add layout supports a weapon the swap layout refuses')
+        layout = 'add' if add_entry['supported'] else ('swap' if supported else None)
+        shown = add_entry if layout == 'add' else swap_layout
+        entry = {'id': slug(name), 'name': name, 'kind': w['kind'],
+                 'resource': '0x%016X' % int(w['resource'], 16) if w.get('resource') else None,
+                 'supported': supported, 'layout': layout, 'verdict': shown['verdict'],
+                 'reasonCode': shown['reasonCode'], 'reason': shown['reason'], 'caveats': shown['caveats'],
+                 'swap': swap_layout, 'add': add_entry,
+                 'confidence': w.get('confidence'), 'liveProven': name in LIVE_PROVEN,
+                 'liveProvenLayout': 'swap' if name in LIVE_PROVEN else None}
         if supported:
             roots = [_root(w, s) for s in _root_set(w)]
+            if layout == 'add':
+                add_roots = {int(a['resource'], 16): a for a in add_by_name[name]['add']['roots']}
+                if sorted(add_roots) != sorted(int(r['resource'], 16) for r in roots):
+                    raise ValueError(name + ': the add layout roots differ from the swap roots')
+                for r in roots:
+                    r['add'] = _add_root(r, add_roots[int(r['resource'], 16)])
+                    r['add']['slot'] = list_at
+                    list_at += 2 * r['add']['count']
+                    list_at += (-list_at) % 4
             entry['roots'] = roots
             entry['record'] = record
             record += 1
-            entry['restartAfterUse'] = bool(w.get('writeSet', {}).get('restartAfterUse')
-                                            or w['customization']['defaultDeltasPatchingProjectileWeapon'])
+            # The swap layout leaves a ProjectileWeapon private copy behind; the add layout keeps the component, whose
+            # destroy frees it (0x619F90): no restart needed.
+            entry['swapRestartAfterUse'] = bool(w.get('writeSet', {}).get('restartAfterUse')
+                                                or w['customization']['defaultDeltasPatchingProjectileWeapon'])
+            entry['restartAfterUse'] = entry['swapRestartAfterUse'] if layout == 'swap' else False
             if w.get('package'):
                 entry['package'] = w['package'].get('name')
             if w.get('heat'):
@@ -316,7 +400,11 @@ def build() -> dict:
                  'recordStride': bw['recordStride'], 'defaultRecord': bw['record'],
                  'vanillaRowsHex': rows_hex, 'vanillaRecord23Hex': beam_table['record23Hex']},
         'membership': swap['membership'],
-        'projectile': swap['projectile'],
+        'projectile': dict(swap['projectile'], capacity=add_layout['projectileTable']['capacity'], rowStride=16,
+                           recordBase=add_layout['projectileTable']['recordsOffset'],
+                           recordStride=add_layout['projectileTable']['recordSize'], typeOffset=0, rateOffset=8),
+        'lists': {'magic': LIST_MAGIC, 'framing': LIST_FRAMING, 'bytes': list_at,
+                  'research': ADD.name, 'zeroTypeRow': add_layout['zeroTypeRow']['rva']},
         'magazine': swap['magazine'],
         'copy': {'framing': 32, 'magic': 'HD2RT-BEAM-CONV1', 'trailerSize': 32, 'maxCopies': MAX_COPIES,
                  'records': records, 'minFreeRows': MIN_FREE_ROWS, 'emptyRows': len(empty)},
@@ -328,7 +416,7 @@ def build() -> dict:
         'multiplayer': multiplayer(),
         'pulse': pulse(),
         'weapons': weapons,
-        'pins': _pins(coverage, swap, table),
+        'pins': _pins(coverage, swap, table, add_layout),
     }
     if domain['beam']['vanillaRecord23Hex'] != swap['beam']['recordBefore']:
         raise ValueError('record 23 differs from the live-proven record 23')
@@ -346,9 +434,11 @@ def _donor_value(donor_hex: str, offset: int, storage: str):
 def fields(donor: dict) -> list[dict]:
     out = [{'id': 'beam_conversion.enabled', 'displayName': 'Fires LAS-13 Trident pulses (beam conversion)',
             'type': 'boolean', 'default': False,
-            'note': 'false = the weapon as shipped. true: from its next spawn the weapon fires Trident pulses (its '
-                    'ProjectileWeapon component out, BeamWeapon in); written only with zero live instances of it, solo '
-                    'only; restart the game after using it.'}]
+            'note': 'false = the weapon as shipped. true: from its next spawn the weapon fires Trident pulses. Add '
+                    'layout (the default where supported): ProjectileWeapon kept with its type set to 0, BeamWeapon '
+                    'added through a Runtime-owned list; with other players only when every member posts the '
+                    'identical conversions. Swap layout (the rest): ProjectileWeapon out, BeamWeapon in; solo only, '
+                    'restart the game after using it. Written only with zero live instances of the weapon.'}]
     for s in SETTINGS:
         value = _donor_value(donor['bytes'], s['offset'], s['storage'])
         if s['storage'] == 'f32':
@@ -372,9 +462,14 @@ def lifecycle() -> dict:
                              'ship preview, the armory, any loadout, pickups, other players\' weapons of that type): '
                              'otherwise the request waits (TARGET_UNAVAILABLE: BUSY; an ensure with recover keeps '
                              'trying)',
-            'settings': 'rate / beams / pulse of a converted weapon are written at once (read at every shot)',
-            'restartAfterUse': 'restart the game after using a conversion: a weapon spawned while converted may leave a '
-                               'ProjectileWeapon private copy nothing removes',
+            'settings': 'rate / beams / pulse of a converted weapon are written at once (read at every shot); on a '
+                        'heat weapon of the add layout its ProjectileWeapon rate follows (from its next spawn)',
+            'restartAfterUse': 'swap layout only: restart the game after using it (a weapon spawned while converted may '
+                               'leave a ProjectileWeapon private copy nothing removes); the add layout keeps '
+                               'ProjectileWeapon, whose destroy frees the copy',
+            'lists': 'add layout: each converted root\'s entity map row names a Runtime-owned list (its own list plus '
+                     'BeamWeapon, sorted; one never-freed read-only block per game process); only the row\'s list '
+                     'pointer and count are written (pointer first, count second; the restore in reverse)',
             'assets': 'the LAS-13 Trident\'s package (laser_shotgun) is loaded and held before any write',
             'table': 'a Runtime-owned copy of the BeamWeapon table (never freed; at most %d per game process); a '
                      'table another mod moved is refused (True Lasgun Beam Overhaul)' % MAX_COPIES,
@@ -383,17 +478,25 @@ def lifecycle() -> dict:
 
 
 def multiplayer() -> dict:
-    return {'apply': 'solo only: refused (waits) while another player is in the game or the lobby',
+    return {'apply': 'add layout: with other players only when every other member is a Runtime of the same version, '
+                     'build and catalogue whose posted set already holds this weapon\'s identical conversion '
+                     '(NOT_AGREED otherwise; solo always). Swap layout: solo only (NOT_SOLO)',
             'restore': 'allowed with other players present (it makes this machine agree with them)',
-            'join': 'docs/beam-conversion.md "Multiplayer": when another lobby member appears, every converted weapon '
-                    'with no live instance is restored at once (a remote weapon of a converted type crashes this '
-                    'game); one in use stays, with a loud warning and the safety notice',
-            'sync': 'the lobby key hd2bc (hd2bc/1): each Runtime posts its conversion set and reads every other member\'s '
-                    '(match, mismatch, incompatible, malformed, pending, no runtime); the decision with other members '
-                    'is always REFUSED: REMOTE_APPLY_UNSAFE even when every member posts the identical set (the '
-                    'network apply is chosen by the type alone, so identical conversions crash both machines)',
+            'join': 'docs/beam-conversion.md "Multiplayer": swap conversions with no live instance are restored at '
+                    'once when another member appears (a remote weapon of a swap-converted type crashes this game); add '
+                    'conversions stay while every member posts the identical conversion of that weapon or is still '
+                    'pending (30 s), and are restored (no live instance) once a member is settled without it (after a '
+                    '30 s grace for a Runtime member whose set changed); one in use stays, with a loud warning',
+            'sync': 'the lobby key hd2bc (hd2bc/2): each Runtime posts its conversion set (layout, path, digests of its '
+                    'record and own rows, pair-independent) and reads every other member\'s (match, mismatch, '
+                    'incompatible, malformed, pending, no runtime)',
+            'addLayout': 'no crash in any combination (every machine keeps a ProjectileWeapon instance: the network '
+                         'apply never takes the -1 store); health damage of a remote player\'s simulated shot is '
+                         'discarded (0x924D22), but zone health and shields follow each machine\'s own simulation, so '
+                         'every machine must convert the weapon identically: no player without the Runtime',
             'research': 'research/docs/beam-conversion-mp-F5FEE03DCFDB.md',
-            'syncResearch': 'research/docs/beam-conversion-mp-sync-F5FEE03DCFDB.md'}
+            'syncResearch': 'research/docs/beam-conversion-mp-sync-F5FEE03DCFDB.md',
+            'addResearch': 'research/docs/beam-conversion-add-layout-F5FEE03DCFDB.md'}
 
 
 def pulse() -> dict:
@@ -419,17 +522,24 @@ def per_weapon_rows(domain: dict) -> dict:
 
 
 def capabilities(domain: dict) -> dict:
-    out = {'schemaVersion': 1, 'contract': 'hd2.weapon(name):beam_conversion() / hd2.support_weapon(name):'
+    out = {'schemaVersion': 2, 'contract': 'hd2.weapon(name):beam_conversion() / hd2.support_weapon(name):'
            'beam_conversion(); hd2.ensure transaction; allow_component_swap and allow_unverified_effect',
            'docs': 'docs/beam-conversion.md', 'research': 'research/docs/beam-conversion-coverage-F5FEE03DCFDB.md',
+           'addResearch': 'research/docs/beam-conversion-add-layout-F5FEE03DCFDB.md',
            'donor': domain['donor'], 'fields': domain['fields'], 'acknowledgements': domain['acknowledgements'],
            'lifecycle': domain['lifecycle'], 'multiplayer': domain['multiplayer'], 'pulse': domain['pulse'],
            'perWeaponRows': per_weapon_rows(domain), 'summary': {}, 'weapons': []}
     counts: dict[str, int] = {}
+    layouts: dict[str, int] = {}
     for w in domain['weapons']:
         counts[w['verdict']] = counts.get(w['verdict'], 0) + 1
-        item = {k: w[k] for k in ('name', 'kind', 'supported', 'verdict', 'reasonCode', 'reason', 'caveats',
-                                  'liveProven')}
+        layouts[str(w['layout'])] = layouts.get(str(w['layout']), 0) + 1
+        item = {k: w[k] for k in ('name', 'kind', 'supported', 'layout', 'verdict', 'reasonCode', 'reason', 'caveats',
+                                  'liveProven', 'liveProvenLayout')}
+        item['multiplayer'] = 'identical conversions only' if w['layout'] == 'add' else (
+            'solo only' if w['layout'] == 'swap' else None)
+        item['add'] = {k: v for k, v in w['add'].items() if k != 'caveats'}
+        item['swap'] = {k: v for k, v in w['swap'].items() if k != 'caveats'}
         item['target'] = ('hd2.support_weapon' if w['kind'] == 'support' else 'hd2.weapon') + \
             '(%s):beam_conversion()' % json.dumps(w['name'])
         if w['supported']:
@@ -439,7 +549,7 @@ def capabilities(domain: dict) -> dict:
             if w.get('heat'):
                 item['heatPerPulse'] = w['heat']['heatPerPulse']
         out['weapons'].append(item)
-    out['summary'] = {'weapons': len(domain['weapons']), 'verdicts': counts,
+    out['summary'] = {'weapons': len(domain['weapons']), 'verdicts': counts, 'layouts': layouts,
                       'emptyBeamRows': domain['copy']['emptyRows'],
                       'maxSimultaneous': domain['copy']['emptyRows'] - domain['copy']['minFreeRows']}
     return out

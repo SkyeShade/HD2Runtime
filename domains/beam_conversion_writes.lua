@@ -81,8 +81,10 @@ local function validate(request,multiple)
     valid_id(request.id)
     local w=target_of(request.target)
     assert(request.allow_component_swap==true,'beam conversion requires allow_component_swap=true: it changes the '
-        ..w.name..'\'s component set (ProjectileWeapon out, BeamWeapon in) in this game only; solo only; restart the '
-        ..'game after using it (docs/beam-conversion.md)')
+        ..w.name..'\'s component set in this game only ('..(w.layout=='add'and'add layout: BeamWeapon added, '
+        ..'ProjectileWeapon kept with type 0; with other players only when every one holds the identical conversion'
+        or'swap layout: ProjectileWeapon out, BeamWeapon in; solo only; restart the game after using it')
+        ..'; docs/beam-conversion.md)')
     assert(request.allow_unverified_effect==true,'beam conversion requires allow_unverified_effect=true: '
         ..(w.liveProven and'the conversion of the '..w.name..' was live-proven on the experiment, the Runtime path '
             ..'is not live-tested yet'or'the conversion of the '..w.name..' is not live-tested'))
@@ -210,9 +212,11 @@ function M.prepare(resolved,reader,spec)
     for _,note in ipairs(intent.notes)do plan.notes[#plan.notes+1]=note end
     for _,note in ipairs(prepared.notes or{})do plan.notes[#plan.notes+1]='note: '..spec.id..': '..note end
     if enabled and not converted then
+        local add=prepared.commit and prepared.commit.layout=='add'
         plan.notes[#plan.notes+1]=('note: %s: the %s fires LAS-13 Trident pulses from its next spawn (%d rpm, %d beams '
-            ..'per pulse, %.3g s); SOLO ONLY; restart the game after using a beam conversion'):format(spec.id,w.name,
-            intent.settings.fire_rate,intent.settings.pulse_beams,intent.settings.pulse_seconds)
+            ..'per pulse, %.3g s); %s'):format(spec.id,w.name,intent.settings.fire_rate,intent.settings.pulse_beams,
+            intent.settings.pulse_seconds,add and'add layout: with other players only when every one holds the '
+            ..'identical conversion'or'swap layout: SOLO ONLY; restart the game after using it')
     end
     plan.commit=function(report)E.commit(world,prepared,report)end
     plan.beam_conversion={weapon=w.name,enabled=enabled,settings=intent.settings,rows=intent.rows,path=prepared.path}
