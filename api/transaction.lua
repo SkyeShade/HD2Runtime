@@ -114,6 +114,12 @@ function M.start_spec(runtime,emit,spec,startup_delay)
             end
             assert(require('hd2runtime/core/fingerprint').matches(runtime),'application fingerprint mismatch')
             local applied=writer.apply(runtime,plan)
+            -- A domain's own bookkeeping after its write (runtime/beam_conversion.lua registers its owned table and
+            -- reviewed edits); never changes the outcome.
+            if plan.commit then
+                local ok,why=pcall(plan.commit,applied)
+                if not ok then log('transaction '..spec.id..' commit step failed: '..tostring(why))end
+            end
             if applied.status=='APPLIED' or applied.status=='ALREADY_DESIRED' then
                 -- Retain only what ensure needs for cheap steady-state checks.
                 watch.verification=require('hd2runtime/core/steady_state').capture(runtime,

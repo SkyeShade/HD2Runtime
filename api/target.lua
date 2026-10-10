@@ -692,6 +692,46 @@ function M.new(describe)
         if result.writable then result.field='attack.beam';result.expect=beam_handle(resource,name)end
         return result
     end
+    -- Beam conversions (docs/beam-conversion.md; runtime/beam_conversion.lua, domains/beam_conversion_writes.lua): a
+    -- projectile weapon made to fire LAS-13 Trident pulses, solo only. The target of its guarded writes
+    -- (beam_conversion.enabled and the converted weapon's own beam.fire_rate / pulse_beams / pulse_seconds); describe()
+    -- is the static catalogue entry (verdict, caveats, fields, acknowledgements, lifecycle), status() the live state.
+    local function beam_conversion_target(name)
+        local C=require('hd2runtime/domains/beam_conversion')
+        local entry
+        for _,w in ipairs(C.weapons)do if w.name==name then entry=w end end
+        local methods={}
+        function methods.describe()
+            if not entry then
+                return {weapon=name,supported=false,verdict='refused',reasonCode='NOT_CATALOGUED',
+                    reason=tostring(name)..' is not in the beam conversion catalogue (hd2.beam_conversions())'}
+            end
+            local out=copy(entry)
+            out.weapon=entry.name;out.donor=C.donor.name;out.fields=copy(C.fields)
+            out.acknowledgements=copy(C.acknowledgements);out.lifecycle=copy(C.lifecycle)
+            out.multiplayer=copy(C.multiplayer);out.pulse=copy(C.pulse)
+            return out
+        end
+        -- The live state: {state = 'vanilla' | 'converted' | 'orphaned' | 'foreign', settings, live, roots} plus the
+        -- path, the table, the lobby and restart_required; or {ok = false, reason}.
+        function methods.status()
+            local st=require('hd2runtime/runtime/beam_conversion').status()
+            if not st.ok then return st end
+            local out=copy(st.weapons[name]or{state=entry and entry.supported and'unknown'or'refused'})
+            out.ok=true;out.path=st.path;out.table=st.table;out.lobby=st.lobby;out.restart_required=st.restart_required
+            return out
+        end
+        return setmetatable({resource='beam_conversion',weapon=name},{__index=methods})
+    end
+    builders.beam_conversion=beam_conversion_target
+    -- Every catalogued weapon's beam conversion target (supported, with caveats or refused: describe() says which).
+    function builders.beam_conversions()
+        local out={}
+        for _,w in ipairs(require('hd2runtime/domains/beam_conversion').weapons)do
+            out[#out+1]=beam_conversion_target(w.name)
+        end
+        return out
+    end
     local function player_target(name,legacy)
         local weapon=player_weapons.weapons[name]
         if weapon.subweaponOf then return subweapon_target(name)end
@@ -727,6 +767,7 @@ function M.new(describe)
         -- The beam this weapon fires and where it lives (beam weapons only; 0.30.4 beam swaps).
         function methods.beam()return beam_handle('player_weapon',name)end
         function methods.beam_source()return beam_source('player_weapon',name)end
+        function methods.beam_conversion()return beam_conversion_target(name)end
         function methods.fire_modes()
             local result=copy(graph.fire_mode)
             result.modeSet=copy(fire_mode_table.weapons['player:'..name])
@@ -994,6 +1035,7 @@ function M.new(describe)
         function methods.projectile_source(_,role)return support_projectile_source(name,role or'primary')end
         function methods.beam()return beam_handle('support_weapon',name)end
         function methods.beam_source()return beam_source('support_weapon',name)end
+        function methods.beam_conversion()return beam_conversion_target(name)end
         function methods.fire_modes()return {modeSet=copy(fire_mode_table.weapons['support:'..name])}end
         function methods.fire_rate_modes()return rate_modes(support_authoring.weapons[name],'support',name)end
         function methods.fire_rate_mode(_,index)return rate_mode(support_authoring.weapons[name],'support',name,index)end

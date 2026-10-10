@@ -140,6 +140,12 @@ def outputs():
     for definition in json.loads((ROOT/'schemas/output_fields.json').read_text())['fields']:
         field_id=definition['id'];domain,name=field_id.split('.',1)
         fields.setdefault(domain,{})[ident(name)]=field_id
+    # Beam conversions (domains/beam_conversion.lua `fields`; the rate and pulse share the beam.* constants).
+    for definition in json.loads((ROOT/'sdk/BeamConversionCapabilities.json').read_text())['fields']:
+        field_id=definition['id'];domain,name=field_id.split('.',1)
+        if field_id in fields.setdefault(domain,{}).values():continue
+        assert ident(name) not in fields[domain],'beam conversion field constant collision: '+field_id
+        fields[domain][ident(name)]=field_id
     # A weapon's default ammunition projectile (domains/attack_outputs.lua `ammunition`).
     if attack_outputs['ammunitionSources']:
         fields.setdefault('ammunition',{})['projectile']='ammunition.projectile'
@@ -188,7 +194,9 @@ def outputs():
     acknowledgements=['---@field allow_unverified_effect? boolean Required only where the capability '
             'catalog names it (magazine attachments).',
         '---@field allow_unverified_reference? boolean Required only where the capability catalog '
-            'names it (vehicle mount swaps).']
+            'names it (vehicle mount swaps).',
+        '---@field allow_component_swap? boolean Required by beam conversions (weapon:beam_conversion()): the '
+            'component set of the weapon changes in this game only.']
     for name,entries in schema['api']['classes'].items():
         stub.append('\n---@class '+name)
         for field,kind in entries.items(): stub.append('---@field '+field+' '+kind)
@@ -238,6 +246,18 @@ def outputs():
         '---@class HD2BeamReference','---@field resource "player_weapon"|"support_weapon"|"vehicle_weapon"',
         '---@field path "beam_reference"','---@field weapon string','local HD2BeamReference = {}',
         '---@return table','function HD2BeamReference:describe() end','',
+        '---A beam conversion (docs/beam-conversion.md, sdk/BeamConversionCapabilities.json): a projectile weapon made to',
+        '---fire LAS-13 Trident pulses in this game only (solo). The target of hd2.fields.beam_conversion.enabled and of',
+        '---the converted weapon (its own record): hd2.fields.beam.fire_rate / pulse_beams / pulse_seconds; every request needs',
+        '---allow_component_swap and allow_unverified_effect. Written only with zero live instances of the weapon.',
+        '---@class HD2BeamConversion','---@field resource "beam_conversion"','---@field weapon string',
+        'local HD2BeamConversion = {}',
+        '---{weapon, kind, supported, verdict, reasonCode, reason, caveats, liveProven, roots, record, fields,',
+        '---acknowledgements, lifecycle, multiplayer, pulse, donor}',
+        '---@return table','function HD2BeamConversion:describe() end',
+        '---The live state: {ok, state = "vanilla"|"converted"|"orphaned"|"foreign", settings, live, path, lobby,',
+        '---restart_required}, or {ok = false, reason}.',
+        '---@return table','function HD2BeamConversion:status() end','',
         '---@class HD2WeaponAmmunition','---@field resource "player_weapon"','---@field path "ammunition"',
         '---@field weapon HD2WeaponName','local HD2WeaponAmmunition = {}',
         '---The ammunition projectile handle: the expect of hd2.fields.ammunition.projectile, and the value that',
@@ -291,7 +311,9 @@ def outputs():
         '---@return HD2BeamReference','function HD2Weapon:beam() end',
         '---Where its beam lives and the target, field and expect that swap it (hd2.attack_output(donor) of family',
         '---beam; allow_unverified_reference and allow_unverified_effect).',
-        '---@return HD2BeamSource','function HD2Weapon:beam_source() end','---@return HD2PlayerAttack[]',
+        '---@return HD2BeamSource','function HD2Weapon:beam_source() end',
+        '---This weapon made to fire LAS-13 Trident pulses (beam conversion; solo only; docs/beam-conversion.md).',
+        '---@return HD2BeamConversion','function HD2Weapon:beam_conversion() end','---@return HD2PlayerAttack[]',
         'function HD2Weapon:attacks() end','---@return table',
         'function HD2Weapon:fire_modes() end','---@return HD2MagazineOption[]',
         'function HD2Weapon:magazine_options() end','---@return HD2MagazineOption?',
@@ -400,6 +422,8 @@ def outputs():
         'function HD2SupportWeapon:projectile_source(role) end',
         '---@return HD2BeamReference','function HD2SupportWeapon:beam() end',
         '---@return HD2BeamSource','function HD2SupportWeapon:beam_source() end',
+        '---This weapon made to fire LAS-13 Trident pulses (beam conversion; solo only; docs/beam-conversion.md).',
+        '---@return HD2BeamConversion','function HD2SupportWeapon:beam_conversion() end',
         '---The projectile builder for this weapon\'s ProgrammableAmmo mode (weapon:feed("programmable")).',
         '---@return HD2ProjectileBuilder','function HD2SupportWeapon:programmable_ammo() end',
         '','---@class HD2ProjectileModeSpec',
@@ -877,6 +901,10 @@ def outputs():
         '---@return table[] {mod, display, required}','function hd2.compatibility.incompatible() end',
         '---@return string? highest','function hd2.compatibility.highest() end',
         '---@return table {incompatible, highest, shown, dialog}','function hd2.compatibility.status() end',
+        '---The beam conversion of a weapon by its catalogue name (the same target as weapon:beam_conversion()).',
+        '---@param name string','---@return HD2BeamConversion','function hd2.beam_conversion(name) end',
+        '---The beam conversion target of every catalogued weapon (supported, with caveats or refused: describe() says).',
+        '---@return HD2BeamConversion[]','function hd2.beam_conversions() end',
         '---Catalogued attack output IDs, optionally filtered.',
         '---@param filter? {family?: "projectile"|"beam"|"arc"|"spray"|"melee", selectable?: boolean}',
         '---@return string[]','function hd2.attack_outputs(filter) end',
