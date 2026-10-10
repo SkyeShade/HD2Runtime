@@ -1,0 +1,1 @@
+{"format":1,"name":"UserRequestsProof","resource":"mods/skyeshade/hd2runtime_user_requests_proof","guid":"7ce9b236-76e5-4c5e-b607-31f43dde6d89","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.30.3","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../sdk","ide_library":"../../sdk/stubs"}
