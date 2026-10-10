@@ -1842,6 +1842,49 @@ return function(frame,watches,counts,lines)
 end
 """
 EXTRAS['proof-virtual-slot'] = {'menu': MENU_STUB, 'after': PROOF_VIRTUAL_SLOT, 'readOnly': True}
+# EXPERIMENTAL (branch exp/multi-beam): MultiBeamProof loads runtime/experiment_beam_swap.lua from the archive at startup;
+# after startup the experiment proves its pins on the packaged runtime, runs its real solo and live-instance gates (its
+# lazy requires resolve after startup), applies the Trident beam to the Liberator, Talon and Reprimand in one guarded
+# transaction on the overlay and restores every byte. Only the Trident package state is forced (the ship snapshot does
+# not hold laser_shotgun resident).
+PROOF_MULTI_BEAM = r"""
+return function(frame,watches,counts,lines)
+ local results={}
+ local function step(name,ok,detail)results[#results+1]={name=name,passed=ok==true,detail=detail}end
+ local ok,X=pcall(require,'hd2runtime/runtime/experiment_beam_swap')
+ step('the experiment module is loaded from the packaged archive',ok and type(X)=='table'
+  and tostring(X.VERSION):find('^0%.1%.')~=nil,tostring(ok and X.VERSION or X))
+ if not ok then return results end
+ local lok,L=pcall(require,'hd2runtime/runtime/experiment_liberator_beam')
+ step('the live-proven Liberator experiment is in the archive too',lok and type(L)=='table',tostring(lok and L.VERSION or L))
+ local s=X.status()
+ local vanilla=s.ok and s.record=='vanilla'and#s.weapons==3
+ for _,w in ipairs(s.weapons or{})do vanilla=vanilla and w.state=='vanilla'and w.live==0 end
+ step('status proves every pin and finds all three weapons vanilla',vanilla,tostring(s.reason or s.detail))
+ local real=X.apply()
+ step('apply refuses without the Trident package (real asset gate)',real.ok or tostring(real.reason):find('package',1,true)~=nil,
+  tostring(real.reason))
+ if not real.ok then
+  X.set_hooks_for_tests({assets=function()return'resident','forced by the validator'end})
+  local a=X.apply()
+  step('apply writes all three in one transaction (real solo and live-instance gates)',a.ok and(a.writes or 0)>0,
+   tostring(a.reason or a.writes))
+ end
+ local s2=X.status()
+ local applied=s2.ok and s2.record=='copy'
+ for _,w in ipairs(s2.weapons or{})do applied=applied and w.state=='applied'end
+ step('all three applied, record 23 the Trident copy',applied,tostring(s2.detail or s2.reason))
+ local r=X.restore()
+ step('restore returns every byte',r.ok and r.record_restored==true,tostring(r.reason))
+ local s3=X.status()
+ local back=s3.ok and s3.record=='vanilla'
+ for _,w in ipairs(s3.weapons or{})do back=back and w.state=='vanilla'end
+ step('all three vanilla again',back,tostring(s3.detail or s3.reason))
+ X.set_hooks_for_tests(nil)
+ return results
+end
+"""
+EXTRAS['proof-multi-beam'] = {'after': PROOF_MULTI_BEAM}
 # The build label (runtime/version_label.lua) from the archive on the snapshot's real game state and engine font, with
 # a stand-in for the engine GUI API over the snapshot's own world list (the Ui World by its position): aboard the ship
 # it is one Ui World GUI with "HD2Runtime <version>" over "Game <build>" in the bottom-left corner at the lowest layer,
@@ -5126,6 +5169,7 @@ SCENARIOS = {
     'proof-selection-sound': lambda: proof('SelectionSoundProof'),
     'proof-slot-texture-probe': lambda: proof('SlotTextureProbe'),
     'proof-slot-overlay': lambda: proof('SlotOverlayProof'),
+    'proof-multi-beam': lambda: proof('MultiBeamProof'),
     'proof-gas-barrage-mission': lambda: proof('GasBarrageMissionProof'),
     'proof-gas-barrage-payload': lambda: proof('GasBarragePayloadProof'),
     'proof-gas-barrage-cooldown': lambda: proof('GasBarrageCooldownProof'),
