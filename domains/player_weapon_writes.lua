@@ -1558,8 +1558,22 @@ end
 
 function M.prepare(resolved,reader,spec)
     local plan={changes={},snapshots=reader.snapshots};local physical={}
+    -- EXPERIMENTAL (exp/liberator-beam; core/reviewed_edits.lua): a weapon whose ProjectileWeapon component HD2Runtime
+    -- itself made dormant (the Liberator beam swap) refuses every field reached through it: its ProjectileWeapon record
+    -- (catalog.record), its ammunition delta, and the projectile, explosion and damage rows it links to.
+    local dormant=resolved.candidate and resolved.candidate.refused
+        and resolved.candidate.refused.ProjectileWeaponComponentData
     for _,change in ipairs(spec.changes)do
         local backing=change.descriptor.backing;local record,owner
+        if dormant then
+            local s=backing.kind=='settings'and backing.settings
+            if(backing.kind=='entity_delta'and change.descriptor.type~='beam_reference')
+                or s=='projectile'or s=='explosion'or s=='explosion_damage'or s=='damage'
+                or change.descriptor.type=='projectile_reference'
+                or change.descriptor.type=='function_projectile_reference'then
+                error(dormant,0)
+            end
+        end
         if backing.kind=='component'then record=component_record(resolved,backing);owner=record.owner
         elseif backing.kind=='entity_delta'then
             -- The delta row of the weapon's active source: its default ammunition, or its default muzzle's beam.

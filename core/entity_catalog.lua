@@ -119,6 +119,10 @@ function M.capture(reader,owner,profile,names,options)
         for name in pairs(components)do refused[name]=why end
     end
 
+    -- core/reviewed_edits.lua (EXPERIMENTAL): optional, so the SDK's offline scanner (sdk/tools/snapshot_scan.py),
+    -- which bundles only the modules it reads with, captures exactly as before.
+    local edits_ok,edits=pcall(require,'hd2runtime/core/reviewed_edits')
+    if not(edits_ok and type(edits)=='table'and edits.active)then edits=nil end
     local function member(entry,index)
         for n=0,entry.count-1 do if b.u16(map,28+entry.offset+n*2)==index then return true end end
         return false
@@ -141,6 +145,13 @@ function M.capture(reader,owner,profile,names,options)
                 identity.ownerCount=#components[name].by_record[identity.recordIndex]
                 identity.uniqueOwner=identity.ownerCount==1
             end
+            -- EXPERIMENTAL (exp/liberator-beam): an in-place edit HD2Runtime itself made and recorded exactly
+            -- (core/reviewed_edits.lua): its own by-design diagnostics are dropped and its dormant components refused;
+            -- any other state of that entity is foreign. Empty registry: nothing changes.
+            if edits and edits.active()then
+                local e=rows[1]
+                edits.review(candidate,map:sub(29+e.offset,28+e.offset+e.count*2))
+            end
         end
         ordered[#ordered+1]=candidate
     end
@@ -154,6 +165,7 @@ function M.capture(reader,owner,profile,names,options)
         local identity=assert(candidate.ownership[name],name..' ownership absent')
         assert(candidate.entityRow~=nil,name..' entity ownership unproven')
         if refused[name]then error(refused[name],0)end
+        if candidate.refused and candidate.refused[name]then error(candidate.refused[name],0)end
         local component=components[name]
         local cached=component.records[identity.recordIndex]
         if cached then return cached end
