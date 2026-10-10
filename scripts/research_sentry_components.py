@@ -262,11 +262,13 @@ PINS = {
         (0x784CE2, 'lea r8, [rbx + 0x14]', '... kick the wielder\'s aim (a turret wields itself)'),
     ]),
     'windUp': ('WeaponWindUpComponentData: the wind-up routine (0x78A420) advances the spin progress by dt / '
-        'settings +0 while the trigger is held; settings +4 <= 0 resets it on release.', [
+        'settings +0 while the trigger is held; on release settings +4 <= 0 resets it at once, any positive +4 lets it '
+        'fall by dt / settings +0 (0x78A52C: the wind-up time, not +4).', [
         (0x78A492, 'call 0x4f8090', 'the settings (resolver; the type record unless a copy exists)'),
         (0x78A4D4, 'movss xmm1, dword ptr [rbp]', '+0 wind-up time ...'),
         (0x78A4EC, 'divss xmm0, xmm1', '... progress += dt / wind-up time'),
         (0x78A519, 'comiss xmm7, dword ptr [rbp + 4]', 'released: +4 wind-down time <= 0 -> progress 0'),
+        (0x78A52C, 'divss xmm0, dword ptr [rbp]', 'released, +4 > 0: progress -= dt / +0 (the wind-up time)'),
         (0x78A679, 'mulss xmm3, dword ptr [rbp + 0xc]', '+12: the barrel-spin RPM multiplier'),
     ]),
     'behaviour': ('Behaviour (AI) dispatch: BehaviorComponent +0 (the behaviour id) selects compiled code; the '
@@ -777,7 +779,8 @@ SPECS = [
     ('WeaponWindUpComponentData', 0, 'wind_up_time', 'windup.wind_up_seconds', 'windUp', None,
      'barrel wind-up time, seconds (Gatling Sentry only)', 'resolved every update (type record)', 'propose'),
     ('WeaponWindUpComponentData', 4, 'wind_down_time', 'windup.wind_down_seconds', 'windUp', None,
-     'barrel wind-down time, seconds', 'resolved every update', 'propose'),
+     'barrel spin-down switch: <= 0 stops at once, > 0 spins down over the wind-up time (its magnitude is not read)',
+     'resolved every update', 'propose'),
     ('BeamWeaponComponentData', 104, 'fire_rate_in_rpm', 'beam.fire_rate', None, 'beam.fire_rate',
      'beam fire rate (damage ticks per minute), Laser Sentry', 'type record (same member as the player beam weapons)',
      'propose'),
@@ -867,7 +870,9 @@ PUBLICATION_FIELDS = {
         'the wind-up routine 0x78A420 resolves the record every update (0x78A492) and reads it (0x78A4D4)',
         '0 = instant; 30 s is far beyond any native value (0.5)'),
     'windup.wind_down_seconds': ('WeaponWindUpComponentData', 4, 'f32', 0, 30, 'live', 'windup',
-        'the wind-up routine reads it every update on release (0x78A519)', '0 = instant stop; native 1.0'),
+        'the wind-up routine reads it every update on release (0x78A519) as a switch: > 0 spins down over '
+        'windup.wind_up_seconds (0x78A52C divides by the wind-up time)', '0 = instant stop; any positive value '
+        'behaves the same (native 1.0)'),
     'beam.fire_rate': ('BeamWeaponComponentData', 104, 'i32', 1, 3000, 'unverified', 'beam',
         'the same member and published value as the seven player beam weapons (research/equipment-coverage); the '
         'sentry\'s own reader is not located, so write it before the sentry is deployed', 'the player beam range'),

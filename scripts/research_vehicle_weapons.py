@@ -44,7 +44,7 @@ SNAPSHOT = build_profile.SNAPSHOT
 COMPONENTS = ('WeaponDataComponentData', 'ProjectileWeaponComponentData', 'WeaponMagazineComponentData',
     'WeaponReloadComponentData', 'WeaponHeatComponentData', 'HealthComponentData', 'TurretComponentData',
     'WeaponRoundsComponentData', 'SprayWeaponComponentData', 'BeamWeaponComponentData', 'ArcWeaponComponentData',
-    'WeaponChargeComponentData', 'MountComponentData')
+    'WeaponChargeComponentData', 'MountComponentData', 'WeaponWindUpComponentData')
 MOUNT_SLOT, MOUNT_SLOTS = 24, 5
 
 
@@ -169,6 +169,11 @@ def main():
                         body_h = native.record('WeaponHeatComponentData', weapon_own['WeaponHeatComponentData']['recordIndex'])
                         values['heat'] = {'capacity': f32(body_h, 96), 'heatPerShot': f32(body_h, 116),
                             'heatPerSecond': f32(body_h, 120), 'coolPerSecond': f32(body_h, 128)}
+                    if 'WeaponWindUpComponentData' in weapon_own:
+                        # 0.30.4 (research/windup-controls): +0 spin-up seconds, +4 spin-down switch.
+                        body_w = native.record('WeaponWindUpComponentData',
+                            weapon_own['WeaponWindUpComponentData']['recordIndex'])
+                        values['windUp'] = {'windUpSeconds': f32(body_w, 0), 'spinDownSwitch': f32(body_w, 4)}
                     if 'HealthComponentData' in weapon_own:
                         body_hp = native.record('HealthComponentData', weapon_own['HealthComponentData']['recordIndex'])
                         values['health'] = struct.unpack_from('<i', body_hp, 0)[0]
