@@ -119,8 +119,52 @@ CHARGE_REASON = ('Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; ty
     'Sickle 0 fires at once, 400 winds up about 2 s.')
 PULSE_REASON = ('Beam fire mode and pulse (BeamWeapon +100 typed enum, +108 INT32, +112 FP32): the LAS-13 Trident is '
     'the only weapon in mode 6 (300 rpm, 2 beams per pulse, 0.15 s); continuous beams are mode 4 (1, 0), the 40-K '
-    'Meltagun mode 5 (1, 1.4 s). The game branches on mode 6. Live test pending: a Scythe in mode 6 with the '
-    "Trident's rate and pulse fires Trident-like blasts; the Trident's +112 / +108 changed.")
+    'Meltagun mode 5 (1, 1.4 s). The game branches on mode 6. The beam update code shows +112 is how long a pulse '
+    'lasts and +108 a factor of the beam-shot loop at a pulse start (research/docs/beam-pulse-rate-F5FEE03DCFDB.md). '
+    'Live test pending through this field: a Scythe in mode 6 with the rate and pulse of the Trident fires Trident-like '
+    'blasts; the Trident +112 / +108 changed.')
+# 0.30.4 follow-up (research/docs/beam-pulse-rate-F5FEE03DCFDB.md): on a discrete beam (fire mode 5 or 6) a new pulse
+# starts only in the update AFTER the previous one ended, so the pulse duration caps the fire rate. Published on the
+# pulse and rate fields (display name, reason, `beamPulse`) so a tool shows it next to the slider.
+PULSE_SECONDS_REASON = PULSE_REASON + (' The pulse duration LIMITS the fire rate: a new pulse starts only in the update '
+    'after the previous one ended, so with frame time dt the updates between pulses are n = max(ceil(60 / (fire_rate '
+    'x dt)), max(1, ceil(pulse_seconds / dt)) + 1). The Trident 0.15 s pulse caps any beam.fire_rate at about 330-360 rpm '
+    'at 60 fps: a shorter pulse is what raises the rate (about 0.067 s for 600 rpm, 0.033 s for 900 rpm). A pulse no '
+    'longer than one frame deals no damage. Seen live on an experimental build (2026-10-10, per-weapon beam records): '
+    'rates above the cap were capped with the 0.15 s pulse and reached with shorter pulses.')
+FIRE_RATE_PULSE_NOTE = (' On this pulsed beam the rate is capped by beam.pulse_seconds: set a shorter pulse with a '
+    'faster rate (beam.pulse_seconds <= 60 / fire_rate - 1/30 reaches the rate from 30 fps).')
+PULSE_DISPLAY = 'Pulse duration (limits the fire rate)'
+PULSE_DISPLAY_CONTINUOUS = 'Pulse duration (pulsed beams only)'
+PULSE_REFERENCE_FPS = 60
+
+
+def pulse_updates(rate, pulse, fps=PULSE_REFERENCE_FPS):
+    """Updates between pulse starts (research/docs/beam-pulse-rate-F5FEE03DCFDB.md section 2)."""
+    import math
+    dt = 1 / fps
+    return max(math.ceil(60 / (rate * dt) - 1e-9), max(1, math.ceil(pulse / dt - 1e-9)) + 1)
+
+
+def pulse_limit(rate):
+    """The longest pulse that never decides the interval at any frame rate from 30 fps."""
+    interval = 60 / rate
+    return max(interval / 2, interval - 1 / 30)
+
+
+def beam_pulse_metadata(mode, rate, pulse):
+    """`beamPulse` of a discrete beam's rate and pulse fields: how the pulse caps the rate, for a tool to show."""
+    if mode == 4:
+        return {'limitsFireRate': False, 'reason': 'continuous beam (fire mode 4): the pulse timer is not used'}
+    return {'limitsFireRate': True, 'fireMode': mode, 'rateField': 'beam.fire_rate', 'pulseField': 'beam.pulse_seconds',
+        'formula': 'n = max(ceil(60 / (fire_rate x dt)), max(1, ceil(pulse_seconds / dt)) + 1); rpm = 60 / (n x dt)',
+        'effectiveRpmAt60Fps': round(60 * PULSE_REFERENCE_FPS / pulse_updates(rate, pulse), 1),
+        'pulseSecondsForRpm': {str(r): round(pulse_limit(r), 4) for r in (300, 450, 600, 750, 900)},
+        'noDamageAtOrBelowOneFrame': True, 'recommendedMaxRpm': 900,
+        'research': 'research/docs/beam-pulse-rate-F5FEE03DCFDB.md',
+        'docs': 'docs/player-weapon-authoring.md ("beam.pulse_seconds limits beam.fire_rate")'}
+
+
 CHARGE_FIELDS = (('heat.firing_charge', '148', 148, 'f32', 0, 10000), ('heat.charge_gain_per_second', '152', 152, 'f32',
     0, 100000), ('heat.charge_loss_per_second', '156', 156, 'f32', 0, 100000),
     ('heat.reset_charge_after_shot', '160', 160, 'u8', None, None))
@@ -194,11 +238,21 @@ def beam_pulse_fields(make, weapon, backend, skip=()):
     if not record:
         return []
     fields = []
+    values = record['values']
+    mode, rate, pulse = int(values['100']), values['104'], values['112']
     for field_id, key, offset, storage, low, high in PULSE_FIELDS:
         if field_id in skip:
             continue
-        field = make(field_id, record['values'][key], backend(offset, storage))
-        field.update({'acknowledgement': 'allow_unverified_effect', 'acknowledgementReason': PULSE_REASON,
+        field = make(field_id, values[key], backend(offset, storage))
+        reason = PULSE_REASON
+        if field_id == 'beam.pulse_seconds':
+            reason = PULSE_SECONDS_REASON
+            field['displayName'] = PULSE_DISPLAY_CONTINUOUS if mode == 4 else PULSE_DISPLAY
+        elif field_id == 'beam.fire_rate' and mode != 4:
+            reason = PULSE_REASON + FIRE_RATE_PULSE_NOTE
+        field.update({'acknowledgement': 'allow_unverified_effect', 'acknowledgementReason': reason,
             'min': low, 'max': high, 'effect': effect()})
+        if field_id in ('beam.pulse_seconds', 'beam.fire_rate'):
+            field['beamPulse'] = beam_pulse_metadata(mode, rate, pulse)
         fields.append(field)
     return fields

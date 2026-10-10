@@ -19967,7 +19967,7 @@
         "path": "weapon",
         "weapon": "AX/LAS-5 Rover / gun"
       },
-      "displayName": "Pulse duration",
+      "displayName": "Pulse duration (pulsed beams only)",
       "unit": "seconds",
       "type": "number",
       "baseline": 0.0,

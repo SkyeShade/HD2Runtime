@@ -91583,7 +91583,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Beam fire mode and pulse (BeamWeapon +100 typed enum, +108 INT32, +112 FP32): the LAS-13 Trident is the only weapon in mode 6 (300 rpm, 2 beams per pulse, 0.15 s); continuous beams are mode 4 (1, 0), the 40-K Meltagun mode 5 (1, 1.4 s). The game branches on mode 6. Live test pending: a Scythe in mode 6 with the Trident's rate and pulse fires Trident-like blasts; the Trident's +112 / +108 changed.",
+          "acknowledgementReason": "Beam fire mode and pulse (BeamWeapon +100 typed enum, +108 INT32, +112 FP32): the LAS-13 Trident is the only weapon in mode 6 (300 rpm, 2 beams per pulse, 0.15 s); continuous beams are mode 4 (1, 0), the 40-K Meltagun mode 5 (1, 1.4 s). The game branches on mode 6. The beam update code shows +112 is how long a pulse lasts and +108 a factor of the beam-shot loop at a pulse start (research/docs/beam-pulse-rate-F5FEE03DCFDB.md). Live test pending through this field: a Scythe in mode 6 with the rate and pulse of the Trident fires Trident-like blasts; the Trident +112 / +108 changed.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -91639,7 +91639,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Beam fire mode and pulse (BeamWeapon +100 typed enum, +108 INT32, +112 FP32): the LAS-13 Trident is the only weapon in mode 6 (300 rpm, 2 beams per pulse, 0.15 s); continuous beams are mode 4 (1, 0), the 40-K Meltagun mode 5 (1, 1.4 s). The game branches on mode 6. Live test pending: a Scythe in mode 6 with the Trident's rate and pulse fires Trident-like blasts; the Trident's +112 / +108 changed.",
+          "acknowledgementReason": "Beam fire mode and pulse (BeamWeapon +100 typed enum, +108 INT32, +112 FP32): the LAS-13 Trident is the only weapon in mode 6 (300 rpm, 2 beams per pulse, 0.15 s); continuous beams are mode 4 (1, 0), the 40-K Meltagun mode 5 (1, 1.4 s). The game branches on mode 6. The beam update code shows +112 is how long a pulse lasts and +108 a factor of the beam-shot loop at a pulse start (research/docs/beam-pulse-rate-F5FEE03DCFDB.md). Live test pending through this field: a Scythe in mode 6 with the rate and pulse of the Trident fires Trident-like blasts; the Trident +112 / +108 changed. On this pulsed beam the rate is capped by beam.pulse_seconds: set a shorter pulse with a faster rate (beam.pulse_seconds <= 60 / fire_rate - 1/30 reaches the rate from 30 fps).",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -91649,6 +91649,25 @@
             "writeVerifiedOnApply": true,
             "gameplayEffectProven": false,
             "unverifiedEffect": true
+          },
+          "beamPulse": {
+            "limitsFireRate": true,
+            "fireMode": 6,
+            "rateField": "beam.fire_rate",
+            "pulseField": "beam.pulse_seconds",
+            "formula": "n = max(ceil(60 / (fire_rate x dt)), max(1, ceil(pulse_seconds / dt)) + 1); rpm = 60 / (n x dt)",
+            "effectiveRpmAt60Fps": 300.0,
+            "pulseSecondsForRpm": {
+              "300": 0.1667,
+              "450": 0.1,
+              "600": 0.0667,
+              "750": 0.0467,
+              "900": 0.0333
+            },
+            "noDamageAtOrBelowOneFrame": true,
+            "recommendedMaxRpm": 900,
+            "research": "research/docs/beam-pulse-rate-F5FEE03DCFDB.md",
+            "docs": "docs/player-weapon-authoring.md (\"beam.pulse_seconds limits beam.fire_rate\")"
           },
           "apiFieldConstant": "hd2.fields.beam.fire_rate"
         },
@@ -91695,7 +91714,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Beam fire mode and pulse (BeamWeapon +100 typed enum, +108 INT32, +112 FP32): the LAS-13 Trident is the only weapon in mode 6 (300 rpm, 2 beams per pulse, 0.15 s); continuous beams are mode 4 (1, 0), the 40-K Meltagun mode 5 (1, 1.4 s). The game branches on mode 6. Live test pending: a Scythe in mode 6 with the Trident's rate and pulse fires Trident-like blasts; the Trident's +112 / +108 changed.",
+          "acknowledgementReason": "Beam fire mode and pulse (BeamWeapon +100 typed enum, +108 INT32, +112 FP32): the LAS-13 Trident is the only weapon in mode 6 (300 rpm, 2 beams per pulse, 0.15 s); continuous beams are mode 4 (1, 0), the 40-K Meltagun mode 5 (1, 1.4 s). The game branches on mode 6. The beam update code shows +112 is how long a pulse lasts and +108 a factor of the beam-shot loop at a pulse start (research/docs/beam-pulse-rate-F5FEE03DCFDB.md). Live test pending through this field: a Scythe in mode 6 with the rate and pulse of the Trident fires Trident-like blasts; the Trident +112 / +108 changed.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -91709,7 +91728,7 @@
           "apiFieldConstant": "hd2.fields.beam.pulse_beams"
         },
         {
-          "displayName": "Pulse duration",
+          "displayName": "Pulse duration (limits the fire rate)",
           "semanticFieldId": "beam.pulse_seconds",
           "type": "number",
           "unit": "seconds",
@@ -91751,7 +91770,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Beam fire mode and pulse (BeamWeapon +100 typed enum, +108 INT32, +112 FP32): the LAS-13 Trident is the only weapon in mode 6 (300 rpm, 2 beams per pulse, 0.15 s); continuous beams are mode 4 (1, 0), the 40-K Meltagun mode 5 (1, 1.4 s). The game branches on mode 6. Live test pending: a Scythe in mode 6 with the Trident's rate and pulse fires Trident-like blasts; the Trident's +112 / +108 changed.",
+          "acknowledgementReason": "Beam fire mode and pulse (BeamWeapon +100 typed enum, +108 INT32, +112 FP32): the LAS-13 Trident is the only weapon in mode 6 (300 rpm, 2 beams per pulse, 0.15 s); continuous beams are mode 4 (1, 0), the 40-K Meltagun mode 5 (1, 1.4 s). The game branches on mode 6. The beam update code shows +112 is how long a pulse lasts and +108 a factor of the beam-shot loop at a pulse start (research/docs/beam-pulse-rate-F5FEE03DCFDB.md). Live test pending through this field: a Scythe in mode 6 with the rate and pulse of the Trident fires Trident-like blasts; the Trident +112 / +108 changed. The pulse duration LIMITS the fire rate: a new pulse starts only in the update after the previous one ended, so with frame time dt the updates between pulses are n = max(ceil(60 / (fire_rate x dt)), max(1, ceil(pulse_seconds / dt)) + 1). The Trident 0.15 s pulse caps any beam.fire_rate at about 330-360 rpm at 60 fps: a shorter pulse is what raises the rate (about 0.067 s for 600 rpm, 0.033 s for 900 rpm). A pulse no longer than one frame deals no damage. Seen live on an experimental build (2026-10-10, per-weapon beam records): rates above the cap were capped with the 0.15 s pulse and reached with shorter pulses.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -91761,6 +91780,25 @@
             "writeVerifiedOnApply": true,
             "gameplayEffectProven": false,
             "unverifiedEffect": true
+          },
+          "beamPulse": {
+            "limitsFireRate": true,
+            "fireMode": 6,
+            "rateField": "beam.fire_rate",
+            "pulseField": "beam.pulse_seconds",
+            "formula": "n = max(ceil(60 / (fire_rate x dt)), max(1, ceil(pulse_seconds / dt)) + 1); rpm = 60 / (n x dt)",
+            "effectiveRpmAt60Fps": 300.0,
+            "pulseSecondsForRpm": {
+              "300": 0.1667,
+              "450": 0.1,
+              "600": 0.0667,
+              "750": 0.0467,
+              "900": 0.0333
+            },
+            "noDamageAtOrBelowOneFrame": true,
+            "recommendedMaxRpm": 900,
+            "research": "research/docs/beam-pulse-rate-F5FEE03DCFDB.md",
+            "docs": "docs/player-weapon-authoring.md (\"beam.pulse_seconds limits beam.fire_rate\")"
           },
           "apiFieldConstant": "hd2.fields.beam.pulse_seconds"
         },
@@ -103580,7 +103618,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Beam fire mode and pulse (BeamWeapon +100 typed enum, +108 INT32, +112 FP32): the LAS-13 Trident is the only weapon in mode 6 (300 rpm, 2 beams per pulse, 0.15 s); continuous beams are mode 4 (1, 0), the 40-K Meltagun mode 5 (1, 1.4 s). The game branches on mode 6. Live test pending: a Scythe in mode 6 with the Trident's rate and pulse fires Trident-like blasts; the Trident's +112 / +108 changed.",
+          "acknowledgementReason": "Beam fire mode and pulse (BeamWeapon +100 typed enum, +108 INT32, +112 FP32): the LAS-13 Trident is the only weapon in mode 6 (300 rpm, 2 beams per pulse, 0.15 s); continuous beams are mode 4 (1, 0), the 40-K Meltagun mode 5 (1, 1.4 s). The game branches on mode 6. The beam update code shows +112 is how long a pulse lasts and +108 a factor of the beam-shot loop at a pulse start (research/docs/beam-pulse-rate-F5FEE03DCFDB.md). Live test pending through this field: a Scythe in mode 6 with the rate and pulse of the Trident fires Trident-like blasts; the Trident +112 / +108 changed.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -103636,7 +103674,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Beam fire mode and pulse (BeamWeapon +100 typed enum, +108 INT32, +112 FP32): the LAS-13 Trident is the only weapon in mode 6 (300 rpm, 2 beams per pulse, 0.15 s); continuous beams are mode 4 (1, 0), the 40-K Meltagun mode 5 (1, 1.4 s). The game branches on mode 6. Live test pending: a Scythe in mode 6 with the Trident's rate and pulse fires Trident-like blasts; the Trident's +112 / +108 changed.",
+          "acknowledgementReason": "Beam fire mode and pulse (BeamWeapon +100 typed enum, +108 INT32, +112 FP32): the LAS-13 Trident is the only weapon in mode 6 (300 rpm, 2 beams per pulse, 0.15 s); continuous beams are mode 4 (1, 0), the 40-K Meltagun mode 5 (1, 1.4 s). The game branches on mode 6. The beam update code shows +112 is how long a pulse lasts and +108 a factor of the beam-shot loop at a pulse start (research/docs/beam-pulse-rate-F5FEE03DCFDB.md). Live test pending through this field: a Scythe in mode 6 with the rate and pulse of the Trident fires Trident-like blasts; the Trident +112 / +108 changed.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -103646,6 +103684,10 @@
             "writeVerifiedOnApply": true,
             "gameplayEffectProven": false,
             "unverifiedEffect": true
+          },
+          "beamPulse": {
+            "limitsFireRate": false,
+            "reason": "continuous beam (fire mode 4): the pulse timer is not used"
           },
           "apiFieldConstant": "hd2.fields.beam.fire_rate"
         },
@@ -103692,7 +103734,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Beam fire mode and pulse (BeamWeapon +100 typed enum, +108 INT32, +112 FP32): the LAS-13 Trident is the only weapon in mode 6 (300 rpm, 2 beams per pulse, 0.15 s); continuous beams are mode 4 (1, 0), the 40-K Meltagun mode 5 (1, 1.4 s). The game branches on mode 6. Live test pending: a Scythe in mode 6 with the Trident's rate and pulse fires Trident-like blasts; the Trident's +112 / +108 changed.",
+          "acknowledgementReason": "Beam fire mode and pulse (BeamWeapon +100 typed enum, +108 INT32, +112 FP32): the LAS-13 Trident is the only weapon in mode 6 (300 rpm, 2 beams per pulse, 0.15 s); continuous beams are mode 4 (1, 0), the 40-K Meltagun mode 5 (1, 1.4 s). The game branches on mode 6. The beam update code shows +112 is how long a pulse lasts and +108 a factor of the beam-shot loop at a pulse start (research/docs/beam-pulse-rate-F5FEE03DCFDB.md). Live test pending through this field: a Scythe in mode 6 with the rate and pulse of the Trident fires Trident-like blasts; the Trident +112 / +108 changed.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -103706,7 +103748,7 @@
           "apiFieldConstant": "hd2.fields.beam.pulse_beams"
         },
         {
-          "displayName": "Pulse duration",
+          "displayName": "Pulse duration (pulsed beams only)",
           "semanticFieldId": "beam.pulse_seconds",
           "type": "number",
           "unit": "seconds",
@@ -103748,7 +103790,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Beam fire mode and pulse (BeamWeapon +100 typed enum, +108 INT32, +112 FP32): the LAS-13 Trident is the only weapon in mode 6 (300 rpm, 2 beams per pulse, 0.15 s); continuous beams are mode 4 (1, 0), the 40-K Meltagun mode 5 (1, 1.4 s). The game branches on mode 6. Live test pending: a Scythe in mode 6 with the Trident's rate and pulse fires Trident-like blasts; the Trident's +112 / +108 changed.",
+          "acknowledgementReason": "Beam fire mode and pulse (BeamWeapon +100 typed enum, +108 INT32, +112 FP32): the LAS-13 Trident is the only weapon in mode 6 (300 rpm, 2 beams per pulse, 0.15 s); continuous beams are mode 4 (1, 0), the 40-K Meltagun mode 5 (1, 1.4 s). The game branches on mode 6. The beam update code shows +112 is how long a pulse lasts and +108 a factor of the beam-shot loop at a pulse start (research/docs/beam-pulse-rate-F5FEE03DCFDB.md). Live test pending through this field: a Scythe in mode 6 with the rate and pulse of the Trident fires Trident-like blasts; the Trident +112 / +108 changed. The pulse duration LIMITS the fire rate: a new pulse starts only in the update after the previous one ended, so with frame time dt the updates between pulses are n = max(ceil(60 / (fire_rate x dt)), max(1, ceil(pulse_seconds / dt)) + 1). The Trident 0.15 s pulse caps any beam.fire_rate at about 330-360 rpm at 60 fps: a shorter pulse is what raises the rate (about 0.067 s for 600 rpm, 0.033 s for 900 rpm). A pulse no longer than one frame deals no damage. Seen live on an experimental build (2026-10-10, per-weapon beam records): rates above the cap were capped with the 0.15 s pulse and reached with shorter pulses.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -103758,6 +103800,10 @@
             "writeVerifiedOnApply": true,
             "gameplayEffectProven": false,
             "unverifiedEffect": true
+          },
+          "beamPulse": {
+            "limitsFireRate": false,
+            "reason": "continuous beam (fire mode 4): the pulse timer is not used"
           },
           "apiFieldConstant": "hd2.fields.beam.pulse_seconds"
         },
@@ -111087,7 +111133,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Beam fire mode and pulse (BeamWeapon +100 typed enum, +108 INT32, +112 FP32): the LAS-13 Trident is the only weapon in mode 6 (300 rpm, 2 beams per pulse, 0.15 s); continuous beams are mode 4 (1, 0), the 40-K Meltagun mode 5 (1, 1.4 s). The game branches on mode 6. Live test pending: a Scythe in mode 6 with the Trident's rate and pulse fires Trident-like blasts; the Trident's +112 / +108 changed.",
+          "acknowledgementReason": "Beam fire mode and pulse (BeamWeapon +100 typed enum, +108 INT32, +112 FP32): the LAS-13 Trident is the only weapon in mode 6 (300 rpm, 2 beams per pulse, 0.15 s); continuous beams are mode 4 (1, 0), the 40-K Meltagun mode 5 (1, 1.4 s). The game branches on mode 6. The beam update code shows +112 is how long a pulse lasts and +108 a factor of the beam-shot loop at a pulse start (research/docs/beam-pulse-rate-F5FEE03DCFDB.md). Live test pending through this field: a Scythe in mode 6 with the rate and pulse of the Trident fires Trident-like blasts; the Trident +112 / +108 changed.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -111143,7 +111189,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Beam fire mode and pulse (BeamWeapon +100 typed enum, +108 INT32, +112 FP32): the LAS-13 Trident is the only weapon in mode 6 (300 rpm, 2 beams per pulse, 0.15 s); continuous beams are mode 4 (1, 0), the 40-K Meltagun mode 5 (1, 1.4 s). The game branches on mode 6. Live test pending: a Scythe in mode 6 with the Trident's rate and pulse fires Trident-like blasts; the Trident's +112 / +108 changed.",
+          "acknowledgementReason": "Beam fire mode and pulse (BeamWeapon +100 typed enum, +108 INT32, +112 FP32): the LAS-13 Trident is the only weapon in mode 6 (300 rpm, 2 beams per pulse, 0.15 s); continuous beams are mode 4 (1, 0), the 40-K Meltagun mode 5 (1, 1.4 s). The game branches on mode 6. The beam update code shows +112 is how long a pulse lasts and +108 a factor of the beam-shot loop at a pulse start (research/docs/beam-pulse-rate-F5FEE03DCFDB.md). Live test pending through this field: a Scythe in mode 6 with the rate and pulse of the Trident fires Trident-like blasts; the Trident +112 / +108 changed.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -111153,6 +111199,10 @@
             "writeVerifiedOnApply": true,
             "gameplayEffectProven": false,
             "unverifiedEffect": true
+          },
+          "beamPulse": {
+            "limitsFireRate": false,
+            "reason": "continuous beam (fire mode 4): the pulse timer is not used"
           },
           "apiFieldConstant": "hd2.fields.beam.fire_rate"
         },
@@ -111199,7 +111249,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Beam fire mode and pulse (BeamWeapon +100 typed enum, +108 INT32, +112 FP32): the LAS-13 Trident is the only weapon in mode 6 (300 rpm, 2 beams per pulse, 0.15 s); continuous beams are mode 4 (1, 0), the 40-K Meltagun mode 5 (1, 1.4 s). The game branches on mode 6. Live test pending: a Scythe in mode 6 with the Trident's rate and pulse fires Trident-like blasts; the Trident's +112 / +108 changed.",
+          "acknowledgementReason": "Beam fire mode and pulse (BeamWeapon +100 typed enum, +108 INT32, +112 FP32): the LAS-13 Trident is the only weapon in mode 6 (300 rpm, 2 beams per pulse, 0.15 s); continuous beams are mode 4 (1, 0), the 40-K Meltagun mode 5 (1, 1.4 s). The game branches on mode 6. The beam update code shows +112 is how long a pulse lasts and +108 a factor of the beam-shot loop at a pulse start (research/docs/beam-pulse-rate-F5FEE03DCFDB.md). Live test pending through this field: a Scythe in mode 6 with the rate and pulse of the Trident fires Trident-like blasts; the Trident +112 / +108 changed.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -111213,7 +111263,7 @@
           "apiFieldConstant": "hd2.fields.beam.pulse_beams"
         },
         {
-          "displayName": "Pulse duration",
+          "displayName": "Pulse duration (pulsed beams only)",
           "semanticFieldId": "beam.pulse_seconds",
           "type": "number",
           "unit": "seconds",
@@ -111255,7 +111305,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Beam fire mode and pulse (BeamWeapon +100 typed enum, +108 INT32, +112 FP32): the LAS-13 Trident is the only weapon in mode 6 (300 rpm, 2 beams per pulse, 0.15 s); continuous beams are mode 4 (1, 0), the 40-K Meltagun mode 5 (1, 1.4 s). The game branches on mode 6. Live test pending: a Scythe in mode 6 with the Trident's rate and pulse fires Trident-like blasts; the Trident's +112 / +108 changed.",
+          "acknowledgementReason": "Beam fire mode and pulse (BeamWeapon +100 typed enum, +108 INT32, +112 FP32): the LAS-13 Trident is the only weapon in mode 6 (300 rpm, 2 beams per pulse, 0.15 s); continuous beams are mode 4 (1, 0), the 40-K Meltagun mode 5 (1, 1.4 s). The game branches on mode 6. The beam update code shows +112 is how long a pulse lasts and +108 a factor of the beam-shot loop at a pulse start (research/docs/beam-pulse-rate-F5FEE03DCFDB.md). Live test pending through this field: a Scythe in mode 6 with the rate and pulse of the Trident fires Trident-like blasts; the Trident +112 / +108 changed. The pulse duration LIMITS the fire rate: a new pulse starts only in the update after the previous one ended, so with frame time dt the updates between pulses are n = max(ceil(60 / (fire_rate x dt)), max(1, ceil(pulse_seconds / dt)) + 1). The Trident 0.15 s pulse caps any beam.fire_rate at about 330-360 rpm at 60 fps: a shorter pulse is what raises the rate (about 0.067 s for 600 rpm, 0.033 s for 900 rpm). A pulse no longer than one frame deals no damage. Seen live on an experimental build (2026-10-10, per-weapon beam records): rates above the cap were capped with the 0.15 s pulse and reached with shorter pulses.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -111265,6 +111315,10 @@
             "writeVerifiedOnApply": true,
             "gameplayEffectProven": false,
             "unverifiedEffect": true
+          },
+          "beamPulse": {
+            "limitsFireRate": false,
+            "reason": "continuous beam (fire mode 4): the pulse timer is not used"
           },
           "apiFieldConstant": "hd2.fields.beam.pulse_seconds"
         },
