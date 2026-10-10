@@ -1,0 +1,1 @@
+{"format":1,"name":"MultiBeamProof","resource":"mods/skyeshade/hd2runtime_multi_beam_proof","guid":"9eceba87-3c76-4bf8-97c2-1973d4076783","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.30.3","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../sdk","ide_library":"../../sdk/stubs"}
