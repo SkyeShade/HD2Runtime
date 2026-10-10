@@ -1,0 +1,1 @@
+{"format":1,"name":"RebalanceFixesProof","resource":"mods/skyeshade/hd2runtime_rebalance_fixes_proof","guid":"337ddcfe-5f95-4d64-b646-b4d7272452a7","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.30.3","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../sdk","ide_library":"../../sdk/stubs"}
