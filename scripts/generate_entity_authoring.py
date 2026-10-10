@@ -807,7 +807,12 @@ def build(research_path=RESEARCH):
             decision = equipment['hoverPack']['decisions']['156']
             keys = [backpack_builder.add(name, target, 'hover.duration', jump_hover['156'],
                 component_backing(jump, backpack['resource'], 156, 'f32', owners_of(jump)),
-                extra=correlated_extra('Seconds the Hover Pack holds its height: exact published six seconds, a member only '
+                extra=correlated_extra('Hover climb window (seconds of airborne time): while the wearer has been off '
+                    'walkable ground for less than this, the hover climbs toward hover.max_vertical_speed (for the '
+                    'whole flight once the sustain phase has started); afterwards it holds height. Not the hover time: '
+                    'the pack shuts off when its fuel meter is full (recharge.time, hover.fuel_rate_*). With the '
+                    'vanilla lift (hover.vertical_acceleration_low_speed 9.8, under gravity) a longer window adds no '
+                    'height (research/hover-height-F5FEE03DCFDB.json). Exact published six seconds, a member only '
                     'the Hover Pack record sets (both jump-pack records hold -1); not yet shown in game.',
                     [{'entity': name, 'native': decision['native']['hover'], 'published': decision['published']}],
                     min=0, max=120))['instanceKey']]

@@ -4,10 +4,10 @@
     "enemy": 94,
     "entity": 22,
     "stratagem": 42,
-    "support_weapon": 32,
+    "support_weapon": 33,
     "throwable": 23,
     "vehicle": 6,
-    "weapon": 20
+    "weapon": 19
   },
   "changedWrites": 475,
   "conflictRejections": 475,

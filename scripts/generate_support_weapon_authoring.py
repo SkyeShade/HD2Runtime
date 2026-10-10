@@ -24,6 +24,7 @@ import beam_fields
 import missile_fields
 import charge_fields
 import support_callin_linkage
+import ability_explosion_fields
 import live_evidence
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -72,9 +73,15 @@ TEAM_ROUNDS_RANGE=('the reload subtracts the reload amount from the own spare ro
 UNVERIFIED_REASONS={
     'reload.duration':'Schema-labelled native reload duration; scraped reload times agree only approximately '
         '(they include animation), and the gameplay effect of an edit is not yet confirmed.',
-    'windup.wind_up_seconds':'Schema-labelled native wind-up time without an exact scraped match.',
-    'windup.wind_down_seconds':'Schema-labelled native wind-down time; no scraped value corroborates it and the '
-        'gameplay effect of an edit is not yet confirmed.'}
+    'windup.wind_up_seconds':('Spin-up time: the barrels must reach full spin before the first shot, and the spin '
+        'advances by dt / this value every frame the trigger is held (0 = instant). The wind-up update and the fire '
+        'gate read it every frame (research/windup-controls-F5FEE03DCFDB.json). Where the published spin-up differs, '
+        'the gameplay effect of an edit is not yet confirmed.'),
+    'windup.wind_down_seconds':('A spin-down switch, not a time: 0 or less stops the barrels at once on release; any '
+        'positive value spins them down over windup.wind_up_seconds (the game divides by the wind-up time, so the '
+        'magnitude of this value is never read; research/windup-controls-F5FEE03DCFDB.json). The gameplay effect of '
+        'an edit is not yet confirmed.')}
+WINDUP_RANGE=(0,30,'0 = instant; 30 s is far beyond any native value (0.5 to 1)')
 JSON_OUTPUT=ROOT/'sdk/SupportWeaponAuthoringCapabilities.json'
 LUA_OUTPUT=ROOT/'domains/support_weapon_authoring.lua'
 
@@ -353,6 +360,7 @@ def build(catalog_path=CATALOG):
         {weapon['name']:weapon for weapon in source['weapons']})
     # Charge-level shots and overcharge explosions (research/charge-explosions-F5FEE03DCFDB.json).
     charge_levels=charge_fields.load_levels()
+    ability_data=ability_explosion_fields.load()
     alias_rules=schema.get('alias_rules',[])
 
     def apply_alias_rules(fields):
@@ -398,6 +406,8 @@ def build(catalog_path=CATALOG):
         # Charge-level branches (the full-charge shot, its explosion, the overcharge explosion) resolve on their own
         # attack roles; the read-only mapper had matched them to the only runtime attack it knew.
         weapon=charge_fields.resolve_branches(weapon,charge_levels)
+        # 0.30.4: an explosion the weapon requests through an ability (the Breaching Hammer's charge blast).
+        weapon=ability_explosion_fields.resolve_branches(weapon,ability_data)
         resolved_source.append(weapon)
     source=dict(source,weapons=resolved_source)
     for weapon in source['weapons']:
@@ -577,6 +587,10 @@ def build(catalog_path=CATALOG):
                     target,acknowledgement=None if exact else'allow_unverified_effect'))
                 fields.append(make_field('windup.wind_down_seconds',windup['windDownSeconds'],
                     dict(backing,offset=4),target,acknowledgement='allow_unverified_effect'))
+                for item in fields[-2:]:
+                    item.update(min=WINDUP_RANGE[0],max=WINDUP_RANGE[1],rangeReason=WINDUP_RANGE[2],
+                        windUp={'meaning':UNVERIFIED_REASONS[item['semanticFieldId']],
+                            'research':'research/windup-controls-F5FEE03DCFDB.json'})
             # Charge (research/railgun-charge-F5FEE03DCFDB.json): only the members this weapon's code path reads.
             fields+=charge_fields.build(weapon,candidate,make_field,component,blocked,charge_research,
                 charge_modes,charge_donors)
@@ -634,7 +648,9 @@ def build(catalog_path=CATALOG):
             # Charge-level roles: the existing attacks the charge record selects (their rows resolve live through the
             # WeaponCharge record) and the new ones (full-charge shot, its explosion, the overcharge explosion).
             levels_by_role=charge_fields.level_attacks(weapon['name'],charge_levels,candidate)
-            for attack in candidate['attacks']+[item for item in levels_by_role.values()if not item['existing']]:
+            ability_attack=ability_explosion_fields.attack(weapon['name'],ability_data,candidate)
+            for attack in candidate['attacks']+[item for item in levels_by_role.values()if not item['existing']]+(
+                    [ability_attack]if ability_attack else[]):
                 role=attack['role'];kind=attack['kind']
                 if role not in resolved_roles:continue
                 level=levels_by_role.get(role)
@@ -695,7 +711,10 @@ def build(catalog_path=CATALOG):
                     linkage='explosive_explosion'if standalone else'projectile_explosion'
                     extra={'selectorOffset':40 if role=='impact'and standalone else 36}if standalone else{
                         'parentRole':parent,'phase':'expiry'if role.endswith('expiry')else'impact'}
-                    if level:
+                    if attack.get('linkage')=='ability_explosion':
+                        # Requested through an ability its own melee record names (scripts/ability_explosion_fields.py).
+                        linkage='ability_explosion';extra=dict(attack['backingExtra'])
+                    elif level:
                         # Through the charge record: a charge-level shot's explosion (its parent's selector), or the
                         # explosion the overcharge failure spawns (WeaponCharge +200, no parent projectile).
                         linkage=level['linkage']
@@ -734,6 +753,7 @@ def build(catalog_path=CATALOG):
                             **(status_extra if parent and parent.get('damageInfo')else{})),attack_target))
             # Which charge level fires each row, when the game reads it, who shares it, and the acknowledgement.
             charge_fields.annotate_levels(weapon['name'],fields,charge_levels)
+            if ability_attack:ability_explosion_fields.annotate(fields,ability_attack)
             if 'overcharge_explosion'in levels_by_role:
                 for field in fields:
                     if field['semanticFieldId']=='charge.overcharge_explosion':
@@ -769,6 +789,9 @@ def build(catalog_path=CATALOG):
         refusals={item['field']:item['reason'] for item in blocked if item['field']==weapon_sound_fields.FIELD}
         if refusals:runtime_weapons[weapon['name']]['fieldRefusals']=refusals
         roles=charge_fields.branch_roles(weapon,charge_levels)
+        if weapon['name']in ability_explosion_fields.REVIEWED:
+            roles={branch['name']:branch['runtimeMatch']['runtimeAttackRole']for branch in weapon['attackGraph']
+                if branch.get('state')=='RESOLVED'and(branch.get('runtimeMatch')or{}).get('runtimeAttackRole')}
         if roles:
             # Catalog branch -> reviewed attack role, where the charge-level research re-resolved the branches the
             # read-only mapper matched heuristically (api/target.lua resolves support:attack(name) through it).
@@ -1108,6 +1131,12 @@ def build(catalog_path=CATALOG):
                 instance['missile']=dict({'spawned':'programmable_function'if field_id.startswith('function_missile.')
                     else'default','research':field['spawnedEntity']['research']},
                     **{key:field[key] for key in('min','max','rangeReason','multiplayer')if field.get(key)is not None})
+            if field.get('windUp')and field_id.startswith('windup.'):
+                # The spin-up members (research/windup-controls): meaning and reviewed range.
+                instance['windUp']=dict(field['windUp'],**{key:field[key] for key in('min','max','rangeReason')})
+            if field.get('abilityExplosion'):
+                # The explosion an ability requests (scripts/ability_explosion_fields.py): its catalogue name.
+                instance['abilityExplosion']=field['abilityExplosion']
             if field.get('chargeLevel'):
                 # Charge-level shots and overcharge explosions (scripts/charge_fields.py annotate_levels).
                 instance['chargeLevel']=field['chargeLevel']

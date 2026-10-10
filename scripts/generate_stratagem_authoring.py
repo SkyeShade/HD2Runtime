@@ -15,6 +15,7 @@ import support_callin_linkage
 import live_evidence
 import generate_entity_authoring
 import generate_pod_payload_authoring
+import equipment_fields
 
 ROOT = Path(__file__).resolve().parents[1]
 INPUT = ROOT / 'build/offensive-stratagem-research.json'
@@ -1426,6 +1427,28 @@ def build():
                              'recordSha256':heat.get('recordSha256'),
                              'consumers':defensive_consumers[('WeaponHeatComponentData', heat['record_index'])]},
                             weapon_target)
+                # 0.30.4: the wind-up (firing charge, WeaponHeat +148/+152/+156) of a heat sentry that has one (the
+                # A/LAS-98 Laser Sentry): the same members, readers and rules as the player heat weapons
+                # (scripts/equipment_fields.py, research/windup-controls-F5FEE03DCFDB.json). The u8 reset switch
+                # stays unexposed here (stratagem writes have no u8 storage; the sentry's is 0).
+                charge = equipment_fields.charge_record(heat['record_index'])
+                if charge and charge['values']['148'] > 0:
+                    for field_id, key, offset, storage, low, high in equipment_fields.CHARGE_FIELDS:
+                        if storage != 'f32':
+                            continue
+                        baseline = scalar_at(heat, offset)
+                        assert baseline == charge['values'][key], item['name'] + ': ' + field_id + ' research differs'
+                        add_field(entry, field_id, baseline,
+                            {'kind':'WeaponHeatComponentData','component':'WeaponHeatComponentData',
+                             'nativeIdentity':entity['resource'],'recordIndex':heat['record_index'],
+                             'indexRow':heat['index_row'],'offset':offset,'storage':storage,'width':4,
+                             'ownerCount':heat['ownerCount'],'uniqueOwner':heat['uniqueOwner'],
+                             'recordSha256':heat.get('recordSha256'),
+                             'consumers':defensive_consumers[('WeaponHeatComponentData', heat['record_index'])]},
+                            weapon_target, extra={'acknowledgement':'allow_unverified_effect',
+                                'acknowledgementReason':equipment_fields.CHARGE_REASON,'min':low,'max':high,
+                                'readTiming':'live','readTimingNote':'read from the type record every frame by the '
+                                    'charge update and the fire gate: a write also changes sentries already deployed'})
 
             for node in entity['nativeGraph']:
                 if not node.get('recordType'):

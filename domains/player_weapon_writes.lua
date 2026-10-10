@@ -1449,7 +1449,27 @@ local function charge_explosion(resolved,backing)
         'linked charge level ExplosionSettings absent')
 end
 
+-- An explosion the weapon requests through an ability (0.30.4, scripts/ability_explosion_fields.py: the Breaching
+-- Hammer's charge blast). The weapon's own melee record must still name the reviewed ability exactly once in its
+-- ability slots, else another mod changed what the weapon requests and the write is refused; the caller then
+-- re-proves the explosion row (and its +4 damage link) as the reviewed rows. The ability -> explosion type link is
+-- game code, fixed by the build fingerprint.
+local function ability_explosion(resolved,backing)
+    local identity=assert(backing.abilityRecord,'ability record identity missing')
+    local record=component_record(resolved,identity)
+    local found=0
+    for slot=0,assert(backing.abilitySlots)-1 do
+        if b.u32(record.bytes,assert(backing.abilityOffset)+4*slot)==backing.abilityId then found=found+1 end
+    end
+    assert(found==1,'ABILITY_CHANGED: '..identity.component..' +'..backing.abilityOffset
+        ..' no longer names the reviewed ability exactly once (another mod changed what the weapon requests); '
+        ..'its explosion fields are refused')
+    return assert(resolved.roots.explosion.records[assert(backing.explosionType)],
+        'linked ability ExplosionSettings absent')
+end
+
 local function support_explosion(resolved,backing)
+    if backing.linkage:find('ability_explosion',1,true)==1 then return ability_explosion(resolved,backing)end
     if backing.linkage:find('charge_',1,true)==1 then return charge_explosion(resolved,backing)end
     if backing.linkage:find('explosive_explosion',1,true)then
         local component=component_record(resolved,{component='ExplosiveComponentData',

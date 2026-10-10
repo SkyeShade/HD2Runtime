@@ -19,11 +19,11 @@ local steer=options:toggle({id='air_steer',label='Jump: strong air control',defa
 local hop=options:toggle({id='big_hop',label='Jump: big take-off hop',default=false,
     description='Take-off upward impulse 2.8 -> 12 m/s.'})
 local drift=options:toggle({id='hover_drift',label='Hover: fast drift, slow climb',default=true,
-    description='Hover horizontal speed 3.5 -> 15 m/s, climb speed 10 -> 1 m/s.'})
+    description='Hover horizontal speed 3.5 -> 15 m/s, climb speed cap 10 -> 1 m/s.'})
 local fuel=options:toggle({id='hover_fuel',label='Hover: frugal fuel',default=false,
     description='Hover fuel use 1 + 1.6 / 1 + 0 -> 0.1 / 0.1 s per second (hover much longer).'})
 local climb=options:toggle({id='hover_climb',label='Hover: snappy climb',default=false,
-    description='Hover vertical acceleration at low speed 9.8 -> 40.'})
+    description='Hover lift (vertical acceleration at low speed) 9.8 -> 40: a fast climb, about 6 m/s.'})
 mod:log(BANNER..': LIFT-850 launch / sustain / air control / take-off, LIFT-860 hover speed / fuel / climb '
     ..'(MODS page "Jump Hover Test"; APPLIED lines follow)')
 return {

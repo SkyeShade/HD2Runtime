@@ -61,15 +61,21 @@ SPECS = (
     ('hover.max_horizontal_speed', '176[0]', 176, ('hover',), (0.0, 50.0),
         'Hover horizontal target speed (m/s); also the air-control speed limit of the Hover Pack.'),
     ('hover.max_vertical_speed', '176[1]', 180, ('hover',), (0.0, 50.0),
-        'Hover climb target speed (m/s); no climb acceleration at it.'),
+        'Hover climb target speed (m/s); no climb acceleration at it. A cap only: with the vanilla lift '
+        '(hover.vertical_acceleration_low_speed 9.8, under the 9.82 m/s^2 gravity that keeps acting while hovering) '
+        'the pack never climbs, so raising this alone changes nothing.'),
     ('hover.vertical_acceleration_low_speed', '160[1].0', 168, ('hover',), (0.0, 200.0),
-        'Vertical acceleration (m/s^2) toward the climb target at low vertical speed (blended to the high-speed '
-        'value over 0..hover.vertical_speed_range_end).'),
+        'Hover lift: vertical acceleration (m/s^2) toward the climb target at low vertical speed (blended to the '
+        'high-speed value over 0..hover.vertical_speed_range_end). Gravity (9.82 m/s^2) keeps acting while hovering: '
+        'the vanilla 9.8 only holds the height the activation reached; above 9.82 the pack climbs while its climb '
+        'input is on (hover.duration), at about hover.vertical_speed_range_end x (value - 9.82) / (value - '
+        'hover.vertical_acceleration_high_speed) m/s. The field that makes the Hover Pack fly higher.'),
     ('hover.vertical_acceleration_high_speed', '160[1].4', 172, ('hover',), (0.0, 200.0),
         'Vertical acceleration (m/s^2) at the end of the vertical speed range.'),
     ('hover.vertical_speed_range_end', '184[1].4', 196, ('hover',), (0.01, 100.0),
         'Vertical speed (m/s) over which the vertical acceleration and the fuel rate blend from their low-speed to '
-        'their high-speed value (must stay above the range start, 0).'),
+        'their high-speed value (must stay above the range start, 0). With a lift above gravity, a larger value '
+        'climbs faster.'),
     ('hover.fuel_rate_low_speed', '200[0]', 200, ('hover',), (-1.0, 10.0),
         'Extra hover fuel use at low vertical speed: each hovering second fills the recharge cooldown by 1 + this '
         'value seconds (capped at recharge.time; -1 = no fuel use).'),

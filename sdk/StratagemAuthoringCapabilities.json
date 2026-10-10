@@ -86841,7 +86841,7 @@
     {
       "instanceKey": "stratagem:a_g_16_gatling_sentry:a_g_16_gatling_sentry_weapon_main_primary:windup.wind_up_seconds",
       "semanticFieldId": "windup.wind_up_seconds",
-      "displayName": "Wind-up time",
+      "displayName": "Wind-up time (spin-up)",
       "type": "number",
       "unit": "seconds",
       "currentDefault": 0.5,
@@ -86888,7 +86888,7 @@
     {
       "instanceKey": "stratagem:a_g_16_gatling_sentry:a_g_16_gatling_sentry_weapon_main_primary:windup.wind_down_seconds",
       "semanticFieldId": "windup.wind_down_seconds",
-      "displayName": "Wind-down time",
+      "displayName": "Spin-down (0 = stop at once)",
       "type": "number",
       "unit": "seconds",
       "currentDefault": 1.0,
@@ -86916,7 +86916,7 @@
       "reviewedScopeComplete": true,
       "dynamicConsumersPossible": false,
       "sharedScopeKey": "shared-scope:3be1dcfe3247fd22",
-      "provenance": "WeaponWindUpComponentData member of the sentry's own deployed entity; native reader: the wind-up routine reads it every update on release (0x78A519) (offline confidence STRONG, research/sentry-components-F5FEE03DCFDB.json)",
+      "provenance": "WeaponWindUpComponentData member of the sentry's own deployed entity; native reader: the wind-up routine reads it every update on release (0x78A519) as a switch: > 0 spins down over windup.wind_up_seconds (0x78A52C divides by the wind-up time) (offline confidence STRONG, research/sentry-components-F5FEE03DCFDB.json)",
       "backingObjectKind": "WeaponWindUpComponentData",
       "apiFieldConstant": "hd2.fields.windup.wind_down_seconds",
       "domain": "windup",
@@ -86924,8 +86924,8 @@
       "dependsOn": [],
       "min": 0,
       "max": 30,
-      "rangeJustification": "0 = instant stop; native 1.0",
-      "nativeReader": "the wind-up routine reads it every update on release (0x78A519)",
+      "rangeJustification": "0 = instant stop; any positive value behaves the same (native 1.0)",
+      "nativeReader": "the wind-up routine reads it every update on release (0x78A519) as a switch: > 0 spins down over windup.wind_up_seconds (0x78A52C divides by the wind-up time)",
       "writeScope": "A type-record write: the record of this sentry's own deployed entity, read by every deployment of THIS sentry on this machine until it is restored. It is not per deployment, and no other stratagem reads it.",
       "readTiming": "live",
       "readTimingNote": "read from the type record every update: a write also changes sentries already deployed",
@@ -101950,6 +101950,138 @@
       "domain": "heatsink",
       "planPhase": 1,
       "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_weapon_main_primary:heat.firing_charge",
+      "semanticFieldId": "heat.firing_charge",
+      "displayName": "Wind-up: charge needed to fire",
+      "type": "number",
+      "unit": "charge",
+      "currentDefault": 100.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "A/LAS-98 Laser Sentry",
+        "path": "weapon",
+        "entity": "main",
+        "weapon": "primary"
+      },
+      "backingObjectId": "backing:b992003231de5d0b",
+      "operationGroup": "operation:6277d432972f2a76",
+      "planGroup": "plan:stratagem:a_las_98_laser_sentry",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "stratagem": "A/LAS-98 Laser Sentry",
+          "path": "deployed_entity/weapon:primary"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "sharedScopeKey": "shared-scope:e9fb04467788f2cd",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "WeaponHeatComponentData",
+      "apiFieldConstant": "hd2.fields.heat.firing_charge",
+      "domain": "heat",
+      "planPhase": 1,
+      "dependsOn": [],
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s.",
+      "min": 0,
+      "max": 10000,
+      "readTiming": "live",
+      "readTimingNote": "read from the type record every frame by the charge update and the fire gate: a write also changes sentries already deployed"
+    },
+    {
+      "instanceKey": "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_weapon_main_primary:heat.charge_gain_per_second",
+      "semanticFieldId": "heat.charge_gain_per_second",
+      "displayName": "Wind-up: charge gained per second",
+      "type": "number",
+      "unit": "charge_per_second",
+      "currentDefault": 200.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "A/LAS-98 Laser Sentry",
+        "path": "weapon",
+        "entity": "main",
+        "weapon": "primary"
+      },
+      "backingObjectId": "backing:b992003231de5d0b",
+      "operationGroup": "operation:6277d432972f2a76",
+      "planGroup": "plan:stratagem:a_las_98_laser_sentry",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "stratagem": "A/LAS-98 Laser Sentry",
+          "path": "deployed_entity/weapon:primary"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "sharedScopeKey": "shared-scope:e9fb04467788f2cd",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "WeaponHeatComponentData",
+      "apiFieldConstant": "hd2.fields.heat.charge_gain_per_second",
+      "domain": "heat",
+      "planPhase": 1,
+      "dependsOn": [],
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s.",
+      "min": 0,
+      "max": 100000,
+      "readTiming": "live",
+      "readTimingNote": "read from the type record every frame by the charge update and the fire gate: a write also changes sentries already deployed"
+    },
+    {
+      "instanceKey": "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_weapon_main_primary:heat.charge_loss_per_second",
+      "semanticFieldId": "heat.charge_loss_per_second",
+      "displayName": "Wind-up: charge lost per second (released)",
+      "type": "number",
+      "unit": "charge_per_second",
+      "currentDefault": 500.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "A/LAS-98 Laser Sentry",
+        "path": "weapon",
+        "entity": "main",
+        "weapon": "primary"
+      },
+      "backingObjectId": "backing:b992003231de5d0b",
+      "operationGroup": "operation:6277d432972f2a76",
+      "planGroup": "plan:stratagem:a_las_98_laser_sentry",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "stratagem": "A/LAS-98 Laser Sentry",
+          "path": "deployed_entity/weapon:primary"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "sharedScopeKey": "shared-scope:e9fb04467788f2cd",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "WeaponHeatComponentData",
+      "apiFieldConstant": "hd2.fields.heat.charge_loss_per_second",
+      "domain": "heat",
+      "planPhase": 1,
+      "dependsOn": [],
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s.",
+      "min": 0,
+      "max": 100000,
+      "readTiming": "live",
+      "readTimingNote": "read from the type record every frame by the charge update and the fire gate: a write also changes sentries already deployed"
     },
     {
       "instanceKey": "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_attack_main_primary_primary:beam.radius",
@@ -124051,6 +124183,9 @@
         "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_weapon_main_primary:heatsink.starting",
         "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_weapon_main_primary:heatsink.from_supply",
         "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_weapon_main_primary:heatsink.spare",
+        "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_weapon_main_primary:heat.firing_charge",
+        "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_weapon_main_primary:heat.charge_gain_per_second",
+        "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_weapon_main_primary:heat.charge_loss_per_second",
         "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_attack_main_primary_primary:beam.radius",
         "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_attack_main_primary_primary:beam.length",
         "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_attack_main_primary_primary_damage:damage.standard_damage",
@@ -131816,7 +131951,10 @@
         "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_weapon_main_primary:heat.cool_per_second",
         "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_weapon_main_primary:heatsink.starting",
         "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_weapon_main_primary:heatsink.from_supply",
-        "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_weapon_main_primary:heatsink.spare"
+        "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_weapon_main_primary:heatsink.spare",
+        "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_weapon_main_primary:heat.firing_charge",
+        "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_weapon_main_primary:heat.charge_gain_per_second",
+        "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_weapon_main_primary:heat.charge_loss_per_second"
       ]
     },
     {
@@ -142398,7 +142536,10 @@
         "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_weapon_main_primary:heat.cool_per_second",
         "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_weapon_main_primary:heatsink.starting",
         "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_weapon_main_primary:heatsink.from_supply",
-        "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_weapon_main_primary:heatsink.spare"
+        "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_weapon_main_primary:heatsink.spare",
+        "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_weapon_main_primary:heat.firing_charge",
+        "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_weapon_main_primary:heat.charge_gain_per_second",
+        "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_weapon_main_primary:heat.charge_loss_per_second"
       ],
       "planGroups": [
         "plan:stratagem:a_las_98_laser_sentry"
@@ -148279,8 +148420,8 @@
     }
   },
   "instanceAudit": {
-    "internalPromotedInstances": 2406,
-    "publishedCanonicalInstances": 2406,
+    "internalPromotedInstances": 2409,
+    "publishedCanonicalInstances": 2409,
     "missingInstances": [],
     "unexpectedInstances": [],
     "duplicateInstanceKeys": 0,
@@ -148316,8 +148457,8 @@
       "Eagle Napalm Airstrike",
       "Eagle Strafing Run"
     ],
-    "fieldInstances": 2406,
-    "writableFieldInstances": 2339,
+    "fieldInstances": 2409,
+    "writableFieldInstances": 2342,
     "backingObjectCount": 319,
     "sharedBackingObjectCount": 126,
     "sharedConsumerScopeCount": 126,
@@ -148343,7 +148484,7 @@
       "eagle": 41,
       "entity": 36,
       "explosion": 498,
-      "heat": 4,
+      "heat": 7,
       "heatsink": 3,
       "magazine": 33,
       "minefield": 8,
@@ -148396,7 +148537,7 @@
     "defensiveArcBranches": 1,
     "defensiveSprayBranches": 0,
     "defensiveStatusBranches": 11,
-    "heatWritable": 4,
+    "heatWritable": 7,
     "canonicalBackingObjects": 319,
     "canonicalOperationGroups": 439,
     "supportDeliveryLinksKnown": 33,

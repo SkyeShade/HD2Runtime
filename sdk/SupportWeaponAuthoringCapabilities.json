@@ -20,14 +20,14 @@
       "CQC-72 Entrenchment Tool"
     ],
     "writableSupportWeapons": 34,
-    "writableFieldInstances": 1526,
+    "writableFieldInstances": 1540,
     "fieldInstancesByDomain": {
       "arc": 6,
       "attack": 10,
       "beam": 12,
       "charge": 53,
       "damage": 347,
-      "explosion": 298,
+      "explosion": 312,
       "fire_mode": 26,
       "fire_rate": 12,
       "function_ammo": 13,
@@ -51,7 +51,7 @@
       "beam": 2,
       "charge": 4,
       "damage": 34,
-      "explosion": 18,
+      "explosion": 19,
       "fire_mode": 13,
       "fire_rate": 12,
       "function_ammo": 13,
@@ -70,10 +70,10 @@
       "windup": 1
     },
     "writableProjectileBranches": 21,
-    "writableExplosionBranches": 21,
+    "writableExplosionBranches": 22,
     "writableBranchesByFamily": {
       "Projectile": 21,
-      "Explosion": 21,
+      "Explosion": 22,
       "Arc": 1,
       "Beam": 2,
       "Spray": 3,
@@ -111,21 +111,21 @@
         "MS-11 Solo Silo"
       ]
     },
-    "sharedFieldInstances": 807,
-    "internalSupportAuthoringInstances": 1526,
-    "publishedSupportFieldInstances": 1526,
-    "legacyFlattenedFieldEntries": 1415,
-    "branchSpecificFieldInstances": 815,
-    "backingObjectCount": 239,
-    "operationGroupingCount": 278,
-    "sharedBackingObjectCount": 102,
-    "sharedConsumerScopeCount": 102,
+    "sharedFieldInstances": 821,
+    "internalSupportAuthoringInstances": 1540,
+    "publishedSupportFieldInstances": 1540,
+    "legacyFlattenedFieldEntries": 1427,
+    "branchSpecificFieldInstances": 829,
+    "backingObjectCount": 241,
+    "operationGroupingCount": 280,
+    "sharedBackingObjectCount": 104,
+    "sharedConsumerScopeCount": 104,
     "duplicateSemanticFieldGroups": 50,
     "duplicateSemanticFieldInstances": 114,
-    "deduplicationLossPrevented": 111,
-    "referenceFieldInstances": 97,
+    "deduplicationLossPrevented": 113,
+    "referenceFieldInstances": 98,
     "readOnlyFieldInstances": 0,
-    "blockedFieldDeclarations": 208,
+    "blockedFieldDeclarations": 207,
     "intentionallyOmittedInstances": 0,
     "safety": {
       "writes": 0,
@@ -1545,10 +1545,10 @@
           "name": "CQC-20 BREACHING HAMMER IE",
           "kind": "Explosion",
           "parentAttack": null,
-          "runtimeRole": null,
-          "state": "UNRESOLVED",
-          "writable": false,
-          "blockedReason": "no structurally linked ExplosionSettings branch matched this catalog branch"
+          "runtimeRole": "ability",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
         }
       ],
       "writableFieldsByDomain": {
@@ -1564,6 +1564,20 @@
           "damage.standard_damage",
           "damage.status_strength",
           "damage.status_type"
+        ],
+        "explosion": [
+          "explosion.damage.ap_direct",
+          "explosion.damage.ap_extreme",
+          "explosion.damage.ap_large",
+          "explosion.damage.ap_slight",
+          "explosion.damage.demolition",
+          "explosion.damage.durable_damage",
+          "explosion.damage.push_force",
+          "explosion.damage.stagger",
+          "explosion.damage.standard_damage",
+          "explosion.inner_radius",
+          "explosion.outer_radius",
+          "explosion.shockwave_radius"
         ],
         "magazine": [
           "magazine.magazines_from_supply",
@@ -1585,7 +1599,9 @@
         ]
       },
       "sharedScopes": [
-        "shared_damage"
+        "shared_damage",
+        "shared_explosion",
+        "shared_explosion_damage"
       ],
       "blockedFields": [
         {
@@ -1615,10 +1631,6 @@
         {
           "field": "linked stratagem scalars",
           "reason": "Cooldown and uses are owned by the linked stratagem view (linkedStratagem.semanticId); call-in scalar ownership through the support weapon is not reviewed."
-        },
-        {
-          "field": "unresolved branch",
-          "reason": "CQC-20 BREACHING HAMMER IE: no structurally linked ExplosionSettings branch matched this catalog branch"
         }
       ],
       "backpackDependency": false,
@@ -1656,7 +1668,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 25,
+      "writableFieldCount": 39,
       "fieldInstanceKeys": [
         "support-field/v1/cqc-20-breaching-hammer/weapon/root/weapon-ergonomics/741bdb5f44e60fd7",
         "support-field/v1/cqc-20-breaching-hammer/weapon/root/weapon-sway/1bfb576696d200be",
@@ -1682,7 +1694,21 @@
         "support-field/v1/cqc-20-breaching-hammer/attack/primary/damage-stagger/4dd34aebf16f8709",
         "support-field/v1/cqc-20-breaching-hammer/attack/primary/damage-push-force/2521e13ea3453b15",
         "support-field/v1/cqc-20-breaching-hammer/attack/primary/damage-status-1-type/51856176ffc231b0",
-        "support-field/v1/cqc-20-breaching-hammer/attack/primary/damage-status-1-strength/67fb122f556e3762"
+        "support-field/v1/cqc-20-breaching-hammer/attack/primary/damage-status-1-strength/67fb122f556e3762",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-inner-radius/f509fcb71ced62d9",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-outer-radius/e2ee5098afbb13a9",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-shockwave-radius/a729de68373e330a",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-standard-damage/02a4763e331ce726",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-durable-damage/2e9eedde8e8907b0",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-ap-direct/443c6f076eba380c",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-ap-slight/ec109e204b32541a",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-ap-large/9ec8aa00bba830ec",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-ap-extreme/2701d0b606e0d4c0",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-demolition/d0b0bd171c79f119",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-stagger/21254ca644b1684b",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-push-force/6d93b9a24c9fca37",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-status-1-type/2d4097cf90edb7c5",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-status-1-strength/7e07fc8abb95bf5b"
       ]
     },
     {
@@ -42825,6 +42851,2096 @@
         "baseline": "exact retained-snapshot value",
         "validation": "production resolver guarded ALREADY_DESIRED no-op",
         "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-inner-radius/f509fcb71ced62d9",
+      "supportWeapon": "CQC-20 Breaching Hammer",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/cqc-20-breaching-hammer/ff83dfec2716267f",
+        "name": "CQC-20 Breaching Hammer",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "explosion",
+        "attackRole": "ability",
+        "attackKind": "Explosion",
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon",
+          "attack",
+          "explosion"
+        ],
+        "catalogBranches": [
+          {
+            "name": "CQC-20 BREACHING HAMMER IE",
+            "kind": "Explosion",
+            "state": "RESOLVED"
+          }
+        ],
+        "writableCatalogBranches": [
+          {
+            "name": "CQC-20 BREACHING HAMMER IE",
+            "kind": "Explosion",
+            "state": "RESOLVED"
+          }
+        ]
+      },
+      "semanticFieldId": "explosion.inner_radius",
+      "qualifiedSemanticFieldId": "explosion.ability.inner_radius",
+      "apiFieldConstant": "hd2.fields.explosion.inner_radius",
+      "display": {
+        "name": "Explosion inner radius",
+        "domain": "explosion",
+        "group": "ExplosionSettings"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "number",
+        "baseline": 0.5,
+        "expected": 0.5,
+        "unit": "meters",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/explosionsettings/dbc7cfe96103743d20ed",
+        "kind": "settings",
+        "semanticType": "ExplosionSettings",
+        "domain": "explosion",
+        "operationGroupingKey": "support-operation/v1/fa3ebc88f60b6bdcd95e",
+        "runtimeBackingScope": "settings:explosion"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/1d16624bc2e42278f514",
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "CQC-20 Breaching Hammer",
+            "targetPath": "explosion",
+            "attackRole": "ability",
+            "attackKind": "Explosion",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "CQC-20 BREACHING HAMMER IE",
+                "kind": "Explosion",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "CQC-20 BREACHING HAMMER IE",
+                "kind": "Explosion",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/cqc-20-breaching-hammer/explosion/ability/679686f16be0cb64"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": true
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/fa3ebc88f60b6bdcd95e",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/cqc-20-breaching-hammer/ff83dfec2716",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": true,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The Breaching Hammer's charge blast (published 2200 Explosion, Anti-Tank II): the explosion its own melee record requests through an ability (MeleeWeaponComponent ability slot -> the ability dispatcher -> this explosion row), proven from the game data and code; the row and its damage row have no other user. Every write re-proves the ability slot and the rows. Not yet shown in game."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "ability_explosion",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_DIRECT",
+        "activeSourceProven": true,
+        "appliesWhen": "use",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true,
+        "writeVerifiedOnApply": true,
+        "reason": "The ability requests this explosion row each time the charge blast goes off (native ability code); the row is read at the request.",
+        "readTiming": "each blast"
+      },
+      "abilityExplosion": {
+        "catalogueExplosion": "support_weapon/cqc20_breaching_hammer/ability",
+        "sameRowAs": "hd2.explosion('support_weapon/cqc20_breaching_hammer/ability')",
+        "multiplayer": "A per-type settings row on each machine: the machine that simulates the blast reads its own copy (the host for the damage it deals). Install the mod on every machine for consistent results.",
+        "research": "research/explosion-identities-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-outer-radius/e2ee5098afbb13a9",
+      "supportWeapon": "CQC-20 Breaching Hammer",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/cqc-20-breaching-hammer/ff83dfec2716267f",
+        "name": "CQC-20 Breaching Hammer",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "explosion",
+        "attackRole": "ability",
+        "attackKind": "Explosion",
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon",
+          "attack",
+          "explosion"
+        ],
+        "catalogBranches": [
+          {
+            "name": "CQC-20 BREACHING HAMMER IE",
+            "kind": "Explosion",
+            "state": "RESOLVED"
+          }
+        ],
+        "writableCatalogBranches": [
+          {
+            "name": "CQC-20 BREACHING HAMMER IE",
+            "kind": "Explosion",
+            "state": "RESOLVED"
+          }
+        ]
+      },
+      "semanticFieldId": "explosion.outer_radius",
+      "qualifiedSemanticFieldId": "explosion.ability.outer_radius",
+      "apiFieldConstant": "hd2.fields.explosion.outer_radius",
+      "display": {
+        "name": "Explosion outer radius",
+        "domain": "explosion",
+        "group": "ExplosionSettings"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "number",
+        "baseline": 3.0,
+        "expected": 3.0,
+        "unit": "meters",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/explosionsettings/dbc7cfe96103743d20ed",
+        "kind": "settings",
+        "semanticType": "ExplosionSettings",
+        "domain": "explosion",
+        "operationGroupingKey": "support-operation/v1/fa3ebc88f60b6bdcd95e",
+        "runtimeBackingScope": "settings:explosion"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/1d16624bc2e42278f514",
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "CQC-20 Breaching Hammer",
+            "targetPath": "explosion",
+            "attackRole": "ability",
+            "attackKind": "Explosion",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "CQC-20 BREACHING HAMMER IE",
+                "kind": "Explosion",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "CQC-20 BREACHING HAMMER IE",
+                "kind": "Explosion",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/cqc-20-breaching-hammer/explosion/ability/679686f16be0cb64"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": true
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/fa3ebc88f60b6bdcd95e",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/cqc-20-breaching-hammer/ff83dfec2716",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": true,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The Breaching Hammer's charge blast (published 2200 Explosion, Anti-Tank II): the explosion its own melee record requests through an ability (MeleeWeaponComponent ability slot -> the ability dispatcher -> this explosion row), proven from the game data and code; the row and its damage row have no other user. Every write re-proves the ability slot and the rows. Not yet shown in game."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "ability_explosion",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_DIRECT",
+        "activeSourceProven": true,
+        "appliesWhen": "use",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true,
+        "writeVerifiedOnApply": true,
+        "reason": "The ability requests this explosion row each time the charge blast goes off (native ability code); the row is read at the request.",
+        "readTiming": "each blast"
+      },
+      "abilityExplosion": {
+        "catalogueExplosion": "support_weapon/cqc20_breaching_hammer/ability",
+        "sameRowAs": "hd2.explosion('support_weapon/cqc20_breaching_hammer/ability')",
+        "multiplayer": "A per-type settings row on each machine: the machine that simulates the blast reads its own copy (the host for the damage it deals). Install the mod on every machine for consistent results.",
+        "research": "research/explosion-identities-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-shockwave-radius/a729de68373e330a",
+      "supportWeapon": "CQC-20 Breaching Hammer",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/cqc-20-breaching-hammer/ff83dfec2716267f",
+        "name": "CQC-20 Breaching Hammer",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "explosion",
+        "attackRole": "ability",
+        "attackKind": "Explosion",
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon",
+          "attack",
+          "explosion"
+        ],
+        "catalogBranches": [
+          {
+            "name": "CQC-20 BREACHING HAMMER IE",
+            "kind": "Explosion",
+            "state": "RESOLVED"
+          }
+        ],
+        "writableCatalogBranches": [
+          {
+            "name": "CQC-20 BREACHING HAMMER IE",
+            "kind": "Explosion",
+            "state": "RESOLVED"
+          }
+        ]
+      },
+      "semanticFieldId": "explosion.shockwave_radius",
+      "qualifiedSemanticFieldId": "explosion.ability.shockwave_radius",
+      "apiFieldConstant": "hd2.fields.explosion.shockwave_radius",
+      "display": {
+        "name": "Explosion shockwave radius",
+        "domain": "explosion",
+        "group": "ExplosionSettings"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "number",
+        "baseline": 12.0,
+        "expected": 12.0,
+        "unit": "meters",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/explosionsettings/dbc7cfe96103743d20ed",
+        "kind": "settings",
+        "semanticType": "ExplosionSettings",
+        "domain": "explosion",
+        "operationGroupingKey": "support-operation/v1/fa3ebc88f60b6bdcd95e",
+        "runtimeBackingScope": "settings:explosion"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/1d16624bc2e42278f514",
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "CQC-20 Breaching Hammer",
+            "targetPath": "explosion",
+            "attackRole": "ability",
+            "attackKind": "Explosion",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "CQC-20 BREACHING HAMMER IE",
+                "kind": "Explosion",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "CQC-20 BREACHING HAMMER IE",
+                "kind": "Explosion",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/cqc-20-breaching-hammer/explosion/ability/679686f16be0cb64"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": true
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/fa3ebc88f60b6bdcd95e",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/cqc-20-breaching-hammer/ff83dfec2716",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": true,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The Breaching Hammer's charge blast (published 2200 Explosion, Anti-Tank II): the explosion its own melee record requests through an ability (MeleeWeaponComponent ability slot -> the ability dispatcher -> this explosion row), proven from the game data and code; the row and its damage row have no other user. Every write re-proves the ability slot and the rows. Not yet shown in game."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "ability_explosion",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_DIRECT",
+        "activeSourceProven": true,
+        "appliesWhen": "use",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true,
+        "writeVerifiedOnApply": true,
+        "reason": "The ability requests this explosion row each time the charge blast goes off (native ability code); the row is read at the request.",
+        "readTiming": "each blast"
+      },
+      "abilityExplosion": {
+        "catalogueExplosion": "support_weapon/cqc20_breaching_hammer/ability",
+        "sameRowAs": "hd2.explosion('support_weapon/cqc20_breaching_hammer/ability')",
+        "multiplayer": "A per-type settings row on each machine: the machine that simulates the blast reads its own copy (the host for the damage it deals). Install the mod on every machine for consistent results.",
+        "research": "research/explosion-identities-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-standard-damage/02a4763e331ce726",
+      "supportWeapon": "CQC-20 Breaching Hammer",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/cqc-20-breaching-hammer/ff83dfec2716267f",
+        "name": "CQC-20 Breaching Hammer",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "explosion",
+        "attackRole": "ability",
+        "attackKind": "Explosion",
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon",
+          "attack",
+          "explosion"
+        ],
+        "catalogBranches": [
+          {
+            "name": "CQC-20 BREACHING HAMMER IE",
+            "kind": "Explosion",
+            "state": "RESOLVED"
+          }
+        ],
+        "writableCatalogBranches": [
+          {
+            "name": "CQC-20 BREACHING HAMMER IE",
+            "kind": "Explosion",
+            "state": "RESOLVED"
+          }
+        ]
+      },
+      "semanticFieldId": "explosion.damage.standard_damage",
+      "qualifiedSemanticFieldId": "explosion.ability.damage.standard_damage",
+      "apiFieldConstant": "hd2.fields.explosion.damage_standard_damage",
+      "display": {
+        "name": "Explosion standard damage",
+        "domain": "explosion",
+        "group": "DamageInfo"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "integer",
+        "baseline": 2200,
+        "expected": 2200,
+        "unit": "damage",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/damageinfo/245c85a1b601fd36ff56",
+        "kind": "settings",
+        "semanticType": "DamageInfo",
+        "domain": "explosion_damage",
+        "operationGroupingKey": "support-operation/v1/e6aa373ed74f190401db",
+        "runtimeBackingScope": "settings:explosion_damage"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/d567be4e91b04fcf4b43",
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "CQC-20 Breaching Hammer",
+            "targetPath": "explosion",
+            "attackRole": "ability",
+            "attackKind": "Explosion",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "CQC-20 BREACHING HAMMER IE",
+                "kind": "Explosion",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "CQC-20 BREACHING HAMMER IE",
+                "kind": "Explosion",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/cqc-20-breaching-hammer/explosion/ability/679686f16be0cb64"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": true
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/e6aa373ed74f190401db",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/cqc-20-breaching-hammer/ff83dfec2716",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": true,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The Breaching Hammer's charge blast (published 2200 Explosion, Anti-Tank II): the explosion its own melee record requests through an ability (MeleeWeaponComponent ability slot -> the ability dispatcher -> this explosion row), proven from the game data and code; the row and its damage row have no other user. Every write re-proves the ability slot and the rows. Not yet shown in game."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "ability_explosion_damage",
+        "parentObjectKey": "support-object/v1/explosionsettings/dbc7cfe96103743d20ed",
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_DIRECT",
+        "activeSourceProven": true,
+        "appliesWhen": "use",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true,
+        "writeVerifiedOnApply": true,
+        "reason": "The ability requests this explosion row each time the charge blast goes off (native ability code); the row is read at the request.",
+        "readTiming": "each blast"
+      },
+      "abilityExplosion": {
+        "catalogueExplosion": "support_weapon/cqc20_breaching_hammer/ability",
+        "sameRowAs": "hd2.explosion('support_weapon/cqc20_breaching_hammer/ability')",
+        "multiplayer": "A per-type settings row on each machine: the machine that simulates the blast reads its own copy (the host for the damage it deals). Install the mod on every machine for consistent results.",
+        "research": "research/explosion-identities-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-durable-damage/2e9eedde8e8907b0",
+      "supportWeapon": "CQC-20 Breaching Hammer",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/cqc-20-breaching-hammer/ff83dfec2716267f",
+        "name": "CQC-20 Breaching Hammer",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "explosion",
+        "attackRole": "ability",
+        "attackKind": "Explosion",
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon",
+          "attack",
+          "explosion"
+        ],
+        "catalogBranches": [
+          {
+            "name": "CQC-20 BREACHING HAMMER IE",
+            "kind": "Explosion",
+            "state": "RESOLVED"
+          }
+        ],
+        "writableCatalogBranches": [
+          {
+            "name": "CQC-20 BREACHING HAMMER IE",
+            "kind": "Explosion",
+            "state": "RESOLVED"
+          }
+        ]
+      },
+      "semanticFieldId": "explosion.damage.durable_damage",
+      "qualifiedSemanticFieldId": "explosion.ability.damage.durable_damage",
+      "apiFieldConstant": "hd2.fields.explosion.damage_durable_damage",
+      "display": {
+        "name": "Explosion durable damage",
+        "domain": "explosion",
+        "group": "DamageInfo"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "integer",
+        "baseline": 2200,
+        "expected": 2200,
+        "unit": "damage",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/damageinfo/245c85a1b601fd36ff56",
+        "kind": "settings",
+        "semanticType": "DamageInfo",
+        "domain": "explosion_damage",
+        "operationGroupingKey": "support-operation/v1/e6aa373ed74f190401db",
+        "runtimeBackingScope": "settings:explosion_damage"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/d567be4e91b04fcf4b43",
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "CQC-20 Breaching Hammer",
+            "targetPath": "explosion",
+            "attackRole": "ability",
+            "attackKind": "Explosion",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "CQC-20 BREACHING HAMMER IE",
+                "kind": "Explosion",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "CQC-20 BREACHING HAMMER IE",
+                "kind": "Explosion",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/cqc-20-breaching-hammer/explosion/ability/679686f16be0cb64"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": true
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/e6aa373ed74f190401db",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/cqc-20-breaching-hammer/ff83dfec2716",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": true,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The Breaching Hammer's charge blast (published 2200 Explosion, Anti-Tank II): the explosion its own melee record requests through an ability (MeleeWeaponComponent ability slot -> the ability dispatcher -> this explosion row), proven from the game data and code; the row and its damage row have no other user. Every write re-proves the ability slot and the rows. Not yet shown in game."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "ability_explosion_damage",
+        "parentObjectKey": "support-object/v1/explosionsettings/dbc7cfe96103743d20ed",
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_DIRECT",
+        "activeSourceProven": true,
+        "appliesWhen": "use",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true,
+        "writeVerifiedOnApply": true,
+        "reason": "The ability requests this explosion row each time the charge blast goes off (native ability code); the row is read at the request.",
+        "readTiming": "each blast"
+      },
+      "abilityExplosion": {
+        "catalogueExplosion": "support_weapon/cqc20_breaching_hammer/ability",
+        "sameRowAs": "hd2.explosion('support_weapon/cqc20_breaching_hammer/ability')",
+        "multiplayer": "A per-type settings row on each machine: the machine that simulates the blast reads its own copy (the host for the damage it deals). Install the mod on every machine for consistent results.",
+        "research": "research/explosion-identities-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-ap-direct/443c6f076eba380c",
+      "supportWeapon": "CQC-20 Breaching Hammer",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/cqc-20-breaching-hammer/ff83dfec2716267f",
+        "name": "CQC-20 Breaching Hammer",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "explosion",
+        "attackRole": "ability",
+        "attackKind": "Explosion",
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon",
+          "attack",
+          "explosion"
+        ],
+        "catalogBranches": [
+          {
+            "name": "CQC-20 BREACHING HAMMER IE",
+            "kind": "Explosion",
+            "state": "RESOLVED"
+          }
+        ],
+        "writableCatalogBranches": [
+          {
+            "name": "CQC-20 BREACHING HAMMER IE",
+            "kind": "Explosion",
+            "state": "RESOLVED"
+          }
+        ]
+      },
+      "semanticFieldId": "explosion.damage.ap_direct",
+      "qualifiedSemanticFieldId": "explosion.ability.damage.ap_direct",
+      "apiFieldConstant": "hd2.fields.explosion.damage_ap_direct",
+      "display": {
+        "name": "Explosion AP: direct",
+        "domain": "explosion",
+        "group": "DamageInfo"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "integer",
+        "baseline": 6,
+        "expected": 6,
+        "unit": "armor_class",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/damageinfo/245c85a1b601fd36ff56",
+        "kind": "settings",
+        "semanticType": "DamageInfo",
+        "domain": "explosion_damage",
+        "operationGroupingKey": "support-operation/v1/e6aa373ed74f190401db",
+        "runtimeBackingScope": "settings:explosion_damage"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/d567be4e91b04fcf4b43",
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "CQC-20 Breaching Hammer",
+            "targetPath": "explosion",
+            "attackRole": "ability",
+            "attackKind": "Explosion",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "CQC-20 BREACHING HAMMER IE",
+                "kind": "Explosion",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "CQC-20 BREACHING HAMMER IE",
+                "kind": "Explosion",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/cqc-20-breaching-hammer/explosion/ability/679686f16be0cb64"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": true
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/e6aa373ed74f190401db",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/cqc-20-breaching-hammer/ff83dfec2716",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": true,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The Breaching Hammer's charge blast (published 2200 Explosion, Anti-Tank II): the explosion its own melee record requests through an ability (MeleeWeaponComponent ability slot -> the ability dispatcher -> this explosion row), proven from the game data and code; the row and its damage row have no other user. Every write re-proves the ability slot and the rows. Not yet shown in game."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "ability_explosion_damage",
+        "parentObjectKey": "support-object/v1/explosionsettings/dbc7cfe96103743d20ed",
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_DIRECT",
+        "activeSourceProven": true,
+        "appliesWhen": "use",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true,
+        "writeVerifiedOnApply": true,
+        "reason": "The ability requests this explosion row each time the charge blast goes off (native ability code); the row is read at the request.",
+        "readTiming": "each blast"
+      },
+      "abilityExplosion": {
+        "catalogueExplosion": "support_weapon/cqc20_breaching_hammer/ability",
+        "sameRowAs": "hd2.explosion('support_weapon/cqc20_breaching_hammer/ability')",
+        "multiplayer": "A per-type settings row on each machine: the machine that simulates the blast reads its own copy (the host for the damage it deals). Install the mod on every machine for consistent results.",
+        "research": "research/explosion-identities-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-ap-slight/ec109e204b32541a",
+      "supportWeapon": "CQC-20 Breaching Hammer",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/cqc-20-breaching-hammer/ff83dfec2716267f",
+        "name": "CQC-20 Breaching Hammer",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "explosion",
+        "attackRole": "ability",
+        "attackKind": "Explosion",
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon",
+          "attack",
+          "explosion"
+        ],
+        "catalogBranches": [
+          {
+            "name": "CQC-20 BREACHING HAMMER IE",
+            "kind": "Explosion",
+            "state": "RESOLVED"
+          }
+        ],
+        "writableCatalogBranches": [
+          {
+            "name": "CQC-20 BREACHING HAMMER IE",
+            "kind": "Explosion",
+            "state": "RESOLVED"
+          }
+        ]
+      },
+      "semanticFieldId": "explosion.damage.ap_slight",
+      "qualifiedSemanticFieldId": "explosion.ability.damage.ap_slight",
+      "apiFieldConstant": "hd2.fields.explosion.damage_ap_slight",
+      "display": {
+        "name": "Explosion AP: slight angle",
+        "domain": "explosion",
+        "group": "DamageInfo"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "integer",
+        "baseline": 6,
+        "expected": 6,
+        "unit": "armor_class",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/damageinfo/245c85a1b601fd36ff56",
+        "kind": "settings",
+        "semanticType": "DamageInfo",
+        "domain": "explosion_damage",
+        "operationGroupingKey": "support-operation/v1/e6aa373ed74f190401db",
+        "runtimeBackingScope": "settings:explosion_damage"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/d567be4e91b04fcf4b43",
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "CQC-20 Breaching Hammer",
+            "targetPath": "explosion",
+            "attackRole": "ability",
+            "attackKind": "Explosion",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "CQC-20 BREACHING HAMMER IE",
+                "kind": "Explosion",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "CQC-20 BREACHING HAMMER IE",
+                "kind": "Explosion",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/cqc-20-breaching-hammer/explosion/ability/679686f16be0cb64"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": true
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/e6aa373ed74f190401db",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/cqc-20-breaching-hammer/ff83dfec2716",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": true,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The Breaching Hammer's charge blast (published 2200 Explosion, Anti-Tank II): the explosion its own melee record requests through an ability (MeleeWeaponComponent ability slot -> the ability dispatcher -> this explosion row), proven from the game data and code; the row and its damage row have no other user. Every write re-proves the ability slot and the rows. Not yet shown in game."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "ability_explosion_damage",
+        "parentObjectKey": "support-object/v1/explosionsettings/dbc7cfe96103743d20ed",
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_DIRECT",
+        "activeSourceProven": true,
+        "appliesWhen": "use",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true,
+        "writeVerifiedOnApply": true,
+        "reason": "The ability requests this explosion row each time the charge blast goes off (native ability code); the row is read at the request.",
+        "readTiming": "each blast"
+      },
+      "abilityExplosion": {
+        "catalogueExplosion": "support_weapon/cqc20_breaching_hammer/ability",
+        "sameRowAs": "hd2.explosion('support_weapon/cqc20_breaching_hammer/ability')",
+        "multiplayer": "A per-type settings row on each machine: the machine that simulates the blast reads its own copy (the host for the damage it deals). Install the mod on every machine for consistent results.",
+        "research": "research/explosion-identities-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-ap-large/9ec8aa00bba830ec",
+      "supportWeapon": "CQC-20 Breaching Hammer",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/cqc-20-breaching-hammer/ff83dfec2716267f",
+        "name": "CQC-20 Breaching Hammer",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "explosion",
+        "attackRole": "ability",
+        "attackKind": "Explosion",
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon",
+          "attack",
+          "explosion"
+        ],
+        "catalogBranches": [
+          {
+            "name": "CQC-20 BREACHING HAMMER IE",
+            "kind": "Explosion",
+            "state": "RESOLVED"
+          }
+        ],
+        "writableCatalogBranches": [
+          {
+            "name": "CQC-20 BREACHING HAMMER IE",
+            "kind": "Explosion",
+            "state": "RESOLVED"
+          }
+        ]
+      },
+      "semanticFieldId": "explosion.damage.ap_large",
+      "qualifiedSemanticFieldId": "explosion.ability.damage.ap_large",
+      "apiFieldConstant": "hd2.fields.explosion.damage_ap_large",
+      "display": {
+        "name": "Explosion AP: large angle",
+        "domain": "explosion",
+        "group": "DamageInfo"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "integer",
+        "baseline": 6,
+        "expected": 6,
+        "unit": "armor_class",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/damageinfo/245c85a1b601fd36ff56",
+        "kind": "settings",
+        "semanticType": "DamageInfo",
+        "domain": "explosion_damage",
+        "operationGroupingKey": "support-operation/v1/e6aa373ed74f190401db",
+        "runtimeBackingScope": "settings:explosion_damage"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/d567be4e91b04fcf4b43",
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "CQC-20 Breaching Hammer",
+            "targetPath": "explosion",
+            "attackRole": "ability",
+            "attackKind": "Explosion",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "CQC-20 BREACHING HAMMER IE",
+                "kind": "Explosion",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "CQC-20 BREACHING HAMMER IE",
+                "kind": "Explosion",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/cqc-20-breaching-hammer/explosion/ability/679686f16be0cb64"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": true
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/e6aa373ed74f190401db",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/cqc-20-breaching-hammer/ff83dfec2716",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": true,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The Breaching Hammer's charge blast (published 2200 Explosion, Anti-Tank II): the explosion its own melee record requests through an ability (MeleeWeaponComponent ability slot -> the ability dispatcher -> this explosion row), proven from the game data and code; the row and its damage row have no other user. Every write re-proves the ability slot and the rows. Not yet shown in game."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "ability_explosion_damage",
+        "parentObjectKey": "support-object/v1/explosionsettings/dbc7cfe96103743d20ed",
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_DIRECT",
+        "activeSourceProven": true,
+        "appliesWhen": "use",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true,
+        "writeVerifiedOnApply": true,
+        "reason": "The ability requests this explosion row each time the charge blast goes off (native ability code); the row is read at the request.",
+        "readTiming": "each blast"
+      },
+      "abilityExplosion": {
+        "catalogueExplosion": "support_weapon/cqc20_breaching_hammer/ability",
+        "sameRowAs": "hd2.explosion('support_weapon/cqc20_breaching_hammer/ability')",
+        "multiplayer": "A per-type settings row on each machine: the machine that simulates the blast reads its own copy (the host for the damage it deals). Install the mod on every machine for consistent results.",
+        "research": "research/explosion-identities-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-ap-extreme/2701d0b606e0d4c0",
+      "supportWeapon": "CQC-20 Breaching Hammer",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/cqc-20-breaching-hammer/ff83dfec2716267f",
+        "name": "CQC-20 Breaching Hammer",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "explosion",
+        "attackRole": "ability",
+        "attackKind": "Explosion",
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon",
+          "attack",
+          "explosion"
+        ],
+        "catalogBranches": [
+          {
+            "name": "CQC-20 BREACHING HAMMER IE",
+            "kind": "Explosion",
+            "state": "RESOLVED"
+          }
+        ],
+        "writableCatalogBranches": [
+          {
+            "name": "CQC-20 BREACHING HAMMER IE",
+            "kind": "Explosion",
+            "state": "RESOLVED"
+          }
+        ]
+      },
+      "semanticFieldId": "explosion.damage.ap_extreme",
+      "qualifiedSemanticFieldId": "explosion.ability.damage.ap_extreme",
+      "apiFieldConstant": "hd2.fields.explosion.damage_ap_extreme",
+      "display": {
+        "name": "Explosion AP: extreme angle",
+        "domain": "explosion",
+        "group": "DamageInfo"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "integer",
+        "baseline": 0,
+        "expected": 0,
+        "unit": "armor_class",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/damageinfo/245c85a1b601fd36ff56",
+        "kind": "settings",
+        "semanticType": "DamageInfo",
+        "domain": "explosion_damage",
+        "operationGroupingKey": "support-operation/v1/e6aa373ed74f190401db",
+        "runtimeBackingScope": "settings:explosion_damage"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/d567be4e91b04fcf4b43",
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "CQC-20 Breaching Hammer",
+            "targetPath": "explosion",
+            "attackRole": "ability",
+            "attackKind": "Explosion",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "CQC-20 BREACHING HAMMER IE",
+                "kind": "Explosion",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "CQC-20 BREACHING HAMMER IE",
+                "kind": "Explosion",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/cqc-20-breaching-hammer/explosion/ability/679686f16be0cb64"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": true
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/e6aa373ed74f190401db",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/cqc-20-breaching-hammer/ff83dfec2716",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": true,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The Breaching Hammer's charge blast (published 2200 Explosion, Anti-Tank II): the explosion its own melee record requests through an ability (MeleeWeaponComponent ability slot -> the ability dispatcher -> this explosion row), proven from the game data and code; the row and its damage row have no other user. Every write re-proves the ability slot and the rows. Not yet shown in game."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "ability_explosion_damage",
+        "parentObjectKey": "support-object/v1/explosionsettings/dbc7cfe96103743d20ed",
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_DIRECT",
+        "activeSourceProven": true,
+        "appliesWhen": "use",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true,
+        "writeVerifiedOnApply": true,
+        "reason": "The ability requests this explosion row each time the charge blast goes off (native ability code); the row is read at the request.",
+        "readTiming": "each blast"
+      },
+      "abilityExplosion": {
+        "catalogueExplosion": "support_weapon/cqc20_breaching_hammer/ability",
+        "sameRowAs": "hd2.explosion('support_weapon/cqc20_breaching_hammer/ability')",
+        "multiplayer": "A per-type settings row on each machine: the machine that simulates the blast reads its own copy (the host for the damage it deals). Install the mod on every machine for consistent results.",
+        "research": "research/explosion-identities-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-demolition/d0b0bd171c79f119",
+      "supportWeapon": "CQC-20 Breaching Hammer",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/cqc-20-breaching-hammer/ff83dfec2716267f",
+        "name": "CQC-20 Breaching Hammer",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "explosion",
+        "attackRole": "ability",
+        "attackKind": "Explosion",
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon",
+          "attack",
+          "explosion"
+        ],
+        "catalogBranches": [
+          {
+            "name": "CQC-20 BREACHING HAMMER IE",
+            "kind": "Explosion",
+            "state": "RESOLVED"
+          }
+        ],
+        "writableCatalogBranches": [
+          {
+            "name": "CQC-20 BREACHING HAMMER IE",
+            "kind": "Explosion",
+            "state": "RESOLVED"
+          }
+        ]
+      },
+      "semanticFieldId": "explosion.damage.demolition",
+      "qualifiedSemanticFieldId": "explosion.ability.damage.demolition",
+      "apiFieldConstant": "hd2.fields.explosion.damage_demolition",
+      "display": {
+        "name": "Explosion demolition",
+        "domain": "explosion",
+        "group": "DamageInfo"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "integer",
+        "baseline": 30,
+        "expected": 30,
+        "unit": "force",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/damageinfo/245c85a1b601fd36ff56",
+        "kind": "settings",
+        "semanticType": "DamageInfo",
+        "domain": "explosion_damage",
+        "operationGroupingKey": "support-operation/v1/e6aa373ed74f190401db",
+        "runtimeBackingScope": "settings:explosion_damage"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/d567be4e91b04fcf4b43",
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "CQC-20 Breaching Hammer",
+            "targetPath": "explosion",
+            "attackRole": "ability",
+            "attackKind": "Explosion",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "CQC-20 BREACHING HAMMER IE",
+                "kind": "Explosion",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "CQC-20 BREACHING HAMMER IE",
+                "kind": "Explosion",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/cqc-20-breaching-hammer/explosion/ability/679686f16be0cb64"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": true
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/e6aa373ed74f190401db",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/cqc-20-breaching-hammer/ff83dfec2716",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": true,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The Breaching Hammer's charge blast (published 2200 Explosion, Anti-Tank II): the explosion its own melee record requests through an ability (MeleeWeaponComponent ability slot -> the ability dispatcher -> this explosion row), proven from the game data and code; the row and its damage row have no other user. Every write re-proves the ability slot and the rows. Not yet shown in game."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "ability_explosion_damage",
+        "parentObjectKey": "support-object/v1/explosionsettings/dbc7cfe96103743d20ed",
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_DIRECT",
+        "activeSourceProven": true,
+        "appliesWhen": "use",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true,
+        "writeVerifiedOnApply": true,
+        "reason": "The ability requests this explosion row each time the charge blast goes off (native ability code); the row is read at the request.",
+        "readTiming": "each blast"
+      },
+      "abilityExplosion": {
+        "catalogueExplosion": "support_weapon/cqc20_breaching_hammer/ability",
+        "sameRowAs": "hd2.explosion('support_weapon/cqc20_breaching_hammer/ability')",
+        "multiplayer": "A per-type settings row on each machine: the machine that simulates the blast reads its own copy (the host for the damage it deals). Install the mod on every machine for consistent results.",
+        "research": "research/explosion-identities-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-stagger/21254ca644b1684b",
+      "supportWeapon": "CQC-20 Breaching Hammer",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/cqc-20-breaching-hammer/ff83dfec2716267f",
+        "name": "CQC-20 Breaching Hammer",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "explosion",
+        "attackRole": "ability",
+        "attackKind": "Explosion",
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon",
+          "attack",
+          "explosion"
+        ],
+        "catalogBranches": [
+          {
+            "name": "CQC-20 BREACHING HAMMER IE",
+            "kind": "Explosion",
+            "state": "RESOLVED"
+          }
+        ],
+        "writableCatalogBranches": [
+          {
+            "name": "CQC-20 BREACHING HAMMER IE",
+            "kind": "Explosion",
+            "state": "RESOLVED"
+          }
+        ]
+      },
+      "semanticFieldId": "explosion.damage.stagger",
+      "qualifiedSemanticFieldId": "explosion.ability.damage.stagger",
+      "apiFieldConstant": "hd2.fields.explosion.damage_stagger",
+      "display": {
+        "name": "Explosion stagger",
+        "domain": "explosion",
+        "group": "DamageInfo"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "integer",
+        "baseline": 50,
+        "expected": 50,
+        "unit": "force",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/damageinfo/245c85a1b601fd36ff56",
+        "kind": "settings",
+        "semanticType": "DamageInfo",
+        "domain": "explosion_damage",
+        "operationGroupingKey": "support-operation/v1/e6aa373ed74f190401db",
+        "runtimeBackingScope": "settings:explosion_damage"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/d567be4e91b04fcf4b43",
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "CQC-20 Breaching Hammer",
+            "targetPath": "explosion",
+            "attackRole": "ability",
+            "attackKind": "Explosion",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "CQC-20 BREACHING HAMMER IE",
+                "kind": "Explosion",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "CQC-20 BREACHING HAMMER IE",
+                "kind": "Explosion",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/cqc-20-breaching-hammer/explosion/ability/679686f16be0cb64"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": true
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/e6aa373ed74f190401db",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/cqc-20-breaching-hammer/ff83dfec2716",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": true,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The Breaching Hammer's charge blast (published 2200 Explosion, Anti-Tank II): the explosion its own melee record requests through an ability (MeleeWeaponComponent ability slot -> the ability dispatcher -> this explosion row), proven from the game data and code; the row and its damage row have no other user. Every write re-proves the ability slot and the rows. Not yet shown in game."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "ability_explosion_damage",
+        "parentObjectKey": "support-object/v1/explosionsettings/dbc7cfe96103743d20ed",
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_DIRECT",
+        "activeSourceProven": true,
+        "appliesWhen": "use",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true,
+        "writeVerifiedOnApply": true,
+        "reason": "The ability requests this explosion row each time the charge blast goes off (native ability code); the row is read at the request.",
+        "readTiming": "each blast"
+      },
+      "abilityExplosion": {
+        "catalogueExplosion": "support_weapon/cqc20_breaching_hammer/ability",
+        "sameRowAs": "hd2.explosion('support_weapon/cqc20_breaching_hammer/ability')",
+        "multiplayer": "A per-type settings row on each machine: the machine that simulates the blast reads its own copy (the host for the damage it deals). Install the mod on every machine for consistent results.",
+        "research": "research/explosion-identities-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-push-force/6d93b9a24c9fca37",
+      "supportWeapon": "CQC-20 Breaching Hammer",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/cqc-20-breaching-hammer/ff83dfec2716267f",
+        "name": "CQC-20 Breaching Hammer",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "explosion",
+        "attackRole": "ability",
+        "attackKind": "Explosion",
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon",
+          "attack",
+          "explosion"
+        ],
+        "catalogBranches": [
+          {
+            "name": "CQC-20 BREACHING HAMMER IE",
+            "kind": "Explosion",
+            "state": "RESOLVED"
+          }
+        ],
+        "writableCatalogBranches": [
+          {
+            "name": "CQC-20 BREACHING HAMMER IE",
+            "kind": "Explosion",
+            "state": "RESOLVED"
+          }
+        ]
+      },
+      "semanticFieldId": "explosion.damage.push_force",
+      "qualifiedSemanticFieldId": "explosion.ability.damage.push_force",
+      "apiFieldConstant": "hd2.fields.explosion.damage_push_force",
+      "display": {
+        "name": "Explosion push force",
+        "domain": "explosion",
+        "group": "DamageInfo"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "integer",
+        "baseline": 40,
+        "expected": 40,
+        "unit": "force",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/damageinfo/245c85a1b601fd36ff56",
+        "kind": "settings",
+        "semanticType": "DamageInfo",
+        "domain": "explosion_damage",
+        "operationGroupingKey": "support-operation/v1/e6aa373ed74f190401db",
+        "runtimeBackingScope": "settings:explosion_damage"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/d567be4e91b04fcf4b43",
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "CQC-20 Breaching Hammer",
+            "targetPath": "explosion",
+            "attackRole": "ability",
+            "attackKind": "Explosion",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "CQC-20 BREACHING HAMMER IE",
+                "kind": "Explosion",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "CQC-20 BREACHING HAMMER IE",
+                "kind": "Explosion",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/cqc-20-breaching-hammer/explosion/ability/679686f16be0cb64"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": true
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/e6aa373ed74f190401db",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/cqc-20-breaching-hammer/ff83dfec2716",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": true,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The Breaching Hammer's charge blast (published 2200 Explosion, Anti-Tank II): the explosion its own melee record requests through an ability (MeleeWeaponComponent ability slot -> the ability dispatcher -> this explosion row), proven from the game data and code; the row and its damage row have no other user. Every write re-proves the ability slot and the rows. Not yet shown in game."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "ability_explosion_damage",
+        "parentObjectKey": "support-object/v1/explosionsettings/dbc7cfe96103743d20ed",
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_DIRECT",
+        "activeSourceProven": true,
+        "appliesWhen": "use",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true,
+        "writeVerifiedOnApply": true,
+        "reason": "The ability requests this explosion row each time the charge blast goes off (native ability code); the row is read at the request.",
+        "readTiming": "each blast"
+      },
+      "abilityExplosion": {
+        "catalogueExplosion": "support_weapon/cqc20_breaching_hammer/ability",
+        "sameRowAs": "hd2.explosion('support_weapon/cqc20_breaching_hammer/ability')",
+        "multiplayer": "A per-type settings row on each machine: the machine that simulates the blast reads its own copy (the host for the damage it deals). Install the mod on every machine for consistent results.",
+        "research": "research/explosion-identities-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-status-1-type/2d4097cf90edb7c5",
+      "supportWeapon": "CQC-20 Breaching Hammer",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/cqc-20-breaching-hammer/ff83dfec2716267f",
+        "name": "CQC-20 Breaching Hammer",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "explosion",
+        "attackRole": "ability",
+        "attackKind": "Explosion",
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon",
+          "attack",
+          "explosion"
+        ],
+        "catalogBranches": [
+          {
+            "name": "CQC-20 BREACHING HAMMER IE",
+            "kind": "Explosion",
+            "state": "RESOLVED"
+          }
+        ],
+        "writableCatalogBranches": [
+          {
+            "name": "CQC-20 BREACHING HAMMER IE",
+            "kind": "Explosion",
+            "state": "RESOLVED"
+          }
+        ]
+      },
+      "semanticFieldId": "explosion.damage.status_1_type",
+      "qualifiedSemanticFieldId": "explosion.ability.damage.status_1_type",
+      "apiFieldConstant": "hd2.fields.explosion.damage_status_1_type",
+      "display": {
+        "name": "Status applied",
+        "domain": "explosion",
+        "group": "DamageInfo"
+      },
+      "value": {
+        "kind": "reference",
+        "type": "status_reference",
+        "baseline": "none",
+        "expected": "none",
+        "unit": null,
+        "reference": {
+          "expectedSemanticReference": "none",
+          "sourceClass": "status_reference",
+          "typedIdentityOnly": true
+        }
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/damageinfo/245c85a1b601fd36ff56",
+        "kind": "settings",
+        "semanticType": "DamageInfo",
+        "domain": "explosion_damage",
+        "operationGroupingKey": "support-operation/v1/e6aa373ed74f190401db",
+        "runtimeBackingScope": "settings:explosion_damage"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/d567be4e91b04fcf4b43",
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "CQC-20 Breaching Hammer",
+            "targetPath": "explosion",
+            "attackRole": "ability",
+            "attackKind": "Explosion",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "CQC-20 BREACHING HAMMER IE",
+                "kind": "Explosion",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "CQC-20 BREACHING HAMMER IE",
+                "kind": "Explosion",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/cqc-20-breaching-hammer/explosion/ability/679686f16be0cb64"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": true
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/e6aa373ed74f190401db",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/cqc-20-breaching-hammer/ff83dfec2716",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": true,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The Breaching Hammer's charge blast (published 2200 Explosion, Anti-Tank II): the explosion its own melee record requests through an ability (MeleeWeaponComponent ability slot -> the ability dispatcher -> this explosion row), proven from the game data and code; the row and its damage row have no other user. Every write re-proves the ability slot and the rows. Not yet shown in game."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "ability_explosion_damage",
+        "parentObjectKey": "support-object/v1/explosionsettings/dbc7cfe96103743d20ed",
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_DIRECT",
+        "activeSourceProven": true,
+        "appliesWhen": "use",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true,
+        "writeVerifiedOnApply": true,
+        "reason": "The ability requests this explosion row each time the charge blast goes off (native ability code); the row is read at the request.",
+        "readTiming": "each blast"
+      },
+      "abilityExplosion": {
+        "catalogueExplosion": "support_weapon/cqc20_breaching_hammer/ability",
+        "sameRowAs": "hd2.explosion('support_weapon/cqc20_breaching_hammer/ability')",
+        "multiplayer": "A per-type settings row on each machine: the machine that simulates the blast reads its own copy (the host for the damage it deals). Install the mod on every machine for consistent results.",
+        "research": "research/explosion-identities-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-status-1-strength/7e07fc8abb95bf5b",
+      "supportWeapon": "CQC-20 Breaching Hammer",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/cqc-20-breaching-hammer/ff83dfec2716267f",
+        "name": "CQC-20 Breaching Hammer",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "explosion",
+        "attackRole": "ability",
+        "attackKind": "Explosion",
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon",
+          "attack",
+          "explosion"
+        ],
+        "catalogBranches": [
+          {
+            "name": "CQC-20 BREACHING HAMMER IE",
+            "kind": "Explosion",
+            "state": "RESOLVED"
+          }
+        ],
+        "writableCatalogBranches": [
+          {
+            "name": "CQC-20 BREACHING HAMMER IE",
+            "kind": "Explosion",
+            "state": "RESOLVED"
+          }
+        ]
+      },
+      "semanticFieldId": "explosion.damage.status_1_strength",
+      "qualifiedSemanticFieldId": "explosion.ability.damage.status_1_strength",
+      "apiFieldConstant": "hd2.fields.explosion.damage_status_1_strength",
+      "display": {
+        "name": "Status strength",
+        "domain": "explosion",
+        "group": "DamageInfo"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "number",
+        "baseline": 0.0,
+        "expected": 0.0,
+        "unit": "factor",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/damageinfo/245c85a1b601fd36ff56",
+        "kind": "settings",
+        "semanticType": "DamageInfo",
+        "domain": "explosion_damage",
+        "operationGroupingKey": "support-operation/v1/e6aa373ed74f190401db",
+        "runtimeBackingScope": "settings:explosion_damage"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/d567be4e91b04fcf4b43",
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "CQC-20 Breaching Hammer",
+            "targetPath": "explosion",
+            "attackRole": "ability",
+            "attackKind": "Explosion",
+            "parentAttackRole": null,
+            "catalogBranches": [
+              {
+                "name": "CQC-20 BREACHING HAMMER IE",
+                "kind": "Explosion",
+                "state": "RESOLVED"
+              }
+            ],
+            "writableCatalogBranches": [
+              {
+                "name": "CQC-20 BREACHING HAMMER IE",
+                "kind": "Explosion",
+                "state": "RESOLVED"
+              }
+            ],
+            "consumerKey": "support-consumer/v1/cqc-20-breaching-hammer/explosion/ability/679686f16be0cb64"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": true
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/e6aa373ed74f190401db",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/cqc-20-breaching-hammer/ff83dfec2716",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": true,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The Breaching Hammer's charge blast (published 2200 Explosion, Anti-Tank II): the explosion its own melee record requests through an ability (MeleeWeaponComponent ability slot -> the ability dispatcher -> this explosion row), proven from the game data and code; the row and its damage row have no other user. Every write re-proves the ability slot and the rows. Not yet shown in game."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "ability_explosion_damage",
+        "parentObjectKey": "support-object/v1/explosionsettings/dbc7cfe96103743d20ed",
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "effect": {
+        "activeSource": "ACTIVE_DIRECT",
+        "activeSourceProven": true,
+        "appliesWhen": "use",
+        "instantiationOnly": false,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true,
+        "writeVerifiedOnApply": true,
+        "reason": "The ability requests this explosion row each time the charge blast goes off (native ability code); the row is read at the request.",
+        "readTiming": "each blast"
+      },
+      "abilityExplosion": {
+        "catalogueExplosion": "support_weapon/cqc20_breaching_hammer/ability",
+        "sameRowAs": "hd2.explosion('support_weapon/cqc20_breaching_hammer/ability')",
+        "multiplayer": "A per-type settings row on each machine: the machine that simulates the blast reads its own copy (the host for the damage it deals). Install the mod on every machine for consistent results.",
+        "research": "research/explosion-identities-F5FEE03DCFDB.json"
       }
     },
     {
@@ -106509,7 +108625,7 @@
       "qualifiedSemanticFieldId": "heat.firing_charge",
       "apiFieldConstant": "hd2.fields.heat.firing_charge",
       "display": {
-        "name": "Firing charge (wind-up)",
+        "name": "Wind-up: charge needed to fire",
         "domain": "heat",
         "group": "WeaponHeatComponentData"
       },
@@ -106566,7 +108682,7 @@
         "dependencies": [],
         "allowSharedRequired": false,
         "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s."
+        "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s."
       },
       "resolution": {
         "rootChain": [
@@ -106622,7 +108738,7 @@
       "qualifiedSemanticFieldId": "heat.charge_gain_per_second",
       "apiFieldConstant": "hd2.fields.heat.charge_gain_per_second",
       "display": {
-        "name": "Charge gained per second",
+        "name": "Wind-up: charge gained per second",
         "domain": "heat",
         "group": "WeaponHeatComponentData"
       },
@@ -106679,7 +108795,7 @@
         "dependencies": [],
         "allowSharedRequired": false,
         "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s."
+        "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s."
       },
       "resolution": {
         "rootChain": [
@@ -106735,7 +108851,7 @@
       "qualifiedSemanticFieldId": "heat.charge_loss_per_second",
       "apiFieldConstant": "hd2.fields.heat.charge_loss_per_second",
       "display": {
-        "name": "Charge lost per second",
+        "name": "Wind-up: charge lost per second (released)",
         "domain": "heat",
         "group": "WeaponHeatComponentData"
       },
@@ -106792,7 +108908,7 @@
         "dependencies": [],
         "allowSharedRequired": false,
         "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s."
+        "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s."
       },
       "resolution": {
         "rootChain": [
@@ -106848,7 +108964,7 @@
       "qualifiedSemanticFieldId": "heat.reset_charge_after_shot",
       "apiFieldConstant": "hd2.fields.heat.reset_charge_after_shot",
       "display": {
-        "name": "Charge resets after each shot",
+        "name": "Wind-up: charge resets after each shot",
         "domain": "heat",
         "group": "WeaponHeatComponentData"
       },
@@ -106905,7 +109021,7 @@
         "dependencies": [],
         "allowSharedRequired": false,
         "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s."
+        "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s."
       },
       "resolution": {
         "rootChain": [
@@ -112764,7 +114880,7 @@
       "qualifiedSemanticFieldId": "heat.firing_charge",
       "apiFieldConstant": "hd2.fields.heat.firing_charge",
       "display": {
-        "name": "Firing charge (wind-up)",
+        "name": "Wind-up: charge needed to fire",
         "domain": "heat",
         "group": "WeaponHeatComponentData"
       },
@@ -112821,7 +114937,7 @@
         "dependencies": [],
         "allowSharedRequired": false,
         "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s."
+        "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s."
       },
       "resolution": {
         "rootChain": [
@@ -112875,7 +114991,7 @@
       "qualifiedSemanticFieldId": "heat.charge_gain_per_second",
       "apiFieldConstant": "hd2.fields.heat.charge_gain_per_second",
       "display": {
-        "name": "Charge gained per second",
+        "name": "Wind-up: charge gained per second",
         "domain": "heat",
         "group": "WeaponHeatComponentData"
       },
@@ -112932,7 +115048,7 @@
         "dependencies": [],
         "allowSharedRequired": false,
         "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s."
+        "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s."
       },
       "resolution": {
         "rootChain": [
@@ -112986,7 +115102,7 @@
       "qualifiedSemanticFieldId": "heat.charge_loss_per_second",
       "apiFieldConstant": "hd2.fields.heat.charge_loss_per_second",
       "display": {
-        "name": "Charge lost per second",
+        "name": "Wind-up: charge lost per second (released)",
         "domain": "heat",
         "group": "WeaponHeatComponentData"
       },
@@ -113043,7 +115159,7 @@
         "dependencies": [],
         "allowSharedRequired": false,
         "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s."
+        "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s."
       },
       "resolution": {
         "rootChain": [
@@ -113097,7 +115213,7 @@
       "qualifiedSemanticFieldId": "heat.reset_charge_after_shot",
       "apiFieldConstant": "hd2.fields.heat.reset_charge_after_shot",
       "display": {
-        "name": "Charge resets after each shot",
+        "name": "Wind-up: charge resets after each shot",
         "domain": "heat",
         "group": "WeaponHeatComponentData"
       },
@@ -113154,7 +115270,7 @@
         "dependencies": [],
         "allowSharedRequired": false,
         "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s."
+        "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s."
       },
       "resolution": {
         "rootChain": [
@@ -119421,7 +121537,7 @@
       "qualifiedSemanticFieldId": "windup.wind_up_seconds",
       "apiFieldConstant": "hd2.fields.windup.wind_up_seconds",
       "display": {
-        "name": "Wind-up time",
+        "name": "Wind-up time (spin-up)",
         "domain": "windup",
         "group": "WeaponWindUpComponentData"
       },
@@ -119499,6 +121615,13 @@
         "baseline": "exact retained-snapshot value",
         "validation": "production resolver guarded ALREADY_DESIRED no-op",
         "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "windUp": {
+        "meaning": "Spin-up time: the barrels must reach full spin before the first shot, and the spin advances by dt / this value every frame the trigger is held (0 = instant). The wind-up update and the fire gate read it every frame (research/windup-controls-F5FEE03DCFDB.json). Where the published spin-up differs, the gameplay effect of an edit is not yet confirmed.",
+        "research": "research/windup-controls-F5FEE03DCFDB.json",
+        "min": 0,
+        "max": 30,
+        "rangeReason": "0 = instant; 30 s is far beyond any native value (0.5 to 1)"
       }
     },
     {
@@ -119525,7 +121648,7 @@
       "qualifiedSemanticFieldId": "windup.wind_down_seconds",
       "apiFieldConstant": "hd2.fields.windup.wind_down_seconds",
       "display": {
-        "name": "Wind-down time",
+        "name": "Spin-down (0 = stop at once)",
         "domain": "windup",
         "group": "WeaponWindUpComponentData"
       },
@@ -119582,7 +121705,7 @@
         "dependencies": [],
         "allowSharedRequired": false,
         "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "Schema-labelled native wind-down time; no scraped value corroborates it and the gameplay effect of an edit is not yet confirmed."
+        "acknowledgementReason": "A spin-down switch, not a time: 0 or less stops the barrels at once on release; any positive value spins them down over windup.wind_up_seconds (the game divides by the wind-up time, so the magnitude of this value is never read; research/windup-controls-F5FEE03DCFDB.json). The gameplay effect of an edit is not yet confirmed."
       },
       "resolution": {
         "rootChain": [
@@ -119603,6 +121726,13 @@
         "baseline": "exact retained-snapshot value",
         "validation": "production resolver guarded ALREADY_DESIRED no-op",
         "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "windUp": {
+        "meaning": "A spin-down switch, not a time: 0 or less stops the barrels at once on release; any positive value spins them down over windup.wind_up_seconds (the game divides by the wind-up time, so the magnitude of this value is never read; research/windup-controls-F5FEE03DCFDB.json). The gameplay effect of an edit is not yet confirmed.",
+        "research": "research/windup-controls-F5FEE03DCFDB.json",
+        "min": 0,
+        "max": 30,
+        "rangeReason": "0 = instant; 30 s is far beyond any native value (0.5 to 1)"
       }
     },
     {
@@ -207057,6 +209187,58 @@
       ]
     },
     {
+      "objectKey": "support-object/v1/damageinfo/245c85a1b601fd36ff56",
+      "kind": "settings",
+      "semanticType": "DamageInfo",
+      "domains": [
+        "damage",
+        "explosion"
+      ],
+      "shared": true,
+      "requiresSharedAcknowledgement": true,
+      "sharedScopeKey": "support-scope/v1/d567be4e91b04fcf4b43",
+      "reviewedConsumerCount": 1,
+      "affectedSemanticConsumers": [
+        {
+          "weapon": "CQC-20 Breaching Hammer",
+          "targetPath": "explosion",
+          "attackRole": "ability",
+          "attackKind": "Explosion",
+          "parentAttackRole": null,
+          "catalogBranches": [
+            {
+              "name": "CQC-20 BREACHING HAMMER IE",
+              "kind": "Explosion",
+              "state": "RESOLVED"
+            }
+          ],
+          "writableCatalogBranches": [
+            {
+              "name": "CQC-20 BREACHING HAMMER IE",
+              "kind": "Explosion",
+              "state": "RESOLVED"
+            }
+          ],
+          "consumerKey": "support-consumer/v1/cqc-20-breaching-hammer/explosion/ability/679686f16be0cb64"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "fieldInstanceKeys": [
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-standard-damage/02a4763e331ce726",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-durable-damage/2e9eedde8e8907b0",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-ap-direct/443c6f076eba380c",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-ap-slight/ec109e204b32541a",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-ap-large/9ec8aa00bba830ec",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-ap-extreme/2701d0b606e0d4c0",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-demolition/d0b0bd171c79f119",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-stagger/21254ca644b1684b",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-push-force/6d93b9a24c9fca37",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-status-1-type/2d4097cf90edb7c5",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-status-1-strength/7e07fc8abb95bf5b"
+      ]
+    },
+    {
       "objectKey": "support-object/v1/damageinfo/2e593f47c0641dedd311",
       "kind": "settings",
       "semanticType": "DamageInfo",
@@ -210247,6 +212429,49 @@
         "support-field/v1/eat-17-expendable-anti-tank/explosion/primary-impact/explosion-inner-radius/73352f51db8b4170",
         "support-field/v1/eat-17-expendable-anti-tank/explosion/primary-impact/explosion-outer-radius/634c944edfff8c65",
         "support-field/v1/eat-17-expendable-anti-tank/explosion/primary-impact/explosion-shockwave-radius/0706aed00032f67b"
+      ]
+    },
+    {
+      "objectKey": "support-object/v1/explosionsettings/dbc7cfe96103743d20ed",
+      "kind": "settings",
+      "semanticType": "ExplosionSettings",
+      "domains": [
+        "explosion"
+      ],
+      "shared": true,
+      "requiresSharedAcknowledgement": true,
+      "sharedScopeKey": "support-scope/v1/1d16624bc2e42278f514",
+      "reviewedConsumerCount": 1,
+      "affectedSemanticConsumers": [
+        {
+          "weapon": "CQC-20 Breaching Hammer",
+          "targetPath": "explosion",
+          "attackRole": "ability",
+          "attackKind": "Explosion",
+          "parentAttackRole": null,
+          "catalogBranches": [
+            {
+              "name": "CQC-20 BREACHING HAMMER IE",
+              "kind": "Explosion",
+              "state": "RESOLVED"
+            }
+          ],
+          "writableCatalogBranches": [
+            {
+              "name": "CQC-20 BREACHING HAMMER IE",
+              "kind": "Explosion",
+              "state": "RESOLVED"
+            }
+          ],
+          "consumerKey": "support-consumer/v1/cqc-20-breaching-hammer/explosion/ability/679686f16be0cb64"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": true,
+      "fieldInstanceKeys": [
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-inner-radius/f509fcb71ced62d9",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-outer-radius/e2ee5098afbb13a9",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-shockwave-radius/a729de68373e330a"
       ]
     },
     {
@@ -225870,6 +228095,55 @@
       "dependencies": []
     },
     {
+      "operationGroupingKey": "support-operation/v1/e6aa373ed74f190401db",
+      "backingObjectKey": "support-object/v1/damageinfo/245c85a1b601fd36ff56",
+      "runtimeBackingScope": "settings:explosion_damage",
+      "target": {
+        "resource": "support_weapon",
+        "path": "explosion",
+        "attackRole": "ability",
+        "attackKind": "Explosion",
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon",
+          "attack",
+          "explosion"
+        ],
+        "catalogBranches": [
+          {
+            "name": "CQC-20 BREACHING HAMMER IE",
+            "kind": "Explosion",
+            "state": "RESOLVED"
+          }
+        ],
+        "writableCatalogBranches": [
+          {
+            "name": "CQC-20 BREACHING HAMMER IE",
+            "kind": "Explosion",
+            "state": "RESOLVED"
+          }
+        ]
+      },
+      "fieldInstanceKeys": [
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-standard-damage/02a4763e331ce726",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-durable-damage/2e9eedde8e8907b0",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-ap-direct/443c6f076eba380c",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-ap-slight/ec109e204b32541a",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-ap-large/9ec8aa00bba830ec",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-ap-extreme/2701d0b606e0d4c0",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-demolition/d0b0bd171c79f119",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-stagger/21254ca644b1684b",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-push-force/6d93b9a24c9fca37",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-status-1-type/2d4097cf90edb7c5",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-damage-status-1-strength/7e07fc8abb95bf5b"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": true,
+      "planGroupingKey": "support-plan/v1/cqc-20-breaching-hammer/ff83dfec2716",
+      "phase": 1,
+      "dependencies": []
+    },
+    {
       "operationGroupingKey": "support-operation/v1/e6bf01a7136801dd0639",
       "backingObjectKey": "support-object/v1/damageinfo/03473e988dd6645a4a96",
       "runtimeBackingScope": "settings:damage",
@@ -226764,6 +229038,47 @@
       "recommendedApi": "hd2.patch",
       "allowSharedRequired": false,
       "planGroupingKey": "support-plan/v1/eat-700-expendable-napalm/287dc53d1723",
+      "phase": 1,
+      "dependencies": []
+    },
+    {
+      "operationGroupingKey": "support-operation/v1/fa3ebc88f60b6bdcd95e",
+      "backingObjectKey": "support-object/v1/explosionsettings/dbc7cfe96103743d20ed",
+      "runtimeBackingScope": "settings:explosion",
+      "target": {
+        "resource": "support_weapon",
+        "path": "explosion",
+        "attackRole": "ability",
+        "attackKind": "Explosion",
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon",
+          "attack",
+          "explosion"
+        ],
+        "catalogBranches": [
+          {
+            "name": "CQC-20 BREACHING HAMMER IE",
+            "kind": "Explosion",
+            "state": "RESOLVED"
+          }
+        ],
+        "writableCatalogBranches": [
+          {
+            "name": "CQC-20 BREACHING HAMMER IE",
+            "kind": "Explosion",
+            "state": "RESOLVED"
+          }
+        ]
+      },
+      "fieldInstanceKeys": [
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-inner-radius/f509fcb71ced62d9",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-outer-radius/e2ee5098afbb13a9",
+        "support-field/v1/cqc-20-breaching-hammer/explosion/ability/explosion-shockwave-radius/a729de68373e330a"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": true,
+      "planGroupingKey": "support-plan/v1/cqc-20-breaching-hammer/ff83dfec2716",
       "phase": 1,
       "dependencies": []
     },
@@ -227767,7 +230082,7 @@
     "expectedValueProperty": "value.reference.expectedSemanticReference",
     "sourceClassProperty": "value.reference.sourceClass",
     "rawNativeIdentifiersPublished": false,
-    "currentReferenceFieldInstances": 97
+    "currentReferenceFieldInstances": 98
   },
   "supportCallInLinks": {
     "contract": "hd2runtime.support_callin_linkage.v1",
@@ -231016,8 +233331,8 @@
     "fixtureFallback": "disabled"
   },
   "instanceAudit": {
-    "internalInstances": 1526,
-    "publishedInstances": 1526,
+    "internalInstances": 1540,
+    "publishedInstances": 1540,
     "missingInstances": 0,
     "unexpectedInstances": 0,
     "identityCoverage": "exact"

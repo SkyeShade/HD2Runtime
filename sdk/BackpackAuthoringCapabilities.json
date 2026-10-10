@@ -5859,7 +5859,7 @@
     {
       "instanceKey": "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.max_vertical_speed",
       "semanticFieldId": "hover.max_vertical_speed",
-      "displayName": "Hover climb speed",
+      "displayName": "Hover climb speed cap",
       "type": "number",
       "unit": "meters_per_second",
       "currentDefault": 10.0,
@@ -5901,7 +5901,7 @@
       },
       "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
       "acknowledgement": "allow_unverified_effect",
-      "acknowledgementReason": "Hover climb target speed (m/s); no climb acceleration at it. Read live by the flight code; not yet shown in game.",
+      "acknowledgementReason": "Hover climb target speed (m/s); no climb acceleration at it. A cap only: with the vanilla lift (hover.vertical_acceleration_low_speed 9.8, under the 9.82 m/s^2 gravity that keeps acting while hovering) the pack never climbs, so raising this alone changes nothing. Read live by the flight code; not yet shown in game.",
       "min": 0.0,
       "max": 50.0,
       "effect": {
@@ -5916,7 +5916,7 @@
     {
       "instanceKey": "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.vertical_acceleration_low_speed",
       "semanticFieldId": "hover.vertical_acceleration_low_speed",
-      "displayName": "Hover vertical acceleration at low vertical speed",
+      "displayName": "Hover lift at low vertical speed (climbs above 9.82)",
       "type": "number",
       "unit": "meters_per_second_squared",
       "currentDefault": 9.800000190734863,
@@ -5958,7 +5958,7 @@
       },
       "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
       "acknowledgement": "allow_unverified_effect",
-      "acknowledgementReason": "Vertical acceleration (m/s^2) toward the climb target at low vertical speed (blended to the high-speed value over 0..hover.vertical_speed_range_end). Read live by the flight code; not yet shown in game.",
+      "acknowledgementReason": "Hover lift: vertical acceleration (m/s^2) toward the climb target at low vertical speed (blended to the high-speed value over 0..hover.vertical_speed_range_end). Gravity (9.82 m/s^2) keeps acting while hovering: the vanilla 9.8 only holds the height the activation reached; above 9.82 the pack climbs while its climb input is on (hover.duration), at about hover.vertical_speed_range_end x (value - 9.82) / (value - hover.vertical_acceleration_high_speed) m/s. The field that makes the Hover Pack fly higher. Read live by the flight code; not yet shown in game.",
       "min": 0.0,
       "max": 200.0,
       "effect": {
@@ -5973,7 +5973,7 @@
     {
       "instanceKey": "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.vertical_acceleration_high_speed",
       "semanticFieldId": "hover.vertical_acceleration_high_speed",
-      "displayName": "Hover vertical acceleration at high vertical speed",
+      "displayName": "Hover lift at high vertical speed",
       "type": "number",
       "unit": "meters_per_second_squared",
       "currentDefault": 0.0,
@@ -6072,7 +6072,7 @@
       },
       "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
       "acknowledgement": "allow_unverified_effect",
-      "acknowledgementReason": "Vertical speed (m/s) over which the vertical acceleration and the fuel rate blend from their low-speed to their high-speed value (must stay above the range start, 0). Read live by the flight code; not yet shown in game.",
+      "acknowledgementReason": "Vertical speed (m/s) over which the vertical acceleration and the fuel rate blend from their low-speed to their high-speed value (must stay above the range start, 0). With a lift above gravity, a larger value climbs faster. Read live by the flight code; not yet shown in game.",
       "min": 0.01,
       "max": 100.0,
       "effect": {
@@ -6201,7 +6201,7 @@
     {
       "instanceKey": "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:hover.duration",
       "semanticFieldId": "hover.duration",
-      "displayName": "Hover duration",
+      "displayName": "Hover climb window (seconds in the air)",
       "type": "number",
       "unit": "seconds",
       "currentDefault": 6.0,
@@ -6247,7 +6247,7 @@
       },
       "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
       "acknowledgement": "allow_unverified_effect",
-      "acknowledgementReason": "Seconds the Hover Pack holds its height: exact published six seconds, a member only the Hover Pack record sets (both jump-pack records hold -1); not yet shown in game.",
+      "acknowledgementReason": "Hover climb window (seconds of airborne time): while the wearer has been off walkable ground for less than this, the hover climbs toward hover.max_vertical_speed (for the whole flight once the sustain phase has started); afterwards it holds height. Not the hover time: the pack shuts off when its fuel meter is full (recharge.time, hover.fuel_rate_*). With the vanilla lift (hover.vertical_acceleration_low_speed 9.8, under gravity) a longer window adds no height (research/hover-height-F5FEE03DCFDB.json). Exact published six seconds, a member only the Hover Pack record sets (both jump-pack records hold -1); not yet shown in game.",
       "effect": {
         "activeSource": "DEFINITION_RECORD",
         "activeSourceProven": false,

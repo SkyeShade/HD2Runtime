@@ -109,10 +109,14 @@ def recoil_multiplier_fields(make, backend):
 # the firing charge (wind-up) of heat weapons and the Trident's pulsed beam. Typed members by offset and storage;
 # names are leads (unproven): every write needs allow_unverified_effect until the live tests below pass.
 CHARGE_RESEARCH = ROOT / 'research/las-beam-overhaul-comparison-F5FEE03DCFDB.json'
-CHARGE_REASON = ('Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must '
-    'build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. '
-    '+148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone '
-    'resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s.')
+CHARGE_REASON = ('Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon '
+    'fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per '
+    'second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it '
+    'after every shot (the Quasar). The charge update and the fire gate that read these members are traced '
+    '(research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 '
+    '100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 '
+    'for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: '
+    'Sickle 0 fires at once, 400 winds up about 2 s.')
 PULSE_REASON = ('Beam fire mode and pulse (BeamWeapon +100 typed enum, +108 INT32, +112 FP32): the LAS-13 Trident is '
     'the only weapon in mode 6 (300 rpm, 2 beams per pulse, 0.15 s); continuous beams are mode 4 (1, 0), the 40-K '
     'Meltagun mode 5 (1, 1.4 s). The game branches on mode 6. Live test pending: a Scythe in mode 6 with the '
@@ -139,13 +143,20 @@ def _named(records, weapon):
     return None
 
 
-def firing_charge_fields(make, weapon, backend):
+def charge_record(weapon):
+    """The firing-charge research record of a WeaponHeat record index (or a researched weapon name), or None."""
+    return _named(charge_research()['heat148']['records'], weapon)
+
+
+def firing_charge_fields(make, weapon, backend, skip=()):
     """The firing-charge fields of a heat weapon the research names (its own WeaponHeat record), or []."""
     record = _named(charge_research()['heat148']['records'], weapon)
     if not record:
         return []
     fields = []
     for field_id, key, offset, storage, low, high in CHARGE_FIELDS:
+        if field_id in skip:
+            continue
         value = record['values'][key]
         field = make(field_id, bool(value) if storage == 'u8' else value, backend(offset, storage))
         field.update({'acknowledgement': 'allow_unverified_effect', 'acknowledgementReason': CHARGE_REASON,

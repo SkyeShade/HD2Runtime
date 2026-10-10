@@ -73,6 +73,20 @@ ARC = (('velocity', 4, 'f32', 'Arc velocity', None), ('range', 8, 'f32', 'Arc ra
     ('distance_at_max_spread', 12, 'f32', 'Arc distance at maximum spread', 'meters'),
     ('max_angle_spread', 20, 'f32', 'Arc maximum angle spread', 'degrees'),
     ('chain_count', 28, 'u32', 'Arc maximum chain length', 'targets'), ('max_split', 32, 'u32', 'Arc maximum split', 'targets'))
+WINDUP = (('windup.wind_up_seconds', 'windUpSeconds', 0), ('windup.wind_down_seconds', 'spinDownSwitch', 4))
+WINDUP_RANGE = '0 = instant; 30 s is far beyond any native value (0.5 to 1)'
+WINDUP_REASON = {
+    'windup.wind_up_seconds': ("Spin-up time of the mount's own WeaponWindUp record: the barrels must reach full "
+        'spin before the first shot, and the spin advances by dt / this value every frame the trigger is held (0 = '
+        'instant). The wind-up update and the fire gate read it every frame (research/windup-controls-'
+        'F5FEE03DCFDB.json). Not yet shown in game.'),
+    'windup.wind_down_seconds': ('A spin-down switch, not a time: 0 or less stops the barrels at once on release; '
+        'any positive value spins them down over windup.wind_up_seconds (the game divides by the wind-up time; '
+        'research/windup-controls-F5FEE03DCFDB.json). Not yet shown in game.')}
+WINDUP_LIFECYCLE = ("Read every frame from the mount's own WeaponWindUp type record (no entity delta targets it): a "
+    'write takes effect on the next frame, also on a vehicle already deployed.')
+CHARGE_LIFECYCLE = ("Read every frame from the mount's own WeaponHeat record by the charge update and the fire gate: "
+    'a write takes effect on the next frame, also on a drone already deployed.')
 HEAT = (('heat.capacity', 'capacity', 96, 'Overheat threshold', 'heat_units'),
     ('heat.heat_per_shot', 'heatPerShot', 116, 'Heat per shot', 'heat_units_per_shot'),
     ('heat.heat_per_second', 'heatPerSecond', 120, 'Heat per second', 'heat_units_per_second'),
@@ -424,6 +438,34 @@ def build(research_path=RESEARCH):
                 if heat.get(heat_key):
                     field(field_id, name, unit, 'number', heat[heat_key],
                         component('WeaponHeatComponentData', offset, 'f32'), weapon_target, 'weapon_local')
+            # 0.30.4 wind-up (research/windup-controls-F5FEE03DCFDB.json): the firing charge of a heat mount that
+            # has one (the AX/LAS-5 Rover gun: 100 / 400 = 0.25 s) and the spin-up of a WeaponWindUp mount (the
+            # EXO-45 Patriot minigun, the TD-110 Maelstrom tank gun), each on the mount's own record. The Rover's reset
+            # switch (u8, 0) is not a wind-up control and stays unexposed on mounts.
+            if 'WeaponHeatComponentData' in own:
+                charge = equipment_fields.charge_record(own['WeaponHeatComponentData']['recordIndex'])
+                if charge and charge['values']['148'] > 0:
+                    def make_charge(field_id, value, backing):
+                        spec = definitions[field_id]
+                        return field(field_id, spec['display_name'], spec.get('unit'), spec['type'], value, backing,
+                            weapon_target, 'weapon_local', ack='allow_unverified_effect')
+                    for item in equipment_fields.firing_charge_fields(make_charge,
+                            own['WeaponHeatComponentData']['recordIndex'],
+                            lambda offset, storage: component('WeaponHeatComponentData', offset, storage),
+                            skip=('heat.reset_charge_after_shot',)):
+                        item.update({'min': item.get('min'), 'max': item.get('max'), 'order': None,
+                            'rangeReason': 'the player heat-weapon range' if item.get('min') is not None else None,
+                            'appliesWhen': 'next_frame', 'lifecycle': CHARGE_LIFECYCLE})
+            if values.get('windUp'):
+                assert 'WeaponWindUpComponentData' in own, key + ': wind-up values without the record'
+                for field_id, value_key, offset in WINDUP:
+                    spec = definitions[field_id]
+                    item = field(field_id, spec['display_name'], spec.get('unit'), spec['type'],
+                        values['windUp'][value_key], component('WeaponWindUpComponentData', offset, 'f32'),
+                        weapon_target, 'weapon_local', ack='allow_unverified_effect')
+                    item.update({'min': 0, 'max': 30, 'rangeReason': WINDUP_RANGE, 'order': None,
+                        'acknowledgementReason': WINDUP_REASON[field_id], 'appliesWhen': 'next_frame',
+                        'lifecycle': WINDUP_LIFECYCLE})
             # Turret motion (TurretComponent): the sentry turret ids on the same members, on every mount that owns a
             # turret record (scripts/vehicle_tuning_fields.py). Mounts without one aim through their vehicle.
             turret_items = vehicle_tuning_fields.mount_items(tuning, key, slot['path'])

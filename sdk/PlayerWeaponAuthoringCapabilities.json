@@ -1158,7 +1158,7 @@
     },
     {
       "id": "windup.wind_up_seconds",
-      "display_name": "Wind-up time",
+      "display_name": "Wind-up time (spin-up)",
       "type": "number",
       "unit": "seconds",
       "derived": false,
@@ -1169,7 +1169,7 @@
     },
     {
       "id": "windup.wind_down_seconds",
-      "display_name": "Wind-down time",
+      "display_name": "Spin-down (0 = stop at once)",
       "type": "number",
       "unit": "seconds",
       "derived": false,
@@ -1648,7 +1648,7 @@
     },
     {
       "id": "heat.firing_charge",
-      "display_name": "Firing charge (wind-up)",
+      "display_name": "Wind-up: charge needed to fire",
       "type": "number",
       "unit": "charge",
       "derived": false,
@@ -1659,7 +1659,7 @@
     },
     {
       "id": "heat.charge_gain_per_second",
-      "display_name": "Charge gained per second",
+      "display_name": "Wind-up: charge gained per second",
       "type": "number",
       "unit": "charge_per_second",
       "derived": false,
@@ -1670,7 +1670,7 @@
     },
     {
       "id": "heat.charge_loss_per_second",
-      "display_name": "Charge lost per second",
+      "display_name": "Wind-up: charge lost per second (released)",
       "type": "number",
       "unit": "charge_per_second",
       "derived": false,
@@ -1681,7 +1681,7 @@
     },
     {
       "id": "heat.reset_charge_after_shot",
-      "display_name": "Charge resets after each shot",
+      "display_name": "Wind-up: charge resets after each shot",
       "type": "boolean",
       "unit": null,
       "derived": false,
@@ -87703,7 +87703,7 @@
           "apiFieldConstant": "hd2.fields.heat.overheat_cooldown"
         },
         {
-          "displayName": "Firing charge (wind-up)",
+          "displayName": "Wind-up: charge needed to fire",
           "semanticFieldId": "heat.firing_charge",
           "type": "number",
           "unit": "charge",
@@ -87745,7 +87745,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s.",
+          "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -87759,7 +87759,7 @@
           "apiFieldConstant": "hd2.fields.heat.firing_charge"
         },
         {
-          "displayName": "Charge gained per second",
+          "displayName": "Wind-up: charge gained per second",
           "semanticFieldId": "heat.charge_gain_per_second",
           "type": "number",
           "unit": "charge_per_second",
@@ -87801,7 +87801,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s.",
+          "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -87815,7 +87815,7 @@
           "apiFieldConstant": "hd2.fields.heat.charge_gain_per_second"
         },
         {
-          "displayName": "Charge lost per second",
+          "displayName": "Wind-up: charge lost per second (released)",
           "semanticFieldId": "heat.charge_loss_per_second",
           "type": "number",
           "unit": "charge_per_second",
@@ -87857,7 +87857,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s.",
+          "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -87871,7 +87871,7 @@
           "apiFieldConstant": "hd2.fields.heat.charge_loss_per_second"
         },
         {
-          "displayName": "Charge resets after each shot",
+          "displayName": "Wind-up: charge resets after each shot",
           "semanticFieldId": "heat.reset_charge_after_shot",
           "type": "boolean",
           "unit": null,
@@ -87913,7 +87913,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s.",
+          "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -91317,7 +91317,7 @@
           "apiFieldConstant": "hd2.fields.heat.overheat_cooldown"
         },
         {
-          "displayName": "Firing charge (wind-up)",
+          "displayName": "Wind-up: charge needed to fire",
           "semanticFieldId": "heat.firing_charge",
           "type": "number",
           "unit": "charge",
@@ -91359,7 +91359,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s.",
+          "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -91373,7 +91373,7 @@
           "apiFieldConstant": "hd2.fields.heat.firing_charge"
         },
         {
-          "displayName": "Charge gained per second",
+          "displayName": "Wind-up: charge gained per second",
           "semanticFieldId": "heat.charge_gain_per_second",
           "type": "number",
           "unit": "charge_per_second",
@@ -91415,7 +91415,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s.",
+          "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -91429,7 +91429,7 @@
           "apiFieldConstant": "hd2.fields.heat.charge_gain_per_second"
         },
         {
-          "displayName": "Charge lost per second",
+          "displayName": "Wind-up: charge lost per second (released)",
           "semanticFieldId": "heat.charge_loss_per_second",
           "type": "number",
           "unit": "charge_per_second",
@@ -91471,7 +91471,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s.",
+          "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -91485,7 +91485,7 @@
           "apiFieldConstant": "hd2.fields.heat.charge_loss_per_second"
         },
         {
-          "displayName": "Charge resets after each shot",
+          "displayName": "Wind-up: charge resets after each shot",
           "semanticFieldId": "heat.reset_charge_after_shot",
           "type": "boolean",
           "unit": null,
@@ -91527,7 +91527,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s.",
+          "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -95056,7 +95056,7 @@
           "apiFieldConstant": "hd2.fields.heat.overheat_cooldown"
         },
         {
-          "displayName": "Firing charge (wind-up)",
+          "displayName": "Wind-up: charge needed to fire",
           "semanticFieldId": "heat.firing_charge",
           "type": "number",
           "unit": "charge",
@@ -95098,7 +95098,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s.",
+          "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -95112,7 +95112,7 @@
           "apiFieldConstant": "hd2.fields.heat.firing_charge"
         },
         {
-          "displayName": "Charge gained per second",
+          "displayName": "Wind-up: charge gained per second",
           "semanticFieldId": "heat.charge_gain_per_second",
           "type": "number",
           "unit": "charge_per_second",
@@ -95154,7 +95154,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s.",
+          "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -95168,7 +95168,7 @@
           "apiFieldConstant": "hd2.fields.heat.charge_gain_per_second"
         },
         {
-          "displayName": "Charge lost per second",
+          "displayName": "Wind-up: charge lost per second (released)",
           "semanticFieldId": "heat.charge_loss_per_second",
           "type": "number",
           "unit": "charge_per_second",
@@ -95210,7 +95210,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s.",
+          "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -95224,7 +95224,7 @@
           "apiFieldConstant": "hd2.fields.heat.charge_loss_per_second"
         },
         {
-          "displayName": "Charge resets after each shot",
+          "displayName": "Wind-up: charge resets after each shot",
           "semanticFieldId": "heat.reset_charge_after_shot",
           "type": "boolean",
           "unit": null,
@@ -95266,7 +95266,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s.",
+          "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -99615,7 +99615,7 @@
           "apiFieldConstant": "hd2.fields.heat.overheat_lock"
         },
         {
-          "displayName": "Firing charge (wind-up)",
+          "displayName": "Wind-up: charge needed to fire",
           "semanticFieldId": "heat.firing_charge",
           "type": "number",
           "unit": "charge",
@@ -99657,7 +99657,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s.",
+          "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -99671,7 +99671,7 @@
           "apiFieldConstant": "hd2.fields.heat.firing_charge"
         },
         {
-          "displayName": "Charge gained per second",
+          "displayName": "Wind-up: charge gained per second",
           "semanticFieldId": "heat.charge_gain_per_second",
           "type": "number",
           "unit": "charge_per_second",
@@ -99713,7 +99713,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s.",
+          "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -99727,7 +99727,7 @@
           "apiFieldConstant": "hd2.fields.heat.charge_gain_per_second"
         },
         {
-          "displayName": "Charge lost per second",
+          "displayName": "Wind-up: charge lost per second (released)",
           "semanticFieldId": "heat.charge_loss_per_second",
           "type": "number",
           "unit": "charge_per_second",
@@ -99769,7 +99769,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s.",
+          "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -99783,7 +99783,7 @@
           "apiFieldConstant": "hd2.fields.heat.charge_loss_per_second"
         },
         {
-          "displayName": "Charge resets after each shot",
+          "displayName": "Wind-up: charge resets after each shot",
           "semanticFieldId": "heat.reset_charge_after_shot",
           "type": "boolean",
           "unit": null,
@@ -99825,7 +99825,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s.",
+          "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -103314,7 +103314,7 @@
           "apiFieldConstant": "hd2.fields.heat.overheat_cooldown"
         },
         {
-          "displayName": "Firing charge (wind-up)",
+          "displayName": "Wind-up: charge needed to fire",
           "semanticFieldId": "heat.firing_charge",
           "type": "number",
           "unit": "charge",
@@ -103356,7 +103356,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s.",
+          "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -103370,7 +103370,7 @@
           "apiFieldConstant": "hd2.fields.heat.firing_charge"
         },
         {
-          "displayName": "Charge gained per second",
+          "displayName": "Wind-up: charge gained per second",
           "semanticFieldId": "heat.charge_gain_per_second",
           "type": "number",
           "unit": "charge_per_second",
@@ -103412,7 +103412,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s.",
+          "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -103426,7 +103426,7 @@
           "apiFieldConstant": "hd2.fields.heat.charge_gain_per_second"
         },
         {
-          "displayName": "Charge lost per second",
+          "displayName": "Wind-up: charge lost per second (released)",
           "semanticFieldId": "heat.charge_loss_per_second",
           "type": "number",
           "unit": "charge_per_second",
@@ -103468,7 +103468,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s.",
+          "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -103482,7 +103482,7 @@
           "apiFieldConstant": "hd2.fields.heat.charge_loss_per_second"
         },
         {
-          "displayName": "Charge resets after each shot",
+          "displayName": "Wind-up: charge resets after each shot",
           "semanticFieldId": "heat.reset_charge_after_shot",
           "type": "boolean",
           "unit": null,
@@ -103524,7 +103524,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s.",
+          "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -107201,7 +107201,7 @@
           "apiFieldConstant": "hd2.fields.heat.overheat_cooldown"
         },
         {
-          "displayName": "Firing charge (wind-up)",
+          "displayName": "Wind-up: charge needed to fire",
           "semanticFieldId": "heat.firing_charge",
           "type": "number",
           "unit": "charge",
@@ -107243,7 +107243,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s.",
+          "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -107257,7 +107257,7 @@
           "apiFieldConstant": "hd2.fields.heat.firing_charge"
         },
         {
-          "displayName": "Charge gained per second",
+          "displayName": "Wind-up: charge gained per second",
           "semanticFieldId": "heat.charge_gain_per_second",
           "type": "number",
           "unit": "charge_per_second",
@@ -107299,7 +107299,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s.",
+          "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -107313,7 +107313,7 @@
           "apiFieldConstant": "hd2.fields.heat.charge_gain_per_second"
         },
         {
-          "displayName": "Charge lost per second",
+          "displayName": "Wind-up: charge lost per second (released)",
           "semanticFieldId": "heat.charge_loss_per_second",
           "type": "number",
           "unit": "charge_per_second",
@@ -107355,7 +107355,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s.",
+          "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -107369,7 +107369,7 @@
           "apiFieldConstant": "hd2.fields.heat.charge_loss_per_second"
         },
         {
-          "displayName": "Charge resets after each shot",
+          "displayName": "Wind-up: charge resets after each shot",
           "semanticFieldId": "heat.reset_charge_after_shot",
           "type": "boolean",
           "unit": null,
@@ -107411,7 +107411,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s.",
+          "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -110821,7 +110821,7 @@
           "apiFieldConstant": "hd2.fields.heat.overheat_cooldown"
         },
         {
-          "displayName": "Firing charge (wind-up)",
+          "displayName": "Wind-up: charge needed to fire",
           "semanticFieldId": "heat.firing_charge",
           "type": "number",
           "unit": "charge",
@@ -110863,7 +110863,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s.",
+          "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -110877,7 +110877,7 @@
           "apiFieldConstant": "hd2.fields.heat.firing_charge"
         },
         {
-          "displayName": "Charge gained per second",
+          "displayName": "Wind-up: charge gained per second",
           "semanticFieldId": "heat.charge_gain_per_second",
           "type": "number",
           "unit": "charge_per_second",
@@ -110919,7 +110919,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s.",
+          "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -110933,7 +110933,7 @@
           "apiFieldConstant": "hd2.fields.heat.charge_gain_per_second"
         },
         {
-          "displayName": "Charge lost per second",
+          "displayName": "Wind-up: charge lost per second (released)",
           "semanticFieldId": "heat.charge_loss_per_second",
           "type": "number",
           "unit": "charge_per_second",
@@ -110975,7 +110975,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s.",
+          "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
@@ -110989,7 +110989,7 @@
           "apiFieldConstant": "hd2.fields.heat.charge_loss_per_second"
         },
         {
-          "displayName": "Charge resets after each shot",
+          "displayName": "Wind-up: charge resets after each shot",
           "semanticFieldId": "heat.reset_charge_after_shot",
           "type": "boolean",
           "unit": null,
@@ -111031,7 +111031,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "Firing charge (WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the charge a weapon must build before it fires, the charge gained and lost per second, and whether the charge resets after each shot. +148 / +152 reproduces the published wind-up (Sickles and LAS-98 0.5 s; Sai, Trident, Talon 0); the Quasar alone resets after every shot. Live test pending: Sickle +148 0 fires at once, 400 winds up about 2 s.",
+          "acknowledgementReason": "Wind-up (the firing charge, WeaponHeat +148/+152/+156/+160; typed FP32/FP32/FP32/UINT8): the weapon fires only once its charge reaches heat.firing_charge; holding the trigger adds heat.charge_gain_per_second per second, releasing it removes heat.charge_loss_per_second per second, and heat.reset_charge_after_shot empties it after every shot (the Quasar). The charge update and the fire gate that read these members are traced (research/windup-controls-F5FEE03DCFDB.json). Wind-up = firing charge / gain per second (Sickles and LAS-98 100 / 200 = 0.5 s; Scythe and Dagger 0.25 s; Quasar 3.03 s; Sai, Trident, Talon 0): set heat.firing_charge to 0 for an instant first shot, or raise heat.charge_gain_per_second for a shorter wind-up. Live test pending: Sickle 0 fires at once, 400 winds up about 2 s.",
           "effect": {
             "activeSource": "AMBIGUOUS",
             "appliesWhen": "weapon_build",
