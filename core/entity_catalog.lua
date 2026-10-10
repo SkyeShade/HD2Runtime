@@ -62,40 +62,17 @@ function M.capture(reader,owner,profile,names,options)
         end
     end
 
-    local candidates,components={},{ }
-    for _,name in ipairs(names)do
-        reader.stage='core/entity_catalog:'..name
-        local c=assert(profile.components[name],'unknown reviewed component: '..name)
-        local index=reader.read(owner,c.offset-4,32+c.record_offset,true)
-        assert(b.u32(index,0)==c.index and index:sub(5,32)==b.unhex(c.header),
-            name..' framing changed')
-        assert(c.record_offset==c.indices*16
-            and c.record_offset+c.records*c.stride<=b.u32(index,20),
-            name..' schema extent mismatch')
-        local by_record={}
-        for row=0,c.indices-1 do
-            local at=32+row*16
-            local resource=b.resource(index,at)
-            local record=b.u32(index,at+8)
-            local flags=b.u32(index,at+12)
-            assert(record<c.records and flags==0,name..' component index bounds/flags')
-            if resource~=ZERO then
-                local owners=by_record[record] or {};owners[#owners+1]=resource;by_record[record]=owners
-                local candidate=candidates[resource] or {resourceHash=resource,ownership={},diagnostics={}}
-                candidate.ownership[name]={component=name,componentType=string.format('0x%08X',c.type),
-                    componentIndex=c.index,indexRow=row,recordIndex=record}
-                candidates[resource]=candidate
-            end
-        end
-        components[name]={schema=c,by_record=by_record,records={}}
-    end
     -- 0.30.4: the game must read each captured component from exactly this table (core/component_tables.lua). A
     -- component another mod repointed to its own copy is refused alone (its records raise the CONFLICT below); every
-    -- other component reads and writes as before. Read-only, per capture.
+    -- other component reads and writes as before. Read-only, per capture. EXPERIMENTAL (exp/multi-beam): a component
+    -- the game reads from HD2Runtime's OWN moved copy (core/owned_tables.lua) is read from that copy, rows and records,
+    -- so typed writes land where the game reads. Checked before the rows are read (it needs only the schemas).
     local schemas={}
-    for name,component in pairs(components)do schemas[name]=component.schema end
+    for _,name in ipairs(names)do
+        schemas[name]=assert(profile.components[name],'unknown reviewed component: '..name)
+    end
     reader.stage='core/entity_catalog:component_tables'
-    local checked,refused=true,{}
+    local checked,refused,owned=true,{},{}
     if not(type(options)=='table'and options.identity_scan==true)then
         -- Its own coroutine, never a pcall: the reader yields when a busy update has spent its slice, and a yield
         -- cannot cross a pcall in the game's LuaJIT (0.30.2 live: "attempt to yield across C-call boundary"). Each
@@ -106,11 +83,54 @@ function M.capture(reader,owner,profile,names,options)
         end)
         local outer=coroutine.running()
         while true do
-            local ok,result=coroutine.resume(co)
+            local ok,result,own=coroutine.resume(co)
             if not ok then checked,refused=false,result;break end
-            if coroutine.status(co)=='dead'then refused=result;break end
+            if coroutine.status(co)=='dead'then refused,owned=result,own or{};break end
             if outer then coroutine.yield()end
         end
+    end
+
+    local candidates,components={},{ }
+    for _,name in ipairs(names)do
+        reader.stage='core/entity_catalog:'..name
+        local c=schemas[name]
+        local own=checked and owned[name]
+        -- Where this component's rows and records are read: the entity allocation, or the owned copy's allocation
+        -- (its framing at the same 32 bytes before the table, its records after the same rows).
+        local region,at,records=owner,c.offset-4,c.records
+        if own then
+            -- A permanent block: read-only after its fill, as the game's own table (protect, as the entity owner's).
+            region={base=own.allocation,size=own.size,type=0x20000,protect=0x2}
+            at=own.table-32-own.allocation
+            records=own.records
+        end
+        local index=reader.read(region,at,32+c.record_offset,true)
+        assert(b.u32(index,0)==c.index and index:sub(5,32)==b.unhex(c.header),
+            name..' framing changed')
+        if own then
+            assert(c.record_offset==c.indices*16 and records>=c.records
+                and at+32+c.record_offset+records*c.stride<=region.size,name..' owned copy extent mismatch')
+        else
+            assert(c.record_offset==c.indices*16
+                and c.record_offset+c.records*c.stride<=b.u32(index,20),
+                name..' schema extent mismatch')
+        end
+        local by_record={}
+        for row=0,c.indices-1 do
+            local at_row=32+row*16
+            local resource=b.resource(index,at_row)
+            local record=b.u32(index,at_row+8)
+            local flags=b.u32(index,at_row+12)
+            assert(record<records and flags==0,name..' component index bounds/flags')
+            if resource~=ZERO then
+                local owners=by_record[record] or {};owners[#owners+1]=resource;by_record[record]=owners
+                local candidate=candidates[resource] or {resourceHash=resource,ownership={},diagnostics={}}
+                candidate.ownership[name]={component=name,componentType=string.format('0x%08X',c.type),
+                    componentIndex=c.index,indexRow=row,recordIndex=record}
+                candidates[resource]=candidate
+            end
+        end
+        components[name]={schema=c,by_record=by_record,records={},region=region,table_offset=at+32}
     end
     if not checked then
         local why='TARGET_UNAVAILABLE: the component table pointers could not be checked ('
@@ -159,7 +179,8 @@ function M.capture(reader,owner,profile,names,options)
     -- strays: {row, resource, reason} of every row refused above (no write to them; diagnostics for a log).
     -- tables: {[component] = reason} of every component whose records are refused (the game reads its table from
     -- another place, or the pointer could not be read).
-    local catalog={candidates=ordered,strays=strays,tables=refused}
+    -- owned: {[component] = owned entry} of every component read from HD2Runtime's own moved copy (EXPERIMENTAL).
+    local catalog={candidates=ordered,strays=strays,tables=refused,owned=owned}
     metrics.elapsed('entity_catalog.build',started)
     function catalog.record(candidate,name)
         local identity=assert(candidate.ownership[name],name..' ownership absent')
@@ -171,9 +192,11 @@ function M.capture(reader,owner,profile,names,options)
         if cached then return cached end
         local c=component.schema
         reader.stage='core/entity_catalog:'..name..':record'
-        local offset=c.offset+28+c.record_offset+identity.recordIndex*c.stride
-        local record={bytes=reader.read(owner,offset,c.stride,true),identity=identity,
-            owner=owner,offset=offset,index=identity.recordIndex,component=name,chain={identity}}
+        -- In place: the entity allocation + profile offset + 28 = the table. Owned move: the copy's table offset.
+        local offset=component.table_offset+c.record_offset+identity.recordIndex*c.stride
+        local record={bytes=reader.read(component.region,offset,c.stride,true),identity=identity,
+            owner=component.region,offset=offset,index=identity.recordIndex,component=name,chain={identity},
+            owned_table=component.region~=owner or nil}
         component.records[identity.recordIndex]=record
         return record
     end

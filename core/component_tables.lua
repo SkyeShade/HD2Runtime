@@ -14,6 +14,10 @@
 -- and layout, each component's lookup reading its slot through the global) are re-proven as exact bytes once per
 -- loaded game.dll, after the build fingerprint. An unreadable pointer is TARGET_UNAVAILABLE (transient) for every
 -- component of that capture. Nothing is written; no address leaves this module.
+-- EXPERIMENTAL (exp/multi-beam): the one exception is a table HD2Runtime ITSELF moved (core/owned_tables.lua): exactly
+-- the pointer it stored, over exactly this capture's in-place table, whose copy is still the committed private
+-- allocation it built. That component is accepted and reported as owned (the catalogue reads it from the copy); any
+-- other moved pointer is still another mod's and refused.
 local b=require('hd2runtime/core/bytes')
 local metrics=require('hd2runtime/runtime/metrics')
 local D=require('hd2runtime/domains/component_tables')
@@ -108,11 +112,28 @@ local function prove_lookup(reader,image,name)
     return result
 end
 
+-- EXPERIMENTAL (exp/multi-beam; core/owned_tables.lua): a table HD2Runtime itself moved. Optional, so the SDK's offline
+-- scanner, which bundles only the modules it reads with, checks exactly as before. Empty registry: nothing changes.
+local function owned_registry()
+    local ok,owned=pcall(require,'hd2runtime/core/owned_tables')
+    if ok and type(owned)=='table'and owned.active and owned.active()then return owned end
+end
+-- The copy of an owned move must still be one committed private allocation of exactly the recorded size whose page
+-- is readable; anything else and the component is refused (its copy is not where HD2Runtime left it).
+local function owned_copy_ok(reader,entry)
+    local ok,r=protected(reader.query,entry.table)
+    return ok and type(r)=='table'and r.state==0x1000 and r.type==PRIVATE and r.allocation_base==entry.allocation
+        and r.base<=entry.table and r.base+r.size>=entry.allocation+entry.size
+end
+
 -- owner: the located entity allocation; components: {[name] = profile component}. Returns {[name] = refusal reason}
--- for every component a write must not use (absent = the game reads exactly that table). Read-only; may yield.
+-- for every component a write must not use (absent = the game reads exactly that table), and {[name] = owned entry}
+-- for every component the game reads from HD2Runtime's OWN moved copy (core/owned_tables.lua: exactly the pointer
+-- HD2Runtime stored, over exactly this capture's in-place table): its rows and records are read and written there.
+-- Read-only; may yield.
 function M.check(reader,owner,profile,components)
     metrics.count('component_tables.checks')
-    local refused={}
+    local refused,owned={},{}
     local function all(reason)
         for name in pairs(components)do refused[name]=reason end
         return refused
@@ -148,18 +169,25 @@ function M.check(reader,owner,profile,components)
         return all('TARGET_UNAVAILABLE: the game\'s component table pointers are unreadable ('
             ..tostring(reason):gsub('^[^%s:]+:%d+: ','')..')')
     end
+    local registry=owned_registry()
     for name,c in pairs(components)do
         assert(type(c.index)=='number'and c.index>=0 and c.index<D.slots,name..' component index outside the slots')
         local pointer=b.pointer(slots,c.index*8)
-        if pointer~=owner.base+c.offset+D.tableFromProfileOffset then
+        local in_place=owner.base+c.offset+D.tableFromProfileOffset
+        local own=pointer~=in_place and registry and registry.accepts(name,pointer,in_place)
+        if pointer~=in_place and not own then
             refused[name]=M.moved_reason(name)
             note_moved(name)
+        elseif own and not(own.index==c.index and owned_copy_ok(reader,own))then
+            refused[name]=('TARGET_UNAVAILABLE: HD2Runtime\'s own copy of the %s table is not as it left it (the '
+                ..'experiment re-validates it); %s records are refused'):format(name,short(name))
         else
             local lookup=prove_lookup(reader,image,name)
-            if lookup~=true then refused[name]=lookup end
+            if lookup~=true then refused[name]=lookup
+            elseif own then owned[name]=own;metrics.count('component_tables.owned')end
         end
     end
-    return refused
+    return refused,owned
 end
 
 -- Test hook: forget proofs and logged components.
