@@ -200,7 +200,7 @@ Not offered: redirecting the ignition to another status. That would be the level
 which only this weapon uses, and it is not authored in this release.
 `examples/projects/DoubleEdgeOverheatTest` is the live test.
 
-## Missiles: P-33 Missile Pistol, P-92 Warrant (0.30.4, offline only)
+## Missiles: P-33 Missile Pistol, P-92 Warrant (0.31.0, offline only)
 
 The P-33 and the P-92 spawn a missile entity per shot (ProjectileWeapon +40), like the W.A.S.P. Their flight is the
 missile's own SeekingMissile record. They take the same `missile.*` fields on `hd2.weapon(name)`. The P-33's
@@ -208,10 +208,10 @@ ProgrammableAmmo missile (+584) takes `function_missile.*`. All need `allow_unve
 
 Native values: P-33 starting 10, minimum 10, preferred 100 m/s, acceleration 200, turn 15 / 18, guidance delay 0.01 s.
 P-92 Warrant: 90 / 90 / 90 m/s, turn 30 / 30. Meaning, ranges, the re-proven link and multiplayer are in
-[support weapons: Missiles](support-weapon-api.md#missiles-wasp-spear-commando-0304-offline-only). Research:
+[support weapons: Missiles](support-weapon-api.md#missiles-wasp-spear-commando-0310-offline-only). Research:
 `research/docs/wasp-rocket-F5FEE03DCFDB.md`.
 
-## Wind-up and Trident-like beam blasts (0.30.4, offline only)
+## Wind-up and Trident-like beam blasts (0.31.0, offline only)
 
 Research: `research/docs/las-beam-overhaul-comparison.md` (credit: [Bans](https://ayakamods.com/members/bans.388863/)'s [True Lasgun Beam Overhaul](https://ayakamods.com/mods/true-lasgun-beam-overhaul.4681/) was the lead; every member is proven
 from the type library and the retained snapshot). All fields need `allow_unverified_effect`.
@@ -347,10 +347,10 @@ hd2.ensure({transaction={id='trident-scythe',target=scythe,allow_unverified_effe
     is dropped): with a varying frame rate expect a little less, for example about 550 for 600 rpm at around 60 fps.
   - Seen live (2026-10-10, an experimental build with per-weapon beam records): fast rates with the 0.15 s pulse were
     capped as above.
-  - The multi-beam experiment (exp/multi-beam, MultiBeamProof 0.3.1) fits the pulse automatically when a rate is set
-    without one; the 0.30.4 `beam.fire_rate` field does not, so set `beam.pulse_seconds` with it.
+  - A [beam conversion](beam-conversion.md) fits the pulse automatically when a rate is set without one; a beam
+    weapon's own `beam.fire_rate` field does not, so set `beam.pulse_seconds` with it.
 
-**Beam swaps** (0.30.4, offline only; [attack outputs](attack-outputs.md) "Beam swaps"): the LAS-5 Scythe, LAS-7 Dagger
+**Beam swaps** (0.31.0, offline only; [attack outputs](attack-outputs.md) "Beam swaps"): the LAS-5 Scythe, LAS-7 Dagger
 and LAS-13 Trident fire any catalogued beam output through `weapon:beam_source()` and `hd2.fields.attack.beam`
 (`allow_unverified_reference` and `allow_unverified_effect`). The Dagger and Trident write their own BeamWeapon +0; the
 Scythe's default muzzle (Laser. Standard Prism) patches that member when the weapon is built, so its swap writes the

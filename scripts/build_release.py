@@ -65,10 +65,20 @@ import hd2
 
 PACKAGE_MODULES='hd2runtime/runtime/package_modules'
 
+# Development-only modules that stay in the source tree for their dev proofs (proof/LiberatorBeamProof,
+# proof/MultiBeamProof) and their unit tests, but never ship in the runtime: the solo beam-swap experiments the public
+# beam conversion (runtime/beam_conversion.lua, hd2.weapon(name):beam_conversion()) productised, and the three domains
+# only they read. No shipped module requires them (tests/test_packaged_runtime.py checks both).
+DEV_ONLY_MODULES=frozenset((
+    'hd2runtime/runtime/experiment_beam_damage','hd2runtime/runtime/experiment_beam_swap',
+    'hd2runtime/runtime/experiment_beam_table','hd2runtime/runtime/experiment_liberator_beam',
+    'hd2runtime/domains/beam_swap','hd2runtime/domains/beam_table','hd2runtime/domains/liberator_beam'))
+
 
 def runtime_resources():
     resources={k:v for k,v in build.resources(writable=True).items()
-               if not k.startswith('hd2runtime/examples/') and k!='mods/skyeshade/hd2runtime_report'}
+               if not k.startswith('hd2runtime/examples/') and k!='mods/skyeshade/hd2runtime_report'
+               and k not in DEV_ONLY_MODULES}
     resources[hd2.MODULE]=(ROOT/'packaging/library.lua').read_bytes()
     # Every internal module, so the library entry can capture all loaders at startup.
     internal=sorted(name for name in resources if name.startswith('hd2runtime/'))

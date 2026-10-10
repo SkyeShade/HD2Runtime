@@ -1,4 +1,4 @@
-"""Game font text in the Runtime's own panels (0.30.4, issue #8; runtime/game_text.lua): the custom stratagem panel's
+"""Game font text in the Runtime's own panels (0.31.0, issue #8; runtime/game_text.lua): the custom stratagem panel's
 details and tooltip, and the alert card, draw a mod's text (a custom stratagem's name, description, traits) with the
 overlay's technique: Latin text exactly as before (one engine text in the role font), other characters in a loaded game
 font (by hash, its Runtime material pointed at the atlas, on the role font's baseline), '?' for what no loaded font has

@@ -29,7 +29,7 @@ end})
 | `d:rect(x, y, w, h, colour, z)` | a filled rectangle; `(x, y)` is its top-left corner |
 | `d:text(text, x, y, {size, colour, font, align, z})` | one line; `(x, y)` is its top-left corner (top-centre / top-right with `align = 'center' / 'right'`) |
 | `d:text_width(text, size, font)` | the width in pixels, with the same metrics |
-| `d:can_draw(text, font)` | whether every character can be drawn this frame (see [Other scripts](#other-scripts-chinese-japanese-korean-russian-0304)) |
+| `d:can_draw(text, font)` | whether every character can be drawn this frame (see [Other scripts](#other-scripts-chinese-japanese-korean-russian-0310)) |
 | `d:wrap(text, width, {size, font, lines})` | the lines of text no wider than `width`, measured as `d:text` draws them |
 | `d:image(image, x, y, w, h, {colours, colour, z})` | one of the mod's own images (`hd2.resources.image`), or one of the game's own HUD icons (`hd2.resources.game_icon`, docs/game-icons.md); `(x, y)` is its top-left corner (r50) |
 
@@ -103,12 +103,12 @@ end})
   state = 'waiting' | 'drawing' | 'hidden' | 'error' | 'failed' | 'closed', reason, layer, visible, width, height,
   scale, items, frames, engine_calls, opened, refused, first_refusal}`).
 - `hd2.ui.overlays()`: every overlay's status. `hd2.ui.colour(c)`: a colour as `{r, g, b, a}`, or nil.
-- `hd2.ui.can_draw(text, font)` and `hd2.ui.game_fonts()`: see [Other scripts](#other-scripts-chinese-japanese-korean-russian-0304).
+- `hd2.ui.can_draw(text, font)` and `hd2.ui.game_fonts()`: see [Other scripts](#other-scripts-chinese-japanese-korean-russian-0310).
 - `overlay:free_cursor(on, {camera = true})` and `hd2.ui.cursor()`: see [The cursor](#the-cursor-experimental-r50).
   `status()` also reports `waiting_images`, `image_reason`, `cursor`, and for game fonts `game_fonts` (the keys drawn
   last frame), `waiting_text` and `text_reason`.
 
-## Other scripts: Chinese, Japanese, Korean, Russian (0.30.4)
+## Other scripts: Chinese, Japanese, Korean, Russian (0.31.0)
 
 ```lua
 local description = '...'                        -- a translated paragraph
@@ -135,7 +135,7 @@ the Runtime loads the one a text needs, in any game language (below).
 | `ja` | Japanese | Japanese | kana, 1781 ideographs |
 | `ko` | Korean | Korean | 1202 Hangul syllables |
 
-- **In any game language** (0.30.4, issue #8). The game loads only its selected language's font package (game.dll's
+- **In any game language** (0.31.0, issue #8). The game loads only its selected language's font package (game.dll's
   language records name one per language). Text with characters neither its font nor a loaded game font has asks for
   the game font package that has the most of them (then the next; at most two per text), through the same
   reference-counted package system the Runtime loads item packages with (`core/assets`: proven native pins, a
@@ -148,7 +148,7 @@ the Runtime loads the one a text needs, in any game language (below).
   `?`. **Greek is not available**: no game font has it.
 - `hd2.ui.can_draw(text, font)` (and `d:can_draw` inside a frame) tells before drawing: `true`, or `false`, the number
   of distinct characters that would show as `?` and up to three of them. `hd2.ui.game_fonts()` lists the fonts:
-  `{key, label, languages, glyphs, resident, reason}`. `hd2.ui.unsupported(text, font)` (0.30.4) counts only the
+  `{key, label, languages, glyphs, resident, reason}`. `hd2.ui.unsupported(text, font)` (0.31.0) counts only the
   characters no font can ever draw (in no game font at all): the number of distinct characters that always show as
   `?`, and up to three of them; 0 means everything draws once its font is loaded. A translation tool should warn on
   this, not on `can_draw` (which is false for a moment while a font package loads).
@@ -167,7 +167,7 @@ the Runtime loads the one a text needs, in any game language (below).
 - **The Runtime's own panels** use the same path (`runtime/game_text.lua`): the custom stratagem panel's details and
   tooltip (a custom stratagem's name, description and traits) and the alert card. Each re-proves its game fonts every
   frame it stays on screen and is drawn again without one that unloaded.
-- **Live-proven** (2026-10-09, 0.30.4-dev3, `proof/GameFontTextProof`): each language's own text drew in the game's
+- **Live-proven** (2026-10-09, development build 0.30.4-dev3 of 0.31.0, `proof/GameFontTextProof`): each language's own text drew in the game's
   font with the game in that language; characters a font only lists (other languages' names) are left out
   (`hd2_font.undrawable_glyphs`). **Not live-tested yet:** loading another language's font package on demand, and the
   panels. Research: game-font-text (build F5FEE03DCFDB).

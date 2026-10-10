@@ -69,10 +69,27 @@ class PackagedRuntimeStaticTests(unittest.TestCase):
             for path in sorted((ROOT/folder).glob('*.lua')):
                 if path.name == 'addon.lua':
                     continue
+                if 'hd2runtime/' + path.relative_to(ROOT).with_suffix('').as_posix() in build_release.DEV_ONLY_MODULES:
+                    continue        # not shipped at all (the next test)
                 for match in packaged.REFERENCE.finditer(path.read_bytes()):
                     if match.group(1).decode() in packaged.INSTALL_OPTION_RESOURCES:
                         continue        # shipped in its install option's own archive (the manifest test)
                     self.assertIn(match.group(1).decode(), shipped, str(path.relative_to(ROOT)))
+
+    def test_dev_only_experiment_modules_are_not_shipped(self):
+        # 0.31.0: the solo beam-swap experiments (their dev proofs LiberatorBeamProof / MultiBeamProof) stay out of the
+        # runtime; the public beam conversion never requires them.
+        self.assertEqual(len(build_release.DEV_ONLY_MODULES), 7)
+        for name in build_release.DEV_ONLY_MODULES:
+            self.assertTrue((ROOT/(name[len('hd2runtime/'):] + '.lua')).is_file(), name)   # a stale entry fails
+            self.assertNotIn(resource_hash(name), self.resources, name)
+            self.assertNotIn(name, self.scan['names'], name)
+        for path in sorted((ROOT/'runtime').glob('experiment_*.lua')):
+            self.assertIn('hd2runtime/runtime/' + path.stem, build_release.DEV_ONLY_MODULES, path.name)
+        shipped = build_release.runtime_resources()
+        for name, body in shipped.items():
+            for match in packaged.REFERENCE.finditer(body):
+                self.assertNotIn(match.group(1).decode(), build_release.DEV_ONLY_MODULES, name)
 
     def test_entry_captures_loaders_at_startup_without_running_modules(self):
         names = [name for name in self.scan['names'] if name not in packaged.INSTALL_OPTION_RESOURCES]

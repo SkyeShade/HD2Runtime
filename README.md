@@ -92,6 +92,12 @@ HD2Runtime is designed to fail safely when a game structure or ownership relatio
 
 Unsupported or ambiguous values remain read-only rather than being modified speculatively.
 
+Version 0.31.0 lets stats editors see and leave alone values other mods changed (`hd2.inspect`), draws mod windows
+in every game language's font (issue #8), and adds status effect stats, wind-up and beam pulse fields, beam swaps,
+experimental beam conversion, missile fields, team-reload ammunition, mounted spread, the Breakthrough shield arm,
+stratagem charges, orbital targeting and the fire-mode selector on single-mode weapons. Most new fields are not
+live-tested yet and need `allow_unverified_effect`. See `docs/releases/0.31.0.md`.
+
 Version 0.30.3 fixes a false "Another mod changed the stratagem data" warning in busy games, and one odd entity in
 the game's entity map no longer blocks every mod's writes. See `docs/releases/0.30.3.md`.
 
@@ -246,6 +252,6 @@ Redistributing HD2Runtime itself needs permission.
 ### Thanks
 
 - [Bans](https://ayakamods.com/members/bans.388863/), author of [True Lasgun Beam Overhaul](https://ayakamods.com/mods/true-lasgun-beam-overhaul.4681/) (LAS Beam Enhanced Overhaul): his mod was the research lead for the
-  0.30.4 laser work: the heat weapons' wind-up (firing charge), the LAS-13 Trident's pulsed beam and its fire mode,
+  0.31.0 laser work: the heat weapons' wind-up (firing charge), the LAS-13 Trident's pulsed beam and its fire mode,
   and the pass that made every laser beam swappable. HD2Runtime proves each member itself from the game's data; none
   of his code is used.

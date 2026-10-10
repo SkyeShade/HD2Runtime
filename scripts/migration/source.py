@@ -150,7 +150,7 @@ def _weapon_fields(module, weapons, source_view):
                 backing = _settings(b['settings'], b, anchors)
             else:
                 continue
-            # A field of the missile the weapon spawns (0.30.4, research/wasp-rocket) is its own object: a broken
+            # A field of the missile the weapon spawns (0.31.0, research/wasp-rocket) is its own object: a broken
             # weapon -> missile link (relationships(): weapon_spawns_entity) blocks only the missile's fields.
             obj = name + ' / ' + field_id.split('.')[0] if b.get('link') else name
             yield _record(module, key, obj, field_id, backing, field.get('currentDefault'),
@@ -282,7 +282,7 @@ def normalize(tables: dict, source_view=None) -> list[dict]:
                 'dataOffset': ammunition['dataOffset'], 'storage': 'u32', 'width': 4},
             ammunition['currentDefault']['projectileType'], ammunition.get('editable', True), True,
             {'path': ['ammunition', weapon], 'guard': {'id': ammunition['id']}}))
-    # Beam attachment sources (0.30.4): a default muzzle's entity delta row patching BeamWeapon +0 (the beam the weapon
+    # Beam attachment sources (0.31.0): a default muzzle's entity delta row patching BeamWeapon +0 (the beam the weapon
     # is built with, the LAS-5 Scythe's Laser. Standard Prism). Rebound like an ammunition source.
     for key, source in sorted(((tables.get('attack_outputs') or {}).get('beamAttachments') or {}).items()):
         records.append(_record('attack_outputs', 'beam-attachment:' + key, source['weapon'], 'attack.beam',
@@ -333,7 +333,7 @@ def relationships(tables: dict) -> list[dict]:
                 item=_int(backpack['resource']))
         feeds = backpack.get('feeds')
         if feeds and feeds.get('assisted'):
-            # A team-reload backpack (0.30.4): its deposit's assisted_reload_weapon_path names the weapon.
+            # A team-reload backpack (0.31.0): its deposit's assisted_reload_weapon_path names the weapon.
             add('backpack_team_reload', 'backpack-team-reload:' + name, name,
                 [('entity_authoring', name), ('support_weapon_authoring', feeds['weapon'])],
                 backpack=_int(backpack['resource']), weapon=_int(feeds['weaponResource']),
@@ -343,7 +343,7 @@ def relationships(tables: dict) -> list[dict]:
                 [('entity_authoring', name), ('support_weapon_authoring', feeds['weapon'])],
                 backpack=_int(backpack['resource']), weapon=_int(feeds['weaponResource']),
                 tag=_int(feeds['tag']['value']))
-    # 0.30.4 (research/wasp-rocket): a weapon's ProjectileWeapon +40 / +584 still names the missile whose SeekingMissile
+    # 0.31.0 (research/wasp-rocket): a weapon's ProjectileWeapon +40 / +584 still names the missile whose SeekingMissile
     # record its missile.* / function_missile.* fields write.
     for module in ('player_weapon_authoring', 'support_weapon_authoring'):
         for name, weapon in sorted(((tables.get(module) or {}).get('weapons') or {}).items()):

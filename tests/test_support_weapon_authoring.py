@@ -24,25 +24,25 @@ class SupportWeaponAuthoringTests(unittest.TestCase):
         self.assertEqual(self.capabilities['summary']['duplicateGroupsBlocked'],1)
         # + the PLAS-45 Epoch full-charge shot (research/charge-explosions-F5FEE03DCFDB.json).
         self.assertEqual(self.capabilities['summary']['writableProjectileBranches'],21)
-        # + the Epoch full-charge impact explosion and the Epoch and RS-422 overcharge explosions; 0.30.4: + the CQC-20
+        # + the Epoch full-charge impact explosion and the Epoch and RS-422 overcharge explosions; 0.31.0: + the CQC-20
         # Breaching Hammer's ability explosion (scripts/ability_explosion_fields.py).
         self.assertEqual(self.capabilities['summary']['writableExplosionBranches'],22)
         # +33 charge instances (scripts/charge_fields.py: speed/damage/penetration/arc multipliers, auto fire, overcharge
         # explosion, limit and burst on the RS-422, PLAS-45, ARC-3 and 40-K); +60 charge-level instances (the Epoch
         # full-charge shot 18, its explosion 14 and its overcharge explosion 14, the RS-422 overcharge explosion 14).
-        # 0.30.4: +2 beam references (attack.beam on the LAS-98 and the 40-K Meltagun, research/beam-outputs); +34
+        # 0.31.0: +2 beam references (attack.beam on the LAS-98 and the 40-K Meltagun, research/beam-outputs); +34
         # missile fields (research/wasp-rocket: W.A.S.P. 9 missile + 9 function_missile, Spear 8, Commando 8); +14 the
         # Breaching Hammer's ability explosion (3 radii, 9 damage, 2 status slots).
-        self.assertEqual(self.capabilities['summary']['internalSupportAuthoringInstances'],1541)   # 0.30.4: +1 the MG-43's left input (fire_mode)
+        self.assertEqual(self.capabilities['summary']['internalSupportAuthoringInstances'],1541)   # 0.31.0: +1 the MG-43's left input (fire_mode)
         self.assertEqual(self.capabilities['summary']['publishedSupportFieldInstances'],1541)
-        self.assertEqual(self.capabilities['summary']['legacyFlattenedFieldEntries'],1428)   # +12 hammer explosion, +1 the MG-43's left input (0.30.4)
+        self.assertEqual(self.capabilities['summary']['legacyFlattenedFieldEntries'],1428)   # +12 hammer explosion, +1 the MG-43's left input (0.31.0)
         self.assertEqual(self.capabilities['summary']['deduplicationLossPrevented'],113)
         self.assertEqual(self.capabilities['summary']['duplicateSemanticFieldGroups'],50)
         self.assertEqual(self.capabilities['summary']['duplicateSemanticFieldInstances'],114)
         self.assertEqual(self.capabilities['summary']['intentionallyOmittedInstances'],0)
         # + the two overcharge explosion references (RS-422 Railgun, PLAS-45 Epoch) and the status slots of the four
         # charge-level DamageInfo rows (the Epoch full-charge shot and explosion, the two overcharge explosions).
-        # 0.30.4: + the beam references of the LAS-98 and the 40-K Meltagun (attack.beam); + the hammer explosion's
+        # 0.31.0: + the beam references of the LAS-98 and the 40-K Meltagun (attack.beam); + the hammer explosion's
         # status slot.
         self.assertEqual(self.capabilities['referenceContract']['currentReferenceFieldInstances'],98)
         self.assertTrue(self.capabilities['referenceContract']['typedIdentityOnly'])
@@ -62,7 +62,7 @@ class SupportWeaponAuthoringTests(unittest.TestCase):
     def test_canonical_instances_exactly_cover_internal_descriptors(self):
         runtime,generated=generate_support_weapon_authoring.build()
         audit=generate_support_weapon_authoring.audit_instance_coverage(runtime,generated)
-        self.assertEqual(audit,{'internalInstances':1541,'publishedInstances':1541,   # 0.30.4: +34 missile fields, +1 the MG-43's left input (fire_mode)
+        self.assertEqual(audit,{'internalInstances':1541,'publishedInstances':1541,   # 0.31.0: +34 missile fields, +1 the MG-43's left input (fire_mode)
             'missingInstances':0,'unexpectedInstances':0,'identityCoverage':'exact'})
         instances=self.capabilities['fieldInstances']
         self.assertEqual(len(instances),1541)
@@ -73,10 +73,10 @@ class SupportWeaponAuthoringTests(unittest.TestCase):
         # + the LAS-98 BeamWeapon record (beam.fire_rate); + 7 charge-level rows (the Epoch full-charge projectile, its
         # damage, its explosion, the overcharge explosion and their shared damage row; the RS-422 overcharge explosion
         # and its damage row).
-        # 0.30.4: + the 40-K Meltagun BeamWeapon record (beam fire mode and pulse); + 4 missile SeekingMissile records
+        # 0.31.0: + the 40-K Meltagun BeamWeapon record (beam fire mode and pulse); + 4 missile SeekingMissile records
         # (the W.A.S.P.'s two, the Spear's, the Commando's: research/wasp-rocket), one operation group each.
-        self.assertEqual(len(objects),241)   # 0.30.4: + the Breaching Hammer's ability explosion row and its damage row
-        self.assertEqual(len(operations),280)   # 0.30.4: + one operation group per hammer explosion row
+        self.assertEqual(len(objects),241)   # 0.31.0: + the Breaching Hammer's ability explosion row and its damage row
+        self.assertEqual(len(operations),280)   # 0.31.0: + one operation group per hammer explosion row
         required={'instanceKey','supportWeapon','supportWeaponIdentity','target','semanticFieldId',
             'qualifiedSemanticFieldId','apiFieldConstant','display','value','writable',
             'readOnly','blockedReason','backing','sharedScope','operation','resolution',
@@ -170,7 +170,7 @@ class SupportWeaponAuthoringTests(unittest.TestCase):
         self.assertEqual(sum(branch['writable'] for branch in
             by_name['MS-11 Solo Silo']['attackBranches']),2)
         self.assertTrue(by_name['GR-8 Recoilless Rifle']['backpackDependency'])
-        # 0.30.4: the team-reload backpack is resolved (research/team-reload-ammo-F5FEE03DCFDB.json).
+        # 0.31.0: the team-reload backpack is resolved (research/team-reload-ammo-F5FEE03DCFDB.json).
         self.assertFalse(any(item['field']=='backpack storage' for item in
             by_name['GR-8 Recoilless Rifle']['blockedFields']))
         self.assertEqual(by_name['GR-8 Recoilless Rifle']['ammoBackpack']['relationship'],'team_reload')

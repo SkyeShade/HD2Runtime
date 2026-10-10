@@ -131,7 +131,7 @@ function M.layout(width,height,opts)
 end
 
 -- Splits text into at most `lines` lines of at most `chars` character widths at spaces (a CJK character is two); the
--- last is cut with '...'. Cuts never split a UTF-8 character (0.30.4: text in any script).
+-- last is cut with '...'. Cuts never split a UTF-8 character (0.31.0: text in any script).
 local function widths(s)
     local fonts=require('hd2runtime/runtime/ui_fonts')
     local n=0

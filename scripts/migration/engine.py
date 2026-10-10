@@ -740,7 +740,7 @@ class Engine:
         return 'INTACT', 'deposit assisted_reload_weapon_path names the weapon', None
 
     def _rel_weapon_spawns_entity(self, view, link):
-        """0.30.4 (research/wasp-rocket): the weapon's ProjectileWeapon member still names the missile it spawns, and
+        """0.31.0 (research/wasp-rocket): the weapon's ProjectileWeapon member still names the missile it spawns, and
         the missile still owns the component its fields write."""
         record = view.record('ProjectileWeaponComponentData', link['weapon'])
         if record is None:

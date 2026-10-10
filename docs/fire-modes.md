@@ -10,7 +10,7 @@ hd2.ensure({patch={id='jar5-full-auto',target=hd2.weapon('JAR-5 Dominator'),
     field=hd2.fields.fire_mode.modes,expect={'single','burst'},value={'single','burst','automatic'},
     allow_unverified_effect=true}})
 
--- R/40-K Hot-Shot (0.30.4): one mode and no selector -> Single and Automatic with the game's fire-mode selector bound
+-- R/40-K Hot-Shot (0.31.0): one mode and no selector -> Single and Automatic with the game's fire-mode selector bound
 -- on the left input, one transaction (proof/UserRequestsProof, "Hot-Shot single/auto selector").
 hd2.ensure({transaction={id='hotshot-selector',target=hd2.weapon('R/40-K Hot-Shot Marksman Rifle'),
     allow_unverified_effect=true,changes={
@@ -41,7 +41,7 @@ Answers to "what does enabling full-auto mean":
   native slots and its own selector (the ROF weapon function): see [rate-of-fire modes](fire-rate-modes.md).
   `weapon.fire_rate` is the default slot.
 - **Switching modes in game** needs the fire-mode selector bound to an input. A weapon without it has one mode;
-  since 0.30.4 the selector can be bound on a free input in the same transaction as the extra modes (below).
+  since 0.31.0 the selector can be bound on a free input in the same transaction as the extra modes (below).
   Otherwise the one mode is replaced (for example Single to Automatic).
 - **At most three modes.** The selector counts and cycles only +144, +148 and +152; the quaternary slot (+156) is
   never selected and no weapon fills it natively, so `fire_mode.modes` takes up to three entries.
@@ -71,7 +71,7 @@ in full: modes, default, selector, `maxModes`, burst rounds, whether it is writa
 if not. `sdk/WeaponFireModeCapabilities.json` publishes the same information for every weapon, so a
 GUI can show checkboxes and a default selector without guessing from names.
 
-## Adding the selector (0.30.4)
+## Adding the selector (0.31.0)
 
 Question from a player: "I cannot change the fire mode of the Hot-Shot: is that a limit in the game files?" It is not.
 The R/40-K Hot-Shot lists one mode (Single) and binds nothing to either weapon-function input, so the game has no
@@ -132,7 +132,7 @@ same transaction, and it replaces the single mode otherwise. 60 weapons already 
   write with read-back (a mode added, removed, or the single mode replaced), rollback, CONFLICT on a
   third-party slot value, and the acknowledgement rejection. It also pins the JAR-5 write (only
   `tertiary_fire_mode` +152 changes, 0 to 1, 4 bytes), checks that blocked weapons refuse writes,
-  and checks that the two overlapping fire-mode views cannot be combined. Since 0.30.4 it also gives every
+  and checks that the two overlapping fire-mode views cannot be combined. Since 0.31.0 it also gives every
   `addable` weapon a second mode with its Firemode binding (one transaction, exactly the second slot and the input
   written, exact rollback; the Hot-Shot is pinned: +148 0 -> 1 Automatic, +184 0 -> 3 Firemode), and refuses the
   modes alone, the binding alone and four modes.

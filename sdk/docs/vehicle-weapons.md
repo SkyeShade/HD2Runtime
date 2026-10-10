@@ -55,8 +55,8 @@ weapon-local records.
 | `hd2.fields.entity.health`, `hd2.fields.entity.armor` | weapon | The mount's own `HealthComponentData` +0 / +280 |
 | `hd2.fields.beam.fire_rate` | weapon | `BeamWeaponComponentData` +104 (rpm: how often the beam applies damage) |
 | `hd2.fields.heat.capacity`, `heat_per_shot`, `heat_per_second`, `cool_per_second` | weapon | `WeaponHeatComponentData` +96 / +116 / +120 / +128 |
-| `hd2.fields.heat.firing_charge`, `charge_gain_per_second`, `charge_loss_per_second` (0.30.4) | weapon (the AX/LAS-5 Rover gun: wind-up 100 / 400 = 0.25 s) | `WeaponHeatComponentData` +148 / +152 / +156 (see Wind-up) |
-| `hd2.fields.windup.wind_up_seconds`, `wind_down_seconds` (0.30.4) | weapon (EXO-45 Patriot minigun 1 s, TD-110 Maelstrom tank gun 0.5 s) | `WeaponWindUpComponentData` +0 / +4 (see Wind-up) |
+| `hd2.fields.heat.firing_charge`, `charge_gain_per_second`, `charge_loss_per_second` (0.31.0) | weapon (the AX/LAS-5 Rover gun: wind-up 100 / 400 = 0.25 s) | `WeaponHeatComponentData` +148 / +152 / +156 (see Wind-up) |
+| `hd2.fields.windup.wind_up_seconds`, `wind_down_seconds` (0.31.0) | weapon (EXO-45 Patriot minigun 1 s, TD-110 Maelstrom tank gun 0.5 s) | `WeaponWindUpComponentData` +0 / +4 (see Wind-up) |
 | `hd2.fields.beam.radius`, `beam.length` | `weapon:attack('primary')` (beam) | Shared `BeamSettings` +4 / +8 |
 | `hd2.fields.arc.velocity`, `range`, `distance_at_max_spread`, `max_angle_spread`, `chain_count`, `max_split` | `weapon:attack('primary')` (arc) | Shared `ArcSettings` |
 | `hd2.fields.zone.health`, `hd2.fields.zone.armor` | weapon | The mount's single hit zone (Exosuit arms) |
@@ -108,7 +108,7 @@ hd2.ensure({transaction={id='bastion-arc',target=cannon,allow_unverified_effect=
     {field=hd2.fields.turret.pitch_max,expect=25,value=45}}}})
 ```
 
-## Wind-up (0.30.4)
+## Wind-up (0.31.0)
 
 Research: `scripts/research_windup_controls.py` -> `research/docs/windup-controls-F5FEE03DCFDB.md`. Both read live
 every frame from the mount's own record, so a write also changes a vehicle already deployed. All need
@@ -129,7 +129,7 @@ hd2.ensure({patch={id='patriot-instant-spin',target=hd2.vehicle('EXO-45 Patriot 
 
 Live test: `proof/RebalanceFixesProof` ("Patriot minigun: instant spin-up", "Rover drone: no wind-up").
 
-## Spread (0.30.4)
+## Spread (0.31.0)
 
 Every projectile mount carries the player weapons' spread pair, `hd2.fields.weapon.horizontal_spread` and
 `hd2.fields.weapon.vertical_spread`, on its own `WeaponDataComponentData` (+84 / +88). That covers 17 mounts:
@@ -177,7 +177,7 @@ Notes:
 - **Not exposed.** Spray, beam and arc mounts (M-104, Lumberer flamethrower, Hot Dog, Dog Breath, Rover, K-9) keep
   their WeaponData spread unexposed: the shot's read is not on their attack path. This is the sentry rule.
 
-## EXO-55 Breakthrough shield arm (0.30.4)
+## EXO-55 Breakthrough shield arm (0.31.0)
 
 The Breakthrough's left mount (`left_gun`, slot 0) holds `combat_walker_shield`. It is a wieldable unit with its own
 `HealthComponent`, `WeaponData`, `MeleeShield` and `AbilityWeapon` (the shield bash). It has no projectile, spray,
@@ -269,7 +269,7 @@ hd2.ensure({transaction={id='patriot-eat',target=source.target,allow_unverified_
   `damage_addends` and +136 `ap_addends`. The M-103 turret reference mod reports them the other way
   round in game. They stay read-only until one in-game test settles it.
 - **Mounts without a weapon component:** the Maelstrom turret ring, the M-103 rack and the seats are listed with a
-  reason. The Breakthrough's left mount is the shield arm (0.30.4): its arm health and plate health and armor are
+  reason. The Breakthrough's left mount is the shield arm (0.31.0): its arm health and plate health and armor are
   fields, while its default-zone armor, its arm-zone armor and any `shield.*` field (no ShieldComponent) are
   read-only (see EXO-55 Breakthrough shield arm).
 - **Spread of spray, beam and arc mounts:** no read on their attack path is shown (the sentry rule).
@@ -304,14 +304,14 @@ hd2.ensure({patch={id='dog-drum',target=gun,field=hd2.fields.weapon.capacity,exp
 | AX/ARC-3 K-9 | arc | magazine 100, arc range 55 / chain 2 / split 5, damage, Stun Small |
 | AX/TX-13 Dog Breath | spray | magazine 100, spray damage, Gas and Gas Confusion |
 
-**Rover beam (0.30.4).** The Rover gun's own BeamWeapon record carries `beam.fire_mode`, `beam.pulse_beams` and
+**Rover beam (0.31.0).** The Rover gun's own BeamWeapon record carries `beam.fire_mode`, `beam.pulse_beams` and
 `beam.pulse_seconds` too (the player fields; `allow_unverified_effect`). Its beam reference is read-only: its record names
 BeamType 25, but its default muzzle (Laser. Standard Prism, the LAS-5 Scythe's) patches BeamWeapon +0 to the Scythe's
 beam when a weapon is built, and that is live-proven for player weapons only. `rover:beam_source()` says so; the
 Scythe's beam swap (its muzzle) may reach the Rover too, which `proof/BeamSwapProof` checks. See
 [attack outputs](attack-outputs.md) "Beam swaps".
 
-**A/LAS-98 Laser Sentry (0.30.4).** Its deployed entity is a beam host on the sentry host model (`A/LAS-98 Laser Sentry
+**A/LAS-98 Laser Sentry (0.31.0).** Its deployed entity is a beam host on the sentry host model (`A/LAS-98 Laser Sentry
 / weapon`, `stratagemBeamHosts`): `hd2.stratagem('A/LAS-98 Laser Sentry'):attack('primary'):beam_source()` returns the
 target for `hd2.fields.attack.beam` (any catalogued beam output) and `beam.fire_mode` / `beam.pulse_beams` /
 `beam.pulse_seconds`; `beam.fire_rate` stays on `hd2.stratagem(name):deployed_entity():weapon()`. Type-level: every

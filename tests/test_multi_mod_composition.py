@@ -124,7 +124,7 @@ return json.encode(out)
         self.assertFalse(result['others']['rover'])
         self.assertFalse(result['others']['k9_gun'])
         # The Arc Thrower's only cross-catalogue record is its stun status row: the A/ARC-3 Tesla Tower's, and the
-        # status's own definition (hd2.status_effect('stun_small'), 0.30.4).
+        # status's own definition (hd2.status_effect('stun_small'), 0.31.0).
         self.assertEqual(result['others']['arc'],
                          ['status.primary_status_37.duration -> status_effect stun_small',
                           'status.primary_status_37.duration -> stratagem A/ARC-3 Tesla Tower'])

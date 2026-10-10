@@ -8,7 +8,7 @@ For each player and support weapon whose fire-mode set is writable:
    likewise.
 3. A third-party slot value is rejected as CONFLICT.
 4. A missing allow_unverified_effect is rejected.
-5. (0.30.4) Every 'addable' weapon (one mode, a free input: research/fire-mode-selector) gains a second mode together
+5. (0.31.0) Every 'addable' weapon (one mode, a free input: research/fire-mode-selector) gains a second mode together
    with its Firemode binding in one transaction (one slot and one input written, exact rollback); the modes alone and
    the binding alone are refused (SELECTOR_REQUIRED), and four modes are refused everywhere (the selector cycles
    three).
@@ -122,7 +122,7 @@ local worker=coroutine.create(function()
    end
   end
  end
- -- Addable weapons (0.30.4): a second mode with the Firemode binding, one transaction; neither alone.
+ -- Addable weapons (0.31.0): a second mode with the Firemode binding, one transaction; neither alone.
  for _,set in ipairs({{kind='player_weapon',db=players},{kind='support_weapon',db=supports}})do
   local names={};for name in pairs(set.db.weapons)do names[#names+1]=name end;table.sort(names)
   for _,name in ipairs(names)do

@@ -1,4 +1,4 @@
-"""Support-weapon explosions a weapon requests through an ability (0.30.4; scripts/generate_support_weapon_authoring.py).
+"""Support-weapon explosions a weapon requests through an ability (0.31.0; scripts/generate_support_weapon_authoring.py).
 
 The CQC-20 Breaching Hammer's charge blast (the published "IE" branch, 2200 Explosion, Anti-Tank II) is not a
 projectile's terminal explosion nor an ExplosiveComponent's: the hammer's own MeleeWeaponComponentData +160 (an

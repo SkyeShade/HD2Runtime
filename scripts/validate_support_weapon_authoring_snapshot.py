@@ -58,7 +58,7 @@ def validate(snapshot=DEFAULT_SNAPSHOT,output=DEFAULT_OUTPUT):
                 expect={'resource':'support_weapon','path':'projectile_reference','weapon':weapon['name'],
                     'attack':target['attack']}
             if field['type']=='beam_reference':
-                # A beam host's BeamType reference (0.30.4 beam swaps): its own beam (the reviewed baseline).
+                # A beam host's BeamType reference (0.31.0 beam swaps): its own beam (the reviewed baseline).
                 expect={'resource':'support_weapon','path':'beam_reference','weapon':weapon['name']}
             # Differently sized views of the same bytes (fire_rate.modes and weapon.fire_rate, the two presentation
             # fields) are never combined in one plan: overlapping byte ranges of one record go to separate batches.

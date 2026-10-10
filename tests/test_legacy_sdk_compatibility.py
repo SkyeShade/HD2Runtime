@@ -276,7 +276,7 @@ class LegacyTableTests(unittest.TestCase):
         counts = {}
         for entry in history['entries']:
             self.assertEqual(entry['acknowledgement'], 'allow_unverified_effect')
-            self.assertIn(entry['since'], ('0.28.0', '0.30.0', '0.30.4'))
+            self.assertIn(entry['since'], ('0.28.0', '0.30.0', '0.31.0'))
             counts.setdefault(entry['since'], {})
             counts[entry['since']][entry['target']] = counts[entry['since']].get(entry['target'], 0) + 1
         self.assertEqual(counts['0.28.0'], {'PLAS-101 Purifier': 28, 'P-34 Breacher': 28, 'P-33 Missile Pistol': 28,
@@ -287,12 +287,12 @@ class LegacyTableTests(unittest.TestCase):
         self.assertEqual(counts['0.30.0'], {'PLAS-45 Epoch': 30})
         self.assertEqual({entry['resource'] for entry in history['entries'] if entry['since'] == '0.30.0'},
             {'support_weapon'})
-        # 0.30.4: the team-reload weapons' own magazine rows (research/team-reload-ammo-F5FEE03DCFDB.json).
-        self.assertEqual(counts['0.30.4'], {'GR-8 Recoilless Rifle': 3, 'RL-77 Airburst Rocket Launcher': 3,
+        # 0.31.0: the team-reload weapons' own magazine rows (research/team-reload-ammo-F5FEE03DCFDB.json).
+        self.assertEqual(counts['0.31.0'], {'GR-8 Recoilless Rifle': 3, 'RL-77 Airburst Rocket Launcher': 3,
             'FAF-14 Spear': 3, 'StA-X3 W.A.S.P. Launcher': 3})
-        self.assertEqual({entry['field'] for entry in history['entries'] if entry['since'] == '0.30.4'},
+        self.assertEqual({entry['field'] for entry in history['entries'] if entry['since'] == '0.31.0'},
             {'magazine.spare_magazines', 'magazine.starting_magazines', 'magazine.magazines_from_supply'})
-        self.assertEqual([item['since'] for item in history['releases']], ['0.28.0', '0.30.0', '0.30.4'])
+        self.assertEqual([item['since'] for item in history['releases']], ['0.28.0', '0.30.0', '0.31.0'])
         # Every entry still names a field that needs the acknowledgement now.
         current = legacy_table.fields(legacy_table.current_catalogs())
         for entry in history['entries']:

@@ -1,6 +1,6 @@
 """The game's component table pointers (core/component_tables.lua, research/docs/entity-component-table-pointers.md).
 
-The 0.30.4 report: "editing the Heat Per Shot and Cool Per Sec for the LAS-12 Sai has no effect". A third-party mod
+The 0.31.0 report: "editing the Heat Per Shot and Cool Per Sec for the LAS-12 Sai has no effect". A third-party mod
 (True Lasgun Beam Overhaul) repoints the entity manager's BeamWeapon, WeaponHeat and WeaponMagazine table pointers to
 its own copies; HD2Runtime wrote the original tables, which the game no longer reads. Before a typed write to a
 component record HD2Runtime now re-proves that the game reads that component from exactly the table it writes; a moved

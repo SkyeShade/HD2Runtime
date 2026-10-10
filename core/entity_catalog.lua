@@ -87,7 +87,7 @@ function M.capture(reader,owner,profile,names,options)
         end
     end
 
-    -- 0.30.4: the game must read each captured component from exactly this table (core/component_tables.lua). A
+    -- 0.31.0: the game must read each captured component from exactly this table (core/component_tables.lua). A
     -- component another mod repointed to its own copy is refused alone (its records raise the CONFLICT below); every
     -- other component reads and writes as before. Read-only, per capture. EXPERIMENTAL (exp/multi-beam): a component
     -- the game reads from HD2Runtime's OWN moved copy (core/owned_tables.lua) is read from that copy, rows and records,

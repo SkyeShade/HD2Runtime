@@ -1,4 +1,4 @@
--- Text in the Runtime's own panels in the game's language fonts (0.30.4, issue #8): the custom stratagem panel and its
+-- Text in the Runtime's own panels in the game's language fonts (0.31.0, issue #8): the custom stratagem panel and its
 -- details, and the alert card, draw their text straight on an engine GUI (runtime/engine_gui.lua). This gives them the
 -- technique the mod overlay uses (runtime/mod_overlay.lua, live-proven 2026-10-09): text the role font fully covers is
 -- one engine text, exactly as before; otherwise it is split into runs (runtime/ui_fonts.lua runs) and a character the

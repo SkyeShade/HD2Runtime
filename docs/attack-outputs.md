@@ -286,7 +286,7 @@ a projectile pointer exists.
 - **Mod Options.** A choice option's `values` may be reference handles, so one dropdown can select between complete
   output compositions. Each choice is a single reference value, so switching choices is one atomic write.
 
-## Beam swaps (0.30.4; not live-tested)
+## Beam swaps (0.31.0; not live-tested)
 
 A beam weapon can fire another weapon's beam. Research: `scripts/research_beam_outputs.py` →
 `research/beam-outputs-F5FEE03DCFDB.json` (write-up: `research/docs/beam-outputs-F5FEE03DCFDB.md`). A beam is fired only
@@ -403,7 +403,7 @@ live-proven laser donor (the Reprimand, the Liberator's ammunition, the Patriot 
   No vanilla weapon spawns a beam entity, a spawned beam weapon has no wielder to fire it, and the member is not a
   reviewed field: not offered. See "Spawned missiles" below.
 
-## Spawned missiles (0.30.4, offline only)
+## Spawned missiles (0.31.0, offline only)
 
 Research: `research/docs/wasp-rocket-F5FEE03DCFDB.md`. Nine weapons have a ProjectileWeapon +40 (ProjectileEntity).
 Their `projectileSources` entries stay BLOCKED, but the reason now says exactly what the shot spawns:
@@ -422,7 +422,7 @@ How a missile works: the shot's projectile type goes into the spawn info (0x6160
 when its own `projectile_type_to_process` is 0, as on every weapon missile. It then registers one unit-driven projectile
 of that type (0x646030 -> 0x13A9830, flight +0x50 = the missile's unit). The row supplies the hit damage and the impact
 explosion. The flight is the missile's SeekingMissile record (speed, acceleration, lifetime, turning; see
-[support weapons: Missiles](support-weapon-api.md#missiles-wasp-spear-commando-0304-offline-only)).
+[support weapons: Missiles](support-weapon-api.md#missiles-wasp-spear-commando-0310-offline-only)).
 
 **No swap.** Swapping the carried row would change the hit and not the missile, and how another machine's copy gets
 its type is not traced. Swapping the spawned entity needs another missile's package and replication on every machine;
@@ -669,7 +669,7 @@ rows), UnifiedProjectileSwapTest.
 - 108 projectile, among them the stratagem-owned EMS Mortar shell, the Speargun spare twin and 17 mounted weapons;
 - 4 beam, 3 arc, 8 spray and 7 melee.
 
-0.30.4 brings the beam outputs to 12 (six donors, the Rover drone gun and five enemy beams, read-only): see "Beam swaps"
+0.31.0 brings the beam outputs to 12 (six donors, the Rover drone gun and five enemy beams, read-only): see "Beam swaps"
 (`beamSources` and `beamModel` in the catalog).
 
 80 projectile outputs are selectable. Each selectable projectile output publishes its `presentation` (mode label,

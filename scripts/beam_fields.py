@@ -1,4 +1,4 @@
-"""Beam outputs and beam swaps (0.30.4, research/beam-outputs-F5FEE03DCFDB.json; docs/attack-outputs.md "Beam swaps").
+"""Beam outputs and beam swaps (0.31.0, research/beam-outputs-F5FEE03DCFDB.json; docs/attack-outputs.md "Beam swaps").
 
 A beam is fired only by a BeamWeaponComponent: its +0 (typed BeamType) names the BeamSettings row the weapon fires. A
 beam swap re-points that one reference on a weapon that already owns the component (no component is added: projectile

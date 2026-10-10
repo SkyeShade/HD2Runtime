@@ -1,4 +1,4 @@
--- Guarded status effect authoring (0.30.4; docs/status-effects.md "Status effect stats"). A status effect's own
+-- Guarded status effect authoring (0.31.0; docs/status-effects.md "Status effect stats"). A status effect's own
 -- definition, edited once for every attack that applies it:
 --   status: the StatusEffectSettings row of the status (status.duration, +40);
 --   damage: the DamageInfo row the status deals while active (StatusEffectInfo +44 names it; damage.*).

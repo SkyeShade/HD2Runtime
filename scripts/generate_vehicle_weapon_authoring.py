@@ -26,7 +26,7 @@ BUILDER = ROOT / 'research/projectile-builder-F5FEE03DCFDB.json'
 ATTACK_OUTPUTS = ROOT / 'research/attack-outputs-F5FEE03DCFDB.json'
 SENTRY_HOSTS = ROOT / 'research/sentry-projectile-hosts-F5FEE03DCFDB.json'
 DEFENSIVE = ROOT / 'research/defensive-stratagem-runtime-F5FEE03DCFDB.json'
-# Mounted spread and the EXO-55 Breakthrough shield arm (0.30.4): scripts/research_mounted_spread_shield.py.
+# Mounted spread and the EXO-55 Breakthrough shield arm (0.31.0): scripts/research_mounted_spread_shield.py.
 SPREAD_SHIELD = ROOT / 'research/mounted-spread-shield-F5FEE03DCFDB.json'
 SPREAD = (('weapon.horizontal_spread', 'Horizontal spread', 84, 0), ('weapon.vertical_spread', 'Vertical spread', 88, 1))
 SPREAD_RANGE = ('Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The '
@@ -246,7 +246,7 @@ def build(research_path=RESEARCH):
         return groups
 
     def shield_mount(vehicle, slot, label):
-        """The EXO-55 Breakthrough's shield arm (0.30.4): a mount with no weapon component whose own HealthComponent
+        """The EXO-55 Breakthrough's shield arm (0.31.0): a mount with no weapon component whose own HealthComponent
         is the published ShieldArm (main pool) and Shield (plate zone) anatomy. Reached through
         hd2.vehicle(name):shield(); the writer re-proves the mount slot like a mounted weapon's."""
         key = f"{vehicle['name']} / {label}"
@@ -369,7 +369,7 @@ def build(research_path=RESEARCH):
             if 'fireRate' in values:
                 field('weapon.fire_rate', 'Fire rate', 'rpm', 'number', values['fireRate'],
                     component('ProjectileWeaponComponentData', 8, 'f32'), weapon_target, 'weapon_local')
-            # Spread (0.30.4): the WeaponData spread pair of a projectile mount, the member the shot reads for every
+            # Spread (0.31.0): the WeaponData spread pair of a projectile mount, the member the shot reads for every
             # shot and pellet (research/mounted-spread-shield). Spray, beam and arc mounts keep theirs unexposed.
             spread = spread_mounts[key]
             assert spread['weaponData'] == {k: own['WeaponDataComponentData'][k] for k in spread['weaponData']}, \
@@ -432,7 +432,7 @@ def build(research_path=RESEARCH):
                     if fid == 'beam.fire_rate')
                 item.update({'min': low, 'max': high, 'rangeReason': 'the player beam fire-rate range'})
             if 'BeamWeaponComponentData' in own:
-                # 0.30.4: the beam fire mode and pulse members of the mount's own BeamWeapon record (the player fields
+                # 0.31.0: the beam fire mode and pulse members of the mount's own BeamWeapon record (the player fields
                 # of research/las-beam-overhaul-comparison) and its BeamType reference (scripts/beam_fields.py; the
                 # Rover gun's is read-only: its default muzzle delta is the active beam source).
                 beam_fields_list = beam_mount_fields(field, component, weapon_target, definitions, key,
@@ -443,7 +443,7 @@ def build(research_path=RESEARCH):
                 if heat.get(heat_key):
                     field(field_id, name, unit, 'number', heat[heat_key],
                         component('WeaponHeatComponentData', offset, 'f32'), weapon_target, 'weapon_local')
-            # 0.30.4 wind-up (research/windup-controls-F5FEE03DCFDB.json): the firing charge of a heat mount that
+            # 0.31.0 wind-up (research/windup-controls-F5FEE03DCFDB.json): the firing charge of a heat mount that
             # has one (the AX/LAS-5 Rover gun: 100 / 400 = 0.25 s) and the spin-up of a WeaponWindUp mount (the
             # EXO-45 Patriot minigun, the TD-110 Maelstrom tank gun), each on the mount's own record. The Rover's reset
             # switch (u8, 0) is not a wind-up control and stays unexposed on mounts.
@@ -689,7 +689,7 @@ def build(research_path=RESEARCH):
     public['stratagemHosts'] = stratagem_hosts
     public['stratagemHostSummary'] = {'hosts': len(stratagem_hosts),
         'writable': sum(1 for h in stratagem_hosts if h['writable'])}
-    # Sentry beam hosts (0.30.4, research/beam-outputs-F5FEE03DCFDB.json): a stratagem whose deployed entity owns its
+    # Sentry beam hosts (0.31.0, research/beam-outputs-F5FEE03DCFDB.json): a stratagem whose deployed entity owns its
     # own BeamWeapon record (the A/LAS-98 Laser Sentry), on the sentry host model above: its BeamType reference
     # (attack.beam) and fire mode / pulse members, reached through hd2.stratagem(name):attack('primary'):beam_source().
     # beam.fire_rate stays on the stratagem's own weapon target (sentry fields), so it is not repeated here.

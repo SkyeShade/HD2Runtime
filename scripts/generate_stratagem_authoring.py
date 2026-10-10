@@ -713,7 +713,7 @@ def add_call_in_fields(add_field, internal, public_stratagems, baselines):
                 'readTiming': 'beacon_creation', 'semantics': CALL_IN_SEMANTICS, **call_in_acknowledgement()}
 
 
-# Charges before cooldown (hd2.fields.stratagem.rearm_pool, 0.30.4): StratagemInfo +200 of the stratagem's own row, a
+# Charges before cooldown (hd2.fields.stratagem.rearm_pool, 0.31.0): StratagemInfo +200 of the stratagem's own row, a
 # StratagemType naming the rearm that refills its uses. research/stratagem-rearm-pool-F5FEE03DCFDB.json (readers pinned
 # by scripts/research_stratagem_rearm_pool.py): every reader compares it with 49 (Eagle Rearm), so the Eagle Rearm pool
 # is the only native way for a stratagem to hold several uses before a cooldown. A pool member's +80 is its uses per
@@ -785,7 +785,7 @@ def add_rearm_pool_fields(add_field, internal, public_stratagems, publication):
                 **({} if eagle else {'rule': REARM_RULE, 'acknowledgement': 'allow_unverified_effect'})}
 
 
-# Orbital targeting (0.30.4): OrbitalAbilityComponent members of the Railcannon's and the Laser's own records
+# Orbital targeting (0.31.0): OrbitalAbilityComponent members of the Railcannon's and the Laser's own records
 # (research/orbital-targeting-F5FEE03DCFDB.json, readers pinned by scripts/research_orbital_targeting.py). The
 # Railcannon's fields are on the stratagem itself (its record is its payload's); the Laser's re-search interval joins
 # its existing beam attack fields. Self-contained: orbital_targeting_publication, add_orbital_targeting_fields.
@@ -1561,7 +1561,7 @@ def build():
                              'recordSha256':heat.get('recordSha256'),
                              'consumers':defensive_consumers[('WeaponHeatComponentData', heat['record_index'])]},
                             weapon_target)
-                # 0.30.4: the wind-up (firing charge, WeaponHeat +148/+152/+156) of a heat sentry that has one (the
+                # 0.31.0: the wind-up (firing charge, WeaponHeat +148/+152/+156) of a heat sentry that has one (the
                 # A/LAS-98 Laser Sentry): the same members, readers and rules as the player heat weapons
                 # (scripts/equipment_fields.py, research/windup-controls-F5FEE03DCFDB.json). The u8 reset switch
                 # stays unexposed here (stratagem writes have no u8 storage; the sentry's is 0).

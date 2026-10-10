@@ -484,7 +484,7 @@ def build(catalog_path=CATALOG):
                 lambda field_id,value,backend:make_field(field_id,value,backend,editable=unique,reason=blocked),
                 lambda offset,storage:component_backend(candidate,'WeaponHeatComponentData',offset,storage))
 
-        # 0.30.4 (research/las-beam-overhaul-comparison): the firing charge (wind-up) of the weapon's own heat record,
+        # 0.31.0 (research/las-beam-overhaul-comparison): the firing charge (wind-up) of the weapon's own heat record,
         # and the fire mode, rate and pulse of its own beam record (the LAS-13 Trident's pulsed beam).
         def charge_make(field_id,value,backend):
             return make_field(field_id,value,backend,editable=unique,reason=blocked)
@@ -492,7 +492,7 @@ def build(catalog_path=CATALOG):
             fields+=equipment_fields.firing_charge_fields(charge_make,
                 ownership['WeaponHeatComponentData']['recordIndex'],
                 lambda offset,storage:component_backend(candidate,'WeaponHeatComponentData',offset,storage))
-        # 0.30.4 (research/wasp-rocket): the missile the weapon spawns per shot (ProjectileWeapon +40: P-33, P-92) and
+        # 0.31.0 (research/wasp-rocket): the missile the weapon spawns per shot (ProjectileWeapon +40: P-33, P-92) and
         # that of its ProgrammableAmmo function (+584: P-33), their own SeekingMissile records through the link.
         if unique and 'ProjectileWeaponComponentData' in ownership:
             fields+=missile_fields.fields(charge_make,candidate['resourceHash'],
@@ -501,7 +501,7 @@ def build(catalog_path=CATALOG):
             fields+=equipment_fields.beam_pulse_fields(charge_make,
                 ownership['BeamWeaponComponentData']['recordIndex'],
                 lambda offset,storage:component_backend(candidate,'BeamWeaponComponentData',offset,storage))
-            # 0.30.4 beam swaps (scripts/beam_fields.py, research/beam-outputs): the weapon's own BeamType reference,
+            # 0.31.0 beam swaps (scripts/beam_fields.py, research/beam-outputs): the weapon's own BeamType reference,
             # writable where it is the active beam source (the Scythe's is its default muzzle delta: weapon:beam_source()).
             if unique:
                 beam=beam_fields.reference_field(

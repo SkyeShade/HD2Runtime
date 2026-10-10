@@ -1,5 +1,6 @@
--- Component tables HD2Runtime ITSELF moved (EXPERIMENTAL; branch exp/multi-beam only: runtime/experiment_beam_table.lua).
--- Empty unless an experiment made one live, so every capture reads exactly as before.
+-- Component tables HD2Runtime ITSELF moved (the beam conversion, runtime/beam_conversion.lua; the dev-only experiment
+-- runtime/experiment_beam_table.lua, not shipped). Empty unless one made a table live, so every capture reads exactly as
+-- before.
 --
 -- core/component_tables.lua refuses a component whose slot ([manager + 0xF12478 + 8 x index]) is not the entity
 -- allocation's own table: another program moved it, and HD2Runtime never writes to a table the game no longer reads.

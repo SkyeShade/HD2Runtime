@@ -1,4 +1,4 @@
-"""0.30.4 (research/docs/las-beam-overhaul-comparison.md): the firing charge (wind-up) of heat weapons
+"""0.31.0 (research/docs/las-beam-overhaul-comparison.md): the firing charge (wind-up) of heat weapons
 (WeaponHeat +148/+152/+156/+160) and the Trident's pulsed beam (BeamWeapon +100 fire mode, +104 rate, +108 beams per
 pulse, +112 pulse seconds) as fields of each weapon's own records. A Trident-like beam blast on another beam weapon is
 one transaction on its own BeamWeapon record; no component is added. Every field needs allow_unverified_effect until

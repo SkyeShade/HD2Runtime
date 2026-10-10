@@ -7791,7 +7791,7 @@
   }
  },
  "format": "hd2runtime-custom-stratagems/1",
- "hd2RuntimeVersion": "0.30.3",
+ "hd2RuntimeVersion": "0.31.0",
  "limits": {
   "definitions": 16,
   "orbitalShells": 64

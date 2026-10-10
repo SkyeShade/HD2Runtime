@@ -14,10 +14,10 @@
    "rule": "editable without allow_unverified_effect in the SDK published at v0.28.1, editable and requiring it in 0.30.0"
   },
   {
-   "since": "0.30.4",
+   "since": "0.31.0",
    "comparedWith": "v0.30.3",
    "comparedWithCommit": "dcd996daca2573443956c07252c55c2d86dd0320",
-   "rule": "editable without allow_unverified_effect in the SDK published at v0.30.3, editable and requiring it in 0.30.4"
+   "rule": "editable without allow_unverified_effect in the SDK published at v0.30.3, editable and requiring it in 0.31.0"
   }
  ],
  "entries": [
@@ -1606,7 +1606,7 @@
    "reason": "Only the partial-charge shot fires this row: a release at or after the minimum charge time (1 s) and before the full charge time (2.5 s). Full-charge and overcharged shots fire attack('full_charge') instead, which this write does not change. The charge-level selection is proven from the native fire code; the effect of an edit is not yet shown in game."
   },
   {
-   "since": "0.30.4",
+   "since": "0.31.0",
    "acknowledgement": "allow_unverified_effect",
    "resource": "support_weapon",
    "target": "FAF-14 Spear",
@@ -1615,7 +1615,7 @@
    "reason": "Own spares of a team-reload weapon. Its reload uses them first (one magazine per reload, by the wearer alone, no backpack needed) and the backpack only when they are spent; a teammate reload still uses the backpack. Proven from game code (research/team-reload-ammo-F5FEE03DCFDB.json); not yet shown in game. Spare magazines the weapon itself gains from a resupply (at least 1), up to magazine.spare_magazines (0 natively, so the native 6 has no effect until that is raised). The backpack refills separately (deposit.refill_amount)."
   },
   {
-   "since": "0.30.4",
+   "since": "0.31.0",
    "acknowledgement": "allow_unverified_effect",
    "resource": "support_weapon",
    "target": "FAF-14 Spear",
@@ -1624,7 +1624,7 @@
    "reason": "Own spares of a team-reload weapon. Its reload uses them first (one magazine per reload, by the wearer alone, no backpack needed) and the backpack only when they are spent; a teammate reload still uses the backpack. Proven from game code (research/team-reload-ammo-F5FEE03DCFDB.json); not yet shown in game. The most spare magazines the weapon itself carries. 0 natively, which is why it keeps none: the spawn and resupply amounts are clamped to it."
   },
   {
-   "since": "0.30.4",
+   "since": "0.31.0",
    "acknowledgement": "allow_unverified_effect",
    "resource": "support_weapon",
    "target": "FAF-14 Spear",
@@ -1633,7 +1633,7 @@
    "reason": "Own spares of a team-reload weapon. Its reload uses them first (one magazine per reload, by the wearer alone, no backpack needed) and the backpack only when they are spent; a teammate reload still uses the backpack. Proven from game code (research/team-reload-ammo-F5FEE03DCFDB.json); not yet shown in game. Spare magazines the weapon itself carries when it spawns, clamped to magazine.spare_magazines (0 natively, so this has no effect until that is raised)."
   },
   {
-   "since": "0.30.4",
+   "since": "0.31.0",
    "acknowledgement": "allow_unverified_effect",
    "resource": "support_weapon",
    "target": "GR-8 Recoilless Rifle",
@@ -1642,7 +1642,7 @@
    "reason": "Own spares of a team-reload weapon. Its reload uses them first (one magazine per reload, by the wearer alone, no backpack needed) and the backpack only when they are spent; a teammate reload still uses the backpack. Proven from game code (research/team-reload-ammo-F5FEE03DCFDB.json); not yet shown in game. Spare magazines the weapon itself gains from a resupply (at least 1), up to magazine.spare_magazines (0 natively, so the native 6 has no effect until that is raised). The backpack refills separately (deposit.refill_amount)."
   },
   {
-   "since": "0.30.4",
+   "since": "0.31.0",
    "acknowledgement": "allow_unverified_effect",
    "resource": "support_weapon",
    "target": "GR-8 Recoilless Rifle",
@@ -1651,7 +1651,7 @@
    "reason": "Own spares of a team-reload weapon. Its reload uses them first (one magazine per reload, by the wearer alone, no backpack needed) and the backpack only when they are spent; a teammate reload still uses the backpack. Proven from game code (research/team-reload-ammo-F5FEE03DCFDB.json); not yet shown in game. The most spare magazines the weapon itself carries. 0 natively, which is why it keeps none: the spawn and resupply amounts are clamped to it."
   },
   {
-   "since": "0.30.4",
+   "since": "0.31.0",
    "acknowledgement": "allow_unverified_effect",
    "resource": "support_weapon",
    "target": "GR-8 Recoilless Rifle",
@@ -1660,7 +1660,7 @@
    "reason": "Own spares of a team-reload weapon. Its reload uses them first (one magazine per reload, by the wearer alone, no backpack needed) and the backpack only when they are spent; a teammate reload still uses the backpack. Proven from game code (research/team-reload-ammo-F5FEE03DCFDB.json); not yet shown in game. Spare magazines the weapon itself carries when it spawns, clamped to magazine.spare_magazines (0 natively, so this has no effect until that is raised)."
   },
   {
-   "since": "0.30.4",
+   "since": "0.31.0",
    "acknowledgement": "allow_unverified_effect",
    "resource": "support_weapon",
    "target": "RL-77 Airburst Rocket Launcher",
@@ -1669,7 +1669,7 @@
    "reason": "Own spares of a team-reload weapon. Its reload uses them first (one magazine per reload, by the wearer alone, no backpack needed) and the backpack only when they are spent; a teammate reload still uses the backpack. Proven from game code (research/team-reload-ammo-F5FEE03DCFDB.json); not yet shown in game. Spare magazines the weapon itself gains from a resupply (at least 1), up to magazine.spare_magazines (0 natively, so the native 6 has no effect until that is raised). The backpack refills separately (deposit.refill_amount)."
   },
   {
-   "since": "0.30.4",
+   "since": "0.31.0",
    "acknowledgement": "allow_unverified_effect",
    "resource": "support_weapon",
    "target": "RL-77 Airburst Rocket Launcher",
@@ -1678,7 +1678,7 @@
    "reason": "Own spares of a team-reload weapon. Its reload uses them first (one magazine per reload, by the wearer alone, no backpack needed) and the backpack only when they are spent; a teammate reload still uses the backpack. Proven from game code (research/team-reload-ammo-F5FEE03DCFDB.json); not yet shown in game. The most spare magazines the weapon itself carries. 0 natively, which is why it keeps none: the spawn and resupply amounts are clamped to it."
   },
   {
-   "since": "0.30.4",
+   "since": "0.31.0",
    "acknowledgement": "allow_unverified_effect",
    "resource": "support_weapon",
    "target": "RL-77 Airburst Rocket Launcher",
@@ -1687,7 +1687,7 @@
    "reason": "Own spares of a team-reload weapon. Its reload uses them first (one magazine per reload, by the wearer alone, no backpack needed) and the backpack only when they are spent; a teammate reload still uses the backpack. Proven from game code (research/team-reload-ammo-F5FEE03DCFDB.json); not yet shown in game. Spare magazines the weapon itself carries when it spawns, clamped to magazine.spare_magazines (0 natively, so this has no effect until that is raised)."
   },
   {
-   "since": "0.30.4",
+   "since": "0.31.0",
    "acknowledgement": "allow_unverified_effect",
    "resource": "support_weapon",
    "target": "StA-X3 W.A.S.P. Launcher",
@@ -1696,7 +1696,7 @@
    "reason": "Own spares of a team-reload weapon. Its reload uses them first (one magazine per reload, by the wearer alone, no backpack needed) and the backpack only when they are spent; a teammate reload still uses the backpack. Proven from game code (research/team-reload-ammo-F5FEE03DCFDB.json); not yet shown in game. Spare magazines the weapon itself gains from a resupply (at least 1), up to magazine.spare_magazines (0 natively, so the native 6 has no effect until that is raised). The backpack refills separately (deposit.refill_amount)."
   },
   {
-   "since": "0.30.4",
+   "since": "0.31.0",
    "acknowledgement": "allow_unverified_effect",
    "resource": "support_weapon",
    "target": "StA-X3 W.A.S.P. Launcher",
@@ -1705,7 +1705,7 @@
    "reason": "Own spares of a team-reload weapon. Its reload uses them first (one magazine per reload, by the wearer alone, no backpack needed) and the backpack only when they are spent; a teammate reload still uses the backpack. Proven from game code (research/team-reload-ammo-F5FEE03DCFDB.json); not yet shown in game. The most spare magazines the weapon itself carries. 0 natively, which is why it keeps none: the spawn and resupply amounts are clamped to it."
   },
   {
-   "since": "0.30.4",
+   "since": "0.31.0",
    "acknowledgement": "allow_unverified_effect",
    "resource": "support_weapon",
    "target": "StA-X3 W.A.S.P. Launcher",

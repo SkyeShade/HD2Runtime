@@ -1,4 +1,4 @@
-"""Fields of the missile a weapon spawns per shot (research/wasp-rocket-F5FEE03DCFDB.json; 0.30.4, offline only).
+"""Fields of the missile a weapon spawns per shot (research/wasp-rocket-F5FEE03DCFDB.json; 0.31.0, offline only).
 
 A weapon whose ProjectileWeapon +40 (ProjectileEntity) names an entity spawns that entity per shot instead of a
 projectile; +584 is the entity of its ProgrammableAmmo function. On the W.A.S.P., Spear, Commando, P-33 and P-92 the

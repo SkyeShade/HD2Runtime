@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "runtime_version": "0.30.3",
+  "runtime_version": "0.31.0",
   "api_version": 1,
   "evidence_categories": [
     "structural_candidate",
@@ -3071,7 +3071,7 @@
           ]
         ],
         "returns": "HD2Watch",
-        "doc": "Read only (HD2Runtime 0.30.4+): who owns the live value of one to 64 fields of a typed target, through the same guarded resolution a patch runs; nothing is written. request = {target, fields = {id | {field, expect}}, on_result?}. When complete, result.fields (request order) and result.by_field[id] hold {field, state, owner, operation, value, vanilla, bytes, reason}: state 'vanilla' (the reviewed value), 'runtime' (an HD2Runtime operation applied it; owner = its mod), 'foreign' (owned by an unknown mod outside HD2Runtime, owner 'unknown': writes to it are refused, show it read-only), 'changed' (a link or slot it depends on is not as reviewed), 'unavailable' or 'invalid' (reason). docs/diagnostics.md."
+        "doc": "Read only (HD2Runtime 0.31.0+): who owns the live value of one to 64 fields of a typed target, through the same guarded resolution a patch runs; nothing is written. request = {target, fields = {id | {field, expect}}, on_result?}. When complete, result.fields (request order) and result.by_field[id] hold {field, state, owner, operation, value, vanilla, bytes, reason}: state 'vanilla' (the reviewed value), 'runtime' (an HD2Runtime operation applied it; owner = its mod), 'foreign' (owned by an unknown mod outside HD2Runtime, owner 'unknown': writes to it are refused, show it read-only), 'changed' (a link or slot it depends on is not as reviewed), 'unavailable' or 'invalid' (reason). docs/diagnostics.md."
       }
     },
     "target_methods": {

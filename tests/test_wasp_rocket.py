@@ -1,4 +1,4 @@
-"""0.30.4 (research/wasp-rocket-F5FEE03DCFDB.json, docs/support-weapon-api.md "Missiles"): the StA-X3 W.A.S.P. Launcher,
+"""0.31.0 (research/wasp-rocket-F5FEE03DCFDB.json, docs/support-weapon-api.md "Missiles"): the StA-X3 W.A.S.P. Launcher,
 FAF-14 Spear, MLS-4X Commando, P-33 Missile Pistol and P-92 Warrant spawn a SeekingMissile entity per shot
 (ProjectileWeapon +40; +584 for the ProgrammableAmmo function). The missile flies by its own SeekingMissile record, which
 the missile.* / function_missile.* fields write through the weapon's link (re-proven before every write); the carried

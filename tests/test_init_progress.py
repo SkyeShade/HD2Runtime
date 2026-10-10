@@ -100,7 +100,7 @@ end)
 -- Shown after SHOW_AFTER (0.5 s); five pictures: 0/4, 1/4, 2/4, 3/4, then 100% Ready while it settles.
 assert(shown_at and shown_at>=6 and shown_at<=7,tostring(shown_at))
 assert(draws==5,'draws '..draws)
-assert(last.texts[1]=='HD2Runtime 0.30'and last.texts[2]=='Initializing...'and last.texts[3]=='100%'
+assert(last.texts[1]=='HD2Runtime 0.31'and last.texts[2]=='Initializing...'and last.texts[3]=='100%'
     and last.texts[4]=='Ready',table.concat(last.texts,'/'))
 -- The top-right corner: the panel's right edge 24 units from the screen's (1080 p units).
 assert(math.abs(last.x+last.w-(1920-24))<0.01,last.x..' '..last.w)

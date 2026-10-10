@@ -87,7 +87,7 @@ write goes ahead (invalid/ambiguous bounded pointer: entity map row 329 ...)
   of every mod (`VALIDATION_FAILED ... invalid/ambiguous bounded pointer`), even writes to other weapons.
 - The row's resource names the entity (`0xC85F576D5E086147` is the LAS-12 Sai). Look for a mod that changes it.
 
-## Values changed by mods outside HD2Runtime (0.30.4)
+## Values changed by mods outside HD2Runtime (0.31.0)
 
 Mods that are not HD2Runtime mods change game values too: data-file mods (patched game archives) and programs that
 write game memory. HD2Runtime cannot see them, only their values. A value that is neither HD2Runtime's reviewed
@@ -125,7 +125,7 @@ effect", and "after changing a few values the overheat mechanic for the SAI gets
 points the game at its own copies of the BeamWeapon, WeaponHeat and WeaponMagazine tables, and it runs its own Sai
 heat logic every frame. With it installed, the Sai's heat values are that mod's, not the ones HD2Runtime edits.
 
-Since 0.30.4, before every typed write to a component record, HD2Runtime checks that the game reads that component
+Since 0.31.0, before every typed write to a component record, HD2Runtime checks that the game reads that component
 from exactly the table it is about to write (`core/component_tables.lua`). The check is read-only and runs on every
 entity capture. If the pointer differs:
 
@@ -200,7 +200,7 @@ nil. `bytes` is the live value's bytes in hex.
 ### Stratagem graph links: a changed link refuses only the values below it
 
 A stratagem's projectile, damage, explosion, status, arc and beam rows are reached through links: the payload
-projectile list, a projectile's damage and explosion rows, a DamageInfo row's status slots. Before 0.30.4, every write
+projectile list, a projectile's damage and explosion rows, a DamageInfo row's status slots. Before 0.31.0, every write
 to a stratagem's attack checked **every** link of its graph. One link another mod had changed, for example a status
 slot type a data-file mod swapped, refused every attack value of that stratagem, and so did a status swap by another
 HD2Runtime mod. Now a write checks the chain from the root to its own row: every node above it and the link into it.
@@ -283,7 +283,7 @@ That covers every call into a mod and every update the Runtime runs for its oper
 the call count, the slowest call and the last 10 s window.
 
 A single call of 8 ms or more, or a mod averaging 1 ms or more per update over 10 s, logs a `PERFORMANCE:` line
-naming the mod and the callback. Details and thresholds are in [runtime-performance.md](runtime-performance.md#which-mod-is-slow-0300-dev).
+naming the mod and the callback. Details and thresholds are in [runtime-performance.md](runtime-performance.md#which-mod-is-slow-0300).
 
 ## Asking for a report
 

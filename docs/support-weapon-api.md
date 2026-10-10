@@ -48,7 +48,7 @@ backpack-fed weapons (M-1000 Maxigun, B/FLAM-80 Cremator, GL-28 Belt-Fed Grenade
 magazine at all: their ammunition is the backpack's `DepositComponent`, authored through
 `hd2.support_weapon(name):backpack()` (see [Backpack ammunition](backpack-ammo.md)). The five team-reload weapons
 reload from their backpack's deposit once their own spares are spent; both are authorable (see
-[Team-reload weapons](#team-reload-weapons-0304-offline-only)).
+[Team-reload weapons](#team-reload-weapons-0310-offline-only)).
 
 LAS-98 uses the 0.18 `WeaponHeatComponentData` layout in the retained snapshot, including heat
 capacity, generation, cooling, and heatsinks. Its runtime roots are still unresolved (see below),
@@ -210,7 +210,7 @@ Each field instance in `sdk/SupportWeaponAuthoringCapabilities.json` carries `ch
 phases, read timing, shared consumers, self-damage, multiplayer) and `effect`. Live test:
 `examples/projects/EpochExplosionsTest` (harmless overcharge explosions by default).
 
-## CQC-20 Breaching Hammer blast (0.30.4, offline only)
+## CQC-20 Breaching Hammer blast (0.31.0, offline only)
 
 The hammer has two damage rows. Its swing is the melee attack (`attack('primary')`: 300 / 150, AP 3). Its charged
 hit's blast is an explosion (published "CQC-20 BREACHING HAMMER IE": 2200 / 2200, Anti-Tank II, radii 0.5 / 3 / 12 m,
@@ -239,7 +239,7 @@ hd2.ensure({transaction={id='hammer-blast',target=blast,allow_shared=true,allow_
   reads its own copy.
 - Live test: `proof/RebalanceFixesProof` ("Hammer: big blast", "Hammer: gentle blast").
 
-## Wind-up (Maxigun, LAS-98, Quasar; 0.30.4)
+## Wind-up (Maxigun, LAS-98, Quasar; 0.31.0)
 
 `windup.wind_up_seconds` is the M-1000 Maxigun's spin-up (0.5 s; 0 = instant), `windup.wind_down_seconds` only a switch
 (0 = the barrels stop at once; any positive value spins down over the wind-up time). The LAS-98 and the Quasar wind up
@@ -263,7 +263,7 @@ hd2.ensure({transaction={id='eat-scorcher',target=source.target,allow_unverified
     changes={{field=source.field,expect=source.expect,value=hd2.weapon('PLAS-1 Scorcher'):attack('primary'):projectile()}}}})
 ```
 
-## Beam swaps (LAS-98, 40-K Meltagun; 0.30.4, offline only)
+## Beam swaps (LAS-98, 40-K Meltagun; 0.31.0, offline only)
 
 The LAS-98 Laser Cannon and the 40-K Meltagun write their own BeamWeapon +0 (no customization patches it): any
 catalogued beam output, through `support:beam_source()` and `hd2.fields.attack.beam` on the weapon itself, with
@@ -276,7 +276,7 @@ hd2.ensure({patch={id='las98-melta',target=source.target,field=hd2.fields.attack
     value=hd2.attack_output('40-K Meltagun'),allow_unverified_reference=true,allow_unverified_effect=true}})
 ```
 
-## Missiles: W.A.S.P., Spear, Commando (0.30.4, offline only)
+## Missiles: W.A.S.P., Spear, Commando (0.31.0, offline only)
 
 Research: `research/docs/wasp-rocket-F5FEE03DCFDB.md` (`scripts/research_wasp_rocket.py`,
 `research/wasp-rocket-F5FEE03DCFDB.json`; every claim pinned to game.dll instructions). A lead (filediver's
@@ -370,7 +370,7 @@ members of the weapon's records. Each follows from fields you can edit, and each
 | Warm-up | `heat.firing_charge` / `heat.charge_gain_per_second` | 100 / 200 = 0.5 s | 100 / 33 = about 3 s |
 | Cooldown after overheat | `heat.capacity` / `heat.cool_per_second` | 100 / 5 = 20 s | 100 / 6.66 = about 15 s |
 
-- The warm-up fields are WeaponHeat +148 / +152 (0.30.4). They need `allow_unverified_effect` because their names are
+- The warm-up fields are WeaponHeat +148 / +152 (0.31.0). They need `allow_unverified_effect` because their names are
   leads ([player weapon authoring](player-weapon-authoring.md) "Wind-up and Trident-like beam blasts"). The Quasar
   also has `heat.reset_charge_after_shot` true: it charges again before every shot.
 - The cooldown is the time to cool from full heat. The Quasar's one shot adds 100 heat (`heat.heat_per_shot`), which
@@ -391,7 +391,7 @@ hd2.ensure({transaction={id='quick-quasar',target=quasar,allow_unverified_effect
 If a heat write is refused with "the game reads its WeaponHeatComponentData table from another place", another mod
 has moved the game's heat table ([diagnostics](diagnostics.md) "Component tables another mod moved").
 
-## Team-reload weapons (0.30.4, offline only)
+## Team-reload weapons (0.31.0, offline only)
 
 The GR-8 Recoilless Rifle, RL-77 Airburst Rocket Launcher, FAF-14 Spear, StA-X3 W.A.S.P. Launcher and AC-8 Autocannon
 each come with a backpack that a teammate (or the wearer) reloads them from. The game code
@@ -442,7 +442,7 @@ that is not a multiple of 5 would drop below zero. `rounds.spare_rounds` therefo
 so. Its backpack is authorable.
 
 **The backpacks** (`hd2.support_weapon(name):backpack()`): capacity, starting amount (-1 = full, the native value) and
-supply refill, see [Backpack ammunition](backpack-ammo.md#team-reload-backpacks-0304-offline-only).
+supply refill, see [Backpack ammunition](backpack-ammo.md#team-reload-backpacks-0310-offline-only).
 
 **Multiplayer:** the weapon's and the backpack's records are type records, edited on every peer that runs the mod. The
 live counts (the weapon's own spares and the backpack's amount) are per-instance network fields owned by one peer and
@@ -464,7 +464,7 @@ table is byte-identical to the pinned reference; scraped values are fingerprints
 | `projectile.penetration_slowdown` | `ProjectileInfo` +64 | Name length 20; 27/27 exact matches, 1/27 at +56 | Every resolved projectile branch |
 | `reload.duration` | `WeaponReloadComponentData` +56 | Name length 8 (`duration`); scraped reload times agree only approximately | Native duration is non-zero (14 weapons). **Requires `allow_unverified_effect=true`.** A 0 duration means the reload ability's default applies and stays read-only. |
 | `windup.wind_up_seconds` | `WeaponWindUpComponentData` +0 | Name length 12; exact scraped match (Maxigun 0.5 s) | M-1000 Maxigun |
-| `windup.wind_down_seconds` | `WeaponWindUpComponentData` +4 | Name length 14; no scraped value. A switch, not a time (0.30.4): 0 stops the barrels at once, any positive value spins down over the wind-up time | M-1000 Maxigun. **Requires `allow_unverified_effect=true`.** |
+| `windup.wind_down_seconds` | `WeaponWindUpComponentData` +4 | Name length 14; no scraped value. A switch, not a time (0.31.0): 0 stops the barrels at once, any positive value spins down over the wind-up time | M-1000 Maxigun. **Requires `allow_unverified_effect=true`.** |
 
 Projectile fields live on shared definitions and need `allow_shared=true`, like the other
 `projectile.*` fields. Filediver labels +56 as `LifeTime`; the type library and the correlation
@@ -597,7 +597,7 @@ explosions. Edits still persist through the original target types.
   penetration, heat, cooling, heatsinks, reload, handling, stationary firing and the Fire status. The published
   cooling triple (7.5 - 5 - 3.8) is the cool rate times the native 1.5 / 0.75 multipliers
   (`heat.cool_per_second_cold` / `_hot`, derived and read-only). The published 0.5 s warmup is
-  `heat.firing_charge / heat.charge_gain_per_second` = 100 / 200 (0.30.4; see "Warm-up and cooldown after overheat").
+  `heat.firing_charge / heat.charge_gain_per_second` = 100 / 200 (0.31.0; see "Warm-up and cooldown after overheat").
 - **M-1000 Maxigun `weapon.recoil_multiplier_horizontal` / `weapon.recoil_multiplier_vertical`**
   (`WeaponDataComponentData` +60 / +64): the first pair of the typed `RecoilModifiers` struct. It is 1.0 on 364
   of 366 weapon records, and no attachment patches it.

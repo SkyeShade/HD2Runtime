@@ -143,7 +143,7 @@ class CatalogTests(unittest.TestCase):
         summary = self.catalog['summary']
         # 107 player, support and stratagem outputs plus the 23 mounted-weapon outputs, and the 32 more projectile
         # donors (research/projectile-donors-F5FEE03DCFDB.json, tests/test_projectile_donors.py).
-        # 0.30.4 (research/beam-outputs): beam 4 -> 12: the six beam donors (Scythe, Dagger, Trident, LAS-98, 40-K, Laser
+        # 0.31.0 (research/beam-outputs): beam 4 -> 12: the six beam donors (Scythe, Dagger, Trident, LAS-98, 40-K, Laser
         # Sentry), the Rover drone gun and five enemy beams listed read-only (tests/test_beam_swaps.py).
         self.assertEqual(summary['outputs'], 169)   # the retired Defender donor (projectile 150)
         self.assertEqual(summary['byFamily'], {'projectile': 139, 'beam': 12, 'arc': 3, 'spray': 8, 'melee': 7})   # the retired Defender donor
@@ -407,7 +407,7 @@ rejects(function()patches.validate{id='x',target=evictor,field=hd2.fields.attack
 assert(hd2.weapon('P-2 Peacemaker'):projectile_source().mechanism=='ammunition')
 -- 80 catalogued outputs and the 32 more donors (research/projectile-donors-F5FEE03DCFDB.json).
 -- 111 since 0.30.2: the SMG-37 Defender donor (projectile 150, the SEAF SMG round) is retired with its reason.
--- 117 since 0.30.4: + the six beam donors (selectable as beam references only).
+-- 117 since 0.31.0: + the six beam donors (selectable as beam references only).
 assert(#hd2.attack_outputs({selectable=true})==117,#hd2.attack_outputs({selectable=true}))
 assert(#hd2.attack_outputs({selectable=true,family='projectile'})==111)
 do local ok,why=pcall(hd2.attack_output,'SMG-37 Defender (projectile 150)')

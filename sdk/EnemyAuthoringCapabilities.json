@@ -1,7 +1,7 @@
 {
  "contract": "hd2runtime.enemy.guarded_authoring.v1",
  "schemaVersion": 1,
- "hd2RuntimeVersion": "0.30.3",
+ "hd2RuntimeVersion": "0.31.0",
  "source": {
   "datalibrary": "build profile F5FEE03DCFDB",
   "entitiesSha256": "21377252B81FDBC670EBA1E59A8AB64B170323DF208F175E708992E4C1FB515E",

@@ -209,7 +209,7 @@ Refusals:
 
 A restore waits until no live shot uses the borrowed BeamType, which takes one pulse.
 
-**The per-shot route is not used.** The experiment `runtime/experiment_beam_damage.lua` wrote each shot's ring entry.
+**The per-shot route is not used.** A development experiment (not shipped) wrote each shot's ring entry.
 It was unreliable live: the Reprimand had 91 shots seen, 10 written and 81 `MISSED`, then 150 seen, 75 written and 49
 `MISSED`. Most pulses hit in the update they were fired, before Lua saw them.
 

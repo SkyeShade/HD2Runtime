@@ -406,7 +406,7 @@ def build(catalog_path=CATALOG):
         # Charge-level branches (the full-charge shot, its explosion, the overcharge explosion) resolve on their own
         # attack roles; the read-only mapper had matched them to the only runtime attack it knew.
         weapon=charge_fields.resolve_branches(weapon,charge_levels)
-        # 0.30.4: an explosion the weapon requests through an ability (the Breaching Hammer's charge blast).
+        # 0.31.0: an explosion the weapon requests through an ability (the Breaching Hammer's charge blast).
         weapon=ability_explosion_fields.resolve_branches(weapon,ability_data)
         resolved_source.append(weapon)
     source=dict(source,weapons=resolved_source)
@@ -525,7 +525,7 @@ def build(catalog_path=CATALOG):
                 blocked.append({'field':'weapon.fire_rate','reason':
                     'Charge-controlled or diagnostic selector; native sentinel/default is not exposed as ordinary RPM.'})
             ammo=candidate.get('ammo')or{};kind=ammo.get('kind')
-            # 0.30.4: a team-reload weapon's own stock rows are real (research/team-reload-ammo-F5FEE03DCFDB.json).
+            # 0.31.0: a team-reload weapon's own stock rows are real (research/team-reload-ammo-F5FEE03DCFDB.json).
             # Magazine weapons: writable behind allow_unverified_effect, bounded by the 5-bit network field. The AC-8's
             # rounds: the game would subtract its 5-round reload amount with no lower bound, so only the native 0 is
             # accepted as the maximum, and the start and supply rows say why they have no effect.
@@ -612,7 +612,7 @@ def build(catalog_path=CATALOG):
                 beam_rate=equipment_fields.beam_rate_field(equipment_make,weapon['name'],
                     lambda offset,storage:component(candidate,'BeamWeaponComponentData',offset,storage))
                 if beam_rate:fields.append(beam_rate)
-            # 0.30.4: the firing charge (wind-up) and the beam fire mode / pulse (research/las-beam-overhaul-comparison).
+            # 0.31.0: the firing charge (wind-up) and the beam fire mode / pulse (research/las-beam-overhaul-comparison).
             if 'WeaponHeatComponentData'in ownership:
                 fields+=equipment_fields.firing_charge_fields(equipment_make,
                     ownership['WeaponHeatComponentData']['recordIndex'],
@@ -626,7 +626,7 @@ def build(catalog_path=CATALOG):
                     ownership['BeamWeaponComponentData']['recordIndex'],
                     lambda offset,storage:component(candidate,'BeamWeaponComponentData',offset,storage),
                     skip=('beam.fire_rate',)if weapon['name']in equipment_fields.BEAM_RATE_WEAPONS else())
-                # 0.30.4 beam swaps (scripts/beam_fields.py, research/beam-outputs): the weapon's own BeamType
+                # 0.31.0 beam swaps (scripts/beam_fields.py, research/beam-outputs): the weapon's own BeamType
                 # reference on its own BeamWeapon record (the LAS-98 and the 40-K are ACTIVE_DIRECT).
                 beam=beam_fields.reference_field(
                     lambda field_id,current,backing,editable,reason:make_field(field_id,current,backing,target,
@@ -640,7 +640,7 @@ def build(catalog_path=CATALOG):
 
             host_field=projectile_host_field(weapon,candidate,target)
             if host_field:fields.append(host_field)
-            # 0.30.4 (research/wasp-rocket): the missile the weapon spawns per shot (ProjectileWeapon +40) and that of
+            # 0.31.0 (research/wasp-rocket): the missile the weapon spawns per shot (ProjectileWeapon +40) and that of
             # its ProgrammableAmmo function (+584): their own SeekingMissile records, through the re-proven link.
             if 'ProjectileWeaponComponentData'in ownership:
                 fields+=missile_fields.fields(equipment_make,candidate['resourceHash'],

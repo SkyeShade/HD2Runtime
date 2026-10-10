@@ -1,4 +1,4 @@
-"""0.30.4 (research/team-reload-ammo-F5FEE03DCFDB.json, docs/support-weapon-api.md "Team-reload weapons"): the GR-8,
+"""0.31.0 (research/team-reload-ammo-F5FEE03DCFDB.json, docs/support-weapon-api.md "Team-reload weapons"): the GR-8,
 RL-77, FAF-14, StA-X3 and AC-8 reload from the weapon's own spares first and from their backpack's deposit once those
 are spent. The magazine weapons' own spare rows are real fields (0..31, allow_unverified_effect); the AC-8's own rounds
 are not offered (the reload subtracts 5 with no lower bound); every team-reload backpack's deposit is authorable

@@ -138,7 +138,7 @@ function M.new(describe)
             end
             return {id=output.id,family=output.family,owner=copy(output.owner),
                 compatibilityClass=output.compatibilityClass,selectable=output.editable==true,reason=output.reason,
-                -- beam outputs (0.30.4): a donor for beam hosts only (hd2.fields.attack.beam)
+                -- beam outputs (0.31.0): a donor for beam hosts only (hd2.fields.attack.beam)
                 selectableAs=output.selectableAs,beamClass=output.beamClass,
                 beamType=output.family=='beam'and output.currentDefault or nil,firesOutput=output.firesOutput,
                 referenceScope=copy(output.referenceScope),fieldEffect=copy(output.fieldEffect),
@@ -305,7 +305,7 @@ function M.new(describe)
     -- A catalogued explosion (api/explosion_catalogue.lua; docs/explosions.md) by its semantic id or label: the target
     -- of the explosion.* fields and a payload value for impact / expiry explosion references.
     function builders.explosion(name)return require('hd2runtime/api/explosion_catalogue').handle(name)end
-    -- A status effect's own definition (0.30.4; docs/status-effects.md "Status effect stats") by its id
+    -- A status effect's own definition (0.31.0; docs/status-effects.md "Status effect stats") by its id
     -- (sdk/StatusEffectCatalog.json: 'fire', 'gas', 'stun_medium', ...): status.duration, and through :damage() the
     -- DamageInfo row it deals while active. Global rows: every attack applying the status uses them.
     local function status_effect_handle(id,path)
@@ -652,7 +652,7 @@ function M.new(describe)
         end
         return setmetatable({resource='player_weapon',path='weapon',weapon=name},{__index=methods})
     end
-    -- Beam swaps (0.30.4; docs/attack-outputs.md "Beam swaps"): a beam weapon's own beam handle (the expect, and the
+    -- Beam swaps (0.31.0; docs/attack-outputs.md "Beam swaps"): a beam weapon's own beam handle (the expect, and the
     -- value that restores it) and its active beam source (domains/attack_outputs.lua beamHosts): the weapon itself
     -- (component: its own BeamWeapon +0) or its default muzzle (attachment: the muzzle delta row, shared by every
     -- weapon that defaults to it). A weapon without a BeamWeapon component has no beam source: Runtime never adds one.
@@ -768,7 +768,7 @@ function M.new(describe)
         -- The default ammunition that owns this weapon's fired projectile (weapons classified INDIRECT only).
         function methods.ammunition()return ammunition_target(name)end
         function methods.projectile_source(_,role)return projectile_source(name,role or'primary')end
-        -- The beam this weapon fires and where it lives (beam weapons only; 0.30.4 beam swaps).
+        -- The beam this weapon fires and where it lives (beam weapons only; 0.31.0 beam swaps).
         function methods.beam()return beam_handle('player_weapon',name)end
         function methods.beam_source()return beam_source('player_weapon',name)end
         function methods.beam_conversion()return beam_conversion_target(name)end
@@ -1106,7 +1106,7 @@ function M.new(describe)
             end
             return result
         end
-        -- Where a sentry's beam lives (0.30.4): its deployed entity's own BeamWeapon record ('<stratagem> / weapon',
+        -- Where a sentry's beam lives (0.31.0): its deployed entity's own BeamWeapon record ('<stratagem> / weapon',
         -- the sentry host model), writable through hd2.fields.attack.beam on the target this returns.
         function methods.beam_source()
             local key=name..' / weapon'
@@ -1353,7 +1353,7 @@ function M.new(describe)
             return result
         end
         function methods.weapon(_,identity)return vehicle_weapon_target(weapon_key(name,identity))end
-        -- 0.30.4: the EXO-55 Breakthrough's shield arm (a mount with no weapon component): its own health and plate
+        -- 0.31.0: the EXO-55 Breakthrough's shield arm (a mount with no weapon component): its own health and plate
         -- zone, written like a mounted weapon's records (the mount slot is re-proven before every write).
         function methods.shield()
             local key=(vehicle_weapons.shields or{})[name]

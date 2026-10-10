@@ -274,7 +274,7 @@ hd2.transaction({id='ems-barrage',target=hd2.stratagem('Orbital EMS Strike'),all
 
 ### Orbital targeting (Railcannon and Laser)
 
-Since 0.30.4 the Orbital Railcannon Strike exposes how it picks and tracks its target, and the Orbital Laser how often
+Since 0.31.0 the Orbital Railcannon Strike exposes how it picks and tracks its target, and the Orbital Laser how often
 it looks for a new one. Each field is a member of the strike's **own** `OrbitalAbilityComponentData` record (its
 payload's; one owner each). Every member was proven by the code that reads it
 (`scripts/research_orbital_targeting.py`, `research/orbital-targeting-F5FEE03DCFDB.json`).
@@ -324,7 +324,7 @@ hd2.ensure({transaction={id='railcannon-targeting',target=hd2.stratagem('Orbital
 `hd2.fields.stratagem.rearm_pool` (StratagemInfo +200) puts a stratagem into the Eagle Rearm pool: its
 `stratagem.max_uses` become charges refilled together by Eagle Rearm, and `stratagem.cooldown` becomes the time between
 charges, shared with the Eagles. This is the only native charge mechanism. See
-[Stratagem mission uses](stratagem-uses.md#charges-before-cooldown-0304).
+[Stratagem mission uses](stratagem-uses.md#charges-before-cooldown-0310).
 
 ### Call-in time
 
@@ -506,7 +506,7 @@ support weapons, with the same field constants:
 | `weapon.recoil_climb_horizontal` / `_vertical` | WeaponData +28 / +32 | 0–100 | the seven projectile sentries |
 | `weapon.recoil`, `weapon.horizontal_recoil`, `weapon.vertical_recoil` | derived means | read-only | the seven projectile sentries |
 | `windup.wind_up_seconds` / `windup.wind_down_seconds` | WeaponWindUp +0 / +4 | 0–30 s (`wind_down_seconds` is a switch: 0 stops the barrels at once, any positive value spins down over the wind-up time) | G-16 Gatling Sentry |
-| `heat.firing_charge` / `heat.charge_gain_per_second` / `heat.charge_loss_per_second` (0.30.4) | WeaponHeat +148 / +152 / +156 | 0–10000 / 0–100000 / 0–100000; read live | A/LAS-98 Laser Sentry: its wind-up, 100 / 200 = 0.5 s before each beam (`allow_unverified_effect`; research/windup-controls-F5FEE03DCFDB.json) |
+| `heat.firing_charge` / `heat.charge_gain_per_second` / `heat.charge_loss_per_second` (0.31.0) | WeaponHeat +148 / +152 / +156 | 0–10000 / 0–100000 / 0–100000; read live | A/LAS-98 Laser Sentry: its wind-up, 100 / 200 = 0.5 s before each beam (`allow_unverified_effect`; research/windup-controls-F5FEE03DCFDB.json) |
 | `beam.fire_rate` | BeamWeapon +104 | 1–3000 rpm | LAS-98 Laser Sentry |
 
 - **The seven projectile sentries** are the MG-43, G-16, AC-8, M-12, MLS-4X, M-23 and GM-17.

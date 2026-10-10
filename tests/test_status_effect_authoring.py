@@ -1,4 +1,4 @@
-"""Status effect stats (0.30.4): hd2.status_effect(id) edits a status definition itself (its duration) and, through
+"""Status effect stats (0.31.0): hd2.status_effect(id) edits a status definition itself (its duration) and, through
 :damage(), the DamageInfo row it deals while active (domains/status_effect_writes.lua,
 scripts/generate_status_effect_authoring.py).
 

@@ -29,7 +29,7 @@ class FireModeTests(unittest.TestCase):
         jar = self.rows[('player', 'JAR-5 Dominator')]
         self.assertEqual((jar['slots'], jar['modes'], jar['burstRounds']), ([2, 3, 0, 0], ['single', 'burst'], 3))
         self.assertEqual((jar['state'], jar['selector']['right']), ('selectable', 'Firemode'))
-        # 0.30.4 (research/fire-mode-selector): the selector cycles the first three slots only, so three is the most a
+        # 0.31.0 (research/fire-mode-selector): the selector cycles the first three slots only, so three is the most a
         # selector reaches; the published capability says so.
         self.assertEqual(self.weapons[('player', 'JAR-5 Dominator')]['maxModes'], 3)
         self.assertNotIn('automatic', jar['modes'])  # full-auto does not exist natively; it is added
@@ -37,7 +37,7 @@ class FireModeTests(unittest.TestCase):
     def test_coverage_and_blockers(self):
         states = Counter((row['kind'], row['state']) for row in self.catalog['weapons'])
         self.assertEqual(states[('player', 'selectable')], 31)   # + the SMG-37 Defender (0.30.2: the seven DUPLICATE weapons resolved to their proven roots, research/weapon-roots)
-        # 0.30.4: every single-mode weapon has a free input, so each can take the fire-mode selector ('addable').
+        # 0.31.0: every single-mode weapon has a free input, so each can take the fire-mode selector ('addable').
         self.assertEqual(states[('player', 'addable')], 20)   # 0.30.2: the seven DUPLICATE weapons resolved to their proven roots
         self.assertEqual(states[('player', 'single_mode')] + states[('support', 'single_mode')], 0)
         self.assertEqual(states[('support', 'selectable')], 3)

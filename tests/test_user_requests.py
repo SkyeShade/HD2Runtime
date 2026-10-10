@@ -1,4 +1,4 @@
-"""0.30.4 user requests (proof/UserRequestsProof):
+"""0.31.0 user requests (proof/UserRequestsProof):
 
 1. Charges before cooldown (research/stratagem-rearm-pool): StratagemInfo +200 names the rearm that refills a
    stratagem's uses; every reader compares it with 49 (Eagle Rearm). hd2.fields.stratagem.rearm_pool ('none' /

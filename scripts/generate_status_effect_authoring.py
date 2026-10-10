@@ -1,4 +1,4 @@
-"""Generate status effect authoring (0.30.4) from research/status-effects-F5FEE03DCFDB.json.
+"""Generate status effect authoring (0.31.0) from research/status-effects-F5FEE03DCFDB.json.
 
 A status effect's own definition, edited once for every attack that applies it (docs/status-effects.md "Status effect
 stats"):

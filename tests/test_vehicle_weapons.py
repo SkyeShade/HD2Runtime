@@ -56,7 +56,7 @@ class VehicleWeaponTests(unittest.TestCase):
         self.assertEqual(unproven['acknowledgement'], 'allow_unverified_effect')
 
     def test_spread_and_breakthrough_shield(self):
-        # 0.30.4 (research/mounted-spread-shield): every projectile mount exposes its WeaponData spread pair (the
+        # 0.31.0 (research/mounted-spread-shield): every projectile mount exposes its WeaponData spread pair (the
         # member the shot reads for every shot and pellet); spray, beam and arc mounts list it as blocked.
         by_field = self.catalog['summary']['byField']
         self.assertEqual((by_field['weapon.horizontal_spread'], by_field['weapon.vertical_spread']), (17, 17))
@@ -95,13 +95,13 @@ class VehicleWeaponTests(unittest.TestCase):
         # 0.30.2: the sentry and emplacement hosts (stratagemHosts) are validated too: their projectile swaps, each
         # needing the acknowledgement; they have no mount chain.
         hosts = self.catalog['stratagemHostSummary']
-        # 0.30.4: the sentry beam host (the A/LAS-98 Laser Sentry: its beam reference and fire mode / pulse fields,
+        # 0.31.0: the sentry beam host (the A/LAS-98 Laser Sentry: its beam reference and fire mode / pulse fields,
         # stratagemBeamHosts) is validated the same way, its beam swap with a catalogued beam donor.
         beam_hosts = self.catalog['stratagemBeamHosts']
         beam_fields = sum(len(h['fields']) for h in beam_hosts)
         self.assertEqual(result['vehicleFields'], self.catalog['summary']['writableFieldInstances'] + hosts['writable']
             + beam_fields)
-        # 0.30.4: the Breakthrough shield arm (shieldMounts) is a mount target too, with its own mount chain.
+        # 0.31.0: the Breakthrough shield arm (shieldMounts) is a mount target too, with its own mount chain.
         mounts = self.catalog['summary']['weaponMounts'] + self.catalog['summary']['shieldMounts']
         self.assertEqual(result['vehicleWeapons'], mounts + hosts['hosts'] + len(beam_hosts))
         for key in ('noOps', 'changedWrites', 'rollbacks', 'conflictRejections'):
@@ -174,7 +174,7 @@ patches.validate{id='flamer',target=lumberer:weapon('left_gun'),field=hd2.fields
 patches.validate{id='cannon',target=lumberer:weapon('right_gun'),field=hd2.fields.weapon.capacity,expect=25,value=35}
 rejects({id='stale',target=lumberer:weapon('right_gun'),field=hd2.fields.weapon.capacity,expect=26,value=35},
  'expect')
--- 0.30.4: mounted spread (projectile mounts) and the Breakthrough shield arm.
+-- 0.31.0: mounted spread (projectile mounts) and the Breakthrough shield arm.
 local breakthrough=hd2.vehicle('EXO-55 Breakthrough Exosuit')
 assert(#breakthrough:weapons()==1,'the shield arm is not a weapon')
 local flak=breakthrough:weapon('right_gun')

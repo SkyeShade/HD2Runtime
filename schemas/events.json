@@ -5277,7 +5277,7 @@
        ]
       ],
       "returns": "integer, string[]",
-      "doc": "HD2Runtime 0.30.4+: the characters of text no font can ever draw (neither the font role's own font nor any game language font; the Runtime loads the font a text needs in any game language): the number of distinct characters that always show as '?' and up to three of them. 0: everything draws once its font is loaded (can_draw says when)."
+      "doc": "HD2Runtime 0.31.0+: the characters of text no font can ever draw (neither the font role's own font nor any game language font; the Runtime loads the font a text needs in any game language): the number of distinct characters that always show as '?' and up to three of them. 0: everything draws once its font is loaded (can_draw says when)."
      },
      {
       "name": "game_fonts",

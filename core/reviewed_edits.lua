@@ -1,6 +1,6 @@
--- Reviewed in-place edits of the entity file that HD2Runtime ITSELF made (EXPERIMENTAL; branch exp/liberator-beam only,
--- runtime/experiment_liberator_beam.lua). Empty unless an experiment applied one, so every capture reads exactly as
--- before.
+-- Reviewed in-place edits of the entity file that HD2Runtime ITSELF made (the beam conversion, runtime/beam_conversion.lua;
+-- the dev-only experiments runtime/experiment_*.lua, not shipped). Empty unless one applied an edit, so every capture
+-- reads exactly as before.
 --
 -- An entry names one entity resource and the exact state the Runtime left it in: its whole membership list (bytes) and
 -- the component index rows it owns. core/entity_catalog.lua consults it per candidate:

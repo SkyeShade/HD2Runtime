@@ -89,7 +89,7 @@ assert(R.writes==nil or#R.writes==0,'no game memory written')
     def test_malformed_and_incompatible_values_are_reported_never_applied(self):
         self.lua(r"""
 probe();seconds(12)
-W.lobby_values[OTHER]='hd2rt/1;0.31.0;811C9DC5;1;-,-,-,-';seconds(2.5)
+W.lobby_values[OTHER]='hd2rt/1;0.29.0;811C9DC5;1;-,-,-,-';seconds(2.5)   -- any other version
 assert(count('compatible with this machine: NO (runtime version differs: mine '..V..' / 811C9DC5)')==1)
 W.lobby_values[OTHER]='hd2rt/1;'..V..';811C9DC5;5;0x7ff6086d0000,-,-,-';seconds(2.5)
 assert(count('PEER VALUE REFUSED from '..OTHER)==1 and count('MALFORMED: slot 0')==1)

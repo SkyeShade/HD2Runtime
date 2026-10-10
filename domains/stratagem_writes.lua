@@ -287,7 +287,7 @@ local function graph_record(roots,node)
     return record,roots[kind].owner
 end
 -- The graph nodes a spec's changes reach, and every node on the way there from the root: the links a write depends on
--- (0.30.4). A settings row is located by its own identity (selected_record: group, row and kind), never through these
+-- (0.31.0). A settings row is located by its own identity (selected_record: group, row and kind), never through these
 -- links; the links prove that this stratagem's graph reaches the row the reviewed way. So a write is checked against
 -- the chain from the root to its own node (every consumer path of its row in this stratagem), and a link elsewhere in
 -- the graph that another mod changed refuses only the values below that link. A component-backed change (turret,

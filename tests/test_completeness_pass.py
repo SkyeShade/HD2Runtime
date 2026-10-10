@@ -242,7 +242,7 @@ class MigrationTests(unittest.TestCase):
         self.assertEqual(len(mines), 4)
         self.assertEqual({link['component'] for link in mines}, {'MinefieldComponentData'})
         # The other component values guard ammunition sources: each weapon's default customization must still name
-        # the ammunition whose delta owns its fired projectile. 0.30.4: and the LAS-5 Scythe's beam attachment source
+        # the ammunition whose delta owns its fired projectile. 0.31.0: and the LAS-5 Scythe's beam attachment source
         # (its default muzzle Laser. Standard Prism, whose delta owns its fired beam).
         beams = [link for link in links if link['key'].startswith('beam-attachment-default:')]
         self.assertEqual([link['key'] for link in beams], ['beam-attachment-default:player_weapon:LAS-5 Scythe'])

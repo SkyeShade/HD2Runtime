@@ -75,7 +75,7 @@ Each field carries `uiGroup: "backpack_ammo"`, a display name, `min`/`max`, and 
 `ammoBackpack` (backpack name, semantic ID, accessor, baseline). A GUI can therefore show one page per
 weapon: call-in, weapon, then backpack ammo.
 
-## Team-reload backpacks (0.30.4, offline only)
+## Team-reload backpacks (0.31.0, offline only)
 
 The GR-8 Recoilless Rifle, AC-8 Autocannon, FAF-14 Spear, RL-77 Airburst Rocket Launcher and StA-X3 W.A.S.P.
 Launcher are delivered with a backpack whose `DepositComponent` names the weapon in `assisted_reload_weapon_path`
@@ -113,7 +113,7 @@ hd2.ensure({transaction={id='gr8-backpack',target=backpack,allow_unverified_effe
   `team_reload` (`backpack_ammo` for the three weapon-fed backpacks above).
 
 The weapon itself can also carry spares now (magazine weapons): see
-[Team-reload weapons](support-weapon-api.md#team-reload-weapons-0304-offline-only).
+[Team-reload weapons](support-weapon-api.md#team-reload-weapons-0310-offline-only).
 
 ## Not covered
 

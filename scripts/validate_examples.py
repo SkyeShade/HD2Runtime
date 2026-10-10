@@ -82,7 +82,8 @@ STRATAGEM_WEAPONS_0_28_0 = {'mine'}   # a mine deployer's launcher owns its mine
 UNRELEASED = '0.30.0'
 # Features new in 0.30.2 (pinned at its release): player-weapon explosion status slots, the sentry / emplacement
 # projectile hosts ('<stratagem> / weapon') and the seven weapons resolved to their proven roots (WEAPON_ROOTS_0_30_2).
-# 0.30.3 adds none. Features after 0.30.2 get their own floor (the version being built) the same way.
+# 0.30.3 adds none. 0.31.0 adds fields and APIs that no example uses yet (only the dev proofs), so it has no floor yet;
+# an example that starts using one gets a 0.31.0 floor here the same way.
 NEXT_RELEASE = '0.30.2'
 WEAPON_ROOTS_0_30_2 = {'GP-31 Grenade Pistol', 'P-72 Crisper', 'LAS-5 Scythe', 'LAS-7 Dagger', 'CQC-42 Machete',
     'CQC-73 Entrenchment Tool', 'SMG-37 Defender'}

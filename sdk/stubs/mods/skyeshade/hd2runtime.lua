@@ -1,6 +1,6 @@
 ---@meta
 -- Generated authoring definitions. Never package or execute this file.
--- Schema SHA256 52df83d29bfc928fbbe74f56f6cfef7a9c22b9c0dccad537a0394d828f33b003
+-- Schema SHA256 b368f721bbf8b96b82c982008cfbd7659b9b13a99548c8a7227c341ac66f7adb
 
 ---@alias HD2Resource "0x16474112801385B6"|"0x59C5CA839449B379"|"0x80F1A156D9FA1E36"|"0x89C5493E08CA4207"|"0xB0C9FAF4AF8903F9"|"0xEC3575E7A93793BB"|"0xED13DDC480EC6910"|"amr"|"bastion"|"jar5"|"jump_pack"|"maelstrom"|"orbital_laser"|"shield_relay"
 ---@alias HD2PatchField "armor_penetration"
@@ -415,7 +415,7 @@ function HD2PlayerAttack:projectile_source() end
 ---@field acknowledgements string[]|nil
 local HD2ProjectileSource = {}
 
----Where a beam weapon's fired beam lives (0.30.4 beam swaps, docs/attack-outputs.md "Beam swaps"):
+---Where a beam weapon's fired beam lives (0.31.0 beam swaps, docs/attack-outputs.md "Beam swaps"):
 ---component (its own BeamWeapon +0) or attachment (its default muzzle's delta row, shared: allow_shared).
 ---A weapon without a BeamWeapon component has none (writable=false): Runtime never adds one.
 ---@class HD2BeamSource
@@ -569,7 +569,8 @@ function HD2Weapon:beam() end
 ---beam; allow_unverified_reference and allow_unverified_effect).
 ---@return HD2BeamSource
 function HD2Weapon:beam_source() end
----This weapon made to fire LAS-13 Trident pulses (beam conversion; solo only; docs/beam-conversion.md).
+---This weapon made to fire LAS-13 Trident pulses (beam conversion, docs/beam-conversion.md; add layout: with other
+---players only when every member holds the identical conversion; swap layout: solo only).
 ---@return HD2BeamConversion
 function HD2Weapon:beam_conversion() end
 ---@return HD2PlayerAttack[]
@@ -758,7 +759,8 @@ function HD2SupportWeapon:projectile_source(role) end
 function HD2SupportWeapon:beam() end
 ---@return HD2BeamSource
 function HD2SupportWeapon:beam_source() end
----This weapon made to fire LAS-13 Trident pulses (beam conversion; solo only; docs/beam-conversion.md).
+---This weapon made to fire LAS-13 Trident pulses (beam conversion, docs/beam-conversion.md; add layout: with other
+---players only when every member holds the identical conversion; swap layout: solo only).
 ---@return HD2BeamConversion
 function HD2SupportWeapon:beam_conversion() end
 ---The projectile builder for this weapon's ProgrammableAmmo mode (weapon:feed("programmable")).
@@ -3261,7 +3263,7 @@ function HD2UI:cursor() end
 ---@param font? "body"|"title"|"mono"
 ---@return boolean, integer|nil, string[]|nil
 function HD2UI:can_draw(text, font) end
----HD2Runtime 0.30.4+: the characters of text no font can ever draw (neither the font role's own font nor any game language font; the Runtime loads the font a text needs in any game language): the number of distinct characters that always show as '?' and up to three of them. 0: everything draws once its font is loaded (can_draw says when).
+---HD2Runtime 0.31.0+: the characters of text no font can ever draw (neither the font role's own font nor any game language font; the Runtime loads the font a text needs in any game language): the number of distinct characters that always show as '?' and up to three of them. 0: everything draws once its font is loaded (can_draw says when).
 ---@param text string
 ---@param font? "body"|"title"|"mono"
 ---@return integer, string[]
@@ -4282,7 +4284,7 @@ function hd2.attack_output(identity) end
 ---@param name HD2CatalogueExplosionName|string
 ---@return HD2CatalogueExplosion
 function hd2.explosion(name) end
----The definition of a status effect (HD2Runtime 0.30.4+; docs/status-effects.md "Status effect stats") by its id
+---The definition of a status effect (HD2Runtime 0.31.0+; docs/status-effects.md "Status effect stats") by its id
 ---(sdk/StatusEffectCatalog.json: "fire", "gas", "stun_medium", ...): the target of status.duration; :damage() is
 ---the DamageInfo row the status deals while active (damage.*). Both rows are global: every write needs
 ---allow_shared, the tick damage also allow_unverified_effect (sdk/StatusEffectAuthoringCapabilities.json).
@@ -4361,7 +4363,7 @@ function HD2Diagnostics.operations() end
 ---max_label, last_window}[]}, the most time first. A slow call or a high share is logged as PERFORMANCE.
 ---@return table
 function HD2Diagnostics.performance() end
----Values owned by an unknown mod (HD2Runtime 0.30.4+): game values that are neither the reviewed value of HD2Runtime
+---Values owned by an unknown mod (HD2Runtime 0.31.0+): game values that are neither the reviewed value of HD2Runtime
 ---nor bytes an HD2Runtime operation applied, found by a refused write or by hd2.inspect. HD2Runtime never writes
 ---them. {target, field, observed, expected, owner = "unknown", seen}[], in the order found (docs/diagnostics.md).
 ---@return table[]
@@ -4476,7 +4478,7 @@ function hd2.require_assets(request) end
 ---@param target table
 ---@return HD2AssetDependency
 function hd2.asset_dependency(target) end
----Read only (HD2Runtime 0.30.4+): who owns the live value of one to 64 fields of a typed target, through the same guarded resolution a patch runs; nothing is written. request = {target, fields = {id | {field, expect}}, on_result?}. When complete, result.fields (request order) and result.by_field[id] hold {field, state, owner, operation, value, vanilla, bytes, reason}: state 'vanilla' (the reviewed value), 'runtime' (an HD2Runtime operation applied it; owner = its mod), 'foreign' (owned by an unknown mod outside HD2Runtime, owner 'unknown': writes to it are refused, show it read-only), 'changed' (a link or slot it depends on is not as reviewed), 'unavailable' or 'invalid' (reason). docs/diagnostics.md.
+---Read only (HD2Runtime 0.31.0+): who owns the live value of one to 64 fields of a typed target, through the same guarded resolution a patch runs; nothing is written. request = {target, fields = {id | {field, expect}}, on_result?}. When complete, result.fields (request order) and result.by_field[id] hold {field, state, owner, operation, value, vanilla, bytes, reason}: state 'vanilla' (the reviewed value), 'runtime' (an HD2Runtime operation applied it; owner = its mod), 'foreign' (owned by an unknown mod outside HD2Runtime, owner 'unknown': writes to it are refused, show it read-only), 'changed' (a link or slot it depends on is not as reviewed), 'unavailable' or 'invalid' (reason). docs/diagnostics.md.
 ---@param request HD2InspectRequest
 ---@return HD2Watch
 function hd2.inspect(request) end

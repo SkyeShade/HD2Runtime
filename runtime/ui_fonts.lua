@@ -121,7 +121,7 @@ function M.resident_game_fonts(runtime,max_age)
     return list
 end
 
--- On demand (0.30.4, issue #8): the game loads only its selected language's font, so a mod window drawing Chinese in
+-- On demand (0.31.0, issue #8): the game loads only its selected language's font, so a mod window drawing Chinese in
 -- an English game showed '?'. Text with characters neither its font nor a loaded game font has asks for the game font
 -- package that covers the most of them (then the next, at most two per text), through the game's own reference-
 -- counted package system (core/assets: proven pins, a catalogued package, residency read back, kept for the session).

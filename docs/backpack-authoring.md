@@ -1,8 +1,8 @@
 # Guarded backpack authoring
 
 `hd2.backpack(name)` edits the delivered backpack entity for the 13 wiki backpack stratagems, the
-3 weapon-fed backpacks that store support weapon ammunition and (0.30.4) the 5 team-reload backpacks (GR-8, AC-8,
-FAF-14, RL-77, StA-X3; [Backpack ammunition](backpack-ammo.md#team-reload-backpacks-0304-offline-only)). The catalog
+3 weapon-fed backpacks that store support weapon ammunition and (0.31.0) the 5 team-reload backpacks (GR-8, AC-8,
+FAF-14, RL-77, StA-X3; [Backpack ammunition](backpack-ammo.md#team-reload-backpacks-0310-offline-only)). The catalog
 is `sdk/BackpackAuthoringCapabilities.json`.
 
 Each backpack is resolved structurally: StratagemDefinition payload, then hellpod rack, then the

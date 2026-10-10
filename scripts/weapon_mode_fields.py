@@ -132,7 +132,7 @@ def apply_input(field, row, side, identity_ok):
             allowed.append('rate_of_fire')
         if function.get('state') == 'addable' and side in (function.get('bindableInputs') or []) and other != 8:
             allowed.append('programmable_ammo')
-        # The fire-mode selector (0.30.4): a single-mode weapon whose input is free (research/fire-mode-selector).
+        # The fire-mode selector (0.31.0): a single-mode weapon whose input is free (research/fire-mode-selector).
         fire, _ = fire_mode_selectors()
         selector = fire.get((row['kind'], row['weapon'])) or {}
         if selector.get('state') == 'addable' and side in (selector.get('bindableInputs') or []) and other != 3:

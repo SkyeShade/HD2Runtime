@@ -4,7 +4,8 @@ Development proof for the HD2Runtime beam conversion (`docs/beam-conversion.md`)
 `hd2.weapon(name):beam_conversion()` and `hd2.ensure`. Each test is one toggle on the mod's options page (MODS tab,
 **Beam Conversion Proof**). Every toggle is off by default.
 
-It supersedes `MultiBeamProof` and `LiberatorBeamProof`. Those experiment proofs still work on their own. The Runtime
+It supersedes `MultiBeamProof` and `LiberatorBeamProof`. Those experiment proofs need a development build that ships
+the experiment modules (runtime/experiment_*.lua); the release runtime (0.31.0 and later) does not. The Runtime
 refuses to mix the two: while an experiment's copy of the BeamWeapon table is live, every conversion is refused, and
 the other way round.
 

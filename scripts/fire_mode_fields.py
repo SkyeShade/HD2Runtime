@@ -6,7 +6,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 RESEARCH = ROOT / 'research/weapon-fire-modes-F5FEE03DCFDB.json'
-# The fire-mode selector (0.30.4, scripts/research_fire_mode_selector.py): the press cycles only +144..+152 (three modes
+# The fire-mode selector (0.31.0, scripts/research_fire_mode_selector.py): the press cycles only +144..+152 (three modes
 # at most), and a weapon with one mode and a free input can take the Firemode binding ('addable').
 SELECTOR = ROOT / 'research/fire-mode-selector-F5FEE03DCFDB.json'
 SELECTOR_MAX_MODES = 3

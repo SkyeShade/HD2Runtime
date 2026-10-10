@@ -148,7 +148,7 @@ end
 -- A stratagem's call-in package, by the StratagemInfo stable id (domains/stratagem_slots.lua), or nil (never guessed).
 -- This is the row's own root package (+0xA8) only; a support weapon's comes from its weapon (+0xF8): use
 -- dependencies_for_stratagem for everything the mission loader requests.
--- The game's language font packages (0.30.4; research/docs/game-font-text.md): one per language, each a bundle in
+-- The game's language font packages (0.31.0; research/docs/game-font-text.md): one per language, each a bundle in
 -- this build's bundle_database.data, named by domains/ui_fonts.lua (generated from the installed game). The game loads
 -- only its selected language's; a mod window that draws text only another language's font has asks for that package
 -- (runtime/ui_fonts.lua want), through the same reference-counted system, so its text draws in any game language.

@@ -95,7 +95,7 @@ local function target_name(target)
         return target.weapon,nil,'weapon',nil,kind
     end
     if target.path=='beam_attachment'then
-        -- 0.30.4: the default muzzle whose delta row is a beam weapon's active beam source (weapon:beam_source()).
+        -- 0.31.0: the default muzzle whose delta row is a beam weapon's active beam source (weapon:beam_source()).
         assert(kind=='player_weapon'or kind=='vehicle_weapon','beam attachment targets are player or mounted weapons')
         for key in pairs(target)do assert(key=='resource'or key=='path'or key=='weapon',
             'unsupported beam attachment target identity')end
@@ -442,7 +442,7 @@ function catalogued_explosion_change(item,field,expected,desired,allow_unverifie
         semantic_aliases={item.field},expect=item.expect,value=item.value,
         expected_selector=expected,desired_selector=desired,catalogue_explosion=entry,asset_dependency=dependency}
 end
--- Beam swaps (0.30.4; research/beam-outputs-F5FEE03DCFDB.json, docs/attack-outputs.md "Beam swaps"). A beam host's
+-- Beam swaps (0.31.0; research/beam-outputs-F5FEE03DCFDB.json, docs/attack-outputs.md "Beam swaps"). A beam host's
 -- BeamType reference (BeamWeapon +0 of its own record, or the default muzzle delta row that patches it) takes a
 -- catalogued beam output: hd2.attack_output(name) of family beam, or another beam weapon's weapon:beam() handle (its
 -- fired beam, attack_outputs beamAliases). Projectile outputs are refused (a projectile weapon has no BeamWeapon and
@@ -996,7 +996,7 @@ local function check_selector_pairs(weapon,changes)
         if kind=='function_projectile_reference'then projectile=change end
         if kind=='fire_mode_set'then modes=change end
     end
-    -- The fire-mode selector (0.30.4, research/fire-mode-selector): a one-mode weapon with a free input lists two or
+    -- The fire-mode selector (0.31.0, research/fire-mode-selector): a one-mode weapon with a free input lists two or
     -- three modes only together with its Firemode binding, and the binding only together with those modes.
     if modes and type(modes.value)=='table'and#modes.value>1 and modes.descriptor.fireModeState=='addable'then
         assert(binds.fire_mode,'SELECTOR_REQUIRED: fire_mode.modes lists '..#modes.value..' modes, but '..weapon.name
@@ -1340,7 +1340,7 @@ local function owned_component_record(resolved,candidate,backing)
         and identity.ownerCount==backing.ownerCount,'component ownership identity changed')
     return record
 end
--- A record of the entity the weapon spawns per shot (0.30.4, research/wasp-rocket-F5FEE03DCFDB.json: the
+-- A record of the entity the weapon spawns per shot (0.31.0, research/wasp-rocket-F5FEE03DCFDB.json: the
 -- W.A.S.P.'s missile): backing.link names the weapon's own ProjectileWeapon member that holds the entity (+40, or +584
 -- for the ProgrammableAmmo function). Before the missile's record is read or written, the weapon's record must still
 -- be the reviewed one, that member must still name exactly the reviewed missile, and the missile must still be one
@@ -1461,7 +1461,7 @@ local function charge_explosion(resolved,backing)
         'linked charge level ExplosionSettings absent')
 end
 
--- An explosion the weapon requests through an ability (0.30.4, scripts/ability_explosion_fields.py: the Breaching
+-- An explosion the weapon requests through an ability (0.31.0, scripts/ability_explosion_fields.py: the Breaching
 -- Hammer's charge blast). The weapon's own melee record must still name the reviewed ability exactly once in its
 -- ability slots, else another mod changed what the weapon requests and the write is refused; the caller then
 -- re-proves the explosion row (and its +4 damage link) as the reviewed rows. The ability -> explosion type link is

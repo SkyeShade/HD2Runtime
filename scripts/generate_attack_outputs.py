@@ -412,7 +412,7 @@ def promote(row, fields):
     return fields
 
 
-# Beam outputs and beam swaps (0.30.4; research/beam-outputs-F5FEE03DCFDB.json, scripts/beam_fields.py). A beam output is
+# Beam outputs and beam swaps (0.31.0; research/beam-outputs-F5FEE03DCFDB.json, scripts/beam_fields.py). A beam output is
 # the BeamSettings row a named Helldiver-side owner fires (its active beam source); it is a donor for beam hosts only
 # (hd2.fields.attack.beam), never for projectile hosts. Enemy beams are catalogued read-only: their effects ship in
 # faction content no catalogued package names.

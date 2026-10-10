@@ -32,7 +32,7 @@ class BackpackAmmoTests(unittest.TestCase):
 
     def test_catalogs_link_weapon_and_backpack(self):
         summary = self.backpacks['summary']
-        # 0.30.4: + the five team-reload backpacks (GR-8, AC-8, FAF-14, RL-77, StA-X3), three deposit fields each
+        # 0.31.0: + the five team-reload backpacks (GR-8, AC-8, FAF-14, RL-77, StA-X3), three deposit fields each
         # (research/team-reload-ammo-F5FEE03DCFDB.json).
         self.assertEqual((summary['backpacks'], summary['weaponFedBackpacks'], summary['teamReloadBackpacks'],
             summary['backpackAmmoWritable']), (21, 3, 5, 24))
@@ -65,7 +65,7 @@ class BackpackAmmoTests(unittest.TestCase):
     def test_snapshot_overlay_validation(self):
         result = json.loads((ROOT / 'validation/backpack-ammo-snapshot.json').read_text())
         self.assertEqual(result['status'], 'VALIDATED')
-        # 3 weapon-fed + 5 team-reload backpacks (0.30.4), three deposit fields each.
+        # 3 weapon-fed + 5 team-reload backpacks (0.31.0), three deposit fields each.
         for key in ('fields', 'baselineMatches', 'noOps', 'changedWrites', 'rollbacks', 'conflictRejections',
                     'acknowledgementRejections', 'staleExpectRejections', 'rangeRejections'):
             self.assertEqual(result[key], 24, key)

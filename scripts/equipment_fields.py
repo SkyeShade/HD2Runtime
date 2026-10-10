@@ -105,7 +105,7 @@ def recoil_multiplier_fields(make, backend):
     return fields
 
 
-# 0.30.4 (research/las-beam-overhaul-comparison-F5FEE03DCFDB.json, research/docs/las-beam-overhaul-comparison.md):
+# 0.31.0 (research/las-beam-overhaul-comparison-F5FEE03DCFDB.json, research/docs/las-beam-overhaul-comparison.md):
 # the firing charge (wind-up) of heat weapons and the Trident's pulsed beam. Typed members by offset and storage;
 # names are leads (unproven): every write needs allow_unverified_effect until the live tests below pass.
 CHARGE_RESEARCH = ROOT / 'research/las-beam-overhaul-comparison-F5FEE03DCFDB.json'
@@ -123,7 +123,7 @@ PULSE_REASON = ('Beam fire mode and pulse (BeamWeapon +100 typed enum, +108 INT3
     'lasts and +108 a factor of the beam-shot loop at a pulse start (research/docs/beam-pulse-rate-F5FEE03DCFDB.md). '
     'Live test pending through this field: a Scythe in mode 6 with the rate and pulse of the Trident fires Trident-like '
     'blasts; the Trident +112 / +108 changed.')
-# 0.30.4 follow-up (research/docs/beam-pulse-rate-F5FEE03DCFDB.md): on a discrete beam (fire mode 5 or 6) a new pulse
+# 0.31.0 follow-up (research/docs/beam-pulse-rate-F5FEE03DCFDB.md): on a discrete beam (fire mode 5 or 6) a new pulse
 # starts only in the update AFTER the previous one ended, so the pulse duration caps the fire rate. Published on the
 # pulse and rate fields (display name, reason, `beamPulse`) so a tool shows it next to the slider.
 PULSE_SECONDS_REASON = PULSE_REASON + (' The pulse duration LIMITS the fire rate: a new pulse starts only in the update '

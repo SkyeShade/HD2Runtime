@@ -86,7 +86,7 @@ AR-61 Tenderizer (0/600/850: two modes, left input) and VG-70 Variable (read-onl
 | Field | Value |
 | --- | --- |
 | `hd2.fields.fire_rate.modes` | The three slots in weapon-menu order `{X, Y, Z}` (rpm, 1 to 3000; 0 = no mode in that slot). Y, the middle one, is the default and is never 0 |
-| `hd2.fields.weapon_function.left` / `.right` | `'none'`, or on an unbound input a selector this weapon can host: `'rate_of_fire'` (or `'programmable_ammo'`, see [weapon feeds](weapon-feeds.md); or `'fire_mode'`, see [fire modes](fire-modes.md#adding-the-selector-0304)) |
+| `hd2.fields.weapon_function.left` / `.right` | `'none'`, or on an unbound input a selector this weapon can host: `'rate_of_fire'` (or `'programmable_ammo'`, see [weapon feeds](weapon-feeds.md); or `'fire_mode'`, see [fire modes](fire-modes.md#adding-the-selector-0310)) |
 
 - **Writing.** The list is written as its three aligned slots in one atomic transaction; every slot is
   conflict-checked and only changed slots are written, so editing one mode never touches the others.
@@ -145,7 +145,7 @@ hd2.transaction({
 - **What is proven offline.** The three rate slots and the ROF selector record (the projectile_weapon manager keeps one
   record per built projectile weapon, seeded from the settings' three slots; the selector and the weapon-function value
   reader are data-driven over it), and the wind-up routine (0x78A420, research/sentry-components) reads only its own
-  settings: +0 wind-up time, +4 a spin-down switch (0.30.4: 0 stops the barrels at once, any positive value spins
+  settings: +0 wind-up time, +4 a spin-down switch (0.31.0: 0 stops the barrels at once, any positive value spins
   down over the +0 wind-up time; research/windup-controls-F5FEE03DCFDB.json), +12 barrel-spin multiplier.
 - **What is not.** That the wind-up trigger path fires at the selected slot's rate once spun up: no built wind-up weapon
   is in a retained mission snapshot, and the research shows no reader of the current rate on that path. A third-party

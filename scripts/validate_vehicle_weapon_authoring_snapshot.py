@@ -71,7 +71,7 @@ local function donor_for(field)
  table.sort(ids)
  return {resource='attack_output',output=assert(ids[1],'no same-class donor for '..field.target.weapon)}
 end
--- A beam host's BeamType reference (0.30.4): its own beam handle (the baseline) and the first catalogued beam donor
+-- A beam host's BeamType reference (0.31.0): its own beam handle (the baseline) and the first catalogued beam donor
 -- that names another row (every beam donor needs allow_unverified_reference).
 local function own_beam(field)
  return {resource='vehicle_weapon',path='beam_reference',weapon=field.target.weapon}
@@ -225,7 +225,7 @@ local worker=coroutine.create(function()
  scenario('patriot_hmg_fire_rate','EXO-45 Patriot Exosuit / right_gun','weapon.fire_rate',1200,600)
  scenario('patriot_missile_damage','EXO-45 Patriot Exosuit / left_gun','damage.primary.standard_damage',1250,2000,
   {allow_shared=true})
- -- 0.30.4: the Breakthrough flak cannon's WeaponData spread, and its shield arm (the left mount, no weapon component):
+ -- 0.31.0: the Breakthrough flak cannon's WeaponData spread, and its shield arm (the left mount, no weapon component):
  -- the plate zone's health and armor and the arm's own pool, on the shield arm's own HealthComponent record.
  scenario('breakthrough_flak_spread','EXO-55 Breakthrough Exosuit / right_gun','weapon.horizontal_spread',200,1000,
   {allow_unverified_effect=true})

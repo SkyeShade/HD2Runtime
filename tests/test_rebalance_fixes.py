@@ -1,4 +1,4 @@
-"""0.30.4 rebalance reports (proof/RebalanceFixesProof):
+"""0.31.0 rebalance reports (proof/RebalanceFixesProof):
 
 1. Hover Pack height (research/docs/hover-height-F5FEE03DCFDB.md): no height member; the lift
    (hover.vertical_acceleration_low_speed) must exceed gravity (9.82) for the pack to climb; hover.duration is the climb

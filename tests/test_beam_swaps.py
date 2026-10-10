@@ -1,4 +1,4 @@
-"""0.30.4 beam swaps (research/beam-outputs-F5FEE03DCFDB.json, docs/attack-outputs.md "Beam swaps" and "Lasers
+"""0.31.0 beam swaps (research/beam-outputs-F5FEE03DCFDB.json, docs/attack-outputs.md "Beam swaps" and "Lasers
 everywhere"). Every BeamWeapon record is inventoried with its owner; every beam a Helldiver-side weapon fires is a
 catalogued beam output; a beam host's BeamType reference (its active beam source: its own BeamWeapon +0, or the LAS-5
 Scythe's default muzzle delta row) takes any catalogued beam output. Projectile weapons never gain a beam (no component

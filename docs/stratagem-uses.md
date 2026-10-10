@@ -44,7 +44,7 @@ never a large finite count.
 
 Eagles carry a `reason` instead. The summary counts the stratagems by mode.
 
-## Charges before cooldown (0.30.4)
+## Charges before cooldown (0.31.0)
 
 `hd2.fields.stratagem.rearm_pool` lets a non-Eagle stratagem hold several uses (charges) before a longer wait, the way
 Eagles do. It is StratagemInfo +200, a StratagemType naming the rearm that refills the stratagem's uses

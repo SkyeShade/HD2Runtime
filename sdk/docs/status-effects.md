@@ -109,7 +109,7 @@ hd2.ensure({plan={id='maxigun-stun',operations={
     The slot mechanism is the same, but no live test has exercised those rows.
   - Rows shared by several weapons also need `allow_shared`, like every other settings write.
 
-## Status effect stats (0.30.4)
+## Status effect stats (0.31.0)
 
 `hd2.status_effect(id)` edits a status itself, for every attack that applies it: how long it lasts, and how much
 damage it deals while active (fire, gas, acid, bleed, electric and the others). Ids are the catalog's
