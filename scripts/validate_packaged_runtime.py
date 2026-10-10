@@ -1849,19 +1849,25 @@ EXTRAS['proof-virtual-slot'] = {'menu': MENU_STUB, 'after': PROOF_VIRTUAL_SLOT, 
 # not hold laser_shotgun resident). 0.2.0: the per-weapon beam damage module (runtime/experiment_beam_damage.lua) loads
 # from the archive, proves its pins on the packaged runtime, refuses a weapon that is not swapped, accepts each swapped
 # weapon's own settings (nothing is written aboard the ship: shots exist only in a mission) and forgets them at the
-# restore.
+# restore. 0.3.0: the default path is the OWNED TABLE (runtime/experiment_beam_table.lua): the apply builds a permanent
+# block (the adapter's, here the overlay's) with the three weapons' own records, switches slot 270 to it with the lists
+# in the same transaction, each weapon takes its own rate of fire and pulse (one transaction on the copy), and the
+# restore puts the slot back to the file's table; then the shared-record fallback runs as before.
 PROOF_MULTI_BEAM = r"""
 return function(frame,watches,counts,lines)
  local results={}
  local function step(name,ok,detail)results[#results+1]={name=name,passed=ok==true,detail=detail}end
  local ok,X=pcall(require,'hd2runtime/runtime/experiment_beam_swap')
  step('the experiment module is loaded from the packaged archive',ok and type(X)=='table'
-  and tostring(X.VERSION):find('^0%.2%.')~=nil,tostring(ok and X.VERSION or X))
+  and tostring(X.VERSION):find('^0%.3%.')~=nil,tostring(ok and X.VERSION or X))
  if not ok then return results end
+ local tok,TB=pcall(require,'hd2runtime/runtime/experiment_beam_table')
+ step('the owned beam table module is loaded from the packaged archive',tok and type(TB)=='table'
+  and tostring(TB.VERSION):find('^0%.1%.')~=nil,tostring(tok and TB.VERSION or TB))
  local dok,BD=pcall(require,'hd2runtime/runtime/experiment_beam_damage')
  step('the per-weapon beam damage module is loaded from the packaged archive',dok and type(BD)=='table'
   and tostring(BD.VERSION):find('^0%.1%.')~=nil,tostring(dok and BD.VERSION or BD))
- if not dok then return results end
+ if not(dok and tok)then return results end
  local pok,pwhy=BD.prove_pins()
  step('the beam damage pins and the beam system prove on the packaged runtime',pok==true,tostring(pwhy))
  local early=BD.set('liberator',{damage_multiplier=10})
@@ -1870,36 +1876,58 @@ return function(frame,watches,counts,lines)
  local lok,L=pcall(require,'hd2runtime/runtime/experiment_liberator_beam')
  step('the live-proven Liberator experiment is in the archive too',lok and type(L)=='table',tostring(lok and L.VERSION or L))
  local s=X.status()
- local vanilla=s.ok and s.record=='vanilla'and#s.weapons==3
+ local vanilla=s.ok and s.record=='vanilla'and#s.weapons==3 and s.path=='none'and s.table=='in_place'
  for _,w in ipairs(s.weapons or{})do vanilla=vanilla and w.state=='vanilla'and w.live==0 end
  step('status proves every pin and finds all three weapons vanilla',vanilla,tostring(s.reason or s.detail))
+ step('the owned table is available on the packaged runtime',s.owned_available==true,tostring(s.owned_reason))
+ local pending=X.configure('liberator',{fire_rate=600})
+ step('a rate set before the apply is kept for it',pending.ok and pending.pending==true,tostring(pending.reason))
  local real=X.apply()
  step('apply refuses without the Trident package (real asset gate)',real.ok or tostring(real.reason):find('package',1,true)~=nil,
   tostring(real.reason))
+ local a=real
  if not real.ok then
   X.set_hooks_for_tests({assets=function()return'resident','forced by the validator'end})
-  local a=X.apply()
-  step('apply writes all three in one transaction (real solo and live-instance gates)',a.ok and(a.writes or 0)>0,
-   tostring(a.reason or a.writes))
+  a=X.apply()
  end
+ step('apply builds the owned table and swaps all three in one transaction (real solo and live-instance gates)',
+  a.ok and a.path=='owned'and(a.writes or 0)>0 and TB.copies()==1,tostring(a.reason or a.writes))
  local s2=X.status()
- local applied=s2.ok and s2.record=='copy'
- for _,w in ipairs(s2.weapons or{})do applied=applied and w.state=='applied'end
- step('all three applied, record 23 the Trident copy',applied,tostring(s2.detail or s2.reason))
+ local applied=s2.ok and s2.path=='owned table'and s2.table=='owned'and s2.record=='vanilla'
+ for _,w in ipairs(s2.weapons or{})do applied=applied and w.state=='applied'and w.path=='owned table'end
+ step('all three applied on their own records, record 23 untouched',applied,tostring(s2.detail or s2.reason))
+ local c1=X.configure('talon',{fire_rate=150})
+ local c2=X.configure('reprimand',{fire_rate=900,pulse_beams=3,pulse_seconds=0.3})
+ local s3=X.status()
+ local rates={}
+ for _,w in ipairs(s3.weapons or{})do rates[w.id]=w.settings and w.settings.fire_rate end
+ step('each weapon takes its own rate of fire and pulse (Liberator 600, Talon 150, Reprimand 900 rpm)',
+  c1.ok and c2.ok and rates.liberator==600 and rates.talon==150 and rates.reprimand==900,
+  tostring(c1.reason or c2.reason)..' '..tostring(rates.liberator)..'/'..tostring(rates.talon)..'/'
+  ..tostring(rates.reprimand))
  local d1=BD.set('liberator',{damage_multiplier=10})
  local d2=BD.set('talon',{damage=6})
  local d3=BD.set('reprimand',{armor_penetration=6})
  step('each swapped weapon takes its own beam damage',d1.ok and d2.ok and d3.ok,
   tostring(d1.reason or d2.reason or d3.reason or d1.detail))
  local r=X.restore()
- step('restore returns every byte',r.ok and r.record_restored==true,tostring(r.reason))
+ step('restore returns every byte and the slot',r.ok and r.slot_restored==true,tostring(r.reason))
  local forgotten=true
  for _,w in ipairs(BD.status().weapons)do forgotten=forgotten and not w.active end
  step('the restore forgets every weapon beam damage setting',forgotten,'forgotten '..tostring(forgotten))
- local s3=X.status()
- local back=s3.ok and s3.record=='vanilla'
- for _,w in ipairs(s3.weapons or{})do back=back and w.state=='vanilla'end
- step('all three vanilla again',back,tostring(s3.detail or s3.reason))
+ local s4=X.status()
+ local back=s4.ok and s4.record=='vanilla'and s4.table=='in_place'and s4.path=='none'
+ for _,w in ipairs(s4.weapons or{})do back=back and w.state=='vanilla'end
+ step('all three vanilla again, the game reads the file\'s table',back,tostring(s4.detail or s4.reason))
+ local sh=X.apply(nil,{path='shared'})
+ local s5=X.status()
+ step('the shared-record fallback still applies (record 23 the Trident copy)',sh.ok and sh.path=='shared'
+  and s5.record=='copy'and s5.path=='shared record',tostring(sh.reason or s5.detail))
+ local r2=X.restore()
+ local s6=X.status()
+ local back2=r2.ok and r2.record_restored==true and s6.ok and s6.record=='vanilla'
+ for _,w in ipairs(s6.weapons or{})do back2=back2 and w.state=='vanilla'end
+ step('the shared-record restore returns every byte',back2,tostring(r2.reason or s6.detail))
  X.set_hooks_for_tests(nil)
  return results
 end
@@ -5358,7 +5386,15 @@ function runtime.address(handle)return source.address(handle)end
 function runtime.system_info()return source.system_info()end
 function runtime.module_hash(handle)counts.module_hashes=counts.module_hashes+1;return source.module_hash(handle)end
 function runtime.monotonic_time()return simulated end
+local permanent_of
 function runtime.query(at)
+ local paddress,pblock
+ if permanent_of then paddress,pblock=permanent_of(at)end
+ if paddress then
+  local page=at-at%PAGE
+  return {base=page,size=PAGE,state=0x1000,type=0x20000,allocation_base=paddress,protect=pblock.protect[page]or 2,
+   allocation_protect=4}
+ end
  local r,why=source.query(at)
  if not r or r.allocation_base==0 then return r,why end
  local low,high=r.base,r.base+r.size
@@ -5390,11 +5426,20 @@ end
 -- Runtime-owned permanent blocks (a Runtime text table): the same Lua overlay memory, filled once; never game memory,
 -- so never an overlay write.
 counts.permanent_blocks=0
+-- A permanent block is a committed private allocation of whole pages, read-only after its fill (the live adapter's
+-- VirtualAlloc + VirtualProtect): queryable as such, and writable only through a page the guarded transaction opened
+-- (EXPERIMENTAL exp/multi-beam: the owned BeamWeapon table copy is written after it is built).
+local permanent={}
 function runtime.permanent_block(bytes)
  assert(type(bytes)=='string' and #bytes>0 and #bytes<=65536,'permanent block size')
  local address=next_owned;next_owned=next_owned+0x10000
- owned[address]=bytes;counts.permanent_blocks=counts.permanent_blocks+1
+ local size=#bytes+(PAGE-#bytes%PAGE)%PAGE
+ owned[address]=bytes..string.rep('\0',size-#bytes);counts.permanent_blocks=counts.permanent_blocks+1
+ permanent[address]={size=size,protect={}}
  return address
+end
+permanent_of=function(at)
+ for address,block in pairs(permanent)do if at>=address and at<address+block.size then return address,block end end
 end
 function runtime.read(at,n)
  for address,bytes in pairs(owned)do
@@ -5447,12 +5492,27 @@ function runtime.read(at,n)
 end
 function runtime.protect(page,size,value)
  assert(page%PAGE==0 and size==PAGE,'overlay protect extent')
+ local paddress,pblock=permanent_of(page)
+ if paddress then
+  counts.protection_changes=counts.protection_changes+1
+  local old=pblock.protect[page]or 2
+  pblock.protect[page]=value~=2 and value or nil
+  return old
+ end
  counts.protection_changes=counts.protection_changes+1
  local old=protection[page] or original_protect(page)
  if value==original_protect(page)then protection[page]=nil else protection[page]=value end
  return old
 end
 function runtime.write(at,bytes)
+ local paddress,pblock=permanent_of(at)
+ if paddress then
+  assert(pblock.protect[at-at%PAGE]==4,'permanent block write without writable page')
+  counts.writes=counts.writes+1
+  local value=owned[paddress]
+  owned[paddress]=value:sub(1,at-paddress)..bytes..value:sub(at-paddress+#bytes+1)
+  return true,nil,#bytes
+ end
  local p=protection[at-at%PAGE] or original_protect(at-at%PAGE)
  -- A reviewed executable-data extent (core/page_protection.lua) is written in its page as mapped (0x40).
  assert(p==4 or(p==0x40 and require('hd2runtime/core/page_protection').reviewed_executable_data(at,#bytes)~=nil),

@@ -123,6 +123,14 @@ local function locate(world)
     local manager=world.view.pointer(world.game+MG.global)
     if not manager then fail('TARGET_UNAVAILABLE: the entity manager is not initialised')end
     local beam_slot=world.view.pointer(manager+CT.slotBase+8*BW.index)
+    -- exp/multi-beam 0.3.0: while MultiBeamProof's owned table is live the game reads HD2Runtime's own copy; this
+    -- proven path writes only the file's table, so it waits for that copy to be restored.
+    local owned_ok,owned=pcall(require,'hd2runtime/core/owned_tables')
+    local own=owned_ok and owned.get(BW.component)
+    if own and beam_slot==own.table then
+        fail('REFUSED: the game reads HD2Runtime\'s owned BeamWeapon copy (MultiBeamProof, owned-table path): restore '
+            ..'it with MultiBeamProof (Ctrl+Alt+F7) first')
+    end
     local r=beam_slot and region(world,beam_slot)
     if not r then fail('TARGET_UNAVAILABLE: the BeamWeapon table is not in committed private memory')end
     local base=r.allocation_base
