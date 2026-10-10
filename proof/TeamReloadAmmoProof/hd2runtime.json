@@ -1,0 +1,1 @@
+{"format":1,"name":"TeamReloadAmmoProof","resource":"mods/skyeshade/hd2runtime_team_reload_ammo_proof","guid":"75a728be-df3e-4e26-988f-fe4e9d50bc27","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.30.3","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../sdk","ide_library":"../../sdk/stubs"}
