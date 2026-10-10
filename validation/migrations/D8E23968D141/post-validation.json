@@ -22,8 +22,8 @@
    "ok": true,
    "tail": [
     "checked generate_sdk",
-    "[HD2Runtime] HD2Runtime 0.30.3 initialized (API 1)",
-    "[HD2Runtime] log unavailable: offline-resource-fixture:33914: Bingus logging unavailable"
+    "[HD2Runtime] HD2Runtime 0.31.0 initialized (API 1)",
+    "[HD2Runtime] log unavailable: offline-resource-fixture:40234: Bingus logging unavailable"
    ]
   },
   {
@@ -49,7 +49,7 @@
    "ok": true,
    "tail": [
     "}",
-    "[HD2Runtime] shared records index built in 143.0 ms CPU (1474 keys, 10 catalogues)",
+    "[HD2Runtime] shared records index built in 218.0 ms CPU (1592 keys, 11 catalogues)",
     "[HD2Runtime] log unavailable: [string \"hd2runtime/runtime/log\"]:24: Bingus logging unavailable"
    ]
   },
@@ -57,35 +57,35 @@
    "name": "validate_backpack_ammo_snapshot",
    "ok": true,
    "tail": [
-    "}",
-    "[HD2Runtime] shared records index built in 134.0 ms CPU (1474 keys, 10 catalogues)",
-    "[HD2Runtime] log unavailable: [string \"hd2runtime/runtime/log\"]:24: Bingus logging unavailable"
+    "[HD2Runtime] FOREIGN VALUE: backpack StA-X3 W.A.S.P. Launcher Backpack deposit.capacity is 8, not HD2Runtime's reviewed 5: owner unknown mod (a mod outside HD2Runtime: a data-file mod or another program writing game memory). HD2Runtime leaves it as it is and refuses writes to this value only; every other value is unaffected",
+    "[HD2Runtime] FOREIGN VALUE: backpack StA-X3 W.A.S.P. Launcher Backpack deposit.start_amount is 2, not HD2Runtime's reviewed -1: owner unknown mod (a mod outside HD2Runtime: a data-file mod or another program writing game memory). HD2Runtime leaves it as it is and refuses writes to this value only; every other value is unaffected",
+    "[HD2Runtime] FOREIGN VALUE: backpack StA-X3 W.A.S.P. Launcher Backpack deposit.refill_amount is 6, not HD2Runtime's reviewed 3: owner unknown mod (a mod outside HD2Runtime: a data-file mod or another program writing game memory). HD2Runtime leaves it as it is and refuses writes to this value only; every other value is unaffected"
    ]
   },
   {
    "name": "validate_booster_authoring_snapshot",
    "ok": true,
    "tail": [
-    "}",
-    "[HD2Runtime] shared records index built in 128.0 ms CPU (1474 keys, 10 catalogues)",
-    "[HD2Runtime] log unavailable: [string \"hd2runtime/runtime/log\"]:24: Bingus logging unavailable"
+    "[HD2Runtime] FOREIGN VALUE: booster Armed Resupply Pods weapon.fire_rate is 647, not HD2Runtime's reviewed 640: owner unknown mod (a mod outside HD2Runtime: a data-file mod or another program writing game memory). HD2Runtime leaves it as it is and refuses writes to this value only; every other value is unaffected",
+    "[HD2Runtime] FOREIGN VALUE: booster Dead Sprint damage.durable_damage is 12, not HD2Runtime's reviewed 5: owner unknown mod (a mod outside HD2Runtime: a data-file mod or another program writing game memory). HD2Runtime leaves it as it is and refuses writes to this value only; every other value is unaffected",
+    "[HD2Runtime] FOREIGN VALUE: booster Dead Sprint damage.standard_damage is 12, not HD2Runtime's reviewed 5: owner unknown mod (a mod outside HD2Runtime: a data-file mod or another program writing game memory). HD2Runtime leaves it as it is and refuses writes to this value only; every other value is unaffected"
    ]
   },
   {
    "name": "validate_fire_mode_authoring_snapshot",
    "ok": true,
    "tail": [
-    "}",
-    "[HD2Runtime] shared records index built in 106.0 ms CPU (1474 keys, 10 catalogues)",
-    "[HD2Runtime] log unavailable: [string \"hd2runtime/runtime/log\"]:24: Bingus logging unavailable"
+    "[HD2Runtime] FOREIGN VALUE: support_weapon MG-43 Machine Gun fire_mode.burst_rounds is 5, not HD2Runtime's reviewed 3: owner unknown mod (a mod outside HD2Runtime: a data-file mod or another program writing game memory). HD2Runtime leaves it as it is and refuses writes to this value only; every other value is unaffected",
+    "[HD2Runtime] FOREIGN VALUE: support_weapon S-11 Speargun fire_mode.modes is 0x05000000000000000000000000000000, not HD2Runtime's reviewed table: owner unknown mod (a mod outside HD2Runtime: a data-file mod or another program writing game memory). HD2Runtime leaves it as it is and refuses writes to this value only; every other value is unaffected",
+    "[HD2Runtime] FOREIGN VALUE: support_weapon S-11 Speargun fire_mode.burst_rounds is 5, not HD2Runtime's reviewed 1: owner unknown mod (a mod outside HD2Runtime: a data-file mod or another program writing game memory). HD2Runtime leaves it as it is and refuses writes to this value only; every other value is unaffected"
    ]
   },
   {
    "name": "validate_options_binding_snapshot",
    "ok": true,
    "tail": [
-    "[HD2Runtime] HD2Runtime 0.30.3 initialized (API 1)",
-    "[HD2Runtime] shared records index built in 74.0 ms CPU (1474 keys, 10 catalogues)",
+    "[HD2Runtime] HD2Runtime 0.31.0 initialized (API 1)",
+    "[HD2Runtime] shared records index built in 217.0 ms CPU (1592 keys, 11 catalogues)",
     "[HD2Runtime] patch one-shot rejected: option-bound values require hd2.ensure"
    ]
   },
@@ -94,7 +94,7 @@
    "ok": true,
    "tail": [
     "}",
-    "[HD2Runtime] shared records index built in 150.0 ms CPU (1474 keys, 10 catalogues)",
+    "[HD2Runtime] shared records index built in 243.0 ms CPU (1592 keys, 11 catalogues)",
     "[HD2Runtime] log unavailable: [string \"hd2runtime/runtime/log\"]:24: Bingus logging unavailable"
    ]
   },
@@ -102,17 +102,17 @@
    "name": "validate_reticle_authoring_snapshot",
    "ok": true,
    "tail": [
-    "}",
-    "[HD2Runtime] shared records index built in 111.0 ms CPU (1474 keys, 10 catalogues)",
-    "[HD2Runtime] log unavailable: [string \"hd2runtime/runtime/log\"]:24: Bingus logging unavailable"
+    "D2Runtime leaves it as it is and refuses writes to this value only; every other value is unaffected",
+    "[HD2Runtime] FOREIGN VALUE: support_weapon SG-88 Break-Action Shotgun weapon.third_person_reticle is 1, not HD2Runtime's reviewed true: owner unknown mod (a mod outside HD2Runtime: a data-file mod or another program writing game memory). HD2Runtime leaves it as it is and refuses writes to this value only; every other value is unaffected",
+    "[HD2Runtime] FOREIGN VALUE: support_weapon StA-X3 W.A.S.P. Launcher weapon.third_person_reticle is 1, not HD2Runtime's reviewed true: owner unknown mod (a mod outside HD2Runtime: a data-file mod or another program writing game memory). HD2Runtime leaves it as it is and refuses writes to this value only; every other value is unaffected"
    ]
   },
   {
    "name": "validate_vehicle_weapon_authoring_snapshot",
    "ok": true,
    "tail": [
-    "  \"vehicleFields\": 669,",
-    "  \"vehicleWeapons\": 32",
+    "  \"vehicleFields\": 720,",
+    "  \"vehicleWeapons\": 34",
     "}"
    ]
   },
@@ -148,7 +148,7 @@
    "ok": true,
    "tail": [
     "}",
-    "[HD2Runtime] HD2Runtime 0.30.3 initialized (API 1)",
+    "[HD2Runtime] HD2Runtime 0.31.0 initialized (API 1)",
     "[HD2Runtime] log unavailable: [string \"hd2runtime/runtime/log\"]:24: Bingus logging unavailable"
    ]
   },
@@ -156,9 +156,9 @@
    "name": "validate_coverage_pass_snapshot",
    "ok": true,
    "tail": [
-    "}",
-    "[HD2Runtime] shared records index built in 51.0 ms CPU (1474 keys, 10 catalogues)",
-    "[HD2Runtime] log unavailable: [string \"hd2runtime/runtime/log\"]:24: Bingus logging unavailable"
+    "[HD2Runtime] FOREIGN VALUE: enemy boomer damage.standard_damage is 207, not HD2Runtime's reviewed 200: owner unknown mod (a mod outside HD2Runtime: a data-file mod or another program writing game memory). HD2Runtime leaves it as it is and refuses writes to this value only; every other value is unaffected",
+    "[HD2Runtime] FOREIGN VALUE: enemy Rupture Spewer projectile.velocity is 37, not HD2Runtime's reviewed 30: owner unknown mod (a mod outside HD2Runtime: a data-file mod or another program writing game memory). HD2Runtime leaves it as it is and refuses writes to this value only; every other value is unaffected",
+    "[HD2Runtime] FOREIGN VALUE: enemy Gunship explosion.outer_radius is 8.64999962, not HD2Runtime's reviewed 1.6499999761581: owner unknown mod (a mod outside HD2Runtime: a data-file mod or another program writing game memory). HD2Runtime leaves it as it is and refuses writes to this value only; every other value is unaffected"
    ]
   },
   {
@@ -166,7 +166,7 @@
    "ok": true,
    "tail": [
     "}",
-    "[HD2Runtime] shared records index built in 86.0 ms CPU (1474 keys, 10 catalogues)",
+    "[HD2Runtime] shared records index built in 218.0 ms CPU (1592 keys, 11 catalogues)",
     "[HD2Runtime] log unavailable: [string \"hd2runtime/runtime/log\"]:24: Bingus logging unavailable"
    ]
   },
@@ -174,18 +174,18 @@
    "name": "validate_weapon_modes_snapshot",
    "ok": true,
    "tail": [
-    "}",
-    "[HD2Runtime] shared records index built in 94.0 ms CPU (1474 keys, 10 catalogues)",
-    "[HD2Runtime] log unavailable: [string \"hd2runtime/runtime/log\"]:24: Bingus logging unavailable"
+    "[HD2Runtime] FOREIGN VALUE: vehicle_weapon TD-110 Maelstrom / slot_2 output output/v1/projectile/td-110-maelstrom-slot-2 presentation.mode_label is 305419896, not HD2Runtime's reviewed none: owner unknown mod (a mod outside HD2Runtime: a data-file mod or another program writing game memory). HD2Runtime leaves it as it is and refuses writes to this value only; every other value is unaffected",
+    "[HD2Runtime] FOREIGN VALUE: vehicle_weapon TD-220 Bastion MK XVI / attach_tank_gun output output/v1/projectile/td-220-bastion-mk-xvi-attach-tank-gun presentation.mode_label is 305419896, not HD2Runtime's reviewed none: owner unknown mod (a mod outside HD2Runtime: a data-file mod or another program writing game memory). HD2Runtime leaves it as it is and refuses writes to this value only; every other value is unaffected",
+    "[HD2Runtime] FOREIGN VALUE: player_weapon VG-70 Variable output output/v1/projectile/vg-70-variable presentation.mode_label is 305419896, not HD2Runtime's reviewed none: owner unknown mod (a mod outside HD2Runtime: a data-file mod or another program writing game memory). HD2Runtime leaves it as it is and refuses writes to this value only; every other value is unaffected"
    ]
   },
   {
    "name": "validate_equipment_coverage_snapshot",
    "ok": true,
    "tail": [
-    "}",
-    "[HD2Runtime] shared records index built in 112.0 ms CPU (1474 keys, 10 catalogues)",
-    "[HD2Runtime] log unavailable: [string \"hd2runtime/runtime/log\"]:24: Bingus logging unavailable"
+    "[HD2Runtime] FOREIGN VALUE: vehicle_weapon AX/LAS-5 Rover / gun primary beam.radius is 3, not HD2Runtime's reviewed 0: owner unknown mod (a mod outside HD2Runtime: a data-file mod or another program writing game memory). HD2Runtime leaves it as it is and refuses writes to this value only; every other value is unaffected",
+    "[HD2Runtime] FOREIGN VALUE: vehicle_weapon AX/TX-13 Dog Breath / gun weapon.capacity is 103, not HD2Runtime's reviewed 100: owner unknown mod (a mod outside HD2Runtime: a data-file mod or another program writing game memory). HD2Runtime leaves it as it is and refuses writes to this value only; every other value is unaffected",
+    "[HD2Runtime] FOREIGN VALUE: vehicle_weapon AX/TX-13 Dog Breath / gun primary damage.stagger is 13, not HD2Runtime's reviewed 10: owner unknown mod (a mod outside HD2Runtime: a data-file mod or another program writing game memory). HD2Runtime leaves it as it is and refuses writes to this value only; every other value is unaffected"
    ]
   },
   {
@@ -193,7 +193,7 @@
    "ok": true,
    "tail": [
     "}",
-    "[HD2Runtime] HD2Runtime 0.30.3 initialized (API 1)",
+    "[HD2Runtime] HD2Runtime 0.31.0 initialized (API 1)",
     "[HD2Runtime] log unavailable: [string \"hd2runtime/runtime/log\"]:24: Bingus logging unavailable"
    ]
   },
@@ -201,18 +201,18 @@
    "name": "validate_weapon_sound_snapshot",
    "ok": true,
    "tail": [
-    "}",
-    "[HD2Runtime] shared records index built in 78.0 ms CPU (1474 keys, 10 catalogues)",
-    "[HD2Runtime] log unavailable: [string \"hd2runtime/runtime/log\"]:24: Bingus logging unavailable"
+    "[HD2Runtime] shared records index built in 176.0 ms CPU (1592 keys, 11 catalogues)",
+    "[HD2Runtime] log unavailable: [string \"hd2runtime/runtime/log\"]:24: Bingus logging unavailable",
+    "[HD2Runtime] FOREIGN VALUE: support_weapon MG-43 Machine Gun weapon.sound is 0x00000000000000007856341201, not HD2Runtime's reviewed support/mg43: owner unknown mod (a mod outside HD2Runtime: a data-file mod or another program writing game memory). HD2Runtime leaves it as it is and refuses writes to this value only; every other value is unaffected"
    ]
   },
   {
    "name": "examples",
    "ok": true,
    "tail": [
-    "[HD2Runtime] PERFORMANCE: mod mods/hd2runtime_examples/incendiary_fire: its main file ([string \"IncendiaryFire\"]) took 17.6 ms in one call",
-    "[HD2Runtime] PERFORMANCE: mod mods/hd2runtime_examples/incendiary_hellpods: its main file ([string \"IncendiaryHellpods\"]) took 16.4 ms in one call",
-    "[HD2Runtime] PERFORMANCE: mod mods/hd2runtime_examples/minefield_tuning: its main file ([string \"MinefieldTuning\"]) took 17.4 ms in one call"
+    "[HD2Runtime] PERFORMANCE: mod mods/hd2runtime_examples/incendiary_fire: its main file ([string \"IncendiaryFire\"]) took 75.2 ms in one call",
+    "[HD2Runtime] PERFORMANCE: mod mods/hd2runtime_examples/incendiary_hellpods: its main file ([string \"IncendiaryHellpods\"]) took 163.4 ms in one call",
+    "[HD2Runtime] PERFORMANCE: mod mods/hd2runtime_examples/minefield_tuning: its main file ([string \"MinefieldTuning\"]) took 38.3 ms in one call"
    ]
   },
   {
@@ -237,7 +237,7 @@
    "name": "full test suite",
    "ok": true,
    "tail": [
-    "Ran 2060 tests in 159.326s",
+    "Ran 2211 tests in 144.718s",
     "",
     "OK"
    ]
