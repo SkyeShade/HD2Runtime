@@ -343,6 +343,8 @@ hd2.ensure({transaction={id='trident-scythe',target=scythe,allow_unverified_effe
     is dropped): with a varying frame rate expect a little less, for example about 550 for 600 rpm at around 60 fps.
   - Seen live (2026-10-10, an experimental build with per-weapon beam records): fast rates with the 0.15 s pulse were
     capped as above.
+  - The multi-beam experiment (exp/multi-beam, MultiBeamProof 0.3.1) fits the pulse automatically when a rate is set
+    without one; the 0.30.4 `beam.fire_rate` field does not, so set `beam.pulse_seconds` with it.
 
 **Beam swaps** (0.30.4, offline only; [attack outputs](attack-outputs.md) "Beam swaps"): the LAS-5 Scythe, LAS-7 Dagger
 and LAS-13 Trident fire any catalogued beam output through `weapon:beam_source()` and `hd2.fields.attack.beam`

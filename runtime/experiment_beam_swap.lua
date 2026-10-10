@@ -8,7 +8,8 @@
 -- runtime/experiment_beam_table.lua): each weapon gets its OWN BeamWeapon record (Liberator 24, Talon 25, Reprimand 26)
 -- in a Runtime-owned, never-freed copy of the BeamWeapon table the game is switched to read (one aligned 8-byte store
 -- into slot 270, guarded). So each weapon has its own rate of fire and pulse (M.configure: BeamWeapon +104 fire rate,
--- +108 beams per pulse, +112 pulse seconds; the same members and ranges as the 0.30.4 beam pulse fields). The file's
+-- +108 beams per pulse, +112 pulse seconds; the same members and ranges as the 0.30.4 beam pulse fields; 0.3.1 fits the
+-- pulse into the shot interval, research/docs/beam-pulse-rate-F5FEE03DCFDB.md). The file's
 -- own table is never written; records 0..23 in the copy start byte-identical to it, and typed writes (a mod changing
 -- the Trident's beam.fire_rate) land in the copy while it is live (core/owned_tables.lua, core/component_tables.lua,
 -- core/entity_catalog.lua). Per weapon: its row in the COPY (record index, then key; empty: Liberator 21, Talon 11,
@@ -70,7 +71,7 @@ local CT=require('hd2runtime/domains/component_tables')
 local TB=require('hd2runtime/runtime/experiment_beam_table')
 local unpack=unpack or table.unpack
 local M={}
-M.VERSION='0.3.0-experimental'
+M.VERSION='0.3.1-experimental'
 M.OWNER='HD2Runtime multi-weapon beam swap experiment'
 M.PATHS={owned='owned table',shared='shared record'}
 local PRIVATE,COMMIT,READONLY,PAGE=0x20000,0x1000,0x2,4096
@@ -933,8 +934,73 @@ function M.restore(ids)
     end)
 end
 
+-- The pulsed beam's shot interval (research/docs/beam-pulse-rate-F5FEE03DCFDB.md; BeamWeapon update 0x83E200). Per
+-- world update (step dt) both instance timers run down; a pulse starts only from "not firing" once the shot timer is
+-- <= 0 (then shot timer := 60 / rate, pulse timer := pulse seconds); a running pulse ends in the update its timer
+-- reaches <= 0, and the next start is the update after. So, in updates between pulse starts:
+--   n = max(ceil(60 / (rate dt)), max(1, ceil(pulse / dt)) + 1),  effective rpm = 60 / (n dt)
+-- A pulse that ends in the update after it fired is killed before its first hit phase: hits need pulse > dt.
+M.PULSE={reference_fps=60,fit_fps=30}
+local function ceil_eps(x)return math.ceil(x-1e-9)end
+function M.pulse_updates(rate,pulse,fps)
+    local dt=1/fps
+    return math.max(ceil_eps(60/(rate*dt)),math.max(1,ceil_eps(pulse/dt))+1)
+end
+function M.effective_rate(rate,pulse,fps)return 60*fps/M.pulse_updates(rate,pulse,fps)end
+-- The longest pulse that never decides the interval: 60 / (2 rate) at any frame rate, 60 / rate - 1 / 30 at any frame
+-- rate >= 30 fps; the larger of the two (a longer pulse is the more robust hit).
+function M.pulse_limit(rate)
+    local interval=60/rate
+    return math.max(interval/2,interval-1/M.PULSE.fit_fps)
+end
+-- The pulse configure() writes for a rate, and why: {pulse_seconds, fitted, explicit, limit, capped, rpm_at_60 (a
+-- steady 60 fps), rpm_varying_60, hits_above_fps, notes}. requested = the caller's pulse_seconds (kept, warned when it
+-- caps), nil = the donor's (fitted to the limit when it does not fit).
+function M.pulse_fit(rate,requested,donor)
+    local fps=M.PULSE.reference_fps
+    local limit=M.pulse_limit(rate)
+    local out={explicit=requested~=nil,limit=limit,notes={}}
+    local pulse=requested or donor
+    if requested==nil and donor>limit+1e-6 then
+        pulse=limit
+        out.fitted=true
+        out.notes[#out.notes+1]=('pulse fitted to the rate: %.4g s instead of the Trident\'s %.3g s (at %d rpm a %.3g s '
+            ..'pulse would cap it at about %d rpm at %d fps: the next pulse starts only the update after the last one '
+            ..'ends)'):format(pulse,donor,rate,donor,math.floor(M.effective_rate(rate,donor,fps)+0.5),fps)
+    elseif requested~=nil and requested>limit+1e-6 then
+        out.capped=true
+        out.notes[#out.notes+1]=('WARNING: pulse %.3g s caps %d rpm at about %d rpm at %d fps (the next pulse starts '
+            ..'only the update after the last one ends); leave pulse_seconds out to fit it (<= %.4g s)'):format(
+            requested,rate,math.floor(M.effective_rate(rate,requested,fps)+0.5),fps,limit)
+    end
+    out.pulse_seconds=pulse
+    out.rpm_at_60=M.effective_rate(rate,pulse,fps)
+    -- The shot timer is SET at a start (the overshoot is dropped): with a varying step each interval rounds up by
+    -- about half an update on average.
+    out.rpm_varying_60=math.min(out.rpm_at_60,60/(60/rate+0.5/fps))
+    if not out.capped and out.rpm_varying_60<rate*0.98 then
+        out.notes[#out.notes+1]=('note: each interval rounds up to whole updates: expect about %d rpm at a varying '
+            ..'%d fps (more at higher frame rates)'):format(math.floor(out.rpm_varying_60+0.5),fps)
+    end
+    out.hits_above_fps=pulse>0 and 1/pulse or math.huge
+    if pulse<=0 then
+        out.notes[#out.notes+1]='WARNING: a 0 s pulse ends in the update after it fired, before its first hit: no damage'
+    elseif out.hits_above_fps>M.PULSE.fit_fps then
+        out.notes[#out.notes+1]=('note: a %.3g s pulse hits only above %d fps (a pulse that ends in the update after it '
+            ..'fired is killed before its first hit)'):format(pulse,math.ceil(out.hits_above_fps))
+    end
+    if rate>20*fps then
+        out.notes[#out.notes+1]=('note: above %d rpm the frame rate caps a pulse that hits (one every 3 updates: 20 x '
+            ..'fps rpm)'):format(20*fps)
+    end
+    return out
+end
+
 -- Per-weapon beam settings (owned path only: each weapon's own record). values = {fire_rate (rpm, 1..6000),
--- pulse_beams (1..8), pulse_seconds (0..10)}: members not given keep the Trident's; nil or {} = the Trident's. Kept for
+-- pulse_beams (1..8), pulse_seconds (0..10)}: members not given keep the Trident's; nil or {} = the Trident's. 0.3.1:
+-- without pulse_seconds, a rate whose interval the Trident's 0.15 s pulse does not fit gets a fitted pulse
+-- (M.pulse_fit: max(60 / (2 rate), 60 / rate - 1 / 30) s, logged); an explicit pulse_seconds is kept and a cap is
+-- warned (the live 0.3.0 test: 600 and 900 rpm with 0.15 s pulses fired at about 330-360 rpm). Kept for
 -- the session; written at once (one guarded transaction on the copy) when the weapon is applied on the owned path,
 -- else at its next owned apply. Records are type data the beam shot reads (+104 and +112 per shot), so no live-instance
 -- gate: a live weapon fires its next shots at the new rate. Returns {ok, writes, pending, settings} or {ok=false,
@@ -956,6 +1022,13 @@ function M.configure(id,values)
         if def.storage=='f32'then value=b.value(b.encode(value,'f32'),0,'f32')end
         clean_values[key]=value
     end
+    -- The pulse must fit inside the shot interval, or it decides the rate (research/docs/beam-pulse-rate-
+    -- F5FEE03DCFDB.md): no pulse_seconds given and the Trident's 0.15 s does not fit -> fitted; an explicit pulse is
+    -- kept and a cap is warned.
+    local donor=decode_settings(DONOR)
+    local fit=M.pulse_fit(clean_values.fire_rate or donor.fire_rate,clean_values.pulse_seconds,donor.pulse_seconds)
+    if fit.fitted then clean_values.pulse_seconds=b.value(b.encode(fit.pulse_seconds,'f32'),0,'f32')end
+    for _,line in ipairs(fit.notes)do log(w.name..': '..line)end
     settings[id]=next(clean_values)and clean_values or nil
     local function described()
         local set=decode_settings(owned_record(id))
@@ -986,6 +1059,7 @@ function M.configure(id,values)
         return {ok=true,writes=report.writes,settings=set}
     end)
     result.kept=true      -- the values stay set for the weapon's next owned-table apply, whatever happened now
+    result.pulse=fit
     return result
 end
 -- The settings the weapon's record holds (applied, owned path) or will hold: {fire_rate, pulse_beams, pulse_seconds}.

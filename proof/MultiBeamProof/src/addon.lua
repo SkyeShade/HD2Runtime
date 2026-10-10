@@ -1,24 +1,27 @@
 local hd2=require('mods/skyeshade/hd2runtime')
--- MultiBeamProof 0.3.0: EXPERIMENTAL, SOLO-ONLY live test of the multi-weapon beam swap (the AR-23 Liberator, LAS-58
+-- MultiBeamProof 0.3.1: EXPERIMENTAL, SOLO-ONLY live test of the multi-weapon beam swap (the AR-23 Liberator, LAS-58
 -- Talon and SMG-32 Reprimand fire LAS-13 Trident pulses, all three together or one at a time;
 -- research/docs/multi-beam-swap-F5FEE03DCFDB.md), of each swapped weapon's own beam damage and armour penetration
 -- (0.2.0; research/docs/beam-damage-per-weapon-F5FEE03DCFDB.md) and, new in 0.3.0, of each weapon's OWN BeamWeapon
 -- record in a Runtime-owned copy of the BeamWeapon table the game is switched to read, so each has its own rate of fire
--- and pulse (research/docs/beam-table-relocation-F5FEE03DCFDB.md). Needs the HD2Runtime build of branch exp/multi-beam
--- (runtime/experiment_beam_swap.lua 0.3.x, runtime/experiment_beam_table.lua 0.1.x, runtime/experiment_beam_damage.lua
--- 0.1.x); never part of a release. See README.md for the plan.
+-- and pulse (research/docs/beam-table-relocation-F5FEE03DCFDB.md). New in 0.3.1: a rate without its own pulse gets a
+-- pulse that fits its shot interval (the 0.3.0 live test capped 600 and 900 rpm at about 330-360 rpm: the next pulse
+-- starts only the update after the last one ends; research/docs/beam-pulse-rate-F5FEE03DCFDB.md). Needs the HD2Runtime
+-- build of branch exp/multi-beam (runtime/experiment_beam_swap.lua 0.3.1+, runtime/experiment_beam_table.lua 0.1.x,
+-- runtime/experiment_beam_damage.lua 0.1.x); never part of a release. See README.md for the plan.
 --   Ctrl+Alt+F5   status (read-only): the path (owned table / shared record), per weapon state, rate and live count,
 --                 solo, Trident package, damage
 --   Ctrl+Alt+F8   choose the weapon set for F6: all three -> Liberator -> Talon -> Reprimand -> all three (no write)
 --   Ctrl+Alt+F6   apply the chosen set in one all-or-nothing write (press twice within 6 s)
 --   Ctrl+Alt+F7   restore every swapped weapon, then the table (press twice within 6 s)
 --   Ctrl+Alt+F9   choose the per-weapon damage profile: off -> A -> B -> off (the swapped weapons' next shots)
---   Ctrl+Alt+F10  choose the per-weapon rate / pulse profile: Trident -> R -> P -> Trident (owned table: at once)
+--   Ctrl+Alt+F10  choose the per-weapon rate / pulse profile: Trident -> R -> F -> C -> P -> Trident (owned table:
+--                 at once)
 -- Every swap write refuses unless: zero live instances of every weapon it writes (equip other weapons, do not open the
 -- armory), solo, every pin and every before byte as reviewed, and (apply) the Trident's package resident.
 -- RESTART THE GAME after using it. The live-proven Liberator-only path stays in LiberatorBeamProof (Ctrl+Shift+F1..F4).
 local mod=hd2.mod()
-local BUILD='0.3.0'
+local BUILD='0.3.1'
 mod:log('MultiBeamProof '..BUILD..' EXPERIMENTAL BUILD: SOLO ONLY. Ctrl+Alt+F5 status, Ctrl+Alt+F8 choose the weapon '
     ..'set, Ctrl+Alt+F6 apply it (Liberator + Talon + Reprimand by default), Ctrl+Alt+F7 restore, Ctrl+Alt+F9 choose '
     ..'the per-weapon damage profile (off by default), Ctrl+Alt+F10 choose the per-weapon rate / pulse profile (the '
@@ -31,9 +34,10 @@ if not ok then
         ..'runtime ZIP): '..tostring(X))
     return
 end
-if not tostring(X.VERSION):find('^0%.3%.')then
+if not(tostring(X.VERSION):find('^0%.3%.')and X.pulse_fit)then
     mod:log('UNAVAILABLE: this HD2Runtime build has multi-weapon beam experiment '..tostring(X.VERSION)..'; proof '
-        ..BUILD..' needs 0.3.x (install the exp/multi-beam runtime ZIP of the same hand-over)')
+        ..BUILD..' needs 0.3.1 or later (the fitted pulse; install the exp/multi-beam runtime ZIP of the same '
+        ..'hand-over)')
     return
 end
 local dok,BD=pcall(require,'hd2runtime/runtime/experiment_beam_damage')
@@ -77,15 +81,24 @@ local PROFILES={
 local profile=1
 local retries=0
 
--- Rate / pulse profiles (0.3.0, the owned table: each weapon's own record +104 rpm, +108 beams per pulse, +112 s).
--- The Trident: 300 rpm, 2 beams per pulse, 0.15 s.
+-- Rate / pulse profiles (the owned table: each weapon's own record +104 rpm, +108 beams per pulse, +112 s).
+-- The Trident: 300 rpm, 2 beams per pulse, 0.15 s. 0.3.1: a rate without pulse_seconds gets a fitted pulse
+-- (max(60 / (2 rpm), 60 / rpm - 1 / 30) s when the Trident's 0.15 s does not fit); an explicit pulse is kept (and a cap
+-- warned): C is the capped control (the Reprimand exactly as in the 0.3.0 profile R).
 local BEAMS={
     {label='Trident: every swapped weapon 300 rpm, 2 beams per pulse, 0.15 s (the Trident\'s own)',
         weapons={liberator={},talon={},reprimand={}}},
-    {label='R (rates): Liberator 600 rpm, Talon 150 rpm, Reprimand 900 rpm (pulse as the Trident)',
+    {label='R (rates, fitted): Liberator 600 rpm (0.067 s pulse), Talon 150 rpm (0.15 s), Reprimand 900 rpm '
+        ..'(0.033 s pulse)',
         weapons={liberator={fire_rate=600},talon={fire_rate=150},reprimand={fire_rate=900}}},
-    {label='P (pulse): Liberator 600 rpm, 1 beam per pulse; Talon 150 rpm, 6 beams per pulse; Reprimand 900 rpm, '
-        ..'1.0 s pulse',
+    {label='F (fast, fitted): Liberator 600 rpm (0.067 s), Talon 150 rpm, Reprimand 1200 rpm (0.025 s pulse: hits '
+        ..'only above 40 fps)',
+        weapons={liberator={fire_rate=600},talon={fire_rate=150},reprimand={fire_rate=1200}}},
+    {label='C (capped control): Liberator 600 rpm (fitted), Talon 150 rpm, Reprimand 900 rpm with the Trident\'s '
+        ..'0.15 s pulse (expect about 330-360 rpm, as in the 0.3.0 test)',
+        weapons={liberator={fire_rate=600},talon={fire_rate=150},reprimand={fire_rate=900,pulse_seconds=0.15}}},
+    {label='P (pulse): Liberator 600 rpm, 1 beam per pulse (fitted); Talon 150 rpm, 6 beams per pulse; Reprimand '
+        ..'900 rpm, 1.0 s pulse (capped: about 57 rpm)',
         weapons={liberator={fire_rate=600,pulse_beams=1},talon={fire_rate=150,pulse_beams=6},
             reprimand={fire_rate=900,pulse_seconds=1.0}}},
 }
@@ -121,8 +134,11 @@ local function apply_beams()
     for _,id in ipairs(IDS)do
         local r=X.configure(id,p.weapons[id])
         local s=X.settings(id)
-        mod:log(('beam profile %s: %s %d rpm, %d beams per pulse, %.3g s: %s'):format(p.label:sub(1,1),id,s.fire_rate,
-            s.pulse_beams,s.pulse_seconds,r.ok and(r.pending and'kept for the next owned-table apply'
+        local f=r.pulse
+        mod:log(('beam profile %s: %s %d rpm, %d beams per pulse, %.3g s%s: %s'):format(p.label:sub(1,1),id,
+            s.fire_rate,s.pulse_beams,s.pulse_seconds,f and(' (%s; about %d rpm at a steady 60 fps)'):format(
+            f.fitted and'pulse FITTED'or f.capped and'pulse CAPS the rate'or'pulse fits',
+            math.floor(f.rpm_at_60+0.5))or'',r.ok and(r.pending and'kept for the next owned-table apply'
             or(tostring(r.writes or 0)..' write'..(r.writes==1 and''or's')))or('NOT APPLIED: '..tostring(r.reason))))
     end
 end

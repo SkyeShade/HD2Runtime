@@ -19,6 +19,7 @@ from test_beam_swap import LOCATE
 import sys
 sys.path.insert(0, str(ROOT / 'scripts'))
 import generate_beam_table  # noqa: E402
+import research_beam_rate  # noqa: E402
 
 RESEARCH = json.loads((ROOT / 'research/beam-table-relocation-F5FEE03DCFDB.json').read_text(encoding='utf-8'))
 
@@ -254,6 +255,9 @@ local rows=copy()
 local function member(id,offset,kind)return b.value(record_of(rows,OWN[id]),offset,kind)end
 local applied={liberator=member('liberator',104,'i32'),talon=member('talon',104,'i32'),
  reprimand=member('reprimand',104,'i32')}
+-- 0.3.1: the Liberator's 600 rpm got a pulse that fits its 0.1 s interval; the Talon's 150 rpm keeps the Trident's.
+local pulses={liberator=member('liberator',112,'f32'),talon=member('talon',112,'f32'),
+ reprimand=member('reprimand',112,'f32')}
 -- Live: one transaction on the copy only (the Reprimand 900 rpm, 3 beams per pulse, 0.3 s).
 local writes=counts.writes
 local file_before=runtime.read(TABLE,0x2E0+24*0x78)
@@ -278,9 +282,21 @@ for _,w in ipairs(st.weapons)do shown[w.id]=w.settings end
 check(X.restore().ok,'restore')
 local _,left=changed()
 check(left==0,'restore left bytes')
-return json.encode({applied=applied,live=live,reset=reset,shown=shown})
+local logged={}
+for _,line in ipairs(LINES)do if line:find('pulse',1,true)then logged[#logged+1]=line end end
+return json.encode({applied=applied,live=live,reset=reset,shown=shown,pulses=pulses,warned=r.pulse.capped,
+ logged=logged})
 ''')
         self.assertEqual(result['applied'], {'liberator': 600, 'talon': 150, 'reprimand': 300})
+        self.assertAlmostEqual(result['pulses']['liberator'], 60 / 600 - 1 / 30, places=6)
+        self.assertAlmostEqual(result['pulses']['talon'], 0.15, places=6)
+        self.assertAlmostEqual(result['pulses']['reprimand'], 0.15, places=6)
+        # The explicit 0.3 s pulse at 900 rpm is kept, and warned as a cap.
+        self.assertTrue(result['warned'])
+        self.assertTrue(any('AR-23 Liberator: pulse fitted to the rate: 0.06667 s' in line
+                            for line in result['logged']), result['logged'])
+        self.assertTrue(any('WARNING: pulse 0.3 s caps 900 rpm' in line for line in result['logged']),
+                        result['logged'])
         self.assertEqual(result['live']['fire_rate'], 900)
         self.assertEqual(result['live']['pulse_beams'], 3)
         self.assertAlmostEqual(result['live']['pulse_seconds'], 0.3, places=6)
@@ -494,6 +510,67 @@ return json.encode({during=s.ok,why=s.reason,after=s2.ok})
         self.assertFalse(result['during'])
         self.assertIn('owned BeamWeapon copy', result['why'])
         self.assertTrue(result['after'])
+
+
+class PulseRateTests(unittest.TestCase):
+    """research/docs/beam-pulse-rate-F5FEE03DCFDB.md: n = max(ceil(60 / (R dt)), max(1, ceil(P / dt)) + 1) updates
+    between pulse starts; configure() fits the pulse into the shot interval when no pulse_seconds is given."""
+
+    GRID = [(rate, fps, pulse) for rate in (150, 170, 300, 455, 600, 610, 770, 900, 1010, 1200, 1530, 1790)
+            for fps in (30, 31, 45, 59, 60, 73, 90, 119, 144, 240) for pulse in (0.0, 0.021, 0.047, 0.103, 0.15, 0.41)]
+
+    def lua(self, body):
+        return json.loads(run(r'''
+local X=require('hd2runtime/runtime/experiment_beam_swap')
+local json=require('hd2runtime/primary_mapper/json')
+''' + body))
+
+    def test_the_closed_form_is_the_games_state_machine(self):
+        # The float32 simulation of the update 0x83E200 (scripts/research_beam_rate.py) against the runtime's closed
+        # form, away from exact multiples (there float32 rounding decides between n and n + 1).
+        grid = [(r, f, p) for r, f, p in self.GRID
+                if abs(60 * f / r - round(60 * f / r)) > 1e-3 and abs(p * f - round(p * f)) > 1e-3]
+        lua = self.lua(r'''
+local out={}
+for _,g in ipairs(%s)do out[#out+1]=X.pulse_updates(g[1],g[3],g[2])end
+return json.encode(out)
+''' % ('{' + ','.join('{%d,%d,%r}' % g for g in grid) + '}'))
+        sim = [research_beam_rate.simulate(r, p, f, 20)['updates'] for r, f, p in grid]
+        self.assertGreater(len(grid), 400)
+        self.assertEqual(lua, sim)
+
+    def test_the_live_cap_and_the_fitted_pulses(self):
+        result = self.lua(r'''
+local out={}
+for _,r in ipairs({150,300,600,900,1200})do
+ local f=X.pulse_fit(r,nil,0.15)
+ local worst=0
+ for fps=30,240 do
+  local shot_only=math.max(2,math.ceil(60*fps/r-1e-9))
+  worst=math.max(worst,X.pulse_updates(r,f.pulse_seconds,fps)-shot_only)
+ end
+ out[tostring(r)]={pulse=f.pulse_seconds,fitted=f.fitted or false,rpm60=f.rpm_at_60,extra=worst,
+  hits60=f.pulse_seconds>1/60,notes=f.notes}
+end
+-- The live 0.3.0 profile R: 600 / 900 rpm with the Trident's 0.15 s pulse.
+out.cap600=X.effective_rate(600,0.15,60);out.cap900=X.effective_rate(900,0.15,60)
+local c=X.pulse_fit(900,0.15,0.15)
+out.control={pulse=c.pulse_seconds,capped=c.capped or false,fitted=c.fitted or false,rpm60=c.rpm_at_60}
+return json.encode(out)
+''')
+        self.assertEqual((result['cap600'], result['cap900']), (360, 360))
+        for rate in ('150', '300'):         # the Trident's pulse fits: unchanged
+            self.assertAlmostEqual(result[rate]['pulse'], 0.15, places=6)
+            self.assertFalse(result[rate]['fitted'])
+        for rate, pulse in (('600', 0.1 - 1 / 30), ('900', 1 / 30), ('1200', 0.025)):
+            self.assertTrue(result[rate]['fitted'], rate)
+            self.assertAlmostEqual(result[rate]['pulse'], pulse, places=6)
+            self.assertEqual(result[rate]['rpm60'], int(rate))       # a steady 60 fps reaches the rate
+            self.assertTrue(result[rate]['hits60'], rate)            # and the pulse outlives its first hit phase
+        for rate in ('150', '300', '600', '900', '1200'):
+            self.assertEqual(result[rate]['extra'], 0, rate)         # the pulse never adds an update, 30..240 fps
+        self.assertTrue(any('hits only above 40 fps' in n for n in result['1200']['notes']))
+        self.assertEqual(result['control'], {'pulse': 0.15, 'capped': True, 'fitted': False, 'rpm60': 360})
 
 
 if __name__ == '__main__':
