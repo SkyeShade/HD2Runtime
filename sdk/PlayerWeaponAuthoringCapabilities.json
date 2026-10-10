@@ -2806,8 +2806,10 @@
             "left": 11,
             "right": "Firemode"
           },
+          "selectorBound": false,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -2869,7 +2871,7 @@
           "reason": "The weapon carries a special fire-control structure (+160) whose semantics are unknown.",
           "acceptedForWrites": false,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -6344,14 +6346,16 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 4,
+          "maxModes": 3,
           "fireModeState": "selectable",
           "selector": {
             "left": "None",
             "right": "Firemode"
           },
+          "selectorBound": true,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -6412,7 +6416,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -10057,14 +10061,16 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 4,
+          "maxModes": 3,
           "fireModeState": "selectable",
           "selector": {
             "left": "None",
             "right": "Firemode"
           },
+          "selectorBound": true,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -10125,7 +10131,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -13608,14 +13614,16 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 4,
+          "maxModes": 3,
           "fireModeState": "selectable",
           "selector": {
             "left": "None",
             "right": "Firemode"
           },
+          "selectorBound": true,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -13676,7 +13684,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -17130,14 +17138,16 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 4,
+          "maxModes": 3,
           "fireModeState": "selectable",
           "selector": {
             "left": "None",
             "right": "Firemode"
           },
+          "selectorBound": true,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -17198,7 +17208,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -20597,14 +20607,16 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 4,
+          "maxModes": 3,
           "fireModeState": "selectable",
           "selector": {
             "left": "None",
             "right": "Firemode"
           },
+          "selectorBound": true,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -20665,7 +20677,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -24048,14 +24060,16 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 4,
+          "maxModes": 3,
           "fireModeState": "selectable",
           "selector": {
             "left": "None",
             "right": "Firemode"
           },
+          "selectorBound": true,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -24116,7 +24130,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -27657,14 +27671,16 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 4,
+          "maxModes": 3,
           "fireModeState": "selectable",
           "selector": {
             "left": "None",
             "right": "Firemode"
           },
+          "selectorBound": true,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -27725,7 +27741,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -31102,14 +31118,16 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 4,
+          "maxModes": 3,
           "fireModeState": "selectable",
           "selector": {
             "left": "ROF",
             "right": "Firemode"
           },
+          "selectorBound": true,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -31170,7 +31188,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -34645,8 +34663,10 @@
             "left": 11,
             "right": "Firemode"
           },
+          "selectorBound": false,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -34708,7 +34728,7 @@
           "reason": "The weapon carries a special fire-control structure (+160) whose semantics are unknown.",
           "acceptedForWrites": false,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -38189,8 +38209,10 @@
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -38251,7 +38273,7 @@
           "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through arc.",
           "acceptedForWrites": false,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -40918,14 +40940,16 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 4,
+          "maxModes": 3,
           "fireModeState": "selectable",
           "selector": {
             "left": "None",
             "right": "Firemode"
           },
+          "selectorBound": true,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -40986,7 +41010,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -44463,14 +44487,16 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 4,
+          "maxModes": 3,
           "fireModeState": "selectable",
           "selector": {
             "left": "None",
             "right": "Firemode"
           },
+          "selectorBound": true,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -44531,7 +44557,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -49010,8 +49036,10 @@
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -49072,7 +49100,7 @@
           "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
           "acceptedForWrites": false,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -51251,8 +51279,10 @@
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -51313,7 +51343,7 @@
           "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
           "acceptedForWrites": false,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -53335,8 +53365,10 @@
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -53397,7 +53429,7 @@
           "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
           "acceptedForWrites": false,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -55576,8 +55608,10 @@
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -55638,7 +55672,7 @@
           "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
           "acceptedForWrites": false,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -57660,8 +57694,10 @@
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -57722,7 +57758,7 @@
           "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
           "acceptedForWrites": false,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -59744,8 +59780,10 @@
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -59806,7 +59844,7 @@
           "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
           "acceptedForWrites": false,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -61831,8 +61869,10 @@
             "left": "Firemode",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -61893,7 +61933,7 @@
           "reason": "The weapon uses a charge or safety fire mode (Safety_Off); only Automatic, Single and Burst are proven.",
           "acceptedForWrites": false,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -65552,8 +65592,10 @@
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -65614,7 +65656,7 @@
           "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through spray.",
           "acceptedForWrites": false,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -68461,14 +68503,27 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 1,
-          "fireModeState": "single_mode",
+          "maxModes": 3,
+          "fireModeState": "addable",
           "selector": {
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [
+            "left",
+            "right"
+          ],
+          "binding": {
+            "fields": [
+              "weapon_function.left",
+              "weapon_function.right"
+            ],
+            "value": "fire_mode",
+            "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+          },
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -68529,7 +68584,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -68685,7 +68740,8 @@
           "input": "left",
           "allowedValues": [
             "none",
-            "rate_of_fire"
+            "rate_of_fire",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -68764,7 +68820,8 @@
           "input": "right",
           "allowedValues": [
             "none",
-            "rate_of_fire"
+            "rate_of_fire",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -73211,14 +73268,27 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 1,
-          "fireModeState": "single_mode",
+          "maxModes": 3,
+          "fireModeState": "addable",
           "selector": {
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [
+            "left",
+            "right"
+          ],
+          "binding": {
+            "fields": [
+              "weapon_function.left",
+              "weapon_function.right"
+            ],
+            "value": "fire_mode",
+            "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+          },
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -73279,7 +73349,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -73436,7 +73506,8 @@
           "allowedValues": [
             "none",
             "rate_of_fire",
-            "programmable_ammo"
+            "programmable_ammo",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -73516,7 +73587,8 @@
           "allowedValues": [
             "none",
             "rate_of_fire",
-            "programmable_ammo"
+            "programmable_ammo",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -77753,14 +77825,27 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 1,
-          "fireModeState": "single_mode",
+          "maxModes": 3,
+          "fireModeState": "addable",
           "selector": {
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [
+            "left",
+            "right"
+          ],
+          "binding": {
+            "fields": [
+              "weapon_function.left",
+              "weapon_function.right"
+            ],
+            "value": "fire_mode",
+            "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+          },
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -77821,7 +77906,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -77977,7 +78062,8 @@
           "input": "left",
           "allowedValues": [
             "none",
-            "rate_of_fire"
+            "rate_of_fire",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -78056,7 +78142,8 @@
           "input": "right",
           "allowedValues": [
             "none",
-            "rate_of_fire"
+            "rate_of_fire",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -82532,14 +82619,16 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 4,
+          "maxModes": 3,
           "fireModeState": "selectable",
           "selector": {
             "left": "None",
             "right": "Firemode"
           },
+          "selectorBound": true,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -82600,7 +82689,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -86102,14 +86191,27 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 1,
-          "fireModeState": "single_mode",
+          "maxModes": 3,
+          "fireModeState": "addable",
           "selector": {
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [
+            "left",
+            "right"
+          ],
+          "binding": {
+            "fields": [
+              "weapon_function.left",
+              "weapon_function.right"
+            ],
+            "value": "fire_mode",
+            "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+          },
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -86170,7 +86272,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -86332,7 +86434,8 @@
           "allowedValues": [
             "none",
             "rate_of_fire",
-            "programmable_ammo"
+            "programmable_ammo",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -86412,7 +86515,8 @@
           "allowedValues": [
             "none",
             "rate_of_fire",
-            "programmable_ammo"
+            "programmable_ammo",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -90174,8 +90278,10 @@
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -90236,7 +90342,7 @@
           "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through beam.",
           "acceptedForWrites": false,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -93467,14 +93573,27 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 1,
-          "fireModeState": "single_mode",
+          "maxModes": 3,
+          "fireModeState": "addable",
           "selector": {
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [
+            "left",
+            "right"
+          ],
+          "binding": {
+            "fields": [
+              "weapon_function.left",
+              "weapon_function.right"
+            ],
+            "value": "fire_mode",
+            "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+          },
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -93535,7 +93654,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -93692,7 +93811,8 @@
           "allowedValues": [
             "none",
             "rate_of_fire",
-            "programmable_ammo"
+            "programmable_ammo",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -93772,7 +93892,8 @@
           "allowedValues": [
             "none",
             "rate_of_fire",
-            "programmable_ammo"
+            "programmable_ammo",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -97567,14 +97688,27 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 1,
-          "fireModeState": "single_mode",
+          "maxModes": 3,
+          "fireModeState": "addable",
           "selector": {
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [
+            "left",
+            "right"
+          ],
+          "binding": {
+            "fields": [
+              "weapon_function.left",
+              "weapon_function.right"
+            ],
+            "value": "fire_mode",
+            "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+          },
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -97635,7 +97769,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -97791,7 +97925,8 @@
           "input": "left",
           "allowedValues": [
             "none",
-            "rate_of_fire"
+            "rate_of_fire",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -97870,7 +98005,8 @@
           "input": "right",
           "allowedValues": [
             "none",
-            "rate_of_fire"
+            "rate_of_fire",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -102152,8 +102288,10 @@
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -102214,7 +102352,7 @@
           "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through beam.",
           "acceptedForWrites": false,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -105620,14 +105758,27 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 1,
-          "fireModeState": "single_mode",
+          "maxModes": 3,
+          "fireModeState": "addable",
           "selector": {
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [
+            "left",
+            "right"
+          ],
+          "binding": {
+            "fields": [
+              "weapon_function.left",
+              "weapon_function.right"
+            ],
+            "value": "fire_mode",
+            "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+          },
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -105688,7 +105839,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -105845,7 +105996,8 @@
           "allowedValues": [
             "none",
             "rate_of_fire",
-            "programmable_ammo"
+            "programmable_ammo",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -105925,7 +106077,8 @@
           "allowedValues": [
             "none",
             "rate_of_fire",
-            "programmable_ammo"
+            "programmable_ammo",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -109664,8 +109817,10 @@
           "maxModes": null,
           "fireModeState": "blocked",
           "selector": null,
+          "selectorBound": false,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -109726,7 +109881,7 @@
           "reason": "The weapon roots disagree on their fire-mode configuration.",
           "acceptedForWrites": false,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -113126,14 +113281,27 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 1,
-          "fireModeState": "single_mode",
+          "maxModes": 3,
+          "fireModeState": "addable",
           "selector": {
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [
+            "left",
+            "right"
+          ],
+          "binding": {
+            "fields": [
+              "weapon_function.left",
+              "weapon_function.right"
+            ],
+            "value": "fire_mode",
+            "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+          },
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -113194,7 +113362,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -113351,7 +113519,8 @@
           "allowedValues": [
             "none",
             "rate_of_fire",
-            "programmable_ammo"
+            "programmable_ammo",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -113431,7 +113600,8 @@
           "allowedValues": [
             "none",
             "rate_of_fire",
-            "programmable_ammo"
+            "programmable_ammo",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -116680,14 +116850,16 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 4,
+          "maxModes": 3,
           "fireModeState": "selectable",
           "selector": {
             "left": "None",
             "right": "Firemode"
           },
+          "selectorBound": true,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -116748,7 +116920,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -120234,8 +120406,10 @@
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -120296,7 +120470,7 @@
           "reason": "The weapon has weapon-function fire-mode entries whose semantics are unknown.",
           "acceptedForWrites": false,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -123947,14 +124121,16 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 4,
+          "maxModes": 3,
           "fireModeState": "selectable",
           "selector": {
             "left": "None",
             "right": "Firemode"
           },
+          "selectorBound": true,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -124015,7 +124191,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -127504,14 +127680,16 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 4,
+          "maxModes": 3,
           "fireModeState": "selectable",
           "selector": {
             "left": "None",
             "right": "Firemode"
           },
+          "selectorBound": true,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -127572,7 +127750,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -131007,14 +131185,27 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 1,
-          "fireModeState": "single_mode",
+          "maxModes": 3,
+          "fireModeState": "addable",
           "selector": {
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [
+            "left",
+            "right"
+          ],
+          "binding": {
+            "fields": [
+              "weapon_function.left",
+              "weapon_function.right"
+            ],
+            "value": "fire_mode",
+            "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+          },
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -131075,7 +131266,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -131231,7 +131422,8 @@
           "input": "left",
           "allowedValues": [
             "none",
-            "rate_of_fire"
+            "rate_of_fire",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -131310,7 +131502,8 @@
           "input": "right",
           "allowedValues": [
             "none",
-            "rate_of_fire"
+            "rate_of_fire",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -133995,14 +134188,27 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 1,
-          "fireModeState": "single_mode",
+          "maxModes": 3,
+          "fireModeState": "addable",
           "selector": {
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [
+            "left",
+            "right"
+          ],
+          "binding": {
+            "fields": [
+              "weapon_function.left",
+              "weapon_function.right"
+            ],
+            "value": "fire_mode",
+            "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+          },
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -134063,7 +134269,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -134220,7 +134426,8 @@
           "allowedValues": [
             "none",
             "rate_of_fire",
-            "programmable_ammo"
+            "programmable_ammo",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -134300,7 +134507,8 @@
           "allowedValues": [
             "none",
             "rate_of_fire",
-            "programmable_ammo"
+            "programmable_ammo",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -137546,14 +137754,16 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 4,
+          "maxModes": 3,
           "fireModeState": "selectable",
           "selector": {
             "left": "None",
             "right": "Firemode"
           },
+          "selectorBound": true,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -137614,7 +137824,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -139602,14 +139812,27 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 1,
-          "fireModeState": "single_mode",
+          "maxModes": 3,
+          "fireModeState": "addable",
           "selector": {
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [
+            "left",
+            "right"
+          ],
+          "binding": {
+            "fields": [
+              "weapon_function.left",
+              "weapon_function.right"
+            ],
+            "value": "fire_mode",
+            "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+          },
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -139670,7 +139893,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -139827,7 +140050,8 @@
           "allowedValues": [
             "none",
             "rate_of_fire",
-            "programmable_ammo"
+            "programmable_ammo",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -139907,7 +140131,8 @@
           "allowedValues": [
             "none",
             "rate_of_fire",
-            "programmable_ammo"
+            "programmable_ammo",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -141665,8 +141890,10 @@
             "left": "ProgrammableAmmo",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -141727,7 +141954,7 @@
           "reason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons.",
           "acceptedForWrites": false,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -147750,14 +147977,27 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 1,
-          "fireModeState": "single_mode",
+          "maxModes": 3,
+          "fireModeState": "addable",
           "selector": {
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [
+            "left",
+            "right"
+          ],
+          "binding": {
+            "fields": [
+              "weapon_function.left",
+              "weapon_function.right"
+            ],
+            "value": "fire_mode",
+            "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+          },
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -147818,7 +148058,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -147974,7 +148214,8 @@
           "input": "left",
           "allowedValues": [
             "none",
-            "rate_of_fire"
+            "rate_of_fire",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -148053,7 +148294,8 @@
           "input": "right",
           "allowedValues": [
             "none",
-            "rate_of_fire"
+            "rate_of_fire",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -152425,14 +152667,27 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 1,
-          "fireModeState": "single_mode",
+          "maxModes": 3,
+          "fireModeState": "addable",
           "selector": {
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [
+            "left",
+            "right"
+          ],
+          "binding": {
+            "fields": [
+              "weapon_function.left",
+              "weapon_function.right"
+            ],
+            "value": "fire_mode",
+            "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+          },
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -152493,7 +152748,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -152650,7 +152905,8 @@
           "allowedValues": [
             "none",
             "rate_of_fire",
-            "programmable_ammo"
+            "programmable_ammo",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -152730,7 +152986,8 @@
           "allowedValues": [
             "none",
             "rate_of_fire",
-            "programmable_ammo"
+            "programmable_ammo",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -156362,14 +156619,27 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 1,
-          "fireModeState": "single_mode",
+          "maxModes": 3,
+          "fireModeState": "addable",
           "selector": {
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [
+            "left",
+            "right"
+          ],
+          "binding": {
+            "fields": [
+              "weapon_function.left",
+              "weapon_function.right"
+            ],
+            "value": "fire_mode",
+            "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+          },
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -156430,7 +156700,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -156586,7 +156856,8 @@
           "input": "left",
           "allowedValues": [
             "none",
-            "rate_of_fire"
+            "rate_of_fire",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -156665,7 +156936,8 @@
           "input": "right",
           "allowedValues": [
             "none",
-            "rate_of_fire"
+            "rate_of_fire",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -160093,14 +160365,27 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 1,
-          "fireModeState": "single_mode",
+          "maxModes": 3,
+          "fireModeState": "addable",
           "selector": {
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [
+            "left",
+            "right"
+          ],
+          "binding": {
+            "fields": [
+              "weapon_function.left",
+              "weapon_function.right"
+            ],
+            "value": "fire_mode",
+            "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+          },
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -160161,7 +160446,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -160317,7 +160602,8 @@
           "input": "left",
           "allowedValues": [
             "none",
-            "rate_of_fire"
+            "rate_of_fire",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -160396,7 +160682,8 @@
           "input": "right",
           "allowedValues": [
             "none",
-            "rate_of_fire"
+            "rate_of_fire",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -163821,8 +164108,10 @@
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -163883,7 +164172,7 @@
           "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through spray.",
           "acceptedForWrites": false,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -166745,8 +167034,10 @@
             "left": "ProgrammableAmmo",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -166807,7 +167098,7 @@
           "reason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons.",
           "acceptedForWrites": false,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -170997,14 +171288,16 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 4,
+          "maxModes": 3,
           "fireModeState": "selectable",
           "selector": {
             "left": "None",
             "right": "Firemode"
           },
+          "selectorBound": true,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -171065,7 +171358,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -175597,14 +175890,16 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 4,
+          "maxModes": 3,
           "fireModeState": "selectable",
           "selector": {
             "left": "None",
             "right": "Firemode"
           },
+          "selectorBound": true,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -175665,7 +175960,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -180207,8 +180502,10 @@
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -180269,7 +180566,7 @@
           "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through charge, conventional_projectile.",
           "acceptedForWrites": false,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -184786,8 +185083,10 @@
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -184848,7 +185147,7 @@
           "reason": "The weapon uses a charge or safety fire mode (5); only Automatic, Single and Burst are proven.",
           "acceptedForWrites": false,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -189283,8 +189582,10 @@
             "left": "None",
             "right": "Firemode"
           },
+          "selectorBound": false,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -189345,7 +189646,7 @@
           "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through charge, conventional_projectile.",
           "acceptedForWrites": false,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -193813,14 +194114,16 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 4,
+          "maxModes": 3,
           "fireModeState": "selectable",
           "selector": {
             "left": "None",
             "right": "Firemode"
           },
+          "selectorBound": true,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -193881,7 +194184,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -197358,14 +197661,27 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 1,
-          "fireModeState": "single_mode",
+          "maxModes": 3,
+          "fireModeState": "addable",
           "selector": {
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [
+            "left",
+            "right"
+          ],
+          "binding": {
+            "fields": [
+              "weapon_function.left",
+              "weapon_function.right"
+            ],
+            "value": "fire_mode",
+            "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+          },
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -197426,7 +197742,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -197582,7 +197898,8 @@
           "input": "left",
           "allowedValues": [
             "none",
-            "rate_of_fire"
+            "rate_of_fire",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -197661,7 +197978,8 @@
           "input": "right",
           "allowedValues": [
             "none",
-            "rate_of_fire"
+            "rate_of_fire",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -201086,14 +201404,16 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 4,
+          "maxModes": 3,
           "fireModeState": "selectable",
           "selector": {
             "left": "None",
             "right": "Firemode"
           },
+          "selectorBound": true,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -201154,7 +201474,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -205714,14 +206034,16 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 4,
+          "maxModes": 3,
           "fireModeState": "selectable",
           "selector": {
             "left": "None",
             "right": "Firemode"
           },
+          "selectorBound": true,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -205782,7 +206104,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -209325,8 +209647,10 @@
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -209387,7 +209711,7 @@
           "reason": "The weapon has weapon-function fire-mode entries whose semantics are unknown.",
           "acceptedForWrites": false,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -213042,14 +213366,16 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 4,
+          "maxModes": 3,
           "fireModeState": "selectable",
           "selector": {
             "left": "None",
             "right": "Firemode"
           },
+          "selectorBound": true,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -213110,7 +213436,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -216612,14 +216938,16 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 4,
+          "maxModes": 3,
           "fireModeState": "selectable",
           "selector": {
             "left": "None",
             "right": "Firemode"
           },
+          "selectorBound": true,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -216680,7 +217008,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -220156,14 +220484,16 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 4,
+          "maxModes": 3,
           "fireModeState": "selectable",
           "selector": {
             "left": "None",
             "right": "Firemode"
           },
+          "selectorBound": true,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -220224,7 +220554,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -223598,14 +223928,27 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 1,
-          "fireModeState": "single_mode",
+          "maxModes": 3,
+          "fireModeState": "addable",
           "selector": {
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [
+            "left",
+            "right"
+          ],
+          "binding": {
+            "fields": [
+              "weapon_function.left",
+              "weapon_function.right"
+            ],
+            "value": "fire_mode",
+            "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+          },
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -223666,7 +224009,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -223823,7 +224166,8 @@
           "allowedValues": [
             "none",
             "rate_of_fire",
-            "programmable_ammo"
+            "programmable_ammo",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -223903,7 +224247,8 @@
           "allowedValues": [
             "none",
             "rate_of_fire",
-            "programmable_ammo"
+            "programmable_ammo",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -227207,8 +227552,10 @@
             "left": "Magazine",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -227269,7 +227616,7 @@
           "reason": "The weapon binds Magazine, which changes how its trigger fires; fire modes are not authored on such weapons.",
           "acceptedForWrites": false,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -232512,8 +232859,10 @@
             "left": "Firemode",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -232574,7 +232923,7 @@
           "reason": "The weapon uses a charge or safety fire mode (Safety_Off); only Automatic, Single and Burst are proven.",
           "acceptedForWrites": false,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -236276,14 +236625,16 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 4,
+          "maxModes": 3,
           "fireModeState": "selectable",
           "selector": {
             "left": "None",
             "right": "Firemode"
           },
+          "selectorBound": true,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -236344,7 +236695,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -239720,14 +240071,16 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 4,
+          "maxModes": 3,
           "fireModeState": "selectable",
           "selector": {
             "left": "None",
             "right": "Firemode"
           },
+          "selectorBound": true,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -239788,7 +240141,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -243327,14 +243680,16 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 4,
+          "maxModes": 3,
           "fireModeState": "selectable",
           "selector": {
             "left": "None",
             "right": "Firemode"
           },
+          "selectorBound": true,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -243395,7 +243750,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -246769,14 +247124,27 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 1,
-          "fireModeState": "single_mode",
+          "maxModes": 3,
+          "fireModeState": "addable",
           "selector": {
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [
+            "left",
+            "right"
+          ],
+          "binding": {
+            "fields": [
+              "weapon_function.left",
+              "weapon_function.right"
+            ],
+            "value": "fire_mode",
+            "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+          },
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -246837,7 +247205,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -246993,7 +247361,8 @@
           "input": "left",
           "allowedValues": [
             "none",
-            "rate_of_fire"
+            "rate_of_fire",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -247072,7 +247441,8 @@
           "input": "right",
           "allowedValues": [
             "none",
-            "rate_of_fire"
+            "rate_of_fire",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -250668,8 +251038,10 @@
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -250730,7 +251102,7 @@
           "reason": "The weapon has weapon-function fire-mode entries whose semantics are unknown.",
           "acceptedForWrites": false,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -254431,14 +254803,27 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 1,
-          "fireModeState": "single_mode",
+          "maxModes": 3,
+          "fireModeState": "addable",
           "selector": {
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [
+            "left",
+            "right"
+          ],
+          "binding": {
+            "fields": [
+              "weapon_function.left",
+              "weapon_function.right"
+            ],
+            "value": "fire_mode",
+            "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+          },
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -254499,7 +254884,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -254656,7 +255041,8 @@
           "allowedValues": [
             "none",
             "rate_of_fire",
-            "programmable_ammo"
+            "programmable_ammo",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -254736,7 +255122,8 @@
           "allowedValues": [
             "none",
             "rate_of_fire",
-            "programmable_ammo"
+            "programmable_ammo",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -258981,8 +259368,10 @@
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -259043,7 +259432,7 @@
           "reason": "The weapon has weapon-function fire-mode entries whose semantics are unknown.",
           "acceptedForWrites": false,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -262703,8 +263092,10 @@
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -262765,7 +263156,7 @@
           "reason": "The weapon has weapon-function fire-mode entries whose semantics are unknown.",
           "acceptedForWrites": false,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -266422,14 +266813,16 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 4,
+          "maxModes": 3,
           "fireModeState": "selectable",
           "selector": {
             "left": "None",
             "right": "Firemode"
           },
+          "selectorBound": true,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -266490,7 +266883,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -269867,14 +270260,16 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 4,
+          "maxModes": 3,
           "fireModeState": "selectable",
           "selector": {
             "left": "None",
             "right": "Firemode"
           },
+          "selectorBound": true,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -269935,7 +270330,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -273414,14 +273809,16 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 4,
+          "maxModes": 3,
           "fireModeState": "selectable",
           "selector": {
             "left": "None",
             "right": "Firemode"
           },
+          "selectorBound": true,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -273482,7 +273879,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -276868,14 +277265,16 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 4,
+          "maxModes": 3,
           "fireModeState": "selectable",
           "selector": {
             "left": "None",
             "right": "Firemode"
           },
+          "selectorBound": true,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -276936,7 +277335,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -280481,8 +280880,10 @@
             "left": 11,
             "right": "Firemode"
           },
+          "selectorBound": false,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -280544,7 +280945,7 @@
           "reason": "The weapon carries a special fire-control structure (+160) whose semantics are unknown.",
           "acceptedForWrites": false,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -283918,14 +284319,27 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 1,
-          "fireModeState": "single_mode",
+          "maxModes": 3,
+          "fireModeState": "addable",
           "selector": {
             "left": "None",
             "right": "None"
           },
+          "selectorBound": false,
+          "bindableInputs": [
+            "left",
+            "right"
+          ],
+          "binding": {
+            "fields": [
+              "weapon_function.left",
+              "weapon_function.right"
+            ],
+            "value": "fire_mode",
+            "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+          },
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -283986,7 +284400,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -284143,7 +284557,8 @@
           "allowedValues": [
             "none",
             "rate_of_fire",
-            "programmable_ammo"
+            "programmable_ammo",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -284223,7 +284638,8 @@
           "allowedValues": [
             "none",
             "rate_of_fire",
-            "programmable_ammo"
+            "programmable_ammo",
+            "fire_mode"
           ],
           "functionValues": {
             "none": 0,
@@ -287511,14 +287927,16 @@
             "single": 2,
             "burst": 3
           },
-          "maxModes": 4,
+          "maxModes": 3,
           "fireModeState": "selectable",
           "selector": {
             "left": "None",
             "right": "Firemode"
           },
+          "selectorBound": true,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -287579,7 +287997,7 @@
           "reason": null,
           "acceptedForWrites": true,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -291132,8 +291550,10 @@
             "left": "Firemode",
             "right": "ROF"
           },
+          "selectorBound": false,
+          "bindableInputs": [],
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -291194,7 +291614,7 @@
           "reason": "The weapon uses a charge or safety fire mode (Safety_Off, 7); only Automatic, Single and Burst are proven.",
           "acceptedForWrites": false,
           "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
+          "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested.",
           "evidence": {
             "nativeOwner": "WeaponDataComponent.num_burst_rounds (+140)",
             "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",

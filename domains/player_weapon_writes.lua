@@ -988,12 +988,24 @@ end
 -- beyond the default need a bound rate-of-fire selector, a function projectile needs a bound ProgrammableAmmo
 -- selector, and binding either selector needs what it selects in the same operation.
 local function check_selector_pairs(weapon,changes)
-    local binds,rates,projectile={},nil,nil
+    local binds,rates,projectile,modes={},nil,nil,nil
     for _,change in ipairs(changes)do
         local kind=change.descriptor.type
         if kind=='weapon_function'and change.binding~=change.expect then binds[change.binding]=change.field end
         if kind=='fire_rate_set'then rates=change end
         if kind=='function_projectile_reference'then projectile=change end
+        if kind=='fire_mode_set'then modes=change end
+    end
+    -- The fire-mode selector (0.30.4, research/fire-mode-selector): a one-mode weapon with a free input lists two or
+    -- three modes only together with its Firemode binding, and the binding only together with those modes.
+    if modes and type(modes.value)=='table'and#modes.value>1 and modes.descriptor.fireModeState=='addable'then
+        assert(binds.fire_mode,'SELECTOR_REQUIRED: fire_mode.modes lists '..#modes.value..' modes, but '..weapon.name
+            ..' has no fire-mode selector; bind it in the same transaction (hd2.fields.weapon_function.'
+            ..table.concat(modes.descriptor.bindableInputs or{'left'},' or ')..' = "fire_mode")')
+    end
+    if binds.fire_mode then
+        assert(modes and type(modes.value)=='table'and#modes.value>1,'SELECTOR_REQUIRED: binding the fire-mode '
+            ..'selector needs fire_mode.modes with two or three modes in the same transaction')
     end
     -- A wind-up weapon's X and Z hold its rate natively with no selector bound (dormant, the Maxigun's 1500/1500/1500):
     -- writing exactly those reviewed slots back writes nothing a selector would newly visit.

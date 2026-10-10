@@ -1095,7 +1095,7 @@ def build(catalog_path=CATALOG):
                     'evidenceArtifact':'support-weapon-authoring-validation-F5FEE03DCFDB.json'}}
             if field_id==fire_mode_fields.MODES_FIELD:
                 instance['fireMode']={key:field.get(key) for key in ('fireModeState','nativeSlots','allowedModes',
-                    'modeValues','maxModes','selector','evidence')}
+                    'modeValues','maxModes','selector','selectorBound','bindableInputs','binding','evidence')}
             # Public views carry semantic values only (no native IDs or code addresses; see the research files).
             if field_id==weapon_mode_fields.RATES_FIELD:
                 instance['fireRate']={key:field.get(key) for key in ('fireRateState','nativeSlots','slotNames',

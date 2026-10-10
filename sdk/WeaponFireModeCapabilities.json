@@ -6,7 +6,9 @@
     "modeSet": "four packed FireMode slots at +144; slot 1 is the default mode",
     "burst": "num_burst_rounds (+140), weapon-wide",
     "fireRate": "one ProjectileWeaponComponentData rpm shared by every mode",
-    "selector": "function_info binds WeaponFunctionType Firemode (3) to the left or right input"
+    "selector": "Data-driven: a weapon whose input binds Firemode (3) cycles the non-empty slots +144, +148 and +152 of its WeaponData record; the binding is copied into the weapon when it is built.",
+    "maxModes": "Three with a selector: the cycle counts and maps only +144..+152; +156 is never read by it. No weapon fills +156 natively.",
+    "binding": "Binding Firemode on an unbound input needs nothing else in the weapon data: the press dispatch, the cycle, the current mode and the value reader are generic. The rate-of-fire binding, which runs through the same dispatch, is live-proven on the AR-23 Liberator (weapon_fire_rate_selector_added)."
   },
   "modes": {
     "automatic": "FireMode Automatic (1)",
@@ -33,8 +35,9 @@
   },
   "fireRate": "One rate of fire per weapon (weapon.fire_rate), shared by every mode.",
   "states": {
-    "selectable": "Modes can be added, removed or reordered (up to four); the fire-mode selector is bound.",
-    "single_mode": "The single mode can be replaced (for example Single -> Automatic); no selector is bound, so a second mode cannot be switched to in game.",
+    "selectable": "Modes can be added, removed or reordered (up to three: the selector cycles the first three slots only); the fire-mode selector is bound.",
+    "addable": "One mode and a free input: the single mode can be replaced, or two or three modes listed together with the Firemode binding (weapon_function.<input> = \"fire_mode\") in the same transaction.",
+    "single_mode": "The single mode can be replaced (for example Single -> Automatic); no selector is bound and no input is free, so a second mode cannot be switched to in game.",
     "blocked": "Read-only; see reason.",
     "absent": "The weapon has no fire-mode data."
   },
@@ -55,6 +58,8 @@
       },
       "selectorBound": true,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "The weapon carries a special fire-control structure (+160) whose semantics are unknown.",
@@ -74,7 +79,9 @@
         "right": "Firemode"
       },
       "selectorBound": true,
-      "maxModes": 4,
+      "maxModes": 3,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -98,7 +105,9 @@
         "right": "Firemode"
       },
       "selectorBound": true,
-      "maxModes": 4,
+      "maxModes": 3,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -122,7 +131,9 @@
         "right": "Firemode"
       },
       "selectorBound": true,
-      "maxModes": 4,
+      "maxModes": 3,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -145,7 +156,9 @@
         "right": "Firemode"
       },
       "selectorBound": true,
-      "maxModes": 4,
+      "maxModes": 3,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -169,7 +182,9 @@
         "right": "Firemode"
       },
       "selectorBound": true,
-      "maxModes": 4,
+      "maxModes": 3,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -193,7 +208,9 @@
         "right": "Firemode"
       },
       "selectorBound": true,
-      "maxModes": 4,
+      "maxModes": 3,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -217,7 +234,9 @@
         "right": "Firemode"
       },
       "selectorBound": true,
-      "maxModes": 4,
+      "maxModes": 3,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -241,7 +260,9 @@
         "right": "Firemode"
       },
       "selectorBound": true,
-      "maxModes": 4,
+      "maxModes": 3,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -266,6 +287,8 @@
       },
       "selectorBound": true,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "The weapon carries a special fire-control structure (+160) whose semantics are unknown.",
@@ -285,6 +308,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through arc.",
@@ -304,7 +329,9 @@
         "right": "Firemode"
       },
       "selectorBound": true,
-      "maxModes": 4,
+      "maxModes": 3,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 2,
       "writable": true,
       "reason": null,
@@ -326,7 +353,9 @@
         "right": "Firemode"
       },
       "selectorBound": true,
-      "maxModes": 4,
+      "maxModes": 3,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 2,
       "writable": true,
       "reason": null,
@@ -349,6 +378,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
@@ -368,6 +399,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
@@ -387,6 +420,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
@@ -406,6 +441,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
@@ -425,6 +462,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
@@ -444,6 +483,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
@@ -464,6 +505,8 @@
       },
       "selectorBound": true,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "The weapon uses a charge or safety fire mode (Safety_Off); only Automatic, Single and Burst are proven.",
@@ -483,6 +526,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through spray.",
@@ -491,7 +536,7 @@
     {
       "kind": "player",
       "weapon": "GL-15 Evictor",
-      "state": "single_mode",
+      "state": "addable",
       "modes": [
         "automatic"
       ],
@@ -501,7 +546,19 @@
         "right": "None"
       },
       "selectorBound": false,
-      "maxModes": 1,
+      "maxModes": 3,
+      "bindableInputs": [
+        "left",
+        "right"
+      ],
+      "binding": {
+        "fields": [
+          "hd2.fields.weapon_function.left",
+          "hd2.fields.weapon_function.right"
+        ],
+        "value": "fire_mode",
+        "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+      },
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -513,7 +570,7 @@
     {
       "kind": "player",
       "weapon": "GP-20 Ultimatum",
-      "state": "single_mode",
+      "state": "addable",
       "modes": [
         "single"
       ],
@@ -523,7 +580,19 @@
         "right": "None"
       },
       "selectorBound": false,
-      "maxModes": 1,
+      "maxModes": 3,
+      "bindableInputs": [
+        "left",
+        "right"
+      ],
+      "binding": {
+        "fields": [
+          "hd2.fields.weapon_function.left",
+          "hd2.fields.weapon_function.right"
+        ],
+        "value": "fire_mode",
+        "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+      },
       "burstRounds": 1,
       "writable": true,
       "reason": null,
@@ -535,7 +604,7 @@
     {
       "kind": "player",
       "weapon": "GP-31 Grenade Pistol",
-      "state": "single_mode",
+      "state": "addable",
       "modes": [
         "single"
       ],
@@ -545,7 +614,19 @@
         "right": "None"
       },
       "selectorBound": false,
-      "maxModes": 1,
+      "maxModes": 3,
+      "bindableInputs": [
+        "left",
+        "right"
+      ],
+      "binding": {
+        "fields": [
+          "hd2.fields.weapon_function.left",
+          "hd2.fields.weapon_function.right"
+        ],
+        "value": "fire_mode",
+        "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+      },
       "burstRounds": 1,
       "writable": true,
       "reason": null,
@@ -568,7 +649,9 @@
         "right": "Firemode"
       },
       "selectorBound": true,
-      "maxModes": 4,
+      "maxModes": 3,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -580,7 +663,7 @@
     {
       "kind": "player",
       "weapon": "LAS-12 Sai",
-      "state": "single_mode",
+      "state": "addable",
       "modes": [
         "automatic"
       ],
@@ -590,7 +673,19 @@
         "right": "None"
       },
       "selectorBound": false,
-      "maxModes": 1,
+      "maxModes": 3,
+      "bindableInputs": [
+        "left",
+        "right"
+      ],
+      "binding": {
+        "fields": [
+          "hd2.fields.weapon_function.left",
+          "hd2.fields.weapon_function.right"
+        ],
+        "value": "fire_mode",
+        "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+      },
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -613,6 +708,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through beam.",
@@ -621,7 +718,7 @@
     {
       "kind": "player",
       "weapon": "LAS-16 Sickle",
-      "state": "single_mode",
+      "state": "addable",
       "modes": [
         "automatic"
       ],
@@ -631,7 +728,19 @@
         "right": "None"
       },
       "selectorBound": false,
-      "maxModes": 1,
+      "maxModes": 3,
+      "bindableInputs": [
+        "left",
+        "right"
+      ],
+      "binding": {
+        "fields": [
+          "hd2.fields.weapon_function.left",
+          "hd2.fields.weapon_function.right"
+        ],
+        "value": "fire_mode",
+        "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+      },
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -643,7 +752,7 @@
     {
       "kind": "player",
       "weapon": "LAS-17 Double-Edge Sickle",
-      "state": "single_mode",
+      "state": "addable",
       "modes": [
         "automatic"
       ],
@@ -653,7 +762,19 @@
         "right": "None"
       },
       "selectorBound": false,
-      "maxModes": 1,
+      "maxModes": 3,
+      "bindableInputs": [
+        "left",
+        "right"
+      ],
+      "binding": {
+        "fields": [
+          "hd2.fields.weapon_function.left",
+          "hd2.fields.weapon_function.right"
+        ],
+        "value": "fire_mode",
+        "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+      },
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -676,6 +797,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through beam.",
@@ -684,7 +807,7 @@
     {
       "kind": "player",
       "weapon": "LAS-58 Talon",
-      "state": "single_mode",
+      "state": "addable",
       "modes": [
         "single"
       ],
@@ -694,7 +817,19 @@
         "right": "None"
       },
       "selectorBound": false,
-      "maxModes": 1,
+      "maxModes": 3,
+      "bindableInputs": [
+        "left",
+        "right"
+      ],
+      "binding": {
+        "fields": [
+          "hd2.fields.weapon_function.left",
+          "hd2.fields.weapon_function.right"
+        ],
+        "value": "fire_mode",
+        "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+      },
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -712,6 +847,8 @@
       "selector": null,
       "selectorBound": null,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": null,
       "writable": false,
       "reason": "The weapon roots disagree on their fire-mode configuration.",
@@ -720,7 +857,7 @@
     {
       "kind": "player",
       "weapon": "M6C/SOCOM Pistol",
-      "state": "single_mode",
+      "state": "addable",
       "modes": [
         "single"
       ],
@@ -730,7 +867,19 @@
         "right": "None"
       },
       "selectorBound": false,
-      "maxModes": 1,
+      "maxModes": 3,
+      "bindableInputs": [
+        "left",
+        "right"
+      ],
+      "binding": {
+        "fields": [
+          "hd2.fields.weapon_function.left",
+          "hd2.fields.weapon_function.right"
+        ],
+        "value": "fire_mode",
+        "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+      },
       "burstRounds": 1,
       "writable": true,
       "reason": null,
@@ -754,7 +903,9 @@
         "right": "Firemode"
       },
       "selectorBound": true,
-      "maxModes": 4,
+      "maxModes": 3,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -777,6 +928,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "The weapon has weapon-function fire-mode entries whose semantics are unknown.",
@@ -797,7 +950,9 @@
         "right": "Firemode"
       },
       "selectorBound": true,
-      "maxModes": 4,
+      "maxModes": 3,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -821,7 +976,9 @@
         "right": "Firemode"
       },
       "selectorBound": true,
-      "maxModes": 4,
+      "maxModes": 3,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -833,7 +990,7 @@
     {
       "kind": "player",
       "weapon": "P-11 Stim Pistol",
-      "state": "single_mode",
+      "state": "addable",
       "modes": [
         "single"
       ],
@@ -843,7 +1000,19 @@
         "right": "None"
       },
       "selectorBound": false,
-      "maxModes": 1,
+      "maxModes": 3,
+      "bindableInputs": [
+        "left",
+        "right"
+      ],
+      "binding": {
+        "fields": [
+          "hd2.fields.weapon_function.left",
+          "hd2.fields.weapon_function.right"
+        ],
+        "value": "fire_mode",
+        "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+      },
       "burstRounds": 1,
       "writable": true,
       "reason": null,
@@ -855,7 +1024,7 @@
     {
       "kind": "player",
       "weapon": "P-113 Verdict",
-      "state": "single_mode",
+      "state": "addable",
       "modes": [
         "single"
       ],
@@ -865,7 +1034,19 @@
         "right": "None"
       },
       "selectorBound": false,
-      "maxModes": 1,
+      "maxModes": 3,
+      "bindableInputs": [
+        "left",
+        "right"
+      ],
+      "binding": {
+        "fields": [
+          "hd2.fields.weapon_function.left",
+          "hd2.fields.weapon_function.right"
+        ],
+        "value": "fire_mode",
+        "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+      },
       "burstRounds": 1,
       "writable": true,
       "reason": null,
@@ -888,7 +1069,9 @@
         "right": "Firemode"
       },
       "selectorBound": true,
-      "maxModes": 4,
+      "maxModes": 3,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -900,7 +1083,7 @@
     {
       "kind": "player",
       "weapon": "P-2 Peacemaker",
-      "state": "single_mode",
+      "state": "addable",
       "modes": [
         "single"
       ],
@@ -910,7 +1093,19 @@
         "right": "None"
       },
       "selectorBound": false,
-      "maxModes": 1,
+      "maxModes": 3,
+      "bindableInputs": [
+        "left",
+        "right"
+      ],
+      "binding": {
+        "fields": [
+          "hd2.fields.weapon_function.left",
+          "hd2.fields.weapon_function.right"
+        ],
+        "value": "fire_mode",
+        "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+      },
       "burstRounds": 1,
       "writable": true,
       "reason": null,
@@ -933,6 +1128,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons.",
@@ -941,7 +1138,7 @@
     {
       "kind": "player",
       "weapon": "P-34 Breacher",
-      "state": "single_mode",
+      "state": "addable",
       "modes": [
         "burst"
       ],
@@ -951,7 +1148,19 @@
         "right": "None"
       },
       "selectorBound": false,
-      "maxModes": 1,
+      "maxModes": 3,
+      "bindableInputs": [
+        "left",
+        "right"
+      ],
+      "binding": {
+        "fields": [
+          "hd2.fields.weapon_function.left",
+          "hd2.fields.weapon_function.right"
+        ],
+        "value": "fire_mode",
+        "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+      },
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -963,7 +1172,7 @@
     {
       "kind": "player",
       "weapon": "P-35 Re-Educator",
-      "state": "single_mode",
+      "state": "addable",
       "modes": [
         "single"
       ],
@@ -973,7 +1182,19 @@
         "right": "None"
       },
       "selectorBound": false,
-      "maxModes": 1,
+      "maxModes": 3,
+      "bindableInputs": [
+        "left",
+        "right"
+      ],
+      "binding": {
+        "fields": [
+          "hd2.fields.weapon_function.left",
+          "hd2.fields.weapon_function.right"
+        ],
+        "value": "fire_mode",
+        "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+      },
       "burstRounds": 1,
       "writable": true,
       "reason": null,
@@ -985,7 +1206,7 @@
     {
       "kind": "player",
       "weapon": "P-4 Senator",
-      "state": "single_mode",
+      "state": "addable",
       "modes": [
         "single"
       ],
@@ -995,7 +1216,19 @@
         "right": "None"
       },
       "selectorBound": false,
-      "maxModes": 1,
+      "maxModes": 3,
+      "bindableInputs": [
+        "left",
+        "right"
+      ],
+      "binding": {
+        "fields": [
+          "hd2.fields.weapon_function.left",
+          "hd2.fields.weapon_function.right"
+        ],
+        "value": "fire_mode",
+        "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+      },
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -1007,7 +1240,7 @@
     {
       "kind": "player",
       "weapon": "P-69 Veto",
-      "state": "single_mode",
+      "state": "addable",
       "modes": [
         "single"
       ],
@@ -1017,7 +1250,19 @@
         "right": "None"
       },
       "selectorBound": false,
-      "maxModes": 1,
+      "maxModes": 3,
+      "bindableInputs": [
+        "left",
+        "right"
+      ],
+      "binding": {
+        "fields": [
+          "hd2.fields.weapon_function.left",
+          "hd2.fields.weapon_function.right"
+        ],
+        "value": "fire_mode",
+        "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+      },
       "burstRounds": 1,
       "writable": true,
       "reason": null,
@@ -1040,6 +1285,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 1,
       "writable": false,
       "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through spray.",
@@ -1059,6 +1306,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons.",
@@ -1077,7 +1326,9 @@
         "right": "Firemode"
       },
       "selectorBound": true,
-      "maxModes": 4,
+      "maxModes": 3,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 1,
       "writable": true,
       "reason": null,
@@ -1100,7 +1351,9 @@
         "right": "Firemode"
       },
       "selectorBound": true,
-      "maxModes": 4,
+      "maxModes": 3,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -1123,6 +1376,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through charge, conventional_projectile.",
@@ -1142,6 +1397,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "The weapon uses a charge or safety fire mode (5); only Automatic, Single and Burst are proven.",
@@ -1161,6 +1418,8 @@
       },
       "selectorBound": true,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through charge, conventional_projectile.",
@@ -1180,7 +1439,9 @@
         "right": "Firemode"
       },
       "selectorBound": true,
-      "maxModes": 4,
+      "maxModes": 3,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -1192,7 +1453,7 @@
     {
       "kind": "player",
       "weapon": "R-2124 Constitution",
-      "state": "single_mode",
+      "state": "addable",
       "modes": [
         "single"
       ],
@@ -1202,7 +1463,19 @@
         "right": "None"
       },
       "selectorBound": false,
-      "maxModes": 1,
+      "maxModes": 3,
+      "bindableInputs": [
+        "left",
+        "right"
+      ],
+      "binding": {
+        "fields": [
+          "hd2.fields.weapon_function.left",
+          "hd2.fields.weapon_function.right"
+        ],
+        "value": "fire_mode",
+        "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+      },
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -1224,7 +1497,9 @@
         "right": "Firemode"
       },
       "selectorBound": true,
-      "maxModes": 4,
+      "maxModes": 3,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -1246,7 +1521,9 @@
         "right": "Firemode"
       },
       "selectorBound": true,
-      "maxModes": 4,
+      "maxModes": 3,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 2,
       "writable": true,
       "reason": null,
@@ -1269,6 +1546,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "The weapon has weapon-function fire-mode entries whose semantics are unknown.",
@@ -1287,7 +1566,9 @@
         "right": "Firemode"
       },
       "selectorBound": true,
-      "maxModes": 4,
+      "maxModes": 3,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 2,
       "writable": true,
       "reason": null,
@@ -1309,7 +1590,9 @@
         "right": "Firemode"
       },
       "selectorBound": true,
-      "maxModes": 4,
+      "maxModes": 3,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 2,
       "writable": true,
       "reason": null,
@@ -1331,7 +1614,9 @@
         "right": "Firemode"
       },
       "selectorBound": true,
-      "maxModes": 4,
+      "maxModes": 3,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 2,
       "writable": true,
       "reason": null,
@@ -1343,7 +1628,7 @@
     {
       "kind": "player",
       "weapon": "R/40-K Hot-Shot Marksman Rifle",
-      "state": "single_mode",
+      "state": "addable",
       "modes": [
         "single"
       ],
@@ -1353,7 +1638,19 @@
         "right": "None"
       },
       "selectorBound": false,
-      "maxModes": 1,
+      "maxModes": 3,
+      "bindableInputs": [
+        "left",
+        "right"
+      ],
+      "binding": {
+        "fields": [
+          "hd2.fields.weapon_function.left",
+          "hd2.fields.weapon_function.right"
+        ],
+        "value": "fire_mode",
+        "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+      },
       "burstRounds": 1,
       "writable": true,
       "reason": null,
@@ -1376,6 +1673,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "The weapon binds Magazine, which changes how its trigger fires; fire modes are not authored on such weapons.",
@@ -1396,6 +1695,8 @@
       },
       "selectorBound": true,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "The weapon uses a charge or safety fire mode (Safety_Off); only Automatic, Single and Burst are proven.",
@@ -1415,7 +1716,9 @@
         "right": "Firemode"
       },
       "selectorBound": true,
-      "maxModes": 4,
+      "maxModes": 3,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -1438,7 +1741,9 @@
         "right": "Firemode"
       },
       "selectorBound": true,
-      "maxModes": 4,
+      "maxModes": 3,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -1461,7 +1766,9 @@
         "right": "Firemode"
       },
       "selectorBound": true,
-      "maxModes": 4,
+      "maxModes": 3,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -1473,7 +1780,7 @@
     {
       "kind": "player",
       "weapon": "SG-451 Cookout",
-      "state": "single_mode",
+      "state": "addable",
       "modes": [
         "single"
       ],
@@ -1483,7 +1790,19 @@
         "right": "None"
       },
       "selectorBound": false,
-      "maxModes": 1,
+      "maxModes": 3,
+      "bindableInputs": [
+        "left",
+        "right"
+      ],
+      "binding": {
+        "fields": [
+          "hd2.fields.weapon_function.left",
+          "hd2.fields.weapon_function.right"
+        ],
+        "value": "fire_mode",
+        "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+      },
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -1506,6 +1825,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "The weapon has weapon-function fire-mode entries whose semantics are unknown.",
@@ -1514,7 +1835,7 @@
     {
       "kind": "player",
       "weapon": "SG-8P Punisher Plasma",
-      "state": "single_mode",
+      "state": "addable",
       "modes": [
         "single"
       ],
@@ -1524,7 +1845,19 @@
         "right": "None"
       },
       "selectorBound": false,
-      "maxModes": 1,
+      "maxModes": 3,
+      "bindableInputs": [
+        "left",
+        "right"
+      ],
+      "binding": {
+        "fields": [
+          "hd2.fields.weapon_function.left",
+          "hd2.fields.weapon_function.right"
+        ],
+        "value": "fire_mode",
+        "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+      },
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -1547,6 +1880,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "The weapon has weapon-function fire-mode entries whose semantics are unknown.",
@@ -1566,6 +1901,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "The weapon has weapon-function fire-mode entries whose semantics are unknown.",
@@ -1586,7 +1923,9 @@
         "right": "Firemode"
       },
       "selectorBound": true,
-      "maxModes": 4,
+      "maxModes": 3,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -1610,7 +1949,9 @@
         "right": "Firemode"
       },
       "selectorBound": true,
-      "maxModes": 4,
+      "maxModes": 3,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -1634,7 +1975,9 @@
         "right": "Firemode"
       },
       "selectorBound": true,
-      "maxModes": 4,
+      "maxModes": 3,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -1658,7 +2001,9 @@
         "right": "Firemode"
       },
       "selectorBound": true,
-      "maxModes": 4,
+      "maxModes": 3,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -1681,6 +2026,8 @@
       },
       "selectorBound": true,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "The weapon carries a special fire-control structure (+160) whose semantics are unknown.",
@@ -1689,7 +2036,7 @@
     {
       "kind": "player",
       "weapon": "StA-11 SMG",
-      "state": "single_mode",
+      "state": "addable",
       "modes": [
         "automatic"
       ],
@@ -1699,7 +2046,19 @@
         "right": "None"
       },
       "selectorBound": false,
-      "maxModes": 1,
+      "maxModes": 3,
+      "bindableInputs": [
+        "left",
+        "right"
+      ],
+      "binding": {
+        "fields": [
+          "hd2.fields.weapon_function.left",
+          "hd2.fields.weapon_function.right"
+        ],
+        "value": "fire_mode",
+        "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+      },
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -1722,7 +2081,9 @@
         "right": "Firemode"
       },
       "selectorBound": true,
-      "maxModes": 4,
+      "maxModes": 3,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -1747,6 +2108,8 @@
       },
       "selectorBound": true,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 7,
       "writable": false,
       "reason": "The weapon uses a charge or safety fire mode (Safety_Off, 7); only Automatic, Single and Burst are proven.",
@@ -1766,6 +2129,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through beam, charge.",
@@ -1786,6 +2151,8 @@
       },
       "selectorBound": true,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons.",
@@ -1794,7 +2161,7 @@
     {
       "kind": "support",
       "weapon": "APW-1 Anti-Materiel Rifle",
-      "state": "single_mode",
+      "state": "addable",
       "modes": [
         "single"
       ],
@@ -1804,7 +2171,19 @@
         "right": "None"
       },
       "selectorBound": false,
-      "maxModes": 1,
+      "maxModes": 3,
+      "bindableInputs": [
+        "left",
+        "right"
+      ],
+      "binding": {
+        "fields": [
+          "hd2.fields.weapon_function.left",
+          "hd2.fields.weapon_function.right"
+        ],
+        "value": "fire_mode",
+        "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+      },
       "burstRounds": 1,
       "writable": true,
       "reason": null,
@@ -1828,6 +2207,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 1,
       "writable": false,
       "reason": "The weapon uses a charge or safety fire mode (5, 6); only Automatic, Single and Burst are proven.",
@@ -1847,6 +2228,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through spray.",
@@ -1861,6 +2244,8 @@
       "selector": null,
       "selectorBound": null,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": null,
       "writable": false,
       "reason": "The weapon owns no WeaponDataComponentData record.",
@@ -1880,6 +2265,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
@@ -1899,6 +2286,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
@@ -1918,6 +2307,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
@@ -1937,6 +2328,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
@@ -1945,7 +2338,7 @@
     {
       "kind": "support",
       "weapon": "EAT-17 Expendable Anti-Tank",
-      "state": "single_mode",
+      "state": "addable",
       "modes": [
         "single"
       ],
@@ -1955,7 +2348,19 @@
         "right": "None"
       },
       "selectorBound": false,
-      "maxModes": 1,
+      "maxModes": 3,
+      "bindableInputs": [
+        "left",
+        "right"
+      ],
+      "binding": {
+        "fields": [
+          "hd2.fields.weapon_function.left",
+          "hd2.fields.weapon_function.right"
+        ],
+        "value": "fire_mode",
+        "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+      },
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -1967,7 +2372,7 @@
     {
       "kind": "support",
       "weapon": "EAT-411 Leveller",
-      "state": "single_mode",
+      "state": "addable",
       "modes": [
         "single"
       ],
@@ -1977,7 +2382,19 @@
         "right": "None"
       },
       "selectorBound": false,
-      "maxModes": 1,
+      "maxModes": 3,
+      "bindableInputs": [
+        "left",
+        "right"
+      ],
+      "binding": {
+        "fields": [
+          "hd2.fields.weapon_function.left",
+          "hd2.fields.weapon_function.right"
+        ],
+        "value": "fire_mode",
+        "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+      },
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -1989,7 +2406,7 @@
     {
       "kind": "support",
       "weapon": "EAT-700 Expendable Napalm",
-      "state": "single_mode",
+      "state": "addable",
       "modes": [
         "single"
       ],
@@ -1999,7 +2416,19 @@
         "right": "None"
       },
       "selectorBound": false,
-      "maxModes": 1,
+      "maxModes": 3,
+      "bindableInputs": [
+        "left",
+        "right"
+      ],
+      "binding": {
+        "fields": [
+          "hd2.fields.weapon_function.left",
+          "hd2.fields.weapon_function.right"
+        ],
+        "value": "fire_mode",
+        "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+      },
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -2011,7 +2440,7 @@
     {
       "kind": "support",
       "weapon": "FAF-14 Spear",
-      "state": "single_mode",
+      "state": "addable",
       "modes": [
         "single"
       ],
@@ -2021,7 +2450,19 @@
         "right": "None"
       },
       "selectorBound": false,
-      "maxModes": 1,
+      "maxModes": 3,
+      "bindableInputs": [
+        "left",
+        "right"
+      ],
+      "binding": {
+        "fields": [
+          "hd2.fields.weapon_function.left",
+          "hd2.fields.weapon_function.right"
+        ],
+        "value": "fire_mode",
+        "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+      },
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -2044,6 +2485,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through spray.",
@@ -2063,7 +2506,9 @@
         "right": "Firemode"
       },
       "selectorBound": true,
-      "maxModes": 4,
+      "maxModes": 3,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -2075,7 +2520,7 @@
     {
       "kind": "support",
       "weapon": "GL-28 Belt-Fed Grenade Launcher",
-      "state": "single_mode",
+      "state": "addable",
       "modes": [
         "automatic"
       ],
@@ -2085,7 +2530,17 @@
         "right": "ROF"
       },
       "selectorBound": false,
-      "maxModes": 1,
+      "maxModes": 3,
+      "bindableInputs": [
+        "left"
+      ],
+      "binding": {
+        "fields": [
+          "hd2.fields.weapon_function.left"
+        ],
+        "value": "fire_mode",
+        "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+      },
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -2108,7 +2563,9 @@
         "right": "Firemode"
       },
       "selectorBound": true,
-      "maxModes": 4,
+      "maxModes": 3,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -2131,6 +2588,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons.",
@@ -2150,6 +2609,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through beam.",
@@ -2158,7 +2619,7 @@
     {
       "kind": "support",
       "weapon": "LAS-99 Quasar Cannon",
-      "state": "single_mode",
+      "state": "addable",
       "modes": [
         "single"
       ],
@@ -2168,7 +2629,19 @@
         "right": "None"
       },
       "selectorBound": false,
-      "maxModes": 1,
+      "maxModes": 3,
+      "bindableInputs": [
+        "left",
+        "right"
+      ],
+      "binding": {
+        "fields": [
+          "hd2.fields.weapon_function.left",
+          "hd2.fields.weapon_function.right"
+        ],
+        "value": "fire_mode",
+        "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+      },
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -2191,6 +2664,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through conventional_projectile, wind_up.",
@@ -2199,7 +2674,7 @@
     {
       "kind": "support",
       "weapon": "M-105 Stalwart",
-      "state": "single_mode",
+      "state": "addable",
       "modes": [
         "automatic"
       ],
@@ -2209,7 +2684,17 @@
         "right": "ROF"
       },
       "selectorBound": false,
-      "maxModes": 1,
+      "maxModes": 3,
+      "bindableInputs": [
+        "left"
+      ],
+      "binding": {
+        "fields": [
+          "hd2.fields.weapon_function.left"
+        ],
+        "value": "fire_mode",
+        "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+      },
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -2221,7 +2706,7 @@
     {
       "kind": "support",
       "weapon": "MG-206 Heavy Machine Gun",
-      "state": "single_mode",
+      "state": "addable",
       "modes": [
         "automatic"
       ],
@@ -2231,7 +2716,17 @@
         "right": "ROF"
       },
       "selectorBound": false,
-      "maxModes": 1,
+      "maxModes": 3,
+      "bindableInputs": [
+        "left"
+      ],
+      "binding": {
+        "fields": [
+          "hd2.fields.weapon_function.left"
+        ],
+        "value": "fire_mode",
+        "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+      },
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -2243,7 +2738,7 @@
     {
       "kind": "support",
       "weapon": "MG-43 Machine Gun",
-      "state": "single_mode",
+      "state": "addable",
       "modes": [
         "automatic"
       ],
@@ -2253,7 +2748,17 @@
         "right": "ROF"
       },
       "selectorBound": false,
-      "maxModes": 1,
+      "maxModes": 3,
+      "bindableInputs": [
+        "left"
+      ],
+      "binding": {
+        "fields": [
+          "hd2.fields.weapon_function.left"
+        ],
+        "value": "fire_mode",
+        "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
+      },
       "burstRounds": 3,
       "writable": true,
       "reason": null,
@@ -2278,6 +2783,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 7,
       "writable": false,
       "reason": "The weapon uses a charge or safety fire mode (Safety_Off, 7); only Automatic, Single and Burst are proven.",
@@ -2297,6 +2804,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "The weapon binds LaserGuide, which changes how its trigger fires; fire modes are not authored on such weapons.",
@@ -2311,6 +2820,8 @@
       "selector": null,
       "selectorBound": null,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": null,
       "writable": false,
       "reason": "The weapon owns no WeaponDataComponentData record.",
@@ -2331,6 +2842,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "The weapon uses a charge or safety fire mode (6, 6); only Automatic, Single and Burst are proven.",
@@ -2350,6 +2863,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons.",
@@ -2370,6 +2885,8 @@
       },
       "selectorBound": true,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 1,
       "writable": false,
       "reason": "The weapon uses a charge or safety fire mode (5, 6); only Automatic, Single and Burst are proven.",
@@ -2388,7 +2905,9 @@
         "right": "Firemode"
       },
       "selectorBound": true,
-      "maxModes": 4,
+      "maxModes": 3,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 1,
       "writable": true,
       "reason": null,
@@ -2412,6 +2931,8 @@
       },
       "selectorBound": true,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "The weapon uses a charge or safety fire mode (Safety_Off); only Automatic, Single and Burst are proven.",
@@ -2431,6 +2952,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons.",
@@ -2450,6 +2973,8 @@
       },
       "selectorBound": false,
       "maxModes": null,
+      "bindableInputs": [],
+      "binding": null,
       "burstRounds": 3,
       "writable": false,
       "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through spray.",
@@ -2459,13 +2984,13 @@
   "summary": {
     "weapons": 115,
     "byState": {
+      "player:addable": 20,
       "player:blocked": 29,
       "player:selectable": 31,
-      "player:single_mode": 20,
       "support:absent": 2,
+      "support:addable": 10,
       "support:blocked": 20,
-      "support:selectable": 3,
-      "support:single_mode": 10
+      "support:selectable": 3
     },
     "resolvedModeSets": 112,
     "writable": 64,

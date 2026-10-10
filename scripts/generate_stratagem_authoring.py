@@ -713,6 +713,140 @@ def add_call_in_fields(add_field, internal, public_stratagems, baselines):
                 'readTiming': 'beacon_creation', 'semantics': CALL_IN_SEMANTICS, **call_in_acknowledgement()}
 
 
+# Charges before cooldown (hd2.fields.stratagem.rearm_pool, 0.30.4): StratagemInfo +200 of the stratagem's own row, a
+# StratagemType naming the rearm that refills its uses. research/stratagem-rearm-pool-F5FEE03DCFDB.json (readers pinned
+# by scripts/research_stratagem_rearm_pool.py): every reader compares it with 49 (Eagle Rearm), so the Eagle Rearm pool
+# is the only native way for a stratagem to hold several uses before a cooldown. A pool member's +80 is its uses per
+# rearm, each call puts the whole pool on the caller's own cooldown, and Eagle Rearm refills every member at once.
+# Self-contained: rearm_publication, add_rearm_pool_fields.
+REARM_RESEARCH = ROOT / 'research/stratagem-rearm-pool-F5FEE03DCFDB.json'
+REARM_OFFSET, EAGLE_REARM_TYPE = 200, 49
+REARM_VALUES = [{'value': 0, 'name': 'none', 'label': 'Own cooldown (mission uses)'},
+    {'value': EAGLE_REARM_TYPE, 'name': 'eagle_rearm', 'label': 'Eagle Rearm pool (charges)'}]
+REARM_UNVERIFIED = ('StratagemInfo +200 and its four readers are code-proven offline (research/stratagem-rearm-pool-'
+    'F5FEE03DCFDB.json): a pool member\'s uses are refilled by Eagle Rearm and its calls share the pool\'s cooldown. No '
+    'non-Eagle row is in the pool natively and no live test has confirmed it yet (the HUD presentation is untested).')
+REARM_SEMANTICS = ('"eagle_rearm" turns the stratagem\'s uses into charges: it holds stratagem.max_uses uses (finite), '
+    'each call starts its own cooldown (stratagem.cooldown, the time between charges) on it AND on every other member '
+    'of the pool (the Eagles), and calling Eagle Rearm (or its automatic call once the whole pool is empty) refills '
+    'all of them at once and puts the pool on the rearm\'s cooldown. Charges never come back one at a time.')
+REARM_RULE = ('Joining needs a finite use count: an unlimited count never reaches 0 and would stop the automatic '
+    'rearm of the whole pool, so it is refused (set stratagem.max_uses in the same transaction).')
+REARM_TIMING = ('Read at every call and rearm test; the uses are counted when the mission\'s stratagem record is built: '
+    'write it on the ship, it applies from the next mission.')
+REARM_SCOPE = ('A type-record write: this stratagem\'s own StratagemInfo row on this machine. Its effect reaches the '
+    'Eagles (a shared cooldown and a shared rearm). The mission host applies use counts; every machine should run the '
+    'same mod.')
+REARM_READERS = '0x66D650, 0x66E580, 0xB9A6D0, 0x135C2C0 (each compares +200 with 49)'
+REARM_PROVENANCE = ('StratagemInfo +200 (StratagemType) of the stratagem\'s own row; native readers ' + REARM_READERS
+    + ' (research/stratagem-rearm-pool-F5FEE03DCFDB.json)')
+
+
+def rearm_publication():
+    research = json.loads(REARM_RESEARCH.read_text(encoding='utf-8'))
+    if research['writes'] != 0 or research['pool']['value'] != EAGLE_REARM_TYPE:
+        raise ValueError('unexpected rearm pool research')
+    if not research['rows']['unmoddedIdentical']:
+        raise ValueError('the rearm pool rows are not identical in the unmodded snapshots')
+    return {'rows': {row['id']: row for row in research['rows']['rows']},
+        'pool': [member['id'] for member in research['pool']['members']], 'rearm': research['pool']['rearm']}
+
+
+def add_rearm_pool_fields(add_field, internal, public_stratagems, publication):
+    """stratagem.rearm_pool on every catalogued row: read-only on the Eagles (the pool itself), 'none' or
+    'eagle_rearm' elsewhere."""
+    public = {item['name']: item for item in public_stratagems}
+    eagles = sorted(name for name, entry in internal['stratagems'].items()
+        if entry['root']['id'] in publication['pool'])
+    for name, entry in internal['stratagems'].items():
+        row = publication['rows'].get(entry['root']['id'])
+        if row is None:
+            raise ValueError('no reviewed StratagemInfo row for ' + name)
+        value = row['rearmPool']
+        if value not in (0, EAGLE_REARM_TYPE):
+            raise ValueError('unexpected rearm pool %s on %s' % (value, name))
+        eagle = value == EAGLE_REARM_TYPE
+        extra = {'allowedValues': [dict(item) for item in REARM_VALUES], 'nativeReader': REARM_READERS,
+            'readTiming': 'every_call', 'readTimingNote': REARM_TIMING, 'writeScope': REARM_SCOPE,
+            'semantics': REARM_SEMANTICS, 'coupledStratagems': eagles, 'rearmCooldown': publication['rearm']['cooldown']}
+        if not eagle:
+            extra.update({'rule': REARM_RULE, 'acknowledgement': 'allow_unverified_effect',
+                'acknowledgementReason': REARM_UNVERIFIED})
+        add_field(entry, 'stratagem.rearm_pool', value,
+            {'kind': 'StratagemDefinition', 'nativeIdentity': entry['root']['id'], 'offset': REARM_OFFSET,
+             'storage': 'u32', 'width': 4, 'consumers': [{'stratagem': name, 'path': 'stratagem'}]},
+            {'resource': 'stratagem', 'stratagem': name, 'path': 'stratagem'}, not eagle,
+            ('An Eagle is the Eagle Rearm pool itself: its uses are uses per rearm (eagle.uses_per_rearm) and it is '
+             'never taken out of the pool.') if eagle else None, provenance=REARM_PROVENANCE, extra=extra)
+        if name in public:
+            public[name]['rearmPool'] = {'value': 'eagle_rearm' if eagle else 'none', 'nativeValue': value,
+                'writable': not eagle, 'field': api_constant('stratagem.rearm_pool'),
+                'values': [item['name'] for item in REARM_VALUES], 'semantics': REARM_SEMANTICS,
+                **({} if eagle else {'rule': REARM_RULE, 'acknowledgement': 'allow_unverified_effect'})}
+
+
+# Orbital targeting (0.30.4): OrbitalAbilityComponent members of the Railcannon's and the Laser's own records
+# (research/orbital-targeting-F5FEE03DCFDB.json, readers pinned by scripts/research_orbital_targeting.py). The
+# Railcannon's fields are on the stratagem itself (its record is its payload's); the Laser's re-search interval joins
+# its existing beam attack fields. Self-contained: orbital_targeting_publication, add_orbital_targeting_fields.
+TARGETING_RESEARCH = ROOT / 'research/orbital-targeting-F5FEE03DCFDB.json'
+TARGETING_UNVERIFIED = ('OrbitalAbility members of the strike\'s own record, code-proven offline by their readers '
+    '(research/orbital-targeting-F5FEE03DCFDB.json), but no live write has confirmed the gameplay effect yet.')
+TARGETING_SCOPE = ('A type-record write: the strike\'s own OrbitalAbility record, read by every call of THIS stratagem on '
+    'this machine (all players\' calls of it) until it is restored. No other stratagem reads it. The target is searched '
+    'by the machine that builds the strike and replicated; the tracking and the countdowns run on every machine from '
+    'its own record, so every machine should run the same mod.')
+TARGETING_TIMING = {'search': 'read at every target search (when the strike starts, and at each re-search)',
+    'live': 'read every frame: also changes a strike already running',
+    'creation': 'read once when the strike starts: applies from the next call'}
+TARGETING_READERS = {'orbital.search_radius': '0x5F100C (the target search 0x5F0FC0)',
+    'orbital.movement_speed': '0x5F4229 (the beam movement, every frame)',
+    'orbital.duration': '0x5F07C1 (strike creation 0x5F0660)', 'orbital.fire_delay': '0x5F0A0C (strike creation)',
+    'orbital.retarget_interval': '0x5F3656 / 0x5F3718 (the re-search timer, every frame)'}
+
+
+def orbital_targeting_publication():
+    research = json.loads(TARGETING_RESEARCH.read_text(encoding='utf-8'))
+    if research['writes'] != 0 or not research['checks']['snapshotsIdenticalToPinned']:
+        raise ValueError('unexpected orbital targeting research')
+    return research
+
+
+def add_orbital_targeting_fields(add_field, internal, publication):
+    records = {item['stratagem']: item for item in publication['records'] if item['stratagem']}
+    for item in publication['fields']:
+        name = item['stratagem']
+        entry = internal['stratagems'][name]
+        record = records[name]
+        link = entry['rootLink']
+        if link['component'] != 'OrbitalAbilityComponentData' or link['recordIndex'] != record['record'] \
+                or int(link['payload'], 16) != int(record['owners'][0], 16):
+            raise ValueError('the OrbitalAbility record of %s disagrees with the catalogue' % name)
+        extra = {'min': item['min'], 'max': item['max'], 'rangeJustification': item['note'],
+            'readTiming': item['readTiming'], 'readTimingNote': TARGETING_TIMING[item['readTiming']],
+            'writeScope': TARGETING_SCOPE, 'nativeReader': TARGETING_READERS[item['field']],
+            'acknowledgement': 'allow_unverified_effect', 'acknowledgementReason': TARGETING_UNVERIFIED,
+            'semantics': item['note']}
+        provenance = ('OrbitalAbilityComponent +%d of the strike\'s own record (payload[0]); '
+            'research/orbital-targeting-F5FEE03DCFDB.json' % item['offset'])
+        if name == 'Orbital Laser':
+            beam = next(f for f in entry['fields'] if f['semanticFieldId'] == 'orbital.search_radius'
+                and f['target'].get('attack') == 'beam')
+            backing = dict(beam['backing'], offset=item['offset'], storage='f32')
+            add_field(entry, item['field'], item['native'], backing, dict(beam['target']), provenance=provenance,
+                extra=extra)
+            entry['attacks']['beam']['fields'].append(item['field'])
+            continue
+        backing = {'kind': 'OrbitalAbilityComponentData', 'component': 'OrbitalAbilityComponentData',
+            'nativeIdentity': link['payload'], 'recordIndex': link['recordIndex'], 'indexRow': link['indexRow'],
+            'width': 4, 'ownerCount': 1, 'uniqueOwner': True, 'offset': item['offset'], 'storage': 'f32',
+            'recordProofs': [{'offset': 532, 'storage': 'u32', 'value': record['values']['532'],
+                'member': 'projectile type (the strike\'s shot)'}],
+            'consumers': [{'stratagem': name, 'path': 'stratagem'}]}
+        add_field(entry, item['field'], item['native'], backing,
+            {'resource': 'stratagem', 'stratagem': name, 'path': 'stratagem'}, provenance=provenance, extra=extra)
+
+
 def lua(value):
     if isinstance(value, dict):
         return '{' + ','.join('[' + lua(k) + ']=' + lua(v) for k, v in value.items()) + '}'
@@ -1551,6 +1685,8 @@ def build():
     add_orbital_pattern_fields(add_field, internal, public_stratagems, orbital_pattern_publication())
     add_call_in_fields(add_field, internal, public_stratagems,
         call_in_baselines(source, defensive_source, entity_research, resupply))
+    add_rearm_pool_fields(add_field, internal, public_stratagems, rearm_publication())
+    add_orbital_targeting_fields(add_field, internal, orbital_targeting_publication())
     backing_objects = {}
     operation_groups = {}
     for field in field_instances:

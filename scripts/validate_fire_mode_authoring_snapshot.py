@@ -8,6 +8,10 @@ For each player and support weapon whose fire-mode set is writable:
    likewise.
 3. A third-party slot value is rejected as CONFLICT.
 4. A missing allow_unverified_effect is rejected.
+5. (0.30.4) Every 'addable' weapon (one mode, a free input: research/fire-mode-selector) gains a second mode together
+   with its Firemode binding in one transaction (one slot and one input written, exact rollback); the modes alone and
+   the binding alone are refused (SELECTOR_REQUIRED), and four modes are refused everywhere (the selector cycles
+   three).
 
 It also pins the JAR-5 Dominator full-auto write (only tertiary_fire_mode +152 changes, 0 -> 1),
 checks that blocked weapons (charge, wind-up and special-trigger weapons) refuse writes, and that the
@@ -49,7 +53,7 @@ end
 local function changed_modes(field)
  local current=field.currentDefault;local result={}
  for index,name in ipairs(current)do result[index]=name end
- if field.maxModes==1 then
+ if field.maxModes==1 or field.fireModeState=='addable'then
   result[1]=current[1]=='automatic'and'single'or'automatic';return result
  end
  local present={};for _,name in ipairs(current)do present[name]=true end
@@ -61,7 +65,8 @@ local function field_of(weapon,id)
 end
 local result={status='VALIDATED',weapons={},modeSetChecks=0,burstChecks=0,changedWrites=0,rollbacks=0,
  conflictRejections=0,acknowledgementRejections=0,blockedRejections=0,addedAutomatic=0,replacedSingleMode=0,
- removedModes=0,fixtureFallback='disabled',mode='snapshot-overlay',snapshot=SNAPSHOT_NAME}
+ removedModes=0,addedSelectors=0,selectorRejections=0,fourModeRejections=0,fixtureFallback='disabled',
+ mode='snapshot-overlay',snapshot=SNAPSHOT_NAME}
 local worker=coroutine.create(function()
  for _,set in ipairs({{kind='player_weapon',db=players},{kind='support_weapon',db=supports}})do
   local names={};for name in pairs(set.db.weapons)do names[#names+1]=name end;table.sort(names)
@@ -108,7 +113,7 @@ local worker=coroutine.create(function()
      result.acknowledgementRejections=result.acknowledgementRejections+1
      if id==MODES then
       result.modeSetChecks=result.modeSetChecks+1
-      if field.maxModes==1 then result.replacedSingleMode=result.replacedSingleMode+1
+      if field.maxModes==1 or field.fireModeState=='addable'then result.replacedSingleMode=result.replacedSingleMode+1
       elseif #value>#field.currentDefault then result.addedAutomatic=result.addedAutomatic+(value[#value]=='automatic'and 1 or 0)
       else result.removedModes=result.removedModes+1 end
       result.weapons[#result.weapons+1]={kind=set.kind,weapon=name,from=field.currentDefault,to=value}
@@ -117,6 +122,55 @@ local worker=coroutine.create(function()
    end
   end
  end
+ -- Addable weapons (0.30.4): a second mode with the Firemode binding, one transaction; neither alone.
+ for _,set in ipairs({{kind='player_weapon',db=players},{kind='support_weapon',db=supports}})do
+  local names={};for name in pairs(set.db.weapons)do names[#names+1]=name end;table.sort(names)
+  for _,name in ipairs(names)do
+   local weapon=set.db.weapons[name]
+   local modes=field_of(weapon,MODES)
+   if modes and not weapon.ordinaryWritesBlocked and modes.fireModeState=='addable'then
+    local target={resource=set.kind,path='weapon',weapon=name}
+    local input='weapon_function.'..modes.bindableInputs[1]
+    local current=modes.currentDefault
+    local two={current[1],current[1]=='automatic'and'single'or'automatic'}
+    reset()
+    local plan=resolve(domain.validate_transaction({id='fire-selector',target=target,allow_unverified_effect=true,
+     changes={{field=MODES,expect=current,value=two},{field=input,expect='none',value='fire_mode'}}}))
+    local changed={}
+    for _,part in ipairs(plan.changes)do if part.before~=part.desired then changed[#changed+1]=part end end
+    assert(#changed==2,name..' selector plans '..#changed..' changed slots')
+    local applied=guarded.apply(runtime,plan)
+    assert(applied.status=='APPLIED'and applied.writes==2 and applied.non_target_bytes_unchanged,
+     'selector write failed: '..name..' '..tostring(applied.reason))
+    local slot,binding
+    for _,part in ipairs(changed)do
+     if part.field_offset==148 then slot=part elseif part.field_offset==184 or part.field_offset==188 then binding=part end
+    end
+    assert(slot and binding and b.u32(binding.desired,0)==3,name..': the second slot and the Firemode binding')
+    local restored=guarded.apply(runtime,guarded.inverse(plan))
+    assert(restored.status=='APPLIED','selector rollback failed: '..name)
+    for _,part in ipairs(plan.changes)do
+     assert(runtime.read(part.owner.base+part.offset,#part.before)==part.before,'selector rollback failed: '..name)
+    end
+    result.addedSelectors=result.addedSelectors+1
+    if name=='R/40-K Hot-Shot Marksman Rifle'then
+     result.hotShot={modes=two,secondSlot={offset=148,before=b.hex(slot.before),after=b.hex(slot.desired)},
+      binding={field=input,offset=binding.field_offset,before=b.hex(binding.before),after=b.hex(binding.desired)},
+      writes=applied.writes}
+    end
+    rejects(function()domain.validate_patch({id='m',target=target,field=MODES,expect=current,value=two,
+     allow_unverified_effect=true})end,'SELECTOR_REQUIRED','modes without the binding')
+    rejects(function()domain.validate_patch({id='i',target=target,field=input,expect='none',value='fire_mode',
+     allow_unverified_effect=true})end,'SELECTOR_REQUIRED','the binding without modes')
+    result.selectorRejections=result.selectorRejections+2
+    rejects(function()domain.validate_transaction({id='f',target=target,allow_unverified_effect=true,changes={
+     {field=MODES,expect=current,value={'single','automatic','burst','single'}},
+     {field=input,expect='none',value='fire_mode'}}})end,'allows 3','four modes')
+    result.fourModeRejections=result.fourModeRejections+1
+   end
+  end
+ end
+ reset()
  -- JAR-5 Dominator: full-auto is the Automatic value in the empty tertiary slot; nothing else changes.
  reset()
  local jar={resource='player_weapon',path='weapon',weapon='JAR-5 Dominator'}

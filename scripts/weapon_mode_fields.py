@@ -7,6 +7,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import fire_mode_fields
 import live_evidence
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -42,6 +43,16 @@ EVIDENCE = {'source': 'research/weapon-functions-F5FEE03DCFDB.json', 'gameplayPr
 # A selector binding and what it selects span two weapon-local records (ProjectileWeapon, WeaponData) and are written in
 # one transaction: plan and tool grouping treat the three fields as one operation group.
 OPERATION_GROUP = 'weapon_selector'
+
+
+_SELECTORS = None
+
+
+def fire_mode_selectors():
+    global _SELECTORS
+    if _SELECTORS is None:
+        _SELECTORS = fire_mode_fields.selector_rows()
+    return _SELECTORS
 
 
 def load():
@@ -121,14 +132,20 @@ def apply_input(field, row, side, identity_ok):
             allowed.append('rate_of_fire')
         if function.get('state') == 'addable' and side in (function.get('bindableInputs') or []) and other != 8:
             allowed.append('programmable_ammo')
+        # The fire-mode selector (0.30.4): a single-mode weapon whose input is free (research/fire-mode-selector).
+        fire, _ = fire_mode_selectors()
+        selector = fire.get((row['kind'], row['weapon'])) or {}
+        if selector.get('state') == 'addable' and side in (selector.get('bindableInputs') or []) and other != 3:
+            allowed.append('fire_mode')
     ok = identity_ok and name == 'none' and len(allowed) > 1
     field.update(currentDefault=name or ('function_%s' % value), nativeValue=value, input=side, allowedValues=allowed,
         functionValues=dict(FUNCTION_VALUES))
     field['editable'] = field['acceptedForWrites'] = ok
     if not ok:
         field['reason'] = field.get('reason') or ('The input already binds ' + str(name or value) + '; native bindings '
-            'are not replaced.' if name != 'none' else 'No selector this weapon can host is unbound: fire_rate and '
-            'function_ammo are not addable here (see the weapon fire_rate_modes() and feeds()).')
+            'are not replaced.' if name != 'none' else 'No selector this weapon can host is unbound: fire_rate, '
+            'fire_mode and function_ammo are not addable here (see the weapon fire_rate_modes(), fire_modes() and '
+            'feeds()).')
     else:
         field['reason'] = None
     field['acknowledgement'] = 'allow_unverified_effect'

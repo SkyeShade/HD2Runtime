@@ -20,7 +20,7 @@
       "CQC-72 Entrenchment Tool"
     ],
     "writableSupportWeapons": 34,
-    "writableFieldInstances": 1540,
+    "writableFieldInstances": 1541,
     "fieldInstancesByDomain": {
       "arc": 6,
       "attack": 10,
@@ -42,7 +42,7 @@
       "rounds": 15,
       "status": 20,
       "weapon": 366,
-      "weapon_function": 20,
+      "weapon_function": 21,
       "windup": 2
     },
     "weaponsWithDomain": {
@@ -66,7 +66,7 @@
       "rounds": 3,
       "status": 8,
       "weapon": 32,
-      "weapon_function": 13,
+      "weapon_function": 14,
       "windup": 1
     },
     "writableProjectileBranches": 21,
@@ -112,9 +112,9 @@
       ]
     },
     "sharedFieldInstances": 821,
-    "internalSupportAuthoringInstances": 1540,
-    "publishedSupportFieldInstances": 1540,
-    "legacyFlattenedFieldEntries": 1427,
+    "internalSupportAuthoringInstances": 1541,
+    "publishedSupportFieldInstances": 1541,
+    "legacyFlattenedFieldEntries": 1428,
     "branchSpecificFieldInstances": 829,
     "backingObjectCount": 241,
     "operationGroupingCount": 280,
@@ -125,7 +125,7 @@
     "deduplicationLossPrevented": 113,
     "referenceFieldInstances": 98,
     "readOnlyFieldInstances": 0,
-    "blockedFieldDeclarations": 207,
+    "blockedFieldDeclarations": 206,
     "intentionallyOmittedInstances": 0,
     "safety": {
       "writes": 0,
@@ -3949,7 +3949,7 @@
         },
         {
           "field": "weapon_function.right",
-          "reason": "No selector this weapon can host is unbound: fire_rate and function_ammo are not addable here (see the weapon fire_rate_modes() and feeds())."
+          "reason": "No selector this weapon can host is unbound: fire_rate, fire_mode and function_ammo are not addable here (see the weapon fire_rate_modes(), fire_modes() and feeds())."
         },
         {
           "field": "weapon.third_person_reticle",
@@ -5228,6 +5228,9 @@
           "weapon.sway",
           "weapon.third_person_reticle",
           "weapon.vertical_spread"
+        ],
+        "weapon_function": [
+          "weapon_function.left"
         ]
       },
       "sharedScopes": [
@@ -5235,10 +5238,6 @@
         "shared_projectile"
       ],
       "blockedFields": [
-        {
-          "field": "weapon_function.left",
-          "reason": "No selector this weapon can host is unbound: fire_rate and function_ammo are not addable here (see the weapon fire_rate_modes() and feeds())."
-        },
         {
           "field": "weapon_function.right",
           "reason": "The input already binds rate_of_fire; native bindings are not replaced."
@@ -5292,7 +5291,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 39,
+      "writableFieldCount": 40,
       "fieldInstanceKeys": [
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-ergonomics/e4ff055e07d55a7e",
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-sway/6f10e56a3f8acf3a",
@@ -5306,6 +5305,7 @@
         "support-field/v1/mg-43-machine-gun/weapon/root/fire-mode-modes/272867d435eafb9e",
         "support-field/v1/mg-43-machine-gun/weapon/root/fire-mode-burst-rounds/a2efdad197e6f2e8",
         "support-field/v1/mg-43-machine-gun/weapon/root/fire-rate-modes/02e67883b2cb97cc",
+        "support-field/v1/mg-43-machine-gun/weapon/root/weapon-function-left/57935bb21922e5de",
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-sound/6714af795c64d42b",
         "support-field/v1/mg-43-machine-gun/weapon/root/presentation-traits/b1d2b6963f03e59a",
         "support-field/v1/mg-43-machine-gun/weapon/root/presentation-armor-penetration/2458f96fe727f3a4",
@@ -5419,11 +5419,11 @@
         },
         {
           "field": "weapon_function.left",
-          "reason": "No selector this weapon can host is unbound: fire_rate and function_ammo are not addable here (see the weapon fire_rate_modes() and feeds())."
+          "reason": "No selector this weapon can host is unbound: fire_rate, fire_mode and function_ammo are not addable here (see the weapon fire_rate_modes(), fire_modes() and feeds())."
         },
         {
           "field": "weapon_function.right",
-          "reason": "No selector this weapon can host is unbound: fire_rate and function_ammo are not addable here (see the weapon fire_rate_modes() and feeds())."
+          "reason": "No selector this weapon can host is unbound: fire_rate, fire_mode and function_ammo are not addable here (see the weapon fire_rate_modes(), fire_modes() and feeds())."
         },
         {
           "field": "function_ammo.projectile",
@@ -5630,7 +5630,7 @@
         },
         {
           "field": "weapon_function.right",
-          "reason": "No selector this weapon can host is unbound: fire_rate and function_ammo are not addable here (see the weapon fire_rate_modes() and feeds())."
+          "reason": "No selector this weapon can host is unbound: fire_rate, fire_mode and function_ammo are not addable here (see the weapon fire_rate_modes(), fire_modes() and feeds())."
         },
         {
           "field": "function_ammo.projectile",
@@ -6019,11 +6019,11 @@
         },
         {
           "field": "weapon_function.left",
-          "reason": "No selector this weapon can host is unbound: fire_rate and function_ammo are not addable here (see the weapon fire_rate_modes() and feeds())."
+          "reason": "No selector this weapon can host is unbound: fire_rate, fire_mode and function_ammo are not addable here (see the weapon fire_rate_modes(), fire_modes() and feeds())."
         },
         {
           "field": "weapon_function.right",
-          "reason": "No selector this weapon can host is unbound: fire_rate and function_ammo are not addable here (see the weapon fire_rate_modes() and feeds())."
+          "reason": "No selector this weapon can host is unbound: fire_rate, fire_mode and function_ammo are not addable here (see the weapon fire_rate_modes(), fire_modes() and feeds())."
         },
         {
           "field": "function_ammo.projectile",
@@ -6381,7 +6381,7 @@
         },
         {
           "field": "weapon_function.right",
-          "reason": "No selector this weapon can host is unbound: fire_rate and function_ammo are not addable here (see the weapon fire_rate_modes() and feeds())."
+          "reason": "No selector this weapon can host is unbound: fire_rate, fire_mode and function_ammo are not addable here (see the weapon fire_rate_modes(), fire_modes() and feeds())."
         },
         {
           "field": "weapon.third_person_reticle",
@@ -6653,7 +6653,7 @@
         },
         {
           "field": "weapon_function.right",
-          "reason": "No selector this weapon can host is unbound: fire_rate and function_ammo are not addable here (see the weapon fire_rate_modes() and feeds())."
+          "reason": "No selector this weapon can host is unbound: fire_rate, fire_mode and function_ammo are not addable here (see the weapon fire_rate_modes(), fire_modes() and feeds())."
         },
         {
           "field": "function_ammo.projectile",
@@ -7128,7 +7128,7 @@
         },
         {
           "field": "weapon_function.left",
-          "reason": "No selector this weapon can host is unbound: fire_rate and function_ammo are not addable here (see the weapon fire_rate_modes() and feeds())."
+          "reason": "No selector this weapon can host is unbound: fire_rate, fire_mode and function_ammo are not addable here (see the weapon fire_rate_modes(), fire_modes() and feeds())."
         },
         {
           "field": "weapon_function.right",
@@ -7371,7 +7371,7 @@
         },
         {
           "field": "weapon_function.right",
-          "reason": "No selector this weapon can host is unbound: fire_rate and function_ammo are not addable here (see the weapon fire_rate_modes() and feeds())."
+          "reason": "No selector this weapon can host is unbound: fire_rate, fire_mode and function_ammo are not addable here (see the weapon fire_rate_modes(), fire_modes() and feeds())."
         },
         {
           "field": "function_ammo.projectile",
@@ -20866,7 +20866,7 @@
         "dependencies": [],
         "allowSharedRequired": false,
         "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+        "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
       },
       "resolution": {
         "rootChain": [
@@ -20889,7 +20889,7 @@
         "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
       },
       "fireMode": {
-        "fireModeState": "single_mode",
+        "fireModeState": "addable",
         "nativeSlots": [
           2,
           0,
@@ -20906,10 +20906,23 @@
           "single": 2,
           "burst": 3
         },
-        "maxModes": 1,
+        "maxModes": 3,
         "selector": {
           "left": "None",
           "right": "None"
+        },
+        "selectorBound": false,
+        "bindableInputs": [
+          "left",
+          "right"
+        ],
+        "binding": {
+          "fields": [
+            "weapon_function.left",
+            "weapon_function.right"
+          ],
+          "value": "fire_mode",
+          "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
         },
         "evidence": {
           "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
@@ -20999,7 +21012,7 @@
         "dependencies": [],
         "allowSharedRequired": false,
         "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+        "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
       },
       "resolution": {
         "rootChain": [
@@ -21303,7 +21316,8 @@
         "allowedValues": [
           "none",
           "rate_of_fire",
-          "programmable_ammo"
+          "programmable_ammo",
+          "fire_mode"
         ]
       },
       "effect": {
@@ -21425,7 +21439,8 @@
         "allowedValues": [
           "none",
           "rate_of_fire",
-          "programmable_ammo"
+          "programmable_ammo",
+          "fire_mode"
         ]
       },
       "effect": {
@@ -48845,7 +48860,7 @@
         "dependencies": [],
         "allowSharedRequired": false,
         "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+        "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
       },
       "resolution": {
         "rootChain": [
@@ -48870,7 +48885,7 @@
         "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
       },
       "fireMode": {
-        "fireModeState": "single_mode",
+        "fireModeState": "addable",
         "nativeSlots": [
           2,
           0,
@@ -48887,10 +48902,23 @@
           "single": 2,
           "burst": 3
         },
-        "maxModes": 1,
+        "maxModes": 3,
         "selector": {
           "left": "None",
           "right": "None"
+        },
+        "selectorBound": false,
+        "bindableInputs": [
+          "left",
+          "right"
+        ],
+        "binding": {
+          "fields": [
+            "weapon_function.left",
+            "weapon_function.right"
+          ],
+          "value": "fire_mode",
+          "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
         },
         "evidence": {
           "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
@@ -48980,7 +49008,7 @@
         "dependencies": [],
         "allowSharedRequired": false,
         "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+        "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
       },
       "resolution": {
         "rootChain": [
@@ -49290,7 +49318,8 @@
         "allowedValues": [
           "none",
           "rate_of_fire",
-          "programmable_ammo"
+          "programmable_ammo",
+          "fire_mode"
         ]
       },
       "effect": {
@@ -49414,7 +49443,8 @@
         "allowedValues": [
           "none",
           "rate_of_fire",
-          "programmable_ammo"
+          "programmable_ammo",
+          "fire_mode"
         ]
       },
       "effect": {
@@ -56016,7 +56046,7 @@
         "dependencies": [],
         "allowSharedRequired": false,
         "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+        "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
       },
       "resolution": {
         "rootChain": [
@@ -56039,7 +56069,7 @@
         "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
       },
       "fireMode": {
-        "fireModeState": "single_mode",
+        "fireModeState": "addable",
         "nativeSlots": [
           2,
           0,
@@ -56056,10 +56086,23 @@
           "single": 2,
           "burst": 3
         },
-        "maxModes": 1,
+        "maxModes": 3,
         "selector": {
           "left": "None",
           "right": "None"
+        },
+        "selectorBound": false,
+        "bindableInputs": [
+          "left",
+          "right"
+        ],
+        "binding": {
+          "fields": [
+            "weapon_function.left",
+            "weapon_function.right"
+          ],
+          "value": "fire_mode",
+          "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
         },
         "evidence": {
           "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
@@ -56149,7 +56192,7 @@
         "dependencies": [],
         "allowSharedRequired": false,
         "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+        "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
       },
       "resolution": {
         "rootChain": [
@@ -56453,7 +56496,8 @@
         "allowedValues": [
           "none",
           "rate_of_fire",
-          "programmable_ammo"
+          "programmable_ammo",
+          "fire_mode"
         ]
       },
       "effect": {
@@ -56575,7 +56619,8 @@
         "allowedValues": [
           "none",
           "rate_of_fire",
-          "programmable_ammo"
+          "programmable_ammo",
+          "fire_mode"
         ]
       },
       "effect": {
@@ -62821,7 +62866,7 @@
         "dependencies": [],
         "allowSharedRequired": false,
         "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+        "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
       },
       "resolution": {
         "rootChain": [
@@ -62844,7 +62889,7 @@
         "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
       },
       "fireMode": {
-        "fireModeState": "single_mode",
+        "fireModeState": "addable",
         "nativeSlots": [
           2,
           0,
@@ -62861,10 +62906,23 @@
           "single": 2,
           "burst": 3
         },
-        "maxModes": 1,
+        "maxModes": 3,
         "selector": {
           "left": "None",
           "right": "None"
+        },
+        "selectorBound": false,
+        "bindableInputs": [
+          "left",
+          "right"
+        ],
+        "binding": {
+          "fields": [
+            "weapon_function.left",
+            "weapon_function.right"
+          ],
+          "value": "fire_mode",
+          "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
         },
         "evidence": {
           "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
@@ -62954,7 +63012,7 @@
         "dependencies": [],
         "allowSharedRequired": false,
         "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+        "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
       },
       "resolution": {
         "rootChain": [
@@ -63263,7 +63321,8 @@
         "allowedValues": [
           "none",
           "rate_of_fire",
-          "programmable_ammo"
+          "programmable_ammo",
+          "fire_mode"
         ]
       },
       "effect": {
@@ -63385,7 +63444,8 @@
         "allowedValues": [
           "none",
           "rate_of_fire",
-          "programmable_ammo"
+          "programmable_ammo",
+          "fire_mode"
         ]
       },
       "effect": {
@@ -71013,7 +71073,7 @@
         "dependencies": [],
         "allowSharedRequired": false,
         "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+        "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
       },
       "resolution": {
         "rootChain": [
@@ -71036,7 +71096,7 @@
         "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
       },
       "fireMode": {
-        "fireModeState": "single_mode",
+        "fireModeState": "addable",
         "nativeSlots": [
           2,
           0,
@@ -71053,10 +71113,23 @@
           "single": 2,
           "burst": 3
         },
-        "maxModes": 1,
+        "maxModes": 3,
         "selector": {
           "left": "None",
           "right": "None"
+        },
+        "selectorBound": false,
+        "bindableInputs": [
+          "left",
+          "right"
+        ],
+        "binding": {
+          "fields": [
+            "weapon_function.left",
+            "weapon_function.right"
+          ],
+          "value": "fire_mode",
+          "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
         },
         "evidence": {
           "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
@@ -71146,7 +71219,7 @@
         "dependencies": [],
         "allowSharedRequired": false,
         "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+        "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
       },
       "resolution": {
         "rootChain": [
@@ -71427,7 +71500,8 @@
         "input": "left",
         "allowedValues": [
           "none",
-          "rate_of_fire"
+          "rate_of_fire",
+          "fire_mode"
         ]
       },
       "effect": {
@@ -71548,7 +71622,8 @@
         "input": "right",
         "allowedValues": [
           "none",
-          "rate_of_fire"
+          "rate_of_fire",
+          "fire_mode"
         ]
       },
       "effect": {
@@ -80792,7 +80867,7 @@
         "dependencies": [],
         "allowSharedRequired": false,
         "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+        "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
       },
       "resolution": {
         "rootChain": [
@@ -80832,11 +80907,14 @@
           "single": 2,
           "burst": 3
         },
-        "maxModes": 4,
+        "maxModes": 3,
         "selector": {
           "left": "None",
           "right": "Firemode"
         },
+        "selectorBound": true,
+        "bindableInputs": [],
+        "binding": null,
         "evidence": {
           "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
           "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -80925,7 +81003,7 @@
         "dependencies": [],
         "allowSharedRequired": false,
         "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+        "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
       },
       "resolution": {
         "rootChain": [
@@ -87937,7 +88015,7 @@
         "dependencies": [],
         "allowSharedRequired": false,
         "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+        "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
       },
       "resolution": {
         "rootChain": [
@@ -87960,7 +88038,7 @@
         "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
       },
       "fireMode": {
-        "fireModeState": "single_mode",
+        "fireModeState": "addable",
         "nativeSlots": [
           1,
           0,
@@ -87977,10 +88055,21 @@
           "single": 2,
           "burst": 3
         },
-        "maxModes": 1,
+        "maxModes": 3,
         "selector": {
           "left": "None",
           "right": "ROF"
+        },
+        "selectorBound": false,
+        "bindableInputs": [
+          "left"
+        ],
+        "binding": {
+          "fields": [
+            "weapon_function.left"
+          ],
+          "value": "fire_mode",
+          "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
         },
         "evidence": {
           "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
@@ -88070,7 +88159,7 @@
         "dependencies": [],
         "allowSharedRequired": false,
         "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+        "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
       },
       "resolution": {
         "rootChain": [
@@ -88200,7 +88289,8 @@
         "input": "left",
         "allowedValues": [
           "none",
-          "programmable_ammo"
+          "programmable_ammo",
+          "fire_mode"
         ]
       },
       "effect": {
@@ -94009,7 +94099,7 @@
         "dependencies": [],
         "allowSharedRequired": false,
         "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+        "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
       },
       "resolution": {
         "rootChain": [
@@ -94049,11 +94139,14 @@
           "single": 2,
           "burst": 3
         },
-        "maxModes": 4,
+        "maxModes": 3,
         "selector": {
           "left": "None",
           "right": "Firemode"
         },
+        "selectorBound": true,
+        "bindableInputs": [],
+        "binding": null,
         "evidence": {
           "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
           "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -94142,7 +94235,7 @@
         "dependencies": [],
         "allowSharedRequired": false,
         "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+        "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
       },
       "resolution": {
         "rootChain": [
@@ -113011,7 +113104,7 @@
         "dependencies": [],
         "allowSharedRequired": false,
         "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+        "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
       },
       "resolution": {
         "rootChain": [
@@ -113034,7 +113127,7 @@
         "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
       },
       "fireMode": {
-        "fireModeState": "single_mode",
+        "fireModeState": "addable",
         "nativeSlots": [
           2,
           0,
@@ -113051,10 +113144,23 @@
           "single": 2,
           "burst": 3
         },
-        "maxModes": 1,
+        "maxModes": 3,
         "selector": {
           "left": "None",
           "right": "None"
+        },
+        "selectorBound": false,
+        "bindableInputs": [
+          "left",
+          "right"
+        ],
+        "binding": {
+          "fields": [
+            "weapon_function.left",
+            "weapon_function.right"
+          ],
+          "value": "fire_mode",
+          "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
         },
         "evidence": {
           "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
@@ -113144,7 +113250,7 @@
         "dependencies": [],
         "allowSharedRequired": false,
         "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+        "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
       },
       "resolution": {
         "rootChain": [
@@ -113275,7 +113381,8 @@
         "allowedValues": [
           "none",
           "rate_of_fire",
-          "programmable_ammo"
+          "programmable_ammo",
+          "fire_mode"
         ]
       },
       "effect": {
@@ -113397,7 +113504,8 @@
         "allowedValues": [
           "none",
           "rate_of_fire",
-          "programmable_ammo"
+          "programmable_ammo",
+          "fire_mode"
         ]
       },
       "effect": {
@@ -125238,7 +125346,7 @@
         "dependencies": [],
         "allowSharedRequired": false,
         "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+        "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
       },
       "resolution": {
         "rootChain": [
@@ -125263,7 +125371,7 @@
         "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
       },
       "fireMode": {
-        "fireModeState": "single_mode",
+        "fireModeState": "addable",
         "nativeSlots": [
           1,
           0,
@@ -125280,10 +125388,21 @@
           "single": 2,
           "burst": 3
         },
-        "maxModes": 1,
+        "maxModes": 3,
         "selector": {
           "left": "None",
           "right": "ROF"
+        },
+        "selectorBound": false,
+        "bindableInputs": [
+          "left"
+        ],
+        "binding": {
+          "fields": [
+            "weapon_function.left"
+          ],
+          "value": "fire_mode",
+          "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
         },
         "evidence": {
           "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
@@ -125373,7 +125492,7 @@
         "dependencies": [],
         "allowSharedRequired": false,
         "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+        "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
       },
       "resolution": {
         "rootChain": [
@@ -125679,7 +125798,8 @@
         "input": "left",
         "allowedValues": [
           "none",
-          "programmable_ammo"
+          "programmable_ammo",
+          "fire_mode"
         ]
       },
       "effect": {
@@ -130297,7 +130417,7 @@
         "dependencies": [],
         "allowSharedRequired": false,
         "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+        "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
       },
       "resolution": {
         "rootChain": [
@@ -130322,7 +130442,7 @@
         "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
       },
       "fireMode": {
-        "fireModeState": "single_mode",
+        "fireModeState": "addable",
         "nativeSlots": [
           1,
           0,
@@ -130339,10 +130459,21 @@
           "single": 2,
           "burst": 3
         },
-        "maxModes": 1,
+        "maxModes": 3,
         "selector": {
           "left": "None",
           "right": "ROF"
+        },
+        "selectorBound": false,
+        "bindableInputs": [
+          "left"
+        ],
+        "binding": {
+          "fields": [
+            "weapon_function.left"
+          ],
+          "value": "fire_mode",
+          "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
         },
         "evidence": {
           "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
@@ -130432,7 +130563,7 @@
         "dependencies": [],
         "allowSharedRequired": false,
         "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+        "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
       },
       "resolution": {
         "rootChain": [
@@ -130762,7 +130893,8 @@
         "input": "left",
         "allowedValues": [
           "none",
-          "programmable_ammo"
+          "programmable_ammo",
+          "fire_mode"
         ]
       },
       "effect": {
@@ -135616,7 +135748,7 @@
         "dependencies": [],
         "allowSharedRequired": false,
         "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+        "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
       },
       "resolution": {
         "rootChain": [
@@ -135641,7 +135773,7 @@
         "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
       },
       "fireMode": {
-        "fireModeState": "single_mode",
+        "fireModeState": "addable",
         "nativeSlots": [
           1,
           0,
@@ -135658,10 +135790,21 @@
           "single": 2,
           "burst": 3
         },
-        "maxModes": 1,
+        "maxModes": 3,
         "selector": {
           "left": "None",
           "right": "ROF"
+        },
+        "selectorBound": false,
+        "bindableInputs": [
+          "left"
+        ],
+        "binding": {
+          "fields": [
+            "weapon_function.left"
+          ],
+          "value": "fire_mode",
+          "rule": "A weapon without a fire-mode selector lists two or three modes only in the same transaction as its Firemode binding (hd2.fields.weapon_function.left or .right = \"fire_mode\" on an unbound input), and the binding only together with two or more modes (SELECTOR_REQUIRED otherwise)."
         },
         "evidence": {
           "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
@@ -135751,7 +135894,7 @@
         "dependencies": [],
         "allowSharedRequired": false,
         "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+        "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
       },
       "resolution": {
         "rootChain": [
@@ -135914,6 +136057,129 @@
         "min": 1,
         "max": 3000,
         "overriddenWhenEquipped": []
+      },
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "appliesWhen": "weapon_build",
+        "instantiationOnly": true,
+        "activeSourceProven": true,
+        "reason": "A component member the game copies into the weapon when it builds it (the projectile_weapon ROF record and the weapon_data bindings): weapons built after the write use it; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip).",
+        "writeVerifiedOnApply": true,
+        "gameplayEffectProven": false,
+        "unverifiedEffect": true
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/mg-43-machine-gun/weapon/root/weapon-function-left/57935bb21922e5de",
+      "supportWeapon": "MG-43 Machine Gun",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/mg-43-machine-gun/3583ca5f516c038f",
+        "name": "MG-43 Machine Gun",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon_function.left",
+      "qualifiedSemanticFieldId": "weapon_function.left",
+      "apiFieldConstant": "hd2.fields.weapon_function.left",
+      "display": {
+        "name": "Left weapon function",
+        "domain": "weapon_function",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "weapon_function",
+        "baseline": "none",
+        "expected": "none",
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/3dc7793c500ccae6998a",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/a6af62e525b63ad8c019",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/2fa4117ec90c0e5f886d",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "MG-43 Machine Gun",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/mg-43-machine-gun/weapon/root/3e82e1d7fcd9e90a"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/a6af62e525b63ad8c019",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/mg-43-machine-gun/3583ca5f516c",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The weapon-function input binding (WeaponDataComponent function_info +184/+188) and the function readers are proven, but binding a selector this weapon does not have natively has not been gameplay-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "weaponFunction": {
+        "input": "left",
+        "allowedValues": [
+          "none",
+          "fire_mode"
+        ]
       },
       "effect": {
         "activeSource": "ACTIVE_AT_INSTANTIATION",
@@ -185817,7 +186083,7 @@
         "dependencies": [],
         "allowSharedRequired": false,
         "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+        "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
       },
       "resolution": {
         "rootChain": [
@@ -185857,11 +186123,14 @@
           "single": 2,
           "burst": 3
         },
-        "maxModes": 4,
+        "maxModes": 3,
         "selector": {
           "left": "None",
           "right": "Firemode"
         },
+        "selectorBound": true,
+        "bindableInputs": [],
+        "binding": null,
         "evidence": {
           "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
           "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
@@ -185950,7 +186219,7 @@
         "dependencies": [],
         "allowSharedRequired": false,
         "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+        "acknowledgementReason": "The native fire-mode slots, their enum values and the fire-mode selector (three modes at most) are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
       },
       "resolution": {
         "rootChain": [
@@ -216683,7 +216952,8 @@
       "semanticType": "WeaponDataComponentData",
       "domains": [
         "fire_mode",
-        "weapon"
+        "weapon",
+        "weapon_function"
       ],
       "shared": false,
       "requiresSharedAcknowledgement": false,
@@ -216715,6 +216985,7 @@
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-stationary-while-firing/4e9a050decd4b64f",
         "support-field/v1/mg-43-machine-gun/weapon/root/fire-mode-modes/272867d435eafb9e",
         "support-field/v1/mg-43-machine-gun/weapon/root/fire-mode-burst-rounds/a2efdad197e6f2e8",
+        "support-field/v1/mg-43-machine-gun/weapon/root/weapon-function-left/57935bb21922e5de",
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-third-person-reticle/ca8ba87642351532"
       ]
     },
@@ -225611,9 +225882,10 @@
         "writableCatalogBranches": []
       },
       "fieldInstanceKeys": [
-        "support-field/v1/mg-43-machine-gun/weapon/root/fire-rate-modes/02e67883b2cb97cc"
+        "support-field/v1/mg-43-machine-gun/weapon/root/fire-rate-modes/02e67883b2cb97cc",
+        "support-field/v1/mg-43-machine-gun/weapon/root/weapon-function-left/57935bb21922e5de"
       ],
-      "recommendedApi": "hd2.patch",
+      "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
       "planGroupingKey": "support-plan/v1/mg-43-machine-gun/3583ca5f516c",
       "phase": 1,
@@ -233331,8 +233603,8 @@
     "fixtureFallback": "disabled"
   },
   "instanceAudit": {
-    "internalInstances": 1540,
-    "publishedInstances": 1540,
+    "internalInstances": 1541,
+    "publishedInstances": 1541,
     "missingInstances": 0,
     "unexpectedInstances": 0,
     "identityCoverage": "exact"

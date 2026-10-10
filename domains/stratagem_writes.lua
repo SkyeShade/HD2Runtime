@@ -188,6 +188,15 @@ local function validate_change(entry,target,item,allow_shared,allow_unverified_e
     assert(field.acknowledgement~='allow_unverified_effect'or allow_unverified_effect,
         'field requires allow_unverified_effect=true: '..item.field..' ('..tostring(field.acknowledgementReason)..')')
     local expected=item.expect;local desired=item.value
+    if field.type=='enum'then
+        -- An enumerated member (stratagem.rearm_pool) also takes its reviewed value names ('none', 'eagle_rearm').
+        local function named(value)
+            if type(value)~='string'then return value end
+            for _,option in ipairs(field.allowedValues or{})do if option.name==value then return option.value end end
+            error('unknown value name for '..item.field..': '..value,0)
+        end
+        expected,desired=named(expected),named(desired)
+    end
     assert(type(expected)=='number'and expected==expected and expected>-math.huge and expected<math.huge,
         'expect must be a finite number')
     assert(type(desired)=='number'and desired==desired and desired>-math.huge and desired<math.huge,
@@ -556,8 +565,32 @@ local function prepare_scalar(plan,physical,change,owner,record,backing)
         physical[key]=item;plan.changes[#plan.changes+1]=item
     end
 end
+-- The Eagle Rearm pool (stratagem.rearm_pool, StratagemInfo +200 = 49; research/stratagem-rearm-pool): the automatic
+-- rearm waits until every pool member has 0 uses left (0x66E580), and an unlimited count (0xFFFFFFFF, -1 in the
+-- mission record) never does. So a row in the pool keeps a finite use count after the operation: joining checks the
+-- row's uses (or the same operation's max_uses), and an unlimited max_uses is refused while the row is in the pool.
+local UNLIMITED_USES,EAGLE_REARM=4294967295,49
+local function check_rearm_pool(resolved,spec,rows)
+    local pool,uses={},{}
+    for _,change in ipairs(spec.changes)do
+        local id=change.descriptor.semanticFieldId
+        if id=='stratagem.rearm_pool'then pool.value=b.u32(change.desired,0);pool.change=change end
+        if id=='stratagem.max_uses'then uses.value=b.u32(change.desired,0)end
+    end
+    if pool.change==nil and uses.value~=UNLIMITED_USES then return end
+    local row=rows[resolved.entry.root.id]
+    if not row then return end
+    local in_pool=pool.value or b.u32(row,200)
+    local count=uses.value or b.u32(row,80)
+    if in_pool==EAGLE_REARM and count==UNLIMITED_USES then
+        error('REARM_POOL_UNLIMITED: '..resolved.entry.name..' in the Eagle Rearm pool needs a finite use count (its '
+            ..'charges): an unlimited count never reaches 0 and would stop the automatic rearm of every Eagle; set '
+            ..'stratagem.max_uses to a number in the same transaction',0)
+    end
+end
 function M.prepare(resolved,reader,spec)
     local plan={changes={},snapshots=reader.snapshots};local physical={}
+    local rows={}
     for _,change in ipairs(spec.changes)do
         local backing=change.descriptor.backing
         local record,owner=selected_record(resolved,change,spec)
@@ -569,6 +602,7 @@ function M.prepare(resolved,reader,spec)
             -- transaction context, and a second overlapping context makes apply ambiguous.
             bytes=reader.read(owner,record.offset,profile.stratagem.stride)
             record={bytes=bytes,offset=record.offset}
+            if spec.target_path=='stratagem'then rows[resolved.entry.root.id]=bytes end
         end
         if change.calldown then prepare_calldown(plan,physical,resolved,reader,change,owner,record)
         else
@@ -590,6 +624,7 @@ function M.prepare(resolved,reader,spec)
             prepare_scalar(plan,physical,change,owner,record,backing)
         end
     end
+    check_rearm_pool(resolved,spec,rows)
     return plan
 end
 return M

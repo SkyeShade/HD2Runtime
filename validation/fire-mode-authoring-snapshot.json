@@ -1,11 +1,31 @@
 {
   "acknowledgementRejections": 128,
   "addedAutomatic": 11,
+  "addedSelectors": 30,
   "blockedRejections": 5,
   "burstChecks": 64,
   "changedWrites": 128,
   "conflictRejections": 128,
   "fixtureFallback": "disabled",
+  "fourModeRejections": 30,
+  "hotShot": {
+    "binding": {
+      "after": "03000000",
+      "before": "00000000",
+      "field": "weapon_function.left",
+      "offset": 184
+    },
+    "modes": [
+      "single",
+      "automatic"
+    ],
+    "secondSlot": {
+      "after": "01000000",
+      "before": "00000000",
+      "offset": 148
+    },
+    "writes": 2
+  },
   "jar5": {
     "after": "01000000",
     "before": "00000000",
@@ -22,6 +42,7 @@
   "removedModes": 13,
   "replacedSingleMode": 30,
   "rollbacks": 128,
+  "selectorRejections": 60,
   "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
   "status": "VALIDATED",
   "weapons": [

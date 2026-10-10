@@ -13,9 +13,12 @@ import fire_mode_fields
 ROOT = Path(__file__).resolve().parents[1]
 JSON_OUTPUT = ROOT / 'sdk/WeaponFireModeCapabilities.json'
 LUA_OUTPUT = ROOT / 'domains/weapon_fire_modes.lua'
-STATES = {'selectable': 'Modes can be added, removed or reordered (up to four); the fire-mode selector is bound.',
-    'single_mode': 'The single mode can be replaced (for example Single -> Automatic); no selector is bound, '
-        'so a second mode cannot be switched to in game.',
+STATES = {'selectable': 'Modes can be added, removed or reordered (up to three: the selector cycles the first three '
+        'slots only); the fire-mode selector is bound.',
+    'addable': 'One mode and a free input: the single mode can be replaced, or two or three modes listed together with '
+        'the Firemode binding (weapon_function.<input> = "fire_mode") in the same transaction.',
+    'single_mode': 'The single mode can be replaced (for example Single -> Automatic); no selector is bound and no '
+        'input is free, so a second mode cannot be switched to in game.',
     'blocked': 'Read-only; see reason.', 'absent': 'The weapon has no fire-mode data.'}
 
 
@@ -54,6 +57,10 @@ def build():
             'modes': row.get('modes'), 'defaultMode': row.get('defaultMode'),
             'selector': row.get('selector') and {'left': row['selector']['left'], 'right': row['selector']['right']},
             'selectorBound': row.get('selectorBound'), 'maxModes': row.get('maxModes') if identity_ok else None,
+            'bindableInputs': list(row.get('bindableInputs') or []) if row['state'] == 'addable' and identity_ok else [],
+            'binding': {'fields': ['hd2.fields.weapon_function.' + side for side in row.get('bindableInputs') or []],
+                'value': fire_mode_fields.BINDING_VALUE, 'rule': fire_mode_fields.BINDING_RULE}
+                if row['state'] == 'addable' and identity_ok else None,
             'burstRounds': row.get('burstRounds'),
             'writable': writable and identity_ok, 'reason': None if writable and identity_ok else reason,
             'fields': {'modes': fire_mode_fields.MODES_FIELD, 'burstRounds': fire_mode_fields.BURST_FIELD}
@@ -78,7 +85,8 @@ def build():
         'states': STATES, 'shareScope': 'weapon_local: every WeaponDataComponentData record has one owner.',
         'weapons': weapons, 'summary': summary}
     runtime = {'weapons': {f"{w['kind']}:{w['weapon']}": {key: w[key] for key in
-        ('state', 'modes', 'defaultMode', 'selector', 'maxModes', 'burstRounds', 'writable', 'reason')} for w in weapons},
+        ('state', 'modes', 'defaultMode', 'selector', 'maxModes', 'burstRounds', 'writable', 'reason', 'bindableInputs',
+            'binding')} for w in weapons},
         'fireRate': public['fireRate']}
     return runtime, public
 

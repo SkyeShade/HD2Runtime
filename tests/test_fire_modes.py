@@ -28,15 +28,24 @@ class FireModeTests(unittest.TestCase):
     def test_jar5_has_single_and_burst_and_a_selector(self):
         jar = self.rows[('player', 'JAR-5 Dominator')]
         self.assertEqual((jar['slots'], jar['modes'], jar['burstRounds']), ([2, 3, 0, 0], ['single', 'burst'], 3))
-        self.assertEqual((jar['state'], jar['selector']['right'], jar['maxModes']), ('selectable', 'Firemode', 4))
+        self.assertEqual((jar['state'], jar['selector']['right']), ('selectable', 'Firemode'))
+        # 0.30.4 (research/fire-mode-selector): the selector cycles the first three slots only, so three is the most a
+        # selector reaches; the published capability says so.
+        self.assertEqual(self.weapons[('player', 'JAR-5 Dominator')]['maxModes'], 3)
         self.assertNotIn('automatic', jar['modes'])  # full-auto does not exist natively; it is added
 
     def test_coverage_and_blockers(self):
         states = Counter((row['kind'], row['state']) for row in self.catalog['weapons'])
         self.assertEqual(states[('player', 'selectable')], 31)   # + the SMG-37 Defender (0.30.2: the seven DUPLICATE weapons resolved to their proven roots, research/weapon-roots)
-        self.assertEqual(states[('player', 'single_mode')], 20)   # 0.30.2: the seven DUPLICATE weapons resolved to their proven roots
+        # 0.30.4: every single-mode weapon has a free input, so each can take the fire-mode selector ('addable').
+        self.assertEqual(states[('player', 'addable')], 20)   # 0.30.2: the seven DUPLICATE weapons resolved to their proven roots
+        self.assertEqual(states[('player', 'single_mode')] + states[('support', 'single_mode')], 0)
         self.assertEqual(states[('support', 'selectable')], 3)
-        self.assertEqual(states[('support', 'single_mode')], 10)
+        self.assertEqual(states[('support', 'addable')], 10)
+        hot = self.weapons[('player', 'R/40-K Hot-Shot Marksman Rifle')]
+        self.assertEqual((hot['state'], hot['maxModes'], hot['bindableInputs'], hot['binding']['value']),
+            ('addable', 3, ['left', 'right'], 'fire_mode'))
+        self.assertEqual(self.weapons[('support', 'MG-43 Machine Gun')]['bindableInputs'], ['left'])
         self.assertEqual(self.catalog['summary']['writable'], 64)   # 0.30.2 roots
         blocked = {('player', 'PLAS-15 Loyalist'): 'charge or safety', ('support', 'RS-422 Railgun'): 'charge or safety',
             ('support', 'M-1000 Maxigun'): 'conventional projectile', ('player', 'P-92 Warrant'): 'ProgrammableAmmo',
@@ -51,7 +60,7 @@ class FireModeTests(unittest.TestCase):
             if row['writable']:
                 self.assertTrue(set(row['modes']) <= {'automatic', 'single', 'burst'}, row['weapon'])
                 self.assertEqual(row['defaultMode'], row['modes'][0])
-                self.assertIn(row['maxModes'], (1, 4))
+                self.assertEqual(row['maxModes'], 3)
 
     def test_lua_guards_and_api(self):
         self.assertEqual(run(r'''
@@ -61,7 +70,9 @@ local b=require('hd2runtime/core/bytes')
 local F=hd2.fields.fire_mode
 local jar=hd2.weapon('JAR-5 Dominator')
 local set=jar:fire_modes().modeSet
-assert(set.state=='selectable'and set.defaultMode=='single'and set.maxModes==4 and set.writable)
+assert(set.state=='selectable'and set.defaultMode=='single'and set.maxModes==3 and set.writable)
+assert(not pcall(patches.validate,{id='j',target=jar,field=F.modes,expect={'single','burst'},
+ value={'single','burst','automatic','single'},allow_unverified_effect=true}))
 local spec=patches.validate({id='j',target=jar,field=F.modes,expect={'single','burst'},
  value={'single','burst','automatic'},allow_unverified_effect=true})
 assert(b.hex(spec.changes[1].desired)=='02000000030000000100000000000000')
@@ -70,10 +81,15 @@ assert(not pcall(patches.validate,{id='j',target=jar,field=F.modes,expect={'sing
 assert(not pcall(patches.validate,{id='j',target=jar,field=F.modes,expect={'single','burst'},
  value={'single','single'},allow_unverified_effect=true}))
 local amr=hd2.support_weapon('APW-1 Anti-Materiel Rifle')
-assert(amr:fire_modes().modeSet.maxModes==1)
+assert(amr:fire_modes().modeSet.maxModes==3 and amr:fire_modes().modeSet.state=='addable')
 patches.validate({id='a',target=amr,field=F.modes,expect={'single'},value={'automatic'},allow_unverified_effect=true})
-assert(not pcall(patches.validate,{id='a',target=amr,field=F.modes,expect={'single'},value={'single','automatic'},
- allow_unverified_effect=true}))
+local ok,why=pcall(patches.validate,{id='a',target=amr,field=F.modes,expect={'single'},value={'single','automatic'},
+ allow_unverified_effect=true})
+assert(not ok and tostring(why):find('SELECTOR_REQUIRED',1,true),tostring(why))
+local both=require('hd2runtime/domains/transactions').validate({id='a2',target=amr,allow_unverified_effect=true,changes={
+ {field=F.modes,expect={'single'},value={'single','automatic'}},
+ {field=hd2.fields.weapon_function.left,expect='none',value='fire_mode'}}})
+assert(#both.changes==2)
 local railgun=hd2.support_weapon('RS-422 Railgun')
 assert(not railgun:fire_modes().modeSet.writable)
 assert(not pcall(patches.validate,{id='r',target=railgun,field=F.modes,expect={'single'},value={'automatic'},
@@ -93,6 +109,10 @@ return 'ok'
             'changedSlot': 'tertiary_fire_mode (+152)', 'fieldOffset': 152, 'owner': 'WeaponDataComponentData',
             'record': 290, 'uniqueOwner': True})
         self.assertEqual(result['blockedRejections'], 5)
+        self.assertEqual((result['addedSelectors'], result['selectorRejections'], result['fourModeRejections']),
+            (30, 60, 30))
+        self.assertEqual(result['hotShot']['secondSlot'], {'offset': 148, 'before': '00000000', 'after': '01000000'})
+        self.assertEqual((result['hotShot']['binding']['offset'], result['hotShot']['binding']['after']), (184, '03000000'))
         self.assertTrue(result['overlapRejected'])
         for name in ('fire-mode-jar5-full-auto', 'fire-mode-burst-and-automatic'):
             self.assertIn(name, validate_packaged_runtime.SCENARIOS)
