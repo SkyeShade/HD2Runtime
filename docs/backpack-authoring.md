@@ -1,8 +1,9 @@
 # Guarded backpack authoring
 
-`hd2.backpack(name)` edits the delivered backpack entity for the 13 wiki backpack stratagems and the
-3 weapon-fed backpacks that store support weapon ammunition. The catalog is
-`sdk/BackpackAuthoringCapabilities.json`.
+`hd2.backpack(name)` edits the delivered backpack entity for the 13 wiki backpack stratagems, the
+3 weapon-fed backpacks that store support weapon ammunition and (0.30.4) the 5 team-reload backpacks (GR-8, AC-8,
+FAF-14, RL-77, StA-X3; [Backpack ammunition](backpack-ammo.md#team-reload-backpacks-0304-offline-only)). The catalog
+is `sdk/BackpackAuthoringCapabilities.json`.
 
 Each backpack is resolved structurally: StratagemDefinition payload, then hellpod rack, then the
 rack's single attached item, which must own `BackpackComponentData`. The runtime re-proves the rack
@@ -18,6 +19,7 @@ published in both catalogs.
 | SH-20 Ballistic Shield | `entity.health`; plate armor `zone.armor` on `:damage_zone('shield')` (`allow_unverified_effect`) | health schema_proven; plate armor offline-proven (see below) |
 | SH-51 Directional Shield | body `entity.health`, `entity.armor`; the barrier through `:energy_shield()` (all `allow_unverified_effect`) | schema_proven / native_correlated |
 | Guard Dogs (AR-23, Rover, Hot Dog, K-9, Dog Breath) | drone magazines `deposit.*`; the drone through `:drone()`; its weapon through `:drone():weapon()` (all `allow_unverified_effect`) | native_correlated / schema_proven |
+| Team-reload backpacks (GR-8, AC-8, FAF-14, RL-77, StA-X3) | `deposit.capacity`, `deposit.start_amount` (-1 = full), `deposit.refill_amount` (`allow_unverified_effect`) | native_consumer_proven |
 
 **native_correlated** (new in this release): a typed native member whose meaning is proven offline. That means an
 exact published value on every independent entity that publishes one, a differential across the record type, and a

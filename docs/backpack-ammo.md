@@ -75,19 +75,53 @@ Each field carries `uiGroup: "backpack_ammo"`, a display name, `min`/`max`, and 
 `ammoBackpack` (backpack name, semantic ID, accessor, baseline). A GUI can therefore show one page per
 weapon: call-in, weapon, then backpack ammo.
 
+## Team-reload backpacks (0.30.4, offline only)
+
+The GR-8 Recoilless Rifle, AC-8 Autocannon, FAF-14 Spear, RL-77 Airburst Rocket Launcher and StA-X3 W.A.S.P.
+Launcher are delivered with a backpack whose `DepositComponent` names the weapon in `assisted_reload_weapon_path`
+(+136). That deposit is what the wearer reloads from once the weapon's own spares are spent, and what a teammate's
+assisted reload always uses. One unit is one reload (a full magazine; on the AC-8 a 5-round clip). Research:
+`research/team-reload-ammo-F5FEE03DCFDB.json`.
+
+```lua
+-- GR-8: the backpack holds 12 rockets and gets 6 per resupply (5 / full / 3 natively)
+local backpack=hd2.support_weapon('GR-8 Recoilless Rifle'):backpack()
+hd2.ensure({transaction={id='gr8-backpack',target=backpack,allow_unverified_effect=true,changes={
+    {field=hd2.fields.deposit.capacity,expect=5,value=12},
+    {field=hd2.fields.deposit.refill_amount,expect=3,value=6}}}})
+```
+
+| Weapon | Backpack | Capacity | Start | From supply | Wiki (spare / supply) |
+| --- | --- | --- | --- | --- | --- |
+| GR-8 Recoilless Rifle | `GR-8 Recoilless Rifle Backpack` | 5 | -1 (full) | 3 | 5 / 3 |
+| AC-8 Autocannon | `AC-8 Autocannon Backpack` | 10 | -1 (full) | 5 | supply 25 rounds = 5 clips |
+| FAF-14 Spear | `FAF-14 Spear Backpack` | 4 | -1 (full) | 2 | 4 / 2 |
+| RL-77 Airburst Rocket Launcher | `RL-77 Airburst Rocket Launcher Backpack` | 5 | -1 (full) | 3 | 5 / 3 |
+| StA-X3 W.A.S.P. Launcher | `StA-X3 W.A.S.P. Launcher Backpack` | 5 | -1 (full) | 3 | 5 / 3 |
+
+- **Fields:** `deposit.capacity` (1 to 1023), `deposit.start_amount` (-1 to 1023; **-1 = full**, the native value:
+  the live amount starts at the capacity, so raising only the capacity also raises the call-in amount), and
+  `deposit.refill_amount` (0 to 1023). The [1023 limit](#the-1023-limit) applies to every deposit.
+- **Acknowledgement:** `allow_unverified_effect` (the readers are traced in game code; not yet shown in game).
+- **Re-proof:** every write re-proves that the call-in rack still delivers the weapon with this backpack and that the
+  deposit still names the weapon.
+- **Visuals:** the backpack shows up to its own number of rocket/clip models (5 on the GR-8 pack); above that it
+  shows all of them until the amount drops below.
+- **Lifecycle:** the start applies to backpacks called in after the write; capacity and refill are read again on every
+  resupply. A teammate's assisted reload costs one unit, like the wearer's own.
+- `hd2.support_weapon(name):backpack()` returns the backpack; `hd2.backpack(name):describe().feeds.relationship` is
+  `team_reload` (`backpack_ammo` for the three weapon-fed backpacks above).
+
+The weapon itself can also carry spares now (magazine weapons): see
+[Team-reload weapons](support-weapon-api.md#team-reload-weapons-0304-offline-only).
+
 ## Not covered
 
 - **Live remaining ammunition:** this is per-mission instance state, not a definition field.
-- **Team-reload backpacks:** the recoilless rifle, autocannon, Spear and airburst launcher backpacks use
-  deposits too, but through `assisted_reload_weapon_path`. Their weapons also own magazines, and their
-  start amount is the `-1` sentinel. The C4 pack's deposit refills its detonator the same way. These are
-  a different mechanism and stay read-only.
-  Their weapons' own stock rows are 0 natively, because the backpack holds the ammunition:
-  `rounds.spare_rounds`, `rounds.starting_rounds` and `rounds.rounds_from_supply` on the AC-8, and
-  `magazine.starting_magazines` and `magazine.spare_magazines` on the GR-8, FAF-14, RL-77 and StA-X3.
-  Since 0.30.2 each of these rows carries `noEffect.reason` in `SupportWeaponAuthoringCapabilities.json`.
-  A write is still accepted, so older mods keep working, but it is not expected to change anything in
-  game. Editors should show these rows read-only with that reason.
+- **The C4 pack:** its deposit refills its detonator the same way (`assisted_reload_weapon_path`), but the detonator
+  is not a catalogued support weapon; it stays read-only.
+- **The assisted-reload record:** each reload from the backpack costs its +20 (1 on every weapon); the member's name
+  is not proven, so it is not offered.
 - **The Cremator's weapon-side fields:** they remain blocked, because the weapon still resolves to two
   native roots. Its backpack is reached only through its own call-in rack, so its ammunition is
   authorable.

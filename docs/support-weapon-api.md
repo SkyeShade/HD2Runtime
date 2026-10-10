@@ -46,8 +46,9 @@ explosion. The handheld or delivery root is never treated as the damage owner.
 Weapon-side magazine and rounds-feed fields are independent of backpack storage. The three
 backpack-fed weapons (M-1000 Maxigun, B/FLAM-80 Cremator, GL-28 Belt-Fed Grenade Launcher) own no
 magazine at all: their ammunition is the backpack's `DepositComponent`, authored through
-`hd2.support_weapon(name):backpack()` (see [Backpack ammunition](backpack-ammo.md)). Other
-backpack-dependent weapons keep backpack storage read-only.
+`hd2.support_weapon(name):backpack()` (see [Backpack ammunition](backpack-ammo.md)). The five team-reload weapons
+reload from their backpack's deposit once their own spares are spent; both are authorable (see
+[Team-reload weapons](#team-reload-weapons-0304-offline-only)).
 
 LAS-98 uses the 0.18 `WeaponHeatComponentData` layout in the retained snapshot, including heat
 capacity, generation, cooling, and heatsinks. Its runtime roots are still unresolved (see below),
@@ -270,6 +271,67 @@ hd2.ensure({transaction={id='quick-quasar',target=quasar,allow_unverified_effect
 
 If a heat write is refused with "the game reads its WeaponHeatComponentData table from another place", another mod
 has moved the game's heat table ([diagnostics](diagnostics.md) "Component tables another mod moved").
+
+## Team-reload weapons (0.30.4, offline only)
+
+The GR-8 Recoilless Rifle, RL-77 Airburst Rocket Launcher, FAF-14 Spear, StA-X3 W.A.S.P. Launcher and AC-8 Autocannon
+each come with a backpack that a teammate (or the wearer) reloads them from. The game code
+(`research/team-reload-ammo-F5FEE03DCFDB.json`) decides a reload like this:
+
+1. **The weapon's own spares first.** If the weapon itself holds spare magazines (or rounds), the wielder may reload,
+   with or without a backpack, and the reload uses one of them.
+2. **Then the worn backpack.** Only when the weapon's own spares are 0 does the game look at the backpack: it must be
+   the weapon's own backpack and hold at least one reload. The reload then costs one from the backpack.
+3. **A teammate's reload always uses a backpack**, never the weapon's own spares.
+4. **Spawn and resupply.** The weapon spawns with `min(starting, maximum)` own spares and every resupply adds
+   `max(1, from supply)` up to the maximum. The backpack refills separately.
+
+Natively the maximum (`magazine.spare_magazines`) is 0 on all of them. That clamps the start and every resupply to 0,
+which is why they keep no ammunition of their own: the native `magazine.magazines_from_supply` 6 is clamped away. So
+the wielder cannot reload without a backpack or a teammate.
+
+**Magazine weapons (GR-8, RL-77, FAF-14, StA-X3):** these rows are real fields now (they were flagged "no effect" in
+0.30.2 and 0.30.3):
+
+| Field | Meaning | Native | Range |
+| --- | --- | --- | --- |
+| `magazine.spare_magazines` | The most spare magazines the weapon itself carries | 0 | 0 to 31 |
+| `magazine.starting_magazines` | Its own spares at spawn, clamped to the maximum | 0 | 0 to 31 |
+| `magazine.magazines_from_supply` | Own spares gained per resupply (at least 1), up to the maximum | 6 | 0 to 31 |
+
+- **Acknowledgement:** `allow_unverified_effect` (proven from game code, not yet shown in game). Mods that declare an
+  older SDK keep writing them without it ([legacy SDK compatibility](legacy-sdk-compatibility.md)).
+- **Raise the maximum and the start together.** A start alone has no effect (it is clamped to the maximum, 0).
+- **31:** the live spare count is the network field `magazines_remaining` (5 bits); the game clamps it to 31.
+- **Applies to weapons called in after the write** (the spawn reads the record); a resupply reads the maximum again.
+- One magazine is one reload (1 rocket; the StA-X3 holds 7). The HUD readout of these own spares is not traced: the
+  live test reports what it shows.
+
+```lua
+-- GR-8: three spare rockets of its own (reload alone, no backpack), and the backpack still holds its 5
+local gr8=hd2.support_weapon('GR-8 Recoilless Rifle')
+hd2.ensure({transaction={id='gr8-own-spares',target=gr8,allow_unverified_effect=true,changes={
+    {field=hd2.fields.magazine.spare_magazines,expect=0,value=3},
+    {field=hd2.fields.magazine.starting_magazines,expect=0,value=3},
+    {field=hd2.fields.magazine.magazines_from_supply,expect=6,value=3}}}})
+```
+
+**AC-8 Autocannon (rounds):** not offered. The game would use the AC-8's own rounds first too, but each reload
+subtracts its 5-round reload amount from them with no lower bound, while a resupply adds at least 1 round. A count
+that is not a multiple of 5 would drop below zero. `rounds.spare_rounds` therefore accepts only its native 0, and
+`rounds.starting_rounds` and `rounds.rounds_from_supply` have no effect (clamped to it); their `noEffect.reason` says
+so. Its backpack is authorable.
+
+**The backpacks** (`hd2.support_weapon(name):backpack()`): capacity, starting amount (-1 = full, the native value) and
+supply refill, see [Backpack ammunition](backpack-ammo.md#team-reload-backpacks-0304-offline-only).
+
+**Multiplayer:** the weapon's and the backpack's records are type records, edited on every peer that runs the mod. The
+live counts (the weapon's own spares and the backpack's amount) are per-instance network fields owned by one peer and
+replicated, so every player sees the same counts. The spawn amounts come from the record of the peer that creates the
+weapon or backpack.
+
+In `sdk/SupportWeaponAuthoringCapabilities.json` each of these rows carries `teamReload` (`role`, `ownSpares`, range,
+research) and the weapon's `ammoBackpack` has `relationship: "team_reload"`.
 
 ## 0.24 coverage
 
