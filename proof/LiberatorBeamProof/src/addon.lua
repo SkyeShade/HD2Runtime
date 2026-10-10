@@ -1,25 +1,32 @@
 local hd2=require('mods/skyeshade/hd2runtime')
--- LiberatorBeamProof 0.1.0: EXPERIMENTAL, SOLO-ONLY live test of the Liberator component swap (the AR-23 Liberator
--- fires LAS-13 Trident pulses; research/docs/component-swap-liberator-beam.md). Needs the HD2Runtime build of branch
--- exp/liberator-beam (runtime/experiment_liberator_beam.lua); never part of a release. See README.md for the L0-L4 plan.
---   Ctrl+Shift+F1  L0  status (read-only): pins, state, live Liberators, solo, Trident package
---   Ctrl+Shift+F2  L1  write record 23 + row 21 (press twice within 6 s)
---   Ctrl+Shift+F3  L2  write the Liberator's membership list (press twice within 6 s)
---   Ctrl+Shift+F4  L4  restore: list, then row, then record (press twice within 6 s)
+-- LiberatorBeamProof 0.2.0: EXPERIMENTAL, SOLO-ONLY live test of the Liberator component swap (the AR-23 Liberator
+-- fires LAS-13 Trident pulses; research/docs/component-swap-liberator-beam.md and -chamber.md). Needs the HD2Runtime
+-- build of branch exp/liberator-beam (runtime/experiment_liberator_beam.lua 0.2.0); never part of a release. See
+-- README.md for the plan.
+--   Ctrl+Shift+F1  L0   status (read-only): pins, state, live Liberators, solo, Trident package
+--   Ctrl+Shift+F2  L1   write record 23 + row 21 (press twice within 6 s)
+--   Ctrl+Shift+F3  L2b  write L1 if needed, the Liberator's membership list, then its magazine chamber byte (record
+--                       201 +156: 1 -> 0; 0.1.0's L2 alone could not fire) (press twice within 6 s)
+--   Ctrl+Shift+F4  L4   restore: chamber byte, list, row, record (press twice within 6 s)
 -- Every step refuses unless: zero live Liberators (equip another primary, do not open the armory), solo, every pin
--- and every before byte as reviewed; L2 also needs the Trident's package resident (requested below at load).
--- RESTART THE GAME after using L2.
+-- and every before byte as reviewed; L2b also needs the Trident's package resident (requested below at load).
+-- RESTART THE GAME after using L2b.
 local mod=hd2.mod()
-local BUILD='0.1.0'
+local BUILD='0.2.0'
 mod:log('LiberatorBeamProof '..BUILD..' EXPERIMENTAL BUILD: SOLO ONLY. Ctrl+Shift+F1 status (L0), Ctrl+Shift+F2 '
-    ..'L1 (record + row), Ctrl+Shift+F3 L2 (the list swap), Ctrl+Shift+F4 restore (L4); write keys need two presses '
-    ..'within 6 s. Zero live Liberators for every write and the restore: equip another primary and do not open the '
-    ..'armory. RESTART THE GAME after using it.')
+    ..'L1 (record + row), Ctrl+Shift+F3 L2b (the list swap + the magazine chamber byte), Ctrl+Shift+F4 restore (L4); '
+    ..'write keys need two presses within 6 s. Zero live Liberators for every write and the restore: equip another '
+    ..'primary and do not open the armory. RESTART THE GAME after using it.')
 
 local ok,X=pcall(require,'hd2runtime/runtime/experiment_liberator_beam')
 if not ok then
     mod:log('UNAVAILABLE: this HD2Runtime build has no Liberator beam experiment (install the exp/liberator-beam '
         ..'runtime ZIP): '..tostring(X))
+    return
+end
+if not tostring(X.VERSION):find('^0%.2%.')then
+    mod:log('UNAVAILABLE: this HD2Runtime build has Liberator beam experiment '..tostring(X.VERSION)..'; proof '..BUILD
+        ..' needs 0.2.x (install the exp/liberator-beam runtime ZIP of the same hand-over)')
     return
 end
 
@@ -68,12 +75,12 @@ end})
 hd2.input.bind('liberator_beam_proof.l1',{key='Ctrl+Shift+F2',on_press=function()
     confirm('l1','L1 (record 23 + row 21)',function()report('L1',X.apply('L1'))end)
 end})
-hd2.input.bind('liberator_beam_proof.l2',{key='Ctrl+Shift+F3',on_press=function()
+hd2.input.bind('liberator_beam_proof.l2b',{key='Ctrl+Shift+F3',on_press=function()
     want_assets()
-    confirm('l2','L2 (the Liberator list swap)',function()report('L2',X.apply('L2'))end)
+    confirm('l2b','L2b (the Liberator list swap + the magazine chamber byte)',function()report('L2b',X.apply('L2b'))end)
 end})
 hd2.input.bind('liberator_beam_proof.restore',{key='Ctrl+Shift+F4',on_press=function()
-    confirm('restore','L4 restore (list, row, record)',function()report('L4 restore',X.restore())end)
+    confirm('restore','L4 restore (chamber byte, list, row, record)',function()report('L4 restore',X.restore())end)
 end})
-mod:log('loaded ('..BUILD..' EXPERIMENTAL): Ctrl+Shift+F1 status, Ctrl+Shift+F2 L1, Ctrl+Shift+F3 L2, Ctrl+Shift+F4 '
+mod:log('loaded ('..BUILD..' EXPERIMENTAL): Ctrl+Shift+F1 status, Ctrl+Shift+F2 L1, Ctrl+Shift+F3 L2b, Ctrl+Shift+F4 '
     ..'restore')

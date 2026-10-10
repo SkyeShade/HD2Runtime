@@ -15,6 +15,7 @@ sys.path.insert(0, str(ROOT / 'scripts'))
 import generate_liberator_beam  # noqa: E402
 
 SWAP = json.loads((ROOT / 'research/component-swap-liberator-beam-F5FEE03DCFDB.json').read_text(encoding='utf-8'))
+CHAMBER = json.loads((ROOT / 'research/liberator-beam-chamber-F5FEE03DCFDB.json').read_text(encoding='utf-8'))
 
 # The research's own addresses, derived in the test (never through the module under test).
 LOCATE = r'''
@@ -31,10 +32,13 @@ local ESH=ptr(manager+0xF12EA0)
 local ROW=TABLE+0x150
 local RECORD=TABLE+0xDA8
 local LIST=ptr(ESH+32*3686+8)
+local MAGTABLE=ptr(manager+0xF12478+8*5)
+local MAGROW=MAGTABLE+16*246
+local MAGWIN=MAGTABLE+8640+160*201+156
 local DESCRIPTORS=manager+0xF32F18
 local INVALID=b.u32(runtime.read(game+0x348456C,4),0)
 check(b.resource(runtime.read(ESH+32*3686,8),0)=='0x968211C0033DCE64','row 3686 is not the Liberator')
-local TARGETS={{ROW,16,'row'},{RECORD,120,'record'},{LIST,46,'list'}}
+local TARGETS={{ROW,16,'row'},{RECORD,120,'record'},{LIST,46,'list'},{MAGWIN,4,'magazine'}}
 local function now(t)return b.hex(runtime.read(t[1],t[2]))end
 local function source_bytes(at,n)return source.read(at,n)end
 -- Every byte the overlay holds that differs from the snapshot, as {address = true}.
@@ -53,7 +57,7 @@ local function inside(at)
 end
 local function only_targets()
  local out,count=changed()
- for at in pairs(out)do check(inside(at),('a byte outside the three targets changed: %X'):format(at))end
+ for at in pairs(out)do check(inside(at),('a byte outside the four targets changed: %X'):format(at))end
  return count
 end
 local function free_descriptor()
@@ -86,6 +90,19 @@ class DomainTests(unittest.TestCase):
         swap_pins = {pin['rva'] for rows in SWAP['pins'].values() for pin in rows}
         self.assertEqual(len(swap_pins), 63)
         self.assertTrue(swap_pins <= {pin['rva'] for pin in domain['pins']})
+        # L2b (research/docs/component-swap-liberator-beam-chamber.md): the Liberator's own magazine record 201 +156.
+        mag = domain['magazine']
+        self.assertEqual((mag['row'], mag['record'], mag['home'], mag['windowOffset']), (246, 201, 244, 0x9FFC))
+        self.assertEqual(mag['windowOffset'], mag['recordBase'] + 160 * 201 + 156)
+        self.assertEqual((mag['before'], mag['after']), ('01000000', '00000000'))
+        self.assertEqual(mag['rowBytes'], '64ce3d03c0118296c900000000000000')
+        chamber_pins = {pin['rva'] for rows in CHAMBER['pins'].values() for pin in rows}
+        self.assertEqual(len(chamber_pins), 69)
+        self.assertTrue(chamber_pins <= {pin['rva'] for pin in domain['pins']})
+        for rva in (0x76DA64, 0x744D9C, 0x83E41E, 0x76F1B0, 0x776B1F):   # the root cause, pinned
+            self.assertIn(rva, chamber_pins)
+        self.assertEqual(CHAMBER['compositions']['liberatorL2NotInMeltagun'], [])
+        self.assertEqual(CHAMBER['magazine']['meltagunRecord']['+156'], 0)
 
     @unittest.skipUnless(build_profile.SNAPSHOT.is_file(), 'retained current-build snapshot not available')
     def test_the_extra_pins_are_the_game_image_bytes(self):
@@ -207,6 +224,95 @@ return json.encode({l1_bytes=l1_bytes,l2_bytes=l2_bytes,l1_order=l1_order,list_w
         self.assertTrue(any('L2 APPLIED' in line for line in result['logged']))
         self.assertTrue(any('RESTART THE GAME' in line for line in result['logged']))
 
+    def test_l2b_writes_the_chamber_byte_after_the_list_and_restores_it_first(self):
+        result = snapshot_run(LOCATE + r'''
+update=update or function()end
+check(now(TARGETS[4])=='01000000','the snapshot magazine window is not 01000000: '..now(TARGETS[4]))
+check(b.hex(runtime.read(MAGROW,16))=='64ce3d03c0118296c900000000000000','magazine row 246')
+local order,stop=writes_log()
+-- From vanilla: L1, L2 and the byte in one call, in that order.
+local r=X.apply('L2b')
+check(r.ok and r.state=='L2b','L2b '..tostring(r.reason))
+check(now(TARGETS[4])=='00000000','magazine window after L2b '..now(TARGETS[4]))
+check(now(TARGETS[3])==D.membership.after and now(TARGETS[2])==D.beam.recordAfter,'L1/L2 bytes')
+local sequence={}
+for _,w in ipairs(order)do
+ local t=inside(w.at)
+ if sequence[#sequence]~=t then sequence[#sequence+1]=t end
+end
+local magazine_writes={}
+for _,w in ipairs(order)do if inside(w.at)=='magazine'then magazine_writes[#magazine_writes+1]={w.at-MAGWIN,w.n}end end
+local bytes=only_targets()
+check(edits.get('0x968211C0033DCE64').stage=='L2b','L2b not recorded')
+check(next(protection)==nil,'a page protection was left changed')
+local st=X.status()
+check(st.ok and st.state=='L2b'and st.detail:find('magazine chamber 0',1,true),tostring(st.detail))
+-- Applying L2 or L1 again in L2b writes nothing.
+local n=#order
+check(X.apply('L2').ok and X.apply('L1').ok and #order==n,'a lower stage wrote over L2b')
+-- Restore: the byte first, then the list, the row, the record.
+local m=#order
+local back=X.restore()
+check(back.ok and back.state=='vanilla','restore '..tostring(back.reason))
+local restore_sequence={}
+for i=m+1,#order do
+ local t=inside(order[i].at)
+ if restore_sequence[#restore_sequence]~=t then restore_sequence[#restore_sequence+1]=t end
+end
+stop()
+local _,left=changed()
+check(left==0,left..' bytes still differ after the restore')
+check(edits.get('0x968211C0033DCE64')==nil,'the edit is still recorded')
+local logged={}
+for _,line in ipairs(LINES)do if line:find('^LIBERATOR BEAM:')then logged[#logged+1]=line end end
+return json.encode({sequence=sequence,magazine_writes=magazine_writes,bytes=bytes,restore=restore_sequence,
+ logged=logged})
+''')
+        self.assertEqual(result['sequence'], ['record', 'row', 'list', 'magazine'])
+        self.assertEqual(result['magazine_writes'], [[0, 4]])
+        ws = SWAP['writeSet']
+        record_diff = sum(1 for a, c in zip(bytes.fromhex(ws['record']['before']), bytes.fromhex(ws['record']['after']))
+                          if a != c)
+        row_diff = sum(1 for c in bytes.fromhex(ws['indexRow']['after']) if c)
+        self.assertEqual(result['bytes'], record_diff + row_diff + 3 + 1)
+        self.assertEqual(result['restore'], ['magazine', 'list', 'row', 'record'])
+        self.assertTrue(any('L2b APPLIED' in line for line in result['logged']))
+        self.assertTrue(any('L2b RESTORED' in line for line in result['logged']))
+
+    def test_the_magazine_targets_are_proven_before_any_write(self):
+        result = snapshot_run(LOCATE + r'''
+update=update or function()end
+local seen={}
+-- The chamber byte in a third value, the row, another row naming record 201: refused, nothing written.
+local cases={{MAGWIN,string.char(2),'the chamber byte'},{MAGROW+8,string.char(0xCA),'the magazine row'},
+ {MAGWIN+1,string.char(1),'the byte after the chamber flag'}}
+for _,c in ipairs(cases)do
+ overlay[c[1]]=c[2]
+ local r=X.apply('L2b')
+ check(not r.ok,c[3]..' changed but L2b went ahead')
+ seen[#seen+1]=c[3]..': '..r.reason
+ overlay[c[1]]=nil
+end
+local free
+for k=0,539 do if b.u32(runtime.read(MAGTABLE+16*k,8),0)==0 and b.u32(runtime.read(MAGTABLE+16*k,8),4)==0 then free=k;break end end
+overlay[MAGTABLE+16*free]=b.unhex('0100000000000080')..b.encode(201,'u32')..b.encode(0,'u32')
+local r=X.apply('L2b')
+check(not r.ok and r.reason:find('names record 201',1,true),tostring(r.reason))
+overlay[MAGTABLE+16*free]=nil
+check(counts.writes==0 and counts.protection_changes==0,'a refused apply wrote')
+-- L2 applied by the 0.1.0 key, then a third chamber value: restore refused, L2b refused.
+check(X.apply('L2').ok,'L2')
+overlay[MAGWIN]=string.char(2)
+check(not X.restore().ok and not X.apply('L2b').ok,'a foreign chamber byte was written over')
+overlay[MAGWIN]=nil
+check(X.apply('L2b').ok and X.restore().ok,'L2 -> L2b -> vanilla')
+return json.encode(seen)
+''')
+        self.assertEqual(len(result), 3)
+        self.assertTrue('state the experiment did not make' in result[0], result[0])
+        self.assertTrue('CONFLICT' in result[1] or 'not row' in result[1], result[1])
+        self.assertTrue('state the experiment did not make' in result[2], result[2])
+
     def test_a_live_liberator_refuses_the_write_and_the_restore(self):
         result = snapshot_run(LOCATE + r'''
 update=update or function()end
@@ -307,7 +413,8 @@ update=update or function()end
 local Reader=require('hd2runtime/runtime/reader')
 local discover=require('hd2runtime/runtime/discover')
 local catalog=require('hd2runtime/core/entity_catalog')
-local NAMES={'BeamWeaponComponentData','ProjectileWeaponComponentData','WeaponDataComponentData'}
+local NAMES={'BeamWeaponComponentData','ProjectileWeaponComponentData','WeaponDataComponentData',
+ 'WeaponMagazineComponentData'}
 local function capture()
  local out
  local co=coroutine.create(function()
@@ -324,6 +431,9 @@ local function capture()
   out.projectile_record=ok and'read'or tostring(why)
   ok=pcall(cat.record,lib,'WeaponDataComponentData')
   out.weapon_data_record=ok
+  ok=pcall(cat.record,lib,'WeaponMagazineComponentData')
+  out.magazine_record=ok
+  out.magazine=lib.ownership.WeaponMagazineComponentData and lib.ownership.WeaponMagazineComponentData.recordIndex
  end)
  repeat local ok,why=coroutine.resume(co);check(ok,why)until coroutine.status(co)=='dead'
  return out
@@ -349,15 +459,19 @@ h.ergonomics=ensure('ergonomics',F.weapon.ergonomics,65,70)
 h.rate=ensure('rate',F.weapon.fire_rate,640,750)
 h.velocity=ensure('velocity','projectile.velocity',900,950,true)
 h.damage=ensure('damage','damage.standard_damage',90,95,true)
+-- L2b: the magazine row is part of the recorded state, its record stays readable (its capacity is owned by the
+-- default magazine attachment, read-only either way).
+check(X.apply('L2b').ok,'L2b')
+local l2b=capture()
 -- Without the record (another program made the same edit): every write to the Liberator is refused.
 local saved=edits.get('0x968211C0033DCE64')
 edits.clear('0x968211C0033DCE64')
 local unrecorded=capture()
 h.unrecorded=ensure('ergonomics-2',F.weapon.recoil_climb_vertical,20,25)
 edits.set('0x968211C0033DCE64',saved)
-return json.encode({before=before,l1=l1,l2=l2,unrecorded=unrecorded,h=h})
+return json.encode({before=before,l1=l1,l2=l2,l2b=l2b,unrecorded=unrecorded,h=h})
 ''')
-        for state in ('before', 'l1', 'l2', 'unrecorded'):
+        for state in ('before', 'l1', 'l2', 'l2b', 'unrecorded'):
             self.assertEqual(result[state]['strays'], 0, state)   # the 0.30.3 stray-row check stays quiet
             self.assertEqual(result[state]['tables'], 0, state)   # the 0.30.4 component-table guard stays quiet
         self.assertFalse(result['before']['diagnostics'])
@@ -369,6 +483,10 @@ return json.encode({before=before,l1=l1,l2=l2,unrecorded=unrecorded,h=h})
         self.assertEqual(result['l2']['refused'], ['BeamWeaponComponentData', 'ProjectileWeaponComponentData'])
         self.assertIn('LIBERATOR BEAM EXPERIMENT', result['l2']['projectile_record'])
         self.assertTrue(result['l2']['weapon_data_record'])
+        self.assertFalse(result['l2b']['diagnostics'])
+        self.assertEqual(result['l2b']['refused'], ['BeamWeaponComponentData', 'ProjectileWeaponComponentData'])
+        self.assertEqual(result['l2b']['magazine'], 201)
+        self.assertTrue(result['l2b']['magazine_record'])
         self.assertEqual(result['unrecorded']['diagnostics'], ['ProjectileWeaponComponentData membership absent'])
         h = result['h']
         self.assertEqual(h['l1_rate']['result'], 'APPLIED', h['l1_rate'])

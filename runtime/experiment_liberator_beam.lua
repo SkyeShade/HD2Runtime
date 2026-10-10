@@ -5,9 +5,15 @@
 --   2. BeamWeapon index row 21 (table +0x150, 16 bytes, empty) := {Liberator, record 23, flags 0}; the record index is
 --      written before the key, so the row only becomes findable once it is whole;
 --   3. the Liberator's membership list (EntitySettings row 3686, 46 bytes): last entries 271, 290, 321 -> 270, 271, 290
---      (same count, sorted, pointer unchanged). Its ProjectileWeapon index row stays (0x744690 needs it).
--- Write order record -> row -> list; restore list -> row -> record. Stage L1 = writes 1 and 2 (nothing consults them
--- until a Liberator has a BeamWeapon instance); stage L2 = write 3 (every Liberator spawned after it is a beam weapon).
+--      (same count, sorted, pointer unchanged). Its ProjectileWeapon index row stays (0x744690 needs it);
+--   4. (0.2.0, research/docs/component-swap-liberator-beam-chamber.md) the Liberator's OWN magazine record 201 +156..+159
+--      (WeaponMagazine table +0x9FFC) 01000000 -> 00000000. +156 marks a chamber weapon, and the chambered round's
+--      type is filled only by a ProjectileWeapon instance (0x76DA64), so after write 3 the Liberator could never fire
+--      (live 2026-10-10: "Need fresh I.C.E.", no beam). 0 is the 40-K Meltagun's value, the one vanilla beam weapon
+--      with a magazine: no chamber, can fire = rounds > 0, reload refills to capacity.
+-- Write order record -> row -> list -> magazine byte; restore in reverse. Stage L1 = writes 1 and 2 (nothing consults
+-- them until a Liberator has a BeamWeapon instance); stage L2 = write 3 (every Liberator spawned after it is a beam
+-- weapon; kept for comparison, it cannot fire); stage L2b = write 4 on top of L2 (the proof's F3).
 --
 -- Not exported by api/hd2.lua: proof/LiberatorBeamProof requires this module, as other proofs use Runtime internals.
 -- Every call re-proves everything and fails closed with a reason; nothing is cached but the pin proof per game.dll:
@@ -20,8 +26,9 @@
 --     EntitySettingsHashmap slot the allocation + 28; the Liberator's settings row found by the game's own probe at
 --     row 3686 with count 23, its network type and its list at the reviewed body offset;
 --   * the bytes: the Trident row 20 / record 18 (the copy source) exactly as reviewed, no other row naming the
---     Liberator or record 23, the Liberator's ProjectileWeapon row 4 -> record 192, and all three targets exactly in
---     one of the three states (vanilla, L1, L2); any other state is foreign and refused;
+--     Liberator or record 23, the Liberator's ProjectileWeapon row 4 -> record 192, its WeaponMagazine row 246 ->
+--     record 201 by the game's probe (home 244) with no other row naming record 201, and all four targets exactly in
+--     one of the four states (vanilla, L1, L2, L2b); any other state is foreign and refused;
 --   * the crash rules, at the write AND at the restore: ZERO live Liberators (the entity descriptor table, 0x800 x 24
 --     bytes, every descriptor with a valid entity: ship previews, the armory and the player's own weapon included);
 --     solo (the game's player list and the PlayFab lobby of runtime/peer_channel.lua: one member, or no lobby); for L2
@@ -30,7 +37,8 @@
 -- restored, every target read back, rollback on failure). After a write the edit is recorded in core/reviewed_edits.lua:
 -- the entity catalog then recognises exactly this state (its 'membership absent' diagnostics are the Runtime's own) and
 -- refuses the Liberator's dormant ProjectileWeapon fields and the experiment's BeamWeapon record; its other components
--- (WeaponData, the magazine, ...) stay writable. A Liberator spawned while the list was swapped keeps a ProjectileWeapon
+-- (WeaponData, the magazine's capacity and counts, ...) stay writable; no Runtime field writes magazine +156, and in L2b
+-- the magazine row is part of the recorded state. A Liberator spawned while the list was swapped keeps a ProjectileWeapon
 -- private copy that nothing removes: RESTART THE GAME after using the experiment.
 if rawget(_G,'jit')then jit.off(true,true)end
 local world_module=require('hd2runtime/runtime/event_world')
@@ -43,11 +51,12 @@ local D=require('hd2runtime/domains/liberator_beam')
 local CT=require('hd2runtime/domains/component_tables')
 local unpack=unpack or table.unpack
 local M={}
-M.VERSION='0.1.0-experimental'
+M.VERSION='0.2.0-experimental'
 M.OWNER='HD2Runtime Liberator beam experiment'
 local PRIVATE,COMMIT,READONLY,PAGE=0x20000,0x1000,0x2,4096
 local LIBERATOR,TRIDENT=D.resources.liberator,D.resources.trident
-local BW,MB,PJ,MG=D.beam,D.membership,D.projectile,D.manager
+local BW,MB,PJ,MG,MZ=D.beam,D.membership,D.projectile,D.manager,D.magazine
+local RANK={vanilla=0,L1=1,L2=2,L2b=3}
 local proven={}             -- world key -> true | reason
 local used_l2=false         -- L2 was applied this session: the game must be restarted afterwards
 local hooks={}              -- tests only: census / solo / assets overrides
@@ -126,6 +135,9 @@ local function locate(world)
     assert(c.index==BW.index and c.indices==BW.capacity and c.records==BW.records and c.stride==BW.recordStride
         and c.record_offset==BW.recordBase,'BeamWeapon schema differs from the research')
     local ptbl,pc=component_table(world,manager,base,PJ.component)
+    local mtbl,mc=component_table(world,manager,base,MZ.component)
+    assert(mc.index==MZ.index and mc.indices==MZ.capacity and mc.records==MZ.records and mc.stride==MZ.recordStride
+        and mc.record_offset==MZ.recordBase,'WeaponMagazine schema differs from the research')
     local size=BW.recordBase+BW.records*BW.recordStride
     local table_bytes=world.view.read(tbl,size)
     if not table_bytes then fail('TARGET_UNAVAILABLE: the BeamWeapon table is unreadable')end
@@ -158,6 +170,33 @@ local function locate(world)
         fail('CONFLICT: the Liberator\'s ProjectileWeapon row is not as reviewed')
     end
     assert(pc.index==PJ.index,'ProjectileWeapon index differs from the research')
+    -- The Liberator's WeaponMagazine row by the game's probe (0x4F32F0: home = resource mod 540, key 0 stops), its
+    -- record 201 owned by no other row.
+    local mrows=world.view.read(mtbl,MZ.capacity*MZ.rowStride)
+    if not mrows then fail('TARGET_UNAVAILABLE: the WeaponMagazine table is unreadable')end
+    local zero=string.rep('\0',8)
+    local mfound
+    local mat=MZ.home
+    for _=1,MZ.capacity do
+        local key=mrows:sub(mat*16+1,mat*16+8)
+        if key==zero then break end
+        if b.resource(key,0)==LIBERATOR then mfound=mat;break end
+        mat=(mat+1)%MZ.capacity
+    end
+    if mfound~=MZ.row then fail('the Liberator\'s WeaponMagazine row is not row '..MZ.row..' (found '..tostring(mfound)..')')end
+    if hexs(mrows:sub(MZ.row*16+1,MZ.row*16+16))~=MZ.rowBytes then
+        fail('CONFLICT: the Liberator\'s WeaponMagazine row is not as reviewed (another mod changed it)')
+    end
+    for n=0,MZ.capacity-1 do
+        local raw=mrows:sub(n*16+1,n*16+16)
+        if n~=MZ.row and raw:sub(1,8)~=zero and b.u32(raw,8)==MZ.record then
+            fail('CONFLICT: another WeaponMagazine row names record '..MZ.record..' (the Liberator\'s)')
+        end
+    end
+    local mrecord_at=mtbl+MZ.recordBase+MZ.record*MZ.recordStride
+    local mrecord=world.view.read(mrecord_at,MZ.recordStride)
+    if not mrecord then fail('TARGET_UNAVAILABLE: the Liberator\'s magazine record is unreadable')end
+    local chamber_bytes=mrecord:sub(MZ.window+1,MZ.window+4)
     -- The Liberator's EntitySettings row by the game's own probe (home = resource & 0xFFF).
     local esh=base+28
     local found
@@ -182,7 +221,8 @@ local function locate(world)
     if not list_bytes then fail('TARGET_UNAVAILABLE: the Liberator\'s membership list is unreadable')end
     local lr=region(world,list)
     local pages={}
-    for _,extent in ipairs({{tbl+BW.rowOffset,16},{tbl+BW.recordOffset,BW.recordStride},{list,MB.count*2}})do
+    for _,extent in ipairs({{tbl+BW.rowOffset,16},{tbl+BW.recordOffset,BW.recordStride},{list,MB.count*2},
+        {mtbl+MZ.windowOffset,4}})do
         local q=region(world,extent[1])
         if not(q and q.allocation_base==base and q.protect==READONLY and extent[1]+extent[2]<=q.base+q.size)then
             fail('a target page is not in the entity allocation\'s read-only memory')
@@ -194,22 +234,24 @@ local function locate(world)
     if first%2~=0 then fail('the membership list is not u16-aligned')end
     local window=first-first%4
     if window%PAGE+8>PAGE or(tbl+BW.rowOffset)%4~=0 or(tbl+BW.recordOffset)%4~=0
-        or(tbl+BW.rowOffset)%PAGE+16>PAGE then
+        or(tbl+BW.rowOffset)%PAGE+16>PAGE or(mtbl+MZ.windowOffset)%4~=0 then
         fail('a target crosses a page or is misaligned')
     end
     local state
-    local rb,rec,lb=hexs(row_bytes),hexs(record_bytes),hexs(list_bytes)
-    if rb==BW.rowBefore and rec==BW.recordBefore and lb==MB.before then state='vanilla'
-    elseif rb==BW.rowAfter and rec==BW.recordAfter and lb==MB.before then state='L1'
-    elseif rb==BW.rowAfter and rec==BW.recordAfter and lb==MB.after then state='L2'
+    local rb,rec,lb,mb=hexs(row_bytes),hexs(record_bytes),hexs(list_bytes),hexs(chamber_bytes)
+    if rb==BW.rowBefore and rec==BW.recordBefore and lb==MB.before and mb==MZ.before then state='vanilla'
+    elseif rb==BW.rowAfter and rec==BW.recordAfter and lb==MB.before and mb==MZ.before then state='L1'
+    elseif rb==BW.rowAfter and rec==BW.recordAfter and lb==MB.after and mb==MZ.before then state='L2'
+    elseif rb==BW.rowAfter and rec==BW.recordAfter and lb==MB.after and mb==MZ.after then state='L2b'
     else state='foreign'end
     local top=math.max(lr and lr.base+lr.size or 0,unpack(pages))
     return {manager=manager,base=base,owner={base=base,size=top-base,type=PRIVATE,protect=READONLY},table=tbl,
         table_bytes=table_bytes,list=list,list_bytes=list_bytes,window=window,row_bytes=row_bytes,
-        record_bytes=record_bytes,state=state,
-        detail=('row 21 %s, record 23 %s, list %s'):format(rb==BW.rowBefore and'vanilla'or rb==BW.rowAfter and'swapped'
-            or'FOREIGN',rec==BW.recordBefore and'vanilla'or rec==BW.recordAfter and'Trident copy'or'FOREIGN',
-            lb==MB.before and'vanilla'or lb==MB.after and'swapped'or'FOREIGN')}
+        record_bytes=record_bytes,state=state,chamber_at=mtbl+MZ.windowOffset,mrecord_at=mrecord_at,mrecord=mrecord,
+        detail=('row 21 %s, record 23 %s, list %s, magazine chamber %s'):format(rb==BW.rowBefore and'vanilla'
+            or rb==BW.rowAfter and'swapped'or'FOREIGN',rec==BW.recordBefore and'vanilla'or rec==BW.recordAfter
+            and'Trident copy'or'FOREIGN',lb==MB.before and'vanilla'or lb==MB.after and'swapped'or'FOREIGN',
+            mb==MZ.before and'1 (vanilla)'or mb==MZ.after and'0 (L2b)'or'FOREIGN')}
 end
 
 -- Live entities of the Liberator type (and of the Trident, for the log) in the descriptor table.
@@ -272,8 +314,9 @@ local function record_edit(stage)
     if stage=='L1'then
         edits.set(LIBERATOR,{owner=M.OWNER,stage='L1',membership=b.unhex(MB.before),rows=rows,
             absent={[BW.component]=true},refuse={[BW.component]=M.REFUSE_BEAM}})
-    elseif stage=='L2'then
-        edits.set(LIBERATOR,{owner=M.OWNER,stage='L2',membership=b.unhex(MB.after),rows=rows,
+    elseif stage=='L2'or stage=='L2b'then
+        if stage=='L2b'then rows[MZ.component]={row=MZ.row,record=MZ.record}end
+        edits.set(LIBERATOR,{owner=M.OWNER,stage=stage,membership=b.unhex(MB.after),rows=rows,
             absent={[PJ.component]=true},refuse={[PJ.component]=M.REFUSE_PROJECTILE,[BW.component]=M.REFUSE_BEAM}})
     else
         edits.clear(LIBERATOR)
@@ -351,7 +394,16 @@ local function write_l2(world,s,forward)
         {{'membership_list+'..offset,s.window,forward and x or y,forward and y or x}},{list_context(world,s)})
 end
 
--- The gates of a write or a restore. stage: 'L1' | 'L2' | 'restore'.
+-- The Liberator's magazine record 201 +156..+159: 01000000 (a chamber weapon) <-> 00000000 (the Meltagun's model).
+-- Context: the whole 160-byte record as locate read it.
+local function write_l2b(world,s,forward)
+    local x,y=b.unhex(MZ.before),b.unhex(MZ.after)
+    return run(world,s,forward and'L2b write (magazine record 201 +156: chamber 1 -> 0)'
+        or'L2b restore (magazine record 201 +156: chamber 0 -> 1)',
+        {{'magazine201+'..MZ.window,s.chamber_at,forward and x or y,forward and y or x}},{{s.mrecord_at,s.mrecord}})
+end
+
+-- The gates of a write or a restore. stage: 'L1' | 'L2' | 'L2b' | 'restore'.
 local function gates(world,s,stage)
     local count,why=census(world,s.manager)
     if not count then fail('REFUSED: '..why)end
@@ -361,7 +413,7 @@ local function gates(world,s,stage)
     end
     local ok,reason=solo(world)
     if not ok then fail('REFUSED: solo only: '..tostring(reason))end
-    if stage=='L2'then
+    if stage=='L2'or stage=='L2b'then
         local state,detail=assets_state(world)
         if state~='resident'then
             fail('REFUSED: the Trident\'s package is '..tostring(state)..' ('..tostring(detail)
@@ -400,22 +452,23 @@ function M.status()
     end)
 end
 
--- stage 'L1': record + row. stage 'L2': the list (L1 first when it is not applied yet).
+-- stage 'L1': record + row. stage 'L2': the list (L1 first when it is not applied yet). stage 'L2b': the magazine
+-- chamber byte (L1 and L2 first when they are not applied yet).
 function M.apply(stage)
-    assert(stage=='L1'or stage=='L2','apply(stage): stage must be L1 or L2')
+    assert(stage=='L1'or stage=='L2'or stage=='L2b','apply(stage): stage must be L1, L2 or L2b')
     return guarded('apply '..stage,function()
         local world=open()
         local s=locate(world)
         log(('apply %s: proven; state %s (%s)'):format(stage,s.state,s.detail))
         if s.state=='foreign'then fail('REFUSED: the targets are in a state the experiment did not make ('..s.detail..')')end
-        if s.state==stage or(stage=='L1'and s.state=='L2')then
+        if RANK[s.state]>=RANK[stage]then
             record_edit(s.state)
             log('apply '..stage..': already applied (state '..s.state..'), nothing written')
             return {ok=true,state=s.state,writes=0}
         end
         local count,solo_why=gates(world,s,stage)
         log(('apply %s: gates passed: 0 live Liberators (%d live entities), solo (%s)%s'):format(stage,count.live,
-            solo_why,stage=='L2'and', Trident package resident'or''))
+            solo_why,stage~='L1'and', Trident package resident'or''))
         local writes=0
         if s.state=='vanilla'then
             writes=writes+write_l1(world,s,true).writes
@@ -425,7 +478,7 @@ function M.apply(stage)
             log('L1 APPLIED: record 23 holds the Trident copy, row 21 names the Liberator; the list is unchanged '
                 ..'(bullets as before)')
         end
-        if stage=='L2'then
+        if RANK[stage]>=RANK.L2 and s.state=='L1'then
             gates(world,s,'L2')         -- again, right before the list write
             writes=writes+write_l2(world,s,true).writes
             s=locate(world)
@@ -434,14 +487,28 @@ function M.apply(stage)
             used_l2=true
             local after=census(world,s.manager)
             log(('L2 APPLIED: the Liberator\'s list names BeamWeapon (270) instead of ProjectileWeapon (321); every '
-                ..'Liberator spawned from now on fires Trident pulses. Live Liberators after the write: %s. Solo only; '
-                ..'restore with zero live Liberators, then RESTART THE GAME'):format(tostring(after and after.liberators)))
+                ..'Liberator spawned from now on is a beam weapon (it cannot fire before L2b: its magazine chamber is '
+                ..'filled only by ProjectileWeapon). Live Liberators after the write: %s. Solo only; restore with zero '
+                ..'live Liberators, then RESTART THE GAME'):format(tostring(after and after.liberators)))
+        end
+        if stage=='L2b'then
+            gates(world,s,'L2b')        -- again, right before the magazine write
+            writes=writes+write_l2b(world,s,true).writes
+            s=locate(world)
+            if s.state~='L2b'then fail('after the L2b write the state is '..s.state..' ('..s.detail..')')end
+            record_edit('L2b')
+            used_l2=true
+            local after=census(world,s.manager)
+            log(('L2b APPLIED: the Liberator\'s magazine has no chamber (record 201 +156 = 0, the 40-K Meltagun\'s '
+                ..'model): Liberators spawned from now on fire Trident pulses, one round per pulse, and reload to a full '
+                ..'magazine. Live Liberators after the write: %s. Solo only; restore with zero live Liberators, then '
+                ..'RESTART THE GAME'):format(tostring(after and after.liberators)))
         end
         return {ok=true,state=s.state,writes=writes}
     end)
 end
 
--- Reverse order: the list, then row 21 and record 23.
+-- Reverse order: the magazine byte, the list, then row 21 and record 23.
 function M.restore()
     return guarded('restore',function()
         local world=open()
@@ -456,6 +523,13 @@ function M.restore()
         local count,solo_why=gates(world,s,'restore')
         log(('restore: gates passed: 0 live Liberators (%d live entities), solo (%s)'):format(count.live,solo_why))
         local writes=0
+        if s.state=='L2b'then
+            writes=writes+write_l2b(world,s,false).writes
+            s=locate(world)
+            if s.state~='L2'then fail('after the magazine restore the state is '..s.state..' ('..s.detail..')')end
+            record_edit('L2')
+            log('L2b RESTORED: the Liberator\'s magazine has its chamber again (record 201 +156 = 1)')
+        end
         if s.state=='L2'then
             writes=writes+write_l2(world,s,false).writes
             s=locate(world)

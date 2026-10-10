@@ -4,6 +4,9 @@ LAS-13 Trident pulses) that runtime/experiment_liberator_beam.lua applies for th
 Sources (read-only research, never trusted at run time without re-proof):
   * research/component-swap-liberator-beam-F5FEE03DCFDB.json (research/docs/component-swap-liberator-beam.md): the 63
     code pins, the write set (exact before/after bytes), the membership row and the snapshot checks;
+  * research/liberator-beam-chamber-F5FEE03DCFDB.json (research/docs/component-swap-liberator-beam-chamber.md, after
+    the first live L2 test could not fire): the 69 chamber / can-fire / reload pins and the L2b write, the Liberator's
+    magazine record 201 +156 (a chamber weapon) 1 -> 0, the 40-K Meltagun's model;
   * research/component-membership-F5FEE03DCFDB.json: the entity file loader, spawn and destroy pins (the
     EntitySettingsHashmap slot, its lookup and the entity descriptor table the zero-live-Liberator census reads).
 The three EXTRA pins below are the whole functions the module re-derives addresses from (the BeamWeapon type lookup,
@@ -24,6 +27,7 @@ sys.path.insert(0, str(ROOT / 'scripts'))
 from reference_format import lua  # noqa: E402
 
 SWAP = ROOT / 'research/component-swap-liberator-beam-F5FEE03DCFDB.json'
+CHAMBER = ROOT / 'research/liberator-beam-chamber-F5FEE03DCFDB.json'
 MEMBERSHIP = ROOT / 'research/component-membership-F5FEE03DCFDB.json'
 TABLES = ROOT / 'research/entity-component-table-pointers-F5FEE03DCFDB.json'
 OUTPUT = ROOT / 'domains/liberator_beam.lua'
@@ -51,7 +55,7 @@ EXTRA_PINS = [
 ]
 
 
-def _pins(swap: dict, membership: dict) -> list[dict]:
+def _pins(swap: dict, membership: dict, chamber: dict) -> list[dict]:
     pins: dict[int, dict] = {}
 
     def add(rva: int, hexbytes: str, label: str) -> None:
@@ -64,6 +68,9 @@ def _pins(swap: dict, membership: dict) -> list[dict]:
     for group, rows in swap['pins'].items():
         for pin in rows:
             add(pin['rva'], pin['bytes'], group + ': ' + pin['role'])
+    for group, rows in chamber['pins'].items():
+        for pin in rows:
+            add(pin['rva'], pin['bytes'], 'chamber: ' + group + ': ' + pin['role'])
     for group in MEMBERSHIP_GROUPS:
         for pin in membership['pins'][group]:
             add(pin['rva'], pin['bytes'], group + ': ' + pin['role'])
@@ -76,7 +83,8 @@ def build() -> dict:
     swap = json.loads(SWAP.read_text(encoding='utf-8'))
     membership = json.loads(MEMBERSHIP.read_text(encoding='utf-8'))
     tables = json.loads(TABLES.read_text(encoding='utf-8'))
-    for name, research in (('component swap', swap), ('component membership', membership)):
+    chamber = json.loads(CHAMBER.read_text(encoding='utf-8'))
+    for name, research in (('component swap', swap), ('component membership', membership), ('chamber', chamber)):
         if research['writes'] or research['protectionChanges']:
             raise ValueError(name + ' research must be read-only')
         if research['build'] != 'F5FEE03DCFDB':
@@ -111,10 +119,33 @@ def build() -> dict:
         raise ValueError('the Liberator home row is not resource mod capacity')
     if int(LIBERATOR, 16) & 0xFFF != mem['home']:
         raise ValueError('the Liberator EntitySettings home row is not resource & 0xFFF')
-    pins = _pins(swap, membership)
+    for name, mismatches in chamber['pinnedBytesMismatchPerSnapshot'].items():
+        if mismatches:
+            raise ValueError('a chamber pin differs in snapshot ' + name)
+    mag, cws = chamber['magazine'], chamber['writeSet']
+    if not (mag['component'] == 'WeaponMagazineComponentData' and mag['index'] == 5 and mag['capacity'] == 540
+            and mag['rowStride'] == 16 and mag['recordBase'] == 8640 and mag['recordStride'] == 160):
+        raise ValueError('the magazine table schema changed')
+    if mag['recordOwners'] != [LIBERATOR] or mag['probe'][-1]['row'] != mag['row'] or mag['home'] != int(LIBERATOR, 16) % 540:
+        raise ValueError('the Liberator magazine row / record is not its own')
+    if mag['rowBytes'] != bytes.fromhex(LIBERATOR[2:])[::-1].hex() + mag['record'].to_bytes(4, 'little').hex() + '0' * 8:
+        raise ValueError('the magazine row bytes do not name the Liberator and its record')
+    window = mag['recordBase'] + mag['recordStride'] * mag['record'] + 156
+    if not (int(cws['offset'], 16) == window and cws['before'] == '01000000' and cws['after'] == '00000000'):
+        raise ValueError('the L2b write set changed')
+    if mag['liberatorRecord']['+156'] != 1 or mag['meltagunRecord']['+156'] != 0:
+        raise ValueError('the chamber flag values changed')
+    if any(d['bytes'] != '00' for d in mag['deltasTouching156']):
+        raise ValueError('an entity delta sets the chamber flag')
+    if chamber['compositions']['liberatorL2NotInMeltagun']:
+        raise ValueError('the swapped Liberator is no longer a subset of the Meltagun')
+    for name, snap in chamber['snapshots'].items():
+        if not (snap['row'] == mag['rowBytes'] and snap['window'] == cws['before'] and snap['protect'] == '0x2'):
+            raise ValueError('snapshot ' + name + ' does not hold the reviewed magazine bytes')
+    pins = _pins(swap, membership, chamber)
     return {
-        'source': {'research': SWAP.name, 'membership': MEMBERSHIP.name, 'build': swap['build'],
-                   'gameDllSha256': dll_sha},
+        'source': {'research': SWAP.name, 'membership': MEMBERSHIP.name, 'chamber': CHAMBER.name,
+                   'build': swap['build'], 'gameDllSha256': dll_sha},
         'experimental': True,
         'resources': {'liberator': LIBERATOR, 'trident': TRIDENT},
         # [game.dll + global] = the entity manager; + slotBase + 8 x index = a component's table; + eshSlot = the
@@ -136,6 +167,13 @@ def build() -> dict:
         # The Liberator's ProjectileWeapon row must stay (0x744690 dereferences it without a NULL test).
         'projectile': {'component': 'ProjectileWeaponComponentData', 'index': 321, 'row': ws['projectileRowKept']['row'],
                        'record': ws['projectileRowKept']['record']},
+        # L2b: the Liberator's own magazine record 201 +156 (a chamber weapon: its chambered round's type is filled
+        # only by a ProjectileWeapon instance, so after L2 it can never fire) 1 -> 0, the 40-K Meltagun's value.
+        'magazine': {'component': mag['component'], 'index': mag['index'], 'capacity': mag['capacity'],
+                     'rowStride': mag['rowStride'], 'records': mag['records'], 'recordBase': mag['recordBase'],
+                     'recordStride': mag['recordStride'], 'home': mag['home'], 'row': mag['row'],
+                     'rowBytes': mag['rowBytes'], 'record': mag['record'], 'window': 156,
+                     'windowOffset': window, 'before': cws['before'], 'after': cws['after']},
         'pins': pins,
     }
 
