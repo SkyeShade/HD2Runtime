@@ -1842,6 +1842,253 @@ return function(frame,watches,counts,lines)
 end
 """
 EXTRAS['proof-virtual-slot'] = {'menu': MENU_STUB, 'after': PROOF_VIRTUAL_SLOT, 'readOnly': True}
+# EXPERIMENTAL (branch exp/multi-beam): MultiBeamProof loads runtime/experiment_beam_swap.lua from the archive at startup;
+# after startup the experiment proves its pins on the packaged runtime, runs its real solo and live-instance gates (its
+# lazy requires resolve after startup), applies the Trident beam to the Liberator, Talon and Reprimand in one guarded
+# transaction on the overlay and restores every byte. Only the Trident package state is forced (the ship snapshot does
+# not hold laser_shotgun resident). 0.2.0: the per-weapon beam damage module (runtime/experiment_beam_damage.lua) loads
+# from the archive, proves its pins on the packaged runtime, refuses a weapon that is not swapped, accepts each swapped
+# weapon's own settings (nothing is written aboard the ship: shots exist only in a mission) and forgets them at the
+# restore. 0.3.0: the default path is the OWNED TABLE (runtime/experiment_beam_table.lua): the apply builds a permanent
+# block (the adapter's, here the overlay's) with the three weapons' own records, switches slot 270 to it with the lists
+# in the same transaction, each weapon takes its own rate of fire and pulse (one transaction on the copy), and the
+# restore puts the slot back to the file's table; then the shared-record fallback runs as before.
+PROOF_MULTI_BEAM = r"""
+return function(frame,watches,counts,lines)
+ local results={}
+ local function step(name,ok,detail)results[#results+1]={name=name,passed=ok==true,detail=detail}end
+ local ok,X=pcall(require,'hd2runtime/runtime/experiment_beam_swap')
+ step('the experiment module is loaded from the packaged archive',ok and type(X)=='table'
+  and tostring(X.VERSION):find('^0%.3%.')~=nil,tostring(ok and X.VERSION or X))
+ if not ok then return results end
+ local tok,TB=pcall(require,'hd2runtime/runtime/experiment_beam_table')
+ step('the owned beam table module is loaded from the packaged archive',tok and type(TB)=='table'
+  and tostring(TB.VERSION):find('^0%.1%.')~=nil,tostring(tok and TB.VERSION or TB))
+ local dok,BD=pcall(require,'hd2runtime/runtime/experiment_beam_damage')
+ step('the per-weapon beam damage module is loaded from the packaged archive',dok and type(BD)=='table'
+  and tostring(BD.VERSION):find('^0%.1%.')~=nil,tostring(dok and BD.VERSION or BD))
+ if not(dok and tok)then return results end
+ local pok,pwhy=BD.prove_pins()
+ step('the beam damage pins and the beam system prove on the packaged runtime',pok==true,tostring(pwhy))
+ local early=BD.set('liberator',{damage_multiplier=10})
+ step('beam damage refuses a weapon that is not swapped',not early.ok and tostring(early.reason):find('not swapped',1,true)
+  ~=nil,tostring(early.reason))
+ local lok,L=pcall(require,'hd2runtime/runtime/experiment_liberator_beam')
+ step('the live-proven Liberator experiment is in the archive too',lok and type(L)=='table',tostring(lok and L.VERSION or L))
+ local s=X.status()
+ local vanilla=s.ok and s.record=='vanilla'and#s.weapons==3 and s.path=='none'and s.table=='in_place'
+ for _,w in ipairs(s.weapons or{})do vanilla=vanilla and w.state=='vanilla'and w.live==0 end
+ step('status proves every pin and finds all three weapons vanilla',vanilla,tostring(s.reason or s.detail))
+ step('the owned table is available on the packaged runtime',s.owned_available==true,tostring(s.owned_reason))
+ local pending=X.configure('liberator',{fire_rate=600})
+ step('a rate set before the apply is kept for it',pending.ok and pending.pending==true,tostring(pending.reason))
+ local real=X.apply()
+ step('apply refuses without the Trident package (real asset gate)',real.ok or tostring(real.reason):find('package',1,true)~=nil,
+  tostring(real.reason))
+ local a=real
+ if not real.ok then
+  X.set_hooks_for_tests({assets=function()return'resident','forced by the validator'end})
+  a=X.apply()
+ end
+ step('apply builds the owned table and swaps all three in one transaction (real solo and live-instance gates)',
+  a.ok and a.path=='owned'and(a.writes or 0)>0 and TB.copies()==1,tostring(a.reason or a.writes))
+ local s2=X.status()
+ local applied=s2.ok and s2.path=='owned table'and s2.table=='owned'and s2.record=='vanilla'
+ for _,w in ipairs(s2.weapons or{})do applied=applied and w.state=='applied'and w.path=='owned table'end
+ step('all three applied on their own records, record 23 untouched',applied,tostring(s2.detail or s2.reason))
+ local c1=X.configure('talon',{fire_rate=150})
+ local c2=X.configure('reprimand',{fire_rate=900,pulse_beams=3,pulse_seconds=0.3})
+ local s3=X.status()
+ local rates={}
+ for _,w in ipairs(s3.weapons or{})do rates[w.id]=w.settings and w.settings.fire_rate end
+ step('each weapon takes its own rate of fire and pulse (Liberator 600, Talon 150, Reprimand 900 rpm)',
+  c1.ok and c2.ok and rates.liberator==600 and rates.talon==150 and rates.reprimand==900,
+  tostring(c1.reason or c2.reason)..' '..tostring(rates.liberator)..'/'..tostring(rates.talon)..'/'
+  ..tostring(rates.reprimand))
+ local d1=BD.set('liberator',{damage_multiplier=10})
+ local d2=BD.set('talon',{damage=6})
+ local d3=BD.set('reprimand',{armor_penetration=6})
+ step('each swapped weapon takes its own beam damage',d1.ok and d2.ok and d3.ok,
+  tostring(d1.reason or d2.reason or d3.reason or d1.detail))
+ local r=X.restore()
+ step('restore returns every byte and the slot',r.ok and r.slot_restored==true,tostring(r.reason))
+ local forgotten=true
+ for _,w in ipairs(BD.status().weapons)do forgotten=forgotten and not w.active end
+ step('the restore forgets every weapon beam damage setting',forgotten,'forgotten '..tostring(forgotten))
+ local s4=X.status()
+ local back=s4.ok and s4.record=='vanilla'and s4.table=='in_place'and s4.path=='none'
+ for _,w in ipairs(s4.weapons or{})do back=back and w.state=='vanilla'end
+ step('all three vanilla again, the game reads the file\'s table',back,tostring(s4.detail or s4.reason))
+ local sh=X.apply(nil,{path='shared'})
+ local s5=X.status()
+ step('the shared-record fallback still applies (record 23 the Trident copy)',sh.ok and sh.path=='shared'
+  and s5.record=='copy'and s5.path=='shared record',tostring(sh.reason or s5.detail))
+ local r2=X.restore()
+ local s6=X.status()
+ local back2=r2.ok and r2.record_restored==true and s6.ok and s6.record=='vanilla'
+ for _,w in ipairs(s6.weapons or{})do back2=back2 and w.state=='vanilla'end
+ step('the shared-record restore returns every byte',back2,tostring(r2.reason or s6.detail))
+ X.set_hooks_for_tests(nil)
+ return results
+end
+"""
+EXTRAS['proof-multi-beam'] = {'after': PROOF_MULTI_BEAM}
+# Beam conversion (docs/beam-conversion.md): BeamConversionProof 0.2.0 loads from its built form (every toggle off, so
+# its ensures stay disabled); runtime/beam_conversion.lua and runtime/beam_conversion_rows.lua load from the archive.
+# After startup, through the public API (hd2.transaction on weapon:beam_conversion()) with the real pins, census and
+# lobby gates of the packaged runtime: a weapon with no live instance (a projectile LAS weapon) converts with its own
+# rate and its own damage / range rows (the owned table built and made live, a borrowed BeamType / DamageInfo pair
+# repointed), its status reads back, and the restore returns every byte and both slots. Only the Trident package gate is
+# forced ready (the ship snapshot does not hold laser_shotgun resident).
+PROOF_BEAM_CONVERSION = r"""
+return function(frame,watches,counts,lines)
+ local results={}
+ local function step(name,ok,detail)results[#results+1]={name=name,passed=ok==true,detail=detail}end
+ local ok,E=pcall(require,'hd2runtime/runtime/beam_conversion')
+ step('the beam conversion module is loaded from the packaged archive',ok and type(E)=='table'
+  and tostring(E.VERSION):find('^1%.')~=nil,tostring(ok and E.VERSION or E))
+ if not ok then return results end
+ local rok,R=pcall(require,'hd2runtime/runtime/beam_conversion_rows')
+ step('the borrowed rows module is loaded from the packaged archive',rok and type(R)=='table',tostring(R))
+ local st=E.status()
+ step('status proves every pin and locates every supported weapon',st.ok==true and st.path=='none'
+  and st.table=='in_place',tostring(st.reason))
+ local hd2=require('hd2runtime/api/hd2')
+ local F=hd2.fields
+ local name
+ for _,n in ipairs({'LAS-16 Sickle','LAS-12 Sai','LAS-58 Talon','SG-225 Breaker'})do
+  local w=st.weapons and st.weapons[n]
+  if not name and w and w.state=='vanilla'and w.live==0 then name=n end
+ end
+ step('a supported weapon with no live instance on the ship',name~=nil,tostring(name))
+ if not name then return results end
+ E.set_hooks_for_tests({assets=function()return'resident','forced by the validator'end})
+ local assets=require('hd2runtime/core/assets')
+ local gate=assets.gate
+ assets.gate=function()return {state='ready',dependencies={},tick=function()return 'ready'end}end
+ local function run(id,changes)
+  local h=hd2.transaction({id=id,target=hd2.weapon(name):beam_conversion(),allow_component_swap=true,
+   allow_unverified_effect=true,changes=changes})
+  for _=1,600 do
+   if h.status=='complete'or h.status=='rejected'or h.status=='retry_wait'then break end
+   frame()
+  end
+  return h
+ end
+ local h=run('validate-beam-on',{{field=F.beam_conversion.enabled,expect=false,value=true},
+  {field=F.beam.fire_rate,expect=300,value=600},{field=F.damage.player_standard_damage,expect=60,value=600},
+  {field=F.beam.length,expect=200,value=100}})
+ step('the conversion applies through hd2.transaction (real census and lobby gates)',h.status=='complete'
+  and h.result and h.result.status=='APPLIED',tostring(h.status)..' '..tostring(h.error)..' '..tostring(h.last_transient))
+ local s=hd2.weapon(name):beam_conversion():status()
+ step('converted on the owned table with its own rate, pulse, damage and range',s.ok and s.state=='converted'
+  and s.path=='owned table'and s.settings and s.settings.fire_rate==600 and s.settings.pulse_seconds<0.07
+  and s.rows and s.rows['damage.standard_damage']==600 and s.rows['beam.length']==100 and s.pair~=nil,
+  tostring(s.reason or s.state))
+ local W=require('hd2runtime/domains/beam_conversion')
+ local layout
+ for _,w in ipairs(W.weapons)do if w.name==name then layout=w.layout end end
+ step('the add layout where the catalogue takes the weapon (the row names the Runtime-owned list)',
+  layout=='swap'or(s.layout=='add'and s.multiplayer=='identical conversions only'),tostring(s.layout))
+ h=run('validate-beam-off',{{field=F.beam_conversion.enabled,expect=false,value=false}})
+ local s2=hd2.weapon(name):beam_conversion():status()
+ step('the restore returns the weapon, the slot and both borrowed slots',h.status=='complete'and s2.ok
+  and s2.state=='vanilla'and s2.table=='in_place'and s2.path=='none',tostring(h.error)..' '..tostring(s2.table))
+ assets.gate=gate
+ E.set_hooks_for_tests(nil)
+ return results
+end
+"""
+# Its eight ensures are option-bound and off by default (each test is switched on by hand, with the weapon unequipped):
+# not applicable here; the after step converts and restores through the public API instead.
+EXTRAS['proof-beam-conversion'] = {'menu': MENU_STUB, 'after': PROOF_BEAM_CONVERSION, 'unavailable': tuple(
+    'beamconv-' + t for t in ('sickle', 'double_edge', 'sai', 'talon_600', 'liberator_x10', 'reprimand_range',
+                              'penetrator', 'trident_fast', 'trident_capped'))}
+# Beam conversion sync (docs/beam-conversion.md "Multiplayer"; research/docs/beam-conversion-mp-sync-F5FEE03DCFDB.md,
+# research/docs/beam-conversion-add-layout-F5FEE03DCFDB.md): BeamConversionSyncProof 0.2.0 loads from its built form
+# (every toggle off); runtime/beam_conversion_sync.lua and its protocol (hd2bc/2) load from the archive. After startup,
+# through the public API with the real pins, census and lobby gates: an add-layout weapon with no live instance
+# converts, and the set the sync would publish under `hd2bc` decodes with this archive's version, the build and the
+# catalogue, naming that weapon on the owned path with the add layout; members that all post the identical set are
+# ALLOWED (ALL_MATCH) and a member holding the identical conversion lets the apply through (ALL_AGREE), one holding
+# nothing or a missing member refuses it (MISMATCH, NO_RUNTIME), a swap entry is never allowed, a refusal while another
+# player is present is never SOLO, and the restore publishes the empty set.
+PROOF_BEAM_CONVERSION_SYNC = r"""
+return function(frame,watches,counts,lines)
+ local results={}
+ local function step(name,ok,detail)results[#results+1]={name=name,passed=ok==true,detail=detail}end
+ local ok,S=pcall(require,'hd2runtime/runtime/beam_conversion_sync')
+ local pok,P=pcall(require,'hd2runtime/runtime/beam_conversion_sync_protocol')
+ step('the sync and its protocol are loaded from the packaged archive',ok and pok and type(S)=='table'
+  and P.PROTOCOL=='hd2bc/2',tostring(ok and pok or S))
+ if not(ok and pok)then return results end
+ local channel=require('hd2runtime/runtime/peer_channel')
+ step('the channel accepts the hd2bc key',channel.KEYS.hd2bc==true,'')
+ local E=require('hd2runtime/runtime/beam_conversion')
+ local st=E.status()
+ local name
+ for _,n in ipairs({'LAS-16 Sickle','LAS-12 Sai','LAS-58 Talon','SG-225 Breaker'})do
+  local w=st.weapons and st.weapons[n]
+  if not name and w and w.state=='vanilla'and w.live==0 then name=n end
+ end
+ step('a supported weapon with no live instance on the ship',name~=nil,tostring(name or st.reason))
+ if not name then return results end
+ step('nothing published before a conversion',S.value()==nil,tostring(S.value()))
+ local hd2=require('hd2runtime/api/hd2')
+ local F=hd2.fields
+ E.set_hooks_for_tests({assets=function()return'resident','forced by the validator'end})
+ local assets=require('hd2runtime/core/assets')
+ local gate=assets.gate
+ assets.gate=function()return {state='ready',dependencies={},tick=function()return 'ready'end}end
+ local function run(id,changes)
+  local h=hd2.transaction({id=id,target=hd2.weapon(name):beam_conversion(),allow_component_swap=true,
+   allow_unverified_effect=true,changes=changes})
+  for _=1,600 do
+   if h.status=='complete'or h.status=='rejected'or h.status=='retry_wait'then break end
+   frame()
+  end
+  return h
+ end
+ local h=run('validate-beamsync-on',{{field=F.beam_conversion.enabled,expect=false,value=true},
+  {field=F.beam.fire_rate,expect=300,value=600}})
+ step('the conversion applies through hd2.transaction (real census and lobby gates)',h.status=='complete'
+  and h.result and h.result.status=='APPLIED',tostring(h.status)..' '..tostring(h.error)..' '..tostring(h.last_transient))
+ local value=S.value()
+ local d=value and P.decode(value)
+ local named=false
+ for _,e in ipairs(d and d.entries or{})do
+  named=named or(S.weapon_of(e.resource)==name and e.path=='o'and e.layout=='a')
+ end
+ step('the published set decodes with this archive\'s version, build and catalogue and names the weapon',d~=nil
+  and d.version==S.version()and d.build==S.build()and d.catalog==S.catalogue_hash()and named
+  and d.digest==S.digest(),tostring(value))
+ local all=S.decide({members={{peer='A',state='match',host=true}},entries=d and d.entries or{}})
+ local missing=S.decide({members={{peer='A',state='match'},{peer='B',state='no_runtime'}}})
+ local swap=S.decide({members={{peer='A',state='match'}},entries={{resource='0',layout='w'}}})
+ step('identical add-layout members are allowed; a missing member is NO_RUNTIME; a swap entry never',all.allowed
+  and all.code=='ALL_MATCH'and missing.code=='NO_RUNTIME'and swap.code=='REMOTE_APPLY_UNSAFE'
+  and S.ADD_LAYOUT_SAFE[S.build()]==true,all.code..' '..missing.code..' '..swap.code)
+ local holder={peer='H',state='match',host=true,d=d}
+ local empty_member={peer='E',state='mismatch',d=P.decode(assert(P.encode({version=S.version(),build=S.build(),
+  catalog=S.catalogue_hash(),seq=1,entries={}})))}
+ local agree=S.allow_apply(d and d.entries or{},{members={holder}})
+ local lack=S.allow_apply(d and d.entries or{},{members={holder,empty_member}})
+ step('an add apply in a lobby needs every member to hold the identical conversion',agree.allowed
+  and agree.code=='ALL_AGREE'and not lack.allowed and lack.code=='MISMATCH',agree.code..' '..lack.code)
+ step('a refusal with another player present is never SOLO',S.describe(true):find('REFUSED (PENDING',1,true)~=nil,
+  S.describe(true))
+ h=run('validate-beamsync-off',{{field=F.beam_conversion.enabled,expect=false,value=false}})
+ local after=S.value()
+ local empty=after and P.decode(after)
+ step('the restore publishes the empty set',h.status=='complete'and empty~=nil and#empty.entries==0
+  and empty.seq>d.seq,tostring(after))
+ assets.gate=gate
+ E.set_hooks_for_tests(nil)
+ return results
+end
+"""
+EXTRAS['proof-beam-conversion-sync'] = {'menu': MENU_STUB, 'after': PROOF_BEAM_CONVERSION_SYNC, 'unavailable': (
+    'beamsync-sickle', 'beamsync-talon', 'beamsync-liberator')}
 # The build label (runtime/version_label.lua) from the archive on the snapshot's real game state and engine font, with
 # a stand-in for the engine GUI API over the snapshot's own world list (the Ui World by its position): aboard the ship
 # it is one Ui World GUI with "HD2Runtime <version>" over "Game <build>" in the bottom-left corner at the lowest layer,
@@ -5126,6 +5373,9 @@ SCENARIOS = {
     'proof-selection-sound': lambda: proof('SelectionSoundProof'),
     'proof-slot-texture-probe': lambda: proof('SlotTextureProbe'),
     'proof-slot-overlay': lambda: proof('SlotOverlayProof'),
+    'proof-multi-beam': lambda: proof('MultiBeamProof'),
+    'proof-beam-conversion': lambda: proof('BeamConversionProof'),
+    'proof-beam-conversion-sync': lambda: proof('BeamConversionSyncProof'),
     'proof-gas-barrage-mission': lambda: proof('GasBarrageMissionProof'),
     'proof-gas-barrage-payload': lambda: proof('GasBarragePayloadProof'),
     'proof-gas-barrage-cooldown': lambda: proof('GasBarrageCooldownProof'),
@@ -5294,7 +5544,15 @@ function runtime.address(handle)return source.address(handle)end
 function runtime.system_info()return source.system_info()end
 function runtime.module_hash(handle)counts.module_hashes=counts.module_hashes+1;return source.module_hash(handle)end
 function runtime.monotonic_time()return simulated end
+local permanent_of
 function runtime.query(at)
+ local paddress,pblock
+ if permanent_of then paddress,pblock=permanent_of(at)end
+ if paddress then
+  local page=at-at%PAGE
+  return {base=page,size=PAGE,state=0x1000,type=0x20000,allocation_base=paddress,protect=pblock.protect[page]or 2,
+   allocation_protect=4}
+ end
  local r,why=source.query(at)
  if not r or r.allocation_base==0 then return r,why end
  local low,high=r.base,r.base+r.size
@@ -5326,11 +5584,20 @@ end
 -- Runtime-owned permanent blocks (a Runtime text table): the same Lua overlay memory, filled once; never game memory,
 -- so never an overlay write.
 counts.permanent_blocks=0
+-- A permanent block is a committed private allocation of whole pages, read-only after its fill (the live adapter's
+-- VirtualAlloc + VirtualProtect): queryable as such, and writable only through a page the guarded transaction opened
+-- (EXPERIMENTAL exp/multi-beam: the owned BeamWeapon table copy is written after it is built).
+local permanent={}
 function runtime.permanent_block(bytes)
  assert(type(bytes)=='string' and #bytes>0 and #bytes<=65536,'permanent block size')
  local address=next_owned;next_owned=next_owned+0x10000
- owned[address]=bytes;counts.permanent_blocks=counts.permanent_blocks+1
+ local size=#bytes+(PAGE-#bytes%PAGE)%PAGE
+ owned[address]=bytes..string.rep('\0',size-#bytes);counts.permanent_blocks=counts.permanent_blocks+1
+ permanent[address]={size=size,protect={}}
  return address
+end
+permanent_of=function(at)
+ for address,block in pairs(permanent)do if at>=address and at<address+block.size then return address,block end end
 end
 function runtime.read(at,n)
  for address,bytes in pairs(owned)do
@@ -5383,12 +5650,27 @@ function runtime.read(at,n)
 end
 function runtime.protect(page,size,value)
  assert(page%PAGE==0 and size==PAGE,'overlay protect extent')
+ local paddress,pblock=permanent_of(page)
+ if paddress then
+  counts.protection_changes=counts.protection_changes+1
+  local old=pblock.protect[page]or 2
+  pblock.protect[page]=value~=2 and value or nil
+  return old
+ end
  counts.protection_changes=counts.protection_changes+1
  local old=protection[page] or original_protect(page)
  if value==original_protect(page)then protection[page]=nil else protection[page]=value end
  return old
 end
 function runtime.write(at,bytes)
+ local paddress,pblock=permanent_of(at)
+ if paddress then
+  assert(pblock.protect[at-at%PAGE]==4,'permanent block write without writable page')
+  counts.writes=counts.writes+1
+  local value=owned[paddress]
+  owned[paddress]=value:sub(1,at-paddress)..bytes..value:sub(at-paddress+#bytes+1)
+  return true,nil,#bytes
+ end
  local p=protection[at-at%PAGE] or original_protect(at-at%PAGE)
  -- A reviewed executable-data extent (core/page_protection.lua) is written in its page as mapped (0x40).
  assert(p==4 or(p==0x40 and require('hd2runtime/core/page_protection').reviewed_executable_data(at,#bytes)~=nil),
@@ -5640,6 +5922,10 @@ def registered_operations(report):
         elif (op.get('status') == 'waiting_for_options' and later.get('result') in APPLIED
                 and (later.get('runs') or 0) >= 1):
             op, state = later, 'applied'
+        # One still waiting for its Mod Options at the settle that its option then kept off (a default-off toggle the
+        # scenario never switches on) is inactive: not applicable, which the scenario must declare (`unavailable`).
+        elif op.get('status') == 'waiting_for_options' and outcome(later) == 'not_applicable':
+            op, state = later, 'not_applicable'
         result.append((op, state))
     return result + [(op, outcome(op)) for op in final[len(settled):]]
 

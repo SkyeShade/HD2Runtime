@@ -5,8 +5,9 @@
 -- The channel is the game's own PlayFab lobby member data: each member's key/value properties, kept by the PlayFab
 -- service and readable by every member of the lobby. game.dll publishes and reads its own two keys ("platform_lobby",
 -- "crossplay_mode") through two slots of the engine's API table T = [[game+0x3326308]+0xF8]; the Runtime calls the same
--- two slots for its own keys (M.KEYS): `hd2rt` (the custom stratagem multiplayer state, runtime/custom_mp_sync.lua) and
--- `hd2as` (the synced asset set, runtime/asset_sync.lua):
+-- two slots for its own keys (M.KEYS): `hd2rt` (the custom stratagem multiplayer state, runtime/custom_mp_sync.lua),
+-- `hd2as` (the synced asset set, runtime/asset_sync.lua) and `hd2bc` (the beam conversion set, runtime/beam_conversion_
+-- sync.lua):
 --   * T+0x120 set_member_data(engine lobby, 1, &key, &value): one PFLobbyPostUpdate of this machine's own property;
 --   * T+0x118 member_data(engine lobby, peer, key): a member's property as the SDK holds it (NULL: none).
 -- Two native calls (runtime/windows_write.lua), each only:
@@ -19,9 +20,9 @@
 -- before the game made that post (the wrapper's byte it sets right after it) unless PLATFORM_WAIT seconds passed; then
 -- at most one post per MIN_POST_INTERVAL, never an unchanged value, and after MAX_FAILURES failed posts in a lobby
 -- nothing more there. The value is posted again in every new lobby this machine joins.
--- Two keys never double the post rate: MIN_POST_INTERVAL holds between ANY two posts of this machine (whichever key),
--- the join and "platform_lobby" delays count from when the channel first saw the lobby, and when both keys have a
--- value due the one posted least recently goes first (neither can starve the other). Each key keeps its own value, its
+-- More keys never raise the post rate: MIN_POST_INTERVAL holds between ANY two posts of this machine (whichever key),
+-- the join and "platform_lobby" delays count from when the channel first saw the lobby, and when several keys have a
+-- value due the one posted least recently goes first (none can starve another). Each key keeps its own value, its
 -- last post and its failure count; the OWNED rule (below) is the hd2rt key's only.
 -- Reading is polling: the engine raises no event when another member's property changes.
 -- Received values are text only. This module copies them (bounded, printable ASCII); what they mean is
@@ -35,7 +36,7 @@ local D=require('hd2runtime/domains/peer_messaging')
 local M={}
 M.KEY='hd2rt'
 -- The only keys this machine ever publishes or reads (never one of the game's own, domains/peer_messaging gameKeys).
-M.KEYS={hd2rt=true,hd2as=true}
+M.KEYS={hd2rt=true,hd2as=true,hd2bc=true}
 M.MAX_VALUE=512
 M.MAX_MEMBERS=16
 M.FIRST_POST_DELAY=10

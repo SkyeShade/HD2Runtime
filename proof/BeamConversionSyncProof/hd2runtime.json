@@ -1,0 +1,1 @@
+{"format":1,"name":"BeamConversionSyncProof","resource":"mods/skyeshade/hd2runtime_beam_conversion_sync_proof","guid":"f823a485-c99f-4577-87df-f63241c046ac","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.30.3","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../sdk","ide_library":"../../sdk/stubs"}

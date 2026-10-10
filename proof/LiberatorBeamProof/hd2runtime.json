@@ -1,0 +1,1 @@
+{"format":1,"name":"LiberatorBeamProof","resource":"mods/skyeshade/hd2runtime_liberator_beam_proof","guid":"dc6418c6-1f75-4542-8291-c9940955c64e","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.30.3","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../sdk","ide_library":"../../sdk/stubs"}

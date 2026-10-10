@@ -61,6 +61,10 @@ local function validate_operation(plan,phase_index,index,item,known)
             'target_from requires a prior phase for fresh resolution')
         target=target_from(dependency,item.target_from.path)
     end
+    -- A beam conversion (domains/beam_conversion_writes.lua) registers its own table and edits after its write: it runs
+    -- as its own patch or transaction, never inside a plan.
+    assert(not(type(target)=='table'and target.resource=='beam_conversion'),
+        'a beam conversion is a patch or transaction target (hd2.ensure transaction), not a plan operation')
     local request={id=item.id,target=target,diagnostic=plan.diagnostic,
         allow_shared=item.allow_shared==true}
     if item.allow_unverified_reference~=nil then

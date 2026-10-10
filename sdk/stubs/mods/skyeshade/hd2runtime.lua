@@ -86,6 +86,7 @@
 ---@field allow_shared? boolean
 ---@field allow_unverified_effect? boolean Required only where the capability catalog names it (magazine attachments).
 ---@field allow_unverified_reference? boolean Required only where the capability catalog names it (vehicle mount swaps).
+---@field allow_component_swap? boolean Required by beam conversions (weapon:beam_conversion()): the component set of the weapon changes in this game only.
 
 ---@class HD2TransactionChange
 ---@field field string
@@ -100,6 +101,7 @@
 ---@field allow_shared? boolean
 ---@field allow_unverified_effect? boolean Required only where the capability catalog names it (magazine attachments).
 ---@field allow_unverified_reference? boolean Required only where the capability catalog names it (vehicle mount swaps).
+---@field allow_component_swap? boolean Required by beam conversions (weapon:beam_conversion()): the component set of the weapon changes in this game only.
 
 ---@class HD2PlanTargetFrom
 ---@field operation string
@@ -116,6 +118,7 @@
 ---@field allow_shared? boolean
 ---@field allow_unverified_effect? boolean Required only where the capability catalog names it (magazine attachments).
 ---@field allow_unverified_reference? boolean Required only where the capability catalog names it (vehicle mount swaps).
+---@field allow_component_swap? boolean Required by beam conversions (weapon:beam_conversion()): the component set of the weapon changes in this game only.
 
 ---@class HD2PlanPhase
 ---@field id? string
@@ -440,6 +443,25 @@ local HD2BeamReference = {}
 ---@return table
 function HD2BeamReference:describe() end
 
+---A beam conversion (docs/beam-conversion.md, sdk/BeamConversionCapabilities.json): a projectile weapon made to
+---fire LAS-13 Trident pulses in this game only. Add layout (the default where supported): ProjectileWeapon kept
+---(type 0), BeamWeapon added; with other players only when every member holds the identical conversion. Swap
+---layout (the rest): solo only. The target of hd2.fields.beam_conversion.enabled and of the converted weapon
+---(its own record): hd2.fields.beam.fire_rate / pulse_beams / pulse_seconds; every request needs
+---allow_component_swap and allow_unverified_effect. Written only with zero live instances of the weapon.
+---@class HD2BeamConversion
+---@field resource "beam_conversion"
+---@field weapon string
+local HD2BeamConversion = {}
+---{weapon, kind, supported, layout, verdict, reasonCode, reason, caveats, add, swap, liveProven, roots, record,
+---fields, acknowledgements, lifecycle, multiplayer, pulse, donor}
+---@return table
+function HD2BeamConversion:describe() end
+---The live state: {ok, state = "vanilla"|"converted"|"orphaned"|"foreign", layout = "add"|"swap", multiplayer,
+---settings, live, path, lobby, restart_required}, or {ok = false, reason}.
+---@return table
+function HD2BeamConversion:status() end
+
 ---@class HD2WeaponAmmunition
 ---@field resource "player_weapon"
 ---@field path "ammunition"
@@ -547,6 +569,9 @@ function HD2Weapon:beam() end
 ---beam; allow_unverified_reference and allow_unverified_effect).
 ---@return HD2BeamSource
 function HD2Weapon:beam_source() end
+---This weapon made to fire LAS-13 Trident pulses (beam conversion; solo only; docs/beam-conversion.md).
+---@return HD2BeamConversion
+function HD2Weapon:beam_conversion() end
 ---@return HD2PlayerAttack[]
 function HD2Weapon:attacks() end
 ---@return table
@@ -733,6 +758,9 @@ function HD2SupportWeapon:projectile_source(role) end
 function HD2SupportWeapon:beam() end
 ---@return HD2BeamSource
 function HD2SupportWeapon:beam_source() end
+---This weapon made to fire LAS-13 Trident pulses (beam conversion; solo only; docs/beam-conversion.md).
+---@return HD2BeamConversion
+function HD2SupportWeapon:beam_conversion() end
 ---The projectile builder for this weapon's ProgrammableAmmo mode (weapon:feed("programmable")).
 ---@return HD2ProjectileBuilder
 function HD2SupportWeapon:programmable_ammo() end
@@ -1979,6 +2007,9 @@ function HD2Weapon:attachment_definition(slot, identity) end
 ---@field count_from_supply "throwable.count_from_supply"
 ---@field explosion_delay "throwable.explosion_delay"
 
+---@class HD2Fields_beam_conversion
+---@field enabled "beam_conversion.enabled"
+
 ---@class HD2Fields_ammunition
 ---@field projectile "ammunition.projectile"
 
@@ -2035,6 +2066,7 @@ function HD2Weapon:attachment_definition(slot, identity) end
 ---@field armor_class HD2Fields_armor_class
 ---@field armor_damage_curve HD2Fields_armor_damage_curve
 ---@field throwable HD2Fields_throwable
+---@field beam_conversion HD2Fields_beam_conversion
 ---@field ammunition HD2Fields_ammunition
 
 ---@class HD2Enum_projectile_type
@@ -4281,6 +4313,13 @@ function hd2.compatibility.incompatible() end
 function hd2.compatibility.highest() end
 ---@return table {incompatible, highest, shown, dialog}
 function hd2.compatibility.status() end
+---The beam conversion of a weapon by its catalogue name (the same target as weapon:beam_conversion()).
+---@param name string
+---@return HD2BeamConversion
+function hd2.beam_conversion(name) end
+---The beam conversion target of every catalogued weapon (supported, with caveats or refused: describe() says).
+---@return HD2BeamConversion[]
+function hd2.beam_conversions() end
 ---Catalogued attack output IDs, optionally filtered.
 ---@param filter? {family?: "projectile"|"beam"|"arc"|"spray"|"melee", selectable?: boolean}
 ---@return string[]

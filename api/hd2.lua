@@ -21,6 +21,9 @@ do
         -- Synced asset loading (runtime/asset_sync.lua, development): publishes the packages this machine's mods load
         -- and loads the ones a compatible lobby member's mods load. Reads only (one timer) outside a joined lobby.
         pcall(function()require('hd2runtime/runtime/asset_sync').start()end)
+        -- Beam conversion sync (runtime/beam_conversion_sync.lua, development): publishes this machine's beam
+        -- conversions and warns this player about another member's. Reads only (one timer) outside a joined lobby.
+        pcall(function()require('hd2runtime/runtime/beam_conversion_sync').start()end)
     end
     local metadata=require('hd2runtime/domains/metadata')
     if not rawget(_G,'HD2RuntimeStartupLogged')then
