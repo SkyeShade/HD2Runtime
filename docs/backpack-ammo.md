@@ -112,8 +112,10 @@ hd2.ensure({transaction={id='gr8-backpack',target=backpack,allow_unverified_effe
 - `hd2.support_weapon(name):backpack()` returns the backpack; `hd2.backpack(name):describe().feeds.relationship` is
   `team_reload` (`backpack_ammo` for the three weapon-fed backpacks above).
 
-The weapon itself can also carry spares now (magazine weapons): see
-[Team-reload weapons](support-weapon-api.md#team-reload-weapons-0310-offline-only).
+The weapon itself can also carry spares now (the magazine weapons' magazines and the AC-8's rounds, used before the
+backpack): see [Team-reload weapons](support-weapon-api.md#team-reload-weapons-0310-offline-only). On the AC-8 an
+own-rounds count that is not a multiple of 5 is harmless: the last partial reload loads a full clip and the count
+ends at 0.
 
 ## Not covered
 

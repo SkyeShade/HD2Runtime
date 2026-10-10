@@ -1609,6 +1609,33 @@
    "since": "0.31.0",
    "acknowledgement": "allow_unverified_effect",
    "resource": "support_weapon",
+   "target": "AC-8 Autocannon",
+   "field": "rounds.rounds_from_supply",
+   "apiFieldConstant": "hd2.fields.rounds.rounds_from_supply",
+   "reason": "Own spare rounds of a team-reload weapon. Its reload uses them first (one 5-round clip per reload, by the wearer alone, no backpack needed) and the backpack only when they are spent; a teammate reload still uses the backpack. Multiples of 5 are recommended: with fewer than 5 left the last reload still loads a full clip and the count ends at 0 (the game clamps it in place, as for the vanilla P-69 Veto). Proven from game code (research/team-reload-ammo-F5FEE03DCFDB.json, ownRoundsBelowZero); not yet shown in game. Spare rounds the weapon itself gains from a resupply (at least 1; an ammo box gives a share), up to rounds.spare_rounds (0 natively, so this has no effect until that is raised). The backpack refills separately (deposit.refill_amount)."
+  },
+  {
+   "since": "0.31.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "support_weapon",
+   "target": "AC-8 Autocannon",
+   "field": "rounds.spare_rounds",
+   "apiFieldConstant": "hd2.fields.rounds.spare_rounds",
+   "reason": "Own spare rounds of a team-reload weapon. Its reload uses them first (one 5-round clip per reload, by the wearer alone, no backpack needed) and the backpack only when they are spent; a teammate reload still uses the backpack. Multiples of 5 are recommended: with fewer than 5 left the last reload still loads a full clip and the count ends at 0 (the game clamps it in place, as for the vanilla P-69 Veto). Proven from game code (research/team-reload-ammo-F5FEE03DCFDB.json, ownRoundsBelowZero); not yet shown in game. The most spare rounds the weapon itself carries. 0 natively, which is why it keeps none: the spawn and resupply amounts are clamped to it. The game rounds it up to a multiple of the 5-round clip."
+  },
+  {
+   "since": "0.31.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "support_weapon",
+   "target": "AC-8 Autocannon",
+   "field": "rounds.starting_rounds",
+   "apiFieldConstant": "hd2.fields.rounds.starting_rounds",
+   "reason": "Own spare rounds of a team-reload weapon. Its reload uses them first (one 5-round clip per reload, by the wearer alone, no backpack needed) and the backpack only when they are spent; a teammate reload still uses the backpack. Multiples of 5 are recommended: with fewer than 5 left the last reload still loads a full clip and the count ends at 0 (the game clamps it in place, as for the vanilla P-69 Veto). Proven from game code (research/team-reload-ammo-F5FEE03DCFDB.json, ownRoundsBelowZero); not yet shown in game. Spare rounds the weapon itself carries when it spawns, clamped to rounds.spare_rounds (0 natively, so this has no effect until that is raised)."
+  },
+  {
+   "since": "0.31.0",
+   "acknowledgement": "allow_unverified_effect",
+   "resource": "support_weapon",
    "target": "FAF-14 Spear",
    "field": "magazine.magazines_from_supply",
    "apiFieldConstant": "hd2.fields.magazine.magazines_from_supply",

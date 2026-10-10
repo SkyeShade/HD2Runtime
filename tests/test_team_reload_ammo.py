@@ -1,12 +1,15 @@
 """0.31.0 (research/team-reload-ammo-F5FEE03DCFDB.json, docs/support-weapon-api.md "Team-reload weapons"): the GR-8,
 RL-77, FAF-14, StA-X3 and AC-8 reload from the weapon's own spares first and from their backpack's deposit once those
-are spent. The magazine weapons' own spare rows are real fields (0..31, allow_unverified_effect); the AC-8's own rounds
-are not offered (the reload subtracts 5 with no lower bound); every team-reload backpack's deposit is authorable
-(start -1 = full kept). The snapshot test writes on a copy-on-write overlay of the retained snapshot."""
+are spent. The magazine weapons' own spare rows are real fields (0..31, allow_unverified_effect), and so are the AC-8's
+own rounds (0..511; rc2: its reload subtracts 5 with no lower bound, but the flush clamps a negative to 0 in place the
+same frame, ownRoundsBelowZero); every team-reload backpack's deposit is authorable (start -1 = full kept). Older-SDK
+mods write the own rows without the acknowledgement. The snapshot tests write on a copy-on-write overlay of the
+retained snapshot."""
 import json
 import unittest
 
 from support import ROOT, run
+from test_legacy_sdk_compatibility import legacy_lines, modbuilder_wrap, only, run_mods
 from test_multi_mod_composition import build_profile, snapshot_run
 
 RESEARCH = json.loads((ROOT / 'research/team-reload-ammo-F5FEE03DCFDB.json').read_text())
@@ -31,6 +34,27 @@ class ResearchTests(unittest.TestCase):
         self.assertEqual(asm[('resupply', 0x76E7C9)], 'cmovb edi, eax')
         fields = {(f['field'], f['bits']) for f in RESEARCH['networkFields']}
         self.assertEqual(fields, {('magazines_remaining', 5), ('0x9A34C336', 9)})
+
+    def test_own_rounds_below_zero_are_clamped_in_place(self):
+        # rc2: 3 own rounds and a 5-round reload store -2 in the live row; the queued write points at that row and the
+        # flush validates it with clamp = 1 before setting the field, so the engine writes 0 back the same frame.
+        proof = RESEARCH['gameDll']['proof']
+        asm = {(group, row['rva']): row['asm'] for group, rows in proof.items() for row in rows}
+        self.assertEqual(asm[('roundsBelowZero', 0x7774EA)], 'mov dword ptr [rax + rcx*4], ebx')
+        self.assertEqual(asm[('roundsBelowZero', 0x7774F1)], 'lea r8, [rax + rcx*4]')
+        self.assertEqual(asm[('roundsBelowZero', 0x7769A7)], 'test byte ptr [rcx + 0x14], 1')
+        self.assertEqual(asm[('readersOfANegativeCount', 0x775997)], 'setg r14b')
+        self.assertEqual(asm[('fieldQueueAndFlush', 0xFDDF0C)], 'mov byte ptr [rsp + 0x20], 1')
+        self.assertEqual(asm[('fieldQueueAndFlush', 0xFDAF6C)], 'call 0xfdc780')
+        self.assertEqual(asm[('fieldQueueAndFlush', 0xFDC79E)], 'call 0xfde060')
+        clamp = {row['rva']: row['asm'] for row in RESEARCH['executable']['proof']['validatorIntClamp']}
+        self.assertEqual(clamp[0x34BBEF], 'cmovl edi, r14d')
+        self.assertEqual(clamp[0x34BBF3], 'mov dword ptr [rsi], edi')
+        below = RESEARCH['ownRoundsBelowZero']
+        self.assertTrue(below['effect'].startswith('harmless'))
+        veto, = below['vanillaPrecedent']
+        self.assertTrue(veto['owners'][0].endswith('pistol_broomhandle'))
+        self.assertEqual((veto['startingRounds'], veto['reloadAmount']), (52, 6))
 
     def test_every_team_reload_weapon_and_its_backpack(self):
         weapons = {item['supportWeapon']: item for item in RESEARCH['teamReloadWeapons']}
@@ -64,9 +88,12 @@ class CatalogueTests(unittest.TestCase):
                 self.assertTrue(row['teamReload']['ownSpares'])
         for field in ('rounds.spare_rounds', 'rounds.starting_rounds', 'rounds.rounds_from_supply'):
             row = rows[('AC-8 Autocannon', field)]
-            self.assertIn('noEffect', row)
-            self.assertFalse(row['teamReload']['ownSpares'])
-        self.assertEqual(rows[('AC-8 Autocannon', 'rounds.spare_rounds')]['teamReload']['max'], 0)
+            self.assertNotIn('noEffect', row, field)
+            self.assertEqual(row['operation']['acknowledgement'], 'allow_unverified_effect')
+            self.assertEqual((row['teamReload']['min'], row['teamReload']['max']), (0, 511))
+            self.assertIn('network field of 9 bits', row['teamReload']['rangeReason'])
+            self.assertTrue(row['teamReload']['ownSpares'])
+            self.assertNotIn('underflow', json.dumps(row))
         backpacks = json.loads((ROOT / 'sdk/BackpackAuthoringCapabilities.json').read_text())
         start = next(f for f in backpacks['fieldInstances'] if f['target']['backpack'] == 'GR-8 Recoilless Rifle Backpack'
             and f['semanticFieldId'] == 'deposit.start_amount')
@@ -88,9 +115,18 @@ rejects({id='a',target=gr8,field=F.magazine.spare_magazines,expect=0,value=3},'a
 patches.validate{id='a',target=gr8,allow_unverified_effect=true,field=F.magazine.spare_magazines,expect=0,value=3}
 rejects({id='b',target=gr8,allow_unverified_effect=true,field=F.magazine.spare_magazines,expect=0,value=32},
  'magazines_remaining (5 bits)')
-rejects({id='c',target=hd2.support_weapon('AC-8 Autocannon'),field=F.rounds.spare_rounds,expect=0,value=20},
- 'no lower bound')
-patches.validate{id='d',target=hd2.support_weapon('AC-8 Autocannon'),field=F.rounds.spare_rounds,expect=0,value=0}
+local ac8=hd2.support_weapon('AC-8 Autocannon')
+rejects({id='c',target=ac8,field=F.rounds.spare_rounds,expect=0,value=20},'allow_unverified_effect')
+patches.validate{id='c',target=ac8,allow_unverified_effect=true,field=F.rounds.spare_rounds,expect=0,value=20}
+-- not a multiple of the 5-round clip: harmless (the last partial reload ends at 0), so accepted
+patches.validate{id='c',target=ac8,allow_unverified_effect=true,field=F.rounds.spare_rounds,expect=0,value=23}
+patches.validate{id='c',target=ac8,allow_unverified_effect=true,field=F.rounds.starting_rounds,expect=0,value=511}
+patches.validate{id='c',target=ac8,allow_unverified_effect=true,field=F.rounds.rounds_from_supply,expect=0,value=7}
+rejects({id='c',target=ac8,allow_unverified_effect=true,field=F.rounds.spare_rounds,expect=0,value=512},
+ 'network field of 9 bits')
+rejects({id='c',target=ac8,allow_unverified_effect=true,field=F.rounds.starting_rounds,expect=0,value=-1},
+ 'reviewed minimum')
+patches.validate{id='d',target=ac8,allow_unverified_effect=true,field=F.rounds.spare_rounds,expect=0,value=0}
 local pack=gr8:backpack()
 assert(pack.backpack=='GR-8 Recoilless Rifle Backpack' and pack:weapon().weapon=='GR-8 Recoilless Rifle')
 patches.validate{id='e',target=pack,allow_unverified_effect=true,field=F.deposit.start_amount,expect=-1,value=-1}
@@ -100,6 +136,36 @@ rejects({id='g',target=pack,allow_unverified_effect=true,field=F.deposit.start_a
 rejects({id='h',target=pack,field=F.deposit.capacity,expect=5,value=12},'allow_unverified_effect')
 return 'ok'
 '''), b'ok')
+
+
+AC8_OWN_ROUNDS = ("hd2.ensure({transaction={id='ac8-own-rounds',target=hd2.support_weapon('AC-8 Autocannon'),"
+    "changes={{field=hd2.fields.rounds.spare_rounds,expect=0,value=20},"
+    "{field=hd2.fields.rounds.starting_rounds,expect=0,value=20}}}})")
+
+
+class LegacyTests(unittest.TestCase):
+    def test_a_0_30_3_mod_keeps_writing_ac8_own_rounds(self):
+        # 0.30.3 accepted these rows without an acknowledgement (flagged "no effect"); rc1 refused any nonzero
+        # maximum. A mod that declares SDK 0.30.3 writes them as a logged legacy operation; one that declares 0.31.0
+        # needs allow_unverified_effect.
+        results = run_mods([
+            ('sdk-0303', modbuilder_wrap('mods/test/ac8_0303', '0.30.3', AC8_OWN_ROUNDS)),
+            ('sdk-0310', modbuilder_wrap('mods/test/ac8_0310', '0.31.0', AC8_OWN_ROUNDS)),
+            ('sdk-0310-ack', modbuilder_wrap('mods/test/ac8_0310_ack', '0.31.0',
+                AC8_OWN_ROUNDS.replace("changes=", "allow_unverified_effect=true,changes="))),
+        ])
+        op = only(results['sdk-0303'])
+        self.assertNotEqual(op['status'], 'rejected', op.get('error'))
+        self.assertEqual(sorted((item['target'], item['field'], item['since']) for item in op['legacy']),
+            [('AC-8 Autocannon', 'rounds.spare_rounds', '0.31.0'), ('AC-8 Autocannon', 'rounds.starting_rounds',
+             '0.31.0')])
+        self.assertEqual(len(legacy_lines(results['sdk-0303'])), 2)
+        refused = only(results['sdk-0310'])
+        self.assertEqual(refused['status'], 'rejected')
+        self.assertIn('field requires allow_unverified_effect=true', refused['error'])
+        current = only(results['sdk-0310-ack'])
+        self.assertNotEqual(current['status'], 'rejected', current.get('error'))
+        self.assertFalse(current['legacy'])
 
 
 @unittest.skipUnless(build_profile.SNAPSHOT.is_file(), 'retained current-build snapshot not available')
@@ -129,6 +195,29 @@ check(runtime.read(bag[1].at,4)==b.encode(12,'u32'),'capacity 12 written')
 local n=0
 for _ in pairs(overlay)do n=n+1 end
 check(n==5,'exactly five members written: '..n)
+return json.encode({ok=true})
+''')
+        self.assertTrue(result['ok'])
+
+    def test_ac8_own_rounds(self):
+        # The AC-8 carries 20 rounds (4 clips) of its own: maximum, start and supply in its rounds record (+80/+88/+84).
+        result = snapshot_run(r'''
+update=update or function()end
+local ac8=hd2.support_weapon('AC-8 Autocannon')
+local rounds={{field='rounds.spare_rounds',expect=0,value=20},{field='rounds.starting_rounds',expect=0,value=20},
+    {field='rounds.rounds_from_supply',expect=0,value=20}}
+local where=resolve('transaction',{id='w',target=ac8,allow_unverified_effect=true,changes=rounds})
+check(#where==3,'three members of the AC-8 rounds record: '..#where)
+local h={}
+events.run_as('mods/test/team_reload_ac8',function()
+    h.weapon=hd2.ensure({transaction={id='ac8-own-rounds',target=ac8,allow_unverified_effect=true,changes=rounds}})
+end)
+settle({h.weapon})
+check(h.weapon.runs>=1 and h.weapon.result.status=='APPLIED','weapon '..tostring(h.weapon.error))
+for _,item in ipairs(where)do check(runtime.read(item.at,4)==b.encode(20,'u32'),item.label..' written')end
+local n=0
+for _ in pairs(overlay)do n=n+1 end
+check(n==3,'exactly three members written: '..n)
 return json.encode({ok=true})
 ''')
         self.assertTrue(result['ok'])

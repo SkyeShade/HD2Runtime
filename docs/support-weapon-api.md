@@ -398,14 +398,14 @@ each come with a backpack that a teammate (or the wearer) reloads them from. The
 (`research/team-reload-ammo-F5FEE03DCFDB.json`) decides a reload like this:
 
 1. **The weapon's own spares first.** If the weapon itself holds spare magazines (or rounds), the wielder may reload,
-   with or without a backpack, and the reload uses one of them.
+   with or without a backpack, and the reload uses one of them (on the AC-8, one 5-round clip).
 2. **Then the worn backpack.** Only when the weapon's own spares are 0 does the game look at the backpack: it must be
    the weapon's own backpack and hold at least one reload. The reload then costs one from the backpack.
 3. **A teammate's reload always uses a backpack**, never the weapon's own spares.
 4. **Spawn and resupply.** The weapon spawns with `min(starting, maximum)` own spares and every resupply adds
    `max(1, from supply)` up to the maximum. The backpack refills separately.
 
-Natively the maximum (`magazine.spare_magazines`) is 0 on all of them. That clamps the start and every resupply to 0,
+Natively the maximum (`magazine.spare_magazines`, on the AC-8 `rounds.spare_rounds`) is 0 on all of them. That clamps the start and every resupply to 0,
 which is why they keep no ammunition of their own: the native `magazine.magazines_from_supply` 6 is clamped away. So
 the wielder cannot reload without a backpack or a teammate.
 
@@ -435,11 +435,37 @@ hd2.ensure({transaction={id='gr8-own-spares',target=gr8,allow_unverified_effect=
     {field=hd2.fields.magazine.magazines_from_supply,expect=6,value=3}}}})
 ```
 
-**AC-8 Autocannon (rounds):** not offered. The game would use the AC-8's own rounds first too, but each reload
-subtracts its 5-round reload amount from them with no lower bound, while a resupply adds at least 1 round. A count
-that is not a multiple of 5 would drop below zero. `rounds.spare_rounds` therefore accepts only its native 0, and
-`rounds.starting_rounds` and `rounds.rounds_from_supply` have no effect (clamped to it); their `noEffect.reason` says
-so. Its backpack is authorable.
+**AC-8 Autocannon (rounds):** the same rows exist as rounds. They are real fields too (they were flagged "no
+effect" in 0.30.2 and 0.30.3, where writes were accepted):
+
+| Field | Meaning | Native | Range |
+| --- | --- | --- | --- |
+| `rounds.spare_rounds` | The most spare rounds the AC-8 itself carries | 0 | 0 to 511 |
+| `rounds.starting_rounds` | Its own rounds at spawn, clamped to the maximum | 0 | 0 to 511 |
+| `rounds.rounds_from_supply` | Own rounds gained per resupply (at least 1), up to the maximum | 0 | 0 to 511 |
+
+- **Acknowledgement:** `allow_unverified_effect` (proven from game code, not yet shown in game). Mods that declare an
+  older SDK keep writing them without it ([legacy SDK compatibility](legacy-sdk-compatibility.md)).
+- **One reload is one 5-round clip** taken from the AC-8's own rounds, by the wielder alone, until they are spent;
+  then the backpack is used.
+- **Use multiples of 5.** Other values work, but the last reload with fewer than 5 own rounds left still loads a full
+  clip (up to 4 extra rounds) and the count ends at 0. The game rounds the maximum up to a multiple of 5, a resupply
+  adds at least 1 round and an ammo box only part of `rounds_from_supply`, so a partial last clip can happen anyway.
+  It is harmless: for the rest of that frame the count is below zero, then the game clamps it to 0 in place before it
+  is sent to other players. The vanilla P-69 Veto (6-round clips, 52 starting rounds) does the same in unmodded play.
+  Research: `ownRoundsBelowZero` in `research/team-reload-ammo-F5FEE03DCFDB.json`.
+- **511:** the live count is a 9-bit network field; the game clamps it to 0..511. A maximum of 511 is rounded up to
+  515 and then held at 511, so 510 is the largest value that stays a whole number of clips.
+- **Applies to weapons called in after the write**, as above. The HUD readout of the own rounds is not traced.
+
+```lua
+-- AC-8: 20 rounds (4 clips) of its own, so the wielder can reload alone; resupply restores them
+local ac8=hd2.support_weapon('AC-8 Autocannon')
+hd2.ensure({transaction={id='ac8-own-rounds',target=ac8,allow_unverified_effect=true,changes={
+    {field=hd2.fields.rounds.spare_rounds,expect=0,value=20},
+    {field=hd2.fields.rounds.starting_rounds,expect=0,value=20},
+    {field=hd2.fields.rounds.rounds_from_supply,expect=0,value=20}}}})
+```
 
 **The backpacks** (`hd2.support_weapon(name):backpack()`): capacity, starting amount (-1 = full, the native value) and
 supply refill, see [Backpack ammunition](backpack-ammo.md#team-reload-backpacks-0310-offline-only).

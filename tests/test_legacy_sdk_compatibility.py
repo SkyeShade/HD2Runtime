@@ -287,11 +287,13 @@ class LegacyTableTests(unittest.TestCase):
         self.assertEqual(counts['0.30.0'], {'PLAS-45 Epoch': 30})
         self.assertEqual({entry['resource'] for entry in history['entries'] if entry['since'] == '0.30.0'},
             {'support_weapon'})
-        # 0.31.0: the team-reload weapons' own magazine rows (research/team-reload-ammo-F5FEE03DCFDB.json).
+        # 0.31.0: the team-reload weapons' own magazine rows and the AC-8's own rounds rows
+        # (research/team-reload-ammo-F5FEE03DCFDB.json; 0.30.3 accepted them as "no effect" rows).
         self.assertEqual(counts['0.31.0'], {'GR-8 Recoilless Rifle': 3, 'RL-77 Airburst Rocket Launcher': 3,
-            'FAF-14 Spear': 3, 'StA-X3 W.A.S.P. Launcher': 3})
+            'FAF-14 Spear': 3, 'StA-X3 W.A.S.P. Launcher': 3, 'AC-8 Autocannon': 3})
         self.assertEqual({entry['field'] for entry in history['entries'] if entry['since'] == '0.31.0'},
-            {'magazine.spare_magazines', 'magazine.starting_magazines', 'magazine.magazines_from_supply'})
+            {'magazine.spare_magazines', 'magazine.starting_magazines', 'magazine.magazines_from_supply',
+             'rounds.spare_rounds', 'rounds.starting_rounds', 'rounds.rounds_from_supply'})
         self.assertEqual([item['since'] for item in history['releases']], ['0.28.0', '0.30.0', '0.31.0'])
         # Every entry still names a field that needs the acknowledgement now.
         current = legacy_table.fields(legacy_table.current_catalogs())

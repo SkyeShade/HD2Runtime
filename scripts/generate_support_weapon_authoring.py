@@ -58,18 +58,22 @@ TEAM_ROLES={
     'magazine.magazines_from_supply':('Spare magazines the weapon itself gains from a resupply (at least 1), up to '
         'magazine.spare_magazines (0 natively, so the native 6 has no effect until that is raised). The backpack '
         'refills separately (deposit.refill_amount).')}
-TEAM_ROUNDS_STOCK={
-    'rounds.spare_rounds':('The most spare rounds the weapon itself could carry. Not offered: the game reads it '
-        "(the reload would use the weapon's own rounds before the backpack), but each reload subtracts the 5-round "
-        'reload amount with no lower bound while a resupply adds at least 1 round, so the count can drop below '
-        'zero. Only 0 (native) is accepted. See docs/support-weapon-api.md "Team-reload weapons".'),
+TEAM_ROUNDS_MAX=511
+TEAM_ROUNDS_RANGE=('the live spare-round count is a network field of 9 bits: the game clamps it to 0..511 '
+    'on every write')
+TEAM_ROUNDS_OWN_SPARES=('Own spare rounds of a team-reload weapon. Its reload uses them first (one 5-round clip per '
+    'reload, by the wearer alone, no backpack needed) and the backpack only when they are spent; a teammate reload '
+    'still uses the backpack. Multiples of 5 are recommended: with fewer than 5 left the last reload still loads a '
+    'full clip and the count ends at 0 (the game clamps it in place, as for the vanilla P-69 Veto). Proven from game '
+    'code (research/team-reload-ammo-F5FEE03DCFDB.json, ownRoundsBelowZero); not yet shown in game.')
+TEAM_ROUNDS_ROLES={
+    'rounds.spare_rounds':('The most spare rounds the weapon itself carries. 0 natively, which is why it keeps none: '
+        'the spawn and resupply amounts are clamped to it. The game rounds it up to a multiple of the 5-round clip.'),
     'rounds.starting_rounds':('Spare rounds the weapon itself carries when it spawns, clamped to rounds.spare_rounds '
-        '(0, which is the only value accepted there): no effect.'),
-    'rounds.rounds_from_supply':('Spare rounds the weapon itself gains from a resupply, clamped to '
-        'rounds.spare_rounds (0, the only value accepted there): no effect. The backpack refills separately '
-        '(deposit.refill_amount).')}
-TEAM_ROUNDS_RANGE=('the reload subtracts the reload amount from the own spare rounds with no lower bound and a '
-    'resupply adds at least 1 round, so any nonzero maximum can underflow (research/team-reload-ammo)')
+        '(0 natively, so this has no effect until that is raised).'),
+    'rounds.rounds_from_supply':('Spare rounds the weapon itself gains from a resupply (at least 1; an ammo box gives '
+        'a share), up to rounds.spare_rounds (0 natively, so this has no effect until that is raised). The backpack '
+        'refills separately (deposit.refill_amount).')}
 UNVERIFIED_REASONS={
     'reload.duration':'Schema-labelled native reload duration; scraped reload times agree only approximately '
         '(they include animation), and the gameplay effect of an edit is not yet confirmed.',
@@ -527,8 +531,9 @@ def build(catalog_path=CATALOG):
             ammo=candidate.get('ammo')or{};kind=ammo.get('kind')
             # 0.31.0: a team-reload weapon's own stock rows are real (research/team-reload-ammo-F5FEE03DCFDB.json).
             # Magazine weapons: writable behind allow_unverified_effect, bounded by the 5-bit network field. The AC-8's
-            # rounds: the game would subtract its 5-round reload amount with no lower bound, so only the native 0 is
-            # accepted as the maximum, and the start and supply rows say why they have no effect.
+            # rounds (rc2): the same, bounded by the 9-bit network field. Its reload subtracts 5 with no lower bound,
+            # but the flush clamps a negative to 0 in the live row the same frame (ownRoundsBelowZero), as the vanilla
+            # P-69 Veto shows; so no multiple-of-5 constraint.
             team=team_backpacks.get(weapon['name'])
             if team and team['ammoKind']!=kind:
                 raise ValueError(weapon['name']+': team-reload ammunition kind changed')
@@ -540,12 +545,12 @@ def build(catalog_path=CATALOG):
                         min=0,max=TEAM_MAGAZINE_MAX,rangeReason=TEAM_MAGAZINE_RANGE,
                         teamReload={'role':TEAM_ROLES[field_id],'ownSpares':True,
                             'research':'research/team-reload-ammo-F5FEE03DCFDB.json'})
-                elif team and field_id in TEAM_ROUNDS_STOCK:
-                    field['noEffect']=TEAM_ROUNDS_STOCK[field_id]
-                    field['teamReload']={'role':TEAM_ROUNDS_STOCK[field_id],'ownSpares':False,
-                        'research':'research/team-reload-ammo-F5FEE03DCFDB.json'}
-                    if field_id=='rounds.spare_rounds':
-                        field.update(min=0,max=0,rangeReason=TEAM_ROUNDS_RANGE)
+                elif team and field_id in TEAM_ROUNDS_ROLES:
+                    field.update(acknowledgement='allow_unverified_effect',
+                        acknowledgementReason=TEAM_ROUNDS_OWN_SPARES+' '+TEAM_ROUNDS_ROLES[field_id],
+                        min=0,max=TEAM_ROUNDS_MAX,rangeReason=TEAM_ROUNDS_RANGE,
+                        teamReload={'role':TEAM_ROUNDS_ROLES[field_id],'ownSpares':True,
+                            'research':'research/team-reload-ammo-F5FEE03DCFDB.json'})
                 return field
             if kind=='magazine'and'WeaponMagazineComponentData'in ownership:
                 for field_id,key,offset in (

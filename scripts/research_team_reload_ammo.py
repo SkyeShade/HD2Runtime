@@ -17,6 +17,11 @@ snapshots (exact instruction pins) and the engine's loaded network configuration
    least the assisted record's +20). The reload itself (0x7768F0) consumes the weapon's own spares first (one
    magazine; or the reload amount +92 of rounds, without a lower bound) and the backpack deposit only when the own
    total is zero. A teammate's assisted reload (0x11A28E0) always consumes a backpack deposit.
+   Own rounds below zero (0.31.0 rc2): 3 rounds left and a 5-round reload store -2 in the live row, but the queued
+   field write points at that row and every flush validates it with clamp = 1 before setting the field, so the engine
+   writes 0 back in place by the end of the frame (helldivers2.exe validator 0x34BAB0, signed clamp). Until then the
+   gate reads it signed (no own reload) and nothing serialises it. The vanilla P-69 Veto (6-round clips, 52 starting
+   rounds) reaches the same partial last reload. Harmless: the AC-8's own rounds are offered.
 3. Spawn and resupply read the weapon's own record. At spawn the own spare count is min(start, maximum) (magazines:
    +140 and +148; rounds: +88 and +80, the maximum rounded up to a multiple of the reload amount). Resupply
    (0x880E20) refills every carried weapon (0x757F70: magazines +144, rounds +84, at least 1, capped at the maximum)
@@ -196,13 +201,80 @@ DLL_PROOF = {
         (0x8806D5, 'cmp r15d, ebx', 'live amount above the index: shown'),
         (0x8806FB, 'cmp ebx, 0x14', 'at most 20 nodes'),
     ],
+    # 0.31.0 rc2: what happens when the own spare rounds are not a multiple of the reload amount (3 left, reload 5).
+    'roundsBelowZero': [
+        (0x7769A7, 'test byte ptr [rcx + 0x14], 1', 'reload completion: only an instance this peer owns (+0x14 bit 0) ...'),
+        (0x7769AB, 'je 0x7775df', '... a remote copy does no bookkeeping'),
+        (0x776BFE, 'add ebp, dword ptr [rax + 0x5c]', 'rounds fill: the magazine gets the full reload amount (+92) ...'),
+        (0x776CA6, 'call 0x7422b0', '... whatever the spare count'),
+        (0x7772E5, 'mov rsi, qword ptr [rip + 0x2bafa04]', 'rounds manager'),
+        (0x7774DA, 'mov rax, qword ptr [rsi + 0x58]', 'its live rows (manager +0x58) ...'),
+        (0x7774E0, 'lea rcx, [rdx + rdx*4]', '... 20 bytes each; +0 = the own spare rounds (int32)'),
+        (0x7774EA, 'mov dword ptr [rax + rcx*4], ebx', 'spare - reload amount stored unbounded (3 - 5 = -2)'),
+        (0x7774F1, 'lea r8, [rax + rcx*4]', 'the queued value pointer is that live row itself'),
+        (0x777505, 'call 0xfd97e0', 'queued field write 0x9A34C336'),
+        (0x77750A, 'test ebx, ebx', 'exactly 0: the out-of-ammo cue (0x777512) ...'),
+        (0x77750C, 'jne 0x7775ba', '... a negative count skips it'),
+    ],
+    'readersOfANegativeCount': [
+        (0x775995, 'test eax, eax', 'reload gate: own total ...'),
+        (0x775997, 'setg r14b', '... signed: a negative total does not allow an own reload (the backpack is asked)'),
+        (0x77709A, 'test eax, eax', 'reload payment: own total ...'),
+        (0x77709C, 'jne 0x7771cc', '... any nonzero, a negative too, pays from the own rounds (only if it survived to a '
+            'later completion)'),
+        (0x77A51D, 'mov edx, dword ptr [rcx + rsi*4]', 'resupply: live own rounds ...'),
+        (0x77A520, 'lea edi, [rdx + rbp]', '... + refill ...'),
+        (0x77A523, 'cmp eax, edi', '... vs the maximum ...'),
+        (0x77A525, 'cmovb edi, eax', '... unsigned: a negative sum would read as huge and give the maximum'),
+    ],
+    'fieldQueueAndFlush': [
+        (0xFD9801, 'cmp byte ptr [rsi + 0x301d], 0', 'queue closed ...'),
+        (0xFD9808, 'jne 0xfd98ae', '... only while the world is torn down (0xFDD0C0 sets, 0xFDD10C clears)'),
+        (0xFD9846, 'call rbx', 'net API +0x168: owned by this peer'),
+        (0xFD984A, 'jle 0xfd98a4', 'not owned: not queued'),
+        (0xFD985A, 'mov qword ptr [rsp + 0x28], r14', 'entry +8 = the caller\'s value pointer'),
+        (0xFD986F, 'cmp byte ptr [rsi + 0x301c], 0', 'not batching ...'),
+        (0xFD9876, 'je 0xfd987f', '... flush now'),
+        (0xFD9878, 'cmp eax, 0x800', 'batch full (2048 entries): flush now'),
+        (0xFD9892, 'call 0xfddec0', 'flush'),
+        (0xFDDF0C, 'mov byte ptr [rsp + 0x20], 1', 'flush: clamp = 1 ...'),
+        (0xFDDF15, 'mov r10, qword ptr [r8 + 0xa0]', '... net API +0xA0 validates and clamps through the pointer ...'),
+        (0xFDDF3F, 'call qword ptr [r10 + 0xb8]', '... and only then +0xB8 sets the field'),
+        (0xFDC79E, 'call 0xfde060', 'sync point 0xFDC780: flush every batched entry ...'),
+        (0xFDE0FC, 'mov byte ptr [rsp + 0x20], 1', '... with clamp = 1 ...'),
+        (0xFDE113, 'call r10', '... validate (net API +0xA0) ...'),
+        (0xFDE12F, 'call qword ptr [r10 + 0xb8]', '... then set'),
+        (0xFDAF17, 'call 0xfdc780', 'world update: sync before the update phases ...'),
+        (0xFDAF25, 'mov byte ptr [rax + 0x301c], 1', '... batching on ...'),
+        (0xFDAF3C, 'call 0x570730', '... update phases ...'),
+        (0xFDAF6C, 'call 0xfdc780', '... sync after them: everything queued this frame is clamped and sent'),
+        (0xAB5EE6, 'call 0xfdc780', 'the inlined copy of the world update syncs at the same point'),
+        (0xFDC8A3, 'test byte ptr [rdx + 0x14], 1', 'an instance without a game object: +0x14 bit 0 stands in for the '
+            'owned check'),
+    ],
+}
+# helldivers2.exe: the engine's field validator (net API +0xA0 -> 0x34C220 -> 0x34BAB0), research/deposit-limits.
+EXE_PROOF = {
+    'validatorIntClamp': [
+        (0x34BB72, 'mov r12d, dword ptr [r8]', 'value (through the caller\'s pointer)'),
+        (0x34BB78, 'mov r14d, dword ptr [rdi + 0x10]', 'field minimum (0)'),
+        (0x34BB85, 'sub edx, r14d', 'value - min ...'),
+        (0x34BB8A, 'cmp edx, eax', '... vs 1 << bits (512) ...'),
+        (0x34BB8C, 'jb 0x34c1e6', '... unsigned: -2 is out of range'),
+        (0x34BB99, 'add edi, r8d', 'max = min + 2^bits - 1 (511)'),
+        (0x34BBD6, 'cmp byte ptr [rsp + 0xd8], bpl', 'clamp flag (1 from the flush)'),
+        (0x34BBE6, 'cmp eax, edi', 'signed: above max ...'),
+        (0x34BBE8, 'jg 0x34bbf3', '... max'),
+        (0x34BBEF, 'cmovl edi, r14d', 'signed: below min: min (0)'),
+        (0x34BBF3, 'mov dword ptr [rsi], edi', 'written back into the live row'),
+    ],
 }
 GLOBALS = {('definitionTables', 0x4F3762): MAGAZINE_MANAGER, ('definitionTables', 0x4FDD42): ROUNDS_MANAGER,
     ('ownSpareTotal', 0x744236): HEAT_MANAGER, ('ownSpareTotal', 0x7442C6): MAGAZINE_MANAGER,
     ('ownSpareTotal', 0x744354): ROUNDS_MANAGER, ('reloadGate', 0x775987): WEAPON_MANAGER,
     ('reloadGate', 0x7759A7): ASSISTED_MANAGER, ('backpackCanFeed', 0x73B51A): DEPOSIT_MANAGER,
     ('reloadConsume', 0x776F8E): ASSISTED_MANAGER, ('reloadConsume', 0x777294): MAGAZINE_MANAGER,
-    ('teamReload', 0x73B019): ASSISTED_MANAGER}
+    ('teamReload', 0x73B019): ASSISTED_MANAGER, ('roundsBelowZero', 0x7772E5): ROUNDS_MANAGER}
 
 
 def hexid(value: int) -> str:
@@ -242,12 +314,14 @@ def network_fields() -> list[dict]:
 def build() -> dict:
     native = entity_research.Native()
     base = snapshot_image.Snapshot(snapshot_regions.SNAPSHOT)
-    if base.game_dll_sha256 != limits.PROFILE_DLL_SHA:
-        raise ValueError('snapshot game.dll differs from the pinned profile')
+    if base.game_dll_sha256 != limits.PROFILE_DLL_SHA or base.executable_sha256 != limits.PROFILE_EXE_SHA:
+        raise ValueError('snapshot game.dll or executable differs from the pinned profile')
     _, dll = base.module_image('game.dll')
+    _, exe = base.module_image(limits.EXE)
     base.close()
     image = limits.Image(dll)
     proof = image.prove(DLL_PROOF, {})
+    exe_proof = limits.Image(exe).prove(EXE_PROOF, {})
     rows = {(group, row['rva']): row for group, items in proof.items() for row in items}
     for key, value in GLOBALS.items():
         if rows[key].get('ripTarget') != value:
@@ -368,11 +442,53 @@ def build() -> dict:
                     'rounds weapons: wiki rounds from supply = backpack refill x reload amount'}
         weapons.append(entry)
 
+    # Every rounds-feed record whose reload loads more than one round: a native one whose start or supply is not a
+    # multiple of its reload amount reaches a partial last reload (and the same transient below zero) in vanilla play.
+    partial = []
+    for record, owners in sorted(native.owners(ROUNDS).items()):
+        spare, supply, start, amount = struct.unpack_from('<IIII', native.record(ROUNDS, record), 80)
+        if amount > 1:
+            partial.append({'recordIndex': record, 'owners': [native.path(o) or hexid(o) for o in owners],
+                'spareRounds': spare, 'roundsFromSupply': supply, 'startingRounds': start, 'reloadAmount': amount,
+                'nonMultiple': bool(start % amount or supply % amount or spare % amount)})
+    vanilla = [item for item in partial if item['nonMultiple']]
+    if not any(owner.endswith('pistol_broomhandle') for item in vanilla for owner in item['owners']):
+        raise ValueError('the P-69 Veto precedent (52 starting rounds, 6-round clips) changed: %s' % partial)
+    below_zero = {
+        'question': 'own spare rounds not a multiple of the reload amount (3 left, reload 5): what reads the -2?',
+        'storage': 'rounds manager (0x3326CF0) live rows at +0x58, 20 bytes each, +0 = own spare rounds (int32)',
+        'sequence': [
+            'reload completion (owner only, +0x14 bit 0): the magazine gets the full reload amount (0x776BFE) and the '
+            'row becomes 3 - 5 = -2 (0x7774EA); the queued write 0x9A34C336 points at that live row (0x7774F1)',
+            'the queue accepts it (owned; closed only during world teardown) and, while the world update batches, '
+            'flushes it at the next sync point 0xFDC780: after the update phases of this frame (0xFDAF6C, 0xAB5EE6), at '
+            'the latest at the start of the next world update (0xFDAF17); unbatched writes flush at once (0xFD9876)',
+            'the flush validates with clamp = 1 before it sets the field: the engine validator sees -2 out of range '
+            '(unsigned value - min >= 512) and writes the signed clamp, 0, back through the pointer into the live row '
+            '(0x34BBEF, 0x34BBF3). Values above 511 saturate at 511 the same way; nothing wraps',
+            'so the network field never carries a negative, and a remote copy never runs the subtraction'],
+        'readersBeforeTheClamp': {
+            'reloadGate': 'signed (setg): -2 does not allow an own reload; the worn backpack is asked, as at 0',
+            'reloadPayment': 'jne would pay a later reload from the own rounds, but the next completion is a whole '
+                'reload duration later, long after the flush of that frame wrote 0',
+            'resupply': 'unsigned (cmovb): a negative sum would give the maximum, but a resupply would have to land '
+                'in the same frame as the reload completion, and it is still capped at the maximum',
+            'outOfAmmoCue': 'the exactly-0 cue (0x77750A) is skipped for a negative count',
+            'hud': 'not traced; at most one frame'},
+        'effect': 'harmless: the last partial reload loads a full clip (at most reload amount - 1 extra rounds, 4 on '
+            'the AC-8) and the count is 0 by the end of the frame; no wrap, no free ammunition beyond that, no '
+            'network desync',
+        'vanillaPrecedent': vanilla,
+        'roundsWithReloadAmountAboveOne': partial,
+        'decision': 'AC-8 rounds.spare_rounds, starting_rounds and rounds_from_supply become real fields (0..511, the '
+            'network field), allow_unverified_effect; multiples of 5 recommended, not required'}
+
     fields = network_fields()
     if {(f['field'], f['bits']) for f in fields} != {(FIELD_MAGAZINES, 5), ('0x%08X' % FIELD_ROUNDS_HASH, 9)}:
         raise ValueError('spare-count network field types changed: %s' % fields)
-    report = {'schemaVersion': 1, 'sourceSnapshot': snapshot_regions.SNAPSHOT.name,
-        'modules': {'gameDll': {'sha256': limits.PROFILE_DLL_SHA, 'unpackedImageSha256': limits.sha(dll)}},
+    report = {'schemaVersion': 2, 'sourceSnapshot': snapshot_regions.SNAPSHOT.name,
+        'modules': {'gameDll': {'sha256': limits.PROFILE_DLL_SHA, 'unpackedImageSha256': limits.sha(dll)},
+            'executable': {'sha256': limits.PROFILE_EXE_SHA, 'unpackedImageSha256': limits.sha(exe)}},
         'pinnedReferences': {'entities': entity_research.sha(native.entities), 'typelib': entity_research.sha(native.typelib)},
         'gameDll': {'magazineManager': MAGAZINE_MANAGER, 'roundsManager': ROUNDS_MANAGER, 'heatManager': HEAT_MANAGER,
             'assistedReloadManager': ASSISTED_MANAGER, 'weaponManager': WEAPON_MANAGER, 'depositManager': DEPOSIT_MANAGER,
@@ -381,6 +497,8 @@ def build() -> dict:
                 'weaponRefill': 0x757F70, 'magazineRefill': 0x76E6D0, 'roundsRefill': 0x77A430, 'resupplyAll': 0x880E20,
                 'backpackNodes': 0x8805D0},
             'proof': proof},
+        'executable': {'validator': limits.VALIDATOR, 'proof': exe_proof},
+        'ownRoundsBelowZero': below_zero,
         'tableShapes': shapes,
         'networkFields': fields,
         'model': [
@@ -389,6 +507,8 @@ def build() -> dict:
             'live amount >= assisted record +20)',
             'self reload: own spares first (1 magazine; or reload amount +92 rounds, no lower bound), the worn '
             'backpack deposit (assisted +20) only when the own total is 0',
+            'own rounds below 0 (3 left, reload 5): stored for the rest of the frame, then the clamp of the flush writes 0 '
+            'into the live row before the field is set; a full clip was loaded (at most reload amount - 1 extra)',
             'team (assisted) reload: always a backpack deposit (the reloader\'s or the wielder\'s)',
             'spawn: own spares = min(start, maximum) (magazines +140/+148; rounds +88/+80, maximum rounded up to a '
             'multiple of the reload amount); the maximum is scaled by weapon stat 12',

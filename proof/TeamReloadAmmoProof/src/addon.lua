@@ -1,12 +1,13 @@
 local hd2=require('mods/skyeshade/hd2runtime')
--- TeamReloadAmmoProof 0.1.0 (HD2Runtime 0.30.4, development only): team-reload weapons carrying spares of their own,
--- and bigger team-reload backpacks (docs/support-weapon-api.md "Team-reload weapons", docs/backpack-ammo.md). One
--- options toggle per test; call a new weapon in after changing one (the counts are set when it spawns).
+-- TeamReloadAmmoProof 0.2.0 (HD2Runtime 0.31.0 rc2, development only): team-reload weapons carrying spares of their
+-- own (the AC-8's own rounds included), and bigger team-reload backpacks (docs/support-weapon-api.md "Team-reload
+-- weapons", docs/backpack-ammo.md). One options toggle per test; call a new weapon in after changing one (the counts
+-- are set when it spawns).
 local mod=hd2.mod()
-local BUILD='0.1.0 TEAM RELOAD'
-mod:log('TeamReloadAmmoProof '..BUILD..' BUILD: GR-8 3 own spares, GR-8 backpack 12 and AC-8 backpack 20 are on by '
-    ..'default; GR-8 backpack starts with 2, W.A.S.P. 2 own magazines and Spear backpack 8 are off (MODS tab). '
-    ..'Call a new weapon in after a change.')
+local BUILD='0.2.0 AC-8 OWN ROUNDS'
+mod:log('TeamReloadAmmoProof '..BUILD..' BUILD: GR-8 3 own spares, AC-8 20 own rounds, GR-8 backpack 12 and AC-8 '
+    ..'backpack 20 are on by default; AC-8 23 own rounds, GR-8 backpack starts with 2, W.A.S.P. 2 own magazines and '
+    ..'Spear backpack 8 are off (MODS tab). Call a new weapon in after a change.')
 local page=hd2.options({id='team_reload_ammo_proof',title='Team Reload Ammo Proof'})
 local function report(label)
     return function(status,info)
@@ -16,15 +17,23 @@ local function report(label)
 end
 local F=hd2.fields
 local gr8=hd2.support_weapon('GR-8 Recoilless Rifle')
+local ac8=hd2.support_weapon('AC-8 Autocannon')
 local wasp=hd2.support_weapon('StA-X3 W.A.S.P. Launcher')
+local function ac8_rounds(n)
+    return {{field=F.rounds.spare_rounds,expect=0,value=n},{field=F.rounds.starting_rounds,expect=0,value=n},
+        {field=F.rounds.rounds_from_supply,expect=0,value=n}}
+end
 local tests={
     {id='gr8_own_spares',label='GR-8 carries 3 spare rockets of its own',default=true,target=gr8,changes={
         {field=F.magazine.spare_magazines,expect=0,value=3},{field=F.magazine.starting_magazines,expect=0,value=3},
         {field=F.magazine.magazines_from_supply,expect=6,value=3}}},
+    {id='ac8_own_rounds',label='AC-8 carries 20 rounds of its own',default=true,target=ac8,changes=ac8_rounds(20)},
+    {id='ac8_own_rounds_23',label='AC-8 carries 23 rounds of its own (partial last clip)',default=false,target=ac8,
+        changes=ac8_rounds(23)},
     {id='gr8_backpack_12',label='Recoilless backpack holds 12',default=true,target=gr8:backpack(),changes={
         {field=F.deposit.capacity,expect=5,value=12}}},
     {id='ac8_backpack_20',label='AC-8 backpack holds 20 magazines',default=true,
-        target=hd2.support_weapon('AC-8 Autocannon'):backpack(),changes={
+        target=ac8:backpack(),changes={
         {field=F.deposit.capacity,expect=10,value=20},{field=F.deposit.refill_amount,expect=5,value=10}}},
     {id='gr8_backpack_starts_2',label='Recoilless backpack starts with 2',default=false,target=gr8:backpack(),changes={
         {field=F.deposit.start_amount,expect=-1,value=2}}},

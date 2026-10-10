@@ -14946,19 +14946,16 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": false,
-        "acknowledgement": null,
-        "acknowledgementReason": null
-      },
-      "noEffect": {
-        "reason": "The most spare rounds the weapon itself could carry. Not offered: the game reads it (the reload would use the weapon's own rounds before the backpack), but each reload subtracts the 5-round reload amount with no lower bound while a resupply adds at least 1 round, so the count can drop below zero. Only 0 (native) is accepted. See docs/support-weapon-api.md \"Team-reload weapons\"."
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Own spare rounds of a team-reload weapon. Its reload uses them first (one 5-round clip per reload, by the wearer alone, no backpack needed) and the backpack only when they are spent; a teammate reload still uses the backpack. Multiples of 5 are recommended: with fewer than 5 left the last reload still loads a full clip and the count ends at 0 (the game clamps it in place, as for the vanilla P-69 Veto). Proven from game code (research/team-reload-ammo-F5FEE03DCFDB.json, ownRoundsBelowZero); not yet shown in game. The most spare rounds the weapon itself carries. 0 natively, which is why it keeps none: the spawn and resupply amounts are clamped to it. The game rounds it up to a multiple of the 5-round clip."
       },
       "teamReload": {
-        "role": "The most spare rounds the weapon itself could carry. Not offered: the game reads it (the reload would use the weapon's own rounds before the backpack), but each reload subtracts the 5-round reload amount with no lower bound while a resupply adds at least 1 round, so the count can drop below zero. Only 0 (native) is accepted. See docs/support-weapon-api.md \"Team-reload weapons\".",
-        "ownSpares": false,
+        "role": "The most spare rounds the weapon itself carries. 0 natively, which is why it keeps none: the spawn and resupply amounts are clamped to it. The game rounds it up to a multiple of the 5-round clip.",
+        "ownSpares": true,
         "research": "research/team-reload-ammo-F5FEE03DCFDB.json",
         "min": 0,
-        "max": 0,
-        "rangeReason": "the reload subtracts the reload amount from the own spare rounds with no lower bound and a resupply adds at least 1 round, so any nonzero maximum can underflow (research/team-reload-ammo)"
+        "max": 511,
+        "rangeReason": "the live spare-round count is a network field of 9 bits: the game clamps it to 0..511 on every write"
       },
       "resolution": {
         "rootChain": [
@@ -15061,16 +15058,16 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": false,
-        "acknowledgement": null,
-        "acknowledgementReason": null
-      },
-      "noEffect": {
-        "reason": "Spare rounds the weapon itself gains from a resupply, clamped to rounds.spare_rounds (0, the only value accepted there): no effect. The backpack refills separately (deposit.refill_amount)."
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Own spare rounds of a team-reload weapon. Its reload uses them first (one 5-round clip per reload, by the wearer alone, no backpack needed) and the backpack only when they are spent; a teammate reload still uses the backpack. Multiples of 5 are recommended: with fewer than 5 left the last reload still loads a full clip and the count ends at 0 (the game clamps it in place, as for the vanilla P-69 Veto). Proven from game code (research/team-reload-ammo-F5FEE03DCFDB.json, ownRoundsBelowZero); not yet shown in game. Spare rounds the weapon itself gains from a resupply (at least 1; an ammo box gives a share), up to rounds.spare_rounds (0 natively, so this has no effect until that is raised). The backpack refills separately (deposit.refill_amount)."
       },
       "teamReload": {
-        "role": "Spare rounds the weapon itself gains from a resupply, clamped to rounds.spare_rounds (0, the only value accepted there): no effect. The backpack refills separately (deposit.refill_amount).",
-        "ownSpares": false,
-        "research": "research/team-reload-ammo-F5FEE03DCFDB.json"
+        "role": "Spare rounds the weapon itself gains from a resupply (at least 1; an ammo box gives a share), up to rounds.spare_rounds (0 natively, so this has no effect until that is raised). The backpack refills separately (deposit.refill_amount).",
+        "ownSpares": true,
+        "research": "research/team-reload-ammo-F5FEE03DCFDB.json",
+        "min": 0,
+        "max": 511,
+        "rangeReason": "the live spare-round count is a network field of 9 bits: the game clamps it to 0..511 on every write"
       },
       "resolution": {
         "rootChain": [
@@ -15173,16 +15170,16 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": false,
-        "acknowledgement": null,
-        "acknowledgementReason": null
-      },
-      "noEffect": {
-        "reason": "Spare rounds the weapon itself carries when it spawns, clamped to rounds.spare_rounds (0, which is the only value accepted there): no effect."
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Own spare rounds of a team-reload weapon. Its reload uses them first (one 5-round clip per reload, by the wearer alone, no backpack needed) and the backpack only when they are spent; a teammate reload still uses the backpack. Multiples of 5 are recommended: with fewer than 5 left the last reload still loads a full clip and the count ends at 0 (the game clamps it in place, as for the vanilla P-69 Veto). Proven from game code (research/team-reload-ammo-F5FEE03DCFDB.json, ownRoundsBelowZero); not yet shown in game. Spare rounds the weapon itself carries when it spawns, clamped to rounds.spare_rounds (0 natively, so this has no effect until that is raised)."
       },
       "teamReload": {
-        "role": "Spare rounds the weapon itself carries when it spawns, clamped to rounds.spare_rounds (0, which is the only value accepted there): no effect.",
-        "ownSpares": false,
-        "research": "research/team-reload-ammo-F5FEE03DCFDB.json"
+        "role": "Spare rounds the weapon itself carries when it spawns, clamped to rounds.spare_rounds (0 natively, so this has no effect until that is raised).",
+        "ownSpares": true,
+        "research": "research/team-reload-ammo-F5FEE03DCFDB.json",
+        "min": 0,
+        "max": 511,
+        "rangeReason": "the live spare-round count is a network field of 9 bits: the game clamps it to 0..511 on every write"
       },
       "resolution": {
         "rootChain": [
