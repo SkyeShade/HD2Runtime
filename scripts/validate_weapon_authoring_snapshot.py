@@ -61,6 +61,12 @@ def validate(snapshot=DEFAULT_SNAPSHOT,output=DEFAULT_OUTPUT):
                     'weapon':weapon['name'],'attack':role}
                 change={'field':'attack.projectile','expect':handle,'value':handle}
                 target={'resource':'player_weapon','path':'attack','weapon':weapon['name'],'attack':role}
+            elif field['type']=='beam_reference':
+                # A beam host's BeamType reference (0.31.0 beam swaps; the Trident and Dagger, on their own record):
+                # its own beam handle (weapon:beam()) is the reviewed baseline, as in the support weapon validator.
+                handle={'resource':'player_weapon','path':'beam_reference','weapon':weapon['name']}
+                change={'field':'attack.beam','expect':handle,'value':handle}
+                target={'resource':'player_weapon','path':'weapon','weapon':weapon['name']}
             elif field['type']=='explosion_reference':
                 role=field['referenceRole'];phase=field['referencePhase']
                 handle={'resource':'player_weapon','path':('explosion'

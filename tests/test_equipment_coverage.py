@@ -162,13 +162,14 @@ class CatalogTests(unittest.TestCase):
 class SnapshotTests(unittest.TestCase):
     def test_every_field_round_trips_and_every_link_is_reproven(self):
         self.assertEqual(SNAPSHOT['status'], 'VALIDATED')
-        self.assertEqual(SNAPSHOT['fields'], 81)
+        # 0.31.0: + 8 drone-gun fields (the Guard Dog gun's mounted spread pair, the Rover gun's beam pulse and wind-up)
+        self.assertEqual(SNAPSHOT['fields'], 89)
         for key in ('baselineMatches', 'noOps', 'changedWrites', 'rollbacks', 'conflictRejections',
                 'staleExpectRejections', 'acknowledgementRejections'):
             self.assertEqual(SNAPSHOT[key], SNAPSHOT['fields'], key)
         self.assertEqual(SNAPSHOT['chainTamperRejections'], 23)
         self.assertEqual(SNAPSHOT['readOnlyRejections'], 7)
-        self.assertEqual(SNAPSHOT['byFamily'], {'backpack': 55, 'drone_weapon': 16, 'player_weapon': 7,
+        self.assertEqual(SNAPSHOT['byFamily'], {'backpack': 55, 'drone_weapon': 24, 'player_weapon': 7,
             'support_weapon': 3})
 
 

@@ -1,14 +1,14 @@
 {
-  "acknowledgementRejections": 81,
-  "baselineMatches": 81,
+  "acknowledgementRejections": 89,
+  "baselineMatches": 89,
   "byFamily": {
     "backpack": 55,
-    "drone_weapon": 16,
+    "drone_weapon": 24,
     "player_weapon": 7,
     "support_weapon": 3
   },
   "chainTamperRejections": 23,
-  "changedWrites": 81,
+  "changedWrites": 89,
   "checked": [
     {
       "baseline": 8,
@@ -770,6 +770,28 @@
       "path": "weapon"
     },
     {
+      "baseline": 16,
+      "before": "00008041",
+      "changedTo": 17,
+      "component": "WeaponDataComponentData",
+      "family": "drone_weapon",
+      "field": "weapon.horizontal_spread",
+      "fieldOffset": 84,
+      "owner": "AX/AR-23 Guard Dog / gun",
+      "path": "weapon"
+    },
+    {
+      "baseline": 16,
+      "before": "00008041",
+      "changedTo": 17,
+      "component": "WeaponDataComponentData",
+      "family": "drone_weapon",
+      "field": "weapon.vertical_spread",
+      "fieldOffset": 88,
+      "owner": "AX/AR-23 Guard Dog / gun",
+      "path": "weapon"
+    },
+    {
       "baseline": 45,
       "before": "2d000000",
       "changedTo": 46,
@@ -869,6 +891,39 @@
       "path": "weapon"
     },
     {
+      "baseline": 4,
+      "before": "04000000",
+      "changedTo": 5,
+      "component": "BeamWeaponComponentData",
+      "family": "drone_weapon",
+      "field": "beam.fire_mode",
+      "fieldOffset": 100,
+      "owner": "AX/LAS-5 Rover / gun",
+      "path": "weapon"
+    },
+    {
+      "baseline": 1,
+      "before": "01000000",
+      "changedTo": 2,
+      "component": "BeamWeaponComponentData",
+      "family": "drone_weapon",
+      "field": "beam.pulse_beams",
+      "fieldOffset": 108,
+      "owner": "AX/LAS-5 Rover / gun",
+      "path": "weapon"
+    },
+    {
+      "baseline": 0,
+      "before": "00000000",
+      "changedTo": 1,
+      "component": "BeamWeaponComponentData",
+      "family": "drone_weapon",
+      "field": "beam.pulse_seconds",
+      "fieldOffset": 112,
+      "owner": "AX/LAS-5 Rover / gun",
+      "path": "weapon"
+    },
+    {
       "baseline": 200,
       "before": "00004843",
       "changedTo": 201,
@@ -898,6 +953,39 @@
       "family": "drone_weapon",
       "field": "heat.cool_per_second",
       "fieldOffset": 128,
+      "owner": "AX/LAS-5 Rover / gun",
+      "path": "weapon"
+    },
+    {
+      "baseline": 100,
+      "before": "0000c842",
+      "changedTo": 101,
+      "component": "WeaponHeatComponentData",
+      "family": "drone_weapon",
+      "field": "heat.firing_charge",
+      "fieldOffset": 148,
+      "owner": "AX/LAS-5 Rover / gun",
+      "path": "weapon"
+    },
+    {
+      "baseline": 400,
+      "before": "0000c843",
+      "changedTo": 401,
+      "component": "WeaponHeatComponentData",
+      "family": "drone_weapon",
+      "field": "heat.charge_gain_per_second",
+      "fieldOffset": 152,
+      "owner": "AX/LAS-5 Rover / gun",
+      "path": "weapon"
+    },
+    {
+      "baseline": 1000,
+      "before": "00007a44",
+      "changedTo": 1001,
+      "component": "WeaponHeatComponentData",
+      "family": "drone_weapon",
+      "field": "heat.charge_loss_per_second",
+      "fieldOffset": 156,
       "owner": "AX/LAS-5 Rover / gun",
       "path": "weapon"
     },
@@ -935,15 +1023,15 @@
       "path": "attack"
     }
   ],
-  "conflictRejections": 81,
-  "fields": 81,
+  "conflictRejections": 89,
+  "fields": 89,
   "fixtureFallback": "disabled",
   "mode": "snapshot-overlay",
-  "noOps": 81,
-  "rangeRejections": 59,
+  "noOps": 89,
+  "rangeRejections": 68,
   "readOnlyRejections": 7,
-  "rollbacks": 81,
+  "rollbacks": 89,
   "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
-  "staleExpectRejections": 81,
+  "staleExpectRejections": 89,
   "status": "VALIDATED"
 }
