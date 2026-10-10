@@ -73,7 +73,7 @@ nested structs and arrays):
 | --- | --- |
 | ProjectileWeapon +0 ProjType | the fired projectile, unless a customization delta patches it |
 | ProjectileWeapon +576 WeaponFunctionProjectileType | the projectile of a programmable-ammo weapon function |
-| ProjectileWeapon +40 ProjectileEntity | when set, firing spawns an entity instead of a projectile |
+| ProjectileWeapon +40 ProjectileEntity | when set, firing spawns an entity instead of a projectile (a missile carries +0 as its hit row only: see below) |
 | WeaponMagazine +4 Projectiles[32], +132 FirstProjectile | a magazine pattern that overrides rounds |
 | WeaponRounds +64 / +68 | primary / alternate magazine projectile of rounds-fed weapons |
 | WeaponCharge / WeaponHeat level ProjType (+4, +28, +52) | charge- or heat-level projectiles |
@@ -398,7 +398,33 @@ live-proven laser donor (the Reprimand, the Liberator's ammunition, the Patriot 
   to a beam is a fast laser bolt (the Talon and Sickle bolts fly at 1300 m/s).
 - **Spawned entities.** ProjectileWeapon +40 (ProjectileEntity) makes a shot spawn an entity (the P-33's missile).
   No vanilla weapon spawns a beam entity, a spawned beam weapon has no wielder to fire it, and the member is not a
-  reviewed field: not offered.
+  reviewed field: not offered. See "Spawned missiles" below.
+
+## Spawned missiles (0.30.4, offline only)
+
+Research: `research/docs/wasp-rocket-F5FEE03DCFDB.md`. Nine weapons have a ProjectileWeapon +40 (ProjectileEntity).
+Their `projectileSources` entries stay BLOCKED, but the reason now says exactly what the shot spawns:
+
+| Weapon | Spawns | Fired projectile | Authored as |
+| --- | --- | --- | --- |
+| StA-X3 W.A.S.P. Launcher | SeekingMissile (+40), ProgrammableAmmo missile (+584) | carries 43 / 330 as its hit row | `missile.*`, `function_missile.*` |
+| FAF-14 Spear, MLS-4X Commando | SeekingMissile | carries 225 / 245 as its hit row | `missile.*` |
+| P-33 Missile Pistol | SeekingMissile (+40, +584) | carries 152 / 127 | `missile.*`, `function_missile.*` |
+| P-92 Warrant | SeekingMissile | carries 326 | `missile.*` |
+| EXO-45 Patriot / left_gun | SeekingMissile | carries 128 | not offered on mounted weapons yet |
+| TD-110 Maelstrom slot_3 / slot_4 | SeekingMissile, not run by the projectile system | none (its own explosive) | - |
+| P-34 Breacher | a thrown sticky charge | none | - |
+
+How a missile works: the shot's projectile type goes into the spawn info (0x61604F), and the missile takes it (0x6414E0)
+when its own `projectile_type_to_process` is 0, as on every weapon missile. It then registers one unit-driven projectile
+of that type (0x646030 -> 0x13A9830, flight +0x50 = the missile's unit). The row supplies the hit damage and the impact
+explosion. The flight is the missile's SeekingMissile record (speed, acceleration, lifetime, turning; see
+[support weapons: Missiles](support-weapon-api.md#missiles-wasp-spear-commando-0304-offline-only)).
+
+**No swap.** Swapping the carried row would change the hit and not the missile, and how another machine's copy gets
+its type is not traced. Swapping the spawned entity needs another missile's package and replication on every machine;
+neither is proven. The W.A.S.P.'s own row 43 stays a non-selectable output, with the reason. Its second projectile
+330 is a donor for other weapons as before ("More donors").
 
 ## More donors (0.30.0; not live-tested)
 

@@ -240,6 +240,89 @@ hd2.ensure({patch={id='las98-melta',target=source.target,field=hd2.fields.attack
     value=hd2.attack_output('40-K Meltagun'),allow_unverified_reference=true,allow_unverified_effect=true}})
 ```
 
+## Missiles: W.A.S.P., Spear, Commando (0.30.4, offline only)
+
+Research: `research/docs/wasp-rocket-F5FEE03DCFDB.md` (`scripts/research_wasp_rocket.py`,
+`research/wasp-rocket-F5FEE03DCFDB.json`; every claim pinned to game.dll instructions). A lead (filediver's
+`SeekingMissileComponent`) named the members; each name is checked against the type library's hidden-name length.
+
+**How they fire.** The StA-X3 W.A.S.P. Launcher, FAF-14 Spear and MLS-4X Commando do not fire a projectile. Their
+ProjectileWeapon +40 (ProjectileEntity) names a **missile entity**, and every shot spawns one (0x6143CD, 0x615B15).
+The missile is a unit with its own `SeekingMissileComponent`. It carries the shot's projectile row (the W.A.S.P.:
+projectile 43) as a unit-driven projectile: the row supplies the hit damage and the impact explosion. The existing
+"Explosion · Primary impact" fields are row 43's explosion. The row does **not** supply the flight: the projectile's
+position is the missile's every step, so the row's velocity, drag and gravity do nothing. The flight is the missile's
+own record.
+
+The W.A.S.P.'s ProgrammableAmmo function (state 1) spawns a second missile instead (ProjectileWeapon +584), carrying
+projectile 330 (+576), whose impact explosion releases seven projectile-43 submunitions.
+
+**Fields** on `hd2.support_weapon(name)` (the weapon itself; the editor's "Missile" section). `missile.*` is the
+missile the weapon fires by default. `function_missile.*` is the W.A.S.P.'s ProgrammableAmmo missile.
+
+| Field | Meaning | W.A.S.P. | Spear | Commando | Range |
+| --- | --- | ---: | ---: | ---: | --- |
+| `missile.max_lifetime` | seconds before the missile ends | 30 | 30 | 30 | 0.1 to 600 |
+| `missile.starting_speed` | speed when it spawns (m/s) | 10 | 10 | 30 | 0 to 1000 |
+| `missile.minimum_speed` | target speed at launch (m/s) | 10 | 10 | 75 | 0 to 1000 |
+| `missile.preferred_speed` | target speed it accelerates to (m/s) | 100 | 100 | 120 | 0 to 1000 |
+| `missile.acceleration` | how fast the target speed grows (m/s²) | 200 | 200 | 200 | 0 to 10000 |
+| `missile.max_angle_to_target` | angle (degrees) at and beyond which the turn rate is `turn_rate_at_max_angle` | 45 | 45 | 45 | 1 to 180 |
+| `missile.turn_rate_at_max_angle` | turn rate when far off target | 15 | 10 | 2 | 0 to 1000 |
+| `missile.turn_rate_aligned` | turn rate when on target (blended in between) | 18 | 13 | 12 | 0 to 1000 |
+| `missile.guidance_delay` | seconds of flight before guidance switches on | 0.01 | - | - | 0.01 to 60 |
+
+The function missile (`function_missile.*`) has the same values except preferred speed 80 and turn rates 30 / 35.
+
+- **Acknowledgement:** `allow_unverified_effect` on every field. The code that reads each member is pinned; nothing
+  has been shown in game yet.
+- **What the code does:** target speed = `minimum_speed` + age x `acceleration`, capped at `preferred_speed`. The
+  missile ends when its age reaches `max_lifetime`; 0 or less would mean no limit, so it is not offered.
+- **Turn rates are named by the code.** The two lead names (`min_turn_speed`, `max_turn_speed`) have the same length,
+  so the ids describe what the code does with +88 and +92.
+- **`guidance_delay`** exists only where the native value is above 0. The Spear (-1) and the Commando (0, it is
+  laser-guided) switch guidance on by other logic.
+- **When it applies:** the record is read on every missile update, so a write changes missiles already in flight.
+  `starting_speed` is read when a missile spawns: it changes the next missile.
+- **Every write re-proves the link.** The weapon's ProjectileWeapon member must still name the reviewed missile, and
+  the missile must still own exactly the reviewed record. If another mod changed what the weapon spawns, the write is
+  refused (`SPAWNED_ENTITY_CHANGED`).
+- **Shared?** No. Each missile record has one owner, and exactly one ProjectileWeapon member in the game names each
+  missile (no entity delta or game.dll constant does). The writeScope is `weapon_local`.
+- **Multiplayer:** a type record. Every machine moves its own copy of the missile from its own record, so a player
+  without the same edit sees the vanilla flight. Damage and the explosion follow the carried projectile, whose impact
+  the shooter decides.
+
+```lua
+-- Slow W.A.S.P. rockets: easy to see and follow.
+local wasp=hd2.support_weapon('StA-X3 W.A.S.P. Launcher')
+hd2.ensure({transaction={id='wasp-slow',target=wasp,allow_unverified_effect=true,changes={
+    {field=hd2.fields.missile.preferred_speed,expect=100,value=20},
+    {field=hd2.fields.missile.minimum_speed,expect=10,value=5}}}})
+```
+
+**No projectile swap.** `support:projectile_source()` stays read-only, and its reason now says why:
+
+- **Swapping the spawned entity** (+40 / +584) is not offered. The entity is spawned by resource on the shooter and
+  replicated, so another missile needs its unit, effects and package resident on every machine. No package or
+  replication proof exists.
+- **Swapping the carried row** (ProjectileWeapon +0) is not offered. It would change only the hit row (damage, impact
+  explosion), never the missile's flight or model. The row reaches the missile through the shooter's spawn info
+  (0x61604F -> 0x6414E0), and how another machine's copy gets its type is not traced.
+
+The P-33 Missile Pistol and P-92 Warrant have the same fields (see [player weapon authoring](player-weapon-authoring.md)).
+
+**Not covered:**
+
+- **Lock-on** (time, range): no member of the missile. The W.A.S.P. owns no lock-on component; not traced.
+- **Other missile members** (`javelin_firing_mode`, targeting mode, the speed controller's factors,
+  `target_update_interval`): read by the code, but their effect is not traced.
+- **Other missiles.** The EXO-45 Patriot's missile has the same structure but is not offered on mounted weapons yet.
+  The TD-110 Maelstrom's missile has its own explosive (not run by the projectile system). The P-34 Breacher spawns a
+  thrown charge, not a missile.
+
+Live test: `proof/WaspRocketProof`.
+
 ## Warm-up and cooldown after overheat
 
 The wiki's **Warmup** and **Cooldown After Overheat** of the LAS-98 Laser Cannon and the LAS-99 Quasar Cannon are not

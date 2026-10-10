@@ -200,6 +200,17 @@ Not offered: redirecting the ignition to another status. That would be the level
 which only this weapon uses, and it is not authored in this release.
 `examples/projects/DoubleEdgeOverheatTest` is the live test.
 
+## Missiles: P-33 Missile Pistol, P-92 Warrant (0.30.4, offline only)
+
+The P-33 and the P-92 spawn a missile entity per shot (ProjectileWeapon +40), like the W.A.S.P. Their flight is the
+missile's own SeekingMissile record. They take the same `missile.*` fields on `hd2.weapon(name)`. The P-33's
+ProgrammableAmmo missile (+584) takes `function_missile.*`. All need `allow_unverified_effect`.
+
+Native values: P-33 starting 10, minimum 10, preferred 100 m/s, acceleration 200, turn 15 / 18, guidance delay 0.01 s.
+P-92 Warrant: 90 / 90 / 90 m/s, turn 30 / 30. Meaning, ranges, the re-proven link and multiplayer are in
+[support weapons: Missiles](support-weapon-api.md#missiles-wasp-spear-commando-0304-offline-only). Research:
+`research/docs/wasp-rocket-F5FEE03DCFDB.md`.
+
 ## Wind-up and Trident-like beam blasts (0.30.4, offline only)
 
 Research: `research/docs/las-beam-overhaul-comparison.md` (credit: [Bans](https://ayakamods.com/members/bans.388863/)'s [True Lasgun Beam Overhaul](https://ayakamods.com/mods/true-lasgun-beam-overhaul.4681/) was the lead; every member is proven
