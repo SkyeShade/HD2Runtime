@@ -542,6 +542,107 @@ return json.encode(out)''')
         for key, value in result.items():
             self.assertTrue(value, (key, result))
 
+    def test_per_weapon_damage_ap_and_range_through_borrowed_rows(self):
+        result = snapshot_run(PRELUDE + r'''
+local RWS=C.rows
+local beam_slots,damage_slots=game+RWS.beamTable.rva,game+RWS.damageTable.rva
+local VAN={}
+for i,p in ipairs(RWS.pairs)do VAN[i]={ptr(beam_slots+8*p.beamType),ptr(damage_slots+8*p.damageInfo)}end
+local out={}
+-- The Liberator: 10x damage (600 / 60) and AP 4; the Reprimand: range 100 m.
+local h=enable('lib','AR-23 Liberator',{{field=F.damage.player_standard_damage,expect=60,value=600},
+ {field=F.damage.player_durable_damage,expect=6,value=60},{field=F.damage.ap_direct,expect=2,value=4}})
+out.lib=h.status=='complete'
+local lib=weapon('AR-23 Liberator')
+local rec=runtime.read(ptr(SLOT)+0x2E0+lib.record*0x78,0x78)
+local k=b.u32(rec,0)
+out.own_beamtype=k==RWS.pairs[1].beamType
+local row=ptr(beam_slots+8*k)
+local d=b.u32(runtime.read(row,0x70),12)
+out.own_damage_id=d==RWS.pairs[1].damageInfo
+local drow=runtime.read(ptr(damage_slots+8*d),0x4C)
+out.damage_values=b.u32(drow,0)==d and b.value(drow,4,'i32')==600 and b.value(drow,8,'i32')==60
+ and b.u32(drow,12)==4 and b.u32(drow,16)==2
+out.vanilla_rows_untouched=b.hex(runtime.read(VAN[1][1],0x70))==RWS.pairs[1].beamHex
+ and b.hex(runtime.read(VAN[1][2],0x4C))==RWS.pairs[1].damageHex
+out.trident_untouched=b.hex(runtime.read(ptr(beam_slots+8*6),0x70))==RWS.tridentBeamHex
+h=enable('rep','SMG-32 Reprimand',{{field=F.beam.length,expect=200,value=100}})
+out.rep=h.status=='complete'
+local rep=weapon('SMG-32 Reprimand')
+local rk=b.u32(runtime.read(ptr(SLOT)+0x2E0+rep.record*0x78,4),0)
+out.rep_pair2=rk==RWS.pairs[2].beamType and b.value(runtime.read(ptr(beam_slots+8*rk),0x70),8,'f32')==100
+local st=hd2.beam_conversion('AR-23 Liberator'):status()
+out.status=st.rows['damage.standard_damage']==600 and st.pair.beamType==k
+-- A value change on a converted weapon: only its own row, at once (a live Liberator is fine).
+LIVE[lib.roots[1].resource]=1
+h=tx('lib-stagger','AR-23 Liberator',{{field=F.damage.stagger,expect=10,value=50}})
+out.live_value=h.status=='complete'and b.u32(runtime.read(ptr(damage_slots+8*d),0x4C),32)==50
+ and b.u32(runtime.read(ptr(damage_slots+8*d),0x4C),12)==4
+-- Another operation's value is a CONFLICT (the AP 4 above, expected 2).
+h=tx('lib-ap','AR-23 Liberator',{{field=F.damage.ap_direct,expect=2,value=6}})
+out.conflict=invalid(h,'CONFLICT')
+
+-- A live shot of its borrowed BeamType holds the restore back (one pulse).
+LIVE[lib.roots[1].resource]=nil
+local S=ptr(game+RWS.ring.global)
+local E0=S+RWS.ring.base
+local entry=runtime.read(E0,RWS.ring.stride)
+writable(E0+RWS.ring.alive,'\1');writable(E0+RWS.ring.beamType,b.encode(k,'u32'))
+h=disable('lib-off','AR-23 Liberator')
+out.ring_wait=waiting(h,'live beam shot')
+writable(E0+RWS.ring.alive,entry:sub(RWS.ring.alive+1,RWS.ring.alive+1))
+writable(E0+RWS.ring.beamType,entry:sub(RWS.ring.beamType+1,RWS.ring.beamType+4))
+h=disable('lib-off2','AR-23 Liberator')
+out.lib_off=h.status=='complete'and ptr(beam_slots+8*k)==VAN[1][1]and ptr(damage_slots+8*d)==VAN[1][2]
+-- The pair is free again and reused first.
+h=enable('sickle','LAS-16 Sickle',{{field=F.beam.length,expect=200,value=50}})
+out.reuse=h.status=='complete'and b.u32(runtime.read(ptr(SLOT)+0x2E0+weapon('LAS-16 Sickle').record*0x78,4),0)
+ ==RWS.pairs[1].beamType
+for i,n in ipairs({'LAS-16 Sickle','SMG-32 Reprimand'})do check(disable('off'..i,n).status=='complete','off '..n)end
+out.clean=changed()==0 and ptr(SLOT)==TABLE
+for i,p in ipairs(RWS.pairs)do
+ if ptr(beam_slots+8*p.beamType)~=VAN[i][1]or ptr(damage_slots+8*p.damageInfo)~=VAN[i][2]then out.clean=false end
+end
+return json.encode(out)''')
+        for key, value in result.items():
+            self.assertTrue(value, (key, result))
+
+    def test_rows_full_shared_path_and_another_build_refuse_per_weapon_rows(self):
+        result = snapshot_run(PRELUDE + r'''
+local out={}
+local names={}
+for _,w in ipairs(C.weapons)do if w.supported and#names<7 then names[#names+1]=w.name end end
+for i=1,6 do
+ local h=enable('r'..i,names[i],{{field=F.damage.player_standard_damage,expect=60,value=100+i}})
+ if h.status~='complete'then out['six_'..i]=false;out.err=tostring(h.error)..' '..tostring(h.last_transient) end
+end
+local h=enable('r7',names[7],{{field=F.damage.player_standard_damage,expect=60,value=200}})
+out.full=invalid(h,'ROWS_FULL')
+-- Without own rows the seventh still converts.
+h=enable('r7b',names[7])
+out.seventh_plain=h.status=='complete'
+for i=1,7 do disable('o'..i,names[i])end
+out.clean=changed()==0
+-- Another game build: the borrowed rows are build-scoped.
+local saved=C.rows.gameDllSha256
+C.rows.gameDllSha256=string.rep('0',64)
+require('hd2runtime/runtime/beam_conversion_rows').reset_for_tests()
+h=enable('build','LAS-16 Sickle',{{field=F.beam.length,expect=200,value=50}})
+out.other_build=invalid(h,'BORROWED_ROWS_UNVERIFIED_BUILD')
+h=enable('build2','LAS-16 Sickle')
+out.other_build_plain=h.status=='complete'
+disable('build2off','LAS-16 Sickle')
+C.rows.gameDllSha256=saved
+-- The shared fallback has no own rows.
+local pb=runtime.permanent_block;runtime.permanent_block=nil
+h=enable('sh','LAS-16 Sickle',{{field=F.damage.player_standard_damage,expect=60,value=90}})
+out.shared=invalid(h,'SHARED_RECORD_FALLBACK')
+runtime.permanent_block=pb
+out.clean2=changed()==0
+return json.encode(out)''')
+        for key, value in result.items():
+            self.assertTrue(value, (key, result))
+
     def test_a_join_after_apply_restores_idle_conversions_and_warns(self):
         result = snapshot_run(PRELUDE + r'''
 local W=require('hd2runtime/runtime/beam_conversion_watch')

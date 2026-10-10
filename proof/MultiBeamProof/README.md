@@ -1,5 +1,9 @@
 # MultiBeamProof (EXPERIMENTAL, SOLO ONLY)
 
+**Superseded by `proof/BeamConversionProof` and the beam conversion API (`docs/beam-conversion.md`).** Kept as the
+live-proven experiment fallback; it still works on its own, and the Runtime refuses to mix the two (an experiment copy
+of the BeamWeapon table refuses every conversion, and the other way round).
+
 This mod live-tests the **LAS-13 Trident beam on three weapons at once**: the **AR-23 Liberator**, the **LAS-58
 Talon** and the **SMG-32 Reprimand** (`research/docs/multi-beam-swap-F5FEE03DCFDB.md`). It generalises the
 live-proven Liberator swap of LiberatorBeamProof 0.2.0.

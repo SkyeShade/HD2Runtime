@@ -993,6 +993,7 @@ def outputs():
             'sdk/docs/enemy-authoring.md':(ROOT/'docs/enemy-authoring.md').read_text(encoding='utf-8'),
             'sdk/docs/live-evidence.md':(ROOT/'docs/live-evidence.md').read_text(encoding='utf-8'),
             'sdk/docs/attack-outputs.md':(ROOT/'docs/attack-outputs.md').read_text(encoding='utf-8'),
+            'sdk/docs/beam-conversion.md':(ROOT/'docs/beam-conversion.md').read_text(encoding='utf-8'),
             'sdk/docs/magazine-attachments.md':(ROOT/'docs/magazine-attachments.md').read_text(encoding='utf-8'),
             'sdk/docs/weapon-attachments.md':(ROOT/'docs/weapon-attachments.md').read_text(encoding='utf-8'),
             'sdk/docs/getting-started.md':(ROOT/'docs/getting-started.md').read_text(encoding='utf-8'),

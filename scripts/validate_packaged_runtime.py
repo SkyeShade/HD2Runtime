@@ -1933,6 +1933,72 @@ return function(frame,watches,counts,lines)
 end
 """
 EXTRAS['proof-multi-beam'] = {'after': PROOF_MULTI_BEAM}
+# Beam conversion (docs/beam-conversion.md): BeamConversionProof 0.1.0 loads from its built form (every toggle off, so
+# its ensures stay disabled); runtime/beam_conversion.lua and runtime/beam_conversion_rows.lua load from the archive.
+# After startup, through the public API (hd2.transaction on weapon:beam_conversion()) with the real pins, census and
+# lobby gates of the packaged runtime: a weapon with no live instance (a projectile LAS weapon) converts with its own
+# rate and its own damage / range rows (the owned table built and made live, a borrowed BeamType / DamageInfo pair
+# repointed), its status reads back, and the restore returns every byte and both slots. Only the Trident package gate is
+# forced ready (the ship snapshot does not hold laser_shotgun resident).
+PROOF_BEAM_CONVERSION = r"""
+return function(frame,watches,counts,lines)
+ local results={}
+ local function step(name,ok,detail)results[#results+1]={name=name,passed=ok==true,detail=detail}end
+ local ok,E=pcall(require,'hd2runtime/runtime/beam_conversion')
+ step('the beam conversion module is loaded from the packaged archive',ok and type(E)=='table'
+  and tostring(E.VERSION):find('^1%.')~=nil,tostring(ok and E.VERSION or E))
+ if not ok then return results end
+ local rok,R=pcall(require,'hd2runtime/runtime/beam_conversion_rows')
+ step('the borrowed rows module is loaded from the packaged archive',rok and type(R)=='table',tostring(R))
+ local st=E.status()
+ step('status proves every pin and locates every supported weapon',st.ok==true and st.path=='none'
+  and st.table=='in_place',tostring(st.reason))
+ local hd2=require('hd2runtime/api/hd2')
+ local F=hd2.fields
+ local name
+ for _,n in ipairs({'LAS-16 Sickle','LAS-12 Sai','LAS-58 Talon','SG-225 Breaker'})do
+  local w=st.weapons and st.weapons[n]
+  if not name and w and w.state=='vanilla'and w.live==0 then name=n end
+ end
+ step('a supported weapon with no live instance on the ship',name~=nil,tostring(name))
+ if not name then return results end
+ E.set_hooks_for_tests({assets=function()return'resident','forced by the validator'end})
+ local assets=require('hd2runtime/core/assets')
+ local gate=assets.gate
+ assets.gate=function()return {state='ready',dependencies={},tick=function()return 'ready'end}end
+ local function run(id,changes)
+  local h=hd2.transaction({id=id,target=hd2.weapon(name):beam_conversion(),allow_component_swap=true,
+   allow_unverified_effect=true,changes=changes})
+  for _=1,600 do
+   if h.status=='complete'or h.status=='rejected'or h.status=='retry_wait'then break end
+   frame()
+  end
+  return h
+ end
+ local h=run('validate-beam-on',{{field=F.beam_conversion.enabled,expect=false,value=true},
+  {field=F.beam.fire_rate,expect=300,value=600},{field=F.damage.player_standard_damage,expect=60,value=600},
+  {field=F.beam.length,expect=200,value=100}})
+ step('the conversion applies through hd2.transaction (real census and lobby gates)',h.status=='complete'
+  and h.result and h.result.status=='APPLIED',tostring(h.status)..' '..tostring(h.error)..' '..tostring(h.last_transient))
+ local s=hd2.weapon(name):beam_conversion():status()
+ step('converted on the owned table with its own rate, pulse, damage and range',s.ok and s.state=='converted'
+  and s.path=='owned table'and s.settings and s.settings.fire_rate==600 and s.settings.pulse_seconds<0.07
+  and s.rows and s.rows['damage.standard_damage']==600 and s.rows['beam.length']==100 and s.pair~=nil,
+  tostring(s.reason or s.state))
+ h=run('validate-beam-off',{{field=F.beam_conversion.enabled,expect=false,value=false}})
+ local s2=hd2.weapon(name):beam_conversion():status()
+ step('the restore returns the weapon, the slot and both borrowed slots',h.status=='complete'and s2.ok
+  and s2.state=='vanilla'and s2.table=='in_place'and s2.path=='none',tostring(h.error)..' '..tostring(s2.table))
+ assets.gate=gate
+ E.set_hooks_for_tests(nil)
+ return results
+end
+"""
+# Its eight ensures are option-bound and off by default (each test is switched on by hand, with the weapon unequipped):
+# not applicable here; the after step converts and restores through the public API instead.
+EXTRAS['proof-beam-conversion'] = {'menu': MENU_STUB, 'after': PROOF_BEAM_CONVERSION, 'unavailable': tuple(
+    'beamconv-' + t for t in ('sickle', 'double_edge', 'sai', 'talon_600', 'liberator_x10', 'reprimand_range',
+                              'trident_fast', 'trident_capped'))}
 # The build label (runtime/version_label.lua) from the archive on the snapshot's real game state and engine font, with
 # a stand-in for the engine GUI API over the snapshot's own world list (the Ui World by its position): aboard the ship
 # it is one Ui World GUI with "HD2Runtime <version>" over "Game <build>" in the bottom-left corner at the lowest layer,
@@ -5218,6 +5284,7 @@ SCENARIOS = {
     'proof-slot-texture-probe': lambda: proof('SlotTextureProbe'),
     'proof-slot-overlay': lambda: proof('SlotOverlayProof'),
     'proof-multi-beam': lambda: proof('MultiBeamProof'),
+    'proof-beam-conversion': lambda: proof('BeamConversionProof'),
     'proof-gas-barrage-mission': lambda: proof('GasBarrageMissionProof'),
     'proof-gas-barrage-payload': lambda: proof('GasBarragePayloadProof'),
     'proof-gas-barrage-cooldown': lambda: proof('GasBarrageCooldownProof'),
@@ -5764,6 +5831,10 @@ def registered_operations(report):
         elif (op.get('status') == 'waiting_for_options' and later.get('result') in APPLIED
                 and (later.get('runs') or 0) >= 1):
             op, state = later, 'applied'
+        # One still waiting for its Mod Options at the settle that its option then kept off (a default-off toggle the
+        # scenario never switches on) is inactive: not applicable, which the scenario must declare (`unavailable`).
+        elif op.get('status') == 'waiting_for_options' and outcome(later) == 'not_applicable':
+            op, state = later, 'not_applicable'
         result.append((op, state))
     return result + [(op, outcome(op)) for op in final[len(settled):]]
 

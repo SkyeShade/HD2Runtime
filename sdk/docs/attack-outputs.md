@@ -372,7 +372,9 @@ hd2.ensure({patch = {id = 'sentry-trident', target = sentry.target, field = hd2.
 
 ## Lasers everywhere
 
-What each kind of weapon can fire, and through which mechanism:
+What each kind of weapon can fire, and through which mechanism. Since the beam conversion, 66 projectile weapons
+(magazine and heat weapons, among them the Sickles, the Sai and the Talon) can also fire LAS-13 Trident pulses, solo
+only, through `weapon:beam_conversion()` ([beam conversion](beam-conversion.md)):
 
 | Host | Beam (continuous / pulsed / charged) | Laser bolts (projectile) |
 | --- | --- | --- |

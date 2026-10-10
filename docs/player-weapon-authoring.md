@@ -319,10 +319,11 @@ hd2.ensure({transaction={id='trident-scythe',target=scythe,allow_unverified_effe
     {field='beam.pulse_beams',expect=1,value=2},{field='beam.pulse_seconds',expect=0,value=0.15}}}})
 ```
 
-- **Only weapons that already have a BeamWeapon component.** Turning a projectile weapon (a Sickle, the Sai) into a
-  beam weapon means adding a component to its entity, as Bans's True Lasgun Beam Overhaul does by moving the weapon's entity
-  map membership list. HD2Runtime does not: it is the entity map change the 0.30.3 stray-row diagnostic reports, other
-  players' games would not have the component, and the saved state would differ.
+- **Only weapons that already have a BeamWeapon component.** These fields never add one. A projectile weapon (a
+  Sickle, the Sai, the Talon, the Liberator, ...) fires Trident pulses only through a **beam conversion**
+  ([beam conversion](beam-conversion.md), solo only): `weapon:beam_conversion()` swaps ProjectileWeapon for BeamWeapon in
+  place in this game only and gives the weapon its own record (own `beam.fire_rate` / `beam.pulse_seconds`) and,
+  optionally, its own damage, AP and range.
 - **Names are leads.** `beam.pulse_beams` and `beam.pulse_seconds` are named from the Trident's values and a
   third-party mod's labels; the live tests decide them (`proof/BeamBlastProof`): a Trident-like Scythe; the Trident
   with +112 1.0 and with +108 1 and 6; a Sickle with no wind-up and with a 2 s wind-up. Since then the beam update's
@@ -362,9 +363,9 @@ hd2.ensure({patch={id='scythe-trident-beam',target=source.target,field=hd2.field
     allow_unverified_effect=true}})
 ```
 
-Projectile weapons (the Sickles, the Sai, the Talon, every ballistic weapon) never fire a beam: they have no BeamWeapon
-component and Runtime does not add one. They fire laser bolts through projectile swaps instead (the Talon, Sickle,
-Sai and Quasar outputs; see "Lasers everywhere").
+Projectile weapons (the Sickles, the Sai, the Talon, every ballistic weapon) have no BeamWeapon component. They fire
+laser bolts through projectile swaps (the Talon, Sickle, Sai and Quasar outputs; see "Lasers everywhere"), or Trident
+pulses through a solo-only [beam conversion](beam-conversion.md) (`weapon:beam_conversion()`).
 
 The LAS-5 Scythe resolves to `laser_rifle` since 0.30.2: an equipped snapshot holds that root, and the published
 Scythe heat data (12.5 heat/s, cooling 12.8 - 8.5 - 6.4) matches it only (`laser_rifle_charge` is another weapon).

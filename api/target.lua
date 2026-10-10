@@ -710,6 +710,8 @@ function M.new(describe)
             out.weapon=entry.name;out.donor=C.donor.name;out.fields=copy(C.fields)
             out.acknowledgements=copy(C.acknowledgements);out.lifecycle=copy(C.lifecycle)
             out.multiplayer=copy(C.multiplayer);out.pulse=copy(C.pulse)
+            out.perWeaponRows={labels=copy(C.rows.labels),capacity=#C.rows.pairs,build=C.rows.build,
+                research='research/docs/beam-rows-borrowed-F5FEE03DCFDB.md'}
             return out
         end
         -- The live state: {state = 'vanilla' | 'converted' | 'orphaned' | 'foreign', settings, live, roots} plus the

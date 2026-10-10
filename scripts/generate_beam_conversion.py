@@ -30,6 +30,7 @@ import generate_beam_table  # noqa: E402
 
 COVERAGE = ROOT / 'research/beam-conversion-coverage-F5FEE03DCFDB.json'
 ROWS = ROOT / 'research/beam-rows-borrowed-F5FEE03DCFDB.json'
+DAMAGE = ROOT / 'research/beam-damage-per-weapon-F5FEE03DCFDB.json'
 OUTPUT = ROOT / 'domains/beam_conversion.lua'
 CAPABILITIES = ROOT / 'sdk/BeamConversionCapabilities.json'
 TRIDENT = '0x3C86E871923F3970'
@@ -53,6 +54,113 @@ SETTINGS = (
      'rangeReason': 'at least 0.0334 s: a pulse no longer than one frame deals no damage (30 fps); the next pulse '
                     'starts only the update after this one ended, so it caps beam.fire_rate'},
 )
+
+
+# Per-weapon beam and damage rows (research/docs/beam-rows-borrowed-F5FEE03DCFDB.md): members of the converted weapon's
+# OWN BeamInfo row copy (a borrowed spare BeamType) and DamageInfo row copy (a borrowed spare DamageInfo id); BeamFire
+# copies them into every shot. Defaults are the Trident's row 6 / row 508. +0x1C/+0x20/+0x24 keep the names the Runtime
+# already publishes for them (damage.demolition / stagger / push_force: leads, the research reads them into the hit).
+ROW_FIELDS = (
+    {'id': 'beam.length', 'row': 'beam', 'offset': 8, 'storage': 'f32', 'min': 1, 'max': 1000, 'unit': 'meters',
+     'displayName': 'Beam range (length)',
+     'proof': 'BeamInfo +8 -> shot +0x44: the ray query length, the sweep end and the drawn-length clamp (CONFIRMED)'},
+    {'id': 'damage.standard_damage', 'row': 'damage', 'offset': 4, 'storage': 'i32', 'min': 0, 'max': 10000,
+     'unit': 'damage', 'displayName': 'Standard damage per pulse hit'},
+    {'id': 'damage.durable_damage', 'row': 'damage', 'offset': 8, 'storage': 'i32', 'min': 0, 'max': 10000,
+     'unit': 'damage', 'displayName': 'Durable damage per pulse hit'},
+    {'id': 'damage.ap_direct', 'row': 'damage', 'offset': 12, 'storage': 'u32', 'min': 0, 'max': 10,
+     'unit': 'armor_class', 'displayName': 'Armor penetration: direct'},
+    {'id': 'damage.ap_slight', 'row': 'damage', 'offset': 16, 'storage': 'u32', 'min': 0, 'max': 10,
+     'unit': 'armor_class', 'displayName': 'Armor penetration: slight angle'},
+    {'id': 'damage.ap_large', 'row': 'damage', 'offset': 20, 'storage': 'u32', 'min': 0, 'max': 10,
+     'unit': 'armor_class', 'displayName': 'Armor penetration: large angle'},
+    {'id': 'damage.ap_extreme', 'row': 'damage', 'offset': 24, 'storage': 'u32', 'min': 0, 'max': 10,
+     'unit': 'armor_class', 'displayName': 'Armor penetration: extreme angle'},
+    {'id': 'damage.demolition', 'row': 'damage', 'offset': 28, 'storage': 'u32', 'min': 0, 'max': 1000,
+     'unit': 'force', 'displayName': 'Demolition'},
+    {'id': 'damage.stagger', 'row': 'damage', 'offset': 32, 'storage': 'u32', 'min': 0, 'max': 1000,
+     'unit': 'force', 'displayName': 'Stagger'},
+    {'id': 'damage.push_force', 'row': 'damage', 'offset': 36, 'storage': 'u32', 'min': 0, 'max': 1000,
+     'unit': 'force', 'displayName': 'Push force'},
+)
+
+
+def _trident_rows() -> tuple[bytes, bytes]:
+    t = json.loads(DAMAGE.read_text(encoding='utf-8'))['donors']['LAS-13 Trident']
+    return bytes.fromhex(t['beam']['bytes']), bytes.fromhex(t['damage']['bytes'])
+
+
+def rows_domain() -> dict:
+    """The borrowed per-weapon rows: the spare pairs, their pinned vanilla rows, the Trident donors, the pins."""
+    r = json.loads(ROWS.read_text(encoding='utf-8'))
+    if r['writes'] or r['protectionChanges'] or r['build'] != 'F5FEE03DCFDB':
+        raise ValueError('the borrowed rows research must be read-only research of build F5FEE03DCFDB')
+    for name, mismatches in r['pinnedBytesMismatchPerSnapshot'].items():
+        if mismatches:
+            raise ValueError('a borrowed rows pin differs in snapshot ' + name)
+    if len(r['pinnedBytesMismatchPerSnapshot']) < 9:
+        raise ValueError('the borrowed rows pins must be checked in every retained snapshot')
+    if not r['verdict']['optionA'].startswith('STRONG'):
+        raise ValueError('option (a) is not STRONG')
+    dmg = json.loads(DAMAGE.read_text(encoding='utf-8'))
+    beam6, dmg508 = _trident_rows()
+    beams = {b['beamType']: b for b in r['spare']['beamTypes']}
+    damages = {d['id']: d for d in r['spare']['damageIds']}
+    pairs = []
+    for p in r['allocation']['pairs']:
+        k, d = p['beamType'], p['damageInfo']
+        bt, dm = beams[k], damages[d]
+        if bt['proof'] != 'STRONG' or dm['proof'] != 'STRONG':
+            raise ValueError(f'pair ({k}, {d}) is not STRONG')
+        if bt['fileRow']['key'] != k or dm['fileRow']['key'] != d:
+            raise ValueError(f'pair ({k}, {d}) keys')
+        pairs.append({'beamType': k, 'damageInfo': d, 'beamHex': bt['fileRow']['bytes'],
+                      'damageHex': dm['fileRow']['bytes']})
+    for o in r['observations']:
+        if o['beamArrayRegion'] != {'protect': '0x4', 'type': '0x1000000'} or o['damageArrayRegion'] != {
+                'protect': '0x4', 'type': '0x1000000'}:
+            raise ValueError(o['snapshot'] + ': the pointer arrays are not read-write image memory')
+    if int.from_bytes(beam6[0:4], 'little') != 6 or int.from_bytes(beam6[12:16], 'little') != 508 \
+            or int.from_bytes(dmg508[0:4], 'little') != 508:
+        raise ValueError('the Trident donor rows are not row 6 naming 508')
+    arrays = r['arrays']
+    pins = []
+    for group, rows in r['proofs'].items():
+        for pin in rows:
+            pins.append({'rva': pin['rva'], 'hex': pin['bytes'], 'label': 'beam rows: ' + group + ': ' + pin['role']})
+    ring = dmg['ring']
+    return {'research': ROWS.name, 'build': r['build'], 'gameDllSha256': r['gameDllSha256'],
+            'labels': ['interim', 'borrowedVanillaRow', 'buildScoped', 'soloOnly'],
+            'beamTable': {'rva': int(arrays['beamInfo']['table'], 16), 'slots': arrays['beamInfo']['slots'],
+                          'stride': arrays['beamInfo']['stride']},
+            'damageTable': {'rva': int(arrays['damageInfo']['table'], 16), 'slots': arrays['damageInfo']['slots'],
+                            'stride': arrays['damageInfo']['stride']},
+            'tridentBeamHex': beam6.hex(), 'tridentDamageHex': dmg508.hex(),
+            'tridentBeamType': 6, 'tridentDamageInfo': 508, 'pairs': pairs,
+            'ring': {'global': int(ring['system']['global'], 16), 'base': ring['base'], 'stride': ring['stride'],
+                     'slots': ring['slots'], 'alive': ring['entry']['alive'], 'beamType': ring['entry']['beamType'],
+                     'damageInfo': ring['entry']['damageInfo']},
+            'magic': 'HD2RT-BEAM-ROWS1', 'pins': pins}
+
+
+def row_fields() -> list[dict]:
+    import struct
+    beam, damage = _trident_rows()
+    out = []
+    for f in ROW_FIELDS:
+        raw = (beam if f['row'] == 'beam' else damage)[f['offset']:f['offset'] + 4]
+        value = struct.unpack({'f32': '<f', 'i32': '<i', 'u32': '<I'}[f['storage']], raw)[0]
+        item = {'id': f['id'], 'row': f['row'], 'displayName': f['displayName'],
+                'type': 'number' if f['storage'] == 'f32' else 'integer', 'unit': f['unit'], 'storage': f['storage'],
+                'default': round(value, 6) if f['storage'] == 'f32' else value, 'min': f['min'], 'max': f['max'],
+                'offset': f['offset'], 'perWeapon': True,
+                'note': ('the converted weapon\'s own %s row (a borrowed spare row: owned table path only, at most 6 '
+                         'weapons with own rows at once); written at once, applies from the next pulse') % (
+                            'BeamInfo' if f['row'] == 'beam' else 'DamageInfo')}
+        if f.get('proof'):
+            item['proof'] = f['proof']
+        out.append(item)
+    return out
 
 
 def slug(name: str) -> str:
@@ -213,7 +321,8 @@ def build() -> dict:
         'copy': {'framing': 32, 'magic': 'HD2RT-BEAM-CONV1', 'trailerSize': 32, 'maxCopies': MAX_COPIES,
                  'records': records, 'minFreeRows': MIN_FREE_ROWS, 'emptyRows': len(empty)},
         'settings': [{k: s[k] for k in ('id', 'field', 'offset', 'storage', 'min', 'max', 'unit')} for s in SETTINGS],
-        'fields': fields(donor),
+        'fields': fields(donor) + row_fields(),
+        'rows': rows_domain(),
         'acknowledgements': ['allow_component_swap', 'allow_unverified_effect'],
         'lifecycle': lifecycle(),
         'multiplayer': multiplayer(),
@@ -290,13 +399,26 @@ def pulse() -> dict:
             'research': 'research/docs/beam-pulse-rate-F5FEE03DCFDB.md'}
 
 
+def per_weapon_rows(domain: dict) -> dict:
+    rows = domain['rows']
+    return {'fields': [f['id'] for f in domain['fields'] if f.get('row')], 'capacity': len(rows['pairs']),
+            'labels': rows['labels'], 'build': rows['build'],
+            'pairs': [{'beamType': p['beamType'], 'damageInfo': p['damageInfo']} for p in rows['pairs']],
+            'how': 'each converted weapon with non-Trident damage, AP or range borrows a spare BeamType and DamageInfo '
+                   'id whose slots point at Runtime-owned copies of the Trident rows 6 / 508 (never the vanilla rows); '
+                   'BeamFire copies them into every shot',
+            'refusals': ['ROWS_FULL (more than %d at once)' % len(rows['pairs']), 'BORROWED_ROWS_UNVERIFIED_BUILD',
+                         'SHARED_RECORD_FALLBACK'],
+            'research': 'research/docs/beam-rows-borrowed-F5FEE03DCFDB.md'}
+
+
 def capabilities(domain: dict) -> dict:
     out = {'schemaVersion': 1, 'contract': 'hd2.weapon(name):beam_conversion() / hd2.support_weapon(name):'
            'beam_conversion(); hd2.ensure transaction; allow_component_swap and allow_unverified_effect',
            'docs': 'docs/beam-conversion.md', 'research': 'research/docs/beam-conversion-coverage-F5FEE03DCFDB.md',
            'donor': domain['donor'], 'fields': domain['fields'], 'acknowledgements': domain['acknowledgements'],
            'lifecycle': domain['lifecycle'], 'multiplayer': domain['multiplayer'], 'pulse': domain['pulse'],
-           'summary': {}, 'weapons': []}
+           'perWeaponRows': per_weapon_rows(domain), 'summary': {}, 'weapons': []}
     counts: dict[str, int] = {}
     for w in domain['weapons']:
         counts[w['verdict']] = counts.get(w['verdict'], 0) + 1

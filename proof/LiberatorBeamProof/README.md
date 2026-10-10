@@ -1,5 +1,9 @@
 # LiberatorBeamProof (EXPERIMENTAL, SOLO ONLY)
 
+**Superseded by `proof/BeamConversionProof` and the beam conversion API (`docs/beam-conversion.md`).** Kept as the
+live-proven experiment fallback; it still works on its own, and the Runtime refuses to mix the two (an experiment copy
+of the BeamWeapon table refuses every conversion, and the other way round).
+
 This mod live-tests the in-place component swap that makes the **AR-23 Liberator fire LAS-13 Trident pulses**
 (`research/docs/component-swap-liberator-beam.md`, `component-swap-liberator-beam-chamber.md`).
 

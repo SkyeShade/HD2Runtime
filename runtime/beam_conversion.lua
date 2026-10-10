@@ -126,6 +126,20 @@ local function region(world,at)
     return r
 end
 
+-- A permanent block as the adapter left it: committed private pages of one allocation, every page readable
+-- (READONLY, or READWRITE while a guarded transaction has it open).
+local function block_ok(world,allocation,size,protect)
+    for page=allocation,allocation+size-PAGE,PAGE do
+        local q=world.runtime.query(page)
+        if not(q and q.state==COMMIT and q.type==PRIVATE and q.allocation_base==allocation
+            and(q.protect==(protect or READONLY)or not protect and q.protect==READWRITE))then
+            return false
+        end
+    end
+    return true
+end
+M.block_ok=block_ok
+
 local function open()
     local world,why=world_module.open()
     if not world then fail('TARGET_UNAVAILABLE: '..tostring(why))end
@@ -196,8 +210,7 @@ local function locate_table(world)
     end
     if entry and t.slot==entry.table and entry.original==t.original then
         local q=region(world,entry.table)
-        if not(q and q.allocation_base==entry.allocation and q.base+q.size>=entry.allocation+entry.size
-            and(q.protect==READONLY or q.protect==READWRITE))then
+        if not(q and block_ok(world,entry.allocation,entry.size))then
             fail('HD2Runtime\'s BeamWeapon copy is not the allocation it built')
         end
         if world.view.read(entry.table-L.framing,L.framing)~=t.framing then fail('the BeamWeapon copy framing changed')end
@@ -266,9 +279,8 @@ local function build(world,t,rows,records)
     local address=world.runtime.permanent_block(bytes)
     session().copies=session().copies+1
     assert(type(address)=='number'and address>0 and address%PAGE==0,'the permanent block is not page-aligned')
-    local q=region(world,address)
     local size=#bytes+(PAGE-#bytes%PAGE)%PAGE
-    if not(q and q.allocation_base==address and q.protect==READONLY and q.base+q.size>=address+#bytes)then
+    if not block_ok(world,address,size,READONLY)then
         fail('the copy is not one read-only private allocation')
     end
     if world.view.read(address,#bytes)~=bytes then fail('the copy did not read back as built')end
@@ -555,6 +567,8 @@ local function locate(world)
     end
     s.ptable=component_table(world,s.manager,s.base,PJ.component)
     s.mtable=component_table(world,s.manager,s.base,MZ.component)
+    s.rs=require("hd2runtime/runtime/beam_conversion_rows").locate(world)
+    s.pair_user={}
     s.mrows=world.view.read(s.mtable,MZ.capacity*MZ.rowStride)
     if not s.mrows then fail('TARGET_UNAVAILABLE: the WeaponMagazine table is unreadable')end
     for _,w in ipairs(C.weapons)do
@@ -571,8 +585,17 @@ local function locate(world)
                 local at=BW.recordBase+w.record*BW.recordStride
                 W.record_at=s.ctable+at
                 W.record=t.copy:sub(at+1,at+BW.recordStride)
-                local donor_but_settings=W.record:sub(1,SETTINGS_FROM)==DONOR:sub(1,SETTINGS_FROM)
+                -- Its own record: the Trident's but for its settings (+104..+115) and, with own rows, +0 = the
+                -- borrowed BeamType of an owned pair (runtime/beam_conversion_rows.lua).
+                local donor_but_settings=W.record:sub(5,SETTINGS_FROM)==DONOR:sub(5,SETTINGS_FROM)
                     and W.record:sub(SETTINGS_TO+1)==DONOR:sub(SETTINGS_TO+1)
+                local beam_type=b.u32(W.record,0)
+                if beam_type~=C.rows.tridentBeamType then
+                    for i,P in ipairs(s.rs.pairs)do
+                        if P.k==beam_type and P.state=='owned'and not s.pair_user[i]then W.pair=i end
+                    end
+                    if W.pair then s.pair_user[W.pair]=w.name else donor_but_settings=false end
+                end
                 if not donor_but_settings or(W.state~='converted'and W.record~=DONOR)then
                     W.state='foreign';W.record_foreign=true
                 end
@@ -832,32 +855,87 @@ M.record_edits=record_edits
 
 ------------------------------------------------------------------------------------------------- the operation --
 -- request = {weapon = catalogue entry, enabled = bool, settings = {fire_rate, pulse_beams, pulse_seconds} (values
--- the record must hold; nil members: the donor's)}. Returns the plan (with plan.commit and plan.notes) or raises.
--- A converted weapon with other settings: only its record (no gate). Enable: gates, then the copy / rows / lists /
--- magazine bytes. Disable: gates (census), then magazine bytes, lists, rows (algorithm R), the record back to the
--- donor; the last disable puts the slot back.
+-- the record must hold; nil members: the donor's), rows = {[field id] = value} (the weapon's own beam / damage row
+-- values; nil or all the Trident's: no own rows needed)}. Returns {plan (with notes), commit, state, path} or raises.
+-- A converted weapon with other settings: only its record and its own rows (no gate). Enable: gates, then [the row
+-- block values, the borrowed slots], the copy / rows / lists / magazine bytes. Disable: gates (census; a live shot of
+-- its borrowed BeamType), then magazine bytes, lists, index rows (algorithm R), its record back to the donor, the
+-- borrowed slots back; the last disable puts the slot back.
 function M.prepare(world,s,request)
     local w=assert(request.weapon,'beam conversion weapon')
     if not w.supported then fail('REFUSED: '..w.reasonCode..': '..w.reason)end
     local W=assert(s.weapons[w.name],'located weapon')
+    local R=require('hd2runtime/runtime/beam_conversion_rows')
     local notes={}
     if W.state=='foreign'then
-        fail('CONFLICT: the '..w.name..' is in a state the beam conversion did not make ('
-            ..table.concat((function()local d={}for _,R in ipairs(W.roots)do d[#d+1]=R.detail end return d end)(),'; ')
-            ..')')
+        local d={}
+        for _,root in ipairs(W.roots)do d[#d+1]=root.detail end
+        fail('CONFLICT: the '..w.name..' is in a state the beam conversion did not make ('..table.concat(d,'; ')
+            ..(W.record_foreign and'; its own record'or'')..')')
     end
-    local want_record=settings_record(request.settings or{})
+    local rows_values=request.rows or{}
+    local rows_needed=R.needed(rows_values)
     local t=s.tb
     local changes,contexts,roots={},{},{}
     local commit={}
     local function anchor()
         -- Nothing to write: the lists as they are (the ensure's steady-state check keeps watching them).
-        for _,R in ipairs(W.roots)do
-            local cur=world.view.read(R.window,R.window_size)
-            local n=R.split or R.window_size
-            changes[#changes+1]={R.w.id..'.list+'..(R.window-R.list),R.window,cur:sub(1,n),cur:sub(1,n)}
-            roots[#roots+1]=R
+        for _,X in ipairs(W.roots)do
+            local cur=world.view.read(X.window,X.window_size)
+            local n=X.split or X.window_size
+            changes[#changes+1]={X.w.id..'.list+'..(X.window-X.list),X.window,cur:sub(1,n),cur:sub(1,n)}
+            roots[#roots+1]=X
         end
+    end
+    local function record_changes(current,want)
+        for at=0,BW.recordStride-4,4 do
+            local x,y=current:sub(at+1,at+4),want:sub(at+1,at+4)
+            if x~=y then changes[#changes+1]={('%s.record%d+%d'):format(w.id,w.record,at),W.record_at+at,x,y,
+                t.copy_owner}end
+        end
+    end
+    -- Own rows: the pair this weapon holds, or a free one borrowed now (owned table path only). Returns the pair.
+    local function own_rows(path)
+        if not rows_needed and not W.pair then return nil end
+        if path~='owned'then
+            fail('REFUSED: SHARED_RECORD_FALLBACK: per-weapon damage, AP and range need the owned table (the conversion '
+                ..'runs on the shared record 23)')
+        end
+        if s.rs.unavailable then fail('REFUSED: '..s.rs.unavailable)end
+        local i=W.pair
+        if not i then
+            for n,P in ipairs(s.rs.pairs)do
+                if not i and not s.pair_user[n]and(P.state=='free'or P.state=='owned')then i=n end
+            end
+            if not i then
+                local why={}
+                for n,P in ipairs(s.rs.pairs)do
+                    why[#why+1]=('pair %d: %s'):format(n,s.pair_user[n]and('the '..s.pair_user[n])or P.state
+                        ..(P.reason and(' ('..P.reason..')')or''))
+                end
+                fail('REFUSED: ROWS_FULL: every borrowed beam / damage row pair is in use or unavailable ('
+                    ..table.concat(why,'; ')..'): at most '..R.PAIRS..' converted weapons have their own damage, AP '
+                    ..'and range at once')
+            end
+            local busy,why=R.ring_busy(world,s.rs.pairs[i].k,s.rs.pairs[i].d)
+            if busy then fail('TARGET_UNAVAILABLE: BUSY: '..tostring(why))end
+            R.build(world,s.rs)
+            notes[#notes+1]=('own rows: BeamType %d and DamageInfo %d (borrowed spare slots, interim, this build '
+                ..'only) now hold the %s\'s beam and damage'):format(s.rs.pairs[i].k,s.rs.pairs[i].d,w.name)
+        end
+        for _,c in ipairs(R.value_changes(s.rs,i,rows_values))do changes[#changes+1]=c end
+        if s.rs.pairs[i].state=='free'then
+            local cs,ctx=R.assign_changes(s.rs,i)
+            for _,c in ipairs(cs)do changes[#changes+1]=c end
+            for _,x in ipairs(ctx)do contexts[#contexts+1]=x end
+        end
+        contexts[#contexts+1]={s.rs.block_owner,s.rs.block.allocation,s.rs.block_bytes}
+        return i
+    end
+    local function want_record(pair)
+        local rec=settings_record(request.settings or{})
+        if pair then rec=b.encode(s.rs.pairs[pair].k,'u32')..rec:sub(5)end
+        return rec
     end
     if request.enabled then
         if W.state=='orphaned'then
@@ -865,21 +943,19 @@ function M.prepare(world,s,request)
                 ..'died): disable the conversion first to restore it')
         end
         if W.state=='converted'then
-            -- Settings only (owned path): the weapon's own record, member by member.
             if s.path_mode=='shared'then
-                if want_record~=DONOR then
+                if settings_record(request.settings or{})~=DONOR or rows_needed then
                     fail('REFUSED: SHARED_RECORD_FALLBACK: the conversion runs on the shared record 23 (the owned '
                         ..'table was unavailable when it was applied): every converted weapon fires the Trident\'s '
-                        ..'own rate and pulse; disable every conversion and enable it again for per-weapon settings')
+                        ..'own rate, pulse and damage; disable every conversion and enable it again for per-weapon '
+                        ..'settings')
                 end
                 anchor()
             else
-                for at=SETTINGS_FROM,SETTINGS_TO-4,4 do
-                    local x,y=W.record:sub(at+1,at+4),want_record:sub(at+1,at+4)
-                    if x~=y then changes[#changes+1]={('%s.record%d+%d'):format(w.id,w.record,at),W.record_at+at,x,y,
-                        t.copy_owner}end
-                end
+                local pair=own_rows('owned')
+                record_changes(W.record,want_record(pair))
                 if#changes==0 then anchor()else contexts[#contexts+1]={t.copy_owner,s.ctable,t.copy}end
+                commit.pair=pair
             end
             return {plan=make_plan(world,s,changes,contexts,roots),state='converted',path=s.path_mode,notes=notes,
                 commit=commit}
@@ -896,30 +972,31 @@ function M.prepare(world,s,request)
                     ..'(one Trident rate and pulse for every converted weapon)'
             end
         end
-        if path=='shared'and want_record~=DONOR then
+        if path=='shared'and settings_record(request.settings or{})~=DONOR then
             fail('REFUSED: SHARED_RECORD_FALLBACK: the owned table is unavailable, so the conversion would share the '
                 ..'Trident\'s record 23 with every converted weapon: per-weapon rate and pulse need the owned table')
         end
-        -- Rows: one per root, each the first empty row on its probe path in the table the game reads (with the rows
-        -- already placed in this operation), always leaving one row empty.
+        local pair=own_rows(path)
+        -- Index rows: one per root, each the first empty row on its probe path in the table the game reads (with the
+        -- rows already placed in this operation), always leaving one row empty.
         local rows=s.rows
         local placed={}
         local record_index=path=='owned'and w.record or BW.defaultRecord
-        for _,R in ipairs(W.roots)do
-            local at=insert_row(rows,R.root.resource)
+        for _,X in ipairs(W.roots)do
+            local at=insert_row(rows,X.root.resource)
             if not at or free_rows(rows)<=L.minFreeRows then
                 fail('REFUSED: TABLE_FULL: the BeamWeapon table has no free row for the '..w.name
                     ..' (every row but the last free one is used): disable another conversion first')
             end
-            local bytes=key_bytes(R.root.resource)..b.encode(record_index,'u32')..b.encode(0,'u32')
+            local bytes=key_bytes(X.root.resource)..b.encode(record_index,'u32')..b.encode(0,'u32')
             rows=rows:sub(1,at*16)..bytes..rows:sub(at*16+17)
-            placed[#placed+1]={R=R,row=at,bytes=bytes}
+            placed[#placed+1]={X=X,row=at,bytes=bytes}
         end
         if path=='owned'and t.mode=='in_place'then
-            -- Build the copy with these rows and this record, then ONE transaction: the slot, then lists and bytes.
+            -- Build the copy with these rows and this record, then ONE transaction: [own rows], the slot, the lists.
             local new_rows={}
             for _,p in ipairs(placed)do new_rows[p.row]=p.bytes end
-            local entry=build(world,t,new_rows,{[w.record]=want_record})
+            local entry=build(world,t,new_rows,{[w.record]=want_record(pair)})
             local copy=world.view.read(entry.allocation,entry.size)
             local copy_owner={base=entry.allocation,size=entry.size,type=PRIVATE,protect=READONLY}
             changes[#changes+1]={'slot270',t.slot_at,u64(t.original),u64(entry.table),t.manager_owner}
@@ -927,16 +1004,10 @@ function M.prepare(world,s,request)
             contexts[#contexts+1]={copy_owner,entry.allocation,copy}
             commit.register=entry
         elseif path=='owned'then
-            for at=SETTINGS_FROM,SETTINGS_TO-4,4 do
-                local x,y=W.record:sub(at+1,at+4),want_record:sub(at+1,at+4)
-                if x~=y then changes[#changes+1]={('%s.record%d+%d'):format(w.id,w.record,at),W.record_at+at,x,y,
-                    t.copy_owner}end
-            end
+            record_changes(W.record,want_record(pair))
             for _,p in ipairs(placed)do
                 for _,c in ipairs(row_write(w.id..'.row'..p.row,s.ctable+p.row*16,p.bytes,t.copy_owner))do
-                    c[3]=s.rows:sub(p.row*16+1,p.row*16+16):sub(c[2]-(s.ctable+p.row*16)+1,
-                        c[2]-(s.ctable+p.row*16)+8)
-                    changes[#changes+1]=c
+                    c[3]=ZERO8;changes[#changes+1]=c
                 end
             end
             contexts[#contexts+1]={t.copy_owner,s.ctable,t.copy}
@@ -953,11 +1024,11 @@ function M.prepare(world,s,request)
                 end
             end
         end
-        for _,R in ipairs(W.roots)do
-            for _,c in ipairs(list_changes(world,R,true))do changes[#changes+1]=c end
-            roots[#roots+1]=R
+        for _,X in ipairs(W.roots)do
+            for _,c in ipairs(list_changes(world,X,true))do changes[#changes+1]=c end
+            roots[#roots+1]=X
         end
-        commit.converted=w;commit.path=path
+        commit.converted=w;commit.path=path;commit.pair=pair
         return {plan=make_plan(world,s,changes,contexts,roots),state='vanilla',path=path,notes=notes,commit=commit}
     end
     -- disable
@@ -966,22 +1037,25 @@ function M.prepare(world,s,request)
         return {plan=make_plan(world,s,changes,contexts,roots),state='vanilla',path=s.path_mode,notes=notes,
             commit=commit}
     end
-    -- Gates: the census of this weapon's roots (no solo gate: a restore makes this machine agree with the others).
+    -- Gates: the census of this weapon's roots (no solo gate: a restore makes this machine agree with the others), and
+    -- no live shot of its borrowed BeamType (one pulse).
     gates(world,s,{w},false)
-    for _,R in ipairs(W.roots)do
-        for _,c in ipairs(list_changes(world,R,false))do changes[#changes+1]=c end
-        roots[#roots+1]=R
+    if W.pair then
+        local busy,why=R.ring_busy(world,s.rs.pairs[W.pair].k,s.rs.pairs[W.pair].d)
+        if busy then fail('TARGET_UNAVAILABLE: BUSY: '..tostring(why))end
     end
-    -- Rows: remove each root's row (algorithm R) from the table the game reads.
+    for _,X in ipairs(W.roots)do
+        for _,c in ipairs(list_changes(world,X,false))do changes[#changes+1]=c end
+        roots[#roots+1]=X
+    end
+    -- Index rows: remove each root's row (algorithm R) from the table the game reads.
     local rows=s.rows
     local owned_path=s.path_mode=='owned'
     local base_at=owned_path and s.ctable or s.table
     local row_owner=owned_path and t.copy_owner or nil
-    local written={}
-    local remaining_rows=0
-    for _,R in ipairs(W.roots)do
-        if R.row then
-            local plan=delete_plan(rows,R.row,function(resource)
+    for _,X in ipairs(W.roots)do
+        if X.row then
+            local plan=delete_plan(rows,X.row,function(resource)
                 local hit=BY_RESOURCE[resource]
                 return hit~=nil and hit.weapon~=w
             end)
@@ -1000,19 +1074,21 @@ function M.prepare(world,s,request)
             rows=after
         end
     end
-    -- The weapon's own record back to the donor (owned).
-    if owned_path then
-        for at=SETTINGS_FROM,SETTINGS_TO-4,4 do
-            local x,y=W.record:sub(at+1,at+4),DONOR:sub(at+1,at+4)
-            if x~=y then changes[#changes+1]={('%s.record%d+%d'):format(w.id,w.record,at),W.record_at+at,x,y,
-                t.copy_owner}end
-        end
+    -- The weapon's own record back to the donor (owned), then its borrowed slots back.
+    if owned_path then record_changes(W.record,DONOR)end
+    if W.pair then
+        local cs,ctx=R.release_changes(s.rs,W.pair)
+        for _,c in ipairs(cs)do changes[#changes+1]=c end
+        for _,x in ipairs(ctx)do contexts[#contexts+1]=x end
+        notes[#notes+1]=('own rows released: BeamType %d and DamageInfo %d point at their vanilla rows again')
+            :format(s.rs.pairs[W.pair].k,s.rs.pairs[W.pair].d)
     end
     -- The last conversion: the slot back (owned, no drift), or record 23 back (shared).
+    local remaining=0
     for name,X in pairs(s.weapons)do
-        if name~=w.name and(X.state=='converted'or X.state=='orphaned')then remaining_rows=remaining_rows+1 end
+        if name~=w.name and(X.state=='converted'or X.state=='orphaned')then remaining=remaining+1 end
     end
-    if remaining_rows==0 then
+    if remaining==0 then
         if owned_path then
             if#s.drift==0 then
                 changes[#changes+1]={'slot270',t.slot_at,u64(t.entry.table),u64(t.original),t.manager_owner}
@@ -1031,6 +1107,7 @@ function M.prepare(world,s,request)
         end
     end
     if owned_path then contexts[#contexts+1]={t.copy_owner,s.ctable,t.copy}end
+    if W.pair then contexts[#contexts+1]={s.rs.block_owner,s.rs.block.allocation,s.rs.block_bytes}end
     commit.restored=w
     return {plan=make_plan(world,s,changes,contexts,roots),state=W.state,path=s.path_mode,notes=notes,commit=commit}
 end
@@ -1071,6 +1148,8 @@ function M.status()
             local entry={state=W.state,live=count and live_of(count,W.w)or nil,roots={}}
             if W.state=='converted'then
                 entry.settings=s.path_mode=='owned'and decode_settings(W.record)or decode_settings(DONOR)
+                entry.rows=M.rows_of(s,W)
+                if W.pair then entry.pair={beamType=s.rs.pairs[W.pair].k,damageInfo=s.rs.pairs[W.pair].d}end
             end
             for _,R in ipairs(W.roots)do entry.roots[#entry.roots+1]={resource=R.root.resource,state=R.state,
                 detail=R.detail}end
@@ -1096,10 +1175,18 @@ function M.converted()
 end
 function M.restart_required()return session().used end
 
+-- A located weapon's own beam / damage row values (its borrowed pair's, else the Trident's).
+function M.rows_of(s,W)
+    local R=require('hd2runtime/runtime/beam_conversion_rows')
+    if W.pair then local P=s.rs.pairs[W.pair];return R.values_of(P.beam,P.damage)end
+    return R.defaults()
+end
+
 -- Tests only.
 function M.set_hooks_for_tests(h)hooks=h or{}end
 function M.reset_for_tests()
     proven={};hooks={};rawset(_G,STATE_KEY,nil)
+    require('hd2runtime/runtime/beam_conversion_rows').reset_for_tests()
     for _,w in ipairs(C.weapons)do for _,root in ipairs(w.roots or{})do
         local e=edits.get(root.resource)
         if e and e.owner==M.OWNER then edits.clear(root.resource)end

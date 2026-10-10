@@ -55,6 +55,147 @@
       "offset": 112,
       "rangeReason": "at least 0.0334 s: a pulse no longer than one frame deals no damage (30 fps); the next pulse starts only the update after this one ended, so it caps beam.fire_rate",
       "note": "how long a pulse lasts; a new pulse starts only the update after the last one ended, so it caps the rate: n = max(ceil(60 / (rate x dt)), max(1, ceil(pulse / dt)) + 1)"
+    },
+    {
+      "id": "beam.length",
+      "row": "beam",
+      "displayName": "Beam range (length)",
+      "type": "number",
+      "unit": "meters",
+      "storage": "f32",
+      "default": 200.0,
+      "min": 1,
+      "max": 1000,
+      "offset": 8,
+      "perWeapon": true,
+      "note": "the converted weapon's own BeamInfo row (a borrowed spare row: owned table path only, at most 6 weapons with own rows at once); written at once, applies from the next pulse",
+      "proof": "BeamInfo +8 -> shot +0x44: the ray query length, the sweep end and the drawn-length clamp (CONFIRMED)"
+    },
+    {
+      "id": "damage.standard_damage",
+      "row": "damage",
+      "displayName": "Standard damage per pulse hit",
+      "type": "integer",
+      "unit": "damage",
+      "storage": "i32",
+      "default": 60,
+      "min": 0,
+      "max": 10000,
+      "offset": 4,
+      "perWeapon": true,
+      "note": "the converted weapon's own DamageInfo row (a borrowed spare row: owned table path only, at most 6 weapons with own rows at once); written at once, applies from the next pulse"
+    },
+    {
+      "id": "damage.durable_damage",
+      "row": "damage",
+      "displayName": "Durable damage per pulse hit",
+      "type": "integer",
+      "unit": "damage",
+      "storage": "i32",
+      "default": 6,
+      "min": 0,
+      "max": 10000,
+      "offset": 8,
+      "perWeapon": true,
+      "note": "the converted weapon's own DamageInfo row (a borrowed spare row: owned table path only, at most 6 weapons with own rows at once); written at once, applies from the next pulse"
+    },
+    {
+      "id": "damage.ap_direct",
+      "row": "damage",
+      "displayName": "Armor penetration: direct",
+      "type": "integer",
+      "unit": "armor_class",
+      "storage": "u32",
+      "default": 2,
+      "min": 0,
+      "max": 10,
+      "offset": 12,
+      "perWeapon": true,
+      "note": "the converted weapon's own DamageInfo row (a borrowed spare row: owned table path only, at most 6 weapons with own rows at once); written at once, applies from the next pulse"
+    },
+    {
+      "id": "damage.ap_slight",
+      "row": "damage",
+      "displayName": "Armor penetration: slight angle",
+      "type": "integer",
+      "unit": "armor_class",
+      "storage": "u32",
+      "default": 2,
+      "min": 0,
+      "max": 10,
+      "offset": 16,
+      "perWeapon": true,
+      "note": "the converted weapon's own DamageInfo row (a borrowed spare row: owned table path only, at most 6 weapons with own rows at once); written at once, applies from the next pulse"
+    },
+    {
+      "id": "damage.ap_large",
+      "row": "damage",
+      "displayName": "Armor penetration: large angle",
+      "type": "integer",
+      "unit": "armor_class",
+      "storage": "u32",
+      "default": 2,
+      "min": 0,
+      "max": 10,
+      "offset": 20,
+      "perWeapon": true,
+      "note": "the converted weapon's own DamageInfo row (a borrowed spare row: owned table path only, at most 6 weapons with own rows at once); written at once, applies from the next pulse"
+    },
+    {
+      "id": "damage.ap_extreme",
+      "row": "damage",
+      "displayName": "Armor penetration: extreme angle",
+      "type": "integer",
+      "unit": "armor_class",
+      "storage": "u32",
+      "default": 0,
+      "min": 0,
+      "max": 10,
+      "offset": 24,
+      "perWeapon": true,
+      "note": "the converted weapon's own DamageInfo row (a borrowed spare row: owned table path only, at most 6 weapons with own rows at once); written at once, applies from the next pulse"
+    },
+    {
+      "id": "damage.demolition",
+      "row": "damage",
+      "displayName": "Demolition",
+      "type": "integer",
+      "unit": "force",
+      "storage": "u32",
+      "default": 10,
+      "min": 0,
+      "max": 1000,
+      "offset": 28,
+      "perWeapon": true,
+      "note": "the converted weapon's own DamageInfo row (a borrowed spare row: owned table path only, at most 6 weapons with own rows at once); written at once, applies from the next pulse"
+    },
+    {
+      "id": "damage.stagger",
+      "row": "damage",
+      "displayName": "Stagger",
+      "type": "integer",
+      "unit": "force",
+      "storage": "u32",
+      "default": 10,
+      "min": 0,
+      "max": 1000,
+      "offset": 32,
+      "perWeapon": true,
+      "note": "the converted weapon's own DamageInfo row (a borrowed spare row: owned table path only, at most 6 weapons with own rows at once); written at once, applies from the next pulse"
+    },
+    {
+      "id": "damage.push_force",
+      "row": "damage",
+      "displayName": "Push force",
+      "type": "integer",
+      "unit": "force",
+      "storage": "u32",
+      "default": 10,
+      "min": 0,
+      "max": 1000,
+      "offset": 36,
+      "perWeapon": true,
+      "note": "the converted weapon's own DamageInfo row (a borrowed spare row: owned table path only, at most 6 weapons with own rows at once); written at once, applies from the next pulse"
     }
   ],
   "acknowledgements": [
@@ -81,6 +222,61 @@
     "fit": "without beam.pulse_seconds: the Trident's 0.15 s when it fits, else max(60 / (2 rate), 60 / rate - 1/30) s, never below 0.0334 s",
     "recommendedMaxRpm": 900,
     "research": "research/docs/beam-pulse-rate-F5FEE03DCFDB.md"
+  },
+  "perWeaponRows": {
+    "fields": [
+      "beam.length",
+      "damage.standard_damage",
+      "damage.durable_damage",
+      "damage.ap_direct",
+      "damage.ap_slight",
+      "damage.ap_large",
+      "damage.ap_extreme",
+      "damage.demolition",
+      "damage.stagger",
+      "damage.push_force"
+    ],
+    "capacity": 6,
+    "labels": [
+      "interim",
+      "borrowedVanillaRow",
+      "buildScoped",
+      "soloOnly"
+    ],
+    "build": "F5FEE03DCFDB",
+    "pairs": [
+      {
+        "beamType": 3,
+        "damageInfo": 278
+      },
+      {
+        "beamType": 15,
+        "damageInfo": 577
+      },
+      {
+        "beamType": 16,
+        "damageInfo": 233
+      },
+      {
+        "beamType": 19,
+        "damageInfo": 637
+      },
+      {
+        "beamType": 20,
+        "damageInfo": 434
+      },
+      {
+        "beamType": 27,
+        "damageInfo": 564
+      }
+    ],
+    "how": "each converted weapon with non-Trident damage, AP or range borrows a spare BeamType and DamageInfo id whose slots point at Runtime-owned copies of the Trident rows 6 / 508 (never the vanilla rows); BeamFire copies them into every shot",
+    "refusals": [
+      "ROWS_FULL (more than 6 at once)",
+      "BORROWED_ROWS_UNVERIFIED_BUILD",
+      "SHARED_RECORD_FALLBACK"
+    ],
+    "research": "research/docs/beam-rows-borrowed-F5FEE03DCFDB.md"
   },
   "summary": {
     "weapons": 115,
