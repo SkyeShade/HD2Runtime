@@ -329,7 +329,13 @@ def relationships(tables: dict) -> list[dict]:
             add('rack_delivers', 'backpack-rack:' + name, name, rack=_int(rack['resource']),
                 item=_int(backpack['resource']))
         feeds = backpack.get('feeds')
-        if feeds:
+        if feeds and feeds.get('assisted'):
+            # A team-reload backpack (0.30.4): its deposit's assisted_reload_weapon_path names the weapon.
+            add('backpack_team_reload', 'backpack-team-reload:' + name, name,
+                [('entity_authoring', name), ('support_weapon_authoring', feeds['weapon'])],
+                backpack=_int(backpack['resource']), weapon=_int(feeds['weaponResource']),
+                offset=feeds['assisted']['pathOffset'])
+        elif feeds:
             add('backpack_feed', 'backpack-feed:' + name, name,
                 [('entity_authoring', name), ('support_weapon_authoring', feeds['weapon'])],
                 backpack=_int(backpack['resource']), weapon=_int(feeds['weaponResource']),

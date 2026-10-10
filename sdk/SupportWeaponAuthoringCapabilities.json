@@ -121,7 +121,7 @@
     "deduplicationLossPrevented": 111,
     "referenceFieldInstances": 97,
     "readOnlyFieldInstances": 0,
-    "blockedFieldDeclarations": 218,
+    "blockedFieldDeclarations": 208,
     "intentionallyOmittedInstances": 0,
     "safety": {
       "writes": 0,
@@ -527,21 +527,31 @@
           "reason": "Native lifetime is 0 (no explicit limit); only non-zero lifetimes are tunable."
         },
         {
-          "field": "backpack storage",
-          "reason": "Backpack entity/package storage ownership is unresolved; weapon-side fields remain independent."
-        },
-        {
-          "field": "unresolved branch",
-          "reason": "backpack entity/package ownership link (weapon-side linked-ammo ownership is reported separately)"
-        },
-        {
           "field": "unresolved branch",
           "reason": "AC-8 P1 IE: no structurally linked ExplosionSettings branch matched this catalog branch"
         }
       ],
       "backpackDependency": true,
       "linkedAmmoOwnership": false,
-      "ammoBackpack": null,
+      "ammoBackpack": {
+        "backpack": "AC-8 Autocannon Backpack",
+        "semanticId": "backpack/v1/ac-8-autocannon-backpack/dfd11e7c06fa8293",
+        "accessor": "hd2.support_weapon(name):backpack()",
+        "owner": "backpack DepositComponent",
+        "relationship": "team_reload",
+        "weaponOwnsMagazine": true,
+        "fields": [
+          "deposit.capacity",
+          "deposit.start_amount",
+          "deposit.refill_amount"
+        ],
+        "baseline": {
+          "capacity": 10,
+          "startAmount": -1,
+          "refillAmount": 5
+        },
+        "catalog": "sdk/BackpackAuthoringCapabilities.json"
+      },
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -2749,19 +2759,29 @@
         {
           "field": "function_ammo.projectile",
           "reason": "The weapon spawns an entity or already carries a function projectile."
-        },
-        {
-          "field": "backpack storage",
-          "reason": "Backpack entity/package storage ownership is unresolved; weapon-side fields remain independent."
-        },
-        {
-          "field": "unresolved branch",
-          "reason": "backpack entity/package ownership link (weapon-side linked-ammo ownership is reported separately)"
         }
       ],
       "backpackDependency": true,
       "linkedAmmoOwnership": false,
-      "ammoBackpack": null,
+      "ammoBackpack": {
+        "backpack": "FAF-14 Spear Backpack",
+        "semanticId": "backpack/v1/faf-14-spear-backpack/4f0ef000a6503847",
+        "accessor": "hd2.support_weapon(name):backpack()",
+        "owner": "backpack DepositComponent",
+        "relationship": "team_reload",
+        "weaponOwnsMagazine": true,
+        "fields": [
+          "deposit.capacity",
+          "deposit.start_amount",
+          "deposit.refill_amount"
+        ],
+        "baseline": {
+          "capacity": 4,
+          "startAmount": -1,
+          "refillAmount": 2
+        },
+        "catalog": "sdk/BackpackAuthoringCapabilities.json"
+      },
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -3893,14 +3913,6 @@
           "reason": "Native lifetime is 0 (no explicit limit); only non-zero lifetimes are tunable."
         },
         {
-          "field": "backpack storage",
-          "reason": "Backpack entity/package storage ownership is unresolved; weapon-side fields remain independent."
-        },
-        {
-          "field": "unresolved branch",
-          "reason": "backpack entity/package ownership link (weapon-side linked-ammo ownership is reported separately)"
-        },
-        {
           "field": "unresolved branch",
           "reason": "GR-8 BACKBLAST E: no structurally linked ExplosionSettings branch matched this catalog branch"
         },
@@ -3911,7 +3923,25 @@
       ],
       "backpackDependency": true,
       "linkedAmmoOwnership": false,
-      "ammoBackpack": null,
+      "ammoBackpack": {
+        "backpack": "GR-8 Recoilless Rifle Backpack",
+        "semanticId": "backpack/v1/gr-8-recoilless-rifle-backpack/307b60720311f207",
+        "accessor": "hd2.support_weapon(name):backpack()",
+        "owner": "backpack DepositComponent",
+        "relationship": "team_reload",
+        "weaponOwnsMagazine": true,
+        "fields": [
+          "deposit.capacity",
+          "deposit.start_amount",
+          "deposit.refill_amount"
+        ],
+        "baseline": {
+          "capacity": 5,
+          "startAmount": -1,
+          "refillAmount": 3
+        },
+        "catalog": "sdk/BackpackAuthoringCapabilities.json"
+      },
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -6292,14 +6322,6 @@
           "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped."
         },
         {
-          "field": "backpack storage",
-          "reason": "Backpack entity/package storage ownership is unresolved; weapon-side fields remain independent."
-        },
-        {
-          "field": "unresolved branch",
-          "reason": "backpack entity/package ownership link (weapon-side linked-ammo ownership is reported separately)"
-        },
-        {
           "field": "unresolved branch",
           "reason": "GR-8 BACKBLAST E: no structurally linked ExplosionSettings branch matched this catalog branch"
         },
@@ -6310,7 +6332,25 @@
       ],
       "backpackDependency": true,
       "linkedAmmoOwnership": false,
-      "ammoBackpack": null,
+      "ammoBackpack": {
+        "backpack": "RL-77 Airburst Rocket Launcher Backpack",
+        "semanticId": "backpack/v1/rl-77-airburst-rocket-launcher-backpack/0fa56b65584a0067",
+        "accessor": "hd2.support_weapon(name):backpack()",
+        "owner": "backpack DepositComponent",
+        "relationship": "team_reload",
+        "weaponOwnsMagazine": true,
+        "fields": [
+          "deposit.capacity",
+          "deposit.start_amount",
+          "deposit.refill_amount"
+        ],
+        "baseline": {
+          "capacity": 5,
+          "startAmount": -1,
+          "refillAmount": 3
+        },
+        "catalog": "sdk/BackpackAuthoringCapabilities.json"
+      },
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -7254,21 +7294,31 @@
           "reason": "Native duration 0 means the reload ability default duration applies; no scalar owner."
         },
         {
-          "field": "backpack storage",
-          "reason": "Backpack entity/package storage ownership is unresolved; weapon-side fields remain independent."
-        },
-        {
-          "field": "unresolved branch",
-          "reason": "backpack entity/package ownership link (weapon-side linked-ammo ownership is reported separately)"
-        },
-        {
           "field": "unresolved branch",
           "reason": "StA-X3 P1 IE: no structurally linked ExplosionSettings branch matched this catalog branch"
         }
       ],
       "backpackDependency": true,
       "linkedAmmoOwnership": false,
-      "ammoBackpack": null,
+      "ammoBackpack": {
+        "backpack": "StA-X3 W.A.S.P. Launcher Backpack",
+        "semanticId": "backpack/v1/sta-x3-w-a-s-p-launcher-backpack/d49689dcd349559d",
+        "accessor": "hd2.support_weapon(name):backpack()",
+        "owner": "backpack DepositComponent",
+        "relationship": "team_reload",
+        "weaponOwnsMagazine": true,
+        "fields": [
+          "deposit.capacity",
+          "deposit.start_amount",
+          "deposit.refill_amount"
+        ],
+        "baseline": {
+          "capacity": 5,
+          "startAmount": -1,
+          "refillAmount": 3
+        },
+        "catalog": "sdk/BackpackAuthoringCapabilities.json"
+      },
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -14794,7 +14844,15 @@
         "acknowledgementReason": null
       },
       "noEffect": {
-        "reason": "This team-reload weapon keeps no ammunition of its own: its backpack holds it (the deposit that the wearer or a teammate reloads from). The row is 0 natively; a write is accepted but is not expected to change anything in game. See docs/backpack-ammo.md \"Not covered\"."
+        "reason": "The most spare rounds the weapon itself could carry. Not offered: the game reads it (the reload would use the weapon's own rounds before the backpack), but each reload subtracts the 5-round reload amount with no lower bound while a resupply adds at least 1 round, so the count can drop below zero. Only 0 (native) is accepted. See docs/support-weapon-api.md \"Team-reload weapons\"."
+      },
+      "teamReload": {
+        "role": "The most spare rounds the weapon itself could carry. Not offered: the game reads it (the reload would use the weapon's own rounds before the backpack), but each reload subtracts the 5-round reload amount with no lower bound while a resupply adds at least 1 round, so the count can drop below zero. Only 0 (native) is accepted. See docs/support-weapon-api.md \"Team-reload weapons\".",
+        "ownSpares": false,
+        "research": "research/team-reload-ammo-F5FEE03DCFDB.json",
+        "min": 0,
+        "max": 0,
+        "rangeReason": "the reload subtracts the reload amount from the own spare rounds with no lower bound and a resupply adds at least 1 round, so any nonzero maximum can underflow (research/team-reload-ammo)"
       },
       "resolution": {
         "rootChain": [
@@ -14901,7 +14959,12 @@
         "acknowledgementReason": null
       },
       "noEffect": {
-        "reason": "This team-reload weapon keeps no ammunition of its own: its backpack holds it (the deposit that the wearer or a teammate reloads from). The row is 0 natively; a write is accepted but is not expected to change anything in game. See docs/backpack-ammo.md \"Not covered\"."
+        "reason": "Spare rounds the weapon itself gains from a resupply, clamped to rounds.spare_rounds (0, the only value accepted there): no effect. The backpack refills separately (deposit.refill_amount)."
+      },
+      "teamReload": {
+        "role": "Spare rounds the weapon itself gains from a resupply, clamped to rounds.spare_rounds (0, the only value accepted there): no effect. The backpack refills separately (deposit.refill_amount).",
+        "ownSpares": false,
+        "research": "research/team-reload-ammo-F5FEE03DCFDB.json"
       },
       "resolution": {
         "rootChain": [
@@ -15008,7 +15071,12 @@
         "acknowledgementReason": null
       },
       "noEffect": {
-        "reason": "This team-reload weapon keeps no ammunition of its own: its backpack holds it (the deposit that the wearer or a teammate reloads from). The row is 0 natively; a write is accepted but is not expected to change anything in game. See docs/backpack-ammo.md \"Not covered\"."
+        "reason": "Spare rounds the weapon itself carries when it spawns, clamped to rounds.spare_rounds (0, which is the only value accepted there): no effect."
+      },
+      "teamReload": {
+        "role": "Spare rounds the weapon itself carries when it spawns, clamped to rounds.spare_rounds (0, which is the only value accepted there): no effect.",
+        "ownSpares": false,
+        "research": "research/team-reload-ammo-F5FEE03DCFDB.json"
       },
       "resolution": {
         "rootChain": [
@@ -70083,11 +70151,16 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": false,
-        "acknowledgement": null,
-        "acknowledgementReason": null
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Own spares of a team-reload weapon. Its reload uses them first (one magazine per reload, by the wearer alone, no backpack needed) and the backpack only when they are spent; a teammate reload still uses the backpack. Proven from game code (research/team-reload-ammo-F5FEE03DCFDB.json); not yet shown in game. Spare magazines the weapon itself carries when it spawns, clamped to magazine.spare_magazines (0 natively, so this has no effect until that is raised)."
       },
-      "noEffect": {
-        "reason": "This team-reload weapon keeps no ammunition of its own: its backpack holds it (the deposit that the wearer or a teammate reloads from). The row is 0 natively; a write is accepted but is not expected to change anything in game. See docs/backpack-ammo.md \"Not covered\"."
+      "teamReload": {
+        "role": "Spare magazines the weapon itself carries when it spawns, clamped to magazine.spare_magazines (0 natively, so this has no effect until that is raised).",
+        "ownSpares": true,
+        "research": "research/team-reload-ammo-F5FEE03DCFDB.json",
+        "min": 0,
+        "max": 31,
+        "rangeReason": "the live spare-magazine count is the network field magazines_remaining (5 bits): the game clamps it to 31 on every write"
       },
       "resolution": {
         "rootChain": [
@@ -70190,8 +70263,16 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": false,
-        "acknowledgement": null,
-        "acknowledgementReason": null
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Own spares of a team-reload weapon. Its reload uses them first (one magazine per reload, by the wearer alone, no backpack needed) and the backpack only when they are spent; a teammate reload still uses the backpack. Proven from game code (research/team-reload-ammo-F5FEE03DCFDB.json); not yet shown in game. Spare magazines the weapon itself gains from a resupply (at least 1), up to magazine.spare_magazines (0 natively, so the native 6 has no effect until that is raised). The backpack refills separately (deposit.refill_amount)."
+      },
+      "teamReload": {
+        "role": "Spare magazines the weapon itself gains from a resupply (at least 1), up to magazine.spare_magazines (0 natively, so the native 6 has no effect until that is raised). The backpack refills separately (deposit.refill_amount).",
+        "ownSpares": true,
+        "research": "research/team-reload-ammo-F5FEE03DCFDB.json",
+        "min": 0,
+        "max": 31,
+        "rangeReason": "the live spare-magazine count is the network field magazines_remaining (5 bits): the game clamps it to 31 on every write"
       },
       "resolution": {
         "rootChain": [
@@ -70294,11 +70375,16 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": false,
-        "acknowledgement": null,
-        "acknowledgementReason": null
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Own spares of a team-reload weapon. Its reload uses them first (one magazine per reload, by the wearer alone, no backpack needed) and the backpack only when they are spent; a teammate reload still uses the backpack. Proven from game code (research/team-reload-ammo-F5FEE03DCFDB.json); not yet shown in game. The most spare magazines the weapon itself carries. 0 natively, which is why it keeps none: the spawn and resupply amounts are clamped to it."
       },
-      "noEffect": {
-        "reason": "This team-reload weapon keeps no ammunition of its own: its backpack holds it (the deposit that the wearer or a teammate reloads from). The row is 0 natively; a write is accepted but is not expected to change anything in game. See docs/backpack-ammo.md \"Not covered\"."
+      "teamReload": {
+        "role": "The most spare magazines the weapon itself carries. 0 natively, which is why it keeps none: the spawn and resupply amounts are clamped to it.",
+        "ownSpares": true,
+        "research": "research/team-reload-ammo-F5FEE03DCFDB.json",
+        "min": 0,
+        "max": 31,
+        "rangeReason": "the live spare-magazine count is the network field magazines_remaining (5 bits): the game clamps it to 31 on every write"
       },
       "resolution": {
         "rootChain": [
@@ -98308,11 +98394,16 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": false,
-        "acknowledgement": null,
-        "acknowledgementReason": null
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Own spares of a team-reload weapon. Its reload uses them first (one magazine per reload, by the wearer alone, no backpack needed) and the backpack only when they are spent; a teammate reload still uses the backpack. Proven from game code (research/team-reload-ammo-F5FEE03DCFDB.json); not yet shown in game. Spare magazines the weapon itself carries when it spawns, clamped to magazine.spare_magazines (0 natively, so this has no effect until that is raised)."
       },
-      "noEffect": {
-        "reason": "This team-reload weapon keeps no ammunition of its own: its backpack holds it (the deposit that the wearer or a teammate reloads from). The row is 0 natively; a write is accepted but is not expected to change anything in game. See docs/backpack-ammo.md \"Not covered\"."
+      "teamReload": {
+        "role": "Spare magazines the weapon itself carries when it spawns, clamped to magazine.spare_magazines (0 natively, so this has no effect until that is raised).",
+        "ownSpares": true,
+        "research": "research/team-reload-ammo-F5FEE03DCFDB.json",
+        "min": 0,
+        "max": 31,
+        "rangeReason": "the live spare-magazine count is the network field magazines_remaining (5 bits): the game clamps it to 31 on every write"
       },
       "resolution": {
         "rootChain": [
@@ -98415,8 +98506,16 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": false,
-        "acknowledgement": null,
-        "acknowledgementReason": null
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Own spares of a team-reload weapon. Its reload uses them first (one magazine per reload, by the wearer alone, no backpack needed) and the backpack only when they are spent; a teammate reload still uses the backpack. Proven from game code (research/team-reload-ammo-F5FEE03DCFDB.json); not yet shown in game. Spare magazines the weapon itself gains from a resupply (at least 1), up to magazine.spare_magazines (0 natively, so the native 6 has no effect until that is raised). The backpack refills separately (deposit.refill_amount)."
+      },
+      "teamReload": {
+        "role": "Spare magazines the weapon itself gains from a resupply (at least 1), up to magazine.spare_magazines (0 natively, so the native 6 has no effect until that is raised). The backpack refills separately (deposit.refill_amount).",
+        "ownSpares": true,
+        "research": "research/team-reload-ammo-F5FEE03DCFDB.json",
+        "min": 0,
+        "max": 31,
+        "rangeReason": "the live spare-magazine count is the network field magazines_remaining (5 bits): the game clamps it to 31 on every write"
       },
       "resolution": {
         "rootChain": [
@@ -98519,11 +98618,16 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": false,
-        "acknowledgement": null,
-        "acknowledgementReason": null
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Own spares of a team-reload weapon. Its reload uses them first (one magazine per reload, by the wearer alone, no backpack needed) and the backpack only when they are spent; a teammate reload still uses the backpack. Proven from game code (research/team-reload-ammo-F5FEE03DCFDB.json); not yet shown in game. The most spare magazines the weapon itself carries. 0 natively, which is why it keeps none: the spawn and resupply amounts are clamped to it."
       },
-      "noEffect": {
-        "reason": "This team-reload weapon keeps no ammunition of its own: its backpack holds it (the deposit that the wearer or a teammate reloads from). The row is 0 natively; a write is accepted but is not expected to change anything in game. See docs/backpack-ammo.md \"Not covered\"."
+      "teamReload": {
+        "role": "The most spare magazines the weapon itself carries. 0 natively, which is why it keeps none: the spawn and resupply amounts are clamped to it.",
+        "ownSpares": true,
+        "research": "research/team-reload-ammo-F5FEE03DCFDB.json",
+        "min": 0,
+        "max": 31,
+        "rangeReason": "the live spare-magazine count is the network field magazines_remaining (5 bits): the game clamps it to 31 on every write"
       },
       "resolution": {
         "rootChain": [
@@ -165810,11 +165914,16 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": false,
-        "acknowledgement": null,
-        "acknowledgementReason": null
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Own spares of a team-reload weapon. Its reload uses them first (one magazine per reload, by the wearer alone, no backpack needed) and the backpack only when they are spent; a teammate reload still uses the backpack. Proven from game code (research/team-reload-ammo-F5FEE03DCFDB.json); not yet shown in game. Spare magazines the weapon itself carries when it spawns, clamped to magazine.spare_magazines (0 natively, so this has no effect until that is raised)."
       },
-      "noEffect": {
-        "reason": "This team-reload weapon keeps no ammunition of its own: its backpack holds it (the deposit that the wearer or a teammate reloads from). The row is 0 natively; a write is accepted but is not expected to change anything in game. See docs/backpack-ammo.md \"Not covered\"."
+      "teamReload": {
+        "role": "Spare magazines the weapon itself carries when it spawns, clamped to magazine.spare_magazines (0 natively, so this has no effect until that is raised).",
+        "ownSpares": true,
+        "research": "research/team-reload-ammo-F5FEE03DCFDB.json",
+        "min": 0,
+        "max": 31,
+        "rangeReason": "the live spare-magazine count is the network field magazines_remaining (5 bits): the game clamps it to 31 on every write"
       },
       "resolution": {
         "rootChain": [
@@ -165917,8 +166026,16 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": false,
-        "acknowledgement": null,
-        "acknowledgementReason": null
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Own spares of a team-reload weapon. Its reload uses them first (one magazine per reload, by the wearer alone, no backpack needed) and the backpack only when they are spent; a teammate reload still uses the backpack. Proven from game code (research/team-reload-ammo-F5FEE03DCFDB.json); not yet shown in game. Spare magazines the weapon itself gains from a resupply (at least 1), up to magazine.spare_magazines (0 natively, so the native 6 has no effect until that is raised). The backpack refills separately (deposit.refill_amount)."
+      },
+      "teamReload": {
+        "role": "Spare magazines the weapon itself gains from a resupply (at least 1), up to magazine.spare_magazines (0 natively, so the native 6 has no effect until that is raised). The backpack refills separately (deposit.refill_amount).",
+        "ownSpares": true,
+        "research": "research/team-reload-ammo-F5FEE03DCFDB.json",
+        "min": 0,
+        "max": 31,
+        "rangeReason": "the live spare-magazine count is the network field magazines_remaining (5 bits): the game clamps it to 31 on every write"
       },
       "resolution": {
         "rootChain": [
@@ -166021,11 +166138,16 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": false,
-        "acknowledgement": null,
-        "acknowledgementReason": null
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Own spares of a team-reload weapon. Its reload uses them first (one magazine per reload, by the wearer alone, no backpack needed) and the backpack only when they are spent; a teammate reload still uses the backpack. Proven from game code (research/team-reload-ammo-F5FEE03DCFDB.json); not yet shown in game. The most spare magazines the weapon itself carries. 0 natively, which is why it keeps none: the spawn and resupply amounts are clamped to it."
       },
-      "noEffect": {
-        "reason": "This team-reload weapon keeps no ammunition of its own: its backpack holds it (the deposit that the wearer or a teammate reloads from). The row is 0 natively; a write is accepted but is not expected to change anything in game. See docs/backpack-ammo.md \"Not covered\"."
+      "teamReload": {
+        "role": "The most spare magazines the weapon itself carries. 0 natively, which is why it keeps none: the spawn and resupply amounts are clamped to it.",
+        "ownSpares": true,
+        "research": "research/team-reload-ammo-F5FEE03DCFDB.json",
+        "min": 0,
+        "max": 31,
+        "rangeReason": "the live spare-magazine count is the network field magazines_remaining (5 bits): the game clamps it to 31 on every write"
       },
       "resolution": {
         "rootChain": [
@@ -195327,11 +195449,16 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": false,
-        "acknowledgement": null,
-        "acknowledgementReason": null
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Own spares of a team-reload weapon. Its reload uses them first (one magazine per reload, by the wearer alone, no backpack needed) and the backpack only when they are spent; a teammate reload still uses the backpack. Proven from game code (research/team-reload-ammo-F5FEE03DCFDB.json); not yet shown in game. Spare magazines the weapon itself carries when it spawns, clamped to magazine.spare_magazines (0 natively, so this has no effect until that is raised)."
       },
-      "noEffect": {
-        "reason": "This team-reload weapon keeps no ammunition of its own: its backpack holds it (the deposit that the wearer or a teammate reloads from). The row is 0 natively; a write is accepted but is not expected to change anything in game. See docs/backpack-ammo.md \"Not covered\"."
+      "teamReload": {
+        "role": "Spare magazines the weapon itself carries when it spawns, clamped to magazine.spare_magazines (0 natively, so this has no effect until that is raised).",
+        "ownSpares": true,
+        "research": "research/team-reload-ammo-F5FEE03DCFDB.json",
+        "min": 0,
+        "max": 31,
+        "rangeReason": "the live spare-magazine count is the network field magazines_remaining (5 bits): the game clamps it to 31 on every write"
       },
       "resolution": {
         "rootChain": [
@@ -195434,8 +195561,16 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": false,
-        "acknowledgement": null,
-        "acknowledgementReason": null
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Own spares of a team-reload weapon. Its reload uses them first (one magazine per reload, by the wearer alone, no backpack needed) and the backpack only when they are spent; a teammate reload still uses the backpack. Proven from game code (research/team-reload-ammo-F5FEE03DCFDB.json); not yet shown in game. Spare magazines the weapon itself gains from a resupply (at least 1), up to magazine.spare_magazines (0 natively, so the native 6 has no effect until that is raised). The backpack refills separately (deposit.refill_amount)."
+      },
+      "teamReload": {
+        "role": "Spare magazines the weapon itself gains from a resupply (at least 1), up to magazine.spare_magazines (0 natively, so the native 6 has no effect until that is raised). The backpack refills separately (deposit.refill_amount).",
+        "ownSpares": true,
+        "research": "research/team-reload-ammo-F5FEE03DCFDB.json",
+        "min": 0,
+        "max": 31,
+        "rangeReason": "the live spare-magazine count is the network field magazines_remaining (5 bits): the game clamps it to 31 on every write"
       },
       "resolution": {
         "rootChain": [
@@ -195538,11 +195673,16 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": false,
-        "acknowledgement": null,
-        "acknowledgementReason": null
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "Own spares of a team-reload weapon. Its reload uses them first (one magazine per reload, by the wearer alone, no backpack needed) and the backpack only when they are spent; a teammate reload still uses the backpack. Proven from game code (research/team-reload-ammo-F5FEE03DCFDB.json); not yet shown in game. The most spare magazines the weapon itself carries. 0 natively, which is why it keeps none: the spawn and resupply amounts are clamped to it."
       },
-      "noEffect": {
-        "reason": "This team-reload weapon keeps no ammunition of its own: its backpack holds it (the deposit that the wearer or a teammate reloads from). The row is 0 natively; a write is accepted but is not expected to change anything in game. See docs/backpack-ammo.md \"Not covered\"."
+      "teamReload": {
+        "role": "The most spare magazines the weapon itself carries. 0 natively, which is why it keeps none: the spawn and resupply amounts are clamped to it.",
+        "ownSpares": true,
+        "research": "research/team-reload-ammo-F5FEE03DCFDB.json",
+        "min": 0,
+        "max": 31,
+        "rangeReason": "the live spare-magazine count is the network field magazines_remaining (5 bits): the game clamps it to 31 on every write"
       },
       "resolution": {
         "rootChain": [

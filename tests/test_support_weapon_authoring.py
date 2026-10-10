@@ -164,8 +164,10 @@ class SupportWeaponAuthoringTests(unittest.TestCase):
         self.assertEqual(sum(branch['writable'] for branch in
             by_name['MS-11 Solo Silo']['attackBranches']),2)
         self.assertTrue(by_name['GR-8 Recoilless Rifle']['backpackDependency'])
-        self.assertTrue(any(item['field']=='backpack storage' for item in
+        # 0.30.4: the team-reload backpack is resolved (research/team-reload-ammo-F5FEE03DCFDB.json).
+        self.assertFalse(any(item['field']=='backpack storage' for item in
             by_name['GR-8 Recoilless Rifle']['blockedFields']))
+        self.assertEqual(by_name['GR-8 Recoilless Rifle']['ammoBackpack']['relationship'],'team_reload')
 
     def test_public_targets_validate_shared_domains_and_duplicates(self):
         gr8=[item for item in self.capabilities['fieldInstances']

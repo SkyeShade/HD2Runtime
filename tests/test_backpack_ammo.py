@@ -32,8 +32,10 @@ class BackpackAmmoTests(unittest.TestCase):
 
     def test_catalogs_link_weapon_and_backpack(self):
         summary = self.backpacks['summary']
-        self.assertEqual((summary['backpacks'], summary['weaponFedBackpacks'], summary['backpackAmmoWritable']),
-            (16, 3, 9))
+        # 0.30.4: + the five team-reload backpacks (GR-8, AC-8, FAF-14, RL-77, StA-X3), three deposit fields each
+        # (research/team-reload-ammo-F5FEE03DCFDB.json).
+        self.assertEqual((summary['backpacks'], summary['weaponFedBackpacks'], summary['teamReloadBackpacks'],
+            summary['backpackAmmoWritable']), (21, 3, 5, 24))
         by_name = {item['name']: item for item in self.backpacks['backpacks']}
         maxigun = by_name['M-1000 Maxigun Backpack']
         self.assertEqual(maxigun['feeds']['supportWeapon'], 'M-1000 Maxigun')
@@ -55,15 +57,20 @@ class BackpackAmmoTests(unittest.TestCase):
         link = weapons['M-1000 Maxigun']['ammoBackpack']
         self.assertEqual((link['backpack'], link['semanticId']), ('M-1000 Maxigun Backpack', maxigun['semanticId']))
         self.assertIn('weapon magazine', [b['field'] for b in weapons['M-1000 Maxigun']['blockedFields']])
-        self.assertIsNone(weapons['GR-8 Recoilless Rifle']['ammoBackpack'])
+        team = weapons['GR-8 Recoilless Rifle']['ammoBackpack']
+        self.assertEqual((team['backpack'], team['relationship'], team['baseline']),
+            ('GR-8 Recoilless Rifle Backpack', 'team_reload', {'capacity': 5, 'startAmount': -1, 'refillAmount': 3}))
+        self.assertIsNone(weapons['EAT-17 Expendable Anti-Tank']['ammoBackpack'])
 
     def test_snapshot_overlay_validation(self):
         result = json.loads((ROOT / 'validation/backpack-ammo-snapshot.json').read_text())
         self.assertEqual(result['status'], 'VALIDATED')
+        # 3 weapon-fed + 5 team-reload backpacks (0.30.4), three deposit fields each.
         for key in ('fields', 'baselineMatches', 'noOps', 'changedWrites', 'rollbacks', 'conflictRejections',
                     'acknowledgementRejections', 'staleExpectRejections', 'rangeRejections'):
-            self.assertEqual(result[key], 9, key)
-        self.assertEqual(result['chainTamperRejections'], 12)
+            self.assertEqual(result[key], 24, key)
+        # Four links per weapon-fed chain, two per team-reload chain (assisted path, rack).
+        self.assertEqual(result['chainTamperRejections'], 3 * 4 + 5 * 2)
 
     def test_lua_api_and_guards(self):
         run(r'''
@@ -91,7 +98,9 @@ rejects({id='c',allow_unverified_effect=true,target=backpack,field=hd2.fields.de
  'expect differs')
 rejects({id='d',allow_unverified_effect=true,target=hd2.backpack('B-1 Supply Pack'),field=hd2.fields.deposit.capacity,
  expect=4,value=6},'read-only')
-assert(not pcall(function()return hd2.support_weapon('GR-8 Recoilless Rifle'):backpack()end))
+assert(hd2.support_weapon('GR-8 Recoilless Rifle'):backpack().backpack=='GR-8 Recoilless Rifle Backpack')
+assert(hd2.backpack('GR-8 Recoilless Rifle Backpack'):describe().feeds.relationship=='team_reload')
+assert(not pcall(function()return hd2.support_weapon('EAT-17 Expendable Anti-Tank'):backpack()end))
 assert(hd2.support_weapon('B/FLAM-80 Cremator'):backpack().backpack=='B/FLAM-80 Cremator Backpack')
 assert(hd2.support_weapon('GL-28 Belt-Fed Grenade Launcher'):backpack().backpack=='GL-28 Belt-Fed Grenade Launcher Backpack')
 return 'ok'

@@ -31,6 +31,7 @@ FIELDS=ROOT/'schemas/player_weapon_fields.json'
 LEGACY=ROOT/'research/support-weapon-runtime-F5FEE03DCFDB.json'
 COVERAGE=ROOT/'research/support-weapon-coverage-F5FEE03DCFDB.json'
 BACKPACK_AMMO=ROOT/'research/backpack-ammo-F5FEE03DCFDB.json'
+TEAM_RELOAD=ROOT/'research/team-reload-ammo-F5FEE03DCFDB.json'
 # Projectile hosts (research/projectile-builder): support weapons whose every shot is their own ProjectileWeapon +0,
 # with the class and component identity research/attack-outputs saw.
 BUILDER=ROOT/'research/projectile-builder-F5FEE03DCFDB.json'
@@ -38,9 +39,35 @@ ATTACK_OUTPUTS=ROOT/'research/attack-outputs-F5FEE03DCFDB.json'
 HOST_UNVERIFIED=('Replaces the projectile this support weapon fires (its ProjectileWeapon +0, copied into the weapon '
     'when it is built). The same structural rule as player component hosts: no customization delta patches a projectile '
     'member and no other selector exists. Not yet shown in game for a support weapon.')
-BACKPACK_STOCK=('This team-reload weapon keeps no ammunition of its own: its backpack holds it (the deposit that the '
-    'wearer or a teammate reloads from). The row is 0 natively; a write is accepted but is not expected to change anything in game. '
-    'See docs/backpack-ammo.md "Not covered".')
+# Team-reload weapons (research/team-reload-ammo-F5FEE03DCFDB.json, docs/support-weapon-api.md "Team-reload weapons"):
+# the reload uses the weapon's own spares first and the worn backpack's deposit only when they are spent; spawn and
+# resupply clamp the own spares to the maximum (magazine.spare_magazines / rounds.spare_rounds), which is 0 natively.
+TEAM_MAGAZINE_MAX=31
+TEAM_MAGAZINE_RANGE=('the live spare-magazine count is the network field magazines_remaining (5 bits): the game clamps '
+    'it to 31 on every write')
+TEAM_OWN_SPARES=('Own spares of a team-reload weapon. Its reload uses them first (one magazine per reload, by the '
+    'wearer alone, no backpack needed) and the backpack only when they are spent; a teammate reload still uses the '
+    'backpack. Proven from game code (research/team-reload-ammo-F5FEE03DCFDB.json); not yet shown in game.')
+TEAM_ROLES={
+    'magazine.spare_magazines':('The most spare magazines the weapon itself carries. 0 natively, which is why it '
+        'keeps none: the spawn and resupply amounts are clamped to it.'),
+    'magazine.starting_magazines':('Spare magazines the weapon itself carries when it spawns, clamped to '
+        'magazine.spare_magazines (0 natively, so this has no effect until that is raised).'),
+    'magazine.magazines_from_supply':('Spare magazines the weapon itself gains from a resupply (at least 1), up to '
+        'magazine.spare_magazines (0 natively, so the native 6 has no effect until that is raised). The backpack '
+        'refills separately (deposit.refill_amount).')}
+TEAM_ROUNDS_STOCK={
+    'rounds.spare_rounds':('The most spare rounds the weapon itself could carry. Not offered: the game reads it '
+        "(the reload would use the weapon's own rounds before the backpack), but each reload subtracts the 5-round "
+        'reload amount with no lower bound while a resupply adds at least 1 round, so the count can drop below '
+        'zero. Only 0 (native) is accepted. See docs/support-weapon-api.md "Team-reload weapons".'),
+    'rounds.starting_rounds':('Spare rounds the weapon itself carries when it spawns, clamped to rounds.spare_rounds '
+        '(0, which is the only value accepted there): no effect.'),
+    'rounds.rounds_from_supply':('Spare rounds the weapon itself gains from a resupply, clamped to '
+        'rounds.spare_rounds (0, the only value accepted there): no effect. The backpack refills separately '
+        '(deposit.refill_amount).')}
+TEAM_ROUNDS_RANGE=('the reload subtracts the reload amount from the own spare rounds with no lower bound and a '
+    'resupply adds at least 1 round, so any nonzero maximum can underflow (research/team-reload-ammo)')
 UNVERIFIED_REASONS={
     'reload.duration':'Schema-labelled native reload duration; scraped reload times agree only approximately '
         '(they include animation), and the gameplay effect of an edit is not yet confirmed.',
@@ -183,6 +210,8 @@ def refresh_catalog(base_path,legacy_path=LEGACY,catalog_path=CATALOG):
 def build(catalog_path=CATALOG):
     source=json.loads(Path(catalog_path).read_text())
     fed_backpacks={item['supportWeapon']:item for item in json.loads(BACKPACK_AMMO.read_text())['backpackFedWeapons']}
+    team_backpacks={item['supportWeapon']:item for item in json.loads(TEAM_RELOAD.read_text())['teamReloadWeapons']
+        if item['supportWeapon']}
     coverage=json.loads(COVERAGE.read_text())
     delivery={name:item for name,item in coverage['deliveryResolution'].items()if item['decision']=='RESOLVED'}
     schema=json.loads(FIELDS.read_text());definitions={item['id']:item for item in schema['fields']}
@@ -485,13 +514,27 @@ def build(catalog_path=CATALOG):
                 blocked.append({'field':'weapon.fire_rate','reason':
                     'Charge-controlled or diagnostic selector; native sentinel/default is not exposed as ordinary RPM.'})
             ammo=candidate.get('ammo')or{};kind=ammo.get('kind')
-            # 0.30.2 (stats-editor R6): a team-reload weapon's own stock rows are 0 because its backpack's deposit
-            # holds the ammunition (docs/backpack-ammo.md "Not covered"); a write there is accepted (older mods keep
-            # working) but is not expected to change anything, so the row says so.
-            team_reload=weapon['backpackDependent']and not fed_backpacks.get(weapon['name'])
+            # 0.30.4: a team-reload weapon's own stock rows are real (research/team-reload-ammo-F5FEE03DCFDB.json).
+            # Magazine weapons: writable behind allow_unverified_effect, bounded by the 5-bit network field. The AC-8's
+            # rounds: the game would subtract its 5-round reload amount with no lower bound, so only the native 0 is
+            # accepted as the maximum, and the start and supply rows say why they have no effect.
+            team=team_backpacks.get(weapon['name'])
+            if team and team['ammoKind']!=kind:
+                raise ValueError(weapon['name']+': team-reload ammunition kind changed')
             def stock(field,value):
-                if team_reload and value==0:
-                    field['noEffect']=BACKPACK_STOCK
+                field_id=field['semanticFieldId']
+                if team and field_id in TEAM_ROLES:
+                    field.update(acknowledgement='allow_unverified_effect',
+                        acknowledgementReason=TEAM_OWN_SPARES+' '+TEAM_ROLES[field_id],
+                        min=0,max=TEAM_MAGAZINE_MAX,rangeReason=TEAM_MAGAZINE_RANGE,
+                        teamReload={'role':TEAM_ROLES[field_id],'ownSpares':True,
+                            'research':'research/team-reload-ammo-F5FEE03DCFDB.json'})
+                elif team and field_id in TEAM_ROUNDS_STOCK:
+                    field['noEffect']=TEAM_ROUNDS_STOCK[field_id]
+                    field['teamReload']={'role':TEAM_ROUNDS_STOCK[field_id],'ownSpares':False,
+                        'research':'research/team-reload-ammo-F5FEE03DCFDB.json'}
+                    if field_id=='rounds.spare_rounds':
+                        field.update(min=0,max=0,rangeReason=TEAM_ROUNDS_RANGE)
                 return field
             if kind=='magazine'and'WeaponMagazineComponentData'in ownership:
                 for field_id,key,offset in (
@@ -689,13 +732,13 @@ def build(catalog_path=CATALOG):
                 for field in fields:
                     if field['semanticFieldId']=='charge.overcharge_explosion':
                         field['charge']=dict(field['charge'],contents="attack('overcharge_explosion'):explosion()")
-        fed=fed_backpacks.get(weapon['name'])
+        fed=fed_backpacks.get(weapon['name']);team=team_backpacks.get(weapon['name'])
         if fed:
             blocked.append({'field':'weapon magazine','reason':
                 'The weapon owns no WeaponMagazineComponent. Its ammunition is the backpack DepositComponent: '
                 'author it through hd2.support_weapon(name):backpack().'})
         else:
-            if weapon['backpackDependent']:
+            if weapon['backpackDependent']and not team:
                 blocked.append({'field':'backpack storage','reason':
                     'Backpack entity/package storage ownership is unresolved; weapon-side fields remain independent.'})
             if weapon['linkedAmmoOwned']:
@@ -706,7 +749,7 @@ def build(catalog_path=CATALOG):
                 'Cooldown and uses are owned by the linked stratagem view (linkedStratagem.semanticId); '
                 'call-in scalar ownership through the support weapon is not reviewed.'})
         for reason in weapon['unresolvedLinks']:
-            if fed and reason.startswith('backpack entity/package ownership link'):continue
+            if(fed or team)and reason.startswith('backpack entity/package ownership link'):continue
             blocked.append({'field':'unresolved branch','reason':reason})
 
         runtime_weapons[weapon['name']]={'name':weapon['name'],'resolution':weapon['resolution'],
@@ -765,7 +808,7 @@ def build(catalog_path=CATALOG):
             'sharedScopes':sorted(set(f['writeScope']for f in fields if f['affectsMultipleWeapons'])),
             'blockedFields':blocked,'backpackDependency':weapon['backpackDependent'],
             'linkedAmmoOwnership':weapon['linkedAmmoOwned'],
-            'ammoBackpack':None if not fed else {'backpack':weapon['name']+' Backpack',
+            'ammoBackpack':{'backpack':weapon['name']+' Backpack',
                 'semanticId':'backpack/v1/'+re.sub(r'[^a-z0-9]+','-',(weapon['name']+' Backpack').lower()).strip('-')
                     +'/'+hashlib.sha256(json.dumps(weapon['name']+' Backpack',sort_keys=True,separators=(',',':'))
                     .encode()).hexdigest()[:16],
@@ -773,7 +816,17 @@ def build(catalog_path=CATALOG):
                 'weaponOwnsMagazine':False,'fields':['deposit.capacity','deposit.start_amount','deposit.refill_amount'],
                 'baseline':{'capacity':fed['deposit']['values']['0'],'startAmount':fed['deposit']['values']['4'],
                     'refillAmount':fed['deposit']['values']['8']},
-                'catalog':'sdk/BackpackAuthoringCapabilities.json'},
+                'catalog':'sdk/BackpackAuthoringCapabilities.json'}if fed else
+                {'backpack':weapon['name']+' Backpack',
+                'semanticId':'backpack/v1/'+re.sub(r'[^a-z0-9]+','-',(weapon['name']+' Backpack').lower()).strip('-')
+                    +'/'+hashlib.sha256(json.dumps(weapon['name']+' Backpack',sort_keys=True,separators=(',',':'))
+                    .encode()).hexdigest()[:16],
+                'accessor':'hd2.support_weapon(name):backpack()','owner':'backpack DepositComponent',
+                'relationship':'team_reload','weaponOwnsMagazine':True,
+                'fields':['deposit.capacity','deposit.start_amount','deposit.refill_amount'],
+                'baseline':{'capacity':team['deposit']['values']['0'],'startAmount':team['deposit']['values']['4'],
+                    'refillAmount':team['deposit']['values']['8']},
+                'catalog':'sdk/BackpackAuthoringCapabilities.json'}if team else None,
             'linkedStratagem':call_in_linkage['supportWeapons'][weapon['name']],
             'writable':unique and bool(fields),'writableFieldCount':len(fields)if unique else 0})
 
@@ -1002,6 +1055,8 @@ def build(catalog_path=CATALOG):
                     {'liveEvidence':live_targets[(weapon_name,field['semanticFieldId'])]}
                     if(weapon_name,field['semanticFieldId'])in live_targets else{}),
                 **({'noEffect':{'reason':field['noEffect']}}if field.get('noEffect')else{}),
+                **({'teamReload':dict(field['teamReload'],**{key:field[key] for key in('min','max','rangeReason')
+                    if field.get(key)is not None})}if field.get('teamReload')else{}),
                 'resolution':resolution_metadata(weapon_name,field),
                 'provenance':{'identity':'unique reviewed support-weapon runtime identity',
                     'semantics':'shared player/support field schema',

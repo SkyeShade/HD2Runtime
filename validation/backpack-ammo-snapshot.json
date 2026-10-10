@@ -1,6 +1,41 @@
 {
-  "acknowledgementRejections": 9,
+  "acknowledgementRejections": 24,
   "backpacks": [
+    {
+      "backpack": "AC-8 Autocannon Backpack",
+      "chainChecks": 2,
+      "fields": [
+        {
+          "baseline": 10,
+          "before": "0a000000",
+          "changedTo": 1023,
+          "component": "DepositComponentData",
+          "field": "deposit.capacity",
+          "fieldOffset": 0,
+          "uniqueOwner": true
+        },
+        {
+          "baseline": -1,
+          "before": "ffffffff",
+          "changedTo": 1020,
+          "component": "DepositComponentData",
+          "field": "deposit.start_amount",
+          "fieldOffset": 4,
+          "uniqueOwner": true
+        },
+        {
+          "baseline": 5,
+          "before": "05000000",
+          "changedTo": 750,
+          "component": "DepositComponentData",
+          "field": "deposit.refill_amount",
+          "fieldOffset": 8,
+          "uniqueOwner": true
+        }
+      ],
+      "relationship": "team_reload",
+      "weapon": "AC-8 Autocannon"
+    },
     {
       "backpack": "B/FLAM-80 Cremator Backpack",
       "chainChecks": 4,
@@ -33,7 +68,43 @@
           "uniqueOwner": true
         }
       ],
+      "relationship": "backpack_ammo",
       "weapon": "B/FLAM-80 Cremator"
+    },
+    {
+      "backpack": "FAF-14 Spear Backpack",
+      "chainChecks": 2,
+      "fields": [
+        {
+          "baseline": 4,
+          "before": "04000000",
+          "changedTo": 1023,
+          "component": "DepositComponentData",
+          "field": "deposit.capacity",
+          "fieldOffset": 0,
+          "uniqueOwner": true
+        },
+        {
+          "baseline": -1,
+          "before": "ffffffff",
+          "changedTo": 1020,
+          "component": "DepositComponentData",
+          "field": "deposit.start_amount",
+          "fieldOffset": 4,
+          "uniqueOwner": true
+        },
+        {
+          "baseline": 2,
+          "before": "02000000",
+          "changedTo": 750,
+          "component": "DepositComponentData",
+          "field": "deposit.refill_amount",
+          "fieldOffset": 8,
+          "uniqueOwner": true
+        }
+      ],
+      "relationship": "team_reload",
+      "weapon": "FAF-14 Spear"
     },
     {
       "backpack": "GL-28 Belt-Fed Grenade Launcher Backpack",
@@ -67,7 +138,43 @@
           "uniqueOwner": true
         }
       ],
+      "relationship": "backpack_ammo",
       "weapon": "GL-28 Belt-Fed Grenade Launcher"
+    },
+    {
+      "backpack": "GR-8 Recoilless Rifle Backpack",
+      "chainChecks": 2,
+      "fields": [
+        {
+          "baseline": 5,
+          "before": "05000000",
+          "changedTo": 1023,
+          "component": "DepositComponentData",
+          "field": "deposit.capacity",
+          "fieldOffset": 0,
+          "uniqueOwner": true
+        },
+        {
+          "baseline": -1,
+          "before": "ffffffff",
+          "changedTo": 1020,
+          "component": "DepositComponentData",
+          "field": "deposit.start_amount",
+          "fieldOffset": 4,
+          "uniqueOwner": true
+        },
+        {
+          "baseline": 3,
+          "before": "03000000",
+          "changedTo": 750,
+          "component": "DepositComponentData",
+          "field": "deposit.refill_amount",
+          "fieldOffset": 8,
+          "uniqueOwner": true
+        }
+      ],
+      "relationship": "team_reload",
+      "weapon": "GR-8 Recoilless Rifle"
     },
     {
       "backpack": "M-1000 Maxigun Backpack",
@@ -101,20 +208,91 @@
           "uniqueOwner": true
         }
       ],
+      "relationship": "backpack_ammo",
       "weapon": "M-1000 Maxigun"
+    },
+    {
+      "backpack": "RL-77 Airburst Rocket Launcher Backpack",
+      "chainChecks": 2,
+      "fields": [
+        {
+          "baseline": 5,
+          "before": "05000000",
+          "changedTo": 1023,
+          "component": "DepositComponentData",
+          "field": "deposit.capacity",
+          "fieldOffset": 0,
+          "uniqueOwner": true
+        },
+        {
+          "baseline": -1,
+          "before": "ffffffff",
+          "changedTo": 1020,
+          "component": "DepositComponentData",
+          "field": "deposit.start_amount",
+          "fieldOffset": 4,
+          "uniqueOwner": true
+        },
+        {
+          "baseline": 3,
+          "before": "03000000",
+          "changedTo": 750,
+          "component": "DepositComponentData",
+          "field": "deposit.refill_amount",
+          "fieldOffset": 8,
+          "uniqueOwner": true
+        }
+      ],
+      "relationship": "team_reload",
+      "weapon": "RL-77 Airburst Rocket Launcher"
+    },
+    {
+      "backpack": "StA-X3 W.A.S.P. Launcher Backpack",
+      "chainChecks": 2,
+      "fields": [
+        {
+          "baseline": 5,
+          "before": "05000000",
+          "changedTo": 1023,
+          "component": "DepositComponentData",
+          "field": "deposit.capacity",
+          "fieldOffset": 0,
+          "uniqueOwner": true
+        },
+        {
+          "baseline": -1,
+          "before": "ffffffff",
+          "changedTo": 1020,
+          "component": "DepositComponentData",
+          "field": "deposit.start_amount",
+          "fieldOffset": 4,
+          "uniqueOwner": true
+        },
+        {
+          "baseline": 3,
+          "before": "03000000",
+          "changedTo": 750,
+          "component": "DepositComponentData",
+          "field": "deposit.refill_amount",
+          "fieldOffset": 8,
+          "uniqueOwner": true
+        }
+      ],
+      "relationship": "team_reload",
+      "weapon": "StA-X3 W.A.S.P. Launcher"
     }
   ],
-  "baselineMatches": 9,
-  "chainTamperRejections": 12,
-  "changedWrites": 9,
-  "conflictRejections": 9,
-  "fields": 9,
+  "baselineMatches": 24,
+  "chainTamperRejections": 22,
+  "changedWrites": 24,
+  "conflictRejections": 24,
+  "fields": 24,
   "fixtureFallback": "disabled",
   "mode": "snapshot-overlay",
-  "noOps": 9,
-  "rangeRejections": 9,
-  "rollbacks": 9,
+  "noOps": 24,
+  "rangeRejections": 24,
+  "rollbacks": 24,
   "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
-  "staleExpectRejections": 9,
+  "staleExpectRejections": 24,
   "status": "VALIDATED"
 }

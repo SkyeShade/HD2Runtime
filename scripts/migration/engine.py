@@ -731,6 +731,14 @@ class Engine:
                 f'tag carried by {len(carriers)} entities', {'carriers': [hexid(x) for x in sorted(carriers)]}
         return 'INTACT', 'weapon linked-ammo tag carried only by the backpack', None
 
+    def _rel_backpack_team_reload(self, view, link):
+        record = view.record('DepositComponentData', link['backpack'])
+        if record is None:
+            return 'BROKEN', 'backpack no longer owns a DepositComponent', None
+        if struct.unpack_from('<Q', record['bytes'], link['offset'])[0] != link['weapon']:
+            return 'BROKEN', 'deposit assisted_reload_weapon_path no longer names the weapon', None
+        return 'INTACT', 'deposit assisted_reload_weapon_path names the weapon', None
+
     def _rel_stratagem_rack(self, view, link):
         if view.stratagems is None:
             return 'UNCHECKED', 'stratagem rows need a snapshot of a runtime-profiled game.dll', None

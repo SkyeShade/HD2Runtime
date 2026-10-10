@@ -234,7 +234,15 @@ function M.capture_many(runtime,reader,specs)
                 end
             end
             local feeds=entry.feeds
-            if feeds then
+            if feeds and feeds.assisted then
+                -- Re-prove the team-reload link (the rack above still delivers the weapon with this backpack): the
+                -- weapon is still the reviewed entity and this backpack's deposit still names it in
+                -- assisted_reload_weapon_path (research/team-reload-ammo-F5FEE03DCFDB.json).
+                find_candidate(catalog,feeds.weaponResource,feeds.weaponEntityRow)
+                local deposit=catalog.record(candidate,'DepositComponentData')
+                assert(b.resource(deposit.bytes,feeds.assisted.pathOffset)==feeds.weaponResource,
+                    'backpack no longer feeds the reviewed team-reload weapon')
+            elseif feeds then
                 -- Re-prove the ammunition link: the weapon draws from the Backpack slot through a tag
                 -- that this backpack carries.
                 local weapon=find_candidate(catalog,feeds.weaponResource,feeds.weaponEntityRow)

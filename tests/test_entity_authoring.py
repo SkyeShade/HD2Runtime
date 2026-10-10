@@ -57,14 +57,17 @@ class EntityAuthoringTests(unittest.TestCase):
         self.assertEqual(summary['writableByTier'], {'gameplay_proven': 64, 'schema_proven': 636,
             'native_consumer_proven': 19, 'live_write_verified': 2, 'structural_reference': 16})
         backpack = self.backpacks['summary']
-        # 13 call-in backpacks plus 3 weapon-fed backpacks that store support weapon ammunition.
-        self.assertEqual(backpack['backpacks'], 16)
-        self.assertEqual(backpack['rackChainsResolved'], 16)
+        # 13 call-in backpacks plus 3 weapon-fed backpacks that store support weapon ammunition, plus (0.30.4) the 5
+        # team-reload backpacks (research/team-reload-ammo-F5FEE03DCFDB.json).
+        self.assertEqual(backpack['backpacks'], 21)
+        self.assertEqual(backpack['rackChainsResolved'], 21)
         self.assertEqual(backpack['weaponFedBackpacks'], 3)
-        # + 26 jump / hover movement fields read by the flight code (scripts/jump_hover_fields.py).
-        self.assertEqual(backpack['writableFieldInstances'], 97)
+        self.assertEqual(backpack['teamReloadBackpacks'], 5)
+        # + 26 jump / hover movement fields read by the flight code (scripts/jump_hover_fields.py), + 15 team-reload
+        # deposit fields (0.30.4, readers traced in game code).
+        self.assertEqual(backpack['writableFieldInstances'], 97 + 15)
         self.assertEqual(backpack['writableByTier'], {'gameplay_proven': 2, 'schema_proven': 35,
-            'native_correlated': 34, 'native_consumer_proven': 26})
+            'native_correlated': 34, 'native_consumer_proven': 26 + 15})
 
     def test_semantic_identities_are_unique_and_stable(self):
         for collection in (self.vehicles['vehicles'], self.backpacks['backpacks'], self.vehicles['mountedWeapons']):

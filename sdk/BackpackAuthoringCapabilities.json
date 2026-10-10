@@ -1238,6 +1238,381 @@
         "backpack:m-1000-maxigun-backpack:m-1000-maxigun-backpack-backpack:deposit.start_amount",
         "backpack:m-1000-maxigun-backpack:m-1000-maxigun-backpack-backpack:deposit.refill_amount"
       ]
+    },
+    {
+      "name": "AC-8 Autocannon Backpack",
+      "semanticId": "backpack/v1/ac-8-autocannon-backpack/dfd11e7c06fa8293",
+      "callInStratagem": {
+        "semanticId": "stratagem/v1/ac-8-autocannon/902ed559c079bf20",
+        "name": "AC-8 Autocannon",
+        "relationship": "delivered_with_support_weapon",
+        "known": true,
+        "provenance": "call-in primary payload is the rack that attaches the weapon and this backpack"
+      },
+      "deliveryChain": [
+        "stratagem_definition",
+        "hellpod_rack",
+        "backpack_entity"
+      ],
+      "feeds": {
+        "supportWeapon": "AC-8 Autocannon",
+        "supportWeaponSemanticId": "support-weapon/v1/ac-8-autocannon/902ed559c079bf20",
+        "relationship": "team_reload",
+        "weaponOwnsMagazine": true,
+        "ammoKind": "rounds",
+        "unitMeaning": "one reload of 5 rounds",
+        "refillStyle": "Ammo",
+        "chain": [
+          "call-in rack attaches the weapon and this backpack",
+          "backpack DepositComponent assisted_reload_weapon_path names the weapon",
+          "the weapon owns a WeaponAssistedReloadComponent (each reload from the backpack costs one)",
+          "the wearer's reload uses the backpack once the weapon's own spares are spent; a teammate's reload always uses it"
+        ]
+      },
+      "ammo": {
+        "capacity": 10,
+        "startAmount": -1,
+        "startIsFull": true,
+        "refillAmount": 5,
+        "fingerprint": {
+          "spare": null,
+          "fromSupply": 25
+        },
+        "visibleNodes": 10
+      },
+      "correlation": {
+        "capacity": true,
+        "fromSupply": true
+      },
+      "components": [
+        "Backpack",
+        "Deposit"
+      ],
+      "settingGroups": [
+        {
+          "group": "backpack_ammo",
+          "fieldInstanceKeys": [
+            "backpack:ac-8-autocannon-backpack:ac-8-autocannon-backpack-backpack:deposit.capacity",
+            "backpack:ac-8-autocannon-backpack:ac-8-autocannon-backpack-backpack:deposit.start_amount",
+            "backpack:ac-8-autocannon-backpack:ac-8-autocannon-backpack-backpack:deposit.refill_amount"
+          ]
+        }
+      ],
+      "blockedFields": [
+        {
+          "field": "remaining ammunition",
+          "reason": "The live remaining count is per-mission instance state, not a definition field; capacity, starting ammo and supply refill are authored."
+        },
+        {
+          "field": "cost per reload (assisted-reload record +20)",
+          "reason": "Read by game code (1 on every team-reload weapon) but its member name is not proven; not offered."
+        }
+      ],
+      "fieldInstanceKeys": [
+        "backpack:ac-8-autocannon-backpack:ac-8-autocannon-backpack-backpack:deposit.capacity",
+        "backpack:ac-8-autocannon-backpack:ac-8-autocannon-backpack-backpack:deposit.start_amount",
+        "backpack:ac-8-autocannon-backpack:ac-8-autocannon-backpack-backpack:deposit.refill_amount"
+      ]
+    },
+    {
+      "name": "FAF-14 Spear Backpack",
+      "semanticId": "backpack/v1/faf-14-spear-backpack/4f0ef000a6503847",
+      "callInStratagem": {
+        "semanticId": "stratagem/v1/faf-14-spear/0b5ea028958b920a",
+        "name": "FAF-14 Spear",
+        "relationship": "delivered_with_support_weapon",
+        "known": true,
+        "provenance": "call-in primary payload is the rack that attaches the weapon and this backpack"
+      },
+      "deliveryChain": [
+        "stratagem_definition",
+        "hellpod_rack",
+        "backpack_entity"
+      ],
+      "feeds": {
+        "supportWeapon": "FAF-14 Spear",
+        "supportWeaponSemanticId": "support-weapon/v1/faf-14-spear/0b5ea028958b920a",
+        "relationship": "team_reload",
+        "weaponOwnsMagazine": true,
+        "ammoKind": "magazine",
+        "unitMeaning": "one reload (a full magazine of 1 round)",
+        "refillStyle": "Ammo",
+        "chain": [
+          "call-in rack attaches the weapon and this backpack",
+          "backpack DepositComponent assisted_reload_weapon_path names the weapon",
+          "the weapon owns a WeaponAssistedReloadComponent (each reload from the backpack costs one)",
+          "the wearer's reload uses the backpack once the weapon's own spares are spent; a teammate's reload always uses it"
+        ]
+      },
+      "ammo": {
+        "capacity": 4,
+        "startAmount": -1,
+        "startIsFull": true,
+        "refillAmount": 2,
+        "fingerprint": {
+          "spare": 4,
+          "fromSupply": 2
+        },
+        "visibleNodes": 4
+      },
+      "correlation": {
+        "capacity": true,
+        "fromSupply": true
+      },
+      "components": [
+        "Backpack",
+        "Deposit"
+      ],
+      "settingGroups": [
+        {
+          "group": "backpack_ammo",
+          "fieldInstanceKeys": [
+            "backpack:faf-14-spear-backpack:faf-14-spear-backpack-backpack:deposit.capacity",
+            "backpack:faf-14-spear-backpack:faf-14-spear-backpack-backpack:deposit.start_amount",
+            "backpack:faf-14-spear-backpack:faf-14-spear-backpack-backpack:deposit.refill_amount"
+          ]
+        }
+      ],
+      "blockedFields": [
+        {
+          "field": "remaining ammunition",
+          "reason": "The live remaining count is per-mission instance state, not a definition field; capacity, starting ammo and supply refill are authored."
+        },
+        {
+          "field": "cost per reload (assisted-reload record +20)",
+          "reason": "Read by game code (1 on every team-reload weapon) but its member name is not proven; not offered."
+        }
+      ],
+      "fieldInstanceKeys": [
+        "backpack:faf-14-spear-backpack:faf-14-spear-backpack-backpack:deposit.capacity",
+        "backpack:faf-14-spear-backpack:faf-14-spear-backpack-backpack:deposit.start_amount",
+        "backpack:faf-14-spear-backpack:faf-14-spear-backpack-backpack:deposit.refill_amount"
+      ]
+    },
+    {
+      "name": "GR-8 Recoilless Rifle Backpack",
+      "semanticId": "backpack/v1/gr-8-recoilless-rifle-backpack/307b60720311f207",
+      "callInStratagem": {
+        "semanticId": "stratagem/v1/gr-8-recoilless-rifle/0c0cddff45ad97f6",
+        "name": "GR-8 Recoilless Rifle",
+        "relationship": "delivered_with_support_weapon",
+        "known": true,
+        "provenance": "call-in primary payload is the rack that attaches the weapon and this backpack"
+      },
+      "deliveryChain": [
+        "stratagem_definition",
+        "hellpod_rack",
+        "backpack_entity"
+      ],
+      "feeds": {
+        "supportWeapon": "GR-8 Recoilless Rifle",
+        "supportWeaponSemanticId": "support-weapon/v1/gr-8-recoilless-rifle/0c0cddff45ad97f6",
+        "relationship": "team_reload",
+        "weaponOwnsMagazine": true,
+        "ammoKind": "magazine",
+        "unitMeaning": "one reload (a full magazine of 1 round)",
+        "refillStyle": "Ammo",
+        "chain": [
+          "call-in rack attaches the weapon and this backpack",
+          "backpack DepositComponent assisted_reload_weapon_path names the weapon",
+          "the weapon owns a WeaponAssistedReloadComponent (each reload from the backpack costs one)",
+          "the wearer's reload uses the backpack once the weapon's own spares are spent; a teammate's reload always uses it"
+        ]
+      },
+      "ammo": {
+        "capacity": 5,
+        "startAmount": -1,
+        "startIsFull": true,
+        "refillAmount": 3,
+        "fingerprint": {
+          "spare": 5,
+          "fromSupply": 3
+        },
+        "visibleNodes": 5
+      },
+      "correlation": {
+        "capacity": true,
+        "fromSupply": true
+      },
+      "components": [
+        "Backpack",
+        "Deposit"
+      ],
+      "settingGroups": [
+        {
+          "group": "backpack_ammo",
+          "fieldInstanceKeys": [
+            "backpack:gr-8-recoilless-rifle-backpack:gr-8-recoilless-rifle-backpack-backpack:deposit.capacity",
+            "backpack:gr-8-recoilless-rifle-backpack:gr-8-recoilless-rifle-backpack-backpack:deposit.start_amount",
+            "backpack:gr-8-recoilless-rifle-backpack:gr-8-recoilless-rifle-backpack-backpack:deposit.refill_amount"
+          ]
+        }
+      ],
+      "blockedFields": [
+        {
+          "field": "remaining ammunition",
+          "reason": "The live remaining count is per-mission instance state, not a definition field; capacity, starting ammo and supply refill are authored."
+        },
+        {
+          "field": "cost per reload (assisted-reload record +20)",
+          "reason": "Read by game code (1 on every team-reload weapon) but its member name is not proven; not offered."
+        }
+      ],
+      "fieldInstanceKeys": [
+        "backpack:gr-8-recoilless-rifle-backpack:gr-8-recoilless-rifle-backpack-backpack:deposit.capacity",
+        "backpack:gr-8-recoilless-rifle-backpack:gr-8-recoilless-rifle-backpack-backpack:deposit.start_amount",
+        "backpack:gr-8-recoilless-rifle-backpack:gr-8-recoilless-rifle-backpack-backpack:deposit.refill_amount"
+      ]
+    },
+    {
+      "name": "RL-77 Airburst Rocket Launcher Backpack",
+      "semanticId": "backpack/v1/rl-77-airburst-rocket-launcher-backpack/0fa56b65584a0067",
+      "callInStratagem": {
+        "semanticId": "stratagem/v1/rl-77-airburst-rocket-launcher/bc2a49adbc0a3057",
+        "name": "RL-77 Airburst Rocket Launcher",
+        "relationship": "delivered_with_support_weapon",
+        "known": true,
+        "provenance": "call-in primary payload is the rack that attaches the weapon and this backpack"
+      },
+      "deliveryChain": [
+        "stratagem_definition",
+        "hellpod_rack",
+        "backpack_entity"
+      ],
+      "feeds": {
+        "supportWeapon": "RL-77 Airburst Rocket Launcher",
+        "supportWeaponSemanticId": "support-weapon/v1/rl-77-airburst-rocket-launcher/bc2a49adbc0a3057",
+        "relationship": "team_reload",
+        "weaponOwnsMagazine": true,
+        "ammoKind": "magazine",
+        "unitMeaning": "one reload (a full magazine of 1 round)",
+        "refillStyle": "Ammo",
+        "chain": [
+          "call-in rack attaches the weapon and this backpack",
+          "backpack DepositComponent assisted_reload_weapon_path names the weapon",
+          "the weapon owns a WeaponAssistedReloadComponent (each reload from the backpack costs one)",
+          "the wearer's reload uses the backpack once the weapon's own spares are spent; a teammate's reload always uses it"
+        ]
+      },
+      "ammo": {
+        "capacity": 5,
+        "startAmount": -1,
+        "startIsFull": true,
+        "refillAmount": 3,
+        "fingerprint": {
+          "spare": 5,
+          "fromSupply": 3
+        },
+        "visibleNodes": 5
+      },
+      "correlation": {
+        "capacity": true,
+        "fromSupply": true
+      },
+      "components": [
+        "Backpack",
+        "Deposit"
+      ],
+      "settingGroups": [
+        {
+          "group": "backpack_ammo",
+          "fieldInstanceKeys": [
+            "backpack:rl-77-airburst-rocket-launcher-backpack:rl-77-airburst-rocket-launcher-backpack-backpack:deposit.capacity",
+            "backpack:rl-77-airburst-rocket-launcher-backpack:rl-77-airburst-rocket-launcher-backpack-backpack:deposit.start_amount",
+            "backpack:rl-77-airburst-rocket-launcher-backpack:rl-77-airburst-rocket-launcher-backpack-backpack:deposit.refill_amount"
+          ]
+        }
+      ],
+      "blockedFields": [
+        {
+          "field": "remaining ammunition",
+          "reason": "The live remaining count is per-mission instance state, not a definition field; capacity, starting ammo and supply refill are authored."
+        },
+        {
+          "field": "cost per reload (assisted-reload record +20)",
+          "reason": "Read by game code (1 on every team-reload weapon) but its member name is not proven; not offered."
+        }
+      ],
+      "fieldInstanceKeys": [
+        "backpack:rl-77-airburst-rocket-launcher-backpack:rl-77-airburst-rocket-launcher-backpack-backpack:deposit.capacity",
+        "backpack:rl-77-airburst-rocket-launcher-backpack:rl-77-airburst-rocket-launcher-backpack-backpack:deposit.start_amount",
+        "backpack:rl-77-airburst-rocket-launcher-backpack:rl-77-airburst-rocket-launcher-backpack-backpack:deposit.refill_amount"
+      ]
+    },
+    {
+      "name": "StA-X3 W.A.S.P. Launcher Backpack",
+      "semanticId": "backpack/v1/sta-x3-w-a-s-p-launcher-backpack/d49689dcd349559d",
+      "callInStratagem": {
+        "semanticId": "stratagem/v1/sta-x3-w-a-s-p-launcher/ea60c8ba13527fff",
+        "name": "StA-X3 W.A.S.P. Launcher",
+        "relationship": "delivered_with_support_weapon",
+        "known": true,
+        "provenance": "call-in primary payload is the rack that attaches the weapon and this backpack"
+      },
+      "deliveryChain": [
+        "stratagem_definition",
+        "hellpod_rack",
+        "backpack_entity"
+      ],
+      "feeds": {
+        "supportWeapon": "StA-X3 W.A.S.P. Launcher",
+        "supportWeaponSemanticId": "support-weapon/v1/sta-x3-w-a-s-p-launcher/ea60c8ba13527fff",
+        "relationship": "team_reload",
+        "weaponOwnsMagazine": true,
+        "ammoKind": "magazine",
+        "unitMeaning": "one reload (a full magazine of 7 rounds)",
+        "refillStyle": "Ammo",
+        "chain": [
+          "call-in rack attaches the weapon and this backpack",
+          "backpack DepositComponent assisted_reload_weapon_path names the weapon",
+          "the weapon owns a WeaponAssistedReloadComponent (each reload from the backpack costs one)",
+          "the wearer's reload uses the backpack once the weapon's own spares are spent; a teammate's reload always uses it"
+        ]
+      },
+      "ammo": {
+        "capacity": 5,
+        "startAmount": -1,
+        "startIsFull": true,
+        "refillAmount": 3,
+        "fingerprint": {
+          "spare": 5,
+          "fromSupply": 3
+        },
+        "visibleNodes": 5
+      },
+      "correlation": {
+        "capacity": true,
+        "fromSupply": true
+      },
+      "components": [
+        "Backpack",
+        "Deposit"
+      ],
+      "settingGroups": [
+        {
+          "group": "backpack_ammo",
+          "fieldInstanceKeys": [
+            "backpack:sta-x3-w-a-s-p-launcher-backpack:sta-x3-w-a-s-p-launcher-backpack-backpack:deposit.capacity",
+            "backpack:sta-x3-w-a-s-p-launcher-backpack:sta-x3-w-a-s-p-launcher-backpack-backpack:deposit.start_amount",
+            "backpack:sta-x3-w-a-s-p-launcher-backpack:sta-x3-w-a-s-p-launcher-backpack-backpack:deposit.refill_amount"
+          ]
+        }
+      ],
+      "blockedFields": [
+        {
+          "field": "remaining ammunition",
+          "reason": "The live remaining count is per-mission instance state, not a definition field; capacity, starting ammo and supply refill are authored."
+        },
+        {
+          "field": "cost per reload (assisted-reload record +20)",
+          "reason": "Read by game code (1 on every team-reload weapon) but its member name is not proven; not offered."
+        }
+      ],
+      "fieldInstanceKeys": [
+        "backpack:sta-x3-w-a-s-p-launcher-backpack:sta-x3-w-a-s-p-launcher-backpack-backpack:deposit.capacity",
+        "backpack:sta-x3-w-a-s-p-launcher-backpack:sta-x3-w-a-s-p-launcher-backpack-backpack:deposit.start_amount",
+        "backpack:sta-x3-w-a-s-p-launcher-backpack:sta-x3-w-a-s-p-launcher-backpack-backpack:deposit.refill_amount"
+      ]
     }
   ],
   "fieldInstances": [
@@ -7445,6 +7820,896 @@
       "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply",
       "acknowledgement": "allow_unverified_effect",
       "acknowledgementReason": "The backpack DepositComponent is the proven ammunition store (exact capacity and supply fingerprints), but no edit has been confirmed in game yet."
+    },
+    {
+      "instanceKey": "backpack:ac-8-autocannon-backpack:ac-8-autocannon-backpack-backpack:deposit.capacity",
+      "semanticFieldId": "deposit.capacity",
+      "displayName": "Backpack reloads",
+      "type": "integer",
+      "unit": "reloads",
+      "currentDefault": 10,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "AC-8 Autocannon Backpack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:64a953e61b00793d",
+      "operationGroup": "operation:b9214544cd3d6484",
+      "planGroup": "plan:backpack:ac-8-autocannon-backpack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AC-8 Autocannon Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:23662e961bd05db1",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.capacity",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "research": "research/team-reload-ammo-F5FEE03DCFDB.json"
+      },
+      "provenance": "call-in rack -> backpack DepositComponent assisted_reload_weapon_path = the weapon; exact wiki spare and supply fingerprints; reload and resupply readers traced in game code",
+      "unitMeaning": "one reload of 5 rounds",
+      "uiGroup": "backpack_ammo",
+      "min": 1,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "The backpack DepositComponent the team reload draws from: its readers are traced in game code (the reload asks it when the weapon has no spares of its own and each reload from it costs one; a teammate reload always uses it; resupply adds refill_amount up to capacity), and its capacity and supply match the published spare and supply values exactly. Not yet shown in game.",
+      "effect": {
+        "activeSource": "NATIVE_CONSUMER",
+        "activeSourceProven": true,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "The live amount starts from the definition when the backpack spawns: apply before calling the weapon in. Capacity and refill are read again on every resupply."
+      }
+    },
+    {
+      "instanceKey": "backpack:ac-8-autocannon-backpack:ac-8-autocannon-backpack-backpack:deposit.start_amount",
+      "semanticFieldId": "deposit.start_amount",
+      "displayName": "Backpack reloads at call-in (-1 = full)",
+      "type": "integer",
+      "unit": "reloads",
+      "currentDefault": -1,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "AC-8 Autocannon Backpack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:64a953e61b00793d",
+      "operationGroup": "operation:b9214544cd3d6484",
+      "planGroup": "plan:backpack:ac-8-autocannon-backpack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AC-8 Autocannon Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:23662e961bd05db1",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.start_amount",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "research": "research/team-reload-ammo-F5FEE03DCFDB.json"
+      },
+      "provenance": "call-in rack -> backpack DepositComponent assisted_reload_weapon_path = the weapon; exact wiki spare and supply fingerprints; reload and resupply readers traced in game code",
+      "unitMeaning": "one reload of 5 rounds",
+      "uiGroup": "backpack_ammo",
+      "min": -1,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "The backpack DepositComponent the team reload draws from: its readers are traced in game code (the reload asks it when the weapon has no spares of its own and each reload from it costs one; a teammate reload always uses it; resupply adds refill_amount up to capacity), and its capacity and supply match the published spare and supply values exactly. Not yet shown in game.",
+      "effect": {
+        "activeSource": "NATIVE_CONSUMER",
+        "activeSourceProven": true,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "The live amount starts from the definition when the backpack spawns: apply before calling the weapon in. Capacity and refill are read again on every resupply."
+      },
+      "sentinels": [
+        {
+          "value": -1,
+          "label": "full",
+          "meaning": "the live amount starts at the capacity (the native value)"
+        }
+      ]
+    },
+    {
+      "instanceKey": "backpack:ac-8-autocannon-backpack:ac-8-autocannon-backpack-backpack:deposit.refill_amount",
+      "semanticFieldId": "deposit.refill_amount",
+      "displayName": "Backpack reloads from supply",
+      "type": "integer",
+      "unit": "reloads",
+      "currentDefault": 5,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "AC-8 Autocannon Backpack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:64a953e61b00793d",
+      "operationGroup": "operation:b9214544cd3d6484",
+      "planGroup": "plan:backpack:ac-8-autocannon-backpack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AC-8 Autocannon Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:23662e961bd05db1",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.refill_amount",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "research": "research/team-reload-ammo-F5FEE03DCFDB.json"
+      },
+      "provenance": "call-in rack -> backpack DepositComponent assisted_reload_weapon_path = the weapon; exact wiki spare and supply fingerprints; reload and resupply readers traced in game code",
+      "unitMeaning": "one reload of 5 rounds",
+      "uiGroup": "backpack_ammo",
+      "min": 0,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "The backpack DepositComponent the team reload draws from: its readers are traced in game code (the reload asks it when the weapon has no spares of its own and each reload from it costs one; a teammate reload always uses it; resupply adds refill_amount up to capacity), and its capacity and supply match the published spare and supply values exactly. Not yet shown in game.",
+      "effect": {
+        "activeSource": "NATIVE_CONSUMER",
+        "activeSourceProven": true,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "The live amount starts from the definition when the backpack spawns: apply before calling the weapon in. Capacity and refill are read again on every resupply."
+      }
+    },
+    {
+      "instanceKey": "backpack:faf-14-spear-backpack:faf-14-spear-backpack-backpack:deposit.capacity",
+      "semanticFieldId": "deposit.capacity",
+      "displayName": "Backpack reloads",
+      "type": "integer",
+      "unit": "reloads",
+      "currentDefault": 4,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "FAF-14 Spear Backpack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:c4951d0489bf6cd1",
+      "operationGroup": "operation:83222af99ae78ea7",
+      "planGroup": "plan:backpack:faf-14-spear-backpack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "FAF-14 Spear Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:e3f32dd5d0047a23",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.capacity",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "research": "research/team-reload-ammo-F5FEE03DCFDB.json"
+      },
+      "provenance": "call-in rack -> backpack DepositComponent assisted_reload_weapon_path = the weapon; exact wiki spare and supply fingerprints; reload and resupply readers traced in game code",
+      "unitMeaning": "one reload (a full magazine of 1 round)",
+      "uiGroup": "backpack_ammo",
+      "min": 1,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "The backpack DepositComponent the team reload draws from: its readers are traced in game code (the reload asks it when the weapon has no spares of its own and each reload from it costs one; a teammate reload always uses it; resupply adds refill_amount up to capacity), and its capacity and supply match the published spare and supply values exactly. Not yet shown in game.",
+      "effect": {
+        "activeSource": "NATIVE_CONSUMER",
+        "activeSourceProven": true,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "The live amount starts from the definition when the backpack spawns: apply before calling the weapon in. Capacity and refill are read again on every resupply."
+      }
+    },
+    {
+      "instanceKey": "backpack:faf-14-spear-backpack:faf-14-spear-backpack-backpack:deposit.start_amount",
+      "semanticFieldId": "deposit.start_amount",
+      "displayName": "Backpack reloads at call-in (-1 = full)",
+      "type": "integer",
+      "unit": "reloads",
+      "currentDefault": -1,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "FAF-14 Spear Backpack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:c4951d0489bf6cd1",
+      "operationGroup": "operation:83222af99ae78ea7",
+      "planGroup": "plan:backpack:faf-14-spear-backpack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "FAF-14 Spear Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:e3f32dd5d0047a23",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.start_amount",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "research": "research/team-reload-ammo-F5FEE03DCFDB.json"
+      },
+      "provenance": "call-in rack -> backpack DepositComponent assisted_reload_weapon_path = the weapon; exact wiki spare and supply fingerprints; reload and resupply readers traced in game code",
+      "unitMeaning": "one reload (a full magazine of 1 round)",
+      "uiGroup": "backpack_ammo",
+      "min": -1,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "The backpack DepositComponent the team reload draws from: its readers are traced in game code (the reload asks it when the weapon has no spares of its own and each reload from it costs one; a teammate reload always uses it; resupply adds refill_amount up to capacity), and its capacity and supply match the published spare and supply values exactly. Not yet shown in game.",
+      "effect": {
+        "activeSource": "NATIVE_CONSUMER",
+        "activeSourceProven": true,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "The live amount starts from the definition when the backpack spawns: apply before calling the weapon in. Capacity and refill are read again on every resupply."
+      },
+      "sentinels": [
+        {
+          "value": -1,
+          "label": "full",
+          "meaning": "the live amount starts at the capacity (the native value)"
+        }
+      ]
+    },
+    {
+      "instanceKey": "backpack:faf-14-spear-backpack:faf-14-spear-backpack-backpack:deposit.refill_amount",
+      "semanticFieldId": "deposit.refill_amount",
+      "displayName": "Backpack reloads from supply",
+      "type": "integer",
+      "unit": "reloads",
+      "currentDefault": 2,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "FAF-14 Spear Backpack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:c4951d0489bf6cd1",
+      "operationGroup": "operation:83222af99ae78ea7",
+      "planGroup": "plan:backpack:faf-14-spear-backpack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "FAF-14 Spear Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:e3f32dd5d0047a23",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.refill_amount",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "research": "research/team-reload-ammo-F5FEE03DCFDB.json"
+      },
+      "provenance": "call-in rack -> backpack DepositComponent assisted_reload_weapon_path = the weapon; exact wiki spare and supply fingerprints; reload and resupply readers traced in game code",
+      "unitMeaning": "one reload (a full magazine of 1 round)",
+      "uiGroup": "backpack_ammo",
+      "min": 0,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "The backpack DepositComponent the team reload draws from: its readers are traced in game code (the reload asks it when the weapon has no spares of its own and each reload from it costs one; a teammate reload always uses it; resupply adds refill_amount up to capacity), and its capacity and supply match the published spare and supply values exactly. Not yet shown in game.",
+      "effect": {
+        "activeSource": "NATIVE_CONSUMER",
+        "activeSourceProven": true,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "The live amount starts from the definition when the backpack spawns: apply before calling the weapon in. Capacity and refill are read again on every resupply."
+      }
+    },
+    {
+      "instanceKey": "backpack:gr-8-recoilless-rifle-backpack:gr-8-recoilless-rifle-backpack-backpack:deposit.capacity",
+      "semanticFieldId": "deposit.capacity",
+      "displayName": "Backpack reloads",
+      "type": "integer",
+      "unit": "reloads",
+      "currentDefault": 5,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "GR-8 Recoilless Rifle Backpack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:6f8222ae0a711e1a",
+      "operationGroup": "operation:b224ca6898ab936d",
+      "planGroup": "plan:backpack:gr-8-recoilless-rifle-backpack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "GR-8 Recoilless Rifle Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:c68e933b2a567704",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.capacity",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "research": "research/team-reload-ammo-F5FEE03DCFDB.json"
+      },
+      "provenance": "call-in rack -> backpack DepositComponent assisted_reload_weapon_path = the weapon; exact wiki spare and supply fingerprints; reload and resupply readers traced in game code",
+      "unitMeaning": "one reload (a full magazine of 1 round)",
+      "uiGroup": "backpack_ammo",
+      "min": 1,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "The backpack DepositComponent the team reload draws from: its readers are traced in game code (the reload asks it when the weapon has no spares of its own and each reload from it costs one; a teammate reload always uses it; resupply adds refill_amount up to capacity), and its capacity and supply match the published spare and supply values exactly. Not yet shown in game.",
+      "effect": {
+        "activeSource": "NATIVE_CONSUMER",
+        "activeSourceProven": true,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "The live amount starts from the definition when the backpack spawns: apply before calling the weapon in. Capacity and refill are read again on every resupply."
+      }
+    },
+    {
+      "instanceKey": "backpack:gr-8-recoilless-rifle-backpack:gr-8-recoilless-rifle-backpack-backpack:deposit.start_amount",
+      "semanticFieldId": "deposit.start_amount",
+      "displayName": "Backpack reloads at call-in (-1 = full)",
+      "type": "integer",
+      "unit": "reloads",
+      "currentDefault": -1,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "GR-8 Recoilless Rifle Backpack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:6f8222ae0a711e1a",
+      "operationGroup": "operation:b224ca6898ab936d",
+      "planGroup": "plan:backpack:gr-8-recoilless-rifle-backpack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "GR-8 Recoilless Rifle Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:c68e933b2a567704",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.start_amount",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "research": "research/team-reload-ammo-F5FEE03DCFDB.json"
+      },
+      "provenance": "call-in rack -> backpack DepositComponent assisted_reload_weapon_path = the weapon; exact wiki spare and supply fingerprints; reload and resupply readers traced in game code",
+      "unitMeaning": "one reload (a full magazine of 1 round)",
+      "uiGroup": "backpack_ammo",
+      "min": -1,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "The backpack DepositComponent the team reload draws from: its readers are traced in game code (the reload asks it when the weapon has no spares of its own and each reload from it costs one; a teammate reload always uses it; resupply adds refill_amount up to capacity), and its capacity and supply match the published spare and supply values exactly. Not yet shown in game.",
+      "effect": {
+        "activeSource": "NATIVE_CONSUMER",
+        "activeSourceProven": true,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "The live amount starts from the definition when the backpack spawns: apply before calling the weapon in. Capacity and refill are read again on every resupply."
+      },
+      "sentinels": [
+        {
+          "value": -1,
+          "label": "full",
+          "meaning": "the live amount starts at the capacity (the native value)"
+        }
+      ]
+    },
+    {
+      "instanceKey": "backpack:gr-8-recoilless-rifle-backpack:gr-8-recoilless-rifle-backpack-backpack:deposit.refill_amount",
+      "semanticFieldId": "deposit.refill_amount",
+      "displayName": "Backpack reloads from supply",
+      "type": "integer",
+      "unit": "reloads",
+      "currentDefault": 3,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "GR-8 Recoilless Rifle Backpack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:6f8222ae0a711e1a",
+      "operationGroup": "operation:b224ca6898ab936d",
+      "planGroup": "plan:backpack:gr-8-recoilless-rifle-backpack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "GR-8 Recoilless Rifle Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:c68e933b2a567704",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.refill_amount",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "research": "research/team-reload-ammo-F5FEE03DCFDB.json"
+      },
+      "provenance": "call-in rack -> backpack DepositComponent assisted_reload_weapon_path = the weapon; exact wiki spare and supply fingerprints; reload and resupply readers traced in game code",
+      "unitMeaning": "one reload (a full magazine of 1 round)",
+      "uiGroup": "backpack_ammo",
+      "min": 0,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "The backpack DepositComponent the team reload draws from: its readers are traced in game code (the reload asks it when the weapon has no spares of its own and each reload from it costs one; a teammate reload always uses it; resupply adds refill_amount up to capacity), and its capacity and supply match the published spare and supply values exactly. Not yet shown in game.",
+      "effect": {
+        "activeSource": "NATIVE_CONSUMER",
+        "activeSourceProven": true,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "The live amount starts from the definition when the backpack spawns: apply before calling the weapon in. Capacity and refill are read again on every resupply."
+      }
+    },
+    {
+      "instanceKey": "backpack:rl-77-airburst-rocket-launcher-backpack:rl-77-airburst-rocket-launcher-backpack-backpack:deposit.capacity",
+      "semanticFieldId": "deposit.capacity",
+      "displayName": "Backpack reloads",
+      "type": "integer",
+      "unit": "reloads",
+      "currentDefault": 5,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "RL-77 Airburst Rocket Launcher Backpack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:cb3b3659011d3dd0",
+      "operationGroup": "operation:b2156f8c0b54089c",
+      "planGroup": "plan:backpack:rl-77-airburst-rocket-launcher-backpack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "RL-77 Airburst Rocket Launcher Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:7ff6917f392123c7",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.capacity",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "research": "research/team-reload-ammo-F5FEE03DCFDB.json"
+      },
+      "provenance": "call-in rack -> backpack DepositComponent assisted_reload_weapon_path = the weapon; exact wiki spare and supply fingerprints; reload and resupply readers traced in game code",
+      "unitMeaning": "one reload (a full magazine of 1 round)",
+      "uiGroup": "backpack_ammo",
+      "min": 1,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "The backpack DepositComponent the team reload draws from: its readers are traced in game code (the reload asks it when the weapon has no spares of its own and each reload from it costs one; a teammate reload always uses it; resupply adds refill_amount up to capacity), and its capacity and supply match the published spare and supply values exactly. Not yet shown in game.",
+      "effect": {
+        "activeSource": "NATIVE_CONSUMER",
+        "activeSourceProven": true,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "The live amount starts from the definition when the backpack spawns: apply before calling the weapon in. Capacity and refill are read again on every resupply."
+      }
+    },
+    {
+      "instanceKey": "backpack:rl-77-airburst-rocket-launcher-backpack:rl-77-airburst-rocket-launcher-backpack-backpack:deposit.start_amount",
+      "semanticFieldId": "deposit.start_amount",
+      "displayName": "Backpack reloads at call-in (-1 = full)",
+      "type": "integer",
+      "unit": "reloads",
+      "currentDefault": -1,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "RL-77 Airburst Rocket Launcher Backpack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:cb3b3659011d3dd0",
+      "operationGroup": "operation:b2156f8c0b54089c",
+      "planGroup": "plan:backpack:rl-77-airburst-rocket-launcher-backpack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "RL-77 Airburst Rocket Launcher Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:7ff6917f392123c7",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.start_amount",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "research": "research/team-reload-ammo-F5FEE03DCFDB.json"
+      },
+      "provenance": "call-in rack -> backpack DepositComponent assisted_reload_weapon_path = the weapon; exact wiki spare and supply fingerprints; reload and resupply readers traced in game code",
+      "unitMeaning": "one reload (a full magazine of 1 round)",
+      "uiGroup": "backpack_ammo",
+      "min": -1,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "The backpack DepositComponent the team reload draws from: its readers are traced in game code (the reload asks it when the weapon has no spares of its own and each reload from it costs one; a teammate reload always uses it; resupply adds refill_amount up to capacity), and its capacity and supply match the published spare and supply values exactly. Not yet shown in game.",
+      "effect": {
+        "activeSource": "NATIVE_CONSUMER",
+        "activeSourceProven": true,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "The live amount starts from the definition when the backpack spawns: apply before calling the weapon in. Capacity and refill are read again on every resupply."
+      },
+      "sentinels": [
+        {
+          "value": -1,
+          "label": "full",
+          "meaning": "the live amount starts at the capacity (the native value)"
+        }
+      ]
+    },
+    {
+      "instanceKey": "backpack:rl-77-airburst-rocket-launcher-backpack:rl-77-airburst-rocket-launcher-backpack-backpack:deposit.refill_amount",
+      "semanticFieldId": "deposit.refill_amount",
+      "displayName": "Backpack reloads from supply",
+      "type": "integer",
+      "unit": "reloads",
+      "currentDefault": 3,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "RL-77 Airburst Rocket Launcher Backpack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:cb3b3659011d3dd0",
+      "operationGroup": "operation:b2156f8c0b54089c",
+      "planGroup": "plan:backpack:rl-77-airburst-rocket-launcher-backpack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "RL-77 Airburst Rocket Launcher Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:7ff6917f392123c7",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.refill_amount",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "research": "research/team-reload-ammo-F5FEE03DCFDB.json"
+      },
+      "provenance": "call-in rack -> backpack DepositComponent assisted_reload_weapon_path = the weapon; exact wiki spare and supply fingerprints; reload and resupply readers traced in game code",
+      "unitMeaning": "one reload (a full magazine of 1 round)",
+      "uiGroup": "backpack_ammo",
+      "min": 0,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "The backpack DepositComponent the team reload draws from: its readers are traced in game code (the reload asks it when the weapon has no spares of its own and each reload from it costs one; a teammate reload always uses it; resupply adds refill_amount up to capacity), and its capacity and supply match the published spare and supply values exactly. Not yet shown in game.",
+      "effect": {
+        "activeSource": "NATIVE_CONSUMER",
+        "activeSourceProven": true,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "The live amount starts from the definition when the backpack spawns: apply before calling the weapon in. Capacity and refill are read again on every resupply."
+      }
+    },
+    {
+      "instanceKey": "backpack:sta-x3-w-a-s-p-launcher-backpack:sta-x3-w-a-s-p-launcher-backpack-backpack:deposit.capacity",
+      "semanticFieldId": "deposit.capacity",
+      "displayName": "Backpack reloads",
+      "type": "integer",
+      "unit": "reloads",
+      "currentDefault": 5,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "StA-X3 W.A.S.P. Launcher Backpack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:9f67462601ad4c3a",
+      "operationGroup": "operation:196b2228af4ac28a",
+      "planGroup": "plan:backpack:sta-x3-w-a-s-p-launcher-backpack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "StA-X3 W.A.S.P. Launcher Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:5691234b016c7270",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.capacity",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "research": "research/team-reload-ammo-F5FEE03DCFDB.json"
+      },
+      "provenance": "call-in rack -> backpack DepositComponent assisted_reload_weapon_path = the weapon; exact wiki spare and supply fingerprints; reload and resupply readers traced in game code",
+      "unitMeaning": "one reload (a full magazine of 7 rounds)",
+      "uiGroup": "backpack_ammo",
+      "min": 1,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "The backpack DepositComponent the team reload draws from: its readers are traced in game code (the reload asks it when the weapon has no spares of its own and each reload from it costs one; a teammate reload always uses it; resupply adds refill_amount up to capacity), and its capacity and supply match the published spare and supply values exactly. Not yet shown in game.",
+      "effect": {
+        "activeSource": "NATIVE_CONSUMER",
+        "activeSourceProven": true,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "The live amount starts from the definition when the backpack spawns: apply before calling the weapon in. Capacity and refill are read again on every resupply."
+      }
+    },
+    {
+      "instanceKey": "backpack:sta-x3-w-a-s-p-launcher-backpack:sta-x3-w-a-s-p-launcher-backpack-backpack:deposit.start_amount",
+      "semanticFieldId": "deposit.start_amount",
+      "displayName": "Backpack reloads at call-in (-1 = full)",
+      "type": "integer",
+      "unit": "reloads",
+      "currentDefault": -1,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "StA-X3 W.A.S.P. Launcher Backpack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:9f67462601ad4c3a",
+      "operationGroup": "operation:196b2228af4ac28a",
+      "planGroup": "plan:backpack:sta-x3-w-a-s-p-launcher-backpack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "StA-X3 W.A.S.P. Launcher Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:5691234b016c7270",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.start_amount",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "research": "research/team-reload-ammo-F5FEE03DCFDB.json"
+      },
+      "provenance": "call-in rack -> backpack DepositComponent assisted_reload_weapon_path = the weapon; exact wiki spare and supply fingerprints; reload and resupply readers traced in game code",
+      "unitMeaning": "one reload (a full magazine of 7 rounds)",
+      "uiGroup": "backpack_ammo",
+      "min": -1,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "The backpack DepositComponent the team reload draws from: its readers are traced in game code (the reload asks it when the weapon has no spares of its own and each reload from it costs one; a teammate reload always uses it; resupply adds refill_amount up to capacity), and its capacity and supply match the published spare and supply values exactly. Not yet shown in game.",
+      "effect": {
+        "activeSource": "NATIVE_CONSUMER",
+        "activeSourceProven": true,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "The live amount starts from the definition when the backpack spawns: apply before calling the weapon in. Capacity and refill are read again on every resupply."
+      },
+      "sentinels": [
+        {
+          "value": -1,
+          "label": "full",
+          "meaning": "the live amount starts at the capacity (the native value)"
+        }
+      ]
+    },
+    {
+      "instanceKey": "backpack:sta-x3-w-a-s-p-launcher-backpack:sta-x3-w-a-s-p-launcher-backpack-backpack:deposit.refill_amount",
+      "semanticFieldId": "deposit.refill_amount",
+      "displayName": "Backpack reloads from supply",
+      "type": "integer",
+      "unit": "reloads",
+      "currentDefault": 3,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "StA-X3 W.A.S.P. Launcher Backpack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:9f67462601ad4c3a",
+      "operationGroup": "operation:196b2228af4ac28a",
+      "planGroup": "plan:backpack:sta-x3-w-a-s-p-launcher-backpack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "StA-X3 W.A.S.P. Launcher Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:5691234b016c7270",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.refill_amount",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "native_consumer_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": false,
+        "research": "research/team-reload-ammo-F5FEE03DCFDB.json"
+      },
+      "provenance": "call-in rack -> backpack DepositComponent assisted_reload_weapon_path = the weapon; exact wiki spare and supply fingerprints; reload and resupply readers traced in game code",
+      "unitMeaning": "one reload (a full magazine of 7 rounds)",
+      "uiGroup": "backpack_ammo",
+      "min": 0,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "The backpack DepositComponent the team reload draws from: its readers are traced in game code (the reload asks it when the weapon has no spares of its own and each reload from it costs one; a teammate reload always uses it; resupply adds refill_amount up to capacity), and its capacity and supply match the published spare and supply values exactly. Not yet shown in game.",
+      "effect": {
+        "activeSource": "NATIVE_CONSUMER",
+        "activeSourceProven": true,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": null,
+        "lifecycle": "The live amount starts from the definition when the backpack spawns: apply before calling the weapon in. Capacity and refill are read again on every resupply."
+      }
     }
   ],
   "backingObjects": [
@@ -7882,6 +9147,86 @@
         "backpack:m-1000-maxigun-backpack:m-1000-maxigun-backpack-backpack:deposit.capacity",
         "backpack:m-1000-maxigun-backpack:m-1000-maxigun-backpack-backpack:deposit.start_amount",
         "backpack:m-1000-maxigun-backpack:m-1000-maxigun-backpack-backpack:deposit.refill_amount"
+      ]
+    },
+    {
+      "backingObjectId": "backing:64a953e61b00793d",
+      "kind": "DepositComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AC-8 Autocannon Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:23662e961bd05db1",
+      "fieldInstances": [
+        "backpack:ac-8-autocannon-backpack:ac-8-autocannon-backpack-backpack:deposit.capacity",
+        "backpack:ac-8-autocannon-backpack:ac-8-autocannon-backpack-backpack:deposit.start_amount",
+        "backpack:ac-8-autocannon-backpack:ac-8-autocannon-backpack-backpack:deposit.refill_amount"
+      ]
+    },
+    {
+      "backingObjectId": "backing:c4951d0489bf6cd1",
+      "kind": "DepositComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "FAF-14 Spear Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:e3f32dd5d0047a23",
+      "fieldInstances": [
+        "backpack:faf-14-spear-backpack:faf-14-spear-backpack-backpack:deposit.capacity",
+        "backpack:faf-14-spear-backpack:faf-14-spear-backpack-backpack:deposit.start_amount",
+        "backpack:faf-14-spear-backpack:faf-14-spear-backpack-backpack:deposit.refill_amount"
+      ]
+    },
+    {
+      "backingObjectId": "backing:6f8222ae0a711e1a",
+      "kind": "DepositComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "GR-8 Recoilless Rifle Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:c68e933b2a567704",
+      "fieldInstances": [
+        "backpack:gr-8-recoilless-rifle-backpack:gr-8-recoilless-rifle-backpack-backpack:deposit.capacity",
+        "backpack:gr-8-recoilless-rifle-backpack:gr-8-recoilless-rifle-backpack-backpack:deposit.start_amount",
+        "backpack:gr-8-recoilless-rifle-backpack:gr-8-recoilless-rifle-backpack-backpack:deposit.refill_amount"
+      ]
+    },
+    {
+      "backingObjectId": "backing:cb3b3659011d3dd0",
+      "kind": "DepositComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "RL-77 Airburst Rocket Launcher Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:7ff6917f392123c7",
+      "fieldInstances": [
+        "backpack:rl-77-airburst-rocket-launcher-backpack:rl-77-airburst-rocket-launcher-backpack-backpack:deposit.capacity",
+        "backpack:rl-77-airburst-rocket-launcher-backpack:rl-77-airburst-rocket-launcher-backpack-backpack:deposit.start_amount",
+        "backpack:rl-77-airburst-rocket-launcher-backpack:rl-77-airburst-rocket-launcher-backpack-backpack:deposit.refill_amount"
+      ]
+    },
+    {
+      "backingObjectId": "backing:9f67462601ad4c3a",
+      "kind": "DepositComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "StA-X3 W.A.S.P. Launcher Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:5691234b016c7270",
+      "fieldInstances": [
+        "backpack:sta-x3-w-a-s-p-launcher-backpack:sta-x3-w-a-s-p-launcher-backpack-backpack:deposit.capacity",
+        "backpack:sta-x3-w-a-s-p-launcher-backpack:sta-x3-w-a-s-p-launcher-backpack-backpack:deposit.start_amount",
+        "backpack:sta-x3-w-a-s-p-launcher-backpack:sta-x3-w-a-s-p-launcher-backpack-backpack:deposit.refill_amount"
       ]
     }
   ],
@@ -8432,6 +9777,86 @@
       ],
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:b9214544cd3d6484",
+      "backingObjectId": "backing:64a953e61b00793d",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AC-8 Autocannon Backpack",
+        "path": "backpack"
+      },
+      "fieldInstances": [
+        "backpack:ac-8-autocannon-backpack:ac-8-autocannon-backpack-backpack:deposit.capacity",
+        "backpack:ac-8-autocannon-backpack:ac-8-autocannon-backpack-backpack:deposit.start_amount",
+        "backpack:ac-8-autocannon-backpack:ac-8-autocannon-backpack-backpack:deposit.refill_amount"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:83222af99ae78ea7",
+      "backingObjectId": "backing:c4951d0489bf6cd1",
+      "target": {
+        "resource": "backpack",
+        "backpack": "FAF-14 Spear Backpack",
+        "path": "backpack"
+      },
+      "fieldInstances": [
+        "backpack:faf-14-spear-backpack:faf-14-spear-backpack-backpack:deposit.capacity",
+        "backpack:faf-14-spear-backpack:faf-14-spear-backpack-backpack:deposit.start_amount",
+        "backpack:faf-14-spear-backpack:faf-14-spear-backpack-backpack:deposit.refill_amount"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:b224ca6898ab936d",
+      "backingObjectId": "backing:6f8222ae0a711e1a",
+      "target": {
+        "resource": "backpack",
+        "backpack": "GR-8 Recoilless Rifle Backpack",
+        "path": "backpack"
+      },
+      "fieldInstances": [
+        "backpack:gr-8-recoilless-rifle-backpack:gr-8-recoilless-rifle-backpack-backpack:deposit.capacity",
+        "backpack:gr-8-recoilless-rifle-backpack:gr-8-recoilless-rifle-backpack-backpack:deposit.start_amount",
+        "backpack:gr-8-recoilless-rifle-backpack:gr-8-recoilless-rifle-backpack-backpack:deposit.refill_amount"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:b2156f8c0b54089c",
+      "backingObjectId": "backing:cb3b3659011d3dd0",
+      "target": {
+        "resource": "backpack",
+        "backpack": "RL-77 Airburst Rocket Launcher Backpack",
+        "path": "backpack"
+      },
+      "fieldInstances": [
+        "backpack:rl-77-airburst-rocket-launcher-backpack:rl-77-airburst-rocket-launcher-backpack-backpack:deposit.capacity",
+        "backpack:rl-77-airburst-rocket-launcher-backpack:rl-77-airburst-rocket-launcher-backpack-backpack:deposit.start_amount",
+        "backpack:rl-77-airburst-rocket-launcher-backpack:rl-77-airburst-rocket-launcher-backpack-backpack:deposit.refill_amount"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:196b2228af4ac28a",
+      "backingObjectId": "backing:9f67462601ad4c3a",
+      "target": {
+        "resource": "backpack",
+        "backpack": "StA-X3 W.A.S.P. Launcher Backpack",
+        "path": "backpack"
+      },
+      "fieldInstances": [
+        "backpack:sta-x3-w-a-s-p-launcher-backpack:sta-x3-w-a-s-p-launcher-backpack-backpack:deposit.capacity",
+        "backpack:sta-x3-w-a-s-p-launcher-backpack:sta-x3-w-a-s-p-launcher-backpack-backpack:deposit.start_amount",
+        "backpack:sta-x3-w-a-s-p-launcher-backpack:sta-x3-w-a-s-p-launcher-backpack-backpack:deposit.refill_amount"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false
     }
   ],
   "evidenceTiers": {
@@ -8444,27 +9869,28 @@
     "structural_reference": "Same typed mount reference mechanism as the live-verified swap; this slot and replacement have no reference-mod write."
   },
   "summary": {
-    "backpacks": 16,
-    "fieldInstances": 111,
-    "writableFieldInstances": 97,
+    "backpacks": 21,
+    "fieldInstances": 126,
+    "writableFieldInstances": 112,
     "readOnlyFieldInstances": 14,
-    "backpacksWithWritableFields": 14,
+    "backpacksWithWritableFields": 19,
     "writableByTier": {
       "gameplay_proven": 2,
       "schema_proven": 35,
       "native_correlated": 34,
-      "native_consumer_proven": 26
+      "native_consumer_proven": 41
     },
-    "rackChainsResolved": 16,
+    "rackChainsResolved": 21,
     "weaponFedBackpacks": 3,
-    "backpackAmmoWritable": 9,
+    "teamReloadBackpacks": 5,
+    "backpackAmmoWritable": 24,
     "researchWrites": 0,
     "protectionChanges": 0,
     "fixtureFallback": "disabled"
   },
   "instanceAudit": {
-    "internalInstances": 111,
-    "publishedInstances": 111,
+    "internalInstances": 126,
+    "publishedInstances": 126,
     "missingInstances": 0,
     "unexpectedInstances": 0,
     "exactMatch": true

@@ -1,6 +1,7 @@
 """Exercise backpack-owned support weapon ammunition on a copy-on-write snapshot overlay.
 
-For every weapon-fed backpack (M-1000 Maxigun, B/FLAM-80 Cremator, GL-28 Belt-Fed Grenade Launcher) and each
+For every weapon-fed backpack (M-1000 Maxigun, B/FLAM-80 Cremator, GL-28 Belt-Fed Grenade Launcher) and every
+team-reload backpack (GR-8, AC-8, FAF-14, RL-77, StA-X3; research/team-reload-ammo-F5FEE03DCFDB.json) and each
 of its deposit fields (capacity, starting ammo, ammo from supply):
 
 1. the live bytes equal the reviewed baseline, and a no-op applies as ALREADY_DESIRED,
@@ -9,7 +10,8 @@ of its deposit fields (capacity, starting ammo, ammo from supply):
 4. a missing allow_unverified_effect, a stale expect and an out-of-range value are rejected.
 
 The ammunition chain is re-proven on every write; each link is tampered with once and must be rejected:
-the backpack tag, the weapon's linked-ammo tag and inventory slot, and the rack's delivered weapon.
+the backpack tag, the weapon's linked-ammo tag and inventory slot, and the rack's delivered weapon; for a team-reload
+backpack, its deposit's assisted_reload_weapon_path and the rack's delivered weapon.
 """
 from __future__ import annotations
 
@@ -55,7 +57,7 @@ local worker=coroutine.create(function()
  for _,name in ipairs(names)do
   local entry=database.backpacks[name]
   local target={resource='backpack',backpack=name,path='backpack'}
-  local item={backpack=name,weapon=entry.feeds.weapon,fields={}}
+  local item={backpack=name,weapon=entry.feeds.weapon,relationship=entry.feeds.relationship or'backpack_ammo',fields={}}
   for _,field in ipairs(entry.fields)do if field.editable then
    local label=name..' '..field.semanticFieldId
    local function request(expect,value,ack)
@@ -105,17 +107,30 @@ local worker=coroutine.create(function()
   reset()
   local _,resolved=resolve(spec)
   local catalog=resolved.catalog
-  local tag=catalog.record(resolved.candidate,'TagComponentData')
-  local weapon=candidate(catalog,entry.feeds.weaponResource)
-  local linked=catalog.record(weapon,'WeaponLinkedAmmoComponentData')
   local rack=catalog.record(candidate(catalog,entry.rack.resource),'HellpodRackComponentData')
   local weapon_slot
-  for slot,resource in pairs(entry.rack.slots)do if resource==entry.feeds.weaponResource then weapon_slot=tonumber(slot)end end
-  local tampers={
-   {'backpack tag',tag.owner.base+tag.offset,string.rep('\0',8),'backpack no longer carries'},
-   {'weapon linked-ammo tag',linked.owner.base+linked.offset,string.rep('\0',8),'weapon no longer draws'},
-   {'weapon inventory slot',linked.owner.base+linked.offset+12,b.encode(3,'u32'),'weapon no longer draws'},
-   {'rack delivered weapon',rack.owner.base+rack.offset+weapon_slot*64,string.rep('\0',8),'no longer delivers'}}
+  for slot,resource in pairs(entry.rack.slots)do
+   if resource==entry.feeds.weaponResource and(weapon_slot==nil or tonumber(slot)<weapon_slot)then
+    weapon_slot=tonumber(slot)
+   end
+  end
+  local tampers
+  if entry.feeds.assisted then
+   local deposit=catalog.record(resolved.candidate,'DepositComponentData')
+   tampers={
+    {'deposit assisted_reload_weapon_path',deposit.owner.base+deposit.offset+entry.feeds.assisted.pathOffset,
+     string.rep('\0',8),'no longer feeds the reviewed team-reload weapon'},
+    {'rack delivered weapon',rack.owner.base+rack.offset+weapon_slot*64,string.rep('\0',8),'no longer delivers'}}
+  else
+   local tag=catalog.record(resolved.candidate,'TagComponentData')
+   local weapon=candidate(catalog,entry.feeds.weaponResource)
+   local linked=catalog.record(weapon,'WeaponLinkedAmmoComponentData')
+   tampers={
+    {'backpack tag',tag.owner.base+tag.offset,string.rep('\0',8),'backpack no longer carries'},
+    {'weapon linked-ammo tag',linked.owner.base+linked.offset,string.rep('\0',8),'weapon no longer draws'},
+    {'weapon inventory slot',linked.owner.base+linked.offset+12,b.encode(3,'u32'),'weapon no longer draws'},
+    {'rack delivered weapon',rack.owner.base+rack.offset+weapon_slot*64,string.rep('\0',8),'no longer delivers'}}
+  end
   for _,tamper in ipairs(tampers)do
    reset();poke(tamper[2],tamper[3])
    rejects(function()resolve(spec)end,tamper[4],name..' '..tamper[1])

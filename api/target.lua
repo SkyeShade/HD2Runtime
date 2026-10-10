@@ -950,7 +950,8 @@ function M.new(describe)
         return setmetatable(identity,{__index=methods})
     end
     -- Backpack-fed support weapons draw ammunition from their backpack's DepositComponent, not from a
-    -- weapon magazine; the backpack is the semantic owner (sdk/BackpackAuthoringCapabilities.json).
+    -- weapon magazine; the backpack is the semantic owner (sdk/BackpackAuthoringCapabilities.json). Team-reload
+    -- weapons (feeds.relationship 'team_reload') reload from their backpack's deposit once their own spares are spent.
     local fed_backpacks=require('hd2runtime/domains/entity_authoring').backpacks
     local function ammo_backpack(weapon)
         for name,entry in pairs(fed_backpacks)do
@@ -1407,7 +1408,8 @@ function M.new(describe)
             table.sort(linked)
             return {name=name,semanticId=entry.semanticId,fields=fields_for(entry,'backpack'),
                 damageZones=#zones>0 and zones or nil,linked=#linked>0 and linked or nil,
-                feeds=entry.feeds and{supportWeapon=entry.feeds.weapon,relationship='backpack_ammo'}or nil}
+                feeds=entry.feeds and{supportWeapon=entry.feeds.weapon,
+                    relationship=entry.feeds.relationship or'backpack_ammo'}or nil}
         end
         -- The support weapon this backpack stores ammunition for, if any.
         function methods.weapon()

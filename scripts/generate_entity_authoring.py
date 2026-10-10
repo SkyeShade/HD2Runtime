@@ -18,6 +18,7 @@ import jump_hover_fields
 ROOT = Path(__file__).resolve().parents[1]
 RESEARCH = ROOT / 'research/entity-authoring-runtime-F5FEE03DCFDB.json'
 BACKPACK_AMMO = ROOT / 'research/backpack-ammo-F5FEE03DCFDB.json'
+TEAM_RELOAD = ROOT / 'research/team-reload-ammo-F5FEE03DCFDB.json'
 SHIELD_RESEARCH = ROOT / 'research/ballistic-shield-F5FEE03DCFDB.json'
 EQUIPMENT_RESEARCH = ROOT / 'research/equipment-coverage-F5FEE03DCFDB.json'
 FIELDS = ROOT / 'schemas/entity_fields.json'
@@ -83,6 +84,30 @@ AMMO_LABELS = {'deposit.capacity': 'Backpack ammo capacity', 'deposit.start_amou
     'deposit.refill_amount': 'Backpack ammo from supply'}
 AMMO_UNVERIFIED = ('The backpack DepositComponent is the proven ammunition store (exact capacity and supply '
     'fingerprints), but no edit has been confirmed in game yet.')
+# Team-reload backpacks (research/team-reload-ammo-F5FEE03DCFDB.json): the deposit whose assisted_reload_weapon_path
+# (+136) names the weapon. The weapon's own reload uses it once the weapon's own spares are spent, a teammate's
+# assisted reload always uses it. start_amount -1 is the game's own "full" sentinel (the live amount starts at the
+# capacity, research/deposit-limits 0x88148D), kept representable.
+TEAM_RANGE = {'deposit.capacity': (1, DEPOSIT_LIMIT), 'deposit.start_amount': (-1, DEPOSIT_LIMIT),
+    'deposit.refill_amount': (0, DEPOSIT_LIMIT)}
+TEAM_LABELS = {'deposit.capacity': 'Backpack reloads', 'deposit.start_amount': 'Backpack reloads at call-in (-1 = full)',
+    'deposit.refill_amount': 'Backpack reloads from supply'}
+TEAM_UNVERIFIED = ('The backpack DepositComponent the team reload draws from: its readers are traced in game code '
+    '(the reload asks it when the weapon has no spares of its own and each reload from it costs one; a teammate '
+    'reload always uses it; resupply adds refill_amount up to capacity), and its capacity and supply match the '
+    'published spare and supply values exactly. Not yet shown in game.')
+TEAM_SENTINEL = [{'value': -1, 'label': 'full', 'meaning': 'the live amount starts at the capacity (the native value)'}]
+TEAM_EVIDENCE = {'tier': 'native_consumer_proven', 'referenceMod': None, 'proof': None, 'provenOn': [],
+    'sharedTypedSchema': False, 'research': 'research/team-reload-ammo-F5FEE03DCFDB.json'}
+
+
+def team_reload_unit(item):
+    """What one deposit unit loads: a full magazine, or a rounds weapon's reload amount."""
+    ammo = item['weaponAmmo']
+    if item['ammoKind'] == 'rounds':
+        return 'one reload of %d rounds' % ammo['reloadAmount']
+    count = ammo['capacity']
+    return 'one reload (a full magazine of %d %s)' % (count, 'round' if count == 1 else 'rounds')
 
 
 # SH-20 Ballistic Shield (research/ballistic-shield-F5FEE03DCFDB.json): every bullet that hits the shield resolves
@@ -868,6 +893,75 @@ def build(research_path=RESEARCH):
                 'ammoMode': item['linkedAmmo']['ammoMode'], 'inventorySlot': ammo_research['typeLibrary']['inventorySlotBackpack']},
             'fields': backpack_builder.runtime(name)}
 
+    # Team-reload backpacks: the call-in rack delivers the support weapon with this backpack, and the backpack
+    # DepositComponent's assisted_reload_weapon_path names the weapon (research/team-reload-ammo-F5FEE03DCFDB.json).
+    team_research = json.loads(TEAM_RELOAD.read_text())
+    team_items = sorted((item for item in team_research['teamReloadWeapons'] if item['supportWeapon']),
+        key=lambda entry: entry['supportWeapon'])
+    for item in team_items:
+        weapon = item['supportWeapon']; name = backpack_ammo_name(weapon); deposit = item['deposit']
+        fingerprint = item['fingerprint']
+        if not fingerprint['exact'] or not deposit['uniqueOwner'] or name in runtime_backpacks:
+            raise ValueError(name + ': team-reload backpack ownership is not proven')
+        target = {'resource': 'backpack', 'backpack': name, 'path': 'backpack'}
+        unit = team_reload_unit(item)
+        keys = []
+        for field_id, offset, storage in (('deposit.capacity', 0, 'u32'), ('deposit.start_amount', 4, 'i32'),
+                ('deposit.refill_amount', 8, 'u32')):
+            low, high = TEAM_RANGE[field_id]
+            extra = {'displayName': TEAM_LABELS[field_id], 'unit': 'reloads', 'unitMeaning': unit,
+                'uiGroup': 'backpack_ammo', 'min': low, 'max': high, 'rangeReason': AMMO_RANGE_REASON,
+                'acknowledgement': 'allow_unverified_effect', 'acknowledgementReason': TEAM_UNVERIFIED,
+                'evidence': dict(TEAM_EVIDENCE),
+                'effect': {'activeSource': 'NATIVE_CONSUMER', 'activeSourceProven': True, 'appliesWhen': 'entity_spawn',
+                    'instantiationOnly': None, 'lifecycle': ('The live amount starts from the definition when the '
+                        'backpack spawns: apply before calling the weapon in. Capacity and refill are read again on '
+                        'every resupply.')},
+                'provenance': 'call-in rack -> backpack DepositComponent assisted_reload_weapon_path = the weapon; '
+                    'exact wiki spare and supply fingerprints; reload and resupply readers traced in game code'}
+            if field_id == 'deposit.start_amount':
+                extra['sentinels'] = TEAM_SENTINEL
+            keys.append(backpack_builder.add(name, target, field_id, deposit['values'][str(offset)],
+                component_backing(deposit, item['backpackResource'], offset, storage, [name]),
+                extra=extra)['instanceKey'])
+        public_backpacks.append({'name': name, 'semanticId': backpack_key(name),
+            'callInStratagem': {'semanticId': support_callin_linkage.stratagem_key(weapon), 'name': weapon,
+                'relationship': 'delivered_with_support_weapon', 'known': True,
+                'provenance': 'call-in primary payload is the rack that attaches the weapon and this backpack'},
+            'deliveryChain': ['stratagem_definition', 'hellpod_rack', 'backpack_entity'],
+            'feeds': {'supportWeapon': weapon, 'supportWeaponSemanticId': support_callin_linkage.support_weapon_key(weapon),
+                'relationship': 'team_reload', 'weaponOwnsMagazine': True, 'ammoKind': item['ammoKind'],
+                'unitMeaning': unit, 'refillStyle': 'Ammo' if deposit['refillStyle'] == 1 else deposit['refillStyle'],
+                'chain': ['call-in rack attaches the weapon and this backpack',
+                    'backpack DepositComponent assisted_reload_weapon_path names the weapon',
+                    'the weapon owns a WeaponAssistedReloadComponent (each reload from the backpack costs one)',
+                    "the wearer's reload uses the backpack once the weapon's own spares are spent; "
+                    "a teammate's reload always uses it"]},
+            'ammo': {'capacity': deposit['values']['0'], 'startAmount': deposit['values']['4'],
+                'startIsFull': deposit['startIsFullSentinel'], 'refillAmount': deposit['values']['8'],
+                'fingerprint': {'spare': fingerprint['wikiSpareMagazines'], 'fromSupply': fingerprint['wikiMagsFromSupply']},
+                'visibleNodes': deposit['nodeHidingOrderCount']},
+            'correlation': {'capacity': True, 'fromSupply': True},
+            'components': ['Backpack', 'Deposit'],
+            'settingGroups': [{'group': 'backpack_ammo', 'fieldInstanceKeys': keys}],
+            'blockedFields': [{'field': 'remaining ammunition', 'reason': 'The live remaining count is per-mission '
+                'instance state, not a definition field; capacity, starting ammo and supply refill are authored.'},
+                {'field': 'cost per reload (assisted-reload record +20)', 'reason': 'Read by game code (1 on every '
+                    'team-reload weapon) but its member name is not proven; not offered.'}],
+            'fieldInstanceKeys': keys})
+        rack = item['rack']; assisted = item['assistedReload']
+        runtime_backpacks[name] = {'name': name, 'semanticId': backpack_key(name), 'resource': item['backpackResource'],
+            'entityRow': item['backpackEntityRow'],
+            # The rack attaches the weapon and this backpack twice (slots 0/1 and 2/3); every slot is re-proven.
+            'rack': {'resource': rack['resource'], 'recordIndex': rack['recordIndex'], 'indexRow': rack['indexRow'],
+                'slots': {str(slot): value for slot, value in enumerate(rack['items'])
+                    if value != '0x0000000000000000'}},
+            'feeds': {'weapon': weapon, 'weaponResource': item['weaponResource'], 'weaponEntityRow': item['weaponEntityRow'],
+                'relationship': 'team_reload',
+                'assisted': {'recordIndex': assisted['recordIndex'], 'indexRow': assisted['indexRow'],
+                    'pathOffset': 136}},
+            'fields': backpack_builder.runtime(name)}
+
     runtime_weapons = {item['semanticId']: {'semanticId': item['semanticId'], 'displayName': item['displayName'],
         'resource': item['resource'], 'entityRow': item['entityRow'], 'attackFamily': item['attackFamily']}
         for item in weapons.values()}
@@ -962,7 +1056,10 @@ def build(research_path=RESEARCH):
             if field['target']['backpack'] == item['name']) for item in public_backpacks),
         'writableByTier': tiers(backpack_builder),
         'rackChainsResolved': len(public_backpacks),
-        'weaponFedBackpacks': sum(1 for item in public_backpacks if item.get('feeds')),
+        'weaponFedBackpacks': sum(1 for item in public_backpacks
+            if (item.get('feeds') or {}).get('relationship') == 'backpack_ammo'),
+        'teamReloadBackpacks': sum(1 for item in public_backpacks
+            if (item.get('feeds') or {}).get('relationship') == 'team_reload'),
         'backpackAmmoWritable': sum(item['editable'] for item in backpack_fields if item.get('uiGroup') == 'backpack_ammo'),
         'researchWrites': 0, 'protectionChanges': 0, 'fixtureFallback': 'disabled'}
     backpack_doc = {'contract': 'hd2runtime.backpack.guarded_authoring.v1', 'schemaVersion': 1,
@@ -978,7 +1075,8 @@ def build(research_path=RESEARCH):
             raise ValueError('public entity capability leaks a native identifier')
         for resource in list(mounted) + [item['resource'] for item in vehicles_source] + \
                 [item['resource'] for item in research['backpacks']] + \
-                [x for item in ammo_research['backpackFedWeapons'] for x in (item['backpackResource'], item['weaponResource'])] +                 [linked['resource'] for entry in runtime_backpacks.values() for linked in (entry.get('linked') or {}).values()] +                 [warp['resource']]:
+                [x for item in ammo_research['backpackFedWeapons'] for x in (item['backpackResource'], item['weaponResource'])] + \
+                [x for item in team_items for x in (item['backpackResource'], item['weaponResource'])] +                 [linked['resource'] for entry in runtime_backpacks.values() for linked in (entry.get('linked') or {}).values()] +                 [warp['resource']]:
             if resource[2:].lower() in text:
                 raise ValueError('public entity capability leaks a native resource hash')
 

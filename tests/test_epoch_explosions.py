@@ -234,7 +234,8 @@ class LegacyTableTests(unittest.TestCase):
         self.assertEqual({(entry['resource'], entry['target']) for entry in entries}, {('support_weapon', EPOCH)})
         legacy_table.generate(check=True)
         lua = (ROOT / 'domains/legacy_acknowledgements.lua').read_text(encoding='utf-8')
-        self.assertIn('["support_weapon"]={["PLAS-45 Epoch"]={["damage.primary.ap_direct"]="0.30.0"', lua)
+        # 0.30.4 added the team-reload magazine rows of other support weapons to the same resource table.
+        self.assertIn('["PLAS-45 Epoch"]={["damage.primary.ap_direct"]="0.30.0"', lua)
 
     @unittest.skipUnless(subprocess.run(['git', 'rev-parse', '-q', '--verify', 'v0.28.1^{commit}'], cwd=ROOT,
         capture_output=True).returncode == 0, 'the v0.28.1 tag is not available')
