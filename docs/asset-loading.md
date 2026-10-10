@@ -215,8 +215,8 @@ anything: its game shows whatever it loaded itself.
   are requested only while Runtime holds fewer than 48 (`asset_sync.RESERVE` = 16 stay for this machine's own
   mods and custom stratagems); the rest is refused with `ASSET_UNAVAILABLE` and logged.
 - Catalog identities only. Level, faction and objective content is not covered.
-- The PlayFab post rate: the `hd2as` and `hd2rt` keys share one post per 5 s, nothing in the first 10 s of a
-  lobby, and the first post waits for the game's own `platform_lobby` post. A change reaches the peers seconds
+- The PlayFab post rate: the `hd2as`, `hd2rt` and `hd2bc` (beam conversions, `docs/beam-conversion.md`) keys share
+  one post per 5 s, nothing in the first 10 s of a lobby, and the first post waits for the game's own `platform_lobby` post. A change reaches the peers seconds
   later; nothing waits for it.
 - Retention is the session's, as for every Runtime load: a synced package is never released.
 

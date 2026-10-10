@@ -385,9 +385,15 @@ def lifecycle() -> dict:
 def multiplayer() -> dict:
     return {'apply': 'solo only: refused (waits) while another player is in the game or the lobby',
             'restore': 'allowed with other players present (it makes this machine agree with them)',
-            'join': 'docs/beam-conversion.md "Multiplayer": a player who joins later builds the weapon as shipped; the '
-                    'Runtime logs a loud warning and shows a notice, and changes nothing by itself',
-            'research': 'research/docs/beam-conversion-mp-F5FEE03DCFDB.md'}
+            'join': 'docs/beam-conversion.md "Multiplayer": when another lobby member appears, every converted weapon '
+                    'with no live instance is restored at once (a remote weapon of a converted type crashes this '
+                    'game); one in use stays, with a loud warning and the safety notice',
+            'sync': 'the lobby key hd2bc (hd2bc/1): each Runtime posts its conversion set and reads every other member\'s '
+                    '(match, mismatch, incompatible, malformed, pending, no runtime); the decision with other members '
+                    'is always REFUSED: REMOTE_APPLY_UNSAFE even when every member posts the identical set (the '
+                    'network apply is chosen by the type alone, so identical conversions crash both machines)',
+            'research': 'research/docs/beam-conversion-mp-F5FEE03DCFDB.md',
+            'syncResearch': 'research/docs/beam-conversion-mp-sync-F5FEE03DCFDB.md'}
 
 
 def pulse() -> dict:

@@ -196,7 +196,8 @@ It was unreliable live: the Reprimand had 91 shots seen, 10 written and 81 `MISS
 
 ## Multiplayer
 
-`research/docs/beam-conversion-mp-F5FEE03DCFDB.md` has the details.
+`research/docs/beam-conversion-mp-F5FEE03DCFDB.md` and `research/docs/beam-conversion-mp-sync-F5FEE03DCFDB.md` have the
+details.
 
 - **An apply is solo only.** With another player in the game or the lobby it waits (`NOT_SOLO`). A restore is allowed
   with others present.
@@ -206,13 +207,54 @@ It was unreliable live: the Reprimand had 91 shots seen, 10 written and 81 `MISS
   - A weapon of a converted type that **another** player owns is built on your machine without ProjectileWeapon. Its
     network apply then writes through index -1, and **your game crashes** when that weapon spawns. This happens if a
     joiner carries one, and also if you are a client in another lobby.
-- **What the Runtime does** when another lobby member appears while a conversion is applied:
-  - it logs a loud warning and shows the safety notice;
-  - it **restores at once every converted weapon with no live instance**, so a joiner's weapon of that type spawns
-    as vanilla.
-  - A converted weapon in use cannot be restored and stays. Leave the lobby, or quit.
-  - The mods' ensures stay registered and convert again once the game is solo.
-- There is no sync. The same edit on every peer would be needed, and a player joining in progress cannot be covered.
+- **The same conversion on every machine does not help.** The game picks a remote weapon's network apply by its
+  network type alone, and every convertible type's apply calls the ProjectileWeapon step unconditionally (pinned for
+  all 72 convertible network types). If both players convert the Liberator, **each** game crashes when the other's
+  Liberator spawns. So multiplayer stays refused even when every player runs the Runtime with identical options.
+
+### The conversion sync (`hd2bc`)
+
+Each Runtime shares its conversions with the lobby, as the synced asset loader shares its packages: one lobby member
+property, the key `hd2bc` in the `hd2bc/1` grammar. It uses the same channel and rate limits as `hd2rt` and `hd2as`.
+
+- **Posted** once this machine has applied a conversion in this session:
+  - per converted root: the resource, the path (owned table or shared record), a digest of its BeamWeapon record (rate,
+    beams, pulse) and of its borrowed beam and damage rows (range, damage, AP), and the borrowed pair;
+  - the Runtime version, the game build and the catalogue hash, and one digest of the whole set.
+  - After the last restore the empty set is posted, so the lobby never keeps a stale set. At most 11 converted roots
+    fit in the 512-byte value.
+- **Read** from every other member every 3 s in a lobby of 2 or more. Each member is one of:
+
+  | State | Meaning |
+  |---|---|
+  | `match` | same version, build, catalogue and digest |
+  | `mismatch` | another set of conversions |
+  | `incompatible` | another Runtime version, build or catalogue |
+  | `malformed` | a value that is not exactly `hd2bc/1` |
+  | `pending` | no value yet, within 30 s of first seeing the member |
+  | `no runtime` | no value after 30 s: no Runtime, an older one, or one that has converted nothing |
+
+- **Decision.** Solo: the apply goes ahead (unchanged). With any other member it is `REFUSED`:
+  - with the first problem found: `NO_RUNTIME`, `MALFORMED`, `INCOMPATIBLE`, `MISMATCH` or `PENDING`;
+  - otherwise `REMOTE_APPLY_UNSAFE`, even when every member, the host included, posts the identical set.
+  No build is proven safe, so no member state allows an apply. The `NOT_SOLO` refusal names the decision.
+- **Log lines** start with `BEAM CONVERSION SYNC:`: the posted set, every member's state change, and the decision
+  while this machine has a conversion.
+
+### What the Runtime does when another player is present
+
+| Case | What happens |
+|---|---|
+| Someone joins your lobby; your converted weapon is not in use | The lobby is read every second. On the first sight of the new member, every converted weapon with no live instance is restored, long before their weapons spawn. The empty set is posted. |
+| Someone joins while your converted weapon is in hand | It cannot be restored: changing its list under a live instance corrupts the BeamWeapon destroy. A loud warning and the safety notice appear, and the restore is retried every 5 s until it is no longer live. If the joiner runs the Runtime, their game reads your set and warns **them** not to carry, call in, drop or pick up that weapon. A joiner without the Runtime who carries it crashes your game. The lobby data holds no loadout, so this cannot be known in advance. |
+| You join someone else's lobby with a conversion | The same watch restores idle conversions as soon as the lobby shows the others. If a converted weapon is live on your ship while the join loads, it can be restored only after your ship unloads; whether that happens before the host's weapons spawn is not proven. **Unequip converted weapons before joining.** |
+| Another member's set lists conversions | Your Runtime warns you and names the weapons. Spawning one of them crashes that member's game. |
+| Blocking the join or the mission start | Not possible: the Runtime has no input blocking and no menu-state hook. |
+
+- The mods' ensures stay registered: their apply waits (`NOT_SOLO`) and converts again once the game is solo.
+- **Still unsafe:** a converted weapon in hand when a player joins, a joiner without the Runtime who carries that
+  type, and joining a lobby with a converted weapon equipped.
+- `proof/BeamConversionSyncProof` has the two-machine test plan.
 
 ## Editor
 

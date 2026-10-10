@@ -1999,6 +1999,78 @@ end
 EXTRAS['proof-beam-conversion'] = {'menu': MENU_STUB, 'after': PROOF_BEAM_CONVERSION, 'unavailable': tuple(
     'beamconv-' + t for t in ('sickle', 'double_edge', 'sai', 'talon_600', 'liberator_x10', 'reprimand_range',
                               'trident_fast', 'trident_capped'))}
+# Beam conversion sync (docs/beam-conversion.md "Multiplayer"; research/docs/beam-conversion-mp-sync-F5FEE03DCFDB.md):
+# BeamConversionSyncProof 0.1.0 loads from its built form (both toggles off); runtime/beam_conversion_sync.lua and its
+# protocol load from the archive. After startup, through the public API with the real pins, census and lobby gates: a
+# weapon with no live instance converts, and the set the sync would publish under `hd2bc` decodes with this archive's
+# version, the build and the catalogue, naming that weapon on the owned path; the decision for members that all post
+# the identical set is still REFUSED (REMOTE_APPLY_UNSAFE: no build is proven), a missing member is NO_RUNTIME, a
+# refusal while another player is present is never SOLO, and the restore publishes the empty set.
+PROOF_BEAM_CONVERSION_SYNC = r"""
+return function(frame,watches,counts,lines)
+ local results={}
+ local function step(name,ok,detail)results[#results+1]={name=name,passed=ok==true,detail=detail}end
+ local ok,S=pcall(require,'hd2runtime/runtime/beam_conversion_sync')
+ local pok,P=pcall(require,'hd2runtime/runtime/beam_conversion_sync_protocol')
+ step('the sync and its protocol are loaded from the packaged archive',ok and pok and type(S)=='table'
+  and P.PROTOCOL=='hd2bc/1',tostring(ok and pok or S))
+ if not(ok and pok)then return results end
+ local channel=require('hd2runtime/runtime/peer_channel')
+ step('the channel accepts the hd2bc key',channel.KEYS.hd2bc==true,'')
+ local E=require('hd2runtime/runtime/beam_conversion')
+ local st=E.status()
+ local name
+ for _,n in ipairs({'LAS-16 Sickle','LAS-12 Sai','LAS-58 Talon','SG-225 Breaker'})do
+  local w=st.weapons and st.weapons[n]
+  if not name and w and w.state=='vanilla'and w.live==0 then name=n end
+ end
+ step('a supported weapon with no live instance on the ship',name~=nil,tostring(name or st.reason))
+ if not name then return results end
+ step('nothing published before a conversion',S.value()==nil,tostring(S.value()))
+ local hd2=require('hd2runtime/api/hd2')
+ local F=hd2.fields
+ E.set_hooks_for_tests({assets=function()return'resident','forced by the validator'end})
+ local assets=require('hd2runtime/core/assets')
+ local gate=assets.gate
+ assets.gate=function()return {state='ready',dependencies={},tick=function()return 'ready'end}end
+ local function run(id,changes)
+  local h=hd2.transaction({id=id,target=hd2.weapon(name):beam_conversion(),allow_component_swap=true,
+   allow_unverified_effect=true,changes=changes})
+  for _=1,600 do
+   if h.status=='complete'or h.status=='rejected'or h.status=='retry_wait'then break end
+   frame()
+  end
+  return h
+ end
+ local h=run('validate-beamsync-on',{{field=F.beam_conversion.enabled,expect=false,value=true},
+  {field=F.beam.fire_rate,expect=300,value=600}})
+ step('the conversion applies through hd2.transaction (real census and lobby gates)',h.status=='complete'
+  and h.result and h.result.status=='APPLIED',tostring(h.status)..' '..tostring(h.error)..' '..tostring(h.last_transient))
+ local value=S.value()
+ local d=value and P.decode(value)
+ local named=false
+ for _,e in ipairs(d and d.entries or{})do named=named or(S.weapon_of(e.resource)==name and e.path=='o')end
+ step('the published set decodes with this archive\'s version, build and catalogue and names the weapon',d~=nil
+  and d.version==S.version()and d.build==S.build()and d.catalog==S.catalogue_hash()and named
+  and d.digest==S.digest(),tostring(value))
+ local all=S.decide({members={{peer='A',state='match',host=true}}})
+ local missing=S.decide({members={{peer='A',state='match'},{peer='B',state='no_runtime'}}})
+ step('identical members are still refused; a missing member is NO_RUNTIME',not all.allowed
+  and all.code=='REMOTE_APPLY_UNSAFE'and missing.code=='NO_RUNTIME'and next(S.REMOTE_APPLY_SAFE)==nil,all.code)
+ step('a refusal with another player present is never SOLO',S.describe(true):find('REFUSED (PENDING',1,true)~=nil,
+  S.describe(true))
+ h=run('validate-beamsync-off',{{field=F.beam_conversion.enabled,expect=false,value=false}})
+ local after=S.value()
+ local empty=after and P.decode(after)
+ step('the restore publishes the empty set',h.status=='complete'and empty~=nil and#empty.entries==0
+  and empty.seq>d.seq,tostring(after))
+ assets.gate=gate
+ E.set_hooks_for_tests(nil)
+ return results
+end
+"""
+EXTRAS['proof-beam-conversion-sync'] = {'menu': MENU_STUB, 'after': PROOF_BEAM_CONVERSION_SYNC, 'unavailable': (
+    'beamsync-sickle', 'beamsync-liberator')}
 # The build label (runtime/version_label.lua) from the archive on the snapshot's real game state and engine font, with
 # a stand-in for the engine GUI API over the snapshot's own world list (the Ui World by its position): aboard the ship
 # it is one Ui World GUI with "HD2Runtime <version>" over "Game <build>" in the bottom-left corner at the lowest layer,
@@ -5285,6 +5357,7 @@ SCENARIOS = {
     'proof-slot-overlay': lambda: proof('SlotOverlayProof'),
     'proof-multi-beam': lambda: proof('MultiBeamProof'),
     'proof-beam-conversion': lambda: proof('BeamConversionProof'),
+    'proof-beam-conversion-sync': lambda: proof('BeamConversionSyncProof'),
     'proof-gas-barrage-mission': lambda: proof('GasBarrageMissionProof'),
     'proof-gas-barrage-payload': lambda: proof('GasBarragePayloadProof'),
     'proof-gas-barrage-cooldown': lambda: proof('GasBarrageCooldownProof'),

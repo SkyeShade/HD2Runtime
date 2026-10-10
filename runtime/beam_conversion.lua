@@ -684,8 +684,12 @@ local function gates(world,s,weapons,apply)
     if apply then
         local state,detail=lobby(world)
         if state~='solo'then
+            -- The sync's decision only explains the refusal: no member state allows an apply on this build
+            -- (runtime/beam_conversion_sync.lua: REMOTE_APPLY_UNSAFE even when every member posts the same set).
+            local okd,sync_text=pcall(function()return require('hd2runtime/runtime/beam_conversion_sync').describe(true)end)
             fail('TARGET_UNAVAILABLE: NOT_SOLO: beam conversions apply only in a solo game ('..tostring(detail)
-                ..'); another player\'s game would build the weapon without the beam')
+                ..'); a weapon of a converted type that another player owns crashes a converted game, even when '
+                ..'every player converted it the same way'..(okd and('; '..tostring(sync_text))or''))
         end
         local asset,asset_detail=assets_state(world)
         if asset~='resident'then
@@ -1128,6 +1132,8 @@ function M.commit(world,prepared,report)
     if ok then
         record_edits(s)
         require('hd2runtime/runtime/beam_conversion_watch').sync(s)
+        -- The lobby's view of this machine's conversions (runtime/beam_conversion_sync.lua, the hd2bc key).
+        pcall(function()require('hd2runtime/runtime/beam_conversion_sync').note(s)end)
     else
         log('after the write the state could not be re-read: '..clean(s))
     end
@@ -1186,6 +1192,7 @@ end
 function M.set_hooks_for_tests(h)hooks=h or{}end
 function M.reset_for_tests()
     proven={};hooks={};rawset(_G,STATE_KEY,nil)
+    require('hd2runtime/runtime/beam_conversion_sync').reset_for_tests()
     require('hd2runtime/runtime/beam_conversion_rows').reset_for_tests()
     for _,w in ipairs(C.weapons)do for _,root in ipairs(w.roots or{})do
         local e=edits.get(root.resource)
