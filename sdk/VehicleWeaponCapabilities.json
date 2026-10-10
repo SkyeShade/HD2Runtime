@@ -33,6 +33,8 @@
             "fieldGroups": {
               "local": [
                 "vehicle-field/v1/m-103-supply-frv-gun/weapon-fire-rate/fa846d31809a67c1",
+                "vehicle-field/v1/m-103-supply-frv-gun/weapon-horizontal-spread/e8eeda9c21254ae0",
+                "vehicle-field/v1/m-103-supply-frv-gun/weapon-vertical-spread/932c3ccd7722fbcd",
                 "vehicle-field/v1/m-103-supply-frv-gun/weapon-capacity/49b8a6256258b945",
                 "vehicle-field/v1/m-103-supply-frv-gun/magazine-starting-magazines/754a1bbcbbfe8285",
                 "vehicle-field/v1/m-103-supply-frv-gun/magazine-magazines-from-supply/d952d443f10d1bcb",
@@ -96,6 +98,10 @@
             },
             "blocked": [
               {
+                "field": "weapon.recoil_* / weapon.sway / weapon.ergonomics",
+                "reason": "Recoil kicks the wielder's aim (0x784CE2); which aim a mounted weapon's wielder is (the Exosuit, a seat or the vehicle) is not traced, and no read of sway or ergonomics on the mounted fire path is shown."
+              },
+              {
                 "field": "reload.duration",
                 "reason": "Native reload duration is 0 (use the default reload ability); a non-zero value would add a timing rather than tune one."
               },
@@ -135,6 +141,8 @@
             "fieldGroups": {
               "local": [
                 "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/weapon-fire-rate/87d4420394cdb4f8",
+                "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/weapon-horizontal-spread/10fa5cc77883657d",
+                "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/weapon-vertical-spread/9afa221806bca594",
                 "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/weapon-capacity/6ad583e485e53f1e",
                 "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/magazine-starting-magazines/e430394a1c727669",
                 "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/magazine-magazines-from-supply/0c86cd4cfe59941b",
@@ -203,6 +211,10 @@
             },
             "blocked": [
               {
+                "field": "weapon.recoil_* / weapon.sway / weapon.ergonomics",
+                "reason": "Recoil kicks the wielder's aim (0x784CE2); which aim a mounted weapon's wielder is (the Exosuit, a seat or the vehicle) is not traced, and no read of sway or ergonomics on the mounted fire path is shown."
+              },
+              {
                 "field": "weapon damage/armor-penetration addends",
                 "reason": "ProjectileWeaponComponent +128 and +136 are per-weapon damage/armor-penetration addends. The pinned type library names +128 damage_addends and +136 ap_addends, but the M-103 turret reference mod reports the opposite in game; the assignment stays read-only until one in-game test separates them."
               },
@@ -238,6 +250,8 @@
             "fieldGroups": {
               "local": [
                 "vehicle-field/v1/td-110-maelstrom-slot-2/weapon-fire-rate/bd1d08e2b91b167b",
+                "vehicle-field/v1/td-110-maelstrom-slot-2/weapon-horizontal-spread/da1b549b5ba836e5",
+                "vehicle-field/v1/td-110-maelstrom-slot-2/weapon-vertical-spread/cc5996de83b9d185",
                 "vehicle-field/v1/td-110-maelstrom-slot-2/weapon-capacity/c192fafda0ecdd9f",
                 "vehicle-field/v1/td-110-maelstrom-slot-2/magazine-starting-magazines/04ba3133307e4af5",
                 "vehicle-field/v1/td-110-maelstrom-slot-2/magazine-magazines-from-supply/ea31198320b9cc3c",
@@ -287,6 +301,10 @@
             },
             "blocked": [
               {
+                "field": "weapon.recoil_* / weapon.sway / weapon.ergonomics",
+                "reason": "Recoil kicks the wielder's aim (0x784CE2); which aim a mounted weapon's wielder is (the Exosuit, a seat or the vehicle) is not traced, and no read of sway or ergonomics on the mounted fire path is shown."
+              },
+              {
                 "field": "weapon damage/armor-penetration addends",
                 "reason": "ProjectileWeaponComponent +128 and +136 are per-weapon damage/armor-penetration addends. The pinned type library names +128 damage_addends and +136 ap_addends, but the M-103 turret reference mod reports the opposite in game; the assignment stays read-only until one in-game test separates them."
               },
@@ -326,6 +344,8 @@
             "fieldGroups": {
               "local": [
                 "vehicle-field/v1/td-110-maelstrom-slot-3/weapon-fire-rate/35b90db7259cae3d",
+                "vehicle-field/v1/td-110-maelstrom-slot-3/weapon-horizontal-spread/f49f5554b57379ae",
+                "vehicle-field/v1/td-110-maelstrom-slot-3/weapon-vertical-spread/340d4f6d231124e0",
                 "vehicle-field/v1/td-110-maelstrom-slot-3/weapon-capacity/f1bf772e9cee96b8",
                 "vehicle-field/v1/td-110-maelstrom-slot-3/magazine-starting-magazines/593762734892635c",
                 "vehicle-field/v1/td-110-maelstrom-slot-3/magazine-magazines-from-supply/22de5b39770f66ba",
@@ -402,6 +422,10 @@
             },
             "blocked": [
               {
+                "field": "weapon.recoil_* / weapon.sway / weapon.ergonomics",
+                "reason": "Recoil kicks the wielder's aim (0x784CE2); which aim a mounted weapon's wielder is (the Exosuit, a seat or the vehicle) is not traced, and no read of sway or ergonomics on the mounted fire path is shown."
+              },
+              {
                 "field": "weapon damage/armor-penetration addends",
                 "reason": "ProjectileWeaponComponent +128 and +136 are per-weapon damage/armor-penetration addends. The pinned type library names +128 damage_addends and +136 ap_addends, but the M-103 turret reference mod reports the opposite in game; the assignment stays read-only until one in-game test separates them."
               },
@@ -431,6 +455,8 @@
             "fieldGroups": {
               "local": [
                 "vehicle-field/v1/td-110-maelstrom-slot-4/weapon-fire-rate/c79ca011c813f8dc",
+                "vehicle-field/v1/td-110-maelstrom-slot-4/weapon-horizontal-spread/35a43ebb7959196c",
+                "vehicle-field/v1/td-110-maelstrom-slot-4/weapon-vertical-spread/8be2a4ca41e66396",
                 "vehicle-field/v1/td-110-maelstrom-slot-4/weapon-capacity/082cb4126eb1456c",
                 "vehicle-field/v1/td-110-maelstrom-slot-4/magazine-starting-magazines/bae76afdd3986801",
                 "vehicle-field/v1/td-110-maelstrom-slot-4/magazine-magazines-from-supply/cd4d7154d3b7ac2f",
@@ -506,6 +532,10 @@
               "sharedDamageConsumers": 1
             },
             "blocked": [
+              {
+                "field": "weapon.recoil_* / weapon.sway / weapon.ergonomics",
+                "reason": "Recoil kicks the wielder's aim (0x784CE2); which aim a mounted weapon's wielder is (the Exosuit, a seat or the vehicle) is not traced, and no read of sway or ergonomics on the mounted fire path is shown."
+              },
               {
                 "field": "weapon damage/armor-penetration addends",
                 "reason": "ProjectileWeaponComponent +128 and +136 are per-weapon damage/armor-penetration addends. The pinned type library names +128 damage_addends and +136 ap_addends, but the M-103 turret reference mod reports the opposite in game; the assignment stays read-only until one in-game test separates them."
@@ -589,6 +619,14 @@
             },
             "blocked": [
               {
+                "field": "weapon.horizontal_spread / weapon.vertical_spread",
+                "reason": "A spray attack: the projectile shot's read (0x615BAB) is not on its path; its WeaponData spread stays unexposed (the sentry rule)."
+              },
+              {
+                "field": "weapon.recoil_* / weapon.sway / weapon.ergonomics",
+                "reason": "Recoil kicks the wielder's aim (0x784CE2); which aim a mounted weapon's wielder is (the Exosuit, a seat or the vehicle) is not traced, and no read of sway or ergonomics on the mounted fire path is shown."
+              },
+              {
                 "field": "turret.*",
                 "reason": "The mount owns no TurretComponent (it aims through its vehicle, seat or Exosuit arm), so there is no turret record to tune."
               }
@@ -620,6 +658,8 @@
             "fieldGroups": {
               "local": [
                 "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/weapon-fire-rate/267a234098c51923",
+                "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/weapon-horizontal-spread/2568203b05aa69da",
+                "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/weapon-vertical-spread/36532d06dcd89d71",
                 "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/weapon-capacity/7030dd5b68f1f7ba",
                 "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/magazine-starting-magazines/41aabca78670b9f2",
                 "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/magazine-magazines-from-supply/6f09082592ee1a04",
@@ -696,6 +736,10 @@
             },
             "blocked": [
               {
+                "field": "weapon.recoil_* / weapon.sway / weapon.ergonomics",
+                "reason": "Recoil kicks the wielder's aim (0x784CE2); which aim a mounted weapon's wielder is (the Exosuit, a seat or the vehicle) is not traced, and no read of sway or ergonomics on the mounted fire path is shown."
+              },
+              {
                 "field": "weapon damage/armor-penetration addends",
                 "reason": "ProjectileWeaponComponent +128 and +136 are per-weapon damage/armor-penetration addends. The pinned type library names +128 damage_addends and +136 ap_addends, but the M-103 turret reference mod reports the opposite in game; the assignment stays read-only until one in-game test separates them."
               },
@@ -725,6 +769,8 @@
             "fieldGroups": {
               "local": [
                 "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/weapon-fire-rate/3c39ec4d3e7322d8",
+                "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/weapon-horizontal-spread/3617f0a01b88b2b9",
+                "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/weapon-vertical-spread/d2b0450414cfabed",
                 "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/weapon-capacity/00d1d6fbc0d04733",
                 "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/magazine-starting-magazines/90dc3c90406169e0",
                 "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/magazine-magazines-from-supply/8f8d76d0c8e34ec5",
@@ -801,6 +847,10 @@
             },
             "blocked": [
               {
+                "field": "weapon.recoil_* / weapon.sway / weapon.ergonomics",
+                "reason": "Recoil kicks the wielder's aim (0x784CE2); which aim a mounted weapon's wielder is (the Exosuit, a seat or the vehicle) is not traced, and no read of sway or ergonomics on the mounted fire path is shown."
+              },
+              {
                 "field": "weapon damage/armor-penetration addends",
                 "reason": "ProjectileWeaponComponent +128 and +136 are per-weapon damage/armor-penetration addends. The pinned type library names +128 damage_addends and +136 ap_addends, but the M-103 turret reference mod reports the opposite in game; the assignment stays read-only until one in-game test separates them."
               },
@@ -835,6 +885,8 @@
             "fieldGroups": {
               "local": [
                 "vehicle-field/v1/exo-45-patriot-exosuit-left-gun/weapon-fire-rate/6f21e6f9921b72ab",
+                "vehicle-field/v1/exo-45-patriot-exosuit-left-gun/weapon-horizontal-spread/430ef7232ed934fc",
+                "vehicle-field/v1/exo-45-patriot-exosuit-left-gun/weapon-vertical-spread/7fa456cd0dc33378",
                 "vehicle-field/v1/exo-45-patriot-exosuit-left-gun/weapon-capacity/4b4f971f848bb7b1",
                 "vehicle-field/v1/exo-45-patriot-exosuit-left-gun/magazine-starting-magazines/eebc71adda6d8f18",
                 "vehicle-field/v1/exo-45-patriot-exosuit-left-gun/magazine-magazines-from-supply/22ac5499ff8507da",
@@ -911,6 +963,10 @@
             },
             "blocked": [
               {
+                "field": "weapon.recoil_* / weapon.sway / weapon.ergonomics",
+                "reason": "Recoil kicks the wielder's aim (0x784CE2); which aim a mounted weapon's wielder is (the Exosuit, a seat or the vehicle) is not traced, and no read of sway or ergonomics on the mounted fire path is shown."
+              },
+              {
                 "field": "weapon damage/armor-penetration addends",
                 "reason": "ProjectileWeaponComponent +128 and +136 are per-weapon damage/armor-penetration addends. The pinned type library names +128 damage_addends and +136 ap_addends, but the M-103 turret reference mod reports the opposite in game; the assignment stays read-only until one in-game test separates them."
               },
@@ -939,6 +995,8 @@
             "fieldGroups": {
               "local": [
                 "vehicle-field/v1/exo-45-patriot-exosuit-right-gun/weapon-fire-rate/faf6bce5bfafaa19",
+                "vehicle-field/v1/exo-45-patriot-exosuit-right-gun/weapon-horizontal-spread/311a9e7132e6a94f",
+                "vehicle-field/v1/exo-45-patriot-exosuit-right-gun/weapon-vertical-spread/2cf0df8be98c79e6",
                 "vehicle-field/v1/exo-45-patriot-exosuit-right-gun/weapon-capacity/47178b575929bec4",
                 "vehicle-field/v1/exo-45-patriot-exosuit-right-gun/magazine-starting-magazines/11ad99e011bd6265",
                 "vehicle-field/v1/exo-45-patriot-exosuit-right-gun/magazine-magazines-from-supply/dcb7c896e92021ed",
@@ -1000,6 +1058,10 @@
             },
             "blocked": [
               {
+                "field": "weapon.recoil_* / weapon.sway / weapon.ergonomics",
+                "reason": "Recoil kicks the wielder's aim (0x784CE2); which aim a mounted weapon's wielder is (the Exosuit, a seat or the vehicle) is not traced, and no read of sway or ergonomics on the mounted fire path is shown."
+              },
+              {
                 "field": "weapon damage/armor-penetration addends",
                 "reason": "ProjectileWeaponComponent +128 and +136 are per-weapon damage/armor-penetration addends. The pinned type library names +128 damage_addends and +136 ap_addends, but the M-103 turret reference mod reports the opposite in game; the assignment stays read-only until one in-game test separates them."
               },
@@ -1033,6 +1095,8 @@
             "fieldGroups": {
               "local": [
                 "vehicle-field/v1/m-102-gunner-frv-gun/weapon-fire-rate/9a0b4e3b603116a5",
+                "vehicle-field/v1/m-102-gunner-frv-gun/weapon-horizontal-spread/ff680fec1b100cc3",
+                "vehicle-field/v1/m-102-gunner-frv-gun/weapon-vertical-spread/505775110d417edd",
                 "vehicle-field/v1/m-102-gunner-frv-gun/weapon-capacity/aa4e58ad2b0682d1",
                 "vehicle-field/v1/m-102-gunner-frv-gun/magazine-starting-magazines/5c362780dcc0c6d7",
                 "vehicle-field/v1/m-102-gunner-frv-gun/magazine-magazines-from-supply/71ae78cfe85db82e",
@@ -1092,6 +1156,10 @@
             },
             "blocked": [
               {
+                "field": "weapon.recoil_* / weapon.sway / weapon.ergonomics",
+                "reason": "Recoil kicks the wielder's aim (0x784CE2); which aim a mounted weapon's wielder is (the Exosuit, a seat or the vehicle) is not traced, and no read of sway or ergonomics on the mounted fire path is shown."
+              },
+              {
                 "field": "weapon damage/armor-penetration addends",
                 "reason": "ProjectileWeaponComponent +128 and +136 are per-weapon damage/armor-penetration addends. The pinned type library names +128 damage_addends and +136 ap_addends, but the M-103 turret reference mod reports the opposite in game; the assignment stays read-only until one in-game test separates them."
               },
@@ -1126,6 +1194,8 @@
             "fieldGroups": {
               "local": [
                 "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/weapon-fire-rate/87c5ef71e4b10e2f",
+                "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/weapon-horizontal-spread/38c98050e1359325",
+                "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/weapon-vertical-spread/7363b3c3e1a55bf7",
                 "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/weapon-capacity/6db6b91652a3d662",
                 "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/magazine-starting-magazines/e46f3fe7192c8aa3",
                 "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/magazine-magazines-from-supply/941ccbdd5968fe33",
@@ -1209,6 +1279,10 @@
             },
             "blocked": [
               {
+                "field": "weapon.recoil_* / weapon.sway / weapon.ergonomics",
+                "reason": "Recoil kicks the wielder's aim (0x784CE2); which aim a mounted weapon's wielder is (the Exosuit, a seat or the vehicle) is not traced, and no read of sway or ergonomics on the mounted fire path is shown."
+              },
+              {
                 "field": "weapon damage/armor-penetration addends",
                 "reason": "ProjectileWeaponComponent +128 and +136 are per-weapon damage/armor-penetration addends. The pinned type library names +128 damage_addends and +136 ap_addends, but the M-103 turret reference mod reports the opposite in game; the assignment stays read-only until one in-game test separates them."
               },
@@ -1238,6 +1312,8 @@
             "fieldGroups": {
               "local": [
                 "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/weapon-fire-rate/634063a44de27796",
+                "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/weapon-horizontal-spread/9e571e298091d3b6",
+                "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/weapon-vertical-spread/936b9042a3d110ac",
                 "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/weapon-capacity/848c365140a9218f",
                 "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/magazine-starting-magazines/88f5c6c8870ce2ee",
                 "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/magazine-magazines-from-supply/5223d083cf0d23c3",
@@ -1298,6 +1374,10 @@
             },
             "blocked": [
               {
+                "field": "weapon.recoil_* / weapon.sway / weapon.ergonomics",
+                "reason": "Recoil kicks the wielder's aim (0x784CE2); which aim a mounted weapon's wielder is (the Exosuit, a seat or the vehicle) is not traced, and no read of sway or ergonomics on the mounted fire path is shown."
+              },
+              {
                 "field": "weapon damage/armor-penetration addends",
                 "reason": "ProjectileWeaponComponent +128 and +136 are per-weapon damage/armor-penetration addends. The pinned type library names +128 damage_addends and +136 ap_addends, but the M-103 turret reference mod reports the opposite in game; the assignment stays read-only until one in-game test separates them."
               },
@@ -1323,7 +1403,91 @@
           "slot": 0,
           "label": "left_gun",
           "weapon": null,
-          "reason": "The mount holds no weapon component (rack, seat or bare turret)."
+          "reason": "The mount holds no weapon component: it is the shield arm (see shield).",
+          "shield": {
+            "key": "EXO-55 Breakthrough Exosuit / left_gun",
+            "semanticId": "vehicle-shield/v1/exo-55-breakthrough-exosuit/left-gun/17ed34b1b9c8055f",
+            "nativePath": "content/fac_helldivers/vehicles/combat_walker_shield/combat_walker_shield",
+            "api": "hd2.vehicle('EXO-55 Breakthrough Exosuit'):shield()",
+            "fieldGroups": {
+              "local": [
+                "vehicle-field/v1/exo-55-breakthrough-exosuit-left-gun/entity-health/fe5e54d064e599f7",
+                "vehicle-field/v1/exo-55-breakthrough-exosuit-left-gun/zone-health/5022f5030ffa4126",
+                "vehicle-field/v1/exo-55-breakthrough-exosuit-left-gun/zone-armor/643e80c5e4ed9fe9"
+              ],
+              "projectile": [],
+              "damage": [],
+              "explosion": [],
+              "beam": [],
+              "arc": []
+            },
+            "components": [
+              "AbilityComponentData",
+              "AbilityWeaponComponentData",
+              "AnimationComponentData",
+              "AttachableComponentData",
+              "BehaviorComponentData",
+              "FactionComponentData",
+              "GoreComponentData",
+              "HealthComponentData",
+              "HitEffectComponentData",
+              "HitReactComponentData",
+              "MeleeShieldComponentData",
+              "TagComponentData",
+              "UnitComponentData",
+              "VisibilityMaskComponentData",
+              "WeaponDataComponentData",
+              "WeatheringComponentData",
+              "WieldableComponentData"
+            ],
+            "shieldComponent": false,
+            "values": {
+              "armHealth": 800,
+              "armArmor": 3,
+              "plateHealth": 5000,
+              "plateArmor": 4
+            },
+            "zones": [
+              {
+                "index": 0,
+                "actors": [
+                  "damageable_base",
+                  "(unnamed)",
+                  "damageable_arm"
+                ],
+                "armor": 3,
+                "health": -1,
+                "countsTowardMain": true
+              },
+              {
+                "index": 1,
+                "actors": [
+                  "damageable_shield"
+                ],
+                "armor": 4,
+                "health": 5000,
+                "countsTowardMain": false
+              }
+            ],
+            "blocked": [
+              {
+                "field": "entity.armor",
+                "reason": "The default-zone armor (+280) is only the fallback for a hit actor no zone lists: the arm and its base resolve to the ShieldArm zone, the plate to the Shield zone."
+              },
+              {
+                "field": "shield arm zone armor",
+                "reason": "The ShieldArm zone (armor 3, its damage goes to the arm pool) is a second zone; this target carries the plate zone only."
+              },
+              {
+                "field": "shield.*",
+                "reason": "The Breakthrough shield is a physical shield arm with no ShieldComponent: there is no capacity, recharge delay, broken delay or recharge rate to tune (research/mounted-spread-shield)."
+              },
+              {
+                "field": "weapon.*",
+                "reason": "No attack component: the shield bash is an ability, not a fired weapon."
+              }
+            ]
+          }
         },
         {
           "slot": 1,
@@ -1338,6 +1502,8 @@
             "fieldGroups": {
               "local": [
                 "vehicle-field/v1/exo-55-breakthrough-exosuit-right-gun/weapon-fire-rate/09e7c77c723995d8",
+                "vehicle-field/v1/exo-55-breakthrough-exosuit-right-gun/weapon-horizontal-spread/5a1f5f331212bd59",
+                "vehicle-field/v1/exo-55-breakthrough-exosuit-right-gun/weapon-vertical-spread/638f7e823140843a",
                 "vehicle-field/v1/exo-55-breakthrough-exosuit-right-gun/reload-duration/fa6104ea0880d130",
                 "vehicle-field/v1/exo-55-breakthrough-exosuit-right-gun/entity-health/d4c3a1e4fa57f705",
                 "vehicle-field/v1/exo-55-breakthrough-exosuit-right-gun/entity-armor/26d2848cc49c4c1f",
@@ -1389,6 +1555,10 @@
               "sharedDamageConsumers": 1
             },
             "blocked": [
+              {
+                "field": "weapon.recoil_* / weapon.sway / weapon.ergonomics",
+                "reason": "Recoil kicks the wielder's aim (0x784CE2); which aim a mounted weapon's wielder is (the Exosuit, a seat or the vehicle) is not traced, and no read of sway or ergonomics on the mounted fire path is shown."
+              },
               {
                 "field": "weapon damage/armor-penetration addends",
                 "reason": "ProjectileWeaponComponent +128 and +136 are per-weapon damage/armor-penetration addends. The pinned type library names +128 damage_addends and +136 ap_addends, but the M-103 turret reference mod reports the opposite in game; the assignment stays read-only until one in-game test separates them."
@@ -1481,6 +1651,14 @@
             },
             "blocked": [
               {
+                "field": "weapon.horizontal_spread / weapon.vertical_spread",
+                "reason": "A spray attack: the projectile shot's read (0x615BAB) is not on its path; its WeaponData spread stays unexposed (the sentry rule)."
+              },
+              {
+                "field": "weapon.recoil_* / weapon.sway / weapon.ergonomics",
+                "reason": "Recoil kicks the wielder's aim (0x784CE2); which aim a mounted weapon's wielder is (the Exosuit, a seat or the vehicle) is not traced, and no read of sway or ergonomics on the mounted fire path is shown."
+              },
+              {
                 "field": "turret.*",
                 "reason": "The mount owns no TurretComponent (it aims through its vehicle, seat or Exosuit arm), so there is no turret record to tune."
               }
@@ -1501,6 +1679,8 @@
             "fieldGroups": {
               "local": [
                 "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/weapon-fire-rate/6b1c09b456b27966",
+                "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/weapon-horizontal-spread/df68b52e9b72a04c",
+                "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/weapon-vertical-spread/6448f33fec070e41",
                 "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/weapon-capacity/3ef38a4eacc7a5ef",
                 "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/magazine-starting-magazines/3b2334ca19775298",
                 "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/magazine-magazines-from-supply/c3169056a0ba375b",
@@ -1577,6 +1757,10 @@
             },
             "blocked": [
               {
+                "field": "weapon.recoil_* / weapon.sway / weapon.ergonomics",
+                "reason": "Recoil kicks the wielder's aim (0x784CE2); which aim a mounted weapon's wielder is (the Exosuit, a seat or the vehicle) is not traced, and no read of sway or ergonomics on the mounted fire path is shown."
+              },
+              {
                 "field": "weapon damage/armor-penetration addends",
                 "reason": "ProjectileWeaponComponent +128 and +136 are per-weapon damage/armor-penetration addends. The pinned type library names +128 damage_addends and +136 ap_addends, but the M-103 turret reference mod reports the opposite in game; the assignment stays read-only until one in-game test separates them."
               },
@@ -1610,6 +1794,8 @@
             "fieldGroups": {
               "local": [
                 "vehicle-field/v1/frv-super-earth-variant-gun/weapon-fire-rate/36dd74c029b9e3ad",
+                "vehicle-field/v1/frv-super-earth-variant-gun/weapon-horizontal-spread/9d78d76f99a50099",
+                "vehicle-field/v1/frv-super-earth-variant-gun/weapon-vertical-spread/a9631384e668c963",
                 "vehicle-field/v1/frv-super-earth-variant-gun/weapon-capacity/0d868fcde4566985",
                 "vehicle-field/v1/frv-super-earth-variant-gun/magazine-starting-magazines/634fda9bb0156bff",
                 "vehicle-field/v1/frv-super-earth-variant-gun/magazine-magazines-from-supply/5dcb2abe45bb656f",
@@ -1669,6 +1855,10 @@
             },
             "blocked": [
               {
+                "field": "weapon.recoil_* / weapon.sway / weapon.ergonomics",
+                "reason": "Recoil kicks the wielder's aim (0x784CE2); which aim a mounted weapon's wielder is (the Exosuit, a seat or the vehicle) is not traced, and no read of sway or ergonomics on the mounted fire path is shown."
+              },
+              {
                 "field": "weapon damage/armor-penetration addends",
                 "reason": "ProjectileWeaponComponent +128 and +136 are per-weapon damage/armor-penetration addends. The pinned type library names +128 damage_addends and +136 ap_addends, but the M-103 turret reference mod reports the opposite in game; the assignment stays read-only until one in-game test separates them."
               },
@@ -1703,6 +1893,8 @@
             "fieldGroups": {
               "local": [
                 "vehicle-field/v1/gater-oil-rig-turret/weapon-fire-rate/d7f45ba71fbeb4b7",
+                "vehicle-field/v1/gater-oil-rig-turret/weapon-horizontal-spread/9c46d6768c48c424",
+                "vehicle-field/v1/gater-oil-rig-turret/weapon-vertical-spread/d576576bfbd2a01e",
                 "vehicle-field/v1/gater-oil-rig-turret/weapon-capacity/969f458ac55d9198",
                 "vehicle-field/v1/gater-oil-rig-turret/magazine-starting-magazines/74252c7dc8a1c4ac",
                 "vehicle-field/v1/gater-oil-rig-turret/magazine-magazines-from-supply/9cc09f924cc0151e",
@@ -1787,6 +1979,10 @@
             },
             "blocked": [
               {
+                "field": "weapon.recoil_* / weapon.sway / weapon.ergonomics",
+                "reason": "Recoil kicks the wielder's aim (0x784CE2); which aim a mounted weapon's wielder is (the Exosuit, a seat or the vehicle) is not traced, and no read of sway or ergonomics on the mounted fire path is shown."
+              },
+              {
                 "field": "zone.*",
                 "reason": "The mount has no single populated hit zone with its own health; zone values follow the main health."
               },
@@ -1820,6 +2016,8 @@
             "fieldGroups": {
               "local": [
                 "vehicle-field/v1/ax-ar-23-guard-dog-gun/weapon-fire-rate/9e215a75274a93c0",
+                "vehicle-field/v1/ax-ar-23-guard-dog-gun/weapon-horizontal-spread/995e3e4378c4f90a",
+                "vehicle-field/v1/ax-ar-23-guard-dog-gun/weapon-vertical-spread/03fb078908f36ed3",
                 "vehicle-field/v1/ax-ar-23-guard-dog-gun/weapon-capacity/09c9f0077bf4a807",
                 "vehicle-field/v1/ax-ar-23-guard-dog-gun/reload-duration/2ce5f62ae4be3c6f",
                 "vehicle-field/v1/ax-ar-23-guard-dog-gun/attack-primary-projectile/991b6f3d53000364"
@@ -1873,6 +2071,10 @@
               "sharedDamageConsumers": 2
             },
             "blocked": [
+              {
+                "field": "weapon.recoil_* / weapon.sway / weapon.ergonomics",
+                "reason": "Recoil kicks the wielder's aim (0x784CE2); which aim a mounted weapon's wielder is (the Exosuit, a seat or the vehicle) is not traced, and no read of sway or ergonomics on the mounted fire path is shown."
+              },
               {
                 "field": "magazine.*",
                 "reason": "The drone reloads from its backpack: the drone magazines are the backpack DepositComponent (exact published Max Rounds / Starting Rounds / Mags from Supply), authored through hd2.backpack(name). The drone weapon's own spare-magazine counts are not what the game publishes and are not exposed."
@@ -1968,6 +2170,14 @@
             },
             "blocked": [
               {
+                "field": "weapon.horizontal_spread / weapon.vertical_spread",
+                "reason": "A beam attack: the projectile shot's read (0x615BAB) is not on its path; its WeaponData spread stays unexposed (the sentry rule)."
+              },
+              {
+                "field": "weapon.recoil_* / weapon.sway / weapon.ergonomics",
+                "reason": "Recoil kicks the wielder's aim (0x784CE2); which aim a mounted weapon's wielder is (the Exosuit, a seat or the vehicle) is not traced, and no read of sway or ergonomics on the mounted fire path is shown."
+              },
+              {
                 "field": "turret.*",
                 "reason": "The mount owns no TurretComponent (it aims through its vehicle, seat or Exosuit arm), so there is no turret record to tune."
               }
@@ -2046,6 +2256,14 @@
               "sharedDamageConsumers": null
             },
             "blocked": [
+              {
+                "field": "weapon.horizontal_spread / weapon.vertical_spread",
+                "reason": "A spray attack: the projectile shot's read (0x615BAB) is not on its path; its WeaponData spread stays unexposed (the sentry rule)."
+              },
+              {
+                "field": "weapon.recoil_* / weapon.sway / weapon.ergonomics",
+                "reason": "Recoil kicks the wielder's aim (0x784CE2); which aim a mounted weapon's wielder is (the Exosuit, a seat or the vehicle) is not traced, and no read of sway or ergonomics on the mounted fire path is shown."
+              },
               {
                 "field": "magazine.*",
                 "reason": "The drone reloads from its backpack: the drone magazines are the backpack DepositComponent (exact published Max Rounds / Starting Rounds / Mags from Supply), authored through hd2.backpack(name). The drone weapon's own spare-magazine counts are not what the game publishes and are not exposed."
@@ -2139,6 +2357,14 @@
             },
             "blocked": [
               {
+                "field": "weapon.horizontal_spread / weapon.vertical_spread",
+                "reason": "A arc attack: the projectile shot's read (0x615BAB) is not on its path; its WeaponData spread stays unexposed (the sentry rule)."
+              },
+              {
+                "field": "weapon.recoil_* / weapon.sway / weapon.ergonomics",
+                "reason": "Recoil kicks the wielder's aim (0x784CE2); which aim a mounted weapon's wielder is (the Exosuit, a seat or the vehicle) is not traced, and no read of sway or ergonomics on the mounted fire path is shown."
+              },
+              {
                 "field": "magazine.*",
                 "reason": "The drone reloads from its backpack: the drone magazines are the backpack DepositComponent (exact published Max Rounds / Starting Rounds / Mags from Supply), authored through hd2.backpack(name). The drone weapon's own spare-magazine counts are not what the game publishes and are not exposed."
               },
@@ -2225,6 +2451,14 @@
             },
             "blocked": [
               {
+                "field": "weapon.horizontal_spread / weapon.vertical_spread",
+                "reason": "A spray attack: the projectile shot's read (0x615BAB) is not on its path; its WeaponData spread stays unexposed (the sentry rule)."
+              },
+              {
+                "field": "weapon.recoil_* / weapon.sway / weapon.ergonomics",
+                "reason": "Recoil kicks the wielder's aim (0x784CE2); which aim a mounted weapon's wielder is (the Exosuit, a seat or the vehicle) is not traced, and no read of sway or ergonomics on the mounted fire path is shown."
+              },
+              {
                 "field": "magazine.*",
                 "reason": "The drone reloads from its backpack: the drone magazines are the backpack DepositComponent (exact published Max Rounds / Starting Rounds / Mags from Supply), authored through hd2.backpack(name). The drone weapon's own spare-magazine counts are not what the game publishes and are not exposed."
               },
@@ -2275,6 +2509,66 @@
       "acknowledgement": "allow_unverified_effect",
       "gameplayEvidence": null,
       "backingComponent": "ProjectileWeaponComponentData"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/m-103-supply-frv-gun/weapon-horizontal-spread/e8eeda9c21254ae0",
+      "weapon": "M-103 Supply FRV / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/m-103-supply-frv/gun/18a6239872b90606",
+      "semanticFieldId": "weapon.horizontal_spread",
+      "apiFieldConstant": "hd2.fields.weapon.horizontal_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "M-103 Supply FRV / gun"
+      },
+      "displayName": "Horizontal spread",
+      "unit": "mrad",
+      "type": "number",
+      "baseline": 10.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponDataComponentData",
+      "min": 0,
+      "max": 1000,
+      "rangeReason": "Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The widest native mounted spread is 200 (the EXO-55 Breakthrough flak cannon).",
+      "order": null,
+      "lifecycle": "Copied into the weapon instance when the vehicle (and its mounted weapon) is created: call in a new vehicle after the write; one already in the world keeps its spread.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The player/support/sentry spread member (WeaponData +84/+88). The projectile shot reads this mount's own WeaponData instance for every shot and every pellet (game.dll 0x615BAB, research/mounted-spread-shield), and the instance is copied from this record when the mounted weapon is created: an edit reaches vehicles called in after it. Not live-tested on a mount."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/m-103-supply-frv-gun/weapon-vertical-spread/932c3ccd7722fbcd",
+      "weapon": "M-103 Supply FRV / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/m-103-supply-frv/gun/18a6239872b90606",
+      "semanticFieldId": "weapon.vertical_spread",
+      "apiFieldConstant": "hd2.fields.weapon.vertical_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "M-103 Supply FRV / gun"
+      },
+      "displayName": "Vertical spread",
+      "unit": "mrad",
+      "type": "number",
+      "baseline": 10.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponDataComponentData",
+      "min": 0,
+      "max": 1000,
+      "rangeReason": "Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The widest native mounted spread is 200 (the EXO-55 Breakthrough flak cannon).",
+      "order": null,
+      "lifecycle": "Copied into the weapon instance when the vehicle (and its mounted weapon) is created: call in a new vehicle after the write; one already in the world keeps its spread.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The player/support/sentry spread member (WeaponData +84/+88). The projectile shot reads this mount's own WeaponData instance for every shot and every pellet (game.dll 0x615BAB, research/mounted-spread-shield), and the instance is copied from this record when the mounted weapon is created: an edit reaches vehicles called in after it. Not live-tested on a mount."
     },
     {
       "instanceKey": "vehicle-field/v1/m-103-supply-frv-gun/weapon-capacity/49b8a6256258b945",
@@ -3115,6 +3409,66 @@
       "backingComponent": "ProjectileWeaponComponentData"
     },
     {
+      "instanceKey": "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/weapon-horizontal-spread/10fa5cc77883657d",
+      "weapon": "TD-110 Maelstrom / attach_tank_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/td-110-maelstrom/attach-tank-gun/32ca1423838ffc4f",
+      "semanticFieldId": "weapon.horizontal_spread",
+      "apiFieldConstant": "hd2.fields.weapon.horizontal_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "TD-110 Maelstrom / attach_tank_gun"
+      },
+      "displayName": "Horizontal spread",
+      "unit": "mrad",
+      "type": "number",
+      "baseline": 10.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponDataComponentData",
+      "min": 0,
+      "max": 1000,
+      "rangeReason": "Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The widest native mounted spread is 200 (the EXO-55 Breakthrough flak cannon).",
+      "order": null,
+      "lifecycle": "Copied into the weapon instance when the vehicle (and its mounted weapon) is created: call in a new vehicle after the write; one already in the world keeps its spread.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The player/support/sentry spread member (WeaponData +84/+88). The projectile shot reads this mount's own WeaponData instance for every shot and every pellet (game.dll 0x615BAB, research/mounted-spread-shield), and the instance is copied from this record when the mounted weapon is created: an edit reaches vehicles called in after it. Not live-tested on a mount."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/weapon-vertical-spread/9afa221806bca594",
+      "weapon": "TD-110 Maelstrom / attach_tank_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/td-110-maelstrom/attach-tank-gun/32ca1423838ffc4f",
+      "semanticFieldId": "weapon.vertical_spread",
+      "apiFieldConstant": "hd2.fields.weapon.vertical_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "TD-110 Maelstrom / attach_tank_gun"
+      },
+      "displayName": "Vertical spread",
+      "unit": "mrad",
+      "type": "number",
+      "baseline": 10.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponDataComponentData",
+      "min": 0,
+      "max": 1000,
+      "rangeReason": "Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The widest native mounted spread is 200 (the EXO-55 Breakthrough flak cannon).",
+      "order": null,
+      "lifecycle": "Copied into the weapon instance when the vehicle (and its mounted weapon) is created: call in a new vehicle after the write; one already in the world keeps its spread.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The player/support/sentry spread member (WeaponData +84/+88). The projectile shot reads this mount's own WeaponData instance for every shot and every pellet (game.dll 0x615BAB, research/mounted-spread-shield), and the instance is copied from this record when the mounted weapon is created: an edit reaches vehicles called in after it. Not live-tested on a mount."
+    },
+    {
       "instanceKey": "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/weapon-capacity/6ad583e485e53f1e",
       "weapon": "TD-110 Maelstrom / attach_tank_gun",
       "weaponSemanticId": "vehicle-weapon/v1/td-110-maelstrom/attach-tank-gun/32ca1423838ffc4f",
@@ -3899,6 +4253,66 @@
       "backingComponent": "ProjectileWeaponComponentData"
     },
     {
+      "instanceKey": "vehicle-field/v1/td-110-maelstrom-slot-2/weapon-horizontal-spread/da1b549b5ba836e5",
+      "weapon": "TD-110 Maelstrom / slot_2",
+      "weaponSemanticId": "vehicle-weapon/v1/td-110-maelstrom/slot-2/af6131899f02d6e3",
+      "semanticFieldId": "weapon.horizontal_spread",
+      "apiFieldConstant": "hd2.fields.weapon.horizontal_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "TD-110 Maelstrom / slot_2"
+      },
+      "displayName": "Horizontal spread",
+      "unit": "mrad",
+      "type": "number",
+      "baseline": 10.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponDataComponentData",
+      "min": 0,
+      "max": 1000,
+      "rangeReason": "Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The widest native mounted spread is 200 (the EXO-55 Breakthrough flak cannon).",
+      "order": null,
+      "lifecycle": "Copied into the weapon instance when the vehicle (and its mounted weapon) is created: call in a new vehicle after the write; one already in the world keeps its spread.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The player/support/sentry spread member (WeaponData +84/+88). The projectile shot reads this mount's own WeaponData instance for every shot and every pellet (game.dll 0x615BAB, research/mounted-spread-shield), and the instance is copied from this record when the mounted weapon is created: an edit reaches vehicles called in after it. Not live-tested on a mount."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-110-maelstrom-slot-2/weapon-vertical-spread/cc5996de83b9d185",
+      "weapon": "TD-110 Maelstrom / slot_2",
+      "weaponSemanticId": "vehicle-weapon/v1/td-110-maelstrom/slot-2/af6131899f02d6e3",
+      "semanticFieldId": "weapon.vertical_spread",
+      "apiFieldConstant": "hd2.fields.weapon.vertical_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "TD-110 Maelstrom / slot_2"
+      },
+      "displayName": "Vertical spread",
+      "unit": "mrad",
+      "type": "number",
+      "baseline": 10.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponDataComponentData",
+      "min": 0,
+      "max": 1000,
+      "rangeReason": "Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The widest native mounted spread is 200 (the EXO-55 Breakthrough flak cannon).",
+      "order": null,
+      "lifecycle": "Copied into the weapon instance when the vehicle (and its mounted weapon) is created: call in a new vehicle after the write; one already in the world keeps its spread.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The player/support/sentry spread member (WeaponData +84/+88). The projectile shot reads this mount's own WeaponData instance for every shot and every pellet (game.dll 0x615BAB, research/mounted-spread-shield), and the instance is copied from this record when the mounted weapon is created: an edit reaches vehicles called in after it. Not live-tested on a mount."
+    },
+    {
       "instanceKey": "vehicle-field/v1/td-110-maelstrom-slot-2/weapon-capacity/c192fafda0ecdd9f",
       "weapon": "TD-110 Maelstrom / slot_2",
       "weaponSemanticId": "vehicle-weapon/v1/td-110-maelstrom/slot-2/af6131899f02d6e3",
@@ -4227,6 +4641,70 @@
       "acknowledgement": "allow_unverified_effect",
       "gameplayEvidence": null,
       "backingComponent": "ProjectileWeaponComponentData"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-110-maelstrom-slot-3/weapon-horizontal-spread/f49f5554b57379ae",
+      "weapon": "TD-110 Maelstrom / slot_3",
+      "weaponSemanticId": "vehicle-weapon/v1/td-110-maelstrom/slot-3/896596ef3aa91fe4",
+      "semanticFieldId": "weapon.horizontal_spread",
+      "apiFieldConstant": "hd2.fields.weapon.horizontal_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "TD-110 Maelstrom / slot_3"
+      },
+      "displayName": "Horizontal spread",
+      "unit": "mrad",
+      "type": "number",
+      "baseline": 0.0,
+      "writable": true,
+      "scope": "shared_mounted_weapon",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "TD-110 Maelstrom / slot_4"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponDataComponentData",
+      "min": 0,
+      "max": 1000,
+      "rangeReason": "Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The widest native mounted spread is 200 (the EXO-55 Breakthrough flak cannon).",
+      "order": null,
+      "lifecycle": "Copied into the weapon instance when the vehicle (and its mounted weapon) is created: call in a new vehicle after the write; one already in the world keeps its spread.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The player/support/sentry spread member (WeaponData +84/+88). The projectile shot reads this mount's own WeaponData instance for every shot and every pellet (game.dll 0x615BAB, research/mounted-spread-shield), and the instance is copied from this record when the mounted weapon is created: an edit reaches vehicles called in after it. Not live-tested on a mount."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-110-maelstrom-slot-3/weapon-vertical-spread/340d4f6d231124e0",
+      "weapon": "TD-110 Maelstrom / slot_3",
+      "weaponSemanticId": "vehicle-weapon/v1/td-110-maelstrom/slot-3/896596ef3aa91fe4",
+      "semanticFieldId": "weapon.vertical_spread",
+      "apiFieldConstant": "hd2.fields.weapon.vertical_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "TD-110 Maelstrom / slot_3"
+      },
+      "displayName": "Vertical spread",
+      "unit": "mrad",
+      "type": "number",
+      "baseline": 0.0,
+      "writable": true,
+      "scope": "shared_mounted_weapon",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "TD-110 Maelstrom / slot_4"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponDataComponentData",
+      "min": 0,
+      "max": 1000,
+      "rangeReason": "Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The widest native mounted spread is 200 (the EXO-55 Breakthrough flak cannon).",
+      "order": null,
+      "lifecycle": "Copied into the weapon instance when the vehicle (and its mounted weapon) is created: call in a new vehicle after the write; one already in the world keeps its spread.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The player/support/sentry spread member (WeaponData +84/+88). The projectile shot reads this mount's own WeaponData instance for every shot and every pellet (game.dll 0x615BAB, research/mounted-spread-shield), and the instance is copied from this record when the mounted weapon is created: an edit reaches vehicles called in after it. Not live-tested on a mount."
     },
     {
       "instanceKey": "vehicle-field/v1/td-110-maelstrom-slot-3/weapon-capacity/f1bf772e9cee96b8",
@@ -5266,6 +5744,70 @@
       "acknowledgement": "allow_unverified_effect",
       "gameplayEvidence": null,
       "backingComponent": "ProjectileWeaponComponentData"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-110-maelstrom-slot-4/weapon-horizontal-spread/35a43ebb7959196c",
+      "weapon": "TD-110 Maelstrom / slot_4",
+      "weaponSemanticId": "vehicle-weapon/v1/td-110-maelstrom/slot-4/896596ef3aa91fe4",
+      "semanticFieldId": "weapon.horizontal_spread",
+      "apiFieldConstant": "hd2.fields.weapon.horizontal_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "TD-110 Maelstrom / slot_4"
+      },
+      "displayName": "Horizontal spread",
+      "unit": "mrad",
+      "type": "number",
+      "baseline": 0.0,
+      "writable": true,
+      "scope": "shared_mounted_weapon",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "TD-110 Maelstrom / slot_3"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponDataComponentData",
+      "min": 0,
+      "max": 1000,
+      "rangeReason": "Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The widest native mounted spread is 200 (the EXO-55 Breakthrough flak cannon).",
+      "order": null,
+      "lifecycle": "Copied into the weapon instance when the vehicle (and its mounted weapon) is created: call in a new vehicle after the write; one already in the world keeps its spread.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The player/support/sentry spread member (WeaponData +84/+88). The projectile shot reads this mount's own WeaponData instance for every shot and every pellet (game.dll 0x615BAB, research/mounted-spread-shield), and the instance is copied from this record when the mounted weapon is created: an edit reaches vehicles called in after it. Not live-tested on a mount."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-110-maelstrom-slot-4/weapon-vertical-spread/8be2a4ca41e66396",
+      "weapon": "TD-110 Maelstrom / slot_4",
+      "weaponSemanticId": "vehicle-weapon/v1/td-110-maelstrom/slot-4/896596ef3aa91fe4",
+      "semanticFieldId": "weapon.vertical_spread",
+      "apiFieldConstant": "hd2.fields.weapon.vertical_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "TD-110 Maelstrom / slot_4"
+      },
+      "displayName": "Vertical spread",
+      "unit": "mrad",
+      "type": "number",
+      "baseline": 0.0,
+      "writable": true,
+      "scope": "shared_mounted_weapon",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "TD-110 Maelstrom / slot_3"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponDataComponentData",
+      "min": 0,
+      "max": 1000,
+      "rangeReason": "Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The widest native mounted spread is 200 (the EXO-55 Breakthrough flak cannon).",
+      "order": null,
+      "lifecycle": "Copied into the weapon instance when the vehicle (and its mounted weapon) is created: call in a new vehicle after the write; one already in the world keeps its spread.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The player/support/sentry spread member (WeaponData +84/+88). The projectile shot reads this mount's own WeaponData instance for every shot and every pellet (game.dll 0x615BAB, research/mounted-spread-shield), and the instance is copied from this record when the mounted weapon is created: an edit reaches vehicles called in after it. Not live-tested on a mount."
     },
     {
       "instanceKey": "vehicle-field/v1/td-110-maelstrom-slot-4/weapon-capacity/082cb4126eb1456c",
@@ -6780,6 +7322,66 @@
       "backingComponent": "ProjectileWeaponComponentData"
     },
     {
+      "instanceKey": "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/weapon-horizontal-spread/2568203b05aa69da",
+      "weapon": "EXO-49 Emancipator Exosuit / left_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-49-emancipator-exosuit/left-gun/ddc315055228c4b9",
+      "semanticFieldId": "weapon.horizontal_spread",
+      "apiFieldConstant": "hd2.fields.weapon.horizontal_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "EXO-49 Emancipator Exosuit / left_gun"
+      },
+      "displayName": "Horizontal spread",
+      "unit": "mrad",
+      "type": "number",
+      "baseline": 10.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponDataComponentData",
+      "min": 0,
+      "max": 1000,
+      "rangeReason": "Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The widest native mounted spread is 200 (the EXO-55 Breakthrough flak cannon).",
+      "order": null,
+      "lifecycle": "Copied into the weapon instance when the vehicle (and its mounted weapon) is created: call in a new vehicle after the write; one already in the world keeps its spread.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The player/support/sentry spread member (WeaponData +84/+88). The projectile shot reads this mount's own WeaponData instance for every shot and every pellet (game.dll 0x615BAB, research/mounted-spread-shield), and the instance is copied from this record when the mounted weapon is created: an edit reaches vehicles called in after it. Not live-tested on a mount."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/weapon-vertical-spread/36532d06dcd89d71",
+      "weapon": "EXO-49 Emancipator Exosuit / left_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-49-emancipator-exosuit/left-gun/ddc315055228c4b9",
+      "semanticFieldId": "weapon.vertical_spread",
+      "apiFieldConstant": "hd2.fields.weapon.vertical_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "EXO-49 Emancipator Exosuit / left_gun"
+      },
+      "displayName": "Vertical spread",
+      "unit": "mrad",
+      "type": "number",
+      "baseline": 10.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponDataComponentData",
+      "min": 0,
+      "max": 1000,
+      "rangeReason": "Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The widest native mounted spread is 200 (the EXO-55 Breakthrough flak cannon).",
+      "order": null,
+      "lifecycle": "Copied into the weapon instance when the vehicle (and its mounted weapon) is created: call in a new vehicle after the write; one already in the world keeps its spread.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The player/support/sentry spread member (WeaponData +84/+88). The projectile shot reads this mount's own WeaponData instance for every shot and every pellet (game.dll 0x615BAB, research/mounted-spread-shield), and the instance is copied from this record when the mounted weapon is created: an edit reaches vehicles called in after it. Not live-tested on a mount."
+    },
+    {
       "instanceKey": "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/weapon-capacity/7030dd5b68f1f7ba",
       "weapon": "EXO-49 Emancipator Exosuit / left_gun",
       "weaponSemanticId": "vehicle-weapon/v1/exo-49-emancipator-exosuit/left-gun/ddc315055228c4b9",
@@ -7984,6 +8586,66 @@
       "acknowledgement": "allow_unverified_effect",
       "gameplayEvidence": null,
       "backingComponent": "ProjectileWeaponComponentData"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/weapon-horizontal-spread/3617f0a01b88b2b9",
+      "weapon": "EXO-49 Emancipator Exosuit / right_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-49-emancipator-exosuit/right-gun/cf39babb19b65919",
+      "semanticFieldId": "weapon.horizontal_spread",
+      "apiFieldConstant": "hd2.fields.weapon.horizontal_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "EXO-49 Emancipator Exosuit / right_gun"
+      },
+      "displayName": "Horizontal spread",
+      "unit": "mrad",
+      "type": "number",
+      "baseline": 10.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponDataComponentData",
+      "min": 0,
+      "max": 1000,
+      "rangeReason": "Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The widest native mounted spread is 200 (the EXO-55 Breakthrough flak cannon).",
+      "order": null,
+      "lifecycle": "Copied into the weapon instance when the vehicle (and its mounted weapon) is created: call in a new vehicle after the write; one already in the world keeps its spread.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The player/support/sentry spread member (WeaponData +84/+88). The projectile shot reads this mount's own WeaponData instance for every shot and every pellet (game.dll 0x615BAB, research/mounted-spread-shield), and the instance is copied from this record when the mounted weapon is created: an edit reaches vehicles called in after it. Not live-tested on a mount."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/weapon-vertical-spread/d2b0450414cfabed",
+      "weapon": "EXO-49 Emancipator Exosuit / right_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-49-emancipator-exosuit/right-gun/cf39babb19b65919",
+      "semanticFieldId": "weapon.vertical_spread",
+      "apiFieldConstant": "hd2.fields.weapon.vertical_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "EXO-49 Emancipator Exosuit / right_gun"
+      },
+      "displayName": "Vertical spread",
+      "unit": "mrad",
+      "type": "number",
+      "baseline": 10.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponDataComponentData",
+      "min": 0,
+      "max": 1000,
+      "rangeReason": "Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The widest native mounted spread is 200 (the EXO-55 Breakthrough flak cannon).",
+      "order": null,
+      "lifecycle": "Copied into the weapon instance when the vehicle (and its mounted weapon) is created: call in a new vehicle after the write; one already in the world keeps its spread.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The player/support/sentry spread member (WeaponData +84/+88). The projectile shot reads this mount's own WeaponData instance for every shot and every pellet (game.dll 0x615BAB, research/mounted-spread-shield), and the instance is copied from this record when the mounted weapon is created: an edit reaches vehicles called in after it. Not live-tested on a mount."
     },
     {
       "instanceKey": "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/weapon-capacity/00d1d6fbc0d04733",
@@ -9192,6 +9854,66 @@
       "backingComponent": "ProjectileWeaponComponentData"
     },
     {
+      "instanceKey": "vehicle-field/v1/exo-45-patriot-exosuit-left-gun/weapon-horizontal-spread/430ef7232ed934fc",
+      "weapon": "EXO-45 Patriot Exosuit / left_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-45-patriot-exosuit/left-gun/ec3d03f002281375",
+      "semanticFieldId": "weapon.horizontal_spread",
+      "apiFieldConstant": "hd2.fields.weapon.horizontal_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "EXO-45 Patriot Exosuit / left_gun"
+      },
+      "displayName": "Horizontal spread",
+      "unit": "mrad",
+      "type": "number",
+      "baseline": 10.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponDataComponentData",
+      "min": 0,
+      "max": 1000,
+      "rangeReason": "Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The widest native mounted spread is 200 (the EXO-55 Breakthrough flak cannon).",
+      "order": null,
+      "lifecycle": "Copied into the weapon instance when the vehicle (and its mounted weapon) is created: call in a new vehicle after the write; one already in the world keeps its spread.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The player/support/sentry spread member (WeaponData +84/+88). The projectile shot reads this mount's own WeaponData instance for every shot and every pellet (game.dll 0x615BAB, research/mounted-spread-shield), and the instance is copied from this record when the mounted weapon is created: an edit reaches vehicles called in after it. Not live-tested on a mount."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/exo-45-patriot-exosuit-left-gun/weapon-vertical-spread/7fa456cd0dc33378",
+      "weapon": "EXO-45 Patriot Exosuit / left_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-45-patriot-exosuit/left-gun/ec3d03f002281375",
+      "semanticFieldId": "weapon.vertical_spread",
+      "apiFieldConstant": "hd2.fields.weapon.vertical_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "EXO-45 Patriot Exosuit / left_gun"
+      },
+      "displayName": "Vertical spread",
+      "unit": "mrad",
+      "type": "number",
+      "baseline": 10.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponDataComponentData",
+      "min": 0,
+      "max": 1000,
+      "rangeReason": "Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The widest native mounted spread is 200 (the EXO-55 Breakthrough flak cannon).",
+      "order": null,
+      "lifecycle": "Copied into the weapon instance when the vehicle (and its mounted weapon) is created: call in a new vehicle after the write; one already in the world keeps its spread.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The player/support/sentry spread member (WeaponData +84/+88). The projectile shot reads this mount's own WeaponData instance for every shot and every pellet (game.dll 0x615BAB, research/mounted-spread-shield), and the instance is copied from this record when the mounted weapon is created: an edit reaches vehicles called in after it. Not live-tested on a mount."
+    },
+    {
       "instanceKey": "vehicle-field/v1/exo-45-patriot-exosuit-left-gun/weapon-capacity/4b4f971f848bb7b1",
       "weapon": "EXO-45 Patriot Exosuit / left_gun",
       "weaponSemanticId": "vehicle-weapon/v1/exo-45-patriot-exosuit/left-gun/ec3d03f002281375",
@@ -10167,6 +10889,66 @@
       "backingComponent": "ProjectileWeaponComponentData"
     },
     {
+      "instanceKey": "vehicle-field/v1/exo-45-patriot-exosuit-right-gun/weapon-horizontal-spread/311a9e7132e6a94f",
+      "weapon": "EXO-45 Patriot Exosuit / right_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-45-patriot-exosuit/right-gun/bfa845a09a9539b3",
+      "semanticFieldId": "weapon.horizontal_spread",
+      "apiFieldConstant": "hd2.fields.weapon.horizontal_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "EXO-45 Patriot Exosuit / right_gun"
+      },
+      "displayName": "Horizontal spread",
+      "unit": "mrad",
+      "type": "number",
+      "baseline": 50.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponDataComponentData",
+      "min": 0,
+      "max": 1000,
+      "rangeReason": "Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The widest native mounted spread is 200 (the EXO-55 Breakthrough flak cannon).",
+      "order": null,
+      "lifecycle": "Copied into the weapon instance when the vehicle (and its mounted weapon) is created: call in a new vehicle after the write; one already in the world keeps its spread.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The player/support/sentry spread member (WeaponData +84/+88). The projectile shot reads this mount's own WeaponData instance for every shot and every pellet (game.dll 0x615BAB, research/mounted-spread-shield), and the instance is copied from this record when the mounted weapon is created: an edit reaches vehicles called in after it. Not live-tested on a mount."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/exo-45-patriot-exosuit-right-gun/weapon-vertical-spread/2cf0df8be98c79e6",
+      "weapon": "EXO-45 Patriot Exosuit / right_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-45-patriot-exosuit/right-gun/bfa845a09a9539b3",
+      "semanticFieldId": "weapon.vertical_spread",
+      "apiFieldConstant": "hd2.fields.weapon.vertical_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "EXO-45 Patriot Exosuit / right_gun"
+      },
+      "displayName": "Vertical spread",
+      "unit": "mrad",
+      "type": "number",
+      "baseline": 50.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponDataComponentData",
+      "min": 0,
+      "max": 1000,
+      "rangeReason": "Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The widest native mounted spread is 200 (the EXO-55 Breakthrough flak cannon).",
+      "order": null,
+      "lifecycle": "Copied into the weapon instance when the vehicle (and its mounted weapon) is created: call in a new vehicle after the write; one already in the world keeps its spread.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The player/support/sentry spread member (WeaponData +84/+88). The projectile shot reads this mount's own WeaponData instance for every shot and every pellet (game.dll 0x615BAB, research/mounted-spread-shield), and the instance is copied from this record when the mounted weapon is created: an edit reaches vehicles called in after it. Not live-tested on a mount."
+    },
+    {
       "instanceKey": "vehicle-field/v1/exo-45-patriot-exosuit-right-gun/weapon-capacity/47178b575929bec4",
       "weapon": "EXO-45 Patriot Exosuit / right_gun",
       "weaponSemanticId": "vehicle-weapon/v1/exo-45-patriot-exosuit/right-gun/bfa845a09a9539b3",
@@ -11012,6 +11794,70 @@
       "backingComponent": "ProjectileWeaponComponentData"
     },
     {
+      "instanceKey": "vehicle-field/v1/m-102-gunner-frv-gun/weapon-horizontal-spread/ff680fec1b100cc3",
+      "weapon": "M-102 Gunner FRV / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/m-102-gunner-frv/gun/e74771601e2480a5",
+      "semanticFieldId": "weapon.horizontal_spread",
+      "apiFieldConstant": "hd2.fields.weapon.horizontal_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "M-102 Gunner FRV / gun"
+      },
+      "displayName": "Horizontal spread",
+      "unit": "mrad",
+      "type": "number",
+      "baseline": 5.0,
+      "writable": true,
+      "scope": "shared_mounted_weapon",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "FRV (Super Earth variant) / gun"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponDataComponentData",
+      "min": 0,
+      "max": 1000,
+      "rangeReason": "Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The widest native mounted spread is 200 (the EXO-55 Breakthrough flak cannon).",
+      "order": null,
+      "lifecycle": "Copied into the weapon instance when the vehicle (and its mounted weapon) is created: call in a new vehicle after the write; one already in the world keeps its spread.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The player/support/sentry spread member (WeaponData +84/+88). The projectile shot reads this mount's own WeaponData instance for every shot and every pellet (game.dll 0x615BAB, research/mounted-spread-shield), and the instance is copied from this record when the mounted weapon is created: an edit reaches vehicles called in after it. Not live-tested on a mount."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/m-102-gunner-frv-gun/weapon-vertical-spread/505775110d417edd",
+      "weapon": "M-102 Gunner FRV / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/m-102-gunner-frv/gun/e74771601e2480a5",
+      "semanticFieldId": "weapon.vertical_spread",
+      "apiFieldConstant": "hd2.fields.weapon.vertical_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "M-102 Gunner FRV / gun"
+      },
+      "displayName": "Vertical spread",
+      "unit": "mrad",
+      "type": "number",
+      "baseline": 5.0,
+      "writable": true,
+      "scope": "shared_mounted_weapon",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "FRV (Super Earth variant) / gun"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponDataComponentData",
+      "min": 0,
+      "max": 1000,
+      "rangeReason": "Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The widest native mounted spread is 200 (the EXO-55 Breakthrough flak cannon).",
+      "order": null,
+      "lifecycle": "Copied into the weapon instance when the vehicle (and its mounted weapon) is created: call in a new vehicle after the write; one already in the world keeps its spread.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The player/support/sentry spread member (WeaponData +84/+88). The projectile shot reads this mount's own WeaponData instance for every shot and every pellet (game.dll 0x615BAB, research/mounted-spread-shield), and the instance is copied from this record when the mounted weapon is created: an edit reaches vehicles called in after it. Not live-tested on a mount."
+    },
+    {
       "instanceKey": "vehicle-field/v1/m-102-gunner-frv-gun/weapon-capacity/aa4e58ad2b0682d1",
       "weapon": "M-102 Gunner FRV / gun",
       "weaponSemanticId": "vehicle-weapon/v1/m-102-gunner-frv/gun/e74771601e2480a5",
@@ -11708,6 +12554,66 @@
       "acknowledgement": "allow_unverified_effect",
       "gameplayEvidence": null,
       "backingComponent": "ProjectileWeaponComponentData"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/weapon-horizontal-spread/38c98050e1359325",
+      "weapon": "TD-220 Bastion MK XVI / attach_tank_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/td-220-bastion-mk-xvi/attach-tank-gun/0af7a2aac4fb4231",
+      "semanticFieldId": "weapon.horizontal_spread",
+      "apiFieldConstant": "hd2.fields.weapon.horizontal_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "TD-220 Bastion MK XVI / attach_tank_gun"
+      },
+      "displayName": "Horizontal spread",
+      "unit": "mrad",
+      "type": "number",
+      "baseline": 10.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponDataComponentData",
+      "min": 0,
+      "max": 1000,
+      "rangeReason": "Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The widest native mounted spread is 200 (the EXO-55 Breakthrough flak cannon).",
+      "order": null,
+      "lifecycle": "Copied into the weapon instance when the vehicle (and its mounted weapon) is created: call in a new vehicle after the write; one already in the world keeps its spread.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The player/support/sentry spread member (WeaponData +84/+88). The projectile shot reads this mount's own WeaponData instance for every shot and every pellet (game.dll 0x615BAB, research/mounted-spread-shield), and the instance is copied from this record when the mounted weapon is created: an edit reaches vehicles called in after it. Not live-tested on a mount."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/weapon-vertical-spread/7363b3c3e1a55bf7",
+      "weapon": "TD-220 Bastion MK XVI / attach_tank_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/td-220-bastion-mk-xvi/attach-tank-gun/0af7a2aac4fb4231",
+      "semanticFieldId": "weapon.vertical_spread",
+      "apiFieldConstant": "hd2.fields.weapon.vertical_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "TD-220 Bastion MK XVI / attach_tank_gun"
+      },
+      "displayName": "Vertical spread",
+      "unit": "mrad",
+      "type": "number",
+      "baseline": 10.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponDataComponentData",
+      "min": 0,
+      "max": 1000,
+      "rangeReason": "Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The widest native mounted spread is 200 (the EXO-55 Breakthrough flak cannon).",
+      "order": null,
+      "lifecycle": "Copied into the weapon instance when the vehicle (and its mounted weapon) is created: call in a new vehicle after the write; one already in the world keeps its spread.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The player/support/sentry spread member (WeaponData +84/+88). The projectile shot reads this mount's own WeaponData instance for every shot and every pellet (game.dll 0x615BAB, research/mounted-spread-shield), and the instance is copied from this record when the mounted weapon is created: an edit reaches vehicles called in after it. Not live-tested on a mount."
     },
     {
       "instanceKey": "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/weapon-capacity/6db6b91652a3d662",
@@ -12830,6 +13736,66 @@
       "backingComponent": "ProjectileWeaponComponentData"
     },
     {
+      "instanceKey": "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/weapon-horizontal-spread/9e571e298091d3b6",
+      "weapon": "TD-220 Bastion MK XVI / attach_tank_gun_mg",
+      "weaponSemanticId": "vehicle-weapon/v1/td-220-bastion-mk-xvi/attach-tank-gun-mg/60cb0b945b402189",
+      "semanticFieldId": "weapon.horizontal_spread",
+      "apiFieldConstant": "hd2.fields.weapon.horizontal_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "TD-220 Bastion MK XVI / attach_tank_gun_mg"
+      },
+      "displayName": "Horizontal spread",
+      "unit": "mrad",
+      "type": "number",
+      "baseline": 30.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponDataComponentData",
+      "min": 0,
+      "max": 1000,
+      "rangeReason": "Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The widest native mounted spread is 200 (the EXO-55 Breakthrough flak cannon).",
+      "order": null,
+      "lifecycle": "Copied into the weapon instance when the vehicle (and its mounted weapon) is created: call in a new vehicle after the write; one already in the world keeps its spread.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The player/support/sentry spread member (WeaponData +84/+88). The projectile shot reads this mount's own WeaponData instance for every shot and every pellet (game.dll 0x615BAB, research/mounted-spread-shield), and the instance is copied from this record when the mounted weapon is created: an edit reaches vehicles called in after it. Not live-tested on a mount."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/weapon-vertical-spread/936b9042a3d110ac",
+      "weapon": "TD-220 Bastion MK XVI / attach_tank_gun_mg",
+      "weaponSemanticId": "vehicle-weapon/v1/td-220-bastion-mk-xvi/attach-tank-gun-mg/60cb0b945b402189",
+      "semanticFieldId": "weapon.vertical_spread",
+      "apiFieldConstant": "hd2.fields.weapon.vertical_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "TD-220 Bastion MK XVI / attach_tank_gun_mg"
+      },
+      "displayName": "Vertical spread",
+      "unit": "mrad",
+      "type": "number",
+      "baseline": 30.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponDataComponentData",
+      "min": 0,
+      "max": 1000,
+      "rangeReason": "Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The widest native mounted spread is 200 (the EXO-55 Breakthrough flak cannon).",
+      "order": null,
+      "lifecycle": "Copied into the weapon instance when the vehicle (and its mounted weapon) is created: call in a new vehicle after the write; one already in the world keeps its spread.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The player/support/sentry spread member (WeaponData +84/+88). The projectile shot reads this mount's own WeaponData instance for every shot and every pellet (game.dll 0x615BAB, research/mounted-spread-shield), and the instance is copied from this record when the mounted weapon is created: an edit reaches vehicles called in after it. Not live-tested on a mount."
+    },
+    {
       "instanceKey": "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/weapon-capacity/848c365140a9218f",
       "weapon": "TD-220 Bastion MK XVI / attach_tank_gun_mg",
       "weaponSemanticId": "vehicle-weapon/v1/td-220-bastion-mk-xvi/attach-tank-gun-mg/60cb0b945b402189",
@@ -13607,6 +14573,96 @@
       "backingComponent": "damage"
     },
     {
+      "instanceKey": "vehicle-field/v1/exo-55-breakthrough-exosuit-left-gun/entity-health/fe5e54d064e599f7",
+      "weapon": "EXO-55 Breakthrough Exosuit / left_gun",
+      "weaponSemanticId": "vehicle-shield/v1/exo-55-breakthrough-exosuit/left-gun/17ed34b1b9c8055f",
+      "semanticFieldId": "entity.health",
+      "apiFieldConstant": "hd2.fields.entity.health",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "EXO-55 Breakthrough Exosuit / left_gun"
+      },
+      "displayName": "Shield arm health",
+      "unit": "health",
+      "type": "integer",
+      "baseline": 800,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "HealthComponentData",
+      "min": 1,
+      "max": null,
+      "rangeReason": "-1 routes a zone to the main pool and 0 is a destroyed pool: only a positive pool is offered.",
+      "order": null,
+      "lifecycle": "Copied into the health instance when the Exosuit is created: call in a new Exosuit after the write; one already in the world keeps its values.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The shield arm's own HealthComponent (one owner; exact published anatomy: ShieldArm 800 / Medium, Shield 5000 / Heavy). The same mount-health model as the Exosuit arms; not live-tested on the shield arm."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/exo-55-breakthrough-exosuit-left-gun/zone-health/5022f5030ffa4126",
+      "weapon": "EXO-55 Breakthrough Exosuit / left_gun",
+      "weaponSemanticId": "vehicle-shield/v1/exo-55-breakthrough-exosuit/left-gun/17ed34b1b9c8055f",
+      "semanticFieldId": "zone.health",
+      "apiFieldConstant": "hd2.fields.zone.health",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "EXO-55 Breakthrough Exosuit / left_gun"
+      },
+      "displayName": "Shield plate health",
+      "unit": "health",
+      "type": "integer",
+      "baseline": 5000,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "HealthComponentData",
+      "min": 1,
+      "max": null,
+      "rangeReason": "-1 routes a zone to the main pool and 0 is a destroyed pool: only a positive pool is offered.",
+      "order": null,
+      "lifecycle": "Copied into the health instance when the Exosuit is created: call in a new Exosuit after the write; one already in the world keeps its values.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The shield arm's own HealthComponent (one owner; exact published anatomy: ShieldArm 800 / Medium, Shield 5000 / Heavy). The same mount-health model as the Exosuit arms; not live-tested on the shield arm."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/exo-55-breakthrough-exosuit-left-gun/zone-armor/643e80c5e4ed9fe9",
+      "weapon": "EXO-55 Breakthrough Exosuit / left_gun",
+      "weaponSemanticId": "vehicle-shield/v1/exo-55-breakthrough-exosuit/left-gun/17ed34b1b9c8055f",
+      "semanticFieldId": "zone.armor",
+      "apiFieldConstant": "hd2.fields.zone.armor",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "EXO-55 Breakthrough Exosuit / left_gun"
+      },
+      "displayName": "Shield plate armor",
+      "unit": "armor_class",
+      "type": "integer",
+      "baseline": 4,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "HealthComponentData",
+      "min": 0,
+      "max": 10,
+      "rangeReason": "Armor classes 0 (unarmored) to 10.",
+      "order": null,
+      "lifecycle": "Copied into the health instance when the Exosuit is created: call in a new Exosuit after the write; one already in the world keeps its values.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The shield arm's own HealthComponent (one owner; exact published anatomy: ShieldArm 800 / Medium, Shield 5000 / Heavy). The same mount-health model as the Exosuit arms; not live-tested on the shield arm."
+    },
+    {
       "instanceKey": "vehicle-field/v1/exo-55-breakthrough-exosuit-right-gun/weapon-fire-rate/09e7c77c723995d8",
       "weapon": "EXO-55 Breakthrough Exosuit / right_gun",
       "weaponSemanticId": "vehicle-weapon/v1/exo-55-breakthrough-exosuit/right-gun/28bafd2833f70d7a",
@@ -13628,6 +14684,66 @@
       "acknowledgement": "allow_unverified_effect",
       "gameplayEvidence": null,
       "backingComponent": "ProjectileWeaponComponentData"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/exo-55-breakthrough-exosuit-right-gun/weapon-horizontal-spread/5a1f5f331212bd59",
+      "weapon": "EXO-55 Breakthrough Exosuit / right_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-55-breakthrough-exosuit/right-gun/28bafd2833f70d7a",
+      "semanticFieldId": "weapon.horizontal_spread",
+      "apiFieldConstant": "hd2.fields.weapon.horizontal_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "EXO-55 Breakthrough Exosuit / right_gun"
+      },
+      "displayName": "Horizontal spread",
+      "unit": "mrad",
+      "type": "number",
+      "baseline": 200.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponDataComponentData",
+      "min": 0,
+      "max": 1000,
+      "rangeReason": "Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The widest native mounted spread is 200 (the EXO-55 Breakthrough flak cannon).",
+      "order": null,
+      "lifecycle": "Copied into the weapon instance when the vehicle (and its mounted weapon) is created: call in a new vehicle after the write; one already in the world keeps its spread.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The player/support/sentry spread member (WeaponData +84/+88). The projectile shot reads this mount's own WeaponData instance for every shot and every pellet (game.dll 0x615BAB, research/mounted-spread-shield), and the instance is copied from this record when the mounted weapon is created: an edit reaches vehicles called in after it. Not live-tested on a mount."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/exo-55-breakthrough-exosuit-right-gun/weapon-vertical-spread/638f7e823140843a",
+      "weapon": "EXO-55 Breakthrough Exosuit / right_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-55-breakthrough-exosuit/right-gun/28bafd2833f70d7a",
+      "semanticFieldId": "weapon.vertical_spread",
+      "apiFieldConstant": "hd2.fields.weapon.vertical_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "EXO-55 Breakthrough Exosuit / right_gun"
+      },
+      "displayName": "Vertical spread",
+      "unit": "mrad",
+      "type": "number",
+      "baseline": 200.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponDataComponentData",
+      "min": 0,
+      "max": 1000,
+      "rangeReason": "Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The widest native mounted spread is 200 (the EXO-55 Breakthrough flak cannon).",
+      "order": null,
+      "lifecycle": "Copied into the weapon instance when the vehicle (and its mounted weapon) is created: call in a new vehicle after the write; one already in the world keeps its spread.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The player/support/sentry spread member (WeaponData +84/+88). The projectile shot reads this mount's own WeaponData instance for every shot and every pellet (game.dll 0x615BAB, research/mounted-spread-shield), and the instance is copied from this record when the mounted weapon is created: an edit reaches vehicles called in after it. Not live-tested on a mount."
     },
     {
       "instanceKey": "vehicle-field/v1/exo-55-breakthrough-exosuit-right-gun/reload-duration/fa6104ea0880d130",
@@ -14752,6 +15868,66 @@
       "backingComponent": "ProjectileWeaponComponentData"
     },
     {
+      "instanceKey": "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/weapon-horizontal-spread/df68b52e9b72a04c",
+      "weapon": "EXO-51 Lumberer Exosuit / right_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-51-lumberer-exosuit/right-gun/0530612be128916d",
+      "semanticFieldId": "weapon.horizontal_spread",
+      "apiFieldConstant": "hd2.fields.weapon.horizontal_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "EXO-51 Lumberer Exosuit / right_gun"
+      },
+      "displayName": "Horizontal spread",
+      "unit": "mrad",
+      "type": "number",
+      "baseline": 2.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponDataComponentData",
+      "min": 0,
+      "max": 1000,
+      "rangeReason": "Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The widest native mounted spread is 200 (the EXO-55 Breakthrough flak cannon).",
+      "order": null,
+      "lifecycle": "Copied into the weapon instance when the vehicle (and its mounted weapon) is created: call in a new vehicle after the write; one already in the world keeps its spread.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The player/support/sentry spread member (WeaponData +84/+88). The projectile shot reads this mount's own WeaponData instance for every shot and every pellet (game.dll 0x615BAB, research/mounted-spread-shield), and the instance is copied from this record when the mounted weapon is created: an edit reaches vehicles called in after it. Not live-tested on a mount."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/weapon-vertical-spread/6448f33fec070e41",
+      "weapon": "EXO-51 Lumberer Exosuit / right_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-51-lumberer-exosuit/right-gun/0530612be128916d",
+      "semanticFieldId": "weapon.vertical_spread",
+      "apiFieldConstant": "hd2.fields.weapon.vertical_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "EXO-51 Lumberer Exosuit / right_gun"
+      },
+      "displayName": "Vertical spread",
+      "unit": "mrad",
+      "type": "number",
+      "baseline": 2.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponDataComponentData",
+      "min": 0,
+      "max": 1000,
+      "rangeReason": "Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The widest native mounted spread is 200 (the EXO-55 Breakthrough flak cannon).",
+      "order": null,
+      "lifecycle": "Copied into the weapon instance when the vehicle (and its mounted weapon) is created: call in a new vehicle after the write; one already in the world keeps its spread.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The player/support/sentry spread member (WeaponData +84/+88). The projectile shot reads this mount's own WeaponData instance for every shot and every pellet (game.dll 0x615BAB, research/mounted-spread-shield), and the instance is copied from this record when the mounted weapon is created: an edit reaches vehicles called in after it. Not live-tested on a mount."
+    },
+    {
       "instanceKey": "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/weapon-capacity/3ef38a4eacc7a5ef",
       "weapon": "EXO-51 Lumberer Exosuit / right_gun",
       "weaponSemanticId": "vehicle-weapon/v1/exo-51-lumberer-exosuit/right-gun/0530612be128916d",
@@ -15805,6 +16981,70 @@
       "backingComponent": "ProjectileWeaponComponentData"
     },
     {
+      "instanceKey": "vehicle-field/v1/frv-super-earth-variant-gun/weapon-horizontal-spread/9d78d76f99a50099",
+      "weapon": "FRV (Super Earth variant) / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/frv-super-earth-variant/gun/e74771601e2480a5",
+      "semanticFieldId": "weapon.horizontal_spread",
+      "apiFieldConstant": "hd2.fields.weapon.horizontal_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "FRV (Super Earth variant) / gun"
+      },
+      "displayName": "Horizontal spread",
+      "unit": "mrad",
+      "type": "number",
+      "baseline": 5.0,
+      "writable": true,
+      "scope": "shared_mounted_weapon",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "M-102 Gunner FRV / gun"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponDataComponentData",
+      "min": 0,
+      "max": 1000,
+      "rangeReason": "Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The widest native mounted spread is 200 (the EXO-55 Breakthrough flak cannon).",
+      "order": null,
+      "lifecycle": "Copied into the weapon instance when the vehicle (and its mounted weapon) is created: call in a new vehicle after the write; one already in the world keeps its spread.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The player/support/sentry spread member (WeaponData +84/+88). The projectile shot reads this mount's own WeaponData instance for every shot and every pellet (game.dll 0x615BAB, research/mounted-spread-shield), and the instance is copied from this record when the mounted weapon is created: an edit reaches vehicles called in after it. Not live-tested on a mount."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/frv-super-earth-variant-gun/weapon-vertical-spread/a9631384e668c963",
+      "weapon": "FRV (Super Earth variant) / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/frv-super-earth-variant/gun/e74771601e2480a5",
+      "semanticFieldId": "weapon.vertical_spread",
+      "apiFieldConstant": "hd2.fields.weapon.vertical_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "FRV (Super Earth variant) / gun"
+      },
+      "displayName": "Vertical spread",
+      "unit": "mrad",
+      "type": "number",
+      "baseline": 5.0,
+      "writable": true,
+      "scope": "shared_mounted_weapon",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "M-102 Gunner FRV / gun"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponDataComponentData",
+      "min": 0,
+      "max": 1000,
+      "rangeReason": "Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The widest native mounted spread is 200 (the EXO-55 Breakthrough flak cannon).",
+      "order": null,
+      "lifecycle": "Copied into the weapon instance when the vehicle (and its mounted weapon) is created: call in a new vehicle after the write; one already in the world keeps its spread.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The player/support/sentry spread member (WeaponData +84/+88). The projectile shot reads this mount's own WeaponData instance for every shot and every pellet (game.dll 0x615BAB, research/mounted-spread-shield), and the instance is copied from this record when the mounted weapon is created: an edit reaches vehicles called in after it. Not live-tested on a mount."
+    },
+    {
       "instanceKey": "vehicle-field/v1/frv-super-earth-variant-gun/weapon-capacity/0d868fcde4566985",
       "weapon": "FRV (Super Earth variant) / gun",
       "weaponSemanticId": "vehicle-weapon/v1/frv-super-earth-variant/gun/e74771601e2480a5",
@@ -16484,6 +17724,66 @@
       "acknowledgement": "allow_unverified_effect",
       "gameplayEvidence": null,
       "backingComponent": "ProjectileWeaponComponentData"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/gater-oil-rig-turret/weapon-horizontal-spread/9c46d6768c48c424",
+      "weapon": "GATER Oil Rig / turret",
+      "weaponSemanticId": "vehicle-weapon/v1/gater-oil-rig/turret/b8db0fabca90376d",
+      "semanticFieldId": "weapon.horizontal_spread",
+      "apiFieldConstant": "hd2.fields.weapon.horizontal_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "GATER Oil Rig / turret"
+      },
+      "displayName": "Horizontal spread",
+      "unit": "mrad",
+      "type": "number",
+      "baseline": 0.5,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponDataComponentData",
+      "min": 0,
+      "max": 1000,
+      "rangeReason": "Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The widest native mounted spread is 200 (the EXO-55 Breakthrough flak cannon).",
+      "order": null,
+      "lifecycle": "Copied into the weapon instance when the vehicle (and its mounted weapon) is created: call in a new vehicle after the write; one already in the world keeps its spread.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The player/support/sentry spread member (WeaponData +84/+88). The projectile shot reads this mount's own WeaponData instance for every shot and every pellet (game.dll 0x615BAB, research/mounted-spread-shield), and the instance is copied from this record when the mounted weapon is created: an edit reaches vehicles called in after it. Not live-tested on a mount."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/gater-oil-rig-turret/weapon-vertical-spread/d576576bfbd2a01e",
+      "weapon": "GATER Oil Rig / turret",
+      "weaponSemanticId": "vehicle-weapon/v1/gater-oil-rig/turret/b8db0fabca90376d",
+      "semanticFieldId": "weapon.vertical_spread",
+      "apiFieldConstant": "hd2.fields.weapon.vertical_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "GATER Oil Rig / turret"
+      },
+      "displayName": "Vertical spread",
+      "unit": "mrad",
+      "type": "number",
+      "baseline": 0.5,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponDataComponentData",
+      "min": 0,
+      "max": 1000,
+      "rangeReason": "Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The widest native mounted spread is 200 (the EXO-55 Breakthrough flak cannon).",
+      "order": null,
+      "lifecycle": "Copied into the weapon instance when the vehicle (and its mounted weapon) is created: call in a new vehicle after the write; one already in the world keeps its spread.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The player/support/sentry spread member (WeaponData +84/+88). The projectile shot reads this mount's own WeaponData instance for every shot and every pellet (game.dll 0x615BAB, research/mounted-spread-shield), and the instance is copied from this record when the mounted weapon is created: an edit reaches vehicles called in after it. Not live-tested on a mount."
     },
     {
       "instanceKey": "vehicle-field/v1/gater-oil-rig-turret/weapon-capacity/969f458ac55d9198",
@@ -17797,6 +19097,66 @@
       "acknowledgement": "allow_unverified_effect",
       "gameplayEvidence": null,
       "backingComponent": "ProjectileWeaponComponentData"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-ar-23-guard-dog-gun/weapon-horizontal-spread/995e3e4378c4f90a",
+      "weapon": "AX/AR-23 Guard Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-ar-23-guard-dog/gun/9d81adefdfb8a0d2",
+      "semanticFieldId": "weapon.horizontal_spread",
+      "apiFieldConstant": "hd2.fields.weapon.horizontal_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "AX/AR-23 Guard Dog / gun"
+      },
+      "displayName": "Horizontal spread",
+      "unit": "mrad",
+      "type": "number",
+      "baseline": 16.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponDataComponentData",
+      "min": 0,
+      "max": 1000,
+      "rangeReason": "Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The widest native mounted spread is 200 (the EXO-55 Breakthrough flak cannon).",
+      "order": null,
+      "lifecycle": "Copied into the weapon instance when the vehicle (and its mounted weapon) is created: call in a new vehicle after the write; one already in the world keeps its spread.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The player/support/sentry spread member (WeaponData +84/+88). The projectile shot reads this mount's own WeaponData instance for every shot and every pellet (game.dll 0x615BAB, research/mounted-spread-shield), and the instance is copied from this record when the mounted weapon is created: an edit reaches vehicles called in after it. Not live-tested on a mount."
+    },
+    {
+      "instanceKey": "vehicle-field/v1/ax-ar-23-guard-dog-gun/weapon-vertical-spread/03fb078908f36ed3",
+      "weapon": "AX/AR-23 Guard Dog / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/ax-ar-23-guard-dog/gun/9d81adefdfb8a0d2",
+      "semanticFieldId": "weapon.vertical_spread",
+      "apiFieldConstant": "hd2.fields.weapon.vertical_spread",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "weapon",
+        "weapon": "AX/AR-23 Guard Dog / gun"
+      },
+      "displayName": "Vertical spread",
+      "unit": "mrad",
+      "type": "number",
+      "baseline": 16.0,
+      "writable": true,
+      "scope": "weapon_local",
+      "allowSharedRequired": false,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "WeaponDataComponentData",
+      "min": 0,
+      "max": 1000,
+      "rangeReason": "Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The widest native mounted spread is 200 (the EXO-55 Breakthrough flak cannon).",
+      "order": null,
+      "lifecycle": "Copied into the weapon instance when the vehicle (and its mounted weapon) is created: call in a new vehicle after the write; one already in the world keeps its spread.",
+      "appliesWhen": "entity_spawn",
+      "acknowledgementReason": "The player/support/sentry spread member (WeaponData +84/+88). The projectile shot reads this mount's own WeaponData instance for every shot and every pellet (game.dll 0x615BAB, research/mounted-spread-shield), and the instance is copied from this record when the mounted weapon is created: an edit reaches vehicles called in after it. Not live-tested on a mount."
     },
     {
       "instanceKey": "vehicle-field/v1/ax-ar-23-guard-dog-gun/weapon-capacity/09c9f0077bf4a807",
@@ -20102,13 +21462,14 @@
   "summary": {
     "vehicles": 16,
     "weaponMounts": 23,
-    "fieldInstances": 666,
-    "writableFieldInstances": 665,
-    "weaponLocalFields": 158,
-    "sharedMountedWeaponFields": 28,
-    "sharedFields": 508,
+    "shieldMounts": 1,
+    "fieldInstances": 703,
+    "writableFieldInstances": 702,
+    "weaponLocalFields": 187,
+    "sharedMountedWeaponFields": 36,
+    "sharedFields": 516,
     "gameplayProvenFields": 27,
-    "unverifiedEffectFields": 639,
+    "unverifiedEffectFields": 676,
     "byField": {
       "arc.primary.chain_count": 1,
       "arc.primary.distance_at_max_spread": 1,
@@ -20142,7 +21503,7 @@
       "damage.primary.status_4_strength": 3,
       "damage.primary.status_4_type": 3,
       "entity.armor": 13,
-      "entity.health": 13,
+      "entity.health": 14,
       "explosion.impact.damage.ap_direct": 8,
       "explosion.impact.damage.ap_extreme": 8,
       "explosion.impact.damage.ap_large": 8,
@@ -20179,8 +21540,10 @@
       "turret.yaw_speed": 5,
       "weapon.capacity": 21,
       "weapon.fire_rate": 17,
-      "zone.armor": 7,
-      "zone.health": 7
+      "weapon.horizontal_spread": 17,
+      "weapon.vertical_spread": 17,
+      "zone.armor": 8,
+      "zone.health": 8
     }
   },
   "safety": {

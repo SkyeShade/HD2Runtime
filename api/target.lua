@@ -1307,6 +1307,13 @@ function M.new(describe)
             return result
         end
         function methods.weapon(_,identity)return vehicle_weapon_target(weapon_key(name,identity))end
+        -- 0.30.4: the EXO-55 Breakthrough's shield arm (a mount with no weapon component): its own health and plate
+        -- zone, written like a mounted weapon's records (the mount slot is re-proven before every write).
+        function methods.shield()
+            local key=(vehicle_weapons.shields or{})[name]
+            if not key then error(name..' has no reviewed shield mount',0)end
+            return vehicle_weapon_target(key)
+        end
         local function zone_target(zone)
             local zone_methods={}
             function zone_methods.describe()

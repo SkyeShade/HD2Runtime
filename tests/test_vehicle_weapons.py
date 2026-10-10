@@ -55,6 +55,40 @@ class VehicleWeaponTests(unittest.TestCase):
         unproven = self.fields[('TD-220 Bastion MK XVI / attach_tank_gun_mg', 'weapon.capacity')]
         self.assertEqual(unproven['acknowledgement'], 'allow_unverified_effect')
 
+    def test_spread_and_breakthrough_shield(self):
+        # 0.30.4 (research/mounted-spread-shield): every projectile mount exposes its WeaponData spread pair (the
+        # member the shot reads for every shot and pellet); spray, beam and arc mounts list it as blocked.
+        by_field = self.catalog['summary']['byField']
+        self.assertEqual((by_field['weapon.horizontal_spread'], by_field['weapon.vertical_spread']), (17, 17))
+        flak = self.fields[('EXO-55 Breakthrough Exosuit / right_gun', 'weapon.horizontal_spread')]
+        self.assertEqual((flak['baseline'], flak['min'], flak['max'], flak['scope'], flak['acknowledgement']),
+            (200, 0, 1000, 'weapon_local', 'allow_unverified_effect'))
+        self.assertEqual(flak['apiFieldConstant'], 'hd2.fields.weapon.horizontal_spread')
+        self.assertEqual(flak['appliesWhen'], 'entity_spawn')
+        frv = self.fields[('M-102 Gunner FRV / gun', 'weapon.vertical_spread')]
+        self.assertEqual((frv['baseline'], frv['scope']), (5, 'shared_mounted_weapon'))
+        for other in ('EXO-51 Lumberer Exosuit / left_gun', 'AX/LAS-5 Rover / gun', 'AX/ARC-3 K-9 / gun'):
+            self.assertNotIn((other, 'weapon.horizontal_spread'), self.fields)
+            self.assertIn('weapon.horizontal_spread / weapon.vertical_spread',
+                [b['field'] for b in self.by_key[other]['blocked']])
+        # The left mount is the shield arm: no weapon, its own health record (arm pool and plate zone).
+        mounts = {m['label']: m for v in self.catalog['vehicles'] if v['vehicle'] == 'EXO-55 Breakthrough Exosuit'
+            for m in v['mounts']}
+        shield = mounts['left_gun']['shield']
+        self.assertIsNone(mounts['left_gun']['weapon'])
+        self.assertEqual(self.catalog['summary']['shieldMounts'], 1)
+        self.assertFalse(shield['shieldComponent'])
+        self.assertEqual(shield['values'], {'armHealth': 800, 'armArmor': 3, 'plateHealth': 5000, 'plateArmor': 4})
+        key = 'EXO-55 Breakthrough Exosuit / left_gun'
+        expected = {'entity.health': (800, 1, None), 'zone.health': (5000, 1, None), 'zone.armor': (4, 0, 10)}
+        found = {f: (x['baseline'], x['min'], x['max']) for (w, f), x in self.fields.items() if w == key}
+        self.assertEqual(found, expected)
+        for field in expected:
+            self.assertEqual(self.fields[(key, field)]['acknowledgement'], 'allow_unverified_effect')
+            self.assertEqual(self.fields[(key, field)]['backingComponent'], 'HealthComponentData')
+        self.assertIn('entity.armor', [b['field'] for b in shield['blocked']])
+        self.assertIn('shield.*', [b['field'] for b in shield['blocked']])
+
     def test_snapshot_overlay_validation(self):
         result = json.loads((ROOT / 'validation/vehicle-weapon-authoring-snapshot.json').read_text())
         self.assertEqual(result['status'], 'VALIDATED')
@@ -67,8 +101,9 @@ class VehicleWeaponTests(unittest.TestCase):
         beam_fields = sum(len(h['fields']) for h in beam_hosts)
         self.assertEqual(result['vehicleFields'], self.catalog['summary']['writableFieldInstances'] + hosts['writable']
             + beam_fields)
-        self.assertEqual(result['vehicleWeapons'], self.catalog['summary']['weaponMounts'] + hosts['hosts']
-            + len(beam_hosts))
+        # 0.30.4: the Breakthrough shield arm (shieldMounts) is a mount target too, with its own mount chain.
+        mounts = self.catalog['summary']['weaponMounts'] + self.catalog['summary']['shieldMounts']
+        self.assertEqual(result['vehicleWeapons'], mounts + hosts['hosts'] + len(beam_hosts))
         for key in ('noOps', 'changedWrites', 'rollbacks', 'conflictRejections'):
             self.assertEqual(result[key], result['vehicleFields'], key)
         self.assertEqual(result['sharedRejections'], self.catalog['summary']['sharedFields'])
@@ -78,7 +113,7 @@ class VehicleWeaponTests(unittest.TestCase):
             if not item['writable'] and item['acknowledgement'] == 'allow_unverified_effect')
         self.assertEqual(result['acknowledgementRejections'],
             self.catalog['summary']['unverifiedEffectFields'] - read_only + hosts['writable'] + beam_fields)
-        self.assertEqual(result['mountChainRejections'], self.catalog['summary']['weaponMounts'])
+        self.assertEqual(result['mountChainRejections'], mounts)
         self.assertTrue(result['independentArms'])
         uses = result['stratagemUses']
         self.assertEqual(uses['checked'], 86)  # every writable use count, Resupply included
@@ -87,9 +122,13 @@ class VehicleWeaponTests(unittest.TestCase):
         self.assertEqual(scenarios['frv_gun_capacity']['before'], '78000000')
         self.assertEqual(scenarios['frv_gun_capacity']['after'], '58020000')
         self.assertEqual(scenarios['exosuit_unlimited_uses']['after'], 'ffffffff')
+        self.assertEqual(scenarios['breakthrough_flak_spread']['before'], '00004843')            # 200.0
+        self.assertEqual(scenarios['breakthrough_shield_plate_health']['before'], '88130000')    # 5000 (zone 1)
+        self.assertEqual(scenarios['breakthrough_shield_plate_health']['after'], 'a8610000')     # 25000
         self.assertEqual(scenarios['unlimited_to_finite_uses']['before'], 'ffffffff')
         for key in ('bastion_cannon_damage', 'bastion_mg_capacity', 'emancipator_left_capacity',
-                    'patriot_hmg_fire_rate', 'finite_to_finite_uses'):
+                    'patriot_hmg_fire_rate', 'finite_to_finite_uses', 'breakthrough_flak_spread',
+                    'breakthrough_shield_arm_health', 'breakthrough_shield_plate_armor'):
             self.assertIn(key, scenarios)
 
     def test_lua_api_and_guards(self):
@@ -135,6 +174,38 @@ patches.validate{id='flamer',target=lumberer:weapon('left_gun'),field=hd2.fields
 patches.validate{id='cannon',target=lumberer:weapon('right_gun'),field=hd2.fields.weapon.capacity,expect=25,value=35}
 rejects({id='stale',target=lumberer:weapon('right_gun'),field=hd2.fields.weapon.capacity,expect=26,value=35},
  'expect')
+-- 0.30.4: mounted spread (projectile mounts) and the Breakthrough shield arm.
+local breakthrough=hd2.vehicle('EXO-55 Breakthrough Exosuit')
+assert(#breakthrough:weapons()==1,'the shield arm is not a weapon')
+local flak=breakthrough:weapon('right_gun')
+rejects({id='spread',target=flak,field=hd2.fields.weapon.horizontal_spread,expect=200,value=1000},
+ 'allow_unverified_effect')
+patches.validate{id='spread',allow_unverified_effect=true,target=flak,field=hd2.fields.weapon.horizontal_spread,
+ expect=200,value=1000}
+patches.validate{id='vspread',allow_unverified_effect=true,target=flak,field=hd2.fields.weapon.vertical_spread,
+ expect=200,value=1000}
+rejects({id='wide',allow_unverified_effect=true,target=flak,field=hd2.fields.weapon.horizontal_spread,expect=200,
+ value=1001},'maximum')
+rejects({id='frvspread',allow_unverified_effect=true,target=hd2.vehicle('M-102 Gunner FRV'):weapon('gun'),
+ field=hd2.fields.weapon.horizontal_spread,expect=5,value=10},'allow_shared')
+assert(not pcall(patches.validate,{id='flamer',allow_unverified_effect=true,target=lumberer:weapon('left_gun'),
+ field=hd2.fields.weapon.horizontal_spread,expect=10,value=20}),'spray mount spread must be refused')
+local shield=breakthrough:shield()
+assert(shield.weapon=='EXO-55 Breakthrough Exosuit / left_gun')
+rejects({id='plate',target=shield,field=hd2.fields.zone.health,expect=5000,value=25000},'allow_unverified_effect')
+patches.validate{id='plate',allow_unverified_effect=true,target=shield,field=hd2.fields.zone.health,expect=5000,
+ value=25000}
+patches.validate{id='plate_armor',allow_unverified_effect=true,target=shield,field=hd2.fields.zone.armor,expect=4,
+ value=5}
+patches.validate{id='arm',allow_unverified_effect=true,target=shield,field=hd2.fields.entity.health,expect=800,
+ value=4000}
+rejects({id='zero',allow_unverified_effect=true,target=shield,field=hd2.fields.zone.health,expect=5000,value=0},
+ 'minimum')
+rejects({id='armor11',allow_unverified_effect=true,target=shield,field=hd2.fields.zone.armor,expect=4,value=11},
+ 'maximum')
+assert(not pcall(patches.validate,{id='fallback',allow_unverified_effect=true,target=shield,
+ field=hd2.fields.entity.armor,expect=3,value=5}),'the default-zone armor must stay read-only')
+assert(not pcall(function()return hd2.vehicle('EXO-45 Patriot Exosuit'):shield()end),'Patriot has no shield')
 return 'ok'
 ''')
 

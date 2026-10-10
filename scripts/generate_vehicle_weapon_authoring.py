@@ -26,6 +26,27 @@ BUILDER = ROOT / 'research/projectile-builder-F5FEE03DCFDB.json'
 ATTACK_OUTPUTS = ROOT / 'research/attack-outputs-F5FEE03DCFDB.json'
 SENTRY_HOSTS = ROOT / 'research/sentry-projectile-hosts-F5FEE03DCFDB.json'
 DEFENSIVE = ROOT / 'research/defensive-stratagem-runtime-F5FEE03DCFDB.json'
+# Mounted spread and the EXO-55 Breakthrough shield arm (0.30.4): scripts/research_mounted_spread_shield.py.
+SPREAD_SHIELD = ROOT / 'research/mounted-spread-shield-F5FEE03DCFDB.json'
+SPREAD = (('weapon.horizontal_spread', 'Horizontal spread', 84, 0), ('weapon.vertical_spread', 'Vertical spread', 88, 1))
+SPREAD_RANGE = ('Full width in milliradians (a shot turns by up to half of it each way); 1000 = +-28.6 degrees. The '
+    'widest native mounted spread is 200 (the EXO-55 Breakthrough flak cannon).')
+SPREAD_UNVERIFIED = ('The player/support/sentry spread member (WeaponData +84/+88). The projectile shot reads this '
+    "mount's own WeaponData instance for every shot and every pellet (game.dll 0x615BAB, research/mounted-spread-"
+    'shield), and the instance is copied from this record when the mounted weapon is created: an edit reaches vehicles '
+    'called in after it. Not live-tested on a mount.')
+SPREAD_LIFECYCLE = ('Copied into the weapon instance when the vehicle (and its mounted weapon) is created: call in a new '
+    'vehicle after the write; one already in the world keeps its spread.')
+SHIELD_UNVERIFIED = ("The shield arm's own HealthComponent (one owner; exact published anatomy: ShieldArm 800 / Medium, "
+    'Shield 5000 / Heavy). The same mount-health model as the Exosuit arms; not live-tested on the shield arm.')
+SHIELD_LIFECYCLE = ('Copied into the health instance when the Exosuit is created: call in a new Exosuit after the '
+    'write; one already in the world keeps its values.')
+SHIELD_HEALTH_RANGE = '-1 routes a zone to the main pool and 0 is a destroyed pool: only a positive pool is offered.'
+SHIELD_ARMOR_RANGE = 'Armor classes 0 (unarmored) to 10.'
+NO_SHIELD_COMPONENT = ('The Breakthrough shield is a physical shield arm with no ShieldComponent: there is no '
+    'capacity, recharge delay, broken delay or recharge rate to tune (research/mounted-spread-shield).')
+RECOIL_BLOCKER = ("Recoil kicks the wielder's aim (0x784CE2); which aim a mounted weapon's wielder is (the Exosuit, a "
+    'seat or the vehicle) is not traced, and no read of sway or ergonomics on the mounted fire path is shown.')
 SENTRY_UNVERIFIED = ('Replaces the projectile this sentry or emplacement fires (its ProjectileWeapon +0, on the type '
     'record every deployed one reads). The same structural rule as player, support and mounted component hosts: no '
     'customization delta patches a projectile member and no other selector exists. A type-level sentry swap is not '
@@ -168,10 +189,110 @@ def build(research_path=RESEARCH):
         for slot in vehicle['slots']:
             if slot['isWeapon']:
                 mounted_at.setdefault(slot['path'], []).append(f"{vehicle['name']} / {mount_label(slot)}")
+    spread_shield = json.loads(SPREAD_SHIELD.read_text())
+    spread_mounts = {item['weapon']: item for item in spread_shield['spread']['mounts']}
+    shield_research = spread_shield['shield']
+    shields = {}
+
+    def publish(key, semantic, fields):
+        """Field instances of one mount target (weapon or shield arm): the public catalog rows and their groups."""
+        groups = {'local': [], 'projectile': [], 'damage': [], 'explosion': [], 'beam': [], 'arc': []}
+        for item in fields:
+            group = ('local' if item['writeScope'] in ('weapon_local', 'shared_mounted_weapon') else 'explosion'
+                if item['semanticFieldId'].startswith('explosion.') else 'projectile'
+                if item['semanticFieldId'].startswith('projectile.') else 'beam'
+                if item['semanticFieldId'].startswith('beam.') else 'arc'
+                if item['semanticFieldId'].startswith('arc.') else 'damage')
+            instance = {'instanceKey': 'vehicle-field/v1/' + slug(key) + '/' + slug(item['semanticFieldId']) + '/'
+                + digest({'weapon': key, 'field': item['semanticFieldId']}), 'weapon': key,
+                'weaponSemanticId': semantic, 'semanticFieldId': item['semanticFieldId'],
+                'apiFieldConstant': api_constant(item['semanticFieldId']),
+                'target': item['target'], 'displayName': item['displayName'], 'unit': item['unit'],
+                'type': item['type'], 'baseline': item['currentDefault'], 'writable': item['editable'],
+                'scope': item['writeScope'], 'allowSharedRequired': item['affectsMultipleWeapons'],
+                'otherConsumers': item['sharedWithWeapons'], 'acknowledgement': item['acknowledgement'],
+                'gameplayEvidence': item['gameplayEvidence'],
+                'backingComponent': item['backing'].get('component') or item['backing']['settings']}
+            if item.get('lifecycle'):
+                # Turret motion, spread and the shield arm: range, sibling order and when the game reads the member.
+                instance.update({key_: item[key_] for key_ in ('min', 'max', 'rangeReason', 'order', 'lifecycle',
+                    'appliesWhen', 'acknowledgementReason')})
+            if item['type'] == 'projectile_reference':
+                # The mount's projectile reference: the one host model (class, active source); semantic handles
+                # only (expect: vehicle:weapon(mount):attack(role); a donor from hd2.attack_output(name)).
+                instance.update({'apiFieldConstant': 'hd2.fields.attack.projectile',
+                    'baseline': {'weapon': key, 'attack': item['target']['attack']},
+                    'projectileReference': {k: item.get(k) for k in ('referenceKind', 'compatibilityClass',
+                        'referenceRole', 'projectileSource')}})
+                if item.get('liveEvidence'):
+                    instance.update({'liveEvidence': item['liveEvidence'],
+                        'liveProvenValues': item['liveProvenValues']})
+            instances.append(instance)
+            groups[group].append(instance['instanceKey'])
+        return groups
+
+    def shield_mount(vehicle, slot, label):
+        """The EXO-55 Breakthrough's shield arm (0.30.4): a mount with no weapon component whose own HealthComponent
+        is the published ShieldArm (main pool) and Shield (plate zone) anatomy. Reached through
+        hd2.vehicle(name):shield(); the writer re-proves the mount slot like a mounted weapon's."""
+        key = f"{vehicle['name']} / {label}"
+        semantic = 'vehicle-shield/v1/' + slug(vehicle['name']) + '/' + slug(label) + '/' + digest({'path': slot['path']})
+        health = shield_research['health']
+        identity = slot['ownership']['HealthComponentData']
+        assert {k: identity[k] for k in ('recordIndex', 'indexRow', 'ownerCount')} == {k: health[k] for k in (
+            'recordIndex', 'indexRow', 'ownerCount')} and identity['uniqueOwner'], key + ': shield health identity diverged'
+        arm, plate = health['zones']
+        target = {'resource': 'vehicle_weapon', 'path': 'weapon', 'weapon': key}
+        backing = {'kind': 'component', 'component': 'HealthComponentData', 'width': 4,
+            'recordIndex': identity['recordIndex'], 'indexRow': identity['indexRow'], 'ownerCount': 1, 'uniqueOwner': True}
+        fields = []
+        for field_id, name, unit, value, offset, storage, low, high, why in (
+                ('entity.health', 'Shield arm health', 'health', health['mainHealth'], 0, 'i32', 1, None,
+                    SHIELD_HEALTH_RANGE),
+                ('zone.health', 'Shield plate health', 'health', plate['health'], plate['recordOffsets']['health'],
+                    'i32', 1, None, SHIELD_HEALTH_RANGE),
+                ('zone.armor', 'Shield plate armor', 'armor_class', plate['armor'], plate['recordOffsets']['armor'],
+                    'u32', 0, 10, SHIELD_ARMOR_RANGE)):
+            fields.append({'semanticFieldId': field_id, 'semanticTarget': field_id, 'displayName': name,
+                'type': 'integer', 'unit': unit, 'currentDefault': value, 'editable': True, 'acceptedForWrites': True,
+                'derivedReadOnly': False, 'backing': dict(backing, offset=offset, storage=storage), 'target': target,
+                'writeScope': 'weapon_local', 'sharedWithWeapons': [], 'affectsMultipleWeapons': False,
+                'dynamicConsumersPossible': False, 'reason': None, 'acknowledgement': 'allow_unverified_effect',
+                'acknowledgementReason': SHIELD_UNVERIFIED, 'gameplayEvidence': None, 'min': low, 'max': high,
+                'rangeReason': why, 'order': None, 'lifecycle': SHIELD_LIFECYCLE, 'appliesWhen': 'entity_spawn'})
+        blocked = [
+            {'field': 'entity.armor', 'reason': 'The default-zone armor (+280) is only the fallback for a hit actor no '
+                'zone lists: the arm and its base resolve to the ShieldArm zone, the plate to the Shield zone.'},
+            {'field': 'shield arm zone armor', 'reason': 'The ShieldArm zone (armor %d, its damage goes to the arm '
+                'pool) is a second zone; this target carries the plate zone only.' % arm['armor']},
+            {'field': 'shield.*', 'reason': NO_SHIELD_COMPONENT},
+            {'field': 'weapon.*', 'reason': 'No attack component: the shield bash is an ability, not a fired weapon.'}]
+        chain = {'vehicle': vehicle['name'], 'vehicleResource': vehicle['resource'], 'slot': slot['slot'],
+            'mountPath': slot['path']}
+        runtime_weapons[key] = {'name': key, 'semanticId': semantic, 'supportWeapon': True, 'vehicleWeapon': True,
+            'mountedShield': True, 'vehicle': vehicle['name'], 'mount': label, 'slot': slot['slot'],
+            'resources': [slot['path']], 'attackResource': slot['path'], 'ordinaryWritesBlocked': False,
+            'mountChain': chain, 'attacks': {}, 'fields': fields}
+        shields[vehicle['name']] = key
+        groups = publish(key, semantic, fields)
+        return {'slot': slot['slot'], 'label': label, 'weapon': None,
+            'reason': 'The mount holds no weapon component: it is the shield arm (see shield).',
+            'shield': {'key': key, 'semanticId': semantic, 'nativePath': slot.get('nativePath'),
+                'api': "hd2.vehicle('" + vehicle['name'] + "'):shield()", 'fieldGroups': groups,
+                'components': shield_research['components'], 'shieldComponent': False,
+                'values': {'armHealth': health['mainHealth'], 'armArmor': arm['armor'],
+                    'plateHealth': plate['health'], 'plateArmor': plate['armor']},
+                'zones': [{'index': z['index'], 'actors': [a if not a.startswith('0x') else '(unnamed)' for a in z['actors']], 'armor': z['armor'], 'health': z['health'],
+                    'countsTowardMain': z['affectsMainHealth'] > 0} for z in health['zones']],
+                'blocked': blocked}}
     for vehicle in research['vehicles']:
         public_mounts = []
         for slot in vehicle['slots']:
             label = mount_label(slot)
+            if not slot['isWeapon'] and shield_research['resource'] == slot['path'] and (vehicle['name'], slot['slot']) \
+                    == (shield_research['vehicle'], shield_research['slot']):
+                public_mounts.append(shield_mount(vehicle, slot, label))
+                continue
             if not slot['isWeapon']:
                 public_mounts.append({'slot': slot['slot'], 'label': label, 'weapon': None,
                     'reason': 'The mount holds no weapon component (rack, seat or bare turret).'})
@@ -234,6 +355,22 @@ def build(research_path=RESEARCH):
             if 'fireRate' in values:
                 field('weapon.fire_rate', 'Fire rate', 'rpm', 'number', values['fireRate'],
                     component('ProjectileWeaponComponentData', 8, 'f32'), weapon_target, 'weapon_local')
+            # Spread (0.30.4): the WeaponData spread pair of a projectile mount, the member the shot reads for every
+            # shot and pellet (research/mounted-spread-shield). Spray, beam and arc mounts keep theirs unexposed.
+            spread = spread_mounts[key]
+            assert spread['weaponData'] == {k: own['WeaponDataComponentData'][k] for k in spread['weaponData']}, \
+                key + ': WeaponData identity diverged'
+            if spread['readOnShot']:
+                for field_id, name, offset, index in SPREAD:
+                    item = field(field_id, name, 'mrad', 'number', spread['spread'][index],
+                        component('WeaponDataComponentData', offset, 'f32'), weapon_target, 'weapon_local',
+                        ack='allow_unverified_effect')
+                    item.update({'min': 0, 'max': 1000, 'rangeReason': SPREAD_RANGE, 'order': None,
+                        'lifecycle': SPREAD_LIFECYCLE, 'appliesWhen': 'entity_spawn',
+                        'acknowledgementReason': SPREAD_UNVERIFIED})
+            else:
+                blocked.append({'field': 'weapon.horizontal_spread / weapon.vertical_spread', 'reason': spread['reason']})
+            blocked.append({'field': 'weapon.recoil_* / weapon.sway / weapon.ergonomics', 'reason': RECOIL_BLOCKER})
             if 'magazine' in values and vehicle.get('carrier'):
                 field('weapon.capacity', 'Magazine capacity', 'rounds', 'integer', values['magazine']['capacity'],
                     component('WeaponMagazineComponentData', 136, 'u32'), weapon_target, 'weapon_local')
@@ -413,39 +550,7 @@ def build(research_path=RESEARCH):
                 'attackResource': slot['path'], 'ordinaryWritesBlocked': False, 'mountChain': chain,
                 'attacks': attacks, 'fields': fields}
             by_vehicle.setdefault(vehicle['name'], {})[str(slot['slot'])] = key
-            groups = {'local': [], 'projectile': [], 'damage': [], 'explosion': [], 'beam': [], 'arc': []}
-            for item in fields:
-                group = ('local' if item['writeScope'] in ('weapon_local', 'shared_mounted_weapon') else 'explosion'
-                    if item['semanticFieldId'].startswith('explosion.') else 'projectile'
-                    if item['semanticFieldId'].startswith('projectile.') else 'beam'
-                    if item['semanticFieldId'].startswith('beam.') else 'arc'
-                    if item['semanticFieldId'].startswith('arc.') else 'damage')
-                instance = {'instanceKey': 'vehicle-field/v1/' + slug(key) + '/' + slug(item['semanticFieldId']) + '/'
-                    + digest({'weapon': key, 'field': item['semanticFieldId']}), 'weapon': key,
-                    'weaponSemanticId': semantic, 'semanticFieldId': item['semanticFieldId'],
-                    'apiFieldConstant': api_constant(item['semanticFieldId']),
-                    'target': item['target'], 'displayName': item['displayName'], 'unit': item['unit'],
-                    'type': item['type'], 'baseline': item['currentDefault'], 'writable': item['editable'],
-                    'scope': item['writeScope'], 'allowSharedRequired': item['affectsMultipleWeapons'],
-                    'otherConsumers': item['sharedWithWeapons'], 'acknowledgement': item['acknowledgement'],
-                    'gameplayEvidence': item['gameplayEvidence'],
-                    'backingComponent': item['backing'].get('component') or item['backing']['settings']}
-                if item.get('lifecycle'):
-                    # Turret motion: range, sibling order and when the game reads the member (lifecycle).
-                    instance.update({key_: item[key_] for key_ in ('min', 'max', 'rangeReason', 'order', 'lifecycle',
-                        'appliesWhen', 'acknowledgementReason')})
-                if item['type'] == 'projectile_reference':
-                    # The mount's projectile reference: the one host model (class, active source); semantic handles
-                    # only (expect: vehicle:weapon(mount):attack(role); a donor from hd2.attack_output(name)).
-                    instance.update({'apiFieldConstant': 'hd2.fields.attack.projectile',
-                        'baseline': {'weapon': key, 'attack': item['target']['attack']},
-                        'projectileReference': {k: item.get(k) for k in ('referenceKind', 'compatibilityClass',
-                            'referenceRole', 'projectileSource')}})
-                    if item.get('liveEvidence'):
-                        instance.update({'liveEvidence': item['liveEvidence'],
-                            'liveProvenValues': item['liveProvenValues']})
-                instances.append(instance)
-                groups[group].append(instance['instanceKey'])
+            groups = publish(key, semantic, fields)
             public_mounts.append({'slot': slot['slot'], 'label': label, 'weapon': {'key': key, 'semanticId': semantic,
                 'nativePath': slot.get('nativePath'), 'attacks': sorted(attacks), 'fieldGroups': groups,
                 'values': {k: values[k] for k in ('fireRate', 'magazine', 'reloadDuration', 'health', 'armor', 'infiniteAmmo')
@@ -462,6 +567,7 @@ def build(research_path=RESEARCH):
                     'drone weapon entity']}} if vehicle.get('carrier') else {})})
     summary = {'vehicles': len(public_vehicles),
         'weaponMounts': sum(1 for v in public_vehicles for m in v['mounts'] if m['weapon']),
+        'shieldMounts': sum(1 for v in public_vehicles for m in v['mounts'] if m.get('shield')),
         'fieldInstances': len(instances), 'writableFieldInstances': sum(1 for i in instances if i['writable']),
         'weaponLocalFields': sum(1 for i in instances if i['scope'] == 'weapon_local'),
         'sharedMountedWeaponFields': sum(1 for i in instances if i['scope'] == 'shared_mounted_weapon'),
@@ -588,7 +694,7 @@ def build(research_path=RESEARCH):
     public['stratagemBeamHosts'] = beam_hosts
     if re.search(r'0x[0-9a-f]{8,}', json.dumps(public).lower()):
         raise ValueError('public vehicle weapon catalog leaks a native identifier')
-    runtime = {'weapons': runtime_weapons, 'byVehicle': by_vehicle, 'summary': summary}
+    runtime = {'weapons': runtime_weapons, 'byVehicle': by_vehicle, 'shields': shields, 'summary': summary}
     return runtime, public
 
 

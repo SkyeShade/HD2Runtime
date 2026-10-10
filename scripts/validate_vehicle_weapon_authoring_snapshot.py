@@ -225,6 +225,16 @@ local worker=coroutine.create(function()
  scenario('patriot_hmg_fire_rate','EXO-45 Patriot Exosuit / right_gun','weapon.fire_rate',1200,600)
  scenario('patriot_missile_damage','EXO-45 Patriot Exosuit / left_gun','damage.primary.standard_damage',1250,2000,
   {allow_shared=true})
+ -- 0.30.4: the Breakthrough flak cannon's WeaponData spread, and its shield arm (the left mount, no weapon component):
+ -- the plate zone's health and armor and the arm's own pool, on the shield arm's own HealthComponent record.
+ scenario('breakthrough_flak_spread','EXO-55 Breakthrough Exosuit / right_gun','weapon.horizontal_spread',200,1000,
+  {allow_unverified_effect=true})
+ scenario('breakthrough_shield_plate_health','EXO-55 Breakthrough Exosuit / left_gun','zone.health',5000,25000,
+  {allow_unverified_effect=true})
+ scenario('breakthrough_shield_plate_armor','EXO-55 Breakthrough Exosuit / left_gun','zone.armor',4,5,
+  {allow_unverified_effect=true})
+ scenario('breakthrough_shield_arm_health','EXO-55 Breakthrough Exosuit / left_gun','entity.health',800,4000,
+  {allow_unverified_effect=true})
  -- Independent arms: one arm's capacity changes, the other arm's record does not.
  reset()
  local left=weapons.validate_patch({id='left',target=hd2_target('EXO-49 Emancipator Exosuit / left_gun','weapon.capacity').target,

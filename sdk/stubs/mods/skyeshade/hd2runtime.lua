@@ -1013,6 +1013,10 @@ function HD2Vehicle:weapons() end
 ---@param identity integer|string mount slot, mount label, weapon key or semanticId
 ---@return HD2VehicleWeapon
 function HD2Vehicle:weapon(identity) end
+---The shield arm of the EXO-55 Breakthrough (its left mount, no weapon component): entity.health (the arm),
+---zone.health / zone.armor (the plate). Errors for a vehicle without a reviewed shield mount.
+---@return HD2VehicleWeapon
+function HD2Vehicle:shield() end
 ---@return HD2VehicleWeapon
 function HD2VehicleMount:weapon() end
 
