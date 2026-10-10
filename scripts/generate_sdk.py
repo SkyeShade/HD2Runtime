@@ -209,7 +209,9 @@ def outputs():
     stub+=['','---@class HD2PlayerAttack','---@field resource "player_weapon"',
         '---@field path "attack"','---@field weapon HD2WeaponName','---@field attack HD2AttackRole',
         'local HD2PlayerAttack = {}','---@return HD2ProjectileReference',
-        'function HD2PlayerAttack:projectile() end','---@return table',
+        'function HD2PlayerAttack:projectile() end',
+        '---Reviewed direct plain bullet definition; independent of later ammo swaps.',
+        '---@return HD2OriginalProjectile','function HD2PlayerAttack:original_projectile() end','---@return table',
         'function HD2PlayerAttack:describe() end',
         '---The output this attack emits, by native family (see sdk/AttackOutputCapabilities.json).',
         '---@return HD2AttackOutput','function HD2PlayerAttack:output() end',
@@ -232,6 +234,9 @@ def outputs():
         '---@class HD2AmmunitionProjectile','---@field resource "player_weapon"',
         '---@field path "ammunition_projectile"','---@field weapon HD2WeaponName',
         'local HD2AmmunitionProjectile = {}','---@return table','function HD2AmmunitionProjectile:describe() end','',
+        '---@class HD2OriginalProjectile','---@field resource "player_weapon"',
+        '---@field path "original_projectile"','---@field weapon HD2WeaponName',
+        '---@field attack HD2AttackRole','local HD2OriginalProjectile = {}','',
         '---@class HD2ProjectileReference','---@field resource "player_weapon"',
         '---@field path "projectile_reference"','---@field weapon HD2WeaponName',
         '---@field attack HD2AttackRole','local HD2ProjectileReference = {}',
@@ -263,7 +268,7 @@ def outputs():
         '---@field path "attachment_option"','---@field weapon HD2WeaponName',
         '---@field category string','---@field option string','local HD2AttachmentOption = {}',
         '---@return table','function HD2AttachmentOption:describe() end','',
-        '---@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2StratagemAttack|HD2EagleRearm|HD2PlayerAttack|HD2WeaponAmmunition|HD2ProjectileReference|HD2TerminalAction|HD2Explosion|HD2SupportWeapon|HD2SupportAttack|HD2SupportProjectile|HD2SupportExplosion|HD2DeployedEntity|HD2DeployedShield|HD2DeployedZone|HD2MountedWeapon|HD2VehicleEntity|HD2VehicleZone|HD2VehicleMount|HD2VehicleWeapon|HD2VehicleWeaponAttack|HD2Backpack|HD2BackpackZone|HD2BackpackLinked|HD2BackpackLinkedZone|HD2BoosterTarget|HD2WeaponAttachment|HD2PodRack|HD2PodSlot|HD2CatalogueExplosion','',
+        '---@alias HD2AuthoringTarget HD2OriginalProjectile|HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2StratagemAttack|HD2EagleRearm|HD2PlayerAttack|HD2WeaponAmmunition|HD2ProjectileReference|HD2TerminalAction|HD2Explosion|HD2SupportWeapon|HD2SupportAttack|HD2SupportProjectile|HD2SupportExplosion|HD2DeployedEntity|HD2DeployedShield|HD2DeployedZone|HD2MountedWeapon|HD2VehicleEntity|HD2VehicleZone|HD2VehicleMount|HD2VehicleWeapon|HD2VehicleWeaponAttack|HD2Backpack|HD2BackpackZone|HD2BackpackLinked|HD2BackpackLinkedZone|HD2BoosterTarget|HD2WeaponAttachment|HD2PodRack|HD2PodSlot|HD2CatalogueExplosion','',
         '---@param role HD2AttackRole','---@return HD2PlayerAttack',
         'function HD2Weapon:attack(role) end',
         '---The default ammunition that owns this weapon\'s fired projectile (its delta patches ProjectileWeapon +0',
@@ -880,8 +885,8 @@ def outputs():
     for method,spec in schema['api']['functions'].items():doc+=['- `hd2.'+method+'(...)`: '+spec['doc']]
     for domain,t in types.items():
         doc+=['','## '+t['class'],'']
-        for method,to in t['methods'].items():doc+=['- `:'+method+'()` → `'+types[to]['class']+'` (only where mapped).']
-        doc+=['- `:describe()` → offline field metadata; `:read_target()` → descriptor for `hd2.read/observe`.']
+        for method,to in t['methods'].items():doc+=['- `:'+method+'()` â†’ `'+types[to]['class']+'` (only where mapped).']
+        doc+=['- `:describe()` â†’ offline field metadata; `:read_target()` â†’ descriptor for `hd2.read/observe`.']
     for key,r in resources.items():
         doc+=['','## '+r['label'],'',r['resource']+' (`hd2.resources.'+key+'`)','',
               '| Field constant | Domain / value type | Access | Baseline | Evidence | Semantic range | Enum | Source |',

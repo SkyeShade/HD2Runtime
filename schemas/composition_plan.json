@@ -1,5 +1,6 @@
 {
   "schemaVersion": 1,
+  "originalPlayerProjectiles": true,
   "api": "hd2.plan",
   "semanticTargetModel": "Each operation owns one semantic target; a plan coordinates the complete physical write set across targets.",
   "fieldCapabilitySource": "PlayerWeaponAuthoringCapabilities.json",

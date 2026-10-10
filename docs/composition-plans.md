@@ -88,3 +88,25 @@ on each corresponding operation. One operation may contain fields from only one
 owning component/settings object, so ProjectileSettings, DamageInfo,
 ExplosionSettings, and explosion DamageInfo use separate operations inside the
 same plan.
+
+## Original player bullets
+
+SDKs advertising `originalPlayerProjectiles: true` also accept
+`hd2.weapon(name):attack(role):original_projectile()`. This names the reviewed
+original definition independently of the weapon's current ammo selector. It is
+limited to direct, conventional plain player bullets: it can be a same-class
+projectile donor or a target for projectile/direct-damage scalar fields, with
+`allow_shared=true` for scalar edits. It is not an `expect` handle, ammunition
+delta, terminal or explosion target. Existing `projectile()` handles retain
+their live-selector conflict checks.
+
+For example, one plan can tune One-Two's original bullet to 80/85, assign that
+original handle to StA-52, and assign Tenderizer's bullet to One-Two. These are
+independent targets and can share one atomic phase. Fresh resolution still
+finds the original bullet after the donor weapon has switched ammo, including
+when only part of the weapon data reloads. The owner component, projectile
+settings identity, linked damage identity and expected/desired target bytes
+are re-proven on every full resolution. No addresses or numeric projectile IDs
+are accepted from callers.
+
+This API has offline regression coverage; no gameplay claim is implied.
