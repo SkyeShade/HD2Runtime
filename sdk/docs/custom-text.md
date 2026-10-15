@@ -143,6 +143,11 @@ entry; the table stays allocated.
   lets the Runtime register again (the next update). Text that the game rebuilt in that update may show blank until its
   screen is rebuilt. Whether the refresh is immediate is not proven offline; the live proof checks it.
 - **Multiplayer:** presentation is local. Other players see the stratagem's own text.
+- **Budget (0.40.1).** At most 4096 texts across all mods (256 before), in one table of at most 1 MiB (64 KiB before).
+  The table holds every language's offsets and each distinct string once. A text that would push an upper bound of the
+  table's size past 1 MiB is refused when it is defined (`custom text budget reached`). Before 0.40.1 this case failed
+  later, as `TEXT_BUDGET` for every Runtime text. The bound counts each text's id, one offset per game language, and
+  its own distinct strings.
 - **Live-proven** (CustomStratagemP0Proof 0.12.0): the game drawing Runtime text in the ship loadout and the mission,
   and the registration again after language changes. English (default) text on the 120mm only.
 

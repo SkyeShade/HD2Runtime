@@ -108,6 +108,17 @@ function M.key(owner,id)return owner..'/text/'..id end
 local identities=setmetatable({},{__mode='k'})   -- handle -> {owner, id, key, loc, values}
 local by_key,by_loc,ordered={},{},{}
 local version=0
+-- 0.40.1: an upper bound of M.table_bytes() for the texts defined so far (each text's id, its offsets and its own
+-- distinct strings; the table also shares strings between texts), so a text the table could not hold is refused when it
+-- is defined, never later as a TEXT_BUDGET for every text.
+local bound=0
+local function table_cost(values)
+    local cost,seen=4+4*#D.languages,{}
+    for _,text in pairs(values)do
+        if not seen[text]then seen[text]=true;cost=cost+#text+1 end
+    end
+    return cost
+end
 local Text={}
 Text.__index=Text
 function Text.__tostring(self)
@@ -132,6 +143,9 @@ function M.handle(id,value,owner)
         return existing
     end
     assert(#ordered<D.limits.texts,'custom text budget reached ('..D.limits.texts..' texts)')
+    local cost=table_cost(values)
+    assert(D.table.header+4*#D.languages+bound+cost<=D.limits.tableBytes,'custom text budget reached (the text table '
+        ..'would exceed '..D.limits.tableBytes..' bytes)')
     local loc=images.hash(key)
     assert(loc~=0 and not by_loc[loc],"text '"..id.."' of "..owner..' has the same text id as '
         ..tostring(by_loc[loc])..'; rename one of them')
@@ -139,6 +153,7 @@ function M.handle(id,value,owner)
     identities[handle]={owner=owner,id=id,key=key,loc=loc,values=values}
     by_key[key],by_loc[loc]=handle,key
     ordered[#ordered+1]=handle
+    bound=bound+cost
     version=version+1
     return handle
 end
@@ -766,7 +781,7 @@ function M.state()return {table=state.table,index=state.index,language=state.lan
     tables=state.tables,texts=#ordered}end
 function M.reset_for_tests()
     if keeper then keeper.stop()end
-    identities=setmetatable({},{__mode='k'});by_key,by_loc,ordered={},{},{};version=0
+    identities=setmetatable({},{__mode='k'});by_key,by_loc,ordered={},{},{};version=0;bound=0
     state={table=nil,version=-1,tables=0,index=nil,language=nil};proven={};reported=nil
     game_cache={key=nil,texts={},size=0}
 end

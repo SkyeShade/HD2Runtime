@@ -58,8 +58,10 @@ def build() -> dict:
         'languages': [{'code': item['code'], 'hash': int(item['hash'], 16)} for item in research['languages']],
         'defaultLanguage': 'us',
         # Bounds: what the Runtime reads (a changed or busy registry, never a guess) and what it builds.
-        'limits': {'registryCapacity': 64, 'tableLanguages': 32, 'tableIds': 200000, 'texts': 256, 'textBytes': 512,
-            'tableBytes': 65536, 'tables': 16},
+        # 0.40.1: texts 4096 and tableBytes 1 MiB (256 and 64 KiB before) for any number of custom stratagems (3-4
+        # texts each); the game's own tables hold thousands of ids with the same u32 offsets.
+        'limits': {'registryCapacity': 64, 'tableLanguages': 32, 'tableIds': 200000, 'texts': 4096, 'textBytes': 512,
+            'tableBytes': 1048576, 'tables': 16},
         # The game's own tables in English, by id count (every retained snapshot is English): the REGISTRY_FULL
         # diagnostic names a one-language 'us' table by its size (0.30.2, read-only).
         # 0.30.2: how a full registry grows (the add's own policy and allocator; research registry.growth): a larger

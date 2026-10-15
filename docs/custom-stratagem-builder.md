@@ -47,7 +47,7 @@ entity number appears in either file. Donors are named, because a donor's packag
 | `selection` | What a pick writes into the loadout slot (r44): informational, `field: null` (no project field). |
 | `familyOptions` | Options added to a family since: `expendable.pod` (what its carrier weapon's own pod holds) and its carrier group. |
 | `unsupported` | Fields that are refused, with the reason (all shared definitions). |
-| `limits` | At most 16 custom stratagems; at most 64 orbital shells per call. |
+| `limits` | At most 64 orbital shells per call. Any number of custom stratagems since 0.40.1: `definitions` (16 before) is gone, and so is the project schema's `maxItems`. |
 | `catalogs` | The dropdowns (below). |
 
 Each field has a `type` (`string`, `integer`, `number`, `enum`, `list`, `object`, `image`, or a donor type such as

@@ -87,6 +87,25 @@ class RegistrationTests(unittest.TestCase):
     def lua(self, body):
         self.assertEqual(run(REGISTRATION + body), b'ok')
 
+    def test_any_number_of_custom_stratagems(self):
+        # 0.40.1: no cap (16 before); forty register, each its own virtual stratagem and panel entry, in order.
+        self.lua(r'''
+local DIRS={'up','down','left','right'}
+for n=0,39 do
+    local code={'left','left','right','right'}
+    local k=n
+    for _=1,3 do code[#code+1]=DIRS[k%4+1];k=math.floor(k/4)end
+    custom.register(spec({id='custom_'..n,name='CUSTOM '..n,name_cased='Custom '..n,code=code}),'mods/test/one')
+end
+local virtual=require('hd2runtime/runtime/virtual_stratagems')
+local list=virtual.list()
+assert(#list==40,#list)
+for n=0,39 do assert(list[n+1].id=='custom_'..n and custom.get('custom_'..n),n)end
+local entries=require('hd2runtime/runtime/custom_stratagem_panel').entries()
+assert(#entries==40 and entries[40].id=='custom_39')
+return 'ok'
+''')
+
     def test_names_and_descriptions_take_every_game_language(self):
         # 0.31.2: name, name_cased, description (and delivery.presentation.name) take a table of the game's languages
         # (runtime/text_resources.lua), as hd2.resources.text does. The limits are BYTES of UTF-8: 64 is about 21 CJK

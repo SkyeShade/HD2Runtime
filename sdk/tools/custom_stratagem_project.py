@@ -344,8 +344,11 @@ def validate(project: dict, schema: dict) -> list[str]:
     if 'log' in project and not (isinstance(project['log'], str) and 0 < len(project['log']) <= 160):
         problems.add('project.log', 'must be a string of 1 to 160 characters')
     items = project.get('stratagems')
-    if not isinstance(items, list) or not 1 <= len(items) <= schema['limits']['definitions']:
-        problems.add('project.stratagems', 'must list 1 to %d custom stratagems' % schema['limits']['definitions'])
+    # Any number of custom stratagems since 0.40.1 (an older schema's 'definitions' limit still applies).
+    limit = schema['limits'].get('definitions')
+    if not isinstance(items, list) or not items or (limit is not None and len(items) > limit):
+        problems.add('project.stratagems', 'must list 1 to %d custom stratagems' % limit if limit is not None
+            else 'must list at least 1 custom stratagem')
         return problems
     M, C = schema['metadata'], schema['carrier']
     families = _families(schema)

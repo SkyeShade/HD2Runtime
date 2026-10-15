@@ -31,8 +31,7 @@ local texts=require('hd2runtime/runtime/text_resources')
 local images=require('hd2runtime/runtime/image_resources')
 local catalog=require('hd2runtime/domains/stratagem_authoring')
 local M={}
-M.MAX=16
-local definitions,order={},{}
+local definitions,order={},{}       -- any number of definitions (0.40.1; at most 16 before)
 
 local DIRECTIONS={up=true,down=true,left=true,right=true}
 local function stratagem(name,what)
@@ -49,7 +48,6 @@ function M.define(spec,owner)
     assert(type(id)=='string'and#id>=1 and#id<=64 and id:match('^[a-z0-9_]+$'),
         'id must be 1-64 characters of a-z, 0-9 and _')
     assert(not definitions[id],'virtual stratagem '..id..' is already defined')
-    assert(#order<M.MAX,'at most '..M.MAX..' virtual stratagems')
     local display=spec.display
     assert(type(display)=='table','display must be {name, description, icon}')
     assert(texts.issued(display.name)and texts.issued(display.description),

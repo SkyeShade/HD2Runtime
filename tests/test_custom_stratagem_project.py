@@ -122,13 +122,17 @@ class SchemaTests(unittest.TestCase):
         out = run(r'''
 local C=require('hd2runtime/runtime/custom_stratagems')
 local L=C.LIMITS
-return table.concat({L.definitions,L.id.max,L.text,L.description,L.code[1],L.code[2],L.cooldown[2],L.rounds[2],
+assert(L.definitions==nil and C.MAX==nil,'any number of custom stratagems (0.40.1)')
+return table.concat({L.id.max,L.text,L.description,L.code[1],L.code[2],L.cooldown[2],L.rounds[2],
     L.eagle.uses[2],L.eagle.rearm_seconds[2],L.orbital.salvos[2],L.orbital.shells_per_salvo[2],L.orbital.shell_interval[2],
     L.orbital.salvo_interval[2],L.orbital.scatter[2],L.orbital.total},',')
 ''').decode()
         s = P.load_schema()
         F = {f['family']: f['fields'] for f in s['families'] if 'fields' in f}
-        expected = [s['limits']['definitions'], s['metadata']['id']['maxLength'], s['metadata']['name']['maxLength'],
+        self.assertNotIn('definitions', s['limits'])
+        project = json.loads((ROOT / 'sdk/schemas/custom_stratagems.project.schema.json').read_text(encoding='utf-8'))
+        self.assertNotIn('maxItems', project['properties']['stratagems'])
+        expected = [s['metadata']['id']['maxLength'], s['metadata']['name']['maxLength'],
             s['metadata']['description']['maxLength'], s['metadata']['code']['min'], s['metadata']['code']['max'],
             s['metadata']['cooldown']['max'], F['support']['items']['item']['modify']['fields']['rounds']['max'],
             F['eagle']['uses']['max'], F['eagle']['rearm_seconds']['max'], F['orbital']['salvos']['max'],

@@ -93,6 +93,32 @@ return hex(texts.table_bytes())
             entries[hd2_text.language_hash(code)] = {key('gas_name'): 'ORBITAL GAS BARRAGE', key('gas_desc'): desc}
         self.assertEqual(bytes.fromhex(out), hd2_text.build(entries))
 
+    def test_the_budget_refuses_at_definition_never_at_the_write(self):
+        # 0.40.1: 4096 texts and a 1 MiB table (256 and 64 KiB before). A text the table could not hold is refused when
+        # it is defined (an upper bound of the table's size), so the table built from every accepted text always fits.
+        self.assertEqual(lua(r'''
+local long=string.rep('x',505)
+local n=0
+while true do
+    local ok,why=pcall(text,'long_'..n,long..string.format('%06d',n))
+    if not ok then
+        assert(tostring(why):find('would exceed '..TXT.limits.tableBytes..' bytes',1,true),tostring(why))
+        break
+    end
+    n=n+1
+end
+assert(n>1000 and n<TXT.limits.texts,n)
+local bytes=#texts.table_bytes()
+assert(bytes<=TXT.limits.tableBytes and bytes>TXT.limits.tableBytes*0.9,bytes)
+-- Short texts: the count bound.
+texts.reset_for_tests()
+for k=1,TXT.limits.texts do text('t'..k,'T'..k)end
+local ok,why=pcall(text,'one_more','x')
+assert(not ok and tostring(why):find('('..TXT.limits.texts..' texts)',1,true),tostring(why))
+assert(#texts.table_bytes()<=TXT.limits.tableBytes)
+return 'ok'
+'''), b'ok')
+
     def test_handles_values_and_duplicates(self):
         self.assertEqual(lua(r'''
 local a=text('gas_name','ORBITAL GAS BARRAGE')

@@ -694,7 +694,8 @@ def build(facts: dict | None = None) -> dict:
                 'of this pass: the capacity is the rack\'s usable slots (1 or 2)'},
             {'field': 'a carrier pod with several players', 'reason': 'solo host only in this build'},
         ],
-        'limits': {'definitions': L['definitions'], 'orbitalShells': O['total']},
+        # 0.40.1: no 'definitions' limit (any number of custom stratagems; 16 before).
+        'limits': {'orbitalShells': O['total']},
         'catalogs': {key: facts[key] for key in ('supportDonors', 'projectileDonors', 'cloneDonors', 'sentryDonors',
             'eagleDonors',
             'orbitals', 'explosionDonors', 'carrierFamilies', 'carrierGroups', 'podItems', 'podCarriers', 'beacons',
@@ -801,8 +802,7 @@ def project_schema(schema: dict) -> dict:
             'format': {'const': FORMAT},
             'log': {'type': 'string', 'minLength': 1, 'maxLength': 160,
                 'description': 'optional: one line the mod logs at load (e.g. a build banner)'},
-            'stratagems': {'type': 'array', 'minItems': 1, 'maxItems': schema['limits']['definitions'],
-                'items': stratagem}}}
+            'stratagems': {'type': 'array', 'minItems': 1, 'items': stratagem}}}
 
 
 def outputs() -> dict[str, str]:

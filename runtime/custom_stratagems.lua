@@ -120,7 +120,8 @@ function M.shown_reasons(reasons)
     return table.concat(out,'; ')
 end
 M.TOKEN='Orbital Precision Strike'
-M.MAX=16
+-- 0.40.1: no cap on the number of custom stratagems (16 before). Each takes 3 Runtime texts (an expendable 4) of the
+-- shared text budget (runtime/text_resources.lua), the only bound left; the panel scrolls.
 M.STEP=0.5               -- the ship and mission step
 M.LANDING_STEP=0.1       -- the landing watch while a call is pending
 M.REVALIDATE_EVERY=5     -- aboard the ship: the cached carriers checked again at least this often
@@ -159,7 +160,6 @@ end
 -- Every limit a custom stratagem's data is checked against (the builder schema, sdk/CustomStratagemSchema.json, is
 -- generated from this table: scripts/generate_custom_stratagem_schema.py).
 M.LIMITS={
-    definitions=M.MAX,
     id={pattern='^[a-z][a-z0-9_]*$',max=48},
     text=64,
     description=400,
@@ -1050,7 +1050,6 @@ function M.register(spec,owner)
     assert(type(id)=='string'and#id>=1 and#id<=M.LIMITS.id.max and id:match(M.LIMITS.id.pattern),
         'id must be 1-'..M.LIMITS.id.max..' characters of a-z, 0-9 and _, starting with a letter')
     assert(not defs[id],'custom stratagem '..id..' is already registered')
-    assert(#order<M.MAX,'at most '..M.MAX..' custom stratagems')
     local name=text_of(spec.name,'name')
     local name_cased=text_of(spec.name_cased or spec.name,'name_cased')
     local description=text_of(spec.description,'description')
