@@ -1698,7 +1698,7 @@
       "tests": ["HD2Runtime custom stratagem panel"],
       "acknowledgementRemoved": null,
       "observations": ["r27 (2026-10-06): seven cards in two rows of four in the native look and the title in the game's font; the yellow equipped look stayed the last mission's picks and the new picks did not light up until a later visit (the panel computed it only when it opened)."],
-      "notPromoted": ["the equipped look following the picks (r28 fix, not re-tested)", "scrolling past six rows (seven entries fit in two rows)", "the r27 overlay: the call-in code in arrows, CALL-IN TIME and the user's box layout (not reported)"],
+      "notPromoted": ["the equipped look following the picks (r28 fix, not re-tested)", "scrolling past five rows (20 cards in view since 0.40.1, six rows before; seven entries fit in two rows)", "the r27 overlay: the call-in code in arrows, CALL-IN TIME and the user's box layout (not reported)"],
       "nextTests": ["r28: open the stratagem selector right after a mission: only the current picks are yellow; pick a custom stratagem: its card turns yellow at once; replace a custom slot with a vanilla stratagem: its card loses the yellow. Hover a card: the code in arrows, CALL-IN TIME first, the box titles inside the boxes."]
     },
     "custom_stratagem_weapon_variant": {

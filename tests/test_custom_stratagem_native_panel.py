@@ -3,8 +3,9 @@ native_layout / draw_native / draw_native_focus, runtime/ui_fonts.lua; docs/cust
 panel"). Offline, on the stand-in loadout screen of tests/test_custom_stratagem_panel.py (1080p, 1 px per unit; the
 native list frame 75, 104, 395 x 528; the details panel 500, 232, 1024 x 400):
   * four columns of native-sized cards (80 at the 85 pitch) right of the details panel, in the native list's band, up
-    to six rows; seven entries in two rows, no scrollbar (live r25: the 3-column, 2-row panel hid the seventh);
-  * thirty entries: six of eight rows in view, a scrollbar; the wheel over the panel and the scrollbar track scroll it,
+    to five rows (20 cards, 0.40.1; six before); seven entries in two rows, no scrollbar (live r25: the 3-column, 2-row
+    panel hid the seventh);
+  * thirty entries: five of eight rows in view, a scrollbar; the wheel over the panel and the scrollbar track scroll it,
     the keyboard focus scrolls to its card; nothing is ever written;
   * every card in the native look: the translucent inner square, the six bars of the split frame, the icon on its
     plate; the equipped look (yellow frame) for a custom stratagem in a loadout slot; the white split frame when focused;
@@ -72,14 +73,14 @@ screen_1080()
 local P=panel.panel({renderer='native',placeholders=29,focus=true,mouse=true})
 tick(4)
 local L=P.layout
-assert(L.grid.rows==6 and L.grid.totalRows==8 and L.scrollbar~=nil,tostring(L.grid.rows))
-assert(L.tiles[24].visible and not L.tiles[25].visible)
-assert(count('6 of 8 rows in view, scrolled to row 0 (wheel or scrollbar)')==1,table.concat(logged,' | '))
+assert(L.grid.rows==5 and L.grid.totalRows==8 and L.scrollbar~=nil,tostring(L.grid.rows))
+assert(L.tiles[20].visible and not L.tiles[21].visible,'at most 20 cards in view')
+assert(count('5 of 8 rows in view, scrolled to row 0 (wheel or scrollbar)')==1,table.concat(logged,' | '))
 -- the wheel over the panel scrolls down one row (wheel -1), back up (+1)
 point_at(L.tiles[6].rect)
 tick(1)
 WHEEL=-1;tick(1);WHEEL=0;tick(1)
-assert(P.layout.grid.scroll==1 and P.layout.tiles[25].visible and not P.layout.tiles[4].visible,P.layout.grid.scroll)
+assert(P.layout.grid.scroll==1 and P.layout.tiles[21].visible and not P.layout.tiles[4].visible,P.layout.grid.scroll)
 WHEEL=1;tick(1);WHEEL=0;tick(1)
 assert(P.layout.grid.scroll==0)
 -- outside the panel the wheel is not the panel's
@@ -90,7 +91,7 @@ assert(P.layout.grid.scroll==0)
 local t=P.layout.scrollbar.track
 MOUSE.x,MOUSE.y=t.x+t.w/2,1080-(t.y+2)
 MOUSE.left=true;tick(1);MOUSE.left=false;tick(1)
-assert(P.layout.grid.scroll==2 and P.layout.tiles[30].visible,P.layout.grid.scroll)
+assert(P.layout.grid.scroll==3 and P.layout.tiles[30].visible,P.layout.grid.scroll)
 -- the keyboard focus on a card out of view scrolls to it
 MOUSE.x,MOUSE.y=10,10;tick(1)
 for _=1,3 do P.focus_next()end

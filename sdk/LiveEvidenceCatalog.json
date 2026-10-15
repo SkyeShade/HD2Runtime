@@ -1064,7 +1064,7 @@
    ],
    "notPromoted": [
     "the equipped look following the picks (r28 fix, not re-tested)",
-    "scrolling past six rows (seven entries fit in two rows)",
+    "scrolling past five rows (20 cards in view since 0.40.1, six rows before; seven entries fit in two rows)",
     "the r27 overlay: the call-in code in arrows, CALL-IN TIME and the user's box layout (not reported)"
    ],
    "nextTests": [

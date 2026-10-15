@@ -95,7 +95,12 @@ local C=assert(panel.layout(3840,2160,{unit=3}))
 assert(C.compact and C.unit<3 and inside(C.panel,C.box)and near(C.panel.h,C.box.h))
 -- Unsupported: tiny screens, invalid units and counts.
 assert(select(2,panel.layout(320,240))=='unsupported resolution'and select(2,panel.layout(1920,1080,{unit=0}))=='invalid unit')
-assert(select(2,panel.layout(1920,1080,{count=61}))=='unsupported entry count')
+assert(select(2,panel.layout(1920,1080,{count=1.5}))=='unsupported entry count')
+-- 0.40.1: any number of entries (60 at most before); later rows scroll, with a scrollbar in the grid's right padding.
+local H=assert(panel.layout(1920,1080,{count=200,scroll=10}))
+assert(H.grid.totalRows==67 and H.grid.scroll==10 and H.tiles[31].visible and H.scrollbar)
+assert(H.scrollbar.track.x>=H.grid.x+H.grid.w and H.scrollbar.track.x+H.scrollbar.track.w<=H.description.x)
+assert(panel.layout(1920,1080,{count=3}).scrollbar==nil,'every row in view: no scrollbar')
 -- Never over protected native UI: the native list frame on the left is clear; a rectangle in the box refuses.
 assert(panel.layout(1920,1080,{protected={{x=500,y=166,w=395,h=528}}}))
 assert(select(2,panel.layout(1920,1080,{protected={{x=1500,y=800,w=50,h=50}}}))=='the panel would meet protected native UI')
@@ -231,6 +236,13 @@ assert(select(2,panel.anchored_layout(1920,1080,{count=6}))=='the native details
 assert(select(2,panel.anchored_layout(1920,1080,{details=D1,count=6,protected={{x=1600,y=500,w=10,h=10}}}))
     =='the compact panel would meet protected native UI')
 assert(panel.anchored_layout(1920,1080,{details=D1,count=6,protected={{x=75,y=104,w=395,h=528}}}))
+-- 0.40.1: more entries scroll (any number; 60 at most before): a scrollbar in the grid's right padding, inside the panel.
+assert(L.scrollbar==nil,'six entries: every row in view')
+local S=assert(panel.anchored_layout(1920,1080,{details=D1,count=100,scroll=5}))
+assert(S.grid.rows==2 and S.grid.totalRows==34 and S.grid.scroll==5 and S.tiles[16].visible and not S.tiles[15].visible)
+local sb=assert(S.scrollbar)
+assert(sb.track.x>=S.grid.x+S.grid.w and inside(sb.track,S.panel)and inside(sb.thumb,sb.track))
+assert(panel.scroll_hit(S,sb.track.x+sb.track.w/2,sb.track.y+1)==7,'a page down')
 return 'ok'
 """)
 

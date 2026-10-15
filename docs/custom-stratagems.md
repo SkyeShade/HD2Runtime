@@ -4320,7 +4320,7 @@ the full-loadout close and Back), reconstruction, and the sound (not identified 
 `native_layout`; the custom stratagems' panel uses `renderer = 'native'`, the compact panel stays the module's default
 and fallback):
 - **Cards.** Native-sized, 80 units at the native 85-unit pitch, in the native cards' own px per unit.
-- **Rows.** Up to six in view. The panel stays above the native squad bars at the screen bottom ("EMPTY SLOT", up to
+- **Rows.** Up to five in view, 20 cards (0.40.1; six before). The panel stays above the native squad bars at the screen bottom ("EMPTY SLOT", up to
   about 151 units: the panel's floor is 170) and below the top bar. Its top is at the native list header's level when
   it fits, else raised just enough.
 - **Scrolling.** More rows scroll:
@@ -4329,6 +4329,10 @@ and fallback):
   - a click on the scrollbar track, a page;
   - keyboard focus (F6), which scrolls to its card.
 - **Scrollbar.** A native-style track with its thumb, drawn while there are more rows than fit.
+- **Any number of custom stratagems (0.40.1).** The cap of 16 registered custom stratagems is gone (in
+  `runtime/custom_stratagems.lua` and `runtime/virtual_stratagems.lua`). The only bound left is the Runtime's text
+  budget (`docs/custom-text.md`): each custom stratagem takes 3 texts (an expendable 4). The compact and legacy
+  fallback panels scroll too, with the same wheel, track and focus input and a scrollbar in the grid's right padding.
 
 **The card in the native look.** Measured from the native card on the user's screenshot (4K, 2 px per unit):
 - a grey 103/255 frame 2 units thick, open in the middle of its left and right sides (a 21-unit gap);

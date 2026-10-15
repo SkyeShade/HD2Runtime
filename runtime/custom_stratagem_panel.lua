@@ -63,7 +63,7 @@ local MIN_DESCRIPTION=110        -- units the description area needs beside the 
 local BRACKET_ARM,BRACKET_THICK=15,3
 local COLOURS={panel={205,10,12,14},panelEdge={255,64,68,72},title={255,232,232,226},tile={255,18,20,22},
     tileEdge={255,116,120,124},inner={255,50,53,57},icon={255,255,255,255},name={255,240,240,232},
-    text={255,200,200,196},bracket={255,236,236,232},
+    text={255,200,200,196},bracket={255,236,236,232},track={170,56,58,60},thumb={235,150,150,146},
     -- An unavailable entry (an expendable custom stratagem without a free carrier weapon): dimmed, a warning mark.
     unavailableShade={170,6,6,8},warning={255,236,74,48}}
 M.COLOURS=COLOURS
@@ -83,6 +83,18 @@ M.open_screen=open_screen
 local BASE=920
 M.LAYER_BASE=BASE
 
+-- 0.40.1: the scrollbar of a grid with more rows than are in view (every renderer; no cap on the entries): a track `w`
+-- units wide at x, as tall as the visible rows (grid_h pixels), and a thumb for the visible share at the scroll position.
+-- Returns {track, thumb}, or nil when every row is in view.
+local function scrollbar(grid,x,w,grid_h,u)
+    if grid.totalRows<=grid.rows then return nil end
+    local track={x=x,y=grid.top-grid_h,w=w*u,h=grid_h}
+    local th=math.max(track.h*grid.rows/grid.totalRows,6*u)
+    local ty=track.y+track.h-th-(track.h-th)*grid.scroll/math.max(1,grid.totalRows-grid.rows)
+    return {track=track,thumb={x=track.x,y=ty,w=track.w,h=th}}
+end
+local SCROLLBAR_W=3              -- units; the compact and legacy panels' track sits in the grid's right padding
+
 -- The layout for a width x height GUI. opts: unit (pixels per native unit; default height / 1080), count (entries),
 -- scroll (the first visible row), protected ({rects} the panel must not meet, e.g. the native list frame). Returns
 -- {box, panel, unit, card, pitch, title = {x, y, size}, grid = {x, top, columns, rows (visible), totalRows},
@@ -92,7 +104,7 @@ function M.layout(width,height,opts)
     opts=opts or{}
     if type(width)~='number'or type(height)~='number'or width<640 or height<360 then return nil,'unsupported resolution'end
     local count=opts.count or 1
-    if count<0 or count%1~=0 or count>60 then return nil,'unsupported entry count'end
+    if count<0 or count%1~=0 then return nil,'unsupported entry count'end
     local box={x=math.floor(width*M.SAFE.x),w=math.floor(width*M.SAFE.w),h=math.floor(height*M.SAFE.h)}
     box.y=math.floor(height*(1-M.SAFE.top))-box.h
     local u=opts.unit or height/1080
@@ -119,6 +131,8 @@ function M.layout(width,height,opts)
         local rect={x=out.grid.x+column*out.pitch,y=out.grid.top-row*out.pitch-out.card,w=out.card,h=out.card}
         out.tiles[index]={rect=rect,column=column,row=row+scroll,visible=row>=0 and row<rows}
     end
+    out.scrollbar=scrollbar(out.grid,out.grid.x+out.grid.w+(PAD-SCROLLBAR_W)/2*u,SCROLLBAR_W,
+        (rows*CARD.size+(rows-1)*GAP)*u,u)
     local dx=out.grid.x+out.grid.w+PAD*u
     out.description={x=dx,y=out.grid.top-out.card,w=box.x+box.w-PAD*u-dx,h=out.card}
     out.sizes={name=NAME_SIZE*u,text=TEXT_SIZE*u}
@@ -244,6 +258,11 @@ function M.draw(runtime,layout,entries,state)
                 end
             end
         end
+        local sb=layout.scrollbar
+        if sb then
+            rect(sb.track,12,COLOURS.track,'the scrollbar track')
+            rect(sb.thumb,13,COLOURS.thumb,'the scrollbar thumb')
+        end
         -- The description area: the focused entry's name and description; unfocused, the first entry's name only.
         local A=layout.description
         local shown=entries[state.focus or 1]
@@ -323,7 +342,7 @@ function M.compact_layout(width,height,opts)
     opts=opts or{}
     if type(width)~='number'or type(height)~='number'or width<640 or height<360 then return nil,'unsupported resolution'end
     local count=opts.count or 1
-    if count<1 or count%1~=0 or count>60 then return nil,'unsupported entry count'end
+    if count<1 or count%1~=0 then return nil,'unsupported entry count'end
     local box={x=math.floor(width*M.SAFE.x),w=math.floor(width*M.SAFE.w),h=math.floor(height*M.SAFE.h)}
     box.y=math.floor(height*(1-M.SAFE.top))-box.h
     local u=opts.unit or height/1080
@@ -332,7 +351,7 @@ function M.compact_layout(width,height,opts)
     local panel_w=BOX.pad+grid_w+BOX.pad
     local head=BOX.pad+BOX.title+BOX.titleGap
     local total=math.ceil(count/M.COLUMNS)
-    -- At most two rows in view now (six entries); more rows wait for scrolling.
+    -- At most two rows in view (six entries); the anchored panel scrolls the rest.
     local want_rows=math.min(total,2)
     local need_w=panel_w+BOX.tooltip.gap+BOX.tooltip.w
     local need_h=head+want_rows*BOX.tile+(want_rows-1)*BOX.gap+BOX.pad
@@ -489,6 +508,11 @@ function M.draw_compact(runtime,layout,entries,report)
                 end
             end
         end
+        local sb=layout.scrollbar
+        if sb then
+            need(screen.rect(sb.track.x,sb.track.y,BASE+12,sb.track.w,sb.track.h,COLOURS.track),'the scrollbar track')
+            need(screen.rect(sb.thumb.x,sb.thumb.y,BASE+13,sb.thumb.w,sb.thumb.h,COLOURS.thumb),'the scrollbar thumb')
+        end
     end)
     if not ok then screen.close();return nil,tostring(err)end
     return screen
@@ -553,7 +577,7 @@ function M.anchored_layout(width,height,opts)
     opts=opts or{}
     if type(width)~='number'or type(height)~='number'or width<640 or height<360 then return nil,'unsupported resolution'end
     local count=opts.count or 1
-    if count<1 or count%1~=0 or count>60 then return nil,'unsupported entry count'end
+    if count<1 or count%1~=0 then return nil,'unsupported entry count'end
     local d=opts.details
     if not(type(d)=='table'and type(d.w)=='number'and d.w>0 and type(d.h)=='number'and d.h>0)then
         return nil,'the native details panel is unknown'
@@ -590,6 +614,8 @@ function M.anchored_layout(width,height,opts)
                 out.tiles[index]={rect={x=out.grid.x+column*out.pitch,y=out.grid.top-row*out.pitch-out.tile,w=out.tile,
                     h=out.tile},column=column,row=row+scroll,visible=row>=0 and row<rows}
             end
+            out.scrollbar=scrollbar(out.grid,out.grid.x+out.grid.w+(CP.pad-SCROLLBAR_W)/2*u,SCROLLBAR_W,
+                (rows*CP.tile+(rows-1)*CP.gap)*u,u)
             local gap=CP.tooltip.gap*u
             local right_x=out.panel.x+out.panel.w+gap
             local below={x=col.x,y=col.y,w=col.w,h=out.panel.y-gap-col.y}
@@ -795,8 +821,9 @@ end
 -- 0.8.0 (the user's UI overhaul, 2026-10-06): the panel drawn like the native stratagem list, right of the native
 -- details panel, in the native list's own vertical band (stratagem_selector.grid viewport):
 --   * four columns of native-sized cards (80 units at the native 85-unit pitch, the native cards' own px per unit), up to
---     six rows in view; more rows scroll (the mouse wheel over the panel, the scrollbar track, keyboard focus), with a
---     native-style scrollbar right of the grid while there are more rows than fit;
+--     five rows (20 cards) in view (0.40.1; six before); more rows scroll (the mouse wheel over the panel, the scrollbar
+--     track, keyboard focus), with a native-style scrollbar right of the grid while there are more rows than fit; any
+--     number of custom stratagems (0.40.1; at most 16 before);
 --   * each card in the native look (measured from the native card): a grey 103/255 frame 2 units thick, open in the
 --     middle of its left and right sides, a translucent inner square at 68/80, the icon at 51/80; focused, the frame is
 --     white; a custom stratagem already in a loadout slot has the native equipped look (a yellow frame, a darker inner
@@ -809,7 +836,7 @@ end
 --     0x189EB10), the plate and text the overlay band above them (below the native 991-1018).
 -- floor: units above the screen bottom the panel stays clear of (the native squad bars, 'EMPTY SLOT', reach about 151);
 -- ceiling: units below the screen top (the top bar).
-M.NATIVE={card=CARD.size,inner=CARD.inner,icon=CARD.icon,gap=GAP,columns=4,maxRows=6,pad=10,header=50,margin=15,
+M.NATIVE={card=CARD.size,inner=CARD.inner,icon=CARD.icon,gap=GAP,columns=4,maxRows=5,pad=10,header=50,margin=15,
     titleCap=13,frame=2,focusFrame=2.5,split=21,scrollbar={w=3,gap=7},minUnit=0.6,floor=170,ceiling=60}
 local NV=M.NATIVE
 local NCOLOURS={panel={214,8,9,10},panelEdge={255,54,56,58},title={255,236,236,226},frame={255,103,103,103},
@@ -829,7 +856,7 @@ function M.native_layout(width,height,opts)
     opts=opts or{}
     if type(width)~='number'or type(height)~='number'or width<640 or height<360 then return nil,'unsupported resolution'end
     local count=opts.count or 1
-    if count<1 or count%1~=0 or count>240 then return nil,'unsupported entry count'end
+    if count<1 or count%1~=0 then return nil,'unsupported entry count'end
     local d=opts.details
     if not(type(d)=='table'and type(d.w)=='number'and d.w>0)then return nil,'the native details panel is unknown'end
     local base=opts.unit or height/1080
@@ -867,12 +894,7 @@ function M.native_layout(width,height,opts)
         out.tiles[index]={rect={x=gx+column*pitch,y=gtop-row*pitch-NV.card*u,w=NV.card*u,h=NV.card*u},column=column,
             row=row+scroll,visible=row>=0 and row<rows}
     end
-    if total>rows then
-        local track={x=gx+grid_w*u+NV.scrollbar.gap*u,y=gtop-grid_h,w=NV.scrollbar.w*u,h=grid_h}
-        local th=math.max(track.h*rows/total,6*u)
-        local ty=track.y+track.h-th-(track.h-th)*scroll/math.max(1,total-rows)
-        out.scrollbar={track=track,thumb={x=track.x,y=ty,w=track.w,h=th}}
-    end
+    out.scrollbar=scrollbar(out.grid,gx+grid_w*u+NV.scrollbar.gap*u,NV.scrollbar.w,grid_h,u)
     if out.panel.y<0 or out.panel.x+out.panel.w>width+0.5 then return nil,'the panel does not fit the screen'end
     return out
 end
@@ -1279,12 +1301,13 @@ function M.panel(opts)
             if not layout then log('native layout refused ('..tostring(why)..'); falling back to the compact renderer')end
         end
         if not layout and opts.renderer~='legacy'then
-            layout,why=M.anchored_layout(res[1],res[2],{unit=unit,count=#entries,details=details.rect,protected=protected})
+            layout,why=M.anchored_layout(res[1],res[2],{unit=unit,count=#entries,details=details.rect,protected=protected,
+                scroll=S.scroll})
             renderer='compact'
             if not layout then log('compact layout refused ('..tostring(why)..'); falling back to the legacy renderer')end
         end
         if not layout then
-            layout,why=M.layout(res[1],res[2],{unit=unit,count=#entries,protected=protected})
+            layout,why=M.layout(res[1],res[2],{unit=unit,count=#entries,protected=protected,scroll=S.scroll})
             renderer='legacy'
             if not layout then return nil,'the legacy renderer refused too: '..tostring(why)end
         end
@@ -1427,22 +1450,15 @@ function M.panel(opts)
         if not opts.focus then return'focus is not enabled in this build'end
         if not S.shown then return'the panel is not shown (open a stratagem selector)'end
         local n=#entries
-        local k=S.focus or 0
-        if S.renderer=='native'then
-            k=k+1
-            if k>n then S.focus=nil;close('focus');log('focus cleared');return'focus cleared'end
-            S.focus=k
-            local tile=S.layout.tiles[k]
-            if tile and not tile.visible then
-                local g=S.layout.grid
-                S.scroll_to(math.max(0,math.min(tile.row,g.totalRows-g.rows)),'the focus moved')
-            else draw_focus()end
-            return'focused '..entries[k].id
-        end
-        repeat k=k+1 until k>n or(S.layout.tiles[k]and S.layout.tiles[k].visible)
+        local k=(S.focus or 0)+1
         if k>n then S.focus=nil;close('focus');log('focus cleared');return'focus cleared'end
         S.focus=k
-        draw_focus()
+        -- A card out of view scrolls in, its row on top (every renderer since 0.40.1).
+        local tile=S.layout.tiles[k]
+        if tile and not tile.visible then
+            local g=S.layout.grid
+            S.scroll_to(math.max(0,math.min(tile.row,g.totalRows-g.rows)),'the focus moved')
+        else draw_focus()end
         return'focused '..entries[k].id
     end
     function S.clear_focus()
@@ -1584,9 +1600,9 @@ function M.panel(opts)
         end)
         return ok and text or('engine Mouse unreadable: '..tostring(text))
     end
-    -- Scrolls the native panel to `row` (the first visible row) and redraws it (its focus kept when still in view).
+    -- Scrolls the panel to `row` (the first visible row) and redraws it (its focus kept when still in view).
     function S.scroll_to(row,why)
-        if not(S.shown and S.renderer=='native'and S.layout and S.layout.grid)then return false end
+        if not(S.shown and S.layout and S.layout.grid)then return false end
         local g=S.layout.grid
         row=math.max(0,math.min(row,g.totalRows-g.rows))
         if row==g.scroll then return false end
@@ -1632,7 +1648,7 @@ function M.panel(opts)
         if not res then return end
         local x,y=M.to_gui(mouse,res[1],res[2])
         local index,in_panel=M.hit(S.layout,x,y)
-        if S.renderer=='native'and in_panel and S.layout.scrollbar then
+        if in_panel and S.layout.scrollbar then
             local w=wheel()
             if w~=0 then
                 S.scroll_to(S.layout.grid.scroll+(w>0 and-1 or 1),'the mouse wheel')
@@ -1656,7 +1672,7 @@ function M.panel(opts)
         end
         local pressed=mouse.left and not track.left
         track.left=mouse.left
-        if pressed and S.renderer=='native'then
+        if pressed then
             local row=M.scroll_hit(S.layout,x,y)
             if row~=nil then S.scroll_to(row,'the scrollbar');return end
         end
