@@ -74,6 +74,8 @@ PROJECTS = [ROOT / 'proof/CustomProjectileRowProof', ROOT / 'proof/ReprimandCust
     # The custom stratagem API examples (docs/custom-stratagem-api.md): the public API only.
     ROOT / 'proof/PelicanCasExample', ROOT / 'proof/GasBarrageExample', ROOT / 'proof/GasEatExample',
     ROOT / 'proof/HmgSentryExample', ROOT / 'proof/EagleStunRocketPodsExample',
+    # 0.40.1: 24 custom stratagems, more than the 20 the panel shows at once (its scrolling).
+    ROOT / 'proof/CustomStratagemScrollTest',
     # The Runtime-to-Runtime peer channel's first live proof (research/docs/runtime-peer-messaging-F5FEE03DCFDB.md).
     ROOT / 'proof/RuntimePeerHelloProof',
     # The game's own language fonts in a mod window (docs/ui-overlay.md "Other scripts"; research game-font-text).

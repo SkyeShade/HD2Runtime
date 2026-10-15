@@ -4284,6 +4284,35 @@ for _name, _id, _banner, _beacon, _families, _colour_set in (
             'EagleStunRocketPodsExample 0.3.1 DEV LINE BUILD', 'offensive', "{'eagle'}", 0)):
     EXTRAS[_name] = {'after': EXAMPLE_CUSTOM_STRATAGEM % {'id': _id, 'banner': _banner,
         'beacon': _beacon, 'families': _families, 'colour_set': _colour_set}, 'readOnly': True}
+# 0.40.1: the panel scroll test (proof/CustomStratagemScrollTest) on the shipped artifact: 24 custom stratagems register
+# through hd2.custom_stratagem (16 was the cap before), each its own virtual stratagem and panel entry in order; the
+# native-style panel lays them out as five of six rows (20 cards) with a scrollbar, scrolled to the last row cards 21-24
+# are in view; nothing is written.
+PROOF_SCROLL_TEST = r"""
+return function(frame,watches,counts,lines)
+ local results={}
+ local function step(name,ok,detail)results[#results+1]={name=name,passed=ok==true,detail=detail}end
+ local function count(text)local n=0;for _,line in ipairs(lines)do if line:find(text,1,true)then n=n+1 end end;return n end
+ for _=1,120 do frame()end
+ local list=require('hd2runtime/runtime/virtual_stratagems').list()
+ local panel=require('hd2runtime/runtime/custom_stratagem_panel')
+ local entries=panel.entries()
+ local ordered=#list==24 and #entries==24
+ for n=1,24 do ordered=ordered and list[n].id==('scroll_test_%02d'):format(n)and entries[n].id==list[n].id end
+ step('24 custom stratagems load from the archive and register in order; nothing is written',
+  count('CustomStratagemScrollTest 0.1.0 SCROLL BUILD')==1 and count('custom stratagem REGISTERED scroll_test_')==24
+  and ordered and counts.writes==0,'registered='..count('custom stratagem REGISTERED scroll_test_')..' virtual='..#list)
+ local D={x=500,y=232,w=1024,h=400}
+ local L=panel.native_layout(1920,1080,{details=D,viewport={x=75,y=104,w=395,h=528},unit=1,count=#entries})
+ local E=panel.native_layout(1920,1080,{details=D,viewport={x=75,y=104,w=395,h=528},unit=1,count=#entries,scroll=9})
+ step('the native-style panel shows 20 of the 24 cards (five of six rows) with a scrollbar; scrolled to the end, '
+  ..'cards 21 to 24 are in view',L~=nil and L.grid.rows==5 and L.grid.totalRows==6 and L.scrollbar~=nil
+  and L.tiles[20].visible and not L.tiles[21].visible and E~=nil and E.grid.scroll==1 and E.tiles[24].visible
+  and not E.tiles[4].visible,L and(L.grid.rows..' of '..L.grid.totalRows)or'no layout')
+ return results
+end
+"""
+EXTRAS['proof-custom-stratagem-scroll-test'] = {'after': PROOF_SCROLL_TEST, 'readOnly': True}
 # The expendable custom stratagem example (proof/EAT17GExample 0.2.1; runtime/weapon_clone.lua, runtime/weapon_carriers.lua,
 # runtime/carrier_pod.lua, runtime/carrier_groups.lua; research/docs/carrier-weapon-clone-F5FEE03DCFDB.md,
 # research/docs/carrier-pod-items-F5FEE03DCFDB.md section 11) on the shipped artifact, the snapshot's real game.dll and
@@ -5449,6 +5478,7 @@ return watches
     'proof-virtual-selector': lambda: proof('VirtualSelectorProof'),
     'proof-render-order': lambda: proof('RenderOrderProof'),
     'proof-custom-stratagem-panel': lambda: proof('CustomStratagemPanelProof'),
+    'proof-custom-stratagem-scroll-test': lambda: proof('CustomStratagemScrollTest'),
     'proof-slot-highlight': lambda: proof('SlotHighlightProof'),
     'proof-panel-icon': lambda: proof('PanelIconProof'),
     'proof-selection-sound': lambda: proof('SelectionSoundProof'),
