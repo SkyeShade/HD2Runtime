@@ -396,8 +396,8 @@ freeze; it is not a confirmed diagnosis of every reported in-game graph freeze.
 F10 > Settings > Interface has **Faster application (0.40.0)**. It is **off by default** since 0.40.1 (the user's
 decision of 2026-10-19, after reports of the game failing to start with 0.40.0). Off is the 0.31 behaviour; on turns
 on every application optimization 0.40.0 added (`runtime/application_mode.lua`):
-- shared discovery walks between back-to-back operations and writers, and the decoded entity map and component index
-  caches;
+- discovery walks shared per address space and profile (off: the 0.31 sharing, one walk reused by back-to-back
+  operations for 15 s), and the decoded entity map and component index caches;
 - the 2 MiB extended read slice (off: 1 MiB);
 - sleeping ensures: the scheduler skips an ensure's tick until its next verification is due (off: every watch ticks
   every frame);
