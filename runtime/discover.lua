@@ -7,9 +7,12 @@ local M={}
 -- operations run one at a time). Reuse re-validates every allocation's identity,
 -- extent, protection, and header and re-parses settings; any difference or missing
 -- key falls back to a full walk. Adapters without a clock never share.
+-- Optimizations off (the default since 0.40.1): the 0.31 sharing, one proven walk for any adapter and the profile it
+-- was made for (legacy). On (runtime/application_mode.lua): one per address space and profile (caches).
 local SHARE_SECONDS=15
 local caches=setmetatable({},{__mode='k'}) -- address space -> profile -> a proven walk
-application_mode.on_change('discovery',function()caches=setmetatable({},{__mode='k'})end)
+local legacy
+application_mode.on_change('discovery',function()caches=setmetatable({},{__mode='k'});legacy=nil end)
 local function reuse(shared,runtime,reader,profile,needed,now)
     if not(shared and shared.profile==profile and now<=shared.expires)then return nil end
     -- Pass 1: validate every key with uncaptured reads only, so a fallback to the
@@ -47,11 +50,15 @@ local function reuse(shared,runtime,reader,profile,needed,now)
     return result
 end
 function M.locate(runtime,reader,profile,needed)
-    local space=rawget(runtime,'_discovery_space')or runtime
-    local by_profile=caches[space]
-    if not by_profile then by_profile=setmetatable({},{__mode='k'});caches[space]=by_profile end
-    local shared=by_profile[profile]
-    local now=application_mode.enabled()and runtime.monotonic_time and runtime.monotonic_time()
+    local optimized=application_mode.enabled()
+    local by_profile,shared
+    if optimized then
+        local space=rawget(runtime,'_discovery_space')or runtime
+        by_profile=caches[space]
+        if not by_profile then by_profile=setmetatable({},{__mode='k'});caches[space]=by_profile end
+        shared=by_profile[profile]
+    else shared=legacy end
+    local now=runtime.monotonic_time and runtime.monotonic_time()
     if now then
         local result=reuse(shared,runtime,reader,profile,needed,now)
         if result then metrics.count('discover.shared_reuses');return result end
@@ -123,7 +130,7 @@ function M.locate(runtime,reader,profile,needed)
             result[key]=matches[key][1]
         end
     end
-    if now and application_mode.enabled()then
+    if now then
         -- Record only allocations whose uniqueness this walk just proved: every key it needed, the entity map and the
         -- entity delta table (always checked), and the settings keys whose whole size window it read.
         local regions={}
@@ -133,7 +140,8 @@ function M.locate(runtime,reader,profile,needed)
                 regions[key]={base=r.base,size=r.size}
             end
         end
-        by_profile[profile]={profile=profile,expires=now+SHARE_SECONDS,regions=regions}
+        local walk={profile=profile,expires=now+SHARE_SECONDS,regions=regions}
+        if optimized then by_profile[profile]=walk else legacy=walk end
     end
     return result
 end
