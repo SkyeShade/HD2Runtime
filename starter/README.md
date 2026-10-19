@@ -28,7 +28,7 @@ Before distributing your mod, edit these exact values:
 resource ID, so it changes when you rename the resource and remains stable after
 that. You may replace `auto` with your own non-zero UUID, then keep it forever.
 
-`requires.hd2runtime.min_version` is `0.25.0`. This starter ships with 0.31.3. Raise it:
+`requires.hd2runtime.min_version` is `0.25.0`. This starter ships with 0.40.1. Raise it:
 - to `0.25.1` for in-game options (see below);
 - to `0.26.0` for anything new in 0.26.0: magazine reload and ergonomics, reticles, fire modes, vehicle weapons,
   stratagem mission uses, backpack ammo and pod payloads;
@@ -63,7 +63,12 @@ that. You may replace `auto` with your own non-zero UUID, then keep it forever.
 - to `0.31.3` for anything new in 0.31.3 (`docs/releases/0.31.3.md`): the LAS-22 Shear (`hd2.weapon('LAS-22 Shear')`),
   the EXO-55 Breakthrough cannon's `rounds.*` fields and the FX-12 Shield Generator Relay's `shield.recharge_rate`,
   `recharge_delay` and `broken_recharge_delay`. A mod that declares 0.31.3 needs `allow_shared=true` for the LAS-5
-  Scythe's `beam.length`, `beam.radius` and `damage.*` fields (shared with the Shear).
+  Scythe's `beam.length`, `beam.radius` and `damage.*` fields (shared with the Shear);
+- to `0.40.0` for anything new in 0.40.0 (`docs/releases/0.40.0.md`): enemy controls and spawning (`hd2.enemies`),
+  mission timers (`hd2.mission`, `hd2.freeze_mission_timer`), reload, heat and melee (`hd2.melee`) controls, throwable
+  statuses, armor perks and `hd2.input.bind(..., {native = ...})`;
+- to `0.40.1` for anything new in 0.40.1 (`docs/releases/0.40.1.md`): more than 16 custom stratagems and
+  `hd2.diagnostics.save_application_optimizations`. In 0.40.1 the armor class tables and damage curve are read only.
 
 `min_version` is also the SDK version your mod declares. HD2Runtime 0.28.1 and later accept a field that gained an
 acknowledgement in a later SDK without it, as a logged legacy operation, when your mod declares an older version
@@ -149,7 +154,7 @@ HD2Runtime implementation.
 Players install and enable three packages:
 
 1. Bingus Shared Loader v15 or newer / API 1.
-2. HD2Runtime 0.25.0 or newer / API 1 (0.31.3 recommended), installed once.
+2. HD2Runtime 0.25.0 or newer / API 1 (0.40.1 recommended), installed once.
 3. Your built gameplay mod ZIP.
 
 The generated manifest description and `hd2runtime.json` state both dependencies.

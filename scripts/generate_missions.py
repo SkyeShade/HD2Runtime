@@ -7,7 +7,7 @@ ROOT=Path(__file__).resolve().parents[1]
 def generate(check=False):
     d=json.loads((ROOT/'research/mission-timers-F5FEE03DCFDB.json').read_text(encoding='utf8'))
     runtime={k:d[k] for k in ('build','gameDllSha256','imageSize','layout','sources','missions','pins','limitations')}
-    public={'schemaVersion':1,'runtimeVersion':'0.40.0','field':{'id':'mission.duration_seconds','unit':'seconds',
+    public={'schemaVersion':1,'runtimeVersion':(ROOT/'VERSION').read_text(encoding='utf-8').strip(),'field':{'id':'mission.duration_seconds','unit':'seconds',
         'type':'number','min':60,'max':2500},'limitations':d['limitations'],'missions':[]}
     for m in d['missions']:
         s=d['sources'][m['source']]

@@ -1,6 +1,6 @@
 -- The 0.40.1 panel scroll test: 24 custom stratagems (six rows of four), more than the 20 the panel shows at once.
 -- Each is the Orbital Gas Barrage example under its own id, name and code (LEFT LEFT RIGHT RIGHT + three directions).
--- Needs the HD2Runtime 0.40.1 development build: 0.40.0 refuses the 17th custom stratagem.
+-- Needs HD2Runtime 0.40.1 or newer: 0.40.0 refuses the 17th custom stratagem.
 local hd2=require('mods/skyeshade/hd2runtime')
 local mod=hd2.mod()
 mod:log('CustomStratagemScrollTest 0.1.0 SCROLL BUILD: 24 custom stratagems; the panel shows 20 and scrolls the last row.')

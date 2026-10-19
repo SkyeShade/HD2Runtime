@@ -3,7 +3,7 @@
 This mod registers 24 custom stratagems, `SCROLL TEST 01` to `SCROLL TEST 24`. Each one is the Orbital Gas Barrage
 example under its own id, name and call-in code (LEFT LEFT RIGHT RIGHT, then three more directions). Not live-tested.
 
-It needs the HD2Runtime 0.40.1 development build. Runtime 0.40.0 refuses the 17th custom stratagem at load.
+It needs HD2Runtime 0.40.1 or newer. Runtime 0.40.0 refuses the 17th custom stratagem at load.
 
 The log names this build: `CustomStratagemScrollTest 0.1.0 SCROLL BUILD`.
 
