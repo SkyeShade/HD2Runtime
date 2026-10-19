@@ -412,15 +412,18 @@ before=counter('discover.walks')
 locate({entity=true,alpha=true},a,profile)
 locate({entity=true,alpha=true},c,profile)
 assert(counter('discover.walks')==before+1,'live wrappers did not share their completed walk')
--- The diagnostic switch drops existing proofs and never shares while off.
+-- The switch drops existing proofs. Off (the default since 0.40.1) shares as 0.31 did: one proven walk for any
+-- adapter, even one without an address-space token (a separate wrapper); on, per address space and profile.
 local mode=require('hd2runtime/runtime/application_mode')
 mode.configure(false)
 before=counter('discover.walks');local hits=counter('discover.shared_reuses')
-locate({entity=true,alpha=true},a);locate({entity=true,alpha=true},c)
-assert(counter('discover.walks')==before+2 and counter('discover.shared_reuses')==hits)
+local plain=setmetatable({},{__index=rt})
+locate({entity=true,alpha=true},a);locate({entity=true,alpha=true},c);locate({entity=true,alpha=true},plain)
+assert(counter('discover.walks')==before+1 and counter('discover.shared_reuses')==hits+2,
+    'off did not share the walk as 0.31 did')
 mode.configure(true)
 locate({entity=true,alpha=true},a);locate({entity=true,alpha=true},c)
-assert(counter('discover.walks')==before+3,'re-enable reused an old proof or did not rebuild sharing')
+assert(counter('discover.walks')==before+2,'re-enable reused an old proof or did not rebuild sharing')
 
 
 return 'ok'
