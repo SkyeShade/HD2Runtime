@@ -187,13 +187,16 @@ assert(A.passive_value({{type='Add',value=1}},2)==3 and A.passive_value({{type='
 -- Classes and the curve: read-only.
 local c=hd2.armor_class('heavy'):describe()
 assert(c.source=='research'and c.rating.value==2 and c.rating.display==150 and c.speed.display==450
-    and c.stamina.display==50 and c.damage_multiplier==0.75 and c.editable==true
+    and c.stamina.display==50 and c.damage_multiplier==0.75 and c.editable==false
+    and c.read_only_reason:find('GAME_DLL_EXECUTABLE_DATA',1,true)==1
     and c.executable_data:find('PAGE_EXECUTE_READWRITE',1,true))
 local f=hd2.armor_stats.class('light'):fields()
-assert(#f==3 and f[1].semanticFieldId=='armor_class.rating'and f[1].editable==true and f[1].min==-1 and f[1].max==4
-    and f[2].min==0.5 and f[3].max==2 and f[1].executableData==true)
+assert(#f==3 and f[1].semanticFieldId=='armor_class.rating'and f[1].editable==false and f[1].min==-1 and f[1].max==4
+    and f[2].min==0.5 and f[3].max==2 and f[1].executableData==true and f[1].acknowledgements==nil
+    and f[1].readOnlyReason:find('GAME_DLL_EXECUTABLE_DATA',1,true)==1)
 local cu=hd2.armor_stats.damage_curve():describe()
-assert(#cu.points==5 and cu.points[1].armor_value==-1 and cu.points[5].damage==0.65 and #cu.fields==5)
+assert(#cu.points==5 and cu.points[1].armor_value==-1 and cu.points[5].damage==0.65 and #cu.fields==5
+    and cu.editable==false and cu.fields[1].editable==false)
 assert(hd2.fields.armor_kit.piece_weight_torso=='armor_kit.piece_weight.torso'
     and hd2.fields.armor_class.stamina=='armor_class.stamina'
     and hd2.fields.armor_damage_curve.at_minus_1=='armor_damage_curve.at_minus_1')
@@ -236,36 +239,27 @@ refused({id='t',target=kit,allow_shared=true,allow_unverified_effect=true,change
 assert(not pcall(hd2.armor_stats.kit,'nope')and not pcall(hd2.armor_stats.kit,'B-01 Tactical'))
 local ok,why=pcall(hd2.armor_stats.class,'titanium')
 assert(not ok and why:find('UNKNOWN_ARMOR_CLASS',1,true))
--- Class and curve fields: validated in full (acknowledgements, expect, range); written as reviewed executable data.
+-- Class and curve fields: read only since 0.40.1 (game.dll executable data): every change is refused, whatever its
+-- acknowledgements and value.
 local heavy=hd2.armor_class('heavy')
 local function class(extra)
     local r={id='c',target=heavy,field=F.armor_class.rating,expect=2,value=0,allow_shared=true,allow_unverified_effect=true}
     for k,v in pairs(extra or{})do if v==false then r[k]=nil else r[k]=v end end
     return r
 end
-local D=require('hd2runtime/domains/armor_stats')
-for _,c in ipairs({{class(),'armor',2},{class({field=F.armor_class.speed,expect=0.9,value=1.2}),'speed',2},
-        {class({field=F.armor_class.stamina,expect=1.5,value=0.5}),'stamina',2}})do
-    local v=W.validate_patch(c[1])
-    assert(v.target_kind=='armor_class'and v.changes[1].rva==D.tables[c[2]].rva+c[3]*4
-        and v.changes[1].table==c[2],c[2])
-end
-refused(class({allow_shared=false}),'allow_shared')
-refused(class({allow_unverified_effect=false}),'allow_unverified_effect')
-refused(class({value=9}),'reviewed range')
-refused(class({value=0/0}),'finite')
-refused(class({expect=1}),'expect differs')
+refused(class(),'GAME_DLL_EXECUTABLE_DATA')
+refused(class({field=F.armor_class.speed,expect=0.9,value=1.2}),'GAME_DLL_EXECUTABLE_DATA')
+refused(class({field=F.armor_class.stamina,expect=1.5,value=0.5}),'GAME_DLL_EXECUTABLE_DATA')
+refused(class({allow_shared=false}),'GAME_DLL_EXECUTABLE_DATA')
 refused(class({target={resource='armor_class',armor_class='titanium'}}),'UNKNOWN_ARMOR_CLASS')
-local cv=W.validate_patch({id='k',target=hd2.armor_stats.damage_curve(),field=F.armor_damage_curve.at_2,expect=0.75,
-    value=0.1,allow_shared=true,allow_unverified_effect=true})
-assert(cv.target_kind=='armor_damage_curve'and cv.changes[1].table=='curve')
-refused({id='k',target=hd2.armor_stats.damage_curve(),field=F.armor_damage_curve.at_2,expect=0.75,value=9,
-    allow_shared=true,allow_unverified_effect=true},'reviewed range')
+refused({id='k',target=hd2.armor_stats.damage_curve(),field=F.armor_damage_curve.at_2,expect=0.75,
+    value=0.1,allow_shared=true,allow_unverified_effect=true},'GAME_DLL_EXECUTABLE_DATA')
 -- The public entry points refuse the same way (no acknowledgement is ever added).
 local watch=hd2.patch({id='no-ack',target=kit,field=F.armor_kit.piece_weight_torso,expect='light',value='heavy'})
 assert(watch==nil or watch.status=='rejected',tostring(watch and watch.status))
 local class_watch=hd2.patch(class())
-assert(not(class_watch.error and class_watch.error:find('WRITE_REFUSED_IMAGE_PAGE',1,true)),tostring(class_watch.error))
+assert(class_watch.status=='rejected'and tostring(class_watch.error):find('GAME_DLL_EXECUTABLE_DATA',1,true),
+    tostring(class_watch.status)..' '..tostring(class_watch.error))
 -- Per-player options.
 local me=hd2.armor_stats.player()
 assert(me:set({stamina_factor=0.5}).code=='ACKNOWLEDGEMENT_REQUIRED')
@@ -435,14 +429,10 @@ class ArmorStatsSnapshotTests(unittest.TestCase):
                 trip = trips[key]
                 self.assertEqual((trip['protectionChanges'], trip['restored'], trip['pieceBytesChanged']),
                     (0, True, trip['writes']), name)
-            # The class tables and the curve: reviewed executable data, one 4-byte write each, no protection change.
-            self.assertEqual(trips['heavy_rating_0']['liveAfter'], {'rating': 0, 'display': 50, 'damage': 1.25}, name)
-            self.assertEqual(trips['heavy_stamina_0_5']['liveAfter'], {'stamina': 0.5, 'display': 150}, name)
-            self.assertEqual(trips['curve_at_2_0_5']['liveAfter'], {'at_2': 0.5}, name)
+            # The class tables and the curve: read only since 0.40.1, refused with nothing written.
             for key in ('heavy_rating_0', 'heavy_stamina_0_5', 'curve_at_2_0_5'):
-                trip = trips[key]
-                self.assertEqual((trip['writes'], trip['protectionChanges'], trip['restored']), (1, 0, True), name)
-                self.assertTrue(1 <= trip['bytesChanged'] <= 4, name)
+                self.assertEqual(trips[key], {'refused': 'GAME_DLL_EXECUTABLE_DATA', 'writes': 0, 'unchanged': True},
+                    name)
             rejections = result['rejections']
             for label in ('no allow_shared', 'no allow_unverified_effect', 'weight 3', 'unknown kit',
                     'ambiguous kit name', 'unknown class', 'third-party piece weight', 'kit moved', 'tampered pin',
@@ -506,7 +496,10 @@ class ArmorStatsCatalogTests(unittest.TestCase):
         self.assertTrue(c['player']['soloOnly'] and not c['player']['liveTested'] and not c['player']['raises'])
         for instance in c['fieldInstances']:
             self.assertEqual(instance['acknowledgements'], ['allow_shared', 'allow_unverified_effect'])
-            self.assertTrue(instance['editable'] and instance['shared'] and instance['allowSharedRequired'])
+            # Game.dll executable data (the class tables and the curve) is read only since 0.40.1.
+            self.assertEqual(instance['editable'], not instance['executableData'])
+            self.assertEqual('readOnlyReason' in instance, instance['executableData'])
+            self.assertTrue(instance['shared'] and instance['allowSharedRequired'])
             self.assertFalse(instance['liveTested'])
             domain, name = instance['semanticFieldId'].split('.', 1)
             self.assertEqual(instance['apiFieldConstant'], 'hd2.fields.' + domain + '.' + name.replace('.', '_'))
@@ -603,9 +596,13 @@ class ArmorStatsWiringTests(unittest.TestCase):
         self.assertEqual(stub, (ROOT / 'starter/stubs/mods/skyeshade/hd2runtime.lua').read_text(encoding='utf-8'))
         self.assertEqual((ROOT / 'docs/armor-stats.md').read_text(encoding='utf-8'),
             (ROOT / 'sdk/docs/armor-stats.md').read_text(encoding='utf-8'))
-        # The class tables and the curve are writable (reviewed executable data): no stub calls them read-only.
-        for text in ('editable = false', 'Its three fields (read-only)', 'Its five fields (read-only)',
-                'Read-only, like the class tables'):
+        # The class tables and the curve are read only since 0.40.1 (game.dll executable data): the stub says so and
+        # no longer calls them writable.
+        for text in ('Its three fields: armor_class.rating, speed and stamina (read only since 0.40.1',
+                'Its five fields: armor_damage_curve.at_minus_1 .. at_3 (read only since 0.40.1',
+                'Read only since 0.40.1, like the class tables'):
+            self.assertIn(text, stub)
+        for text in ('written as reviewed executable data', '(writable)'):
             self.assertNotIn(text, stub)
         # The catalog: the doc's Metadata section, the SDK README and the getting-started table name it.
         doc = (ROOT / 'docs/armor-stats.md').read_text(encoding='utf-8')
@@ -677,7 +674,8 @@ press(CTRL,F9);tick(40)
 assert(weights()==string.rep('0',13),weights())
 press(CTRL,F9);tick(40)
 assert(weights()==string.rep('0',13)and count('KIT VANILLA (Ctrl+F9)')==1,weights())
--- Alt+F9: the damage curve through one ensure (reviewed executable data): TOUGH x0.5, FRAGILE x2, VANILLA.
+-- Alt+F9: the damage curve's ensure is rejected since 0.40.1 (game.dll executable data is read only); every mode
+-- leaves the curve's bytes as they are.
 local ALT=0x12
 local CURVE_BYTES=W.read(W.GAME+D.curve.rva,40)
 local function curve()
@@ -687,21 +685,11 @@ local function curve()
 end
 assert(curve()=='1.66,1.25,1,0.75,0.65',curve())
 press(ALT,F9);tick(80)
-assert(count('CURVE TOUGH (Alt+F9)')==1 and curve()=='0.83,0.625,0.5,0.375,0.325',curve()..' | '
-    ..table.concat(logged,' | '):sub(-1500))
-assert(count('CURVE ENSURE: ')>=1,table.concat(logged,' | '):sub(-800))
--- Steady state: the cheap check accepts the reviewed 0x40 extents (live r55 logged a full resolution every cycle).
-local cycles=count('ensure armor-stat-probe-curve verified')
-tick(400)
-assert(count('ensure armor-stat-probe-curve drift detected')==0,table.concat(logged,' | '):sub(-1200))
-assert(count('ensure armor-stat-probe-curve verified')==cycles,'no full resolution while the curve holds')
+assert(count('CURVE TOUGH (Alt+F9)')==1 and count('ensure armor-stat-probe-curve rejected: GAME_DLL_EXECUTABLE_DATA')==1
+    and curve()=='1.66,1.25,1,0.75,0.65',curve()..' | '..table.concat(logged,' | '):sub(-1500))
 press(ALT,F9);tick(40)
-assert(count('CURVE FRAGILE (Alt+F9)')==1 and curve()=='3.32,2.5,2,1.5,1.3',curve())
-press(SHIFT,F9)
-assert(count('CURVE LIVE (Shift+F9): A -1 x3.32, A 0 x2.5')==1,table.concat(logged,' | '):sub(-800))
 press(ALT,F9);tick(40)
-assert(count('CURVE VANILLA (Alt+F9)')==1 and curve()=='1.66,1.25,1,0.75,0.65'
-    and W.read(W.GAME+D.curve.rva,40)==CURVE_BYTES,curve())
+assert(count('CURVE VANILLA (Alt+F9)')==1 and W.read(W.GAME+D.curve.rva,40)==CURVE_BYTES,curve())
 return 'ok'
 '''), b'ok')
 

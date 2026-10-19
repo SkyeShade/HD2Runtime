@@ -10,6 +10,7 @@ local compat=require('hd2runtime/runtime/spawn_compatibility')
 local ownership=require('hd2runtime/core/ownership')
 local b=require('hd2runtime/core/bytes')
 local discover=require('hd2runtime/runtime/discover')
+local application_mode=require('hd2runtime/runtime/application_mode')
 local entities=require('hd2runtime/core/entity_catalog')
 local profile=require('hd2runtime/schemas/current')
 local legacy=require('hd2runtime/domains/enemy_authoring')
@@ -285,8 +286,9 @@ function M.capture_many(runtime,reader,specs)
     local component_names={};for name in pairs(names)do component_names[#component_names+1]=name end
     table.sort(component_names)
     local roots=discover.locate(runtime,reader,view_profile,needed)
+    -- Only the wanted resources' candidates with the application optimizations on (runtime/application_mode.lua).
     local catalog=entities.capture(reader,roots.entity,view_profile,component_names,
-        not resources.all and{resources=resources}or nil)
+        not resources.all and application_mode.enabled()and{resources=resources}or nil)
     local results={}
     for index,spec in ipairs(specs)do
         local entry=assert(database.enemies[spec.enemy],'reviewed enemy entry absent')

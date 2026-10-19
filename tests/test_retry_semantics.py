@@ -160,6 +160,7 @@ assert(text:find('recovering:TARGET_UNAVAILABLE',1,true)and text:find('waiting:'
 
     def test_scheduled_recovery_sleeps_until_due_and_resumes_when_ready(self):
         check('''
+require('hd2runtime/runtime/application_mode').configure(true)  -- the 0.40.0 optimizations (off by default)
 loaded=false
 local e=hd2.ensure{transaction=transaction_request(),startup_delay=0,recover={delay=10,max_delay=15}}
 require('hd2runtime/runtime/scheduler').attach(e)

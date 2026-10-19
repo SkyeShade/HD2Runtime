@@ -6225,13 +6225,13 @@
        ]
       ],
       "returns": "HD2ArmorClassTarget",
-      "doc": "A weight class: its table values (armor value, speed and stamina factors). Writable with allow_shared and allow_unverified_effect: the tables sit in game.dll pages that are executable at run time, and only their exact 4-byte entries are written, as reviewed executable data."
+      "doc": "A weight class: its table values (armor value, speed and stamina factors). Read only since 0.40.1: the tables sit in game.dll pages that are executable at run time, and GameGuard was reported to close the game after class writes (GAME_DLL_EXECUTABLE_DATA)."
      },
      {
       "name": "damage_curve",
       "params": [],
       "returns": "HD2ArmorDamageCurveTarget",
-      "doc": "The avatar damage curve (damage multiplier by armor value). Writable like the class tables (reviewed executable data)."
+      "doc": "The avatar damage curve (damage multiplier by armor value). Read only since 0.40.1, like the class tables (game.dll executable data)."
      },
      {
       "name": "player",
@@ -6332,7 +6332,7 @@
     ]
    },
    "HD2ArmorClassTarget": {
-    "doc": "A weight class (hd2.armor_stats.class / hd2.armor_class). Fields hd2.fields.armor_class.rating / speed / stamina: one f32 entry per class table in game.dll, written as reviewed executable data, for every Helldiver on this machine (allow_shared and allow_unverified_effect; docs/armor-stats.md).",
+    "doc": "A weight class (hd2.armor_stats.class / hd2.armor_class). Fields hd2.fields.armor_class.rating / speed / stamina: one f32 entry per class table in game.dll, for every Helldiver on this machine. Read only since 0.40.1 (game.dll executable data: every change is refused with GAME_DLL_EXECUTABLE_DATA; docs/armor-stats.md).",
     "fields": [
      [
       "resource",
@@ -6350,18 +6350,18 @@
       "name": "describe",
       "params": [],
       "returns": "table",
-      "doc": "rating {value (armor value A), display (50 + 50 x A), vanilla}, speed {value, display (500 x factor), vanilla}, stamina {value, display (100 x (2 - F)), vanilla}, damage_multiplier, source, editable = true and executable_data (why the page is accepted)."
+      "doc": "rating {value (armor value A), display (50 + 50 x A), vanilla}, speed {value, display (500 x factor), vanilla}, stamina {value, display (100 x (2 - F)), vanilla}, damage_multiplier, source, editable (false since 0.40.1), read_only_reason and executable_data."
      },
      {
       "name": "fields",
       "params": [],
       "returns": "table[]",
-      "doc": "Its three fields: armor_class.rating, speed and stamina (writable)."
+      "doc": "Its three fields: armor_class.rating, speed and stamina (read only since 0.40.1: editable false, readOnlyReason)."
      }
     ]
    },
    "HD2ArmorDamageCurveTarget": {
-    "doc": "The avatar damage curve (hd2.armor_stats.damage_curve()). Fields hd2.fields.armor_damage_curve.at_minus_1 .. at_3: the damage multiplier at each armor value, written as reviewed executable data like the class tables.",
+    "doc": "The avatar damage curve (hd2.armor_stats.damage_curve()). Fields hd2.fields.armor_damage_curve.at_minus_1 .. at_3: the damage multiplier at each armor value. Read only since 0.40.1, like the class tables.",
     "fields": [
      [
       "resource",
@@ -6374,13 +6374,13 @@
       "name": "describe",
       "params": [],
       "returns": "table",
-      "doc": "{points = {{armor_value, damage}}, vanilla, source, editable = true, executable_data}."
+      "doc": "{points = {{armor_value, damage}}, vanilla, source, editable (false since 0.40.1), read_only_reason, executable_data}."
      },
      {
       "name": "fields",
       "params": [],
       "returns": "table[]",
-      "doc": "Its five fields: armor_damage_curve.at_minus_1 .. at_3 (writable)."
+      "doc": "Its five fields: armor_damage_curve.at_minus_1 .. at_3 (read only since 0.40.1: editable false, readOnlyReason)."
      }
     ]
    },

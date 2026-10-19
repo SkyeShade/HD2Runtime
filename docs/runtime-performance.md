@@ -391,20 +391,34 @@ each synchronous resume call and shown as unattributed when their owner cannot b
 established. A suspended coroutine cannot keep the frame timing stack open or charge
 its waiting time to whichever callback runs next. This fixes an offline-reproduced
 freeze; it is not a confirmed diagnosis of every reported in-game graph freeze.
-# Application comparison switch
+# Faster application (0.40.0 optimizations): off by default since 0.40.1
 
-Editor Settings offers **Optimized application (runtime-wide)**, enabled by default.
-Disabling it drops and bypasses shared discovery proofs and decoded entity/index caches,
-and restores the older 1 MiB extended read slice limit (optimized: 2 MiB).
-It affects subsequent work across all runtime mods, including apply and remove operations;
-it does not cancel or undo existing changes. The editor saves the choice and restores it
-before restoring its saved session. Switching back rebuilds caches from fresh reads.
+F10 > Settings > Interface has **Faster application (0.40.0)**. It is **off by default** since 0.40.1 (the user's
+decision of 2026-10-19, after reports of the game failing to start with 0.40.0). Off is the 0.31 behaviour; on turns
+on every application optimization 0.40.0 added (`runtime/application_mode.lua`):
+- shared discovery walks between back-to-back operations and writers, and the decoded entity map and component index
+  caches;
+- the 2 MiB extended read slice (off: 1 MiB);
+- sleeping ensures: the scheduler skips an ensure's tick until its next verification is due (off: every watch ticks
+  every frame);
+- paused verification: the HD2R Editor pauses its ensures' periodic checks while its window is hidden (off: they keep
+  verifying);
+- the write-gate budget: once an update has spent 1 ms, a second operation waits for the next update (off: a burst is
+  admitted in one update);
+- the enemy capture's resource filter (off: every candidate is decoded).
 
-Both modes retain ownership checks, fingerprints, transaction snapshots and rollback.
-Both also copy game data into buffers: this is a diagnostic comparison, not a buffer-free
-mode or a confirmed fix for third-party mods that scan and rewrite arbitrary memory copies.
-For API diagnostics, `hd2.diagnostics.application_optimizations()` reads the current choice;
-passing `true` or `false` changes it for the process. The API alone does not persist it.
+The choice is saved in the Runtime's own store and applied at load, before any mod applies anything. It affects
+subsequent work across all runtime mods, including apply and remove operations; it does not cancel or undo existing
+changes. Switching rebuilds caches from fresh reads.
+
+Both modes retain ownership checks, fingerprints, transaction snapshots and rollback. Both also copy game data into
+buffers: this is not a buffer-free mode or a confirmed fix for third-party mods that scan and rewrite arbitrary memory
+copies. `hd2.diagnostics.application_optimizations()` reads the current choice, and passing `true` or `false` changes it
+for the process only. `hd2.diagnostics.save_application_optimizations(enabled)` also saves it as the F10 setting (the
+HD2R Editor's Settings switch uses this from 1.0.1).
+
+The smaller per-frame savings of 0.40.0 (timing only while F10 > Performance records, cached glyph widths, the event
+queue's empty-queue skip) are not part of the switch: they never change what is read or written.
 
 
 # Memory view (RC8)

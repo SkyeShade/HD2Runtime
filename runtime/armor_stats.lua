@@ -39,8 +39,10 @@ M.UI_ROWS,M.GAMEPLAY_ROWS=30,20     -- the averagers' own row caps (0x11D91B0, 0
 M.WEIGHTS=D.classes
 M.SLOTS=D.slots
 M.EXECUTABLE_DATA='the per-weight tables and the damage curve sit in game.dll pages that are PAGE_EXECUTE_READWRITE '
-    ..'(0x40) at run time; they are written as REVIEWED EXECUTABLE DATA (the decision of the user, 2026-10-08): only '
-    ..'their exact 4-byte entries, after the build, every pin and constant are proved (core/page_protection.lua)'
+    ..'(0x40) at run time; READ ONLY since 0.40.1 (the decision of the user, 2026-10-19): GameGuard was reported to '
+    ..'close the game after class writes, so no write targets an executable page (core/page_protection.lua)'
+M.READ_ONLY_REASON=require('hd2runtime/core/page_protection').EXECUTABLE_DATA_CODE..': '
+    ..require('hd2runtime/core/page_protection').EXECUTABLE_DATA_REASON
 
 local function round(v)return v and math.floor(v*1e6+0.5)/1e6 end
 M.round=round
@@ -357,7 +359,8 @@ function M.preview_kit(kit,weights)
     return M.stats(M.research_pieces(kit,weights),tables,points,kit.passive,0)
 end
 -- A weight class: {name, index, rating = {value (A), display, vanilla}, speed = {value, display, vanilla}, stamina =
--- {value, display, vanilla}, damage_multiplier (the curve at its armor value now), source, editable = true, executable_data}.
+-- {value, display, vanilla}, damage_multiplier (the curve at its armor value now), source, editable = false,
+-- read_only_reason, executable_data}.
 function M.describe_class(index)
     local world,code,why=M.open()
     local tables,points,vanilla
@@ -371,9 +374,10 @@ function M.describe_class(index)
         rating={value=a,display=round(50+50*a),vanilla=D.tables.armor.values[w]},
         speed={value=s,display=round(500*s),vanilla=D.tables.speed.values[w]},
         stamina={value=f,display=round(100*(2-f)),vanilla=D.tables.stamina.values[w]},
-        damage_multiplier=round(M.curve(points,a)),editable=true,executable_data=M.EXECUTABLE_DATA}
+        damage_multiplier=round(M.curve(points,a)),editable=false,read_only_reason=M.READ_ONLY_REASON,
+        executable_data=M.EXECUTABLE_DATA}
 end
--- The damage curve now: {points = {{armor_value, damage}}, vanilla = {...}, source, editable = true}.
+-- The damage curve now: {points = {{armor_value, damage}}, vanilla = {...}, source, editable = false, read_only_reason}.
 function M.describe_curve()
     local world,code,why=M.open()
     local points,vanilla
@@ -384,7 +388,8 @@ function M.describe_curve()
     end
     local source='live'
     if not points then points=D.curve.points;source='research'end
-    local out={points={},vanilla={},source=source,points_vanilla=vanilla,editable=true,
+    local out={points={},vanilla={},source=source,points_vanilla=vanilla,editable=false,
+        read_only_reason=M.READ_ONLY_REASON,
         reason=source=='research'and((code and(code..': ')or'')..tostring(why))or nil,executable_data=M.EXECUTABLE_DATA}
     for i=#points,1,-1 do
         out.points[#out.points+1]={armor_value=points[i][1],damage=points[i][2]}

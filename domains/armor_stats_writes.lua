@@ -13,10 +13,10 @@
 --   * armor_damage_curve (hd2.armor_stats.damage_curve()): armor_damage_curve.at_minus_1 .. at_3, the avatar damage
 --     multiplier at each armor value.
 --   The tables and the curve live in game.dll pages that are PAGE_EXECUTE_READWRITE at run time (every retained
---   snapshot). A guarded write never targets an executable page, EXCEPT a reviewed extent (the user's decision of
---   2026-10-08; core/page_protection.lua register_executable_data): before a class or curve write this domain proves
---   the build, every pin and constant, and registers the exact 4-byte extent of each changed entry; the transaction
---   then accepts that page as it is (never re-protected) only for changes inside registered extents.
+--   snapshot). READ ONLY since 0.40.1 (the user's decision of 2026-10-19): GameGuard was reported to close the game
+--   after class writes, so no write targets an executable page (core/page_protection.lua). Their fields stay
+--   described (editable = false, readOnlyReason) and every request naming one is refused with
+--   GAME_DLL_EXECUTABLE_DATA before anything is read.
 --
 -- Before any kit write the domain re-proves: the build the research covers, game.dll's image, every instruction pin
 -- of the research plus the slot-map pins and the consumers' constants, the customization manager pointer, the kit's
@@ -37,6 +37,7 @@ local ACKS={'allow_shared','allow_unverified_effect'}
 M.SHARED_KIT='every player wearing this armor kit reads its pieces (stocky, slim and any-body pieces alike)'
 M.SHARED_CLASS='every armor whose pieces have this weight, for every player this machine simulates or hits'
 M.UNVERIFIED='not live-tested (docs/armor-stats.md)'
+M.READ_ONLY_REASON=protection.EXECUTABLE_DATA_CODE..': '..protection.EXECUTABLE_DATA_REASON
 M.CURVE_KEYS={{key=3,name='at_3'},{key=2,name='at_2'},{key=1,name='at_1'},{key=0,name='at_0'},{key=-1,name='at_minus_1'}}
 
 local function finite(v)return type(v)=='number'and v==v and v>-math.huge and v<math.huge end
@@ -85,7 +86,8 @@ function M.class_fields(index)
         out[#out+1]=cached('class:'..index..':'..f.name,function()
             local range=D.ranges[f.name]
             return {semanticFieldId='armor_class.'..f.name,type='number',unit=f.unit,
-                currentDefault=D.tables[f.table].values[index+1],editable=true,executableData=true,
+                currentDefault=D.tables[f.table].values[index+1],editable=false,readOnlyReason=M.READ_ONLY_REASON,
+                executableData=true,
                 min=range[1],max=range[2],
                 lifecycle=f.name=='rating'and'the next hit (live)'or'the next armor apply (respawn or a kit change)'
                     ..(f.name=='speed'and'; how the game consumes the speed product is UNPROVEN'or''),
@@ -104,7 +106,8 @@ function M.curve_fields()
         out[#out+1]=cached('curve:'..point.name,function()
             local range=D.ranges.damage
             return {semanticFieldId='armor_damage_curve.'..point.name,type='number',
-                unit='damage multiplier at armor value '..point.key,currentDefault=D.curve.points[i][2],editable=true,
+                unit='damage multiplier at armor value '..point.key,currentDefault=D.curve.points[i][2],editable=false,
+                readOnlyReason=M.READ_ONLY_REASON,
                 executableData=true,min=range[1],max=range[2],armorValue=point.key,
                 lifecycle='the next hit on a Helldiver (live)',target={resource='armor_damage_curve'},
                 backing={kind='image_table',table='curve',rva=D.curve.rva+(i-1)*8+4,storage='f32',width=4},
@@ -149,6 +152,7 @@ local function validate_change(kind,fields,item,request,label)
     for key in pairs(item)do assert(key=='field'or key=='expect'or key=='value',
         'unsupported change option: '..tostring(key))end
     local field=find_field(fields,item.field,label)
+    if not field.editable then error(M.READ_ONLY_REASON..' ('..item.field..', '..label..')',0)end
     assert(request.allow_shared==true,'shared field requires allow_shared=true: '..item.field..' ('..field.sharedReason..')')
     assert(request.allow_unverified_effect==true,'field requires allow_unverified_effect=true: '..item.field..' ('
         ..field.acknowledgementReason..')')

@@ -4,12 +4,12 @@
 stores its own numbers. Each armor piece of a kit has a **weight** (light, medium or heavy), and the weight indexes three
 per-weight tables in game.dll. The writable levers are:
 - a kit's piece weights, for every player wearing that kit;
-- a weight class's table values (armor value, speed factor, stamina factor), for every armor piece of that weight;
-- the damage curve (the damage multiplier at each armor value), for every Helldiver;
 - the local player's own armor bonus and stamina factor.
 
-The class tables and the curve are in game.dll pages that are executable at run time. They are written under a narrow,
-reviewed exception (see [Class tables: reviewed executable data](#class-tables-reviewed-executable-data)).
+A weight class's table values (armor value, speed factor, stamina factor) and the damage curve (the damage multiplier at
+each armor value) are **read only since 0.40.1**. They are in game.dll pages that are executable at run time, and a
+player reported GameGuard closing the game right after writing them (see
+[Class tables: read only](#class-tables-read-only)). They can still be read and described.
 
 ```lua
 local kit = hd2.armor_stats.kit('FS-37 Ravager')     -- or by id: 0x1F9BFA78, '1F9BFA78'
@@ -191,29 +191,25 @@ A refusal never raises: it returns `{status = 'refused', code, reason}`.
   `NO_AVATAR_SLOT`, `UNEXPECTED_STATE`, `NOT_SOLO`, `NOT_PRIVATE`, `UNAVAILABLE`, `UNSUPPORTED_BUILD`,
   `GUARD_REJECTED`.
 
-## Class tables: reviewed executable data
+## Class tables: read only
 
 The research reads the three tables and the curve from game.dll's read-only initialized-data section (PE flags
 0x40000040). At run time, the game's loader leaves that whole range **PAGE_EXECUTE_READWRITE** (0x40): game.dll
 `+0x2112000`, 0x528000 bytes, in all seven retained snapshots (`validation/armor-stats-snapshot.json`, `imagePages`).
 
-The guarded write accepts a target page only if it is READONLY (opened to READWRITE for the write, then restored) or
-READWRITE, never copy-on-write and never executable (`core/page_protection.lua`, `docs/guarded-patch.md`). One narrow
-exception exists, the user's decision of 2026-10-08: **reviewed executable data**.
-- A domain registers an exact extent (1 to 64 bytes, no overlap) with `register_executable_data`, only after its own
-  proofs. Here, before each class or curve write, the domain proves:
-  - the build fingerprint;
-  - the research's pins and the consumers' constants;
-  - that the entry is in game.dll's image, in a page whose protection is 0x40 (or READONLY / READWRITE);
-  - its current bytes are the vanilla value, or the value this Runtime wrote.
-  It then registers that entry's 4 bytes.
-- The transaction accepts a 0x40 page only when **every** change of the transaction on that page lies inside a
-  registered extent. The page is written as it is mapped and never re-protected (no protection change at all).
-- Every other executable page, and every unregistered byte of a registered page, is still refused before anything is
-  written. The snapshot validation sends a guarded transaction directly at the (unregistered) heavy armor entry: it is
-  REJECTED before any page is opened (`failed=protection`), with nothing written.
-- Tests: `tests/test_executable_data_extent.py` (unregistered page refused, registered extent written with no
-  protection change, a mixed page refused whole, registration exact and bounded).
+From 0.30.0 to 0.40.0 these entries were written as **reviewed executable data**: an exact 4-byte extent, registered
+after the domain's own proofs, on a page that was never re-protected. A player reported GameGuard closing the game right
+after a mod raised the class armor values and the heavy stamina factor. Since **0.40.1** (the user's decision of
+2026-10-19), nothing is written into game.dll's executable pages:
+- the class and curve fields are described with `editable = false` and a `readOnlyReason`;
+- every request naming one is refused before anything is read, with `GAME_DLL_EXECUTABLE_DATA`;
+- `register_executable_data` (`core/page_protection.lua`) refuses every extent, so no domain can make an executable page
+  a write target. The melee and enemy director fields that sit in such a page are refused the same way;
+- a guarded transaction aimed directly at a table entry is REJECTED before any page is opened (`failed=protection`), with
+  nothing written. The snapshot validation checks this on every retained snapshot;
+- tests: `tests/test_executable_data_extent.py`.
+
+Older presets and mods that change a class or the curve now log the refusal; the rest of their operations go ahead.
 
 ## Guards (kit writes)
 
@@ -248,7 +244,7 @@ other byte of the captured arrays must be unchanged. An ensure restores the vani
   - every rejection listed under Guards.
 - `tests/test_armor_stats.py`: the domain against the research, the targets and descriptors, every refusal, the
   per-player write on a synthetic world (solo, restore, third-party values), the wiring, and the probe.
-- `tests/test_executable_data_extent.py`: the reviewed executable-data exception in the guarded transaction.
+- `tests/test_executable_data_extent.py`: no write into game.dll's executable pages (0.40.1).
 - Packaged scenario `proof-armor-stats` on the reference snapshot, from the built ZIP:
   - the probe loads and reads the state (it writes nothing until a key is pressed);
   - a direct write at the unregistered heavy entry is refused;

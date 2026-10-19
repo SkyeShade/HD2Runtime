@@ -2,6 +2,7 @@
 local metrics=require('hd2runtime/runtime/metrics')
 local diagnostics=require('hd2runtime/runtime/diagnostics')
 local perf=require('hd2runtime/runtime/perf_watch')
+local application_mode=require('hd2runtime/runtime/application_mode')
 local telemetry=diagnostics.telemetry_state
 local M={}
 local watches={}
@@ -34,9 +35,11 @@ local function tick(dt)
         -- Ensures sleep between verifications. Do not enter their tick/status/profiling wrappers every frame.
         -- Keep skipped time separate: it advances the ensure's clock, never a newly woken option's debounce or
         -- a new child operation's read/asset timeout. Other watch types retain their ordinary frame dt.
+        -- Only with the application optimizations on (runtime/application_mode.lua); off, every watch ticks every
+        -- frame as in 0.31.
         do
             -- Terminal watches get their final tick/notification and cleanup immediately, even if asleep.
-            local delay=not finished(watch)and watch._sleep_for
+            local delay=application_mode.enabled()and not finished(watch)and watch._sleep_for
             if delay and delay>dt then
                 watch._sleep_for=delay-dt
                 watch._sleep_elapsed=(watch._sleep_elapsed or 0)+dt

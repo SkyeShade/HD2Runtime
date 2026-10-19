@@ -8,6 +8,7 @@ class EnsureVisibilityTests(unittest.TestCase):
     def test_pending_recovery_runs_while_verification_is_paused(self):
         from test_retry_semantics import check as retry_check
         retry_check('''
+require('hd2runtime/runtime/application_mode').configure(true)  -- the 0.40.0 optimizations (off by default)
 loaded=false
 local e=hd2.ensure{transaction=transaction_request(),startup_delay=0,recover={delay=10,max_delay=15}}
 e.set_verification_enabled(false)
@@ -24,6 +25,7 @@ assert(runtime.reads==reads0,'settled recovery did not return to sleep')
 
     def test_paused_watch_finishes_initial_apply_and_repairs_only_after_resume(self):
         check('''
+require('hd2runtime/runtime/application_mode').configure(true)  -- the 0.40.0 optimizations (off by default)
 local e=hd2.ensure{transaction=transaction_request(),startup_delay=0,interval=1,max_interval=1}
 e.set_verification_enabled(false)
 require('hd2runtime/runtime/scheduler').attach(e)

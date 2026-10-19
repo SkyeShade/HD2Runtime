@@ -5,7 +5,7 @@
    "fixtureFallback": "disabled",
    "imagePageGuard": {
     "guardFailure": "guard_failure address=0x? failed=protection region=0x?+0x? state=0x? type=0x? protect=0x? allocation_base=0x? allocation_protect=unknown expected_allocation_base=0x? expected_size=0x? expected_type=0x? expected_protect=0x? module=none expected_bytes=match (1 match, 0 differ, 0 unreadable)",
-    "reason": "[string \"hd2runtime/core/guarded_transaction\"]:98: allocation ownership/protection changed",
+    "reason": "[string \"hd2runtime/core/guarded_transaction\"]:106: allocation ownership/protection changed",
     "status": "REJECTED"
    },
    "imagePages": {
@@ -78,13 +78,27 @@
    "rejections": {
     "a slot the kit has no piece in": "field is not exposed for armor kit 4DD749C6 RS-100 SANCTIONER: armor_kit.piece_weight.helmet",
     "ambiguous kit name": "AMBIGUOUS_ARMOR_KIT: 9 armor kits are named B-01 Tactical: name one by id (250FD6C1, 1D0E3431, 708451E9, 61B31723, 4F7FB2BD, 6351A9AA, 6D30F386, D59566D5, 1369B95B)",
-    "class rating 9": "value outside the reviewed range [-1, 4] for armor_class.rating",
-    "class without allow_shared": "shared field requires allow_shared=true: armor_class.rating (every armor whose pieces have this weight, for every player this machine simulates or hits)",
-    "curve at_0 without allow_unverified_effect": "field requires allow_unverified_effect=true: armor_damage_curve.at_0 (not live-tested (docs/armor-stats.md))",
-    "curve at_1 without allow_unverified_effect": "field requires allow_unverified_effect=true: armor_damage_curve.at_1 (not live-tested (docs/armor-stats.md))",
-    "curve at_2 without allow_unverified_effect": "field requires allow_unverified_effect=true: armor_damage_curve.at_2 (not live-tested (docs/armor-stats.md))",
-    "curve at_3 without allow_unverified_effect": "field requires allow_unverified_effect=true: armor_damage_curve.at_3 (not live-tested (docs/armor-stats.md))",
-    "curve at_minus_1 without allow_unverified_effect": "field requires allow_unverified_effect=true: armor_damage_curve.at_minus_1 (not live-tested (docs/armor-stats.md))",
+    "class heavy rating": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.rating, the heavy armor class)",
+    "class heavy speed": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.speed, the heavy armor class)",
+    "class heavy stamina": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.stamina, the heavy armor class)",
+    "class light rating": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.rating, the light armor class)",
+    "class light speed": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.speed, the light armor class)",
+    "class light stamina": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.stamina, the light armor class)",
+    "class medium rating": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.rating, the medium armor class)",
+    "class medium speed": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.speed, the medium armor class)",
+    "class medium stamina": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.stamina, the medium armor class)",
+    "class rating 9": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.rating, the heavy armor class)",
+    "class without allow_shared": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.rating, the heavy armor class)",
+    "curve at_0": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_0, the armor damage curve)",
+    "curve at_0 without allow_unverified_effect": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_0, the armor damage curve)",
+    "curve at_1": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_1, the armor damage curve)",
+    "curve at_1 without allow_unverified_effect": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_1, the armor damage curve)",
+    "curve at_2": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_2, the armor damage curve)",
+    "curve at_2 without allow_unverified_effect": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_2, the armor damage curve)",
+    "curve at_3": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_3, the armor damage curve)",
+    "curve at_3 without allow_unverified_effect": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_3, the armor damage curve)",
+    "curve at_minus_1": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_minus_1, the armor damage curve)",
+    "curve at_minus_1 without allow_unverified_effect": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_minus_1, the armor damage curve)",
     "kit moved": "ARMOR_KIT_MOVED: the kit table no longer holds armor kit 4DD749C6 at index 198",
     "no allow_shared": "shared field requires allow_shared=true: armor_kit.piece_weight.torso (every player wearing this armor kit reads its pieces (stocky, slim and any-body pieces alike))",
     "no allow_unverified_effect": "field requires allow_unverified_effect=true: armor_kit.piece_weight.torso (not live-tested (docs/armor-stats.md))",
@@ -99,37 +113,19 @@
    },
    "roundTrips": {
     "curve_at_2_0_5": {
-     "bytesChanged": 1,
-     "liveAfter": {
-      "at_2": 0.5
-     },
-     "note": "note: curve-2: the armor damage curve: armor_damage_curve.at_2 = 0.5 (every Helldiver on this machine; the next hit on a Helldiver (live))",
-     "protectionChanges": 0,
-     "restored": true,
-     "writes": 1
+     "refused": "GAME_DLL_EXECUTABLE_DATA",
+     "unchanged": true,
+     "writes": 0
     },
     "heavy_rating_0": {
-     "bytesChanged": 1,
-     "liveAfter": {
-      "damage": 1.25,
-      "display": 50,
-      "rating": 0
-     },
-     "note": "note: class-heavy-rating: the heavy armor class: armor_class.rating = 0 (every Helldiver on this machine; the next hit (live))",
-     "protectionChanges": 0,
-     "restored": true,
-     "writes": 1
+     "refused": "GAME_DLL_EXECUTABLE_DATA",
+     "unchanged": true,
+     "writes": 0
     },
     "heavy_stamina_0_5": {
-     "bytesChanged": 1,
-     "liveAfter": {
-      "display": 150,
-      "stamina": 0.5
-     },
-     "note": "note: class-heavy-stamina: the heavy armor class: armor_class.stamina = 0.5 (every Helldiver on this machine; the next armor apply (respawn or a kit change))",
-     "protectionChanges": 0,
-     "restored": true,
-     "writes": 1
+     "refused": "GAME_DLL_EXECUTABLE_DATA",
+     "unchanged": true,
+     "writes": 0
     },
     "ravager_all_heavy": {
      "effect": {
@@ -225,13 +221,13 @@
    },
    "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
    "status": "VALIDATED",
-   "writes": 41
+   "writes": 35
   },
   "F5FEE03DCFDB-20260927T155654Z.hd2snap": {
    "fixtureFallback": "disabled",
    "imagePageGuard": {
     "guardFailure": "guard_failure address=0x? failed=protection region=0x?+0x? state=0x? type=0x? protect=0x? allocation_base=0x? allocation_protect=unknown expected_allocation_base=0x? expected_size=0x? expected_type=0x? expected_protect=0x? module=none expected_bytes=match (1 match, 0 differ, 0 unreadable)",
-    "reason": "[string \"hd2runtime/core/guarded_transaction\"]:98: allocation ownership/protection changed",
+    "reason": "[string \"hd2runtime/core/guarded_transaction\"]:106: allocation ownership/protection changed",
     "status": "REJECTED"
    },
    "imagePages": {
@@ -304,13 +300,27 @@
    "rejections": {
     "a slot the kit has no piece in": "field is not exposed for armor kit 4DD749C6 RS-100 SANCTIONER: armor_kit.piece_weight.helmet",
     "ambiguous kit name": "AMBIGUOUS_ARMOR_KIT: 9 armor kits are named B-01 Tactical: name one by id (250FD6C1, 1D0E3431, 708451E9, 61B31723, 4F7FB2BD, 6351A9AA, 6D30F386, D59566D5, 1369B95B)",
-    "class rating 9": "value outside the reviewed range [-1, 4] for armor_class.rating",
-    "class without allow_shared": "shared field requires allow_shared=true: armor_class.rating (every armor whose pieces have this weight, for every player this machine simulates or hits)",
-    "curve at_0 without allow_unverified_effect": "field requires allow_unverified_effect=true: armor_damage_curve.at_0 (not live-tested (docs/armor-stats.md))",
-    "curve at_1 without allow_unverified_effect": "field requires allow_unverified_effect=true: armor_damage_curve.at_1 (not live-tested (docs/armor-stats.md))",
-    "curve at_2 without allow_unverified_effect": "field requires allow_unverified_effect=true: armor_damage_curve.at_2 (not live-tested (docs/armor-stats.md))",
-    "curve at_3 without allow_unverified_effect": "field requires allow_unverified_effect=true: armor_damage_curve.at_3 (not live-tested (docs/armor-stats.md))",
-    "curve at_minus_1 without allow_unverified_effect": "field requires allow_unverified_effect=true: armor_damage_curve.at_minus_1 (not live-tested (docs/armor-stats.md))",
+    "class heavy rating": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.rating, the heavy armor class)",
+    "class heavy speed": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.speed, the heavy armor class)",
+    "class heavy stamina": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.stamina, the heavy armor class)",
+    "class light rating": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.rating, the light armor class)",
+    "class light speed": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.speed, the light armor class)",
+    "class light stamina": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.stamina, the light armor class)",
+    "class medium rating": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.rating, the medium armor class)",
+    "class medium speed": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.speed, the medium armor class)",
+    "class medium stamina": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.stamina, the medium armor class)",
+    "class rating 9": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.rating, the heavy armor class)",
+    "class without allow_shared": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.rating, the heavy armor class)",
+    "curve at_0": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_0, the armor damage curve)",
+    "curve at_0 without allow_unverified_effect": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_0, the armor damage curve)",
+    "curve at_1": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_1, the armor damage curve)",
+    "curve at_1 without allow_unverified_effect": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_1, the armor damage curve)",
+    "curve at_2": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_2, the armor damage curve)",
+    "curve at_2 without allow_unverified_effect": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_2, the armor damage curve)",
+    "curve at_3": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_3, the armor damage curve)",
+    "curve at_3 without allow_unverified_effect": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_3, the armor damage curve)",
+    "curve at_minus_1": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_minus_1, the armor damage curve)",
+    "curve at_minus_1 without allow_unverified_effect": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_minus_1, the armor damage curve)",
     "kit moved": "ARMOR_KIT_MOVED: the kit table no longer holds armor kit 4DD749C6 at index 198",
     "no allow_shared": "shared field requires allow_shared=true: armor_kit.piece_weight.torso (every player wearing this armor kit reads its pieces (stocky, slim and any-body pieces alike))",
     "no allow_unverified_effect": "field requires allow_unverified_effect=true: armor_kit.piece_weight.torso (not live-tested (docs/armor-stats.md))",
@@ -325,37 +335,19 @@
    },
    "roundTrips": {
     "curve_at_2_0_5": {
-     "bytesChanged": 1,
-     "liveAfter": {
-      "at_2": 0.5
-     },
-     "note": "note: curve-2: the armor damage curve: armor_damage_curve.at_2 = 0.5 (every Helldiver on this machine; the next hit on a Helldiver (live))",
-     "protectionChanges": 0,
-     "restored": true,
-     "writes": 1
+     "refused": "GAME_DLL_EXECUTABLE_DATA",
+     "unchanged": true,
+     "writes": 0
     },
     "heavy_rating_0": {
-     "bytesChanged": 1,
-     "liveAfter": {
-      "damage": 1.25,
-      "display": 50,
-      "rating": 0
-     },
-     "note": "note: class-heavy-rating: the heavy armor class: armor_class.rating = 0 (every Helldiver on this machine; the next hit (live))",
-     "protectionChanges": 0,
-     "restored": true,
-     "writes": 1
+     "refused": "GAME_DLL_EXECUTABLE_DATA",
+     "unchanged": true,
+     "writes": 0
     },
     "heavy_stamina_0_5": {
-     "bytesChanged": 1,
-     "liveAfter": {
-      "display": 150,
-      "stamina": 0.5
-     },
-     "note": "note: class-heavy-stamina: the heavy armor class: armor_class.stamina = 0.5 (every Helldiver on this machine; the next armor apply (respawn or a kit change))",
-     "protectionChanges": 0,
-     "restored": true,
-     "writes": 1
+     "refused": "GAME_DLL_EXECUTABLE_DATA",
+     "unchanged": true,
+     "writes": 0
     },
     "ravager_all_heavy": {
      "effect": {
@@ -451,13 +443,13 @@
    },
    "snapshot": "F5FEE03DCFDB-20260927T155654Z.hd2snap",
    "status": "VALIDATED",
-   "writes": 41
+   "writes": 35
   },
   "F5FEE03DCFDB-20260927T160033Z.hd2snap": {
    "fixtureFallback": "disabled",
    "imagePageGuard": {
     "guardFailure": "guard_failure address=0x? failed=protection region=0x?+0x? state=0x? type=0x? protect=0x? allocation_base=0x? allocation_protect=unknown expected_allocation_base=0x? expected_size=0x? expected_type=0x? expected_protect=0x? module=none expected_bytes=match (1 match, 0 differ, 0 unreadable)",
-    "reason": "[string \"hd2runtime/core/guarded_transaction\"]:98: allocation ownership/protection changed",
+    "reason": "[string \"hd2runtime/core/guarded_transaction\"]:106: allocation ownership/protection changed",
     "status": "REJECTED"
    },
    "imagePages": {
@@ -530,13 +522,27 @@
    "rejections": {
     "a slot the kit has no piece in": "field is not exposed for armor kit 4DD749C6 RS-100 SANCTIONER: armor_kit.piece_weight.helmet",
     "ambiguous kit name": "AMBIGUOUS_ARMOR_KIT: 9 armor kits are named B-01 Tactical: name one by id (250FD6C1, 1D0E3431, 708451E9, 61B31723, 4F7FB2BD, 6351A9AA, 6D30F386, D59566D5, 1369B95B)",
-    "class rating 9": "value outside the reviewed range [-1, 4] for armor_class.rating",
-    "class without allow_shared": "shared field requires allow_shared=true: armor_class.rating (every armor whose pieces have this weight, for every player this machine simulates or hits)",
-    "curve at_0 without allow_unverified_effect": "field requires allow_unverified_effect=true: armor_damage_curve.at_0 (not live-tested (docs/armor-stats.md))",
-    "curve at_1 without allow_unverified_effect": "field requires allow_unverified_effect=true: armor_damage_curve.at_1 (not live-tested (docs/armor-stats.md))",
-    "curve at_2 without allow_unverified_effect": "field requires allow_unverified_effect=true: armor_damage_curve.at_2 (not live-tested (docs/armor-stats.md))",
-    "curve at_3 without allow_unverified_effect": "field requires allow_unverified_effect=true: armor_damage_curve.at_3 (not live-tested (docs/armor-stats.md))",
-    "curve at_minus_1 without allow_unverified_effect": "field requires allow_unverified_effect=true: armor_damage_curve.at_minus_1 (not live-tested (docs/armor-stats.md))",
+    "class heavy rating": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.rating, the heavy armor class)",
+    "class heavy speed": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.speed, the heavy armor class)",
+    "class heavy stamina": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.stamina, the heavy armor class)",
+    "class light rating": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.rating, the light armor class)",
+    "class light speed": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.speed, the light armor class)",
+    "class light stamina": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.stamina, the light armor class)",
+    "class medium rating": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.rating, the medium armor class)",
+    "class medium speed": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.speed, the medium armor class)",
+    "class medium stamina": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.stamina, the medium armor class)",
+    "class rating 9": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.rating, the heavy armor class)",
+    "class without allow_shared": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.rating, the heavy armor class)",
+    "curve at_0": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_0, the armor damage curve)",
+    "curve at_0 without allow_unverified_effect": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_0, the armor damage curve)",
+    "curve at_1": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_1, the armor damage curve)",
+    "curve at_1 without allow_unverified_effect": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_1, the armor damage curve)",
+    "curve at_2": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_2, the armor damage curve)",
+    "curve at_2 without allow_unverified_effect": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_2, the armor damage curve)",
+    "curve at_3": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_3, the armor damage curve)",
+    "curve at_3 without allow_unverified_effect": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_3, the armor damage curve)",
+    "curve at_minus_1": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_minus_1, the armor damage curve)",
+    "curve at_minus_1 without allow_unverified_effect": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_minus_1, the armor damage curve)",
     "kit moved": "ARMOR_KIT_MOVED: the kit table no longer holds armor kit 4DD749C6 at index 198",
     "no allow_shared": "shared field requires allow_shared=true: armor_kit.piece_weight.torso (every player wearing this armor kit reads its pieces (stocky, slim and any-body pieces alike))",
     "no allow_unverified_effect": "field requires allow_unverified_effect=true: armor_kit.piece_weight.torso (not live-tested (docs/armor-stats.md))",
@@ -551,37 +557,19 @@
    },
    "roundTrips": {
     "curve_at_2_0_5": {
-     "bytesChanged": 1,
-     "liveAfter": {
-      "at_2": 0.5
-     },
-     "note": "note: curve-2: the armor damage curve: armor_damage_curve.at_2 = 0.5 (every Helldiver on this machine; the next hit on a Helldiver (live))",
-     "protectionChanges": 0,
-     "restored": true,
-     "writes": 1
+     "refused": "GAME_DLL_EXECUTABLE_DATA",
+     "unchanged": true,
+     "writes": 0
     },
     "heavy_rating_0": {
-     "bytesChanged": 1,
-     "liveAfter": {
-      "damage": 1.25,
-      "display": 50,
-      "rating": 0
-     },
-     "note": "note: class-heavy-rating: the heavy armor class: armor_class.rating = 0 (every Helldiver on this machine; the next hit (live))",
-     "protectionChanges": 0,
-     "restored": true,
-     "writes": 1
+     "refused": "GAME_DLL_EXECUTABLE_DATA",
+     "unchanged": true,
+     "writes": 0
     },
     "heavy_stamina_0_5": {
-     "bytesChanged": 1,
-     "liveAfter": {
-      "display": 150,
-      "stamina": 0.5
-     },
-     "note": "note: class-heavy-stamina: the heavy armor class: armor_class.stamina = 0.5 (every Helldiver on this machine; the next armor apply (respawn or a kit change))",
-     "protectionChanges": 0,
-     "restored": true,
-     "writes": 1
+     "refused": "GAME_DLL_EXECUTABLE_DATA",
+     "unchanged": true,
+     "writes": 0
     },
     "ravager_all_heavy": {
      "effect": {
@@ -677,13 +665,13 @@
    },
    "snapshot": "F5FEE03DCFDB-20260927T160033Z.hd2snap",
    "status": "VALIDATED",
-   "writes": 41
+   "writes": 35
   },
   "F5FEE03DCFDB-20260929T172647Z-mission-host.hd2snap": {
    "fixtureFallback": "disabled",
    "imagePageGuard": {
     "guardFailure": "guard_failure address=0x? failed=protection region=0x?+0x? state=0x? type=0x? protect=0x? allocation_base=0x? allocation_protect=unknown expected_allocation_base=0x? expected_size=0x? expected_type=0x? expected_protect=0x? module=none expected_bytes=match (1 match, 0 differ, 0 unreadable)",
-    "reason": "[string \"hd2runtime/core/guarded_transaction\"]:98: allocation ownership/protection changed",
+    "reason": "[string \"hd2runtime/core/guarded_transaction\"]:106: allocation ownership/protection changed",
     "status": "REJECTED"
    },
    "imagePages": {
@@ -756,13 +744,27 @@
    "rejections": {
     "a slot the kit has no piece in": "field is not exposed for armor kit 4DD749C6 RS-100 SANCTIONER: armor_kit.piece_weight.helmet",
     "ambiguous kit name": "AMBIGUOUS_ARMOR_KIT: 9 armor kits are named B-01 Tactical: name one by id (250FD6C1, 1D0E3431, 708451E9, 61B31723, 4F7FB2BD, 6351A9AA, 6D30F386, D59566D5, 1369B95B)",
-    "class rating 9": "value outside the reviewed range [-1, 4] for armor_class.rating",
-    "class without allow_shared": "shared field requires allow_shared=true: armor_class.rating (every armor whose pieces have this weight, for every player this machine simulates or hits)",
-    "curve at_0 without allow_unverified_effect": "field requires allow_unverified_effect=true: armor_damage_curve.at_0 (not live-tested (docs/armor-stats.md))",
-    "curve at_1 without allow_unverified_effect": "field requires allow_unverified_effect=true: armor_damage_curve.at_1 (not live-tested (docs/armor-stats.md))",
-    "curve at_2 without allow_unverified_effect": "field requires allow_unverified_effect=true: armor_damage_curve.at_2 (not live-tested (docs/armor-stats.md))",
-    "curve at_3 without allow_unverified_effect": "field requires allow_unverified_effect=true: armor_damage_curve.at_3 (not live-tested (docs/armor-stats.md))",
-    "curve at_minus_1 without allow_unverified_effect": "field requires allow_unverified_effect=true: armor_damage_curve.at_minus_1 (not live-tested (docs/armor-stats.md))",
+    "class heavy rating": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.rating, the heavy armor class)",
+    "class heavy speed": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.speed, the heavy armor class)",
+    "class heavy stamina": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.stamina, the heavy armor class)",
+    "class light rating": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.rating, the light armor class)",
+    "class light speed": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.speed, the light armor class)",
+    "class light stamina": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.stamina, the light armor class)",
+    "class medium rating": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.rating, the medium armor class)",
+    "class medium speed": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.speed, the medium armor class)",
+    "class medium stamina": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.stamina, the medium armor class)",
+    "class rating 9": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.rating, the heavy armor class)",
+    "class without allow_shared": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.rating, the heavy armor class)",
+    "curve at_0": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_0, the armor damage curve)",
+    "curve at_0 without allow_unverified_effect": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_0, the armor damage curve)",
+    "curve at_1": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_1, the armor damage curve)",
+    "curve at_1 without allow_unverified_effect": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_1, the armor damage curve)",
+    "curve at_2": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_2, the armor damage curve)",
+    "curve at_2 without allow_unverified_effect": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_2, the armor damage curve)",
+    "curve at_3": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_3, the armor damage curve)",
+    "curve at_3 without allow_unverified_effect": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_3, the armor damage curve)",
+    "curve at_minus_1": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_minus_1, the armor damage curve)",
+    "curve at_minus_1 without allow_unverified_effect": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_minus_1, the armor damage curve)",
     "kit moved": "ARMOR_KIT_MOVED: the kit table no longer holds armor kit 4DD749C6 at index 198",
     "no allow_shared": "shared field requires allow_shared=true: armor_kit.piece_weight.torso (every player wearing this armor kit reads its pieces (stocky, slim and any-body pieces alike))",
     "no allow_unverified_effect": "field requires allow_unverified_effect=true: armor_kit.piece_weight.torso (not live-tested (docs/armor-stats.md))",
@@ -777,37 +779,19 @@
    },
    "roundTrips": {
     "curve_at_2_0_5": {
-     "bytesChanged": 1,
-     "liveAfter": {
-      "at_2": 0.5
-     },
-     "note": "note: curve-2: the armor damage curve: armor_damage_curve.at_2 = 0.5 (every Helldiver on this machine; the next hit on a Helldiver (live))",
-     "protectionChanges": 0,
-     "restored": true,
-     "writes": 1
+     "refused": "GAME_DLL_EXECUTABLE_DATA",
+     "unchanged": true,
+     "writes": 0
     },
     "heavy_rating_0": {
-     "bytesChanged": 1,
-     "liveAfter": {
-      "damage": 1.25,
-      "display": 50,
-      "rating": 0
-     },
-     "note": "note: class-heavy-rating: the heavy armor class: armor_class.rating = 0 (every Helldiver on this machine; the next hit (live))",
-     "protectionChanges": 0,
-     "restored": true,
-     "writes": 1
+     "refused": "GAME_DLL_EXECUTABLE_DATA",
+     "unchanged": true,
+     "writes": 0
     },
     "heavy_stamina_0_5": {
-     "bytesChanged": 1,
-     "liveAfter": {
-      "display": 150,
-      "stamina": 0.5
-     },
-     "note": "note: class-heavy-stamina: the heavy armor class: armor_class.stamina = 0.5 (every Helldiver on this machine; the next armor apply (respawn or a kit change))",
-     "protectionChanges": 0,
-     "restored": true,
-     "writes": 1
+     "refused": "GAME_DLL_EXECUTABLE_DATA",
+     "unchanged": true,
+     "writes": 0
     },
     "ravager_all_heavy": {
      "effect": {
@@ -903,13 +887,13 @@
    },
    "snapshot": "F5FEE03DCFDB-20260929T172647Z-mission-host.hd2snap",
    "status": "VALIDATED",
-   "writes": 41
+   "writes": 35
   },
   "F5FEE03DCFDB-20260929T172918Z-mission-host-alive.hd2snap": {
    "fixtureFallback": "disabled",
    "imagePageGuard": {
     "guardFailure": "guard_failure address=0x? failed=protection region=0x?+0x? state=0x? type=0x? protect=0x? allocation_base=0x? allocation_protect=unknown expected_allocation_base=0x? expected_size=0x? expected_type=0x? expected_protect=0x? module=none expected_bytes=match (1 match, 0 differ, 0 unreadable)",
-    "reason": "[string \"hd2runtime/core/guarded_transaction\"]:98: allocation ownership/protection changed",
+    "reason": "[string \"hd2runtime/core/guarded_transaction\"]:106: allocation ownership/protection changed",
     "status": "REJECTED"
    },
    "imagePages": {
@@ -982,13 +966,27 @@
    "rejections": {
     "a slot the kit has no piece in": "field is not exposed for armor kit 4DD749C6 RS-100 SANCTIONER: armor_kit.piece_weight.helmet",
     "ambiguous kit name": "AMBIGUOUS_ARMOR_KIT: 9 armor kits are named B-01 Tactical: name one by id (250FD6C1, 1D0E3431, 708451E9, 61B31723, 4F7FB2BD, 6351A9AA, 6D30F386, D59566D5, 1369B95B)",
-    "class rating 9": "value outside the reviewed range [-1, 4] for armor_class.rating",
-    "class without allow_shared": "shared field requires allow_shared=true: armor_class.rating (every armor whose pieces have this weight, for every player this machine simulates or hits)",
-    "curve at_0 without allow_unverified_effect": "field requires allow_unverified_effect=true: armor_damage_curve.at_0 (not live-tested (docs/armor-stats.md))",
-    "curve at_1 without allow_unverified_effect": "field requires allow_unverified_effect=true: armor_damage_curve.at_1 (not live-tested (docs/armor-stats.md))",
-    "curve at_2 without allow_unverified_effect": "field requires allow_unverified_effect=true: armor_damage_curve.at_2 (not live-tested (docs/armor-stats.md))",
-    "curve at_3 without allow_unverified_effect": "field requires allow_unverified_effect=true: armor_damage_curve.at_3 (not live-tested (docs/armor-stats.md))",
-    "curve at_minus_1 without allow_unverified_effect": "field requires allow_unverified_effect=true: armor_damage_curve.at_minus_1 (not live-tested (docs/armor-stats.md))",
+    "class heavy rating": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.rating, the heavy armor class)",
+    "class heavy speed": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.speed, the heavy armor class)",
+    "class heavy stamina": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.stamina, the heavy armor class)",
+    "class light rating": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.rating, the light armor class)",
+    "class light speed": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.speed, the light armor class)",
+    "class light stamina": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.stamina, the light armor class)",
+    "class medium rating": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.rating, the medium armor class)",
+    "class medium speed": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.speed, the medium armor class)",
+    "class medium stamina": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.stamina, the medium armor class)",
+    "class rating 9": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.rating, the heavy armor class)",
+    "class without allow_shared": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.rating, the heavy armor class)",
+    "curve at_0": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_0, the armor damage curve)",
+    "curve at_0 without allow_unverified_effect": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_0, the armor damage curve)",
+    "curve at_1": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_1, the armor damage curve)",
+    "curve at_1 without allow_unverified_effect": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_1, the armor damage curve)",
+    "curve at_2": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_2, the armor damage curve)",
+    "curve at_2 without allow_unverified_effect": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_2, the armor damage curve)",
+    "curve at_3": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_3, the armor damage curve)",
+    "curve at_3 without allow_unverified_effect": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_3, the armor damage curve)",
+    "curve at_minus_1": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_minus_1, the armor damage curve)",
+    "curve at_minus_1 without allow_unverified_effect": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_minus_1, the armor damage curve)",
     "kit moved": "ARMOR_KIT_MOVED: the kit table no longer holds armor kit 4DD749C6 at index 198",
     "no allow_shared": "shared field requires allow_shared=true: armor_kit.piece_weight.torso (every player wearing this armor kit reads its pieces (stocky, slim and any-body pieces alike))",
     "no allow_unverified_effect": "field requires allow_unverified_effect=true: armor_kit.piece_weight.torso (not live-tested (docs/armor-stats.md))",
@@ -1003,37 +1001,19 @@
    },
    "roundTrips": {
     "curve_at_2_0_5": {
-     "bytesChanged": 1,
-     "liveAfter": {
-      "at_2": 0.5
-     },
-     "note": "note: curve-2: the armor damage curve: armor_damage_curve.at_2 = 0.5 (every Helldiver on this machine; the next hit on a Helldiver (live))",
-     "protectionChanges": 0,
-     "restored": true,
-     "writes": 1
+     "refused": "GAME_DLL_EXECUTABLE_DATA",
+     "unchanged": true,
+     "writes": 0
     },
     "heavy_rating_0": {
-     "bytesChanged": 1,
-     "liveAfter": {
-      "damage": 1.25,
-      "display": 50,
-      "rating": 0
-     },
-     "note": "note: class-heavy-rating: the heavy armor class: armor_class.rating = 0 (every Helldiver on this machine; the next hit (live))",
-     "protectionChanges": 0,
-     "restored": true,
-     "writes": 1
+     "refused": "GAME_DLL_EXECUTABLE_DATA",
+     "unchanged": true,
+     "writes": 0
     },
     "heavy_stamina_0_5": {
-     "bytesChanged": 1,
-     "liveAfter": {
-      "display": 150,
-      "stamina": 0.5
-     },
-     "note": "note: class-heavy-stamina: the heavy armor class: armor_class.stamina = 0.5 (every Helldiver on this machine; the next armor apply (respawn or a kit change))",
-     "protectionChanges": 0,
-     "restored": true,
-     "writes": 1
+     "refused": "GAME_DLL_EXECUTABLE_DATA",
+     "unchanged": true,
+     "writes": 0
     },
     "ravager_all_heavy": {
      "effect": {
@@ -1129,13 +1109,13 @@
    },
    "snapshot": "F5FEE03DCFDB-20260929T172918Z-mission-host-alive.hd2snap",
    "status": "VALIDATED",
-   "writes": 41
+   "writes": 35
   },
   "F5FEE03DCFDB-20260929T173206Z-mission-host-after-reinforce.hd2snap": {
    "fixtureFallback": "disabled",
    "imagePageGuard": {
     "guardFailure": "guard_failure address=0x? failed=protection region=0x?+0x? state=0x? type=0x? protect=0x? allocation_base=0x? allocation_protect=unknown expected_allocation_base=0x? expected_size=0x? expected_type=0x? expected_protect=0x? module=none expected_bytes=match (1 match, 0 differ, 0 unreadable)",
-    "reason": "[string \"hd2runtime/core/guarded_transaction\"]:98: allocation ownership/protection changed",
+    "reason": "[string \"hd2runtime/core/guarded_transaction\"]:106: allocation ownership/protection changed",
     "status": "REJECTED"
    },
    "imagePages": {
@@ -1208,13 +1188,27 @@
    "rejections": {
     "a slot the kit has no piece in": "field is not exposed for armor kit 4DD749C6 RS-100 SANCTIONER: armor_kit.piece_weight.helmet",
     "ambiguous kit name": "AMBIGUOUS_ARMOR_KIT: 9 armor kits are named B-01 Tactical: name one by id (250FD6C1, 1D0E3431, 708451E9, 61B31723, 4F7FB2BD, 6351A9AA, 6D30F386, D59566D5, 1369B95B)",
-    "class rating 9": "value outside the reviewed range [-1, 4] for armor_class.rating",
-    "class without allow_shared": "shared field requires allow_shared=true: armor_class.rating (every armor whose pieces have this weight, for every player this machine simulates or hits)",
-    "curve at_0 without allow_unverified_effect": "field requires allow_unverified_effect=true: armor_damage_curve.at_0 (not live-tested (docs/armor-stats.md))",
-    "curve at_1 without allow_unverified_effect": "field requires allow_unverified_effect=true: armor_damage_curve.at_1 (not live-tested (docs/armor-stats.md))",
-    "curve at_2 without allow_unverified_effect": "field requires allow_unverified_effect=true: armor_damage_curve.at_2 (not live-tested (docs/armor-stats.md))",
-    "curve at_3 without allow_unverified_effect": "field requires allow_unverified_effect=true: armor_damage_curve.at_3 (not live-tested (docs/armor-stats.md))",
-    "curve at_minus_1 without allow_unverified_effect": "field requires allow_unverified_effect=true: armor_damage_curve.at_minus_1 (not live-tested (docs/armor-stats.md))",
+    "class heavy rating": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.rating, the heavy armor class)",
+    "class heavy speed": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.speed, the heavy armor class)",
+    "class heavy stamina": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.stamina, the heavy armor class)",
+    "class light rating": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.rating, the light armor class)",
+    "class light speed": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.speed, the light armor class)",
+    "class light stamina": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.stamina, the light armor class)",
+    "class medium rating": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.rating, the medium armor class)",
+    "class medium speed": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.speed, the medium armor class)",
+    "class medium stamina": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.stamina, the medium armor class)",
+    "class rating 9": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.rating, the heavy armor class)",
+    "class without allow_shared": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.rating, the heavy armor class)",
+    "curve at_0": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_0, the armor damage curve)",
+    "curve at_0 without allow_unverified_effect": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_0, the armor damage curve)",
+    "curve at_1": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_1, the armor damage curve)",
+    "curve at_1 without allow_unverified_effect": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_1, the armor damage curve)",
+    "curve at_2": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_2, the armor damage curve)",
+    "curve at_2 without allow_unverified_effect": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_2, the armor damage curve)",
+    "curve at_3": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_3, the armor damage curve)",
+    "curve at_3 without allow_unverified_effect": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_3, the armor damage curve)",
+    "curve at_minus_1": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_minus_1, the armor damage curve)",
+    "curve at_minus_1 without allow_unverified_effect": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_minus_1, the armor damage curve)",
     "kit moved": "ARMOR_KIT_MOVED: the kit table no longer holds armor kit 4DD749C6 at index 198",
     "no allow_shared": "shared field requires allow_shared=true: armor_kit.piece_weight.torso (every player wearing this armor kit reads its pieces (stocky, slim and any-body pieces alike))",
     "no allow_unverified_effect": "field requires allow_unverified_effect=true: armor_kit.piece_weight.torso (not live-tested (docs/armor-stats.md))",
@@ -1229,37 +1223,19 @@
    },
    "roundTrips": {
     "curve_at_2_0_5": {
-     "bytesChanged": 1,
-     "liveAfter": {
-      "at_2": 0.5
-     },
-     "note": "note: curve-2: the armor damage curve: armor_damage_curve.at_2 = 0.5 (every Helldiver on this machine; the next hit on a Helldiver (live))",
-     "protectionChanges": 0,
-     "restored": true,
-     "writes": 1
+     "refused": "GAME_DLL_EXECUTABLE_DATA",
+     "unchanged": true,
+     "writes": 0
     },
     "heavy_rating_0": {
-     "bytesChanged": 1,
-     "liveAfter": {
-      "damage": 1.25,
-      "display": 50,
-      "rating": 0
-     },
-     "note": "note: class-heavy-rating: the heavy armor class: armor_class.rating = 0 (every Helldiver on this machine; the next hit (live))",
-     "protectionChanges": 0,
-     "restored": true,
-     "writes": 1
+     "refused": "GAME_DLL_EXECUTABLE_DATA",
+     "unchanged": true,
+     "writes": 0
     },
     "heavy_stamina_0_5": {
-     "bytesChanged": 1,
-     "liveAfter": {
-      "display": 150,
-      "stamina": 0.5
-     },
-     "note": "note: class-heavy-stamina: the heavy armor class: armor_class.stamina = 0.5 (every Helldiver on this machine; the next armor apply (respawn or a kit change))",
-     "protectionChanges": 0,
-     "restored": true,
-     "writes": 1
+     "refused": "GAME_DLL_EXECUTABLE_DATA",
+     "unchanged": true,
+     "writes": 0
     },
     "ravager_all_heavy": {
      "effect": {
@@ -1355,13 +1331,13 @@
    },
    "snapshot": "F5FEE03DCFDB-20260929T173206Z-mission-host-after-reinforce.hd2snap",
    "status": "VALIDATED",
-   "writes": 41
+   "writes": 35
   },
   "F5FEE03DCFDB-20260929T173443Z-mission-end-transition.hd2snap": {
    "fixtureFallback": "disabled",
    "imagePageGuard": {
     "guardFailure": "guard_failure address=0x? failed=protection region=0x?+0x? state=0x? type=0x? protect=0x? allocation_base=0x? allocation_protect=unknown expected_allocation_base=0x? expected_size=0x? expected_type=0x? expected_protect=0x? module=none expected_bytes=match (1 match, 0 differ, 0 unreadable)",
-    "reason": "[string \"hd2runtime/core/guarded_transaction\"]:98: allocation ownership/protection changed",
+    "reason": "[string \"hd2runtime/core/guarded_transaction\"]:106: allocation ownership/protection changed",
     "status": "REJECTED"
    },
    "imagePages": {
@@ -1411,13 +1387,27 @@
    "rejections": {
     "a slot the kit has no piece in": "field is not exposed for armor kit 4DD749C6 RS-100 SANCTIONER: armor_kit.piece_weight.helmet",
     "ambiguous kit name": "AMBIGUOUS_ARMOR_KIT: 9 armor kits are named B-01 Tactical: name one by id (250FD6C1, 1D0E3431, 708451E9, 61B31723, 4F7FB2BD, 6351A9AA, 6D30F386, D59566D5, 1369B95B)",
-    "class rating 9": "value outside the reviewed range [-1, 4] for armor_class.rating",
-    "class without allow_shared": "shared field requires allow_shared=true: armor_class.rating (every armor whose pieces have this weight, for every player this machine simulates or hits)",
-    "curve at_0 without allow_unverified_effect": "field requires allow_unverified_effect=true: armor_damage_curve.at_0 (not live-tested (docs/armor-stats.md))",
-    "curve at_1 without allow_unverified_effect": "field requires allow_unverified_effect=true: armor_damage_curve.at_1 (not live-tested (docs/armor-stats.md))",
-    "curve at_2 without allow_unverified_effect": "field requires allow_unverified_effect=true: armor_damage_curve.at_2 (not live-tested (docs/armor-stats.md))",
-    "curve at_3 without allow_unverified_effect": "field requires allow_unverified_effect=true: armor_damage_curve.at_3 (not live-tested (docs/armor-stats.md))",
-    "curve at_minus_1 without allow_unverified_effect": "field requires allow_unverified_effect=true: armor_damage_curve.at_minus_1 (not live-tested (docs/armor-stats.md))",
+    "class heavy rating": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.rating, the heavy armor class)",
+    "class heavy speed": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.speed, the heavy armor class)",
+    "class heavy stamina": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.stamina, the heavy armor class)",
+    "class light rating": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.rating, the light armor class)",
+    "class light speed": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.speed, the light armor class)",
+    "class light stamina": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.stamina, the light armor class)",
+    "class medium rating": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.rating, the medium armor class)",
+    "class medium speed": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.speed, the medium armor class)",
+    "class medium stamina": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.stamina, the medium armor class)",
+    "class rating 9": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.rating, the heavy armor class)",
+    "class without allow_shared": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_class.rating, the heavy armor class)",
+    "curve at_0": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_0, the armor damage curve)",
+    "curve at_0 without allow_unverified_effect": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_0, the armor damage curve)",
+    "curve at_1": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_1, the armor damage curve)",
+    "curve at_1 without allow_unverified_effect": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_1, the armor damage curve)",
+    "curve at_2": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_2, the armor damage curve)",
+    "curve at_2 without allow_unverified_effect": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_2, the armor damage curve)",
+    "curve at_3": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_3, the armor damage curve)",
+    "curve at_3 without allow_unverified_effect": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_3, the armor damage curve)",
+    "curve at_minus_1": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_minus_1, the armor damage curve)",
+    "curve at_minus_1 without allow_unverified_effect": "GAME_DLL_EXECUTABLE_DATA: writes into game.dll's executable pages are disabled since HD2Runtime 0.40.1 (GameGuard was reported to close the game after them) (armor_damage_curve.at_minus_1, the armor damage curve)",
     "kit moved": "ARMOR_KIT_MOVED: the kit table no longer holds armor kit 4DD749C6 at index 198",
     "no allow_shared": "shared field requires allow_shared=true: armor_kit.piece_weight.torso (every player wearing this armor kit reads its pieces (stocky, slim and any-body pieces alike))",
     "no allow_unverified_effect": "field requires allow_unverified_effect=true: armor_kit.piece_weight.torso (not live-tested (docs/armor-stats.md))",
@@ -1431,37 +1421,19 @@
    },
    "roundTrips": {
     "curve_at_2_0_5": {
-     "bytesChanged": 1,
-     "liveAfter": {
-      "at_2": 0.5
-     },
-     "note": "note: curve-2: the armor damage curve: armor_damage_curve.at_2 = 0.5 (every Helldiver on this machine; the next hit on a Helldiver (live))",
-     "protectionChanges": 0,
-     "restored": true,
-     "writes": 1
+     "refused": "GAME_DLL_EXECUTABLE_DATA",
+     "unchanged": true,
+     "writes": 0
     },
     "heavy_rating_0": {
-     "bytesChanged": 1,
-     "liveAfter": {
-      "damage": 1.25,
-      "display": 50,
-      "rating": 0
-     },
-     "note": "note: class-heavy-rating: the heavy armor class: armor_class.rating = 0 (every Helldiver on this machine; the next hit (live))",
-     "protectionChanges": 0,
-     "restored": true,
-     "writes": 1
+     "refused": "GAME_DLL_EXECUTABLE_DATA",
+     "unchanged": true,
+     "writes": 0
     },
     "heavy_stamina_0_5": {
-     "bytesChanged": 1,
-     "liveAfter": {
-      "display": 150,
-      "stamina": 0.5
-     },
-     "note": "note: class-heavy-stamina: the heavy armor class: armor_class.stamina = 0.5 (every Helldiver on this machine; the next armor apply (respawn or a kit change))",
-     "protectionChanges": 0,
-     "restored": true,
-     "writes": 1
+     "refused": "GAME_DLL_EXECUTABLE_DATA",
+     "unchanged": true,
+     "writes": 0
     },
     "ravager_all_heavy": {
      "effect": {
@@ -1557,7 +1529,7 @@
    },
    "snapshot": "F5FEE03DCFDB-20260929T173443Z-mission-end-transition.hd2snap",
    "status": "VALIDATED",
-   "writes": 36
+   "writes": 30
   }
  },
  "snapshots": 7,

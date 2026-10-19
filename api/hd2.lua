@@ -108,7 +108,13 @@ M.diagnostics={telemetry=diagnostics.telemetry,write_conflicts=diagnostics.write
 -- Per-mod CPU time (runtime/perf_watch.lua; docs/runtime-performance.md "Which mod is slow").
 M.diagnostics.performance=require('hd2runtime/runtime/perf_watch').snapshot
 -- Diagnostic comparison only: neither mode is buffer-free or a third-party scanner fix.
+-- Off by default since 0.40.1; this call changes the process only. save_application_optimizations(enabled) also
+-- saves it as F10 > Settings "Faster application (0.40.0)" (the HD2R Editor's switch, 1.0.1 and later).
 M.diagnostics.application_optimizations=require('hd2runtime/runtime/application_mode').configure
+function M.diagnostics.save_application_optimizations(enabled)
+    assert(type(enabled)=='boolean','application optimizations must be a boolean')
+    return require('hd2runtime/runtime/runtime_settings').set('optimized_application',enabled)
+end
 -- In-game options (Mod Options Menu). Required at startup with the rest of the API.
 local options=require('hd2runtime/api/options')
 function M.options(spec)return options.page(spec)end

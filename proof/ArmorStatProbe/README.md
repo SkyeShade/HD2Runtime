@@ -31,7 +31,9 @@ other proofs also use F9.
    - The armor rating changes on the next hit. Speed and stamina follow only after the next respawn (that is part of
      the test; the log's `STATE (spawned)` shows them).
    - The armory (on the ship) shows the new rating, speed and stamina at once.
-4. **Damage curve (Alt+F9).** With **KIT VANILLA**, let the same weak enemy hit you several times in each mode.
+4. **Damage curve (Alt+F9). Not available since HD2Runtime 0.40.1:** the curve is read only (game.dll executable
+   data), so its ensure is rejected with `GAME_DLL_EXECUTABLE_DATA` and nothing changes. On 0.40.0 and older:
+   With **KIT VANILLA**, let the same weak enemy hit you several times in each mode.
    - **Alt+F9** once: `CURVE TOUGH`. Every point x0.5: each hit must cost about **half** the VANILLA hits, at once.
    - **Alt+F9** again: `CURVE FRAGILE`. Every point x2: about **twice**. You die fast; keep a stim ready.
    - **Alt+F9** again: `CURVE VANILLA`.

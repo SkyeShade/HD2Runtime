@@ -2348,6 +2348,36 @@
    "cn": "打开、关闭或更改此菜单时播放界面音效。",
    "tc": "開啟、關閉或變更此選單時播放介面音效。"
   },
+  "Faster application (0.40.0)": {
+   "de": "Schnellere Anwendung (0.40.0)",
+   "es": "Aplicación más rápida (0.40.0)",
+   "ms": "Aplicación más rápida (0.40.0)",
+   "fr": "Application plus rapide (0.40.0)",
+   "it": "Applicazione più rapida (0.40.0)",
+   "jp": "高速適用 (0.40.0)",
+   "ko": "빠른 적용 (0.40.0)",
+   "pl": "Szybsze stosowanie (0.40.0)",
+   "pt": "Aplicação mais rápida (0.40.0)",
+   "bp": "Aplicação mais rápida (0.40.0)",
+   "ru": "Быстрое применение (0.40.0)",
+   "cn": "更快应用 (0.40.0)",
+   "tc": "更快套用 (0.40.0)"
+  },
+  "Caches and fewer checks while mods apply. Turn off if the game fails to start.": {
+   "de": "Caches und weniger Prüfungen beim Anwenden von Mods. Ausschalten, wenn das Spiel nicht startet.",
+   "es": "Cachés y menos comprobaciones al aplicar mods. Desactívalo si el juego no se inicia.",
+   "ms": "Cachés y menos comprobaciones al aplicar mods. Desactívalo si el juego no se inicia.",
+   "fr": "Caches et moins de vérifications pendant l’application des mods. Désactivez-le si le jeu ne démarre pas.",
+   "it": "Cache e meno controlli mentre le mod vengono applicate. Disattivalo se il gioco non si avvia.",
+   "jp": "MOD の適用中にキャッシュを使い、確認を減らします。ゲームが起動しない場合はオフにしてください。",
+   "ko": "모드 적용 중 캐시를 사용하고 확인을 줄입니다. 게임이 시작되지 않으면 끄세요.",
+   "pl": "Pamięć podręczna i mniej sprawdzeń podczas stosowania modów. Wyłącz, jeśli gra się nie uruchamia.",
+   "pt": "Caches e menos verificações ao aplicar mods. Desative se o jogo não iniciar.",
+   "bp": "Caches e menos verificações ao aplicar mods. Desative se o jogo não iniciar.",
+   "ru": "Кэши и меньше проверок при применении модов. Отключите, если игра не запускается.",
+   "cn": "应用模组时使用缓存并减少检查。如果游戏无法启动，请关闭此项。",
+   "tc": "套用模組時使用快取並減少檢查。若遊戲無法啟動，請關閉此項。"
+  },
   "Memory": {
    "de": "Speicher",
    "es": "Memoria",

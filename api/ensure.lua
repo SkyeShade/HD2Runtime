@@ -8,6 +8,7 @@ local options=require('hd2runtime/api/options')
 local diagnostics=require('hd2runtime/runtime/diagnostics')
 local shared_records=require('hd2runtime/core/shared_records')
 local sdk_compatibility=require('hd2runtime/core/sdk_compatibility')
+local application_mode=require('hd2runtime/runtime/application_mode')
 local M={}
 local DEBOUNCE=0.5 -- update seconds that coalesce a burst of option changes into one resolution
 
@@ -78,6 +79,9 @@ local function watch_status(watch,callback,owner,emit)
     return watch
 end
 
+-- Periodic verification paused (set_verification_enabled(false)): only with the application optimizations on
+-- (runtime/application_mode.lua); off, every ensure keeps verifying as in 0.31.
+local function paused(watch)return watch.verification_enabled==false and application_mode.enabled()end
 -- Private scheduler contract; direct/manual tick calls still run normally. A live option or its availability
 -- listener wakes the watch immediately. No polling is needed while disabled, blocked or waiting for options.
 local function sleeping(watch,delay)
@@ -296,7 +300,7 @@ local function start_bound(runtime,emit,request,kind,validate,module,interval,st
         end
         if watch.status=='blocked'or watch.status=='disabled'then return end
         if not child then
-            if not relaunch and watch.verification_enabled==false then return end
+            if not relaunch and paused(watch)then return end
             if elapsed<next_at then
                 if relaunch then watch.retry_in=next_at-elapsed end
                 return
@@ -412,7 +416,7 @@ local function start_bound(runtime,emit,request,kind,validate,module,interval,st
         if watch.status=='blocked'or watch.status=='disabled'or watch.status=='waiting_for_options'then
             return math.huge
         end
-        if not relaunch and watch.verification_enabled==false then return math.huge end
+        if not relaunch and paused(watch)then return math.huge end
         return math.max(0,next_at-elapsed)
     end)
 end
@@ -477,7 +481,7 @@ function M.start(runtime,emit,request)
         assert(type(dt)=='number' and dt>=0 and dt<math.huge,'invalid elapsed time')
         elapsed=elapsed+dt+(skipped or 0)
         if not child then
-            if watch.status~='recovering'and watch.verification_enabled==false then return end
+            if watch.status~='recovering'and paused(watch)then return end
             if elapsed<next_at then
                 if watch.status=='recovering'then watch.retry_in=next_at-elapsed end
                 return
@@ -543,7 +547,7 @@ function M.start(runtime,emit,request)
     end
     sleeping(watch,function()
         if child then return nil end
-        if watch.status~='recovering'and watch.verification_enabled==false then return math.huge end
+        if watch.status~='recovering'and paused(watch)then return math.huge end
         return math.max(0,next_at-elapsed)
     end)
     return watch_status(watch,request.on_status,owner,emit)

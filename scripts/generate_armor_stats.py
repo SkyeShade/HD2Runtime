@@ -60,9 +60,8 @@ SLOT_PINS = [
     (0x833CD4, '8b44cb04', 'armor modifier setter: the avatar slot'),
     (0x833CDD, '4869c8b8010000', 'armor modifier setter: stride 0x1B8'),
 ]
-# Reviewed write ranges. The class tables and the curve sit in pages that are PAGE_EXECUTE_READWRITE at run time; they
-# are written as reviewed executable data, only their exact 4-byte entries (core/page_protection.lua,
-# docs/armor-stats.md).
+# Reviewed ranges. The class tables and the curve sit in pages that are PAGE_EXECUTE_READWRITE at run time; they are
+# read only since 0.40.1 (core/page_protection.lua, docs/armor-stats.md).
 # The field ids (hd2.fields.armor_kit.piece_weight_<slot>, armor_class.*, armor_damage_curve.*; scripts/generate_sdk.py).
 FIELD_IDS = (['armor_kit.piece_weight.' + slot for slot in SLOTS if slot != 'helmet']
     + ['armor_class.' + name for name in ('rating', 'speed', 'stamina')]
@@ -223,11 +222,13 @@ PLAYER_CODES = ['ACKNOWLEDGEMENT_REQUIRED', 'OUT_OF_RANGE', 'INVALID_OPTION', 'N
     'NO_AVATAR_SLOT', 'UNEXPECTED_STATE', 'NOT_SOLO', 'NOT_PRIVATE', 'UNAVAILABLE', 'UNSUPPORTED_BUILD',
     'GUARD_REJECTED']
 TRANSACTION_CODES = ['UNKNOWN_ARMOR_KIT', 'AMBIGUOUS_ARMOR_KIT', 'UNKNOWN_ARMOR_CLASS', 'UNKNOWN_WEIGHT',
-    'UNKNOWN_SLOT', 'ARMOR_BUILD_CHANGED', 'ARMOR_KIT_MOVED', 'CONFLICT']
+    'UNKNOWN_SLOT', 'ARMOR_BUILD_CHANGED', 'ARMOR_KIT_MOVED', 'CONFLICT', 'GAME_DLL_EXECUTABLE_DATA']
 EXECUTABLE_DATA = ('The class tables and the damage curve sit in game.dll pages that are executable at run time. They '
-    'are written as reviewed executable data (the user\'s decision of 2026-10-08): only their exact 4-byte entries, '
-    'after the build, every pin and constant are proved. The page protection is never changed '
-    '(docs/armor-stats.md, "Class tables: reviewed executable data").')
+    'are read only since HD2Runtime 0.40.1 (the user\'s decision of 2026-10-19): GameGuard was reported to close the '
+    'game after class writes, so no write targets an executable page (docs/armor-stats.md, "Class tables: read only").')
+# The same text as domains/armor_stats_writes.lua M.READ_ONLY_REASON (core/page_protection.lua).
+READ_ONLY_REASON = ('GAME_DLL_EXECUTABLE_DATA: writes into game.dll\'s executable pages are disabled since HD2Runtime '
+    '0.40.1 (GameGuard was reported to close the game after them)')
 
 
 def api_constant(field_id: str) -> str:
@@ -240,7 +241,8 @@ def _instance(field_id, display, target, kind, unit, storage, values, default, l
         executable):
     return {'semanticFieldId': field_id, 'apiFieldConstant': api_constant(field_id), 'displayName': display,
         'target': target, 'type': kind, 'unit': unit, 'storage': storage, **values, 'currentDefault': default,
-        'editable': True, 'executableData': executable, 'lifecycle': lifecycle, 'lifecycleKind': lifecycle_kind,
+        'editable': not executable, **({'readOnlyReason': READ_ONLY_REASON} if executable else {}),
+        'executableData': executable, 'lifecycle': lifecycle, 'lifecycleKind': lifecycle_kind,
         'shared': True, 'allowSharedRequired': True, 'sharedReason': SHARED[target['resource']],
         'acknowledgement': 'allow_unverified_effect', 'acknowledgementReason': UNVERIFIED,
         'acknowledgements': list(ACKNOWLEDGEMENTS), 'operationGroup': group, 'liveTested': False}
@@ -337,10 +339,10 @@ def catalog(d: dict) -> dict:
             'armor_class': {'accessor': "hd2.armor_stats.class('<light|medium|heavy>')", 'alias': 'hd2.armor_class',
                 'luaTarget': {'resource': 'armor_class', 'armor_class': '<light|medium|heavy>'},
                 'scope': SHARED['armor_class'],
-                'writes': 'one f32 entry of the class table (reviewed executable data)'},
+                'writes': 'none: read only since 0.40.1 (game.dll executable data)'},
             'armor_damage_curve': {'accessor': 'hd2.armor_stats.damage_curve()',
                 'luaTarget': {'resource': 'armor_damage_curve'}, 'scope': SHARED['armor_damage_curve'],
-                'writes': 'one f32: the damage of one curve point; the armor values (x) are never written'}},
+                'writes': 'none: read only since 0.40.1 (game.dll executable data)'}},
         'transaction': {'operations': ['hd2.patch', 'hd2.transaction', 'hd2.ensure'], 'targetsPerRequest': 1,
             'minChanges': 1, 'maxChanges': len(SLOTS),
             'requestOptions': ['id', 'target', 'field', 'expect', 'value', 'changes', 'diagnostic', 'allow_shared',

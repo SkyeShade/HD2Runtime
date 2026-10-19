@@ -18,13 +18,12 @@ On a copy-on-write memory overlay of each snapshot (no game process, no real wri
   stamina factor the kit derives; stamina_factor 0.5 and armor_bonus 2 written (exact bytes), restored to the game's
   values; a third-party stamina value refused (UNEXPECTED_STATE);
 - rejections: no allow_shared, no allow_unverified_effect, an out-of-range or unknown weight, a stale expect, an
-  unknown kit or class, an ambiguous kit name, a class or curve change without its acknowledgements or out of range, a
+  unknown kit or class, an ambiguous kit name, every class and curve change (GAME_DLL_EXECUTABLE_DATA), a
   third-party piece weight (CONFLICT), a moved kit (ARMOR_KIT_MOVED) and a tampered pin;
-- the class tables and the curve (reviewed executable data, the user's decision of 2026-10-08): a guarded write to an
-  UNREGISTERED table entry is refused (failed=protection, nothing written); through the domain (pins proved, the exact
-  4-byte extent registered) the heavy armor value, the heavy stamina factor and the curve point at armor value 2 are
-  written, exactly their 4 bytes change, no page protection changes, the live describe follows, the guarded inverse
-  restores the original bytes.
+- the class tables and the curve: read only since 0.40.1 (game.dll executable data, the user's decision of
+  2026-10-19: GameGuard was reported to close the game after class writes): a guarded write to a table entry is
+  refused (failed=protection, nothing written); the domain refuses the heavy armor value, the heavy stamina factor and
+  the curve point at armor value 2 before any read, the tables keep their bytes and nothing is registered.
 """
 from __future__ import annotations
 
@@ -200,55 +199,27 @@ local worker=coroutine.create(function()
  round_trip('ravager_all_heavy',kit_transaction('1F9BFA78',every_slot(ravager,'heavy')))
  assert(result.roundTrips.ravager_all_heavy.liveAfter.rating==150 and result.roundTrips.ravager_all_heavy.effect.rating==150
   and result.roundTrips.sanctioner_torso_heavy.liveAfter.class=='heavy','the live stats did not follow the write')
- -- 4b. The class tables and the curve: reviewed executable data, through the domain.
- local function image_round_trip(key,request,extent_rva,extent_size,check)
+ -- 4b. The class tables and the curve: read only since 0.40.1 (game.dll executable data, the user's decision of
+ -- 2026-10-19): the domain refuses every class and curve change before any read, and nothing changes.
+ local function image_refused(key,request,extent_rva,extent_size)
   fresh()
-  local spec=W.validate_patch(request)
-  local plan=resolve(spec)
   local base=world.game+extent_rva
   local before=runtime.read(base,extent_size)
-  local applied=guarded.apply(runtime,plan)
-  assert(applied.status=='APPLIED'and applied.writes==#plan.changes and applied.non_target_bytes_unchanged
-   and applied.protection_restored and applied.protection_changes==0,key..' write failed: '..tostring(applied.reason))
-  local after=runtime.read(base,extent_size)
-  local changed=0
-  for i=1,extent_size do if before:byte(i)~=after:byte(i)then changed=changed+1 end end
-  assert(changed>=1 and changed<=4*#plan.changes,key..': '..changed..' bytes changed')
-  for _,change in ipairs(plan.changes)do
-   assert(runtime.read(change.owner.base+change.offset,4)==change.desired,key..' target not written')
-   assert(runtime.query(change.owner.base+change.offset).protect==page_protection.REVIEWED_EXECUTABLE,key..' page re-protected')
-  end
-  local live=check()
-  local inverse=guarded.apply(runtime,guarded.inverse(plan))
-  assert(inverse.status=='APPLIED'and inverse.protection_changes==0,key..' rollback failed')
-  assert(runtime.read(base,extent_size)==before,key..' rollback did not restore the table')
-  result.roundTrips[key]={writes=applied.writes,bytesChanged=changed,protectionChanges=applied.protection_changes,
-   restored=true,note=plan.notes and plan.notes[1],liveAfter=live}
-  fresh()
+  local ok,why=pcall(W.validate_patch,request)
+  assert(not ok and tostring(why):find('GAME_DLL_EXECUTABLE_DATA',1,true),key..' was not refused: '..tostring(why))
+  assert(runtime.read(base,extent_size)==before and runtime.query(base).protect==page_protection.REVIEWED_EXECUTABLE,
+   key..' changed the table or its page')
+  assert(page_protection.reviewed_executable_data(base,4)==nil,key..' registered executable data')
+  result.roundTrips[key]={refused='GAME_DLL_EXECUTABLE_DATA',writes=0,unchanged=true}
  end
  local function class_req(class,field,expect,value)
   return {id='class-'..class..'-'..field,target={resource='armor_class',armor_class=class},field='armor_class.'..field,
    expect=expect,value=value,allow_shared=true,allow_unverified_effect=true}
  end
- image_round_trip('heavy_rating_0',class_req('heavy','rating',2,0),D.tables.armor.rva,12,function()
-  local c=A.describe_class(A.weight('heavy'))
-  assert(c.rating.value==0 and c.rating.display==50 and c.damage_multiplier==1.25,'heavy rating did not follow: '
-   ..tostring(c.rating.value))
-  return {rating=c.rating.value,display=c.rating.display,damage=c.damage_multiplier}
- end)
- image_round_trip('heavy_stamina_0_5',class_req('heavy','stamina',1.5,0.5),D.tables.stamina.rva,12,function()
-  local c=A.describe_class(A.weight('heavy'))
-  assert(c.stamina.value==0.5 and c.stamina.display==150,'heavy stamina did not follow')
-  return {stamina=c.stamina.value,display=c.stamina.display}
- end)
- image_round_trip('curve_at_2_0_5',{id='curve-2',target={resource='armor_damage_curve'},field='armor_damage_curve.at_2',
-  expect=0.75,value=0.5,allow_shared=true,allow_unverified_effect=true},D.curve.rva,40,function()
-  local cu=A.describe_curve()
-  local at2
-  for _,pt in ipairs(cu.points)do if pt.armor_value==2 then at2=pt.damage end end
-  assert(at2==0.5,'the curve did not follow: '..tostring(at2))
-  return {at_2=at2}
- end)
+ image_refused('heavy_rating_0',class_req('heavy','rating',2,0),D.tables.armor.rva,12)
+ image_refused('heavy_stamina_0_5',class_req('heavy','stamina',1.5,0.5),D.tables.stamina.rva,12)
+ image_refused('curve_at_2_0_5',{id='curve-2',target={resource='armor_damage_curve'},field='armor_damage_curve.at_2',
+  expect=0.75,value=0.5,allow_shared=true,allow_unverified_effect=true},D.curve.rva,40)
  -- 5. The local player.
  fresh()
  local seen,code,reason=A.observe_player()
@@ -299,22 +270,21 @@ local worker=coroutine.create(function()
  for _,class in ipairs(D.classes)do
   for i,f in ipairs({'rating','speed','stamina'})do
    local vanilla=D.tables[({'armor','speed','stamina'})[i]].values[A.weight(class)+1]
-   local v=W.validate_patch{id='x',target={resource='armor_class',armor_class=class},field='armor_class.'..f,
-    expect=vanilla,value=vanilla,allow_shared=true,allow_unverified_effect=true}
-   assert(v.target_kind=='armor_class'and v.changes[1].rva==D.tables[({'armor','speed','stamina'})[i]].rva
-    +A.weight(class)*4,class..' '..f..' resolves to its entry')
+   rejects(function()W.validate_patch{id='x',target={resource='armor_class',armor_class=class},field='armor_class.'..f,
+    expect=vanilla,value=vanilla,allow_shared=true,allow_unverified_effect=true}end,'GAME_DLL_EXECUTABLE_DATA',
+    'class '..class..' '..f)
   end
  end
  rejects(function()W.validate_patch{id='x',target={resource='armor_class',armor_class='heavy'},field='armor_class.rating',
-  expect=2,value=0}end,'allow_shared','class without allow_shared')
+  expect=2,value=0}end,'GAME_DLL_EXECUTABLE_DATA','class without allow_shared')
  rejects(function()W.validate_patch{id='x',target={resource='armor_class',armor_class='heavy'},field='armor_class.rating',
-  expect=2,value=9,allow_shared=true,allow_unverified_effect=true}end,'reviewed range','class rating 9')
+  expect=2,value=9,allow_shared=true,allow_unverified_effect=true}end,'GAME_DLL_EXECUTABLE_DATA','class rating 9')
  for _,point in ipairs(W.CURVE_KEYS)do
-  local v=W.validate_patch{id='x',target={resource='armor_damage_curve'},field='armor_damage_curve.'..point.name,
-   expect=A.curve(D.curve.points,point.key),value=1,allow_shared=true,allow_unverified_effect=true}
-  assert(v.target_kind=='armor_damage_curve','curve '..point.name..' resolves')
   rejects(function()W.validate_patch{id='x',target={resource='armor_damage_curve'},field='armor_damage_curve.'..point.name,
-   expect=A.curve(D.curve.points,point.key),value=1,allow_shared=true}end,'allow_unverified_effect',
+   expect=A.curve(D.curve.points,point.key),value=1,allow_shared=true,allow_unverified_effect=true}end,
+   'GAME_DLL_EXECUTABLE_DATA','curve '..point.name)
+  rejects(function()W.validate_patch{id='x',target={resource='armor_damage_curve'},field='armor_damage_curve.'..point.name,
+   expect=A.curve(D.curve.points,point.key),value=1,allow_shared=true}end,'GAME_DLL_EXECUTABLE_DATA',
    'curve '..point.name..' without allow_unverified_effect')
  end
  local spec=kit_transaction('4DD749C6',{{field=slot_field('torso'),expect='light',value='heavy'}})

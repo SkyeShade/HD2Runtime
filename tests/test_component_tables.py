@@ -56,6 +56,7 @@ end
 class ComponentTableGuardTests(unittest.TestCase):
     def test_diagnostic_mode_drops_caches_and_keeps_table_guards(self):
         self.assertEqual(run(CAPTURE + r'''
+require('hd2runtime/runtime/application_mode').configure(true)  -- the 0.40.0 optimizations (off by default)
 local mode=require('hd2runtime/runtime/application_mode')
 local function reuses()
  local c=require('hd2runtime/runtime/metrics').snapshot().counters
@@ -86,6 +87,7 @@ return 'ok'
 
     def test_warm_decoding_cache_rechecks_records_membership_indices_and_table_pointers(self):
         self.assertEqual(run(CAPTURE + r'''
+require('hd2runtime/runtime/application_mode').configure(true)  -- the 0.40.0 optimizations (off by default)
 local bytes=require('hd2runtime/core/bytes')
 local first,owner=capture()
 local c=capture();local candidate=find(c,JAR5)

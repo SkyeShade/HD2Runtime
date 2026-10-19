@@ -21,6 +21,7 @@ end
 class RuntimePerformanceTests(unittest.TestCase):
     def test_scheduler_sleeps_ensures_but_keeps_deadlines_and_drift_recovery(self):
         check('''
+require('hd2runtime/runtime/application_mode').configure(true)  -- the 0.40.0 optimizations (off by default)
 local e=hd2.ensure{transaction=transaction_request(),startup_delay=0,interval=2,max_interval=8}
 require('hd2runtime/runtime/scheduler').attach(e)
 for _=1,3000 do update(0);if e.runs==1 then break end end
@@ -44,6 +45,7 @@ assert(calls==n+1 and require('hd2runtime/runtime/scheduler').active()==0,
 
     def test_sleeping_bound_ensure_wakes_without_consuming_new_option_debounce(self):
         check('''
+require('hd2runtime/runtime/application_mode').configure(true)  -- the 0.40.0 optimizations (off by default)
 local value=require('hd2runtime/api/options').value({id='cooldown',min=90,max=300,step=1,default=180},'mods/test/sleep')
 local notices=0
 local e=hd2.ensure{patch=typed_cooldown('sleep-bound',90,value),startup_delay=0,interval=30,
@@ -64,6 +66,7 @@ assert(runtime.read(targets.cooldown.address,4)==require('hd2runtime/core/bytes'
 
     def test_scheduler_keeps_sleep_time_separate_from_child_frame_time(self):
         run('''
+require('hd2runtime/runtime/application_mode').configure(true)  -- the 0.40.0 optimizations (off by default)
 local scheduler=require('hd2runtime/runtime/scheduler')
 local seen={}
 local w={status='waiting',_sleep_for=5}
@@ -80,6 +83,7 @@ return 'ok'
 
     def test_blocked_bound_ensure_sleeps_until_its_value_changes(self):
         check('''
+require('hd2runtime/runtime/application_mode').configure(true)  -- the 0.40.0 optimizations (off by default)
 local value=require('hd2runtime/api/options').value({id='blocked',min=90,max=300,step=1,default=180})
 replace(targets.cooldown.address,string.char(1,2,3,4))
 local e=hd2.ensure{patch=typed_cooldown('blocked-sleep',90,value),startup_delay=0,recover=true}
@@ -192,6 +196,7 @@ finish(g);finish(h);assert(h.status=='complete',tostring(h.error))
 
     def test_read_slices_keep_the_quantum_and_extend_only_within_the_tick_budget(self):
         run(r'''
+require('hd2runtime/runtime/application_mode').configure(true)  -- the 0.40.0 optimizations (off by default)
 local metrics=require('hd2runtime/runtime/metrics')
 local scheduler=require('hd2runtime/runtime/scheduler')
 local Reader=require('hd2runtime/runtime/reader')
@@ -267,6 +272,7 @@ return 'ok'
 
     def test_burst_admission_budgets_new_jobs_but_never_starves_the_first(self):
         run(r'''
+require('hd2runtime/runtime/application_mode').configure(true)  -- the 0.40.0 optimizations (off by default)
 local metrics=require('hd2runtime/runtime/metrics')
 local gate=require('hd2runtime/runtime/exclusive')
 local scheduler=require('hd2runtime/runtime/scheduler')
@@ -293,6 +299,7 @@ return 'ok'
 
     def test_discovery_reads_each_header_once_and_shares_only_proven_keys(self):
         run(r'''
+require('hd2runtime/runtime/application_mode').configure(true)  -- the 0.40.0 optimizations (off by default)
 local b=require('hd2runtime/core/bytes')
 local metrics=require('hd2runtime/runtime/metrics')
 local discover=require('hd2runtime/runtime/discover')
@@ -417,6 +424,48 @@ assert(counter('discover.walks')==before+3,'re-enable reused an old proof or did
 
 
 return 'ok'
+''')
+
+    def test_without_the_optimizations_every_watch_ticks_bursts_are_unbudgeted_and_paused_ensures_verify(self):
+        # 0.40.1: off by default, the 0.31 behaviour (runtime/application_mode.lua).
+        check('''
+local mode=require('hd2runtime/runtime/application_mode')
+assert(mode.enabled()==false,'the optimizations are off by default')
+local scheduler=require('hd2runtime/runtime/scheduler')
+-- A sleeping watch still ticks every frame, with no skipped time.
+local seen={}
+local w={status='waiting',_sleep_for=5}
+function w.cancel()w.status='cancelled'end
+function w.tick(dt,skipped)seen[#seen+1]=skipped;w._sleep_for=5;if #seen==4 then w.status='complete'end end
+scheduler.attach(w)
+for _=1,4 do update(1)end
+assert(#seen==4 and seen[1]==0 and seen[4]==0,'a sleeping watch skipped frames: '..#seen)
+-- Every operation of a burst is admitted in the same update, whatever the time spent.
+local metrics=require('hd2runtime/runtime/metrics')
+local gate=require('hd2runtime/runtime/exclusive')
+local clock=0;metrics.set_clock(function()return clock end)
+local completed=0
+for _=1,10 do
+ local job={status='waiting'}
+ function job.cancel()job.status='cancelled';gate.release(job)end
+ function job.tick()
+  if gate.acquire(job)then clock=clock+0.0008;completed=completed+1;job.status='complete';gate.release(job)end
+ end
+ scheduler.attach(job)
+end
+update(1/60);assert(completed==10,'a burst was budgeted: '..completed)
+metrics.set_clock(function()return nil end)
+-- An ensure whose verification is paused (the editor's hidden window) keeps verifying.
+local e=hd2.ensure{transaction=transaction_request(),startup_delay=0,interval=1,max_interval=1}
+e.set_verification_enabled(false)
+scheduler.attach(e)
+for _=1,3000 do update(0);if e.runs==1 then break end end
+assert(e.runs==1,tostring(e.error))
+replace(targets.lifetime.address,targets.lifetime.old)
+for _=1,3000 do update(0.01);if e.runs==2 then break end end
+assert(e.runs==2 and e.drifts==1,'a paused ensure stopped verifying without the optimizations')
+assert_values('new')
+e.cancel();update(0.01)
 ''')
 
     def test_native_readonly_wrappers_share_process_discovery_identity(self):

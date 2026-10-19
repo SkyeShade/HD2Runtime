@@ -88,7 +88,9 @@ settings.close();assert(not perf.recording())
 
     def test_every_setting_is_on_by_default_and_a_click_turns_it_off_and_saves_it(self):
         self.check(r'''
-for _,item in ipairs(settings.ITEMS)do assert(settings.enabled(item.key),item.key)end
+for _,item in ipairs(settings.ITEMS)do
+    assert(settings.enabled(item.key)==(item.key~='optimized_application'),item.key)
+end
 local heard={}
 settings.on_change(function(k,on)heard[#heard+1]=k..'='..tostring(on)end)
 local d=builder(1920,1080)
@@ -109,6 +111,34 @@ assert(settings.enabled('version_label')==false)
 m.left=false;settings.draw(builder(1920,1080),m,input)
 m.left=true;settings.draw(builder(1920,1080),m,input)
 assert(settings.enabled('version_label')==true,'a second click turns it back on')
+''')
+
+    def test_faster_application_is_off_by_default_and_the_saved_choice_sets_the_mode(self):
+        # 0.40.1: the 0.40.0 application optimizations are off unless turned on (runtime/application_mode.lua).
+        self.check(r'''
+local mode=require('hd2runtime/runtime/application_mode')
+mode.configure(false)
+assert(settings.enabled('optimized_application')==false and saved['show.optimized_application']==nil)
+settings.start()
+assert(mode.enabled()==false,'off unless saved on')
+local d=builder(1920,1080)
+local L=settings.draw(d,nil,input)
+assert(has(d,'Faster application (0.40.0)'))
+local row
+for _,r in ipairs(L.rows)do if r.item.key=='optimized_application'then row=r end end
+local m={x=row.box.x+row.box.w/2,y=row.box.y+row.box.h/2,left=false}
+settings.draw(builder(1920,1080),m,input)
+m.left=true;settings.draw(builder(1920,1080),m,input)
+assert(saved['show.optimized_application']==true and mode.enabled()==true,'a click turns it on, saved')
+settings.set('optimized_application',false)
+assert(saved['show.optimized_application']==false and mode.enabled()==false)
+-- The editor's switch: the diagnostics API saves the same setting.
+local hd2=require('hd2runtime/api/hd2')
+assert(hd2.diagnostics.save_application_optimizations(true)==true)
+assert(saved['show.optimized_application']==true and mode.enabled()==true)
+-- The process-only call does not save.
+hd2.diagnostics.application_optimizations(false)
+assert(mode.enabled()==false and saved['show.optimized_application']==true)
 ''')
 
     def test_the_window_is_centred_and_fits_at_every_resolution(self):

@@ -4079,11 +4079,11 @@ function HD2ArmorStatsApi.kit(identity) end
 ---Every armor kit of the build with its vanilla stats (offline).
 ---@return HD2ArmorKitSummary[]
 function HD2ArmorStatsApi.kits() end
----A weight class: its table values (armor value, speed and stamina factors). Writable with allow_shared and allow_unverified_effect: the tables sit in game.dll pages that are executable at run time, and only their exact 4-byte entries are written, as reviewed executable data.
+---A weight class: its table values (armor value, speed and stamina factors). Read only since 0.40.1: the tables sit in game.dll pages that are executable at run time, and GameGuard was reported to close the game after class writes (GAME_DLL_EXECUTABLE_DATA).
 ---@param name "light"|"medium"|"heavy"
 ---@return HD2ArmorClassTarget
 function HD2ArmorStatsApi.class(name) end
----The avatar damage curve (damage multiplier by armor value). Writable like the class tables (reviewed executable data).
+---The avatar damage curve (damage multiplier by armor value). Read only since 0.40.1, like the class tables (game.dll executable data).
 ---@return HD2ArmorDamageCurveTarget
 function HD2ArmorStatsApi.damage_curve() end
 ---The local player's own avatar members: the armor bonus and the stamina factor (DEVELOPMENT, solo).
@@ -4121,26 +4121,26 @@ function HD2ArmorKitTarget:preview(weights) end
 ---@field vanilla table {rating, speed, stamina, armor_value, speed_factor, stamina_factor, damage_multiplier}.
 local HD2ArmorKitSummary = {}
 
----A weight class (hd2.armor_stats.class / hd2.armor_class). Fields hd2.fields.armor_class.rating / speed / stamina: one f32 entry per class table in game.dll, written as reviewed executable data, for every Helldiver on this machine (allow_shared and allow_unverified_effect; docs/armor-stats.md).
+---A weight class (hd2.armor_stats.class / hd2.armor_class). Fields hd2.fields.armor_class.rating / speed / stamina: one f32 entry per class table in game.dll, for every Helldiver on this machine. Read only since 0.40.1 (game.dll executable data: every change is refused with GAME_DLL_EXECUTABLE_DATA; docs/armor-stats.md).
 ---@class HD2ArmorClassTarget
 ---@field resource "armor_class"
 ---@field armor_class "light"|"medium"|"heavy"
 local HD2ArmorClassTarget = {}
----rating {value (armor value A), display (50 + 50 x A), vanilla}, speed {value, display (500 x factor), vanilla}, stamina {value, display (100 x (2 - F)), vanilla}, damage_multiplier, source, editable = true and executable_data (why the page is accepted).
+---rating {value (armor value A), display (50 + 50 x A), vanilla}, speed {value, display (500 x factor), vanilla}, stamina {value, display (100 x (2 - F)), vanilla}, damage_multiplier, source, editable (false since 0.40.1), read_only_reason and executable_data.
 ---@return table
 function HD2ArmorClassTarget:describe() end
----Its three fields: armor_class.rating, speed and stamina (writable).
+---Its three fields: armor_class.rating, speed and stamina (read only since 0.40.1: editable false, readOnlyReason).
 ---@return table[]
 function HD2ArmorClassTarget:fields() end
 
----The avatar damage curve (hd2.armor_stats.damage_curve()). Fields hd2.fields.armor_damage_curve.at_minus_1 .. at_3: the damage multiplier at each armor value, written as reviewed executable data like the class tables.
+---The avatar damage curve (hd2.armor_stats.damage_curve()). Fields hd2.fields.armor_damage_curve.at_minus_1 .. at_3: the damage multiplier at each armor value. Read only since 0.40.1, like the class tables.
 ---@class HD2ArmorDamageCurveTarget
 ---@field resource "armor_damage_curve"
 local HD2ArmorDamageCurveTarget = {}
----{points = {{armor_value, damage}}, vanilla, source, editable = true, executable_data}.
+---{points = {{armor_value, damage}}, vanilla, source, editable (false since 0.40.1), read_only_reason, executable_data}.
 ---@return table
 function HD2ArmorDamageCurveTarget:describe() end
----Its five fields: armor_damage_curve.at_minus_1 .. at_3 (writable).
+---Its five fields: armor_damage_curve.at_minus_1 .. at_3 (read only since 0.40.1: editable false, readOnlyReason).
 ---@return table[]
 function HD2ArmorDamageCurveTarget:fields() end
 
@@ -4986,11 +4986,17 @@ function HD2Diagnostics.telemetry(options) end
 ---in the operation's window): {operation, target, externalChanges, warnings, windowSeconds}[], most first.
 ---@return table[]
 function HD2Diagnostics.write_conflicts() end
----Runtime-wide diagnostic: false disables shared discovery/decode caches and restores the older read limit.
----Both modes retain buffers and write guards. Not a third-party scanner crash fix.
+---Runtime-wide: the 0.40.0 application optimizations (shared discovery/decode caches, the 2 MiB read slice,
+---sleeping ensures, the write-gate budget). Off by default since 0.40.1 (the 0.31 behaviour); this call
+---changes the process only. Both modes retain buffers and write guards. Not a third-party scanner crash fix.
 ---@param enabled? boolean
 ---@return boolean enabled
 function HD2Diagnostics.application_optimizations(enabled) end
+---Like application_optimizations(enabled), and saves it as F10 > Settings "Faster application (0.40.0)"
+---(HD2Runtime 0.40.1+).
+---@param enabled boolean
+---@return boolean enabled
+function HD2Diagnostics.save_application_optimizations(enabled) end
 ---Every operation registered this session, refused ones included (HD2Runtime 0.28.1+): {kind, id, mod, sdk,
 ---sdk_source, status, result, code, error, runs, legacy}[], in registration order. `legacy` lists the fields an
 ---operation of a mod declaring an older SDK wrote without an acknowledgement a later SDK added

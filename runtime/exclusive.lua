@@ -7,6 +7,7 @@
 -- between its first read and its final write/verify at a time; others queue.
 -- Steady-state verification is read-only and synchronous and needs no gate.
 local metrics=require('hd2runtime/runtime/metrics')
+local application_mode=require('hd2runtime/runtime/application_mode')
 local M={}
 local holder,last_acquired_serial
 function M.acquire(owner)
@@ -15,7 +16,8 @@ function M.acquire(owner)
         local serial=scheduler and scheduler.serial()
         -- Budget a burst as a whole, not 600 independent minimum read slices. Always admit one operation per
         -- update so unrelated recurring work cannot starve pending edits. Existing holders must keep progressing.
-        if serial and last_acquired_serial==serial then
+        -- Only with the application optimizations on (runtime/application_mode.lua); off, as in 0.31.
+        if serial and last_acquired_serial==serial and application_mode.enabled()then
             local spent=scheduler.tick_seconds()
             if spent and spent>=0.001 then return false end
         end

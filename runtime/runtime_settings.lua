@@ -30,6 +30,9 @@ M.ITEMS={
         description='The HD2Runtime build, bottom left aboard the ship.'},
     {key='ui_sounds',label='Menu sounds',
         description='Play interface sounds when opening, closing or changing this menu.'},
+    -- runtime/application_mode.lua: off by default (0.40.1); off is the 0.31 behaviour.
+    {key='optimized_application',label='Faster application (0.40.0)',default=false,
+        description='Caches and fewer checks while mods apply. Turn off if the game fails to start.'},
     {key='startup_progress',label='Startup progress',
         description='The asset loading panel, top right, while mods load.'},
 }
@@ -53,7 +56,7 @@ M.COLOUR={panel={11,14,18,240},header={7,9,12,250},footer={7,9,12,250},rail={255
     hover={255,255,255,10},shadow={0,0,0,110},error={255,96,84,255},error_soft={255,96,84,44}}
 M.SIZE={title=22,heading=13,body=16,small=13,tiny=12}
 M.CAP_OFFSET=(49.25-34.75/2)/56   -- FS Sinclair: from a line's vertical centre to its top
-M.W,M.HEADER,M.FOOTER,M.ROW,M.PAD=700,58,46,46,18
+M.W,M.HEADER,M.FOOTER,M.ROW,M.PAD=700,58,46,43,18
 M.OPTION=30   -- a row of the language list
 
 local function log(text)pcall(log_module.emit,'[HD2Runtime] settings '..text)end
@@ -89,14 +92,17 @@ local function store()
     local ok,s=pcall(M.hooks.store)
     return ok and s or nil
 end
--- Whether a thing is shown (true unless turned off). Unknown keys are on.
+-- Whether a thing is on: its saved choice, else its default (on unless the item says default = false). Unknown keys
+-- are on.
 function M.enabled(key)
+    local default=not(KNOWN[key]and KNOWN[key].default==false)
     local s=store()
     if s then
         local ok,value=pcall(s.get,s,'show.'..key)
         if ok and value~=nil then return value~=false end
-        return true
+        return default
     end
+    if memory[key]==nil then return default end
     return memory[key]~=false
 end
 -- Turns a thing on or off (saved); listeners hear the change at once.
@@ -109,6 +115,7 @@ function M.set(key,on)
         if not ok then log('could not save '..key..': '..tostring(why))end
     else memory[key]=on end
     log(('%s %s'):format(KNOWN[key].label,on and'ON'or'OFF'))
+    if key=='optimized_application'then require('hd2runtime/runtime/application_mode').configure(on)end
     for _,fn in ipairs(listeners)do pcall(fn,key,on)end
     return on
 end
@@ -193,10 +200,13 @@ function M.layout(width,height,scale)
         cy=cy+M.ROW*k
     end
     add_row(KNOWN.ui_sounds)
+    add_row(KNOWN.optimized_application)
     cy=cy+M.PAD*k
     L.messages_y=cy
     cy=cy+22*k
-    for _,item in ipairs(M.ITEMS)do if item.key~='ui_sounds'then add_row(item)end end
+    for _,item in ipairs(M.ITEMS)do
+        if item.key~='ui_sounds'and item.key~='optimized_application'then add_row(item)end
+    end
     L.about_y=cy+M.PAD*k
     L.close={x=x+w-50*k,y=y+12*k,w=36*k,h=34*k}
     -- the open language list: below its row, every option (Automatic first), kept on screen
@@ -436,6 +446,10 @@ function M.visible()return panel.overlay~=nil and panel.overlay:status().visible
 -- Binds F10 (once). The Runtime binds at load, before any mod, so F10 is its own.
 function M.start()
     if panel.binding then return panel.binding end
+    -- The saved application mode (off unless turned on), before any mod applies anything.
+    local mode=require('hd2runtime/runtime/application_mode')
+    mode.configure(M.enabled('optimized_application'))
+    log('Faster application (0.40.0) '..(mode.enabled()and'ON'or'OFF (the 0.31 behaviour)'))
     local input=require('hd2runtime/runtime/input')
     -- (also on the game's own keybind page with Mod Bindings Menu installed: runtime/mod_bindings_bridge.lua)
     panel.binding=input.bind(M.BINDING,{key=M.KEY,on_press=function()M.toggle()end,
