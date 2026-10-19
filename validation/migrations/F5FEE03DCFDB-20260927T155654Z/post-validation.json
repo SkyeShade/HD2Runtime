@@ -23,7 +23,7 @@
    "tail": [
     "checked generate_sdk",
     "[HD2Runtime] HD2Runtime 0.40.1 initialized (API 1)",
-    "[HD2Runtime] log unavailable: offline-resource-fixture:42504: Bingus logging unavailable"
+    "[HD2Runtime] log unavailable: offline-resource-fixture:42512: Bingus logging unavailable"
    ]
   },
   {
@@ -49,7 +49,7 @@
    "ok": true,
    "tail": [
     "}",
-    "[HD2Runtime] shared records index built in 901.0 ms CPU (1718 keys, 12 catalogues)",
+    "[HD2Runtime] shared records index built in 717.0 ms CPU (1718 keys, 12 catalogues)",
     "[HD2Runtime] log unavailable: [string \"hd2runtime/runtime/log\"]:24: Bingus logging unavailable"
    ]
   },
@@ -85,7 +85,7 @@
    "ok": true,
    "tail": [
     "[HD2Runtime] HD2Runtime 0.40.1 initialized (API 1)",
-    "[HD2Runtime] shared records index built in 816.0 ms CPU (1718 keys, 12 catalogues)",
+    "[HD2Runtime] shared records index built in 731.0 ms CPU (1718 keys, 12 catalogues)",
     "[HD2Runtime] patch one-shot rejected: option-bound values require hd2.ensure"
    ]
   },
@@ -94,7 +94,7 @@
    "ok": true,
    "tail": [
     "}",
-    "[HD2Runtime] shared records index built in 862.0 ms CPU (1718 keys, 12 catalogues)",
+    "[HD2Runtime] shared records index built in 819.0 ms CPU (1718 keys, 12 catalogues)",
     "[HD2Runtime] log unavailable: [string \"hd2runtime/runtime/log\"]:24: Bingus logging unavailable"
    ]
   },
@@ -166,7 +166,7 @@
    "ok": true,
    "tail": [
     "}",
-    "[HD2Runtime] shared records index built in 921.0 ms CPU (1718 keys, 12 catalogues)",
+    "[HD2Runtime] shared records index built in 718.0 ms CPU (1718 keys, 12 catalogues)",
     "[HD2Runtime] log unavailable: [string \"hd2runtime/runtime/log\"]:24: Bingus logging unavailable"
    ]
   },
@@ -201,7 +201,7 @@
    "name": "validate_weapon_sound_snapshot",
    "ok": true,
    "tail": [
-    "[HD2Runtime] shared records index built in 572.0 ms CPU (1718 keys, 12 catalogues)",
+    "[HD2Runtime] shared records index built in 568.0 ms CPU (1718 keys, 12 catalogues)",
     "[HD2Runtime] log unavailable: [string \"hd2runtime/runtime/log\"]:24: Bingus logging unavailable",
     "[HD2Runtime] FOREIGN VALUE: support_weapon MG-43 Machine Gun weapon.sound is 0x00000000000000007856341201, not HD2Runtime's reviewed support/mg43: owner unknown mod (a mod outside HD2Runtime: a data-file mod or another program writing game memory). HD2Runtime leaves it as it is and refuses writes to this value only; every other value is unaffected"
    ]
@@ -237,7 +237,7 @@
    "name": "full test suite",
    "ok": true,
    "tail": [
-    "Ran 2422 tests in 219.132s",
+    "Ran 2422 tests in 206.724s",
     "",
     "OK"
    ]
