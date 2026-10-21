@@ -170,7 +170,8 @@ function M.prove(runtime)
     if proven[key]then return proven[key]end
     for _,pin in ipairs(D.pins)do
         local expected=b.unhex(pin.hex)
-        if runtime.read((pin.module=='exe'and exe or game)+pin.rva,#expected)~=expected then
+        if runtime.read((pin.module=='exe'and exe or game)+pin.rva,#expected)~=expected
+            and not require('hd2runtime/runtime/hellforge').rewritten(pin.module,pin.rva,#expected)then
             return nil,'resource lookup changed ('..pin.label..' at '..pin.module..'+'..string.format('%X',pin.rva)..')'
         end
     end
@@ -189,7 +190,8 @@ function M.prove_consumers(runtime)
     if consumers_proven[key]then return true end
     for _,pin in ipairs(D.consumerPins)do
         local expected=b.unhex(pin.hex)
-        if runtime.read((pin.module=='exe'and pins.exe or pins.game)+pin.rva,#expected)~=expected then
+        if runtime.read((pin.module=='exe'and pins.exe or pins.game)+pin.rva,#expected)~=expected
+            and not require('hd2runtime/runtime/hellforge').rewritten(pin.module,pin.rva,#expected)then
             return nil,'icon consumer changed ('..pin.label..' at '..pin.module..'+'..string.format('%X',pin.rva)..')'
         end
     end

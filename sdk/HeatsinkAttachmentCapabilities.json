@@ -1,7 +1,7 @@
 {
   "contract": "hd2runtime.weapon_attachment.heatsink.v1",
   "schemaVersion": 1,
-  "hd2RuntimeVersion": "0.40.1",
+  "hd2RuntimeVersion": "0.50.0",
   "attachments": [
     {
       "semanticId": "weapon-attachment/v1/magazine/laser-heatsink-medium-standard/2df091d9af2eab4c",

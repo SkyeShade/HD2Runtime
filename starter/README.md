@@ -28,7 +28,7 @@ Before distributing your mod, edit these exact values:
 resource ID, so it changes when you rename the resource and remains stable after
 that. You may replace `auto` with your own non-zero UUID, then keep it forever.
 
-`requires.hd2runtime.min_version` is `0.25.0`. This starter ships with 0.40.1. Raise it:
+`requires.hd2runtime.min_version` is `0.25.0`. This starter ships with 0.50.0. Raise it:
 - to `0.25.1` for in-game options (see below);
 - to `0.26.0` for anything new in 0.26.0: magazine reload and ergonomics, reticles, fire modes, vehicle weapons,
   stratagem mission uses, backpack ammo and pod payloads;
@@ -69,6 +69,7 @@ that. You may replace `auto` with your own non-zero UUID, then keep it forever.
   statuses, armor perks and `hd2.input.bind(..., {native = ...})`;
 - to `0.40.1` for anything new in 0.40.1 (`docs/releases/0.40.1.md`): more than 16 custom stratagems and
   `hd2.diagnostics.save_application_optimizations`. In 0.40.1 the armor class tables and damage curve are read only.
+- 0.50.0 adds no API: it runs the same mods on HellForge (`docs/releases/0.50.0.md`), so no mod needs to raise it.
 
 `min_version` is also the SDK version your mod declares. HD2Runtime 0.28.1 and later accept a field that gained an
 acknowledgement in a later SDK without it, as a logged legacy operation, when your mod declares an older version
@@ -154,7 +155,7 @@ HD2Runtime implementation.
 Players install and enable three packages:
 
 1. Bingus Shared Loader v15 or newer / API 1.
-2. HD2Runtime 0.25.0 or newer / API 1 (0.40.1 recommended), installed once.
+2. HD2Runtime 0.25.0 or newer / API 1 (0.50.0 recommended; on HellForge, 0.50.0 is needed), installed once.
 3. Your built gameplay mod ZIP.
 
 The generated manifest description and `hd2runtime.json` state both dependencies.

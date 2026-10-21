@@ -624,4 +624,6 @@ function M.reset_for_tests()
     end
     world_module.observe_explosion_requests('explosion_event',nil)
 end
+-- On HellForge its event hooks drive these sources (runtime/hellforge_events.lua).
+require('hd2runtime/runtime/hellforge_events').install(M)
 return M

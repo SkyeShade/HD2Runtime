@@ -2,7 +2,7 @@
   "contract": "hd2runtime.payload_options.v1",
   "schemaVersion": 1,
   "build": "F5FEE03DCFDB",
-  "hd2RuntimeVersion": "0.40.1",
+  "hd2RuntimeVersion": "0.50.0",
   "source": "domains/explosion_catalogue.lua, research/explosion-identities, research/projectile-stats (scripts/generate_payload_options.py)",
   "model": [
     "A payload field takes its own explosion (terminal:explosion()), none (terminal:no_explosion()) or any option below as hd2.explosion(name).",

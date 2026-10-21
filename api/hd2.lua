@@ -12,7 +12,14 @@ do
     -- Public-matchmaking safety (runtime/matchmaking_safety.lua): starts at load so a Public privacy setting is
     -- corrected before the first lobby is created. Only in the game (its engine Lua API is present); the watch ends
     -- itself on anything but the live process, and it calls nothing unless every pin proves.
-    if type(rawget(_G,'stingray'))=='table'then
+    -- On HellForge (runtime/hellforge.lua) the session is HellForge's: its network block and co-op, so the Runtime's
+    -- own lobby sync (assets, beam conversions, the mission timer) and matchmaking safety stay off.
+    local hellforge=require('hd2runtime/runtime/hellforge')
+    local on_hellforge=hellforge.active()or hellforge.session()
+    if type(rawget(_G,'stingray'))=='table'and on_hellforge then
+        pcall(function()require('hd2runtime/runtime/version_label').start()end)
+        pcall(function()require('hd2runtime/runtime/runtime_settings').start()end)
+    elseif type(rawget(_G,'stingray'))=='table'then
         pcall(function()require('hd2runtime/runtime/matchmaking_safety').start()end)
         -- The build label in the bottom-left corner aboard the ship (runtime/version_label.lua).
         pcall(function()require('hd2runtime/runtime/version_label').start()end)
@@ -407,4 +414,7 @@ local compatibility=require('hd2runtime/api/compatibility')
 M.compatibility={require_runtime=compatibility.require_runtime,compare=compatibility.compare,
     parse=compatibility.parse,incompatible=compatibility.incompatible,highest=compatibility.highest,
     status=compatibility.status}
+-- On HellForge (runtime/hellforge.lua): what HellForge has no engine call for answers "unavailable", passives go
+-- through HellForge (runtime/hellforge_api.lua). hd2.hellforge says whether the Runtime runs there.
+M.hellforge=require('hd2runtime/runtime/hellforge_api').adapt(M)
 return M

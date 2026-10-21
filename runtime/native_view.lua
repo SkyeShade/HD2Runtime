@@ -81,10 +81,12 @@ function M.new(runtime)
         block.size=size;block.address=address
         return block
     end
-    -- Exact code bytes at a module offset (pinned native proofs).
+    -- Exact code bytes at a module offset (pinned native proofs). On HellForge, code it rewrote reads as it left it
+    -- (runtime/hellforge.lua rewritten_at): accepted there, and only there.
     function view.proves(address,hex)
         local expected=b.unhex(hex)
-        return view.read(address,#expected)==expected
+        if view.read(address,#expected)==expected then return true end
+        return require('hd2runtime/runtime/hellforge').rewritten_at(address,#expected)
     end
     return view
 end

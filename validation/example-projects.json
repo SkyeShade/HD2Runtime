@@ -4303,7 +4303,7 @@
     "RuntimeVersionWarningTest": {
       "baselineChanges": null,
       "calls": [],
-      "minVersion": "0.41.0",
+      "minVersion": "0.51.0",
       "operations": {},
       "problems": [],
       "requiredMinVersion": "0.1.0",
@@ -5497,7 +5497,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.40.1",
+      "minVersion": "0.50.0",
       "operations": [
         {
           "acknowledgements": {},
@@ -5522,7 +5522,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.40.1",
+      "minVersion": "0.50.0",
       "operations": [
         {
           "acknowledgements": [

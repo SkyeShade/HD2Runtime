@@ -7,6 +7,12 @@ local writer=require('hd2runtime/core/guarded_write')
 local profile=require('hd2runtime/schemas/current')
 local M={}
 function M.start_spec(runtime,emit,spec,startup_delay)
+    -- On HellForge, HellForge makes the change: its live edits of the same fields (runtime/hellforge_writes.lua); with
+    -- no usable bridge there, it is refused (never written by the Runtime itself).
+    local hellforge=require('hd2runtime/runtime/hellforge')
+    if hellforge.active()or hellforge.session()then
+        return require('hd2runtime/runtime/hellforge_writes').start_spec('patch',runtime,emit,spec,startup_delay)
+    end
     startup_delay=startup_delay==nil and 3 or startup_delay
     assert(type(startup_delay)=='number' and startup_delay>=0 and startup_delay<math.huge,
         'invalid patch startup delay')

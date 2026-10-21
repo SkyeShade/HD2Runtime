@@ -48,9 +48,15 @@ local function prove(runtime)
     require('hd2runtime/core/fingerprint').require(runtime)
     local view=native_view.new(runtime)
     local bases={game=module_base(runtime,view,'game.dll',IMAGE_SIZE),exe=module_base(runtime,view,nil,EXE_IMAGE_SIZE)}
+    -- On HellForge (runtime/hellforge.lua), code HellForge rewrites (the instructions it points at its moved tables,
+    -- the functions it hooks) reads as HellForge left it: those pins are skipped, every other one still proves.
+    local hellforge=require('hd2runtime/runtime/hellforge')
+    local bridge=hellforge.active()and hellforge.backend()
     for _,pin in ipairs(natives.pins)do
-        assert(view.proves(bases[pin.module]+pin.rva,pin.hex),'native event structure changed ('..pin.label..' at '
-            ..pin.module..'+'..string.format('%X',pin.rva)..')')
+        if not(bridge and pin.module=='game'and bridge.rewrites(pin.rva,#pin.hex/2))then
+            assert(view.proves(bases[pin.module]+pin.rva,pin.hex),'native event structure changed ('..pin.label..' at '
+                ..pin.module..'+'..string.format('%X',pin.rva)..')')
+        end
     end
     metrics.count('events.world_proofs')
     return {runtime=runtime,view=view,game=bases.game,exe=bases.exe,key=tostring(bases.game)..':'..tostring(bases.exe)}

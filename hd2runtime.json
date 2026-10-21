@@ -6,5 +6,6 @@
   "api": 1,
   "requires": {
     "bingus": { "min_release": 15, "api": 1 }
-  }
+  },
+  "hellforge": { "bridge": 3 }
 }

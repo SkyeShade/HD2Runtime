@@ -80,9 +80,14 @@ local function find_world()
     if not value then return nil,'the Ui World: '..tostring(vwhy)end
     return world,value
 end
+local world_refused={} -- each reason the overlays could not draw, logged once
 function M.hooks.world()
     local frame=events.state.frame
-    if world_tick~=frame then world_tick,world_cache=frame,{find_world()}end
+    if world_tick~=frame then
+        world_tick,world_cache=frame,{find_world()}
+        local why=not world_cache[1]and tostring(world_cache[2])
+        if why and not world_refused[why]then world_refused[why]=true;emit('overlays cannot draw: '..why)end
+    end
     return world_cache[1],world_cache[2]
 end
 function M.hooks.open_screen(world,ui_world,max_layer)return engine_gui.open({world=ui_world,max_layer=max_layer})end

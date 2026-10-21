@@ -5149,8 +5149,8 @@ EXTRAS['proof-text-write-refused'] = {'menu': MENU_STUB, 'after': PROOF_TEXT_WRI
     'seedFamily': True, 'seedRegistryFull': True}
 
 
-# RuntimeVersionWarningTest (requires 0.41.0) and three more wrapped mods, loaded as the loader would: a prerelease
-# requirement above it (0.41.1-rc.1), one equal to the installed runtime and one older. The two too-new mods fail
+# RuntimeVersionWarningTest (requires 0.51.0) and three more wrapped mods, loaded as the loader would: a prerelease
+# requirement above it (0.51.1-rc.1), one equal to the installed runtime and one older. The two too-new mods fail
 # closed and are reported; the dialog (presenter stubbed) appears once, only after the game state is Ship for five
 # polls, naming the highest requirement; equal and older mods start and never warn.
 VERSION_WARNING_LIVE = r'''
@@ -5163,17 +5163,17 @@ return function(frame,watches,counts,lines)
  step('too-new mods fail closed, equal and older mods start',started[1][1]==false and started[2][1]==false
   and tostring(started[1][2]):find('dependency version mismatch',1,true)and started[3][1]==true and started[4][1]==true,
   tostring(started[1][2]))
- step('each too-new mod is logged once with its exact requirement',count('requires HD2Runtime 0.41.0 or newer')==1
-  and count('requires HD2Runtime 0.41.1-rc.1 or newer')==1 and count('needs_equal')==0 and count('needs_older')==0,
+ step('each too-new mod is logged once with its exact requirement',count('requires HD2Runtime 0.51.0 or newer')==1
+  and count('requires HD2Runtime 0.51.1-rc.1 or newer')==1 and count('needs_equal')==0 and count('needs_older')==0,
   table.concat(lines,' | '):sub(1,400))
  step('no warning before the ship is stable',#shown==0,tostring(#shown))
  for _=1,120 do frame()end
  local installed=compatibility.installed()
  step('one aggregated warning with the highest requirement',#shown==1 and shown[1].title=='HD2Runtime update required'
   and shown[1].message=='One or more installed mods require a newer HD2Runtime version.\n\nRequired version: '
-   ..'0.41.1-rc.1\nInstalled version: '..installed..'\n\nPlease update HD2Runtime.',
+   ..'0.51.1-rc.1\nInstalled version: '..installed..'\n\nPlease update HD2Runtime.',
   shown[1]and shown[1].message or'none')
- compatibility.require_runtime('mods/test/needs_033','0.41.0','Repeat')
+ compatibility.require_runtime('mods/test/needs_033','0.51.0','Repeat')
  for _=1,120 do frame()end
  step('once per session',#shown==1 and count('HD2Runtime update warning shown')==1 and compatibility.status().shown,
   tostring(#shown))
@@ -5195,7 +5195,7 @@ def version_warning_addon():
     loader.loader.exec_module(sdk)
     installed = (ROOT / 'VERSION').read_text().strip()
     mods = [example('RuntimeVersionWarningTest'),
-        sdk.wrap_addon('mods/test/needs_0331', '0.41.1-rc.1', 'return true', 'Needs0331'),
+        sdk.wrap_addon('mods/test/needs_0331', '0.51.1-rc.1', 'return true', 'Needs0331'),
         sdk.wrap_addon('mods/test/needs_equal', installed, 'return true', 'NeedsEqual'),
         sdk.wrap_addon('mods/test/needs_older', '0.1.0', 'return true', 'NeedsOlder')]
     return ('''local compatibility=require('hd2runtime/api/compatibility')
