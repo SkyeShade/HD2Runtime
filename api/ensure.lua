@@ -362,7 +362,8 @@ local function start_bound(runtime,emit,request,kind,validate,module,interval,st
         applied_signature=target.signature;verification=child.verification;child=nil
         watch.runs=watch.runs+1;next_at=elapsed+watch.current_interval;watch.status='waiting'
         log('ensure '..id..' verified status='..watch.result.status..' cycle='..watch.runs
-            ..' next='..watch.current_interval..(verification and' steady=byte-check'or' steady=full'))
+            ..' next='..watch.current_interval..(verification and(verification.backend=='hellforge'and' steady=held by HellForge'
+                or' steady=byte-check')or' steady=full'))
     end
     -- Mod Options Menu is an optional enhancement. Nothing runs until every option this operation
     -- uses is settled (at most the options startup grace period). An unavailable option supplies
@@ -542,7 +543,8 @@ function M.start(runtime,emit,request)
             next_at=elapsed+watch.current_interval;watch.status='waiting'
             log('ensure '..spec.id..' verified status='..watch.result.status
                 ..' cycle='..watch.runs..' next='..watch.current_interval
-                ..(verification and' steady=byte-check'or' steady=full'))
+                ..(verification and(verification.backend=='hellforge'and' steady=held by HellForge'or' steady=byte-check')
+                    or' steady=full'))
         else watch.status='running' end
     end
     sleeping(watch,function()

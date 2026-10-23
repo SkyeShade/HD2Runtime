@@ -432,6 +432,11 @@ function M.start_spec(kind,runtime,emit,spec,startup_delay)
         watch.status='complete';watch.waiting=nil
         watch.result={status=writes>0 and'APPLIED'or'ALREADY_DESIRED',writes=writes,cleared=cleared,bytes_written=0,
             protection_changes=0,protection_restored=true,rollback='not_needed',backend='hellforge',id=spec.id}
+        -- HellForge keeps a Lua mod's live edits for the whole session, its data reloads included, so an ensured
+        -- operation is not applied again on every interval (a full pass of every ensure at once stalled the game):
+        -- its verification holds while the bridge does (core/steady_state.lua), and the ensure backs off as a
+        -- byte-checked one does. An option change still applies anew (api/ensure.lua compares signatures).
+        watch.verification={backend='hellforge',mod=name}
         for _,line in ipairs(report)do log(line)end
         log(kind..' '..tostring(spec.id)..' '..watch.result.status..' through HellForge ('..writes..' set, '..cleared
             ..' back to their base)')

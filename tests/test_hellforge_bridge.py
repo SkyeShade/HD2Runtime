@@ -76,6 +76,24 @@ w=start('patch',spec)
 assert(w.status=='complete'and w.result.status=='ALREADY_DESIRED'and calls[1].op=='clear',w.error)
 ''')
 
+    def test_an_ensure_applies_once_and_is_held_by_hellforge(self):
+        # HellForge keeps a Lua mod's live edits for the session: an ensure is not applied again every interval (a full
+        # pass of ~500 ensures at once froze the game for half a second every few minutes, HellForge bug-report-0043).
+        check(r'''
+local hd2=require('hd2runtime/api/hd2')
+local w=require('hd2runtime/api/ensure').start(nil,function(line)logs[#logs+1]=line end,{interval=1,startup_delay=0,
+ patch={id='erg',target=hd2.weapon('P-19 Redeemer'),field=hd2.fields.weapon.ergonomics,expect=95,value=50}})
+for _=1,600 do w.tick(0.1)end
+local sets=0
+for _,c in ipairs(calls)do if c.op=='set'then sets=sets+1 end end
+local text=table.concat(logs,' | ')
+assert(sets==1,'set '..sets..' times: '..text)
+assert(text:find('steady=held by HellForge',1,true),text)
+assert(w.verifications>0 and w.current_interval>1,'it backs off: '..tostring(w.current_interval))
+-- held while the bridge is there to hold it
+assert(require('hd2runtime/core/steady_state').verify(nil,{backend='hellforge'})==true)
+''')
+
     def test_a_published_mod_plan_with_a_slot_list(self):
         # Railgun - RePenetrated 0.3.0 (a ModBuilder export): the projectile's damage row and the armory's penetration
         # label, a five-slot trait list the bridge sends slot by slot.

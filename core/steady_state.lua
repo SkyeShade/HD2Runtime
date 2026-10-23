@@ -45,10 +45,19 @@ function M.capture(runtime,changes)
     return handle
 end
 
--- Returns true when every target is still present, owned, and desired.
+-- Returns true when every target is still present, owned, and desired. On HellForge (runtime/hellforge_writes.lua)
+-- the Runtime writes nothing itself: HellForge holds the operation's live edits, so it stays desired while the bridge
+-- is there to hold them.
 function M.verify(runtime,handle)
     local started=metrics.start()
     metrics.count('steady.verifications')
+    if handle.backend=='hellforge'then
+        local held=require('hd2runtime/runtime/hellforge').backend()~=nil
+        metrics.elapsed('steady.verify',started)
+        if held then return true end
+        metrics.count('steady.drift')
+        return false,'HellForge bridge unavailable'
+    end
     local ok,stable,reason=pcall(function()
         for _,item in pairs(handle.owners)do
             local owner=item.owner

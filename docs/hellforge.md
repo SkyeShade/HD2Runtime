@@ -40,7 +40,11 @@ undoes what it changed in that run. A field HellForge cannot take yet is refused
 own icon image, and values a domain works out while it applies (projectile and explosion swaps, beam conversion). Enemy
 fields answer `HELLFORGE_UNAVAILABLE` until HellForge maps enemies.
 
-An `ensure` has no byte check on HellForge: it re-sends the same edit each interval, which HellForge takes as no change.
+An `ensure` applies once on HellForge and is then held by it: HellForge keeps a Lua mod's live edits for the whole
+session, its data reloads included, so the ensure's check holds while the bridge does and backs off as a byte-checked
+one does (`steady=held by HellForge` in the log). It applies anew when one of its options changes. (Until 0.50.1 it
+re-sent every edit each interval: with Total Arsenal Overhaul's ~500 ensures, a full pass at once stalled the game
+for half a second every few minutes.)
 
 ## Events
 
