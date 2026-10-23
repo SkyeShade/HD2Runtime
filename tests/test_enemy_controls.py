@@ -47,7 +47,7 @@ return 'ok'
         self.assertEqual(generate_enemy_director.generate(check=True), [])
         self.assertEqual(run(r'''
 local hd2=require('hd2runtime/api/hd2')
-assert(hd2.version=='0.50.0')
+assert(hd2.version=='0.50.1')
 assert(hd2.fields.unit.scale_min=='unit.scale_min')
 assert(hd2.fields.spawner.queue_limit=='spawner.queue_limit')
 assert(hd2.fields.hive.refill_clock_rate_players_1=='hive.refill_clock_rate_players_1')

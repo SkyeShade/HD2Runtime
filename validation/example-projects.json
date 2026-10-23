@@ -5497,7 +5497,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.50.0",
+      "minVersion": "0.50.1",
       "operations": [
         {
           "acknowledgements": {},
@@ -5522,7 +5522,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.50.0",
+      "minVersion": "0.50.1",
       "operations": [
         {
           "acknowledgements": [
