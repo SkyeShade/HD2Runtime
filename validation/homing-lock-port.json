@@ -1,0 +1,139 @@
+{
+  "origin": "Standalone AR-23 Homing Lab 0.4.1",
+  "game_build": 25480438,
+  "exe_sha256": "F5FEE03DCFDB2E553A4752C283590950AC13316B376D8196AA556FF0400D5F06",
+  "game_dll_sha256": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
+  "origin_user_report": {
+    "date": "2026-10-19",
+    "statement": "Implementation confirmed; preceding reports confirm reticle/lock display, LOS and multi-lock.",
+    "coverage": "User observation, no supplied video or controlled device matrix."
+  },
+  "runtime_port": {
+    "live_verified": false,
+    "offline_fixture": "tests/fixtures/homing_pool.lua",
+    "scope": "Partially live-verified solo AR-23 port: cb8f9a3 steering/LOS/multi-lock observations, 9aaba06 stock-asset rendering, 53c7630 initial/reinforcement descent and landing HUD regression. Full weapon/input matrix and explicit hip-fire/re-aim regression remain incomplete; no hit/damage claim.",
+    "live_evidence": {
+      "date": "2026-10-19",
+      "runtime_commit": "cb8f9a3a84efd3268b75c4ccafa432c474cdb2c8",
+      "source": "User-operated solo AR-23 session, five native Runtime stop summaries and periodic client records.",
+      "own_shots_observed": 413,
+      "completed_steered_rounds": 225,
+      "velocity_writes": 986,
+      "assignments": 225,
+      "max_observed_simultaneous_locks": 3,
+      "game_runtime_errors_observed": 0,
+      "user_report": "Hip-fired rounds can steer while the aim-only HUD is hidden.",
+      "evidence_limit": "No per-shot Aim telemetry, impact, hit-body, armor, HP or damage observation. Periodic UI state is not a shot timestamp.",
+      "collector_limit": "External collector stopped near test end when Windows denied status-file replacement; original logs retained and final source context recovered."
+    },
+    "partial_live_verified": true
+  },
+  "design_review": {
+    "date": "2026-10-19",
+    "base_commit": "34fba0887b196130df4142933fbe1b6ff6be5020",
+    "fixed": [
+      "Rejected reticle frame ID: register through the real event scheduler without an invalid weapon-name ID.",
+      "LOS point honors aim_height exactly like acquisition, steering and public snapshots.",
+      "Transient observation loss invalidates identities without erasing current-mission stats.",
+      "Candidate validation reuses the shared aged position cache with eight fresh reads at most; retained acquisitions and rotating other candidates avoid starvation and duplicate rows cannot bypass the budget.",
+      "LOS ABI and accounted scratch buffers belong to the native adapter capability; read-only adapters and calls outside a scheduler update remain unknown."
+    ],
+    "offline_tests": 112,
+    "native_adapter_test": "Real writable adapter calls a local LuaJIT C callback, not a game function.",
+    "live_verified": false,
+    "full_research_suite": "Still unavailable: separately hosted research fixtures and retained game snapshots are absent."
+  },
+  "native_los": {
+    "entry_rva": "0x77DEC0",
+    "output_offset": 0,
+    "hit_stride": 44,
+    "distance_offset": 24,
+    "unit_offset": 28,
+    "descriptor": 0,
+    "physics_world": 2,
+    "max_hits": 8,
+    "saturation": "unknown",
+    "protection_changes": 0,
+    "provenance": "Guided Rounds 71303dd35954f94f57f8308fb6e2c86d8e22abc4 as research lead; current unpacked EXE independently inspected for wrapper, descriptor and called implementation. Full code pins are retained in runtime/homing_los_pins.lua. No original binary distributed."
+  },
+  "aim_input": {
+    "group": 2,
+    "index": 8,
+    "reference": "C4 Quick Actions 1.13.1 AimInputState/catalog, https://www.nexusmods.com/helldivers2/mods/16340",
+    "layout": "HD2Runtime domains/input_bindings.lua code pins",
+    "limits": "Resolved action state, not animation completion; toggle/controller/remap coverage not established for port."
+  },
+  "camera_and_gui_reference": "Guided Rounds, https://github.com/cancan23333/Helldiver2-Guided-Rounds-v1.8.5 commit 71303dd35954f94f57f8308fb6e2c86d8e22abc4; engine calls guarded and temporary ring restored.",
+  "unavailable_validation": "Full research/snapshot tests and SDK/release generation require unavailable research submodule files. Class stubs were regenerated using generate_events.stub_lines; unchanged action catalogue was preserved.",
+  "followup": {
+    "offline_tests": 126,
+    "require_aim": "Opt-in pre-fire gameplay gate; new client enables it. Release/unknown clears new assignments; existing allocated rounds continue.",
+    "vanilla_markers": "Resident Warrant stock-sprite renderer logged in game on 9aaba06 and 53c7630; bounded geometric fallback covered offline. Exact native appearance/timing is not claimed.",
+    "reference": "Guided Rounds 71303dd35954f94f57f8308fb6e2c86d8e22abc4 markers_setup/quad/markers_draw; native TargetLock is not activated.",
+    "live_verified": false,
+    "reported_live": {
+      "commit": "9aaba06",
+      "stock_asset_renderer_logged": true,
+      "explicit_package_request": "complete",
+      "user_report": "extra mod text/bars; HUD leaks on tactical-map Aim and descent",
+      "descent_lifecycle_observed": false
+    },
+    "hud_followup": {
+      "offline_tests": 132,
+      "decorations": "vanilla defaults false; explicit API flags supported; client uses pure stock mode regardless stored labels",
+      "gate": "existing proven avatar layout; C4 flags1/84/86/114; spawned lifecycle3 and living owned local health; unknown hidden",
+      "live_verified": false,
+      "web_reference": "https://www.nexusmods.com/helldivers2/mods/2388",
+      "web_limit": "author text opened; comparison-image visual inspection unavailable, no exact native appearance claim"
+    },
+    "drop_followup": {
+      "previous_commit": "2d1bfa8",
+      "user_report": "large capture ring persisted during hellpod descent",
+      "old_radius_px": [
+        163.92352194905266,
+        650.9528278001886
+      ],
+      "fov_deg_inferred_from_radius": [
+        70,
+        20
+      ],
+      "previous_avatar_gate_insufficient": true,
+      "actual_pod_gate": "read-only known owned initial/reinforcement HellpodComponent; phase0/1 hide,2 releases other checks still required",
+      "source": "Vanilla Plus HellpodDropHold v1.2 same-build source; independently inspected retained unpacked game.dll; eleven live code pins",
+      "offline_tests": 137,
+      "live_verified": true,
+      "limits": "Latest direct-pod HUD regression user-confirmed with phase0/1 suppression and phase2 drawing logs. Not an exhaustive phase/device/multiplayer matrix. No size clamp/FOV heuristic/native calls/writes.",
+      "verified_commit": "53c7630eaabee0c118d7d16f18db90355a66aa65",
+      "live_evidence": {
+        "date_jst": "2026-10-20",
+        "user_confirmation": "Reported HUD regression resolved",
+        "client_version": "0.4.0",
+        "observed_pod_types": [
+          "initial",
+          "reinforcement"
+        ],
+        "initial_braking_utc": "2026-10-19T17:37:54Z",
+        "reinforcement_falling_utc": "2026-10-19T17:38:17Z",
+        "landed_drawing_utc": "2026-10-19T17:37:59Z",
+        "scope": "Observed phase0/1 suppressed ring/markers, phase2 resumed ring; user confirmation. No hit/damage or complete device/multiplayer/phase matrix claim."
+      }
+    }
+  },
+  "review_readiness": {
+    "date_jst": "2026-10-20",
+    "reviewed_head": "71ca4988b06611da3ec29018afa6e72d48c6832f",
+    "blocking_findings": [],
+    "review_scope": [
+      "public API/backward compatibility and pre-fire ownership/allocation",
+      "native adapter/LOS and direct pod admission",
+      "HUD/material/world lifetime and SDK/docs consistency"
+    ],
+    "remaining_verification": [
+      "controller, toggle Aim and remapped input coverage",
+      "explicit latest-revision hip-fire/re-aim and broader map/menu transitions",
+      "other supported weapons beyond local AR-23 client",
+      "full research/snapshot suite and full SDK/release generation with required inputs"
+    ],
+    "release_verified": false
+  }
+}

@@ -1242,6 +1242,7 @@ def outputs():
             'sdk/docs/weapon-sounds.md':(ROOT/'docs/weapon-sounds.md').read_text(encoding='utf-8'),
             'sdk/docs/legacy-sdk-compatibility.md':(ROOT/'docs/legacy-sdk-compatibility.md').read_text(encoding='utf-8'),
             'sdk/docs/projectile-homing.md':(ROOT/'docs/projectile-homing.md').read_text(encoding='utf-8'),
+            'sdk/docs/homing-lock-on.md':(ROOT/'docs/homing-lock-on.md').read_text(encoding='utf-8'),
             'sdk/docs/projectile-shots.md':(ROOT/'docs/projectile-shots.md').read_text(encoding='utf-8'),
             'sdk/docs/armor-passives.md':(ROOT/'docs/armor-passives.md').read_text(encoding='utf-8'),
             'sdk/docs/enemy-spawns.md':(ROOT/'docs/enemy-spawns.md').read_text(encoding='utf-8'),

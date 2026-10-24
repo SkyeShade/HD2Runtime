@@ -212,6 +212,27 @@ function M.action_context(world,avatar)
     return {address=address,ability=b.u32(fields,AV.contextFields.ability),target=b.u32(fields,AV.contextFields.target),
         extra=b.u32(fields,AV.contextFields.extra),busy=busy,may_act=may_act}
 end
+-- Private read-only HUD admission. Layout is the same proven avatar flags block
+-- used above. Semantic bits are from C4 Quick Actions 1.13.1's catalog and UI
+-- guard: alive 1, tactical_map 84, weapon_menu 86, seated 114. This does not
+-- classify a particular loading animation or claim lifecycle 2 is a hellpod.
+function M.avatar_flags(world,avatar)
+    if not world or not world.key or not world.view then return nil,'avatar_flags_unavailable'end
+    local ok,why=M.prove(world)
+    if not ok then return nil,why end
+    if world_module.entity_exists(world,avatar)~=true then return nil,'avatar_unavailable'end
+    local manager,index,desc=instance(world,AV,avatar,true)
+    if not manager or desc.owned~=true then return nil,'local_avatar_unavailable'end
+    local flags=world.view.read(manager+AV.flags+index*AV.stride,16)
+    if type(flags)~='string'or#flags~=16 then return nil,'avatar_flags_unavailable'end
+    local again,slot,current=instance(world,AV,avatar,true)
+    if again~=manager or slot~=index or not current or current.owned~=true
+        or current.type~=desc.type or world_module.entity_exists(world,avatar)~=true then
+        return nil,'avatar_changed'
+    end
+    local function flag(n)return math.floor(flags:byte(math.floor(n/8)+1)/2^(n%8))%2==1 end
+    return{alive=flag(1),tactical_map=flag(84),weapon_menu=flag(86),seated=flag(114)}
+end
 -- The ability the avatar runs now: {id, active}; nil when it has no ability record.
 function M.running_ability(world,avatar)
     local manager,index=instance(world,AB,avatar)

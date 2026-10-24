@@ -3146,13 +3146,19 @@ function HD2Projectiles.modify_shots(weapon, opts) end
 function HD2Projectiles.modify_shots_status() end
 
 ---@class HD2HomingOptions
+---@field acquisition "in_flight"|"pre_fire"|nil Default in_flight preserves the original API. pre_fire requires solo/host enemy targeting, cone <=30 and range <=300, without retargeting.
+---@field lock_time number|nil pre_fire only: seconds before a target locks (0..2, default .3).
+---@field max_targets integer|nil pre_fire only: 1..6 targets (default 1). Newly observed shots rotate over the prelocked set.
+---@field require_los boolean|nil pre_fire only: reject blocked AND unknown rays (default false). LOS is a weapon-root straight ray, not projectile collision prediction.
+---@field require_aim boolean|nil pre_fire only: require the proven native Aim action for new acquisition/assignment (default false). Release clears locks; already allocated rounds continue. Independent of HUD visibility.
+---@field lateral_acceleration number|nil Optional acceleration budget in m/s² (1..100000): angular speed = min(rad(turn_rate), budget/current speed). Unset preserves fixed-rate steering.
 ---@field target "enemy"|"friendly"|nil What the shots home on: a living catalogued enemy (default) or another player's living Helldiver (never the shooter).
----@field turn_rate number|nil Degrees per second the shot may turn (1..1440, default 90). Fast bullets need a high rate.
----@field cone number|nil Half angle in degrees around the shot's direction a target must be inside to be acquired (1..180, default 30).
----@field range number|nil Metres from the shot a target may be (1..500, default 100).
+---@field turn_rate number|nil Angular cap in degrees/second (1..1440, default 90); fixed rate when lateral_acceleration is unset.
+---@field cone number|nil Half angle in degrees (in_flight: shot direction, 1..180; pre_fire: camera/weapon root, 1..30).
+---@field range number|nil Target selection distance in metres (in_flight: from shot, 1..500; pre_fire: from camera/weapon root, 1..300).
 ---@field arm_distance number|nil Metres the shot flies straight before it steers (0..100, default 2).
 ---@field aim_height number|nil Metres above the target's root it aims at (-5..10, default 1).
----@field retarget boolean|nil Acquire another target when the first dies (default true).
+---@field retarget boolean|nil Acquire another target when it dies (in_flight default true; pre_fire requires false).
 ---@field multiplayer boolean|nil Also steer with other players in the game (experimental; default false: solo only).
 ---@field label string|nil Name used in the log (at most 64 characters).
 ---@field owner string|nil Mod id (defaults to the calling mod).
@@ -3162,7 +3168,7 @@ local HD2HomingOptions = {}
 ---@class HD2HomingHandle
 ---@field kind string 'projectile_homing'.
 ---@field owner string The mod that configured it.
----@field status string 'active', 'stopped' or 'refused'.
+---@field status string 'active', 'stopped', 'replaced' or 'refused'.
 ---@field code string|nil Why it was refused (UNKNOWN_WEAPON, INVALID_OPTION, ALREADY_HOMING, LIMIT).
 ---@field reason string|nil The refusal in words.
 ---@field weapon string|nil The weapon.
@@ -3178,6 +3184,13 @@ function HD2HomingHandle:stats() end
 ---A copy for logs.
 ---@return table
 function HD2HomingHandle:describe() end
+---Detached pre-fire observation; top-left pixels. ui_visible includes menu/aim gate. No hit/damage confirmation.
+---@return HD2HomingLockState|nil
+function HD2HomingHandle:lock_state() end
+---Optional standard HUD for active pre_fire acquisition. Invalid styles raise. Vanilla asset drawing requires a separate live check.
+---@param style? HD2HomingReticleStyle
+---@return HD2HomingReticle
+function HD2HomingHandle:reticle(style) end
 
 ---@class HD2ShotOptions
 ---@field damage number|nil Multiplier of each direct hit's damage (0.01..100).
@@ -4190,6 +4203,81 @@ local HD2ArmorPlayerResult = {}
 ---@field effective_armor_value number|nil What a hit uses: clamp(A + bonus, -1, 3) when the bonus is not 0.
 ---@field overridden boolean A member holds this Runtime's value.
 local HD2ArmorPlayerState = {}
+
+---Pre-fire homing; docs/homing-lock-on.md.
+---@class HD2HomingLockTarget
+---@field id string Observation-scoped identity; not a lifetime-stable target identifier.
+---@field entity integer Game entity ID, not a synthetic shot ID.
+---@field name string Catalogued display name.
+---@field position {x:number,y:number,z:number} Target root plus aim_height.
+---@field screen {x:number,y:number}|nil Top-left pixels; absent if projection is unavailable.
+---@field progress number Lock progress from 0 to 1.
+---@field los "clear"|"blocked"|"unknown"
+---@field los_reason string|nil
+---@field los_observed_at number|nil Homing engine elapsed seconds, not wall/game time.
+---@field acquired_at number|nil Homing engine elapsed seconds.
+local HD2HomingLockTarget = {}
+
+---Pre-fire homing; docs/homing-lock-on.md.
+---@class HD2HomingLockState
+---@field state string
+---@field reason string|nil
+---@field visible boolean Usable acquisition camera frame; does not apply menu/aim suppression.
+---@field ui_visible boolean Standard menu, avatar, actual player-drop and native Aim-action display gate.
+---@field aim_basis string Camera, or weapon root when camera discovery fails.
+---@field aim_active boolean|nil Native Aim activation when require_aim=true; nil when not required, unobserved or unavailable.
+---@field aim_reason string|nil Aim observation reason. not_required means this configuration does not gate acquisition by Aim.
+---@field observed_at number|nil Homing engine elapsed seconds; not hd2.events time or wall time.
+---@field locked HD2HomingLockTarget[]
+---@field acquiring HD2HomingLockTarget[]
+---@field width number|nil
+---@field height number|nil
+---@field vertical_fov number|nil Native render-camera vertical FOV in radians; observational, not a gameplay-camera or descent classification.
+---@field radius number|nil Capture cone projected to pixels, before cosmetic override.
+local HD2HomingLockState = {}
+
+---Pre-fire homing; docs/homing-lock-on.md.
+---@class HD2HomingReticleStyle
+---@field ring boolean|nil Draw capture ring (default true).
+---@field ring_color table|string|nil RGBA (0..255) or #RRGGBB[AA].
+---@field ring_width number|nil .5..8 pixels, default 1.2.
+---@field ring_segments integer|nil 24..128, default 96.
+---@field ring_radius number|nil Optional cosmetic pixel override (8..2000); never changes acquisition.
+---@field marker_shape "corners"|"box"|"cross"|"vanilla"|nil Default corners. vanilla uses resident Warrant stock marker sprites, otherwise geometric replicas; not native target-lock state.
+---@field marker_size number|nil Base size at 1080p (4..64, default 12): normal shape half size; vanilla scales its stock 48px sprites relative to 12.
+---@field line_width number|nil .5..8 pixels, default 1.5.
+---@field scale number|nil .5..3, default 1; marker/label scale, not capture angle.
+---@field acquiring_color table|string|nil Default amber.
+---@field locked_color table|string|nil Default green.
+---@field clear_color table|string|nil Default blue.
+---@field blocked_color table|string|nil Default red.
+---@field unknown_color table|string|nil Default grey.
+---@field show_labels boolean|nil Default false for vanilla, true for other shapes; explicit true opts into mod decorations.
+---@field show_numbers boolean|nil Default false for vanilla, true for other shapes; explicit true opts into mod decorations.
+---@field show_progress boolean|nil Default false for vanilla, true for other shapes; explicit true opts into mod decorations.
+---@field show_los boolean|nil Default false for vanilla, true for other shapes; explicit true opts into mod decorations.
+---@field aim_only boolean|nil HUD-only native Aim display gate (default true). Gameplay acquisition is controlled separately by require_aim.
+local HD2HomingReticleStyle = {}
+
+---Visual-only homing HUD; appearance updates never reset acquisition.
+---@class HD2HomingReticle
+local HD2HomingReticle = {}
+---Partial style update, validated before changing the HUD.
+---@param patch HD2HomingReticleStyle
+---@return HD2HomingReticle
+function HD2HomingReticle:style(patch) end
+---Show on the next fresh eligible observation.
+---@return HD2HomingReticle
+function HD2HomingReticle:show() end
+---Hide the HUD; keep homing active.
+---@return HD2HomingReticle
+function HD2HomingReticle:hide() end
+---HUD state, visibility and drawing counts; not hit confirmation.
+---@return table
+function HD2HomingReticle:status() end
+---Remove this HUD and its frame callback; keep homing active.
+---@return HD2HomingReticle
+function HD2HomingReticle:stop() end
 
 ---An entity. Every live query re-resolves it through the game (same mission, still in the health manager's hash, same type and descriptor) and returns nil once it is gone; the fields are a snapshot.
 ---@class HD2EntityHandle

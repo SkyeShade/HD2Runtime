@@ -94,6 +94,38 @@ function M.create()
         fire(ffi.cast('void *',system),kind,position,direction,entity,0,0)
         return true
     end
+    -- Read-only physics query, called by runtime/homing_los_native.lua only in
+    -- a game update after the complete code pins, descriptor and sole physics
+    -- world have been proven. Keep the native ABI and owned buffers here so a
+    -- read-only/test adapter can never fall back to a live absolute-address call.
+    local raycast_buffers,raycast_failed
+    function runtime.native_raycast(entry,origin,direction,distance)
+        local function coordinate(v)return type(v)=='number'and v==v and math.abs(v)<=100000 end
+        local function unit(v)return type(v)=='number'and v==v and math.abs(v)<=1.01 end
+        assert(type(entry)=='number'and entry>0 and entry<=9007199254740991
+            and type(origin)=='table'and coordinate(origin.x)and coordinate(origin.y)and coordinate(origin.z)
+            and type(direction)=='table'and unit(direction.x)and unit(direction.y)and unit(direction.z)
+            and math.abs(direction.x^2+direction.y^2+direction.z^2-1)<=.01
+            and type(distance)=='number'and distance>=1 and distance<=400,'unsupported raycast call')
+        if raycast_failed then return nil,nil,raycast_failed end
+        local OUT_SIZE,MAX_HITS=16384,8
+        if not raycast_buffers then
+            raycast_buffers={origin=ffi.new('float[3]'),direction=ffi.new('float[3]'),
+                out=ffi.new('uint8_t[?]',OUT_SIZE+64)}
+            for _,buffer in pairs(raycast_buffers)do memory.buffer(buffer,ffi.sizeof(buffer))end
+        end
+        local c=raycast_buffers
+        for i,k in ipairs({'x','y','z'})do c.origin[i-1]=origin[k];c.direction[i-1]=direction[k]end
+        ffi.fill(c.out,OUT_SIZE+64,0)
+        ffi.fill(c.out+OUT_SIZE,64,0xA5)
+        local query=ffi.cast(win.fn(
+            'uint32_t (*)(uint32_t, const float *, const float *, float, uint32_t, void *, uint32_t)'),entry)
+        local count=tonumber(query(0,c.origin,c.direction,distance,4294967295,c.out,MAX_HITS))
+        for i=OUT_SIZE,OUT_SIZE+63 do
+            if c.out[i]~=0xA5 then raycast_failed='raycast_buffer_guard';return nil,nil,raycast_failed end
+        end
+        return ffi.string(c.out,MAX_HITS*44),count
+    end
     -- Runtime-owned blocks (a custom projectile's ProjectileInfo row, docs/custom-projectile-rows.md): zeroed,
     -- 16-byte aligned LuaJIT allocations, never game memory and never executable. The adapter keeps every block alive
     -- for the life of this Lua state (the game reads a row only during the SpawnProjectile call that receives it), and

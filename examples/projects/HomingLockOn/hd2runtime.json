@@ -1,0 +1,19 @@
+{
+  "format": 1,
+  "name": "HomingLockOn",
+  "resource": "mods/hd2runtime_examples/homing_lock_on",
+  "guid": "1ca839e0-efc5-4b00-95f6-c4e9f14b7579",
+  "requires": {
+    "bingus": {
+      "min_release": 15,
+      "api": 1
+    },
+    "hd2runtime": {
+      "min_version": "0.40.0",
+      "api": 1,
+      "module": "mods/skyeshade/hd2runtime"
+    }
+  },
+  "sdk": "../../../sdk",
+  "ide_library": "../../../sdk/stubs"
+}

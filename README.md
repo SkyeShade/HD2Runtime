@@ -69,6 +69,7 @@ HD2Runtime is installed once and shared by every mod that depends on it. Mods do
 - In-game options on the MODS tab through Mod Options Menu (`docs/options.md`)
 - Screen overlays, game sounds, key input, per-frame callbacks and saved data, not live-tested (`docs/ui-overlay.md`,
   `docs/sounds.md`, `docs/mod-store.md`)
+- Optional pre-fire homing locks, speed-aware steering and configurable lock reticles, generic integration not live-tested (`docs/homing-lock-on.md`)
 - Keybinds on the game's own Controls page (MODS tab) through Mod Bindings Menu (`docs/events.md`)
 - The game's own item names in the player's language, read-only (`docs/game-text.md`)
 
